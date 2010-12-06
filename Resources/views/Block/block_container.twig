@@ -1,0 +1,41 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+
+<!-- page({{ page.id }}, {{ page.routename }}) block({{ container.id }}, {{ container.type }}) -->
+<!-- <span> page({{ page.id }}, {{ page.routename }}) block({{ container.id }}, {{ container.settings.name }}) </span> -->
+<div id="cms-block-{{ container.id }}" class="cms-block cms-container{% if container.hasParent()%} cms-container-root{% else %} cms-block-element{%endif%}">
+    <div class="cms-block cms-block-element cms-fake-block">&nbsp;</div>
+    {% for block in container.children %}
+        <!-- page({{ page.id }}, {{ page.routename }}) block({{ block.id }}, {{ block.type }}) -->
+
+        {% if block.type == 'core.action' %}
+            <div id="cms-block-{{ block.id }}" class="cms-block cms-block-element">
+                {% render block.settings.action with [
+                    block.settings.parameters,
+                    block.settings.attributes
+                ] %}
+            </div>
+        {% elseif block.type == 'core.container' %}
+            {% render 'PageBundle:Page:renderContainer' with [
+                'name': block.settings.name,
+                'page': page,
+                'parent_container': block,
+            ] %}
+        {% else %}
+            <div id="cms-block-{{ block.id }}" class="cms-block cms-block-element">
+                {{ manager.renderBlock(block)}}
+            </div>
+        {% endif %}
+
+        <!-- end page({{ page.id }}, {{ page.routename }}) block({{ block.id }}, {{ block.type }}) -->
+    {% endfor %}
+</div>
+<!-- page({{ page.id }}, {{ page.routename }}) block({{ container.id }}, {{ container.type }}) -->

@@ -1,0 +1,86 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+
+        <link rel="stylesheet" href="/bundles/page/blueprint/screen.css" type="text/css" media="screen, projection">
+        <link rel="stylesheet" href="/bundles/page/blueprint/print.css" type="text/css" media="print">
+        <!--[if lt IE 8]><link rel="stylesheet" href="/bundles/page/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
+
+        <link rel="stylesheet" href="/bundles/jquery/themes/flick/jquery-ui-1.8.6.custom.css" type="text/css" media="all" />
+        <script src="/bundles/jquery/jquery-1.4.4.js" type="text/javascript"></script>
+        <script src="/bundles/jquery/jquery-ui-1.8.6.custom.js" type="text/javascript"></script>
+        <script src="/bundles/jquery/jquery-ui-i18n.js" type="text/javascript"></script>
+
+        <script src="/bundles/page/page.js" type="text/javascript"></script>
+        <link rel="stylesheet" href="/bundles/page/page.css" type="text/css" media="all">
+    </head>
+    <body>
+
+        <div class="container">
+            <div class="span-24 last" style="background: blue">
+                <input type="submit" value="{% trans 'btn_save_position' from 'PageBundle' %}" id="page-action-save-position" />
+            </div>
+            <!-- header -->
+            <div class="span-24 last">
+                {% render 'PageBundle:Page:renderContainer' with [
+                    'name' : 'header',
+                    'page' : 'global'
+                ] %}
+            </div>
+
+            <!-- left sidebar -->
+            <div class="span-4">
+                {% render 'PageBundle:Page:renderContainer' with [
+                    'name' : 'sidebar',
+                    'page' : 'global'
+                ] %}
+            </div>
+
+            <div class="span-20 last">
+                {% render 'PageBundle:Page:renderContainer' with [
+                    'name' : 'content_top',
+                    'page' : 'global'
+                ] %}
+
+                {{ content|raw }}
+
+                {% render 'PageBundle:Page:renderContainer' with [
+                    'name' : 'content_bottom',
+                    'page' : 'global'
+                ] %}
+            </div>
+
+            <!-- footer -->
+            <div class="span-24 last">
+                {% render 'PageBundle:Page:renderContainer' with [
+                    'name' : 'footer',
+                    'page' : 'global'
+                ] %}
+            </div>
+        </div>
+
+
+        <!-- CMS specific variable -->
+        <script>
+            Page.url = {
+                savePosition: '{% path 'page_block_save_position' %}',
+                create: '{% path 'page_block_create' %}',
+                update: '{% path 'page_block_update' %}',
+                view:   '{% path 'page_block_view' with ['id': 'BLOCK_ID'] %}',
+            }
+        </script>
+
+    </body>
+</html>

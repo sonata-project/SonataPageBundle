@@ -1,0 +1,31 @@
+div.cms-container {
+    min-height: 25px;
+    padding: 0px;
+    margin: 0px;
+}
+
+div.cms-block-element {
+    min-height: 25px;
+    margin: 2px;
+}
+
+div.cms-container-start {
+    background: #cccccc;
+}
+
+div.cms-block-start {
+    border: 1px solid #CCC;
+    background: white;
+}
+
+div.cms-block-placeholder {
+    background: yellow;
+    border: 1px solid #6a5acd;
+}
+
+div.cms-fake-block {
+    height: 1px;
+    min-height: 1px;
+    background: #cccccc;
+    display:none;
+}

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xsi="http://www.w3.org/2001/XMLSchema-instance" schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <mapped-superclass name="Bundle\PageBundle\Entity\BasePage">
+
+
+        <field name="route_name"        type="string"     column="route_name" length="32"/>
+
+        <field name="enabled"           type="boolean"      column="enabled"        default="false" />
+        <field name="login_required"    type="boolean"      column="login_required" nullable="true"/>
+
+        <field name="name"              type="string"       column="name"   length="255"/>
+        <field name="slug"              type="integer"      column="slug"           nullable="true"/>
+        <field name="custom_url"        type="integer"      column="custom_url"     nullable="true"/>
+
+        <field name="meta_keyword"      type="string"       column="meta_keyword"       nullable="true" length="255"/>
+        <field name="meta_description"  type="string"       column="meta_description"   nullable="true" length="255"/>
+
+        <field name="javascript"        type="text"         column="javascript"         nullable="true"/>
+        <field name="stylesheet"        type="text"         column="stylesheet"         nullable="true"/>
+
+        <field name="publication_date_start"   type="datetime"   column="publication_date_start"    nullable="true"/>
+        <field name="publication_date_end"     type="datetime"   column="publication_date_end"      nullable="true"/>
+
+        <field name="created_at"    type="datetime"   column="created_at" />
+        <field name="updated_at"    type="datetime"   column="updated_at" />
+
+        <many-to-one
+            field="parent"
+            target-entity="Application\PageBundle\Entity\Page"
+            inverted-by="children"
+            orphan-removal="false">
+
+            <cascade>
+                <cascade-all />
+            </cascade>
+
+            <join-columns>
+                <join-column
+                    name="parent_id"
+                    referenced-column-name="id"
+                    on-delete="CASCADE"
+                />
+            </join-columns>
+        </many-to-one>
+
+        <one-to-many
+            field="children"
+            target-entity="Application\PageBundle\Entity\Page"
+            mapped-by="parent"
+            orphan-removal="false"
+            fetch="LAZY">
+
+            <cascade>
+                <cascade-persist/>
+            </cascade>
+
+            <join-columns>
+                <join-column
+                    name="id"
+                    referenced-column-name="parent_id"
+                />
+            </join-columns>
+
+            <order-by>
+                <order-by-field name="position" direction="ASC" />
+            </order-by>
+
+        </one-to-many>
+
+
+        <many-to-one
+            field="template"
+            target-entity="Application\PageBundle\Entity\Template"
+            inverted-by="page"
+            orphan-removal="false"
+            >
+
+            <cascade>
+                <cascade-all />
+            </cascade>
+
+            <join-columns>
+                <join-column
+                    name="template_id"
+                    referenced-column-name="id"
+                    on-delete="SET NULL"
+                />
+            </join-columns>
+        </many-to-one>
+
+        <one-to-many
+            field="blocks"
+            target-entity="Application\PageBundle\Entity\Block"
+            mapped-by="page"
+            orphan-removal="false"
+            fetch="LAZY">
+
+            <cascade>
+                <cascade-persist/>
+            </cascade>
+
+            <join-columns>
+                <join-column
+                    name="id"
+                    referenced-column-name="page_id"
+                />
+            </join-columns>
+
+            <order-by>
+                <order-by-field name="position" direction="ASC" />
+            </order-by>
+        </one-to-many>
+
+    </mapped-superclass>
+</doctrine-mapping>
