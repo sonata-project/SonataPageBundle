@@ -17,6 +17,10 @@
         <default key="_controller">PageBundle:BlockAdmin:view</default>
     </route>
 
+    <route id="page_block_edit" pattern="/edit/:id">
+        <default key="_controller">PageBundle:BlockAdmin:edit</default>
+    </route>
+
     <route id="page_block_create" pattern="/create">
         <default key="_controller">PageBundle:BlockAdmin:create</default>
     </route>

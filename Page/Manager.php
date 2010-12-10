@@ -30,6 +30,8 @@ class Manager extends ContainerAware
 
     protected $current_page = null;
 
+    protected $blocks = array();
+
 
 
     /**
@@ -58,17 +60,26 @@ class Manager extends ContainerAware
             return $response;
         }
 
-        $template = 'PageBundle::layout.twig';
-        if($this->getCurrentPage()) {
-            $template = $this->getCurrentPage()->getTemplate()->getPath();
+        $page = $this->getCurrentPage();
+
+        if($page && $page->getDecorate()) {
+            $template = 'PageBundle::layout.twig';
+            if($this->getCurrentPage()) {
+                $template = $this->getCurrentPage()->getTemplate()->getPath();
+            }
+
+            $response->setContent(
+                $this->container->get('templating')->render(
+                    $template,
+                    array(
+                        'content'   => $response->getContent(),
+                        'page'      => $page
+                    )
+                )
+            );
+
         }
 
-        $response->setContent(
-            $this->container->get('templating')->render(
-                $template,
-                array('content' => $response->getContent())
-            )
-        );
 
         $event->setReturnValue($response);
         
@@ -84,15 +95,33 @@ class Manager extends ContainerAware
     public function renderBlock($block)
     {
 
-        $id = sprintf('page.block.%s', $block->getType());
-
         try {
-            return $this->container->get($id)->execute($block);
+            return $this->getBlockService($block)->execute($block);
         } catch (\Exception $e) {
-            $this->container->get('logger')->crit(sprintf('[cms::renderBlock] block.id=%d - service:%d does not exists', $block->getId(), $id));
+            $this->container->get('logger')->crit(sprintf('[cms::renderBlock] block.id=%d - error while rendering block', $block->getId()));
         }
 
         return '';
+    }
+
+    /**
+     *
+     * return the block service linked to the link
+     * 
+     * @param  $block
+     * @return bool
+     */
+    public function getBlockService($block)
+    {
+        $id = sprintf('page.block.%s', $block->getType());
+
+        try {
+            return $this->container->get($id);
+        } catch (\Exception $e) {
+            $this->container->get('logger')->crit(sprintf('[cms::getBlockService] block.id=%d - service:%d does not exists', $block->getId(), $id));
+        }
+
+        return false;
     }
 
     /**
@@ -233,6 +262,29 @@ class Manager extends ContainerAware
         return $this->current_page;
     }
 
+    public function getBlock($id)
+    {
+        if(!isset($this->blocks[$id])) {
+
+            $blocks = $this->container->get('doctrine.orm.default_entity_manager')
+                ->createQueryBuilder()
+                ->select('b')
+                ->from('Application\PageBundle\Entity\Block', 'b')
+                ->where('b.id = :id')
+                ->setParameters(array(
+                  'id' => $id
+                ))
+                ->getQuery()
+                ->execute();
+
+            $block = count($blocks) > 0 ? $blocks[0] : false;
+
+            $this->blocks[$id] = $block;
+        }
+
+        return $this->blocks[$id];
+    }
+
     /**
      * load all the related nested blocks linked to one page.
      *
@@ -264,13 +316,29 @@ class Manager extends ContainerAware
             }
 
 //            var_dump(sprintf('parent(%d)->addChild(%d)', $block->getParent()->getId(), $block->getId()));
-            
+
             $blocks[$block->getParent()->getId()]->disableChildrenLazyLoading();
-            
             $blocks[$block->getParent()->getId()]->addChildren($block);
+
+            $this->blocks[$block->getId()] = $block;
         }
     }
 
+
+    public function defineBlockForm($form)
+    {
+        $form->setValidationGroups(array($form->getData()->getType()));
+
+        $form->add(new \Symfony\Component\Form\CheckboxField('enabled'));
+
+        $group_field = new \Symfony\Component\Form\FieldGroup('settings');
+        $form->add($group_field);
+
+        $this->getBlockService($form->getData())->defineBlockGroupField($group_field, $form->getData());
+
+
+
+    }
     /**
      * save the block order from the page disposition
      *

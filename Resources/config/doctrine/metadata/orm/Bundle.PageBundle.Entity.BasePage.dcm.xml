@@ -6,6 +6,7 @@
         <field name="route_name"        type="string"     column="route_name" length="32"/>
 
         <field name="enabled"           type="boolean"      column="enabled"        default="false" />
+        <field name="decorate"          type="boolean"      column="decorate"        default="false" />
         <field name="login_required"    type="boolean"      column="login_required" nullable="true"/>
 
         <field name="name"              type="string"       column="name"   length="255"/>

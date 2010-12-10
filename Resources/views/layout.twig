@@ -30,8 +30,12 @@ file that was distributed with this source code.
 
         <div class="container">
             <div class="span-24 last" style="background: blue">
+                <input type="checkbox" id="page-action-enabled-edit" />
+                <label for="page-action-enabled-edit">{% trans 'label_edit_enabled' from 'PageBundle' %}</label>
                 <input type="submit" value="{% trans 'btn_save_position' from 'PageBundle' %}" id="page-action-save-position" />
+                <input type="submit" value="{% trans 'btn_edit' from 'PageBundle' %}" id="page-action-edit" />
             </div>
+            
             <!-- header -->
             <div class="span-24 last">
                 {% render 'PageBundle:Page:renderContainer' with [
@@ -72,15 +76,26 @@ file that was distributed with this source code.
         </div>
 
 
-        <!-- CMS specific variable -->
+        <!-- CMS specific variables -->
         <script>
             Page.url = {
-                savePosition: '{% path 'page_block_save_position' %}',
-                create: '{% path 'page_block_create' %}',
-                update: '{% path 'page_block_update' %}',
-                view:   '{% path 'page_block_view' with ['id': 'BLOCK_ID'] %}',
+                block_save_position: '{% path 'page_block_save_position' %}',
+                block_create: '{% path 'page_block_create' %}',
+                block_update: '{% path 'page_block_update' %}',
+                block_view:   '{% path 'page_block_view' with ['id': 'BLOCK_ID'] %}',
+                block_edit:   '{% path 'page_block_edit' with ['id': 'BLOCK_ID'] %}',
+                page_edit:    '{% path 'page_edit' with ['id': page.id ] %}',
+                page_upate:   '{% path 'page_update' %}',
             }
         </script>
 
+        <script>
+            {{ page.javascript|raw }}
+        </script>
+
+        <style>
+            {{ page.stylesheet|raw }}
+        </style>
+        
     </body>
 </html>

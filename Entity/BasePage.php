@@ -49,6 +49,9 @@ class BasePage
     protected $template;
 
     protected $custom_url;
+
+    protected $decorate = true;
+    
     /**
      * Set route_name
      *
@@ -415,5 +418,21 @@ class BasePage
         {
             $this->blocks->setInitialized(true);
         }
+    }
+
+    public function setDecorate($decorate)
+    {
+        $this->decorate = $decorate;
+    }
+
+    public function getDecorate()
+    {
+        return $this->decorate;
+    }
+
+    public function isHybrid()
+    {
+
+        return $this->getRouteName() != 'page_slug';
     }
 }

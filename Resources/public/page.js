@@ -16,11 +16,30 @@ jQuery(document).ready(function() {
 });
 
 
+
 var Page = {
+    blocks: null,
+    log: function(message) {
+      try {
+          console.log(message);
+      } catch(e) {
+
+      }
+    },
     init: function() {
 
+        jQuery('#page-action-enabled-edit').change(Page.handleClickEnabledEdit);
         jQuery('#page-action-save-position').click(Page.savePosition);
+        jQuery('#page-action-edit').click(Page.edit);
 
+        jQuery('#page-action-enabled-edit').click();
+
+        jQuery('#page-action-edit').click(Page.edit);
+
+        Page.blocks = jQuery('div.cms-block-element, div.cms-container-root');
+        Page.blocks.mouseover(Page.handleBlockHover);
+        Page.blocks.dblclick(Page.handleBlockClick);
+        
         Page.buildHandler();
     },
 
@@ -28,6 +47,43 @@ var Page = {
         
     },
 
+    edit: function() {
+
+        document.location.href = Page.url.page_edit;
+        
+    },
+
+    handleBlockClick: function(event) {
+        event.stopPropagation();
+        
+        document.location.href = Page.url.block_edit.replace(/BLOCK_ID/, event.currentTarget.id);
+    },
+    handleBlockHover: function(event) {
+        event.stopPropagation();
+        Page.blocks.removeClass('cms-block-hand-over');
+        jQuery(this).addClass('cms-block-hand-over');
+
+        document.title = event.currentTarget.id;
+    },
+
+    handleClickEnabledEdit: function(event) {
+
+        if(event.currentTarget.checked) {
+            jQuery('#page-action-save-position').show();
+            jQuery('#page-action-edit').show();
+            jQuery("div.cms-container").sortable('enable');
+
+            jQuery('body').addClass('cms-edit-mode');
+
+        } else {
+            jQuery('#page-action-save-position').hide();
+            jQuery('#page-action-edit').hide();
+            jQuery("div.cms-container").sortable('disable');
+
+            jQuery('body').removeClass('cms-edit-mode');
+        }
+
+    },
     buildHandler: function() {
         jQuery("div.cms-container").sortable({
             connectWith: "div.cms-container",
@@ -91,7 +147,7 @@ var Page = {
 
         jQuery.ajax({
             type: 'POST',
-            url: Page.url.savePosition,
+            url: Page.url.block_save_position,
             data: params,
             dataType: 'json',
             success: function() {
@@ -101,6 +157,6 @@ var Page = {
                 alert('Error');
             }
         });
-
     }
+
 }

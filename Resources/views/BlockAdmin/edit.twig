@@ -1,0 +1,37 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+
+<h1>{% trans 'title_block_edit' from 'PageBundle' %}</h1>
+
+<form action="{% url 'page_block_update' with ['id' : block.id] %}" method="POST">
+    {{ form|render_hidden }}
+
+    <p>
+         {% block information %}
+            {{ block.type }}
+         {% endblock %}
+    </p>
+
+    <p>
+        {{ form.enabled|render_label }}
+        {{ form.enabled|render }}
+        {{ form.enabled|render_errors }}
+    </p>
+
+    <div>
+        {% block block %}
+            Custom block settings ...
+        {% endblock %}
+    </div>
+
+    <input type="submit" value="{% trans 'button_save' from 'PageBundle' %}"/>
+
+</form>

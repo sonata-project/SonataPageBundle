@@ -1,31 +1,67 @@
-div.cms-container {
-    min-height: 25px;
-    padding: 0px;
-    margin: 0px;
+body.cms-edit-mode div.cms-container {
+    min-height: 50px;
+
+    background: #999; /* for non-css3 browsers */
+
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dddddd', endColorstr='#eeeeee'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#ddd), to(#eee)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #ddd,  #eee); /* for firefox 3.6+ */
 }
 
-div.cms-block-element {
+body.cms-edit-mode div.cms-block-element {
     min-height: 25px;
     margin: 2px;
 }
 
-div.cms-container-start {
+body.cms-edit-mode {
+    background-color: white !important;
+    background-image: none !important;
+    color: black !important;
+}
+
+body.cms-edit-mode div.cms-block-element {
+    min-height: 20px;
+    background-color: #eee;
+}
+
+body.cms-edit-mode div.cms-container-root {
+    padding-top: 15px;
+    background-color: #eee;
+    padding-bottom: 15px
+}
+
+body.cms-edit-mode div.cms-block-hand-over {
+    border: 1px solid red;
+
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#daa520', endColorstr='#eeeeee'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#daa520), to(#eee)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #daa520,  #eee); /* for firefox 3.6+ */
+    cursor: pointer;
+}
+
+body.cms-edit-mode div.cms-container-start {
     background: #cccccc;
 }
 
-div.cms-block-start {
-    border: 1px solid #CCC;
+body.cms-edit-mode div.cms-block-start {
     background: white;
 }
 
-div.cms-block-placeholder {
+body.cms-edit-mode div.cms-block-placeholder {
     background: yellow;
-    border: 1px solid #6a5acd;
+
 }
 
-div.cms-fake-block {
+body.cms-edit-mode div.cms-fake-block {
     height: 1px;
     min-height: 1px;
     background: #cccccc;
     display:none;
+}
+
+textarea.title {
+    font-size: 1.5em;
+    font-family: "Lucida Grande";
+    height: 100px;
+    width: 500px
 }

@@ -38,16 +38,19 @@ class PageController extends Controller
             // name to fins the correct container (main template level)
             $container = $parent_container;
         } else {
-
+            // todo : put this code in the Manager
+          
             // find the related container
             $container = false;
 
             // first level block are always container
-            foreach($page->getBlocks() as $block) {
-                if($block->getSetting('name') == $name) {
+            if($page->getBlocks()) {
+                foreach($page->getBlocks() as $block) {
+                    if($block->getSetting('name') == $name) {
 
-                    $container = $block;
-                    break;
+                        $container = $block;
+                        break;
+                    }
                 }
             }
 

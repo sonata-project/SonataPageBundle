@@ -43,6 +43,7 @@ class PageExtension extends Extension {
         foreach($config['blocks'] as $block) {
 
             $definition = new Definition($block['class']);
+            $definition->addMethodCall('setName', array($block['id']));
             $definition->addMethodCall('setContainer', array(new Reference('service_container')));
 
             $container->setDefinition(sprintf('page.block.%s', $block['id']), $definition);

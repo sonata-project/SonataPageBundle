@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<constraint-mapping xmlns="http://www.symfony-project.org/schema/dic/constraint-mapping"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.symfony-project.org/schema/dic/constraint-mapping
+        http://www.symfony-project.org/schema/dic/services/constraint-mapping-1.0.xsd">
+
+    <class name="Application\PageBundle\Entity\Page">
+
+        <property name="name">
+           <constraint name="NotNull" >
+               <option name="groups" >
+                    <value>action_route</value>
+                    <value>cms_route</value>
+               </option>
+           </constraint>
+        </property>
+
+        <property name="publication_date_start">
+           <constraint name="DateTime" >
+               <option name="groups" >
+                    <value>action_route</value>
+                    <value>cms_route</value>
+               </option>
+           </constraint>
+        </property>
+
+        <property name="publication_date_end">
+           <constraint name="DateTime" >
+               <option name="groups" >
+                    <value>action_route</value>
+                    <value>cms_route</value>
+               </option>
+           </constraint>
+        </property>
+
+    </class>
+
+</constraint-mapping>

@@ -24,11 +24,17 @@ abstract class BaseBlockService extends ContainerAware
 {
     protected $name;
 
-    abstract public function getForm($block);
+    abstract public function defineBlockGroupField($field_group, $block);
 
     abstract public function validateBlock($block);
 
-    public function render($template, $params = array()) {
+    public function getEditTemplate()
+    {
+        return sprintf('PageBundle:BlockAdmin:block_%s_edit.twig', str_replace('.', '_', $this->getName()));
+    }
+
+    public function render($template, $params = array())
+    {
 
         return $this
             ->container->get('templating')

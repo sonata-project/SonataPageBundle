@@ -36,9 +36,11 @@ class TextBlockService extends BaseBlockService
         // TODO: Implement validateBlock() method.
     }
 
-    public function getForm($block)
+    public function defineBlockGroupField($field_group, $block)
     {
-        // TODO: Implement getForm() method.
+
+        $field_group->add(new \Symfony\Component\Form\TextAreaField('content'));
+        
     }
 
 }

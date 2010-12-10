@@ -1,8 +1,8 @@
-# Prototype to easily manage media
+# Prototype to easily manage page
 
 ## Installation
 
-* Add MediaBundle to your src/Bundle dir
+* Add PageBundle to your src/Bundle dir
 
         git submodule add git@github.com:sonata-project/PageBundle.git src/Bundle/PageBundle
 
@@ -36,3 +36,4 @@
 
     * Blueprint css - https://github.com/joshuaclayton/blueprint-css/blob/master/LICENSE
     * jQuery - http://jquery.org/license
+    * jWYSIWYG - https://github.com/akzhan/jwysiwyg

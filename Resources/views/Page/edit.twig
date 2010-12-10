@@ -1,0 +1,80 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+
+<h1>{% trans 'title_page_edit' from 'PageBundle' %}</h1>
+
+<form action="{% url 'page_update' with ['id' : page.id] %}" method="POST">
+    {{ form|render_hidden }}
+
+    <h2>{% trans 'title_page_information' from 'PageBundle' %}</h2>
+    <p>
+        {{ page.routename }}
+    </p>
+
+    <p>
+        {{ form.enabled|render_label }}
+        {{ form.enabled|render }}
+        {{ form.enabled|render_errors }}
+    </p>
+    
+
+    <p>
+        {{ form.name|render_label }} <br />
+        {{ form.name|render(['class' : 'title']) }}
+        {{ form.name|render_errors }}
+    </p>
+
+    <p>
+        {{ form.meta_keyword|render_label }} <br />
+        {{ form.meta_keyword|render(['class' : 'title']) }}
+        {{ form.meta_keyword|render_errors }}
+    </p>
+
+    <p>
+        {{ form.meta_description|render_label }} <br />
+        {{ form.meta_description|render(['class' : 'title']) }}
+        {{ form.meta_description|render_errors }}
+    </p>
+
+    <h2>{% trans 'title_page_advanced' from 'PageBundle' %}</h2>
+    <p>
+        {{ form.javascript|render_label }} <br />
+        {{ form.javascript|render(['class' : 'title']) }}
+        {{ form.javascript|render_errors }}
+    </p>
+
+    <p>
+        {{ form.stylesheet|render_label }} <br />
+        {{ form.stylesheet|render(['class' : 'title']) }}
+        {{ form.stylesheet|render_errors }}
+    </p>
+
+    <p>
+        {{ form.publication_date_start|render_label }} <br />
+        {{ form.publication_date_start|render(['class' : 'title']) }}
+        {{ form.publication_date_start|render_errors }}
+    </p>
+
+    <p>
+        {{ form.publication_date_end|render_label }} <br />
+        {{ form.publication_date_end|render(['class' : 'title']) }}
+        {{ form.publication_date_end|render_errors }}
+    </p>
+
+    <p>
+        {{ form.decorate|render_label }}
+        {{ form.decorate|render }}
+        {{ form.decorate|render_errors }}
+    </p>
+
+    <input type="submit" value="{% trans 'button_save' from 'PageBundle' %}"/>
+
+</form>
