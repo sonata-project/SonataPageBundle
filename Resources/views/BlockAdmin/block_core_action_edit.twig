@@ -15,7 +15,7 @@ file that was distributed with this source code.
 
     <div>
         {{ form.settings.action|render_label }} <br />
-        {{ form.settings.action|render(['class' : 'title']) }}
+        {{ form.settings.action|render({'class' : 'title'}) }}
         {{ form.settings.action|render_errors }}
     </div>
 
@@ -25,7 +25,7 @@ file that was distributed with this source code.
 
                 <tr>
                     <td>{{ parameter|render_label }}</td>
-                    <td>{{ parameter|render(['class' : 'title']) }} {{ parameter|render_errors }}</td>
+                    <td>{{ parameter|render({'class' : 'title'}) }} {{ parameter|render_errors }}</td>
                 </tr>
         {% endfor %}
     </table>

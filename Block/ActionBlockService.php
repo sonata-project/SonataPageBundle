@@ -22,11 +22,25 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
  */
 class ActionBlockService extends BaseBlockService
 {
-    public function execute($block)
+
+    public function render($template, $params = array())
     {
 
-        return $this->render($block->getTemplate(), array(
-             'block' => $block
+        return $this
+            ->container->get('templating')
+            ->render($template, $params);
+    }
+
+    public function execute($block, $page)
+    {
+        
+        return $this->render($this->getViewTemplate(), array(
+            'content' => $this->container->get('controller_resolver')->render(
+                $block->getSetting('action'),
+                array_merge($block->getSetting('parameters'), array('_block' => $block, '_page' => $page))
+            ),
+            'block' => $block,
+            'page'  => $page,
         ));
     }
 

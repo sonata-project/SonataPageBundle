@@ -28,6 +28,11 @@ abstract class BaseBlockService extends ContainerAware
 
     abstract public function validateBlock($block);
 
+    public function getViewTemplate()
+    {
+        return sprintf('PageBundle:Block:block_%s.twig', str_replace('.', '_', $this->getName()));
+    }
+
     public function getEditTemplate()
     {
         return sprintf('PageBundle:BlockAdmin:block_%s_edit.twig', str_replace('.', '_', $this->getName()));
@@ -41,11 +46,12 @@ abstract class BaseBlockService extends ContainerAware
             ->render($template, $params);
     }
 
-    public function execute($block)
+    public function execute($block, $page)
     {
-        
+
         return $this->render($block->getTemplate(), array(
-             'block' => $block
+             'block' => $block,
+             'page'  => $page
         ));
     }
 

@@ -14,7 +14,7 @@ file that was distributed with this source code.
 {% block block %}
     <p>
         {{ form.settings.content|render_label }} <br />
-        {{ form.settings.content|render(['class' : 'title']) }}
+        {{ form.settings.content|render({'class' : 'title'}) }}
         {{ form.settings.content|render_errors }}
     </p>
 {% endblock %}

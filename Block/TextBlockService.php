@@ -23,7 +23,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 class TextBlockService extends BaseBlockService
 {
 
-    public function execute($block)
+    public function execute($block, $page)
     {
 
         return $this->render('PageBundle:Block:block_core_text.twig', array(
@@ -39,7 +39,7 @@ class TextBlockService extends BaseBlockService
     public function defineBlockGroupField($field_group, $block)
     {
 
-        $field_group->add(new \Symfony\Component\Form\TextAreaField('content'));
+        $field_group->add(new \Symfony\Component\Form\TextareaField('content'));
         
     }
 

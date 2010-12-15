@@ -38,40 +38,40 @@ file that was distributed with this source code.
             
             <!-- header -->
             <div class="span-24 last">
-                {% render 'PageBundle:Page:renderContainer' with [
+                {% render 'PageBundle:Page:renderContainer' with {
                     'name' : 'header',
                     'page' : 'global'
-                ] %}
+                } %}
             </div>
 
             <!-- left sidebar -->
             <div class="span-4">
-                {% render 'PageBundle:Page:renderContainer' with [
+                {% render 'PageBundle:Page:renderContainer' with {
                     'name' : 'sidebar',
                     'page' : 'global'
-                ] %}
+                } %}
             </div>
 
             <div class="span-20 last">
-                {% render 'PageBundle:Page:renderContainer' with [
+                {% render 'PageBundle:Page:renderContainer' with {
                     'name' : 'content_top',
                     'page' : 'global'
-                ] %}
+                } %}
 
                 {{ content|raw }}
 
-                {% render 'PageBundle:Page:renderContainer' with [
+                {% render 'PageBundle:Page:renderContainer' with {
                     'name' : 'content_bottom',
                     'page' : 'global'
-                ] %}
+                } %}
             </div>
 
             <!-- footer -->
             <div class="span-24 last">
-                {% render 'PageBundle:Page:renderContainer' with [
+                {% render 'PageBundle:Page:renderContainer' with {
                     'name' : 'footer',
                     'page' : 'global'
-                ] %}
+                } %}
             </div>
         </div>
 
@@ -82,9 +82,9 @@ file that was distributed with this source code.
                 block_save_position: '{% path 'page_block_save_position' %}',
                 block_create: '{% path 'page_block_create' %}',
                 block_update: '{% path 'page_block_update' %}',
-                block_view:   '{% path 'page_block_view' with ['id': 'BLOCK_ID'] %}',
-                block_edit:   '{% path 'page_block_edit' with ['id': 'BLOCK_ID'] %}',
-                page_edit:    '{% path 'page_edit' with ['id': page.id ] %}',
+                block_view:   '{% path 'page_block_view' with {'id': 'BLOCK_ID'} %}',
+                block_edit:   '{% path 'page_block_edit' with {'id': 'BLOCK_ID'} %}',
+                page_edit:    '{% path 'page_edit' with {'id': page.id } %}',
                 page_upate:   '{% path 'page_update' %}',
             }
         </script>

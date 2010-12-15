@@ -33,7 +33,6 @@ class Manager extends ContainerAware
     protected $blocks = array();
 
 
-
     /**
      * filter the `core.response` event to decorated the action
      *
@@ -92,18 +91,73 @@ class Manager extends ContainerAware
      * @param  $block
      * @return string | Response
      */
-    public function renderBlock($block)
+    public function renderBlock($block, $page)
     {
-
         try {
-            return $this->getBlockService($block)->execute($block);
+            $service = $this->getBlockService($block);
+
+            if(!$service) {
+                
+                return '';
+            }
+            return $service->execute($block, $page);
         } catch (\Exception $e) {
-            $this->container->get('logger')->crit(sprintf('[cms::renderBlock] block.id=%d - error while rendering block', $block->getId()));
+            if($this->container->getParameter('kernel.debug')) {
+                throw $e;
+            }
+            $this->container->get('logger')->crit(sprintf('[cms::renderBlock] block.id=%d - error while rendering block - %s', $block->getId(), $e->getMessage()));
         }
 
         return '';
     }
 
+    public function findContainer($name, $page, $parent_container = null)
+    {
+
+        $container = false;
+        
+        if($parent_container) {
+            // parent container is set, nothing to find, don't need to loop across the
+            // name to find the correct container (main template level)
+            $container = $parent_container;
+        }
+
+        // first level blocks are containers
+        if(!$container && $page->getBlocks()) {
+            foreach($page->getBlocks() as $block) {
+                if($block->getSetting('name') == $name) {
+
+                    $container = $block;
+                    break;
+                }
+            }
+        }
+
+        if(!$container)
+        {
+            // no container, create it!
+            $container = new \Application\PageBundle\Entity\Block;
+            $container->setEnabled(true);
+            $container->setCreatedAt(new \DateTime);
+            $container->setUpdatedAt(new \DateTime);
+            $container->setType('core.container');
+            $container->setPage($page);
+            $container->setSettings(array('name' => $name));
+            $container->setPosition(1);
+
+            if($parent_container) {
+                $container->setParent($parent_container);
+            }
+
+            $em = $this->container->get('doctrine.orm.default_entity_manager');
+            $em->persist($container);
+            $em->flush();
+        }
+
+        return $container;
+    }
+
+    
     /**
      *
      * return the block service linked to the link
@@ -118,7 +172,10 @@ class Manager extends ContainerAware
         try {
             return $this->container->get($id);
         } catch (\Exception $e) {
-            $this->container->get('logger')->crit(sprintf('[cms::getBlockService] block.id=%d - service:%d does not exists', $block->getId(), $id));
+            if($this->container->getParameter('kernel.debug')) {
+                throw $e;
+            }
+            $this->container->get('logger')->crit(sprintf('[cms::getBlockService] block.id=%d - service:%s does not exists', $block->getId(), $id));
         }
 
         return false;
@@ -335,9 +392,6 @@ class Manager extends ContainerAware
         $form->add($group_field);
 
         $this->getBlockService($form->getData())->defineBlockGroupField($group_field, $form->getData());
-
-
-
     }
     /**
      * save the block order from the page disposition

@@ -33,47 +33,8 @@ class PageController extends Controller
             return $this->render('PageBundle:Block:block_no_page_available.twig');
         }
 
-        if($parent_container) {
-            // parent container is set, nothing to find, don't need to loop across the
-            // name to fins the correct container (main template level)
-            $container = $parent_container;
-        } else {
-            // todo : put this code in the Manager
-          
-            // find the related container
-            $container = false;
+        $container = $this->get('page.manager')->findContainer($name, $page, $parent_container);
 
-            // first level block are always container
-            if($page->getBlocks()) {
-                foreach($page->getBlocks() as $block) {
-                    if($block->getSetting('name') == $name) {
-
-                        $container = $block;
-                        break;
-                    }
-                }
-            }
-
-            // no container, create it!
-            if(!$container) {
-                $container = new \Application\PageBundle\Entity\Block;
-                $container->setEnabled(true);
-                $container->setCreatedAt(new \DateTime);
-                $container->setUpdatedAt(new \DateTime);
-                $container->setType('core.container');
-                $container->setPage($page);
-                $container->setSettings(array('name' => $name));
-                $container->setPosition(1);
-
-                if($parent_container) {
-                    $container->setParent($parent_container);
-                }
-
-                $em = $this->container->get('doctrine.orm.default_entity_manager');
-                $em->persist($container);
-                $em->flush();
-            }
-        }
 
         return $this->render('PageBundle:Block:block_container.twig', array(
             'container' => $container,

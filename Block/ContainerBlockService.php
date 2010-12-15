@@ -23,11 +23,16 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 class ContainerBlockService extends BaseBlockService
 {
 
-    public function execute($block)
+    public function execute($block, $page)
     {
 
-        return $this->render($block->getTemplate(), array(
-             'block' => $block
+        return $this->container->get('controller_resolver')->render('PageBundle:Page:renderContainer', array(
+            'attributes' => array(
+                'name'              => $block->getSetting('name'),
+                'page'              => $page,
+                'parent_container'  => $block
+            ),
+            
         ));
     }
 
