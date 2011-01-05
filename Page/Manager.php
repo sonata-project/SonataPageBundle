@@ -14,7 +14,7 @@ namespace Bundle\Sonata\PageBundle\Page;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-use Application\PageBundle\Entity\Page;
+use Application\Sonata\PageBundle\Entity\Page;
 
 /**
  * The Manager class is in charge of retrieving the correct page (cms page or action page)
@@ -51,7 +51,7 @@ class Manager extends ContainerAware
             $page = $this->getCurrentPage();
 
             if ($page && $page->getDecorate()) {
-                $template = 'PageBundle::layout.twig';
+                $template = 'Sonata/PageBundle::layout.twig';
                 if($this->getCurrentPage()) {
                     $template = $this->getCurrentPage()->getTemplate()->getPath();
                 }
@@ -168,7 +168,7 @@ class Manager extends ContainerAware
         if(!$container)
         {
             // no container, create it!
-            $container = new \Application\PageBundle\Entity\Block;
+            $container = new \Application\Sonata\PageBundle\Entity\Block;
             $container->setEnabled(true);
             $container->setCreatedAt(new \DateTime);
             $container->setUpdatedAt(new \DateTime);
@@ -219,7 +219,7 @@ class Manager extends ContainerAware
      * if the page does not exists then the page is created.
      *
      * @param  $route_name
-     * @return Application\PageBundle\Entity\Page|bool
+     * @return Application\Sonata\PageBundle\Entity\Page|bool
      */
     public function getPageByRouteName($route_name)
     {
@@ -228,7 +228,7 @@ class Manager extends ContainerAware
             $em = $this->container->get('doctrine.orm.default_entity_manager');
             $pages = $em->createQueryBuilder()
                 ->select('p, t')
-                ->from('Application\PageBundle\Entity\Page', 'p')
+                ->from('Application\Sonata\PageBundle\Entity\Page', 'p')
                 ->where('p.route_name = :route_name')
                 ->leftJoin('p.template', 't')
                 ->setParameters(array(
@@ -296,7 +296,7 @@ class Manager extends ContainerAware
         $pages = $this->container->get('doctrine.orm.default_entity_manager')
             ->createQueryBuilder()
             ->select('p')
-            ->from('Application\PageBundle\Entity\Page', 'p')
+            ->from('Application\Sonata\PageBundle\Entity\Page', 'p')
             ->leftJoin('p.template', 't')
             ->where('p.slug = :slug')
             ->setParameters(array(
@@ -358,7 +358,7 @@ class Manager extends ContainerAware
             $blocks = $this->container->get('doctrine.orm.default_entity_manager')
                 ->createQueryBuilder()
                 ->select('b')
-                ->from('Application\PageBundle\Entity\Block', 'b')
+                ->from('Application\Sonata\PageBundle\Entity\Block', 'b')
                 ->where('b.id = :id')
                 ->setParameters(array(
                   'id' => $id
@@ -384,7 +384,7 @@ class Manager extends ContainerAware
     {
 
         $blocks = $this->container->get('doctrine.orm.default_entity_manager')
-            ->createQuery('SELECT b FROM Application\PageBundle\Entity\Block b INDEX BY b.id WHERE b.page = :page ORDER BY b.position ASC')
+            ->createQuery('SELECT b FROM Application\Sonata\PageBundle\Entity\Block b INDEX BY b.id WHERE b.page = :page ORDER BY b.position ASC')
             ->setParameters(array(
                  'page' => $page->getId()
             ))
@@ -523,7 +523,7 @@ class Manager extends ContainerAware
             return;
         }
 
-        $table_name = $entity_manager->getClassMetadata('Application\PageBundle\Entity\Block')->table['name'];
+        $table_name = $entity_manager->getClassMetadata('Application\Sonata\PageBundle\Entity\Block')->table['name'];
 
         $position = 1;
         foreach($blocks as $code => $block) {

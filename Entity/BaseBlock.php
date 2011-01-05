@@ -154,9 +154,9 @@ class BaseBlock
     /**
      * Add children
      *
-     * @param Application\PageBundle\Entity\Block $children
+     * @param Application\Sonata\PageBundle\Entity\Block $children
      */
-    public function addChildren(\Application\PageBundle\Entity\Block $children)
+    public function addChildren(\Application\Sonata\PageBundle\Entity\Block $children)
     {
         $this->children[] = $children;
     }
@@ -174,9 +174,9 @@ class BaseBlock
     /**
      * Set parent
      *
-     * @param Application\PageBundle\Entity\Block $parent
+     * @param Application\Sonata\PageBundle\Entity\Block $parent
      */
-    public function setParent(\Application\PageBundle\Entity\Block $parent)
+    public function setParent(\Application\Sonata\PageBundle\Entity\Block $parent)
     {
         $this->parent = $parent;
     }
@@ -184,7 +184,7 @@ class BaseBlock
     /**
      * Get parent
      *
-     * @return Application\PageBundle\Entity\Block $parent
+     * @return Application\Sonata\PageBundle\Entity\Block $parent
      */
     public function getParent()
     {
@@ -194,9 +194,9 @@ class BaseBlock
     /**
      * Set page
      *
-     * @param Application\PageBundle\Entity\Page $page
+     * @param Application\Sonata\PageBundle\Entity\Page $page
      */
-    public function setPage(\Application\PageBundle\Entity\Page $page)
+    public function setPage(\Application\Sonata\PageBundle\Entity\Page $page)
     {
         $this->page = $page;
     }
@@ -204,7 +204,7 @@ class BaseBlock
     /**
      * Get page
      *
-     * @return Application\PageBundle\Entity\Page $page
+     * @return Application\Sonata\PageBundle\Entity\Page $page
      */
     public function getPage()
     {

@@ -335,9 +335,9 @@ class BasePage
     /**
      * Add children
      *
-     * @param Application\PageBundle\Entity\Page $children
+     * @param Application\Sonata\PageBundle\Entity\Page $children
      */
-    public function addChildren(\Application\PageBundle\Entity\Page $children)
+    public function addChildren(\Application\Sonata\PageBundle\Entity\Page $children)
     {
         $this->children[] = $children;
     }
@@ -355,9 +355,9 @@ class BasePage
     /**
      * Add blocs
      *
-     * @param Application\PageBundle\Entity\Block $blocs
+     * @param Application\Sonata\PageBundle\Entity\Block $blocs
      */
-    public function addBlocks(\Application\PageBundle\Entity\Block $blocs)
+    public function addBlocks(\Application\Sonata\PageBundle\Entity\Block $blocs)
     {
         $this->blocks[] = $blocs;
     }
@@ -375,9 +375,9 @@ class BasePage
     /**
      * Set parent
      *
-     * @param Application\PageBundle\Entity\Page $parent
+     * @param Application\Sonata\PageBundle\Entity\Page $parent
      */
-    public function setParent(\Application\PageBundle\Entity\Page $parent)
+    public function setParent(\Application\Sonata\PageBundle\Entity\Page $parent)
     {
         $this->parent = $parent;
     }
@@ -385,7 +385,7 @@ class BasePage
     /**
      * Get parent
      *
-     * @return Application\PageBundle\Entity\Page $parent
+     * @return Application\Sonata\PageBundle\Entity\Page $parent
      */
     public function getParent()
     {
@@ -395,9 +395,9 @@ class BasePage
     /**
      * Set template
      *
-     * @param Application\PageBundle\Entity\Template $template
+     * @param Application\Sonata\PageBundle\Entity\Template $template
      */
-    public function setTemplate(\Application\PageBundle\Entity\Template $template)
+    public function setTemplate(\Application\Sonata\PageBundle\Entity\Template $template)
     {
         $this->template = $template;
     }
@@ -405,7 +405,7 @@ class BasePage
     /**
      * Get template
      *
-     * @return Application\PageBundle\Entity\Template $template
+     * @return Application\Sonata\PageBundle\Entity\Template $template
      */
     public function getTemplate()
     {

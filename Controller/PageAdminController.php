@@ -30,7 +30,7 @@ class PageAdminController extends Controller
 
         $em = $this->get('doctrine.orm.default_entity_manager');
 
-        $page = is_object($id) ? $id : $em->find('Application\PageBundle\Entity\Page', $id);
+        $page = is_object($id) ? $id : $em->find('Application\Sonata\PageBundle\Entity\Page', $id);
 
         if(!$page) {
 
@@ -76,8 +76,8 @@ class PageAdminController extends Controller
         $em = $this->get('doctrine.orm.default_entity_manager');
         $id = $this->get('request')->get('id');
 
-        $page = $em->find('Application\PageBundle\Entity\Page', $id);
-        $page = $page ?: new \Application\PageBundle\Entity\Page;
+        $page = $em->find('Application\Sonata\PageBundle\Entity\Page', $id);
+        $page = $page ?: new \Application\Sonata\PageBundle\Entity\Page;
 
         $form = $this->getForm($page);
         $form->setValidationGroups($page->isHybrid() ? 'action_route' : 'cms_route');

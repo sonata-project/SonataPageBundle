@@ -27,7 +27,7 @@
 
         <many-to-one
             field="parent"
-            target-entity="Application\PageBundle\Entity\Page"
+            target-entity="Application\Sonata\PageBundle\Entity\Page"
             inverted-by="children"
             orphan-removal="false">
 
@@ -46,7 +46,7 @@
 
         <one-to-many
             field="children"
-            target-entity="Application\PageBundle\Entity\Page"
+            target-entity="Application\Sonata\PageBundle\Entity\Page"
             mapped-by="parent"
             orphan-removal="false"
             fetch="LAZY">
@@ -71,7 +71,7 @@
 
         <many-to-one
             field="template"
-            target-entity="Application\PageBundle\Entity\Template"
+            target-entity="Application\Sonata\PageBundle\Entity\Template"
             inverted-by="page"
             orphan-removal="false"
             >
@@ -91,7 +91,7 @@
 
         <one-to-many
             field="blocks"
-            target-entity="Application\PageBundle\Entity\Block"
+            target-entity="Application\Sonata\PageBundle\Entity\Block"
             mapped-by="page"
             orphan-removal="false"
             fetch="LAZY">

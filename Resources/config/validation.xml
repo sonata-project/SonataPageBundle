@@ -4,7 +4,7 @@
     xsi:schemaLocation="http://www.symfony-project.org/schema/dic/constraint-mapping
         http://www.symfony-project.org/schema/dic/services/constraint-mapping-1.0.xsd">
 
-    <class name="Application\PageBundle\Entity\Page">
+    <class name="Application\Sonata\PageBundle\Entity\Page">
 
         <property name="name">
            <constraint name="NotNull" >
