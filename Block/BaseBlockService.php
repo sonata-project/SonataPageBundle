@@ -9,7 +9,7 @@
  */
 
 
-namespace Bundle\PageBundle\Block;
+namespace Bundle\Sonata\PageBundle\Block;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -30,12 +30,12 @@ abstract class BaseBlockService extends ContainerAware
 
     public function getViewTemplate()
     {
-        return sprintf('PageBundle:Block:block_%s.twig', str_replace('.', '_', $this->getName()));
+        return sprintf('Sonata/PageBundle:Block:block_%s.twig', str_replace('.', '_', $this->getName()));
     }
 
     public function getEditTemplate()
     {
-        return sprintf('PageBundle:BlockAdmin:block_%s_edit.twig', str_replace('.', '_', $this->getName()));
+        return sprintf('Sonata/PageBundle:BlockAdmin:block_%s_edit.twig', str_replace('.', '_', $this->getName()));
     }
 
     public function render($template, $params = array())

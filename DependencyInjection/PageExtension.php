@@ -9,7 +9,7 @@
  */
 
 
-namespace Bundle\PageBundle\DependencyInjection;
+namespace Bundle\Sonata\PageBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Resource\FileResource;
@@ -37,7 +37,9 @@ class PageExtension extends Extension {
         // define the page manager
         $definition = new Definition($config['class']);
         $definition->addMethodCall('setContainer', array(new Reference('service_container')));
+        $definition->addMethodCall('setOptions', array(isset($config['options']) ? $config['options'] : array()));
         $container->setDefinition('page.manager', $definition);
+
 
         // define the block service
         foreach($config['blocks'] as $block) {

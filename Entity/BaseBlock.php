@@ -9,7 +9,7 @@
  */
 
 
-namespace Bundle\PageBundle\Entity;
+namespace Bundle\Sonata\PageBundle\Entity;
 
 class BaseBlock
 {

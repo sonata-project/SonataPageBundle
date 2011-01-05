@@ -19,6 +19,22 @@
         }
 
 
+* Add in your config.yml file
+
+        page.config:
+            class: Bundle\Sonata\PageBundle\Page\Manager
+            options:
+                ignore_route_patterns:
+                    - /(.*)admin(.*)/   # ignore admin route, ie route containing 'admin'
+                    - /_(.*)/           # ignore symfony routes
+
+                ignore_routes:
+
+            blocks:
+                - { id: core.container, class: Bundle\Sonata\PageBundle\Block\ContainerBlockService}
+                - { id: core.text,      class: Bundle\Sonata\PageBundle\Block\TextBlockService}
+                - { id: core.action,    class: Bundle\Sonata\PageBundle\Block\ActionBlockService}
+
 
 ## Page
 
@@ -28,6 +44,8 @@
                |          ------
                |
                 --> template
+
+
 
 
 ## Licence

@@ -9,7 +9,7 @@
  */
 
 
-namespace Bundle\PageBundle\Block;
+namespace Bundle\Sonata\PageBundle\Block;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -26,7 +26,7 @@ class TextBlockService extends BaseBlockService
     public function execute($block, $page)
     {
 
-        return $this->render('PageBundle:Block:block_core_text.twig', array(
+        return $this->render('Sonata/PageBundle:Block:block_core_text.twig', array(
              'block' => $block
         ));
     }

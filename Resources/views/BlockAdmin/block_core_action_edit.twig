@@ -9,14 +9,14 @@ file that was distributed with this source code.
 
 #}
 
-{% extends 'PageBundle:BlockAdmin:edit.twig' %}
+{% extends 'Sonata/PageBundle:BlockAdmin:edit.twig' %}
 
 {% block block %}
 
     <div>
-        {{ form.settings.action|render_label }} <br />
-        {{ form.settings.action|render({'class' : 'title'}) }}
-        {{ form.settings.action|render_errors }}
+        {{ form_label(form.settings.action) }} <br />
+        {{ form_field(form.settings.action, {'class' : 'title'}) }}
+        {{ form_errors(form.settings.action) }}
     </div>
 
     <h2>{% trans 'title_parameters' from 'PageBundle' %}</h2>
@@ -24,8 +24,8 @@ file that was distributed with this source code.
         {% for parameter in form.settings.parameters %}
 
                 <tr>
-                    <td>{{ parameter|render_label }}</td>
-                    <td>{{ parameter|render({'class' : 'title'}) }} {{ parameter|render_errors }}</td>
+                    <td>{{ form_label(parameter) }}</td>
+                    <td>{{ form_field(parameter, {'class' : 'title'}) }} {{ parameter|render_errors }}</td>
                 </tr>
         {% endfor %}
     </table>

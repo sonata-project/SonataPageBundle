@@ -9,7 +9,7 @@
  */
 
 
-namespace Bundle\PageBundle\Page;
+namespace Bundle\Sonata\PageBundle\Page;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -32,6 +32,7 @@ class Manager extends ContainerAware
 
     protected $blocks = array();
 
+    protected $options = array();
 
     /**
      * filter the `core.response` event to decorated the action
@@ -42,47 +43,78 @@ class Manager extends ContainerAware
      */
     public function filterReponse($event, $response)
     {
-
         $kernel       = $event->getSubject();
         $request_type = $event->get('request_type');
 
-        $headers = $response->headers;
+        if($this->isDecorable($request_type, $response)) {
 
-        $content_type = $headers->get('Content-Type') ?: 'text/html';
+            $page = $this->getCurrentPage();
 
-        if($request_type != HttpKernelInterface::MASTER_REQUEST
-           || $content_type != 'text/html'
-           || $response->getStatusCode() != 200) {
+            if ($page && $page->getDecorate()) {
+                $template = 'PageBundle::layout.twig';
+                if($this->getCurrentPage()) {
+                    $template = $this->getCurrentPage()->getTemplate()->getPath();
+                }
 
-            $event->setReturnValue($response);
-
-            return $response;
-        }
-
-        $page = $this->getCurrentPage();
-
-        if($page && $page->getDecorate()) {
-            $template = 'PageBundle::layout.twig';
-            if($this->getCurrentPage()) {
-                $template = $this->getCurrentPage()->getTemplate()->getPath();
-            }
-
-            $response->setContent(
-                $this->container->get('templating')->render(
-                    $template,
-                    array(
-                        'content'   => $response->getContent(),
-                        'page'      => $page
+                $response->setContent(
+                    $this->container->get('templating')->render(
+                        $template,
+                        array(
+                            'content'   => $response->getContent(),
+                            'page'      => $page
+                        )
                     )
-                )
-            );
-
+                );
+            }
         }
-
 
         $event->setReturnValue($response);
         
         return $response;
+    }
+
+    public function isDecorable($request_type, $response)
+    {
+
+        if($request_type != HttpKernelInterface::MASTER_REQUEST)
+        {
+            return false;
+        }
+
+        if(($response->headers->get('Content-Type') ?: 'text/html') != 'text/html')
+        {
+            return false;
+        }
+
+        if($response->getStatusCode() != 200)
+        {
+            return false;
+        }
+
+        if($this->container->get('kernel')->getRequest()->headers->get('x-requested-with') == 'XMLHttpRequest')
+        {
+            return false;
+        }
+
+        $route_name = $this->container->get('request')->get('_route');
+        foreach($this->getOption('ignore_routes', array()) as $route)
+        {
+
+            if($route_name == $route)
+            {
+                return false;
+            }
+        }
+
+        foreach($this->getOption('ignore_route_patterns', array()) as $route_pattern)
+        {
+            if(preg_match($route_pattern, $route_name)) {
+                return false;
+            }
+        }
+
+        return true;
+
     }
 
     /**
@@ -516,5 +548,40 @@ class Manager extends ContainerAware
 
             $position++;
         }
+    }
+
+    public function setBlocks($blocks)
+    {
+        $this->blocks = $blocks;
+    }
+
+    public function getBlocks()
+    {
+        return $this->blocks;
+    }
+
+    public function setOptions($options)
+    {
+        $this->options = $options;
+    }
+
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    public function getOption($name, $default = null)
+    {
+        return isset($this->options[$name]) ? $this->options[$name] : $default;
+    }
+    
+    public function setRoutePages($route_pages)
+    {
+        $this->route_pages = $route_pages;
+    }
+
+    public function getRoutePages()
+    {
+        return $this->route_pages;
     }
 }

@@ -8,11 +8,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Bundle\PageBundle;
+namespace Bundle\Sonata\PageBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class PageBundle extends Bundle
+class SonataPageBundle extends Bundle
 {
 
     public function boot()

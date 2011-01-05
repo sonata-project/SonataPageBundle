@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Bundle\PageBundle\Controller;
+namespace Bundle\Sonata\PageBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -36,7 +36,7 @@ class PageController extends Controller
         $container = $this->get('page.manager')->findContainer($name, $page, $parent_container);
 
 
-        return $this->render('PageBundle:Block:block_container.twig', array(
+        return $this->render('Sonata/PageBundle:Block:block_container.twig', array(
             'container' => $container,
             'manager'   => $this->get('page.manager'),
             'page'      => $page,

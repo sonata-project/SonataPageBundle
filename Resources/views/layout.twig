@@ -14,17 +14,17 @@ file that was distributed with this source code.
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 
-        <link rel="stylesheet" href="/bundles/page/blueprint/screen.css" type="text/css" media="screen, projection">
-        <link rel="stylesheet" href="/bundles/page/blueprint/print.css" type="text/css" media="print">
-        <!--[if lt IE 8]><link rel="stylesheet" href="/bundles/page/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
+        <link rel="stylesheet" href="{{ asset('bundles/blueprint/screen.css') }}" type="text/css" media="screen, projection">
+        <link rel="stylesheet" href="{{ asset('bundles/blueprint/print.css') }}" type="text/css" media="print">
+        <!--[if lt IE 8]><link rel="stylesheet" href="{{ asset('bundles/page/blueprint/ie.css') }}" type="text/css" media="screen, projection"><![endif]-->
 
-        <link rel="stylesheet" href="/bundles/jquery/themes/flick/jquery-ui-1.8.6.custom.css" type="text/css" media="all" />
-        <script src="/bundles/jquery/jquery-1.4.4.js" type="text/javascript"></script>
-        <script src="/bundles/jquery/jquery-ui-1.8.6.custom.js" type="text/javascript"></script>
-        <script src="/bundles/jquery/jquery-ui-i18n.js" type="text/javascript"></script>
+        <link rel="stylesheet" href="{{ asset('bundles/jquery/themes/flick/jquery-ui-1.8.6.custom.css') }}" type="text/css" media="all" />
+        <script src="{{ asset('bundles/jquery/jquery-1.4.4.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('bundles/jquery/jquery-ui-1.8.6.custom.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('bundles/jquery/jquery-ui-i18n.js') }}" type="text/javascript"></script>
 
-        <script src="/bundles/page/page.js" type="text/javascript"></script>
-        <link rel="stylesheet" href="/bundles/page/page.css" type="text/css" media="all">
+        <script src="{{ asset('bundles/page/page.js') }}" type="text/javascript"></script>
+        <link rel="stylesheet" href="{{ asset('bundles/page/page.css') }}" type="text/css" media="all">
     </head>
     <body>
 
@@ -38,7 +38,7 @@ file that was distributed with this source code.
             
             <!-- header -->
             <div class="span-24 last">
-                {% render 'PageBundle:Page:renderContainer' with {
+                {% render 'Sonata/PageBundle:Page:renderContainer' with {
                     'name' : 'header',
                     'page' : 'global'
                 } %}
@@ -46,21 +46,21 @@ file that was distributed with this source code.
 
             <!-- left sidebar -->
             <div class="span-4">
-                {% render 'PageBundle:Page:renderContainer' with {
+                {% render 'Sonata/PageBundle:Page:renderContainer' with {
                     'name' : 'sidebar',
                     'page' : 'global'
                 } %}
             </div>
 
             <div class="span-20 last">
-                {% render 'PageBundle:Page:renderContainer' with {
+                {% render 'Sonata/PageBundle:Page:renderContainer' with {
                     'name' : 'content_top',
                     'page' : 'global'
                 } %}
 
                 {{ content|raw }}
 
-                {% render 'PageBundle:Page:renderContainer' with {
+                {% render 'Sonata/PageBundle:Page:renderContainer' with {
                     'name' : 'content_bottom',
                     'page' : 'global'
                 } %}
@@ -68,7 +68,7 @@ file that was distributed with this source code.
 
             <!-- footer -->
             <div class="span-24 last">
-                {% render 'PageBundle:Page:renderContainer' with {
+                {% render 'Sonata/PageBundle:Page:renderContainer' with {
                     'name' : 'footer',
                     'page' : 'global'
                 } %}
@@ -79,13 +79,13 @@ file that was distributed with this source code.
         <!-- CMS specific variables -->
         <script>
             Page.url = {
-                block_save_position: '{% path 'page_block_save_position' %}',
-                block_create: '{% path 'page_block_create' %}',
-                block_update: '{% path 'page_block_update' %}',
-                block_view:   '{% path 'page_block_view' with {'id': 'BLOCK_ID'} %}',
-                block_edit:   '{% path 'page_block_edit' with {'id': 'BLOCK_ID'} %}',
-                page_edit:    '{% path 'page_edit' with {'id': page.id } %}',
-                page_upate:   '{% path 'page_update' %}',
+                block_save_position: '{{ path('sonata_page_block_save_position') }}',
+                block_create: '{{ path('sonata_page_block_create') }}',
+                block_update: '{{ path('sonata_page_block_update') }}',
+                block_view:   '{{ path('sonata_page_block_view', {'id': 'BLOCK_ID'}) }}',
+                block_edit:   '{{ path('sonata_page_block_edit', {'id': 'BLOCK_ID'}) }}',
+                page_edit:    '{{ path('sonata_page_edit', {'id': page.id }) }}',
+                page_upate:   '{{ path('sonata_page_update') }}',
             }
         </script>
 

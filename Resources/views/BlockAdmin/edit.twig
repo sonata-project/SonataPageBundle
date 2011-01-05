@@ -11,8 +11,8 @@ file that was distributed with this source code.
 
 <h1>{% trans 'title_block_edit' from 'PageBundle' %}</h1>
 
-<form action="{% url 'page_block_update' with {'id' : block.id} %}" method="POST">
-    {{ form|render_hidden }}
+<form action="{{ url('page_block_update', {'id' : block.id}) }}" method="POST">
+    {{ form_hidden(form) }}
 
     <p>
          {% block information %}
