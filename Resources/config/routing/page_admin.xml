@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<routes xmlns="http://www.symfony-project.org/schema/routing"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.symfony-project.org/schema/routing http://www.symfony-project.org/schema/routing/routing-1.0.xsd">
+
+    <!-- PAGE CONTROLLER -->
+    <route id="sonata_page_page_admin_list" pattern="/">
+        <default key="_controller">Sonata\PageBundle:PageCRUD:list</default>
+    </route>
+
+    <route id="sonata_page_page_admin_create" pattern="/create">
+        <default key="_controller">Sonata\PageBundle:PageCRUD:create</default>
+    </route>
+
+    <route id="sonata_page_page_admin_batch" pattern="/batch">
+        <default key="_controller">Sonata\PageBundle:PageCRUD:batch</default>
+    </route>
+
+    <route id="sonata_page_page_admin_update" pattern="/update">
+        <default key="_controller">Sonata\PageBundle:PageCRUD:update</default>
+    </route>
+
+    <route id="sonata_page_page_admin_edit" pattern="/{id}/edit">
+        <default key="_controller">Sonata\PageBundle:PageCRUD:edit</default>
+    </route>
+
+    <route id="sonata_page_page_admin_delete" pattern="/{id}/delete">
+        <default key="_controller">Sonata\PageBundle:PageCRUD:delete</default>
+    </route>
+
+</routes>
