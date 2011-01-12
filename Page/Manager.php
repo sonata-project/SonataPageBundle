@@ -46,6 +46,7 @@ class Manager extends ContainerAware
         $kernel       = $event->getSubject();
         $request_type = $event->get('request_type');
 
+        
         if($this->isDecorable($request_type, $response)) {
 
             $page = $this->getCurrentPage();
@@ -76,39 +77,45 @@ class Manager extends ContainerAware
     public function isDecorable($request_type, $response)
     {
 
-        if($request_type != HttpKernelInterface::MASTER_REQUEST)
-        {
+        if($request_type != HttpKernelInterface::MASTER_REQUEST) {
+
             return false;
         }
 
-        if(($response->headers->get('Content-Type') ?: 'text/html') != 'text/html')
-        {
+        if(($response->headers->get('Content-Type') ?: 'text/html') != 'text/html') {
+
             return false;
         }
 
-        if($response->getStatusCode() != 200)
-        {
+        if($response->getStatusCode() != 200) {
+
             return false;
         }
 
-        if($this->container->get('kernel')->getRequest()->headers->get('x-requested-with') == 'XMLHttpRequest')
-        {
+        if($this->container->get('kernel')->getRequest()->headers->get('x-requested-with') == 'XMLHttpRequest') {
+
             return false;
         }
 
         $route_name = $this->container->get('request')->get('_route');
-        foreach($this->getOption('ignore_routes', array()) as $route)
-        {
+        foreach($this->getOption('ignore_routes', array()) as $route) {
 
-            if($route_name == $route)
-            {
+            if($route_name == $route) {
                 return false;
             }
         }
 
-        foreach($this->getOption('ignore_route_patterns', array()) as $route_pattern)
-        {
+        foreach($this->getOption('ignore_route_patterns', array()) as $route_pattern) {
             if(preg_match($route_pattern, $route_name)) {
+
+                return false;
+            }
+        }
+
+        $uri = $this->container->get('request')->getRequestUri();
+        foreach($this->getOption('ignore_uri_patterns', array()) as $uri_pattern) {
+            if(preg_match($uri_pattern, $uri)) {
+
                 return false;
             }
         }
@@ -135,6 +142,7 @@ class Manager extends ContainerAware
             return $service->execute($block, $page);
         } catch (\Exception $e) {
             if($this->container->getParameter('kernel.debug')) {
+
                 throw $e;
             }
             $this->container->get('logger')->crit(sprintf('[cms::renderBlock] block.id=%d - error while rendering block - %s', $block->getId(), $e->getMessage()));
@@ -165,8 +173,8 @@ class Manager extends ContainerAware
             }
         }
 
-        if(!$container)
-        {
+        if(!$container) {
+          
             // no container, create it!
             $container = new \Application\Sonata\PageBundle\Entity\Block;
             $container->setEnabled(true);
@@ -266,14 +274,14 @@ class Manager extends ContainerAware
     /**
      * return the default template used in the current application
      *
-     * @return bool | Application\PageBundle\Entity\Template
+     * @return bool | Application\Sonata\PageBundle\Entity\Template
      */
     public function getDefaultTemplate()
     {
         $templates = $this->container->get('doctrine.orm.default_entity_manager')
             ->createQueryBuilder()
             ->select('t')
-            ->from('Application\PageBundle\Entity\Template', 't')
+            ->from('Application\Sonata\PageBundle\Entity\Template', 't')
             ->where('t.id = :id')
             ->setParameters(array(
                  'id' => 1

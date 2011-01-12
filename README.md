@@ -26,9 +26,12 @@
             options:
                 ignore_route_patterns:
                     - /(.*)admin(.*)/   # ignore admin route, ie route containing 'admin'
-                    - /_(.*)/           # ignore symfony routes
+                    - /^_(.*)/           # ignore symfony routes
 
                 ignore_routes:
+
+                ignore_uri_patterns:
+                    - /(.*)\/admin(.*)/   # ignore admin route, ie route containing 'admin'
 
             blocks:
                 - { id: core.container, class: Bundle\Sonata\PageBundle\Block\ContainerBlockService}

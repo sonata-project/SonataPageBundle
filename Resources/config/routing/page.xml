@@ -5,7 +5,7 @@
     xsi:schemaLocation="http://www.symfony-project.org/schema/routing http://www.symfony-project.org/schema/routing/routing-1.0.xsd">
 
 
-    <route id="sonata_page_edit" pattern="/edit/:id">
+    <route id="sonata_page_edit" pattern="/edit/{id}">
         <default key="_controller">Sonata/PageBundle:PageAdmin:edit</default>
     </route>
 

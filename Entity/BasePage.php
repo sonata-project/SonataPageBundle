@@ -50,6 +50,8 @@ class BasePage
 
     protected $custom_url;
 
+    protected $position = 1;
+  
     protected $decorate = true;
     
     /**
@@ -435,4 +437,19 @@ class BasePage
 
         return $this->getRouteName() != 'page_slug';
     }
+
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
+  public function setPosition($position)
+  {
+    $this->position = $position;
+  }
+
+  public function getPosition()
+  {
+    return $this->position;
+  }
 }
