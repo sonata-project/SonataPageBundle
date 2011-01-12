@@ -4,7 +4,7 @@
 
 * Add PageBundle to your src/Bundle dir
 
-        git submodule add git@github.com:sonata-project/PageBundle.git src/Bundle/PageBundle
+        git submodule add git@github.com:sonata-project/PageBundle.git src/Bundle/Sonata/PageBundle
 
 * Add PageBundle to your application kernel
 
@@ -13,7 +13,7 @@
         {
             return array(
                 // ...
-                new Bundle\PageBundle\PageBundle(),
+                new Bundle\Sonata\PageBundle\PageBundle(),
                 // ...
             );
         }
@@ -55,6 +55,4 @@
 
 ### MIT
 
-    * Blueprint css - https://github.com/joshuaclayton/blueprint-css/blob/master/LICENSE
-    * jQuery - http://jquery.org/license
     * jWYSIWYG - https://github.com/akzhan/jwysiwyg
