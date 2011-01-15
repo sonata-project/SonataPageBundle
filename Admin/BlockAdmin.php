@@ -11,23 +11,23 @@
 
 namespace Bundle\Sonata\PageBundle\Admin;
 
-use Bundle\Sonata\BaseApplicationBundle\Admin\Admin;
+use Bundle\Sonata\BaseApplicationBundle\Admin\EntityAdmin as Admin;
 
 class BlockAdmin extends Admin
 {
 
     protected $class = 'Application\Sonata\PageBundle\Entity\Block';
 
-    protected $list_fields = array(
+    protected $listFields = array(
         'id' => array('identifier' => true),
         'page',
         'enabled',
         'type',
     );
 
-    protected $base_route = 'sonata_page_block_admin';
+    protected $baseRoute = 'sonata_page_block_admin';
 
     // don't know yet how to get this value
-    protected $base_controller_name = 'NewsBundle:PostAdmin';
+    protected $baseControllerName = 'Sonata\PageBundle:BlockCRUD';
 
 }

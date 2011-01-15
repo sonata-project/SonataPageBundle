@@ -11,18 +11,18 @@
 
 namespace Bundle\Sonata\PageBundle\Admin;
 
-use Bundle\Sonata\BaseApplicationBundle\Admin\Admin;
+use Bundle\Sonata\BaseApplicationBundle\Admin\EntityAdmin as Admin;
 
 class TemplateAdmin extends Admin
 {
 
     protected $class = 'Application\Sonata\PageBundle\Entity\Template';
 
-    protected $list_fields = array(
+    protected $listFields = array(
         'name' => array('identifier' => true),
         'path',
         'enabled',
     );
 
-    protected $base_route = 'sonata_page_template_admin';
+    protected $baseControllerName = 'Sonata\PageBundle:TemplateAdmin';
 }

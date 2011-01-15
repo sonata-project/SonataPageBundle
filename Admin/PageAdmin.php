@@ -11,22 +11,21 @@
 
 namespace Bundle\Sonata\PageBundle\Admin;
 
-use Bundle\Sonata\BaseApplicationBundle\Admin\Admin;
+use Bundle\Sonata\BaseApplicationBundle\Admin\EntityAdmin as Admin;
 
 class PageAdmin extends Admin
 {
 
     protected $class = 'Application\Sonata\PageBundle\Entity\Page';
 
-    protected $list_fields = array(
+    protected $listFields = array(
         'name' => array('identifier' => true),
-        'parent',
         'route_name',
         'decorate',
         'enabled',
     );
 
-    protected $form_fields = array(
+    protected $formFields = array(
         'route_name',
         'enabled',
         'decorate',
@@ -43,7 +42,7 @@ class PageAdmin extends Admin
         'stylesheet',
     );
 
-    protected $form_groups = array(
+    protected $formFroups = array(
         'General' => array(
             'fields' => array('name', 'enabled', 'publication_date_start', 'publication_date_end')
         ),
@@ -57,5 +56,5 @@ class PageAdmin extends Admin
         )
     );
 
-    protected $base_route = 'sonata_page_page_admin';
+    protected $baseControllerName = 'Sonata\PageBundle:PageCRUD';
 }

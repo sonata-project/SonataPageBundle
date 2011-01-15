@@ -13,6 +13,7 @@ namespace Bundle\Sonata\PageBundle\Entity;
 
 class BasePage
 {
+    const PAGE_ROUTE_CMS_NAME = 'page_slug';
 
     protected $created_at;
 
@@ -435,21 +436,21 @@ class BasePage
     public function isHybrid()
     {
 
-        return $this->getRouteName() != 'page_slug';
+        return $this->getRouteName() != self::PAGE_ROUTE_CMS_NAME;
     }
 
     public function __toString()
     {
-        return $this->getName();
+        return $this->getName()?: '-';
     }
 
-  public function setPosition($position)
-  {
-    $this->position = $position;
-  }
+    public function setPosition($position)
+    {
+        $this->position = $position;
+    }
 
-  public function getPosition()
-  {
-    return $this->position;
-  }
+    public function getPosition()
+    {
+        return $this->position;
+    }
 }
