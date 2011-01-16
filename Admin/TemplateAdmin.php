@@ -24,5 +24,5 @@ class TemplateAdmin extends Admin
         'enabled',
     );
 
-    protected $baseControllerName = 'Sonata\PageBundle:TemplateAdmin';
+    protected $baseControllerName = 'SonataPageBundle:TemplateAdmin';
 }

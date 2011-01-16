@@ -26,7 +26,7 @@ class ContainerBlockService extends BaseBlockService
     public function execute($block, $page)
     {
 
-        return $this->container->get('controller_resolver')->render('PageBundle:Page:renderContainer', array(
+        return $this->container->get('controller_resolver')->render('SonataPageBundle:Page:renderContainer', array(
             'attributes' => array(
                 'name'              => $block->getSetting('name'),
                 'page'              => $page,

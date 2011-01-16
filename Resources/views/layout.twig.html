@@ -38,7 +38,7 @@ file that was distributed with this source code.
             
             <!-- header -->
             <div class="span-24 last">
-                {% render 'Sonata/PageBundle:Page:renderContainer' with {
+                {% render 'SonataPageBundle:Page:renderContainer' with {
                     'name' : 'header',
                     'page' : 'global'
                 } %}
@@ -46,21 +46,21 @@ file that was distributed with this source code.
 
             <!-- left sidebar -->
             <div class="span-4">
-                {% render 'Sonata/PageBundle:Page:renderContainer' with {
+                {% render 'SonataPageBundle:Page:renderContainer' with {
                     'name' : 'sidebar',
                     'page' : 'global'
                 } %}
             </div>
 
             <div class="span-20 last">
-                {% render 'Sonata/PageBundle:Page:renderContainer' with {
+                {% render 'SonataPageBundle:Page:renderContainer' with {
                     'name' : 'content_top',
                     'page' : 'global'
                 } %}
 
                 {{ content|raw }}
 
-                {% render 'Sonata/PageBundle:Page:renderContainer' with {
+                {% render 'SonataPageBundle:Page:renderContainer' with {
                     'name' : 'content_bottom',
                     'page' : 'global'
                 } %}
@@ -68,7 +68,7 @@ file that was distributed with this source code.
 
             <!-- footer -->
             <div class="span-24 last">
-                {% render 'Sonata/PageBundle:Page:renderContainer' with {
+                {% render 'SonataPageBundle:Page:renderContainer' with {
                     'name' : 'footer',
                     'page' : 'global'
                 } %}

@@ -9,8 +9,7 @@ file that was distributed with this source code.
 
 #}
 
-{% extends 'Sonata/PageBundle:Block:block_base.twig' %}
-
+{% extends 'SonataPageBundle:Block:block_base.twig.html' %}
 {% block block %}
-    {{ block.settings.content|raw }}
+    {{ content|raw }}
 {% endblock %}

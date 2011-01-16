@@ -30,12 +30,12 @@ abstract class BaseBlockService extends ContainerAware
 
     public function getViewTemplate()
     {
-        return sprintf('Sonata/PageBundle:Block:block_%s.twig', str_replace('.', '_', $this->getName()));
+        return sprintf('SonataPageBundle:Block:block_%s.twig.html', str_replace('.', '_', $this->getName()));
     }
 
     public function getEditTemplate()
     {
-        return sprintf('Sonata/PageBundle:BlockAdmin:block_%s_edit.twig', str_replace('.', '_', $this->getName()));
+        return sprintf('SonataPageBundle:BlockAdmin:block_%s_edit.twig.html', str_replace('.', '_', $this->getName()));
     }
 
     public function render($template, $params = array())

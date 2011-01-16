@@ -28,6 +28,6 @@ class BlockAdmin extends Admin
     protected $baseRoute = 'sonata_page_block_admin';
 
     // don't know yet how to get this value
-    protected $baseControllerName = 'Sonata\PageBundle:BlockCRUD';
+    protected $baseControllerName = 'SonataPageBundle:BlockCRUD';
 
 }

@@ -6,11 +6,11 @@
 
 
     <route id="sonata_page_edit" pattern="/edit/{id}">
-        <default key="_controller">Sonata/PageBundle:PageAdmin:edit</default>
+        <default key="_controller">SonataPageBundle:PageAdmin:edit</default>
     </route>
 
     <route id="sonata_page_update" pattern="/update">
-        <default key="_controller">Sonata/PageBundle:PageAdmin:update</default>
+        <default key="_controller">SonataPageBundle:PageAdmin:update</default>
     </route>
 
 

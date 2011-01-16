@@ -39,7 +39,7 @@ class PageAdminController extends Controller
 
         $this->get('session')->start();
         
-        return $this->render('PageBundle:Page:edit.twig', array(
+        return $this->render('SonataPageBundle:Page:edit.twig.html', array(
             'page' => $page,
             'form' => $form ?: $this->getForm($page)
         ));
@@ -93,7 +93,7 @@ class PageAdminController extends Controller
             return $this->redirect($this->generateUrl('page_edit', array('id' => $page->getId())));
         }
 
-        return $this->forward('PageBundle:PageAdmin:edit', array(
+        return $this->forward('SonataPageBundle:PageAdmin:edit', array(
             'id' => $page,
             'form' => $form
         ));

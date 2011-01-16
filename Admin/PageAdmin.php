@@ -56,5 +56,5 @@ class PageAdmin extends Admin
         )
     );
 
-    protected $baseControllerName = 'Sonata\PageBundle:PageCRUD';
+    protected $baseControllerName = 'SonataPageBundle:PageCRUD';
 }

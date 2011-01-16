@@ -52,7 +52,7 @@ class Manager extends ContainerAware
             $page = $this->getCurrentPage();
 
             if ($page && $page->getDecorate()) {
-                $template = 'Sonata/PageBundle::layout.twig';
+                $template = 'SonataPageBundle::layout.twig.html';
                 if($this->getCurrentPage()) {
                     $template = $this->getCurrentPage()->getTemplate()->getPath();
                 }
