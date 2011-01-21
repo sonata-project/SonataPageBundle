@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Bundle\Sonata\PageBundle\Admin;
+namespace Sonata\PageBundle\Admin;
 
-use Bundle\Sonata\BaseApplicationBundle\Admin\EntityAdmin as Admin;
+use Sonata\BaseApplicationBundle\Admin\EntityAdmin as Admin;
 
 class PageAdmin extends Admin
 {

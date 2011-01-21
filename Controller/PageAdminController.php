@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Bundle\Sonata\PageBundle\Controller;
+namespace Sonata\PageBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;

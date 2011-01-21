@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Bundle\Sonata\PageBundle\Controller;
+namespace Sonata\PageBundle\Controller;
 
-use Bundle\Sonata\BaseApplicationBundle\Controller\CRUDController as Controller;
+use Sonata\BaseApplicationBundle\Controller\CRUDController as Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class BlockCRUDController extends Controller

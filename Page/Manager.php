@@ -9,7 +9,7 @@
  */
 
 
-namespace Bundle\Sonata\PageBundle\Page;
+namespace Sonata\PageBundle\Page;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpKernel\HttpKernelInterface;

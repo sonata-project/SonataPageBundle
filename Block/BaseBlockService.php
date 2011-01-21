@@ -9,7 +9,7 @@
  */
 
 
-namespace Bundle\Sonata\PageBundle\Block;
+namespace Sonata\PageBundle\Block;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -33,6 +33,27 @@ abstract class BaseBlockService extends ContainerAware
         return sprintf('SonataPageBundle:Block:block_%s.twig.html', str_replace('.', '_', $this->getName()));
     }
 
+    /**
+     * Creates a Response instance.
+     *
+     * @param string  $content The Response body
+     * @param integer $status  The status code
+     * @param array   $headers An array of HTTP headers
+     *
+     * @return Response A Response instance
+     */
+    public function createResponse($content = '', $status = 200, array $headers = array())
+    {
+        $response = $this->container->get('response');
+        $response->setContent($content);
+        $response->setStatusCode($status);
+        foreach ($headers as $name => $value) {
+            $response->headers->set($name, $value);
+        }
+
+        return $response;
+    }
+
     public function getEditTemplate()
     {
         return sprintf('SonataPageBundle:BlockAdmin:block_%s_edit.twig.html', str_replace('.', '_', $this->getName()));
@@ -48,11 +69,14 @@ abstract class BaseBlockService extends ContainerAware
 
     public function execute($block, $page)
     {
-
-        return $this->render($block->getTemplate(), array(
-             'block' => $block,
-             'page'  => $page
-        ));
+        try {
+            $response = $this->render($block->getTemplate(), array(
+                 'block' => $block,
+                 'page'  => $page
+            ));
+        } catch(\Exception $e) {
+            return $this->createResponse('An error occur while processing the block : '.$e->getMessage());
+        }
     }
 
     public function setName($name)

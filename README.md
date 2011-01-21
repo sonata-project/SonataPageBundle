@@ -4,7 +4,7 @@
 
 * Add PageBundle to your src/Bundle dir
 
-        git submodule add git@github.com:sonata-project/PageBundle.git src/Bundle/Sonata/PageBundle
+        git submodule add git@github.com:sonata-project/PageBundle.git src/Sonata/PageBundle
 
 * Add PageBundle to your application kernel
 
@@ -13,7 +13,7 @@
         {
             return array(
                 // ...
-                new Bundle\Sonata\PageBundle\PageBundle(),
+                new Sonata\PageBundle\PageBundle(),
                 // ...
             );
         }
@@ -22,7 +22,7 @@
 * Add in your config.yml file
 
         page.config:
-            class: Bundle\Sonata\PageBundle\Page\Manager
+            class: Sonata\PageBundle\Page\Manager
             options:
                 ignore_route_patterns:
                     - /(.*)admin(.*)/   # ignore admin route, ie route containing 'admin'
@@ -34,9 +34,9 @@
                     - /(.*)\/admin(.*)/   # ignore admin route, ie route containing 'admin'
 
             blocks:
-                - { id: core.container, class: Bundle\Sonata\PageBundle\Block\ContainerBlockService}
-                - { id: core.text,      class: Bundle\Sonata\PageBundle\Block\TextBlockService}
-                - { id: core.action,    class: Bundle\Sonata\PageBundle\Block\ActionBlockService}
+                - { id: core.container, class: Sonata\PageBundle\Block\ContainerBlockService}
+                - { id: core.text,      class: Sonata\PageBundle\Block\TextBlockService}
+                - { id: core.action,    class: Sonata\PageBundle\Block\ActionBlockService}
 
 
 ## Page

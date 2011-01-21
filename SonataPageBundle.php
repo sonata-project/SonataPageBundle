@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Bundle\Sonata\PageBundle;
+namespace Sonata\PageBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -22,5 +22,21 @@ class SonataPageBundle extends Bundle
             $this->container->get('page.manager'),
             'filterReponse'
         ), -1); // tweak the priority to symfony profiler and error can work on layout
+    }
+
+        /**
+     * {@inheritdoc}
+     */
+    public function getNamespace()
+    {
+        return __NAMESPACE__;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPath()
+    {
+        return strtr(__DIR__, '\\', '/');
     }
 }

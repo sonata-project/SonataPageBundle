@@ -9,7 +9,7 @@
  */
 
 
-namespace Bundle\Sonata\PageBundle\Entity;
+namespace Sonata\PageBundle\Entity;
 
 class BaseTemplate
 {
