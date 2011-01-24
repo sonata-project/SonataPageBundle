@@ -32,23 +32,26 @@ class PageExtension extends Extension {
      * @param array            $config    An array of configuration settings
      * @param ContainerBuilder $container A ContainerBuilder instance
      */
-    public function configLoad($config, ContainerBuilder $container) {
+    public function configLoad($configs, ContainerBuilder $container)
+    {
 
-        // define the page manager
-        $definition = new Definition($config['class']);
-        $definition->addMethodCall('setContainer', array(new Reference('service_container')));
-        $definition->addMethodCall('setOptions', array(isset($config['options']) ? $config['options'] : array()));
-        $container->setDefinition('page.manager', $definition);
-
-
-        // define the block service
-        foreach($config['blocks'] as $block) {
-
-            $definition = new Definition($block['class']);
-            $definition->addMethodCall('setName', array($block['id']));
+        foreach($configs as $config) {
+            // define the page manager
+            $definition = new Definition($config['class']);
             $definition->addMethodCall('setContainer', array(new Reference('service_container')));
+            $definition->addMethodCall('setOptions', array(isset($config['options']) ? $config['options'] : array()));
+            $container->setDefinition('page.manager', $definition);
 
-            $container->setDefinition(sprintf('page.block.%s', $block['id']), $definition);
+
+            // define the block service
+            foreach($config['blocks'] as $block) {
+
+                $definition = new Definition($block['class']);
+                $definition->addMethodCall('setName', array($block['id']));
+                $definition->addMethodCall('setContainer', array(new Reference('service_container')));
+
+                $container->setDefinition(sprintf('page.block.%s', $block['id']), $definition);
+            }
         }
     }
 
@@ -57,17 +60,20 @@ class PageExtension extends Extension {
      *
      * @return string The XSD base path
      */
-    public function getXsdValidationBasePath() {
+    public function getXsdValidationBasePath()
+    {
 
         return __DIR__.'/../Resources/config/schema';
     }
 
-    public function getNamespace() {
+    public function getNamespace()
+    {
 
         return 'http://www.sonata-project.org/schema/dic/page';
     }
 
-    public function getAlias() {
+    public function getAlias()
+    {
 
         return "page";
     }
