@@ -340,7 +340,7 @@ class BasePage
      *
      * @param Application\Sonata\PageBundle\Entity\Page $children
      */
-    public function addChildren(\Application\Sonata\PageBundle\Entity\Page $children)
+    public function addChildren(\Sonata\PageBundle\Entity\BasePage $children)
     {
         $this->children[] = $children;
     }
@@ -360,7 +360,7 @@ class BasePage
      *
      * @param Application\Sonata\PageBundle\Entity\Block $blocs
      */
-    public function addBlocks(\Application\Sonata\PageBundle\Entity\Block $blocs)
+    public function addBlocks(\Sonata\PageBundle\Entity\BaseBlock $blocs)
     {
         $this->blocks[] = $blocs;
     }

@@ -1,5 +1,6 @@
 <?php
 
+
 /*
  * This file is part of the Sonata package.
  *
@@ -9,12 +10,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Sonata\PageBundle\Controller;
+namespace Sonata\PageBundle\Tests\Page;
 
-use Sonata\BaseApplicationBundle\Controller\CRUDController as Controller;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-
-class PageCRUDController extends Controller
+class Block extends \Sonata\PageBundle\Entity\BaseBlock
 {
 
 }

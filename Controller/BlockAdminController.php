@@ -66,7 +66,9 @@ class BlockAdminController extends Controller
 
     public function getForm($block)
     {
-         $form = new \Symfony\Component\Form\Form('block', $block, $this->get('validator'));
+         $form = new \Symfony\Component\Form\Form('block', $block, $this->get('validator'), array(
+            'validation_groups' => array($block->getType())
+         ));
 
          $this->get('page.manager')->defineBlockForm($form);
 
@@ -95,7 +97,7 @@ class BlockAdminController extends Controller
             $em->persist($block);
             $em->flush();
 
-             return $this->redirect($this->generateUrl('page_block_edit', array('id' => $block->getId())));
+             return $this->redirect($this->generateUrl('sonata_page_block_edit', array('id' => $block->getId())));
         }
 
         return $this->forward('SonataPageBundle:BlockAdmin:edit', array(

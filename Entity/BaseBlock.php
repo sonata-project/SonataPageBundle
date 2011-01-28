@@ -31,6 +31,12 @@ class BaseBlock
     protected $updated_at;
 
     protected $type;
+
+    public function __construct()
+    {
+        $this->settings = array();
+    }
+
     /**
      * Set type
      *

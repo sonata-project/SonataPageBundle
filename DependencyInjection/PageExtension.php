@@ -24,7 +24,8 @@ use Symfony\Component\DependencyInjection\Extension\Extension;
  *
  * @author     Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class PageExtension extends Extension {
+class PageExtension extends Extension
+{
 
     /**
      * Loads the url shortener configuration.
@@ -35,20 +36,16 @@ class PageExtension extends Extension {
     public function configLoad($configs, ContainerBuilder $container)
     {
 
-        foreach($configs as $config) {
+        foreach ($configs as $config) {
             // define the page manager
-            $definition = new Definition($config['class']);
-            $definition->addMethodCall('setContainer', array(new Reference('service_container')));
+            $definition = new Definition($config['class'], array(new Reference('service_container'), new Reference('doctrine.orm.default_entity_manager')));
             $definition->addMethodCall('setOptions', array(isset($config['options']) ? $config['options'] : array()));
             $container->setDefinition('page.manager', $definition);
 
-
             // define the block service
-            foreach($config['blocks'] as $block) {
+            foreach ($config['blocks'] as $block) {
 
-                $definition = new Definition($block['class']);
-                $definition->addMethodCall('setName', array($block['id']));
-                $definition->addMethodCall('setContainer', array(new Reference('service_container')));
+                $definition = new Definition($block['class'], array($block['id'], new Reference('service_container')));
 
                 $container->setDefinition(sprintf('page.block.%s', $block['id']), $definition);
             }

@@ -11,6 +11,7 @@
 
 namespace Sonata\PageBundle\Block;
 
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
@@ -23,10 +24,10 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 class ContainerBlockService extends BaseBlockService
 {
 
-    public function execute($block, $page)
+    public function execute($block, $page, Response $response = null)
     {
 
-        return $this->container->get('controller_resolver')->render('SonataPageBundle:Page:renderContainer', array(
+        return $this->container->get('templating')->renderResponse('SonataPageBundle:Page:renderContainer', array(
             'attributes' => array(
                 'name'              => $block->getSetting('name'),
                 'page'              => $page,

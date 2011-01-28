@@ -1,0 +1,14 @@
+<?php
+
+$vendor_dir = __DIR__.'/../../../../src/vendor';
+require_once $vendor_dir.'/symfony/src/Symfony/Component/ClassLoader/UniversalClassLoader.php';
+
+use Symfony\Component\ClassLoader\UniversalClassLoader;
+
+$loader = new UniversalClassLoader();
+$loader->registerNamespaces(array(
+    'Symfony'                       => $vendor_dir.'/symfony/src',
+    'Sonata\PageBundle'             => __DIR__.'/../../..',
+));
+
+$loader->register();

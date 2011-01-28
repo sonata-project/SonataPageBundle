@@ -11,6 +11,7 @@
 
 namespace Sonata\PageBundle\Block;
 
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
@@ -23,25 +24,25 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 class ActionBlockService extends BaseBlockService
 {
 
-    public function render($template, $params = array())
+    public function render($view, array $parameters = array(), Response $response = null)
     {
 
         return $this
             ->container->get('templating')
-            ->render($template, $params);
+            ->render($view, $parameters);
     }
 
-    public function execute($block, $page)
+    public function execute($block, $page, Response $response = null)
     {
-        
+
         return $this->render($this->getViewTemplate(), array(
-            'content' => $this->container->get('controller_resolver')->render(
+            'content' => $this->container->get('http_kernel')->render(
                 $block->getSetting('action'),
-                array_merge($block->getSetting('parameters'), array('_block' => $block, '_page' => $page))
+                array_merge($block->getSetting('parameters', array()), array('_block' => $block, '_page' => $page))
             ),
             'block' => $block,
             'page'  => $page,
-        ));
+        ), $response);
     }
 
     public function validateBlock($block)
@@ -55,7 +56,7 @@ class ActionBlockService extends BaseBlockService
 
         $parameters = new \Symfony\Component\Form\FieldGroup('parameters');
         
-        foreach($block->getSetting('parameters') as $name => $value) {
+        foreach($block->getSetting('parameters', array()) as $name => $value) {
             $parameters->add(new \Symfony\Component\Form\TextField($name));
         }
 

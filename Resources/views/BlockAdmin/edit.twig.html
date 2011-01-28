@@ -11,7 +11,7 @@ file that was distributed with this source code.
 
 <h1>{% trans 'title_block_edit' from 'PageBundle' %}</h1>
 
-<form action="{{ url('page_block_update', {'id' : block.id}) }}" method="POST">
+<form action="{{ url('sonata_page_block_update', {'id' : block.id}) }}" method="POST">
     {{ form_hidden(form) }}
 
     <p>
@@ -21,9 +21,9 @@ file that was distributed with this source code.
     </p>
 
     <p>
-        {{ form.enabled|render_label }}
-        {{ form.enabled|render }}
-        {{ form.enabled|render_errors }}
+        {{ form_label(form.enabled) }}
+        {{ form_field(form.enabled) }}
+        {{ form_errors(form.enabled) }}
     </p>
 
     <div>

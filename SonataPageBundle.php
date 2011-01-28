@@ -21,7 +21,7 @@ class SonataPageBundle extends Bundle
         $this->container->get('event_dispatcher')->connect('core.response', array(
             $this->container->get('page.manager'),
             'filterReponse'
-        ), -1); // tweak the priority to symfony profiler and error can work on layout
+        ), -1); 
     }
 
         /**

@@ -11,6 +11,7 @@
 
 namespace Sonata\PageBundle\Block;
 
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
@@ -23,6 +24,12 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 abstract class BaseBlockService extends ContainerAware
 {
     protected $name;
+
+    public function __construct($name, $container)
+    {
+        $this->name = $name;
+        $this->container = $container;
+    }
 
     abstract public function defineBlockGroupField($field_group, $block);
 
@@ -59,15 +66,15 @@ abstract class BaseBlockService extends ContainerAware
         return sprintf('SonataPageBundle:BlockAdmin:block_%s_edit.twig.html', str_replace('.', '_', $this->getName()));
     }
 
-    public function render($template, $params = array())
+    public function render($view, array $parameters = array(), Response $response = null)
     {
 
         return $this
             ->container->get('templating')
-            ->render($template, $params);
+            ->render($view, $parameters, $response);
     }
 
-    public function execute($block, $page)
+    public function execute($block, $page, Response $response = null)
     {
         try {
             $response = $this->render($block->getTemplate(), array(
@@ -77,6 +84,8 @@ abstract class BaseBlockService extends ContainerAware
         } catch(\Exception $e) {
             return $this->createResponse('An error occur while processing the block : '.$e->getMessage());
         }
+
+        return $response;
     }
 
     public function setName($name)

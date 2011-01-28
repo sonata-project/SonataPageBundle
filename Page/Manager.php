@@ -26,13 +26,26 @@ use Application\Sonata\PageBundle\Entity\Page;
  */
 class Manager extends ContainerAware
 {
-    protected $route_pages = array();
+    protected $routePages = array();
 
-    protected $current_page = null;
+    protected $currentPage = null;
+
+    protected $pageLoader = null;
 
     protected $blocks = array();
 
     protected $options = array();
+
+    public function __construct($container, $entity_manager)
+    {
+        $this->container = $container;
+        $this->repository = $entity_manager;
+
+        // todo : solve this
+        if($this->repository instanceof \Doctrine\ORM\EntityManager) {
+            $this->repository = $entity_manager->getRepository('Application\Sonata\PageBundle\Entity\Page');
+        }
+    }
 
     /**
      * filter the `core.response` event to decorated the action
@@ -46,7 +59,6 @@ class Manager extends ContainerAware
         $kernel       = $event->getSubject();
         $request_type = $event->get('request_type');
 
-        
         if($this->isDecorable($request_type, $response)) {
 
             $page = $this->getCurrentPage();
@@ -69,12 +81,19 @@ class Manager extends ContainerAware
             }
         }
 
-        $event->setReturnValue($response);
+        $event->setProcessed(true);
         
         return $response;
     }
 
-    public function isDecorable($request_type, $response)
+    /**
+     * return true is the page can be decorate with an outter template
+     *
+     * @param  $request_type
+     * @param Response $response
+     * @return bool
+     */
+    public function isDecorable($request_type, \Symfony\Component\HttpFoundation\Response $response)
     {
 
         if($request_type != HttpKernelInterface::MASTER_REQUEST) {
@@ -92,7 +111,7 @@ class Manager extends ContainerAware
             return false;
         }
 
-        if($this->container->get('kernel')->getRequest()->headers->get('x-requested-with') == 'XMLHttpRequest') {
+        if($this->container->get('request')->headers->get('x-requested-with') == 'XMLHttpRequest') {
 
             return false;
         }
@@ -107,10 +126,10 @@ class Manager extends ContainerAware
 
         foreach($this->getOption('ignore_route_patterns', array()) as $route_pattern) {
             if(preg_match($route_pattern, $route_name)) {
-
                 return false;
             }
         }
+
 
         $uri = $this->container->get('request')->getRequestUri();
         foreach($this->getOption('ignore_uri_patterns', array()) as $uri_pattern) {
@@ -132,6 +151,9 @@ class Manager extends ContainerAware
      */
     public function renderBlock($block, $page)
     {
+
+        $this->container->get('logger')->crit(sprintf('[cms::renderBlock] block.id=%d, block.type=%s ', $block->getId(), $block->getType()));
+        
         try {
             $service = $this->getBlockService($block);
 
@@ -175,23 +197,18 @@ class Manager extends ContainerAware
 
         if(!$container) {
           
-            // no container, create it!
-            $container = new \Application\Sonata\PageBundle\Entity\Block;
-            $container->setEnabled(true);
-            $container->setCreatedAt(new \DateTime);
-            $container->setUpdatedAt(new \DateTime);
-            $container->setType('core.container');
-            $container->setPage($page);
-            $container->setSettings(array('name' => $name));
-            $container->setPosition(1);
+            $container = $this->getRepository()->createNewContainer(array(
+                'enabled' => true,
+                'page' => $page,
+                'name' => $name,
+                'position' => 1
+            ));
 
             if($parent_container) {
                 $container->setParent($parent_container);
             }
 
-            $em = $this->container->get('doctrine.orm.default_entity_manager');
-            $em->persist($container);
-            $em->flush();
+            $this->getRepository()->save($container);
         }
 
         return $container;
@@ -229,46 +246,36 @@ class Manager extends ContainerAware
      * @param  $route_name
      * @return Application\Sonata\PageBundle\Entity\Page|bool
      */
-    public function getPageByRouteName($route_name)
+    public function getPageByRouteName($routeName)
     {
 
-        if(!isset($this->route_pages[$route_name])) {
-            $em = $this->container->get('doctrine.orm.default_entity_manager');
-            $pages = $em->createQueryBuilder()
-                ->select('p, t')
-                ->from('Application\Sonata\PageBundle\Entity\Page', 'p')
-                ->where('p.route_name = :route_name')
-                ->leftJoin('p.template', 't')
-                ->setParameters(array(
-                    'route_name' => $route_name
-                ))
-                ->getQuery()
-                ->execute();
+        $repository = $this->getRepository();
+        if(!isset($this->routePages[$routeName])) {
 
-            $page = count($pages) > 0 ? $pages[0] : false;
+            $page = $repository->getPageByName($routeName);
 
             if(!$page) {
-                // create a new page for this routing
-                $page = new Page;
-                $page->setTemplate($this->getDefaultTemplate());
-                $page->setEnabled(true);
-                $page->setRouteName($route_name);
-                $page->setName($route_name);
-                $page->setLoginRequired(false);
-                $page->setCreatedAt(new \DateTime);
-                $page->setUpdatedAt(new \DateTime);
 
-                $em->persist($page);
-                $em->flush();
+                if(!$this->getDefaultTemplate()) {
+                    throw new \RuntimeException('No default template defined');
+                }
+
+                $page = $repository->save($repository->createNewPage(array(
+                    'template' => $this->getDefaultTemplate(),
+                    'enabled'  => true,
+                    'routeName' => $routeName,
+                    'name'      => $routeName,
+                    'loginRequired' => false,
+                )));
+
+                $this->getRepository()->save($page);
             }
 
             $this->loadBlocks($page);
-
-
-            $this->route_pages[$route_name] = $page;
+            $this->routePages[$routeName] = $page;
         }
 
-        return $this->route_pages[$route_name];
+        return $this->routePages[$routeName];
     }
 
     /**
@@ -278,18 +285,7 @@ class Manager extends ContainerAware
      */
     public function getDefaultTemplate()
     {
-        $templates = $this->container->get('doctrine.orm.default_entity_manager')
-            ->createQueryBuilder()
-            ->select('t')
-            ->from('Application\Sonata\PageBundle\Entity\Template', 't')
-            ->where('t.id = :id')
-            ->setParameters(array(
-                 'id' => 1
-            ))
-            ->getQuery()
-            ->execute();
-
-        return count($templates) > 0 ? $templates[0] : false;
+        return $this->getRepository()->getDefaultTemplate();
     }
 
     /**
@@ -301,19 +297,7 @@ class Manager extends ContainerAware
     public function getPageBySlug($slug)
     {
 
-        $pages = $this->container->get('doctrine.orm.default_entity_manager')
-            ->createQueryBuilder()
-            ->select('p')
-            ->from('Application\Sonata\PageBundle\Entity\Page', 'p')
-            ->leftJoin('p.template', 't')
-            ->where('p.slug = :slug')
-            ->setParameters(array(
-                'slug' => $slug
-            ))
-            ->getQuery()
-            ->execute();
-
-        $page = count($pages) > 0 ? $pages[0] : false;
+        $page = $this->getRepository()->getPageBySlug($slug);
 
         if($page) {
             $this->loadBlocks($page);
@@ -334,49 +318,36 @@ class Manager extends ContainerAware
     public function getCurrentPage()
     {
 
-        if($this->current_page === null) {
+        if($this->currentPage === null) {
 
             $route_name = $this->container->get('request')->get('_route');
 
             if($route_name == 'page_slug') { // true cms page
                 $slug = $this->container->get('request')->get('slug');
                 
-                $this->current_page = $this->getPageBySlug($slug);
+                $this->currentPage = $this->getPageBySlug($slug);
 
-                if(!$this->current_page) {
+                if(!$this->currentPage) {
                     $this->container->get('logger')->crit(sprintf('[page:getCurrentPage] no page available for slug : %s', $slug));
                 }
 
             } else { // hybrid page, ie an action is used
-                $this->current_page = $this->getPageByRouteName($route_name);
+                $this->currentPage = $this->getPageByRouteName($route_name);
 
-                if(!$this->current_page) {
+                if(!$this->currentPage) {
                     $this->container->get('logger')->crit(sprintf('[page:getCurrentPage] no page available for route : %s', $route_name));
                 }
             }
         }
 
-        return $this->current_page;
+        return $this->currentPage;
     }
 
     public function getBlock($id)
     {
         if(!isset($this->blocks[$id])) {
 
-            $blocks = $this->container->get('doctrine.orm.default_entity_manager')
-                ->createQueryBuilder()
-                ->select('b')
-                ->from('Application\Sonata\PageBundle\Entity\Block', 'b')
-                ->where('b.id = :id')
-                ->setParameters(array(
-                  'id' => $id
-                ))
-                ->getQuery()
-                ->execute();
-
-            $block = count($blocks) > 0 ? $blocks[0] : false;
-
-            $this->blocks[$id] = $block;
+            $this->blocks[$id] = $this->getRepository()->getBlock($id);
         }
 
         return $this->blocks[$id];
@@ -391,40 +362,16 @@ class Manager extends ContainerAware
     public function loadBlocks($page)
     {
 
-        $blocks = $this->container->get('doctrine.orm.default_entity_manager')
-            ->createQuery('SELECT b FROM Application\Sonata\PageBundle\Entity\Block b INDEX BY b.id WHERE b.page = :page ORDER BY b.position ASC')
-            ->setParameters(array(
-                 'page' => $page->getId()
-            ))
-            ->execute();
+        $blocks = $this->getRepository()->loadPageBlocks($page);
 
-        $page->disableBlockLazyLoading();
-
+        // save a local cache
         foreach($blocks as $block) {
-
-
-            $parent = $block->getParent();
-
-            $block->disableChildrenLazyLoading();
-            if(!$parent) {
-                $page->addBlocks($block);
-
-                continue;
-            }
-
-//            var_dump(sprintf('parent(%d)->addChild(%d)', $block->getParent()->getId(), $block->getId()));
-
-            $blocks[$block->getParent()->getId()]->disableChildrenLazyLoading();
-            $blocks[$block->getParent()->getId()]->addChildren($block);
-
             $this->blocks[$block->getId()] = $block;
         }
     }
 
-
     public function defineBlockForm($form)
     {
-        $form->setValidationGroups(array($form->getData()->getType()));
 
         $form->add(new \Symfony\Component\Form\CheckboxField('enabled'));
 
@@ -433,6 +380,7 @@ class Manager extends ContainerAware
 
         $this->getBlockService($form->getData())->defineBlockGroupField($group_field, $form->getData());
     }
+
     /**
      * save the block order from the page disposition
      *
@@ -491,71 +439,8 @@ class Manager extends ContainerAware
      */
     public function savePosition($data)
     {
-        $em = $this->container->get('doctrine.orm.default_entity_manager');
-        
-        $em->getConnection()->beginTransaction();
-        
-        try {
-            foreach($data as $code => $block) {
 
-                $parent_id = (int) substr($code, 10);
-
-                $block['child'] = (isset($block['child']) && is_array($block['child'])) ? $block['child'] : array();
-
-                $this->saveNestedPosition($block['child'], $parent_id, $em);
-            }
-
-        } catch (\Exception $e) {
-            $em->getConnection()->rollback();
-
-            return false;
-        }
-
-         $em->getConnection()->commit();
-
-         return true;
-    }
-
-    /**
-     * Save block by re attaching a page to the correct page and correct block's parent.
-     *
-     * @param  $blocks
-     * @param  $parent_id
-     * @param  $entity_manager
-     * @return
-     */
-    protected function saveNestedPosition($blocks, $parent_id, $entity_manager)
-    {
-
-        if(!is_array($blocks)) {
-            return;
-        }
-
-        $table_name = $entity_manager->getClassMetadata('Application\Sonata\PageBundle\Entity\Block')->table['name'];
-
-        $position = 1;
-        foreach($blocks as $code => $block) {
-            $block_id = (int) substr($code, 10);
-
-            $sql = sprintf('UPDATE %s child, (SELECT p.page_id as page_id FROM %s p WHERE id = %d ) as parent SET child.position = %d, child.parent_id = %d, child.page_id = parent.page_id WHERE child.id = %d',
-                $table_name,
-                $table_name,
-                $parent_id,
-                $position,
-                $parent_id,
-                $block_id
-            );
-
-            $entity_manager
-                ->getConnection()
-                ->exec($sql);
-
-            $block['child'] = (isset($block['child']) && is_array($block['child'])) ? $block['child'] : array();
-
-            $this->saveNestedPosition($block['child'], $block_id, $entity_manager);
-
-            $position++;
-        }
+        return $this->getRepository()->saveBlocksPosition($data);
     }
 
     public function setBlocks($blocks)
@@ -578,6 +463,11 @@ class Manager extends ContainerAware
         return $this->options;
     }
 
+    public function setOption($name, $value)
+    {
+        $this->options[$name] = $value;
+    }
+    
     public function getOption($name, $default = null)
     {
         return isset($this->options[$name]) ? $this->options[$name] : $default;
@@ -585,11 +475,21 @@ class Manager extends ContainerAware
     
     public function setRoutePages($route_pages)
     {
-        $this->route_pages = $route_pages;
+        $this->routePages = $route_pages;
     }
 
     public function getRoutePages()
     {
-        return $this->route_pages;
+        return $this->routePages;
+    }
+
+    public function setRepository($repository)
+    {
+        $this->repository = $repository;
+    }
+
+    public function getRepository()
+    {
+        return $this->repository;
     }
 }

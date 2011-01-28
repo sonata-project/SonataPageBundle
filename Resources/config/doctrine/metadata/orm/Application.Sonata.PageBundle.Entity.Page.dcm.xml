@@ -11,7 +11,7 @@
     <entity
         name="Application\Sonata\PageBundle\Entity\Page"
         table="page__page"
-        repository-class="Doctrine\ORM\EntityRepository">
+        repository-class="Application\Sonata\PageBundle\Entiyt\PageRepository">
 
         <id name="id" type="integer" column="id">
             <generator strategy="AUTO"/>
