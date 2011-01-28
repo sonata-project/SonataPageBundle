@@ -38,7 +38,6 @@ class TextBlockServiceTest extends BaseTestBlockService
             'content' => 'my text'
         ));
 
-
         $field = new FieldGroup('form');
         $service->defineBlockGroupField($field, $block);
 

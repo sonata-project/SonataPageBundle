@@ -20,10 +20,18 @@ class FakeTemplating
 
     public $response;
 
+    public $template;
+
     public function render($view, $params, $response = null)
     {
         $this->view = $view;
         $this->params = $params;
         $this->response = $response;
+    }
+
+    public function renderResponse($template, $params)
+    {
+        $this->template = $template;
+        $this->params = $params;
     }
 }

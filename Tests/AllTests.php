@@ -18,6 +18,8 @@ class SonataPageBundle_AllTests
 
         $suite->addTestFile('Page/ManagerTest.php');
         $suite->addTestFile('Block/TextBlockServiceTest.php');
+        $suite->addTestFile('Block/ContainerBlockServiceTest.php');
+        $suite->addTestFile('Block/ActionBlockServiceTest.php');
 
         return $suite;
     }
