@@ -50,9 +50,9 @@ class ActionBlockService extends BaseBlockService
         // TODO: Implement validateBlock() method.
     }
 
-    public function defineBlockGroupField($field_group, $block)
+    public function defineBlockGroupField($fieldGroup, $block)
     {
-        $field_group->add(new \Symfony\Component\Form\TextField('action'));
+        $fieldGroup->add(new \Symfony\Component\Form\TextField('action'));
 
         $parameters = new \Symfony\Component\Form\FieldGroup('parameters');
         
@@ -60,7 +60,7 @@ class ActionBlockService extends BaseBlockService
             $parameters->add(new \Symfony\Component\Form\TextField($name));
         }
 
-        $field_group->add($parameters);
+        $fieldGroup->add($parameters);
     }
 
 }

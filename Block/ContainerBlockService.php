@@ -42,7 +42,7 @@ class ContainerBlockService extends BaseBlockService
         // TODO: Implement validateBlock() method.
     }
 
-    public function defineBlockGroupField($field_group, $block)
+    public function defineBlockGroupField($fieldGroup, $block)
     {
         
     }

@@ -31,7 +31,7 @@ abstract class BaseBlockService extends ContainerAware
         $this->container = $container;
     }
 
-    abstract public function defineBlockGroupField($field_group, $block);
+    abstract public function defineBlockGroupField($fieldGroup, $block);
 
     abstract public function validateBlock($block);
 
