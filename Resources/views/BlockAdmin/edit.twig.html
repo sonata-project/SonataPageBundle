@@ -9,29 +9,31 @@ file that was distributed with this source code.
 
 #}
 
-<h1>{% trans 'title_block_edit' from 'PageBundle' %}</h1>
+{% extends base_template %}
 
-<form action="{{ url('sonata_page_block_update', {'id' : block.id}) }}" method="POST">
-    {{ form_hidden(form) }}
+{% block form %}
+    <form action="{{ admin.generateUrl('update', {'id' : object.id}) }}" method="POST">
+        {{ form_hidden(form) }}
 
-    <p>
-         {% block information %}
-            {{ block.type }}
-         {% endblock %}
-    </p>
+        <p>
+             {% block information %}
+                {{ object.type }}
+             {% endblock %}
+        </p>
 
-    <p>
-        {{ form_label(form.enabled) }}
-        {{ form_field(form.enabled) }}
-        {{ form_errors(form.enabled) }}
-    </p>
+        <p>
+            {{ form_label(form.enabled) }}
+            {{ form_field(form.enabled) }}
+            {{ form_errors(form.enabled) }}
+        </p>
 
-    <div>
-        {% block block %}
-            Custom block settings ...
-        {% endblock %}
-    </div>
+        <div>
+            {% block block %}
+                Custom block settings ...
+            {% endblock %}
+        </div>
 
-    <input type="submit" value="{% trans 'button_save' from 'PageBundle' %}"/>
+        <input type="submit" value="{% trans 'button_save' from 'PageBundle' %}"/>
 
-</form>
+    </form>
+{% endblock %}

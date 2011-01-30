@@ -25,9 +25,23 @@ class BlockAdmin extends Admin
         'type',
     );
 
-    protected $baseRoute = 'sonata_page_block_admin';
+//    protected $baseRoute = 'sonata_page_block_admin';
 
     // don't know yet how to get this value
-    protected $baseControllerName = 'SonataPageBundle:BlockCRUD';
+    protected $baseControllerName = 'SonataPageBundle:BlockAdmin';
+
+    public function configureUrls()
+    {
+
+        $this->urls['savePosition'] = array(
+            'name'      => $this->getBaseRouteName().'_save_position',
+            'pattern'   => $this->getBaseRoutePattern().'/save-position',
+        );
+
+        $this->urls['view'] = array(
+            'name'      => $this->getBaseRouteName().'_view',
+            'pattern'   => $this->getBaseRoutePattern().'/view/{id}',
+        );
+    }
 
 }

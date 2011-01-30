@@ -11,20 +11,12 @@
 
 namespace Sonata\PageBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sonata\BaseApplicationBundle\Controller\CRUDController as Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class BlockAdminController extends Controller
 {
 
-    public function returnJson($data) {
-        $response = new \Symfony\Component\HttpFoundation\Response;
-        $response->setContent(json_encode($data));
-        $response->headers->set('Content-Type', 'application/json');
-        $response->headers->set('Content-Type', 'text/plain');
-
-        return $response;
-    }
     public function savePositionAction()
     {
         // todo : add security check
@@ -32,7 +24,7 @@ class BlockAdminController extends Controller
 
         $result = $this->get('page.manager')->savePosition($params);
 
-        return $this->returnJson(array('result' => $result ? 'ok' : 'ko'));
+        return $this->renderJson(array('result' => $result ? 'ok' : 'ko'));
     }
 
     public function editAction($id, $form = null)
@@ -57,10 +49,12 @@ class BlockAdminController extends Controller
         $service = $manager->getBlockService($block);
 
         return $this->render($service->getEditTemplate(), array(
-            'block'   => $block,
-            'form'    => $form ?: $this->getForm($block),
-            'service' => $service,
-            'manager' => $manager
+            'object'    => $block,
+            'admin'     => $this->admin,
+            'form'      => $form ?: $this->getForm($block),
+            'service'   => $service,
+            'manager'   => $manager,
+            'base_template'  => $this->getBaseTemplate(),
         ));
     }
 
@@ -97,7 +91,7 @@ class BlockAdminController extends Controller
             $em->persist($block);
             $em->flush();
 
-             return $this->redirect($this->generateUrl('sonata_page_block_edit', array('id' => $block->getId())));
+             return $this->redirect($this->admin->generateUrl('edit', array('id' => $block->getId())));
         }
 
         return $this->forward('SonataPageBundle:BlockAdmin:edit', array(
@@ -106,13 +100,4 @@ class BlockAdminController extends Controller
         ));
     }
 
-    public function viewAction($id)
-    {
-
-    }
-
-    public function createAction()
-    {
-
-    }
 }

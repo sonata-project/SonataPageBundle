@@ -5,23 +5,5 @@
     xsi:schemaLocation="http://www.symfony-project.org/schema/routing http://www.symfony-project.org/schema/routing/routing-1.0.xsd">
 
 
-    <route id="sonata_page_block_save_position" pattern="/save/position">
-        <default key="_controller">SonataPageBundle:BlockAdmin:savePosition</default>
-    </route>
 
-    <route id="sonata_page_block_update" pattern="/update">
-        <default key="_controller">SonataPageBundle:BlockAdmin:update</default>
-    </route>
-
-    <route id="sonata_page_block_view" pattern="/view/{id}">
-        <default key="_controller">SonataPageBundle:BlockAdmin:view</default>
-    </route>
-
-    <route id="sonata_page_block_edit" pattern="/edit/{id}">
-        <default key="_controller">SonataPageBundle:BlockAdmin:edit</default>
-    </route>
-
-    <route id="sonata_page_block_create" pattern="/create">
-        <default key="_controller">SonataPageBundle:BlockAdmin:create</default>
-    </route>
 </routes>
