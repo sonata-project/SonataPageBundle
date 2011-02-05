@@ -9,7 +9,7 @@
         <field name="enabled"       type="boolean"    column="enabled" nullable="true" default="false"/>
         <field name="position"      type="integer"    column="position" nullable="true"/>
 
-        <field name="created_at"    type="datetime"   column="created_at" />
-        <field name="updated_at"    type="datetime"   column="updated_at" />
+        <field name="createdAt"    type="datetime"   column="created_at" />
+        <field name="updatedAt"    type="datetime"   column="updated_at" />
     </mapped-superclass>
 </doctrine-mapping>

@@ -3,28 +3,28 @@
     <mapped-superclass name="Sonata\PageBundle\Entity\BasePage">
 
 
-        <field name="route_name"        type="string"     column="route_name" length="32"/>
+        <field name="routeName"         type="string"     column="route_name" length="32"/>
         <field name="position"          type="integer"      column="position"  default="1"/>
 
         <field name="enabled"           type="boolean"      column="enabled"        default="false" />
         <field name="decorate"          type="boolean"      column="decorate"        default="false" />
-        <field name="login_required"    type="boolean"      column="login_required" nullable="true"/>
+        <field name="loginRequired"     type="boolean"      column="login_required" nullable="true"/>
 
         <field name="name"              type="string"       column="name"   length="255"/>
         <field name="slug"              type="text"         column="slug"           nullable="true"/>
-        <field name="custom_url"        type="text"         column="custom_url"     nullable="true"/>
+        <field name="customUrl"         type="text"         column="custom_url"     nullable="true"/>
 
-        <field name="meta_keyword"      type="string"       column="meta_keyword"       nullable="true" length="255"/>
-        <field name="meta_description"  type="string"       column="meta_description"   nullable="true" length="255"/>
+        <field name="metaKeyword"       type="string"       column="meta_keyword"       nullable="true" length="255"/>
+        <field name="metaDescription"   type="string"       column="meta_description"   nullable="true" length="255"/>
 
         <field name="javascript"        type="text"         column="javascript"         nullable="true"/>
         <field name="stylesheet"        type="text"         column="stylesheet"         nullable="true"/>
 
-        <field name="publication_date_start"   type="datetime"   column="publication_date_start"    nullable="true"/>
-        <field name="publication_date_end"     type="datetime"   column="publication_date_end"      nullable="true"/>
+        <field name="publicationDateStart"   type="datetime"   column="publication_date_start"    nullable="true"/>
+        <field name="publicationDateEnd"     type="datetime"   column="publication_date_end"      nullable="true"/>
 
-        <field name="created_at"    type="datetime"   column="created_at" />
-        <field name="updated_at"    type="datetime"   column="updated_at" />
+        <field name="createdAt"    type="datetime"   column="created_at" />
+        <field name="updatedAt"    type="datetime"   column="updated_at" />
 
 
 

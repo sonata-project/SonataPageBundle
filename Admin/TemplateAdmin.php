@@ -17,12 +17,24 @@ class TemplateAdmin extends Admin
 {
 
     protected $class = 'Application\Sonata\PageBundle\Entity\Template';
+    protected $baseControllerName = 'SonataPageBundle:TemplateAdmin';
 
-    protected $listFields = array(
+    protected $list = array(
         'name' => array('identifier' => true),
         'path',
         'enabled',
     );
 
-    protected $baseControllerName = 'SonataPageBundle:TemplateAdmin';
+    protected $form = array(
+        'name',
+        'path',
+        'enabled',
+        'content'
+    );
+
+    protected $filter = array(
+        'name',
+        'enabled'
+    );
+
 }

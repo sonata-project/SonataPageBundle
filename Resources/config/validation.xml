@@ -15,7 +15,7 @@
            </constraint>
         </property>
 
-        <property name="publication_date_start">
+        <property name="publicationDateStart">
            <constraint name="DateTime" >
                <option name="groups" >
                     <value>action_route</value>
@@ -24,7 +24,7 @@
            </constraint>
         </property>
 
-        <property name="publication_date_end">
+        <property name="publicationDateEnd">
            <constraint name="DateTime" >
                <option name="groups" >
                     <value>action_route</value>

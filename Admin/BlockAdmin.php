@@ -17,22 +17,30 @@ class BlockAdmin extends Admin
 {
 
     protected $class = 'Application\Sonata\PageBundle\Entity\Block';
+    protected $baseControllerName = 'SonataPageBundle:BlockAdmin';
 
-    protected $listFields = array(
+    protected $form = array(
+        'page' => array('edit' => 'list'),
+        'enabled',
+        'type'
+    );
+
+    protected $filter = array(
+//        'page',
+        'enabled',
+        'type',
+    );
+
+    protected $list = array(
         'id' => array('identifier' => true),
         'page',
         'enabled',
         'type',
     );
 
-//    protected $baseRoute = 'sonata_page_block_admin';
-
-    // don't know yet how to get this value
-    protected $baseControllerName = 'SonataPageBundle:BlockAdmin';
-
     public function configureUrls()
     {
-
+        
         $this->urls['savePosition'] = array(
             'name'      => $this->getBaseRouteName().'_save_position',
             'pattern'   => $this->getBaseRoutePattern().'/save-position',

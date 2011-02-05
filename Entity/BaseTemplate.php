@@ -22,9 +22,9 @@ class BaseTemplate
 
     protected $content;
 
-    protected $created_at;
+    protected $createdAt;
 
-    protected $updated_at;
+    protected $updatedAt;
     /**
      * Set name
      *
@@ -103,5 +103,10 @@ class BaseTemplate
     public function getContent()
     {
         return $this->content;
+    }
+
+    public function __toString()
+    {
+        return $this->getName();
     }
 }

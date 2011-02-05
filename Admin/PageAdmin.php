@@ -17,44 +17,50 @@ class PageAdmin extends Admin
 {
 
     protected $class = 'Application\Sonata\PageBundle\Entity\Page';
+    protected $baseControllerName = 'SonataPageBundle:PageAdmin';
 
-    protected $listFields = array(
+    protected $list = array(
         'name' => array('identifier' => true),
-        'route_name',
+        'routeName',
         'decorate',
         'enabled',
     );
 
-    protected $formFields = array(
-        'route_name',
+    protected $form = array(
+        'routeName',
         'enabled',
         'decorate',
-        'login_required',
+        'loginRequired',
         'name',
         'slug' => array('type' => 'string'),
-        'custom_url' => array('type' => 'string'),
-        'meta_keyword' => array('type' => 'text'),
-        'meta_description' => array('type' => 'text'),
+        'customUrl' => array('type' => 'string'),
+        'metaKeyword' => array('type' => 'text'),
+        'metaDescription' => array('type' => 'text'),
         'template',
-        'publication_date_start',
-        'publication_date_end',
+        'publicationDateStart',
+        'publicationDateEnd',
         'javascript',
         'stylesheet',
     );
 
-    protected $formFroups = array(
+    protected $filter = array(
+        'name',
+        'loginRequired'
+    );
+
+    protected $formGroups = array(
         'General' => array(
-            'fields' => array('name', 'enabled', 'publication_date_start', 'publication_date_end')
+            'fields' => array('name', 'enabled', 'publicationDateStart', 'publicationDateEnd')
         ),
         'SEO' => array(
-            'fields' => array('slug', 'custom_url', 'meta_keyword', 'meta_description'),
+            'fields' => array('slug', 'customUrl', 'metaKeyword', 'metaDescription'),
             'collapsed' => true
         ),
         'Advanced' => array(
-            'fields' => array('login_required', 'template', 'decorate', 'route_name', 'javascript', 'stylesheet'),
+            'fields' => array('loginRequired', 'template', 'decorate', 'routeName', 'javascript', 'stylesheet'),
             'collapsed' => true
         )
     );
 
-    protected $baseControllerName = 'SonataPageBundle:PageAdmin';
+
 }

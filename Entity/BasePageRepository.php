@@ -27,10 +27,10 @@ class BasePageRepository extends \Doctrine\ORM\EntityRepository
         $pages = $this->_em->createQueryBuilder()
             ->select('p, t')
             ->from('Application\Sonata\PageBundle\Entity\Page', 'p')
-            ->where('p.route_name = :route_name')
+            ->where('p.routeName = :routeName')
             ->leftJoin('p.template', 't')
             ->setParameters(array(
-                'route_name' => $routeName
+                'routeName' => $routeName
             ))
             ->getQuery()
             ->execute();

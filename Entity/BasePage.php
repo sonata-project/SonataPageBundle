@@ -15,19 +15,19 @@ class BasePage
 {
     const PAGE_ROUTE_CMS_NAME = 'page_slug';
 
-    protected $created_at;
+    protected $createdAt;
 
-    protected $updated_at;
+    protected $updatedAt;
 
-    protected $route_name;
+    protected $routeName;
 
     protected $name;
 
     protected $slug;
 
-    protected $meta_keyword;
+    protected $metaKeyword;
 
-    protected $meta_description;
+    protected $metaDescription;
 
     protected $javascript;
 
@@ -35,11 +35,11 @@ class BasePage
 
     protected $enabled;
 
-    protected $publication_date_start;
+    protected $publicationDateStart;
 
-    protected $publication_date_end;
+    protected $publicationDateEnd;
 
-    protected $login_required;
+    protected $loginRequired;
     
     protected $blocks;
 
@@ -49,30 +49,30 @@ class BasePage
     
     protected $template;
 
-    protected $custom_url;
+    protected $customUrl;
 
     protected $position = 1;
   
     protected $decorate = true;
     
     /**
-     * Set route_name
+     * Set routeName
      *
      * @param string $routeName
      */
     public function setRouteName($routeName)
     {
-        $this->route_name = $routeName;
+        $this->routeName = $routeName;
     }
 
     /**
-     * Get route_name
+     * Get routeName
      *
      * @return string $routeName
      */
     public function getRouteName()
     {
-        return $this->route_name;
+        return $this->routeName;
     }
 
     /**
@@ -96,23 +96,23 @@ class BasePage
     }
 
     /**
-     * Set login_required
+     * Set loginRequired
      *
      * @param boolean $loginRequired
      */
     public function setLoginRequired($loginRequired)
     {
-        $this->login_required = $loginRequired;
+        $this->loginRequired = $loginRequired;
     }
 
     /**
-     * Get login_required
+     * Get loginRequired
      *
      * @return boolean $loginRequired
      */
     public function getLoginRequired()
     {
-        return $this->login_required;
+        return $this->loginRequired;
     }
 
     /**
@@ -156,63 +156,63 @@ class BasePage
     }
 
     /**
-     * Set custom_url
+     * Set customUrl
      *
      * @param integer $customUrl
      */
     public function setCustomUrl($customUrl)
     {
-        $this->custom_url = $customUrl;
+        $this->customUrl = $customUrl;
     }
 
     /**
-     * Get custom_url
+     * Get customUrl
      *
      * @return integer $customUrl
      */
     public function getCustomUrl()
     {
-        return $this->custom_url;
+        return $this->customUrl;
     }
 
     /**
-     * Set meta_keyword
+     * Set metaKeyword
      *
      * @param string $metaKeyword
      */
     public function setMetaKeyword($metaKeyword)
     {
-        $this->meta_keyword = $metaKeyword;
+        $this->metaKeyword = $metaKeyword;
     }
 
     /**
-     * Get meta_keyword
+     * Get metaKeyword
      *
      * @return string $metaKeyword
      */
     public function getMetaKeyword()
     {
-        return $this->meta_keyword;
+        return $this->metaKeyword;
     }
 
     /**
-     * Set meta_description
+     * Set metaDescription
      *
      * @param string $metaDescription
      */
     public function setMetaDescription($metaDescription)
     {
-        $this->meta_description = $metaDescription;
+        $this->metaDescription = $metaDescription;
     }
 
     /**
-     * Get meta_description
+     * Get metaDescription
      *
      * @return string $metaDescription
      */
     public function getMetaDescription()
     {
-        return $this->meta_description;
+        return $this->metaDescription;
     }
 
     /**
@@ -256,83 +256,83 @@ class BasePage
     }
 
     /**
-     * Set publication_date_start
+     * Set publicationDateStart
      *
      * @param datetime $publicationDateStart
      */
     public function setPublicationDateStart($publicationDateStart)
     {
-        $this->publication_date_start = $publicationDateStart;
+        $this->publicationDateStart = $publicationDateStart;
     }
 
     /**
-     * Get publication_date_start
+     * Get publicationDateStart
      *
      * @return datetime $publicationDateStart
      */
     public function getPublicationDateStart()
     {
-        return $this->publication_date_start;
+        return $this->publicationDateStart;
     }
 
     /**
-     * Set publication_date_end
+     * Set publicationDateEnd
      *
      * @param datetime $publicationDateEnd
      */
     public function setPublicationDateEnd($publicationDateEnd)
     {
-        $this->publication_date_end = $publicationDateEnd;
+        $this->publicationDateEnd = $publicationDateEnd;
     }
 
     /**
-     * Get publication_date_end
+     * Get publicationDateEnd
      *
      * @return datetime $publicationDateEnd
      */
     public function getPublicationDateEnd()
     {
-        return $this->publication_date_end;
+        return $this->publicationDateEnd;
     }
 
     /**
-     * Set created_at
+     * Set createdAt
      *
      * @param datetime $createdAt
      */
     public function setCreatedAt($createdAt)
     {
-        $this->created_at = $createdAt;
+        $this->createdAt = $createdAt;
     }
 
     /**
-     * Get created_at
+     * Get createdAt
      *
      * @return datetime $createdAt
      */
     public function getCreatedAt()
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
     /**
-     * Set updated_at
+     * Set updatedAt
      *
      * @param datetime $updatedAt
      */
     public function setUpdatedAt($updatedAt)
     {
-        $this->updated_at = $updatedAt;
+        $this->updatedAt = $updatedAt;
     }
 
     /**
-     * Get updated_at
+     * Get updatedAt
      *
      * @return datetime $updatedAt
      */
     public function getUpdatedAt()
     {
-        return $this->updated_at;
+        return $this->updatedAt;
     }
 
     /**

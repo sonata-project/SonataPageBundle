@@ -26,9 +26,9 @@ class BaseBlock
     
     protected $page;
     
-    protected $created_at;
+    protected $createdAt;
 
-    protected $updated_at;
+    protected $updatedAt;
 
     protected $type;
 
@@ -118,43 +118,43 @@ class BaseBlock
     }
 
     /**
-     * Set created_at
+     * Set createdAt
      *
      * @param datetime $createdAt
      */
     public function setCreatedAt($createdAt)
     {
-        $this->created_at = $createdAt;
+        $this->createdAt = $createdAt;
     }
 
     /**
-     * Get created_at
+     * Get createdAt
      *
      * @return datetime $createdAt
      */
     public function getCreatedAt()
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
     /**
-     * Set updated_at
+     * Set updatedAt
      *
      * @param datetime $updatedAt
      */
     public function setUpdatedAt($updatedAt)
     {
-        $this->updated_at = $updatedAt;
+        $this->updatedAt = $updatedAt;
     }
 
     /**
-     * Get updated_at
+     * Get updatedAt
      *
      * @return datetime $updatedAt
      */
     public function getUpdatedAt()
     {
-        return $this->updated_at;
+        return $this->updatedAt;
     }
 
     /**
@@ -233,5 +233,10 @@ class BaseBlock
     public function hasParent()
     {
         return $this->getParent() == null;
+    }
+
+    public function __toString()
+    {
+        return 'block (id:'.$this->getId().')';    
     }
 }
