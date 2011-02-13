@@ -27,8 +27,8 @@ class ActionBlockServiceTest extends BaseTestBlockService
 
         $service = new ContainerBlockService('core.action', $container);
 
-        $this->assertEquals('SonataPageBundle:BlockAdmin:block_core_action_edit.twig.html', $service->getEditTemplate());
-        $this->assertEquals('SonataPageBundle:Block:block_core_action.twig.html', $service->getViewTemplate());
+        $this->assertEquals('SonataPageBundle:BlockAdmin:block_core_action_edit.html.twig', $service->getEditTemplate());
+        $this->assertEquals('SonataPageBundle:Block:block_core_action.html.twig', $service->getViewTemplate());
 
 
         $block = new Block;

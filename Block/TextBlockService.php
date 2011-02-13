@@ -27,7 +27,7 @@ class TextBlockService extends BaseBlockService
     public function execute($block, $page, Response $response = null)
     {
 
-        return $this->render('SonataPageBundle:Block:block_core_text.twig.html', array(
+        return $this->render('SonataPageBundle:Block:block_core_text.html.twig', array(
             'block' => $block,
             'content' => $block->getSetting('content', '')
         ));

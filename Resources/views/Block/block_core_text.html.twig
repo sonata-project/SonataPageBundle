@@ -9,12 +9,8 @@ file that was distributed with this source code.
 
 #}
 
-{% extends 'SonataPageBundle:BlockAdmin:edit.twig.html' %}
+{% extends 'SonataPageBundle:Block:block_base.html.twig' %}
 
 {% block block %}
-    <p>
-        {{ form_label(form.settings.content) }} <br />
-        {{ form_field(form.settings.content, {'class' : 'title'}) }}
-        {{ form_errors(form.settings.content) }}
-    </p>
+    {{ block.settings.content|raw }}
 {% endblock %}

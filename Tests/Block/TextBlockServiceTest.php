@@ -28,8 +28,8 @@ class TextBlockServiceTest extends BaseTestBlockService
 
         $service = new TextBlockService('core.text', $container);
 
-        $this->assertEquals('SonataPageBundle:BlockAdmin:block_core_text_edit.twig.html', $service->getEditTemplate());
-        $this->assertEquals('SonataPageBundle:Block:block_core_text.twig.html', $service->getViewTemplate());
+        $this->assertEquals('SonataPageBundle:BlockAdmin:block_core_text_edit.html.twig', $service->getEditTemplate());
+        $this->assertEquals('SonataPageBundle:Block:block_core_text.html.twig', $service->getViewTemplate());
 
 
         $block = new Block;
