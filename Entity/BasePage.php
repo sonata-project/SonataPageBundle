@@ -453,4 +453,15 @@ class BasePage
     {
         return $this->position;
     }
+
+    public function prePersist()
+    {
+        $this->createdAt = new \DateTime;
+        $this->updatedAt = new \DateTime;
+    }
+
+    public function preUpdate()
+    {
+        $this->updatedAt = new \DateTime;
+    }
 }
