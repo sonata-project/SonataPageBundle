@@ -8,10 +8,11 @@
  * file that was distributed with this source code.
  */
 
-
 namespace Sonata\PageBundle\Entity;
 
-class BaseBlock
+use Sonata\PageBundle\Block\BlockInterface;
+
+class BaseBlock implements BlockInterface
 {
 
     protected $settings;

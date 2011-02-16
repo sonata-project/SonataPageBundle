@@ -12,8 +12,7 @@
 namespace Sonata\PageBundle\Block;
 
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\DependencyInjection\ContainerAware;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\Form\Form;
 
 /**
  * PageExtension
@@ -24,7 +23,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 class ContainerBlockService extends BaseBlockService
 {
 
-    public function execute($block, $page, Response $response = null)
+    public function execute(BlockInterface $block, $page, Response $response = null)
     {
 
         return $this->container->get('templating')->renderResponse('SonataPageBundle:Page:renderContainer', array(
@@ -42,7 +41,7 @@ class ContainerBlockService extends BaseBlockService
         // TODO: Implement validateBlock() method.
     }
 
-    public function defineBlockGroupField($fieldGroup, $block)
+    public function defineBlockForm(Form $form, BlockInterface $block)
     {
         
     }

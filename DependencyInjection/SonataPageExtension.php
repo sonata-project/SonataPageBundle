@@ -12,7 +12,7 @@
 namespace Sonata\PageBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
-use Symfony\Component\DependencyInjection\Resource\FileResource;
+use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\Definition;
@@ -24,7 +24,7 @@ use Symfony\Component\DependencyInjection\Extension\Extension;
  *
  * @author     Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class PageExtension extends Extension
+class SonataPageExtension extends Extension
 {
 
     /**
@@ -33,22 +33,22 @@ class PageExtension extends Extension
      * @param array            $config    An array of configuration settings
      * @param ContainerBuilder $container A ContainerBuilder instance
      */
-    public function configLoad($configs, ContainerBuilder $container)
+    public function load(array $config, ContainerBuilder $container)
     {
 
-        foreach ($configs as $config) {
-            // define the page manager
-            $definition = new Definition($config['class'], array(new Reference('service_container'), new Reference('doctrine.orm.default_entity_manager')));
-            $definition->addMethodCall('setOptions', array(isset($config['options']) ? $config['options'] : array()));
-            $container->setDefinition('page.manager', $definition);
+        $config = call_user_func_array('array_merge_recursive', $config);
+        
+        // define the page manager
+        $definition = new Definition($config['class'], array(new Reference('service_container'), new Reference('doctrine.orm.default_entity_manager')));
+        $definition->addMethodCall('setOptions', array(isset($config['options']) ? $config['options'] : array()));
+        $container->setDefinition('page.manager', $definition);
 
-            // define the block service
-            foreach ($config['blocks'] as $block) {
+        // define the block service
+        foreach ($config['blocks'] as $block) {
 
-                $definition = new Definition($block['class'], array($block['id'], new Reference('service_container')));
+            $definition = new Definition($block['class'], array($block['id'], new Reference('service_container')));
 
-                $container->setDefinition(sprintf('page.block.%s', $block['id']), $definition);
-            }
+            $container->setDefinition(sprintf('page.block.%s', $block['id']), $definition);
         }
     }
 
@@ -72,6 +72,6 @@ class PageExtension extends Extension
     public function getAlias()
     {
 
-        return "page";
+        return "sonata_page";
     }
 }

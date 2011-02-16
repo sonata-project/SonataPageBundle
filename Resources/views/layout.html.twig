@@ -79,13 +79,12 @@ file that was distributed with this source code.
         <!-- CMS specific variables -->
         <script>
             Page.url = {
-                block_save_position: '{{ path('sonata_page_block_save_position') }}',
-                block_create: '{{ path('sonata_page_block_create') }}',
-                block_update: '{{ path('sonata_page_block_update') }}',
-                block_view:   '{{ path('sonata_page_block_view', {'id': 'BLOCK_ID'}) }}',
-                block_edit:   '{{ path('sonata_page_block_edit', {'id': 'BLOCK_ID'}) }}',
-                page_edit:    '{{ path('sonata_page_edit', {'id': page.id }) }}',
-                page_upate:   '{{ path('sonata_page_update') }}',
+                block_save_position: '{{ path('admin_sonata_page_block_save_position') }}',
+                block_create: '{{ path('admin_sonata_page_page_block_create', {'id': page.id }) }}',
+                block_update: '{{ path('admin_sonata_page_page_block_update', {'id': page.id }) }}',
+                block_edit:   '{{ path('admin_sonata_page_page_block_edit', {'id': page.id, 'childId': 'BLOCK_ID'}) }}',
+                page_edit:    '{{ path('admin_sonata_page_page_edit', {'id': page.id }) }}',
+                page_update:  '{{ path('admin_sonata_page_page_update') }}',
             }
         </script>
 

@@ -375,7 +375,7 @@ class Manager extends ContainerAware
 
         $form->add(new \Symfony\Component\Form\CheckboxField('enabled'));
 
-        $group_field = new \Symfony\Component\Form\FieldGroup('settings');
+        $group_field = new \Symfony\Component\Form\Form('settings');
         $form->add($group_field);
 
         $this->getBlockService($form->getData())->defineBlockGroupField($group_field, $form->getData());

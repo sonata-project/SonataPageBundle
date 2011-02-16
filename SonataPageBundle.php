@@ -23,20 +23,4 @@ class SonataPageBundle extends Bundle
             'filterReponse'
         ), -1); 
     }
-
-        /**
-     * {@inheritdoc}
-     */
-    public function getNamespace()
-    {
-        return __NAMESPACE__;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getPath()
-    {
-        return strtr(__DIR__, '\\', '/');
-    }
 }

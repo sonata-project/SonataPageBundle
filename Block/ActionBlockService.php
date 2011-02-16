@@ -14,6 +14,7 @@ namespace Sonata\PageBundle\Block;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\Form\Form;
 
 /**
  * PageExtension
@@ -32,7 +33,7 @@ class ActionBlockService extends BaseBlockService
             ->render($view, $parameters);
     }
 
-    public function execute($block, $page, Response $response = null)
+    public function execute(BlockInterface $block, $page, Response $response = null)
     {
 
         return $this->render($this->getViewTemplate(), array(
@@ -45,14 +46,14 @@ class ActionBlockService extends BaseBlockService
         ), $response);
     }
 
-    public function validateBlock($block)
+    public function validateBlock(BlockInterface $block)
     {
         // TODO: Implement validateBlock() method.
     }
 
-    public function defineBlockGroupField($fieldGroup, $block)
+    public function defineBlockForm(Form $form, BlockInterface $block)
     {
-        $fieldGroup->add(new \Symfony\Component\Form\TextField('action'));
+        $form->add(new \Symfony\Component\Form\TextField('action'));
 
         $parameters = new \Symfony\Component\Form\FieldGroup('parameters');
         
@@ -60,7 +61,7 @@ class ActionBlockService extends BaseBlockService
             $parameters->add(new \Symfony\Component\Form\TextField($name));
         }
 
-        $fieldGroup->add($parameters);
+        $form->add($parameters);
     }
 
 }

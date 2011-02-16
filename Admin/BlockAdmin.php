@@ -19,10 +19,13 @@ class BlockAdmin extends Admin
     protected $class = 'Application\Sonata\PageBundle\Entity\Block';
     protected $baseControllerName = 'SonataPageBundle:BlockAdmin';
 
+    protected $parentAssociationMapping = 'page';
+
     protected $form = array(
         'page' => array('edit' => 'list'),
         'enabled',
         'type'
+        
     );
 
     protected $filter = array(
@@ -37,6 +40,7 @@ class BlockAdmin extends Admin
         'enabled',
         'type',
     );
+
 
     public function configureUrls()
     {

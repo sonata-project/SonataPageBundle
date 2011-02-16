@@ -12,8 +12,7 @@
 namespace Sonata\PageBundle\Block;
 
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\DependencyInjection\ContainerAware;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\Form\Form;
 
 /**
  * PageExtension
@@ -24,7 +23,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 class TextBlockService extends BaseBlockService
 {
 
-    public function execute($block, $page, Response $response = null)
+    public function execute(BlockInterface $block, $page, Response $response = null)
     {
 
         return $this->render('SonataPageBundle:Block:block_core_text.html.twig', array(
@@ -38,10 +37,10 @@ class TextBlockService extends BaseBlockService
         // TODO: Implement validateBlock() method.
     }
 
-    public function defineBlockGroupField($fieldGroup, $block)
+    public function defineBlockForm(Form $form, BlockInterface $block)
     {
 
-        $fieldGroup->add(new \Symfony\Component\Form\TextareaField('content'));
+        $form->add(new \Symfony\Component\Form\TextareaField('content'));
         
     }
 

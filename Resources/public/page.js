@@ -55,8 +55,9 @@ var Page = {
 
     handleBlockClick: function(event) {
         event.stopPropagation();
-        
-        document.location.href = Page.url.block_edit.replace(/BLOCK_ID/, event.currentTarget.id);
+
+        var id = event.currentTarget.id.slice(10);
+        document.location.href = Page.url.block_edit.replace(/BLOCK_ID/, id);
     },
     handleBlockHover: function(event) {
         event.stopPropagation();

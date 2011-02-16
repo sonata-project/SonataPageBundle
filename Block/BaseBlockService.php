@@ -13,27 +13,27 @@ namespace Sonata\PageBundle\Block;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\DependencyInjection\ContainerAware;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Form\Form;
+
 
 /**
- * PageExtension
+ * BaseBlockServuice
  *
  *
  * @author     Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-abstract class BaseBlockService extends ContainerAware
+abstract class BaseBlockService extends ContainerAware implements BlockServiceInterface
 {
     protected $name;
 
-    public function __construct($name, $container)
+    public function __construct($name, ContainerInterface $container)
     {
         $this->name = $name;
         $this->container = $container;
     }
 
-    abstract public function defineBlockGroupField($fieldGroup, $block);
-
-    abstract public function validateBlock($block);
+    abstract public function validateBlock(BlockInterface $block);
 
     public function getViewTemplate()
     {
@@ -74,7 +74,7 @@ abstract class BaseBlockService extends ContainerAware
             ->render($view, $parameters, $response);
     }
 
-    public function execute($block, $page, Response $response = null)
+    public function execute(BlockInterface $block, $page, Response $response = null)
     {
         try {
             $response = $this->render($block->getTemplate(), array(

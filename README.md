@@ -13,7 +13,7 @@
         {
             return array(
                 // ...
-                new Sonata\PageBundle\PageBundle(),
+                new Sonata\PageBundle\SonataPageBundle(),
                 // ...
             );
         }
@@ -21,7 +21,7 @@
 
 * Add in your config.yml file
 
-        page.config:
+        sonata_page:
             class: Sonata\PageBundle\Page\Manager
             options:
                 ignore_route_patterns:
@@ -38,6 +38,37 @@
                 - { id: core.text,      class: Sonata\PageBundle\Block\TextBlockService}
                 - { id: core.action,    class: Sonata\PageBundle\Block\ActionBlockService}
 
+* Add this in your admin.yml
+
+        page:
+            label:      Page
+            group:      CMS
+            class:      Sonata\PageBundle\Admin\PageAdmin
+            entity:     Application\Sonata\PageBundle\Entity\Page
+            controller: Sonata\PageBundle\Controller\PageAdminController
+            children:
+                block:
+                    label:      Block
+                    group:      CMS
+                    class:      Sonata\PageBundle\Admin\BlockAdmin
+                    entity:     Application\Sonata\PageBundle\Entity\Block
+                    controller: Sonata\PageBundle\Controller\BlockAdminController
+
+        block:
+            label:      Block
+            group:      CMS
+            class:      Sonata\PageBundle\Admin\BlockAdmin
+            entity:     Application\Sonata\PageBundle\Entity\Block
+            controller: Sonata\PageBundle\Controller\BlockAdminController
+
+        template:
+            label:      Template
+            group:      CMS
+            class:      Sonata\PageBundle\Admin\TemplateAdmin
+            entity:     Application\Sonata\PageBundle\Entity\Template
+            controller: Sonata\PageBundle\Controller\TemplateAdminController
+            options:
+                - show_in_dashboard: false
 
 ## Page
 
