@@ -45,30 +45,31 @@
             group:      CMS
             class:      Sonata\PageBundle\Admin\PageAdmin
             entity:     Application\Sonata\PageBundle\Entity\Page
-            controller: Sonata\PageBundle\Controller\PageAdminController
+            controller: SonataPageBundle:PageAdmin
             children:
                 block:
                     label:      Block
                     group:      CMS
                     class:      Sonata\PageBundle\Admin\BlockAdmin
                     entity:     Application\Sonata\PageBundle\Entity\Block
-                    controller: Sonata\PageBundle\Controller\BlockAdminController
+                    controller: SonataPageBundle:BlockAdmin
 
         block:
             label:      Block
             group:      CMS
             class:      Sonata\PageBundle\Admin\BlockAdmin
             entity:     Application\Sonata\PageBundle\Entity\Block
-            controller: Sonata\PageBundle\Controller\BlockAdminController
+            controller: SonataPageBundle:BlockAdmin
 
         template:
             label:      Template
             group:      CMS
             class:      Sonata\PageBundle\Admin\TemplateAdmin
             entity:     Application\Sonata\PageBundle\Entity\Template
-            controller: Sonata\PageBundle\Controller\TemplateAdminController
+            controller: SonataPageBundle:TemplateAdmin
             options:
-                - show_in_dashboard: false
+                show_in_dashboard: false
+
 
 ## Page
 

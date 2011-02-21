@@ -16,9 +16,6 @@ use Sonata\BaseApplicationBundle\Admin\EntityAdmin as Admin;
 class TemplateAdmin extends Admin
 {
 
-    protected $class = 'Application\Sonata\PageBundle\Entity\Template';
-    protected $baseControllerName = 'SonataPageBundle:TemplateAdmin';
-
     protected $list = array(
         'name' => array('identifier' => true),
         'path',

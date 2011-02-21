@@ -16,9 +16,6 @@ use Sonata\BaseApplicationBundle\Admin\EntityAdmin as Admin;
 class BlockAdmin extends Admin
 {
 
-    protected $class = 'Application\Sonata\PageBundle\Entity\Block';
-    protected $baseControllerName = 'SonataPageBundle:BlockAdmin';
-
     protected $parentAssociationMapping = 'page';
 
     protected $form = array(

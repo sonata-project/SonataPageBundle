@@ -16,9 +16,6 @@ use Sonata\BaseApplicationBundle\Admin\EntityAdmin as Admin;
 class PageAdmin extends Admin
 {
 
-    protected $class = 'Application\Sonata\PageBundle\Entity\Page';
-    protected $baseControllerName = 'SonataPageBundle:PageAdmin';
-
     protected $list = array(
         'name' => array('identifier' => true),
         'routeName',
