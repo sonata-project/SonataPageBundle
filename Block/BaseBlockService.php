@@ -51,14 +51,8 @@ abstract class BaseBlockService extends ContainerAware implements BlockServiceIn
      */
     public function createResponse($content = '', $status = 200, array $headers = array())
     {
-        $response = $this->container->get('response');
-        $response->setContent($content);
-        $response->setStatusCode($status);
-        foreach ($headers as $name => $value) {
-            $response->headers->set($name, $value);
-        }
-
-        return $response;
+      
+        return new Response($content, $status, $headers);
     }
 
     public function getEditTemplate()
@@ -82,7 +76,7 @@ abstract class BaseBlockService extends ContainerAware implements BlockServiceIn
                  'page'  => $page
             ));
         } catch(\Exception $e) {
-            return $this->createResponse('An error occur while processing the block : '.$e->getMessage());
+            return new Response('An error occur while processing the block : '.$e->getMessage());
         }
 
         return $response;
