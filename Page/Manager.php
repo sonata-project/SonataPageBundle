@@ -13,6 +13,7 @@ namespace Sonata\PageBundle\Page;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 use Application\Sonata\PageBundle\Entity\Page;
 
@@ -36,14 +37,14 @@ class Manager extends ContainerAware
 
     protected $options = array();
 
-    public function __construct($container, $entity_manager)
+    public function __construct($container, $entityManager)
     {
         $this->container = $container;
-        $this->repository = $entity_manager;
+        $this->repository = $entityManager;
 
         // todo : solve this
         if($this->repository instanceof \Doctrine\ORM\EntityManager) {
-            $this->repository = $entity_manager->getRepository('Application\Sonata\PageBundle\Entity\Page');
+            $this->repository = $entityManager->getRepository('Application\Sonata\PageBundle\Entity\Page');
         }
     }
 
@@ -93,10 +94,10 @@ class Manager extends ContainerAware
      * @param Response $response
      * @return bool
      */
-    public function isDecorable($request_type, \Symfony\Component\HttpFoundation\Response $response)
+    public function isDecorable($requestType, Response $response)
     {
 
-        if($request_type != HttpKernelInterface::MASTER_REQUEST) {
+        if($requestType != HttpKernelInterface::MASTER_REQUEST) {
 
             return false;
         }
@@ -116,16 +117,16 @@ class Manager extends ContainerAware
             return false;
         }
 
-        $route_name = $this->container->get('request')->get('_route');
+        $routeName = $this->container->get('request')->get('_route');
         foreach($this->getOption('ignore_routes', array()) as $route) {
 
-            if($route_name == $route) {
+            if($routeName == $route) {
                 return false;
             }
         }
 
-        foreach($this->getOption('ignore_route_patterns', array()) as $route_pattern) {
-            if(preg_match($route_pattern, $route_name)) {
+        foreach($this->getOption('ignore_route_patterns', array()) as $routePattern) {
+            if(preg_match($routePattern, $routeName)) {
                 return false;
             }
         }
@@ -173,15 +174,15 @@ class Manager extends ContainerAware
         return '';
     }
 
-    public function findContainer($name, $page, $parent_container = null)
+    public function findContainer($name, $page, $parentContainer = null)
     {
 
         $container = false;
         
-        if($parent_container) {
+        if($parentContainer) {
             // parent container is set, nothing to find, don't need to loop across the
             // name to find the correct container (main template level)
-            $container = $parent_container;
+            $container = $parentContainer;
         }
 
         // first level blocks are containers
@@ -204,8 +205,8 @@ class Manager extends ContainerAware
                 'position' => 1
             ));
 
-            if($parent_container) {
-                $container->setParent($parent_container);
+            if($parentContainer) {
+                $container->setParent($parentContainer);
             }
 
             $this->getRepository()->save($container);
@@ -243,7 +244,7 @@ class Manager extends ContainerAware
      *
      * if the page does not exists then the page is created.
      *
-     * @param  $route_name
+     * @param  $routeName
      * @return Application\Sonata\PageBundle\Entity\Page|bool
      */
     public function getPageByRouteName($routeName)
@@ -320,9 +321,9 @@ class Manager extends ContainerAware
 
         if($this->currentPage === null) {
 
-            $route_name = $this->container->get('request')->get('_route');
+            $routeName = $this->container->get('request')->get('_route');
 
-            if($route_name == 'page_slug') { // true cms page
+            if($routeName == 'page_slug') { // true cms page
                 $slug = $this->container->get('request')->get('slug');
                 
                 $this->currentPage = $this->getPageBySlug($slug);
@@ -332,10 +333,10 @@ class Manager extends ContainerAware
                 }
 
             } else { // hybrid page, ie an action is used
-                $this->currentPage = $this->getPageByRouteName($route_name);
+                $this->currentPage = $this->getPageByRouteName($routeName);
 
                 if(!$this->currentPage) {
-                    $this->container->get('logger')->crit(sprintf('[page:getCurrentPage] no page available for route : %s', $route_name));
+                    $this->container->get('logger')->crit(sprintf('[page:getCurrentPage] no page available for route : %s', $routeName));
                 }
             }
         }
