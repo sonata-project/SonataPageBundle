@@ -13,10 +13,17 @@ namespace Sonata\PageBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\Response;
 
 class PageController extends Controller
 {
 
+    public function homepageAction()
+    {
+
+        return new Response;
+    }
+  
     public function renderContainerAction($name, $page = null, $parent_container = null)
     {
 

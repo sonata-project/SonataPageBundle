@@ -18,6 +18,15 @@
             );
         }
 
+* Add these configuration into the routing file
+
+    homepage:
+        pattern:  /
+        defaults: { _controller: SonataPageBundle:Page:homepage }
+
+    page_block:
+        resource: '@SonataPageBundle/Resources/config/routing/block.xml'
+        prefix: /page/block
 
 * Add in your config.yml file
 
