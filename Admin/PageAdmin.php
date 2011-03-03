@@ -11,7 +11,7 @@
 
 namespace Sonata\PageBundle\Admin;
 
-use Sonata\BaseApplicationBundle\Admin\EntityAdmin as Admin;
+use Sonata\AdminBundle\Admin\EntityAdmin as Admin;
 
 class PageAdmin extends Admin
 {

@@ -11,7 +11,7 @@
 
 namespace Sonata\PageBundle\Admin;
 
-use Sonata\BaseApplicationBundle\Admin\EntityAdmin as Admin;
+use Sonata\AdminBundle\Admin\EntityAdmin as Admin;
 
 class BlockAdmin extends Admin
 {
@@ -21,7 +21,8 @@ class BlockAdmin extends Admin
     protected $form = array(
         'page' => array('edit' => 'list'),
         'enabled',
-        'type'
+        'type',
+        'children'
         
     );
 

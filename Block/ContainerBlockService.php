@@ -36,7 +36,7 @@ class ContainerBlockService extends BaseBlockService
         ));
     }
 
-    public function validateBlock($block)
+    public function validateBlock(BlockInterface $block)
     {
         // TODO: Implement validateBlock() method.
     }

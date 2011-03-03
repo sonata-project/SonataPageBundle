@@ -11,13 +11,12 @@
 
 namespace Sonata\PageBundle\Controller;
 
-use Sonata\BaseApplicationBundle\Controller\CRUDController as Controller;
+use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class BlockAdminController extends Controller
 {
-    
-    
     public function savePositionAction()
     {
         // todo : add security check
@@ -94,7 +93,7 @@ class BlockAdminController extends Controller
             $em->persist($block);
             $em->flush();
 
-            return $this->redirect($this->admin->generateUrl('edit', array('id' => $block->getId())));
+            return new RedirectResponse($this->admin->generateUrl('edit', array('id' => $block->getId())));
         }
 
         return $this->forward('SonataPageBundle:BlockAdmin:edit', array(

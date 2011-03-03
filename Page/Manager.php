@@ -379,7 +379,7 @@ class Manager extends ContainerAware
         $group_field = new \Symfony\Component\Form\Form('settings');
         $form->add($group_field);
 
-        $this->getBlockService($form->getData())->defineBlockGroupField($group_field, $form->getData());
+        $this->getBlockService($form->getData())->defineBlockForm($group_field, $form->getData());
     }
 
     /**
