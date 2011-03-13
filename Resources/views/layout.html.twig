@@ -80,9 +80,9 @@ file that was distributed with this source code.
         <script>
             Page.url = {
                 block_save_position: '{{ path('admin_sonata_page_block_save_position') }}',
-                block_create: '{{ path('admin_sonata_page_page_block_create', {'id': page.id }) }}',
-                block_update: '{{ path('admin_sonata_page_page_block_update', {'id': page.id }) }}',
-                block_edit:   '{{ path('admin_sonata_page_page_block_edit', {'id': page.id, 'childId': 'BLOCK_ID'}) }}',
+                block_create: '{{ path('admin_sonata_page_block_create', {'id': page.id }) }}',
+                block_update: '{{ path('admin_sonata_page_block_update', {'id': page.id }) }}',
+                block_edit:   '{{ path('admin_sonata_page_block_edit', {'id': page.id, 'childId': 'BLOCK_ID'}) }}',
                 page_edit:    '{{ path('admin_sonata_page_page_edit', {'id': page.id }) }}',
                 page_update:  '{{ path('admin_sonata_page_page_update') }}',
             }
