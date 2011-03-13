@@ -13,8 +13,9 @@ namespace Sonata\PageBundle\Block;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\DependencyInjection\ContainerAware;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Form\Form;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\Templating\EngineInterface;
 
 /**
  * PageExtension
@@ -24,25 +25,24 @@ use Symfony\Component\Form\Form;
  */
 class ActionBlockService extends BaseBlockService
 {
+    private $kernel;
 
-    public function render($view, array $parameters = array(), Response $response = null)
+    public function __construct($name, EngineInterface $templating, HttpKernelInterface $kernel)
     {
-
-        return $this
-            ->container->get('templating')
-            ->render($view, $parameters);
+        parent::__construct($name, $templating);
+        
+        $this->kernel = $kernel;
     }
 
     public function execute(BlockInterface $block, $page, Response $response = null)
     {
 
-        return $this->render($this->getViewTemplate(), array(
-            'content' => $this->container->get('http_kernel')->render(
-                $block->getSetting('action'),
-                array_merge($block->getSetting('parameters', array()), array('_block' => $block, '_page' => $page))
-            ),
-            'block' => $block,
-            'page'  => $page,
+        $params = array_merge($block->getSetting('parameters', array()), array('_block' => $block, '_page' => $page));
+        
+        return $this->render('SonataPageBundle:Block:block_core_action.html.twig', array(
+            'content'   => $this->kernel->render($block->getSetting('action'), $params),
+            'block'     => $block,
+            'page'      => $page,
         ), $response);
     }
 
@@ -55,7 +55,7 @@ class ActionBlockService extends BaseBlockService
     {
         $form->add(new \Symfony\Component\Form\TextField('action'));
 
-        $parameters = new \Symfony\Component\Form\FieldGroup('parameters');
+        $parameters = new \Symfony\Component\Form\Form('parameters');
         
         foreach($block->getSetting('parameters', array()) as $name => $value) {
             $parameters->add(new \Symfony\Component\Form\TextField($name));
@@ -63,5 +63,4 @@ class ActionBlockService extends BaseBlockService
 
         $form->add($parameters);
     }
-
 }

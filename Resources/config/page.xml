@@ -3,7 +3,27 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
+    <parameters>
+        <parameter key="sonata.page.manager.class">Sonata\PageBundle\Page\Manager</parameter>
+    </parameters>
+
     <services>
         <service id="sonata.page.entity_manager" alias="doctrine.orm.default_entity_manager" />
+
+        <service id="sonata.page.manager" class="%sonata.page.manager.class%">
+            <argument type="service" id="sonata.page.entity_manager" />
+
+            <call method="setLogger">
+                <argument type="service" id="logger" />
+            </call>
+
+            <call method="setDebug">
+                <argument >%kernel.debug%</argument>
+            </call>
+
+            <call method="setTemplating">
+                <argument type="service" id="templating" />
+            </call>
+        </service>
     </services>
 </container>

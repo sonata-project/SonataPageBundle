@@ -22,7 +22,7 @@ class BlockAdminController extends Controller
         // todo : add security check
         $params = $this->get('request')->get('disposition');
 
-        $result = $this->get('page.manager')->savePosition($params);
+        $result = $this->get('sonata.page.manager')->savePosition($params);
 
         return $this->renderJson(array('result' => $result ? 'ok' : 'ko'));
     }
@@ -31,7 +31,7 @@ class BlockAdminController extends Controller
     {
 
         $this->get('session')->start();
-        $manager  = $this->get('page.manager');
+        $manager  = $this->get('sonata.page.manager');
 
         // clean the id
         if(!is_object($id)) {
@@ -66,7 +66,7 @@ class BlockAdminController extends Controller
             'validation_groups' => array($block->getType())
         ));
 
-        $this->get('page.manager')->defineBlockForm($form);
+        $this->get('sonata.page.manager')->defineBlockForm($form);
 
         return $form;
     }
@@ -79,7 +79,7 @@ class BlockAdminController extends Controller
         // clean the id
         $id    = $this->get('request')->get('id');
 
-        $block = $this->get('page.manager')->getBlock($id);
+        $block = $this->get('sonata.page.manager')->getBlock($id);
 
         if(!$block) {
             throw new NotFoundHttpException(sprintf('block not found (id: %d)', $id));
@@ -89,7 +89,7 @@ class BlockAdminController extends Controller
         $form->bind($this->get('request')->get('block'));
 
         if($form->isValid()){
-            $em = $this->get('doctrine.orm.default_entity_manager');
+            $em = $this->get('sonata.page.entity_manager');
             $em->persist($block);
             $em->flush();
 

@@ -11,16 +11,27 @@
 namespace Sonata\PageBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
-
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Sonata\PageBundle\DependencyInjection\AddBlockServicePass;
+    
 class SonataPageBundle extends Bundle
 {
-
+    
     public function boot()
     {
+        // lazy load the manager to avoid :
+        //      You cannot create a service ("sonata.page.manager") of an inactive scope ("request").
+        $container = $this->container;
+        $function = function($event, $response) use($container) {
+            return $container->get('sonata.page.manager')->filterReponse($event, $response);
+        };
+        $this->container->get('event_dispatcher')->connect('core.response', $function, -1);
+    }
 
-        $this->container->get('event_dispatcher')->connect('core.response', array(
-            $this->container->get('page.manager'),
-            'filterReponse'
-        ), -1); 
+    public function build(ContainerBuilder $container)
+    {
+        parent::build($container);
+
+        $container->addCompilerPass(new AddBlockServicePass());
     }
 }

@@ -34,54 +34,56 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
             ->method('getRequestUri')
             ->will($this->returnValue('/myurl'));
 
-        $container = new Container;
-        $container->set('request', $request);
-
-        $repository = $this->getMock('Repository');
         
-        $manager = new Manager($container, $repository);
+        $repository = $this->getMock('Repository');
+
+        $entityManager = $this->getMock('EntityManager', array('getRepository'));
+        $entityManager->expects($this->any())
+            ->method('getRepository')
+            ->will($this->returnValue($repository));
+
+        $manager = new Manager($entityManager);
 
         //
-        $this->assertFalse($manager->isDecorable(HttpKernelInterface::SUB_REQUEST, $response));
+        $this->assertFalse($manager->isDecorable($request, HttpKernelInterface::SUB_REQUEST, $response));
 
         //
         $response->headers = new ParameterBag;
         $response->headers->set('Content-Type', 'foo/test');
 
-        $this->assertFalse($manager->isDecorable(HttpKernelInterface::MASTER_REQUEST, $response));
+        $this->assertFalse($manager->isDecorable($request, HttpKernelInterface::MASTER_REQUEST, $response));
 
         //
         $response->headers->set('Content-Type', 'text/html');
         $response->setStatusCode(404);
-        $this->assertFalse($manager->isDecorable(HttpKernelInterface::MASTER_REQUEST, $response));
+        $this->assertFalse($manager->isDecorable($request, HttpKernelInterface::MASTER_REQUEST, $response));
 
         //
         $response->setStatusCode(200);
-        $manager->setContainer($container);
 
         $request->headers->set('x-requested-with', 'XMLHttpRequest');
-        $this->assertFalse($manager->isDecorable(HttpKernelInterface::MASTER_REQUEST, $response));
+        $this->assertFalse($manager->isDecorable($request, HttpKernelInterface::MASTER_REQUEST, $response));
 
         //
         $request->headers->set('x-requested-with', null);
         $request->query->set('_route', 'test');
         $manager->setOption('ignore_routes', array('test'));
 
-        $this->assertFalse($manager->isDecorable(HttpKernelInterface::MASTER_REQUEST, $response));
+        $this->assertFalse($manager->isDecorable($request, HttpKernelInterface::MASTER_REQUEST, $response));
 
         //
         $request->query->set('_route', 'test2');
         $manager->setOption('ignore_route_patterns', array('/test[0-2]{1}/'));
-        $this->assertFalse($manager->isDecorable(HttpKernelInterface::MASTER_REQUEST, $response));
+        $this->assertFalse($manager->isDecorable($request, HttpKernelInterface::MASTER_REQUEST, $response));
 
         //
         $request->query->set('_route', 'ok');
         $manager->setOption('ignore_uri_patterns', array('/(.*)/'));
-        $this->assertFalse($manager->isDecorable(HttpKernelInterface::MASTER_REQUEST, $response));
+        $this->assertFalse($manager->isDecorable($request, HttpKernelInterface::MASTER_REQUEST, $response));
 
         //
         $manager->setOption('ignore_uri_patterns', array('/ok/'));
-        $this->assertTrue($manager->isDecorable(HttpKernelInterface::MASTER_REQUEST, $response));
+        $this->assertTrue($manager->isDecorable($request, HttpKernelInterface::MASTER_REQUEST, $response));
     }
 
 
@@ -90,17 +92,26 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
         $repository = $this->getMock('Repository');
 
-        $container = new Container;
-        $container->set('page.block.test', $this);
+        $entityManager = $this->getMock('EntityManager', array('getRepository'));
+        $entityManager->expects($this->any())
+            ->method('getRepository')
+            ->will($this->returnValue($repository));
 
-        $manager = new Manager($container, $repository);
+       
+        $manager = new Manager($entityManager);
 
-        $block = $this->getMock('block', array('getType'));
+        $block = $this->getMock('Sonata\PageBundle\Block\BlockInterface', array('getType'));
         $block->expects($this->any())
             ->method('getType')
             ->will($this->returnValue('test'));
 
-        $this->assertInstanceOf('Sonata\PageBundle\Tests\Page\ManagerTest', $manager->getBlockService($block));
+        $this->assertFalse($manager->getBlockService($block));
+
+        $service = $this->getMock('Sonata\PageBundle\Block\BlockServiceInterface');
+
+        $manager->addBlockService('test', $service);
+        
+        $this->assertInstanceOf(get_class($service), $manager->getBlockService($block));
         
     }
 
@@ -112,10 +123,12 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
         $repository = $this->getMock('Repository');
 
-        $container = new Container;
-        $container->set('page.block.test', $this);
+        $entityManager = $this->getMock('EntityManager', array('getRepository'));
+        $entityManager->expects($this->any())
+            ->method('getRepository')
+            ->will($this->returnValue($repository));
 
-        $manager = new Manager($container, $repository);
+        $manager = new Manager($entityManager);
 
         $block = $this->getMock('block', array('getType'));
         $block->expects($this->any())
@@ -141,17 +154,18 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
             ->method('save')
             ->will($this->returnValue(true));
 
+        $entityManager = $this->getMock('EntityManager', array('getRepository'));
+        $entityManager->expects($this->any())
+            ->method('getRepository')
+            ->will($this->returnValue($repository));
 
-        $container = new Container;
-
-        $manager = new Manager($container, $repository);
+        $manager = new Manager($entityManager);
 
         $block = new Block;
         $block->setSettings(array('name' => 'findme'));
 
         $page = new Page;
         $page->addBlocks($block);
-
 
         $container = $manager->findContainer('findme', $page);
 

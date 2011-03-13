@@ -11,27 +11,38 @@
 
 namespace Sonata\PageBundle\Tests\Block;
 
+use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Symfony\Component\HttpFoundation\Response;
 
-class FakeTemplating
+class FakeTemplating implements EngineInterface
 {
     public $view;
 
-    public $params;
+    public $parameters;
 
     public $response;
 
-    public $template;
+    public $name;
 
-    public function render($view, $params, $response = null)
+    public function render($name, array $parameters = array())
     {
-        $this->view = $view;
-        $this->params = $params;
-        $this->response = $response;
+        $this->name  = $name;
+        $this->parameters = $parameters;
     }
 
-    public function renderResponse($template, $params)
+    public function renderResponse($view, array $parameters = array(), Response $response = null)
     {
-        $this->template = $template;
-        $this->params = $params;
+        $this->view   = $view;
+        $this->parameters = $parameters;
+    }
+
+    function supports($name)
+    {
+        return true;
+    }
+
+    function exists($name)
+    {
+        return true;
     }
 }

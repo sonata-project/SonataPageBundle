@@ -36,25 +36,16 @@ class SonataPageExtension extends Extension
      */
     public function load(array $config, ContainerBuilder $container)
     {
-
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('page.xml');
         $loader->load('admin.xml');
+        $loader->load('block.xml');
 
+        // todo: use the configuration class
         $config = call_user_func_array('array_merge_recursive', $config);
-        
-        // define the page manager
-        $definition = new Definition($config['class'], array(new Reference('service_container'), new Reference('doctrine.orm.default_entity_manager')));
-        $definition->addMethodCall('setOptions', array(isset($config['options']) ? $config['options'] : array()));
-        $container->setDefinition('page.manager', $definition);
 
-        // define the block service
-        foreach ($config['blocks'] as $block) {
-
-            $definition = new Definition($block['class'], array($block['id'], new Reference('service_container')));
-
-            $container->setDefinition(sprintf('page.block.%s', $block['id']), $definition);
-        }
+        $container->getDefinition('sonata.page.manager')
+            ->addMethodCall('setOptions', array($config));
     }
 
     /**

@@ -23,27 +23,40 @@ use Symfony\Component\Form\Form;
 class ContainerBlockService extends BaseBlockService
 {
 
+    /**
+     * @param BlockInterface $block
+     * @param  $page
+     * @param null|\Symfony\Component\HttpFoundation\Response $response
+     * @return
+     */
     public function execute(BlockInterface $block, $page, Response $response = null)
     {
 
-        return $this->container->get('templating')->renderResponse('SonataPageBundle:Page:renderContainer', array(
+        return $this->getTemplating()->renderResponse('SonataPageBundle:Page:renderContainer', array(
             'attributes' => array(
                 'name'              => $block->getSetting('name'),
                 'page'              => $page,
                 'parent_container'  => $block
             ),
-            
         ));
     }
 
+    /**
+     * @param BlockInterface $block
+     * @return void
+     */
     public function validateBlock(BlockInterface $block)
     {
         // TODO: Implement validateBlock() method.
     }
 
+    /**
+     * @param \Symfony\Component\Form\Form $form
+     * @param BlockInterface $block
+     * @return void
+     */
     public function defineBlockForm(Form $form, BlockInterface $block)
     {
         
     }
-
 }

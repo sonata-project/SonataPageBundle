@@ -11,10 +11,10 @@
 
 namespace Sonata\PageBundle\Page;
 
-use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpFoundation\Response;
-
+use Sonata\PageBundle\Block\BlockInterface;
+use Sonata\PageBundle\Block\BlockServiceInterface;
 use Application\Sonata\PageBundle\Entity\Page;
 
 /**
@@ -25,27 +25,31 @@ use Application\Sonata\PageBundle\Entity\Page;
  *
  * @author     Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class Manager extends ContainerAware
+class Manager
 {
     protected $routePages = array();
 
-    protected $currentPage = null;
+    protected $currentPage;
 
-    protected $pageLoader = null;
+    protected $pageLoader;
 
     protected $blocks = array();
 
     protected $options = array();
 
-    public function __construct($container, $entityManager)
-    {
-        $this->container = $container;
-        $this->repository = $entityManager;
+    protected $blockServices = array();
 
-        // todo : solve this
-        if($this->repository instanceof \Doctrine\ORM\EntityManager) {
-            $this->repository = $entityManager->getRepository('Application\Sonata\PageBundle\Entity\Page');
-        }
+    protected $logger;
+
+    protected $entityManager;
+
+    protected $debug = false;
+
+    protected $templating;
+
+    public function __construct($entityManager)
+    {
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -57,12 +61,12 @@ class Manager extends ContainerAware
      */
     public function filterReponse($event, $response)
     {
-        $kernel       = $event->getSubject();
-        $request_type = $event->get('request_type');
+        $requestType = $event->get('request_type');
+        $request = $event->get('request');
 
-        if($this->isDecorable($request_type, $response)) {
+        if($this->isDecorable($request, $requestType, $response)) {
 
-            $page = $this->getCurrentPage();
+            $page = $this->defineCurrentPage($request);
 
             if ($page && $page->getDecorate()) {
                 $template = 'SonataPageBundle::layout.html.twig';
@@ -71,7 +75,7 @@ class Manager extends ContainerAware
                 }
 
                 $response->setContent(
-                    $this->container->get('templating')->render(
+                    $this->getTemplating()->render(
                         $template,
                         array(
                             'content'   => $response->getContent(),
@@ -80,13 +84,18 @@ class Manager extends ContainerAware
                     )
                 );
             }
-        }
 
-        $event->setProcessed(true);
+            $event->setProcessed(true);
+        }
         
         return $response;
     }
 
+    public function addBlockService($name, BlockServiceInterface $service)
+    {
+        $this->blockServices[$name] = $service;
+    }
+    
     /**
      * return true is the page can be decorate with an outter template
      *
@@ -94,7 +103,7 @@ class Manager extends ContainerAware
      * @param Response $response
      * @return bool
      */
-    public function isDecorable($requestType, Response $response)
+    public function isDecorable($request, $requestType, Response $response)
     {
 
         if($requestType != HttpKernelInterface::MASTER_REQUEST) {
@@ -111,13 +120,16 @@ class Manager extends ContainerAware
 
             return false;
         }
-
-        if($this->container->get('request')->headers->get('x-requested-with') == 'XMLHttpRequest') {
-
+        
+        if($request->headers->get('x-requested-with') == 'XMLHttpRequest') {
             return false;
         }
 
-        $routeName = $this->container->get('request')->get('_route');
+        $routeName = $request->get('_route');
+        if(!$routeName) {
+            return false;
+        }
+
         foreach($this->getOption('ignore_routes', array()) as $route) {
 
             if($routeName == $route) {
@@ -131,8 +143,7 @@ class Manager extends ContainerAware
             }
         }
 
-
-        $uri = $this->container->get('request')->getRequestUri();
+        $uri = $request->getRequestUri();
         foreach($this->getOption('ignore_uri_patterns', array()) as $uri_pattern) {
             if(preg_match($uri_pattern, $uri)) {
 
@@ -150,10 +161,13 @@ class Manager extends ContainerAware
      * @param  $block
      * @return string | Response
      */
-    public function renderBlock($block, $page)
+    public function renderBlock(BlockInterface $block, $page)
     {
 
-        $this->container->get('logger')->crit(sprintf('[cms::renderBlock] block.id=%d, block.type=%s ', $block->getId(), $block->getType()));
+        if($this->getLogger()) {
+            $this->getLogger()->crit(sprintf('[cms::renderBlock] block.id=%d, block.type=%s ', $block->getId(), $block->getType()));
+        }
+
         
         try {
             $service = $this->getBlockService($block);
@@ -164,11 +178,15 @@ class Manager extends ContainerAware
             }
             return $service->execute($block, $page);
         } catch (\Exception $e) {
-            if($this->container->getParameter('kernel.debug')) {
+            if($this->getDebug()) {
 
                 throw $e;
             }
-            $this->container->get('logger')->crit(sprintf('[cms::renderBlock] block.id=%d - error while rendering block - %s', $block->getId(), $e->getMessage()));
+            
+            if($this->getLogger()) {
+                $this->getLogger()->crit(sprintf('[cms::renderBlock] block.id=%d - error while rendering block - %s', $block->getId(), $e->getMessage()));
+            }
+
         }
 
         return '';
@@ -220,23 +238,34 @@ class Manager extends ContainerAware
      *
      * return the block service linked to the link
      * 
-     * @param  $block
-     * @return bool
+     * @param Sonata\PageBundle\Block\BlockInterface $block
+     * @return Sonata\PageBundle\Block\BlockServiceInterface
      */
-    public function getBlockService($block)
+    public function getBlockService(BlockInterface $block)
     {
-        $id = sprintf('page.block.%s', $block->getType());
 
-        try {
-            return $this->container->get($id);
-        } catch (\Exception $e) {
-            if($this->container->getParameter('kernel.debug')) {
-                throw $e;
+        if(!$this->hasBlockService($block->getType())) {
+            if($this->getDebug()) {
+                throw new \RuntimeException(sprintf('The block service `%s` referenced in the block `%s` does not exists', $block->getType(), $block->getId()));
             }
-            $this->container->get('logger')->crit(sprintf('[cms::getBlockService] block.id=%d - service:%s does not exists', $block->getId(), $id));
+
+            if($this->getLogger()){
+                $this->getLogger()->crit(sprintf('[cms::getBlockService] block.id=%d - service:%s does not exists', $block->getId(), $block->getType()));
+            }
+
+            return false;
         }
 
-        return false;
+        return $this->blockServices[$block->getType()];
+    }
+
+    /**
+     *
+     * @return boolean
+     */
+    public function hasBlockService($id)
+    {
+        return isset($this->blockServices[$id]) ? true : false;
     }
 
     /**
@@ -250,8 +279,8 @@ class Manager extends ContainerAware
     public function getPageByRouteName($routeName)
     {
 
-        $repository = $this->getRepository();
         if(!isset($this->routePages[$routeName])) {
+            $repository = $this->getRepository();
 
             $page = $repository->getPageByName($routeName);
 
@@ -261,15 +290,16 @@ class Manager extends ContainerAware
                     throw new \RuntimeException('No default template defined');
                 }
 
-                $page = $repository->save($repository->createNewPage(array(
+                $page = $repository->createNewPage(array(
                     'template' => $this->getDefaultTemplate(),
                     'enabled'  => true,
                     'routeName' => $routeName,
                     'name'      => $routeName,
                     'loginRequired' => false,
-                )));
+                ));
 
-                $this->getRepository()->save($page);
+                $repository->save($page);
+
             }
 
             $this->loadBlocks($page);
@@ -292,7 +322,7 @@ class Manager extends ContainerAware
     /**
      * return a fully loaded CMS page ( + blocks ) 
      *
-     * @param  $slug
+     * @param string $slug
      * @return bool
      */
     public function getPageBySlug($slug)
@@ -314,36 +344,43 @@ class Manager extends ContainerAware
      *   then the page is retrieve by using a slug
      *   otherwise the page is loaded from the route name
      *
-     * @return
+     * @return Application\Sonata\PageBundle\Entity\Page
      */
-    public function getCurrentPage()
+    public function defineCurrentPage($request)
     {
 
-        if($this->currentPage === null) {
+        $routeName = $request->get('_route');
 
-            $routeName = $this->container->get('request')->get('_route');
+        if($routeName == 'page_slug') { // true cms page
+            $slug = $request->get('slug');
 
-            if($routeName == 'page_slug') { // true cms page
-                $slug = $this->container->get('request')->get('slug');
-                
-                $this->currentPage = $this->getPageBySlug($slug);
+            $this->currentPage = $this->getPageBySlug($slug);
 
-                if(!$this->currentPage) {
-                    $this->container->get('logger')->crit(sprintf('[page:getCurrentPage] no page available for slug : %s', $slug));
-                }
+            if(!$this->currentPage && $this->getLogger()) {
 
-            } else { // hybrid page, ie an action is used
-                $this->currentPage = $this->getPageByRouteName($routeName);
+                $this->getLogger()->crit(sprintf('[page:getCurrentPage] no page available for slug : %s', $slug));
+            }
 
-                if(!$this->currentPage) {
-                    $this->container->get('logger')->crit(sprintf('[page:getCurrentPage] no page available for route : %s', $routeName));
-                }
+        } else { // hybrid page, ie an action is used
+            $this->currentPage = $this->getPageByRouteName($routeName);
+
+            if(!$this->currentPage && $this->getLogger()) {
+                $this->getLogger()->crit(sprintf('[page:getCurrentPage] no page available for route : %s', $routeName));
             }
         }
 
         return $this->currentPage;
     }
 
+    public function getCurrentPage()
+    {
+        return $this->currentPage;
+    }
+
+    /**
+     *
+     * @param string $id
+     */
     public function getBlock($id)
     {
         if(!isset($this->blocks[$id])) {
@@ -484,13 +521,52 @@ class Manager extends ContainerAware
         return $this->routePages;
     }
 
-    public function setRepository($repository)
-    {
-        $this->repository = $repository;
-    }
-
+    /**
+     * @return
+     */
     public function getRepository()
     {
-        return $this->repository;
+        // todo: find a better way to retrieve this value
+        return $this->getEntityManager()->getRepository('Application\Sonata\PageBundle\Entity\Page');
+    }
+
+    public function setLogger($logger)
+    {
+        $this->logger = $logger;
+    }
+
+    public function getLogger()
+    {
+        return $this->logger;
+    }
+
+    public function setEntityManager($entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
+    public function getEntityManager()
+    {
+        return $this->entityManager;
+    }
+
+    public function setDebug($debug)
+    {
+        $this->debug = $debug;
+    }
+
+    public function getDebug()
+    {
+        return $this->debug;
+    }
+
+    public function setTemplating($templating)
+    {
+        $this->templating = $templating;
+    }
+
+    public function getTemplating()
+    {
+        return $this->templating;
     }
 }

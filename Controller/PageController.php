@@ -28,9 +28,9 @@ class PageController extends Controller
     {
 
         if(is_string($page)) { // page is a slug, load the related page
-            $page = $this->get('page.manager')->getPageByRouteName($page);
+            $page = $this->get('sonata.page.manager')->getPageByRouteName($page);
         } else if(!$page)    { // get the current page
-            $page = $this->get('page.manager')->getCurrentPage();
+            $page = $this->get('sonata.page.manager')->getCurrentPage();
         } else {
             // the page is provided, here in a nested container
         }
@@ -40,12 +40,12 @@ class PageController extends Controller
             return $this->render('SonataPageBundle:Block:block_no_page_available.html.twig');
         }
 
-        $container = $this->get('page.manager')->findContainer($name, $page, $parent_container);
+        $container = $this->get('sonata.page.manager')->findContainer($name, $page, $parent_container);
 
 
         return $this->render('SonataPageBundle:Block:block_container.html.twig', array(
             'container' => $container,
-            'manager'   => $this->get('page.manager'),
+            'manager'   => $this->get('sonata.page.manager'),
             'page'      => $page,
         ));
     }

@@ -12,20 +12,9 @@
 
 namespace Sonata\PageBundle\Tests\Block;
 
-use Sonata\PageBundle\Page\Manager;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\DependencyInjection\Container;
-
-
+use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 
 class BaseTestBlockService extends \PHPUnit_Framework_TestCase
 {
 
-    public function getService()
-    {
-        $container = new Container;
-
-
-    }
 }

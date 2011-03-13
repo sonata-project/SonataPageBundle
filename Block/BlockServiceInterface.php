@@ -18,11 +18,37 @@ use Symfony\Component\HttpFoundation\Response;
 
 interface BlockServiceInterface
 {
-    public function __construct($name, ContainerInterface $container);
 
-    public function defineBlockForm(Form $form, BlockInterface $block);
+    /**
+     * @abstract
+     * @param \Symfony\Component\Form\Form $form
+     * @param BlockInterface $block
+     * @return void
+     */
+    function defineBlockForm(Form $form, BlockInterface $block);
 
-    public function execute(BlockInterface $block, $page, Response $response = null);
+    /**
+     * @abstract
+     * @param BlockInterface $block
+     * @param  $page
+     * @param null|\Symfony\Component\HttpFoundation\Response $response
+     * @return void
+     */
+    function execute(BlockInterface $block, $page, Response $response = null);
 
-    public function render($view, array $parameters = array(), Response $response = null);
+    /**
+     * @abstract
+     * @param  $view
+     * @param array $parameters
+     * @param null|\Symfony\Component\HttpFoundation\Response $response
+     * @return void
+     */
+    function render($view, array $parameters = array(), Response $response = null);
+
+    /**
+     * @abstract
+     * @param BlockInterface $block
+     * @return void
+     */
+    function validateBlock(BlockInterface $block);
 }

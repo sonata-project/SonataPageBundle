@@ -15,22 +15,17 @@ namespace Sonata\PageBundle\Tests\Block;
 use Sonata\PageBundle\Tests\Page\Block;
 use Sonata\PageBundle\Tests\Page\Page;
 use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\Form\FieldGroup;
+use Symfony\Component\Form\Form;
 use Sonata\PageBundle\Block\TextBlockService;
 
 class TextBlockServiceTest extends BaseTestBlockService
 {
 
-
     public function testService()
     {
-        $container = new Container;
+        $templating = new FakeTemplating;
 
-        $service = new TextBlockService('core.text', $container);
-
-        $this->assertEquals('SonataPageBundle:BlockAdmin:block_core_text_edit.html.twig', $service->getEditTemplate());
-        $this->assertEquals('SonataPageBundle:Block:block_core_text.html.twig', $service->getViewTemplate());
-
+        $service = new TextBlockService('sonata.page.block.text', $templating);
 
         $block = new Block;
         $block->setType('core.text');
@@ -38,19 +33,15 @@ class TextBlockServiceTest extends BaseTestBlockService
             'content' => 'my text'
         ));
 
-        $field = new FieldGroup('form');
-        $service->defineBlockGroupField($field, $block);
+        $field = new Form('form');
+        $service->defineBlockForm($field, $block);
 
         $this->assertEquals(1, count($field->getFields()));
 
         $page = new Page;
 
-        $templating = new FakeTemplating;
-
-        $container->set('templating', $templating);
-
         $service->execute($block, $page);
 
-        $this->assertEquals('my text', $templating->params['content']);
+        $this->assertEquals('my text', $templating->parameters['content']);
     }
 }

@@ -15,21 +15,18 @@ namespace Sonata\PageBundle\Tests\Block;
 use Sonata\PageBundle\Tests\Page\Block;
 use Sonata\PageBundle\Tests\Page\Page;
 use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\Form\FieldGroup;
-use Sonata\PageBundle\Block\ContainerBlockService;
+use Symfony\Component\Form\Form;
+use Sonata\PageBundle\Block\ActionBlockService;
 
 class ActionBlockServiceTest extends BaseTestBlockService
 {
 
     public function testService()
     {
-        $container = new Container;
 
-        $service = new ContainerBlockService('core.action', $container);
+        $kernel = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface');
 
-        $this->assertEquals('SonataPageBundle:BlockAdmin:block_core_action_edit.html.twig', $service->getEditTemplate());
-        $this->assertEquals('SonataPageBundle:Block:block_core_action.html.twig', $service->getViewTemplate());
-
+        $service = new ActionBlockService('sonata.page.block.action', new FakeTemplating, $kernel);
 
         $block = new Block;
         $block->setType('core.action');
@@ -37,10 +34,10 @@ class ActionBlockServiceTest extends BaseTestBlockService
             'action' => 'SonataPageBundle:Page:blockPreview'
         ));
 
-        $field = new FieldGroup('form');
-        $service->defineBlockGroupField($field, $block);
+        $field = new Form('form');
+        $service->defineBlockForm($field, $block);
 
-        $this->assertEquals(0, count($field->getFields()));
+        $this->assertEquals(2, count($field->getFields()));
 
 //        $page = new Page;
 //

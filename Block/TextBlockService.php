@@ -32,7 +32,7 @@ class TextBlockService extends BaseBlockService
         ));
     }
 
-    public function validateBlock($block)
+    public function validateBlock(BlockInterface $block)
     {
         // TODO: Implement validateBlock() method.
     }
@@ -41,7 +41,5 @@ class TextBlockService extends BaseBlockService
     {
 
         $form->add(new \Symfony\Component\Form\TextareaField('content'));
-        
     }
-
 }

@@ -12,83 +12,53 @@
 namespace Sonata\PageBundle\Block;
 
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\DependencyInjection\ContainerAware;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Form\Form;
-
+use Symfony\Component\Templating\EngineInterface;
 
 /**
- * BaseBlockServuice
+ * BaseBlockService
  *
  *
  * @author     Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-abstract class BaseBlockService extends ContainerAware implements BlockServiceInterface
+abstract class BaseBlockService implements BlockServiceInterface
 {
     protected $name;
 
-    public function __construct($name, ContainerInterface $container)
+    protected $templating;
+    
+    public function __construct($name, EngineInterface $templating)
     {
         $this->name = $name;
-        $this->container = $container;
-    }
-
-    abstract public function validateBlock(BlockInterface $block);
-
-    public function getViewTemplate()
-    {
-        return sprintf('SonataPageBundle:Block:block_%s.html.twig', str_replace('.', '_', $this->getName()));
+        $this->templating = $templating;
     }
 
     /**
-     * Creates a Response instance.
+     * Render a view
      *
-     * @param string  $content The Response body
-     * @param integer $status  The status code
-     * @param array   $headers An array of HTTP headers
-     *
-     * @return Response A Response instance
+     * @param string $view
+     * @param array $parameters
+     * @param null|\Symfony\Component\HttpFoundation\Response $response
+     * @return
      */
-    public function createResponse($content = '', $status = 200, array $headers = array())
-    {
-      
-        return new Response($content, $status, $headers);
-    }
-
-    public function getEditTemplate()
-    {
-        return sprintf('SonataPageBundle:BlockAdmin:block_%s_edit.html.twig', str_replace('.', '_', $this->getName()));
-    }
-
     public function render($view, array $parameters = array(), Response $response = null)
     {
-
-        return $this
-            ->container->get('templating')
-            ->render($view, $parameters, $response);
+        return $this->getTemplating()->render($view, $parameters, $response);
     }
 
-    public function execute(BlockInterface $block, $page, Response $response = null)
-    {
-        try {
-            $response = $this->render($block->getTemplate(), array(
-                 'block' => $block,
-                 'page'  => $page
-            ));
-        } catch(\Exception $e) {
-            return new Response('An error occur while processing the block : '.$e->getMessage());
-        }
-
-        return $response;
-    }
-
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
+    /**
+     *
+     * @return name
+     */
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @return \Symfony\Component\Templating\EngineInterface
+     */
+    public function getTemplating()
+    {
+        return $this->templating;
     }
 }
