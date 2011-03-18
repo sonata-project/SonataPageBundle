@@ -59,10 +59,12 @@ class Manager
      * @param  $response
      * @return
      */
-    public function filterReponse($event, $response)
+    public function onCoreResponse($event)
     {
-        $requestType = $event->get('request_type');
-        $request = $event->get('request');
+
+        $response    = $event->getResponse();
+        $requestType = $event->getRequestType();
+        $request     = $event->getRequest();
 
         if($this->isDecorable($request, $requestType, $response)) {
 
@@ -84,8 +86,6 @@ class Manager
                     )
                 );
             }
-
-            $event->setProcessed(true);
         }
         
         return $response;
