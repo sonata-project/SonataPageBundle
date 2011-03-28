@@ -12,6 +12,7 @@
 namespace Sonata\PageBundle\Admin;
 
 use Sonata\AdminBundle\Admin\Admin;
+use Sonata\AdminBundle\Route\RouteCollection;
 
 class BlockAdmin extends Admin
 {
@@ -40,18 +41,9 @@ class BlockAdmin extends Admin
     );
 
 
-    public function configureUrls()
+    public function configureRoutes(RouteCollection $collection)
     {
-        
-        $this->urls['savePosition'] = array(
-            'name'      => $this->getBaseRouteName().'_save_position',
-            'pattern'   => $this->getBaseRoutePattern().'/save-position',
-        );
-
-        $this->urls['view'] = array(
-            'name'      => $this->getBaseRouteName().'_view',
-            'pattern'   => $this->getBaseRoutePattern().'/view/{id}',
-        );
+        $collection->add('savePosition', 'save-position');
+        $collection->add('view', $this->getRouterIdParameter().'/view');
     }
-
 }

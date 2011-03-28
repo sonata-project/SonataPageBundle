@@ -22,10 +22,10 @@
 
     homepage:
         pattern:  /
-        defaults: { _controller: SonataPageBundle:Page:homepage }
+        defaults: { _controller: SonataPage:Page:homepage }
 
     page_block:
-        resource: '@SonataPageBundle/Resources/config/routing/block.xml'
+        resource: '@SonataPage/Resources/config/routing/block.xml'
         prefix: /page/block
 
 * Add in your config.yml file

@@ -38,7 +38,7 @@ file that was distributed with this source code.
             
             <!-- header -->
             <div class="span-24 last">
-                {% render 'SonataPageBundle:Page:renderContainer' with {
+                {% render 'SonataPage:Page:renderContainer' with {
                     'name' : 'header',
                     'page' : 'global'
                 } %}
@@ -46,21 +46,21 @@ file that was distributed with this source code.
 
             <!-- left sidebar -->
             <div class="span-4">
-                {% render 'SonataPageBundle:Page:renderContainer' with {
+                {% render 'SonataPage:Page:renderContainer' with {
                     'name' : 'sidebar',
                     'page' : 'global'
                 } %}
             </div>
 
             <div class="span-20 last">
-                {% render 'SonataPageBundle:Page:renderContainer' with {
+                {% render 'SonataPage:Page:renderContainer' with {
                     'name' : 'content_top',
                     'page' : 'global'
                 } %}
 
                 {{ content|raw }}
 
-                {% render 'SonataPageBundle:Page:renderContainer' with {
+                {% render 'SonataPage:Page:renderContainer' with {
                     'name' : 'content_bottom',
                     'page' : 'global'
                 } %}
@@ -68,7 +68,7 @@ file that was distributed with this source code.
 
             <!-- footer -->
             <div class="span-24 last">
-                {% render 'SonataPageBundle:Page:renderContainer' with {
+                {% render 'SonataPage:Page:renderContainer' with {
                     'name' : 'footer',
                     'page' : 'global'
                 } %}
@@ -79,7 +79,7 @@ file that was distributed with this source code.
         <!-- CMS specific variables -->
         <script>
             Page.url = {
-                block_save_position: '{{ path('admin_sonata_page_block_save_position') }}',
+                block_save_position: '{{ path('admin_sonata_page_block_savePosition') }}',
                 block_create: '{{ path('admin_sonata_page_block_create', {'id': page.id }) }}',
                 block_update: '{{ path('admin_sonata_page_block_update', {'id': page.id }) }}',
                 block_edit:   '{{ path('admin_sonata_page_block_edit', {'id': page.id, 'childId': 'BLOCK_ID'}) }}',

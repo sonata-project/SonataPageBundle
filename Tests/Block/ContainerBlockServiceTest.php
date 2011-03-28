@@ -42,7 +42,7 @@ class ContainerBlockServiceTest extends BaseTestBlockService
 
         $service->execute($block, $page);
 
-        $this->assertEquals('SonataPageBundle:Page:renderContainer', $templating->view);
+        $this->assertEquals('SonataPage:Page:renderContainer', $templating->view);
         $this->assertEquals('Symfony', $templating->parameters['attributes']['name']);
         $this->assertInstanceOf('Sonata\PageBundle\Tests\Page\Page', $templating->parameters['attributes']['page']);
         $this->assertInstanceOf('Sonata\PageBundle\Tests\Page\Block', $templating->parameters['attributes']['parent_container']);

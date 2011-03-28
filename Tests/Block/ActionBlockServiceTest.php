@@ -31,7 +31,7 @@ class ActionBlockServiceTest extends BaseTestBlockService
         $block = new Block;
         $block->setType('core.action');
         $block->setSettings(array(
-            'action' => 'SonataPageBundle:Page:blockPreview'
+            'action' => 'SonataPage:Page:blockPreview'
         ));
 
         $field = new Form('form');

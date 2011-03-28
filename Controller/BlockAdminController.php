@@ -96,7 +96,7 @@ class BlockAdminController extends Controller
             return new RedirectResponse($this->admin->generateUrl('edit', array('id' => $block->getId())));
         }
 
-        return $this->forward('SonataPageBundle:BlockAdmin:edit', array(
+        return $this->forward('SonataPage:BlockAdmin:edit', array(
             'id'    => $block,
             'form'  => $form
         ));
