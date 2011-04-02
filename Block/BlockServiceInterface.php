@@ -15,6 +15,7 @@ namespace Sonata\PageBundle\Block;
 use Symfony\Component\Form\Form;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Sonata\AdminBundle\Form\FormMapper;
 
 interface BlockServiceInterface
 {
@@ -25,7 +26,15 @@ interface BlockServiceInterface
      * @param BlockInterface $block
      * @return void
      */
-    function defineBlockForm(Form $form, BlockInterface $block);
+    function buildEditForm(FormMapper $form, BlockInterface $block);
+
+    /**
+     * @abstract
+     * @param \Symfony\Component\Form\Form $form
+     * @param BlockInterface $block
+     * @return void
+     */
+    function buildCreateForm(FormMapper $form, BlockInterface $block);
 
     /**
      * @abstract

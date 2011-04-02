@@ -29,6 +29,11 @@
             <call method="setModelManager">
                 <argument type="service" id="sonata.page.entity_manager" />
             </call>
+
+            <call method="addChild">
+                <argument>sonata.page.admin.block</argument>
+                <argument type="service" id="sonata.page.admin.block" />
+            </call>
         </service>
 
         <service id="sonata.page.admin.block" class="%sonata.page.admin.block.class%">
@@ -38,6 +43,10 @@
 
             <call method="setModelManager">
                 <argument type="service" id="sonata.page.entity_manager" />
+            </call>
+
+            <call method="setManager">
+                <argument type="service" id="sonata.page.manager" />
             </call>
         </service>
 

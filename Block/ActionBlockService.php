@@ -16,6 +16,8 @@ use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Templating\EngineInterface;
+use Sonata\AdminBundle\Form\FormMapper;
+use Symfony\Component\Form\TextField;
 
 /**
  * PageExtension
@@ -51,16 +53,39 @@ class ActionBlockService extends BaseBlockService
         // TODO: Implement validateBlock() method.
     }
 
-    public function defineBlockForm(Form $form, BlockInterface $block)
+    /**
+     * @param \Sonata\AdminBundle\Form\FormMapper $formMapper
+     * @param BlockInterface $block
+     * @return void
+     */
+    public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
     {
-        $form->add(new \Symfony\Component\Form\TextField('action'));
+        $formMapper->add('action');
 
-        $parameters = new \Symfony\Component\Form\Form('parameters');
+        $parameters = new Form('parameters');
         
         foreach($block->getSetting('parameters', array()) as $name => $value) {
-            $parameters->add(new \Symfony\Component\Form\TextField($name));
+            $formMapper->add(new TextField($name));
         }
 
-        $form->add($parameters);
+        $formMapper->add($parameters);
+    }
+
+    /**
+     * @param \Sonata\AdminBundle\Form\FormMapper $formMapper
+     * @param BlockInterface $block
+     * @return void
+     */
+    public function buildCreateForm(FormMapper $formMapper, BlockInterface $block)
+    {
+        $formMapper->add('action');
+
+        $parameters = new Form('parameters');
+
+        foreach($block->getSetting('parameters', array()) as $name => $value) {
+            $formMapper->add(new TextField($name));
+        }
+
+        $formMapper->add($parameters);
     }
 }

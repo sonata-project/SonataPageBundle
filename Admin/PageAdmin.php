@@ -12,6 +12,8 @@
 namespace Sonata\PageBundle\Admin;
 
 use Sonata\AdminBundle\Admin\Admin;
+use Sonata\AdminBundle\Route\RouteCollection;
+use Knplabs\Bundle\MenuBundle\Menu;
 
 class PageAdmin extends Admin
 {
@@ -59,5 +61,35 @@ class PageAdmin extends Admin
         )
     );
 
+    public function getSideMenu($action, $childAdmin = false)
+    {
 
+        if ($childAdmin || in_array($action, array('edit'))) {
+            return $this->getEditSideMenu();
+        }
+
+        return false;
+    }
+
+    public function getEditSideMenu()
+    {
+
+        $menu = new Menu;
+
+        $admin = $this->isChild() ? $this->getParent() : $this;
+
+        $id = $admin->getRequest()->get('id');
+
+        $menu->addChild(
+            $this->trans('edit_page'),
+            $admin->generateUrl('edit', array('id' => $id))
+        );
+
+        $menu->addChild(
+            $this->trans('view_page_blocks'),
+            $admin->generateUrl('sonata.page.admin.block.list', array('id' => $id))
+        );
+
+        return $menu;
+    }
 }

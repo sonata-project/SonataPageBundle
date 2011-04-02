@@ -13,7 +13,8 @@ namespace Sonata\PageBundle\Block;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Form;
-
+use Sonata\AdminBundle\Form\FormMapper;
+    
 /**
  * PageExtension
  *
@@ -55,8 +56,18 @@ class ContainerBlockService extends BaseBlockService
      * @param BlockInterface $block
      * @return void
      */
-    public function defineBlockForm(Form $form, BlockInterface $block)
+    public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
     {
         
+    }
+
+    /**
+     * @param \Symfony\Component\Form\Form $form
+     * @param BlockInterface $block
+     * @return void
+     */
+    public function buildCreateForm(FormMapper $formMapper, BlockInterface $block)
+    {
+
     }
 }

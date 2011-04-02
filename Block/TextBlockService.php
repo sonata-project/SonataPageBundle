@@ -13,7 +13,8 @@ namespace Sonata\PageBundle\Block;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Form;
-
+use Sonata\AdminBundle\Form\FormMapper;
+    
 /**
  * PageExtension
  *
@@ -37,9 +38,13 @@ class TextBlockService extends BaseBlockService
         // TODO: Implement validateBlock() method.
     }
 
-    public function defineBlockForm(Form $form, BlockInterface $block)
+    public function buildCreateForm(FormMapper $formMapper, BlockInterface $block)
     {
+        $formMapper->add('content');
+    }
 
-        $form->add(new \Symfony\Component\Form\TextareaField('content'));
+    public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
+    {
+        $formMapper->add('content');
     }
 }
