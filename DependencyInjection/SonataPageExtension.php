@@ -40,6 +40,7 @@ class SonataPageExtension extends Extension
         $loader->load('page.xml');
         $loader->load('admin.xml');
         $loader->load('block.xml');
+        $loader->load('orm.xml');
 
         // todo: use the configuration class
         $config = call_user_func_array('array_merge_recursive', $config);

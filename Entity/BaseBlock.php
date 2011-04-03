@@ -10,7 +10,8 @@
 
 namespace Sonata\PageBundle\Entity;
 
-use Sonata\PageBundle\Block\BlockInterface;
+use Sonata\PageBundle\Model\BlockInterface;
+use Sonata\PageBundle\Model\PageInterface;
 
 class BaseBlock implements BlockInterface
 {
@@ -63,7 +64,7 @@ class BaseBlock implements BlockInterface
      *
      * @param array $settings
      */
-    public function setSettings($settings)
+    public function setSettings(array $settings = array())
     {
         $this->settings = $settings;
     }
@@ -123,7 +124,7 @@ class BaseBlock implements BlockInterface
      *
      * @param datetime $createdAt
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt(\DateTime $createdAt = null)
     {
         $this->createdAt = $createdAt;
     }
@@ -143,7 +144,7 @@ class BaseBlock implements BlockInterface
      *
      * @param datetime $updatedAt
      */
-    public function setUpdatedAt($updatedAt)
+    public function setUpdatedAt(\DateTime $updatedAt = null)
     {
         $this->updatedAt = $updatedAt;
     }
@@ -163,7 +164,7 @@ class BaseBlock implements BlockInterface
      *
      * @param Application\Sonata\PageBundle\Entity\Block $children
      */
-    public function addChildren(\Application\Sonata\PageBundle\Entity\Block $children)
+    public function addChildren(BlockInterface $children)
     {
         $this->children[] = $children;
     }
@@ -183,7 +184,7 @@ class BaseBlock implements BlockInterface
      *
      * @param Application\Sonata\PageBundle\Entity\Block $parent
      */
-    public function setParent(\Application\Sonata\PageBundle\Entity\Block $parent)
+    public function setParent(BlockInterface $parent)
     {
         $this->parent = $parent;
     }
@@ -203,7 +204,7 @@ class BaseBlock implements BlockInterface
      *
      * @param Application\Sonata\PageBundle\Entity\Page $page
      */
-    public function setPage(\Application\Sonata\PageBundle\Entity\Page $page)
+    public function setPage(PageInterface $page)
     {
         $this->page = $page;
     }

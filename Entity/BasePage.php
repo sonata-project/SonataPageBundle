@@ -11,9 +11,12 @@
 
 namespace Sonata\PageBundle\Entity;
 
-class BasePage
+use Sonata\PageBundle\Model\BlockInterface;
+use Sonata\PageBundle\Model\PageInterface;
+use Sonata\PageBundle\Model\TemplateInterface;
+
+class BasePage implements PageInterface
 {
-    const PAGE_ROUTE_CMS_NAME = 'page_slug';
 
     protected $createdAt;
 
@@ -260,7 +263,7 @@ class BasePage
      *
      * @param datetime $publicationDateStart
      */
-    public function setPublicationDateStart($publicationDateStart)
+    public function setPublicationDateStart(\DateTime $publicationDateStart = null)
     {
         $this->publicationDateStart = $publicationDateStart;
     }
@@ -280,7 +283,7 @@ class BasePage
      *
      * @param datetime $publicationDateEnd
      */
-    public function setPublicationDateEnd($publicationDateEnd)
+    public function setPublicationDateEnd(\DateTime $publicationDateEnd = null)
     {
         $this->publicationDateEnd = $publicationDateEnd;
     }
@@ -300,7 +303,7 @@ class BasePage
      *
      * @param datetime $createdAt
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt(\DateTime $createdAt = null)
     {
         $this->createdAt = $createdAt;
     }
@@ -320,7 +323,7 @@ class BasePage
      *
      * @param datetime $updatedAt
      */
-    public function setUpdatedAt($updatedAt)
+    public function setUpdatedAt(\DateTime $updatedAt = null)
     {
         $this->updatedAt = $updatedAt;
     }
@@ -340,7 +343,7 @@ class BasePage
      *
      * @param Application\Sonata\PageBundle\Entity\Page $children
      */
-    public function addChildren(\Sonata\PageBundle\Entity\BasePage $children)
+    public function addChildren(PageInterface $children)
     {
         $this->children[] = $children;
     }
@@ -360,7 +363,7 @@ class BasePage
      *
      * @param Application\Sonata\PageBundle\Entity\Block $blocs
      */
-    public function addBlocks(\Sonata\PageBundle\Entity\BaseBlock $blocs)
+    public function addBlocks(BlockInterface $blocs)
     {
         $this->blocks[] = $blocs;
     }
@@ -380,7 +383,7 @@ class BasePage
      *
      * @param Application\Sonata\PageBundle\Entity\Page $parent
      */
-    public function setParent(\Application\Sonata\PageBundle\Entity\Page $parent)
+    public function setParent(PageInterface $parent)
     {
         $this->parent = $parent;
     }
@@ -400,7 +403,7 @@ class BasePage
      *
      * @param Application\Sonata\PageBundle\Entity\Template $template
      */
-    public function setTemplate(\Application\Sonata\PageBundle\Entity\Template $template)
+    public function setTemplate(TemplateInterface $template)
     {
         $this->template = $template;
     }

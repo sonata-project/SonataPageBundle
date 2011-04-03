@@ -12,12 +12,14 @@
 namespace Sonata\PageBundle\Block;
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\Form\Form;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\Form\TextField;
 use Symfony\Component\Templating\EngineInterface;
 use Sonata\AdminBundle\Form\FormMapper;
-use Symfony\Component\Form\TextField;
+use Sonata\PageBundle\Model\BlockInterface;
+
 
 /**
  * PageExtension

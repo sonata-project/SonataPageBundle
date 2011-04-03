@@ -11,7 +11,9 @@
         <service id="sonata.page.entity_manager" alias="doctrine.orm.default_entity_manager" />
 
         <service id="sonata.page.manager" class="%sonata.page.manager.class%">
-            <argument type="service" id="sonata.page.entity_manager" />
+            <argument type="service" id="sonata.page.manager.page" />
+            <argument type="service" id="sonata.page.manager.block" />
+            <argument type="service" id="templating" />
 
             <call method="setLogger">
                 <argument type="service" id="logger" />
@@ -19,10 +21,6 @@
 
             <call method="setDebug">
                 <argument >%kernel.debug%</argument>
-            </call>
-
-            <call method="setTemplating">
-                <argument type="service" id="templating" />
             </call>
         </service>
     </services>

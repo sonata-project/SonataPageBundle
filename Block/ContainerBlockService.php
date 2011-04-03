@@ -14,6 +14,7 @@ namespace Sonata\PageBundle\Block;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Form;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\PageBundle\Model\BlockInterface;
     
 /**
  * PageExtension

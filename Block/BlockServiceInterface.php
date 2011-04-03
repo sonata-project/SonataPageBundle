@@ -16,6 +16,7 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\PageBundle\Model\BlockInterface;
 
 interface BlockServiceInterface
 {

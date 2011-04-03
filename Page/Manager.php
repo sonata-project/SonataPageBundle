@@ -12,8 +12,13 @@
 namespace Sonata\PageBundle\Page;
 
 use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Sonata\PageBundle\Block\BlockInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Sonata\PageBundle\Model\BlockInterface;
+use Sonata\PageBundle\Model\PageInterface;
+use Sonata\PageBundle\Model\BlockManagerInterface;
+use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Block\BlockServiceInterface;
 use Application\Sonata\PageBundle\Entity\Page;
 
@@ -41,15 +46,19 @@ class Manager
 
     protected $logger;
 
-    protected $entityManager;
+    protected $blockManager;
 
-    protected $debug = false;
+    protected $pageManager;
 
     protected $templating;
 
-    public function __construct($entityManager)
+    protected $debug = false;
+
+    public function __construct(PageManagerInterface $pageManager, BlockManagerInterface $blockManager, EngineInterface $templating)
     {
-        $this->entityManager = $entityManager;
+        $this->pageManager  = $pageManager;
+        $this->blockManager = $blockManager;
+        $this->templating   = $templating;
     }
 
     /**
@@ -77,7 +86,7 @@ class Manager
                 }
 
                 $response->setContent(
-                    $this->getTemplating()->render(
+                    $this->templating->render(
                         $template,
                         array(
                             'content'   => $response->getContent(),
@@ -103,7 +112,7 @@ class Manager
      * @param Response $response
      * @return bool
      */
-    public function isDecorable($request, $requestType, Response $response)
+    public function isDecorable(Request $request, $requestType, Response $response)
     {
 
         if($requestType != HttpKernelInterface::MASTER_REQUEST) {
@@ -161,7 +170,7 @@ class Manager
      * @param  $block
      * @return string | Response
      */
-    public function renderBlock(BlockInterface $block, $page)
+    public function renderBlock(BlockInterface $block, PageInterface $page)
     {
 
         if($this->getLogger()) {
@@ -192,7 +201,7 @@ class Manager
         return '';
     }
 
-    public function findContainer($name, $page, $parentContainer = null)
+    public function findContainer($name, PageInterface $page, BlockInterface $parentContainer = null)
     {
 
         $container = false;
@@ -216,7 +225,7 @@ class Manager
 
         if(!$container) {
           
-            $container = $this->getRepository()->createNewContainer(array(
+            $container = $this->blockManager->createNewContainer(array(
                 'enabled' => true,
                 'page' => $page,
                 'name' => $name,
@@ -227,7 +236,7 @@ class Manager
                 $container->setParent($parentContainer);
             }
 
-            $this->getRepository()->save($container);
+            $this->blockManager->save($container);
         }
 
         return $container;
@@ -280,9 +289,7 @@ class Manager
     {
 
         if(!isset($this->routePages[$routeName])) {
-            $repository = $this->getRepository();
-
-            $page = $repository->getPageByName($routeName);
+            $page = $this->pageManager->getPageByName($routeName);
 
             if(!$page) {
 
@@ -290,7 +297,7 @@ class Manager
                     throw new \RuntimeException('No default template defined');
                 }
 
-                $page = $repository->createNewPage(array(
+                $page = $this->pageManager->createNewPage(array(
                     'template' => $this->getDefaultTemplate(),
                     'enabled'  => true,
                     'routeName' => $routeName,
@@ -298,7 +305,7 @@ class Manager
                     'loginRequired' => false,
                 ));
 
-                $repository->save($page);
+                $this->pageManager->save($page);
 
             }
 
@@ -316,7 +323,7 @@ class Manager
      */
     public function getDefaultTemplate()
     {
-        return $this->getRepository()->getDefaultTemplate();
+        return $this->pageManager->getDefaultTemplate();
     }
 
     /**
@@ -328,7 +335,7 @@ class Manager
     public function getPageBySlug($slug)
     {
 
-        $page = $this->getRepository()->getPageBySlug($slug);
+        $page = $this->pageManager->getPageBySlug($slug);
 
         if($page) {
             $this->loadBlocks($page);
@@ -385,7 +392,7 @@ class Manager
     {
         if(!isset($this->blocks[$id])) {
 
-            $this->blocks[$id] = $this->getRepository()->getBlock($id);
+            $this->blocks[$id] = $this->blockManager->getBlock($id);
         }
 
         return $this->blocks[$id];
@@ -394,29 +401,18 @@ class Manager
     /**
      * load all the related nested blocks linked to one page.
      *
-     * @param  $page
+     * @param PageInterface $page
      * @return void
      */
-    public function loadBlocks($page)
+    public function loadBlocks(PageInterface $page)
     {
 
-        $blocks = $this->getRepository()->loadPageBlocks($page);
+        $blocks = $this->blockManager->loadPageBlocks($page);
 
         // save a local cache
         foreach($blocks as $block) {
             $this->blocks[$block->getId()] = $block;
         }
-    }
-
-    public function defineBlockForm($form)
-    {
-
-        $form->add(new \Symfony\Component\Form\CheckboxField('enabled'));
-
-        $group_field = new \Symfony\Component\Form\Form('settings');
-        $form->add($group_field);
-
-        $this->getBlockService($form->getData())->defineBlockForm($group_field, $form->getData());
     }
 
     /**
@@ -477,8 +473,7 @@ class Manager
      */
     public function savePosition($data)
     {
-
-        return $this->getRepository()->saveBlocksPosition($data);
+        return $this->blockManager->saveBlocksPosition($data);
     }
 
     public function setBlocks($blocks)
@@ -491,7 +486,7 @@ class Manager
         return $this->blocks;
     }
 
-    public function setOptions($options)
+    public function setOptions(array $options = array())
     {
         $this->options = $options;
     }
@@ -521,15 +516,6 @@ class Manager
         return $this->routePages;
     }
 
-    /**
-     * @return
-     */
-    public function getRepository()
-    {
-        // todo: find a better way to retrieve this value
-        return $this->getEntityManager()->getRepository('Application\Sonata\PageBundle\Entity\Page');
-    }
-
     public function setLogger($logger)
     {
         $this->logger = $logger;
@@ -540,16 +526,6 @@ class Manager
         return $this->logger;
     }
 
-    public function setEntityManager($entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }
-
-    public function getEntityManager()
-    {
-        return $this->entityManager;
-    }
-
     public function setDebug($debug)
     {
         $this->debug = $debug;
@@ -558,15 +534,5 @@ class Manager
     public function getDebug()
     {
         return $this->debug;
-    }
-
-    public function setTemplating($templating)
-    {
-        $this->templating = $templating;
-    }
-
-    public function getTemplating()
-    {
-        return $this->templating;
     }
 }
