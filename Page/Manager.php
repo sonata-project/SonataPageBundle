@@ -80,7 +80,7 @@ class Manager
             $page = $this->defineCurrentPage($request);
 
             if ($page && $page->getDecorate()) {
-                $template = 'SonataPage::layout.html.twig';
+                $template = 'SonataPageBundle::layout.html.twig';
                 if($this->getCurrentPage()) {
                     $template = $this->getCurrentPage()->getTemplate()->getPath();
                 }

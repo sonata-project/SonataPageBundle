@@ -34,7 +34,7 @@ class ContainerBlockService extends BaseBlockService
     public function execute(BlockInterface $block, $page, Response $response = null)
     {
 
-        return $this->getTemplating()->renderResponse('SonataPage:Page:renderContainer', array(
+        return $this->getTemplating()->renderResponse('SonataPageBundle:Page:renderContainer', array(
             'attributes' => array(
                 'name'              => $block->getSetting('name'),
                 'page'              => $page,

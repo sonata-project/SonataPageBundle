@@ -15,7 +15,7 @@ use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\PageBundle\Page\Manager;
-    
+
 class BlockAdmin extends Admin
 {
     protected $parentAssociationMapping = 'page';
@@ -41,7 +41,6 @@ class BlockAdmin extends Admin
         'enabled',
         'type',
     );
-
     /**
      * @param \Sonata\PageBundle\Page\Manager $manager
      * @return void

@@ -37,13 +37,13 @@ class PageController extends Controller
 
         if(!$page) {
 
-            return $this->render('SonataPage:Block:block_no_page_available.html.twig');
+            return $this->render('SonataPageBundle:Block:block_no_page_available.html.twig');
         }
 
         $container = $this->get('sonata.page.manager')->findContainer($name, $page, $parent_container);
 
 
-        return $this->render('SonataPage:Block:block_container.html.twig', array(
+        return $this->render('SonataPageBundle:Block:block_container.html.twig', array(
             'container' => $container,
             'manager'   => $this->get('sonata.page.manager'),
             'page'      => $page,

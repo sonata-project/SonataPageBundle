@@ -43,7 +43,7 @@ class ActionBlockService extends BaseBlockService
 
         $params = array_merge($block->getSetting('parameters', array()), array('_block' => $block, '_page' => $page));
         
-        return $this->render('SonataPage:Block:block_core_action.html.twig', array(
+        return $this->render('SonataPageBundle:Block:block_core_action.html.twig', array(
             'content'   => $this->kernel->render($block->getSetting('action'), $params),
             'block'     => $block,
             'page'      => $page,
