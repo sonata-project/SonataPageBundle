@@ -8,7 +8,7 @@
         <parameter key="sonata.page.admin.page.class">Sonata\PageBundle\Admin\PageAdmin</parameter>
         <parameter key="sonata.page.admin.page.controller">SonataPageBundle:PageAdmin</parameter>
         <parameter key="sonata.page.admin.page.entity">Application\Sonata\PageBundle\Entity\Page</parameter>
-        
+
         <!-- BLOCK -->
         <parameter key="sonata.page.admin.block.class">Sonata\PageBundle\Admin\BlockAdmin</parameter>
         <parameter key="sonata.page.admin.block.controller">SonataPageBundle:BlockAdmin</parameter>
@@ -23,27 +23,20 @@
     <services>
         <service id="sonata.page.admin.page" class="%sonata.page.admin.page.class%">
             <tag name="sonata.admin" manager_type="orm" group="sonata_page" label="page"/>
+            <argument />
             <argument>%sonata.page.admin.page.entity%</argument>
             <argument>%sonata.page.admin.page.controller%</argument>
 
-            <call method="setModelManager">
-                <argument type="service" id="sonata.page.entity_manager" />
-            </call>
-
             <call method="addChild">
-                <argument>sonata.page.admin.block</argument>
                 <argument type="service" id="sonata.page.admin.block" />
             </call>
         </service>
 
         <service id="sonata.page.admin.block" class="%sonata.page.admin.block.class%">
             <tag name="sonata.admin" manager_type="orm" group="sonata_page" label="block"/>
+            <argument />
             <argument>%sonata.page.admin.block.entity%</argument>
             <argument>%sonata.page.admin.block.controller%</argument>
-
-            <call method="setModelManager">
-                <argument type="service" id="sonata.page.entity_manager" />
-            </call>
 
             <call method="setManager">
                 <argument type="service" id="sonata.page.manager" />
@@ -52,13 +45,10 @@
 
         <service id="sonata.page.admin.template" class="%sonata.page.admin.template.class%">
             <tag name="sonata.admin" manager_type="orm" group="sonata_page" label="template"/>
+            <argument />
             <argument>%sonata.page.admin.template.entity%</argument>
             <argument>%sonata.page.admin.template.controller%</argument>
-
-            <call method="setModelManager">
-                <argument type="service" id="sonata.page.entity_manager" />
-            </call>
         </service>
     </services>
-    
+
 </container>

@@ -61,20 +61,11 @@ class PageAdmin extends Admin
         )
     );
 
-    public function getSideMenu($action, $childAdmin = false)
+    public function configureSideMenu(Menu $menu, $action, Admin $childAdmin = null)
     {
-
-        if ($childAdmin || in_array($action, array('edit'))) {
-            return $this->getEditSideMenu();
+        if (!$childAdmin && !in_array($action, array('edit'))) {
+            return;
         }
-
-        return false;
-    }
-
-    public function getEditSideMenu()
-    {
-
-        $menu = new Menu;
 
         $admin = $this->isChild() ? $this->getParent() : $this;
 
@@ -89,7 +80,5 @@ class PageAdmin extends Admin
             $this->trans('view_page_blocks'),
             $admin->generateUrl('sonata.page.admin.block.list', array('id' => $id))
         );
-
-        return $menu;
     }
 }
