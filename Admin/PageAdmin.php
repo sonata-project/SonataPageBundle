@@ -13,7 +13,7 @@ namespace Sonata\PageBundle\Admin;
 
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Route\RouteCollection;
-use Knplabs\Bundle\MenuBundle\Menu;
+use Knplabs\Bundle\MenuBundle\MenuItem;
 
 class PageAdmin extends Admin
 {
@@ -61,7 +61,7 @@ class PageAdmin extends Admin
         )
     );
 
-    public function configureSideMenu(Menu $menu, $action, Admin $childAdmin = null)
+    public function configureSideMenu(MenuItem $menu, $action, Admin $childAdmin = null)
     {
         if (!$childAdmin && !in_array($action, array('edit'))) {
             return;
