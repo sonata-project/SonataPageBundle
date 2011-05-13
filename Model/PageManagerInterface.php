@@ -16,7 +16,7 @@ interface PageManagerInterface
 {
     /**
      * return a page with the given routeName
-     * 
+     *
      * @param string $routeName
      * @return PageInterface|false
      */
@@ -25,7 +25,7 @@ interface PageManagerInterface
     /**
      * return a page with the give slug
      *
-     * @param string $routeName
+     * @param string $slug
      * @return PageInterface
      */
     function getPageBySlug($slug);
@@ -38,4 +38,11 @@ interface PageManagerInterface
      * @return void
      */
     function save(PageInterface $object);
+
+    /**
+     * @abstract
+     * @param array $params
+     * @return void
+     */
+    function createNewPage(array $params = array());
 }

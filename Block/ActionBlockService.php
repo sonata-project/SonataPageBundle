@@ -34,7 +34,7 @@ class ActionBlockService extends BaseBlockService
     public function __construct($name, EngineInterface $templating, HttpKernelInterface $kernel)
     {
         parent::__construct($name, $templating);
-        
+
         $this->kernel = $kernel;
     }
 
@@ -42,7 +42,7 @@ class ActionBlockService extends BaseBlockService
     {
 
         $params = array_merge($block->getSetting('parameters', array()), array('_block' => $block, '_page' => $page));
-        
+
         return $this->render('SonataPageBundle:Block:block_core_action.html.twig', array(
             'content'   => $this->kernel->render($block->getSetting('action'), $params),
             'block'     => $block,
@@ -65,8 +65,8 @@ class ActionBlockService extends BaseBlockService
         $formMapper->add('action');
 
         $parameters = new Form('parameters');
-        
-        foreach($block->getSetting('parameters', array()) as $name => $value) {
+
+        foreach ($block->getSetting('parameters', array()) as $name => $value) {
             $formMapper->add(new TextField($name));
         }
 
@@ -84,7 +84,7 @@ class ActionBlockService extends BaseBlockService
 
         $parameters = new Form('parameters');
 
-        foreach($block->getSetting('parameters', array()) as $name => $value) {
+        foreach ($block->getSetting('parameters', array()) as $name => $value) {
             $formMapper->add(new TextField($name));
         }
 

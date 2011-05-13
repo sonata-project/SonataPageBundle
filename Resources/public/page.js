@@ -39,18 +39,18 @@ var Page = {
         Page.blocks = jQuery('div.cms-block-element, div.cms-container-root');
         Page.blocks.mouseover(Page.handleBlockHover);
         Page.blocks.dblclick(Page.handleBlockClick);
-        
+
         Page.buildHandler();
     },
 
     lockActions: function(bool) {
-        
+
     },
 
     edit: function() {
 
         document.location.href = Page.url.page_edit;
-        
+
     },
 
     handleBlockClick: function(event) {
@@ -69,7 +69,7 @@ var Page = {
 
     handleClickEnabledEdit: function(event) {
 
-        if(event.currentTarget.checked) {
+        if (event.currentTarget.checked) {
             jQuery('#page-action-save-position').show();
             jQuery('#page-action-edit').show();
             jQuery("div.cms-container").sortable('enable');
@@ -107,7 +107,7 @@ var Page = {
         });
 
     },
-    
+
     buildInformation: function() {
         var blocks = jQuery("div.cms-container-root");
 
@@ -124,7 +124,7 @@ var Page = {
 
     buildBlockInformation: function(block) {
 
-        if(!block.id) {
+        if (!block.id) {
             return;
         }
         var blocks = jQuery('#' + block.id + ' > div.cms-block');

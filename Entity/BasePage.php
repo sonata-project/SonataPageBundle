@@ -43,21 +43,21 @@ class BasePage implements PageInterface
     protected $publicationDateEnd;
 
     protected $loginRequired;
-    
+
     protected $blocks;
 
     protected $parent;
 
     protected $children;
-    
+
     protected $template;
 
     protected $customUrl;
 
     protected $position = 1;
-  
+
     protected $decorate = true;
-    
+
     /**
      * Set routeName
      *
@@ -420,7 +420,7 @@ class BasePage implements PageInterface
 
     public function disableBlockLazyLoading()
     {
-        if(is_object($this->blocks))
+        if (is_object($this->blocks))
         {
             $this->blocks->setInitialized(true);
         }

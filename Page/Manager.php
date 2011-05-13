@@ -70,18 +70,17 @@ class Manager
      */
     public function onCoreResponse($event)
     {
-
         $response    = $event->getResponse();
         $requestType = $event->getRequestType();
         $request     = $event->getRequest();
 
-        if($this->isDecorable($request, $requestType, $response)) {
+        if ($this->isDecorable($request, $requestType, $response)) {
 
             $page = $this->defineCurrentPage($request);
 
             if ($page && $page->getDecorate()) {
                 $template = 'SonataPageBundle::layout.html.twig';
-                if($this->getCurrentPage()) {
+                if ($this->getCurrentPage()) {
                     $template = $this->getCurrentPage()->getTemplate()->getPath();
                 }
 
@@ -96,7 +95,7 @@ class Manager
                 );
             }
         }
-        
+
         return $response;
     }
 
@@ -104,64 +103,80 @@ class Manager
     {
         $this->blockServices[$name] = $service;
     }
-    
+
     /**
      * return true is the page can be decorate with an outter template
      *
-     * @param  $request_type
-     * @param Response $response
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param string $requestType
+     * @param \Symfony\Component\HttpFoundation\Response $response
      * @return bool
      */
     public function isDecorable(Request $request, $requestType, Response $response)
     {
-
-        if($requestType != HttpKernelInterface::MASTER_REQUEST) {
-
-            return false;
-        }
-
-        if(($response->headers->get('Content-Type') ?: 'text/html') != 'text/html') {
+        if ($requestType != HttpKernelInterface::MASTER_REQUEST) {
 
             return false;
         }
 
-        if($response->getStatusCode() != 200) {
+        if (($response->headers->get('Content-Type') ?: 'text/html') != 'text/html') {
 
             return false;
         }
-        
-        if($request->headers->get('x-requested-with') == 'XMLHttpRequest') {
+
+        if ($response->getStatusCode() != 200) {
+
+            return false;
+        }
+
+        if ($request->headers->get('x-requested-with') == 'XMLHttpRequest') {
             return false;
         }
 
         $routeName = $request->get('_route');
-        if(!$routeName) {
+
+        return $this->isRouteNameDecorable($routeName) && $this->isRouteUriDecorable($request->getRequestUri());
+    }
+
+    /**
+     * @param string $routeName
+     * @return bool
+     */
+    public function isRouteNameDecorable($routeName)
+    {
+        if (!$routeName) {
             return false;
         }
 
-        foreach($this->getOption('ignore_routes', array()) as $route) {
-
-            if($routeName == $route) {
+        foreach ($this->getOption('ignore_routes', array()) as $route) {
+            if ($routeName == $route) {
                 return false;
             }
         }
 
-        foreach($this->getOption('ignore_route_patterns', array()) as $routePattern) {
-            if(preg_match($routePattern, $routeName)) {
+        foreach ($this->getOption('ignore_route_patterns', array()) as $routePattern) {
+            if (preg_match($routePattern, $routeName)) {
                 return false;
             }
         }
 
-        $uri = $request->getRequestUri();
-        foreach($this->getOption('ignore_uri_patterns', array()) as $uri_pattern) {
-            if(preg_match($uri_pattern, $uri)) {
+        return true;
+    }
+
+    /**
+     * @param string $uri
+     * @return bool
+     */
+    public function isRouteUriDecorable($uri)
+    {
+        foreach ($this->getOption('ignore_uri_patterns', array()) as $uriPattern) {
+            if (preg_match($uriPattern, $uri)) {
 
                 return false;
             }
         }
 
         return true;
-
     }
 
     /**
@@ -172,30 +187,27 @@ class Manager
      */
     public function renderBlock(BlockInterface $block, PageInterface $page)
     {
-
-        if($this->getLogger()) {
+        if ($this->getLogger()) {
             $this->getLogger()->crit(sprintf('[cms::renderBlock] block.id=%d, block.type=%s ', $block->getId(), $block->getType()));
         }
 
-        
         try {
             $service = $this->getBlockService($block);
 
-            if(!$service) {
-                
+            if (!$service) {
+
                 return '';
             }
             return $service->execute($block, $page);
         } catch (\Exception $e) {
-            if($this->getDebug()) {
+            if ($this->getDebug()) {
 
                 throw $e;
             }
-            
-            if($this->getLogger()) {
+
+            if ($this->getLogger()) {
                 $this->getLogger()->crit(sprintf('[cms::renderBlock] block.id=%d - error while rendering block - %s', $block->getId(), $e->getMessage()));
             }
-
         }
 
         return '';
@@ -203,19 +215,18 @@ class Manager
 
     public function findContainer($name, PageInterface $page, BlockInterface $parentContainer = null)
     {
-
         $container = false;
-        
-        if($parentContainer) {
+
+        if ($parentContainer) {
             // parent container is set, nothing to find, don't need to loop across the
             // name to find the correct container (main template level)
             $container = $parentContainer;
         }
 
         // first level blocks are containers
-        if(!$container && $page->getBlocks()) {
-            foreach($page->getBlocks() as $block) {
-                if($block->getSetting('name') == $name) {
+        if (!$container && $page->getBlocks()) {
+            foreach ($page->getBlocks() as $block) {
+                if ($block->getSetting('name') == $name) {
 
                     $container = $block;
                     break;
@@ -223,8 +234,8 @@ class Manager
             }
         }
 
-        if(!$container) {
-          
+        if (!$container) {
+
             $container = $this->blockManager->createNewContainer(array(
                 'enabled' => true,
                 'page' => $page,
@@ -232,7 +243,7 @@ class Manager
                 'position' => 1
             ));
 
-            if($parentContainer) {
+            if ($parentContainer) {
                 $container->setParent($parentContainer);
             }
 
@@ -242,23 +253,22 @@ class Manager
         return $container;
     }
 
-    
+
     /**
      *
      * return the block service linked to the link
-     * 
+     *
      * @param Sonata\PageBundle\Block\BlockInterface $block
      * @return Sonata\PageBundle\Block\BlockServiceInterface
      */
     public function getBlockService(BlockInterface $block)
     {
-
-        if(!$this->hasBlockService($block->getType())) {
-            if($this->getDebug()) {
+        if (!$this->hasBlockService($block->getType())) {
+            if ($this->getDebug()) {
                 throw new \RuntimeException(sprintf('The block service `%s` referenced in the block `%s` does not exists', $block->getType(), $block->getId()));
             }
 
-            if($this->getLogger()){
+            if ($this->getLogger()){
                 $this->getLogger()->crit(sprintf('[cms::getBlockService] block.id=%d - service:%s does not exists', $block->getId(), $block->getType()));
             }
 
@@ -287,13 +297,12 @@ class Manager
      */
     public function getPageByRouteName($routeName)
     {
-
-        if(!isset($this->routePages[$routeName])) {
+        if (!isset($this->routePages[$routeName])) {
             $page = $this->pageManager->getPageByName($routeName);
 
-            if(!$page) {
+            if (!$page) {
 
-                if(!$this->getDefaultTemplate()) {
+                if (!$this->getDefaultTemplate()) {
                     throw new \RuntimeException('No default template defined');
                 }
 
@@ -327,17 +336,16 @@ class Manager
     }
 
     /**
-     * return a fully loaded CMS page ( + blocks ) 
+     * return a fully loaded CMS page ( + blocks )
      *
      * @param string $slug
      * @return bool
      */
     public function getPageBySlug($slug)
     {
-
         $page = $this->pageManager->getPageBySlug($slug);
 
-        if($page) {
+        if ($page) {
             $this->loadBlocks($page);
         }
 
@@ -355,15 +363,14 @@ class Manager
      */
     public function defineCurrentPage($request)
     {
-
         $routeName = $request->get('_route');
 
-        if($routeName == 'page_slug') { // true cms page
+        if ($routeName == 'page_slug') { // true cms page
             $slug = $request->get('slug');
 
             $this->currentPage = $this->getPageBySlug($slug);
 
-            if(!$this->currentPage && $this->getLogger()) {
+            if (!$this->currentPage && $this->getLogger()) {
 
                 $this->getLogger()->crit(sprintf('[page:getCurrentPage] no page available for slug : %s', $slug));
             }
@@ -371,7 +378,7 @@ class Manager
         } else { // hybrid page, ie an action is used
             $this->currentPage = $this->getPageByRouteName($routeName);
 
-            if(!$this->currentPage && $this->getLogger()) {
+            if (!$this->currentPage && $this->getLogger()) {
                 $this->getLogger()->crit(sprintf('[page:getCurrentPage] no page available for route : %s', $routeName));
             }
         }
@@ -390,7 +397,7 @@ class Manager
      */
     public function getBlock($id)
     {
-        if(!isset($this->blocks[$id])) {
+        if (!isset($this->blocks[$id])) {
 
             $this->blocks[$id] = $this->blockManager->getBlock($id);
         }
@@ -406,11 +413,10 @@ class Manager
      */
     public function loadBlocks(PageInterface $page)
     {
-
         $blocks = $this->blockManager->loadPageBlocks($page);
 
         // save a local cache
-        foreach($blocks as $block) {
+        foreach ($blocks as $block) {
             $this->blocks[$block->getId()] = $block;
         }
     }
@@ -500,12 +506,12 @@ class Manager
     {
         $this->options[$name] = $value;
     }
-    
+
     public function getOption($name, $default = null)
     {
         return isset($this->options[$name]) ? $this->options[$name] : $default;
     }
-    
+
     public function setRoutePages($route_pages)
     {
         $this->routePages = $route_pages;
@@ -531,8 +537,28 @@ class Manager
         $this->debug = $debug;
     }
 
+    /**
+     *
+     * @return bool
+     */
     public function getDebug()
     {
         return $this->debug;
+    }
+
+    /**
+     * @return \Sonata\PageBundle\Model\BlockManagerInterface
+     */
+    public function getBlockManager()
+    {
+        return $this->blockManager;
+    }
+
+    /**
+     * @return \Sonata\PageBundle\Model\PageManagerInterface
+     */
+    public function getPageManager()
+    {
+        return $this->pageManager;
     }
 }

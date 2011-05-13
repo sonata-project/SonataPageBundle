@@ -10,8 +10,9 @@
 
 
 namespace Sonata\PageBundle\Entity;
+use Sonata\PageBundle\Model\TemplateInterface;
 
-class BaseTemplate
+class BaseTemplate implements TemplateInterface
 {
 
     protected $name;

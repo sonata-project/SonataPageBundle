@@ -28,7 +28,7 @@ class BlockManager implements BlockManagerInterface
 
     /**
      * return a block with the given id
-     * 
+     *
      * @param  $id
      * @return bool
      */
@@ -77,7 +77,7 @@ class BlockManager implements BlockManagerInterface
         $this->entityManager->getConnection()->beginTransaction();
 
         try {
-            foreach($data as $code => $block) {
+            foreach ($data as $code => $block) {
 
                 $parent_id = (int) substr($code, 10);
 
@@ -107,14 +107,14 @@ class BlockManager implements BlockManagerInterface
     protected function saveNestedPosition($blocks, $parentId)
     {
 
-        if(!is_array($blocks)) {
+        if (!is_array($blocks)) {
             return;
         }
 
         $tableName = $this->entityManager->getClassMetadata('Application\Sonata\PageBundle\Entity\Block')->table['name'];
 
         $position = 1;
-        foreach($blocks as $code => $block) {
+        foreach ($blocks as $code => $block) {
             $blockId = (int) substr($code, 10);
 
             $sql = sprintf('UPDATE %s child, (SELECT p.page_id as page_id FROM %s p WHERE id = %d ) as parent SET child.position = %d, child.parent_id = %d, child.page_id = parent.page_id WHERE child.id = %d',
@@ -164,12 +164,12 @@ class BlockManager implements BlockManagerInterface
 
         $page->disableBlockLazyLoading();
 
-        foreach($blocks as $block) {
+        foreach ($blocks as $block) {
 
             $parent = $block->getParent();
 
             $block->disableChildrenLazyLoading();
-            if(!$parent) {
+            if (!$parent) {
                 $page->addBlocks($block);
 
                 continue;
@@ -181,7 +181,7 @@ class BlockManager implements BlockManagerInterface
 
         return $blocks;
     }
-    
+
     /**
      * @param \Sonata\PageBundle\Model\BlockInterface $page
      * @return \Sonata\PageBundle\Model\BlockInterface

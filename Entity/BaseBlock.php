@@ -21,13 +21,13 @@ class BaseBlock implements BlockInterface
     protected $enabled;
 
     protected $position;
-    
+
     protected $parent;
 
     protected $children;
-    
+
     protected $page;
-    
+
     protected $createdAt;
 
     protected $updatedAt;
@@ -221,7 +221,7 @@ class BaseBlock implements BlockInterface
 
     public function disableChildrenLazyLoading()
     {
-        if(is_object($this->children))
+        if (is_object($this->children))
         {
             $this->children->setInitialized(true);
         }
@@ -239,7 +239,7 @@ class BaseBlock implements BlockInterface
 
     public function __toString()
     {
-        return 'block (id:'.$this->getId().')';    
+        return 'block (id:'.$this->getId().')';
     }
 
     public function prePersist()

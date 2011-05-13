@@ -14,8 +14,10 @@ namespace Sonata\PageBundle\Entity;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\BlockInterface;
+use Application\Sonata\PageBundle\Entity\Page;
+
 use Doctrine\ORM\EntityManager;
-    
+
 class PageManager implements PageManagerInterface
 {
     protected $entityManager;
@@ -27,7 +29,7 @@ class PageManager implements PageManagerInterface
 
     /**
      * return a page with the given routeName
-     * 
+     *
      * @param string $routeName
      * @return PageInterface|false
      */
@@ -90,13 +92,13 @@ class PageManager implements PageManagerInterface
     public function createNewPage(array $defaults = array())
     {
         // create a new page for this routing
-
-        $page = new $this->_class->name;
+        $page = $this->getNewInstance();
         $page->setTemplate(isset($defaults['template']) ? $defaults['template'] : null);
         $page->setEnabled(isset($defaults['enabled']) ? $defaults['enabled'] : true);
         $page->setRouteName(isset($defaults['routeName']) ? $defaults['routeName'] : null);
         $page->setName(isset($defaults['name']) ? $defaults['name'] : null);
         $page->setLoginRequired(isset($defaults['loginRequired']) ? $defaults['loginRequired'] : null);
+        $page->setSlug(isset($defaults['slug']) ? $defaults['slug'] : null);
         $page->setCreatedAt(new \DateTime);
         $page->setUpdatedAt(new \DateTime);
 
@@ -109,5 +111,13 @@ class PageManager implements PageManagerInterface
         $this->entityManager->flush();
 
         return $page;
+    }
+
+    /**
+     * @return \Sonata\PageBundle\Model\PageInterface
+     */
+    public function getNewInstance()
+    {
+        return new Page;
     }
 }
