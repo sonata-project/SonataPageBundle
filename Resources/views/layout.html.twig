@@ -35,7 +35,7 @@ file that was distributed with this source code.
                 <input type="submit" value="{% trans 'btn_save_position' from 'PageBundle' %}" id="page-action-save-position" />
                 <input type="submit" value="{% trans 'btn_edit' from 'PageBundle' %}" id="page-action-edit" />
             </div>
-            
+
             <!-- header -->
             <div class="span-24 last">
                 {% render 'SonataPageBundle:Page:renderContainer' with {
@@ -58,7 +58,15 @@ file that was distributed with this source code.
                     'page' : 'global'
                 } %}
 
-                {{ content|raw }}
+                {% if page.hybrid %}
+                    {{ content|raw }}
+                {% else %}
+                    {% render 'SonataPageBundle:Page:renderContainer' with {
+                        'name' : 'content_top',
+                        'page' : page
+                     } %}
+                {% endif %}
+
 
                 {% render 'SonataPageBundle:Page:renderContainer' with {
                     'name' : 'content_bottom',
@@ -84,7 +92,7 @@ file that was distributed with this source code.
                 block_update: '{{ path('admin_sonata_page_block_update', {'id': page.id }) }}',
                 block_edit:   '{{ path('admin_sonata_page_block_edit', {'id': page.id, 'childId': 'BLOCK_ID'}) }}',
                 page_edit:    '{{ path('admin_sonata_page_page_edit', {'id': page.id }) }}',
-                page_update:  '{{ path('admin_sonata_page_page_update') }}',
+                page_update:  '{{ path('admin_sonata_page_page_update') }}'
             }
         </script>
 
@@ -95,6 +103,6 @@ file that was distributed with this source code.
         <style>
             {{ page.stylesheet|raw }}
         </style>
-        
+
     </body>
 </html>

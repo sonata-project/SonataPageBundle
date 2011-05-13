@@ -438,7 +438,6 @@ class BasePage implements PageInterface
 
     public function isHybrid()
     {
-
         return $this->getRouteName() != self::PAGE_ROUTE_CMS_NAME;
     }
 

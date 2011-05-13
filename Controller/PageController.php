@@ -18,15 +18,24 @@ use Symfony\Component\HttpFoundation\Response;
 class PageController extends Controller
 {
 
-    public function homepageAction()
+    public function catchAllAction()
     {
+        $pathInfo = $this->get('request')->getPathInfo();
 
-        return new Response;
+        $manager = $this->get('sonata.page.manager');
+        $page = $manager->getPageBySlug($pathInfo);
+
+        if (!$page) {
+            throw new NotFoundHttpException('The current page does not exist!');
+        }
+
+        $manager->setCurrentPage($page);
+
+        return new Response($manager->renderPage($page));
     }
 
     public function renderContainerAction($name, $page = null, $parent_container = null)
     {
-
         if (is_string($page)) { // page is a slug, load the related page
             $page = $this->get('sonata.page.manager')->getPageByRouteName($page);
         } else if (!$page)    { // get the current page
@@ -36,7 +45,6 @@ class PageController extends Controller
         }
 
         if (!$page) {
-
             return $this->render('SonataPageBundle:Block:block_no_page_available.html.twig');
         }
 

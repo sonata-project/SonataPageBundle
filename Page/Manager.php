@@ -78,21 +78,11 @@ class Manager
 
             $page = $this->defineCurrentPage($request);
 
-            if ($page && $page->getDecorate()) {
-                $template = 'SonataPageBundle::layout.html.twig';
-                if ($this->getCurrentPage()) {
-                    $template = $this->getCurrentPage()->getTemplate()->getPath();
-                }
-
-                $response->setContent(
-                    $this->templating->render(
-                        $template,
-                        array(
-                            'content'   => $response->getContent(),
-                            'page'      => $page
-                        )
-                    )
-                );
+            // only decorate hybrid page and page with decorate = true
+            if ($page && !$page->isHybrid() && $page->getDecorate()) {
+                $response->setContent($this->renderPage($page, array(
+                  'content' => $response->getContent()
+                )));
             }
         }
 
@@ -102,6 +92,18 @@ class Manager
     public function addBlockService($name, BlockServiceInterface $service)
     {
         $this->blockServices[$name] = $service;
+    }
+
+    public function renderPage(PageInterface $page, array $params = array())
+    {
+        $template = 'SonataPageBundle::layout.html.twig';
+        if ($this->getCurrentPage()) {
+            $template = $this->getCurrentPage()->getTemplate()->getPath();
+        }
+
+        $params['page'] = $page;
+
+        return $this->templating->render($template, $params);
     }
 
     /**
@@ -292,7 +294,26 @@ class Manager
      *
      * if the page does not exists then the page is created.
      *
-     * @param  $routeName
+     * @param string $slug
+     * @return Application\Sonata\PageBundle\Model\PageInterface
+     */
+    public function getPageBySlug($slug)
+    {
+        $page = $this->pageManager->getPageBySlug($slug);
+
+        if ($page) {
+            $this->loadBlocks($page);
+        }
+
+        return $page;
+    }
+
+    /**
+     * return a fully loaded page ( + blocks ) from a route name
+     *
+     * if the page does not exists then the page is created.
+     *
+     * @param string $routeName
      * @return Application\Sonata\PageBundle\Entity\Page|bool
      */
     public function getPageByRouteName($routeName)
@@ -336,23 +357,6 @@ class Manager
     }
 
     /**
-     * return a fully loaded CMS page ( + blocks )
-     *
-     * @param string $slug
-     * @return bool
-     */
-    public function getPageBySlug($slug)
-    {
-        $page = $this->pageManager->getPageBySlug($slug);
-
-        if ($page) {
-            $this->loadBlocks($page);
-        }
-
-        return $page;
-    }
-
-    /**
      * return the current page
      *
      * if the current route linked to a CMS page ( route name = `page_slug`)
@@ -365,16 +369,12 @@ class Manager
     {
         $routeName = $request->get('_route');
 
+        if ($this->currentPage) {
+            return $this->currentPage;
+        }
+
         if ($routeName == 'page_slug') { // true cms page
-            $slug = $request->get('slug');
-
-            $this->currentPage = $this->getPageBySlug($slug);
-
-            if (!$this->currentPage && $this->getLogger()) {
-
-                $this->getLogger()->crit(sprintf('[page:getCurrentPage] no page available for slug : %s', $slug));
-            }
-
+            return null;
         } else { // hybrid page, ie an action is used
             $this->currentPage = $this->getPageByRouteName($routeName);
 
@@ -389,6 +389,11 @@ class Manager
     public function getCurrentPage()
     {
         return $this->currentPage;
+    }
+
+    public function setCurrentPage(PageInterface $page)
+    {
+        $this->currentPage = $page;
     }
 
     /**
