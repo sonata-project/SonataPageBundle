@@ -17,48 +17,62 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\PageBundle\Model\BlockInterface;
+use Sonata\PageBundle\Model\PageInterface;
 
 interface BlockServiceInterface
 {
-
     /**
      * @abstract
-     * @param \Symfony\Component\Form\Form $form
-     * @param BlockInterface $block
+     * @param \Sonata\AdminBundle\Form\FormMapper $form
+     * @param \Sonata\PageBundle\Model\BlockInterface $block
      * @return void
      */
     function buildEditForm(FormMapper $form, BlockInterface $block);
 
     /**
      * @abstract
-     * @param \Symfony\Component\Form\Form $form
-     * @param BlockInterface $block
+     * @param \Sonata\AdminBundle\Form\FormMapper $form
+     * @param \Sonata\PageBundle\Model\BlockInterface $block
      * @return void
      */
     function buildCreateForm(FormMapper $form, BlockInterface $block);
 
     /**
      * @abstract
-     * @param BlockInterface $block
-     * @param  $page
-     * @param null|\Symfony\Component\HttpFoundation\Response $response
+     * @param \Sonata\PageBundle\Model\BlockInterface $block
+     * @param \Sonata\PageBundle\Model\PageInterface $page
+     * @param \Symfony\Component\HttpFoundation\Response $response
      * @return void
      */
-    function execute(BlockInterface $block, $page, Response $response = null);
+    function execute(BlockInterface $block, PageInterface $page, Response $response = null);
 
     /**
      * @abstract
-     * @param  $view
+     * @param string $view
      * @param array $parameters
-     * @param null|\Symfony\Component\HttpFoundation\Response $response
+     * @param \Symfony\Component\HttpFoundation\Response $response
      * @return void
      */
     function render($view, array $parameters = array(), Response $response = null);
 
     /**
      * @abstract
-     * @param BlockInterface $block
+     * @param \Sonata\PageBundle\Model\BlockInterface $block
      * @return void
      */
     function validateBlock(BlockInterface $block);
+
+    /**
+     * @abstract
+     * @return string
+     */
+    function getName();
+
+    /**
+     * Returns the default settings link to the service
+     *
+     * @abstract
+     * @return array
+     */
+    function getDefaultSettings();
 }

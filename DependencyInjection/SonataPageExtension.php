@@ -41,6 +41,7 @@ class SonataPageExtension extends Extension
         $loader->load('admin.xml');
         $loader->load('block.xml');
         $loader->load('orm.xml');
+        $loader->load('form.xml');
 
         // todo: use the configuration class
         $config = call_user_func_array('array_merge_recursive', $config);
@@ -56,13 +57,11 @@ class SonataPageExtension extends Extension
      */
     public function getXsdValidationBasePath()
     {
-
         return __DIR__.'/../Resources/config/schema';
     }
 
     public function getNamespace()
     {
-
         return 'http://www.sonata-project.org/schema/dic/page';
     }
 

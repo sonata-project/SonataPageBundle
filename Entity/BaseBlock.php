@@ -37,6 +37,7 @@ class BaseBlock implements BlockInterface
     public function __construct()
     {
         $this->settings = array();
+        $this->children = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -122,7 +123,7 @@ class BaseBlock implements BlockInterface
     /**
      * Set createdAt
      *
-     * @param datetime $createdAt
+     * @param \DateTime $createdAt
      */
     public function setCreatedAt(\DateTime $createdAt = null)
     {
@@ -132,7 +133,7 @@ class BaseBlock implements BlockInterface
     /**
      * Get createdAt
      *
-     * @return datetime $createdAt
+     * @return \DateTime $createdAt
      */
     public function getCreatedAt()
     {
@@ -142,7 +143,7 @@ class BaseBlock implements BlockInterface
     /**
      * Set updatedAt
      *
-     * @param datetime $updatedAt
+     * @param \DateTime $updatedAt
      */
     public function setUpdatedAt(\DateTime $updatedAt = null)
     {
@@ -152,7 +153,7 @@ class BaseBlock implements BlockInterface
     /**
      * Get updatedAt
      *
-     * @return datetime $updatedAt
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -162,11 +163,24 @@ class BaseBlock implements BlockInterface
     /**
      * Add children
      *
-     * @param Application\Sonata\PageBundle\Entity\Block $children
+     * @param \Sonata\PageBundle\Model\BlockInterface $child
      */
-    public function addChildren(BlockInterface $children)
+    public function addChildren(BlockInterface $child)
     {
-        $this->children[] = $children;
+        $this->children[] = $child;
+
+        $child->setParent($this);
+        $child->setPage($this->getPage());
+    }
+
+    public function setChildren($children)
+    {
+        $this->children = new \Doctrine\Common\Collections\ArrayCollection();
+
+        foreach ($children as $child)
+        {
+            $this->addChildren($child);
+        }
     }
 
     /**
@@ -182,7 +196,7 @@ class BaseBlock implements BlockInterface
     /**
      * Set parent
      *
-     * @param Application\Sonata\PageBundle\Entity\Block $parent
+     * @param \Sonata\PageBundle\Model\BlockInterface $parent
      */
     public function setParent(BlockInterface $parent)
     {
@@ -202,7 +216,7 @@ class BaseBlock implements BlockInterface
     /**
      * Set page
      *
-     * @param Application\Sonata\PageBundle\Entity\Page $page
+     * @param \Sonata\PageBundle\Model\PageInterface $page
      */
     public function setPage(PageInterface $page)
     {
@@ -212,7 +226,7 @@ class BaseBlock implements BlockInterface
     /**
      * Get page
      *
-     * @return Application\Sonata\PageBundle\Entity\Page $page
+     * @return \Sonata\PageBundle\Model\PageInterface $page
      */
     public function getPage()
     {

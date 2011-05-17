@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Form;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\PageBundle\Model\BlockInterface;
+use Sonata\PageBundle\Model\PageInterface;
 
 /**
  * PageExtension
@@ -25,12 +26,13 @@ use Sonata\PageBundle\Model\BlockInterface;
 class TextBlockService extends BaseBlockService
 {
 
-    public function execute(BlockInterface $block, $page, Response $response = null)
+    public function execute(BlockInterface $block, PageInterface $page, Response $response = null)
     {
+        $settings = array_merge($this->getDefaultSettings(), $block->getSettings());
 
         return $this->render('SonataPageBundle:Block:block_core_text.html.twig', array(
-            'block' => $block,
-            'content' => $block->getSetting('content', '')
+            'block'     => $block,
+            'settings'  => $settings
         ));
     }
 
@@ -47,5 +49,20 @@ class TextBlockService extends BaseBlockService
     public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
     {
         $formMapper->add('content');
+    }
+
+    public function getName()
+    {
+        return 'Text (core)';
+    }
+
+    /**
+     * Returns the default options link to the service
+     *
+     * @return array
+     */
+    function getDefaultSettings()
+    {
+        return array('content' => 'Insert your custom content here');
     }
 }

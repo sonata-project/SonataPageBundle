@@ -260,8 +260,8 @@ class Manager
      *
      * return the block service linked to the link
      *
-     * @param Sonata\PageBundle\Block\BlockInterface $block
-     * @return Sonata\PageBundle\Block\BlockServiceInterface
+     * @param \Sonata\PageBundle\Block\BlockInterface $block
+     * @return \Sonata\PageBundle\Block\BlockServiceInterface
      */
     public function getBlockService(BlockInterface $block)
     {
@@ -282,6 +282,7 @@ class Manager
 
     /**
      *
+     * @param sring $id
      * @return boolean
      */
     public function hasBlockService($id)
@@ -565,5 +566,22 @@ class Manager
     public function getPageManager()
     {
         return $this->pageManager;
+    }
+
+    /**
+     * @param array $blockServices
+     * @return void
+     */
+    public function setBlockServices(array $blockServices)
+    {
+        $this->blockServices = $blockServices;
+    }
+
+    /**
+     * @return array
+     */
+    public function getBlockServices()
+    {
+        return $this->blockServices;
     }
 }

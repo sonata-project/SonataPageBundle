@@ -25,7 +25,7 @@ abstract class BaseBlockService implements BlockServiceInterface
     protected $name;
 
     protected $templating;
-    
+
     public function __construct($name, EngineInterface $templating)
     {
         $this->name = $name;
@@ -37,8 +37,8 @@ abstract class BaseBlockService implements BlockServiceInterface
      *
      * @param string $view
      * @param array $parameters
-     * @param null|\Symfony\Component\HttpFoundation\Response $response
-     * @return
+     * @param \Symfony\Component\HttpFoundation\Response $response
+     * @return string
      */
     public function render($view, array $parameters = array(), Response $response = null)
     {

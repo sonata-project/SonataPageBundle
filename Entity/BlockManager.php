@@ -138,7 +138,6 @@ class BlockManager implements BlockManagerInterface
 
     public function createNewContainer(array $values = array())
     {
-
         $container = new \Application\Sonata\PageBundle\Entity\Block;
         $container->setEnabled(isset($values['enabled']) ? $values['enabled'] : true);
         $container->setCreatedAt(new \DateTime);
@@ -159,7 +158,6 @@ class BlockManager implements BlockManagerInterface
      */
     public function loadPageBlocks(PageInterface $page)
     {
-
         $blocks = $this->getBlocksById($page);
 
         $page->disableBlockLazyLoading();
