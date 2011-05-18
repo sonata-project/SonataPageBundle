@@ -177,8 +177,7 @@ class BaseBlock implements BlockInterface
     {
         $this->children = new \Doctrine\Common\Collections\ArrayCollection();
 
-        foreach ($children as $child)
-        {
+        foreach ($children as $child) {
             $this->addChildren($child);
         }
     }
@@ -235,8 +234,7 @@ class BaseBlock implements BlockInterface
 
     public function disableChildrenLazyLoading()
     {
-        if (is_object($this->children))
-        {
+        if (is_object($this->children)) {
             $this->children->setInitialized(true);
         }
     }

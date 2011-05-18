@@ -46,9 +46,10 @@ class ActionBlockService extends BaseBlockService
      */
     public function execute(BlockInterface $block, PageInterface $page, Response $response = null)
     {
-        $params = array_merge($block->getSetting('parameters', array()), array('_block' => $block, '_page' => $page));
+        $parameters = (array)json_decode($block->getSetting('parameters'), true);
+        $params = array_merge($parameters, array('_block' => $block, '_page' => $page));
 
-        $settings = array_merge($this->getDefaultSettings(), $block->getSettings());
+        $settings = array_merge($this->getDefaultSettings(), (array)$block->getSettings());
         try {
             $actionContent = $this->kernel->render($settings['action'], $params);
         } catch (\Exception $e) {
@@ -78,16 +79,13 @@ class ActionBlockService extends BaseBlockService
      */
     public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
     {
-        $formMapper->add('action', array(), array('type' => 'string'));
-
-        $formBuilder = $formMapper->getFormBuilder();
-        $form = $formBuilder
-            ->create('settings', 'collection')
-            ->add('layout', 'text')
-            ->add('action', 'text')
-            ->add('parameters', 'text');
-
-        $formMapper->addType($form);
+        $formMapper->addType('settings', 'sonata_type_immutable_array', array(
+            'keys' => array(
+                array('layout', 'textarea', array()),
+                array('action', 'text', array()),
+                array('parameters', 'text', array()),
+            )
+        ));
     }
 
     /**
@@ -97,15 +95,13 @@ class ActionBlockService extends BaseBlockService
      */
     public function buildCreateForm(FormMapper $formMapper, BlockInterface $block)
     {
-        $formMapper->add('action');
-
-        $parameters = new Form('parameters');
-
-        foreach ($block->getSetting('parameters', array()) as $name => $value) {
-            $formMapper->add(new TextField($name));
-        }
-
-        $formMapper->add($parameters);
+        $formMapper->addType('settings', 'sonata_type_immutable_array', array(
+            'keys' => array(
+                array('layout', 'textarea', array()),
+                array('action', 'text', array()),
+                array('parameters', 'text', array()),
+            )
+        ));
     }
 
     public function getName()

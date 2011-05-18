@@ -57,6 +57,12 @@ class BlockAdmin extends Admin
     {
         $block = $formMapper->getFormBuilder()->getData();
 
+        // fix temporary bug with twig and form framework
+        $formMapper->getFormBuilder()->remove('_token');
+
+        $formMapper
+            ->add('enabled', array('required' => false));
+
         if ($block) {
             $service = $this->manager->getBlockService($block);
 
@@ -66,12 +72,22 @@ class BlockAdmin extends Admin
                 $service->buildCreateForm($formMapper, $block);
             }
         } else {
-
             $formMapper
-                ->addType('type', 'sonata_page_block_choice', array(), array('type' => 'choice'))
-                ->add('enabled', array('required' => false))
-                ->add('position');
+              ->addType('type', 'sonata_page_block_choice', array(), array('type' => 'choice'))
+              ->add('position');
         }
+    }
+
+    public function getObject($id)
+    {
+        $subject = parent::getObject($id);
+
+        if ($subject) {
+            $service = $this->manager->getBlockService($subject);
+            $subject->setSettings(array_merge($service->getDefaultSettings(), $subject->getSettings()));
+        }
+
+        return $subject;
     }
 
     public function preUpdate($object)

@@ -25,7 +25,6 @@ use Sonata\PageBundle\Model\PageInterface;
  */
 class TextBlockService extends BaseBlockService
 {
-
     public function execute(BlockInterface $block, PageInterface $page, Response $response = null)
     {
         $settings = array_merge($this->getDefaultSettings(), $block->getSettings());
@@ -43,12 +42,20 @@ class TextBlockService extends BaseBlockService
 
     public function buildCreateForm(FormMapper $formMapper, BlockInterface $block)
     {
-        $formMapper->add('content');
+        $formMapper->addType('settings', 'sonata_type_immutable_array', array(
+            'keys' => array(
+                array('content', 'textarea', array()),
+            )
+        ));
     }
 
     public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
     {
-        $formMapper->add('content');
+        $formMapper->addType('settings', 'sonata_type_immutable_array', array(
+            'keys' => array(
+                array('content', 'textarea', array()),
+            )
+        ));
     }
 
     public function getName()
@@ -63,6 +70,8 @@ class TextBlockService extends BaseBlockService
      */
     function getDefaultSettings()
     {
-        return array('content' => 'Insert your custom content here');
+        return array(
+            'content' => 'Insert your custom content here',
+        );
     }
 }

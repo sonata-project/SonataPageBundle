@@ -64,10 +64,10 @@ class ContainerBlockService extends BaseBlockService
      */
     public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
     {
-        $formMapper->add('children', array(), array(
-            'edit'     => 'inline',
-            'sortable' => 'position',
-            'inline'   => 'table'
+        $formMapper->addType('settings', 'sonata_type_immutable_array', array(
+            'keys' => array(
+                array('layout', 'textarea', array()),
+            )
         ));
     }
 
@@ -78,7 +78,11 @@ class ContainerBlockService extends BaseBlockService
      */
     public function buildCreateForm(FormMapper $formMapper, BlockInterface $block)
     {
-
+        $formMapper->addType('settings', 'sonata_type_immutable_array', array(
+            'keys' => array(
+                array('layout', 'textarea', array()),
+            )
+        ));
     }
 
     public function getName()
