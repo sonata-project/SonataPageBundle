@@ -190,7 +190,7 @@ class Manager
     public function renderBlock(BlockInterface $block, PageInterface $page)
     {
         if ($this->getLogger()) {
-            $this->getLogger()->crit(sprintf('[cms::renderBlock] block.id=%d, block.type=%s ', $block->getId(), $block->getType()));
+            $this->getLogger()->info(sprintf('[cms::renderBlock] block.id=%d, block.type=%s ', $block->getId(), $block->getType()));
         }
 
         try {
