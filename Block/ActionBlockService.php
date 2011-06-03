@@ -18,7 +18,7 @@ use Symfony\Component\Templating\EngineInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\PageBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
-use Symfony\Bundle\FrameworkBundle\Util\Mustache;
+use Symfony\Bundle\FrameworkBundle\Generator\Generator;
 
 
 /**
@@ -56,7 +56,7 @@ class ActionBlockService extends BaseBlockService
             throw $e;
         }
 
-        $content = Mustache::renderString($block->getSetting('layout'), array(
+        $content = Generator::renderString($block->getSetting('layout'), array(
             'CONTENT' => $actionContent
         ));
 

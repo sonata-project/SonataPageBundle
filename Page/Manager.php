@@ -15,12 +15,14 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+
 use Sonata\PageBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\BlockManagerInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Block\BlockServiceInterface;
-use Application\Sonata\PageBundle\Entity\Page;
+
+use Sonata\AdminBundle\Admin\AdminInterface;
 
 /**
  * The Manager class is in charge of retrieving the correct page (cms page or action page)
@@ -54,6 +56,10 @@ class Manager
 
     protected $debug = false;
 
+    protected $pageAdmin;
+
+    protected $blockAdmin;
+
     public function __construct(PageManagerInterface $pageManager, BlockManagerInterface $blockManager, EngineInterface $templating)
     {
         $this->pageManager  = $pageManager;
@@ -75,13 +81,13 @@ class Manager
         $request     = $event->getRequest();
 
         if ($this->isDecorable($request, $requestType, $response)) {
-
             $page = $this->defineCurrentPage($request);
 
             // only decorate hybrid page and page with decorate = true
             if ($page && !$page->isHybrid() && $page->getDecorate()) {
+
                 $response->setContent($this->renderPage($page, array(
-                  'content' => $response->getContent()
+                    'content'     => $response->getContent(),
                 )));
             }
         }
@@ -101,7 +107,10 @@ class Manager
             $template = $this->getCurrentPage()->getTemplate()->getPath();
         }
 
-        $params['page'] = $page;
+        $params['page']         = $page;
+        $params['manager']      = $this;
+        $params['page_admin']   = $this->getPageAdmin();
+        $params['block_admin']  = $this->getBlockAdmin();
 
         return $this->templating->render($template, $params);
     }
@@ -215,6 +224,56 @@ class Manager
         return '';
     }
 
+    /**
+     * Return a PageInterface instance depends on the $page argument
+     *
+     * @param mixed $page
+     * @return \Sonata\PageBundle\Model\PageInterface
+     */
+    public function getPage($page)
+    {
+        if (is_string($page)) { // page is a slug, load the related page
+            $page = $this->getPageByRouteName($page);
+        } else if (!$page)    { // get the current page
+            $page = $this->getCurrentPage();
+        }
+
+        if (!$page instanceof PageInterface) {
+            throw new \RunTimeException('Unable to retrieve the page');
+        }
+
+        return $page;
+    }
+
+    /**
+     * @param string $name
+     * @param \Sonata\PageBundle\Model\PageInterface $page
+     * @param \Sonata\PageBundle\Model\BlockInterface $parentContainer
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function renderContainer($name, $page = null, BlockInterface $parentContainer = null)
+    {
+        $page = $this->getPage($page);
+
+        if (!$page) {
+            return $this->templating->render('SonataPageBundle:Block:block_no_page_available.html.twig');
+        }
+
+        $container = $this->findContainer($name, $page, $parentContainer);
+
+        return $this->templating->render('SonataPageBundle:Block:block_container.html.twig', array(
+            'container' => $container,
+            'manager'   => $this,
+            'page'      => $page,
+        ));
+    }
+
+    /**
+     * @param string $name
+     * @param \Sonata\PageBundle\Model\PageInterface $page
+     * @param null|\Sonata\PageBundle\Model\BlockInterface $parentContainer
+     * @return bool|null|\Sonata\PageBundle\Model\BlockInterface
+     */
     public function findContainer($name, PageInterface $page, BlockInterface $parentContainer = null)
     {
         $container = false;
@@ -237,7 +296,6 @@ class Manager
         }
 
         if (!$container) {
-
             $container = $this->blockManager->createNewContainer(array(
                 'enabled' => true,
                 'page' => $page,
@@ -584,4 +642,24 @@ class Manager
     {
         return $this->blockServices;
     }
+
+  public function setBlockAdmin(AdminInterface $blockAdmin)
+  {
+    $this->blockAdmin = $blockAdmin;
+  }
+
+  public function getBlockAdmin()
+  {
+    return $this->blockAdmin;
+  }
+
+  public function setPageAdmin(AdminInterface $pageAdmin)
+  {
+    $this->pageAdmin = $pageAdmin;
+  }
+
+  public function getPageAdmin()
+  {
+    return $this->pageAdmin;
+  }
 }

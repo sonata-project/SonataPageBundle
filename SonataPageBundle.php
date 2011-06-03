@@ -13,15 +13,15 @@ namespace Sonata\PageBundle;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Sonata\PageBundle\DependencyInjection\AddBlockServicePass;
-    
+
 class SonataPageBundle extends Bundle
 {
-    
+
     public function boot()
     {
         $this->container
             ->get('event_dispatcher')
-            ->addListenerService('onCoreResponse', 'sonata.page.manager', -1);
+            ->addListenerService('core.response', array('sonata.page.manager', 'onCoreResponse'), -1);
     }
 
     public function build(ContainerBuilder $container)

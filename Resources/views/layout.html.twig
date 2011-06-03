@@ -23,78 +23,58 @@ file that was distributed with this source code.
         <script src="{{ asset('bundles/sonatajquery/jquery-ui-1.8.6.custom.js') }}" type="text/javascript"></script>
         <script src="{{ asset('bundles/sonatajquery/jquery-ui-i18n.js') }}" type="text/javascript"></script>
 
-        <script src="{{ asset('bundles/sonatapage/page.js') }}" type="text/javascript"></script>
         <link rel="stylesheet" href="{{ asset('bundles/sonatapage/page.css') }}" type="text/css" media="all">
     </head>
     <body>
 
         <div class="container">
-            <div class="span-24 last" style="background: blue">
-                <input type="checkbox" id="page-action-enabled-edit" />
-                <label for="page-action-enabled-edit">{% trans 'label_edit_enabled' from 'PageBundle' %}</label>
-                <input type="submit" value="{% trans 'btn_save_position' from 'PageBundle' %}" id="page-action-save-position" />
-                <input type="submit" value="{% trans 'btn_edit' from 'PageBundle' %}" id="page-action-edit" />
-            </div>
+            {% if page_admin.isGranted(['EDIT']) %}
+                <script src="{{ asset('bundles/sonatapage/page.js') }}" type="text/javascript"></script>
+                <div class="span-24 last" style="background: blue">
+                    <input type="checkbox" id="page-action-enabled-edit" />
+                    <label for="page-action-enabled-edit">{% trans from 'PageBundle' %}label_edit_enabled{% endtrans%}</label>
+                    <input type="submit" value="{% trans from 'PageBundle' %}btn_save_position{% endtrans%}" id="page-action-save-position" />
+                    <input type="submit" value="{% trans from 'PageBundle' %}btn_edit{% endtrans%}" id="page-action-edit" />
+                </div>
+
+                <!-- CMS specific variables -->
+                <script>
+                    Page.url = {
+                        block_save_position: '{{ path('admin_sonata_page_block_savePosition') }}',
+                        block_create: '{{ path('admin_sonata_page_block_create') }}',
+                        block_edit:   '{{ path('admin_sonata_page_block_edit', {'id': 'BLOCK_ID'}) }}',
+                        page_edit:    '{{ path('admin_sonata_page_page_edit', {'id': page.id }) }}'
+                    }
+                </script>
+            {% endif %}
 
             <!-- header -->
             <div class="span-24 last">
-                {% render 'SonataPageBundle:Page:renderContainer' with {
-                    'name' : 'header',
-                    'page' : 'global'
-                } %}
+                {{ manager.renderContainer('header', 'global')|raw }}
             </div>
 
             <!-- left sidebar -->
             <div class="span-4">
-                {% render 'SonataPageBundle:Page:renderContainer' with {
-                    'name' : 'sidebar',
-                    'page' : 'global'
-                } %}
+                {{ manager.renderContainer('sidebar', 'global')|raw }}
             </div>
 
             <div class="span-20 last">
-                {% render 'SonataPageBundle:Page:renderContainer' with {
-                    'name' : 'content_top',
-                    'page' : 'global'
-                } %}
+                {{ manager.renderContainer('content_top', 'global')|raw }}
 
                 {% if page.hybrid %}
                     {{ content|raw }}
                 {% else %}
-                    {% render 'SonataPageBundle:Page:renderContainer' with {
-                        'name' : 'content_top',
-                        'page' : page
-                     } %}
+                    {{ manager.renderContainer('content_top', page)|raw }}
                 {% endif %}
 
-
-                {% render 'SonataPageBundle:Page:renderContainer' with {
-                    'name' : 'content_bottom',
-                    'page' : 'global'
-                } %}
+                {{ manager.renderContainer('header', 'content_bottom')|raw }}
             </div>
 
             <!-- footer -->
             <div class="span-24 last">
-                {% render 'SonataPageBundle:Page:renderContainer' with {
-                    'name' : 'footer',
-                    'page' : 'global'
-                } %}
+                {{ manager.renderContainer('footer', 'global')|raw }}
             </div>
         </div>
-
-
-        <!-- CMS specific variables -->
-        <script>
-            Page.url = {
-                block_save_position: '{{ path('admin_sonata_page_block_save_position') }}',
-                block_create: '{{ path('admin_sonata_page_page_block_create', {'id': page.id }) }}',
-                block_update: '{{ path('admin_sonata_page_page_block_update', {'id': page.id }) }}',
-                block_edit:   '{{ path('admin_sonata_page_page_block_edit', {'id': page.id, 'childId': 'BLOCK_ID'}) }}',
-                page_edit:    '{{ path('admin_sonata_page_page_edit', {'id': page.id }) }}',
-                page_update:  '{{ path('admin_sonata_page_page_update') }}'
-            }
-        </script>
 
         <script>
             {{ page.javascript|raw }}

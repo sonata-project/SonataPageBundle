@@ -60,8 +60,7 @@ class BlockAdmin extends Admin
         // fix temporary bug with twig and form framework
         $formMapper->getFormBuilder()->remove('_token');
 
-        $formMapper
-            ->add('enabled', array('required' => false));
+//        $formMapper->add('enabled', array('required' => false));
 
         if ($block) {
             $service = $this->manager->getBlockService($block);
@@ -101,9 +100,4 @@ class BlockAdmin extends Admin
         // fix weird bug with setter object not being call
         $object->setChildren($object->getChildren());
     }
-//
-//    public function getEditTemplate()
-//    {
-//
-//    }
 }

@@ -16,7 +16,7 @@ use Symfony\Component\Form\Form;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\PageBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
-use Symfony\Bundle\FrameworkBundle\Util\Mustache;
+use Symfony\Bundle\FrameworkBundle\Generator\Generator;
 
 /**
  * PageExtension
@@ -43,7 +43,7 @@ class ContainerBlockService extends BaseBlockService
             ),
         ));
 
-        return new Response(Mustache::renderString($block->getSetting('layout'), array(
+        return new Response(Generator::renderString($block->getSetting('layout'), array(
             'CONTENT' => $content
         )));
     }
@@ -64,10 +64,18 @@ class ContainerBlockService extends BaseBlockService
      */
     public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
     {
+        $formMapper->add('enabled', array('required' => false));
+
         $formMapper->addType('settings', 'sonata_type_immutable_array', array(
             'keys' => array(
                 array('layout', 'textarea', array()),
             )
+        ));
+
+        $formMapper->add('children', array(), array(
+            'edit'   => 'inline',
+            'inline' => 'table',
+            'sortable' => 'position'
         ));
     }
 
@@ -78,10 +86,18 @@ class ContainerBlockService extends BaseBlockService
      */
     public function buildCreateForm(FormMapper $formMapper, BlockInterface $block)
     {
+        $formMapper->add('enabled', array('required' => false));
+
         $formMapper->addType('settings', 'sonata_type_immutable_array', array(
             'keys' => array(
                 array('layout', 'textarea', array()),
             )
+        ));
+
+        $formMapper->add('children', array(), array(
+            'edit'   => 'inline',
+            'inline' => 'table',
+            'sortable' => 'position'
         ));
     }
 

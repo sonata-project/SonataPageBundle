@@ -19,6 +19,18 @@
                 <argument type="service" id="logger" />
             </call>
 
+            <call method="setPageAdmin">
+                <argument type="service" id="sonata.page.admin.page"  strict="false"/>
+            </call>
+
+            <call method="setBlockAdmin">
+                <argument type="service" id="sonata.page.admin.block"  strict="false"/>
+            </call>
+
+            <call method="setLogger">
+                <argument type="service" id="logger" />
+            </call>
+
             <call method="setDebug">
                 <argument >%kernel.debug%</argument>
             </call>
