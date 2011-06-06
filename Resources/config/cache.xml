@@ -10,8 +10,14 @@
             <argument type="service" id="router" />
         </service>
 
-        <service id="sonata.page.cache.js" class="Sonata\PageBundle\Cache\JsCache" >
+        <service id="sonata.page.cache.js_sync" class="Sonata\PageBundle\Cache\JsCache" >
             <argument type="service" id="router" />
+            <argument>true</argument>
+        </service>
+
+        <service id="sonata.page.cache.js_async" class="Sonata\PageBundle\Cache\JsCache" >
+            <argument type="service" id="router" />
+            <argument>false</argument>
         </service>
     </services>
 </container>

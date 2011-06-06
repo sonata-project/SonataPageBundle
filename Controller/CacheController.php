@@ -37,6 +37,28 @@ class CacheController extends Controller
         $page    = $manager->getPageById($request->get('page_id'));
         $block   = $manager->getBlock($request->get('block_id'));
 
-        return $manager->renderBlock($block, $page, false);
+        $response = $manager->renderBlock($block, $page, false);
+
+        if ($request->get('_sync') == true) {
+            return $response;
+        }
+
+        $response->setContent(sprintf(<<<JS
+    (function () {
+      var block = document.getElementById('block-cms-%s');
+
+      var div = document.createElement("div");
+      div.innerHTML = %s;
+
+      for (var node in div.childNodes) {
+        if (div.childNodes[node] && div.childNodes[node].nodeType == 1) {
+          block.parentNode.replaceChild(div.childNodes[node], block);
+        }
+      }
+    })();
+JS
+, $block->getId(), json_encode($response->getContent())));
+
+        return $response;
     }
 }
