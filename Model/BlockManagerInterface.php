@@ -17,7 +17,7 @@ interface BlockManagerInterface
 
     /**
      * return a block with the given id
-     * 
+     *
      * @param  $id
      * @return BlockInterface
      */
@@ -26,7 +26,7 @@ interface BlockManagerInterface
     /**
      * return a flat list if page's blocks
      *
-     * @param  $page
+     * @param \Sonata\PageBundle\Model\PageInterface $page
      * @return
      */
     function getBlocksById(PageInterface $page);
@@ -49,7 +49,7 @@ interface BlockManagerInterface
 
     /**
      * @param $options
-     * @return BlockInterface
+     * @return \Sonata\PageBundle\Model\BlockInterface
      */
     function createNewContainer(array $values = array());
 

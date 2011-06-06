@@ -74,28 +74,28 @@ interface BlockInterface
     /**
      * Set createdAt
      *
-     * @param datetime $createdAt
+     * @param \Datetime $createdAt
      */
     function setCreatedAt(\DateTime $createdAt = null);
 
     /**
      * Get createdAt
      *
-     * @return datetime $createdAt
+     * @return \Datetime $createdAt
      */
     function getCreatedAt();
 
     /**
      * Set updatedAt
      *
-     * @param datetime $updatedAt
+     * @param \Datetime $updatedAt
      */
     function setUpdatedAt(\DateTime $updatedAt = null);
 
     /**
      * Get updatedAt
      *
-     * @return datetime $updatedAt
+     * @return \Datetime $updatedAt
      */
     function getUpdatedAt();
 
@@ -154,6 +154,12 @@ interface BlockInterface
      * @return void
      */
     function hasParent();
+
+    /**
+     * @abstract
+     * @return integer
+     */
+    function getTtl();
 
     function __toString();
 }

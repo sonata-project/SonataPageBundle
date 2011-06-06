@@ -29,10 +29,10 @@ class TextBlockService extends BaseBlockService
     {
         $settings = array_merge($this->getDefaultSettings(), $block->getSettings());
 
-        return $this->render('SonataPageBundle:Block:block_core_text.html.twig', array(
+        return $this->renderResponse('SonataPageBundle:Block:block_core_text.html.twig', array(
             'block'     => $block,
             'settings'  => $settings
-        ));
+        ), $response);
     }
 
     public function validateBlock(BlockInterface $block)

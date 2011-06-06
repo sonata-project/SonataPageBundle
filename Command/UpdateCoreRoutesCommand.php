@@ -36,6 +36,7 @@ class UpdateCoreRoutesCommand extends Command
 
         foreach ($router->getRouteCollection()->all() as $name => $route) {
             $name = trim($name);
+
             $page = $pageManager->getPageByName($name);
 
             if (!$manager->isRouteNameDecorable($name)) {

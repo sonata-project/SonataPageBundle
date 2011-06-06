@@ -21,8 +21,10 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\BlockManagerInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Block\BlockServiceInterface;
+use Sonata\PageBundle\Cache\CacheInterface;
 
 use Sonata\AdminBundle\Admin\AdminInterface;
+
 
 /**
  * The Manager class is in charge of retrieving the correct page (cms page or action page)
@@ -60,11 +62,18 @@ class Manager
 
     protected $blockAdmin;
 
+    protected $cacheServices = array();
+
     public function __construct(PageManagerInterface $pageManager, BlockManagerInterface $blockManager, EngineInterface $templating)
     {
         $this->pageManager  = $pageManager;
         $this->blockManager = $blockManager;
         $this->templating   = $templating;
+    }
+
+    public function addCacheService($name, CacheInterface $cache)
+    {
+        $this->cacheServices[$name] = $cache;
     }
 
     /**
@@ -84,11 +93,12 @@ class Manager
             $page = $this->defineCurrentPage($request);
 
             // only decorate hybrid page and page with decorate = true
-            if ($page && !$page->isHybrid() && $page->getDecorate()) {
-
-                $response->setContent($this->renderPage($page, array(
+            if ($page && $page->isHybrid() && $page->getDecorate()) {
+                $parameters = array(
                     'content'     => $response->getContent(),
-                )));
+                );
+
+                $response = $this->renderPage($page, $parameters, $response);
             }
         }
 
@@ -98,9 +108,11 @@ class Manager
     public function addBlockService($name, BlockServiceInterface $service)
     {
         $this->blockServices[$name] = $service;
+
+        $service->setManager($this);
     }
 
-    public function renderPage(PageInterface $page, array $params = array())
+    public function renderPage(PageInterface $page, array $params = array(), Response $response = null)
     {
         $template = 'SonataPageBundle::layout.html.twig';
         if ($this->getCurrentPage()) {
@@ -112,7 +124,10 @@ class Manager
         $params['page_admin']   = $this->getPageAdmin();
         $params['block_admin']  = $this->getBlockAdmin();
 
-        return $this->templating->render($template, $params);
+        $response = $this->templating->renderResponse($template, $params, $response);
+        $response->setTtl($page->getTtl());
+
+        return $response;
     }
 
     /**
@@ -182,7 +197,6 @@ class Manager
     {
         foreach ($this->getOption('ignore_uri_patterns', array()) as $uriPattern) {
             if (preg_match($uriPattern, $uri)) {
-
                 return false;
             }
         }
@@ -191,58 +205,47 @@ class Manager
     }
 
     /**
-     * render a specialize block
+     * Render a specialize block
      *
-     * @param  $block
-     * @return string | Response
+     * @param \Sonata\PageBundle\Model\BlockInterface $block
+     * @param \Sonata\PageBundle\Model\PageInterface $page
+     * @param boolean $useCache
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function renderBlock(BlockInterface $block, PageInterface $page)
+    public function renderBlock(BlockInterface $block, PageInterface $page, $useCache = true)
     {
         if ($this->getLogger()) {
             $this->getLogger()->info(sprintf('[cms::renderBlock] block.id=%d, block.type=%s ', $block->getId(), $block->getType()));
         }
 
         try {
-            $service = $this->getBlockService($block);
+            $service       = $this->getBlockService($block);
+            $cacheManager  = $this->getCacheService($block);
+            $cacheElement  = $service->getCacheElement($block);
 
-            if (!$service) {
-
-                return '';
+            if ($useCache && $cacheManager->has($cacheElement)) {
+                return $cacheManager->get($cacheElement);
             }
-            return $service->execute($block, $page);
+
+            $response = $service->execute($block, $page, $cacheManager->createResponse($cacheElement));
+
+            if ($useCache) {
+                $cacheElement->setValue($response);
+                $cacheManager->set($cacheElement);
+            }
+
+            return $response;
         } catch (\Exception $e) {
-            if ($this->getDebug()) {
-
-                throw $e;
-            }
-
             if ($this->getLogger()) {
                 $this->getLogger()->crit(sprintf('[cms::renderBlock] block.id=%d - error while rendering block - %s', $block->getId(), $e->getMessage()));
             }
+
+            if ($this->getDebug()) {
+                throw $e;
+            }
+
+            return new Response;
         }
-
-        return '';
-    }
-
-    /**
-     * Return a PageInterface instance depends on the $page argument
-     *
-     * @param mixed $page
-     * @return \Sonata\PageBundle\Model\PageInterface
-     */
-    public function getPage($page)
-    {
-        if (is_string($page)) { // page is a slug, load the related page
-            $page = $this->getPageByRouteName($page);
-        } else if (!$page)    { // get the current page
-            $page = $this->getCurrentPage();
-        }
-
-        if (!$page instanceof PageInterface) {
-            throw new \RunTimeException('Unable to retrieve the page');
-        }
-
-        return $page;
     }
 
     /**
@@ -261,11 +264,30 @@ class Manager
 
         $container = $this->findContainer($name, $page, $parentContainer);
 
-        return $this->templating->render('SonataPageBundle:Block:block_container.html.twig', array(
-            'container' => $container,
-            'manager'   => $this,
-            'page'      => $page,
-        ));
+        return $this->renderBlock($container, $page)->getContent();
+    }
+
+    /**
+     * Return a PageInterface instance depends on the $page argument
+     *
+     * @param mixed $page
+     * @return \Sonata\PageBundle\Model\PageInterface
+     */
+    public function getPage($page)
+    {
+        if (is_string($page)) { // page is a slug, load the related page
+            $page = $this->getPageByRouteName($page);
+        } else if ( is_numeric($page)) {
+            $page = $this->getPageById($page);
+        } else if (!$page)    { // get the current page
+            $page = $this->getCurrentPage();
+        }
+
+        if (!$page instanceof PageInterface) {
+            throw new \RunTimeException('Unable to retrieve the page');
+        }
+
+        return $page;
     }
 
     /**
@@ -339,6 +361,20 @@ class Manager
     }
 
     /**
+     * @throws \RuntimeException
+     * @param \Sonata\PageBundle\Model\BlockInterface $block
+     * @return array|bool
+     */
+    public function getCacheService(BlockInterface $block)
+    {
+        if (!$this->hasCacheService($block->getType())) {
+            throw new \RuntimeException(sprintf('The block service `%s` referenced in the block `%s` does not exists', $block->getType(), $block->getId()));
+        }
+
+        return $this->cacheServices[$block->getType()];
+    }
+
+    /**
      *
      * @param sring $id
      * @return boolean
@@ -346,6 +382,16 @@ class Manager
     public function hasBlockService($id)
     {
         return isset($this->blockServices[$id]) ? true : false;
+    }
+
+    /**
+     *
+     * @param sring $id
+     * @return boolean
+     */
+    public function hasCacheService($id)
+    {
+        return isset($this->cacheServices[$id]) ? true : false;
     }
 
     /**
@@ -373,29 +419,17 @@ class Manager
      * if the page does not exists then the page is created.
      *
      * @param string $routeName
-     * @return Application\Sonata\PageBundle\Entity\Page|bool
+     * @return \Sonata\PageBundle\Model\PageInterface
      */
-    public function getPageByRouteName($routeName)
+    public function getPageByRouteName($routeName, $create = true)
     {
         if (!isset($this->routePages[$routeName])) {
             $page = $this->pageManager->getPageByName($routeName);
 
-            if (!$page) {
-
-                if (!$this->getDefaultTemplate()) {
-                    throw new \RuntimeException('No default template defined');
-                }
-
-                $page = $this->pageManager->createNewPage(array(
-                    'template' => $this->getDefaultTemplate(),
-                    'enabled'  => true,
-                    'routeName' => $routeName,
-                    'name'      => $routeName,
-                    'loginRequired' => false,
-                ));
-
-                $this->pageManager->save($page);
-
+            if (!$page && !$create) {
+                throw new \RuntimeException(sprintf('Unable to find the page : %s', $routeName));
+            } else if (!$page) {
+                $page = $this->createPage($routeName);
             }
 
             $this->loadBlocks($page);
@@ -405,6 +439,46 @@ class Manager
         return $this->routePages[$routeName];
     }
 
+    /**
+     * return a fully loaded page ( + blocks ) from a route name
+     *
+     * if the page does not exists then the page is created.
+     *
+     * @param string $routeName
+     * @return \Sonata\PageBundle\Model\PageInterface
+     */
+    public function getPageById($id)
+    {
+        $page = $this->pageManager->findOneBy(array('id' => $id));
+
+        $this->loadBlocks($page);
+
+        return $page;
+    }
+
+    /**
+     * @throws \RuntimeException
+     * @param string $routeName
+     * @return \Sonata\PageBundle\Model\PageInterface
+     */
+    public function createPage($routeName)
+    {
+        if (!$this->getDefaultTemplate()) {
+            throw new \RuntimeException('No default template defined');
+        }
+
+        $page = $this->pageManager->createNewPage(array(
+            'template' => $this->getDefaultTemplate(),
+            'enabled'  => true,
+            'routeName' => $routeName,
+            'name'      => $routeName,
+            'loginRequired' => false,
+        ));
+
+        $this->pageManager->save($page);
+
+        return $page;
+    }
     /**
      * return the default template used in the current application
      *
@@ -422,7 +496,8 @@ class Manager
      *   then the page is retrieve by using a slug
      *   otherwise the page is loaded from the route name
      *
-     * @return Application\Sonata\PageBundle\Entity\Page
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return \Sonata\PageBundle\Model\PageInterface
      */
     public function defineCurrentPage($request)
     {
@@ -445,6 +520,11 @@ class Manager
         return $this->currentPage;
     }
 
+    /**
+     * Returns the current page
+     *
+     * @return \Sonata\PageBundle\Model\PageInterface
+     */
     public function getCurrentPage()
     {
         return $this->currentPage;
@@ -458,11 +538,11 @@ class Manager
     /**
      *
      * @param string $id
+     * @return \Sonata\PageBundle\Model\BlockInterface
      */
     public function getBlock($id)
     {
         if (!isset($this->blocks[$id])) {
-
             $this->blocks[$id] = $this->blockManager->getBlock($id);
         }
 
@@ -472,7 +552,7 @@ class Manager
     /**
      * load all the related nested blocks linked to one page.
      *
-     * @param PageInterface $page
+     * @param \Sonata\PageBundle\Model\PageInterface $page
      * @return void
      */
     public function loadBlocks(PageInterface $page)

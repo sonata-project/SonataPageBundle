@@ -57,14 +57,13 @@ var Page = {
         event.stopPropagation();
 
         var id = event.currentTarget.id.slice(10);
-        document.location.href = Page.url.block_edit.replace(/BLOCK_ID/, id);
+        window.open(Page.url.block_edit.replace(/BLOCK_ID/, id), '_newtab');
     },
+
     handleBlockHover: function(event) {
         event.stopPropagation();
         Page.blocks.removeClass('cms-block-hand-over');
         jQuery(this).addClass('cms-block-hand-over');
-
-        document.title = event.currentTarget.id;
     },
 
     handleClickEnabledEdit: function(event) {

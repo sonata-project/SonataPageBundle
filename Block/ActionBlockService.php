@@ -47,11 +47,11 @@ class ActionBlockService extends BaseBlockService
     public function execute(BlockInterface $block, PageInterface $page, Response $response = null)
     {
         $parameters = (array)json_decode($block->getSetting('parameters'), true);
-        $params = array_merge($parameters, array('_block' => $block, '_page' => $page));
+        $parameters = array_merge($parameters, array('_block' => $block, '_page' => $page));
 
         $settings = array_merge($this->getDefaultSettings(), (array)$block->getSettings());
         try {
-            $actionContent = $this->kernel->render($settings['action'], $params);
+            $actionContent = $this->kernel->render($settings['action'], $parameters);
         } catch (\Exception $e) {
             throw $e;
         }
@@ -60,7 +60,7 @@ class ActionBlockService extends BaseBlockService
             'CONTENT' => $actionContent
         ));
 
-        return $this->render('SonataPageBundle:Block:block_core_action.html.twig', array(
+        return $this->renderResponse('SonataPageBundle:Block:block_core_action.html.twig', array(
             'content'   => $content,
             'block'     => $block,
             'page'      => $page,

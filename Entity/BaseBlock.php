@@ -34,6 +34,8 @@ class BaseBlock implements BlockInterface
 
     protected $type;
 
+    protected $ttl;
+
     public function __construct()
     {
         $this->settings = array();
@@ -263,5 +265,27 @@ class BaseBlock implements BlockInterface
     public function preUpdate()
     {
         $this->updatedAt = new \DateTime;
+    }
+
+    /**
+     * Returns the time to live of the block object
+     *
+     * @return integer
+     */
+    public function getTtl()
+    {
+        if ($this->ttl === null) {
+            $ttl = $this->getSetting('ttl', 84600);
+
+            foreach($this->getChildren() as $block) {
+                $blockTtl = $block->getTtl();
+
+                $ttl = ($blockTtl < $ttl) ? $blockTtl : $ttl;
+            }
+
+            $this->ttl = $ttl;
+        }
+
+        return $this->ttl;
     }
 }

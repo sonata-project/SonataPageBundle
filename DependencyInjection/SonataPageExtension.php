@@ -31,10 +31,10 @@ class SonataPageExtension extends Extension
     /**
      * Loads the url shortener configuration.
      *
-     * @param array            $config    An array of configuration settings
+     * @param array            $configs    An array of configuration settings
      * @param ContainerBuilder $container A ContainerBuilder instance
      */
-    public function load(array $config, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container)
     {
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('page.xml');
@@ -42,12 +42,19 @@ class SonataPageExtension extends Extension
         $loader->load('block.xml');
         $loader->load('orm.xml');
         $loader->load('form.xml');
+        $loader->load('cache.xml');
 
         // todo: use the configuration class
-        $config = call_user_func_array('array_merge_recursive', $config);
+        $configs = call_user_func_array('array_merge_recursive', $configs);
 
-        $container->getDefinition('sonata.page.manager')
-            ->addMethodCall('setOptions', array($config));
+        $manager = $container->getDefinition('sonata.page.manager');
+
+        $manager->addMethodCall('setOptions', array($configs));
+
+        foreach($configs['services'] as $id => $settings) {
+            $cache = isset($settings['cache']) ? $settings['cache'] : 'sonata.page.cache.noop';
+            $manager->addMethodCall('addCacheService', array($id, new Reference($cache)));
+        }
     }
 
     /**

@@ -15,22 +15,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Response;
 
-class PageController extends Controller
+class CacheController extends Controller
 {
 
-    public function catchAllAction()
+    public function esiAction()
     {
-        $pathInfo = $this->get('request')->getPathInfo();
+        $request = $this->get('request');
 
         $manager = $this->get('sonata.page.manager');
-        $page = $manager->getPageBySlug($pathInfo);
+        $page    = $manager->getPageById($request->get('page_id'));
+        $block   = $manager->getBlock($request->get('block_id'));
 
-        if (!$page) {
-            throw new NotFoundHttpException('The current page does not exist!');
-        }
-
-        $manager->setCurrentPage($page);
-
-        return $manager->renderPage($page);
+        return $manager->renderBlock($block, $page, false);
     }
 }

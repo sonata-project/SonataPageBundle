@@ -48,15 +48,6 @@ interface BlockServiceInterface
 
     /**
      * @abstract
-     * @param string $view
-     * @param array $parameters
-     * @param \Symfony\Component\HttpFoundation\Response $response
-     * @return void
-     */
-    function render($view, array $parameters = array(), Response $response = null);
-
-    /**
-     * @abstract
      * @param \Sonata\PageBundle\Model\BlockInterface $block
      * @return void
      */
@@ -75,4 +66,11 @@ interface BlockServiceInterface
      * @return array
      */
     function getDefaultSettings();
+
+    /**
+     * @abstract
+     * @param \Sonata\PageBundle\Model\BlockInterface $block
+     * @return \Sonata\PageBundle\Cache\CacheElement
+     */
+    function getCacheElement(BlockInterface $block);
 }

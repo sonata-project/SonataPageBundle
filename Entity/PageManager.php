@@ -22,9 +22,13 @@ class PageManager implements PageManagerInterface
 {
     protected $entityManager;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager, $class = 'Application\Sonata\PageBundle\Entity\Page')
     {
         $this->entityManager = $entityManager;
+
+        if(class_exists($class)) {
+            $this->repository = $this->entityManager->getRepository($class);
+        }
     }
 
     /**
@@ -119,5 +123,15 @@ class PageManager implements PageManagerInterface
     public function getNewInstance()
     {
         return new Page;
+    }
+
+    public function findBy(array $criteria = array())
+    {
+        return $this->repository->findBy($criteria);
+    }
+
+    public function findOneBy(array $criteria = array())
+    {
+        return $this->repository->findOneBy($criteria);
     }
 }

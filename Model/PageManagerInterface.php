@@ -22,6 +22,10 @@ interface PageManagerInterface
      */
     function getPageByName($routeName);
 
+    function findOneBy(array $criteria = array());
+
+    function findBy(array $criteria = array());
+
     /**
      * return a page with the give slug
      *

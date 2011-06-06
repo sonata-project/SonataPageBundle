@@ -34,10 +34,10 @@ class ActionBlockServiceTest extends BaseTestBlockService
             'action' => 'SonataPageBundle:Page:blockPreview'
         ));
 
-        $field = new Form('form');
-        $service->defineBlockForm($field, $block);
-
-        $this->assertEquals(2, count($field->getFields()));
+//        $field = new Form('form');
+//        $service->defineBlockForm($field, $block);
+//
+//        $this->assertEquals(2, count($field->getFields()));
 
 //        $page = new Page;
 //

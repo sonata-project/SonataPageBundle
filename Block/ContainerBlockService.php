@@ -35,17 +35,19 @@ class ContainerBlockService extends BaseBlockService
      */
     public function execute(BlockInterface $block, PageInterface $page, Response $response = null)
     {
-        $content = $this->getTemplating()->render('SonataPageBundle:Page:renderContainer', array(
-            'attributes' => array(
-                'name'              => $block->getSetting('name'),
-                'page'              => $page,
-                'parent_container'  => $block
-            ),
-        ));
+        $settings = array_merge($this->getDefaultSettings(), $block->getSettings());
 
-        return new Response(Generator::renderString($block->getSetting('layout'), array(
-            'CONTENT' => $content
+        $response = $this->renderResponse('SonataPageBundle:Block:block_container.html.twig', array(
+            'container' => $block,
+            'manager'   => $this->manager,
+            'page'      => $page,
+        ), $response);
+
+        $response->setContent(Generator::renderString($settings['layout'], array(
+            'CONTENT' => $response->getContent()
         )));
+
+        return $response;
     }
 
     /**

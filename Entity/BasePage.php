@@ -58,6 +58,8 @@ class BasePage implements PageInterface
 
     protected $decorate = true;
 
+    protected $ttl;
+
     /**
      * Set routeName
      *
@@ -261,7 +263,7 @@ class BasePage implements PageInterface
     /**
      * Set publicationDateStart
      *
-     * @param datetime $publicationDateStart
+     * @param \DateTime $publicationDateStart
      */
     public function setPublicationDateStart(\DateTime $publicationDateStart = null)
     {
@@ -271,7 +273,7 @@ class BasePage implements PageInterface
     /**
      * Get publicationDateStart
      *
-     * @return datetime $publicationDateStart
+     * @return \DateTime $publicationDateStart
      */
     public function getPublicationDateStart()
     {
@@ -281,7 +283,7 @@ class BasePage implements PageInterface
     /**
      * Set publicationDateEnd
      *
-     * @param datetime $publicationDateEnd
+     * @param \DateTime $publicationDateEnd
      */
     public function setPublicationDateEnd(\DateTime $publicationDateEnd = null)
     {
@@ -291,7 +293,7 @@ class BasePage implements PageInterface
     /**
      * Get publicationDateEnd
      *
-     * @return datetime $publicationDateEnd
+     * @return \DateTime $publicationDateEnd
      */
     public function getPublicationDateEnd()
     {
@@ -301,7 +303,7 @@ class BasePage implements PageInterface
     /**
      * Set createdAt
      *
-     * @param datetime $createdAt
+     * @param \DateTime $createdAt
      */
     public function setCreatedAt(\DateTime $createdAt = null)
     {
@@ -311,7 +313,7 @@ class BasePage implements PageInterface
     /**
      * Get createdAt
      *
-     * @return datetime $createdAt
+     * @return \DateTime $createdAt
      */
     public function getCreatedAt()
     {
@@ -321,7 +323,7 @@ class BasePage implements PageInterface
     /**
      * Set updatedAt
      *
-     * @param datetime $updatedAt
+     * @param \DateTime $updatedAt
      */
     public function setUpdatedAt(\DateTime $updatedAt = null)
     {
@@ -331,7 +333,7 @@ class BasePage implements PageInterface
     /**
      * Get updatedAt
      *
-     * @return datetime $updatedAt
+     * @return \DateTime $updatedAt
      */
     public function getUpdatedAt()
     {
@@ -420,8 +422,7 @@ class BasePage implements PageInterface
 
     public function disableBlockLazyLoading()
     {
-        if (is_object($this->blocks))
-        {
+        if (is_object($this->blocks)) {
             $this->blocks->setInitialized(true);
         }
     }
@@ -465,5 +466,22 @@ class BasePage implements PageInterface
     public function preUpdate()
     {
         $this->updatedAt = new \DateTime;
+    }
+
+    public function getTtl()
+    {
+        if ($this->ttl === null) {
+            $ttl = 84600 * 10; // todo : change this value
+
+            foreach($this->getBlocks() as $block) {
+                $blockTtl = $block->getTtl();
+
+                $ttl = ($blockTtl < $ttl) ? $blockTtl : $ttl ;
+            }
+
+            $this->ttl = $ttl;
+        }
+
+        return $this->ttl;
     }
 }

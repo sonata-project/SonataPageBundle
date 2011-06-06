@@ -16,7 +16,7 @@ file that was distributed with this source code.
     {% for block in container.children %}
         <!-- page({{ page.id }}, {{ page.routename }}) block({{ block.id }}, {{ block.type }}) -->
 
-        {{ manager.renderBlock(block, page) | raw}}
+        {{ manager.renderBlock(block, page).content | raw}}
 
         <!-- end page({{ page.id }}, {{ page.routename }}) block({{ block.id }}, {{ block.type }}) -->
     {% endfor %}

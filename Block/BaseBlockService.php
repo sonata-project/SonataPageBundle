@@ -13,6 +13,9 @@ namespace Sonata\PageBundle\Block;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Templating\EngineInterface;
+use Sonata\PageBundle\Model\BlockInterface;
+use Sonata\PageBundle\Cache\CacheElement;
+use Sonata\PageBundle\Page\Manager;
 
 /**
  * BaseBlockService
@@ -25,6 +28,8 @@ abstract class BaseBlockService implements BlockServiceInterface
     protected $name;
 
     protected $templating;
+
+    protected $manager;
 
     public function __construct($name, EngineInterface $templating)
     {
@@ -40,9 +45,9 @@ abstract class BaseBlockService implements BlockServiceInterface
      * @param \Symfony\Component\HttpFoundation\Response $response
      * @return string
      */
-    public function render($view, array $parameters = array(), Response $response = null)
+    public function renderResponse($view, array $parameters = array(), Response $response = null)
     {
-        return $this->getTemplating()->render($view, $parameters, $response);
+        return $this->getTemplating()->renderResponse($view, $parameters, $response);
     }
 
     /**
@@ -60,5 +65,27 @@ abstract class BaseBlockService implements BlockServiceInterface
     public function getTemplating()
     {
         return $this->templating;
+    }
+
+    /**
+     * Returns the cache keys for the block
+     *
+     * @param \Sonata\PageBundle\Model\BlockInterface $block
+     * @return \Sonata\PageBundle\Cache\CacheElement
+     */
+    public function getCacheElement(BlockInterface $block)
+    {
+        $baseCacheKeys = array(
+            'block_id'    => $block->getId(),
+            'page_id'     => $block->getPage()->getId(),
+            'updated_at'  => $block->getUpdatedAt()->format('U')
+        );
+
+        return new CacheElement($baseCacheKeys, $block->getTtl());
+    }
+
+    public function setManager(Manager $manager)
+    {
+        $this->manager = $manager;
     }
 }
