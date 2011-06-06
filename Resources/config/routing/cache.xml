@@ -8,4 +8,7 @@
         <default key="_controller">SonataPageBundle:Cache:esi</default>
     </route>
 
+    <route id="sonata_page_js_cache" pattern="/sonata/page/cache-js">
+        <default key="_controller">SonataPageBundle:Cache:js</default>
+    </route>
 </routes>

@@ -4,6 +4,7 @@
 namespace Sonata\PageBundle\Cache;
 
 use Symfony\Component\Routing\Router;
+use Symfony\Component\HttpFoundation\Response;
 
 class NoopCache implements CacheInterface
 {
@@ -33,5 +34,10 @@ class NoopCache implements CacheInterface
     public function get(CacheElement $cacheElement)
     {
         throw new \RunTimeException('The NoopCache::get() cannot called');
+    }
+
+    public function createResponse(CacheElement $cacheElement)
+    {
+        return new Response;
     }
 }

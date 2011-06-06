@@ -28,4 +28,15 @@ class CacheController extends Controller
 
         return $manager->renderBlock($block, $page, false);
     }
+
+    public function jsAction()
+    {
+        $request = $this->get('request');
+
+        $manager = $this->get('sonata.page.manager');
+        $page    = $manager->getPageById($request->get('page_id'));
+        $block   = $manager->getBlock($request->get('block_id'));
+
+        return $manager->renderBlock($block, $page, false);
+    }
 }

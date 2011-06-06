@@ -31,7 +31,7 @@ class ContainerBlockService extends BaseBlockService
      * @param \Sonata\PageBundle\Model\BlockInterface $block
      * @param \Sonata\PageBundle\Model\PageInterface $page
      * @param \Symfony\Component\HttpFoundation\Response $response
-     * @return string
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function execute(BlockInterface $block, PageInterface $page, Response $response = null)
     {

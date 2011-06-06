@@ -5,7 +5,12 @@
 
     <services>
         <service id="sonata.page.cache.noop" class="Sonata\PageBundle\Cache\NoopCache" />
+
         <service id="sonata.page.cache.esi" class="Sonata\PageBundle\Cache\EsiCache" >
+            <argument type="service" id="router" />
+        </service>
+
+        <service id="sonata.page.cache.js" class="Sonata\PageBundle\Cache\JsCache" >
             <argument type="service" id="router" />
         </service>
     </services>
