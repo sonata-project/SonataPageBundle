@@ -100,4 +100,20 @@ class BlockAdmin extends Admin
         // fix weird bug with setter object not being call
         $object->setChildren($object->getChildren());
     }
+
+    public function postUpdate($object)
+    {
+        $service      = $this->manager->getBlockService($object);
+        $cacheElement = $service->getCacheElement($object);
+
+        $this->manager->invalidate($cacheElement);
+    }
+
+    public function postPersist($object)
+    {
+        $service      = $this->manager->getBlockService($object);
+        $cacheElement = $service->getCacheElement($object);
+
+        $this->manager->invalidate($cacheElement);
+    }
 }

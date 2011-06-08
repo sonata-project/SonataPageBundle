@@ -20,5 +20,7 @@
             <argument type="service" id="router" />
             <argument>false</argument>
         </service>
+
+        <service id="sonata.page.cache.invalidation.simple" class="Sonata\PageBundle\Cache\Invalidation\SimpleCacheInvalidation" />
     </services>
 </container>

@@ -49,8 +49,8 @@ class EsiCache implements CacheInterface
         $return = true;
         foreach($this->servers as $server) {
             $command = str_replace(array('{{ COMMAND }}', '{{ EXPRESSION }}'), array($command, $expression), $server);
-            $process = new Process($command);
 
+            $process = new Process($command);
             if ($process->run() == 0) {
                 continue;
             }
@@ -85,8 +85,8 @@ class EsiCache implements CacheInterface
             $this->getUrl($cacheElement),
             $cacheElement->getTtl()
         );
-        
-        return new Response($content, 200, $headers);
+
+        return new Response($content);
     }
 
     public function createResponse(CacheElement $cacheElement)

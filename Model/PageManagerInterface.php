@@ -22,8 +22,18 @@ interface PageManagerInterface
      */
     function getPageByName($routeName);
 
+    /**
+     * @abstract
+     * @param array $criteria
+     * @return PageInterface
+     */
     function findOneBy(array $criteria = array());
 
+    /**
+     * @abstract
+     * @param array $criteria
+     * @return array
+     */
     function findBy(array $criteria = array());
 
     /**
@@ -46,7 +56,7 @@ interface PageManagerInterface
     /**
      * @abstract
      * @param array $params
-     * @return void
+     * @return PageInterface
      */
     function createNewPage(array $params = array());
 }

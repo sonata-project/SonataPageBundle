@@ -23,4 +23,6 @@ interface CacheInterface
     function flush(array $keys = array());
 
     function flushAll();
+
+    function createResponse(CacheElement $cacheElement);
 }

@@ -14,9 +14,12 @@ namespace Sonata\PageBundle\Admin;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Knplabs\Bundle\MenuBundle\MenuItem;
+use Sonata\PageBundle\Cache\CacheElement;
 
 class PageAdmin extends Admin
 {
+
+    protected $manager;
 
     protected $list = array(
         'name' => array('identifier' => true),
@@ -80,5 +83,17 @@ class PageAdmin extends Admin
             $this->trans('view_page_blocks'),
             $admin->generateUrl('sonata.page.admin.block.list', array('id' => $id))
         );
+    }
+
+    public function postUpdate($object)
+    {
+        $this->manager->invalidate(new CacheElement(array(
+           'page_id' => $object->getId()
+        )));
+    }
+
+    public function setManager($manager)
+    {
+        $this->manager= $manager;
     }
 }

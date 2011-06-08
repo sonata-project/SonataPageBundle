@@ -53,8 +53,12 @@ class SonataPageExtension extends Extension
 
         foreach($configs['services'] as $id => $settings) {
             $cache = isset($settings['cache']) ? $settings['cache'] : 'sonata.page.cache.noop';
+
             $manager->addMethodCall('addCacheService', array($id, new Reference($cache)));
         }
+
+        $invalidate = isset($configs['cache_invalidation']) ? $configs['cache_invalidation'] : 'sonata.page.cache.invalidation.simple';
+        $manager->replaceArgument(3, new Reference($invalidate));
 
         if (isset($configs['caches'])) {
             if (isset($configs['caches']['sonata.page.cache.esi']['servers'])) {

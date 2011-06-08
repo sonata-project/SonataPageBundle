@@ -27,7 +27,7 @@ final class CacheElement
     {
         $this->createdAt = new \DateTime;
         $this->keys      = $keys;
-        $this->ttl  = $ttl;
+        $this->ttl       = $ttl;
     }
 
     public function getKeys()

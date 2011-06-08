@@ -30,6 +30,10 @@
             <call method="addChild">
                 <argument type="service" id="sonata.page.admin.block" />
             </call>
+
+            <call method="setManager">
+                <argument type="service" id="sonata.page.manager" />
+            </call>
         </service>
 
         <service id="sonata.page.admin.block" class="%sonata.page.admin.block.class%">

@@ -22,7 +22,8 @@ use Sonata\PageBundle\Model\BlockManagerInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Block\BlockServiceInterface;
 use Sonata\PageBundle\Cache\CacheInterface;
-
+use Sonata\PageBundle\Cache\Invalidation\InvalidationInterface;
+use Sonata\PageBundle\Cache\CacheElement;
 use Sonata\AdminBundle\Admin\AdminInterface;
 
 
@@ -64,23 +65,31 @@ class Manager
 
     protected $cacheServices = array();
 
-    public function __construct(PageManagerInterface $pageManager, BlockManagerInterface $blockManager, EngineInterface $templating)
+    protected $cacheInvalidation;
+
+    public function __construct(
+      PageManagerInterface $pageManager,
+      BlockManagerInterface $blockManager,
+      EngineInterface $templating,
+      InvalidationInterface $cacheInvalidation
+  )
     {
         $this->pageManager  = $pageManager;
         $this->blockManager = $blockManager;
         $this->templating   = $templating;
+        $this->cacheInvalidation = $cacheInvalidation;
     }
 
-    public function addCacheService($name, CacheInterface $cache)
+    public function addCacheService($name, CacheInterface $cacheManager)
     {
-        $this->cacheServices[$name] = $cache;
+        $this->cacheServices[$name] = $cacheManager;
     }
 
     /**
      * filter the `core.response` event to decorated the action
      *
-     * @param  $event
-     * @param  $response
+     * @param Event $event
+     * @param Response $response
      * @return
      */
     public function onCoreResponse($event)
@@ -279,7 +288,7 @@ class Manager
             $page = $this->getPageByRouteName($page);
         } else if ( is_numeric($page)) {
             $page = $this->getPageById($page);
-        } else if (!$page)    { // get the current page
+        } else if (!$page) { // get the current page
             $page = $this->getCurrentPage();
         }
 
@@ -337,8 +346,7 @@ class Manager
 
 
     /**
-     *
-     * return the block service linked to the link
+     * Return the block service linked to the link
      *
      * @param \Sonata\PageBundle\Block\BlockInterface $block
      * @return \Sonata\PageBundle\Block\BlockServiceInterface
@@ -404,6 +412,11 @@ class Manager
         return isset($this->cacheServices[$id]) ? true : false;
     }
 
+    public function invalidate(CacheElement $cacheElement)
+    {
+        $this->cacheInvalidation->invalidate($this->getCacheServices(), $cacheElement);
+    }
+
     /**
      * return a fully loaded page ( + blocks ) from a route name
      *
@@ -454,7 +467,7 @@ class Manager
      *
      * if the page does not exists then the page is created.
      *
-     * @param string $routeName
+     * @param integer $routeName
      * @return \Sonata\PageBundle\Model\PageInterface
      */
     public function getPageById($id)
