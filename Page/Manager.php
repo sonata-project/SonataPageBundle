@@ -375,6 +375,16 @@ class Manager
     }
 
     /**
+     * Returns related cache services
+     *
+     * @return array
+     */
+    public function getCacheServices()
+    {
+        return $this->cacheServices;
+    }
+
+    /**
      *
      * @param sring $id
      * @return boolean

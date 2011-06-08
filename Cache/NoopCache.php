@@ -20,7 +20,7 @@ class NoopCache implements CacheInterface
         return true;
     }
 
-    public function flush(CacheElement $cacheElement)
+    public function flush(array $keys = array())
     {
         return true;
     }

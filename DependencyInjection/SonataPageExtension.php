@@ -55,6 +55,15 @@ class SonataPageExtension extends Extension
             $cache = isset($settings['cache']) ? $settings['cache'] : 'sonata.page.cache.noop';
             $manager->addMethodCall('addCacheService', array($id, new Reference($cache)));
         }
+
+        if (isset($configs['caches'])) {
+            if (isset($configs['caches']['sonata.page.cache.esi']['servers'])) {
+                $servers = (array) $configs['caches']['sonata.page.cache.esi']['servers'];
+
+                $cache = $container->getDefinition('sonata.page.cache.esi');
+                $cache->replaceArgument(0, $servers);
+            }
+        }
     }
 
     /**

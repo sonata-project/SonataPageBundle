@@ -19,6 +19,10 @@ class JsCache implements CacheInterface
 
     protected $sync;
 
+    /**
+     * @param \Symfony\Component\Routing\Router $router
+     * @param bool $sync
+     */
     public function __construct(Router $router, $sync = false)
     {
         $this->router = $router;
@@ -30,7 +34,7 @@ class JsCache implements CacheInterface
         return true;
     }
 
-    public function flush(CacheElement $cacheElement)
+    public function flush(array $keys = array())
     {
 
     }

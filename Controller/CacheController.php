@@ -26,7 +26,15 @@ class CacheController extends Controller
         $page    = $manager->getPageById($request->get('page_id'));
         $block   = $manager->getBlock($request->get('block_id'));
 
-        return $manager->renderBlock($block, $page, false);
+        $response = $manager->renderBlock($block, $page, false);
+
+        $response->headers->add(array(
+            'x-sonata-block-id'    => $block->getId(),
+            'x-sonata-page-id'     => $page->getId(),
+            'x-sonata-block-type'  => $block->getType(),
+        ));
+
+        return $response;
     }
 
     public function jsAction()
@@ -58,6 +66,8 @@ class CacheController extends Controller
     })();
 JS
 , $block->getId(), json_encode($response->getContent())));
+
+        $response->headers->set('Content-Type', 'application/javascript');
 
         return $response;
     }

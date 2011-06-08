@@ -20,7 +20,7 @@ interface CacheInterface
 
     function set(CacheElement $cacheElement);
 
-    function flush(CacheElement $cacheElement);
+    function flush(array $keys = array());
 
     function flushAll();
 }
