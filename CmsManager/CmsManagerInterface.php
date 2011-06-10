@@ -29,7 +29,7 @@ interface CmsManagerInterface
     public function findContainer($name, PageInterface $page, BlockInterface $parentContainer = null);
 
     /**
-     * return a fully loaded page ( + blocks ) from a route name
+     * Returns a fully loaded page ( + blocks ) from a route name
      *
      * if the page does not exists then the page is created.
      *
@@ -39,15 +39,30 @@ interface CmsManagerInterface
     public function getPageBySlug($slug);
 
     /**
-     * return a fully loaded page ( + blocks ) from a route name
+     * Returns a fully loaded page ( + blocks ) from a route name
      *
      * if the page does not exists then the page is created.
      *
      * @param string $routeName
+     * @param boolean $create
      * @return \Sonata\PageBundle\Model\PageInterface
      */
     public function getPageByRouteName($routeName, $create = true);
 
+    /**
+     * Returns a fully loaded pag ( + blocks ) from a page id
+     *
+     * @abstract
+     * @param integer $id
+     * @return \Sonata\PageBundle\Model\PageInterface
+     */
     public function getPageById($id);
 
+    /**
+     *
+     * @abstract
+     * @param integer $id
+     * @return \Sonata\PageBundle\Model\PageInterface
+     */
+    public function getBlock($id);
 }

@@ -46,6 +46,8 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
 
     protected $manager;
 
+    protected $blocks = array();
+
     /**
      * filter the `core.response` event to decorated the action
      *
@@ -413,5 +415,15 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     public function getManager()
     {
         return $this->manager;
+    }
+
+    public function setBlocks($blocks)
+    {
+        $this->blocks = $blocks;
+    }
+
+    public function getBlocks()
+    {
+        return $this->blocks;
     }
 }

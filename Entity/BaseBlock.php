@@ -199,6 +199,11 @@ abstract class BaseBlock implements BlockInterface
         return $this->children;
     }
 
+    public function hasChildren()
+    {
+        return $this->children == null;
+    }
+
     /**
      * Set parent
      *

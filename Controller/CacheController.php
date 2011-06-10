@@ -20,10 +20,9 @@ class CacheController extends Controller
 
     public function esiAction()
     {
-
         $request = $this->get('request');
 
-        $manager = $this->get('sonata.page.cms.page');
+        $manager = $this->get('sonata.page.cms.snapshot');
         $page    = $manager->getPageById($request->get('page_id'));
         $block   = $manager->getBlock($request->get('block_id'));
 
@@ -42,7 +41,14 @@ class CacheController extends Controller
     {
         $request = $this->get('request');
 
-        $manager = $this->get('sonata.page.cms.page');
+        $securityContext = $this->container->get('security.context');
+
+        if ($securityContext->isGranted('ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT')) {
+            $manager = $this->get('sonata.page.cms.page');
+        } else {
+            $manager = $this->get('sonata.page.cms.snapshot');
+        }
+
         $page    = $manager->getPageById($request->get('page_id'));
         $block   = $manager->getBlock($request->get('block_id'));
 

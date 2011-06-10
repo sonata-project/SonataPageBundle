@@ -24,15 +24,14 @@ class PageController extends Controller
 
         // always render the last page version for the admin
         if ($this->get('security.context')->isGranted('ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT')) {
-            $cms = $this->get('sonata.page.cms.page');
+            $cms  = $this->get('sonata.page.cms.page');
             $page = $cms->getPageBySlug($pathInfo);
 
             if (!$page) {
                 throw new NotFoundHttpException('The current page does not exist!');
             }
         } else {
-            $manager = $this->get('sonata.page.manager.snapshot');
-
+            $manager  = $this->get('sonata.page.manager.snapshot');
             $snapshot = $manager->findOneBy(array(
                 'slug' => $pathInfo,
                 'enabled' => true
@@ -43,8 +42,7 @@ class PageController extends Controller
             }
 
             $page = $manager->load($snapshot);
-
-            $cms = $this->get('sonata.page.cms.snapshot');
+            $cms  = $this->get('sonata.page.cms.snapshot');
         }
 
         $cms->setCurrentPage($page);

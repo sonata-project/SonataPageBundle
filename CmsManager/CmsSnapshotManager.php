@@ -21,8 +21,9 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Block\BlockServiceInterface;
 use Sonata\PageBundle\Cache\CacheInterface;
-
+use Sonata\PageBundle\Util\RecursiveBlockIterator;
 use Sonata\PageBundle\Cache\CacheElement;
+
 use Sonata\AdminBundle\Admin\AdminInterface;
 
 /**
@@ -105,7 +106,11 @@ class CmsSnapshotManager extends BaseCmsPageManager
      */
     public function getPageBySlug($slug)
     {
-        return $this->getManager()->getPageBySlug($slug);
+        $page = $this->getManager()->getPageBySlug($slug);
+
+        $this->loadBlocks($page);
+
+        return $page;
     }
 
     /**
@@ -125,6 +130,8 @@ class CmsSnapshotManager extends BaseCmsPageManager
                 throw new \RuntimeException(sprintf('Unable to find the snapshot : %s', $routeName));
             }
 
+            $this->loadBlocks($page);
+
             $this->routePages[$routeName] = $page;
         }
 
@@ -133,7 +140,13 @@ class CmsSnapshotManager extends BaseCmsPageManager
 
     public function getPageById($id)
     {
-        $page = $this->getManager()->findOneBy(array('id' => $id));
+        $snapshot = $this->getManager()->findOneBy(array('page' => $id));
+
+        $page = $this->getManager()->load($snapshot);
+
+        if ($page) {
+           $this->loadBlocks($page);
+        }
 
         return $page;
     }
@@ -152,5 +165,27 @@ class CmsSnapshotManager extends BaseCmsPageManager
         $response->setTtl($page->getTtl());
 
         return $response;
+    }
+
+    public function loadBlocks(PageInterface $page)
+    {
+        $i = new RecursiveBlockIterator($page->getBlocks());
+
+        foreach($i as $block) {
+            $this->blocks[$block->getId()] = $block;
+        }
+    }
+
+    /**
+     * @param integer $id
+     * @return array|null
+     */
+    public function getBlock($id)
+    {
+        if (isset($this->blocks[$id])) {
+            return $this->blocks[$id];
+        }
+
+        return null;
     }
 }

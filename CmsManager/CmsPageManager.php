@@ -38,8 +38,6 @@ use Sonata\AdminBundle\Admin\AdminInterface;
 class CmsPageManager extends BaseCmsPageManager
 {
 
-    protected $blocks = array();
-
     protected $blockManager;
 
     protected $pageManager;
@@ -282,16 +280,6 @@ class CmsPageManager extends BaseCmsPageManager
         foreach ($blocks as $block) {
             $this->blocks[$block->getId()] = $block;
         }
-    }
-
-    public function setBlocks($blocks)
-    {
-        $this->blocks = $blocks;
-    }
-
-    public function getBlocks()
-    {
-        return $this->blocks;
     }
 
     /**
