@@ -24,6 +24,10 @@ interface PageInterface
      */
     function setRouteName($routeName);
 
+    function getId();
+
+    function setId($id);
+
     /**
      * Get routeName
      *

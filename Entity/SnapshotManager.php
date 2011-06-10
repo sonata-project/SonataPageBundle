@@ -80,6 +80,7 @@ class SnapshotManager implements SnapshotManagerInterface
         $page->setDecorate($snapshot->getDecorate());
 
         $content = json_decode($snapshot->getContent(), true);
+        $page->setId($content['id']);
         $page->setJavascript($content['javascript']);
         $page->setStylesheet($content['stylesheet']);
         $page->setMetaDescription($content['meta_description']);

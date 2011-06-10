@@ -34,6 +34,12 @@ class FakeTemplating implements EngineInterface
     {
         $this->view   = $view;
         $this->parameters = $parameters;
+
+        if ($response) {
+            return $response;
+        }
+
+        return new Response;
     }
 
     function supports($name)

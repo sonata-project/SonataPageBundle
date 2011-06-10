@@ -70,6 +70,11 @@ abstract class BasePage implements PageInterface
         $this->routeName = $routeName;
     }
 
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
     /**
      * Get routeName
      *

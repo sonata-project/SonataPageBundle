@@ -12,16 +12,23 @@
 
 namespace Sonata\PageBundle\Tests\Page;
 
-use Sonata\PageBundle\Page\Manager;
+use Sonata\PageBundle\CmsManager\CmsPageManager;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\DependencyInjection\Container;
 
-
-
 class ManagerTest extends \PHPUnit_Framework_TestCase
 {
 
+    public function getManager()
+    {
+        $blockManager = $this->getMock('Sonata\\PageBundle\\Model\\BlockManagerInterface');
+        $pageManager  = $this->getMock('Sonata\\PageBundle\\Model\\PageManagerInterface');
+        $templating   = $this->getMock('Symfony\\Component\\Templating\\EngineInterface');
+        $cacheInvalidation = $this->getMock('Sonata\\PageBundle\\Cache\\Invalidation\\InvalidationInterface');
+
+        return new CmsPageManager($pageManager, $blockManager, $templating, $cacheInvalidation);
+    }
 
     public function testIsDecorable()
     {
@@ -34,15 +41,8 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
             ->method('getRequestUri')
             ->will($this->returnValue('/myurl'));
 
-        
-        $repository = $this->getMock('Repository');
 
-        $entityManager = $this->getMock('EntityManager', array('getRepository'));
-        $entityManager->expects($this->any())
-            ->method('getRepository')
-            ->will($this->returnValue($repository));
-
-        $manager = new Manager($entityManager);
+        $manager = $this->getManager();
 
         //
         $this->assertFalse($manager->isDecorable($request, HttpKernelInterface::SUB_REQUEST, $response));
@@ -90,17 +90,9 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     public function testgetBlockService()
     {
 
-        $repository = $this->getMock('Repository');
+        $manager = $this->getManager();
 
-        $entityManager = $this->getMock('EntityManager', array('getRepository'));
-        $entityManager->expects($this->any())
-            ->method('getRepository')
-            ->will($this->returnValue($repository));
-
-       
-        $manager = new Manager($entityManager);
-
-        $block = $this->getMock('Sonata\PageBundle\Block\BlockInterface', array('getType'));
+        $block = $this->getMock('Sonata\PageBundle\Model\BlockInterface');
         $block->expects($this->any())
             ->method('getType')
             ->will($this->returnValue('test'));
@@ -108,11 +100,13 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($manager->getBlockService($block));
 
         $service = $this->getMock('Sonata\PageBundle\Block\BlockServiceInterface');
+        $service->expects($this->any())
+            ->method('setManager')
+            ->will($this->returnValue(null));
 
         $manager->addBlockService('test', $service);
-        
+
         $this->assertInstanceOf(get_class($service), $manager->getBlockService($block));
-        
     }
 
     /**
@@ -121,14 +115,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     public function testgetBlockServiceException()
     {
 
-        $repository = $this->getMock('Repository');
-
-        $entityManager = $this->getMock('EntityManager', array('getRepository'));
-        $entityManager->expects($this->any())
-            ->method('getRepository')
-            ->will($this->returnValue($repository));
-
-        $manager = new Manager($entityManager);
+      $manager = $this->getManager();
 
         $block = $this->getMock('block', array('getType'));
         $block->expects($this->any())
@@ -141,8 +128,9 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     public function testfindContainer()
     {
 
-        $repository = $this->getMock('Repository', array('createNewContainer', 'save'));
-        $repository->expects($this->once())
+        $blockManager = $this->getMock('Sonata\\PageBundle\\Model\\BlockManagerInterface');
+        $blockManager = $this->getManager()->getBlockManager();
+        $blockManager->expects($this->once())
             ->method('createNewContainer')
             ->will($this->returnCallback(function($options) {
                 $block = new Block;
@@ -150,16 +138,16 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
                 return $block;
         }));
 
-        $repository->expects($this->once())
+        $blockManager->expects($this->once())
             ->method('save')
             ->will($this->returnValue(true));
 
-        $entityManager = $this->getMock('EntityManager', array('getRepository'));
-        $entityManager->expects($this->any())
-            ->method('getRepository')
-            ->will($this->returnValue($repository));
+        $pageManager  = $this->getMock('Sonata\\PageBundle\\Model\\PageManagerInterface');
+        $templating   = $this->getMock('Symfony\\Component\\Templating\\EngineInterface');
+        $cacheInvalidation = $this->getMock('Sonata\\PageBundle\\Cache\\Invalidation\\InvalidationInterface');
 
-        $manager = new Manager($entityManager);
+        $manager = new CmsPageManager($pageManager, $blockManager, $templating, $cacheInvalidation);
+
 
         $block = new Block;
         $block->setSettings(array('name' => 'findme'));
@@ -175,5 +163,4 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('newcontainer', $container->getSetting('name'));
     }
-
 }

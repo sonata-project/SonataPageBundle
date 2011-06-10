@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\PageBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
+use Sonata\PageBundle\CmsManager\CmsManagerInterface;
 
 interface BlockServiceInterface
 {
@@ -73,4 +74,6 @@ interface BlockServiceInterface
      * @return \Sonata\PageBundle\Cache\CacheElement
      */
     function getCacheElement(BlockInterface $block);
+
+    function setManager(CmsManagerInterface $manager);
 }

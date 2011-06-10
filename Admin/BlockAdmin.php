@@ -35,7 +35,7 @@ class BlockAdmin extends Admin
         'position'
     );
     /**
-     * @param \Sonata\PageBundle\Page\Manager $manager
+     * @param \Sonata\PageBundle\CmsManager\CmsPageManager $manager
      * @return void
      */
     public function setManager(CmsPageManager $manager)

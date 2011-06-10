@@ -15,4 +15,8 @@ namespace Sonata\PageBundle\Tests\Page;
 class Block extends \Sonata\PageBundle\Entity\BaseBlock
 {
 
+    function getId()
+    {
+        return $this->id;
+    }
 }

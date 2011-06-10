@@ -14,5 +14,8 @@ namespace Sonata\PageBundle\Tests\Page;
 
 class Page extends \Sonata\PageBundle\Entity\BasePage
 {
-
+    function getId()
+    {
+        return $this->id;
+    }
 }
