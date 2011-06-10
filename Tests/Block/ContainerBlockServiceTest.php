@@ -14,8 +14,6 @@ namespace Sonata\PageBundle\Tests\Block;
 
 use Sonata\PageBundle\Tests\Page\Block;
 use Sonata\PageBundle\Tests\Page\Page;
-use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\Form\Form;
 use Sonata\PageBundle\Block\ContainerBlockService;
 
 class ContainerBlockServiceTest extends BaseTestBlockService
@@ -32,19 +30,24 @@ class ContainerBlockServiceTest extends BaseTestBlockService
         $block->setSettings(array(
             'name' => 'Symfony'
         ));
+        $formMapper = $this->getMock('Sonata\\AdminBundle\\Form\\FormMapper', array(), array(), '', false);
+        $formMapper->expects($this->exactly(2))
+            ->method('addType');
+        $formMapper->expects($this->exactly(4))
+            ->method('add');
 
-//        $field = new Form('form');
-//        $service->defineBlockForm($field, $block);
-//
-//        $this->assertEquals(0, count($field->getFields()));
+        $service->buildCreateForm($formMapper, $block);
+        $service->buildEditForm($formMapper, $block);
+
 
         $page = new Page;
 
         $service->execute($block, $page);
 
-        $this->assertEquals('SonataPageBundle:Page:renderContainer', $templating->view);
-        $this->assertEquals('Symfony', $templating->parameters['attributes']['name']);
-        $this->assertInstanceOf('Sonata\PageBundle\Tests\Page\Page', $templating->parameters['attributes']['page']);
-        $this->assertInstanceOf('Sonata\PageBundle\Tests\Page\Block', $templating->parameters['attributes']['parent_container']);
+
+        $this->assertEquals('SonataPageBundle:Block:block_container.html.twig', $templating->view);
+        $this->assertEquals('Symfony', $templating->parameters['container']->getSetting('name'));
+        $this->assertInstanceOf('Sonata\PageBundle\Tests\Page\Page', $templating->parameters['page']);
+        $this->assertInstanceOf('Sonata\PageBundle\Tests\Page\Block', $templating->parameters['container']);
     }
 }
