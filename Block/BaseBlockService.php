@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Templating\EngineInterface;
 use Sonata\PageBundle\Model\BlockInterface;
 use Sonata\PageBundle\Cache\CacheElement;
-use Sonata\PageBundle\Page\Manager;
+use Sonata\PageBundle\CmsManager\CmsManagerInterface;
 
 /**
  * BaseBlockService
@@ -84,7 +84,7 @@ abstract class BaseBlockService implements BlockServiceInterface
         return new CacheElement($baseCacheKeys, $block->getTtl());
     }
 
-    public function setManager(Manager $manager)
+    public function setManager(CmsManagerInterface $manager)
     {
         $this->manager = $manager;
     }

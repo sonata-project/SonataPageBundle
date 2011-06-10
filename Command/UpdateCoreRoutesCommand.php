@@ -30,16 +30,16 @@ class UpdateCoreRoutesCommand extends Command
     public function execute(InputInterface $input, OutputInterface $output)
     {
 
-        $router = $this->container->get('router.real');
-        $manager = $this->getManager();
-        $pageManager = $manager->getPageManager();
+        $router      = $this->container->get('router');
+        $cmsManager  = $this->getManager();
+        $pageManager = $cmsManager->getManager();
 
         foreach ($router->getRouteCollection()->all() as $name => $route) {
             $name = trim($name);
 
             $page = $pageManager->getPageByName($name);
 
-            if (!$manager->isRouteNameDecorable($name)) {
+            if (!$cmsManager->isRouteNameDecorable($name)) {
                 if ($page) {
                     $page->setEnabled(false);
                     $output->writeln(sprintf('<error>DISABLE</error> <error>% -50s</error> %s', $name, $route->getPattern()));
@@ -48,7 +48,7 @@ class UpdateCoreRoutesCommand extends Command
                 }
             }
 
-            if (!$manager->isRouteUriDecorable($route->getPattern())) {
+            if (!$cmsManager->isRouteUriDecorable($route->getPattern())) {
                 if ($page) {
                     $page->setEnabled(false);
                     $output->writeln(sprintf('<error>DISABLE</error> % -50s <error>%s</error>', $name, $route->getPattern()));
@@ -92,10 +92,10 @@ class UpdateCoreRoutesCommand extends Command
     }
 
     /**
-     * @return \Sonata\PageBundle\Page\Manager
+     * @return \Sonata\PageBundle\CmsManager\CmsPageManager
      */
     public function getManager()
     {
-        return $this->container->get('sonata.page.manager');
+        return $this->container->get('sonata.page.cms.page');
     }
 }

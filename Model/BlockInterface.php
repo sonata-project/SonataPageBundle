@@ -15,6 +15,10 @@ namespace Sonata\PageBundle\Model;
 interface BlockInterface
 {
 
+    function setId($id);
+
+    function getId();
+
     /**
      * Set type
      *

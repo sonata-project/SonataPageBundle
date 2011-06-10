@@ -29,10 +29,12 @@ class AddBlockServicePass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $manager = $container->getDefinition('sonata.page.manager');
+        $cmsPage      = $container->getDefinition('sonata.page.cms.page');
+        $snapshotPage = $container->getDefinition('sonata.page.cms.snapshot');
 
         foreach ($container->findTaggedServiceIds('sonata.page.block') as $id => $attributes) {
-            $manager->addMethodCall('addBlockService', array($id, new Reference($id)));
+            $cmsPage->addMethodCall('addBlockService', array($id, new Reference($id)));
+            $snapshotPage->addMethodCall('addBlockService', array($id, new Reference($id)));
         }
     }
 }

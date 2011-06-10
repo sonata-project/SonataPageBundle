@@ -16,14 +16,14 @@ use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 
-use Sonata\PageBundle\Page\Manager;
+use Sonata\PageBundle\CmsManager\CmsPageManager;
 
 class ServiceListType extends ChoiceType
 {
     protected $manager;
 
 
-    public function __construct(Manager $manager)
+    public function __construct(CmsPageManager $manager)
     {
         $this->manager = $manager;
     }

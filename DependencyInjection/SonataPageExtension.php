@@ -47,18 +47,21 @@ class SonataPageExtension extends Extension
         // todo: use the configuration class
         $configs = call_user_func_array('array_merge_recursive', $configs);
 
-        $manager = $container->getDefinition('sonata.page.manager');
+        $cmsPage = $container->getDefinition('sonata.page.cms.page');
+        $cmsSnapshot = $container->getDefinition('sonata.page.cms.snapshot');
 
-        $manager->addMethodCall('setOptions', array($configs));
+        $cmsPage->addMethodCall('setOptions', array($configs));
+        $cmsSnapshot->addMethodCall('setOptions', array($configs));
 
         foreach($configs['services'] as $id => $settings) {
             $cache = isset($settings['cache']) ? $settings['cache'] : 'sonata.page.cache.noop';
 
-            $manager->addMethodCall('addCacheService', array($id, new Reference($cache)));
+            $cmsPage->addMethodCall('addCacheService', array($id, new Reference($cache)));
+            $cmsSnapshot->addMethodCall('addCacheService', array($id, new Reference($cache)));
         }
 
         $invalidate = isset($configs['cache_invalidation']) ? $configs['cache_invalidation'] : 'sonata.page.cache.invalidation.simple';
-        $manager->replaceArgument(3, new Reference($invalidate));
+        $cmsPage->replaceArgument(3, new Reference($invalidate));
 
         if (isset($configs['caches'])) {
             if (isset($configs['caches']['sonata.page.cache.esi']['servers'])) {

@@ -4,13 +4,20 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="sonata.page.manager.class">Sonata\PageBundle\Page\Manager</parameter>
+        <parameter key="sonata.page.manager.class">Sonata\PageBundle\CmsManager\CmsPageManager</parameter>
+        <parameter key="sonata.page.snapshot.class">Sonata\PageBundle\CmsManager\CmsSnapshotManager</parameter>
+        <parameter key="sonata.page.response_listener.class">Sonata\PageBundle\Listener\ResponseListener</parameter>
     </parameters>
 
     <services>
         <service id="sonata.page.entity_manager" alias="doctrine.orm.default_entity_manager" />
 
-        <service id="sonata.page.manager" class="%sonata.page.manager.class%">
+        <service id="sonata.page.response_listener" class="%sonata.page.response_listener.class%">
+            <tag name="kernel.listener" event="core.response" method="onCoreResponse" priority="-1"/>
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="sonata.page.cms.page" class="%sonata.page.manager.class%">
             <argument type="service" id="sonata.page.manager.page" />
             <argument type="service" id="sonata.page.manager.block" />
             <argument type="service" id="templating" />
@@ -27,6 +34,15 @@
             <call method="setBlockAdmin">
                 <argument type="service" id="sonata.page.admin.block"  strict="false"/>
             </call>
+
+            <call method="setDebug">
+                <argument >%kernel.debug%</argument>
+            </call>
+        </service>
+
+         <service id="sonata.page.cms.snapshot" class="%sonata.page.snapshot.class%">
+            <argument type="service" id="sonata.page.manager.snapshot" />
+            <argument type="service" id="templating" />
 
             <call method="setLogger">
                 <argument type="service" id="logger" />

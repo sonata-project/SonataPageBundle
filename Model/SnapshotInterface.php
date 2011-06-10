@@ -8,15 +8,10 @@
  * file that was distributed with this source code.
  */
 
-
 namespace Sonata\PageBundle\Model;
 
-
-interface PageInterface
+interface SnapshotInterface
 {
-
-    const PAGE_ROUTE_CMS_NAME = 'page_slug';
-
     /**
      * Set routeName
      *
@@ -102,62 +97,6 @@ interface PageInterface
     function getCustomUrl();
 
     /**
-     * Set metaKeyword
-     *
-     * @param string $metaKeyword
-     */
-    function setMetaKeyword($metaKeyword);
-
-    /**
-     * Get metaKeyword
-     *
-     * @return string $metaKeyword
-     */
-    function getMetaKeyword();
-
-    /**
-     * Set metaDescription
-     *
-     * @param string $metaDescription
-     */
-    function setMetaDescription($metaDescription);
-
-    /**
-     * Get metaDescription
-     *
-     * @return string $metaDescription
-     */
-    function getMetaDescription();
-
-    /**
-     * Set javascript
-     *
-     * @param string $javascript
-     */
-    function setJavascript($javascript);
-
-    /**
-     * Get javascript
-     *
-     * @return string $javascript
-     */
-    function getJavascript();
-
-    /**
-     * Set stylesheet
-     *
-     * @param string $stylesheet
-     */
-    function setStylesheet($stylesheet);
-
-    /**
-     * Get stylesheet
-     *
-     * @return string $stylesheet
-     */
-    function getStylesheet();
-
-    /**
      * Set publicationDateStart
      *
      * @param \DateTime $publicationDateStart
@@ -195,14 +134,14 @@ interface PageInterface
     /**
      * Get createdAt
      *
-     * @return datetime $createdAt
+     * @return \DateTime $createdAt
      */
     function getCreatedAt();
 
     /**
      * Set updatedAt
      *
-     * @param \DateTime $updatedAt
+     * @param datetime $updatedAt
      */
     function setUpdatedAt(\DateTime $updatedAt = null);
 
@@ -213,72 +152,13 @@ interface PageInterface
      */
     function getUpdatedAt();
 
-    /**
-     * Add children
-     *
-     * @param Application\Sonata\PageBundle\Entity\Page $children
-     */
-    function addChildren(PageInterface $children);
-
-    /**
-     * Get children
-     *
-     * @return Doctrine\Common\Collections\Collection $children
-     */
-    function getChildren();
-
-    /**
-     * Add blocs
-     *
-     * @param Application\Sonata\PageBundle\Entity\Block $blocs
-     */
-    function addBlocks(BlockInterface $blocs);
-
-    /**
-     * Get blocs
-     *
-     * @return Doctrine\Common\Collections\Collection $blocs
-     */
-    function getBlocks();
-
-    /**
-     * Set parent
-     *
-     * @param Application\Sonata\PageBundle\Entity\Page $parent
-     */
-    function setParent(PageInterface $parent);
-
-    /**
-     * Get parent
-     *
-     * @return Application\Sonata\PageBundle\Entity\Page $parent
-     */
-    function getParent();
-
-    /**
-     * Set template
-     *
-     * @param Application\Sonata\PageBundle\Entity\Template $template
-     */
-    function setTemplate(TemplateInterface $template);
-
-    /**
-     * Get template
-     *
-     * @return Application\Sonata\PageBundle\Entity\Template $template
-     */
-    function getTemplate();
-
     function setDecorate($decorate);
 
     function getDecorate();
 
     function isHybrid();
 
-    function __toString();
-
     function setPosition($position);
 
     function getPosition();
-
 }

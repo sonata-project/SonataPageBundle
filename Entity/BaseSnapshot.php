@@ -14,8 +14,9 @@ namespace Sonata\PageBundle\Entity;
 use Sonata\PageBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\TemplateInterface;
+use Sonata\PageBundle\Model\SnapshotInterface;
 
-abstract class BasePage implements PageInterface
+abstract class BaseSnapshot implements SnapshotInterface
 {
 
     protected $createdAt;
@@ -28,14 +29,6 @@ abstract class BasePage implements PageInterface
 
     protected $slug;
 
-    protected $metaKeyword;
-
-    protected $metaDescription;
-
-    protected $javascript;
-
-    protected $stylesheet;
-
     protected $enabled;
 
     protected $publicationDateStart;
@@ -44,21 +37,15 @@ abstract class BasePage implements PageInterface
 
     protected $loginRequired;
 
-    protected $blocks;
-
-    protected $parent;
-
-    protected $children;
-
-    protected $template;
-
     protected $customUrl;
 
     protected $position = 1;
 
     protected $decorate = true;
 
-    protected $ttl;
+    protected $content = array();
+
+    protected $page;
 
     /**
      * Set routeName
@@ -181,86 +168,6 @@ abstract class BasePage implements PageInterface
     }
 
     /**
-     * Set metaKeyword
-     *
-     * @param string $metaKeyword
-     */
-    public function setMetaKeyword($metaKeyword)
-    {
-        $this->metaKeyword = $metaKeyword;
-    }
-
-    /**
-     * Get metaKeyword
-     *
-     * @return string $metaKeyword
-     */
-    public function getMetaKeyword()
-    {
-        return $this->metaKeyword;
-    }
-
-    /**
-     * Set metaDescription
-     *
-     * @param string $metaDescription
-     */
-    public function setMetaDescription($metaDescription)
-    {
-        $this->metaDescription = $metaDescription;
-    }
-
-    /**
-     * Get metaDescription
-     *
-     * @return string $metaDescription
-     */
-    public function getMetaDescription()
-    {
-        return $this->metaDescription;
-    }
-
-    /**
-     * Set javascript
-     *
-     * @param text $javascript
-     */
-    public function setJavascript($javascript)
-    {
-        $this->javascript = $javascript;
-    }
-
-    /**
-     * Get javascript
-     *
-     * @return text $javascript
-     */
-    public function getJavascript()
-    {
-        return $this->javascript;
-    }
-
-    /**
-     * Set stylesheet
-     *
-     * @param text $stylesheet
-     */
-    public function setStylesheet($stylesheet)
-    {
-        $this->stylesheet = $stylesheet;
-    }
-
-    /**
-     * Get stylesheet
-     *
-     * @return text $stylesheet
-     */
-    public function getStylesheet()
-    {
-        return $this->stylesheet;
-    }
-
-    /**
      * Set publicationDateStart
      *
      * @param \DateTime $publicationDateStart
@@ -340,93 +247,6 @@ abstract class BasePage implements PageInterface
         return $this->updatedAt;
     }
 
-    /**
-     * Add children
-     *
-     * @param Application\Sonata\PageBundle\Entity\Page $children
-     */
-    public function addChildren(PageInterface $children)
-    {
-        $this->children[] = $children;
-    }
-
-    /**
-     * Get children
-     *
-     * @return Doctrine\Common\Collections\Collection $children
-     */
-    public function getChildren()
-    {
-        return $this->children;
-    }
-
-    /**
-     * Add blocs
-     *
-     * @param Application\Sonata\PageBundle\Entity\Block $blocs
-     */
-    public function addBlocks(BlockInterface $blocs)
-    {
-        $this->blocks[] = $blocs;
-    }
-
-    /**
-     * Get blocs
-     *
-     * @return Doctrine\Common\Collections\Collection $blocs
-     */
-    public function getBlocks()
-    {
-        return $this->blocks;
-    }
-
-    /**
-     * Set parent
-     *
-     * @param Application\Sonata\PageBundle\Entity\Page $parent
-     */
-    public function setParent(PageInterface $parent)
-    {
-        $this->parent = $parent;
-    }
-
-    /**
-     * Get parent
-     *
-     * @return Application\Sonata\PageBundle\Entity\Page $parent
-     */
-    public function getParent()
-    {
-        return $this->parent;
-    }
-
-    /**
-     * Set template
-     *
-     * @param Application\Sonata\PageBundle\Entity\Template $template
-     */
-    public function setTemplate(TemplateInterface $template)
-    {
-        $this->template = $template;
-    }
-
-    /**
-     * Get template
-     *
-     * @return Application\Sonata\PageBundle\Entity\Template $template
-     */
-    public function getTemplate()
-    {
-        return $this->template;
-    }
-
-    public function disableBlockLazyLoading()
-    {
-        if (is_object($this->blocks)) {
-            $this->blocks->setInitialized(true);
-        }
-    }
-
     public function setDecorate($decorate)
     {
         $this->decorate = $decorate;
@@ -468,20 +288,23 @@ abstract class BasePage implements PageInterface
         $this->updatedAt = new \DateTime;
     }
 
-    public function getTtl()
+    public function setContent($content)
     {
-        if ($this->ttl === null) {
-            $ttl = 84600 * 10; // todo : change this value
+      $this->content = $content;
+    }
 
-            foreach($this->getBlocks() as $block) {
-                $blockTtl = $block->getTtl();
+    public function getContent()
+    {
+      return $this->content;
+    }
 
-                $ttl = ($blockTtl < $ttl) ? $blockTtl : $ttl ;
-            }
+    public function setPage($page)
+    {
+      $this->page = $page;
+    }
 
-            $this->ttl = $ttl;
-        }
-
-        return $this->ttl;
+    public function getPage()
+    {
+      return $this->page;
     }
 }

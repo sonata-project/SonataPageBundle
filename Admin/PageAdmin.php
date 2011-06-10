@@ -15,6 +15,7 @@ use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Knplabs\Bundle\MenuBundle\MenuItem;
 use Sonata\PageBundle\Cache\CacheElement;
+use Sonata\PageBundle\CmsManager\CmsPageManager;
 
 class PageAdmin extends Admin
 {
@@ -83,6 +84,11 @@ class PageAdmin extends Admin
             $this->trans('view_page_blocks'),
             $admin->generateUrl('sonata.page.admin.block.list', array('id' => $id))
         );
+
+        $menu->addChild(
+            $this->trans('snapshot'),
+            $admin->generateUrl('sonata.page.admin.snapshot.list', array('id' => $id))
+        );
     }
 
     public function postUpdate($object)
@@ -92,7 +98,7 @@ class PageAdmin extends Admin
         )));
     }
 
-    public function setManager($manager)
+    public function setManager(CmsPageManager $manager)
     {
         $this->manager= $manager;
     }

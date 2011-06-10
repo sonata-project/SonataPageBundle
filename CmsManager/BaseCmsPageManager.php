@@ -9,7 +9,7 @@
  */
 
 
-namespace Sonata\PageBundle\Page;
+namespace Sonata\PageBundle\CmsManager;
 
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Templating\EngineInterface;
@@ -26,16 +26,7 @@ use Sonata\PageBundle\Cache\Invalidation\InvalidationInterface;
 use Sonata\PageBundle\Cache\CacheElement;
 use Sonata\AdminBundle\Admin\AdminInterface;
 
-
-/**
- * The Manager class is in charge of retrieving the correct page (cms page or action page)
- *
- * An action page is linked to a symfony action and a cms page is a standalone page.
- *
- *
- * @author     Thomas Rabaix <thomas.rabaix@sonata-project.org>
- */
-class Manager
+abstract class BaseCmsPageManager implements CmsManagerInterface
 {
     protected $routePages = array();
 
@@ -43,47 +34,17 @@ class Manager
 
     protected $pageLoader;
 
-    protected $blocks = array();
-
     protected $options = array();
 
     protected $blockServices = array();
 
     protected $logger;
 
-    protected $blockManager;
-
-    protected $pageManager;
-
-    protected $templating;
-
     protected $debug = false;
-
-    protected $pageAdmin;
-
-    protected $blockAdmin;
 
     protected $cacheServices = array();
 
-    protected $cacheInvalidation;
-
-    public function __construct(
-      PageManagerInterface $pageManager,
-      BlockManagerInterface $blockManager,
-      EngineInterface $templating,
-      InvalidationInterface $cacheInvalidation
-  )
-    {
-        $this->pageManager  = $pageManager;
-        $this->blockManager = $blockManager;
-        $this->templating   = $templating;
-        $this->cacheInvalidation = $cacheInvalidation;
-    }
-
-    public function addCacheService($name, CacheInterface $cacheManager)
-    {
-        $this->cacheServices[$name] = $cacheManager;
-    }
+    protected $manager;
 
     /**
      * filter the `core.response` event to decorated the action
@@ -114,29 +75,16 @@ class Manager
         return $response;
     }
 
+    public function addCacheService($name, CacheInterface $cacheManager)
+    {
+        $this->cacheServices[$name] = $cacheManager;
+    }
+
     public function addBlockService($name, BlockServiceInterface $service)
     {
         $this->blockServices[$name] = $service;
 
         $service->setManager($this);
-    }
-
-    public function renderPage(PageInterface $page, array $params = array(), Response $response = null)
-    {
-        $template = 'SonataPageBundle::layout.html.twig';
-        if ($this->getCurrentPage()) {
-            $template = $this->getCurrentPage()->getTemplate()->getPath();
-        }
-
-        $params['page']         = $page;
-        $params['manager']      = $this;
-        $params['page_admin']   = $this->getPageAdmin();
-        $params['block_admin']  = $this->getBlockAdmin();
-
-        $response = $this->templating->renderResponse($template, $params, $response);
-        $response->setTtl($page->getTtl());
-
-        return $response;
     }
 
     /**
@@ -150,17 +98,14 @@ class Manager
     public function isDecorable(Request $request, $requestType, Response $response)
     {
         if ($requestType != HttpKernelInterface::MASTER_REQUEST) {
-
             return false;
         }
 
         if (($response->headers->get('Content-Type') ?: 'text/html') != 'text/html') {
-
             return false;
         }
 
         if ($response->getStatusCode() != 200) {
-
             return false;
         }
 
@@ -276,74 +221,6 @@ class Manager
         return $this->renderBlock($container, $page)->getContent();
     }
 
-    /**
-     * Return a PageInterface instance depends on the $page argument
-     *
-     * @param mixed $page
-     * @return \Sonata\PageBundle\Model\PageInterface
-     */
-    public function getPage($page)
-    {
-        if (is_string($page)) { // page is a slug, load the related page
-            $page = $this->getPageByRouteName($page);
-        } else if ( is_numeric($page)) {
-            $page = $this->getPageById($page);
-        } else if (!$page) { // get the current page
-            $page = $this->getCurrentPage();
-        }
-
-        if (!$page instanceof PageInterface) {
-            throw new \RunTimeException('Unable to retrieve the page');
-        }
-
-        return $page;
-    }
-
-    /**
-     * @param string $name
-     * @param \Sonata\PageBundle\Model\PageInterface $page
-     * @param null|\Sonata\PageBundle\Model\BlockInterface $parentContainer
-     * @return bool|null|\Sonata\PageBundle\Model\BlockInterface
-     */
-    public function findContainer($name, PageInterface $page, BlockInterface $parentContainer = null)
-    {
-        $container = false;
-
-        if ($parentContainer) {
-            // parent container is set, nothing to find, don't need to loop across the
-            // name to find the correct container (main template level)
-            $container = $parentContainer;
-        }
-
-        // first level blocks are containers
-        if (!$container && $page->getBlocks()) {
-            foreach ($page->getBlocks() as $block) {
-                if ($block->getSetting('name') == $name) {
-
-                    $container = $block;
-                    break;
-                }
-            }
-        }
-
-        if (!$container) {
-            $container = $this->blockManager->createNewContainer(array(
-                'enabled' => true,
-                'page' => $page,
-                'name' => $name,
-                'position' => 1
-            ));
-
-            if ($parentContainer) {
-                $container->setParent($parentContainer);
-            }
-
-            $this->blockManager->save($container);
-        }
-
-        return $container;
-    }
-
 
     /**
      * Return the block service linked to the link
@@ -412,105 +289,6 @@ class Manager
         return isset($this->cacheServices[$id]) ? true : false;
     }
 
-    public function invalidate(CacheElement $cacheElement)
-    {
-        $this->cacheInvalidation->invalidate($this->getCacheServices(), $cacheElement);
-    }
-
-    /**
-     * return a fully loaded page ( + blocks ) from a route name
-     *
-     * if the page does not exists then the page is created.
-     *
-     * @param string $slug
-     * @return Application\Sonata\PageBundle\Model\PageInterface
-     */
-    public function getPageBySlug($slug)
-    {
-        $page = $this->pageManager->getPageBySlug($slug);
-
-        if ($page) {
-            $this->loadBlocks($page);
-        }
-
-        return $page;
-    }
-
-    /**
-     * return a fully loaded page ( + blocks ) from a route name
-     *
-     * if the page does not exists then the page is created.
-     *
-     * @param string $routeName
-     * @return \Sonata\PageBundle\Model\PageInterface
-     */
-    public function getPageByRouteName($routeName, $create = true)
-    {
-        if (!isset($this->routePages[$routeName])) {
-            $page = $this->pageManager->getPageByName($routeName);
-
-            if (!$page && !$create) {
-                throw new \RuntimeException(sprintf('Unable to find the page : %s', $routeName));
-            } else if (!$page) {
-                $page = $this->createPage($routeName);
-            }
-
-            $this->loadBlocks($page);
-            $this->routePages[$routeName] = $page;
-        }
-
-        return $this->routePages[$routeName];
-    }
-
-    /**
-     * return a fully loaded page ( + blocks ) from a route name
-     *
-     * if the page does not exists then the page is created.
-     *
-     * @param integer $routeName
-     * @return \Sonata\PageBundle\Model\PageInterface
-     */
-    public function getPageById($id)
-    {
-        $page = $this->pageManager->findOneBy(array('id' => $id));
-
-        $this->loadBlocks($page);
-
-        return $page;
-    }
-
-    /**
-     * @throws \RuntimeException
-     * @param string $routeName
-     * @return \Sonata\PageBundle\Model\PageInterface
-     */
-    public function createPage($routeName)
-    {
-        if (!$this->getDefaultTemplate()) {
-            throw new \RuntimeException('No default template defined');
-        }
-
-        $page = $this->pageManager->createNewPage(array(
-            'template' => $this->getDefaultTemplate(),
-            'enabled'  => true,
-            'routeName' => $routeName,
-            'name'      => $routeName,
-            'loginRequired' => false,
-        ));
-
-        $this->pageManager->save($page);
-
-        return $page;
-    }
-    /**
-     * return the default template used in the current application
-     *
-     * @return bool | Application\Sonata\PageBundle\Entity\Template
-     */
-    public function getDefaultTemplate()
-    {
-        return $this->pageManager->getDefaultTemplate();
-    }
 
     /**
      * return the current page
@@ -558,108 +336,7 @@ class Manager
         $this->currentPage = $page;
     }
 
-    /**
-     *
-     * @param string $id
-     * @return \Sonata\PageBundle\Model\BlockInterface
-     */
-    public function getBlock($id)
-    {
-        if (!isset($this->blocks[$id])) {
-            $this->blocks[$id] = $this->blockManager->getBlock($id);
-        }
-
-        return $this->blocks[$id];
-    }
-
-    /**
-     * load all the related nested blocks linked to one page.
-     *
-     * @param \Sonata\PageBundle\Model\PageInterface $page
-     * @return void
-     */
-    public function loadBlocks(PageInterface $page)
-    {
-        $blocks = $this->blockManager->loadPageBlocks($page);
-
-        // save a local cache
-        foreach ($blocks as $block) {
-            $this->blocks[$block->getId()] = $block;
-        }
-    }
-
-    /**
-     * save the block order from the page disposition
-     *
-     * Format :
-     *      Array
-     *      (
-     *          [cms-block-2] => Array
-     *              (
-     *                  [type] => core.container
-     *                  [child] => Array
-     *                      (
-     *                          [cms-block-4] => Array
-     *                              (
-     *                                  [type] => core.action
-     *                                  [child] =>
-     *                              )
-     *
-     *                      )
-     *
-     *              )
-     *
-     *          [cms-block-5] => Array
-     *              (
-     *                  [type] => core.container
-     *                  [child] =>
-     *              )
-     *
-     *          [cms-block-8] => Array
-     *              (
-     *                  [type] => core.container
-     *                  [child] => Array
-     *                      (
-     *                          [cms-block-9] => Array
-     *                              (
-     *                                  [type] => core.container
-     *                                  [child] => Array
-     *                                      (
-     *                                          [cms-block-3] => Array
-     *                                              (
-     *                                                  [type] => core.text
-     *                                                  [child] =>
-     *                                              )
-     *
-     *                                      )
-     *
-     *                              )
-     *
-     *                      )
-     *
-     *              )
-     *
-     *      )
-     *
-     * @param  $data
-     * @return void
-     */
-    public function savePosition($data)
-    {
-        return $this->blockManager->saveBlocksPosition($data);
-    }
-
-    public function setBlocks($blocks)
-    {
-        $this->blocks = $blocks;
-    }
-
-    public function getBlocks()
-    {
-        return $this->blocks;
-    }
-
-    public function setOptions(array $options = array())
+      public function setOptions(array $options = array())
     {
         $this->options = $options;
     }
@@ -714,22 +391,6 @@ class Manager
     }
 
     /**
-     * @return \Sonata\PageBundle\Model\BlockManagerInterface
-     */
-    public function getBlockManager()
-    {
-        return $this->blockManager;
-    }
-
-    /**
-     * @return \Sonata\PageBundle\Model\PageManagerInterface
-     */
-    public function getPageManager()
-    {
-        return $this->pageManager;
-    }
-
-    /**
      * @param array $blockServices
      * @return void
      */
@@ -746,23 +407,11 @@ class Manager
         return $this->blockServices;
     }
 
-  public function setBlockAdmin(AdminInterface $blockAdmin)
-  {
-    $this->blockAdmin = $blockAdmin;
-  }
-
-  public function getBlockAdmin()
-  {
-    return $this->blockAdmin;
-  }
-
-  public function setPageAdmin(AdminInterface $pageAdmin)
-  {
-    $this->pageAdmin = $pageAdmin;
-  }
-
-  public function getPageAdmin()
-  {
-    return $this->pageAdmin;
-  }
+    /**
+     * @return \Sonata\PageBundle\Model\PageManagerInterface
+     */
+    public function getManager()
+    {
+        return $this->manager;
+    }
 }

@@ -14,19 +14,23 @@ namespace Sonata\PageBundle\Entity;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\BlockInterface;
-use Application\Sonata\PageBundle\Entity\Page;
+use Sonata\PageBundle\Model\SnapshotInterface;
 
+use Application\Sonata\PageBundle\Entity\Page;
 use Doctrine\ORM\EntityManager;
 
 class PageManager implements PageManagerInterface
 {
     protected $entityManager;
 
-    public function __construct(EntityManager $entityManager, $class = 'Application\Sonata\PageBundle\Entity\Page')
+    protected $snapshotHandler;
+
+    public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
 
-        if(class_exists($class)) {
+        $class = 'Application\Sonata\PageBundle\Entity\Page';
+        if (class_exists($class)) {
             $this->repository = $this->entityManager->getRepository($class);
         }
     }
@@ -39,7 +43,6 @@ class PageManager implements PageManagerInterface
      */
     public function getPageByName($routeName)
     {
-
         $pages = $this->entityManager->createQueryBuilder()
             ->select('p, t')
             ->from('Application\Sonata\PageBundle\Entity\Page', 'p')
@@ -62,7 +65,6 @@ class PageManager implements PageManagerInterface
      */
     public function getPageBySlug($slug)
     {
-
         $pages = $this->entityManager->createQueryBuilder()
             ->select('p')
             ->from('Application\Sonata\PageBundle\Entity\Page', 'p')

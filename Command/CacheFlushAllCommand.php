@@ -47,6 +47,6 @@ class CacheFlushAllCommand extends Command
      */
     public function getManager()
     {
-        return $this->container->get('sonata.page.manager');
+        return $this->container->get('sonata.page.cms.page');
     }
 }

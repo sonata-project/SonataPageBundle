@@ -13,7 +13,7 @@ namespace Sonata\PageBundle\Entity;
 use Sonata\PageBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 
-class BaseBlock implements BlockInterface
+abstract class BaseBlock implements BlockInterface
 {
 
     protected $settings;
@@ -35,6 +35,11 @@ class BaseBlock implements BlockInterface
     protected $type;
 
     protected $ttl;
+
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
 
     public function __construct()
     {

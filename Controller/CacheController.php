@@ -20,9 +20,10 @@ class CacheController extends Controller
 
     public function esiAction()
     {
+
         $request = $this->get('request');
 
-        $manager = $this->get('sonata.page.manager');
+        $manager = $this->get('sonata.page.cms.page');
         $page    = $manager->getPageById($request->get('page_id'));
         $block   = $manager->getBlock($request->get('block_id'));
 
@@ -41,7 +42,7 @@ class CacheController extends Controller
     {
         $request = $this->get('request');
 
-        $manager = $this->get('sonata.page.manager');
+        $manager = $this->get('sonata.page.cms.page');
         $page    = $manager->getPageById($request->get('page_id'));
         $block   = $manager->getBlock($request->get('block_id'));
 

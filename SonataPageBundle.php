@@ -17,13 +17,6 @@ use Sonata\PageBundle\DependencyInjection\AddBlockServicePass;
 class SonataPageBundle extends Bundle
 {
 
-    public function boot()
-    {
-        $this->container
-            ->get('event_dispatcher')
-            ->addListenerService('core.response', array('sonata.page.manager', 'onCoreResponse'), -1);
-    }
-
     public function build(ContainerBuilder $container)
     {
         parent::build($container);

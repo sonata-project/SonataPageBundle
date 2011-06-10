@@ -7,7 +7,7 @@
     <services>
         <service id="sonata.page.form.type.block" class="Sonata\PageBundle\Form\Type\ServiceListType">
             <tag name="form.type" alias="sonata_page_block_choice" />
-            <argument type="service" id="sonata.page.manager" />
+            <argument type="service" id="sonata.page.cms.page" />
         </service>
     </services>
 

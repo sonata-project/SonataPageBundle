@@ -14,7 +14,7 @@ namespace Sonata\PageBundle\Admin;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\PageBundle\Page\Manager;
+use Sonata\PageBundle\CmsManager\CmsPageManager;
 
 class BlockAdmin extends Admin
 {
@@ -29,16 +29,16 @@ class BlockAdmin extends Admin
     );
 
     protected $list = array(
-        'id' => array('identifier' => true),
-        'page',
+        'type' => array('identifier' => true),
         'enabled',
-        'type',
+        'updatedAt',
+        'position'
     );
     /**
      * @param \Sonata\PageBundle\Page\Manager $manager
      * @return void
      */
-    public function setManager(Manager $manager)
+    public function setManager(CmsPageManager $manager)
     {
         $this->manager = $manager;
     }
@@ -56,9 +56,6 @@ class BlockAdmin extends Admin
     public function configureFormFields(FormMapper $formMapper)
     {
         $block = $formMapper->getFormBuilder()->getData();
-
-        // fix temporary bug with twig and form framework
-        $formMapper->getFormBuilder()->remove('_token');
 
 //        $formMapper->add('enabled', array('required' => false));
 

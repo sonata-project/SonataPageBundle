@@ -18,6 +18,11 @@
         <parameter key="sonata.page.admin.template.class">Sonata\PageBundle\Admin\TemplateAdmin</parameter>
         <parameter key="sonata.page.admin.template.controller">SonataAdminBundle:CRUD</parameter>
         <parameter key="sonata.page.admin.template.entity">Application\Sonata\PageBundle\Entity\Template</parameter>
+
+        <!-- SNAPSHOT -->
+        <parameter key="sonata.page.admin.snapshot.class">Sonata\PageBundle\Admin\SnapshotAdmin</parameter>
+        <parameter key="sonata.page.admin.snapshot.controller">SonataPageBundle:SnapshotAdmin</parameter>
+        <parameter key="sonata.page.admin.snapshot.entity">Application\Sonata\PageBundle\Entity\Snapshot</parameter>
     </parameters>
 
     <services>
@@ -31,8 +36,12 @@
                 <argument type="service" id="sonata.page.admin.block" />
             </call>
 
+            <call method="addChild">
+                <argument type="service" id="sonata.page.admin.snapshot" />
+            </call>
+
             <call method="setManager">
-                <argument type="service" id="sonata.page.manager" />
+                <argument type="service" id="sonata.page.cms.page" />
             </call>
         </service>
 
@@ -43,7 +52,7 @@
             <argument>%sonata.page.admin.block.controller%</argument>
 
             <call method="setManager">
-                <argument type="service" id="sonata.page.manager" />
+                <argument type="service" id="sonata.page.cms.page" />
             </call>
         </service>
 
@@ -52,6 +61,13 @@
             <argument />
             <argument>%sonata.page.admin.template.entity%</argument>
             <argument>%sonata.page.admin.template.controller%</argument>
+        </service>
+
+        <service id="sonata.page.admin.snapshot" class="%sonata.page.admin.snapshot.class%">
+            <tag name="sonata.admin" manager_type="orm" group="sonata_page" label="snapshot"/>
+            <argument />
+            <argument>%sonata.page.admin.snapshot.entity%</argument>
+            <argument>%sonata.page.admin.snapshot.controller%</argument>
         </service>
     </services>
 
