@@ -23,10 +23,13 @@ class ActionBlockServiceTest extends BaseTestBlockService
 
     public function testService()
     {
+        $kernel = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface', array('render', 'handle'));
 
-        $kernel = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface');
+        $kernel->expects($this->exactly(1))
+            ->method('render');
 
-        $service = new ActionBlockService('sonata.page.block.action', new FakeTemplating, $kernel);
+        $templating = new FakeTemplating;
+        $service = new ActionBlockService('sonata.page.block.action', $templating, $kernel);
 
         $block = new Block;
         $block->setType('core.action');
@@ -34,19 +37,17 @@ class ActionBlockServiceTest extends BaseTestBlockService
             'action' => 'SonataPageBundle:Page:blockPreview'
         ));
 
-//        $field = new Form('form');
-//        $service->defineBlockForm($field, $block);
-//
-//        $this->assertEquals(2, count($field->getFields()));
+        $formMapper = $this->getMock('Sonata\\AdminBundle\\Form\\FormMapper', array(), array(), '', false);
+        $formMapper->expects($this->exactly(2))
+            ->method('addType');
 
-//        $page = new Page;
-//
-//        $templating = new FakeTemplating;
-//
-//        $container->set('templating', $templating);
-//
-//        $service->execute($block, $page);
-//
-//        $this->assertEquals('my text', $templating->params['content']);
+        $service->buildCreateForm($formMapper, $block);
+        $service->buildEditForm($formMapper, $block);
+
+        $page = new Page;
+
+        $service->execute($block, $page);
+
+        $this->assertEquals('SonataPageBundle:Page:blockPreview', $templating->parameters['block']->getSetting('action'));
     }
 }
