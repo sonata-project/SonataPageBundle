@@ -14,8 +14,6 @@ namespace Sonata\PageBundle\Tests\Block;
 
 use Sonata\PageBundle\Tests\Page\Block;
 use Sonata\PageBundle\Tests\Page\Page;
-use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\Form\Form;
 use Sonata\PageBundle\Block\TextBlockService;
 
 class TextBlockServiceTest extends BaseTestBlockService
@@ -24,8 +22,8 @@ class TextBlockServiceTest extends BaseTestBlockService
     public function testService()
     {
         $templating = new FakeTemplating;
-
-        $service = new TextBlockService('sonata.page.block.text', $templating);
+        $service    = new TextBlockService('sonata.page.block.text', $templating);
+        $page       = new Page;
 
         $block = new Block;
         $block->setType('core.text');
@@ -33,15 +31,15 @@ class TextBlockServiceTest extends BaseTestBlockService
             'content' => 'my text'
         ));
 
-        $field = new Form('form');
-        $service->defineBlockForm($field, $block);
+        $formMapper = $this->getMock('Sonata\\AdminBundle\\Form\\FormMapper', array(), array(), '', false);
+        $formMapper->expects($this->exactly(2))
+            ->method('addType');
 
-        $this->assertEquals(1, count($field->getFields()));
+        $service->buildCreateForm($formMapper, $block);
+        $service->buildEditForm($formMapper, $block);
 
-        $page = new Page;
+        $response = $service->execute($block, $page);
 
-        $service->execute($block, $page);
-
-        $this->assertEquals('my text', $templating->parameters['content']);
+        $this->assertEquals('my text', $templating->parameters['settings']['content']);
     }
 }
