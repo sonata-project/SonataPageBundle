@@ -9,8 +9,7 @@ file that was distributed with this source code.
 
 #}
 
-<!-- page({{ page.id }}, {{ page.routename }}) block({{ container.id }}, {{ container.type }}) -->
-<!-- <span> page({{ page.id }}, {{ page.routename }}) block({{ container.id }}, {{ container.settings.name }}) </span> -->
+<!-- page({{ page.id }}, {{ page.routename }}) block({{ container.id }}, {{ container.type }} : {{ container.settings.name }}) -->
 <div id="cms-block-{{ container.id }}" class="cms-block cms-container{% if container.hasParent()%} cms-container-root{% else %} cms-block-element{%endif%}">
     <div class="cms-block cms-block-element cms-fake-block">&nbsp;</div>
     {% for block in container.children %}

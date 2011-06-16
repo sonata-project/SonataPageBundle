@@ -13,7 +13,6 @@ file that was distributed with this source code.
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-
         <link rel="stylesheet" href="{{ asset('bundles/sonatablueprint/screen.css') }}" type="text/css" media="screen, projection">
         <link rel="stylesheet" href="{{ asset('bundles/sonatablueprint/print.css') }}" type="text/css" media="print">
         <!--[if lt IE 8]><link rel="stylesheet" href="{{ asset('bundles/sonatapage/blueprint/ie.css') }}" type="text/css" media="screen, projection"><![endif]-->
@@ -24,6 +23,8 @@ file that was distributed with this source code.
         <script src="{{ asset('bundles/sonatajquery/jquery-ui-i18n.js') }}" type="text/javascript"></script>
 
         <link rel="stylesheet" href="{{ asset('bundles/sonatapage/page.css') }}" type="text/css" media="all">
+
+        <title>{% block title %}{{ page.name }}{%endblock%}</title>
     </head>
     <body>
 
@@ -61,13 +62,13 @@ file that was distributed with this source code.
             <div class="span-20 last">
                 {{ manager.renderContainer('content_top', 'global')|raw }}
 
-                {% if page.hybrid %}
+                {% if content is defined %}
                     {{ content|raw }}
                 {% else %}
-                    {{ manager.renderContainer('content_top', page)|raw }}
+                    {{ manager.renderContainer('content', page)|raw }}
                 {% endif %}
 
-                {{ manager.renderContainer('header', 'content_bottom')|raw }}
+                {{ manager.renderContainer('content_bottom', 'global')|raw }}
             </div>
 
             <!-- footer -->

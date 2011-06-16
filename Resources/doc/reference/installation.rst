@@ -114,8 +114,22 @@ file.
                 cache: sonata.page.cache.esi
                 default_settings: {}
 
+            sonata.page.block.children_page:
+                cache: sonata.page.cache.noop
+                default_settings: {}
+
         caches:
             sonata.page.cache.esi:
                 servers:
                     - varnishadm -T 127.0.0.1:2000 {{ COMMAND }} "{{ EXPRESSION }}"
 
+
+At the end of your routing file, add the following lines
+
+.. code-block:: yaml
+
+    catchAll:
+        pattern:  /{path}
+        defaults: { _controller: SonataPageBundle:Page:catchAll }
+        requirements:
+            path: .*

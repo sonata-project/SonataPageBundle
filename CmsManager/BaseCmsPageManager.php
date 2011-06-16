@@ -208,7 +208,7 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
      * @param string $name
      * @param \Sonata\PageBundle\Model\PageInterface $page
      * @param \Sonata\PageBundle\Model\BlockInterface $parentContainer
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return string
      */
     public function renderContainer($name, $page = null, BlockInterface $parentContainer = null)
     {
@@ -220,9 +220,12 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
 
         $container = $this->findContainer($name, $page, $parentContainer);
 
+        if (!$container) {
+            return '';
+        }
+
         return $this->renderBlock($container, $page)->getContent();
     }
-
 
     /**
      * Return the block service linked to the link
@@ -290,7 +293,6 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     {
         return isset($this->cacheServices[$id]) ? true : false;
     }
-
 
     /**
      * return the current page

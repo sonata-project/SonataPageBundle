@@ -148,7 +148,6 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
         $manager = new CmsPageManager($pageManager, $blockManager, $templating, $cacheInvalidation);
 
-
         $block = new Block;
         $block->setSettings(array('name' => 'findme'));
 

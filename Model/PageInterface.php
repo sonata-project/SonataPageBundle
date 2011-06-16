@@ -8,13 +8,10 @@
  * file that was distributed with this source code.
  */
 
-
 namespace Sonata\PageBundle\Model;
-
 
 interface PageInterface
 {
-
     const PAGE_ROUTE_CMS_NAME = 'page_slug';
 
     /**

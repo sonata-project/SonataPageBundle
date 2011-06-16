@@ -37,7 +37,6 @@ use Sonata\AdminBundle\Admin\AdminInterface;
  */
 class CmsPageManager extends BaseCmsPageManager
 {
-
     protected $blockManager;
 
     protected $pageManager;
@@ -49,7 +48,6 @@ class CmsPageManager extends BaseCmsPageManager
     protected $blockAdmin;
 
     protected $cacheInvalidation;
-
 
     public function __construct(
       PageManagerInterface $manager,
@@ -81,7 +79,6 @@ class CmsPageManager extends BaseCmsPageManager
 
         return $response;
     }
-
 
     /**
      * Return a PageInterface instance depends on the $page argument

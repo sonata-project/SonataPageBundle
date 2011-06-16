@@ -7,25 +7,32 @@
         <parameter key="sonata.page.block.text.class">Sonata\PageBundle\Block\TextBlockService</parameter>
         <parameter key="sonata.page.block.action.class">Sonata\PageBundle\Block\ActionBlockService</parameter>
         <parameter key="sonata.page.block.container.class">Sonata\PageBundle\Block\ContainerBlockService</parameter>
+        <parameter key="sonata.page.block.children_pages.class">Sonata\PageBundle\Block\ChildrenPagesBlockService</parameter>
     </parameters>
 
     <services>
-        <service id="sonata.page.block.text" class="%sonata.page.block.text.class%">
+        <service id="sonata.page.block.text" class="%sonata.page.block.text.class%" public="false">
             <tag name="sonata.page.block" />
             <argument>sonata.page.block.text</argument>
             <argument type="service" id="templating" />
         </service>
 
-        <service id="sonata.page.block.action" class="%sonata.page.block.action.class%">
+        <service id="sonata.page.block.action" class="%sonata.page.block.action.class%" public="false">
             <tag name="sonata.page.block" />
             <argument>sonata.page.block.action</argument>
             <argument type="service" id="templating" />
             <argument type="service" id="http_kernel" />
         </service>
-        
-        <service id="sonata.page.block.container" class="%sonata.page.block.container.class%">
+
+        <service id="sonata.page.block.container" class="%sonata.page.block.container.class%" public="false">
             <tag name="sonata.page.block" />
             <argument>sonata.page.block.container</argument>
+            <argument type="service" id="templating" />
+        </service>
+
+        <service id="sonata.page.block.children_pages" class="%sonata.page.block.children_pages.class%" public="false">
+            <tag name="sonata.page.block" />
+            <argument>sonata.page.block.children_pages</argument>
             <argument type="service" id="templating" />
         </service>
     </services>

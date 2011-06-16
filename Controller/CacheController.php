@@ -17,7 +17,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CacheController extends Controller
 {
-
     public function esiAction()
     {
         $request = $this->get('request');
@@ -25,6 +24,10 @@ class CacheController extends Controller
         $manager = $this->get('sonata.page.cms.snapshot');
         $page    = $manager->getPageById($request->get('page_id'));
         $block   = $manager->getBlock($request->get('block_id'));
+
+        if (!$page || !$block) {
+            return new Response('', 404);
+        }
 
         $response = $manager->renderBlock($block, $page, false);
 
@@ -51,6 +54,10 @@ class CacheController extends Controller
 
         $page    = $manager->getPageById($request->get('page_id'));
         $block   = $manager->getBlock($request->get('block_id'));
+
+        if (!$page || !$block) {
+            return new Response('', 404);
+        }
 
         $response = $manager->renderBlock($block, $page, false);
 

@@ -86,7 +86,6 @@ class CmsSnapshotManager extends BaseCmsPageManager
         if (!$container && $page->getBlocks()) {
             foreach ($page->getBlocks() as $block) {
                 if ($block->getSetting('name') == $name) {
-
                     $container = $block;
                     break;
                 }
@@ -141,6 +140,10 @@ class CmsSnapshotManager extends BaseCmsPageManager
     public function getPageById($id)
     {
         $snapshot = $this->getManager()->findOneBy(array('page' => $id));
+
+        if (!$snapshot) {
+            return false;
+        }
 
         $page = $this->getManager()->load($snapshot);
 

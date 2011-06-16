@@ -17,7 +17,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PageController extends Controller
 {
-
     public function catchAllAction()
     {
         $pathInfo = $this->get('request')->getPathInfo();
@@ -28,8 +27,18 @@ class PageController extends Controller
             $page = $cms->getPageBySlug($pathInfo);
 
             if (!$page) {
-                throw new NotFoundHttpException('The current page does not exist!');
+                $page = $cms->getPageByRouteName('global');
+                $page->setDecorate(false);
+                $cms->setCurrentPage($page);
+
+                return $this->render('SonataPageBundle:Page:create.html.twig', array(
+                    'pathInfo'   => $pathInfo,
+                    'page'       => $page,
+                    'page_admin' => $this->get('sonata.page.admin.page'),
+                    'manager'    => $cms
+                ));
             }
+
         } else {
             $manager  = $this->get('sonata.page.manager.snapshot');
             $snapshot = $manager->findOneBy(array(
