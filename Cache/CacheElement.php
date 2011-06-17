@@ -45,7 +45,7 @@ final class CacheElement
         return $this->value;
     }
 
-    public function setValue(Response $value)
+    public function setValue($value)
     {
         return $this->value = $value;
     }

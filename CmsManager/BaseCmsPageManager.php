@@ -183,7 +183,7 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
                 return $cacheManager->get($cacheElement);
             }
 
-            $response = $service->execute($block, $page, $cacheManager->createResponse($cacheElement));
+            $response = $service->execute($block, $page);
 
             if ($useCache) {
                 $cacheElement->setValue($response);

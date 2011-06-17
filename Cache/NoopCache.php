@@ -34,6 +34,7 @@ class NoopCache implements CacheInterface
     {
         return true;
     }
+
     /**
      * @param array $parameters
      * @return string
@@ -41,10 +42,5 @@ class NoopCache implements CacheInterface
     public function get(CacheElement $cacheElement)
     {
         throw new \RunTimeException('The NoopCache::get() cannot called');
-    }
-
-    public function createResponse(CacheElement $cacheElement)
-    {
-        return new Response;
     }
 }

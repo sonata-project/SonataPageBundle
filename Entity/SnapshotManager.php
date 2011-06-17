@@ -113,6 +113,7 @@ class SnapshotManager implements SnapshotManagerInterface
 
     /**
      * @param array $content
+     * @param \Sonata\PageBundle\Model\PageInterface $page
      * @return \Sonata\PageBundle\Model\BlockInterface
      */
     public function loadBlock(array $content, PageInterface $page)

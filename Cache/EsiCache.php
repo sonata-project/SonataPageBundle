@@ -89,11 +89,6 @@ class EsiCache implements CacheInterface
         return new Response($content);
     }
 
-    public function createResponse(CacheElement $cacheElement)
-    {
-        return new Response;
-    }
-
     public function set(CacheElement $cacheElement)
     {
         // todo : prefetch the url ?

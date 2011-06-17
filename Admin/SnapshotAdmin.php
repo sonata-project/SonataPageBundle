@@ -54,4 +54,12 @@ class SnapshotAdmin extends Admin
 
         return $actions;
     }
+
+    public function postUpdate($object)
+    {
+        $this->manager->invalidate(new CacheElement(array(
+           'page_id' => $object->getPageId()
+        )));
+    }
+
 }

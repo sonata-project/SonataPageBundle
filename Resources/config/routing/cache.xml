@@ -11,4 +11,8 @@
     <route id="sonata_page_js_cache" pattern="/sonata/page/cache-js">
         <default key="_controller">SonataPageBundle:Cache:js</default>
     </route>
+
+    <route id="sonata_page_apc_cache" pattern="/sonata/page/cache-apc/{token}">
+        <default key="_controller">SonataPageBundle:Cache:apc</default>
+    </route>
 </routes>

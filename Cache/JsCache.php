@@ -118,11 +118,6 @@ CONTENT
 
     }
 
-    public function createResponse(CacheElement $cacheElement)
-    {
-        return new Response;
-    }
-
     public function set(CacheElement $cacheElement)
     {
         // todo : nothing to do

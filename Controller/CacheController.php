@@ -14,6 +14,7 @@ namespace Sonata\PageBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class CacheController extends Controller
 {
@@ -38,6 +39,19 @@ class CacheController extends Controller
         ));
 
         return $response;
+    }
+
+    public function apcAction($token)
+    {
+        if ($this->get('sonata.page.cache.apc')->getToken() == $token) {
+            apc_clear_cache('user');
+
+            return new Response('ok', 200, array(
+                'Cache-Control' => 'no-cache, must-revalidate'
+            ));
+        }
+
+        throw new AccessDeniedException('invalid token');
     }
 
     public function jsAction()

@@ -21,6 +21,24 @@
             <argument>false</argument>
         </service>
 
+        <service id="sonata.page.cache.mongo" class="Sonata\PageBundle\Cache\MongoCache" >
+            <argument type="collection" />
+            <argument />
+            <argument />
+        </service>
+
+        <service id="sonata.page.cache.memcached" class="Sonata\PageBundle\Cache\MemcachedCache" >
+            <argument />
+            <argument type="collection" />
+        </service>
+
+        <service id="sonata.page.cache.apc" class="Sonata\PageBundle\Cache\ApcCache" >
+            <argument type="service" id="router" />
+            <argument />
+            <argument />
+            <argument type="collection" />
+        </service>
+
         <service id="sonata.page.cache.invalidation.simple" class="Sonata\PageBundle\Cache\Invalidation\SimpleCacheInvalidation" />
     </services>
 </container>

@@ -123,6 +123,23 @@ file.
                 servers:
                     - varnishadm -T 127.0.0.1:2000 {{ COMMAND }} "{{ EXPRESSION }}"
 
+            sonata.page.cache.mongo:
+                database:   cache
+                collection: cache
+                servers:
+                    - '127.0.0.1:27017'
+                    #- 'username:password@localhost:27017'
+
+            sonata.page.cache.memcached:
+                prefix: test     # prefix to ensure there is no clash between instances
+                servers:
+                    - [127.0.0.1, 11211, 0]
+
+            sonata.page.cache.apc:
+                token:  s3cur3   # token used to clear the related cache
+                prefix: test     # prefix to ensure there is no clash between instances
+                servers:
+                    - { domain: kooqit.local, ip: 127.0.0.1, port: 80}
 
 At the end of your routing file, add the following lines
 
