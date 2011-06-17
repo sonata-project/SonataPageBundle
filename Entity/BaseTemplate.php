@@ -108,6 +108,6 @@ abstract class BaseTemplate implements TemplateInterface
 
     public function __toString()
     {
-        return $this->getName();
+        return $this->getName() ?: '-';
     }
 }

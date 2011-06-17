@@ -14,6 +14,8 @@ namespace Sonata\PageBundle\Controller;
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+
 
 class SnapshotAdminController extends Controller
 {
@@ -39,5 +41,24 @@ class SnapshotAdminController extends Controller
             'admin'         => $this->admin,
             'base_template' => $this->getBaseTemplate(),
         ));
+    }
+
+    public function batchActionToggleEnabled(array $idx)
+    {
+        if (!$this->get('security.context')->isGranted('ROLE_SONATA_PAGE_ADMIN_BLOCK_EDIT')) {
+            throw new AccessDeniedException();
+        }
+
+        $snapshotManager = $this->get('sonata.page.manager.snapshot');
+        foreach($idx as $id) {
+            $snapshot = $snapshotManager->findOneBy(array('id' => $id));
+
+            if ($snapshot) {
+                $snapshot->setEnabled(!$snapshot->getEnabled());
+                $snapshotManager->save($snapshot);
+            }
+        }
+
+        return new RedirectResponse($this->admin->generateUrl('list'));
     }
 }

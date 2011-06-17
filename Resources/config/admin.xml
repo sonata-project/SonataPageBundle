@@ -6,7 +6,7 @@
     <parameters>
         <!-- PAGE -->
         <parameter key="sonata.page.admin.page.class">Sonata\PageBundle\Admin\PageAdmin</parameter>
-        <parameter key="sonata.page.admin.page.controller">SonataAdminBundle:CRUD</parameter>
+        <parameter key="sonata.page.admin.page.controller">SonataPageBundle:PageAdmin</parameter>
         <parameter key="sonata.page.admin.page.entity">Application\Sonata\PageBundle\Entity\Page</parameter>
 
         <!-- BLOCK -->

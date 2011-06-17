@@ -42,8 +42,6 @@ abstract class BasePage implements PageInterface
 
     protected $publicationDateEnd;
 
-    protected $loginRequired;
-
     protected $blocks;
 
     protected $parent;
@@ -103,26 +101,6 @@ abstract class BasePage implements PageInterface
     public function getEnabled()
     {
         return $this->enabled;
-    }
-
-    /**
-     * Set loginRequired
-     *
-     * @param boolean $loginRequired
-     */
-    public function setLoginRequired($loginRequired)
-    {
-        $this->loginRequired = $loginRequired;
-    }
-
-    /**
-     * Get loginRequired
-     *
-     * @return boolean $loginRequired
-     */
-    public function getLoginRequired()
-    {
-        return $this->loginRequired;
     }
 
     /**
@@ -363,6 +341,11 @@ abstract class BasePage implements PageInterface
     public function getChildren()
     {
         return $this->children;
+    }
+
+    public function setChildren($children)
+    {
+        $this->children = $children;
     }
 
     /**

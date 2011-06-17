@@ -35,8 +35,6 @@ abstract class BaseSnapshot implements SnapshotInterface
 
     protected $publicationDateEnd;
 
-    protected $loginRequired;
-
     protected $customUrl;
 
     protected $position = 1;
@@ -46,6 +44,12 @@ abstract class BaseSnapshot implements SnapshotInterface
     protected $content = array();
 
     protected $page;
+
+    protected $children = array();
+
+    protected $parent;
+
+    protected $parentId;
 
     /**
      * Set routeName
@@ -85,26 +89,6 @@ abstract class BaseSnapshot implements SnapshotInterface
     public function getEnabled()
     {
         return $this->enabled;
-    }
-
-    /**
-     * Set loginRequired
-     *
-     * @param boolean $loginRequired
-     */
-    public function setLoginRequired($loginRequired)
-    {
-        $this->loginRequired = $loginRequired;
-    }
-
-    /**
-     * Get loginRequired
-     *
-     * @return boolean $loginRequired
-     */
-    public function getLoginRequired()
-    {
-        return $this->loginRequired;
     }
 
     /**
@@ -290,21 +274,51 @@ abstract class BaseSnapshot implements SnapshotInterface
 
     public function setContent($content)
     {
-      $this->content = $content;
+        $this->content = $content;
     }
 
     public function getContent()
     {
-      return $this->content;
+        return $this->content;
     }
 
     public function setPage($page)
     {
-      $this->page = $page;
+        $this->page = $page;
     }
 
     public function getPage()
     {
-      return $this->page;
+        return $this->page;
+    }
+
+    public function setChildren($children)
+    {
+        $this->children = $children;
+    }
+
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    public function setParent($parent)
+    {
+        $this->parent = $parent;
+    }
+
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    public function setParentId($parentId)
+    {
+        $this->parentId = $parentId;
+    }
+
+    public function getParentId()
+    {
+        return $this->parentId;
     }
 }

@@ -17,10 +17,13 @@ use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\BlockInterface;
 use Application\Sonata\PageBundle\Entity\Page;
 use Doctrine\ORM\EntityManager;
+use Sonata\PageBundle\Model\SnapshotChildrenCollection;
 
 class SnapshotManager implements SnapshotManagerInterface
 {
     protected $entityManager;
+
+    protected $children = array();
 
     public function __construct(EntityManager $entityManager)
     {
@@ -73,7 +76,6 @@ class SnapshotManager implements SnapshotManagerInterface
         $page->setRouteName($snapshot->getRouteName());
         $page->setCustomUrl($snapshot->getCustomUrl());
         $page->setPosition($snapshot->getPosition());
-        $page->setLoginRequired($snapshot->getLoginRequired());
         $page->setPublicationDateEnd($snapshot->getPublicationDateEnd());
         $page->setPublicationDateStart($snapshot->getPublicationDateStart());
         $page->setSlug($snapshot->getSlug());
@@ -85,6 +87,7 @@ class SnapshotManager implements SnapshotManagerInterface
         $page->setStylesheet($content['stylesheet']);
         $page->setMetaDescription($content['meta_description']);
         $page->setMetaKeyword($content['meta_keyword']);
+        $page->setName($content['name']);
 
         $template = new \Application\Sonata\PageBundle\Entity\Template;
         $template->setPath($content['template']);
@@ -102,6 +105,8 @@ class SnapshotManager implements SnapshotManagerInterface
         foreach ($content['blocks'] as $block) {
             $page->addBlocks($this->loadBlock($block, $page));
         }
+
+        $page->setChildren(new SnapshotChildrenCollection($this, $page));
 
         return $page;
     }
@@ -149,21 +154,25 @@ class SnapshotManager implements SnapshotManagerInterface
         $snapshot->setRouteName($page->getRouteName());
         $snapshot->setCustomUrl($page->getCustomUrl());
         $snapshot->setPosition($page->getPosition());
-        $snapshot->setLoginRequired($page->getLoginRequired());
         $snapshot->setPublicationDateEnd($page->getPublicationDateEnd());
         $snapshot->setPublicationDateStart($page->getPublicationDateStart());
         $snapshot->setSlug($page->getSlug());
         $snapshot->setDecorate($page->getDecorate());
 
+        if ($page->getParent()) {
+            $snapshot->setParentId($page->getParent()->getId());
+        }
+
         $content = array();
-        $content['javascript'] = $page->getJavascript();
-        $content['stylesheet'] = $page->getStylesheet();
-        $content['meta_description'] = $page->getMetaDescription();
-        $content['meta_keyword'] = $page->getMetaKeyword();
-        $content['template'] = $page->getTemplate()->getPath();
-        $content['id'] = $page->getId();
-        $content['created_at'] = $page->getCreatedAt()->format('U');
-        $content['updated_at'] = $page->getUpdatedAt()->format('U');
+        $content['id']                = $page->getId();
+        $content['name']              = $page->getName();
+        $content['javascript']        = $page->getJavascript();
+        $content['stylesheet']        = $page->getStylesheet();
+        $content['meta_description']  = $page->getMetaDescription();
+        $content['meta_keyword']      = $page->getMetaKeyword();
+        $content['template']          = $page->getTemplate()->getPath();
+        $content['created_at']        = $page->getCreatedAt()->format('U');
+        $content['updated_at']        = $page->getUpdatedAt()->format('U');
 
         $content['blocks'] = array();
         foreach ($page->getBlocks() as $block) {
@@ -223,5 +232,30 @@ class SnapshotManager implements SnapshotManagerInterface
         }
 
         return false;
+    }
+
+    public function getChildren(PageInterface $page)
+    {
+        if (!isset($this->children[$page->getId()])) {
+            $snapshots = $this->entityManager->createQueryBuilder()
+                ->select('s')
+                ->from('Application\Sonata\PageBundle\Entity\Snapshot', 's')
+                ->where('s.parentId = :parentId and s.enabled = 1')
+                ->setParameters(array(
+                    'parentId' => $page->getId()
+                ))
+                ->getQuery()
+                ->execute();
+
+            $pages = array();
+            foreach($snapshots as $snapshot) {
+                $page = $this->load($snapshot);
+                $pages[$page->getId()] = $page;
+            }
+
+            $this->children[$page->getId()] = new \Doctrine\Common\Collections\ArrayCollection($pages);
+        }
+
+        return $this->children[$page->getId()];
     }
 }

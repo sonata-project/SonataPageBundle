@@ -8,9 +8,7 @@
  * file that was distributed with this source code.
  */
 
-
 namespace Sonata\PageBundle\Model;
-
 
 interface SnapshotManagerInterface
 {
@@ -48,4 +46,11 @@ interface SnapshotManagerInterface
      * @return \Sonata\PageBundle\Model\PageInterface
      */
     function load(SnapshotInterface $snapshot);
+
+    /**
+     * @abstract
+     * @param \Sonata\PageBundle\Model\PageInterface $page
+     * @return array
+     */
+    function getChildren(PageInterface $page);
 }

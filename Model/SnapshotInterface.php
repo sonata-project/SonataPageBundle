@@ -41,20 +41,6 @@ interface SnapshotInterface
     function getEnabled();
 
     /**
-     * Set loginRequired
-     *
-     * @param boolean $loginRequired
-     */
-    function setLoginRequired($loginRequired);
-
-    /**
-     * Get loginRequired
-     *
-     * @return boolean $loginRequired
-     */
-    function getLoginRequired();
-
-    /**
      * Set name
      *
      * @param string $name

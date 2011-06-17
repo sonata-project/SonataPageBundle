@@ -15,6 +15,7 @@ use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Knplabs\Bundle\MenuBundle\MenuItem;
 use Sonata\PageBundle\Cache\CacheElement;
+use Sonata\AdminBundle\Form\FormMapper;
 
 class SnapshotAdmin extends Admin
 {
@@ -27,18 +28,30 @@ class SnapshotAdmin extends Admin
         'publicationDateEnd'
     );
 
-    protected $form = array(
-        'routeName',
-        'enabled',
-        'decorate',
-        'loginRequired',
-        'slug' => array('type' => 'string'),
-        'customUrl' => array('type' => 'string'),
-        'publicationDateStart',
-        'publicationDateEnd',
-    );
-
     protected $filter = array(
         'routeName',
     );
+
+
+    public function configureFormFields(FormMapper $formMapper)
+    {
+        $formMapper
+            ->add('routeName')
+            ->add('enabled', array('required' => false))
+            ->add('decorate')
+            ->add('slug', array(), array('type' => 'string'))
+            ->add('customUrl', array('required' => false), array('type' => 'string'))
+            ->add('publicationDateStart')
+            ->add('publicationDateEnd')
+        ;
+    }
+
+    public function getBatchActions()
+    {
+        $actions = parent::getBatchActions();
+
+        $actions['toggle_enabled'] = $this->trans('toggle_enabled');
+
+        return $actions;
+    }
 }

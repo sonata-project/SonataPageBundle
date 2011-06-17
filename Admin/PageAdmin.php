@@ -32,14 +32,12 @@ class PageAdmin extends Admin
 
     protected $filter = array(
         'name',
-        'loginRequired'
     );
 
     protected $view = array(
         'routeName',
         'enabled',
         'decorate',
-        'loginRequired',
         'name',
         'slug',
         'customUrl'
@@ -68,7 +66,6 @@ class PageAdmin extends Admin
             ->add('routeName')
             ->add('enabled', array('required' => false))
             ->add('decorate', array('required' => false))
-            ->add('loginRequired', array('required' => false))
             ->add('name')
             ->add('slug', array('required' => true), array('type' => 'string'))
             ->add('customUrl', array('required' => false), array('type' => 'string'))
@@ -143,7 +140,7 @@ class PageAdmin extends Admin
     public function getNewInstance()
     {
         $instance = parent::getNewInstance();
-      
+
         if ($this->hasRequest()) {
             $instance->setSlug($this->getRequest()->get('slug'));
             $instance->setName(str_replace(array('/', '-') , ' ', $instance->getSlug()));
@@ -151,5 +148,14 @@ class PageAdmin extends Admin
         }
 
         return $instance;
+    }
+
+    public function getBatchActions()
+    {
+        $actions = parent::getBatchActions();
+
+        $actions['snapshot'] = $this->trans('create_snapshot');
+
+        return $actions;
     }
 }
