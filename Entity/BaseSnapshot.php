@@ -18,7 +18,6 @@ use Sonata\PageBundle\Model\SnapshotInterface;
 
 abstract class BaseSnapshot implements SnapshotInterface
 {
-
     protected $createdAt;
 
     protected $updatedAt;
@@ -27,15 +26,13 @@ abstract class BaseSnapshot implements SnapshotInterface
 
     protected $name;
 
-    protected $slug;
+    protected $url;
 
     protected $enabled;
 
     protected $publicationDateStart;
 
     protected $publicationDateEnd;
-
-    protected $customUrl;
 
     protected $position = 1;
 
@@ -109,46 +106,6 @@ abstract class BaseSnapshot implements SnapshotInterface
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * Set slug
-     *
-     * @param integer $slug
-     */
-    public function setSlug($slug)
-    {
-        $this->slug = $slug;
-    }
-
-    /**
-     * Get slug
-     *
-     * @return integer $slug
-     */
-    public function getSlug()
-    {
-        return $this->slug;
-    }
-
-    /**
-     * Set customUrl
-     *
-     * @param integer $customUrl
-     */
-    public function setCustomUrl($customUrl)
-    {
-        $this->customUrl = $customUrl;
-    }
-
-    /**
-     * Get customUrl
-     *
-     * @return integer $customUrl
-     */
-    public function getCustomUrl()
-    {
-        return $this->customUrl;
     }
 
     /**
@@ -320,5 +277,15 @@ abstract class BaseSnapshot implements SnapshotInterface
     public function getParentId()
     {
         return $this->parentId;
+    }
+
+    public function setUrl($url)
+    {
+        $this->url = $url;
+    }
+
+    public function getUrl()
+    {
+        return $this->url;
     }
 }

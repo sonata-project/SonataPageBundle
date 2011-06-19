@@ -8,8 +8,7 @@
         <field name="enabled"           type="boolean"      column="enabled"        default="false" />
         <field name="decorate"          type="boolean"      column="decorate"       default="false" />
 
-        <field name="slug"              type="text"         column="slug"           nullable="true"/>
-        <field name="customUrl"         type="text"         column="custom_url"     nullable="true"/>
+        <field name="url"               type="text"         column="url"            nullable="true"/>
 
         <field name="parentId"          type="integer"      column="parent_id"      nullable="true" />
         <field name="content"           type="text"         column="content"        nullable="true"/>

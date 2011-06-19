@@ -60,18 +60,18 @@ class PageManager implements PageManagerInterface
     /**
      * return a page with the give slug
      *
-     * @param string $routeName
+     * @param string $url
      * @return PageInterface
      */
-    public function getPageBySlug($slug)
+    public function getPageByUrl($url)
     {
         $pages = $this->entityManager->createQueryBuilder()
             ->select('p')
             ->from('Application\Sonata\PageBundle\Entity\Page', 'p')
             ->leftJoin('p.template', 't')
-            ->where('p.slug = :slug')
+            ->where('p.url = :url')
             ->setParameters(array(
-                'slug' => $slug
+                'url' => $url
             ))
             ->getQuery()
             ->execute();
@@ -103,7 +103,6 @@ class PageManager implements PageManagerInterface
         $page->setEnabled(isset($defaults['enabled']) ? $defaults['enabled'] : true);
         $page->setRouteName(isset($defaults['routeName']) ? $defaults['routeName'] : null);
         $page->setName(isset($defaults['name']) ? $defaults['name'] : null);
-        $page->setLoginRequired(isset($defaults['loginRequired']) ? $defaults['loginRequired'] : null);
         $page->setSlug(isset($defaults['slug']) ? $defaults['slug'] : null);
         $page->setCreatedAt(new \DateTime);
         $page->setUpdatedAt(new \DateTime);
@@ -111,8 +110,33 @@ class PageManager implements PageManagerInterface
         return $page;
     }
 
+    public function fixUrl(PageInterface $page)
+    {
+        // make sure Page has a valid url
+        $baseUrl = '/';
+        if ($page->getParent()) {
+            $baseUrl = $page->getParent()->getUrl();
+        }
+
+        if (!$page->getSlug()) {
+            $page->setSlug(Page::slugify($page->getName()));
+        }
+
+        $baseUrl .= '/'.$page->getSlug();
+
+        $page->setUrl($baseUrl);
+
+        foreach($page->getChildren() as $child) {
+            $this->fixUrl($child);
+        }
+    }
+
     public function save(PageInterface $page)
     {
+        if (!$page->isHybrid()) {
+            $this->fixUrl($page);
+        }
+
         $this->entityManager->persist($page);
         $this->entityManager->flush();
 

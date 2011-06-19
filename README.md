@@ -1,60 +1,21 @@
-# Prototype to easily manage page
+# Symfony2 friendly CMS
 
-## Installation
+Available services
+------------------
 
-* Add PageBundle to your src/Bundle dir
+### Cache
 
-        git submodule add git@github.com:sonata-project/PageBundle.git src/Sonata/PageBundle
+    - sonata.page.cache.noop        : default, no cache
+    - sonata.page.cache.esi         : Edge Side Include cache
+    - sonata.page.cache.mongo       : MongoDB cache backend
+    - sonata.page.cache.memcached   : Memcached cache backend
+    - sonata.page.cache.apc         : Apc cache backend
+    - sonata.page.cache.js_sync     : Javascript synchronized load (usefull for user specific content)
+    - sonata.page.cache.js_async    : Javascript asynchronized load (usefull for user specific content)
 
-* Add PageBundle to your application kernel
+### Block
 
-        // app/AppKernel.php
-        public function registerBundles()
-        {
-            return array(
-                // ...
-                new Sonata\PageBundle\SonataPageBundle(),
-                // ...
-            );
-        }
-
-* Add these configuration into the routing file
-
-    homepage:
-        pattern:  /
-        defaults: { _controller: SonataPageBundle:Page:homepage }
-
-    page_block:
-        resource: '@SonataPageBundle/Resources/config/routing/block.xml'
-        prefix: /page/block
-
-* Add in your config.yml file
-
-        sonata_page:
-            ignore_route_patterns:
-                - /(.*)admin(.*)/   # ignore admin route, ie route containing 'admin'
-                - /^_(.*)/           # ignore symfony routes
-
-            ignore_routes:
-
-            ignore_uri_patterns:
-                - /(.*)\/admin(.*)/   # ignore admin route, ie route containing 'admin'
-
-
-## Page
-
-
-              page -> bloc ----
-               |         |      |
-               |          ------
-               |
-                --> template
-
-
-
-
-## Licence
-
-### MIT
-
-    * jWYSIWYG - https://github.com/akzhan/jwysiwyg
+    - sonata.page.block.container      : Block container
+    - sonata.page.block.action         : Render a specific action
+    - sonata.page.block.text           : Render a text block
+    - sonata.page.block.children_pages : Render a navigation panel

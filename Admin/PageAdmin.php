@@ -17,13 +17,15 @@ use Knplabs\Bundle\MenuBundle\MenuItem;
 use Sonata\PageBundle\Cache\CacheElement;
 use Sonata\PageBundle\CmsManager\CmsPageManager;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\PageBundle\Model\PageInterface;
 
 class PageAdmin extends Admin
 {
-    protected $manager;
+    protected $cmsManager;
 
     protected $list = array(
+        'hybrid' => array('type' => 'string', 'template' => 'SonataPageBundle:PageAdmin:field_hybrid.html.twig'),
         'name' => array('identifier' => true),
         'routeName',
         'decorate',
@@ -63,12 +65,9 @@ class PageAdmin extends Admin
     public function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('routeName')
             ->add('enabled', array('required' => false))
             ->add('decorate', array('required' => false))
             ->add('name')
-            ->add('slug', array('required' => true), array('type' => 'string'))
-            ->add('customUrl', array('required' => false), array('type' => 'string'))
             ->add('metaKeyword',  array('required' => false), array('type' => 'text'))
             ->add('metaDescription', array('required' => false), array('type' => 'text'))
             ->add('template', array('required' => false))
@@ -78,8 +77,11 @@ class PageAdmin extends Admin
             ->add('stylesheet', array('required' => false))
         ;
 
-        if ($this->getSubject() && !$this->getSubject()->isHybrid()) {
-            $formMapper->add('parent', array(
+        if (!$this->getSubject()->isHybrid()) {
+            $formMapper
+                ->add('slug', array('required' => false), array('type' => 'string'))
+                ->add('customUrl', array('required' => false), array('type' => 'string'))
+                ->add('parent', array(
                 'query' => $this->modelManager
                     ->createQuery($this->getClass(), 'o')
                     ->where('o.routeName = :route_name')
@@ -90,6 +92,35 @@ class PageAdmin extends Admin
         $formMapper->setHelps(array(
             'name' => $this->trans('help_page_name')
         ));
+    }
+
+    public function configureDatagridFilters(DatagridMapper $datagrid)
+    {
+        $datagrid->add('hybrid', array(
+            'template' => 'SonataAdminBundle:CRUD:filter_callback.html.twig',
+            'type' => 'callback',
+            'filter_options' => array(
+                'filter' => array($this, 'handleHybridFilter'),
+                'type'   => 'choice'
+            ),
+            'filter_field_options' => array(
+                'required' => false,
+                'choices'  => array(
+                    'hybrid'  => $this->trans('hybrid'),
+                    'cms'     => $this->trans('cms'),
+                )
+            )
+        ));
+    }
+
+    public function handleHybridFilter($queryBuilder, $alias, $field, $value)
+    {
+        if (!$value) {
+            return;
+        }
+
+        $queryBuilder->andWhere(sprintf('%s.routeName %s :routeName', $alias, $value == 'cms' ? '=' : '!='));
+        $queryBuilder->setParameter('routeName', PageInterface::PAGE_ROUTE_CMS_NAME);
     }
 
     public function configureSideMenu(MenuItem $menu, $action, Admin $childAdmin = null)
@@ -127,14 +158,28 @@ class PageAdmin extends Admin
 
     public function postUpdate($object)
     {
-        $this->manager->invalidate(new CacheElement(array(
+        $this->cmsManager->invalidate(new CacheElement(array(
            'page_id' => $object->getId()
         )));
     }
 
-    public function setManager(CmsPageManager $manager)
+    public function update($object)
     {
-        $this->manager= $manager;
+        $this->preUpdate($object);
+        $this->cmsManager->getPageManager()->save($object);
+        $this->postUpdate($object);
+    }
+
+    public function create($object)
+    {
+        $this->prePersist($object);
+        $this->cmsManager->getPageManager()->save($object);
+        $this->postPersist($object);
+    }
+
+    public function setCmsManager(CmsPageManager $cmsManager)
+    {
+        $this->cmsManager= $cmsManager;
     }
 
     public function getNewInstance()

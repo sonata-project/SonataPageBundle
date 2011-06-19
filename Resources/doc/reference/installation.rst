@@ -48,18 +48,18 @@ Now, add the new `Application` Bundle into the kernel
 
 .. code-block:: php
 
-  public function registerbundles()
-  {
-      return array(
-          // Application Bundles
-          new Application\Sonata\PageBundle\ApplicationSonataPageBundle(),
+    public function registerbundles()
+    {
+        return array(
+            // Application Bundles
+            new Application\Sonata\PageBundle\ApplicationSonataPageBundle(),
 
-          // Vendor specifics bundles
-          new Sonata\PageBundle\SonataPageBundle(),
-          new Sonata\AdminBundle\SonataAdminBundle(),
-          new Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),
-      );
-  }
+            // Vendor specifics bundles
+            new Sonata\PageBundle\SonataPageBundle(),
+            new Sonata\AdminBundle\SonataAdminBundle(),
+            new Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),
+        );
+    }
 
 Update the ``autoload.php`` to add a new namespaces :
 

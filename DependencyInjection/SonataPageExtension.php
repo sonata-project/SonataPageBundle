@@ -43,6 +43,7 @@ class SonataPageExtension extends Extension
         $loader->load('orm.xml');
         $loader->load('form.xml');
         $loader->load('cache.xml');
+        $loader->load('twig.xml');
 
         // todo: use the configuration class
         $configs = call_user_func_array('array_merge_recursive', $configs);

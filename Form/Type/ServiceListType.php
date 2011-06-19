@@ -22,7 +22,6 @@ class ServiceListType extends ChoiceType
 {
     protected $manager;
 
-
     public function __construct(CmsPageManager $manager)
     {
         $this->manager = $manager;

@@ -20,7 +20,7 @@ class BlockAdmin extends Admin
 {
     protected $parentAssociationMapping = 'page';
 
-    protected $manager;
+    protected $cmsManager;
 
     protected $filter = array(
 //        'page',
@@ -38,9 +38,9 @@ class BlockAdmin extends Admin
      * @param \Sonata\PageBundle\CmsManager\CmsPageManager $manager
      * @return void
      */
-    public function setManager(CmsPageManager $manager)
+    public function setCmsManager(CmsPageManager $cmsManager)
     {
-        $this->manager = $manager;
+        $this->cmsManager = $cmsManager;
     }
 
     public function configureRoutes(RouteCollection $collection)
@@ -60,7 +60,7 @@ class BlockAdmin extends Admin
 //        $formMapper->add('enabled', array('required' => false));
 
         if ($block) {
-            $service = $this->manager->getBlockService($block);
+            $service = $this->cmsManager->getBlockService($block);
 
             if ($block->getId() > 0) {
                 $service->buildEditForm($formMapper, $block);
@@ -79,7 +79,7 @@ class BlockAdmin extends Admin
         $subject = parent::getObject($id);
 
         if ($subject) {
-            $service = $this->manager->getBlockService($subject);
+            $service = $this->cmsManager->getBlockService($subject);
             $subject->setSettings(array_merge($service->getDefaultSettings(), $subject->getSettings()));
         }
 
@@ -100,17 +100,17 @@ class BlockAdmin extends Admin
 
     public function postUpdate($object)
     {
-        $service      = $this->manager->getBlockService($object);
+        $service      = $this->cmsManager->getBlockService($object);
         $cacheElement = $service->getCacheElement($object);
 
-        $this->manager->invalidate($cacheElement);
+        $this->cmsManager->invalidate($cacheElement);
     }
 
     public function postPersist($object)
     {
-        $service      = $this->manager->getBlockService($object);
+        $service      = $this->cmsManager->getBlockService($object);
         $cacheElement = $service->getCacheElement($object);
 
-        $this->manager->invalidate($cacheElement);
+        $this->cmsManager->invalidate($cacheElement);
     }
 }

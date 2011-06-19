@@ -24,7 +24,7 @@ class PageController extends Controller
         // always render the last page version for the admin
         if ($this->get('security.context')->isGranted('ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT')) {
             $cms  = $this->get('sonata.page.cms.page');
-            $page = $cms->getPageBySlug($pathInfo);
+            $page = $cms->getPageByUrl($pathInfo);
 
             if (!$page) {
                 $page = $cms->getPageByRouteName('global');
@@ -42,7 +42,7 @@ class PageController extends Controller
         } else {
             $manager  = $this->get('sonata.page.manager.snapshot');
             $snapshot = $manager->findOneBy(array(
-                'slug' => $pathInfo,
+                'url'     => $pathInfo,
                 'enabled' => true
             ));
 

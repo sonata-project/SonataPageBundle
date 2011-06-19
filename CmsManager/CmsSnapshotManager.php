@@ -37,9 +37,9 @@ class CmsSnapshotManager extends BaseCmsPageManager
 
     protected $currentPage;
 
-    public function __construct(SnapshotManagerInterface $manager, EngineInterface $templating)
+    public function __construct(SnapshotManagerInterface $pageManager, EngineInterface $templating)
     {
-        $this->manager      = $manager;
+        $this->pageManager  = $pageManager;
         $this->templating   = $templating;
     }
 
@@ -100,12 +100,12 @@ class CmsSnapshotManager extends BaseCmsPageManager
      *
      * if the page does not exists then the page is created.
      *
-     * @param string $slug
+     * @param string $url
      * @return Application\Sonata\PageBundle\Model\PageInterface
      */
-    public function getPageBySlug($slug)
+    public function getPageByUrl($url)
     {
-        $page = $this->getManager()->getPageBySlug($slug);
+        $page = $this->getPageManager()->getPageBySlug($url);
 
         $this->loadBlocks($page);
 
@@ -123,7 +123,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
     public function getPageByRouteName($routeName, $create = true)
     {
         if (!isset($this->routePages[$routeName])) {
-            $page = $this->getManager()->getPageByName($routeName);
+            $page = $this->getPageManager()->getPageByName($routeName);
 
             if (!$page) {
                 throw new \RuntimeException(sprintf('Unable to find the snapshot : %s', $routeName));
@@ -139,13 +139,13 @@ class CmsSnapshotManager extends BaseCmsPageManager
 
     public function getPageById($id)
     {
-        $snapshot = $this->getManager()->findOneBy(array('page' => $id));
+        $snapshot = $this->getPageManager()->findOneBy(array('page' => $id));
 
         if (!$snapshot) {
             return false;
         }
 
-        $page = $this->getManager()->load($snapshot);
+        $page = $this->getPageManager()->load($snapshot);
 
         if ($page) {
            $this->loadBlocks($page);

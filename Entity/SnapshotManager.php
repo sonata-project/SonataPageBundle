@@ -74,11 +74,11 @@ class SnapshotManager implements SnapshotManagerInterface
         $page = new \Application\Sonata\PageBundle\Entity\Page;
 
         $page->setRouteName($snapshot->getRouteName());
-        $page->setCustomUrl($snapshot->getCustomUrl());
+        $page->setCustomUrl($snapshot->getUrl());
+        $page->setUrl($snapshot->getUrl());
         $page->setPosition($snapshot->getPosition());
         $page->setPublicationDateEnd($snapshot->getPublicationDateEnd());
         $page->setPublicationDateStart($snapshot->getPublicationDateStart());
-        $page->setSlug($snapshot->getSlug());
         $page->setDecorate($snapshot->getDecorate());
 
         $content = json_decode($snapshot->getContent(), true);
@@ -88,6 +88,7 @@ class SnapshotManager implements SnapshotManagerInterface
         $page->setMetaDescription($content['meta_description']);
         $page->setMetaKeyword($content['meta_keyword']);
         $page->setName($content['name']);
+        $page->setSlug($content['slug']);
 
         $template = new \Application\Sonata\PageBundle\Entity\Template;
         $template->setPath($content['template']);
@@ -151,13 +152,12 @@ class SnapshotManager implements SnapshotManagerInterface
         $snapshot = new \Application\Sonata\PageBundle\Entity\Snapshot();
 
         $snapshot->setPage($page);
+        $snapshot->setUrl($page->getUrl());
         $snapshot->setEnabled($page->getEnabled());
         $snapshot->setRouteName($page->getRouteName());
-        $snapshot->setCustomUrl($page->getCustomUrl());
         $snapshot->setPosition($page->getPosition());
         $snapshot->setPublicationDateEnd($page->getPublicationDateEnd());
         $snapshot->setPublicationDateStart($page->getPublicationDateStart());
-        $snapshot->setSlug($page->getSlug());
         $snapshot->setDecorate($page->getDecorate());
 
         if ($page->getParent()) {
@@ -174,6 +174,7 @@ class SnapshotManager implements SnapshotManagerInterface
         $content['template']          = $page->getTemplate()->getPath();
         $content['created_at']        = $page->getCreatedAt()->format('U');
         $content['updated_at']        = $page->getUpdatedAt()->format('U');
+        $content['slug']              = $page->getSlug();
 
         $content['blocks'] = array();
         foreach ($page->getBlocks() as $block) {

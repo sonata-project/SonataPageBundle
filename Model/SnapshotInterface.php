@@ -55,32 +55,18 @@ interface SnapshotInterface
     function getName();
 
     /**
-     * Set slug
+     * Set url
      *
-     * @param string $slug
+     * @param string $url
      */
-    function setSlug($slug);
+    function setUrl($url);
 
     /**
-     * Get slug
+     * Get url
      *
-     * @return string $slug
+     * @return string $url
      */
-    function getSlug();
-
-    /**
-     * Set customUrl
-     *
-     * @param string $customUrl
-     */
-    function setCustomUrl($customUrl);
-
-    /**
-     * Get customUrl
-     *
-     * @return integer $customUrl
-     */
-    function getCustomUrl();
+    function getUrl();
 
     /**
      * Set publicationDateStart

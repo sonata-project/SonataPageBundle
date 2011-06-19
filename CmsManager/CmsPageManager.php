@@ -8,7 +8,6 @@
  * file that was distributed with this source code.
  */
 
-
 namespace Sonata\PageBundle\CmsManager;
 
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -26,7 +25,6 @@ use Sonata\PageBundle\Cache\Invalidation\InvalidationInterface;
 use Sonata\PageBundle\Cache\CacheElement;
 use Sonata\AdminBundle\Admin\AdminInterface;
 
-
 /**
  * The Manager class is in charge of retrieving the correct page (cms page or action page)
  *
@@ -39,8 +37,6 @@ class CmsPageManager extends BaseCmsPageManager
 {
     protected $blockManager;
 
-    protected $pageManager;
-
     protected $templating;
 
     protected $pageAdmin;
@@ -50,13 +46,13 @@ class CmsPageManager extends BaseCmsPageManager
     protected $cacheInvalidation;
 
     public function __construct(
-      PageManagerInterface $manager,
+      PageManagerInterface $pageManager,
       BlockManagerInterface $blockManager,
       EngineInterface $templating,
       InvalidationInterface $cacheInvalidation
   )
     {
-        $this->manager            = $manager;
+        $this->pageManager        = $pageManager;
         $this->blockManager       = $blockManager;
         $this->templating         = $templating;
         $this->cacheInvalidation  = $cacheInvalidation;
@@ -158,12 +154,12 @@ class CmsPageManager extends BaseCmsPageManager
      *
      * if the page does not exists then the page is created.
      *
-     * @param string $slug
+     * @param string $url
      * @return Application\Sonata\PageBundle\Model\PageInterface
      */
-    public function getPageBySlug($slug)
+    public function getPageByUrl($url)
     {
-        $page = $this->getManager()->getPageBySlug($slug);
+        $page = $this->getPageManager()->getPageByUrl($url);
 
         if ($page) {
             $this->loadBlocks($page);
@@ -184,7 +180,7 @@ class CmsPageManager extends BaseCmsPageManager
     public function getPageByRouteName($routeName, $create = true)
     {
         if (!isset($this->routePages[$routeName])) {
-            $page = $this->getManager()->getPageByName($routeName);
+            $page = $this->getPageManager()->getPageByName($routeName);
 
             if (!$page && !$create) {
                 throw new \RuntimeException(sprintf('Unable to find the page : %s', $routeName));
@@ -209,7 +205,7 @@ class CmsPageManager extends BaseCmsPageManager
      */
     public function getPageById($id)
     {
-        $page = $this->getManager()->findOneBy(array('id' => $id));
+        $page = $this->getPageManager()->findOneBy(array('id' => $id));
 
         $this->loadBlocks($page);
 
@@ -227,18 +223,18 @@ class CmsPageManager extends BaseCmsPageManager
             throw new \RuntimeException('No default template defined');
         }
 
-        $page = $this->getManager()->createNewPage(array(
+        $page = $this->getPageManager()->createNewPage(array(
             'template' => $this->getDefaultTemplate(),
             'enabled'  => true,
             'routeName' => $routeName,
             'name'      => $routeName,
-            'loginRequired' => false,
         ));
 
         $this->getManager()->save($page);
 
         return $page;
     }
+
     /**
      * return the default template used in the current application
      *
@@ -246,7 +242,7 @@ class CmsPageManager extends BaseCmsPageManager
      */
     public function getDefaultTemplate()
     {
-        return $this->getManager()->getDefaultTemplate();
+        return $this->getPageManager()->getDefaultTemplate();
     }
 
     /**

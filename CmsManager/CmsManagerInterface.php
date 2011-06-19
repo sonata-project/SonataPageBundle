@@ -36,7 +36,7 @@ interface CmsManagerInterface
      * @param string $slug
      * @return Application\Sonata\PageBundle\Model\PageInterface
      */
-    public function getPageBySlug($slug);
+    public function getPageByUrl($slug);
 
     /**
      * Returns a fully loaded page ( + blocks ) from a route name

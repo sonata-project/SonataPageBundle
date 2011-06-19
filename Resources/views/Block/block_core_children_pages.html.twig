@@ -17,7 +17,7 @@ file that was distributed with this source code.
     <ul>
         {% if page %}
             {% for child in page.children %}
-                <li><a href="{{ child.slug }}" title="{{ child.name|escape }}">{{ child.name }}</a></li>
+                <li><a href="{{ page_url(child) }}" title="{{ child.name|escape }}">{{ child.name }}</a></li>
             {% endfor %}
         {% endif %}
     </ul>

@@ -37,10 +37,10 @@ interface PageManagerInterface
     /**
      * return a page with the give slug
      *
-     * @param string $slug
+     * @param string $url
      * @return PageInterface
      */
-    function getPageBySlug($slug);
+    function getPageByUrl($url);
 
     function getDefaultTemplate();
 

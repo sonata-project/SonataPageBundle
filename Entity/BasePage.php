@@ -28,6 +28,10 @@ abstract class BasePage implements PageInterface
 
     protected $slug;
 
+    protected $url;
+
+    protected $customUrl;
+
     protected $metaKeyword;
 
     protected $metaDescription;
@@ -50,7 +54,7 @@ abstract class BasePage implements PageInterface
 
     protected $template;
 
-    protected $customUrl;
+
 
     protected $position = 1;
 
@@ -130,7 +134,7 @@ abstract class BasePage implements PageInterface
      */
     public function setSlug($slug)
     {
-        $this->slug = $slug;
+        $this->slug = self::slugify(trim($slug));
     }
 
     /**
@@ -471,5 +475,50 @@ abstract class BasePage implements PageInterface
         }
 
         return $this->ttl;
+    }
+
+    public function setUrl($url)
+    {
+      $this->url = $url;
+    }
+
+    public function getUrl()
+    {
+      return $this->url;
+    }
+
+    /**
+     * source : http://snipplr.com/view/22741/slugify-a-string-in-php/
+     *
+     * @static
+     * @param  $text
+     * @return mixed|string
+     */
+    static public function slugify($text)
+    {
+        // replace non letter or digits by -
+        $text = preg_replace('~[^\\pL\d]+~u', '-', $text);
+
+        // trim
+        $text = trim($text, '-');
+
+        // transliterate
+        if (function_exists('iconv'))
+        {
+            $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+        }
+
+        // lowercase
+        $text = strtolower($text);
+
+        // remove unwanted characters
+        $text = preg_replace('~[^-\w]+~', '', $text);
+
+        if (empty($text))
+        {
+            return 'n-a';
+        }
+
+        return $text;
     }
 }

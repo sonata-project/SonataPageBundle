@@ -44,7 +44,7 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
 
     protected $cacheServices = array();
 
-    protected $manager;
+    protected $pageManager;
 
     protected $blocks = array();
 
@@ -414,9 +414,9 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     /**
      * @return \Sonata\PageBundle\Model\PageManagerInterface
      */
-    public function getManager()
+    public function getPageManager()
     {
-        return $this->manager;
+        return $this->pageManager;
     }
 
     public function setBlocks($blocks)

@@ -40,7 +40,7 @@
                 <argument type="service" id="sonata.page.admin.snapshot" />
             </call>
 
-            <call method="setManager">
+            <call method="setCmsManager">
                 <argument type="service" id="sonata.page.cms.page" />
             </call>
         </service>
@@ -51,7 +51,7 @@
             <argument>%sonata.page.admin.block.entity%</argument>
             <argument>%sonata.page.admin.block.controller%</argument>
 
-            <call method="setManager">
+            <call method="setCmsManager">
                 <argument type="service" id="sonata.page.cms.page" />
             </call>
         </service>

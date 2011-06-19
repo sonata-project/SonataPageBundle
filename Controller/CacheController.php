@@ -36,6 +36,7 @@ class CacheController extends Controller
             'x-sonata-block-id'    => $block->getId(),
             'x-sonata-page-id'     => $page->getId(),
             'x-sonata-block-type'  => $block->getType(),
+            'x-sonata-page-route'  => $page->getRouteName(),
         ));
 
         return $response;

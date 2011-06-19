@@ -70,9 +70,24 @@ interface PageInterface
     /**
      * Get slug
      *
-     * @return string $slug
+     * @return string
      */
     function getSlug();
+
+    /**
+     * Get url
+     *
+     * @return string
+     */
+    function getUrl();
+
+    /**
+     * Set Url
+     *
+     * @param string $url
+     * @return void
+     */
+    function setUrl($url);
 
     /**
      * Set customUrl
