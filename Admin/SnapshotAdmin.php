@@ -22,7 +22,7 @@ class SnapshotAdmin extends Admin
     protected $parentAssociationMapping = 'page';
 
     protected $list = array(
-        'slug' => array('identifier' => true),
+        'url' => array('identifier' => true),
         'enabled',
         'publicationDateStart',
         'publicationDateEnd'
@@ -39,10 +39,10 @@ class SnapshotAdmin extends Admin
             ->add('routeName')
             ->add('enabled', array('required' => false))
             ->add('decorate')
-            ->add('slug', array(), array('type' => 'string'))
-            ->add('customUrl', array('required' => false), array('type' => 'string'))
+            ->add('url', array(), array('type' => 'string'))
             ->add('publicationDateStart')
             ->add('publicationDateEnd')
+//            ->add('content')
         ;
     }
 

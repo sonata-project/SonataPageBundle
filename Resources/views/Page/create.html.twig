@@ -17,8 +17,7 @@ file that was distributed with this source code.
         <h2>{{ "message_page_does_not_exist"|trans({'pathInfo': pathInfo}, 'PageBundle') }}</h2>
 
         <p>
-            <a href="{{ path('admin_sonata_page_page_create', {'slug': pathInfo}) }}">{{ "create_page"|trans({'pathInfo': pathInfo}, 'PageBundle') }}</a>
+            <a href="{{ path('admin_sonata_page_page_create', {'url': pathInfo}) }}">{{ "create_page"|trans({'pathInfo': pathInfo}, 'PageBundle') }}</a>
         </p>
-
     </div>
 {% endblock%}

@@ -47,7 +47,7 @@ class PageAdmin extends Admin
 
     protected $formGroups = array(
         'General' => array(
-            'fields' => array('name', 'enabled')
+            'fields' => array('name', 'enabled', 'position')
         ),
         'Publication' => array(
             'fields' => array('parent', 'publicationDateStart', 'publicationDateEnd')
@@ -77,16 +77,17 @@ class PageAdmin extends Admin
             ->add('stylesheet', array('required' => false))
         ;
 
-        if (!$this->getSubject()->isHybrid()) {
+        if (!$this->getSubject() || !$this->getSubject()->isHybrid()) {
             $formMapper
+                ->add('position')
                 ->add('slug', array('required' => false), array('type' => 'string'))
                 ->add('customUrl', array('required' => false), array('type' => 'string'))
-                ->add('parent', array(
-                'query' => $this->modelManager
-                    ->createQuery($this->getClass(), 'o')
-                    ->where('o.routeName = :route_name')
-                    ->setParameter('route_name', PageInterface::PAGE_ROUTE_CMS_NAME)
-            ));
+                ->addType('parent', 'sonata_page_parent_selector', array(
+                    'page'          => $this->getSubject() ?: null,
+                    'model_manager' => $this->getModelManager(),
+                    'class'         => $this->getClass(),
+                    'required'      => false
+                ));
         }
 
         $formMapper->setHelps(array(
@@ -151,7 +152,7 @@ class PageAdmin extends Admin
         if (!$this->getSubject()->isHybrid()) {
             $menu->addChild(
                 $this->trans('view_page'),
-                $this->getRouter()->getGenerator()->getContext()->getBaseUrl().$this->getSubject()->getSlug()
+                $this->getRouter()->getGenerator()->getContext()->getBaseUrl().$this->getSubject()->getUrl()
             );
         }
     }
@@ -186,10 +187,14 @@ class PageAdmin extends Admin
     {
         $instance = parent::getNewInstance();
 
-        if ($this->hasRequest()) {
-            $instance->setSlug($this->getRequest()->get('slug'));
-            $instance->setName(str_replace(array('/', '-') , ' ', $instance->getSlug()));
-            $instance->setRouteName(PageInterface::PAGE_ROUTE_CMS_NAME);
+        if ($this->hasRequest() && $this->getRequest()->get('url')) {
+            $slugs  = explode('/', $this->getRequest()->get('url'));
+            $slug   = array_pop($slugs);
+
+            $parent = $this->cmsManager->getPageByUrl(implode('/', $slugs)) ?: '/';
+            $instance->setSlug(urldecode($slug));
+            $instance->setParent($parent ?: null);
+            $instance->setName(urldecode($slug));
         }
 
         return $instance;

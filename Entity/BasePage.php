@@ -17,7 +17,6 @@ use Sonata\PageBundle\Model\TemplateInterface;
 
 abstract class BasePage implements PageInterface
 {
-
     protected $createdAt;
 
     protected $updatedAt;
@@ -54,14 +53,19 @@ abstract class BasePage implements PageInterface
 
     protected $template;
 
-
-
     protected $position = 1;
 
     protected $decorate = true;
 
     protected $ttl;
 
+
+    public function __construct()
+    {
+        $this->routeName = PageInterface::PAGE_ROUTE_CMS_NAME;
+        $this->children = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+  
     /**
      * Set routeName
      *
@@ -377,7 +381,7 @@ abstract class BasePage implements PageInterface
      *
      * @param Application\Sonata\PageBundle\Entity\Page $parent
      */
-    public function setParent(PageInterface $parent)
+    public function setParent(PageInterface $parent = null)
     {
         $this->parent = $parent;
     }
@@ -416,6 +420,13 @@ abstract class BasePage implements PageInterface
     {
         if (is_object($this->blocks)) {
             $this->blocks->setInitialized(true);
+        }
+    }
+
+    public function disableChildrenLazyLoading()
+    {
+        if (is_object($this->children)) {
+            $this->children->setInitialized(true);
         }
     }
 
@@ -503,8 +514,7 @@ abstract class BasePage implements PageInterface
         $text = trim($text, '-');
 
         // transliterate
-        if (function_exists('iconv'))
-        {
+        if (function_exists('iconv')) {
             $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
         }
 
@@ -514,8 +524,7 @@ abstract class BasePage implements PageInterface
         // remove unwanted characters
         $text = preg_replace('~[^-\w]+~', '', $text);
 
-        if (empty($text))
-        {
+        if (empty($text)) {
             return 'n-a';
         }
 

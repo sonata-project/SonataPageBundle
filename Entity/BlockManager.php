@@ -163,7 +163,6 @@ class BlockManager implements BlockManagerInterface
         $page->disableBlockLazyLoading();
 
         foreach ($blocks as $block) {
-
             $parent = $block->getParent();
 
             $block->disableChildrenLazyLoading();
