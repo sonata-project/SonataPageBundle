@@ -76,4 +76,11 @@ interface BlockServiceInterface
     function getCacheElement(BlockInterface $block);
 
     function setManager(CmsManagerInterface $manager);
+
+    /**
+     * @abstract
+     * @param \Sonata\PageBundle\Model\BlockInterface $block
+     * @return void
+     */
+    function load(BlockInterface $block);
 }

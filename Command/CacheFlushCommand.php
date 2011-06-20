@@ -25,12 +25,19 @@ class CacheFlushCommand extends Command
         $this->setName('sonata:page:cache-flush');
         $this->setDescription('Flush information');
 
+        $this->addArgument('manager', InputArgument::REQUIRED, 'The CMS manager to use');
         $this->addOption('service', null, InputOption::VALUE_OPTIONAL, 'Flush all elements related to the block servive', null);
         $this->addOption('keys', null, InputOption::VALUE_OPTIONAL, 'Flush all elements matching the providing keys (json format)', null);
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
+        $managerName = $input->getArgument('manager');
+
+        if (!in_array($managerName, array('snapshot', 'page'))) {
+            throw new \RunTimeException(sprintf('Please provide a valid provider : snapshot or page'));
+        }
+
         $service = $input->getOption('service');
         $keys    = $input->getOption('keys');
 
@@ -79,10 +86,11 @@ class CacheFlushCommand extends Command
     }
 
     /**
-     * @return \Sonata\PageBundle\Page\Manager
+     * @param string $manager
+     * @return \Sonata\PageBundle\CmsManager\CmsManagerInterface
      */
-    public function getManager()
+    public function getManager($manager)
     {
-        return $this->container->get('sonata.page.cms.page');
+        return $this->container->get('sonata.page.cms.'.$manager);
     }
 }

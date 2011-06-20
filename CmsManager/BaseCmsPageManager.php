@@ -176,6 +176,8 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
 
         try {
             $service       = $this->getBlockService($block);
+            $service->load($block); // load the block
+
             $cacheManager  = $this->getCacheService($block);
             $cacheElement  = $service->getCacheElement($block);
 

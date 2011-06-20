@@ -64,9 +64,9 @@ class PageExtension extends \Twig_Extension
              return '';
         }
 
-        if ($page->isHybrid()) {
+        if ($page->isDynamic()) {
             if($this->environment->isDebug()) {
-                throw new \RunTimeException('Unable to generate path for hybrid page');
+                throw new \RunTimeException('Unable to generate path for hybrid and dynamic page');
             }
 
             return '';

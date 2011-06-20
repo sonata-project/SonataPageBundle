@@ -40,7 +40,7 @@ class ParentSelectorType extends ModelType
             'class'             => null,
             'property'          => null,
             'query'             => null,
-            'choices'           => $this->getParentChoices($options['page']),
+            'choices'           => $this->getParentChoices(isset($options['page']) ? $options['page'] : null),
             'parent'            => 'choice',
             'preferred_choices' => array(),
             'field_description' => false,
@@ -73,6 +73,10 @@ class ParentSelectorType extends ModelType
                 continue;
             }
 
+            if ($page->isDynamic()) {
+                continue;
+            }
+
             $roots[$page->getId()] = $page;
 
             $this->childWalker($page, $currentPage, $roots);
@@ -88,7 +92,11 @@ class ParentSelectorType extends ModelType
                 continue;
             }
 
-            $roots[$child->getId()] = $page;
+            if ($child->isDynamic()) {
+                continue;
+            }
+
+            $roots[$child->getId()] = $child;
 
             $this->childWalker($child, $currentPage, $roots, $level + 1);
         }

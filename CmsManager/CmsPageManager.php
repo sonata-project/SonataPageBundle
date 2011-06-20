@@ -66,7 +66,7 @@ class CmsPageManager extends BaseCmsPageManager
     public function renderPage(PageInterface $page, array $params = array(), Response $response = null)
     {
         $template = 'SonataPageBundle::layout.html.twig';
-        if ($this->getCurrentPage()) {
+        if ($this->getCurrentPage() && $this->getCurrentPage()->getTemplate()) {
             $template = $this->getCurrentPage()->getTemplate()->getPath();
         }
 
@@ -89,7 +89,9 @@ class CmsPageManager extends BaseCmsPageManager
      */
     public function getPage($page)
     {
-        if (is_string($page)) { // page is a slug, load the related page
+        if (is_string($page) && substr($page, 0, 1) == '/') {
+            $page = $this->getPageByUrl($page);
+        } else if (is_string($page)) { // page is a slug, load the related page
             $page = $this->getPageByRouteName($page);
         } else if ( is_numeric($page)) {
             $page = $this->getPageById($page);
@@ -230,7 +232,7 @@ class CmsPageManager extends BaseCmsPageManager
             'name'      => $routeName,
         ));
 
-        $this->getManager()->save($page);
+        $this->getPageManager()->save($page);
 
         return $page;
     }

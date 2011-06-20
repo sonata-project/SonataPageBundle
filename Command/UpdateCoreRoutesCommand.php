@@ -20,7 +20,6 @@ use Symfony\Component\Console\Output\Output;
 
 class UpdateCoreRoutesCommand extends Command
 {
-
     public function configure()
     {
         $this->setName('sonata:page:update-core-routes');
@@ -29,10 +28,9 @@ class UpdateCoreRoutesCommand extends Command
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-
         $router      = $this->container->get('router');
         $cmsManager  = $this->getManager();
-        $pageManager = $cmsManager->getManager();
+        $pageManager = $cmsManager->getPageManager();
 
         foreach ($router->getRouteCollection()->all() as $name => $route) {
             $name = trim($name);

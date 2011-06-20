@@ -46,6 +46,8 @@ interface BlockInterface
      */
     function getSettings();
 
+    function setSetting($name, $value);
+
     /**
      * Set enabled
      *

@@ -88,4 +88,32 @@ abstract class BaseBlockService implements BlockServiceInterface
     {
         $this->manager = $manager;
     }
+
+    public function prePersist(BlockInterface $block)
+    {
+    }
+
+    public function postPersist(BlockInterface $block)
+    {
+    }
+
+    public function preUpdate(BlockInterface $block)
+    {
+    }
+
+    public function postUpdate(BlockInterface $block)
+    {
+    }
+
+    public function preDelete(BlockInterface $block)
+    {
+    }
+
+    public function postDelete(BlockInterface $block)
+    {
+    }
+
+    public function load(BlockInterface $block)
+    {
+    }
 }

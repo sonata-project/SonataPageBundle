@@ -31,8 +31,10 @@ class ChildrenPagesBlockService extends BaseBlockService
 
         if ($settings['current']) {
             $page = $this->manager->getCurrentPage();
+        } else if($settings['pageId']){
+            $page = $settings['pageId'];
         } else {
-            $page = $this->manager->getPageById($settings['pageId']);
+            $page = $this->manager->getPage('/');
         }
 
         return $this->renderResponse('SonataPageBundle:Block:block_core_children_pages.html.twig', array(
@@ -51,9 +53,17 @@ class ChildrenPagesBlockService extends BaseBlockService
     {
         $formMapper->addType('settings', 'sonata_type_immutable_array', array(
             'keys' => array(
-                array('title', 'string', array()),
-                array('current', 'checkbox', array()),
-                array('pageId', 'textarea', array()),
+                array('title', 'text', array(
+                  'required' => false
+                )),
+                array('current', 'checkbox', array(
+                  'required' => false
+                )),
+                array('pageId', 'sonata_page_parent_selector', array(
+                    'model_manager' => $formMapper->getAdmin()->getModelManager(),
+                    'class'         => 'Application\Sonata\PageBundle\Entity\Page', // todo : inject this value
+                    'required'      => false
+                )),
             )
         ));
     }
@@ -62,9 +72,17 @@ class ChildrenPagesBlockService extends BaseBlockService
     {
         $formMapper->addType('settings', 'sonata_type_immutable_array', array(
             'keys' => array(
-                array('title', 'string', array()),
-                array('current', 'checkbox', array()),
-                array('pageId', 'textarea', array()),
+                array('title', 'text', array(
+                  'required' => false
+                )),
+                array('current', 'checkbox', array(
+                  'required' => false
+                )),
+                array('pageId', 'sonata_page_parent_selector', array(
+                    'model_manager' => $formMapper->getAdmin()->getModelManager(),
+                    'class'         => 'Application\Sonata\PageBundle\Entity\Page',
+                    'required'      => false
+                )),
             )
         ));
     }
@@ -86,5 +104,22 @@ class ChildrenPagesBlockService extends BaseBlockService
             'pageId'  => null,
             'title'   => ''
         );
+    }
+
+    public function prePersist(BlockInterface $block)
+    {
+        $block->setSetting('pageId', is_object($block->getSetting('pageId')) ? $block->getSetting('pageId')->getId() : null);
+    }
+
+    public function preUpdate(BlockInterface $block)
+    {
+        $block->setSetting('pageId', is_object($block->getSetting('pageId')) ? $block->getSetting('pageId')->getId() : null);
+    }
+
+    public function load(BlockInterface $block)
+    {
+        if (is_numeric($block->getSetting('pageId'))) {
+            $block->setSetting('pageId', $this->manager->getPage($block->getSetting('pageId')));
+        }
     }
 }

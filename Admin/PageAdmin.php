@@ -65,6 +65,7 @@ class PageAdmin extends Admin
             ->add('enabled', array('required' => false))
             ->add('decorate', array('required' => false))
             ->add('name')
+            ->add('position')
             ->add('metaKeyword',  array('required' => false), array('type' => 'text'))
             ->add('metaDescription', array('required' => false), array('type' => 'text'))
             ->add('template', array('required' => false))
@@ -74,15 +75,18 @@ class PageAdmin extends Admin
 
         if (!$this->getSubject() || !$this->getSubject()->isHybrid()) {
             $formMapper
-                ->add('position')
                 ->add('slug', array('required' => false), array('type' => 'string'))
                 ->add('customUrl', array('required' => false), array('type' => 'string'))
-                ->addType('parent', 'sonata_page_parent_selector', array(
-                    'page'          => $this->getSubject() ?: null,
-                    'model_manager' => $this->getModelManager(),
-                    'class'         => $this->getClass(),
-                    'required'      => false
-                ));
+            ;
+        }
+
+        if (!$this->getSubject() || !$this->getSubject()->isDynamic()) {
+            $formMapper->addType('parent', 'sonata_page_parent_selector', array(
+                'page'          => $this->getSubject() ?: null,
+                'model_manager' => $this->getModelManager(),
+                'class'         => $this->getClass(),
+                'required'      => false
+            ));
         }
 
         $formMapper->setHelps(array(
@@ -196,7 +200,11 @@ class PageAdmin extends Admin
             $slugs  = explode('/', $this->getRequest()->get('url'));
             $slug   = array_pop($slugs);
 
-            $parent = $this->cmsManager->getPageByUrl(implode('/', $slugs)) ?: '/';
+            $parent = $this->cmsManager->getPageByUrl(implode('/', $slugs));
+            if (!$parent) {
+                $parent = $this->cmsManager->getPageByUrl('/');
+            }
+
             $instance->setSlug(urldecode($slug));
             $instance->setParent($parent ?: null);
             $instance->setName(urldecode($slug));

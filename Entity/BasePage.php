@@ -289,11 +289,13 @@ abstract class BasePage implements PageInterface
     /**
      * Add children
      *
-     * @param Application\Sonata\PageBundle\Entity\Page $children
+     * @param \Sonata\PageBundle\Model\PageInterface $children
      */
     public function addChildren(PageInterface $children)
     {
         $this->children[] = $children;
+
+        $children->setParent($this);
     }
 
     /**
@@ -314,7 +316,7 @@ abstract class BasePage implements PageInterface
     /**
      * Add blocs
      *
-     * @param Application\Sonata\PageBundle\Entity\Block $blocs
+     * @param \Sonata\PageBundle\Model\BlockInterface $blocs
      */
     public function addBlocks(BlockInterface $blocs)
     {
@@ -334,7 +336,7 @@ abstract class BasePage implements PageInterface
     /**
      * Set parent
      *
-     * @param Application\Sonata\PageBundle\Entity\Page $parent
+     * @param \Sonata\PageBundle\Model\PageInterface $parent
      */
     public function setParent(PageInterface $parent = null)
     {
@@ -354,7 +356,7 @@ abstract class BasePage implements PageInterface
     /**
      * Set template
      *
-     * @param Application\Sonata\PageBundle\Entity\Template $template
+     * @param \Sonata\PageBundle\Model\TemplateInterface $template
      */
     public function setTemplate(TemplateInterface $template)
     {
@@ -395,6 +397,11 @@ abstract class BasePage implements PageInterface
         return $this->decorate;
     }
 
+    /**
+     * Returns true if the page represents an action
+     *
+     * @return boolean
+     */
     public function isHybrid()
     {
         return $this->getRouteName() != self::PAGE_ROUTE_CMS_NAME;
@@ -407,6 +414,16 @@ abstract class BasePage implements PageInterface
     public function isInternal()
     {
         return null === $this->getUrl();
+    }
+
+    /**
+     * Return true if the page is dynamic, ie hybrid and contains dynamic parameters
+     *
+     * @return bool
+     */
+    public function isDynamic()
+    {
+        return $this->isHybrid() && strpos($this->getUrl(), '{') !== false;
     }
 
     public function __toString()
@@ -454,12 +471,12 @@ abstract class BasePage implements PageInterface
 
     public function setUrl($url)
     {
-      $this->url = $url;
+        $this->url = $this->routeName == 'homepage' ? '/' : $url;
     }
 
     public function getUrl()
     {
-      return $this->url;
+        return $this->routeName == 'homepage' ? '/' : $this->url;
     }
 
     /**

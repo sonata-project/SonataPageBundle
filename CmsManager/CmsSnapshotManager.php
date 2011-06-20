@@ -60,7 +60,9 @@ class CmsSnapshotManager extends BaseCmsPageManager
      */
     public function getPage($page)
     {
-        if (is_string($page)) { // page is a slug, load the related page
+        if (is_string($page) && substr($page, 0, 1) == '/') {
+            $page = $this->getPageByUrl($page);
+        } else if (is_string($page)) { // page is a slug, load the related page
             $page = $this->getPageByRouteName($page);
         } else if ( is_numeric($page)) {
             $page = $this->getPageById($page);
@@ -114,7 +116,13 @@ class CmsSnapshotManager extends BaseCmsPageManager
      */
     public function getPageByUrl($url)
     {
-        $page = $this->getPageManager()->findEnableSnapshot(array('url' => $url));
+        $snapshot = $this->getPageManager()->findEnableSnapshot(array('url' => $url));
+
+        if (!$snapshot) {
+            throw new \RuntimeException(sprintf('Unable to find the snapshot : %s', $url));
+        }
+
+        $page = $this->getPageManager()->load($snapshot);
 
         $this->loadBlocks($page);
 
@@ -178,9 +186,13 @@ class CmsSnapshotManager extends BaseCmsPageManager
      */
     public function renderPage(PageInterface $page, array $params = array(), Response $response = null)
     {
-        $template = 'SonataPageBundle::layout.html.twig';
+        $template = false;
         if ($this->getCurrentPage()) {
             $template = $this->getCurrentPage()->getTemplate()->getPath();
+        }
+
+        if (!$template) {
+            $template = 'SonataPageBundle::layout.html.twig';
         }
 
         $params['page']         = $page;

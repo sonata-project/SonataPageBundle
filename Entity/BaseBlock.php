@@ -87,6 +87,16 @@ abstract class BaseBlock implements BlockInterface
         return $this->settings;
     }
 
+    public function setSetting($name, $value)
+    {
+        $this->settings[$name] = $value;
+    }
+
+    public function getSetting($name, $default = null)
+    {
+        return isset($this->settings[$name]) ? $this->settings[$name] : $default;
+    }
+
     /**
      * Set enabled
      *
@@ -249,11 +259,6 @@ abstract class BaseBlock implements BlockInterface
         if (is_object($this->children)) {
             $this->children->setInitialized(true);
         }
-    }
-
-    public function getSetting($name, $default = null)
-    {
-        return isset($this->settings[$name]) ? $this->settings[$name] : $default;
     }
 
     public function hasParent()

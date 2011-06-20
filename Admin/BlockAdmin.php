@@ -81,6 +81,8 @@ class BlockAdmin extends Admin
         if ($subject) {
             $service = $this->cmsManager->getBlockService($subject);
             $subject->setSettings(array_merge($service->getDefaultSettings(), $subject->getSettings()));
+
+            $service->load($subject);
         }
 
         return $subject;
@@ -90,12 +92,7 @@ class BlockAdmin extends Admin
     {
         // fix weird bug with setter object not being call
         $object->setChildren($object->getChildren());
-    }
-
-    public function preInsert($object)
-    {
-        // fix weird bug with setter object not being call
-        $object->setChildren($object->getChildren());
+        $this->cmsManager->getBlockService($object)->preUpdate($object);
     }
 
     public function postUpdate($object)
@@ -104,6 +101,14 @@ class BlockAdmin extends Admin
         $cacheElement = $service->getCacheElement($object);
 
         $this->cmsManager->invalidate($cacheElement);
+    }
+
+    public function prePersist($object)
+    {
+        $this->cmsManager->getBlockService($object)->prePersist($object);
+
+        // fix weird bug with setter object not being call
+        $object->setChildren($object->getChildren());
     }
 
     public function postPersist($object)

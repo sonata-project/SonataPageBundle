@@ -305,16 +305,22 @@ class SnapshotManager implements SnapshotManagerInterface
         return false;
     }
 
-    public function getChildren(PageInterface $page)
+    public function getChildren(PageInterface $parent)
     {
-        if (!isset($this->children[$page->getId()])) {
+        if (!isset($this->children[$parent->getId()])) {
+            $date = new \Datetime;
+            $parameters = array(
+                'publicationDateStart'  => $date,
+                'publicationDateEnd'    => $date,
+                'parentId'              => $parent->getId()
+            );
+
             $snapshots = $this->entityManager->createQueryBuilder()
                 ->select('s')
                 ->from('Application\Sonata\PageBundle\Entity\Snapshot', 's')
                 ->where('s.parentId = :parentId and s.enabled = 1')
-                ->setParameters(array(
-                    'parentId' => $page->getId()
-                ))
+                ->andWhere('s.publicationDateStart <= :publicationDateStart AND ( s.publicationDateEnd IS NULL OR s.publicationDateEnd >= :publicationDateEnd )')
+                ->setParameters($parameters)
                 ->getQuery()
                 ->execute();
 
@@ -324,9 +330,9 @@ class SnapshotManager implements SnapshotManagerInterface
                 $pages[$page->getId()] = $page;
             }
 
-            $this->children[$page->getId()] = new \Doctrine\Common\Collections\ArrayCollection($pages);
+            $this->children[$parent->getId()] = new \Doctrine\Common\Collections\ArrayCollection($pages);
         }
 
-        return $this->children[$page->getId()];
+        return $this->children[$parent->getId()];
     }
 }

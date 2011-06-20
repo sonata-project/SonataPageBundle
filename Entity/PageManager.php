@@ -112,15 +112,19 @@ class PageManager implements PageManagerInterface
 
     public function fixUrl(PageInterface $page)
     {
-        if (!$page->getSlug()) {
-            $page->setSlug(Page::slugify($page->getName()));
-        }
+        // hybrid page cannot be altered
+        if (!$page->isHybrid()) {
+            if (!$page->getSlug()) {
+                $page->setSlug(Page::slugify($page->getName()));
+            }
 
-        // make sure Page has a valid url
-        if ($page->getParent()) {
-            $page->setUrl($page->getParent()->getUrl().'/'.$page->getSlug()) ;
-        } else {
-            $page->setUrl('/'.$page->getSlug());
+            // make sure Page has a valid url
+            if ($page->getParent()) {
+                $base = $page->getParent()->getUrl() == '/' ? '/' : $page->getParent()->getUrl().'/';
+                $page->setUrl($base.$page->getSlug()) ;
+            } else {
+                $page->setUrl('/'.$page->getSlug());
+            }
         }
 
         foreach($page->getChildren() as $child) {
@@ -130,7 +134,7 @@ class PageManager implements PageManagerInterface
 
     public function save(PageInterface $page)
     {
-        if (!$page->isHybrid()) {
+        if (!$page->isHybrid() || $page->getRouteName() == 'homepage') {
             $this->fixUrl($page);
         }
 
@@ -161,8 +165,7 @@ class PageManager implements PageManagerInterface
     public function loadPages()
     {
         $pages = $this->entityManager
-            ->createQuery('SELECT p FROM Application\Sonata\PageBundle\Entity\Page p INDEX BY p.id WHERE p.routeName = :routeName ORDER BY p.position ASC')
-            ->setParameter('routeName', PageInterface::PAGE_ROUTE_CMS_NAME)
+            ->createQuery('SELECT p FROM Application\Sonata\PageBundle\Entity\Page p INDEX BY p.id ORDER BY p.position ASC')
             ->execute();
 
         foreach ($pages as $page) {
