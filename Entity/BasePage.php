@@ -41,10 +41,6 @@ abstract class BasePage implements PageInterface
 
     protected $enabled;
 
-    protected $publicationDateStart;
-
-    protected $publicationDateEnd;
-
     protected $blocks;
 
     protected $parent;
@@ -59,13 +55,12 @@ abstract class BasePage implements PageInterface
 
     protected $ttl;
 
-
     public function __construct()
     {
         $this->routeName = PageInterface::PAGE_ROUTE_CMS_NAME;
         $this->children = new \Doctrine\Common\Collections\ArrayCollection();
     }
-  
+
     /**
      * Set routeName
      *
@@ -249,46 +244,6 @@ abstract class BasePage implements PageInterface
     public function getStylesheet()
     {
         return $this->stylesheet;
-    }
-
-    /**
-     * Set publicationDateStart
-     *
-     * @param \DateTime $publicationDateStart
-     */
-    public function setPublicationDateStart(\DateTime $publicationDateStart = null)
-    {
-        $this->publicationDateStart = $publicationDateStart;
-    }
-
-    /**
-     * Get publicationDateStart
-     *
-     * @return \DateTime $publicationDateStart
-     */
-    public function getPublicationDateStart()
-    {
-        return $this->publicationDateStart;
-    }
-
-    /**
-     * Set publicationDateEnd
-     *
-     * @param \DateTime $publicationDateEnd
-     */
-    public function setPublicationDateEnd(\DateTime $publicationDateEnd = null)
-    {
-        $this->publicationDateEnd = $publicationDateEnd;
-    }
-
-    /**
-     * Get publicationDateEnd
-     *
-     * @return \DateTime $publicationDateEnd
-     */
-    public function getPublicationDateEnd()
-    {
-        return $this->publicationDateEnd;
     }
 
     /**

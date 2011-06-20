@@ -23,6 +23,7 @@ use Sonata\PageBundle\Block\BlockServiceInterface;
 use Sonata\PageBundle\Cache\CacheInterface;
 use Sonata\PageBundle\Util\RecursiveBlockIterator;
 use Sonata\PageBundle\Cache\CacheElement;
+use Sonata\PageBundle\Cache\Invalidation\InvalidationInterface;
 
 use Sonata\AdminBundle\Admin\AdminInterface;
 
@@ -31,16 +32,24 @@ use Sonata\AdminBundle\Admin\AdminInterface;
  */
 class CmsSnapshotManager extends BaseCmsPageManager
 {
-    protected $debug;
-
-    protected $logger;
-
-    protected $currentPage;
-
-    public function __construct(SnapshotManagerInterface $pageManager, EngineInterface $templating)
+    /**
+     * @param \Sonata\PageBundle\Model\SnapshotManagerInterface $pageManager
+     * @param \Symfony\Component\Templating\EngineInterface $templating
+     * @param \Sonata\PageBundle\Cache\Invalidation\InvalidationInterface $cacheInvalidation
+     */
+    public function __construct(SnapshotManagerInterface $pageManager, EngineInterface $templating, InvalidationInterface $cacheInvalidation)
     {
-        $this->pageManager  = $pageManager;
-        $this->templating   = $templating;
+        $this->pageManager        = $pageManager;
+        $this->templating         = $templating;
+        $this->cacheInvalidation  = $cacheInvalidation;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCode()
+    {
+        return 'snapshot';
     }
 
     /**
@@ -118,6 +127,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
      * if the page does not exists then the page is created.
      *
      * @param string $routeName
+     * @param boolean $create
      * @return \Sonata\PageBundle\Model\PageInterface
      */
     public function getPageByRouteName($routeName, $create = true)
@@ -137,6 +147,10 @@ class CmsSnapshotManager extends BaseCmsPageManager
         return $this->routePages[$routeName];
     }
 
+    /**
+     * @param integer $id
+     * @return bool
+     */
     public function getPageById($id)
     {
         $snapshot = $this->getPageManager()->findOneBy(array('page' => $id));
@@ -154,6 +168,12 @@ class CmsSnapshotManager extends BaseCmsPageManager
         return $page;
     }
 
+    /**
+     * @param \Sonata\PageBundle\Model\PageInterface $page
+     * @param array $params
+     * @param null|\Symfony\Component\HttpFoundation\Response $response
+     * @return null|\Symfony\Component\HttpFoundation\Response
+     */
     public function renderPage(PageInterface $page, array $params = array(), Response $response = null)
     {
         $template = 'SonataPageBundle::layout.html.twig';

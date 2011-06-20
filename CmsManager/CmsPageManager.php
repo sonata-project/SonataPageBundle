@@ -58,6 +58,11 @@ class CmsPageManager extends BaseCmsPageManager
         $this->cacheInvalidation  = $cacheInvalidation;
     }
 
+    public function getCode()
+    {
+        return 'page';
+    }
+
     public function renderPage(PageInterface $page, array $params = array(), Response $response = null)
     {
         $template = 'SonataPageBundle::layout.html.twig';
@@ -142,11 +147,6 @@ class CmsPageManager extends BaseCmsPageManager
         }
 
         return $container;
-    }
-
-    public function invalidate(CacheElement $cacheElement)
-    {
-        $this->cacheInvalidation->invalidate($this->getCacheServices(), $cacheElement);
     }
 
     /**

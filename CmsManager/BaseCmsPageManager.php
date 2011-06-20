@@ -179,6 +179,8 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
             $cacheManager  = $this->getCacheService($block);
             $cacheElement  = $service->getCacheElement($block);
 
+            $cacheElement->addKey('manager', $this->getCode());
+
             if ($useCache && $cacheManager->has($cacheElement)) {
                 return $cacheManager->get($cacheElement);
             }
@@ -323,6 +325,11 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
         }
 
         return $this->currentPage;
+    }
+
+    public function invalidate(CacheElement $cacheElement)
+    {
+        $this->cacheInvalidation->invalidate($this->getCacheServices(), $cacheElement);
     }
 
     /**

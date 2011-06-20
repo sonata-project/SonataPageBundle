@@ -68,6 +68,10 @@
             <argument />
             <argument>%sonata.page.admin.snapshot.entity%</argument>
             <argument>%sonata.page.admin.snapshot.controller%</argument>
+
+            <call method="setCmsSnapshot">
+                <argument type="service" id="sonata.page.cms.snapshot" />
+            </call>
         </service>
     </services>
 

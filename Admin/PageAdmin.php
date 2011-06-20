@@ -15,7 +15,7 @@ use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Knplabs\Bundle\MenuBundle\MenuItem;
 use Sonata\PageBundle\Cache\CacheElement;
-use Sonata\PageBundle\CmsManager\CmsPageManager;
+use Sonata\PageBundle\CmsManager\CmsManagerInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\PageBundle\Model\PageInterface;
@@ -47,10 +47,7 @@ class PageAdmin extends Admin
 
     protected $formGroups = array(
         'General' => array(
-            'fields' => array('name', 'enabled', 'position')
-        ),
-        'Publication' => array(
-            'fields' => array('parent', 'publicationDateStart', 'publicationDateEnd')
+            'fields' => array('name', 'enabled', 'position', 'parent')
         ),
         'SEO' => array(
             'fields' => array('slug', 'customUrl', 'metaKeyword', 'metaDescription'),
@@ -71,8 +68,6 @@ class PageAdmin extends Admin
             ->add('metaKeyword',  array('required' => false), array('type' => 'text'))
             ->add('metaDescription', array('required' => false), array('type' => 'text'))
             ->add('template', array('required' => false))
-            ->add('publicationDateStart', array('required' => false))
-            ->add('publicationDateEnd', array('required' => false))
             ->add('javascript', array('required' => false))
             ->add('stylesheet', array('required' => false))
         ;
@@ -93,6 +88,16 @@ class PageAdmin extends Admin
         $formMapper->setHelps(array(
             'name' => $this->trans('help_page_name')
         ));
+    }
+
+    public function configureRoutes(RouteCollection $collection)
+    {
+        $collection->add('snapshots');
+    }
+
+    public function getListTemplate()
+    {
+        return 'SonataPageBundle:PageAdmin:list.html.twig';
     }
 
     public function configureDatagridFilters(DatagridMapper $datagrid)
@@ -178,7 +183,7 @@ class PageAdmin extends Admin
         $this->postPersist($object);
     }
 
-    public function setCmsManager(CmsPageManager $cmsManager)
+    public function setCmsManager(CmsManagerInterface $cmsManager)
     {
         $this->cmsManager= $cmsManager;
     }

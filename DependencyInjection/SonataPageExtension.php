@@ -63,6 +63,7 @@ class SonataPageExtension extends Extension
 
         $invalidate = isset($configs['cache_invalidation']) ? $configs['cache_invalidation'] : 'sonata.page.cache.invalidation.simple';
         $cmsPage->replaceArgument(3, new Reference($invalidate));
+        $cmsSnapshot->replaceArgument(2, new Reference($invalidate));
 
         $this->configureCache($container, $configs);
     }

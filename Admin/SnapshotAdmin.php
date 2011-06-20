@@ -16,9 +16,14 @@ use Sonata\AdminBundle\Route\RouteCollection;
 use Knplabs\Bundle\MenuBundle\MenuItem;
 use Sonata\PageBundle\Cache\CacheElement;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\PageBundle\CmsManager\CmsManagerInterface;
 
 class SnapshotAdmin extends Admin
 {
+    protected $cmsPage;
+
+    protected $cmsSnapshot;
+
     protected $parentAssociationMapping = 'page';
 
     protected $list = array(
@@ -32,11 +37,9 @@ class SnapshotAdmin extends Admin
         'routeName',
     );
 
-
     public function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('routeName')
             ->add('enabled', array('required' => false))
             ->add('decorate')
             ->add('url', array(), array('type' => 'string'))
@@ -57,9 +60,20 @@ class SnapshotAdmin extends Admin
 
     public function postUpdate($object)
     {
-        $this->manager->invalidate(new CacheElement(array(
-           'page_id' => $object->getPageId()
+        $this->cmsSnapshot->invalidate(new CacheElement(array(
+           'page_id' => $object->getPage()->getId()
         )));
     }
 
+    public function postPersist($object)
+    {
+        $this->cmsSnapshot->invalidate(new CacheElement(array(
+           'page_id' => $object->getPage()->getId()
+        )));
+    }
+
+    public function setCmsSnapshot(CmsManagerInterface $cmsSnapshot)
+    {
+        $this->cmsSnapshot = $cmsSnapshot;
+    }
 }

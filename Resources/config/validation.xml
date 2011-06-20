@@ -15,24 +15,6 @@
            </constraint>
         </property>
 
-        <property name="publicationDateStart">
-           <constraint name="DateTime" >
-               <option name="groups" >
-                    <value>action_route</value>
-                    <value>cms_route</value>
-               </option>
-           </constraint>
-        </property>
-
-        <property name="publicationDateEnd">
-           <constraint name="DateTime" >
-               <option name="groups" >
-                    <value>action_route</value>
-                    <value>cms_route</value>
-               </option>
-           </constraint>
-        </property>
-
     </class>
 
 </constraint-mapping>

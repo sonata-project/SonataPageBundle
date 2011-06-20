@@ -13,13 +13,13 @@ namespace Sonata\PageBundle\CmsManager;
 
 use Sonata\PageBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
+use Sonata\PageBundle\Cache\CacheElement;
 
 /**
  * @author     Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 interface CmsManagerInterface
 {
-
     /**
      * @param string $name
      * @param \Sonata\PageBundle\Model\PageInterface $page
@@ -65,4 +65,16 @@ interface CmsManagerInterface
      * @return \Sonata\PageBundle\Model\PageInterface
      */
     public function getBlock($id);
+
+    /**
+     * @return string
+     */
+    public function getCode();
+
+    /**
+     * @abstract
+     * @param \Sonata\PageBundle\Cache\CacheElement $cacheElement
+     * @return void
+     */
+    public function invalidate(CacheElement $cacheElement);
 }

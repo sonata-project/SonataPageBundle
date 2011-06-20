@@ -160,34 +160,6 @@ interface PageInterface
     function getStylesheet();
 
     /**
-     * Set publicationDateStart
-     *
-     * @param \DateTime $publicationDateStart
-     */
-    function setPublicationDateStart(\DateTime $publicationDateStart = null);
-
-    /**
-     * Get publicationDateStart
-     *
-     * @return \DateTime $publicationDateStart
-     */
-    function getPublicationDateStart();
-
-    /**
-     * Set publicationDateEnd
-     *
-     * @param \DateTime $publicationDateEnd
-     */
-    function setPublicationDateEnd(\DateTime $publicationDateEnd = null);
-
-    /**
-     * Get publicationDateEnd
-     *
-     * @return \DateTime $publicationDateEnd
-     */
-    function getPublicationDateEnd();
-
-    /**
      * Set createdAt
      *
      * @param \DateTime $createdAt

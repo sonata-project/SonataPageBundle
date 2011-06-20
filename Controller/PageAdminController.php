@@ -20,7 +20,7 @@ class PageAdminController extends Controller
 {
     public function batchActionSnapshot(array $idx)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_SONATA_PAGE_ADMIN_BLOCK_EDIT')) {
+        if (!$this->get('security.context')->isGranted('ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT')) {
             throw new AccessDeniedException();
         }
 
@@ -29,10 +29,45 @@ class PageAdminController extends Controller
             $page = $this->get('sonata.page.cms.page')->getPageById($id);
 
             if ($page) {
-                $snapshotManager->save($snapshotManager->create($page));
+                $snapshot = $snapshotManager->create($page);
+                $snapshotManager->save($snapshot);
+
+                $snapshots[] = $snapshot;
             }
         }
 
+        $snapshotManager->enableSnapshots($snapshots);
+
         return new RedirectResponse($this->admin->generateUrl('list'));
+    }
+
+    public function snapshotsAction()
+    {
+        if (!$this->get('security.context')->isGranted('ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT')) {
+            throw new AccessDeniedException();
+        }
+
+        if ($this->get('request')->getMethod() == "POST") {
+            $snapshotManager = $this->get('sonata.page.manager.snapshot');
+
+            $pages = $this->get('sonata.page.manager.page')->findBy(array());
+            $snapshots = array();
+            foreach($pages as $page) {
+                $snapshot = $snapshotManager->create($page);
+                $snapshotManager->save($snapshot);
+
+                $snapshots[] = $snapshot;
+            }
+
+            $snapshotManager->enableSnapshots($snapshots);
+
+            return new RedirectResponse($this->admin->generateUrl('list'));
+        }
+
+        return $this->render('SonataPageBundle:PageAdmin:create_snapshots.html.twig', array(
+            'action'            => 'snapshots',
+            'admin'             => $this->admin,
+            'base_template'     => $this->getBaseTemplate(),
+        ));
     }
 }

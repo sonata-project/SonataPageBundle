@@ -48,6 +48,46 @@ class SnapshotManager implements SnapshotManagerInterface
     }
 
     /**
+     * Enabled a snapshot - make it public
+     *
+     * @param mixed $snapshots
+     * @return void
+     */
+    public function enableSnapshots($snapshots)
+    {
+        $this->entityManager->beginTransaction();
+
+        if (!is_array($snapshots)) {
+            $snapshots = array($snapshots);
+        }
+
+        $now = new \DateTime;
+        $pageIds = $snapshotIds = array();
+        foreach($snapshots as $snapshot) {
+            $pageIds[] = $snapshot->getPage()->getId();
+            $snapshotIds[] = $snapshot->getId();
+
+            $snapshot->setPublicationDateStart($now);
+            $snapshot->setPublicationDateEnd(null);
+
+            $this->entityManager->persist($snapshot);
+        }
+
+        $this->entityManager->flush();
+
+        $sql = sprintf("UPDATE %s SET publication_date_end = '%s' WHERE id NOT IN(%s) AND page_id IN (%s) AND publication_date_end IS NULL",
+            $this->entityManager->getClassMetadata('Application\Sonata\PageBundle\Entity\Snapshot')->table['name'],
+            $now->format('Y-m-d H:i:s'),
+            implode(',', $snapshotIds),
+            implode(',', $pageIds)
+        );
+
+        $this->entityManager->getConnection()->query($sql);
+
+        $this->entityManager->commit();
+    }
+
+    /**
      * @param array $criteria
      * @return array
      */
@@ -77,8 +117,6 @@ class SnapshotManager implements SnapshotManagerInterface
         $page->setCustomUrl($snapshot->getUrl());
         $page->setUrl($snapshot->getUrl());
         $page->setPosition($snapshot->getPosition());
-        $page->setPublicationDateEnd($snapshot->getPublicationDateEnd());
-        $page->setPublicationDateStart($snapshot->getPublicationDateStart());
         $page->setDecorate($snapshot->getDecorate());
 
         $content = json_decode($snapshot->getContent(), true);
@@ -156,8 +194,6 @@ class SnapshotManager implements SnapshotManagerInterface
         $snapshot->setEnabled($page->getEnabled());
         $snapshot->setRouteName($page->getRouteName());
         $snapshot->setPosition($page->getPosition());
-        $snapshot->setPublicationDateEnd($page->getPublicationDateEnd());
-        $snapshot->setPublicationDateStart($page->getPublicationDateStart());
         $snapshot->setDecorate($page->getDecorate());
 
         if ($page->getParent()) {
@@ -171,7 +207,7 @@ class SnapshotManager implements SnapshotManagerInterface
         $content['stylesheet']        = $page->getStylesheet();
         $content['meta_description']  = $page->getMetaDescription();
         $content['meta_keyword']      = $page->getMetaKeyword();
-        $content['template']          = $page->getTemplate()->getPath();
+        $content['template']          = $page->getTemplate() ? $page->getTemplate()->getPath() : false;
         $content['created_at']        = $page->getCreatedAt()->format('U');
         $content['updated_at']        = $page->getUpdatedAt()->format('U');
         $content['slug']              = $page->getSlug();

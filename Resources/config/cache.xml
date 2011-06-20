@@ -9,6 +9,7 @@
         <service id="sonata.page.cache.esi" class="Sonata\PageBundle\Cache\EsiCache" >
             <argument type="collection" />
             <argument type="service" id="router" />
+            <argument type="service" id="security.context" />
         </service>
 
         <service id="sonata.page.cache.js_sync" class="Sonata\PageBundle\Cache\JsCache" >

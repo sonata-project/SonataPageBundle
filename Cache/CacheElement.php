@@ -35,6 +35,11 @@ final class CacheElement
         return $this->keys;
     }
 
+    public function addKey($name, $value)
+    {
+        $this->keys[$name] = $value;
+    }
+
     public function getTtl()
     {
         return $this->ttl;

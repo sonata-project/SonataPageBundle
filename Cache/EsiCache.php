@@ -14,7 +14,6 @@ use Symfony\Component\Routing\Router;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Process\Process;
 
-
 /**
  * http://www.varnish-cache.org/docs/2.1/reference/varnishadm.html
  *  echo vcl.use foo | varnishadm -T localhost:999 -S /var/db/secret
@@ -27,6 +26,8 @@ use Symfony\Component\Process\Process;
 class EsiCache implements CacheInterface
 {
     protected $router;
+
+    protected $servers;
 
     public function __construct(array $servers = array(), Router $router)
     {

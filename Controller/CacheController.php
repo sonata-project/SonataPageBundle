@@ -22,7 +22,12 @@ class CacheController extends Controller
     {
         $request = $this->get('request');
 
-        $manager = $this->get('sonata.page.cms.snapshot');
+        if ($request->get('manager') == 'page') {
+            $manager = $this->get('sonata.page.cms.page');
+        } else {
+            $manager = $this->get('sonata.page.cms.snapshot');
+        }
+
         $page    = $manager->getPageById($request->get('page_id'));
         $block   = $manager->getBlock($request->get('block_id'));
 
@@ -32,12 +37,17 @@ class CacheController extends Controller
 
         $response = $manager->renderBlock($block, $page, false);
 
-        $response->headers->add(array(
-            'x-sonata-block-id'    => $block->getId(),
-            'x-sonata-page-id'     => $page->getId(),
-            'x-sonata-block-type'  => $block->getType(),
-            'x-sonata-page-route'  => $page->getRouteName(),
-        ));
+        if ($request->get('handler') == 'page') {
+            $response->setPrivate();
+        } else {
+            $response->setPublic();
+            $response->headers->add(array(
+                'x-sonata-block-id'    => $block->getId(),
+                'x-sonata-page-id'     => $page->getId(),
+                'x-sonata-block-type'  => $block->getType(),
+                'x-sonata-page-route'  => $page->getRouteName(),
+            ));
+        }
 
         return $response;
     }
@@ -75,6 +85,7 @@ class CacheController extends Controller
         }
 
         $response = $manager->renderBlock($block, $page, false);
+        $response->setPrivate(); //  always set to private
 
         if ($request->get('_sync') == true) {
             return $response;
