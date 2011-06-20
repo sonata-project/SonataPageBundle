@@ -21,26 +21,43 @@ body.cms-edit-mode {
 
 body.cms-edit-mode div.cms-block-element {
     min-height: 20px;
-    background-color: #eee;
+    background-color: #BE9B4D;
 }
 
 body.cms-edit-mode div.cms-container-root {
     padding-top: 15px;
-    background-color: #eee;
+    background-color: #C53214;
     padding-bottom: 15px
 }
 
 body.cms-edit-mode div.cms-block-hand-over {
-    border: 1px solid red;
-
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#daa520', endColorstr='#eeeeee'); /* for IE */
-    background: -webkit-gradient(linear, left top, left bottom, from(#daa520), to(#eee)); /* for webkit browsers */
-    background: -moz-linear-gradient(top,  #daa520,  #eee); /* for firefox 3.6+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#BE9B4D', endColorstr='#eeeeee'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#BE9B4D), to(#eee)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #BE9B4D,  #eee); /* for firefox 3.6+ */
     cursor: pointer;
 }
 
 body.cms-edit-mode div.cms-container-start {
     background: #cccccc;
+}
+
+body.cms-edit-mode div.cms-container.cms-block-internal {
+    background: #FF4C00;
+}
+
+body.cms-edit-mode div.cms-container {
+    background: #A12000;
+}
+
+div.sonata-page-top-bar {
+    background-color: #3D3D3D;
+    padding: 5px;
+    color: #C4C4C4;
+}
+
+div.sonata-page-top-bar a {
+    color: #C4C4C4;
+    text-decoration: none;
 }
 
 body.cms-edit-mode div.cms-block-start {
@@ -49,7 +66,6 @@ body.cms-edit-mode div.cms-block-start {
 
 body.cms-edit-mode div.cms-block-placeholder {
     background: yellow;
-
 }
 
 body.cms-edit-mode div.cms-fake-block {

@@ -400,6 +400,15 @@ abstract class BasePage implements PageInterface
         return $this->getRouteName() != self::PAGE_ROUTE_CMS_NAME;
     }
 
+    /**
+     * Returns true if the page is internal, ie: no direct url
+     * @return boolean
+     */
+    public function isInternal()
+    {
+        return null === $this->getUrl();
+    }
+
     public function __toString()
     {
         return $this->getName()?: '-';

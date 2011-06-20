@@ -10,12 +10,8 @@
  */
 
 jQuery(document).ready(function() {
-
-
     Page.init();
 });
-
-
 
 var Page = {
     blocks: null,
@@ -27,30 +23,16 @@ var Page = {
       }
     },
     init: function() {
-
         jQuery('#page-action-enabled-edit').change(Page.handleClickEnabledEdit);
         jQuery('#page-action-save-position').click(Page.savePosition);
-        jQuery('#page-action-edit').click(Page.edit);
 
-        jQuery('#page-action-enabled-edit').click();
-
-        jQuery('#page-action-edit').click(Page.edit);
+        jQuery('#page-action-save-position').hide();
 
         Page.blocks = jQuery('div.cms-block-element, div.cms-container-root');
         Page.blocks.mouseover(Page.handleBlockHover);
         Page.blocks.dblclick(Page.handleBlockClick);
 
         Page.buildHandler();
-    },
-
-    lockActions: function(bool) {
-
-    },
-
-    edit: function() {
-
-        document.location.href = Page.url.page_edit;
-
     },
 
     handleBlockClick: function(event) {
@@ -67,17 +49,14 @@ var Page = {
     },
 
     handleClickEnabledEdit: function(event) {
-
         if (event.currentTarget.checked) {
             jQuery('#page-action-save-position').show();
-            jQuery('#page-action-edit').show();
             jQuery("div.cms-container").sortable('enable');
 
             jQuery('body').addClass('cms-edit-mode');
 
         } else {
             jQuery('#page-action-save-position').hide();
-            jQuery('#page-action-edit').hide();
             jQuery("div.cms-container").sortable('disable');
 
             jQuery('body').removeClass('cms-edit-mode');
@@ -103,7 +82,7 @@ var Page = {
                 jQuery('div.cms-block-element').removeClass('cms-block-start');
                 jQuery('div.cms-fake-block').css('display', 'none');
             }
-        });
+        }).sortable('disable');
 
     },
 

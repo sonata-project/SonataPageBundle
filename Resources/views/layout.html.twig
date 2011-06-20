@@ -31,11 +31,14 @@ file that was distributed with this source code.
         <div class="container">
             {% if page_admin.isGranted(['EDIT']) %}
                 <script src="{{ asset('bundles/sonatapage/page.js') }}" type="text/javascript"></script>
-                <div class="span-24 last" style="background: blue">
+                <div class="span-24 last sonata-page-top-bar">
+                    <div style="float: right"><strong><em><a href="http://sonata-project.org">Sonata Project</a></em></strong></div>
                     <input type="checkbox" id="page-action-enabled-edit" />
                     <label for="page-action-enabled-edit">{% trans from 'PageBundle' %}label_edit_enabled{% endtrans%}</label>
+                    | <a href="{{ path('admin_sonata_page_page_edit', {'id': page.id }) }}" target="_new">{{ page.name }}</a>
+                    | <a href="{{ path('admin_sonata_page_page_snapshot_create', {'id': page.id }) }}" target="_new">{{ "create_snapshot"|trans({}, 'PageBundle') }}</a>
+                    | <a href="{{ path('admin_sonata_page_page_list') }}" target="_new">{{ "view_all_pages"|trans({}, 'PageBundle') }}</a>
                     <input type="submit" value="{% trans from 'PageBundle' %}btn_save_position{% endtrans%}" id="page-action-save-position" />
-                    <input type="submit" value="{% trans from 'PageBundle' %}btn_edit{% endtrans%}" id="page-action-edit" />
                 </div>
 
                 <!-- CMS specific variables -->
