@@ -53,4 +53,11 @@ interface SnapshotManagerInterface
      * @return array
      */
     function getChildren(PageInterface $page);
+
+    /**
+     * @abstract
+     * @param array $criteria
+     * @return \Sonata\PageBundle\Model\SnapshotInterface
+     */
+    function findEnableSnapshot(array $criteria);
 }

@@ -114,7 +114,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
      */
     public function getPageByUrl($url)
     {
-        $page = $this->getPageManager()->getPageBySlug($url);
+        $page = $this->getPageManager()->findEnableSnapshot(array('url' => $url));
 
         $this->loadBlocks($page);
 
@@ -133,11 +133,13 @@ class CmsSnapshotManager extends BaseCmsPageManager
     public function getPageByRouteName($routeName, $create = true)
     {
         if (!isset($this->routePages[$routeName])) {
-            $page = $this->getPageManager()->getPageByName($routeName);
+            $snapshot = $this->getPageManager()->findEnableSnapshot(array('routeName' => $routeName));
 
-            if (!$page) {
+            if (!$snapshot) {
                 throw new \RuntimeException(sprintf('Unable to find the snapshot : %s', $routeName));
             }
+
+            $page = $this->getPageManager()->load($snapshot);
 
             $this->loadBlocks($page);
 
@@ -153,7 +155,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
      */
     public function getPageById($id)
     {
-        $snapshot = $this->getPageManager()->findOneBy(array('page' => $id));
+        $snapshot = $this->getPageManager()->findEnableSnapshot(array('pageId' => $id));
 
         if (!$snapshot) {
             return false;

@@ -17,6 +17,7 @@ use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\BlockInterface;
 use Application\Sonata\PageBundle\Entity\Page;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\NoResultException;
 use Sonata\PageBundle\Model\SnapshotChildrenCollection;
 
 class SnapshotManager implements SnapshotManagerInterface
@@ -94,6 +95,38 @@ class SnapshotManager implements SnapshotManagerInterface
     public function findBy(array $criteria = array())
     {
         return $this->repository->findBy($criteria);
+    }
+
+    public function findEnableSnapshot(array $criteria = array())
+    {
+        $date = new \Datetime;
+        $parameters = array(
+            'publicationDateStart'  => $date,
+            'publicationDateEnd'    => $date,
+        );
+        $query = $this->repository
+            ->createQueryBuilder('s')
+            ->andWhere('s.publicationDateStart <= :publicationDateStart AND ( s.publicationDateEnd IS NULL OR s.publicationDateEnd >= :publicationDateEnd )');
+
+        if (isset($criteria['pageId'])) {
+            $query->andWhere('s.page = :page');
+            $parameters['page'] = $criteria['pageId'];
+        } else if (isset($criteria['url'])) {
+            $query->andWhere('s.url = :url');
+            $parameters['url'] = $criteria['url'];
+        } else if (isset($criteria['routeName'])) {
+            $query->andWhere('s.routeName = :routeName');
+            $parameters['routeName'] = $criteria['routeName'];
+        } else {
+            throw new \RuntimeException('please provide a `pageId`, `url` or `routeName` as criteria key');
+        }
+
+        $query->setParameters($parameters);
+        try {
+            return $query->getQuery()->getSingleResult();
+        } catch (NoResultException $e) {
+            return null;
+        }
     }
 
     /**

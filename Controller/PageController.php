@@ -41,9 +41,8 @@ class PageController extends Controller
 
         } else {
             $manager  = $this->get('sonata.page.manager.snapshot');
-            $snapshot = $manager->findOneBy(array(
+            $snapshot = $manager->findEnableSnapshot(array(
                 'url'     => $pathInfo,
-                'enabled' => true
             ));
 
             if (!$snapshot) {
