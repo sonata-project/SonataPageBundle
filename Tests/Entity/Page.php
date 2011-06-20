@@ -1,6 +1,4 @@
 <?php
-
-
 /*
  * This file is part of the Sonata package.
  *
@@ -10,11 +8,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Sonata\PageBundle\Tests\Page;
+namespace Sonata\PageBundle\Tests\Entity;
 
-class Block extends \Sonata\PageBundle\Entity\BaseBlock
+class Page extends \Sonata\PageBundle\Entity\BasePage
 {
-
     function getId()
     {
         return $this->id;

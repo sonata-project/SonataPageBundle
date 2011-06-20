@@ -1,6 +1,4 @@
 <?php
-
-
 /*
  * This file is part of the Sonata package.
  *
@@ -12,16 +10,14 @@
 
 namespace Sonata\PageBundle\Tests\Block;
 
-use Sonata\PageBundle\Tests\Page\Block;
-use Sonata\PageBundle\Tests\Page\Page;
+use Sonata\PageBundle\Tests\Entity\Block;
+use Sonata\PageBundle\Tests\Entity\Page;
 use Sonata\PageBundle\Block\ContainerBlockService;
 
 class ContainerBlockServiceTest extends BaseTestBlockService
 {
-
     public function testService()
     {
-
         $templating =  new FakeTemplating;
         $service = new ContainerBlockService('core.container', $templating);
 
@@ -39,15 +35,13 @@ class ContainerBlockServiceTest extends BaseTestBlockService
         $service->buildCreateForm($formMapper, $block);
         $service->buildEditForm($formMapper, $block);
 
-
         $page = new Page;
 
         $service->execute($block, $page);
 
-
         $this->assertEquals('SonataPageBundle:Block:block_container.html.twig', $templating->view);
         $this->assertEquals('Symfony', $templating->parameters['container']->getSetting('name'));
-        $this->assertInstanceOf('Sonata\PageBundle\Tests\Page\Page', $templating->parameters['page']);
-        $this->assertInstanceOf('Sonata\PageBundle\Tests\Page\Block', $templating->parameters['container']);
+        $this->assertInstanceOf('Sonata\PageBundle\Tests\Entity\Page', $templating->parameters['page']);
+        $this->assertInstanceOf('Sonata\PageBundle\Tests\Entity\Block', $templating->parameters['container']);
     }
 }

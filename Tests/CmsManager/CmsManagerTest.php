@@ -16,8 +16,10 @@ use Sonata\PageBundle\CmsManager\CmsPageManager;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\DependencyInjection\Container;
+use Sonata\PageBundle\Tests\Entity\Block;
+use Sonata\PageBundle\Tests\Entity\Page;
 
-class ManagerTest extends \PHPUnit_Framework_TestCase
+class CmsPageManagerTest extends \PHPUnit_Framework_TestCase
 {
 
     public function getManager()
@@ -32,7 +34,6 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testIsDecorable()
     {
-
         // creating mock objects
         $response = $this->getMock('Symfony\\Component\\HttpFoundation\\Response', array('dummy'), array(), 'ResponseMock');
 
@@ -114,8 +115,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testgetBlockServiceException()
     {
-
-      $manager = $this->getManager();
+        $manager = $this->getManager();
 
         $block = $this->getMock('block', array('getType'));
         $block->expects($this->any())
@@ -127,7 +127,6 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testfindContainer()
     {
-
         $blockManager = $this->getMock('Sonata\\PageBundle\\Model\\BlockManagerInterface');
         $blockManager = $this->getManager()->getBlockManager();
         $blockManager->expects($this->once())

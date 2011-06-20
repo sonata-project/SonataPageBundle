@@ -1,6 +1,4 @@
 <?php
-
-
 /*
  * This file is part of the Sonata package.
  *
@@ -12,15 +10,14 @@
 
 namespace Sonata\PageBundle\Tests\Block;
 
-use Sonata\PageBundle\Tests\Page\Block;
-use Sonata\PageBundle\Tests\Page\Page;
+use Sonata\PageBundle\Tests\Entity\Block;
+use Sonata\PageBundle\Tests\Entity\Page;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Form\Form;
 use Sonata\PageBundle\Block\ActionBlockService;
 
 class ActionBlockServiceTest extends BaseTestBlockService
 {
-
     public function testService()
     {
         $kernel = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface', array('render', 'handle'));

@@ -10,12 +10,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Sonata\PageBundle\Tests\Page;
+namespace Sonata\PageBundle\Tests\Entity;
 
-class Page extends \Sonata\PageBundle\Entity\BasePage
+class Block extends \Sonata\PageBundle\Entity\BaseBlock
 {
-    function getId()
-    {
+    function getId() {
         return $this->id;
     }
 }
