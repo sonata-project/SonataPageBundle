@@ -17,22 +17,22 @@
             <generator strategy="AUTO"/>
         </id>
 
-
         <many-to-one
             field="parent"
             target-entity="Application\Sonata\PageBundle\Entity\Block"
             inverted-by="children"
-            orphan-removal="false">
+            >
 
-            <cascade>
-                <cascade-all />
-            </cascade>
+            <!--<orphan-removal>true</orphan-removal>-->
+
+            <!--<cascade>-->
+                <!--<cascade-all />-->
+            <!--</cascade>-->
 
             <join-columns>
                 <join-column
                     name="parent_id"
                     referenced-column-name="id"
-                    on-delete="CASCADE"
                 />
             </join-columns>
         </many-to-one>
@@ -41,11 +41,13 @@
             field="children"
             target-entity="Application\Sonata\PageBundle\Entity\Block"
             mapped-by="parent"
-            orphan-removal="false"
             fetch="LAZY">
 
+            <orphan-removal>true</orphan-removal>
+
             <cascade>
-                <cascade-persist/>
+                 <cascade-persist />
+                 <cascade-update />
             </cascade>
 
             <join-columns>
@@ -78,6 +80,6 @@
                 />
             </join-columns>
         </many-to-one>
-        
+
     </entity>
 </doctrine-mapping>
