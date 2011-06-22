@@ -21,10 +21,10 @@
             field="parent"
             target-entity="Application\Sonata\PageBundle\Entity\Page"
             inverted-by="children"
-            orphan-removal="false">
+            >
 
             <cascade>
-                <cascade-all />
+                <cascade-persist />
             </cascade>
 
             <join-columns>
@@ -40,17 +40,17 @@
             field="children"
             target-entity="Application\Sonata\PageBundle\Entity\Page"
             mapped-by="parent"
-            orphan-removal="false"
             fetch="LAZY">
 
             <cascade>
-                <cascade-persist/>
+                <cascade-all />
             </cascade>
 
             <join-columns>
                 <join-column
                     name="id"
                     referenced-column-name="parent_id"
+                    on-delete="CASCADE"
                 />
             </join-columns>
 
@@ -65,7 +65,6 @@
             field="template"
             target-entity="Application\Sonata\PageBundle\Entity\Template"
             inverted-by="page"
-            orphan-removal="false"
             >
 
             <cascade>
@@ -85,11 +84,10 @@
             field="blocks"
             target-entity="Application\Sonata\PageBundle\Entity\Block"
             mapped-by="page"
-            orphan-removal="false"
             fetch="LAZY">
 
             <cascade>
-                <cascade-persist/>
+                <cascade-all />
             </cascade>
 
             <join-columns>
