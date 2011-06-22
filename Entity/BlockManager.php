@@ -18,16 +18,18 @@ use Doctrine\ORM\EntityManager;
 
 class BlockManager implements BlockManagerInterface
 {
-
     protected $entityManager;
 
-    public function __construct(EntityManager $entityManager)
+    protected $class;
+
+    public function __construct(EntityManager $entityManager, $class = 'Application\Sonata\PageBundle\Entity\Block')
     {
         $this->entityManager = $entityManager;
+        $this->class         = $class;
     }
 
     /**
-     * return a block with the given id
+     * Returns a block with the given id
      *
      * @param  $id
      * @return bool
@@ -36,7 +38,7 @@ class BlockManager implements BlockManagerInterface
     {
         $blocks = $this->entityManager->createQueryBuilder()
             ->select('b')
-            ->from('Application\Sonata\PageBundle\Entity\Block', 'b')
+            ->from($this->class, 'b')
             ->where('b.id = :id')
             ->setParameters(array(
               'id' => $id
@@ -48,16 +50,15 @@ class BlockManager implements BlockManagerInterface
     }
 
     /**
+     * Returns a flat list if page's blocks
      *
-     * return a flat list if page's blocks
-     *
-     * @param  $page
+     * @param PageInterface $page
      * @return
      */
     public function getBlocksById(PageInterface $page)
     {
         $blocks = $this->entityManager
-            ->createQuery('SELECT b FROM Application\Sonata\PageBundle\Entity\Block b INDEX BY b.id WHERE b.page = :page ORDER BY b.position ASC')
+            ->createQuery(sprintf('SELECT b FROM %s b INDEX BY b.id WHERE b.page = :page ORDER BY b.position ASC', $this->class))
             ->setParameters(array(
                  'page' => $page->getId()
             ))
@@ -100,18 +101,17 @@ class BlockManager implements BlockManagerInterface
     /**
      * Save block by re attaching a page to the correct page and correct block's parent.
      *
-     * @param  $blocks
-     * @param  $parentId
+     * @param array $blocks
+     * @param integer $parentId
      * @return
      */
     protected function saveNestedPosition($blocks, $parentId)
     {
-
         if (!is_array($blocks)) {
             return;
         }
 
-        $tableName = $this->entityManager->getClassMetadata('Application\Sonata\PageBundle\Entity\Block')->table['name'];
+        $tableName = $this->entityManager->getClassMetadata($this->class)->table['name'];
 
         $position = 1;
         foreach ($blocks as $code => $block) {
@@ -136,9 +136,13 @@ class BlockManager implements BlockManagerInterface
         }
     }
 
+    /**
+     * @param array $values
+     * @return \Sonata\PageBundle\Model\BlockInterface
+     */
     public function createNewContainer(array $values = array())
     {
-        $container = new \Application\Sonata\PageBundle\Entity\Block;
+        $container = $this->create();
         $container->setEnabled(isset($values['enabled']) ? $values['enabled'] : true);
         $container->setCreatedAt(new \DateTime);
         $container->setUpdatedAt(new \DateTime);
@@ -150,10 +154,10 @@ class BlockManager implements BlockManagerInterface
         return $container;
     }
 
-        /**
+    /**
      * load blocks attached the given page
      *
-     * @param  $page
+     * @param \Sonata\PageBundle\Model\PageInterface $page
      * @return array $blocks
      */
     public function loadPageBlocks(PageInterface $page)
@@ -189,5 +193,13 @@ class BlockManager implements BlockManagerInterface
         $this->entityManager->flush();
 
         return $page;
+    }
+
+     /**
+     * @return \Sonata\PageBundle\Model\BlockInterface
+     */
+    public function create()
+    {
+        return $this->class;
     }
 }

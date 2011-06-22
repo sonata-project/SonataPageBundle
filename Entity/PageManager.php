@@ -23,16 +23,12 @@ class PageManager implements PageManagerInterface
 {
     protected $entityManager;
 
-    protected $snapshotHandler;
+    protected $class;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager, $class = 'Application\Sonata\PageBundle\Entity\Page')
     {
         $this->entityManager = $entityManager;
-
-        $class = 'Application\Sonata\PageBundle\Entity\Page';
-        if (class_exists($class)) {
-            $this->repository = $this->entityManager->getRepository($class);
-        }
+        $this->class         = $class;
     }
 
     /**
@@ -57,6 +53,11 @@ class PageManager implements PageManagerInterface
         return count($pages) > 0 ? $pages[0] : false;
     }
 
+    protected function getRepository()
+    {
+        return $this->entityManager->getRepository($this->class);
+    }
+
     /**
      * return a page with the give slug
      *
@@ -75,7 +76,6 @@ class PageManager implements PageManagerInterface
             ))
             ->getQuery()
             ->execute();
-
 
         return count($pages) > 0 ? $pages[0] : false;
     }
@@ -154,12 +154,12 @@ class PageManager implements PageManagerInterface
 
     public function findBy(array $criteria = array())
     {
-        return $this->repository->findBy($criteria);
+        return $this->getRepository()->findBy($criteria);
     }
 
     public function findOneBy(array $criteria = array())
     {
-        return $this->repository->findOneBy($criteria);
+        return $this->getRepository()->findOneBy($criteria);
     }
 
     public function loadPages()
