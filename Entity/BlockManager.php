@@ -22,6 +22,8 @@ class BlockManager implements BlockManagerInterface
 
     protected $class;
 
+    protected $pageBlocksLoaded = array();
+
     public function __construct(EntityManager $entityManager, $class = 'Application\Sonata\PageBundle\Entity\Block')
     {
         $this->entityManager = $entityManager;
@@ -79,7 +81,6 @@ class BlockManager implements BlockManagerInterface
 
         try {
             foreach ($data as $code => $block) {
-
                 $parent_id = (int) substr($code, 10);
 
                 $block['child'] = (isset($block['child']) && is_array($block['child'])) ? $block['child'] : array();
@@ -162,6 +163,10 @@ class BlockManager implements BlockManagerInterface
      */
     public function loadPageBlocks(PageInterface $page)
     {
+        if (isset($this->pageBlocksLoaded[$page->getId()])) {
+            return array();
+        }
+
         $blocks = $this->getBlocksById($page);
 
         $page->disableBlockLazyLoading();
@@ -179,6 +184,8 @@ class BlockManager implements BlockManagerInterface
             $blocks[$block->getParent()->getId()]->disableChildrenLazyLoading();
             $blocks[$block->getParent()->getId()]->addChildren($block);
         }
+
+        $this->pageBlocksLoaded[$page->getId()] = true;
 
         return $blocks;
     }
