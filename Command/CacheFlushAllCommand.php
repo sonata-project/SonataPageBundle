@@ -11,14 +11,14 @@
 
 namespace Sonata\PageBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\Command;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\Output;
 
-class CacheFlushAllCommand extends Command
+class CacheFlushAllCommand extends ContainerAwareCommand
 {
     public function configure()
     {
@@ -56,6 +56,6 @@ class CacheFlushAllCommand extends Command
      */
     public function getManager($manager)
     {
-        return $this->container->get('sonata.page.cms.'.$manager);
+        return $this->getContainer()->get('sonata.page.cms.'.$manager);
     }
 }

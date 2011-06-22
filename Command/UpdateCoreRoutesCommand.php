@@ -11,14 +11,14 @@
 
 namespace Sonata\PageBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\Command;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\Output;
 
-class UpdateCoreRoutesCommand extends Command
+class UpdateCoreRoutesCommand extends ContainerAwareCommand
 {
     public function configure()
     {
@@ -28,7 +28,7 @@ class UpdateCoreRoutesCommand extends Command
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $router      = $this->container->get('router');
+        $router      = $this->getContainer()->get('router');
         $cmsManager  = $this->getManager();
         $pageManager = $cmsManager->getPageManager();
 
@@ -94,6 +94,6 @@ class UpdateCoreRoutesCommand extends Command
      */
     public function getManager()
     {
-        return $this->container->get('sonata.page.cms.page');
+        return $this->getContainer()->get('sonata.page.cms.page');
     }
 }
