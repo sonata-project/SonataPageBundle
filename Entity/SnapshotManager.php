@@ -26,14 +26,12 @@ class SnapshotManager implements SnapshotManagerInterface
 
     protected $children = array();
 
-    public function __construct(EntityManager $entityManager)
+    protected $class;
+
+    public function __construct(EntityManager $entityManager, $class = 'Application\Sonata\PageBundle\Entity\Snapshot')
     {
         $this->entityManager = $entityManager;
-
-        $class = 'Application\Sonata\PageBundle\Entity\Snapshot';
-        if (class_exists($class)) {
-            $this->repository = $this->entityManager->getRepository($class);
-        }
+        $this->class         = $class;
     }
 
     /**
@@ -46,6 +44,11 @@ class SnapshotManager implements SnapshotManagerInterface
         $this->entityManager->flush();
 
         return $snapshot;
+    }
+
+    protected function getRepository()
+    {
+        return $this->entityManager->getRepository($this->class);
     }
 
     /**
@@ -94,7 +97,7 @@ class SnapshotManager implements SnapshotManagerInterface
      */
     public function findBy(array $criteria = array())
     {
-        return $this->repository->findBy($criteria);
+        return $this->getRepository()->findBy($criteria);
     }
 
     public function findEnableSnapshot(array $criteria = array())
@@ -104,7 +107,7 @@ class SnapshotManager implements SnapshotManagerInterface
             'publicationDateStart'  => $date,
             'publicationDateEnd'    => $date,
         );
-        $query = $this->repository
+        $query = $this->getRepository()
             ->createQueryBuilder('s')
             ->andWhere('s.publicationDateStart <= :publicationDateStart AND ( s.publicationDateEnd IS NULL OR s.publicationDateEnd >= :publicationDateEnd )');
 
@@ -135,7 +138,7 @@ class SnapshotManager implements SnapshotManagerInterface
      */
     public function findOneBy(array $criteria = array())
     {
-        return $this->repository->findOneBy($criteria);
+        return $this->getRepository()->findOneBy($criteria);
     }
 
       /**

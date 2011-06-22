@@ -32,8 +32,16 @@ class UpdateCoreRoutesCommand extends ContainerAwareCommand
         $cmsManager  = $this->getManager();
         $pageManager = $cmsManager->getPageManager();
 
+        $output->writeln(array(
+            "<comment>Updating/Creating hybrid pages</comment>",
+            str_repeat('-', 80)
+        ));
+
+        $knowRoutes = array();
         foreach ($router->getRouteCollection()->all() as $name => $route) {
             $name = trim($name);
+
+            $knowRoutes[] = $name;
 
             $page = $pageManager->getPageByName($name);
 
@@ -73,12 +81,12 @@ class UpdateCoreRoutesCommand extends ContainerAwareCommand
 
                 // todo : put some default value into the configuration file
                 $page = $pageManager->createNewPage(array(
-                    'template'      => $manager->getDefaultTemplate(),
+                    'template'      => $pageManager->getDefaultTemplate(),
                     'enabled'       => true,
                     'routeName'     => $name,
                     'name'          => $name,
                     'loginRequired' => false,
-                    'slug'          => $route->getPattern(),
+                    'url'           => $route->getPattern(),
                 ));
             }
 
@@ -86,6 +94,36 @@ class UpdateCoreRoutesCommand extends ContainerAwareCommand
             $pageManager->save($page);
 
             $output->writeln(sprintf('<info>%s</info> % -50s %s', $update ? 'UPDATE ' : 'CREATE ', $name, $route->getPattern()));
+        }
+
+        $has = false;
+        foreach($pageManager->getHybridPages() as $page) {
+            if (!$page->isHybrid() || $page->isInternal()) {
+                continue;
+            }
+
+            if (!in_array($page->getRouteName(), $knowRoutes)) {
+                if (!$has) {
+                    $has = true;
+                    $output->writeln(array(
+                        '',
+                        'Some hybrid pages does not exist anymore',
+                         str_repeat('-', 80)
+                    ));
+                }
+
+                $output->writeln(sprintf('<error>ERROR</error>   %s', $page->getRouteName()));
+            }
+        }
+
+        if ($has) {
+            $output->writeln(<<<MSG
+<error>
+  *WARNING* : Pages has been updated however some pages do not exist anymore.
+              You must remove them manually.
+</error>
+MSG
+);
         }
     }
 

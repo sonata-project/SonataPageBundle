@@ -59,6 +59,7 @@ abstract class BasePage implements PageInterface
     {
         $this->routeName = PageInterface::PAGE_ROUTE_CMS_NAME;
         $this->children = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->blocks   = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

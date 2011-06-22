@@ -41,7 +41,7 @@ class PageManager implements PageManagerInterface
     {
         $pages = $this->entityManager->createQueryBuilder()
             ->select('p, t')
-            ->from('Application\Sonata\PageBundle\Entity\Page', 'p')
+            ->from( $this->class, 'p')
             ->where('p.routeName = :routeName')
             ->leftJoin('p.template', 't')
             ->setParameters(array(
@@ -68,7 +68,7 @@ class PageManager implements PageManagerInterface
     {
         $pages = $this->entityManager->createQueryBuilder()
             ->select('p')
-            ->from('Application\Sonata\PageBundle\Entity\Page', 'p')
+            ->from( $this->class, 'p')
             ->leftJoin('p.template', 't')
             ->where('p.url = :url')
             ->setParameters(array(
@@ -104,6 +104,7 @@ class PageManager implements PageManagerInterface
         $page->setRouteName(isset($defaults['routeName']) ? $defaults['routeName'] : null);
         $page->setName(isset($defaults['name']) ? $defaults['name'] : null);
         $page->setSlug(isset($defaults['slug']) ? $defaults['slug'] : null);
+        $page->setUrl(isset($defaults['url']) ? $defaults['url'] : null);
         $page->setCreatedAt(new \DateTime);
         $page->setUpdatedAt(new \DateTime);
 
@@ -165,7 +166,7 @@ class PageManager implements PageManagerInterface
     public function loadPages()
     {
         $pages = $this->entityManager
-            ->createQuery('SELECT p FROM Application\Sonata\PageBundle\Entity\Page p INDEX BY p.id ORDER BY p.position ASC')
+            ->createQuery(sprintf('SELECT p FROM %s p INDEX BY p.id ORDER BY p.position ASC', $this->class))
             ->execute();
 
         foreach ($pages as $page) {
@@ -181,5 +182,18 @@ class PageManager implements PageManagerInterface
         }
 
         return $pages;
+    }
+
+    public function getHybridPages()
+    {
+        return $this->entityManager->createQueryBuilder()
+            ->select('p')
+            ->from( $this->class, 'p')
+            ->where('p.routeName <> :routeName')
+            ->setParameters(array(
+                'routeName' => PageInterface::PAGE_ROUTE_CMS_NAME
+            ))
+            ->getQuery()
+            ->execute();
     }
 }
