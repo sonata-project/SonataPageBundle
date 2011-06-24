@@ -40,7 +40,7 @@ entities for the page::
 
     The command will generate domain objects in an ``Application`` namespace.
     So you can point entities' associations to a global and common namespace.
-    This will make Entities sharing very easier as your models are accessible
+    This will make Entities sharing very easily as your models are accessible
     through a global namespace. For instance the page will be
     ``Application\Sonata\PageBundle\Entity\Page``.
 

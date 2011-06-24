@@ -8,6 +8,7 @@
         <parameter key="sonata.page.block.action.class">Sonata\PageBundle\Block\ActionBlockService</parameter>
         <parameter key="sonata.page.block.container.class">Sonata\PageBundle\Block\ContainerBlockService</parameter>
         <parameter key="sonata.page.block.children_pages.class">Sonata\PageBundle\Block\ChildrenPagesBlockService</parameter>
+        <parameter key="sonata.page.block.rss.class">Sonata\PageBundle\Block\RssBlockService</parameter>
     </parameters>
 
     <services>
@@ -33,6 +34,12 @@
         <service id="sonata.page.block.children_pages" class="%sonata.page.block.children_pages.class%" public="false">
             <tag name="sonata.page.block" />
             <argument>sonata.page.block.children_pages</argument>
+            <argument type="service" id="templating" />
+        </service>
+
+        <service id="sonata.page.block.rss" class="%sonata.page.block.rss.class%" public="false">
+            <tag name="sonata.page.block" />
+            <argument>sonata.page.block.rss</argument>
             <argument type="service" id="templating" />
         </service>
     </services>

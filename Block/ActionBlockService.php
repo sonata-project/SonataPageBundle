@@ -18,8 +18,8 @@ use Symfony\Component\Templating\EngineInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\PageBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
-use Symfony\Bundle\FrameworkBundle\Generator\Generator;
-
+use Sonata\PageBundle\Generator\Mustache;
+use Sonata\AdminBundle\Validator\ErrorElement;
 
 /**
  * PageExtension
@@ -56,7 +56,7 @@ class ActionBlockService extends BaseBlockService
             throw $e;
         }
 
-        $content = Generator::renderString($block->getSetting('layout'), array(
+        $content = Mustache::replace($block->getSetting('layout'), array(
             'CONTENT' => $actionContent
         ));
 
@@ -67,7 +67,7 @@ class ActionBlockService extends BaseBlockService
         ), $response);
     }
 
-    public function validateBlock(BlockInterface $block)
+    public function validateBlock(ErrorElement $errorElement, BlockInterface $block)
     {
         // TODO: Implement validateBlock() method.
     }
@@ -78,22 +78,6 @@ class ActionBlockService extends BaseBlockService
      * @return void
      */
     public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
-    {
-        $formMapper->addType('settings', 'sonata_type_immutable_array', array(
-            'keys' => array(
-                array('layout', 'textarea', array()),
-                array('action', 'text', array()),
-                array('parameters', 'text', array()),
-            )
-        ));
-    }
-
-    /**
-     * @param \Sonata\AdminBundle\Form\FormMapper $formMapper
-     * @param \Sonata\PageBundle\Model\BlockInterface $block
-     * @return void
-     */
-    public function buildCreateForm(FormMapper $formMapper, BlockInterface $block)
     {
         $formMapper->addType('settings', 'sonata_type_immutable_array', array(
             'keys' => array(

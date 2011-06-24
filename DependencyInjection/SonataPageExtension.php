@@ -44,6 +44,7 @@ class SonataPageExtension extends Extension
         $loader->load('form.xml');
         $loader->load('cache.xml');
         $loader->load('twig.xml');
+        $loader->load('validator.xml');
 
         // todo: use the configuration class
         $configs = call_user_func_array('array_merge_recursive', $configs);
@@ -133,7 +134,6 @@ class SonataPageExtension extends Extension
 
     public function getAlias()
     {
-
         return "sonata_page";
     }
 }

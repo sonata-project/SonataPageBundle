@@ -24,6 +24,7 @@ use Sonata\PageBundle\Cache\CacheInterface;
 use Sonata\PageBundle\Cache\Invalidation\InvalidationInterface;
 use Sonata\PageBundle\Cache\CacheElement;
 use Sonata\AdminBundle\Admin\AdminInterface;
+use Sonata\AdminBundle\Validator\ErrorElement;
 
 /**
  * The Manager class is in charge of retrieving the correct page (cms page or action page)
@@ -303,5 +304,11 @@ class CmsPageManager extends BaseCmsPageManager
     public function getPageAdmin()
     {
         return $this->pageAdmin;
+    }
+
+    public function validateBlock(ErrorElement $errorElement, BlockInterface $block)
+    {
+        $service = $this->getBlockService($block);
+        $service->validateBlock($errorElement, $block);
     }
 }

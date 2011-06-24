@@ -5,7 +5,6 @@
         http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
 
     <class name="Application\Sonata\PageBundle\Entity\Page">
-
         <property name="name">
            <constraint name="NotNull" >
                <option name="groups" >
@@ -14,7 +13,13 @@
                </option>
            </constraint>
         </property>
-
     </class>
 
+    <class name="Application\Sonata\PageBundle\Entity\Block">
+        <!-- this constraint allows validation delegation to the Block Service-->
+        <constraint name="Sonata\AdminBundle\Validator\Constraints\InlineConstraint">
+            <option name="service">sonata.page.cms.page</option>
+            <option name="method">validateBlock</option>
+        </constraint>
+    </class>
 </constraint-mapping>

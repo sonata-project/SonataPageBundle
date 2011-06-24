@@ -12,11 +12,11 @@
 namespace Sonata\PageBundle\Block;
 
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Form\Form;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\PageBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
-use Symfony\Bundle\FrameworkBundle\Generator\Generator;
+use Sonata\PageBundle\Generator\Mustache;
+use Sonata\AdminBundle\Validator\ErrorElement;
 
 /**
  * PageExtension
@@ -43,7 +43,7 @@ class ContainerBlockService extends BaseBlockService
             'page'      => $page,
         ), $response);
 
-        $response->setContent(Generator::renderString($settings['layout'], array(
+        $response->setContent(Mustache::replace($settings['layout'], array(
             'CONTENT' => $response->getContent()
         )));
 
@@ -54,7 +54,7 @@ class ContainerBlockService extends BaseBlockService
      * @param \Sonata\PageBundle\Model\BlockInterface $block
      * @return void
      */
-    public function validateBlock(BlockInterface $block)
+    public function validateBlock(ErrorElement $errorElement, BlockInterface $block)
     {
         // TODO: Implement validateBlock() method.
     }

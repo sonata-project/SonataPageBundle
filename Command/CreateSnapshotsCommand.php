@@ -28,7 +28,6 @@ class CreateSnapshotsCommand extends ContainerAwareCommand
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-
         $pageManager = $this->getContainer()->get('sonata.page.manager.page');
         $snapshotManager = $this->getContainer()->get('sonata.page.manager.snapshot');
 

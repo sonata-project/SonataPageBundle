@@ -19,6 +19,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\PageBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerInterface;
+use Sonata\AdminBundle\Validator\ErrorElement;
 
 interface BlockServiceInterface
 {
@@ -49,10 +50,11 @@ interface BlockServiceInterface
 
     /**
      * @abstract
+     * @param \Sonata\AdminBundle\Validator\ErrorElement $errorElement
      * @param \Sonata\PageBundle\Model\BlockInterface $block
      * @return void
      */
-    function validateBlock(BlockInterface $block);
+    function validateBlock(ErrorElement $errorElement, BlockInterface $block);
 
     /**
      * @abstract
@@ -75,6 +77,10 @@ interface BlockServiceInterface
      */
     function getCacheElement(BlockInterface $block);
 
+    /**
+     *
+     * @param \Sonata\PageBundle\CmsManagerInterface $manager
+     */
     function setManager(CmsManagerInterface $manager);
 
     /**

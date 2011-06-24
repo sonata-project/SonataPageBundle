@@ -16,6 +16,7 @@ use Symfony\Component\Templating\EngineInterface;
 use Sonata\PageBundle\Model\BlockInterface;
 use Sonata\PageBundle\Cache\CacheElement;
 use Sonata\PageBundle\CmsManager\CmsManagerInterface;
+use Sonata\AdminBundle\Form\FormMapper;
 
 /**
  * BaseBlockService
@@ -87,6 +88,11 @@ abstract class BaseBlockService implements BlockServiceInterface
     public function setManager(CmsManagerInterface $manager)
     {
         $this->manager = $manager;
+    }
+
+    public function buildCreateForm(FormMapper $formMapper, BlockInterface $block)
+    {
+        return $this->buildEditForm($formMapper, $block);
     }
 
     public function prePersist(BlockInterface $block)
