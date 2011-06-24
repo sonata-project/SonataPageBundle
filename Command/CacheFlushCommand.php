@@ -74,7 +74,7 @@ class CacheFlushCommand extends ContainerAwareCommand
                 $output->writeln('<error>the provided keys cannot be decoded, please provide a valid json string</error>');
             }
 
-            foreach($caches as $name => $cache) {
+            foreach ($caches as $name => $cache) {
                 $output->write(sprintf(' > %s : starting .... ', $name));
                 $cache->flush($keys);
                 $output->writeln('OK');

@@ -97,7 +97,7 @@ class UpdateCoreRoutesCommand extends ContainerAwareCommand
         }
 
         $has = false;
-        foreach($pageManager->getHybridPages() as $page) {
+        foreach ($pageManager->getHybridPages() as $page) {
             if (!$page->isHybrid() || $page->isInternal()) {
                 continue;
             }

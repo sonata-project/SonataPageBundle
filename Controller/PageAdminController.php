@@ -25,7 +25,7 @@ class PageAdminController extends Controller
         }
 
         $snapshotManager = $this->get('sonata.page.manager.snapshot');
-        foreach($idx as $id) {
+        foreach ($idx as $id) {
             $page = $this->get('sonata.page.cms.page')->getPageById($id);
 
             if ($page) {
@@ -52,7 +52,7 @@ class PageAdminController extends Controller
 
             $pages = $this->get('sonata.page.manager.page')->findBy(array());
             $snapshots = array();
-            foreach($pages as $page) {
+            foreach ($pages as $page) {
                 $snapshot = $snapshotManager->create($page);
                 $snapshotManager->save($snapshot);
 

@@ -55,7 +55,7 @@ class SonataPageExtension extends Extension
         $cmsPage->addMethodCall('setOptions', array($configs));
         $cmsSnapshot->addMethodCall('setOptions', array($configs));
 
-        foreach($configs['services'] as $id => $settings) {
+        foreach ($configs['services'] as $id => $settings) {
             $cache = isset($settings['cache']) ? $settings['cache'] : 'sonata.page.cache.noop';
 
             $cmsPage->addMethodCall('addCacheService', array($id, new Reference($cache)));

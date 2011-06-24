@@ -87,7 +87,7 @@ class ParentSelectorType extends ModelType
 
     private function childWalker(PageInterface $page, PageInterface $currentPage = null, &$roots, $level = 1)
     {
-        foreach($page->getChildren() as $child) {
+        foreach ($page->getChildren() as $child) {
             if ($currentPage && $currentPage->getId() == $child->getId()) {
                 continue;
             }

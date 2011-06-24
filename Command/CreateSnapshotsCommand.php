@@ -34,7 +34,7 @@ class CreateSnapshotsCommand extends ContainerAwareCommand
         $snapshots = array();
         $pages = $pageManager->findBy();
         $count = count($pages);
-        foreach($pages as $pos => $page) {
+        foreach ($pages as $pos => $page) {
             $output->write(sprintf('<info>%03d/%03d</info> % -50s ...', $pos + 1, $count, $page->getUrl()));
             $snapshot = $snapshotManager->create($page);
             $snapshotManager->save($snapshot);

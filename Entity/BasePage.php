@@ -458,7 +458,7 @@ abstract class BasePage implements PageInterface
         if ($this->ttl === null) {
             $ttl = 84600 * 10; // todo : change this value
 
-            foreach($this->getBlocks() as $block) {
+            foreach ($this->getBlocks() as $block) {
                 $blockTtl = $block->getTtl();
 
                 $ttl = ($blockTtl < $ttl) ? $blockTtl : $ttl ;

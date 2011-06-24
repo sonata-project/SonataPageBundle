@@ -47,7 +47,7 @@ class ServiceListType extends ChoiceType
     public function getBlockTypes()
     {
         $types = array();
-        foreach($this->manager->getBlockServices() as $code => $service)
+        foreach ($this->manager->getBlockServices() as $code => $service)
         {
             $types[$code] = sprintf('%s - %s', $service->getName(), $code);
         }

@@ -27,7 +27,7 @@ class SnapshotAdminController extends Controller
 
         $request = $this->get('request');
 
-        if( $request->getMethod() == 'POST' && $request->get('create')) {
+        if ( $request->getMethod() == 'POST' && $request->get('create')) {
             $page = $this->admin->getParent()->getSubject();
             $snapshotManager = $this->get('sonata.page.manager.snapshot');
 
@@ -52,7 +52,7 @@ class SnapshotAdminController extends Controller
         }
 
         $snapshotManager = $this->get('sonata.page.manager.snapshot');
-        foreach($idx as $id) {
+        foreach ($idx as $id) {
             $snapshot = $snapshotManager->findOneBy(array('id' => $id));
 
             if ($snapshot) {

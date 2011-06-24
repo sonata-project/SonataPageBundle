@@ -67,7 +67,7 @@ class SnapshotManager implements SnapshotManagerInterface
 
         $now = new \DateTime;
         $pageIds = $snapshotIds = array();
-        foreach($snapshots as $snapshot) {
+        foreach ($snapshots as $snapshot) {
             $pageIds[] = $snapshot->getPage()->getId();
             $snapshotIds[] = $snapshot->getId();
 
@@ -301,7 +301,7 @@ class SnapshotManager implements SnapshotManagerInterface
 
         $snapshot = count($snapshots) > 0 ? $snapshots[0] : false;
 
-        if($snapshot) {
+        if ($snapshot) {
             return $this->load($snapshot);
         }
 
@@ -328,7 +328,7 @@ class SnapshotManager implements SnapshotManagerInterface
                 ->execute();
 
             $pages = array();
-            foreach($snapshots as $snapshot) {
+            foreach ($snapshots as $snapshot) {
                 $page = $this->load($snapshot);
                 $pages[$page->getId()] = $page;
             }

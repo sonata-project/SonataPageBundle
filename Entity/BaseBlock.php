@@ -15,7 +15,6 @@ use Sonata\PageBundle\Model\PageInterface;
 
 abstract class BaseBlock implements BlockInterface
 {
-
     protected $settings;
 
     protected $enabled;
@@ -292,7 +291,7 @@ abstract class BaseBlock implements BlockInterface
         if ($this->ttl === null) {
             $ttl = $this->getSetting('ttl', 84600);
 
-            foreach($this->getChildren() as $block) {
+            foreach ($this->getChildren() as $block) {
                 $blockTtl = $block->getTtl();
 
                 $ttl = ($blockTtl < $ttl) ? $blockTtl : $ttl;

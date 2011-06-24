@@ -128,7 +128,7 @@ class PageManager implements PageManagerInterface
             }
         }
 
-        foreach($page->getChildren() as $child) {
+        foreach ($page->getChildren() as $child) {
             $this->fixUrl($child);
         }
     }

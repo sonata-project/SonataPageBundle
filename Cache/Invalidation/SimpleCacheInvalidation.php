@@ -26,7 +26,7 @@ class SimpleCacheInvalidation implements InvalidationInterface
     {
         $keys = $cacheElement->getKeys();
 
-        foreach($caches as $cache) {
+        foreach ($caches as $cache) {
             $cache->flush(array(
                 'page_id' => $keys['page_id']
             ));

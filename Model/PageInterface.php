@@ -249,10 +249,7 @@ interface PageInterface
 
     function isHybrid();
 
-    function __toString();
-
     function setPosition($position);
 
     function getPosition();
-
 }

@@ -208,7 +208,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
     {
         $i = new RecursiveBlockIterator($page->getBlocks());
 
-        foreach($i as $block) {
+        foreach ($i as $block) {
             $this->blocks[$block->getId()] = $block;
         }
     }
