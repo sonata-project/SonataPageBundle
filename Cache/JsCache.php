@@ -12,6 +12,8 @@ namespace Sonata\PageBundle\Cache;
 
 use Symfony\Component\Routing\Router;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class JsCache implements CacheInterface
 {
@@ -19,14 +21,17 @@ class JsCache implements CacheInterface
 
     protected $sync;
 
+    protected $container;
+
     /**
      * @param \Symfony\Component\Routing\Router $router
      * @param bool $sync
      */
-    public function __construct(Router $router, $sync = false)
+    public function __construct(Router $router, $sync = false, ContainerInterface $container = null)
     {
         $this->router = $router;
         $this->sync   = $sync;
+        $this->container = $container;
     }
 
     public function flushAll()
@@ -87,9 +92,7 @@ class JsCache implements CacheInterface
 </script>
 </div>
 CONTENT
-, $keys['block_id'], $keys['block_id'], $this->getUrl($cacheElement));
-
-
+, $keys['block_id'], $keys['block_id'], $this->getUrl('sonata_page_js_sync_cache', $cacheElement));
     }
 
     protected function getAsync(CacheElement $cacheElement)
@@ -113,9 +116,7 @@ CONTENT
   </script>
 </div>
 CONTENT
-, $keys['block_id'], $this->getUrl($cacheElement));
-
-
+, $keys['block_id'], $this->getUrl('sonata_page_js_async_cache', $cacheElement));
     }
 
     public function set(CacheElement $cacheElement)
@@ -123,10 +124,60 @@ CONTENT
         // todo : nothing to do
     }
 
-    public function getUrl(CacheElement $cacheElement)
+    public function getUrl($name, CacheElement $cacheElement)
     {
         $parameters = $cacheElement->getKeys();
-        $parameters['_sync'] = $this->sync;
-        return $this->router->generate('sonata_page_js_cache', $parameters, true);
+        return $this->router->generate($name, $parameters, true);
+    }
+
+    public function cacheAction()
+    {
+        if (!$this->container) {
+            throw new \RunTimeException('Please define a ContainerInterface instance');
+        }
+
+        $request = $this->container->get('request');
+
+        $securityContext = $this->container->get('security.context');
+
+        if ($securityContext->isGranted('ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT')) {
+            $manager = $this->container->get('sonata.page.cms.page');
+        } else {
+            $manager = $this->container->get('sonata.page.cms.snapshot');
+        }
+
+        $page    = $manager->getPageById($request->get('page_id'));
+        $block   = $manager->getBlock($request->get('block_id'));
+
+        if (!$page || !$block) {
+            return new Response('', 404);
+        }
+
+        $response = $manager->renderBlock($block, $page, false);
+        $response->setPrivate(); //  always set to private
+
+        if ($this->sync) {
+            return $response;
+        }
+
+        $response->setContent(sprintf(<<<JS
+    (function () {
+      var block = document.getElementById('block-cms-%s');
+
+      var div = document.createElement("div");
+      div.innerHTML = %s;
+
+      for (var node in div.childNodes) {
+        if (div.childNodes[node] && div.childNodes[node].nodeType == 1) {
+          block.parentNode.replaceChild(div.childNodes[node], block);
+        }
+      }
+    })();
+JS
+, $block->getId(), json_encode($response->getContent())));
+
+        $response->headers->set('Content-Type', 'application/javascript');
+
+        return $response;
     }
 }

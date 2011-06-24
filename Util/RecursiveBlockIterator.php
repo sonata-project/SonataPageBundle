@@ -8,11 +8,19 @@
  * file that was distributed with this source code.
  */
 
-
 namespace Sonata\PageBundle\Util;
 
 class RecursiveBlockIterator extends \ArrayIterator implements \RecursiveIterator
 {
+    public function __construct($array)
+    {
+        if (is_object($array)) {
+            $array = $array->toArray();
+        }
+
+        parent::__construct($array);
+    }
+
     public function getChildren()
     {
         return new self($this->current()->getChildren());

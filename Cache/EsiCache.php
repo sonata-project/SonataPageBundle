@@ -13,6 +13,7 @@ namespace Sonata\PageBundle\Cache;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Process\Process;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * http://www.varnish-cache.org/docs/2.1/reference/varnishadm.html
@@ -29,10 +30,13 @@ class EsiCache implements CacheInterface
 
     protected $servers;
 
-    public function __construct(array $servers = array(), Router $router)
+    protected $container;
+
+    public function __construct(array $servers = array(), Router $router, ContainerInterface $container = null)
     {
-        $this->servers = $servers;
-        $this->router  = $router;
+        $this->servers   = $servers;
+        $this->router    = $router;
+        $this->container = $container;
     }
 
     public function flushAll()
@@ -48,7 +52,7 @@ class EsiCache implements CacheInterface
     private function runCommand($command, $expression)
     {
         $return = true;
-        foreach($this->servers as $server) {
+        foreach ($this->servers as $server) {
             $command = str_replace(array('{{ COMMAND }}', '{{ EXPRESSION }}'), array($command, $expression), $server);
 
             $process = new Process($command);
@@ -65,7 +69,7 @@ class EsiCache implements CacheInterface
     public function flush(array $keys = array())
     {
         $parameters = array();
-        foreach($keys as $key => $value) {
+        foreach ($keys as $key => $value) {
             $key = strtr(strtolower($key), '_', '-');
             $parameters[] = sprintf('obj.http.x-sonata-%s == %s', $key, $value);
         }
@@ -95,8 +99,41 @@ class EsiCache implements CacheInterface
         // todo : prefetch the url ?
     }
 
-    public function getUrl(CacheElement $cacheElement)
+    protected function getUrl(CacheElement $cacheElement)
     {
         return $this->router->generate('sonata_page_esi_cache', $cacheElement->getKeys(), true);
+    }
+
+    public function cacheAction()
+    {
+        $request = $this->container->get('request');
+        if ($request->get('manager') == 'page') {
+            $manager = $this->container->get('sonata.page.cms.page');
+        } else {
+            $manager = $this->container->get('sonata.page.cms.snapshot');
+        }
+
+        $page    = $manager->getPageById($request->get('page_id'));
+        $block   = $manager->getBlock($request->get('block_id'));
+
+        if (!$page || !$block) {
+            return new Response('', 404);
+        }
+
+        $response = $manager->renderBlock($block, $page, false);
+
+        if ($request->get('handler') == 'page') {
+            $response->setPrivate();
+        } else {
+            $response->setPublic();
+            $response->headers->add(array(
+                'x-sonata-block-id'    => $block->getId(),
+                'x-sonata-page-id'     => $page->getId(),
+                'x-sonata-block-type'  => $block->getType(),
+                'x-sonata-page-route'  => $page->getRouteName(),
+            ));
+        }
+
+        return $response;
     }
 }

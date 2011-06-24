@@ -12,6 +12,7 @@ namespace Sonata\PageBundle\Cache;
 
 use Symfony\Component\Routing\Router;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class ApcCache implements CacheInterface
 {
@@ -39,7 +40,7 @@ class ApcCache implements CacheInterface
     public function flushAll()
     {
         $result = true;
-        foreach($this->servers as $server) {
+        foreach ($this->servers as $server) {
             if (count(explode('.', $server['ip']) == 3)) {
                 $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
             } else {
@@ -110,5 +111,18 @@ class ApcCache implements CacheInterface
     public function get(CacheElement $cacheElement)
     {
         return apc_fetch($this->computeCacheKeys($cacheElement));
+    }
+
+    public function cacheAction($token)
+    {
+        if ($this->getToken() == $token) {
+            apc_clear_cache('user');
+
+            return new Response('ok', 200, array(
+                'Cache-Control' => 'no-cache, must-revalidate'
+            ));
+        }
+
+        throw new AccessDeniedException('invalid token');
     }
 }

@@ -4,15 +4,19 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="sonata_page_esi_cache" pattern="/sonata/page/cache-esi">
-        <default key="_controller">SonataPageBundle:Cache:esi</default>
+    <route id="sonata_page_esi_cache" pattern="/sonata/page/cache/esi">
+        <default key="_controller">sonata.page.cache.esi:cacheAction</default>
     </route>
 
-    <route id="sonata_page_js_cache" pattern="/sonata/page/cache-js">
-        <default key="_controller">SonataPageBundle:Cache:js</default>
+    <route id="sonata_page_js_async_cache" pattern="/sonata/page/cache/js-async">
+        <default key="_controller">sonata.page.cache.js_async:cacheAction</default>
     </route>
 
-    <route id="sonata_page_apc_cache" pattern="/sonata/page/cache-apc/{token}">
-        <default key="_controller">SonataPageBundle:Cache:apc</default>
+    <route id="sonata_page_js_sync_cache" pattern="/sonata/page/cache/js-sync">
+        <default key="_controller">sonata.page.cache.js_sync:cacheAction</default>
+    </route>
+
+    <route id="sonata_page_apc_cache" pattern="/sonata/page/cache/apc/{token}">
+        <default key="_controller">sonata.page.cache.apc:cacheAction</default>
     </route>
 </routes>
