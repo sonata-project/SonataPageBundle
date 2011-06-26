@@ -90,4 +90,9 @@ class MemcachedCache implements CacheInterface
     {
         return $this->getCollection()->get($this->computeCacheKeys($cacheElement));
     }
+
+    public function isContextual()
+    {
+        return false;
+    }
 }

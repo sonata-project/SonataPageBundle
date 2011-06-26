@@ -125,4 +125,9 @@ class ApcCache implements CacheInterface
 
         throw new AccessDeniedException('invalid token');
     }
+
+    public function isContextual()
+    {
+        return false;
+    }
 }

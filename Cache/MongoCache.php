@@ -101,4 +101,9 @@ class MongoCache implements CacheInterface
 
         return null;
     }
+
+    public function isContextual()
+    {
+        return true;
+    }
 }

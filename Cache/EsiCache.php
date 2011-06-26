@@ -70,8 +70,7 @@ class EsiCache implements CacheInterface
     {
         $parameters = array();
         foreach ($keys as $key => $value) {
-            $key = strtr(strtolower($key), '_', '-');
-            $parameters[] = sprintf('obj.http.x-sonata-%s == %s', $key, $value);
+            $parameters[] = sprintf('obj.http.%s ~ %s', $this->normalize($key), $value);
         }
 
         $purge = implode(" && ", $parameters);
@@ -104,6 +103,12 @@ class EsiCache implements CacheInterface
         return $this->router->generate('sonata_page_esi_cache', $cacheElement->getKeys(), true);
     }
 
+    protected function normalize($key)
+    {
+        $key = strtolower($key);
+        return sprintf('x-sonata-%s', str_replace(array('_', '\\'), '-', $key));
+    }
+
     public function cacheAction()
     {
         $request = $this->container->get('request');
@@ -120,20 +125,44 @@ class EsiCache implements CacheInterface
             return new Response('', 404);
         }
 
+        $recorder = $manager->getRecorder();
+        if ($recorder) {
+            $recorder->reset();
+        }
+
         $response = $manager->renderBlock($block, $page, false);
 
         if ($request->get('handler') == 'page') {
             $response->setPrivate();
         } else {
             $response->setPublic();
-            $response->headers->add(array(
+
+            $headers = array(
                 'x-sonata-block-id'    => $block->getId(),
                 'x-sonata-page-id'     => $page->getId(),
                 'x-sonata-block-type'  => $block->getType(),
                 'x-sonata-page-route'  => $page->getRouteName(),
-            ));
+            );
+
+            if ($recorder) {
+                foreach($recorder->get() as $name => $keys) {
+                    $keys = array_map('strval', $keys);
+                    $headers[$this->normalize($name)] = json_encode($keys);
+                }
+            }
+
+            $response->headers->add($headers);
+        }
+
+        if ($recorder) {
+            $recorder->reset();
         }
 
         return $response;
+    }
+
+    public function isContextual()
+    {
+        return true;
     }
 }

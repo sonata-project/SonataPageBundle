@@ -62,59 +62,81 @@ class SonataPageExtension extends Extension
             $cmsSnapshot->addMethodCall('addCacheService', array($id, new Reference($cache)));
         }
 
-        $invalidate = isset($configs['cache_invalidation']) ? $configs['cache_invalidation'] : 'sonata.page.cache.invalidation.simple';
+        $this->configureInvalidation($container, $configs);
+        $this->configureCache($container, $configs);
+    }
+
+    public function configureInvalidation(ContainerBuilder $container, $configs)
+    {
+        $cmsPage = $container->getDefinition('sonata.page.cms.page');
+        $cmsSnapshot = $container->getDefinition('sonata.page.cms.snapshot');
+
+        $invalidate = isset($configs['cache_invalidation']['service']) ? $configs['cache_invalidation']['service'] : 'sonata.page.cache.invalidation.simple';
         $cmsPage->replaceArgument(3, new Reference($invalidate));
         $cmsSnapshot->replaceArgument(2, new Reference($invalidate));
 
-        $this->configureCache($container, $configs);
+        if (!isset($configs['cache_invalidation']['classes'])) {
+            $configs['cache_invalidation']['classes'] = array();
+        }
+
+        $recorder = $container->getDefinition('sonata.page.cache.recorder');
+        foreach ($configs['cache_invalidation']['classes'] as $information) {
+            $recorder->addMethodCall('addClass', array($information[0], $information[1]));
+        }
+
+        $recorder = isset($configs['cache_invalidation']['recorder']) ? $configs['cache_invalidation']['recorder'] : 'sonata.page.cache.recorder';
+        $cmsPage->addMethodCall('setRecorder', array(new Reference($recorder)));
+        $cmsSnapshot->addMethodCall('setRecorder', array(new Reference($recorder)));
     }
 
     public function configureCache(ContainerBuilder $container, $configs)
     {
-         if (isset($configs['caches'])) {
-            if (isset($configs['caches']['sonata.page.cache.esi']['servers'])) {
-                $servers = (array) $configs['caches']['sonata.page.cache.esi']['servers'];
+        if (!isset($configs['caches'])) {
+            return;
+        }
 
-                $cache = $container->getDefinition('sonata.page.cache.esi');
-                $cache->replaceArgument(0, $servers);
-            }
+        if (isset($configs['caches']['sonata.page.cache.esi']['servers'])) {
+            $servers = (array) $configs['caches']['sonata.page.cache.esi']['servers'];
 
-            if (isset($configs['caches']['sonata.page.cache.mongo'])) {
-                $settings = $configs['caches']['sonata.page.cache.mongo'];
+            $cache = $container->getDefinition('sonata.page.cache.esi');
+            $cache->replaceArgument(0, $servers);
+        }
 
-                $servers    = isset($settings['servers']) ? (array) $settings['servers'] : array();
-                $database   = isset($settings['database']) ? $settings['database'] : '';
-                $collection = isset($settings['collection']) ? $settings['collection'] : '';
+        if (isset($configs['caches']['sonata.page.cache.mongo'])) {
+            $settings = $configs['caches']['sonata.page.cache.mongo'];
 
-                $cache = $container->getDefinition('sonata.page.cache.mongo');
-                $cache->replaceArgument(0, $servers);
-                $cache->replaceArgument(1, $database);
-                $cache->replaceArgument(2, $collection);
-            }
+            $servers    = isset($settings['servers']) ? (array) $settings['servers'] : array();
+            $database   = isset($settings['database']) ? $settings['database'] : '';
+            $collection = isset($settings['collection']) ? $settings['collection'] : '';
 
-            if (isset($configs['caches']['sonata.page.cache.memcached'])) {
-                $settings = $configs['caches']['sonata.page.cache.memcached'];
+            $cache = $container->getDefinition('sonata.page.cache.mongo');
+            $cache->replaceArgument(0, $servers);
+            $cache->replaceArgument(1, $database);
+            $cache->replaceArgument(2, $collection);
+        }
 
-                $prefix    = isset($settings['prefix']) ? (array) $settings['prefix'] : uniqid();
-                $servers   = isset($settings['servers']) ? (array) $settings['servers'] : array();
+        if (isset($configs['caches']['sonata.page.cache.memcached'])) {
+            $settings = $configs['caches']['sonata.page.cache.memcached'];
 
-                $cache = $container->getDefinition('sonata.page.cache.memcached');
-                $cache->replaceArgument(0, $prefix);
-                $cache->replaceArgument(1, $servers);
-            }
+            $prefix    = isset($settings['prefix']) ? (array) $settings['prefix'] : uniqid();
+            $servers   = isset($settings['servers']) ? (array) $settings['servers'] : array();
 
-            if (isset($configs['caches']['sonata.page.cache.apc'])) {
-                $settings = $configs['caches']['sonata.page.cache.apc'];
+            $cache = $container->getDefinition('sonata.page.cache.memcached');
+            $cache->replaceArgument(0, $prefix);
+            $cache->replaceArgument(1, $servers);
+        }
 
-                $token     = isset($settings['token']) ? $settings['token'] : 'changeme';
-                $prefix    = isset($settings['prefix']) ? $settings['prefix'] : uniqid();
-                $servers   = isset($settings['servers']) ? (array) $settings['servers'] : array();
+        if (isset($configs['caches']['sonata.page.cache.apc'])) {
+            $settings = $configs['caches']['sonata.page.cache.apc'];
 
-                $cache = $container->getDefinition('sonata.page.cache.apc');
-                $cache->replaceArgument(1, $token);
-                $cache->replaceArgument(2, $prefix);
-                $cache->replaceArgument(3, $servers);
-            }
+            $token     = isset($settings['token']) ? $settings['token'] : 'changeme';
+            $prefix    = isset($settings['prefix']) ? $settings['prefix'] : uniqid();
+            $servers   = isset($settings['servers']) ? (array) $settings['servers'] : array();
+
+            $cache = $container->getDefinition('sonata.page.cache.apc');
+            $cache->replaceArgument(1, $token);
+            $cache->replaceArgument(2, $prefix);
+            $cache->replaceArgument(3, $servers);
         }
     }
     /**

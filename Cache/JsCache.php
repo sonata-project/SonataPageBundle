@@ -180,4 +180,9 @@ JS
 
         return $response;
     }
+
+    public function isContextual()
+    {
+        return false;
+    }
 }

@@ -43,4 +43,9 @@ class NoopCache implements CacheInterface
     {
         throw new \RunTimeException('The NoopCache::get() cannot called');
     }
+
+    public function isContextual()
+    {
+        return true;
+    }
 }

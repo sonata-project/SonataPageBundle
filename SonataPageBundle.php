@@ -13,6 +13,7 @@ namespace Sonata\PageBundle;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Sonata\PageBundle\DependencyInjection\AddBlockServicePass;
+use Sonata\PageBundle\Twig\TwigTemplate;
 
 class SonataPageBundle extends Bundle
 {
@@ -22,5 +23,12 @@ class SonataPageBundle extends Bundle
         parent::build($container);
 
         $container->addCompilerPass(new AddBlockServicePass());
+    }
+
+    public function boot()
+    {
+        $recorder = $this->container->get('sonata.page.cache.recorder');
+
+        TwigTemplate::attachRecorder($recorder);
     }
 }

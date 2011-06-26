@@ -22,8 +22,10 @@ use Sonata\PageBundle\Model\BlockManagerInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Block\BlockServiceInterface;
 use Sonata\PageBundle\Cache\CacheInterface;
-use Sonata\PageBundle\Cache\Invalidation\InvalidationInterface;
 use Sonata\PageBundle\Cache\CacheElement;
+use Sonata\PageBundle\Cache\Invalidation\InvalidationInterface;
+use Sonata\PageBundle\Cache\Invalidation\Recorder;
+
 use Sonata\AdminBundle\Admin\AdminInterface;
 
 abstract class BaseCmsPageManager implements CmsManagerInterface
@@ -47,6 +49,10 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     protected $pageManager;
 
     protected $blocks = array();
+
+    protected $cacheInvalidation;
+
+    protected $recorder;
 
     /**
      * filter the `core.response` event to decorated the action
@@ -174,6 +180,8 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
             $this->getLogger()->info(sprintf('[cms::renderBlock] block.id=%d, block.type=%s ', $block->getId(), $block->getType()));
         }
 
+        $response = new Response;
+
         try {
             $service       = $this->getBlockService($block);
             $service->load($block); // load the block
@@ -183,18 +191,38 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
 
             $cacheElement->addKey('manager', $this->getCode());
 
-            if ($useCache && $cacheManager->has($cacheElement)) {
-                return $cacheManager->get($cacheElement);
+            if ($useCache) {
+                if ($cacheManager->has($cacheElement)) {
+                    return $cacheManager->get($cacheElement);
+                }
+
+                if ($this->recorder && $cacheManager->isContextual()) {
+                    $this->recorder->reset();
+                }
             }
 
-            $response = $service->execute($block, $page);
+            $response = $service->execute($block, $page, $response);
+
+            if (!$response instanceof Response) {
+                throw new \RuntimeException('A block service must return a Response object');
+            }
 
             if ($useCache) {
                 $cacheElement->setValue($response);
+
+                if ($this->recorder && $cacheManager->isContextual()) {
+                    foreach ($this->recorder->get() as $class => $idx) {
+                        if (count($idx) == 0) {
+                            continue;
+                        }
+                        $cacheElement->addKey($class, array_unique($idx));
+                    }
+
+                    $this->recorder->reset();
+                }
+
                 $cacheManager->set($cacheElement);
             }
-
-            return $response;
         } catch (\Exception $e) {
             if ($this->getLogger()) {
                 $this->getLogger()->crit(sprintf('[cms::renderBlock] block.id=%d - error while rendering block - %s', $block->getId(), $e->getMessage()));
@@ -204,8 +232,11 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
                 throw $e;
             }
 
-            return new Response;
+
+            $response->setPrivate();
         }
+
+        return $response;
     }
 
     /**
@@ -436,5 +467,20 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     public function getBlocks()
     {
         return $this->blocks;
+    }
+
+    public function getCacheInvalidation()
+    {
+        return $this->cacheInvalidation;
+    }
+
+    public function setRecorder(Recorder $recorder)
+    {
+        $this->recorder = $recorder;
+    }
+
+    public function getRecorder()
+    {
+        return $this->recorder;
     }
 }
