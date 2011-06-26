@@ -65,6 +65,9 @@ class ChildrenPagesBlockService extends BaseBlockService
                     'class'         => 'Application\Sonata\PageBundle\Entity\Page',
                     'required'      => false
                 )),
+                array('class', 'text', array(
+                  'required' => false
+                )),
             )
         ));
     }
@@ -84,7 +87,8 @@ class ChildrenPagesBlockService extends BaseBlockService
         return array(
             'current' => true,
             'pageId'  => null,
-            'title'   => ''
+            'title'   => '',
+            'class'   => '',
         );
     }
 
