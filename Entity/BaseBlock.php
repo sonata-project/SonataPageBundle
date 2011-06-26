@@ -44,6 +44,7 @@ abstract class BaseBlock implements BlockInterface
     {
         $this->settings = array();
         $this->children = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->enabled  = false;
     }
 
     /**
@@ -262,7 +263,7 @@ abstract class BaseBlock implements BlockInterface
 
     public function hasParent()
     {
-        return $this->getParent() == null;
+        return $this->getParent() != null;
     }
 
     public function __toString()

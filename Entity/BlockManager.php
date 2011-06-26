@@ -207,6 +207,6 @@ class BlockManager implements BlockManagerInterface
      */
     public function create()
     {
-        return $this->class;
+        return new $this->class;
     }
 }

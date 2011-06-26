@@ -308,6 +308,10 @@ class CmsPageManager extends BaseCmsPageManager
 
     public function validateBlock(ErrorElement $errorElement, BlockInterface $block)
     {
+        if (!$block->getId() && !$block->getType()) {
+            return;
+        }
+
         $service = $this->getBlockService($block);
         $service->validateBlock($errorElement, $block);
     }

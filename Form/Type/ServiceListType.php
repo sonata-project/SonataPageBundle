@@ -38,9 +38,9 @@ class ServiceListType extends ChoiceType
             'choice_list' => null,
             'choices' => $this->getBlockTypes(),
             'preferred_choices' => array(),
-            'csrf_protection' => false,
-            'empty_data' => $multiple || $expanded ? array() : '',
-            'error_bubbling' => false,
+            'empty_data'        => $multiple || $expanded ? array() : '',
+            'empty_value'       => $multiple || $expanded || !isset($options['empty_value']) ? null : '',
+            'error_bubbling'    => false,
         );
     }
 

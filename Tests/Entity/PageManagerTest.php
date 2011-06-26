@@ -39,7 +39,7 @@ class PageManagerTest extends \PHPUnit_Framework_TestCase
 
         $manager->fixUrl($parent);
 
-        $this->assertEquals($parent->getSlug(), 'n-a');
+        $this->assertEquals($parent->getSlug(), null); // homepage is a specific route name
         $this->assertEquals($parent->getUrl(), '/');
 
         $this->assertEquals($page1->getSlug(), 'salut-comment-ca-va');
