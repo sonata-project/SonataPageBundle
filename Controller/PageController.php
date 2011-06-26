@@ -35,10 +35,11 @@ class PageController extends Controller
                     'pathInfo'   => $pathInfo,
                     'page'       => $page,
                     'page_admin' => $this->get('sonata.page.admin.page'),
-                    'manager'    => $cms
+                    'manager'    => $cms,
+                    'creatable'  => $cms->isRouteNameDecorable($this->get('request')->get('_route')) && $cms->isRouteUriDecorable($pathInfo)
                 ));
-            }
 
+            }
         } else {
             $manager  = $this->get('sonata.page.manager.snapshot');
 
