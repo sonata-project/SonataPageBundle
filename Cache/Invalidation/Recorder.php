@@ -12,38 +12,28 @@ namespace Sonata\PageBundle\Cache\Invalidation;
 
 class Recorder
 {
-    protected $classes = array();
+    protected $collectionIdentifiers;
 
     protected $informations = array();
 
-    public function __construct(array $classes = array())
+    public function __construct(ModelCollectionIdentifiers $collectionIdentifiers)
     {
-        foreach ($classes as $class => $identifier) {
-            $this->addClass($class, $identifier);
-        }
-    }
-
-    public function addClass($class, $identifier)
-    {
-        $this->classes[$class] = $identifier;
-        $this->informations[$class] = array();
+        $this->collectionIdentifiers = $collectionIdentifiers;
     }
 
     public function add($object)
     {
         $class = get_class($object);
 
-        if (!isset($this->classes[$class])) {
-            if (method_exists($object, 'getCacheIdentifier')) {
-                $this->addClass($class, 'getCacheIdentifier');
-            } else if (method_exists($object, 'getId')) {
-                $this->addClass($class, 'getId');
-            } else {
-                return;
-            }
+        $identifier = $this->collectionIdentifiers->getIdentifier($object);
+
+        if ($identifier === false) {
+            return;
         }
 
-        $identifier = call_user_func(array($object, $this->classes[$class]));
+        if (!isset($this->informations[$class])) {
+            $this->informations[$class] = array();
+        }
 
         if (!in_array($identifier, $this->informations[$class])) {
             $this->informations[$class][] = $identifier;
@@ -52,8 +42,8 @@ class Recorder
 
     public function reset()
     {
-        foreach ($this->classes as $class => $identifier) {
-            $this->addClass($class, $identifier);
+        foreach ($this->informations as $class => $identifier) {
+            $this->informations[$class] = array();
         }
     }
 

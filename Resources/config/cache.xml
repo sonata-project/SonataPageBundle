@@ -6,41 +6,51 @@
     <services>
 
         <service id="sonata.page.cache.recorder" class="Sonata\PageBundle\Cache\Invalidation\Recorder" >
+            <argument type="service" id="sonata.page.cache.model_identifier"/>
+        </service>
+
+        <service id="sonata.page.cache.model_identifier" class="Sonata\PageBundle\Cache\Invalidation\ModelCollectionIdentifiers" >
             <argument type="collection" />
         </service>
 
         <service id="sonata.page.cache.noop" class="Sonata\PageBundle\Cache\NoopCache" />
 
         <service id="sonata.page.cache.esi" class="Sonata\PageBundle\Cache\EsiCache">
+            <tag name="sonata.page.cache" />
             <argument type="collection" />
             <argument type="service" id="router" />
             <argument type="service" id="service_container" />
         </service>
 
         <service id="sonata.page.cache.js_sync" class="Sonata\PageBundle\Cache\JsCache" >
+            <tag name="sonata.page.cache" />
             <argument type="service" id="router" />
             <argument>true</argument>
             <argument type="service" id="service_container" />
         </service>
 
         <service id="sonata.page.cache.js_async" class="Sonata\PageBundle\Cache\JsCache" >
+            <tag name="sonata.page.cache" />
             <argument type="service" id="router" />
             <argument>false</argument>
             <argument type="service" id="service_container" />
         </service>
 
         <service id="sonata.page.cache.mongo" class="Sonata\PageBundle\Cache\MongoCache" >
+            <tag name="sonata.page.cache" />
             <argument type="collection" />
             <argument />
             <argument />
         </service>
 
         <service id="sonata.page.cache.memcached" class="Sonata\PageBundle\Cache\MemcachedCache" >
+            <tag name="sonata.page.cache" />
             <argument />
             <argument type="collection" />
         </service>
 
         <service id="sonata.page.cache.apc" class="Sonata\PageBundle\Cache\ApcCache" >
+            <tag name="sonata.page.cache" />
             <argument type="service" id="router" />
             <argument />
             <argument />

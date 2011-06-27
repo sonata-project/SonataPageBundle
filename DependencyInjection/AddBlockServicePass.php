@@ -36,5 +36,12 @@ class AddBlockServicePass implements CompilerPassInterface
             $cmsPage->addMethodCall('addBlockService', array($id, new Reference($id)));
             $snapshotPage->addMethodCall('addBlockService', array($id, new Reference($id)));
         }
+
+        if ($container->hasDefinition('sonata.page.orm.event_subscriber')) {
+            $ormListener = $container->getDefinition('sonata.page.orm.event_subscriber');
+            foreach ($container->findTaggedServiceIds('sonata.page.cache') as $id => $attributes) {
+                $ormListener->addMethodCall('addCache', array(new Reference($id)));
+            }
+        }
     }
 }

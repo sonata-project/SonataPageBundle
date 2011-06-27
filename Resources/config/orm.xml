@@ -8,13 +8,10 @@
         <parameter key="sonata.page.manager.page.class">Sonata\PageBundle\Entity\PageManager</parameter>
         <parameter key="sonata.page.manager.block.class">Sonata\PageBundle\Entity\BlockManager</parameter>
         <parameter key="sonata.page.manager.snapshot.class">Sonata\PageBundle\Entity\SnapshotManager</parameter>
-        <parameter key="sonata.page.snapshot.handler.class">Sonata\PageBundle\Snapshot\SimpleSnapshotHandler</parameter>
     </parameters>
 
     <services>
         <service id="sonata.page.entity_manager" alias="doctrine.orm.default_entity_manager" />
-
-        <service id="sonata.page.snapshot.handler" class="%sonata.page.snapshot.handler.class%" />
 
         <service id="sonata.page.manager.page" class="%sonata.page.manager.page.class%">
             <argument type="service" id="sonata.page.entity_manager" />
@@ -29,6 +26,11 @@
         <service id="sonata.page.manager.block" class="%sonata.page.manager.block.class%">
             <argument type="service" id="sonata.page.entity_manager" />
             <argument>Application\Sonata\PageBundle\Entity\Block</argument>
+        </service>
+
+        <service id="sonata.page.orm.event_subscriber" class="Sonata\PageBundle\Cache\Invalidation\DoctrineORMListener">
+            <tag name="doctrine.event_subscriber" connection="default" />
+            <argument type="service" id="sonata.page.cache.model_identifier" />
         </service>
     </services>
 

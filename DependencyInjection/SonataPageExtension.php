@@ -8,7 +8,6 @@
  * file that was distributed with this source code.
  */
 
-
 namespace Sonata\PageBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
@@ -27,7 +26,6 @@ use Symfony\Component\Config\FileLocator;
  */
 class SonataPageExtension extends Extension
 {
-
     /**
      * Loads the url shortener configuration.
      *
@@ -44,7 +42,6 @@ class SonataPageExtension extends Extension
         $loader->load('form.xml');
         $loader->load('cache.xml');
         $loader->load('twig.xml');
-        $loader->load('validator.xml');
 
         // todo: use the configuration class
         $configs = call_user_func_array('array_merge_recursive', $configs);
@@ -79,7 +76,7 @@ class SonataPageExtension extends Extension
             $configs['cache_invalidation']['classes'] = array();
         }
 
-        $recorder = $container->getDefinition('sonata.page.cache.recorder');
+        $recorder = $container->getDefinition('sonata.page.cache.model_identifier');
         foreach ($configs['cache_invalidation']['classes'] as $information) {
             $recorder->addMethodCall('addClass', array($information[0], $information[1]));
         }
@@ -139,6 +136,7 @@ class SonataPageExtension extends Extension
             $cache->replaceArgument(3, $servers);
         }
     }
+
     /**
      * Returns the base path for the XSD files.
      *
