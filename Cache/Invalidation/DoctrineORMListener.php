@@ -29,17 +29,17 @@ class DoctrineORMListener implements EventSubscriber
     public function getSubscribedEvents()
     {
         return array(
-            Events::postRemove,
-            Events::postUpdate
+            Events::preRemove,
+            Events::preUpdate
         );
     }
 
-    public function postRemove(LifecycleEventArgs $args)
+    public function preRemove(LifecycleEventArgs $args)
     {
         $this->flush($args);
     }
 
-    public function postUpdate(LifecycleEventArgs $args)
+    public function preUpdate(LifecycleEventArgs $args)
     {
         $this->flush($args);
     }
