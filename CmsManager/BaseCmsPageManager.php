@@ -193,7 +193,13 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
 
             if ($useCache) {
                 if ($cacheManager->has($cacheElement)) {
-                    return $cacheManager->get($cacheElement);
+                    $response = $cacheManager->get($cacheElement);
+
+                    if (!$response instanceof Response) {
+                        throw new \RuntimeException('The cache must return a Response object');
+                    }
+
+                    return $response;
                 }
 
                 if ($this->recorder && $cacheManager->isContextual()) {
@@ -259,7 +265,13 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
             return '';
         }
 
-        return $this->renderBlock($container, $page)->getContent();
+        $response = $this->renderBlock($container, $page);
+
+        if (!$response instanceof Response) {
+            throw new \RunTimeException(sprintf('The container.id `%d` named `%s` from page.id `%d` must return a Response object', $container->getId(), $name, $page->getId()));
+        }
+
+        return $response->getContent();
     }
 
     /**

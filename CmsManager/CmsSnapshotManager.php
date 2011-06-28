@@ -157,6 +157,20 @@ class CmsSnapshotManager extends BaseCmsPageManager
         return $this->routePages[$routeName];
     }
 
+    public function renderContainer($name, $page = null, BlockInterface $parentContainer = null)
+    {
+        try {
+            $response = parent::renderContainer($name, $page, $parentContainer);
+
+            return $response;
+        } catch(\RunTimeException $e) {
+
+            // silently fail error message
+            return '';
+        }
+
+    }
+
     /**
      * @param integer $id
      * @return bool

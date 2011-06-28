@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class CacheElement
 {
-    protected $lifetime;
+    protected $ttl;
 
     protected $keys = array();
 

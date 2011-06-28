@@ -40,7 +40,10 @@ class MongoCache implements CacheInterface
 
     public function has(CacheElement $cacheElement)
     {
-        return $this->getCollection()->count($cacheElement->getKeys()) > 0;
+        $keys = $cacheElement->getKeys();
+        $keys['_timeout'] = array('$gt' => time());
+
+        return $this->getCollection()->count($keys) > 0;
     }
 
     /**
