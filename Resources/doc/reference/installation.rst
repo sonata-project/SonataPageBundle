@@ -1,19 +1,14 @@
 Installation
 ============
 
-Make sure you have a ``Sonata`` directory. If you don't, create it::
-
-  mkdir src/Sonata
-
 To begin, add the dependent bundles to the ``src/`` directory. If you're
 using git, you can add them as submodules::
 
-  git submodule add git@github.com:Sonata-project/PageBundle.git src/Sonata/PageBundle
+  git submodule add git://github.com/sonata-project/SonataPageBundle.git src/Sonata/PageBundle
 
   // dependency bundles
-  git submodule add git@github.com:Sonata-project/AdminBundle.git src/Sonata/AdminBundle
-  git submodule add git@github.com:Sonata-project/EasyExtendsBundle.git src/Sonata/EasyExtendsBundle
-
+  git submodule add git://github.com/sonata-project/SonataAdminBundle.git src/Sonata/AdminBundle
+  git submodule add git://github.com/sonata-project/SonataEasyExtendsBundle.git src/Sonata/EasyExtendsBundle
 
 Next, be sure to enable the bundles in your application kernel:
 
@@ -61,7 +56,7 @@ Now, add the new `Application` Bundle into the kernel
         );
     }
 
-Update the ``autoload.php`` to add a new namespaces :
+Update the ``autoload.php`` to add new namespaces :
 
 .. code-block:: php
 
@@ -150,3 +145,11 @@ At the end of your routing file, add the following lines
         defaults: { _controller: SonataPageBundle:Page:catchAll }
         requirements:
             path: .*
+
+
+Final step
+
+.. code-block::
+
+    app/console sonata:page:update-core-routes
+    app/console sonata:page:create-snapshots
