@@ -4,11 +4,11 @@ Installation
 To begin, add the dependent bundles to the ``src/`` directory. If you're
 using git, you can add them as submodules::
 
-  git submodule add git://github.com/sonata-project/SonataPageBundle.git src/Sonata/PageBundle
+  git submodule add git://github.com/sonata-project/SonataPageBundle.git vendor/bundles/Sonata/PageBundle
 
   // dependency bundles
-  git submodule add git://github.com/sonata-project/SonataAdminBundle.git src/Sonata/AdminBundle
-  git submodule add git://github.com/sonata-project/SonataEasyExtendsBundle.git src/Sonata/EasyExtendsBundle
+  git submodule add git://github.com/sonata-project/SonataAdminBundle.git vendor/bundles/Sonata/AdminBundle
+  git submodule add git://github.com/sonata-project/SonataEasyExtendsBundle.git vendor/bundles/Sonata/EasyExtendsBundle
 
 Next, be sure to enable the bundles in your application kernel:
 
