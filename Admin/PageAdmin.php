@@ -13,7 +13,7 @@ namespace Sonata\PageBundle\Admin;
 
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Route\RouteCollection;
-use Knplabs\Bundle\MenuBundle\MenuItem;
+use Knp\Bundle\MenuBundle\MenuItem;
 use Sonata\PageBundle\Cache\CacheElement;
 use Sonata\PageBundle\CmsManager\CmsManagerInterface;
 use Sonata\AdminBundle\Form\FormMapper;
