@@ -57,8 +57,7 @@ class RssBlockService extends BaseBlockService
             ->with('settings.title')
                 ->assertNotNull(array())
                 ->assertNotBlank()
-                ->assertMinLength(array('limit' => 50))
-                ->addViolation('ho yeah!')
+                ->assertMaxLength(array('limit' => 50))
             ->end();
     }
 
