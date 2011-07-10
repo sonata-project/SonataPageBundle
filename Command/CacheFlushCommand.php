@@ -46,7 +46,7 @@ class CacheFlushCommand extends ContainerAwareCommand
             return;
         }
 
-        $caches = $this->getManager()->getCacheServices();
+        $caches = $this->getManager($managerName)->getCacheServices();
 
         if ($service) {
             if (!isset($caches[$service])) {

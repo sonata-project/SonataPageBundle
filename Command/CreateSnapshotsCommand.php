@@ -48,6 +48,6 @@ class CreateSnapshotsCommand extends ContainerAwareCommand
 
         $snapshotManager->enableSnapshots($snapshots);
 
-         $output->writeln(' OK !');
+        $output->writeln(' OK !');
     }
 }
