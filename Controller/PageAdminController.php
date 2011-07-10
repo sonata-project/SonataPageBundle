@@ -25,6 +25,8 @@ class PageAdminController extends Controller
         }
 
         $snapshotManager = $this->get('sonata.page.manager.snapshot');
+
+        $snapshots = array();
         foreach ($query->execute() as $page) {
             $page = $this->get('sonata.page.cms.page')->getPageById($page->getId());
 
