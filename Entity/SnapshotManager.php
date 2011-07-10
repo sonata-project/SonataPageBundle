@@ -59,11 +59,15 @@ class SnapshotManager implements SnapshotManagerInterface
      */
     public function enableSnapshots($snapshots)
     {
-        $this->entityManager->beginTransaction();
-
         if (!is_array($snapshots)) {
             $snapshots = array($snapshots);
         }
+
+        if (count($snapshots) == 0) {
+            return;
+        }
+
+        $this->entityManager->beginTransaction();
 
         $now = new \DateTime;
         $pageIds = $snapshotIds = array();
