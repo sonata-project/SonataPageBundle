@@ -23,6 +23,8 @@ final class CacheElement
 
     protected $createdAt;
 
+    protected $contextualKeys = array();
+
     public function __construct(array $keys, $ttl = 84600)
     {
         $this->createdAt = new \DateTime;
@@ -58,5 +60,20 @@ final class CacheElement
     public function isExpired()
     {
         return strtotime('now') > ($this->createdAt->format('U') + $this->ttl);
+    }
+
+    public function addContextualKey($name, $value)
+    {
+        $this->contextualKeys[$name] = $value;
+    }
+
+    public function setContextualKeys(array $contextualKeys)
+    {
+        $this->contextualKeys = $contextualKeys;
+    }
+
+    public function getContextualKeys()
+    {
+        return $this->contextualKeys;
     }
 }

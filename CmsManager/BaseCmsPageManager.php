@@ -221,7 +221,7 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
                         if (count($idx) == 0) {
                             continue;
                         }
-                        $cacheElement->addKey($class, array_unique($idx));
+                        $cacheElement->addContextualKey($class, array_unique($idx));
                     }
 
                     $this->recorder->reset();
@@ -237,7 +237,6 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
             if ($this->getDebug()) {
                 throw $e;
             }
-
 
             $response->setPrivate();
         }
