@@ -12,17 +12,16 @@ namespace Sonata\PageBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Sonata\PageBundle\DependencyInjection\AddBlockServicePass;
+use Sonata\PageBundle\DependencyInjection\TweakPass;
 use Sonata\PageBundle\Twig\TwigTemplate;
 
 class SonataPageBundle extends Bundle
 {
-
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
 
-        $container->addCompilerPass(new AddBlockServicePass());
+        $container->addCompilerPass(new TweakPass());
     }
 
     public function boot()

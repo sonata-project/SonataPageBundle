@@ -22,7 +22,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class AddBlockServicePass implements CompilerPassInterface
+class TweakPass implements CompilerPassInterface
 {
     /**
      * {@inheritDoc}
