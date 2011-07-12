@@ -21,8 +21,9 @@ class PageController extends Controller
     {
         $pathInfo = $this->get('request')->getPathInfo();
 
+        $admin = $this->get('sonata.page.admin.page');
         // always render the last page version for the admin
-        if ($this->get('security.context')->isGranted('ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT')) {
+        if ($admin->isGranted('ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT')) {
             $cms  = $this->get('sonata.page.cms.page');
             $page = $cms->getPageByUrl($pathInfo);
 
@@ -34,7 +35,7 @@ class PageController extends Controller
                 return $this->render('SonataPageBundle:Page:create.html.twig', array(
                     'pathInfo'   => $pathInfo,
                     'page'       => $page,
-                    'page_admin' => $this->get('sonata.page.admin.page'),
+                    'page_admin' => $admin,
                     'manager'    => $cms,
                     'creatable'  => $cms->isRouteNameDecorable($this->get('request')->get('_route')) && $cms->isRouteUriDecorable($pathInfo)
                 ));

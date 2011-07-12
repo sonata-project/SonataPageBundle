@@ -27,9 +27,9 @@ class ResponseListener
 
     public function onCoreResponse($event)
     {
-        $securityContext = $this->container->get('security.context');
+        $granted = $this->container->get('sonata.page.admin.page')->isGranted('ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT');
 
-        if ($securityContext->isGranted('ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT')) {
+        if ($granted) {
             $manager = $this->container->get('sonata.page.cms.page');
         } else {
             $manager = $this->container->get('sonata.page.cms.snapshot');
