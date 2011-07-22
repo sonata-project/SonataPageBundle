@@ -29,7 +29,7 @@ class RssBlockService extends BaseBlockService
         return 'Rss Reader';
     }
 
-    function getDefaultSettings()
+    public function getDefaultSettings()
     {
         return array(
             'url'     => false,

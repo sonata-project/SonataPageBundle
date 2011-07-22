@@ -32,7 +32,7 @@ class ChildrenPagesBlockService extends BaseBlockService
 
         if ($settings['current']) {
             $page = $this->manager->getCurrentPage();
-        } else if ($settings['pageId']){
+        } else if ($settings['pageId']) {
             $page = $settings['pageId'];
         } else {
             $page = $this->manager->getPage('/');
@@ -82,7 +82,7 @@ class ChildrenPagesBlockService extends BaseBlockService
      *
      * @return array
      */
-    function getDefaultSettings()
+    public function getDefaultSettings()
     {
         return array(
             'current' => true,
