@@ -46,6 +46,9 @@ class SonataPageExtension extends Extension
         // todo: use the configuration class
         $configs = call_user_func_array('array_merge_recursive', $configs);
 
+        $this->configureInvalidation($container, $configs);
+        $this->configureCache($container, $configs);
+
         $cmsPage = $container->getDefinition('sonata.page.cms.page');
         $cmsSnapshot = $container->getDefinition('sonata.page.cms.snapshot');
 
@@ -55,12 +58,13 @@ class SonataPageExtension extends Extension
         foreach ($configs['services'] as $id => $settings) {
             $cache = isset($settings['cache']) ? $settings['cache'] : 'sonata.page.cache.noop';
 
+            if (!$container->hasDefinition($id)) {
+                continue;
+            }
+
             $cmsPage->addMethodCall('addCacheService', array($id, new Reference($cache)));
             $cmsSnapshot->addMethodCall('addCacheService', array($id, new Reference($cache)));
         }
-
-        $this->configureInvalidation($container, $configs);
-        $this->configureCache($container, $configs);
     }
 
     public function configureInvalidation(ContainerBuilder $container, $configs)
@@ -97,6 +101,8 @@ class SonataPageExtension extends Extension
 
             $cache = $container->getDefinition('sonata.page.cache.esi');
             $cache->replaceArgument(0, $servers);
+        } else {
+            $container->removeDefinition('sonata.page.cache.esi');
         }
 
         if (isset($configs['caches']['sonata.page.cache.mongo'])) {
@@ -110,6 +116,8 @@ class SonataPageExtension extends Extension
             $cache->replaceArgument(0, $servers);
             $cache->replaceArgument(1, $database);
             $cache->replaceArgument(2, $collection);
+        } else {
+            $container->removeDefinition('sonata.page.cache.mongo');
         }
 
         if (isset($configs['caches']['sonata.page.cache.memcached'])) {
@@ -121,6 +129,8 @@ class SonataPageExtension extends Extension
             $cache = $container->getDefinition('sonata.page.cache.memcached');
             $cache->replaceArgument(0, $prefix);
             $cache->replaceArgument(1, $servers);
+        } else {
+            $container->removeDefinition('sonata.page.cache.memcached');
         }
 
         if (isset($configs['caches']['sonata.page.cache.apc'])) {
@@ -134,6 +144,8 @@ class SonataPageExtension extends Extension
             $cache->replaceArgument(1, $token);
             $cache->replaceArgument(2, $prefix);
             $cache->replaceArgument(3, $servers);
+        } else {
+            $container->removeDefinition('sonata.page.cache.apc');
         }
     }
 

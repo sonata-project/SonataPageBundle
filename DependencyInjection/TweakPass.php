@@ -40,6 +40,10 @@ class TweakPass implements CompilerPassInterface
         if ($container->hasDefinition('sonata.page.orm.event_subscriber')) {
             $ormListener = $container->getDefinition('sonata.page.orm.event_subscriber');
             foreach ($container->findTaggedServiceIds('sonata.page.cache') as $id => $attributes) {
+                if (!$container->hasDefinition($id)) {
+                    continue;
+                }
+
                 $ormListener->addMethodCall('addCache', array(new Reference($id)));
             }
         }
