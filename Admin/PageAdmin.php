@@ -47,14 +47,14 @@ class PageAdmin extends Admin
 
     protected $formGroups = array(
         'General' => array(
-            'fields' => array('name', 'enabled', 'position', 'parent')
+            'fields' => array('name', 'enabled', 'position', 'template', 'parent')
         ),
         'SEO' => array(
             'fields' => array('slug', 'customUrl', 'metaKeyword', 'metaDescription'),
             'collapsed' => true
         ),
         'Advanced' => array(
-            'fields' => array('loginRequired', 'template', 'decorate', 'routeName', 'javascript', 'stylesheet'),
+            'fields' => array('loginRequired', 'decorate', 'routeName', 'javascript', 'stylesheet'),
             'collapsed' => true
         )
     );
