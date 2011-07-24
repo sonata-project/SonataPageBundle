@@ -232,14 +232,14 @@ interface PageInterface
     /**
      * Set template
      *
-     * @param Application\Sonata\PageBundle\Entity\Template $template
+     * @param Template $template
      */
-    function setTemplate(TemplateInterface $template);
+    function setTemplate(Template $template);
 
     /**
      * Get template
      *
-     * @return Application\Sonata\PageBundle\Entity\Template $template
+     * @return Template $template
      */
     function getTemplate();
 

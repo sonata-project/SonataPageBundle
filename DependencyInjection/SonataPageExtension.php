@@ -48,6 +48,7 @@ class SonataPageExtension extends Extension
 
         $this->configureInvalidation($container, $configs);
         $this->configureCache($container, $configs);
+        $this->configureTemplate($container, $configs);
 
         $cmsPage = $container->getDefinition('sonata.page.cms.page');
         $cmsSnapshot = $container->getDefinition('sonata.page.cms.snapshot');
@@ -64,6 +65,33 @@ class SonataPageExtension extends Extension
 
             $cmsPage->addMethodCall('addCacheService', array($id, new Reference($cache)));
             $cmsSnapshot->addMethodCall('addCacheService', array($id, new Reference($cache)));
+        }
+    }
+
+    public function configureTemplate(ContainerBuilder $container, $configs)
+    {
+        $pageManager = $container->getDefinition('sonata.page.manager.page');
+        $snapshotManager = $container->getDefinition('sonata.page.manager.snapshot');
+
+        if (!isset($configs['templates'])) {
+            $configs['templates'] = array(
+                array(
+                    'default' => true,
+                    'path'    => 'SonataPageBundle::layout.html.twig',
+                    'name'    => 'default'
+                )
+            );
+        }
+
+        foreach ($configs['templates'] as $code => $info) {
+            $definition = new Definition('Sonata\PageBundle\Model\Template');
+            $definition->addMethodCall('setName', array(isset($info['name']) ? $info['name'] : 'n-a'));
+            $definition->addMethodCall('setDefault', array(isset($info['default']) ? $info['default'] : false));
+            $definition->addMethodCall('setPath', array(isset($info['path']) ? $info['path'] : 'SonataPageBundle::layout.html.twig'));
+            $definition->setPublic(false);
+
+            $pageManager->addMethodCall('addTemplate', array($code, $definition));
+            $snapshotManager->addMethodCall('addTemplate', array($code, $definition));
         }
     }
 

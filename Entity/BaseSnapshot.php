@@ -13,7 +13,6 @@ namespace Sonata\PageBundle\Entity;
 
 use Sonata\PageBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
-use Sonata\PageBundle\Model\TemplateInterface;
 use Sonata\PageBundle\Model\SnapshotInterface;
 
 abstract class BaseSnapshot implements SnapshotInterface

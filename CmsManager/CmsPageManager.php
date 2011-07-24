@@ -51,7 +51,7 @@ class CmsPageManager extends BaseCmsPageManager
       BlockManagerInterface $blockManager,
       EngineInterface $templating,
       InvalidationInterface $cacheInvalidation
-  )
+    )
     {
         $this->pageManager        = $pageManager;
         $this->blockManager       = $blockManager;
@@ -68,7 +68,7 @@ class CmsPageManager extends BaseCmsPageManager
     {
         $template = 'SonataPageBundle::layout.html.twig';
         if ($this->getCurrentPage() && $this->getCurrentPage()->getTemplate()) {
-            $template = $this->getCurrentPage()->getTemplate()->getPath();
+            $template = $this->pageManager->getTemplate($this->getCurrentPage()->getTemplate())->getPath();
         }
 
         $params['page']         = $page;

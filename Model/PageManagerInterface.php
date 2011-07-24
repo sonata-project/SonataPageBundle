@@ -42,6 +42,11 @@ interface PageManagerInterface
      */
     function getPageByUrl($url);
 
+    /**
+     * Returns a string, the code name of the template
+     * @abstract
+     * @return string
+     */
     function getDefaultTemplate();
 
     /**
@@ -57,4 +62,17 @@ interface PageManagerInterface
      * @return PageInterface
      */
     function createNewPage(array $params = array());
+
+    /**
+     * @abstract
+     * @param Template $template
+     * @return void
+     */
+    function addTemplate($code, Template $template);
+
+    /**
+     * @abstract
+     * @return array
+     */
+    function getTemplates();
 }

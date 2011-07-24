@@ -15,10 +15,13 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SnapshotInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\BlockInterface;
+use Sonata\PageBundle\Model\Template;
+use Sonata\PageBundle\Model\SnapshotChildrenCollection;
+
 use Application\Sonata\PageBundle\Entity\Page;
+
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\NoResultException;
-use Sonata\PageBundle\Model\SnapshotChildrenCollection;
 
 class SnapshotManager implements SnapshotManagerInterface
 {
@@ -28,10 +31,13 @@ class SnapshotManager implements SnapshotManagerInterface
 
     protected $class;
 
-    public function __construct(EntityManager $entityManager, $class = 'Application\Sonata\PageBundle\Entity\Snapshot')
+    protected $templates = array();
+
+    public function __construct(EntityManager $entityManager, $class = 'Application\Sonata\PageBundle\Entity\Snapshot', $templates = array())
     {
         $this->entityManager = $entityManager;
         $this->class         = $class;
+        $this->templates     = $templates;
     }
 
     /**
@@ -111,6 +117,7 @@ class SnapshotManager implements SnapshotManagerInterface
             'publicationDateStart'  => $date,
             'publicationDateEnd'    => $date,
         );
+
         $query = $this->getRepository()
             ->createQueryBuilder('s')
             ->andWhere('s.publicationDateStart <= :publicationDateStart AND ( s.publicationDateEnd IS NULL OR s.publicationDateEnd >= :publicationDateEnd )');
@@ -167,11 +174,7 @@ class SnapshotManager implements SnapshotManagerInterface
         $page->setMetaKeyword($content['meta_keyword']);
         $page->setName($content['name']);
         $page->setSlug($content['slug']);
-
-        $template = new \Application\Sonata\PageBundle\Entity\Template;
-        $template->setPath($content['template']);
-
-        $page->setTemplate($template);
+        $page->setTemplate($this->getTemplate($content['template']));
 
         $createdAt = new \DateTime;
         $createdAt->setTimestamp($content['created_at']);
@@ -247,7 +250,7 @@ class SnapshotManager implements SnapshotManagerInterface
         $content['stylesheet']        = $page->getStylesheet();
         $content['meta_description']  = $page->getMetaDescription();
         $content['meta_keyword']      = $page->getMetaKeyword();
-        $content['template']          = $page->getTemplate() ? $page->getTemplate()->getPath() : false;
+        $content['template']          = $page->getTemplate();
         $content['created_at']        = $page->getCreatedAt()->format('U');
         $content['updated_at']        = $page->getUpdatedAt()->format('U');
         $content['slug']              = $page->getSlug();
@@ -341,5 +344,29 @@ class SnapshotManager implements SnapshotManagerInterface
         }
 
         return $this->children[$parent->getId()];
+    }
+
+    public function setTemplates($templates)
+    {
+        $this->templates = $templates;
+    }
+
+    public function getTemplates()
+    {
+        return $this->templates;
+    }
+
+    public function addTemplate($code, Template $template)
+    {
+        $this->templates[$code] = $template;
+    }
+
+    public function getTemplate($code)
+    {
+        if (!isset($this->templates[$code])) {
+            throw new \RunTimeException(sprintf('No template references whith the code : %s', $code));
+        }
+
+        return $this->templates[$code];
     }
 }

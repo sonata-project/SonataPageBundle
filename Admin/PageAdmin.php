@@ -61,6 +61,12 @@ class PageAdmin extends Admin
 
     public function configureFormFields(FormMapper $formMapper)
     {
+        $templates = array();
+        foreach ($this->cmsManager->getPageManager()->getTemplates() as $code => $template)
+        {
+            $templates[$code] = $template->getName();
+        }
+
         $formMapper
             ->add('enabled', array('required' => false))
             ->add('decorate', array('required' => false))
@@ -68,7 +74,7 @@ class PageAdmin extends Admin
             ->add('position')
             ->add('metaKeyword',  array('required' => false), array('type' => 'text'))
             ->add('metaDescription', array('required' => false), array('type' => 'text'))
-            ->add('template', array('required' => false))
+            ->addType('template', 'choice', array('required' => true, 'choices' => $templates))
             ->add('javascript', array('required' => false))
             ->add('stylesheet', array('required' => false))
         ;

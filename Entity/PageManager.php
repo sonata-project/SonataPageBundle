@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata project.
  *
@@ -8,13 +9,13 @@
  * file that was distributed with this source code.
  */
 
-
 namespace Sonata\PageBundle\Entity;
 
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\SnapshotInterface;
+use Sonata\PageBundle\Model\Template;
 
 use Application\Sonata\PageBundle\Entity\Page;
 use Doctrine\ORM\EntityManager;
@@ -25,10 +26,13 @@ class PageManager implements PageManagerInterface
 
     protected $class;
 
-    public function __construct(EntityManager $entityManager, $class = 'Application\Sonata\PageBundle\Entity\Page')
+    protected $templates = array();
+
+    public function __construct(EntityManager $entityManager, $class = 'Application\Sonata\PageBundle\Entity\Page', $templates = array())
     {
         $this->entityManager = $entityManager;
         $this->class         = $class;
+        $this->templates     = $templates;
     }
 
     /**
@@ -40,10 +44,9 @@ class PageManager implements PageManagerInterface
     public function getPageByName($routeName)
     {
         $pages = $this->entityManager->createQueryBuilder()
-            ->select('p, t')
+            ->select('p')
             ->from( $this->class, 'p')
             ->where('p.routeName = :routeName')
-            ->leftJoin('p.template', 't')
             ->setParameters(array(
                 'routeName' => $routeName
             ))
@@ -69,7 +72,6 @@ class PageManager implements PageManagerInterface
         $pages = $this->entityManager->createQueryBuilder()
             ->select('p')
             ->from( $this->class, 'p')
-            ->leftJoin('p.template', 't')
             ->where('p.url = :url')
             ->setParameters(array(
                 'url' => $url
@@ -80,19 +82,19 @@ class PageManager implements PageManagerInterface
         return count($pages) > 0 ? $pages[0] : false;
     }
 
+    /**
+     * @throws \RunTimeException
+     * @return string
+     */
     public function getDefaultTemplate()
     {
-        $templates = $this->entityManager->createQueryBuilder()
-            ->select('t')
-            ->from('Application\Sonata\PageBundle\Entity\Template', 't')
-            ->where('t.id = :id')
-            ->setParameters(array(
-                 'id' => 1
-            ))
-            ->getQuery()
-            ->execute();
+        foreach ($this->templates as $template) {
+            if ($template->getDefault()) {
+                return $template;
+            }
+        }
 
-        return count($templates) > 0 ? $templates[0] : false;
+        throw new \RunTimeException('Please configure a default template in your configuration file');
     }
 
     public function createNewPage(array $defaults = array())
@@ -150,7 +152,9 @@ class PageManager implements PageManagerInterface
      */
     public function getNewInstance()
     {
-        return new Page;
+        $class = $this->getClass();
+
+        return new $class;
     }
 
     public function findBy(array $criteria = array())
@@ -195,5 +199,34 @@ class PageManager implements PageManagerInterface
             ))
             ->getQuery()
             ->execute();
+    }
+
+    public function setTemplates($templates)
+    {
+        $this->templates = $templates;
+    }
+
+    public function getTemplates()
+    {
+        return $this->templates;
+    }
+
+    public function addTemplate($code, Template $template)
+    {
+        $this->templates[$code] = $template;
+    }
+
+    public function getTemplate($code)
+    {
+        if (!isset($this->templates[$code])) {
+            throw new \RunTimeException(sprintf('No template references whith the code : %s', $code));
+        }
+
+        return $this->templates[$code];
+    }
+
+    public function getClass()
+    {
+        return $this->class;
     }
 }

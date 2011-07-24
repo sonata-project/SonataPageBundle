@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata project.
  *
@@ -8,12 +9,11 @@
  * file that was distributed with this source code.
  */
 
-
 namespace Sonata\PageBundle\Entity;
 
 use Sonata\PageBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
-use Sonata\PageBundle\Model\TemplateInterface;
+use Sonata\PageBundle\Model\Template;
 
 abstract class BasePage implements PageInterface
 {
@@ -357,9 +357,9 @@ abstract class BasePage implements PageInterface
     /**
      * Set template
      *
-     * @param \Sonata\PageBundle\Model\TemplateInterface $template
+     * @param string $template
      */
-    public function setTemplate(TemplateInterface $template)
+    public function setTemplate(Template $template)
     {
         $this->template = $template;
     }
@@ -367,7 +367,7 @@ abstract class BasePage implements PageInterface
     /**
      * Get template
      *
-     * @return Application\Sonata\PageBundle\Entity\Template $template
+     * @return string $template
      */
     public function getTemplate()
     {

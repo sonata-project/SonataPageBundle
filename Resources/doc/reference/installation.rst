@@ -113,6 +113,9 @@ file.
                 cache: sonata.page.cache.noop
                 default_settings: {}
 
+        templates:
+            default: {default: true, path: 'SonataPageBundle::layout.html.twig', name: default }
+
         caches:
             sonata.page.cache.esi:
                 servers:
