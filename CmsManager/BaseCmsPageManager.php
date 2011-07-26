@@ -54,6 +54,8 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
 
     protected $recorder;
 
+    protected $defaultTemplatePath = 'SonataPageBundle::layout.html.twig';
+
     /**
      * filter the `core.response` event to decorated the action
      *
@@ -164,6 +166,13 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
         }
 
         return true;
+    }
+
+    public function getCreateNewPageDefaultsByName($name)
+    {
+        $params = $this->getOption('page_defaults', array());
+
+        return isset($params[$name]) ? $params[$name] : array();
     }
 
     /**
@@ -493,5 +502,38 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     public function getRecorder()
     {
         return $this->recorder;
+    }
+
+    /**
+     * @param \Sonata\PageBundle\Model\PageInterface $page
+     * @param array $params
+     * @param null|\Symfony\Component\HttpFoundation\Response $response
+     * @return null|\Symfony\Component\HttpFoundation\Response
+     */
+    public function renderPage(PageInterface $page, array $params = array(), Response $response = null)
+    {
+        $template = false;
+        if ($this->getCurrentPage()) {
+            $template = $this->getPageManager()->getTemplate($this->getCurrentPage()->getTemplateName())->getPath();
+        }
+
+        if (!$template) {
+            $template = $this->defaultTemplatePath;
+        }
+
+        $params  = array_merge($params, $this->getRenderPageParams($page));
+
+        $response = $this->templating->renderResponse($template, $params, $response);
+        $response->setTtl($page->getTtl());
+
+        return $response;
+    }
+
+    protected function getRenderPageParams(PageInterface $page)
+    {
+        return array(
+            'page'    => $page,
+            'manager' => $this,
+        );
     }
 }

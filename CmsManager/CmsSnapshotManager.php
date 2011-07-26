@@ -192,32 +192,6 @@ class CmsSnapshotManager extends BaseCmsPageManager
         return $page;
     }
 
-    /**
-     * @param \Sonata\PageBundle\Model\PageInterface $page
-     * @param array $params
-     * @param null|\Symfony\Component\HttpFoundation\Response $response
-     * @return null|\Symfony\Component\HttpFoundation\Response
-     */
-    public function renderPage(PageInterface $page, array $params = array(), Response $response = null)
-    {
-        $template = false;
-        if ($this->getCurrentPage()) {
-            $template = $this->getCurrentPage()->getTemplate()->getPath();
-        }
-
-        if (!$template) {
-            $template = 'SonataPageBundle::layout.html.twig';
-        }
-
-        $params['page']         = $page;
-        $params['manager']      = $this;
-
-        $response = $this->templating->renderResponse($template, $params, $response);
-        $response->setTtl($page->getTtl());
-
-        return $response;
-    }
-
     public function loadBlocks(PageInterface $page)
     {
         $i = new RecursiveBlockIterator($page->getBlocks());

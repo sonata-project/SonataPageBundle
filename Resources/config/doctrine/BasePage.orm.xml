@@ -19,7 +19,7 @@
         <field name="javascript"        type="text"         column="javascript"         nullable="true"/>
         <field name="stylesheet"        type="text"         column="stylesheet"         nullable="true"/>
 
-        <field name="template"          type="string"       column="template"           nullable="false" />
+        <field name="templateName"          type="string"       column="template"           nullable="false" />
         <field name="createdAt"    type="datetime"   column="created_at" />
         <field name="updatedAt"    type="datetime"   column="updated_at" />
 

@@ -75,4 +75,11 @@ interface PageManagerInterface
      * @return array
      */
     function getTemplates();
+
+    /**
+     * @abstract
+     * @param string $code template code
+     * @return Template
+     */
+    function getTemplate($code);
 }

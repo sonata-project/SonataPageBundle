@@ -117,7 +117,6 @@ class SnapshotManager implements SnapshotManagerInterface
             'publicationDateStart'  => $date,
             'publicationDateEnd'    => $date,
         );
-
         $query = $this->getRepository()
             ->createQueryBuilder('s')
             ->andWhere('s.publicationDateStart <= :publicationDateStart AND ( s.publicationDateEnd IS NULL OR s.publicationDateEnd >= :publicationDateEnd )');
@@ -136,6 +135,7 @@ class SnapshotManager implements SnapshotManagerInterface
         }
 
         $query->setParameters($parameters);
+
         try {
             return $query->getQuery()->getSingleResult();
         } catch (NoResultException $e) {
@@ -174,7 +174,7 @@ class SnapshotManager implements SnapshotManagerInterface
         $page->setMetaKeyword($content['meta_keyword']);
         $page->setName($content['name']);
         $page->setSlug($content['slug']);
-        $page->setTemplate($this->getTemplate($content['template']));
+        $page->setTemplateName($this->getTemplate($content['template'])->getName());
 
         $createdAt = new \DateTime;
         $createdAt->setTimestamp($content['created_at']);
@@ -250,7 +250,7 @@ class SnapshotManager implements SnapshotManagerInterface
         $content['stylesheet']        = $page->getStylesheet();
         $content['meta_description']  = $page->getMetaDescription();
         $content['meta_keyword']      = $page->getMetaKeyword();
-        $content['template']          = $page->getTemplate();
+        $content['template']          = $page->getTemplateName();
         $content['created_at']        = $page->getCreatedAt()->format('U');
         $content['updated_at']        = $page->getUpdatedAt()->format('U');
         $content['slug']              = $page->getSlug();
@@ -358,6 +358,7 @@ class SnapshotManager implements SnapshotManagerInterface
 
     public function addTemplate($code, Template $template)
     {
+        $code = $template->getName();
         $this->templates[$code] = $template;
     }
 

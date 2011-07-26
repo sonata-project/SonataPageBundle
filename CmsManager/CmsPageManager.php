@@ -64,22 +64,12 @@ class CmsPageManager extends BaseCmsPageManager
         return 'page';
     }
 
-    public function renderPage(PageInterface $page, array $params = array(), Response $response = null)
+    protected function getRenderPageParams(PageInterface $page)
     {
-        $template = 'SonataPageBundle::layout.html.twig';
-        if ($this->getCurrentPage() && $this->getCurrentPage()->getTemplate()) {
-            $template = $this->pageManager->getTemplate($this->getCurrentPage()->getTemplate())->getPath();
-        }
-
-        $params['page']         = $page;
-        $params['manager']      = $this;
-        $params['page_admin']   = $this->getPageAdmin();
-        $params['block_admin']  = $this->getBlockAdmin();
-
-        $response = $this->templating->renderResponse($template, $params, $response);
-        $response->setTtl($page->getTtl());
-
-        return $response;
+        return array_merge(parent::getRenderPageParams($page), array(
+            'page_admin'    => $this->getPageAdmin(),
+            'block_admin'   => $this->getBlockAdmin(),
+        ));
     }
 
     /**
@@ -227,8 +217,6 @@ class CmsPageManager extends BaseCmsPageManager
         }
 
         $page = $this->getPageManager()->createNewPage(array(
-            'template' => $this->getDefaultTemplate(),
-            'enabled'  => true,
             'routeName' => $routeName,
             'name'      => $routeName,
         ));
