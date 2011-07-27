@@ -512,4 +512,44 @@ abstract class BasePage implements PageInterface
 
         return $text;
     }
+
+    /**
+     * Retrieve a block by name
+     *
+     * @param string $name
+     * @return Sonata\PageBundle\Model\BlockInterface
+     */
+    public function getContainerByName($name)
+    {
+        $block = null;
+
+        foreach ($this->getBlocks() as $blockTmp) {
+            if ($name == $blockTmp->getSetting('name')) {
+                $block = $blockTmp;
+
+                break;
+            }
+        }
+
+        return $block;
+    }
+
+    /**
+     * Retrieve blocks by type
+     *
+     * @param string $type
+     * @return array
+     */
+    public function getBlocksByType($type)
+    {
+        $blocks = array();
+
+        foreach ($this->getBlocks() as $block) {
+            if ($type == $block->getType()) {
+                $blocks[] = $block;
+            }
+        }
+
+        return $blocks;
+    }
 }
