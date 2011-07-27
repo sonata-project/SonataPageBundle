@@ -28,6 +28,8 @@ class PageManager implements PageManagerInterface
 
     protected $templates = array();
 
+    protected $defaultTemplateCode = 'default';
+
     public function __construct(EntityManager $entityManager, $class = 'Application\Sonata\PageBundle\Entity\Page', $templates = array())
     {
         $this->entityManager = $entityManager;
@@ -82,19 +84,16 @@ class PageManager implements PageManagerInterface
         return count($pages) > 0 ? $pages[0] : false;
     }
 
-    /**
-     * @throws \RunTimeException
-     * @return string
-     */
-    public function getDefaultTemplate()
+    public function getDefaultTemplateCode()
     {
-        foreach ($this->templates as $template) {
-            if ($template->getDefault()) {
-                return $template;
-            }
-        }
+        return $this->defaultTemplateCode;
+    }
 
-        throw new \RunTimeException('Please configure a default template in your configuration file');
+    public function setDefaultTemplateCode($code)
+    {
+        $this->defaultTemplateCode = $code;
+
+        return $this;
     }
 
     protected function getCreateNewPageDefaults()
@@ -102,7 +101,7 @@ class PageManager implements PageManagerInterface
         $time = new \DateTime;
 
         return array(
-            'templateName'  => $this->getDefaultTemplate()->getName(),
+            'templateCode'  => $this->getDefaultTemplateCode(),
             'enabled'       => true,
             'routeName'     => null,
             'name'          => null,
@@ -225,12 +224,6 @@ class PageManager implements PageManagerInterface
     public function getTemplates()
     {
         return $this->templates;
-    }
-
-    public function addTemplate($code, Template $template)
-    {
-        $code = $template->getName();
-        $this->templates[$code] = $template;
     }
 
     public function getTemplate($code)

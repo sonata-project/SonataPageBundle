@@ -514,7 +514,7 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     {
         $template = false;
         if ($this->getCurrentPage()) {
-            $template = $this->getPageManager()->getTemplate($this->getCurrentPage()->getTemplateName())->getPath();
+            $template = $this->getPageManager()->getTemplate($this->getCurrentPage()->getTemplateCode())->getPath();
         }
 
         if (!$template) {

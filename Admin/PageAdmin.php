@@ -74,7 +74,7 @@ class PageAdmin extends Admin
             ->add('position')
             ->add('metaKeyword',  array('required' => false), array('type' => 'text'))
             ->add('metaDescription', array('required' => false), array('type' => 'text'))
-            ->addType('templateName', 'choice', array('required' => true, 'choices' => $templates))
+            ->addType('templateCode', 'choice', array('required' => true, 'choices' => $templates))
             ->add('javascript', array('required' => false))
             ->add('stylesheet', array('required' => false))
         ;

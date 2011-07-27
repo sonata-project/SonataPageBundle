@@ -232,16 +232,16 @@ interface PageInterface
     /**
      * Set template
      *
-     * @param string $templateName
+     * @param string $templateCode
      */
-    function setTemplateName($templateName);
+    function setTemplateCode($templateCode);
 
     /**
      * Get template
      *
-     * @return string $templateName
+     * @return string $templateCode
      */
-    function getTemplateName();
+    function getTemplateCode();
 
     function setDecorate($decorate);
 

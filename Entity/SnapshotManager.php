@@ -88,7 +88,7 @@ class SnapshotManager implements SnapshotManagerInterface
         }
 
         $this->entityManager->flush();
-
+        //@todo: strange sql and low-level pdo usage: use dql or qb
         $sql = sprintf("UPDATE %s SET publication_date_end = '%s' WHERE id NOT IN(%s) AND page_id IN (%s) AND publication_date_end IS NULL",
             $this->entityManager->getClassMetadata('Application\Sonata\PageBundle\Entity\Snapshot')->table['name'],
             $now->format('Y-m-d H:i:s'),
@@ -174,7 +174,7 @@ class SnapshotManager implements SnapshotManagerInterface
         $page->setMetaKeyword($content['meta_keyword']);
         $page->setName($content['name']);
         $page->setSlug($content['slug']);
-        $page->setTemplateName($this->getTemplate($content['template'])->getName());
+        $page->setTemplateCode($content['templateCode']);
 
         $createdAt = new \DateTime;
         $createdAt->setTimestamp($content['created_at']);
@@ -250,7 +250,7 @@ class SnapshotManager implements SnapshotManagerInterface
         $content['stylesheet']        = $page->getStylesheet();
         $content['meta_description']  = $page->getMetaDescription();
         $content['meta_keyword']      = $page->getMetaKeyword();
-        $content['template']          = $page->getTemplateName();
+        $content['templateCode']      = $page->getTemplateCode();
         $content['created_at']        = $page->getCreatedAt()->format('U');
         $content['updated_at']        = $page->getUpdatedAt()->format('U');
         $content['slug']              = $page->getSlug();
@@ -354,12 +354,6 @@ class SnapshotManager implements SnapshotManagerInterface
     public function getTemplates()
     {
         return $this->templates;
-    }
-
-    public function addTemplate($code, Template $template)
-    {
-        $code = $template->getName();
-        $this->templates[$code] = $template;
     }
 
     public function getTemplate($code)

@@ -46,7 +46,7 @@ abstract class BasePage implements PageInterface
 
     protected $children;
 
-    protected $templateName;
+    protected $templateCode;
 
     protected $position = 1;
 
@@ -356,21 +356,21 @@ abstract class BasePage implements PageInterface
     /**
      * Set template
      *
-     * @param string $templateName
+     * @param string $templateCode
      */
-    public function setTemplateName($templateName)
+    public function setTemplateCode($templateCode)
     {
-        $this->templateName = $templateName;
+        $this->templateCode = $templateCode;
     }
 
     /**
      * Get template
      *
-     * @return string $templateName
+     * @return string $templateCode
      */
-    public function getTemplateName()
+    public function getTemplateCode()
     {
-        return $this->templateName;
+        return $this->templateCode;
     }
 
     public function disableBlockLazyLoading()

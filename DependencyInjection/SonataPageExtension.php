@@ -73,26 +73,36 @@ class SonataPageExtension extends Extension
         $pageManager = $container->getDefinition('sonata.page.manager.page');
         $snapshotManager = $container->getDefinition('sonata.page.manager.snapshot');
 
+        $defaults = array(
+            'name'   => 'n-a',
+            'path'   => 'SonataPageBundle::layout.html.twig',
+        );
+
+        if (!isset($configs['default_template'])) {
+            $config['default_template'] = 'default';
+        }
+
         if (!isset($configs['templates'])) {
-            $configs['templates'] = array(
-                array(
-                    'default' => true,
-                    'path'    => 'SonataPageBundle::layout.html.twig',
-                    'name'    => 'default'
-                )
-            );
+            $configs['templates'] = array('default' => array_merge($defaults, array(
+                'name' => 'default',
+            )));
         }
-
+        $definitions = array();
         foreach ($configs['templates'] as $code => $info) {
+            $info = array_merge($defaults, $info);
             $definition = new Definition('Sonata\PageBundle\Model\Template');
-            $definition->addMethodCall('setName', array(isset($info['name']) ? $info['name'] : 'n-a'));
-            $definition->addMethodCall('setDefault', array(isset($info['default']) ? $info['default'] : false));
-            $definition->addMethodCall('setPath', array(isset($info['path']) ? $info['path'] : 'SonataPageBundle::layout.html.twig'));
+            foreach($defaults as $key => $value) {
+                $method = 'set' . ucfirst($key);
+                $definition->addMethodCall($method, array($info[$key]));
+            }
             $definition->setPublic(false);
-
-            $pageManager->addMethodCall('addTemplate', array($code, $definition));
-            $snapshotManager->addMethodCall('addTemplate', array($code, $definition));
+            $definitions[$code] = $definition;
         }
+
+        $pageManager->addMethodCall('setTemplates', array($definitions));
+        $snapshotManager->addMethodCall('setTemplates', array($definitions));
+
+        $pageManager->addMethodCall('setDefaultTemplateCode', array($config['default_template']));
     }
 
     public function configureInvalidation(ContainerBuilder $container, $configs)

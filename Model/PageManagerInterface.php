@@ -47,7 +47,7 @@ interface PageManagerInterface
      * @abstract
      * @return string
      */
-    function getDefaultTemplate();
+    function setDefaultTemplateCode($code);
 
     /**
      * @abstract
@@ -62,13 +62,6 @@ interface PageManagerInterface
      * @return PageInterface
      */
     function createNewPage(array $params = array());
-
-    /**
-     * @abstract
-     * @param Template $template
-     * @return void
-     */
-    function addTemplate($code, Template $template);
 
     /**
      * @abstract

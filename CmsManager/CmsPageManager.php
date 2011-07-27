@@ -212,10 +212,6 @@ class CmsPageManager extends BaseCmsPageManager
      */
     public function createPage($routeName)
     {
-        if (!$this->getDefaultTemplate()) {
-            throw new \RuntimeException('No default template defined');
-        }
-
         $page = $this->getPageManager()->createNewPage(array(
             'routeName' => $routeName,
             'name'      => $routeName,
@@ -224,16 +220,6 @@ class CmsPageManager extends BaseCmsPageManager
         $this->getPageManager()->save($page);
 
         return $page;
-    }
-
-    /**
-     * return the default template used in the current application
-     *
-     * @return bool | Application\Sonata\PageBundle\Entity\Template
-     */
-    public function getDefaultTemplate()
-    {
-        return $this->getPageManager()->getDefaultTemplate();
     }
 
     /**
