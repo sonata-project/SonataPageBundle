@@ -5,7 +5,7 @@ Advanced usage
 Ignore options
 --------------
 
-By default, the ``PageBundle`` decorate all pages however it is possible to tweak
+By default, the ``PageBundle`` decorates all pages. However it is possible to tweak
 this behavior by ignoring patterns :
 
     - ``ignore_route_patterns`` : based on pattern

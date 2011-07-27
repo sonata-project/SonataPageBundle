@@ -3,15 +3,15 @@ You first block
 
 This quick tutorial explains how to create a RSS reader block.
 
-A service block is just a service which must implements the ``BlockServiceInterface``
-interface. There is only one instance of a service block, however there are many block
+A block service is just a service which must implements the ``BlockServiceInterface``
+interface. There is only one instance of a block service, however there are many block
 instances.
 
 1. First namespaces
 -------------------
 
-The ``BaseBlockService`` implements some basics methods defined by the interface.
-The current Rss block will extends this base class. The others `use` statements are required
+The ``BaseBlockService`` implements some basic methods defined by the interface.
+The current Rss block will extend this base class. The others `use` statements are required
 by the interface and remaining methods.
 
 .. code-block:: php
@@ -29,7 +29,7 @@ by the interface and remaining methods.
 -------------------
 
 A block service needs settings to work properly, so to ensure consistency, the service should
-define a ``getDefaultSettings`` method. In the current tutorial, the default settings are :
+define a ``getDefaultSettings`` method. In the current tutorial, the default settings are:
 
     - url : the feed url
     - title : the block title
@@ -47,7 +47,7 @@ define a ``getDefaultSettings`` method. In the current tutorial, the default set
 3. Form Edition
 ---------------
 
-The ``PageBundle`` rely on the ``AdminBundle`` to manage form edition and keep
+The ``PageBundle`` relies on the ``AdminBundle`` to manage form edition and keep
 a good consistency.
 
 .. code-block:: php

@@ -34,12 +34,12 @@ entities for the page::
 .. note::
 
     The command will generate domain objects in an ``Application`` namespace.
-    So you can point entities' associations to a global and common namespace.
-    This will make Entities sharing very easily as your models are accessible
+    So you can point entities associations to a global and common namespace.
+    This will make entities sharing very easily as your models are accessible
     through a global namespace. For instance the page will be
     ``Application\Sonata\PageBundle\Entity\Page``.
 
-Now, add the new `Application` Bundle into the kernel
+Now, add the new `Application` Bundle to the kernel
 
 .. code-block:: php
 

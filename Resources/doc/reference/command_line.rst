@@ -4,7 +4,7 @@ Command Line Tools
 Flush commands
 --------------
 
-- Flush cache elements which match the key ``block_id = 5``
+- Flush cache elements matching the key ``block_id = 5``
 
     php app/console sonata:page:cache-flush snapshot --keys='{"block_id":5}'
 
