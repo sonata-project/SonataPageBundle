@@ -64,7 +64,7 @@ class UpdateCoreRoutesCommand extends ContainerAwareCommand
             }
 
             $requirements = $route->getRequirements();
-            if (isset($requirements['_method']) && $requirements['_method'] != 'GET') {
+            if (isset($requirements['_method']) && false === strpos($requirements['_method'], 'GET')) {
                 if ($page) {
                     $page->setEnabled(false);
                     $output->writeln(sprintf('<error>DISABLE</error> % -50s <error>NOT GET METHOD</error>', $name));
