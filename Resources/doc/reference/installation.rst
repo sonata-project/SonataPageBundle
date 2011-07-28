@@ -113,6 +113,10 @@ file.
                 cache: sonata.page.cache.noop
                 default_settings: {}
 
+        page_defaults:
+            homepage: {decorate: false} # disable decoration for homepage, key - is a page route
+
+        default_template: default # template key from templates section, used as default for pages
         templates:
             default: {default: true, path: 'SonataPageBundle::layout.html.twig', name: default }
 
