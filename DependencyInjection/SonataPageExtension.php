@@ -42,7 +42,6 @@ class SonataPageExtension extends Extension
         $loader->load('form.xml');
         $loader->load('cache.xml');
         $loader->load('twig.xml');
-
         // todo: use the configuration class
         $configs = call_user_func_array('array_merge_recursive', $configs);
 
@@ -79,7 +78,7 @@ class SonataPageExtension extends Extension
         );
 
         if (!isset($configs['default_template'])) {
-            $config['default_template'] = 'default';
+            $configs['default_template'] = 'default';
         }
 
         if (!isset($configs['templates'])) {
@@ -102,7 +101,7 @@ class SonataPageExtension extends Extension
         $pageManager->addMethodCall('setTemplates', array($definitions));
         $snapshotManager->addMethodCall('setTemplates', array($definitions));
 
-        $pageManager->addMethodCall('setDefaultTemplateCode', array($config['default_template']));
+        $pageManager->addMethodCall('setDefaultTemplateCode', array($configs['default_template']));
     }
 
     public function configureInvalidation(ContainerBuilder $container, $configs)
