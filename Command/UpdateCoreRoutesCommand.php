@@ -45,19 +45,13 @@ class UpdateCoreRoutesCommand extends ContainerAwareCommand
 
             $page = $pageManager->getPageByName($name);
 
-            if (!$cmsManager->isRouteNameDecorable($name)) {
+            if (
+                    !$cmsManager->isRouteNameDecorable($name)
+                    || !$cmsManager->isRouteUriDecorable($route->getPattern())
+            ) {
                 if ($page) {
                     $page->setEnabled(false);
                     $output->writeln(sprintf('<error>DISABLE</error> <error>% -50s</error> %s', $name, $route->getPattern()));
-                } else {
-                    continue;
-                }
-            }
-
-            if (!$cmsManager->isRouteUriDecorable($route->getPattern())) {
-                if ($page) {
-                    $page->setEnabled(false);
-                    $output->writeln(sprintf('<error>DISABLE</error> % -50s <error>%s</error>', $name, $route->getPattern()));
                 } else {
                     continue;
                 }
@@ -77,17 +71,14 @@ class UpdateCoreRoutesCommand extends ContainerAwareCommand
             if (!$page) {
                 $update = false;
 
-                $output->writeln(sprintf('<info>CREATE</info>  % -50s %s', $name, $route->getPattern()));
-
-                // todo : put some default value into the configuration file
-                $page = $pageManager->createNewPage(array(
-                    'template'      => $pageManager->getDefaultTemplate(),
-                    'enabled'       => true,
+                $params = array(
                     'routeName'     => $name,
                     'name'          => $name,
-                    'loginRequired' => false,
                     'url'           => $route->getPattern(),
-                ));
+                );
+                $params = array_merge($params, $cmsManager->getCreateNewPageDefaultsByName($name));
+
+                $page = $pageManager->createNewPage($params);
             }
 
             $page->setSlug($route->getPattern());

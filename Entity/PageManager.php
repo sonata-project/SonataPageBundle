@@ -28,6 +28,8 @@ class PageManager implements PageManagerInterface
 
     protected $templates = array();
 
+    protected $defaultTemplateCode = 'default';
+
     public function __construct(EntityManager $entityManager, $class = 'Application\Sonata\PageBundle\Entity\Page', $templates = array())
     {
         $this->entityManager = $entityManager;
@@ -82,33 +84,46 @@ class PageManager implements PageManagerInterface
         return count($pages) > 0 ? $pages[0] : false;
     }
 
-    /**
-     * @throws \RunTimeException
-     * @return string
-     */
-    public function getDefaultTemplate()
+    public function getDefaultTemplateCode()
     {
-        foreach ($this->templates as $template) {
-            if ($template->getDefault()) {
-                return $template;
-            }
-        }
+        return $this->defaultTemplateCode;
+    }
 
-        throw new \RunTimeException('Please configure a default template in your configuration file');
+    public function setDefaultTemplateCode($code)
+    {
+        $this->defaultTemplateCode = $code;
+
+        return $this;
+    }
+
+    protected function getCreateNewPageDefaults()
+    {
+        $time = new \DateTime;
+
+        return array(
+            'templateCode'  => $this->getDefaultTemplateCode(),
+            'enabled'       => true,
+            'routeName'     => null,
+            'name'          => null,
+            'slug'          => null,
+            'url'           => null,
+            'decorate'      => true,
+            'createdAt'     => $time,
+            'updatedAt'     => $time,
+        );
     }
 
     public function createNewPage(array $defaults = array())
     {
         // create a new page for this routing
         $page = $this->getNewInstance();
-        $page->setTemplate(isset($defaults['template']) ? $defaults['template'] : null);
-        $page->setEnabled(isset($defaults['enabled']) ? $defaults['enabled'] : true);
-        $page->setRouteName(isset($defaults['routeName']) ? $defaults['routeName'] : null);
-        $page->setName(isset($defaults['name']) ? $defaults['name'] : null);
-        $page->setSlug(isset($defaults['slug']) ? $defaults['slug'] : null);
-        $page->setUrl(isset($defaults['url']) ? $defaults['url'] : null);
-        $page->setCreatedAt(new \DateTime);
-        $page->setUpdatedAt(new \DateTime);
+        foreach ($this->getCreateNewPageDefaults() as $key => $value) {
+            if (isset($defaults[$key])) {
+                $value = $defaults[$key];
+            }
+            $method = 'set' . ucfirst($key);
+            $page->$method($value);
+        }
 
         return $page;
     }
@@ -209,11 +224,6 @@ class PageManager implements PageManagerInterface
     public function getTemplates()
     {
         return $this->templates;
-    }
-
-    public function addTemplate($code, Template $template)
-    {
-        $this->templates[$code] = $template;
     }
 
     public function getTemplate($code)

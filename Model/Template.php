@@ -15,21 +15,9 @@ class Template
 {
     protected $path;
 
-    protected $default;
-
     protected $name;
 
     protected $enabled;
-
-    public function setDefault($default)
-    {
-        $this->default = $default;
-    }
-
-    public function getDefault()
-    {
-        return $this->default;
-    }
 
     public function setEnabled($enabled)
     {
