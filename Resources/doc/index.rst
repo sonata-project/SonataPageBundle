@@ -1,5 +1,5 @@
-Welcome to PageBundle Documentation
-====================================
+Welcome to SonataPageBundle Documentation
+=========================================
 
 Reference Guide
 ---------------

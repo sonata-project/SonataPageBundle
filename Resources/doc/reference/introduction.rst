@@ -4,7 +4,7 @@ Introduction
 A Page
 ------
 
-The ``PageBundle`` is a special kind of CMS as it handles different types of page.
+The ``SonataPageBundle`` is a special kind of CMS as it handles different types of page.
 From within a Symfony2 application, actions are used to render a HTML response. When
 you need to add a new component (or block) inside an action, you need to edit the
 template. In the other hand, in the CMS world, users edit area and manage
@@ -14,7 +14,7 @@ It is very difficult to mix CMS page and Action page inside one and unique solut
 easiest way is to build the project with 2 backends, one for the CMS and one for
 the application.
 
-The ``PageBundle`` tries to solve this problem by encapsulating action pages into the CMS.
+The ``SonataPageBundle`` tries to solve this problem by encapsulating action pages into the CMS.
 So actions can be handled as a CMS page with the same solution, and this allows
 to easily include externals Symfony bundles.
 
@@ -31,7 +31,7 @@ Page types:
 A Block
 -------
 
-The ``PageBundle`` does not know how to manage content, actually there is no content
+The ``SonataPageBundle`` does not know how to manage content, actually there is no content
 management. This part is delegated to services. The bundle only manages references to
 the service required by a page. Reference information is stored in a ``Block``.
 
@@ -46,7 +46,7 @@ which defines a set of functions to create so the service can be integrated nice
 editing workflow. The important information is that a block service must always return
 a ``Response`` object.
 
-By default the ``PageBundle`` is shipped with core block services:
+By default the ``SonataPageBundle`` is shipped with core block services:
 
     - sonata.page.block.container      : Block container
     - sonata.page.block.action         : Render a specific action
