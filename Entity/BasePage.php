@@ -13,7 +13,6 @@ namespace Sonata\PageBundle\Entity;
 
 use Sonata\PageBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
-use Sonata\PageBundle\Model\Template;
 
 abstract class BasePage implements PageInterface
 {
@@ -47,7 +46,7 @@ abstract class BasePage implements PageInterface
 
     protected $children;
 
-    protected $template;
+    protected $templateCode;
 
     protected $position = 1;
 
@@ -357,21 +356,21 @@ abstract class BasePage implements PageInterface
     /**
      * Set template
      *
-     * @param string $template
+     * @param string $templateCode
      */
-    public function setTemplate(Template $template)
+    public function setTemplateCode($templateCode)
     {
-        $this->template = $template;
+        $this->templateCode = $templateCode;
     }
 
     /**
      * Get template
      *
-     * @return string $template
+     * @return string $templateCode
      */
-    public function getTemplate()
+    public function getTemplateCode()
     {
-        return $this->template;
+        return $this->templateCode;
     }
 
     public function disableBlockLazyLoading()

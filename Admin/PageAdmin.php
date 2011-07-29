@@ -54,7 +54,7 @@ class PageAdmin extends Admin
             'collapsed' => true
         ),
         'Advanced' => array(
-            'fields' => array('loginRequired', 'decorate', 'routeName', 'javascript', 'stylesheet'),
+            'fields' => array('decorate', 'routeName', 'javascript', 'stylesheet'),
             'collapsed' => true
         )
     );
@@ -74,7 +74,7 @@ class PageAdmin extends Admin
             ->add('position')
             ->add('metaKeyword',  array('required' => false), array('type' => 'text'))
             ->add('metaDescription', array('required' => false), array('type' => 'text'))
-            ->addType('template', 'choice', array('required' => true, 'choices' => $templates))
+            ->addType('templateCode', 'choice', array('required' => true, 'choices' => $templates))
             ->add('javascript', array('required' => false))
             ->add('stylesheet', array('required' => false))
         ;

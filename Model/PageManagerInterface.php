@@ -47,7 +47,7 @@ interface PageManagerInterface
      * @abstract
      * @return string
      */
-    function getDefaultTemplate();
+    function setDefaultTemplateCode($code);
 
     /**
      * @abstract
@@ -65,14 +65,14 @@ interface PageManagerInterface
 
     /**
      * @abstract
-     * @param Template $template
-     * @return void
-     */
-    function addTemplate($code, Template $template);
-
-    /**
-     * @abstract
      * @return array
      */
     function getTemplates();
+
+    /**
+     * @abstract
+     * @param string $code template code
+     * @return Template
+     */
+    function getTemplate($code);
 }
