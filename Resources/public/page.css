@@ -72,6 +72,9 @@ body.cms-edit-mode div.cms-fake-block {
     height: 1px;
     min-height: 1px;
     background: #cccccc;
+}
+
+body div.cms-fake-block {
     display:none;
 }
 
