@@ -58,10 +58,6 @@ class SonataPageExtension extends Extension
         foreach ($configs['services'] as $id => $settings) {
             $cache = isset($settings['cache']) ? $settings['cache'] : 'sonata.page.cache.noop';
 
-            if (!$container->hasDefinition($id)) {
-                continue;
-            }
-
             $cmsPage->addMethodCall('addCacheService', array($id, new Reference($cache)));
             $cmsSnapshot->addMethodCall('addCacheService', array($id, new Reference($cache)));
         }

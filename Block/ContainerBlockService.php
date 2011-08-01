@@ -41,6 +41,7 @@ class ContainerBlockService extends BaseBlockService
             'container' => $block,
             'manager'   => $this->manager,
             'page'      => $page,
+            'settings'  => $settings,
         ), $response);
 
         $response->setContent(Mustache::replace($settings['layout'], array(
@@ -66,37 +67,18 @@ class ContainerBlockService extends BaseBlockService
      */
     public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
     {
-        $formMapper->add('enabled', array('required' => false));
+        $formMapper->add('enabled', null, array('required' => false));
 
-        $formMapper->addType('settings', 'sonata_type_immutable_array', array(
+        $formMapper->add('settings', 'sonata_type_immutable_array', array(
             'keys' => array(
                 array('layout', 'textarea', array()),
+                array('orientation', 'choice', array(
+                    'choices' => array('block' => 'Block', 'left' => 'Left')
+                )),
             )
         ));
 
-        $formMapper->add('children', array(), array(
-            'edit'   => 'inline',
-            'inline' => 'table',
-            'sortable' => 'position'
-        ));
-    }
-
-    /**
-     * @param \Sonata\AdminBundle\Form\FormMapper $formMapper
-     * @param \Sonata\PageBundle\Model\BlockInterface $block
-     * @return void
-     */
-    public function buildCreateForm(FormMapper $formMapper, BlockInterface $block)
-    {
-        $formMapper->add('enabled', array('required' => false));
-
-        $formMapper->addType('settings', 'sonata_type_immutable_array', array(
-            'keys' => array(
-                array('layout', 'textarea', array()),
-            )
-        ));
-
-        $formMapper->add('children', array(), array(
+        $formMapper->add('children', null, array(), array(
             'edit'   => 'inline',
             'inline' => 'table',
             'sortable' => 'position'
@@ -115,6 +97,9 @@ class ContainerBlockService extends BaseBlockService
      */
     function getDefaultSettings()
     {
-        return array('layout' => '{{ CONTENT }}');
+        return array(
+            'layout'      => '{{ CONTENT }}',
+            'orientation' => 'block',
+        );
     }
 }

@@ -14,7 +14,11 @@ namespace Sonata\PageBundle\Admin;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\PageBundle\CmsManager\CmsPageManager;
+
 
 class BlockAdmin extends Admin
 {
@@ -22,22 +26,6 @@ class BlockAdmin extends Admin
 
     protected $cmsManager;
 
-    protected $filter = array(
-//        'page',
-        'enabled',
-        'type',
-    );
-
-    protected $list = array(
-        'type' => array('identifier' => true),
-        'enabled',
-        'updatedAt',
-        'position'
-    );
-    /**
-     * @param \Sonata\PageBundle\CmsManager\CmsPageManager $manager
-     * @return void
-     */
     public function setCmsManager(CmsPageManager $cmsManager)
     {
         $this->cmsManager = $cmsManager;
@@ -49,19 +37,34 @@ class BlockAdmin extends Admin
         $collection->add('view', $this->getRouterIdParameter().'/view');
     }
 
+    public function configureListFields(ListMapper $listMapper)
+    {
+        $listMapper
+            ->addIdentifier('type')
+            ->add('enabled')
+            ->add('updatedAt')
+            ->add('position')
+        ;
+    }
+
+    public function configureDatagridFilters(DatagridMapper $datagridMapper)
+    {
+        $datagridMapper
+            ->add('enabled')
+            ->add('type')
+        ;
+    }
+
     /**
      * @param \Sonata\AdminBundle\Form\FormMapper $formMapper
      * @return void
      */
     public function configureFormFields(FormMapper $formMapper)
     {
-        $block = $formMapper->getFormBuilder()->getData();
-
-//        $formMapper->add('enabled', array('required' => false));
+        $block = $this->getSubject();
 
         if ($block) {
             $service = $this->cmsManager->getBlockService($block);
-
             if ($block->getId() > 0) {
                 $service->buildEditForm($formMapper, $block);
             } else {
@@ -69,7 +72,7 @@ class BlockAdmin extends Admin
             }
         } else {
             $formMapper
-              ->addType('type', 'sonata_page_block_choice', array(), array('type' => 'choice'))
+              ->add('type', 'sonata_page_block_choice', array(), array('type' => 'choice'))
               ->add('position');
         }
     }

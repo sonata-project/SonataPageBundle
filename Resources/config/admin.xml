@@ -56,13 +56,6 @@
             </call>
         </service>
 
-        <service id="sonata.page.admin.template" class="%sonata.page.admin.template.class%">
-            <tag name="sonata.admin" manager_type="orm" group="sonata_page" label="template"/>
-            <argument />
-            <argument>%sonata.page.admin.template.entity%</argument>
-            <argument>%sonata.page.admin.template.controller%</argument>
-        </service>
-
         <service id="sonata.page.admin.snapshot" class="%sonata.page.admin.snapshot.class%">
             <tag name="sonata.admin" manager_type="orm" group="sonata_page" label="snapshot"/>
             <argument />

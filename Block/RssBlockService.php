@@ -39,7 +39,7 @@ class RssBlockService extends BaseBlockService
 
     public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
     {
-        $formMapper->addType('settings', 'sonata_type_immutable_array', array(
+        $formMapper->add('settings', 'sonata_type_immutable_array', array(
             'keys' => array(
                 array('url', 'url', array('required' => false)),
                 array('title', 'text', array('required' => false)),
@@ -67,7 +67,7 @@ class RssBlockService extends BaseBlockService
         $settings = array_merge($this->getDefaultSettings(), $block->getSettings());
 
         $feeds = false;
-        if ($settings['url']) {
+        if (false && $settings['url']) {
             $options = array(
                 'http' => array(
                     'user_agent' => 'Sonata/RSS Reader',

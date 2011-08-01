@@ -42,7 +42,7 @@ class TextBlockService extends BaseBlockService
 
     public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
     {
-        $formMapper->addType('settings', 'sonata_type_immutable_array', array(
+        $formMapper->add('settings', 'sonata_type_immutable_array', array(
             'keys' => array(
                 array('content', 'textarea', array()),
             )

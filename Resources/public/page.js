@@ -83,13 +83,13 @@ var Page = {
                 jQuery('div.cms-fake-block').css('display', 'none');
             }
         }).sortable('disable');
-
     },
 
     buildInformation: function() {
-        var blocks = jQuery("div.cms-container-root");
 
+        var blocks = jQuery("div.cms-container-root");
         var information = {};
+
         blocks.each(function(i, block) {
             information[block.id] = {
                 type: block.getAttribute('type'),
@@ -101,13 +101,13 @@ var Page = {
     },
 
     buildBlockInformation: function(block) {
-
         if (!block.id) {
             return;
         }
-        var blocks = jQuery('#' + block.id + ' > div.cms-block');
 
+        var blocks = jQuery('#' + block.id + ' > div.cms-block');
         var information = {};
+
         blocks.each(function(i, child) {
             information[child.id] = {
                 type: child.getAttribute('type'),
@@ -116,7 +116,6 @@ var Page = {
         });
 
         return information;
-
     },
 
     savePosition: function() {

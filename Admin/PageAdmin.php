@@ -13,87 +13,117 @@ namespace Sonata\PageBundle\Admin;
 
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Route\RouteCollection;
-use Knp\Bundle\MenuBundle\MenuItem;
+use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\DatagridMapper;
+
+use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Cache\CacheElement;
 use Sonata\PageBundle\CmsManager\CmsManagerInterface;
-use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\PageBundle\Model\PageInterface;
+
+use Knp\Bundle\MenuBundle\MenuItem;
 
 class PageAdmin extends Admin
 {
     protected $cmsManager;
 
-    protected $list = array(
-        'hybrid' => array('type' => 'string', 'template' => 'SonataPageBundle:PageAdmin:field_hybrid.html.twig'),
-        'name' => array('identifier' => true),
-        'routeName',
-        'decorate',
-        'enabled',
-    );
+    public function configureShowField(ShowMapper $showMapper)
+    {
+        $showMapper
+            ->add('routeName')
+            ->add('enabled')
+            ->add('decorate')
+            ->add('name')
+            ->add('slug')
+            ->add('customUrl')
+        ;
+    }
 
-    protected $filter = array(
-        'name',
-    );
+    public function configureListFields(ListMapper $listMapper)
+    {
+        $listMapper
+            ->add('hybrid', 'text', array('template' => 'SonataPageBundle:PageAdmin:field_hybrid.html.twig'))
+            ->add('name', null, array('identifier' => true))
+            ->add('routeName')
+            ->add('decorate')
+            ->add('enabled')
+        ;
+    }
 
-    protected $view = array(
-        'routeName',
-        'enabled',
-        'decorate',
-        'name',
-        'slug',
-        'customUrl'
-    );
-
-    protected $formGroups = array(
-        'General' => array(
-            'fields' => array('name', 'enabled', 'position', 'template', 'parent')
-        ),
-        'SEO' => array(
-            'fields' => array('slug', 'customUrl', 'metaKeyword', 'metaDescription'),
-            'collapsed' => true
-        ),
-        'Advanced' => array(
-            'fields' => array('decorate', 'routeName', 'javascript', 'stylesheet'),
-            'collapsed' => true
-        )
-    );
+    public function configureDatagridFilters(DatagridMapper $datagridMapper)
+    {
+        $datagridMapper
+            ->add('name')
+            ->add('hybrid', 'callback', array(
+                'template' => 'SonataAdminBundle:CRUD:filter_callback.html.twig',
+                'filter_options' => array(
+                    'filter' => array($this, 'handleHybridFilter'),
+                    'type'   => 'choice'
+                ),
+                'filter_field_options' => array(
+                    'required' => false,
+                    'choices'  => array(
+                        'hybrid'  => $this->trans('hybrid'),
+                        'cms'     => $this->trans('cms'),
+                    )
+                )
+            ))
+        ;
+    }
 
     public function configureFormFields(FormMapper $formMapper)
     {
         $templates = array();
-        foreach ($this->cmsManager->getPageManager()->getTemplates() as $code => $template)
-        {
+        foreach ($this->cmsManager->getPageManager()->getTemplates() as $code => $template) {
             $templates[$code] = $template->getName();
         }
 
         $formMapper
-            ->add('enabled', array('required' => false))
-            ->add('decorate', array('required' => false))
-            ->add('name')
-            ->add('position')
-            ->add('metaKeyword',  array('required' => false), array('type' => 'text'))
-            ->add('metaDescription', array('required' => false), array('type' => 'text'))
-            ->addType('templateCode', 'choice', array('required' => true, 'choices' => $templates))
-            ->add('javascript', array('required' => false))
-            ->add('stylesheet', array('required' => false))
+            ->with('General')
+                ->add('name')
+                ->add('enabled', null, array('required' => false))
+                ->add('position')
+                ->add('template', 'choice', array('required' => true, 'choices' => $templates))
+            ->end()
         ;
 
         if (!$this->getSubject() || !$this->getSubject()->isHybrid()) {
             $formMapper
-                ->add('slug', array('required' => false), array('type' => 'string'))
-                ->add('customUrl', array('required' => false), array('type' => 'string'))
+                ->with('SEO')
+                    ->add('slug', 'text',  array('required' => false))
+                    ->add('customUrl', 'text', array('required' => false))
+                ->end()
             ;
         }
 
+        $formMapper
+            ->with('SEO', array('collapsed' => true))
+                ->add('metaKeyword', 'textarea', array('required' => false))
+                ->add('metaDescription', 'textarea', array('required' => false))
+            ->end()
+        ;
+
         if (!$this->getSubject() || !$this->getSubject()->isDynamic()) {
-            $formMapper->addType('parent', 'sonata_page_parent_selector', array(
-                'page'          => $this->getSubject() ?: null,
-                'model_manager' => $this->getModelManager(),
-                'class'         => $this->getClass(),
-                'required'      => false
-            ));
+            $formMapper
+                ->with('General')
+                    ->add('parent', 'sonata_page_parent_selector', array(
+                        'page'          => $this->getSubject() ?: null,
+                        'model_manager' => $this->getModelManager(),
+                        'class'         => $this->getClass(),
+                        'required'      => false
+                    ))
+                ->end()
+            ;
         }
+
+        $formMapper
+            ->with('Advanced', array('collapsed' => true))
+                ->add('decorate', null,  array('required' => false))
+                ->add('javascript', null,  array('required' => false))
+                ->add('stylesheet', null, array('required' => false))
+            ->end()
+        ;
 
         $formMapper->setHelps(array(
             'name' => $this->trans('help_page_name')
@@ -108,25 +138,6 @@ class PageAdmin extends Admin
     public function getListTemplate()
     {
         return 'SonataPageBundle:PageAdmin:list.html.twig';
-    }
-
-    public function configureDatagridFilters(DatagridMapper $datagrid)
-    {
-        $datagrid->add('hybrid', array(
-            'template' => 'SonataAdminBundle:CRUD:filter_callback.html.twig',
-            'type' => 'callback',
-            'filter_options' => array(
-                'filter' => array($this, 'handleHybridFilter'),
-                'type'   => 'choice'
-            ),
-            'filter_field_options' => array(
-                'required' => false,
-                'choices'  => array(
-                    'hybrid'  => $this->trans('hybrid'),
-                    'cms'     => $this->trans('cms'),
-                )
-            )
-        ));
     }
 
     public function handleHybridFilter($queryBuilder, $alias, $field, $value)
