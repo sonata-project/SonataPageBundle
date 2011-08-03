@@ -31,13 +31,13 @@ class BlockAdmin extends Admin
         $this->cmsManager = $cmsManager;
     }
 
-    public function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollection $collection)
     {
         $collection->add('savePosition', 'save-position');
         $collection->add('view', $this->getRouterIdParameter().'/view');
     }
 
-    public function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
             ->addIdentifier('type')
@@ -47,7 +47,7 @@ class BlockAdmin extends Admin
         ;
     }
 
-    public function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
             ->add('enabled')
@@ -59,7 +59,7 @@ class BlockAdmin extends Admin
      * @param \Sonata\AdminBundle\Form\FormMapper $formMapper
      * @return void
      */
-    public function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper)
     {
         $block = $this->getSubject();
 

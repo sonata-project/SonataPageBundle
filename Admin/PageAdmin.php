@@ -28,7 +28,7 @@ class PageAdmin extends Admin
 {
     protected $cmsManager;
 
-    public function configureShowField(ShowMapper $showMapper)
+    protected function configureShowField(ShowMapper $showMapper)
     {
         $showMapper
             ->add('routeName')
@@ -40,7 +40,7 @@ class PageAdmin extends Admin
         ;
     }
 
-    public function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
             ->add('hybrid', 'text', array('template' => 'SonataPageBundle:PageAdmin:field_hybrid.html.twig'))
@@ -51,7 +51,7 @@ class PageAdmin extends Admin
         ;
     }
 
-    public function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
             ->add('name')
@@ -72,7 +72,7 @@ class PageAdmin extends Admin
         ;
     }
 
-    public function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper)
     {
         $templates = array();
         foreach ($this->cmsManager->getPageManager()->getTemplates() as $code => $template) {
@@ -130,7 +130,7 @@ class PageAdmin extends Admin
         ));
     }
 
-    public function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollection $collection)
     {
         $collection->add('snapshots');
     }
@@ -150,7 +150,7 @@ class PageAdmin extends Admin
         $queryBuilder->setParameter('routeName', PageInterface::PAGE_ROUTE_CMS_NAME);
     }
 
-    public function configureSideMenu(MenuItem $menu, $action, Admin $childAdmin = null)
+    protected function configureSideMenu(MenuItem $menu, $action, Admin $childAdmin = null)
     {
         if (!$childAdmin && !in_array($action, array('edit'))) {
             return;
