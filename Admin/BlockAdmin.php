@@ -72,8 +72,10 @@ class BlockAdmin extends Admin
             }
         } else {
             $formMapper
-              ->add('type', 'sonata_page_block_choice', array(), array('type' => 'choice'))
-              ->add('position');
+                ->add('page', 'sonata_type_model')
+                ->add('parent', 'sonata_type_model')
+                ->add('type', 'sonata_page_block_choice')
+                ->add('position');
         }
     }
 

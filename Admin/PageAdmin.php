@@ -84,7 +84,7 @@ class PageAdmin extends Admin
                 ->add('name')
                 ->add('enabled', null, array('required' => false))
                 ->add('position')
-                ->add('template', 'choice', array('required' => true, 'choices' => $templates))
+                ->add('templateCode', 'choice', array('required' => true, 'choices' => $templates))
             ->end()
         ;
 

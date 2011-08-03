@@ -13,9 +13,12 @@ namespace Sonata\PageBundle\Admin;
 
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Route\RouteCollection;
-use Knplabs\Bundle\MenuBundle\MenuItem;
-use Sonata\PageBundle\Cache\CacheElement;
+use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\DatagridMapper;
+
+use Sonata\PageBundle\Cache\CacheElement;
 use Sonata\PageBundle\CmsManager\CmsManagerInterface;
 
 class SnapshotAdmin extends Admin
@@ -26,23 +29,28 @@ class SnapshotAdmin extends Admin
 
     protected $parentAssociationMapping = 'page';
 
-    protected $list = array(
-        'url' => array('identifier' => true),
-        'enabled',
-        'publicationDateStart',
-        'publicationDateEnd'
-    );
+    public function configureListFields(ListMapper $listMapper)
+    {
+        $listMapper
+            ->addIdentifier('url')
+            ->add('enabled')
+            ->add('publicationDateStart')
+            ->add('publicationDateEnd')
+        ;
+    }
 
-    protected $filter = array(
-        'routeName',
-    );
+    public function configureDatagridFilters(DatagridMapper $datagridMapper)
+    {
+        $datagridMapper
+            ->add('routeName');
+    }
 
     public function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('enabled', array('required' => false))
+            ->add('enabled', null, array('required' => false))
             ->add('decorate')
-            ->add('url', array(), array('type' => 'string'))
+            ->add('url', 'text')
             ->add('publicationDateStart')
             ->add('publicationDateEnd')
 //            ->add('content')

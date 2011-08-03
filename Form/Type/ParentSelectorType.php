@@ -43,7 +43,6 @@ class ParentSelectorType extends ModelType
             'choices'           => $this->getParentChoices(isset($options['page']) ? $options['page'] : null),
             'parent'            => 'choice',
             'preferred_choices' => array(),
-            'field_description' => false,
             'page'              => null,
         );
 

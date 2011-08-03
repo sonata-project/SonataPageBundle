@@ -219,7 +219,7 @@ abstract class BaseBlock implements BlockInterface
      *
      * @param \Sonata\PageBundle\Model\BlockInterface $parent
      */
-    public function setParent(BlockInterface $parent)
+    public function setParent(BlockInterface $parent = null)
     {
         $this->parent = $parent;
     }
@@ -239,7 +239,7 @@ abstract class BaseBlock implements BlockInterface
      *
      * @param \Sonata\PageBundle\Model\PageInterface $page
      */
-    public function setPage(PageInterface $page)
+    public function setPage(PageInterface $page = null)
     {
         $this->page = $page;
     }
