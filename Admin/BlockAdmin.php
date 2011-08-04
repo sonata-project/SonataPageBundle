@@ -19,7 +19,6 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\PageBundle\CmsManager\CmsPageManager;
 
-
 class BlockAdmin extends Admin
 {
     protected $parentAssociationMapping = 'page';
@@ -65,16 +64,17 @@ class BlockAdmin extends Admin
 
         if ($block) {
             $service = $this->cmsManager->getBlockService($block);
+
             if ($block->getId() > 0) {
                 $service->buildEditForm($formMapper, $block);
             } else {
                 $service->buildCreateForm($formMapper, $block);
             }
         } else {
+
             $formMapper
-                ->add('page', 'sonata_type_model')
-                ->add('parent', 'sonata_type_model')
                 ->add('type', 'sonata_page_block_choice')
+                ->add('enabled')
                 ->add('position');
         }
     }
