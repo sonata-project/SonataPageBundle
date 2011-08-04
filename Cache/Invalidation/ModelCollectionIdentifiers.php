@@ -39,16 +39,24 @@ class ModelCollectionIdentifiers
 
     public function getMethod($object)
     {
+        if ($object === null) {
+            return false;
+        }
+
+        foreach($this->classes as $class => $identifier) {
+            if ($object instanceof $class) {
+                return $identifier;
+            }
+        }
+
         $class = get_class($object);
 
-        if (!isset($this->classes[$class])) {
-            if (method_exists($object, 'getCacheIdentifier')) {
-                $this->addClass($class, 'getCacheIdentifier');
-            } else if (method_exists($object, 'getId')) {
-                $this->addClass($class, 'getId');
-            } else {
-                return;
-            }
+        if (method_exists($object, 'getCacheIdentifier')) {
+            $this->addClass($class, 'getCacheIdentifier');
+        } else if (method_exists($object, 'getId')) {
+            $this->addClass($class, 'getId');
+        } else {
+            return false;
         }
 
         return $this->classes[$class];
