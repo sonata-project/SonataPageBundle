@@ -107,6 +107,7 @@ class PageManager implements PageManagerInterface
             'name'          => null,
             'slug'          => null,
             'url'           => null,
+            'requestMethod' => null,
             'decorate'      => true,
             'createdAt'     => $time,
             'updatedAt'     => $time,

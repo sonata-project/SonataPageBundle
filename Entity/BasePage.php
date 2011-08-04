@@ -30,6 +30,8 @@ abstract class BasePage implements PageInterface
 
     protected $customUrl;
 
+    protected $requestMethod;
+
     protected $metaKeyword;
 
     protected $metaDescription;
@@ -164,6 +166,26 @@ abstract class BasePage implements PageInterface
     public function getCustomUrl()
     {
         return $this->customUrl;
+    }
+
+    /**
+     * Set requestMethod
+     *
+     * @param string $requestMethod
+     */
+    public function setRequestMethod($requestMethod)
+    {
+        $this->requestMethod = $requestMethod;
+    }
+
+    /**
+     * Get requestMethod
+     *
+     * @return string $requestMethod
+     */
+    public function getRequestMethod()
+    {
+        return $this->requestMethod;
     }
 
     /**
@@ -550,5 +572,16 @@ abstract class BasePage implements PageInterface
         }
 
         return $blocks;
+    }
+
+    /**
+     * Return true if the page has the request method $method
+     * @param string $method
+     *
+     * @return bool
+     */
+    public function hasRequestMethod($method)
+    {
+        return false !== strpos($this->getRequestMethod(), $method);
     }
 }

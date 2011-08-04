@@ -21,7 +21,7 @@ use Sonata\PageBundle\Model\PageInterface;
 
 use Sonata\AdminBundle\Form\ChoiceList\ModelChoiceList;
 
-class ParentSelectorType extends ModelType
+class PageSelectorType extends ModelType
 {
     protected $manager;
 
@@ -40,13 +40,18 @@ class ParentSelectorType extends ModelType
             'class'             => null,
             'property'          => null,
             'query'             => null,
-            'choices'           => $this->getParentChoices(isset($options['page']) ? $options['page'] : null),
             'parent'            => 'choice',
             'preferred_choices' => array(),
             'page'              => null,
+            'filter_choice'     => array('current_page' => false, 'request_method' => 'GET', 'dynamic' => true, 'hierarchy' => 'all'),
         );
 
         $options = array_replace($defaultOptions, $options);
+
+        if(!isset($options['choices'])) {
+            $options['filter_choice'] = isset($options['filter_choice']) ? array_replace($defaultOptions['filter_choice'], $options['filter_choice']) : $defaultOptions['filter_choice'];
+            $options['choices'] = $this->getParentChoices($options);
+        }
 
         if (!isset($options['choice_list'])) {
             $defaultOptions['choice_list'] = new ModelChoiceList(
@@ -61,30 +66,47 @@ class ParentSelectorType extends ModelType
         return $defaultOptions;
     }
 
-    public function getParentChoices(PageInterface $currentPage = null)
+    public function getParentChoices($options = null)
     {
         $pages = $this->manager->loadPages();
 
-        $roots = array();
+        $choices = array();
 
         foreach ($pages as $page) {
-            if ($page->getParent() || ($currentPage && $currentPage->getId() == $page->getId())) {
+            if (!$options['filter_choice']['current_page'] && $options['page'] && $options['page']->getId() == $page->getId()) {
                 continue;
             }
 
-            if ($page->isDynamic()) {
+            if (
+                'all' != $options['filter_choice']['hierarchy'] && (
+                    ('root' != $options['filter_choice']['hierarchy'] || $page->getParent()) &&
+                    ('children' != $options['filter_choice']['hierarchy'] || !$page->getParent())
+                )
+            ) {
                 continue;
             }
 
-            $roots[$page->getId()] = $page;
+            if ('all' != $options['filter_choice']['dynamic'] && (
+                    ($options['filter_choice']['dynamic'] && $page->isDynamic()) ||
+                    (!$options['filter_choice']['dynamic'] && !$page->isDynamic())
+                )
+            ) {
+                continue;
+            }
 
-            $this->childWalker($page, $currentPage, $roots);
+            if ('all' != $options['filter_choice']['request_method'] && !$page->hasRequestMethod($options['filter_choice']['request_method'])) {
+                continue;
+            }
+
+            $choices[$page->getId()] = $page;
+
+            $this->childWalker($page, $options['page'], $choices);
         }
 
-        return $roots;
+        return $choices;
     }
 
-    private function childWalker(PageInterface $page, PageInterface $currentPage = null, &$roots, $level = 1)
+    private function childWalker(PageInterface $page, PageInterface $currentPage = null, &$choices, $level = 1)
     {
         foreach ($page->getChildren() as $child) {
             if ($currentPage && $currentPage->getId() == $child->getId()) {
@@ -95,9 +117,9 @@ class ParentSelectorType extends ModelType
                 continue;
             }
 
-            $roots[$child->getId()] = $child;
+            $choices[$child->getId()] = $child;
 
-            $this->childWalker($child, $currentPage, $roots, $level + 1);
+            $this->childWalker($child, $currentPage, $choices, $level + 1);
         }
     }
 }

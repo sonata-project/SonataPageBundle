@@ -57,24 +57,17 @@ class UpdateCoreRoutesCommand extends ContainerAwareCommand
                 }
             }
 
-            $requirements = $route->getRequirements();
-            if (isset($requirements['_method']) && false === strpos($requirements['_method'], 'GET')) {
-                if ($page) {
-                    $page->setEnabled(false);
-                    $output->writeln(sprintf('<error>DISABLE</error> % -50s <error>NOT GET METHOD</error>', $name));
-                } else {
-                    continue;
-                }
-            }
-
             $update = true;
             if (!$page) {
                 $update = false;
+
+                $requirements = $route->getRequirements();
 
                 $params = array(
                     'routeName'     => $name,
                     'name'          => $name,
                     'url'           => $route->getPattern(),
+                    'requestMethod' => isset($requirements['_method']) ? $requirements['_method'] : '',
                 );
                 $params = array_merge($params, $cmsManager->getCreateNewPageDefaultsByName($name));
 

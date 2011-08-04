@@ -60,7 +60,7 @@ class ChildrenPagesBlockService extends BaseBlockService
                 array('current', 'checkbox', array(
                   'required' => false
                 )),
-                array('pageId', 'sonata_page_parent_selector', array(
+                array('pageId', 'sonata_page_selector', array(
                     'model_manager' => $formMapper->getAdmin()->getModelManager(),
                     'class'         => 'Application\Sonata\PageBundle\Entity\Page',
                     'required'      => false

@@ -13,6 +13,8 @@
         <field name="url"               type="text"         column="url"            nullable="true"/>
         <field name="customUrl"         type="text"         column="custom_url"     nullable="true"/>
 
+        <field name="requestMethod"     type="string"       column="request_method"     length="255"/>
+
         <field name="metaKeyword"       type="string"       column="meta_keyword"       nullable="true" length="255"/>
         <field name="metaDescription"   type="string"       column="meta_description"   nullable="true" length="255"/>
 

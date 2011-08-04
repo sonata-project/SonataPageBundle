@@ -10,8 +10,8 @@
             <argument type="service" id="sonata.page.cms.page" />
         </service>
 
-        <service id="sonata.page.form.type.parent_selector" class="Sonata\PageBundle\Form\Type\ParentSelectorType">
-            <tag name="form.type" alias="sonata_page_parent_selector" />
+        <service id="sonata.page.form.type.page_selector" class="Sonata\PageBundle\Form\Type\PageSelectorType">
+            <tag name="form.type" alias="sonata_page_selector" />
             <argument type="service" id="sonata.page.manager.page" />
         </service>
     </services>

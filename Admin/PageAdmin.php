@@ -107,10 +107,11 @@ class PageAdmin extends Admin
         if (!$this->getSubject() || !$this->getSubject()->isDynamic()) {
             $formMapper
                 ->with('General')
-                    ->add('parent', 'sonata_page_parent_selector', array(
+                    ->add('parent', 'sonata_page_selector', array(
                         'page'          => $this->getSubject() ?: null,
                         'model_manager' => $this->getModelManager(),
                         'class'         => $this->getClass(),
+                        'filter_choice' => array('hierarchy' => 'root'),
                         'required'      => false
                     ))
                 ->end()
