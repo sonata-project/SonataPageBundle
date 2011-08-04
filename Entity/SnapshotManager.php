@@ -364,4 +364,9 @@ class SnapshotManager implements SnapshotManagerInterface
 
         return $this->templates[$code];
     }
+
+    public function getClass()
+    {
+        return $this->class;
+    }
 }
