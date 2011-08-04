@@ -57,6 +57,8 @@
             <argument type="collection" />
         </service>
 
-        <service id="sonata.page.cache.invalidation.simple" class="Sonata\PageBundle\Cache\Invalidation\SimpleCacheInvalidation" />
+        <service id="sonata.page.cache.invalidation.simple" class="Sonata\PageBundle\Cache\Invalidation\SimpleCacheInvalidation">
+            <argument type="service" id="logger" />
+        </service>
     </services>
 </container>
