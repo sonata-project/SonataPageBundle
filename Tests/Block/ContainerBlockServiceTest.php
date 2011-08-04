@@ -27,9 +27,7 @@ class ContainerBlockServiceTest extends BaseTestBlockService
             'name' => 'Symfony'
         ));
         $formMapper = $this->getMock('Sonata\\AdminBundle\\Form\\FormMapper', array(), array(), '', false);
-        $formMapper->expects($this->exactly(2))
-            ->method('addType');
-        $formMapper->expects($this->exactly(4))
+        $formMapper->expects($this->exactly(6))
             ->method('add');
 
         $service->buildCreateForm($formMapper, $block);

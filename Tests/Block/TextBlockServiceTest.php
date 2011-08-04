@@ -33,7 +33,7 @@ class TextBlockServiceTest extends BaseTestBlockService
 
         $formMapper = $this->getMock('Sonata\\AdminBundle\\Form\\FormMapper', array(), array(), '', false);
         $formMapper->expects($this->exactly(2))
-            ->method('addType');
+            ->method('add');
 
         $service->buildCreateForm($formMapper, $block);
         $service->buildEditForm($formMapper, $block);
