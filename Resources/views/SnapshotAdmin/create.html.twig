@@ -13,10 +13,14 @@ file that was distributed with this source code.
 
 {% block title %}{% trans from 'PageBundle' %}title_create_snapshot{% endtrans %}{% endblock %}
 
+
 {% block content %}
 
     {% trans from 'PageBundle'%}message_create_snapshot{% endtrans %}
+
     <form action="{{ admin.generateUrl('create') }}" method="POST">
+
+        {{ form_rest(form) }}
 
         <input type="submit" name="create" value="{% trans from 'PageBundle' %}button_create_snapshot{% endtrans %}"/>
     </form>

@@ -14,6 +14,11 @@
             <tag name="form.type" alias="sonata_page_selector" />
             <argument type="service" id="sonata.page.manager.page" />
         </service>
+
+        <service id="sonata.page.form.create_snapshot" class="Sonata\PageBundle\Form\Type\CreateSnapshotType">
+            <tag name="form.type" alias="sonata_page_create_snapshot" />
+        </service>
+
     </services>
 
 </container>

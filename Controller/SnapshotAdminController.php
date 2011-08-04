@@ -16,7 +16,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-
 class SnapshotAdminController extends Controller
 {
     public function createAction()
@@ -25,23 +24,39 @@ class SnapshotAdminController extends Controller
             throw new AccessDeniedException();
         }
 
-        $request = $this->get('request');
+        $class = $this->get('sonata.page.manager.snapshot')->getClass();
+        $snapshot = new $class;
 
-        if ( $request->getMethod() == 'POST' && $request->get('create')) {
+        if ($this->getRequest()->getMethod() == 'GET' && $this->getRequest()->get('pageId')) {
+            $page = $this->get('sonata.page.manager.page')->findOne(array('id' => $this->getRequest()->get('pageId')));
+        } elseif ($this->admin->isChild()) {
             $page = $this->admin->getParent()->getSubject();
-            $snapshotManager = $this->get('sonata.page.manager.snapshot');
+        } else {
+            $page = null; // no page selected ...
+        }
 
-            $snapshot = $snapshotManager->create($page);
-            $snapshotManager->save($snapshot);
-            $snapshotManager->enableSnapshots($snapshot);
+        $snapshot->setPage($page);
+
+        $form = $this->createForm('sonata_page_create_snapshot', $snapshot);
+
+        if ( $this->getRequest()->getMethod() == 'POST') {
+
+            $form->bindRequest($this->getRequest());
+
+            if ($form->isValid()) {
+                $snapshotManager = $this->get('sonata.page.manager.snapshot');
+
+                $snapshot = $snapshotManager->create($form->getData()->getPage());
+                $snapshotManager->save($snapshot);
+                $snapshotManager->enableSnapshots($snapshot);
+            }
 
             return $this->redirect( $this->admin->generateUrl('edit', array('id' => $snapshot->getId())));
         }
 
         return $this->render('SonataPageBundle:SnapshotAdmin:create.html.twig', array(
-            'action'        => 'create',
-            'admin'         => $this->admin,
-            'base_template' => $this->getBaseTemplate(),
+            'action'  => 'create',
+            'form'    => $form->createView()
         ));
     }
 
