@@ -88,6 +88,20 @@ class PageAdmin extends Admin
             ->end()
         ;
 
+        if (!$this->getSubject() || !$this->getSubject()->isDynamic()) {
+            $formMapper
+                ->with('General')
+                    ->add('target', 'sonata_page_selector', array(
+                        'page'          => $this->getSubject() ?: null,
+                        'model_manager' => $this->getModelManager(),
+                        'class'         => $this->getClass(),
+                        'filter_choice' => array('request_method' => 'all'),
+                        'required'      => false
+                    ))
+                ->end()
+            ;
+        }
+
         if (!$this->getSubject() || !$this->getSubject()->isHybrid()) {
             $formMapper
                 ->with('SEO')
@@ -123,6 +137,7 @@ class PageAdmin extends Admin
                 ->add('decorate', null,  array('required' => false))
                 ->add('javascript', null,  array('required' => false))
                 ->add('stylesheet', null, array('required' => false))
+                ->add('rawHeaders', null, array('required' => false))
             ->end()
         ;
 

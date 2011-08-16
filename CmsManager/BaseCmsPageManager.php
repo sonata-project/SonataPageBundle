@@ -512,6 +512,18 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
      */
     public function renderPage(PageInterface $page, array $params = array(), Response $response = null)
     {
+        if (!$response) {
+
+            if ($page->getTarget()) {
+                $page->addHeader('Location', $page->getTarget()->getUrl());
+                return new Response('', 301, $page->getHeaders());
+            }
+
+            if ($page->getHeaders()) {
+                $response = new Response('', 200, $page->getHeaders());
+            }
+        }
+
         $template = false;
         if ($this->getCurrentPage()) {
             $template = $this->getPageManager()->getTemplate($this->getCurrentPage()->getTemplateCode())->getPath();

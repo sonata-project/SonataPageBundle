@@ -40,13 +40,23 @@ abstract class BasePage implements PageInterface
 
     protected $stylesheet;
 
+    protected $rawHeaders;
+
+    protected $headers;
+
     protected $enabled;
 
     protected $blocks;
 
     protected $parent;
 
+    protected $target;
+
+    protected $sources;
+
     protected $children;
+
+    protected $snapshots;
 
     protected $templateCode;
 
@@ -269,6 +279,64 @@ abstract class BasePage implements PageInterface
     }
 
     /**
+     * Set raw headers
+     *
+     * @param text $rawHeaders
+     */
+    public function setRawHeaders($rawHeaders)
+    {
+        $this->rawHeaders = $rawHeaders;
+    }
+
+    /**
+     * Get Raw headers
+     *
+     * @return text $rawHeaders
+     */
+    public function getRawHeaders()
+    {
+        return $this->rawHeaders;
+    }
+
+    /**
+     * Add header
+     *
+     * @param text $headers
+     */
+    public function addHeader($name, $header)
+    {
+        $headers = $this->getHeaders();
+
+        $headers[$name] = $header;
+
+        $this->headers = $headers;
+    }
+
+    /**
+     * Get headers
+     *
+     * @return array $headers
+     */
+    public function getHeaders()
+    {
+        if (!$this->headers) {
+
+            $this->headers = array();
+
+            foreach (explode("\r\n", $this->getRawHeaders()) as $header) {
+
+                if(false != strpos($header, ':')) {
+                    list($name, $headerStr) = explode(':', $header, 2);
+                    $this->headers[$name] = $headerStr;
+                }
+
+            }
+
+        }
+
+        return $this->headers;
+    }
+    /**
      * Set createdAt
      *
      * @param \DateTime $createdAt
@@ -334,6 +402,101 @@ abstract class BasePage implements PageInterface
     {
         $this->children = $children;
     }
+
+    /**
+     * Get snapshot
+     *
+     * @return  Application\Sonata\PageBundle\Entity\Snapshot $snapshots
+     */
+    public function getSnapshot()
+    {
+        return $this->snapshots && $this->snapshots[0] ? $this->snapshots[0] : null;
+    }
+
+    /**
+     * Get snapshots
+     *
+     * @return Doctrine\Common\Collections\Collection $snapshots
+     */
+    public function getSnapshots()
+    {
+        return $this->snapshots;
+    }
+
+    /**
+     * Set $snapshots
+     *
+     * @param Doctrine\Common\Collections\Collection $snapshots
+     */
+    public function setSnapshots($snapshots)
+    {
+        $this->snapshots = $snapshots;
+    }
+
+    /**
+     * Get parent
+     *
+     * @return Application\Sonata\PageBundle\Entity\Page $target
+     */
+    public function getTarget()
+    {
+        return $this->target;
+    }
+
+    /**
+     * Add snapshot
+     *
+     * @param \Sonata\PageBundle\Model\SnapshotInterface $snapshot
+     */
+    public function addSnapshot(PageInterface $snapshot)
+    {
+        $this->snapshotes[] = $snapshot;
+
+        $snapshot->setPage($this);
+    }
+
+    /**
+     * Set target
+     *
+     * @param \Sonata\PageBundle\Model\PageInterface $target
+     */
+    public function setTarget(PageInterface $target = null)
+    {
+        $this->target = $target;
+    }
+
+    /**
+     * Add source
+     *
+     * @param \Sonata\PageBundle\Model\PageInterface $source
+     */
+    public function addSource(PageInterface $source)
+    {
+        $this->sources[] = $source;
+
+        $source->setTarget($this);
+    }
+
+    /**
+     * Get sources
+     *
+     * @return Doctrine\Common\Collections\Collection $sources
+     */
+    public function getSources()
+    {
+        return $this->sources;
+    }
+
+    /**
+     * Set sources
+     *
+     * @param \Sonata\PageBundle\Model\PageInterface $sources
+     */
+    public function setSources($sources)
+    {
+        $this->sources = $sources;
+    }
+
 
     /**
      * Add blocs

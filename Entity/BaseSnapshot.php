@@ -47,6 +47,12 @@ abstract class BaseSnapshot implements SnapshotInterface
 
     protected $parentId;
 
+    protected $sources;
+
+    protected $target;
+
+    protected $targetId;
+
     /**
      * Set routeName
      *
@@ -276,6 +282,36 @@ abstract class BaseSnapshot implements SnapshotInterface
     public function getParentId()
     {
         return $this->parentId;
+    }
+
+    public function setSources($sources)
+    {
+        $this->sources = $sources;
+    }
+
+    public function getSource()
+    {
+        return $this->sources;
+    }
+
+    public function setTarget($target)
+    {
+        $this->target = $target;
+    }
+
+    public function getTarget()
+    {
+        return $this->target;
+    }
+
+    public function setTargetId($targetId)
+    {
+        $this->targetId = $targetId;
+    }
+
+    public function getTargetId()
+    {
+        return $this->targetId;
     }
 
     public function setUrl($url)

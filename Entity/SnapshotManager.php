@@ -152,7 +152,7 @@ class SnapshotManager implements SnapshotManagerInterface
         return $this->getRepository()->findOneBy($criteria);
     }
 
-      /**
+    /**
      * @param \Sonata\PageBundle\Model\SnapshotInterface $snapshot
      * @return \Sonata\PageBundle\Model\PageInterface
      */
@@ -167,14 +167,16 @@ class SnapshotManager implements SnapshotManagerInterface
         $page->setDecorate($snapshot->getDecorate());
 
         $content = json_decode($snapshot->getContent(), true);
+        
         $page->setId($content['id']);
         $page->setJavascript($content['javascript']);
         $page->setStylesheet($content['stylesheet']);
+        $page->setRawHeaders($content['raw_headers']);
         $page->setMetaDescription($content['meta_description']);
         $page->setMetaKeyword($content['meta_keyword']);
         $page->setName($content['name']);
         $page->setSlug($content['slug']);
-        $page->setTemplateCode($content['templateCode']);
+        $page->setTemplateCode($content['template_code']);
 
         $createdAt = new \DateTime;
         $createdAt->setTimestamp($content['created_at']);
@@ -189,6 +191,7 @@ class SnapshotManager implements SnapshotManagerInterface
         }
 
         $page->setChildren(new SnapshotChildrenCollection($this, $page));
+        $page->setTarget($this->getTarget($snapshot));
 
         return $page;
     }
@@ -243,14 +246,19 @@ class SnapshotManager implements SnapshotManagerInterface
             $snapshot->setParentId($page->getParent()->getId());
         }
 
+        if ($page->getTarget()) {
+            $snapshot->setTargetId($page->getTarget()->getId());
+        }
+
         $content = array();
         $content['id']                = $page->getId();
         $content['name']              = $page->getName();
         $content['javascript']        = $page->getJavascript();
         $content['stylesheet']        = $page->getStylesheet();
+        $content['raw_headers']       = $page->getRawHeaders();
         $content['meta_description']  = $page->getMetaDescription();
         $content['meta_keyword']      = $page->getMetaKeyword();
-        $content['templateCode']      = $page->getTemplateCode();
+        $content['template_code']     = $page->getTemplateCode();
         $content['created_at']        = $page->getCreatedAt()->format('U');
         $content['updated_at']        = $page->getUpdatedAt()->format('U');
         $content['slug']              = $page->getSlug();
@@ -313,6 +321,37 @@ class SnapshotManager implements SnapshotManagerInterface
         }
 
         return false;
+    }
+
+    /**
+     * @param \Sonata\PageBundle\Model\SnapshotInterface $snapshot
+     * @return \Sonata\PageBundle\Model\PageInterface
+     */
+    public function getTarget(SnapshotInterface $snapshot)
+    {
+        if (!$snapshot->getTargetId()) {
+          return null;
+        }
+
+        $date = new \Datetime;
+        $parameters = array(
+            'publicationDateStart'  => $date,
+            'publicationDateEnd'    => $date,
+            'id'                    => $snapshot->getTargetId()
+        );
+
+        $targets = $this->entityManager->createQueryBuilder()
+            ->select('p')
+            ->from('Application\Sonata\PageBundle\Entity\Page', 'p')
+            ->innerJoin('p.snapshots', 's')
+            ->where('p.id = :id and p.enabled = 1')
+            ->andWhere('s.publicationDateStart <= :publicationDateStart AND ( s.publicationDateEnd IS NULL OR s.publicationDateEnd >= :publicationDateEnd )')
+            ->setParameters($parameters)
+            ->getQuery()
+            ->setMaxResults(1)
+            ->execute();
+
+        return isset($targets[0]) && $targets[0]->getSnapshot() ? $this->load($targets[0]->getSnapshot()) : null;
     }
 
     public function getChildren(PageInterface $parent)
