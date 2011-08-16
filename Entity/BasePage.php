@@ -745,6 +745,6 @@ abstract class BasePage implements PageInterface
      */
     public function hasRequestMethod($method)
     {
-        return false !== strpos($this->getRequestMethod(), $method);
+        return !$this->getRequestMethod() || false !== strpos($this->getRequestMethod(), $method);
     }
 }
