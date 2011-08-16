@@ -327,7 +327,7 @@ abstract class BasePage implements PageInterface
 
                 if(false != strpos($header, ':')) {
                     list($name, $headerStr) = explode(':', $header, 2);
-                    $this->headers[$name] = $headerStr;
+                    $this->headers[trim($name)] = trim($headerStr);
                 }
 
             }
@@ -745,6 +745,12 @@ abstract class BasePage implements PageInterface
      */
     public function hasRequestMethod($method)
     {
+        $method = strtoupper($method);
+        
+        if(!in_array($method, array('PUT', 'POST', 'GET', 'DELETE', 'HEAD'))) {
+            return false;
+        }
+
         return !$this->getRequestMethod() || false !== strpos($this->getRequestMethod(), $method);
     }
 }

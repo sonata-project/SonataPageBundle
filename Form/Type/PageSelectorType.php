@@ -50,11 +50,11 @@ class PageSelectorType extends ModelType
 
         if(!isset($options['choices'])) {
             $options['filter_choice'] = isset($options['filter_choice']) ? array_replace($defaultOptions['filter_choice'], $options['filter_choice']) : $defaultOptions['filter_choice'];
-            $options['choices'] = $this->getParentChoices($options);
+            $options['choices'] = $this->getChoices($options);
         }
 
         if (!isset($options['choice_list'])) {
-            $defaultOptions['choice_list'] = new ModelChoiceList(
+            $options['choice_list'] = new ModelChoiceList(
                 $options['model_manager'],
                 $options['class'],
                 $options['property'],
@@ -63,10 +63,10 @@ class PageSelectorType extends ModelType
             );
         }
 
-        return $defaultOptions;
+        return $options;
     }
 
-    public function getParentChoices($options = null)
+    public function getChoices($options = null)
     {
         $pages = $this->manager->loadPages();
 

@@ -75,4 +75,12 @@ interface PageManagerInterface
      * @return Template
      */
     function getTemplate($code);
+
+    /**
+     * Return an array of Pages Entity where the id is the key
+     *
+     * @abstract
+     * @return void
+     */
+    function loadPages();
 }

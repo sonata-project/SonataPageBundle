@@ -8,14 +8,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Sonata\PageBundle\Tests\Cache;
+namespace Sonata\PageBundle\Tests\Entity;
 
 use Sonata\PageBundle\Tests\Entity\Page;
 use Sonata\PageBundle\Entity\PageManager;
 
 class PageManagerTest extends \PHPUnit_Framework_TestCase
 {
-    public function testFixUr()
+    public function testFixUrl()
     {
         $manager = new PageManager($this->getMock('Doctrine\ORM\EntityManager', array(), array(), '', false));
 
@@ -47,13 +47,5 @@ class PageManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($page2->getSlug(), 'super-et-toi');
         $this->assertEquals($page2->getUrl(), '/salut-comment-ca-va/super-et-toi');
-    }
-
-    public function testSlugigy()
-    {
-        $this->assertEquals(Page::slugify('test'), 'test');
-        $this->assertEquals(Page::slugify('S§!@@#$#$alut'), 's-alut');
-        $this->assertEquals(Page::slugify('Symfony2'), 'symfony2');
-        $this->assertEquals(Page::slugify('test'), 'test');
     }
 }
