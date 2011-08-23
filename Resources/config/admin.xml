@@ -46,7 +46,7 @@
         </service>
 
         <service id="sonata.page.admin.block" class="%sonata.page.admin.block.class%">
-            <tag name="sonata.admin" manager_type="orm" group="sonata_page" label="block"/>
+            <tag name="sonata.admin" manager_type="orm" label="block"/>
             <argument />
             <argument>%sonata.page.admin.block.entity%</argument>
             <argument>%sonata.page.admin.block.controller%</argument>
