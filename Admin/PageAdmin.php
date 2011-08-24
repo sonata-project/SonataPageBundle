@@ -80,7 +80,7 @@ class PageAdmin extends Admin
         }
 
         $formMapper
-            ->with('General')
+            ->with($this->trans('form_page.group_main_label', array(), 'SonataAdminBundle'))
                 ->add('name')
                 ->add('enabled', null, array('required' => false))
                 ->add('position')
@@ -90,7 +90,7 @@ class PageAdmin extends Admin
 
         if (!$this->getSubject() || !$this->getSubject()->isDynamic()) {
             $formMapper
-                ->with('General')
+                ->with($this->trans('form_page.group_main_label', array(), 'SonataAdminBundle'))
                     ->add('target', 'sonata_page_selector', array(
                         'page'          => $this->getSubject() ?: null,
                         'model_manager' => $this->getModelManager(),
@@ -104,7 +104,7 @@ class PageAdmin extends Admin
 
         if (!$this->getSubject() || !$this->getSubject()->isHybrid()) {
             $formMapper
-                ->with('SEO')
+                ->with($this->trans('form_page.group_seo_label', array(), 'SonataAdminBundle'))
                     ->add('slug', 'text',  array('required' => false))
                     ->add('customUrl', 'text', array('required' => false))
                 ->end()
@@ -112,7 +112,7 @@ class PageAdmin extends Admin
         }
 
         $formMapper
-            ->with('SEO', array('collapsed' => true))
+            ->with($this->trans('form_page.group_seo_label', array(), 'SonataAdminBundle'), array('collapsed' => true))
                 ->add('metaKeyword', 'textarea', array('required' => false))
                 ->add('metaDescription', 'textarea', array('required' => false))
             ->end()
@@ -120,7 +120,7 @@ class PageAdmin extends Admin
 
         if (!$this->getSubject() || !$this->getSubject()->isDynamic()) {
             $formMapper
-                ->with('General')
+                ->with($this->trans('form_page.group_main_label', array(), 'SonataAdminBundle'))
                     ->add('parent', 'sonata_page_selector', array(
                         'page'          => $this->getSubject() ?: null,
                         'model_manager' => $this->getModelManager(),
@@ -133,7 +133,7 @@ class PageAdmin extends Admin
         }
 
         $formMapper
-            ->with('Advanced', array('collapsed' => true))
+            ->with($this->trans('form_page.group_advanced_label', array(), 'SonataAdminBundle'), array('collapsed' => true))
                 ->add('decorate', null,  array('required' => false))
                 ->add('javascript', null,  array('required' => false))
                 ->add('stylesheet', null, array('required' => false))
@@ -177,17 +177,17 @@ class PageAdmin extends Admin
         $id = $admin->getRequest()->get('id');
 
         $menu->addChild(
-            $this->trans('edit_page'),
+            $this->trans('slidemenu.link_edit_page', array(), 'SonataAdminBundle'),
             $admin->generateUrl('edit', array('id' => $id))
         );
 
         $menu->addChild(
-            $this->trans('view_page_blocks'),
+            $this->trans('slidemenu.link_list_blocks', array(), 'SonataAdminBundle'),
             $admin->generateUrl('sonata.page.admin.block.list', array('id' => $id))
         );
 
         $menu->addChild(
-            $this->trans('snapshot'),
+            $this->trans('slidemenu.link_list_snapshots', array(), 'SonataAdminBundle'),
             $admin->generateUrl('sonata.page.admin.snapshot.list', array('id' => $id))
         );
 
