@@ -7,16 +7,16 @@
                 <target>Page</target>
             </trans-unit>
 
-            <trans-unit id="slidemenu.link_edit_page">
-                <source>slidemenu.link_edit_page</source>
+            <trans-unit id="sidemenu.link_edit_page">
+                <source>sidemenu.link_edit_page</source>
                 <target>Page</target>
             </trans-unit>
-            <trans-unit id="slidemenu.link_list_blocks">
-                <source>slidemenu.link_list_blocks</source>
+            <trans-unit id="sidemenu.link_list_blocks">
+                <source>sidemenu.link_list_blocks</source>
                 <target>Blocks</target>
             </trans-unit>
-            <trans-unit id="slidemenu.link_list_snapshots">
-                <source>slidemenu.link_list_snapshots</source>
+            <trans-unit id="sidemenu.link_list_snapshots">
+                <source>sidemenu.link_list_snapshots</source>
                 <target>Snapshots</target>
             </trans-unit>
 

@@ -177,17 +177,17 @@ class PageAdmin extends Admin
         $id = $admin->getRequest()->get('id');
 
         $menu->addChild(
-            $this->trans('slidemenu.link_edit_page', array(), 'SonataAdminBundle'),
+            $this->trans('sidemenu.link_edit_page', array(), 'SonataAdminBundle'),
             $admin->generateUrl('edit', array('id' => $id))
         );
 
         $menu->addChild(
-            $this->trans('slidemenu.link_list_blocks', array(), 'SonataAdminBundle'),
+            $this->trans('sidemenu.link_list_blocks', array(), 'SonataAdminBundle'),
             $admin->generateUrl('sonata.page.admin.block.list', array('id' => $id))
         );
 
         $menu->addChild(
-            $this->trans('slidemenu.link_list_snapshots', array(), 'SonataAdminBundle'),
+            $this->trans('sidemenu.link_list_snapshots', array(), 'SonataAdminBundle'),
             $admin->generateUrl('sonata.page.admin.snapshot.list', array('id' => $id))
         );
 
