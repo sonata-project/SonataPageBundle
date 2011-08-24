@@ -15,6 +15,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\EventDispatcher\Event;
 
 use Sonata\PageBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
@@ -60,10 +61,9 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
      * filter the `core.response` event to decorated the action
      *
      * @param Event $event
-     * @param Response $response
      * @return
      */
-    public function onCoreResponse($event)
+    public function onCoreResponse(Event $event)
     {
         $response    = $event->getResponse();
         $requestType = $event->getRequestType();
