@@ -45,10 +45,7 @@ class UpdateCoreRoutesCommand extends ContainerAwareCommand
 
             $page = $pageManager->getPageByName($name);
 
-            if (
-                    !$cmsManager->isRouteNameDecorable($name)
-                    || !$cmsManager->isRouteUriDecorable($route->getPattern())
-            ) {
+            if (!$cmsManager->isRouteNameDecorable($name) || !$cmsManager->isRouteUriDecorable($route->getPattern())) {
                 if ($page) {
                     $page->setEnabled(false);
                     $output->writeln(sprintf('<error>DISABLE</error> <error>% -50s</error> %s', $name, $route->getPattern()));
@@ -67,13 +64,13 @@ class UpdateCoreRoutesCommand extends ContainerAwareCommand
                     'routeName'     => $name,
                     'name'          => $name,
                     'url'           => $route->getPattern(),
-                    'requestMethod' => isset($requirements['_method']) ? $requirements['_method'] : '',
                 );
                 $params = array_merge($params, $cmsManager->getCreateNewPageDefaultsByName($name));
 
                 $page = $pageManager->createNewPage($params);
             }
 
+            $page->setRequestMethod(isset($requirements['_method']) ? $requirements['_method'] : 'GET|POST|HEAD|DELETE|PUT');
             $page->setSlug($route->getPattern());
             $pageManager->save($page);
 

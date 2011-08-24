@@ -252,4 +252,8 @@ interface PageInterface
     function setPosition($position);
 
     function getPosition();
+
+    function setRequestMethod($method);
+
+    function getRequestMethod();
 }
