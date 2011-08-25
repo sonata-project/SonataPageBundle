@@ -60,8 +60,8 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     /**
      * filter the `core.response` event to decorated the action
      *
-     * @param Event $event
-     * @return
+     * @param \Symfony\Component\EventDispatcher\Event $event
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function onCoreResponse(Event $event)
     {
@@ -85,11 +85,21 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
         return $response;
     }
 
+    /**
+     * @param $name
+     * @param \Sonata\PageBundle\Cache\CacheInterface $cacheManager
+     * @return void
+     */
     public function addCacheService($name, CacheInterface $cacheManager)
     {
         $this->cacheServices[$name] = $cacheManager;
     }
 
+    /**
+     * @param $name
+     * @param \Sonata\PageBundle\Block\BlockServiceInterface $service
+     * @return void
+     */
     public function addBlockService($name, BlockServiceInterface $service)
     {
         $this->blockServices[$name] = $service;
@@ -168,6 +178,10 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
         return true;
     }
 
+    /**
+     * @param $name
+     * @return array
+     */
     public function getCreateNewPageDefaultsByName($name)
     {
         $params = $this->getOption('page_defaults', array());
@@ -285,8 +299,8 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     /**
      * Return the block service linked to the link
      *
-     * @param \Sonata\PageBundle\Block\BlockInterface $block
-     * @return \Sonata\PageBundle\Block\BlockServiceInterface
+     * @param \Sonata\PageBundle\Model\BlockInterface $block
+     * @return false|\Sonata\PageBundle\Block\BlockServiceInterface
      */
     public function getBlockService(BlockInterface $block)
     {
@@ -395,51 +409,90 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
         return $this->currentPage;
     }
 
+    /**
+     * @param \Sonata\PageBundle\Model\PageInterface $page
+     * @return void
+     */
     public function setCurrentPage(PageInterface $page)
     {
         $this->currentPage = $page;
     }
 
-      public function setOptions(array $options = array())
+    /**
+     * @param array $options
+     * @return void
+     */
+    public function setOptions(array $options = array())
     {
         $this->options = $options;
     }
 
+    /**
+     * @return array
+     */
     public function getOptions()
     {
         return $this->options;
     }
 
+    /**
+     * @param $name
+     * @param $value
+     * @return void
+     */
     public function setOption($name, $value)
     {
         $this->options[$name] = $value;
     }
 
+    /**
+     * @param $name
+     * @param null $default
+     * @return null
+     */
     public function getOption($name, $default = null)
     {
         return isset($this->options[$name]) ? $this->options[$name] : $default;
     }
 
+    /**
+     * @param $route_pages
+     * @return void
+     */
     public function setRoutePages($route_pages)
     {
         $this->routePages = $route_pages;
     }
 
+    /**
+     * @return array
+     */
     public function getRoutePages()
     {
         return $this->routePages;
     }
 
+    /**
+     * @param $logger
+     * @return void
+     */
     public function setLogger($logger)
     {
         $this->logger = $logger;
     }
 
+    /**
+     * @return
+     */
     public function getLogger()
     {
         return $this->logger;
     }
 
+    /**
+     * @param $debug
+     * @return void
+     */
     public function setDebug($debug)
     {
         $this->debug = $debug;
@@ -479,26 +532,43 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
         return $this->pageManager;
     }
 
+    /**
+     * @param $blocks
+     * @return void
+     */
     public function setBlocks($blocks)
     {
         $this->blocks = $blocks;
     }
 
+    /**
+     * @return array
+     */
     public function getBlocks()
     {
         return $this->blocks;
     }
 
+    /**
+     * @return
+     */
     public function getCacheInvalidation()
     {
         return $this->cacheInvalidation;
     }
 
+    /**
+     * @param \Sonata\PageBundle\Cache\Invalidation\Recorder $recorder
+     * @return void
+     */
     public function setRecorder(Recorder $recorder)
     {
         $this->recorder = $recorder;
     }
 
+    /**
+     * @return
+     */
     public function getRecorder()
     {
         return $this->recorder;
@@ -541,6 +611,10 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
         return $response;
     }
 
+    /**
+     * @param \Sonata\PageBundle\Model\PageInterface $page
+     * @return array
+     */
     protected function getRenderPageParams(PageInterface $page)
     {
         return array(
