@@ -55,19 +55,21 @@ class PageAdmin extends Admin
     {
         $datagridMapper
             ->add('name')
-            ->add('hybrid', 'callback', array(
-                'template' => 'SonataAdminBundle:CRUD:filter_callback.html.twig',
-                'filter_options' => array(
-                    'filter' => array($this, 'handleHybridFilter'),
-                    'type'   => 'choice'
-                ),
-                'filter_field_options' => array(
+            ->add('hybrid', 'doctrine_orm_callback', array(
+                'callback' => function($queryBuilder, $alias, $field, $value) {
+                    if ($value) {
+                        $queryBuilder->andWhere(sprintf('%s.routeName %s :routeName', $alias, $value == 'cms' ? '=' : '!='));
+                        $queryBuilder->setParameter('routeName', PageInterface::PAGE_ROUTE_CMS_NAME);
+                    }
+                },
+                'field_options' => array(
                     'required' => false,
                     'choices'  => array(
                         'hybrid'  => $this->trans('hybrid'),
                         'cms'     => $this->trans('cms'),
                     )
-                )
+                ),
+                'field_type' => 'choice'
             ))
         ;
     }
@@ -154,16 +156,6 @@ class PageAdmin extends Admin
     public function getListTemplate()
     {
         return 'SonataPageBundle:PageAdmin:list.html.twig';
-    }
-
-    public function handleHybridFilter($queryBuilder, $alias, $field, $value)
-    {
-        if (!$value) {
-            return;
-        }
-
-        $queryBuilder->andWhere(sprintf('%s.routeName %s :routeName', $alias, $value == 'cms' ? '=' : '!='));
-        $queryBuilder->setParameter('routeName', PageInterface::PAGE_ROUTE_CMS_NAME);
     }
 
     protected function configureSideMenu(MenuItem $menu, $action, Admin $childAdmin = null)
