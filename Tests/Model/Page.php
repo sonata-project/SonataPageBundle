@@ -8,14 +8,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Sonata\PageBundle\Tests\Entity;
+namespace Sonata\PageBundle\Tests\Model;
 
-class Page extends \Sonata\PageBundle\Entity\BasePage
+class Page extends \Sonata\PageBundle\Model\Page
 {
     protected $id;
 
-    function setId($id)
-    {
+
+    function setId($id) {
         $this->id = $id;
     }
 

@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Sonata\PageBundle\Tests\Entity;
+namespace Sonata\PageBundle\Tests\Model;
 
-class Block extends \Sonata\PageBundle\Entity\BaseBlock
+class Block extends \Sonata\PageBundle\Model\Block
 {
     function getId() {
         return $this->id;

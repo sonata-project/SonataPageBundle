@@ -10,7 +10,7 @@
 
 namespace Sonata\PageBundle\Tests\Entity;
 
-use Sonata\PageBundle\Tests\Entity\Page;
+use Sonata\PageBundle\Tests\Model\Page;
 
 class PageTest extends \PHPUnit_Framework_TestCase
 {

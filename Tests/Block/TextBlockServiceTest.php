@@ -12,8 +12,8 @@
 
 namespace Sonata\PageBundle\Tests\Block;
 
-use Sonata\PageBundle\Tests\Entity\Block;
-use Sonata\PageBundle\Tests\Entity\Page;
+use Sonata\PageBundle\Tests\Model\Block;
+use Sonata\PageBundle\Tests\Model\Page;
 use Sonata\PageBundle\Block\TextBlockService;
 
 class TextBlockServiceTest extends BaseTestBlockService

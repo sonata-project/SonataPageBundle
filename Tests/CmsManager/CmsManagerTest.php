@@ -16,8 +16,8 @@ use Sonata\PageBundle\CmsManager\CmsPageManager;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\DependencyInjection\Container;
-use Sonata\PageBundle\Tests\Entity\Block;
-use Sonata\PageBundle\Tests\Entity\Page;
+use Sonata\PageBundle\Tests\Model\Block;
+use Sonata\PageBundle\Tests\Model\Page;
 
 class CmsPageManagerTest extends \PHPUnit_Framework_TestCase
 {

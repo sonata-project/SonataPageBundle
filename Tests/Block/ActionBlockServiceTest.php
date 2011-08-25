@@ -10,8 +10,8 @@
 
 namespace Sonata\PageBundle\Tests\Block;
 
-use Sonata\PageBundle\Tests\Entity\Block;
-use Sonata\PageBundle\Tests\Entity\Page;
+use Sonata\PageBundle\Tests\Model\Block;
+use Sonata\PageBundle\Tests\Model\Page;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Form\Form;
 use Sonata\PageBundle\Block\ActionBlockService;

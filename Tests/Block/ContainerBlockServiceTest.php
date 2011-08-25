@@ -10,8 +10,8 @@
 
 namespace Sonata\PageBundle\Tests\Block;
 
-use Sonata\PageBundle\Tests\Entity\Block;
-use Sonata\PageBundle\Tests\Entity\Page;
+use Sonata\PageBundle\Tests\Model\Block;
+use Sonata\PageBundle\Tests\Model\Page;
 use Sonata\PageBundle\Block\ContainerBlockService;
 
 class ContainerBlockServiceTest extends BaseTestBlockService
@@ -39,7 +39,7 @@ class ContainerBlockServiceTest extends BaseTestBlockService
 
         $this->assertEquals('SonataPageBundle:Block:block_container.html.twig', $templating->view);
         $this->assertEquals('Symfony', $templating->parameters['container']->getSetting('name'));
-        $this->assertInstanceOf('Sonata\PageBundle\Tests\Entity\Page', $templating->parameters['page']);
-        $this->assertInstanceOf('Sonata\PageBundle\Tests\Entity\Block', $templating->parameters['container']);
+        $this->assertInstanceOf('Sonata\PageBundle\Tests\Model\Page', $templating->parameters['page']);
+        $this->assertInstanceOf('Sonata\PageBundle\Tests\Model\Block', $templating->parameters['container']);
     }
 }

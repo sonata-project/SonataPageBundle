@@ -12,7 +12,7 @@ namespace Sonata\PageBundle\Tests\Form\Type;
 
 use Sonata\AdminBundle\Model\ORM\ModelManager;
 use Sonata\PageBundle\Form\Type\PageSelectorType;
-use Sonata\PageBundle\Tests\Entity\Page;
+use Sonata\PageBundle\Tests\Model\Page;
 
 class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
 {
@@ -102,7 +102,7 @@ class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
 
         $pages = $this->loadPages();
         unset($pages[3]);
-        
+
         $this->assertEquals($options['choices'], $pages);
     }
 
@@ -117,7 +117,7 @@ class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
 
         $pageTmps = $this->loadPages();
         $pages = array(1 => $pageTmps[1]);
-        
+
         $this->assertEquals($options['choices'], $pages);
     }
 
@@ -132,7 +132,7 @@ class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
 
         $pages = $this->loadPages();
         unset($pages[1]);
-        
+
         $this->assertEquals($options['choices'], $pages);
     }
 
