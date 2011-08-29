@@ -31,6 +31,8 @@ class CreateSnapshotsCommand extends ContainerAwareCommand
         $pageManager = $this->getContainer()->get('sonata.page.manager.page');
         $snapshotManager = $this->getContainer()->get('sonata.page.manager.snapshot');
 
+        $snapshotManager->getConnection()->beginTransaction();
+
         $snapshots = array();
         $pages = $pageManager->findBy();
         $count = count($pages);
@@ -47,6 +49,8 @@ class CreateSnapshotsCommand extends ContainerAwareCommand
         $output->write('Enabling snapshots ...');
 
         $snapshotManager->enableSnapshots($snapshots);
+
+        $snapshotManager->getConnection()->commit();
 
         $output->writeln(' OK !');
     }

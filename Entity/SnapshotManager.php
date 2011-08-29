@@ -57,6 +57,10 @@ class SnapshotManager implements SnapshotManagerInterface
         return $this->entityManager->getRepository($this->class);
     }
 
+    public function getConnection()
+    {
+        return $this->entityManager->getConnection();
+    }
     /**
      * Enabled a snapshot - make it public
      *
@@ -72,8 +76,6 @@ class SnapshotManager implements SnapshotManagerInterface
         if (count($snapshots) == 0) {
             return;
         }
-
-        $this->entityManager->beginTransaction();
 
         $now = new \DateTime;
         $pageIds = $snapshotIds = array();
@@ -96,9 +98,7 @@ class SnapshotManager implements SnapshotManagerInterface
             implode(',', $pageIds)
         );
 
-        $this->entityManager->getConnection()->query($sql);
-
-        $this->entityManager->commit();
+        $this->getConnection()->query($sql);
     }
 
     /**
@@ -167,7 +167,7 @@ class SnapshotManager implements SnapshotManagerInterface
         $page->setDecorate($snapshot->getDecorate());
 
         $content = json_decode($snapshot->getContent(), true);
-        
+
         $page->setId($content['id']);
         $page->setJavascript($content['javascript']);
         $page->setStylesheet($content['stylesheet']);
