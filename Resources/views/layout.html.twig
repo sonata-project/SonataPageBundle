@@ -22,14 +22,13 @@ file that was distributed with this source code.
         <script src="{{ asset('bundles/sonatajquery/jquery-ui-1.8.6.custom.js') }}" type="text/javascript"></script>
         <script src="{{ asset('bundles/sonatajquery/jquery-ui-i18n.js') }}" type="text/javascript"></script>
 
-        <link rel="stylesheet" href="{{ asset('bundles/sonatapage/page.css') }}" type="text/css" media="all">
-
         <title>{% block title %}{{ page.name }}{%endblock%}</title>
     </head>
 
     <body>
         {% if page_admin is defined and page_admin.isGranted(['EDIT']) %}
             <script src="{{ asset('bundles/sonatapage/page.js') }}" type="text/javascript"></script>
+            <link rel="stylesheet" href="{{ asset('bundles/sonatapage/page.css') }}" type="text/css" media="all">
             <div class="sonata-page-top-bar">
                 <div style="float: right"><strong><em><a href="http://sonata-project.org">Sonata Project</a></em></strong></div>
                 <input type="checkbox" id="page-action-enabled-edit" />
