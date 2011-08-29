@@ -128,6 +128,11 @@ class SonataPageExtension extends Extension
     public function configureCache(ContainerBuilder $container, $configs)
     {
         if (!isset($configs['caches'])) {
+            $container->removeDefinition('sonata.page.cache.esi');
+            $container->removeDefinition('sonata.page.cache.mongo');
+            $container->removeDefinition('sonata.page.cache.apc');
+            $container->removeDefinition('sonata.page.cache.memcached');
+
             return;
         }
 
