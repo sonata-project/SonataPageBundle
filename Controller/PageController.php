@@ -27,8 +27,7 @@ class PageController extends Controller
             $page = $cms->getPageByUrl($pathInfo);
 
             if (!$page) {
-                $page = $cms->getPageByRouteName('global');
-                $page->setDecorate(false);
+                $page = $cms->getPageByRouteName('catchAll');
                 $cms->setCurrentPage($page);
 
                 return $this->render('SonataPageBundle:Page:create.html.twig', array(
