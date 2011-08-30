@@ -48,7 +48,7 @@ class PageSelectorType extends ModelType
 
         $options = array_replace($defaultOptions, $options);
 
-        if(!isset($options['choices'])) {
+        if (!isset($options['choices'])) {
             $options['filter_choice'] = isset($options['filter_choice']) ? array_replace($defaultOptions['filter_choice'], $options['filter_choice']) : $defaultOptions['filter_choice'];
             $options['choices'] = $this->getChoices($options);
         }

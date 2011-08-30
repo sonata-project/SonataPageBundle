@@ -88,7 +88,7 @@ class SonataPageExtension extends Extension
         foreach ($configs['templates'] as $code => $info) {
             $info = array_merge($defaults, $info);
             $definition = new Definition('Sonata\PageBundle\Model\Template');
-            foreach($defaults as $key => $value) {
+            foreach ($defaults as $key => $value) {
                 $method = 'set' . ucfirst($key);
                 $definition->addMethodCall($method, array($info[$key]));
             }

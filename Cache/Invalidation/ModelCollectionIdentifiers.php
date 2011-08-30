@@ -43,7 +43,7 @@ class ModelCollectionIdentifiers
             return false;
         }
 
-        foreach($this->classes as $class => $identifier) {
+        foreach ($this->classes as $class => $identifier) {
             if ($object instanceof $class) {
                 return $identifier;
             }

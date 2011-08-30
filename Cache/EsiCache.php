@@ -145,7 +145,7 @@ class EsiCache implements CacheInterface
             );
 
             if ($recorder) {
-                foreach($recorder->get() as $name => $keys) {
+                foreach ($recorder->get() as $name => $keys) {
                     $keys = array_map('strval', $keys);
                     $headers[$this->normalize($name)] = json_encode($keys);
                 }
