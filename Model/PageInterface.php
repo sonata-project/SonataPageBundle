@@ -21,8 +21,17 @@ interface PageInterface
      */
     function setRouteName($routeName);
 
+    /**
+     * @abstract
+     * @return mixed
+     */
     function getId();
 
+    /**
+     * @abstract
+     * @param $id
+     * @return mixed
+     */
     function setId($id);
 
     /**
@@ -190,49 +199,50 @@ interface PageInterface
     /**
      * Add children
      *
-     * @param Application\Sonata\PageBundle\Entity\Page $children
+     * @param PageInterface $children
      */
     function addChildren(PageInterface $children);
 
     /**
      * Get children
      *
-     * @return Doctrine\Common\Collections\Collection $children
+     * @return array
      */
     function getChildren();
 
     /**
      * Add blocs
      *
-     * @param Application\Sonata\PageBundle\Entity\Block $blocs
+     * @param BlockInterface $bloc
+     * @return void
      */
-    function addBlocks(BlockInterface $blocs);
+    function addBlocks(BlockInterface $bloc);
 
     /**
      * Get blocs
      *
-     * @return Doctrine\Common\Collections\Collection $blocs
+     * @return array
      */
     function getBlocks();
 
     /**
-     * Set target
-     *
-     * @param Application\Sonata\PageBundle\Entity\Page $target
+     * @abstract
+     * @param PageInterface $target
+     * @return void
      */
     function setTarget(PageInterface $target);
 
     /**
      * Get target
      *
-     * @return Application\Sonata\PageBundle\Entity\Page $target
+     * @return PageInterface
      */
     function getTarget();
 
     /**
      * Set parent
      *
-     * @param Application\Sonata\PageBundle\Entity\Page $parent
+     * @param PageInterface $parent
      */
     function setParent(PageInterface $parent);
 
@@ -240,7 +250,7 @@ interface PageInterface
      * Get parent
      *
      * @param integer $level default -1
-     * @return Application\Sonata\PageBundle\Entity\Page $parent
+     * @return PageInterface $parent
      */
     function getParent($level = -1);
 
@@ -254,21 +264,67 @@ interface PageInterface
     /**
      * Get template
      *
-     * @return string $templateCode
+     * @return string
      */
     function getTemplateCode();
 
+    /**
+     * Indicates if the page should be decorated with the CMS outter layout
+     *
+     * @abstract
+     * @param boolean $decorate
+     * @return void
+     */
     function setDecorate($decorate);
 
+    /**
+     * @abstract
+     * @return void
+     */
     function getDecorate();
 
+    /**
+     * @abstract
+     * @return boolean
+     */
     function isHybrid();
 
+    /**
+     * @abstract
+     * @param int $position
+     * @return void
+     */
     function setPosition($position);
 
+    /**
+     * @abstract
+     * @return int
+     */
     function getPosition();
 
+    /**
+     * @abstract
+     * @param string $method
+     * @return void
+     */
     function setRequestMethod($method);
 
+    /**
+     * @abstract
+     * @return void
+     */
     function getRequestMethod();
+
+    /**
+     * @abstract
+     * @param array $headers
+     * @return void
+     */
+    function addHeader(array $headers = array());
+
+    /**
+     * @abstract
+     * @return array
+     */
+    function getHeaders();
 }
