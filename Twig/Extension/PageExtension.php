@@ -64,6 +64,8 @@ class PageExtension extends \Twig_Extension
              return '';
         }
 
+        $context = $this->router->getContext();
+
         if ($page instanceof PageInterface) {
             if ($page->isDynamic()) {
                 if ($this->environment->isDebug()) {
@@ -73,15 +75,12 @@ class PageExtension extends \Twig_Extension
                 return '';
             }
 
-            $context = $this->router->getContext();
-
-            $url = sprintf('%s%s',
-                $context->getBaseUrl(),
-                $page->getCustomUrl() ?: $page->getUrl()
-            );
+            $url = $page->getCustomUrl() ?: $page->getUrl();
         } else {
             $url = $page;
         }
+
+        $url = sprintf('%s%s', $context->getBaseUrl(), $url);
 
         if ($absolute && $context->getHost()) {
             $scheme = $context->getScheme();
