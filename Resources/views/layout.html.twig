@@ -32,12 +32,12 @@ file that was distributed with this source code.
             <div class="sonata-page-top-bar">
                 <div style="float: right"><strong><em><a href="http://sonata-project.org">Sonata Project</a></em></strong></div>
                 <input type="checkbox" id="page-action-enabled-edit" />
-                <label for="page-action-enabled-edit">{% trans from 'PageBundle' %}show_zone{% endtrans%}</label>
+                <label for="page-action-enabled-edit">{% trans from 'SonataPageBundle' %}show_zone{% endtrans%}</label>
                 &#149; {{ page.name }} :
-                <a href="{{ path('admin_sonata_page_page_edit', {'id': page.id }) }}" target="_new">{{ "edit_page"|trans({}, 'PageBundle') }}</a>
-                , <a href="{{ path('admin_sonata_page_page_snapshot_create', {'id': page.id }) }}" target="_new">{{ "create_snapshot"|trans({}, 'PageBundle') }}</a>
-                &#149; <a href="{{ path('admin_sonata_page_page_list') }}" target="_new">{{ "view_all_pages"|trans({}, 'PageBundle') }}</a>
-                <input type="submit" value="{% trans from 'PageBundle' %}btn_save_position{% endtrans%}" id="page-action-save-position" />
+                <a href="{{ path('admin_sonata_page_page_edit', {'id': page.id }) }}" target="_new">{{ "edit_page"|trans({}, 'SonataPageBundle') }}</a>
+                , <a href="{{ path('admin_sonata_page_page_snapshot_create', {'id': page.id }) }}" target="_new">{{ "create_snapshot"|trans({}, 'SonataPageBundle') }}</a>
+                &#149; <a href="{{ path('admin_sonata_page_page_list') }}" target="_new">{{ "view_all_pages"|trans({}, 'SonataPageBundle') }}</a>
+                <input type="submit" value="{% trans from 'SonataPageBundle' %}btn_save_position{% endtrans%}" id="page-action-save-position" />
             </div>
 
             <!-- CMS specific variables -->

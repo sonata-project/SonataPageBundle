@@ -11,18 +11,18 @@ file that was distributed with this source code.
 
 {% extends 'SonataAdminBundle:CRUD:action.html.twig' %}
 
-{% block title %}{% trans from 'PageBundle' %}title_create_snapshot{% endtrans %}{% endblock %}
+{% block title %}{% trans from 'SonataPageBundle' %}title_create_snapshot{% endtrans %}{% endblock %}
 
 
 {% block content %}
 
-    {% trans from 'PageBundle'%}message_create_snapshot{% endtrans %}
+    {% trans from 'SonataPageBundle'%}message_create_snapshot{% endtrans %}
 
     <form action="{{ admin.generateUrl('create') }}" method="POST">
 
         {{ form_rest(form) }}
 
-        <input type="submit" name="create" value="{% trans from 'PageBundle' %}button_create_snapshot{% endtrans %}"/>
+        <input type="submit" name="create" value="{% trans from 'SonataPageBundle' %}button_create_snapshot{% endtrans %}"/>
     </form>
 
 {% endblock %}

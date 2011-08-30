@@ -10,19 +10,19 @@ file that was distributed with this source code.
 #}
 {% extends "::base.html.twig" %}
 
-{% block title %}{{ "title_page_not_found"|trans({}, 'PageBundle')}}{% endblock %}
+{% block title %}{{ "title_page_not_found"|trans({}, 'SonataPageBundle')}}{% endblock %}
 
 {% block content %}
     <div>
-        <h2>{{ "title_page_not_found"|trans({'pathInfo': pathInfo}, 'PageBundle') }}</h2>
+        <h2>{{ "title_page_not_found"|trans({'pathInfo': pathInfo}, 'SonataPageBundle') }}</h2>
 
         {% if creatable %}
             <p>
-                <a href="{{ path('admin_sonata_page_page_create', {'url': pathInfo}) }}">{{ "create_page"|trans({'pathInfo': pathInfo}, 'PageBundle') }}</a>
+                <a href="{{ path('admin_sonata_page_page_create', {'url': pathInfo}) }}">{{ "create_page"|trans({'pathInfo': pathInfo}, 'SonataPageBundle') }}</a>
             </p>
         {% else %}
             <p>
-                {{ "message_page_does_not_exist"|trans({'pathInfo': pathInfo}, 'PageBundle') }}
+                {{ "message_page_does_not_exist"|trans({'pathInfo': pathInfo}, 'SonataPageBundle') }}
             </p>
         {% endif%}
     </div>
