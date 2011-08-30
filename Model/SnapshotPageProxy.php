@@ -19,6 +19,10 @@ class SnapshotPageProxy implements PageInterface
      */
     private $page;
 
+    private $target;
+
+    private $parents;
+
     /**
      * @param SnapshotManagerInterface $manager
      * @param SnapshotInterface $snapshot
@@ -36,7 +40,7 @@ class SnapshotPageProxy implements PageInterface
     public function getPage()
     {
         $this->load();
-        
+
         return $this->page;
     }
 
@@ -364,7 +368,7 @@ class SnapshotPageProxy implements PageInterface
             foreach ($content['blocks'] as $block) {
                 $this->addBlocks($this->manager->loadBlock($block, $this->getPage()));
             }
-            
+
         }
 
         return $this->getPage()->getBlocks();
@@ -457,29 +461,37 @@ class SnapshotPageProxy implements PageInterface
      */
     function setTarget(PageInterface $target)
     {
-        $this->getPage()->setTarget($target);
+        //$this->getPage()->setTarget($target);
+        $this->target = $target;
     }
 
     /**
-     * @return Sonata\PageBundle\Model\PageInterface
+     * @return \Sonata\PageBundle\Model\PageInterface|null
      */
     public function getTarget()
     {
-        if (!$this->getPage()->getTarget()) {
+        if ($this->target === null) {
             $content = json_decode($this->snapshot->getContent(), true);
 
-            if ($content['target_id']) {
-                $this->setTarget($this->manager->getPageById($content['target_id']));
+            if (isset($content['target_id'])) {
+                $target = $this->manager->getPageById($content['target_id']);
+
+                if ($target) {
+                    $this->setTarget($target);
+                } else {
+                    $this->target = false;
+                }
             }
         }
 
-        return $this->getPage()->getTarget();
+        return $this->target ?: null;
     }
 
     /**
      * Get parent
      *
-     * @return Page $parent
+     * @param int $level
+     * @return null|\Sonata\PageBundle\Model\PageInterface $parent
      */
     public function getParent($level = -1)
     {
@@ -499,7 +511,7 @@ class SnapshotPageProxy implements PageInterface
      */
     public function setParents(array $parents)
     {
-        $this->getPage()->setParents($parents);
+        $this->parents = $parents;
     }
 
     /**
@@ -509,7 +521,7 @@ class SnapshotPageProxy implements PageInterface
      */
     public function getParents()
     {
-        if (!$this->getPage()->getParents()) {
+        if (!$this->parents) {
             $parents = array();
 
             $snapshot = $this->snapshot;
@@ -529,6 +541,6 @@ class SnapshotPageProxy implements PageInterface
             $this->setParents(array_reverse($parents));
         }
 
-        return $this->getPage()->getParents();
+        return $this->parents;
     }
 }
