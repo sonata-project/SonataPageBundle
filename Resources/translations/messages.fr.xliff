@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="fr" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="sonata_page">
+                <source>sonata_page</source>
+                <target>Page</target>
+            </trans-unit>
+
+            <trans-unit id="sidemenu.link_edit_page">
+                <source>sidemenu.link_edit_page</source>
+                <target>Page</target>
+            </trans-unit>
+            <trans-unit id="sidemenu.link_list_blocks">
+                <source>sidemenu.link_list_blocks</source>
+                <target>Blocs</target>
+            </trans-unit>
+            <trans-unit id="sidemenu.link_list_snapshots">
+                <source>sidemenu.link_list_snapshots</source>
+                <target>Snapshots</target>
+            </trans-unit>
+
+            <trans-unit id="breadcrumb.link_page_list">
+                <source>breadcrumb.link_page_list</source>
+                <target>Pages</target>
+            </trans-unit>
+            <trans-unit id="breadcrumb.link_page_edit">
+                <source>breadcrumb.link_page_edit</source>
+                <target>Edition</target>
+            </trans-unit>
+            <trans-unit id="breadcrumb.link_block_list">
+                <source>breadcrumb.link_block_list</source>
+                <target>Blocs</target>
+            </trans-unit>
+            <trans-unit id="breadcrumb.link_block_edit">
+                <source>breadcrumb.link_block_edit</source>
+                <target>Edition</target>
+            </trans-unit>
+            <trans-unit id="breadcrumb.link_snapshot_list">
+                <source>breadcrumb.link_snapshot_list</source>
+                <target>Snapshots</target>
+            </trans-unit>
+            <trans-unit id="breadcrumb.link_snapshot_edit">
+                <source>breadcrumb.link_snapshot_edit</source>
+                <target>Edition</target>
+            </trans-unit>
+
+            <trans-unit id="form_page.group_main_label">
+                <source>form_page.group_main_label</source>
+                <target>Général</target>
+            </trans-unit>
+            <trans-unit id="form_page.group_seo_label">
+                <source>form_page.group_seo_label</source>
+                <target>SEO</target>
+            </trans-unit>
+            <trans-unit id="form_page.group_advanced_label">
+                <source>form_page.group_advanced_label</source>
+                <target>Avancée</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
