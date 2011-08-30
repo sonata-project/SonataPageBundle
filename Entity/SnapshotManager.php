@@ -23,6 +23,8 @@ use Application\Sonata\PageBundle\Entity\Page;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\NoResultException;
 
+use Sonata\PageBundle\Model\SnapshotPageProxy;
+
 class SnapshotManager implements SnapshotManagerInterface
 {
     protected $entityManager;
@@ -158,7 +160,7 @@ class SnapshotManager implements SnapshotManagerInterface
      */
     public function load(SnapshotInterface $snapshot)
     {
-        $page = new \Application\Sonata\PageBundle\Entity\Page;
+        $page = new Page;
 
         $page->setRouteName($snapshot->getRouteName());
         $page->setCustomUrl($snapshot->getUrl());
@@ -185,13 +187,6 @@ class SnapshotManager implements SnapshotManagerInterface
         $updatedAt = new \DateTime;
         $updatedAt->setTimestamp($content['updated_at']);
         $page->setUpdatedAt($updatedAt);
-
-        foreach ($content['blocks'] as $block) {
-            $page->addBlocks($this->loadBlock($block, $page));
-        }
-
-        $page->setChildren(new SnapshotChildrenCollection($this, $page));
-        $page->setTarget($this->getTarget($snapshot));
 
         return $page;
     }
@@ -262,6 +257,8 @@ class SnapshotManager implements SnapshotManagerInterface
         $content['created_at']        = $page->getCreatedAt()->format('U');
         $content['updated_at']        = $page->getUpdatedAt()->format('U');
         $content['slug']              = $page->getSlug();
+        $content['parent_id']         = $page->getParent() ? $page->getParent()->getId() : false;
+        $content['target_id']         = $page->getTarget() ? $page->getTarget()->getId() : false;
 
         $content['blocks'] = array();
         foreach ($page->getBlocks() as $block) {
@@ -317,19 +314,15 @@ class SnapshotManager implements SnapshotManagerInterface
         $snapshot = count($snapshots) > 0 ? $snapshots[0] : false;
 
         if ($snapshot) {
-            return $this->load($snapshot);
+            return new SnapshotPageProxy($this, $snapshot);
         }
 
         return false;
     }
 
-    /**
-     * @param \Sonata\PageBundle\Model\SnapshotInterface $snapshot
-     * @return \Sonata\PageBundle\Model\PageInterface
-     */
-    public function getTarget(SnapshotInterface $snapshot)
+    public function getSnapshotByPageId($pageId)
     {
-        if (!$snapshot->getTargetId()) {
+        if (!$pageId) {
           return null;
         }
 
@@ -337,21 +330,34 @@ class SnapshotManager implements SnapshotManagerInterface
         $parameters = array(
             'publicationDateStart'  => $date,
             'publicationDateEnd'    => $date,
-            'id'                    => $snapshot->getTargetId()
+            'pageId'                => $pageId
         );
 
-        $targets = $this->entityManager->createQueryBuilder()
-            ->select('p')
-            ->from('Application\Sonata\PageBundle\Entity\Page', 'p')
-            ->innerJoin('p.snapshots', 's')
-            ->where('p.id = :id and p.enabled = 1')
-            ->andWhere('s.publicationDateStart <= :publicationDateStart AND ( s.publicationDateEnd IS NULL OR s.publicationDateEnd >= :publicationDateEnd )')
-            ->setParameters($parameters)
-            ->getQuery()
-            ->setMaxResults(1)
-            ->execute();
+        try {
+            $snapshot = $this->entityManager->createQueryBuilder()
+                ->select('s')
+                ->from('Application\Sonata\PageBundle\Entity\Snapshot', 's')
+                ->where('s.page = :pageId and s.enabled = 1')
+                ->andWhere('s.publicationDateStart <= :publicationDateStart AND ( s.publicationDateEnd IS NULL OR s.publicationDateEnd >= :publicationDateEnd )')
+                ->setParameters($parameters)
+                ->getQuery()
+                ->getSingleResult();
+        } catch(NoResultException $e) {
+            $snapshot = null;
+        }
 
-        return isset($targets[0]) && $targets[0]->getSnapshot() ? $this->load($targets[0]->getSnapshot()) : null;
+        return $snapshot;
+    }
+
+    /**
+     * @param integer $id
+     * @return \Sonata\PageBundle\Model\PageInterface
+     */
+    public function getPageById($id)
+    {
+        $snapshot = $this->getSnapshotByPageId($id);
+
+        return $snapshot ? new SnapshotPageProxy($this, $snapshot) : null;
     }
 
     public function getChildren(PageInterface $parent)
@@ -375,7 +381,7 @@ class SnapshotManager implements SnapshotManagerInterface
 
             $pages = array();
             foreach ($snapshots as $snapshot) {
-                $page = $this->load($snapshot);
+                $page = new SnapshotPageProxy($this, $snapshot);
                 $pages[$page->getId()] = $page;
             }
 

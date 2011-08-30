@@ -50,6 +50,8 @@ abstract class Page implements PageInterface
 
     protected $parent;
 
+    protected $parents;
+
     protected $target;
 
     protected $sources;
@@ -326,7 +328,7 @@ abstract class Page implements PageInterface
 
             foreach (explode("\r\n", $this->getRawHeaders()) as $header) {
 
-                if(false != strpos($header, ':')) {
+                if (false != strpos($header, ':')) {
                     list($name, $headerStr) = explode(':', $header, 2);
                     $this->headers[trim($name)] = trim($headerStr);
                 }
@@ -433,7 +435,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Get parent
+     * Get target
      *
      * @return Application\Sonata\PageBundle\Entity\Page $target
      */
@@ -530,11 +532,55 @@ abstract class Page implements PageInterface
     /**
      * Get parent
      *
+     * @param integer $level default -1
      * @return Application\Sonata\PageBundle\Entity\Page $parent
      */
-    public function getParent()
+    public function getParent($level = -1)
     {
-        return $this->parent;
+        if (-1 === $level) {
+           return $this->parent;
+        }
+
+        $parents = $this->getParents();
+
+        if ($level < 0) {
+            $level = count($parents) + $level;
+        }
+
+        return isset($parents[$level]) ? $parents[$level] : null;
+    }
+
+    /**
+     * Set parents
+     *
+     * @param array $parents
+     */
+    public function setParents(array $parents)
+    {
+        $this->parents = $parents;
+    }
+
+    /**
+     * get the tree of the page
+     *
+     * @return array of Application\Sonata\PageBundle\Entity\Page $parents
+     */
+    public function getParents()
+    {
+        if (!$this->parents) {
+
+            $page = $this;
+            $parents = array();
+
+            while ($page->getParent()) {
+                $page = $page->getParent();
+                $parents[] = $page;
+            }
+
+            $this->setParents(array_reverse($parents));
+        }
+
+        return $this->parents;
     }
 
     /**
@@ -735,7 +781,7 @@ abstract class Page implements PageInterface
     {
         $method = strtoupper($method);
 
-        if(!in_array($method, array('PUT', 'POST', 'GET', 'DELETE', 'HEAD'))) {
+        if (!in_array($method, array('PUT', 'POST', 'GET', 'DELETE', 'HEAD'))) {
             return false;
         }
 

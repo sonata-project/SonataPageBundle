@@ -216,6 +216,20 @@ interface PageInterface
     function getBlocks();
 
     /**
+     * Set target
+     *
+     * @param Application\Sonata\PageBundle\Entity\Page $target
+     */
+    function setTarget(PageInterface $target);
+
+    /**
+     * Get target
+     *
+     * @return Application\Sonata\PageBundle\Entity\Page $target
+     */
+    function getTarget();
+
+    /**
      * Set parent
      *
      * @param Application\Sonata\PageBundle\Entity\Page $parent
@@ -225,9 +239,10 @@ interface PageInterface
     /**
      * Get parent
      *
+     * @param integer $level default -1
      * @return Application\Sonata\PageBundle\Entity\Page $parent
      */
-    function getParent();
+    function getParent($level = -1);
 
     /**
      * Set template

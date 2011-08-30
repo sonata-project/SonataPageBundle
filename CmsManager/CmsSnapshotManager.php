@@ -19,11 +19,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Sonata\PageBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
+use Sonata\PageBundle\Model\SnapshotPageProxy;
 use Sonata\PageBundle\Block\BlockServiceInterface;
 use Sonata\PageBundle\Cache\CacheInterface;
 use Sonata\PageBundle\Util\RecursiveBlockIterator;
 use Sonata\PageBundle\Cache\CacheElement;
 use Sonata\PageBundle\Cache\Invalidation\InvalidationInterface;
+
 
 use Sonata\AdminBundle\Admin\AdminInterface;
 
@@ -107,26 +109,26 @@ class CmsSnapshotManager extends BaseCmsPageManager
     }
 
     /**
-     * return a fully loaded page ( + blocks ) from a route name
-     *
-     * if the page does not exists then the page is created.
+     * return a fully loaded page ( + blocks ) from a url
      *
      * @param string $url
-     * @return Application\Sonata\PageBundle\Model\PageInterface
+     * @return \Sonata\PageBundle\Model\PageInterface
      */
     public function getPageByUrl($url)
     {
-        $snapshot = $this->getPageManager()->findEnableSnapshot(array('url' => $url));
+        return $this->getPageBy('url', $url);
+    }
 
-        if (!$snapshot) {
-            throw new \RuntimeException(sprintf('Unable to find the snapshot : %s', $url));
-        }
 
-        $page = $this->getPageManager()->load($snapshot);
-
-        $this->loadBlocks($page);
-
-        return $page;
+    /**
+     * return a fully loaded page ( + blocks ) from a id
+     *
+     * @param array $params
+     * @return \Sonata\PageBundle\Model\PageInterface
+     */
+    public function getPageById($id)
+    {
+        return $this->getPageBy('pageId', $id);
     }
 
     /**
@@ -135,23 +137,13 @@ class CmsSnapshotManager extends BaseCmsPageManager
      * if the page does not exists then the page is created.
      *
      * @param string $routeName
-     * @param boolean $create
+     * @param boolean $create default true
      * @return \Sonata\PageBundle\Model\PageInterface
      */
     public function getPageByRouteName($routeName, $create = true)
     {
         if (!isset($this->routePages[$routeName])) {
-            $snapshot = $this->getPageManager()->findEnableSnapshot(array('routeName' => $routeName));
-
-            if (!$snapshot) {
-                throw new \RuntimeException(sprintf('Unable to find the snapshot : %s', $routeName));
-            }
-
-            $page = $this->getPageManager()->load($snapshot);
-
-            $this->loadBlocks($page);
-
-            $this->routePages[$routeName] = $page;
+            $this->routePages[$routeName] = $this->getPageBy('routeName', $routeName);
         }
 
         return $this->routePages[$routeName];
@@ -172,18 +164,21 @@ class CmsSnapshotManager extends BaseCmsPageManager
     }
 
     /**
-     * @param integer $id
-     * @return bool
+     * return a fully loaded page ( + blocks ) whose match with the $value of the $fieldName
+     *
+     * @param string $fieldName
+     * @param string $value
+     * @return \Sonata\PageBundle\Model\PageInterface
      */
-    public function getPageById($id)
+    public function getPageBy($fieldName, $value)
     {
-        $snapshot = $this->getPageManager()->findEnableSnapshot(array('pageId' => $id));
+        $snapshot = $this->getPageManager()->findEnableSnapshot(array($fieldName => $value));
 
         if (!$snapshot) {
-            return false;
+            throw new \RuntimeException(sprintf('Unable to find the snapshot : %s', $value));
         }
 
-        $page = $this->getPageManager()->load($snapshot);
+        $page = new SnapshotPageProxy($this->getPageManager(), $snapshot);
 
         if ($page) {
            $this->loadBlocks($page);
@@ -192,6 +187,11 @@ class CmsSnapshotManager extends BaseCmsPageManager
         return $page;
     }
 
+    /**
+     * load the blocks of the $page
+     *
+     * @param \Sonata\PageBundle\Model\PageInterface $page
+     */
     public function loadBlocks(PageInterface $page)
     {
         $i = new RecursiveBlockIterator($page->getBlocks());

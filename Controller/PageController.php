@@ -11,6 +11,8 @@
 
 namespace Sonata\PageBundle\Controller;
 
+use Sonata\PageBundle\Model\SnapshotPageProxy;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Response;
@@ -50,7 +52,7 @@ class PageController extends Controller
                 throw new NotFoundHttpException('The current snapshot does not exist!');
             }
 
-            $page = $manager->load($snapshot);
+            $page = new SnapshotPageProxy($manager, $snapshot);
             $cms  = $this->get('sonata.page.cms.snapshot');
         }
 
