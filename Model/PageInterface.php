@@ -320,7 +320,15 @@ interface PageInterface
      * @param array $headers
      * @return void
      */
-    function addHeader(array $headers = array());
+    function setHeaders(array $headers = array());
+
+    /**
+     * @abstract
+     * @param $name
+     * @param $value
+     * @return void
+     */
+    function addHeader($name, $value);
 
     /**
      * @abstract

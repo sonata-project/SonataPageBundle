@@ -787,4 +787,9 @@ abstract class Page implements PageInterface
 
         return !$this->getRequestMethod() || false !== strpos($this->getRequestMethod(), $method);
     }
+
+    public function setHeaders(array $headers = array())
+    {
+        $this->headers = $headers;
+    }
 }

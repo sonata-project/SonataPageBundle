@@ -35,7 +35,7 @@ class SnapshotPageProxy implements PageInterface
 
     /**
      * Get the page
-     * @return PageInterface
+     * @return \Sonata\PageBundle\Model\PageInterface
      */
     public function getPage()
     {
@@ -54,9 +54,265 @@ class SnapshotPageProxy implements PageInterface
         }
     }
 
+    /**
+     * @param $method
+     * @param $arguments
+     * @return mixed
+     */
     public function __call($method, $arguments)
     {
         return call_user_func_array(array($this->getPage(), $method), $arguments);
+    }
+
+    /**
+     * Add children
+     *
+     * @param \Sonata\PageBundle\Model\PageInterface $children
+     */
+    function addChildren(PageInterface $children)
+    {
+        $this->getPage()->addChildren($children);
+    }
+
+    /**
+     * @param array $headers
+     * @return void
+     */
+    function setHeaders(array $headers = array())
+    {
+        $this->getPage()->setHeaders($headers);
+    }
+
+    /**
+     * @param $name
+     * @param $value
+     * @return void
+     */
+    function addHeader($name, $value)
+    {
+        $this->getPage()->addHeader($name, $value);
+    }
+
+    /**
+     * @return array
+     */
+    function getHeaders()
+    {
+        return $this->getPage()->getHeaders();
+    }
+
+    /**
+     * Get children
+     *
+     * @return array
+     */
+    function getChildren()
+    {
+        if (!$this->getPage()->getChildren()->count()) {
+            $this->getPage()->setChildren(new SnapshotChildrenCollection($this->manager, $this->getPage()));
+        }
+
+        return $this->getPage()->getChildren();
+    }
+
+    /**
+     * Add blocs
+     *
+     * @param \Sonata\PageBundle\Model\BlockInterface $block
+     */
+    function addBlocks(BlockInterface $block)
+    {
+        $this->getPage()->addBlocks($block);
+    }
+
+    /**
+     * Get blocs
+     *
+     * @return array $blocks
+     */
+    public function getBlocks()
+    {
+        if (!count($this->getPage()->getBlocks())) {
+
+            $content = json_decode($this->snapshot->getContent(), true);
+
+            foreach ($content['blocks'] as $block) {
+                $this->addBlocks($this->manager->loadBlock($block, $this->getPage()));
+            }
+
+        }
+
+        return $this->getPage()->getBlocks();
+    }
+
+    /**
+     * Set target
+     *
+     * @param \Sonata\PageBundle\Model\PageInterface $target
+     */
+    function setTarget(PageInterface $target)
+    {
+        $this->target = $target;
+    }
+
+    /**
+     * @return \Sonata\PageBundle\Model\PageInterface|null
+     */
+    public function getTarget()
+    {
+        if ($this->target === null) {
+            $content = json_decode($this->snapshot->getContent(), true);
+
+            if (isset($content['target_id'])) {
+                $target = $this->manager->getPageById($content['target_id']);
+
+                if ($target) {
+                    $this->setTarget($target);
+                } else {
+                    $this->target = false;
+                }
+            }
+        }
+
+        return $this->target ?: null;
+    }
+
+    /**
+     * Get parent
+     *
+     * @param int $level
+     * @return null|\Sonata\PageBundle\Model\PageInterface $parent
+     */
+    public function getParent($level = -1)
+    {
+        $parents = $this->getParents();
+
+        if ($level < 0) {
+            $level = count($parents) + $level;
+        }
+
+        return isset($parents[$level]) ? $parents[$level] : null;
+    }
+
+    /**
+     * Set parent
+     *
+     * @params array $parents
+     */
+    public function setParents(array $parents)
+    {
+        $this->parents = $parents;
+    }
+
+    /**
+     * get the tree of the page
+     *
+     * @return array of Application\Sonata\PageBundle\Entity\Page $parents
+     */
+    public function getParents()
+    {
+        if (!$this->parents) {
+            $parents = array();
+
+            $snapshot = $this->snapshot;
+
+            while ($snapshot) {
+                $content = json_decode($snapshot->getContent(), true);
+
+                $parentId = $content['parent_id'];
+
+                $snapshot = $parentId ? $this->manager->getSnapshotByPageId($parentId) : null;
+
+                if ($snapshot) {
+                    $parents[] = new SnapshotPageProxy($this->manager, $snapshot);
+                }
+            }
+
+            $this->setParents(array_reverse($parents));
+        }
+
+        return $this->parents;
+    }
+
+
+    /**
+     * Set parent
+     *
+     * @param PageInterface $parent
+     */
+    function setParent(PageInterface $parent)
+    {
+        $this->getPage()->setParent($parent);
+    }
+
+    /**
+     * Set template
+     *
+     * @param string $templateCode
+     */
+    function setTemplateCode($templateCode)
+    {
+        $this->getPage()->setTemplateCode($templateCode);
+    }
+
+    /**
+     * Get template
+     *
+     * @return string $templateCode
+     */
+    function getTemplateCode()
+    {
+        return $this->getPage()->getTemplateCode();
+    }
+
+    function setDecorate($decorate)
+    {
+        $this->getPage()->setDecorate($decorate);
+    }
+
+    /**
+     * get decorate
+     *
+     * @return boolean $decorate
+     */
+    function getDecorate()
+    {
+        return $this->getPage()->getDecorate();
+    }
+
+    function isHybrid()
+    {
+        return true;
+    }
+
+    function setPosition($position)
+    {
+        $this->getPage()->setPosition($position);
+    }
+
+    /**
+     * get position
+     *
+     * @return integer
+     */
+    function getPosition()
+    {
+        return $this->getPage()->getPosition();
+    }
+
+    function setRequestMethod($method)
+    {
+        $this->getPage()->setRequestMethod($method);
+    }
+
+    /**
+     * get request method
+     *
+     * @return string
+     */
+    function getRequestMethod()
+    {
+        return $this->getPage()->getRequestMethod();
     }
 
     /**
@@ -318,229 +574,5 @@ class SnapshotPageProxy implements PageInterface
     function getUpdatedAt()
     {
         return $this->getPage()->getUpdatedAt();
-    }
-
-    /**
-     * Add children
-     *
-     * @param PageInterface $children
-     */
-    function addChildren(PageInterface $children)
-    {
-        $this->getPage()->children[] = $children;
-    }
-
-    /**
-     * Get children
-     *
-     * @return Doctrine\Common\Collections\Collection $children
-     */
-    function getChildren()
-    {
-        if (!$this->getPage()->getChildren()->count()) {
-            $this->getPage()->setChildren(new SnapshotChildrenCollection($this->manager, $this->getPage()));
-        }
-
-        return $this->getPage()->getChildren();
-    }
-
-    /**
-     * Add blocs
-     *
-     * @param Application\Sonata\PageBundle\Entity\Block $blocs
-     */
-    function addBlocks(BlockInterface $blocs)
-    {
-        $this->getPage()->addBlocks($blocs);
-    }
-
-    /**
-     * Get blocs
-     *
-     * @return Doctrine\Common\Collections\Collection $blocs
-     */
-    public function getBlocks()
-    {
-        if (!count($this->getPage()->getBlocks())) {
-
-            $content = json_decode($this->snapshot->getContent(), true);
-
-            foreach ($content['blocks'] as $block) {
-                $this->addBlocks($this->manager->loadBlock($block, $this->getPage()));
-            }
-
-        }
-
-        return $this->getPage()->getBlocks();
-    }
-
-    /**
-     * Set parent
-     *
-     * @param PageInterface $parent
-     */
-    function setParent(PageInterface $parent)
-    {
-        $this->getPage()->setParent($parent);
-    }
-
-    /**
-     * Set template
-     *
-     * @param string $templateCode
-     */
-    function setTemplateCode($templateCode)
-    {
-        $this->getPage()->setTemplateCode($templateCode);
-    }
-
-    /**
-     * Get template
-     *
-     * @return string $templateCode
-     */
-    function getTemplateCode()
-    {
-        return $this->getPage()->getTemplateCode();
-    }
-
-    function setDecorate($decorate)
-    {
-        $this->getPage()->setDecorate($decorate);
-    }
-
-    /**
-     * get decorate
-     *
-     * @return boolean $decorate
-     */
-    function getDecorate()
-    {
-        return $this->getPage()->getDecorate();
-    }
-
-    function isHybrid()
-    {
-        return true;
-    }
-
-    function setPosition($position)
-    {
-        $this->getPage()->setPosition($position);
-    }
-
-    /**
-     * get position
-     *
-     * @return integer
-     */
-    function getPosition()
-    {
-        return $this->getPage()->getPosition();
-    }
-
-    function setRequestMethod($method)
-    {
-        $this->getPage()->setRequestMethod($method);
-    }
-
-    /**
-     * get request method
-     *
-     * @return string
-     */
-    function getRequestMethod()
-    {
-        return $this->getPage()->getRequestMethod();
-    }
-
-    /**
-     * Set target
-     *
-     * @param Page $target
-     */
-    function setTarget(PageInterface $target)
-    {
-        //$this->getPage()->setTarget($target);
-        $this->target = $target;
-    }
-
-    /**
-     * @return \Sonata\PageBundle\Model\PageInterface|null
-     */
-    public function getTarget()
-    {
-        if ($this->target === null) {
-            $content = json_decode($this->snapshot->getContent(), true);
-
-            if (isset($content['target_id'])) {
-                $target = $this->manager->getPageById($content['target_id']);
-
-                if ($target) {
-                    $this->setTarget($target);
-                } else {
-                    $this->target = false;
-                }
-            }
-        }
-
-        return $this->target ?: null;
-    }
-
-    /**
-     * Get parent
-     *
-     * @param int $level
-     * @return null|\Sonata\PageBundle\Model\PageInterface $parent
-     */
-    public function getParent($level = -1)
-    {
-        $parents = $this->getParents();
-
-        if ($level < 0) {
-            $level = count($parents) + $level;
-        }
-
-        return isset($parents[$level]) ? $parents[$level] : null;
-    }
-
-    /**
-     * Set parent
-     *
-     * @params array $parents
-     */
-    public function setParents(array $parents)
-    {
-        $this->parents = $parents;
-    }
-
-    /**
-     * get the tree of the page
-     *
-     * @return array of Application\Sonata\PageBundle\Entity\Page $parents
-     */
-    public function getParents()
-    {
-        if (!$this->parents) {
-            $parents = array();
-
-            $snapshot = $this->snapshot;
-
-            while ($snapshot) {
-                $content = json_decode($snapshot->getContent(), true);
-
-                $parentId = $content['parent_id'];
-
-                $snapshot = $parentId ? $this->manager->getSnapshotByPageId($parentId) : null;
-
-                if ($snapshot) {
-                    $parents[] = new SnapshotPageProxy($this->manager, $snapshot);
-                }
-            }
-
-            $this->setParents(array_reverse($parents));
-        }
-
-        return $this->parents;
     }
 }
