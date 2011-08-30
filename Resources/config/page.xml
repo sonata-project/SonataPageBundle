@@ -7,6 +7,7 @@
         <parameter key="sonata.page.manager.class">Sonata\PageBundle\CmsManager\CmsPageManager</parameter>
         <parameter key="sonata.page.snapshot.class">Sonata\PageBundle\CmsManager\CmsSnapshotManager</parameter>
         <parameter key="sonata.page.response_listener.class">Sonata\PageBundle\Listener\ResponseListener</parameter>
+        <parameter key="sonata.page.cms_manager_selector.class">Sonata\PageBundle\CmsManager\CmsManagerSelector</parameter>
     </parameters>
 
     <services>
@@ -14,6 +15,10 @@
 
         <service id="sonata.page.response_listener" class="%sonata.page.response_listener.class%">
             <tag name="kernel.event_listener" event="kernel.response" method="onCoreResponse" priority="-1"/>
+            <argument type="service" id="sonata.page.cms_manager_selector" />
+        </service>
+
+        <service id="sonata.page.cms_manager_selector" class="%sonata.page.cms_manager_selector.class%">
             <argument type="service" id="service_container" />
         </service>
 
