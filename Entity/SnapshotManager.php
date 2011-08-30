@@ -323,7 +323,7 @@ class SnapshotManager implements SnapshotManagerInterface
     public function getSnapshotByPageId($pageId)
     {
         if (!$pageId) {
-          return null;
+            return null;
         }
 
         $date = new \Datetime;
@@ -342,6 +342,7 @@ class SnapshotManager implements SnapshotManagerInterface
                 ->setParameters($parameters)
                 ->getQuery()
                 ->getSingleResult();
+
         } catch(NoResultException $e) {
             $snapshot = null;
         }

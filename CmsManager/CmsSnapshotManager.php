@@ -15,6 +15,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\RouterInterface;
 
 use Sonata\PageBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
@@ -25,7 +26,6 @@ use Sonata\PageBundle\Cache\CacheInterface;
 use Sonata\PageBundle\Util\RecursiveBlockIterator;
 use Sonata\PageBundle\Cache\CacheElement;
 use Sonata\PageBundle\Cache\Invalidation\InvalidationInterface;
-
 
 use Sonata\AdminBundle\Admin\AdminInterface;
 
@@ -38,12 +38,19 @@ class CmsSnapshotManager extends BaseCmsPageManager
      * @param \Sonata\PageBundle\Model\SnapshotManagerInterface $pageManager
      * @param \Symfony\Component\Templating\EngineInterface $templating
      * @param \Sonata\PageBundle\Cache\Invalidation\InvalidationInterface $cacheInvalidation
+     * @param \Symfony\Component\Routing\RouterInterface $router
      */
-    public function __construct(SnapshotManagerInterface $pageManager, EngineInterface $templating, InvalidationInterface $cacheInvalidation)
+    public function __construct(
+        SnapshotManagerInterface $pageManager,
+        EngineInterface $templating,
+        InvalidationInterface $cacheInvalidation,
+        RouterInterface $router
+    )
     {
         $this->pageManager        = $pageManager;
         $this->templating         = $templating;
         $this->cacheInvalidation  = $cacheInvalidation;
+        $this->router             = $router;
     }
 
     /**
@@ -123,7 +130,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
     /**
      * return a fully loaded page ( + blocks ) from a id
      *
-     * @param array $params
+     * @param integer $id
      * @return \Sonata\PageBundle\Model\PageInterface
      */
     public function getPageById($id)
@@ -212,5 +219,13 @@ class CmsSnapshotManager extends BaseCmsPageManager
         }
 
         return null;
+    }
+
+    /**
+     * @return \Symfony\Component\Routing\RouterInterface
+     */
+    public function getRouter()
+    {
+        return $this->router;
     }
 }

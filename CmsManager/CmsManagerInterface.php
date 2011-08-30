@@ -77,4 +77,10 @@ interface CmsManagerInterface
      * @return void
      */
     public function invalidate(CacheElement $cacheElement);
+
+    /**
+     * @abstract
+     * @return Symfony\Component\Routing\RouterInterface
+     */
+    public function getRouter();
 }

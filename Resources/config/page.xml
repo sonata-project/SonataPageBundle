@@ -27,6 +27,7 @@
             <argument type="service" id="sonata.page.manager.block" />
             <argument type="service" id="templating" />
             <argument />
+            <argument type="service" id="router" />
 
             <call method="setLogger">
                 <argument type="service" id="logger" />
@@ -46,17 +47,18 @@
         </service>
 
          <service id="sonata.page.cms.snapshot" class="%sonata.page.snapshot.class%">
-            <argument type="service" id="sonata.page.manager.snapshot" />
-            <argument type="service" id="templating" />
-            <argument/>
+             <argument type="service" id="sonata.page.manager.snapshot" />
+             <argument type="service" id="templating" />
+             <argument/>
+             <argument type="service" id="router" />
 
-            <call method="setLogger">
-                <argument type="service" id="logger" />
-            </call>
+             <call method="setLogger">
+                 <argument type="service" id="logger" />
+             </call>
 
-            <call method="setDebug">
-                <argument >%kernel.debug%</argument>
-            </call>
+             <call method="setDebug">
+                 <argument >%kernel.debug%</argument>
+             </call>
         </service>
     </services>
 </container>

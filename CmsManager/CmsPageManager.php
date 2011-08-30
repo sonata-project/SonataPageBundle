@@ -26,6 +26,8 @@ use Sonata\PageBundle\Cache\CacheElement;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Validator\ErrorElement;
 
+use Symfony\Component\Routing\RouterInterface;
+
 /**
  * The Manager class is in charge of retrieving the correct page (cms page or action page)
  *
@@ -46,24 +48,42 @@ class CmsPageManager extends BaseCmsPageManager
 
     protected $cacheInvalidation;
 
+    protected $router;
+
+    /**
+     * @param \Sonata\PageBundle\Model\PageManagerInterface $pageManager
+     * @param \Sonata\PageBundle\Model\BlockManagerInterface $blockManager
+     * @param \Symfony\Component\Templating\EngineInterface $templating
+     * @param \Sonata\PageBundle\Cache\Invalidation\InvalidationInterface $cacheInvalidation
+     * @param \Symfony\Component\Routing\RouterInterface $router
+     */
     public function __construct(
-      PageManagerInterface $pageManager,
-      BlockManagerInterface $blockManager,
-      EngineInterface $templating,
-      InvalidationInterface $cacheInvalidation
+        PageManagerInterface $pageManager,
+        BlockManagerInterface $blockManager,
+        EngineInterface $templating,
+        InvalidationInterface $cacheInvalidation,
+        RouterInterface $router
     )
     {
         $this->pageManager        = $pageManager;
         $this->blockManager       = $blockManager;
         $this->templating         = $templating;
         $this->cacheInvalidation  = $cacheInvalidation;
+        $this->router             = $router;
     }
 
+    /**
+     * @return string
+     */
     public function getCode()
     {
         return 'page';
     }
 
+    /**
+     * @param \Sonata\PageBundle\Model\PageInterface $page
+     * @return array
+     */
     protected function getRenderPageParams(PageInterface $page)
     {
         return array_merge(parent::getRenderPageParams($page), array(
@@ -260,26 +280,45 @@ class CmsPageManager extends BaseCmsPageManager
         return $this->blockManager;
     }
 
+    /**
+     * @param \Sonata\AdminBundle\Admin\AdminInterface $blockAdmin
+     * @return void
+     */
     public function setBlockAdmin(AdminInterface $blockAdmin)
     {
         $this->blockAdmin = $blockAdmin;
     }
 
+    /**
+     * @return \Sonata\AdminBundle\Admin\AdminInterface
+     */
     public function getBlockAdmin()
     {
         return $this->blockAdmin;
     }
 
+    /**
+     * @param \Sonata\AdminBundle\Admin\AdminInterface $pageAdmin
+     * @return void
+     */
     public function setPageAdmin(AdminInterface $pageAdmin)
     {
         $this->pageAdmin = $pageAdmin;
     }
 
+    /**
+     * @return Sonata\AdminBundle\Admin\AdminInterface
+     */
     public function getPageAdmin()
     {
         return $this->pageAdmin;
     }
 
+    /**
+     * @param \Sonata\AdminBundle\Validator\ErrorElement $errorElement
+     * @param \Sonata\PageBundle\Model\BlockInterface $block
+     * @return
+     */
     public function validateBlock(ErrorElement $errorElement, BlockInterface $block)
     {
         if (!$block->getId() && !$block->getType()) {
@@ -288,5 +327,13 @@ class CmsPageManager extends BaseCmsPageManager
 
         $service = $this->getBlockService($block);
         $service->validateBlock($errorElement, $block);
+    }
+
+    /**
+     * @return \Symfony\Component\Routing\RouterInterface
+     */
+    public function getRouter()
+    {
+        return $this->router;
     }
 }
