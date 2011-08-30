@@ -9,6 +9,7 @@
             <tag name="twig.extension" />
 
             <argument type="service" id="router" />
+            <argument type="service" id="sonata.page.cms_manager_selector" />
         </service>
     </services>
 </container>

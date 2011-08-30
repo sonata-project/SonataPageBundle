@@ -1,0 +1,19 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+
+{% if page %}
+    <ul class="breadcrumbs">
+        {% for key, breadcrumb in page.getParents() %}
+            <li><a href="{{ page_url(breadcrumb) }}" title="{{ breadcrumb.getName() }}">{{ breadcrumb.getName() }}</a>{{ options.separator }}</li>
+        {% endfor %}
+        <li class="{{ options.current_class }}"><a href="{{ page_url(page) }}" title="{{ page.getName() }}">{{ page.getName() }}</a>{{ options.last_separator }}</li>
+    </ul>
+{% endif %}
