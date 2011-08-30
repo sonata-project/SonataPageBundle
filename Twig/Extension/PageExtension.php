@@ -54,30 +54,34 @@ class PageExtension extends \Twig_Extension
     }
 
     /**
-     * @param \Sonata\MediaBundle\Model\MediaInterface $media
-     * @param string $format
+     * @param string $page
+     * @param boolean $absolute
      * @return string
      */
-    public function url(PageInterface $page = null, $absolute = false)
+    public function url($page = null, $absolute = false)
     {
         if (!$page) {
              return '';
         }
 
-        if ($page->isDynamic()) {
-            if ($this->environment->isDebug()) {
-                throw new \RunTimeException('Unable to generate path for hybrid and dynamic page');
+        if ($page instanceof PageInterface) {
+            if ($page->isDynamic()) {
+                if ($this->environment->isDebug()) {
+                    throw new \RunTimeException('Unable to generate path for hybrid and dynamic page');
+                }
+
+                return '';
             }
 
-            return '';
+            $context = $this->router->getContext();
+
+            $url = sprintf('%s%s',
+                $context->getBaseUrl(),
+                $page->getCustomUrl() ?: $page->getUrl()
+            );
+        } else {
+            $url = $page;
         }
-
-        $context = $this->router->getContext();
-
-        $url = sprintf('%s%s',
-            $context->getBaseUrl(),
-            $page->getCustomUrl() ?: $page->getUrl()
-        );
 
         if ($absolute && $context->getHost()) {
             $scheme = $context->getScheme();
