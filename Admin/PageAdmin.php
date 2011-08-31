@@ -86,6 +86,13 @@ class PageAdmin extends Admin
                 ->add('enabled', null, array('required' => false))
                 ->add('position')
                 ->add('templateCode', 'choice', array('required' => true, 'choices' => $templates))
+                ->add('parent', 'sonata_page_selector', array(
+                    'page'          => $this->getSubject() ?: null,
+                    'model_manager' => $this->getModelManager(),
+                    'class'         => $this->getClass(),
+                    'filter_choice' => array('hierarchy' => 'root'),
+                    'required'      => false
+                ))
             ->end()
         ;
 
@@ -119,19 +126,6 @@ class PageAdmin extends Admin
             ->end()
         ;
 
-        if (!$this->getSubject() || !$this->getSubject()->isDynamic()) {
-            $formMapper
-                ->with($this->trans('form_page.group_main_label'))
-                    ->add('parent', 'sonata_page_selector', array(
-                        'page'          => $this->getSubject() ?: null,
-                        'model_manager' => $this->getModelManager(),
-                        'class'         => $this->getClass(),
-                        'filter_choice' => array('hierarchy' => 'root'),
-                        'required'      => false
-                    ))
-                ->end()
-            ;
-        }
 
         $formMapper
             ->with($this->trans('form_page.group_advanced_label'), array('collapsed' => true))
