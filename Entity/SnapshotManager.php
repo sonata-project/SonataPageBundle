@@ -179,6 +179,7 @@ class SnapshotManager implements SnapshotManagerInterface
         $page->setName($content['name']);
         $page->setSlug($content['slug']);
         $page->setTemplateCode($content['template_code']);
+        $page->setRequestMethod($content['request_method']);
 
         $createdAt = new \DateTime;
         $createdAt->setTimestamp($content['created_at']);
@@ -254,6 +255,7 @@ class SnapshotManager implements SnapshotManagerInterface
         $content['meta_description']  = $page->getMetaDescription();
         $content['meta_keyword']      = $page->getMetaKeyword();
         $content['template_code']     = $page->getTemplateCode();
+        $content['request_method']    = $page->getRequestMethod();
         $content['created_at']        = $page->getCreatedAt()->format('U');
         $content['updated_at']        = $page->getUpdatedAt()->format('U');
         $content['slug']              = $page->getSlug();
@@ -297,7 +299,7 @@ class SnapshotManager implements SnapshotManagerInterface
      * return a page with the given routeName
      *
      * @param string $routeName
-     * @return PageInterface|false
+     * @return \Sonata\PageBundle\Model\PageInterface|false
      */
     public function getPageByName($routeName)
     {
@@ -320,6 +322,12 @@ class SnapshotManager implements SnapshotManagerInterface
         return false;
     }
 
+    /**
+     * Get snapshot
+     *
+     * @param integer $pageId
+     * @return \Sonata\PageBundle\Model\SnapshotInterface
+     */
     public function getSnapshotByPageId($pageId)
     {
         if (!$pageId) {
@@ -351,6 +359,8 @@ class SnapshotManager implements SnapshotManagerInterface
     }
 
     /**
+     * Get page by id
+     *
      * @param integer $id
      * @return \Sonata\PageBundle\Model\PageInterface
      */
@@ -361,6 +371,12 @@ class SnapshotManager implements SnapshotManagerInterface
         return $snapshot ? new SnapshotPageProxy($this, $snapshot) : null;
     }
 
+    /**
+     * Get children
+     *
+     * @param \Sonata\PageBundle\Model\PageInterface $parent
+     * @return Collection
+     */
     public function getChildren(PageInterface $parent)
     {
         if (!isset($this->children[$parent->getId()])) {
@@ -376,11 +392,13 @@ class SnapshotManager implements SnapshotManagerInterface
                 ->from('Application\Sonata\PageBundle\Entity\Snapshot', 's')
                 ->where('s.parentId = :parentId and s.enabled = 1')
                 ->andWhere('s.publicationDateStart <= :publicationDateStart AND ( s.publicationDateEnd IS NULL OR s.publicationDateEnd >= :publicationDateEnd )')
+                ->orderBy('s.position')
                 ->setParameters($parameters)
                 ->getQuery()
                 ->execute();
 
             $pages = array();
+
             foreach ($snapshots as $snapshot) {
                 $page = new SnapshotPageProxy($this, $snapshot);
                 $pages[$page->getId()] = $page;
@@ -405,7 +423,7 @@ class SnapshotManager implements SnapshotManagerInterface
     public function getTemplate($code)
     {
         if (!isset($this->templates[$code])) {
-            throw new \RunTimeException(sprintf('No template references whith the code : %s', $code));
+            throw new \RunTimeException(sprintf('No template references with the code : %s', $code));
         }
 
         return $this->templates[$code];
