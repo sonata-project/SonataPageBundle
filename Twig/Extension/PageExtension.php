@@ -84,15 +84,30 @@ class PageExtension extends \Twig_Extension
             $page = $this->cmsManagerSelector->retrieve()->getCurrentPage();
         }
 
-        $defaultOptions = array(
-            'separator'     => '',
-            'current_class' => '',
-            'last_separator'=> ''
-        );
+        $options = array_merge($options, array(
+            'separator'            => '',
+            'current_class'        => '',
+            'last_separator'       => '',
+            'force_view_home_page' => true
+        ));
+
+        $breadcrumbs = array();
+
+        if ($page) {
+            $breadcrumbs = $page->getParents();
+
+            if ($options['force_view_home_page'] && (!isset($breadcrumbs[0]) || $breadcrumbs[0]->getUrl() != '/')) {
+                $homePage = $this->cmsManagerSelector->retrieve()->getPageByUrl('/');
+                if ($homePage) {
+                    array_unshift($breadcrumbs, $homePage);
+                }
+            }
+        }
 
         return $this->render('SonataPageBundle:Page:breadcrumb.html.twig', array(
             'page'        => $page,
-            'options'     => array_merge($options, $defaultOptions)
+            'breadcrumbs' => $breadcrumbs,
+            'options'     => $options
         ));
     }
 

@@ -9,9 +9,9 @@ file that was distributed with this source code.
 
 #}
 
-{% if page %}
+{% if breadcrumbs %}
     <ul class="breadcrumbs">
-        {% for key, breadcrumb in page.getParents() %}
+        {% for key, breadcrumb in breadcrumbs %}
             <li><a href="{{ page_url(breadcrumb) }}" title="{{ breadcrumb.getName() }}">{{ breadcrumb.getName() }}</a>{{ options.separator }}</li>
         {% endfor %}
         <li class="{{ options.current_class }}"><a href="{{ page_url(page) }}" title="{{ page.getName() }}">{{ page.getName() }}</a>{{ options.last_separator }}</li>
