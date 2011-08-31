@@ -45,7 +45,6 @@ class PageAdmin extends Admin
         $listMapper
             ->add('hybrid', 'text', array('template' => 'SonataPageBundle:PageAdmin:field_hybrid.html.twig'))
             ->add('name', null, array('identifier' => true))
-            ->add('routeName')
             ->add('decorate')
             ->add('enabled')
         ;
@@ -56,9 +55,9 @@ class PageAdmin extends Admin
         $datagridMapper
             ->add('name')
             ->add('hybrid', 'doctrine_orm_callback', array(
-                'callback' => function($queryBuilder, $alias, $field, $value) {
-                    if ($value) {
-                        $queryBuilder->andWhere(sprintf('%s.routeName %s :routeName', $alias, $value == 'cms' ? '=' : '!='));
+                'callback' => function($queryBuilder, $alias, $field, $data) {
+                    if (isset($data['value'])) {
+                        $queryBuilder->andWhere(sprintf('%s.routeName %s :routeName', $alias, $data['value'] == 'cms' ? '=' : '!='));
                         $queryBuilder->setParameter('routeName', PageInterface::PAGE_ROUTE_CMS_NAME);
                     }
                 },
