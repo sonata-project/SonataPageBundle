@@ -51,7 +51,7 @@ class PageExtension extends \Twig_Extension
     {
         return array(
             'page_url'        => new \Twig_Function_Method($this, 'url'),
-            'page_breadcrumb' =>  new \Twig_Function_Method($this, 'breadcrumb', array('is_safe' => array('html'))),
+            'page_breadcrumb' => new \Twig_Function_Method($this, 'breadcrumb', array('is_safe' => array('html'))),
         );
     }
 
@@ -70,7 +70,7 @@ class PageExtension extends \Twig_Extension
      */
     public function getName()
     {
-        return 'sonata_path';
+        return 'sonata_page';
     }
 
     /**
@@ -84,12 +84,13 @@ class PageExtension extends \Twig_Extension
             $page = $this->cmsManagerSelector->retrieve()->getCurrentPage();
         }
 
-        $options = array_merge($options, array(
+        $options = array_merge(array(
             'separator'            => '',
             'current_class'        => '',
             'last_separator'       => '',
-            'force_view_home_page' => true
-        ));
+            'force_view_home_page' => true,
+            'container_attr'       => array('class' => 'sonata-page-breadcrumbs')
+        ), $options);
 
         $breadcrumbs = array();
 
@@ -128,7 +129,7 @@ class PageExtension extends \Twig_Extension
         if ($page instanceof PageInterface) {
             if ($page->isDynamic()) {
                 if ($this->environment->isDebug()) {
-                    throw new \RunTimeException('Unable to generate path for hybrid and dynamic page');
+                    throw new \RunTimeException('Unable to generate path for dynamic page');
                 }
 
                 return '';
