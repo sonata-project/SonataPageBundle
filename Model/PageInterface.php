@@ -291,6 +291,12 @@ interface PageInterface
 
     /**
      * @abstract
+     * @return boolean
+     */
+    function isDynamic();
+
+    /**
+     * @abstract
      * @param int $position
      * @return void
      */

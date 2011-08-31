@@ -139,7 +139,6 @@ class SnapshotPageProxy implements PageInterface
             foreach ($content['blocks'] as $block) {
                 $this->addBlocks($this->manager->loadBlock($block, $this->getPage()));
             }
-
         }
 
         return $this->getPage()->getBlocks();
@@ -207,7 +206,7 @@ class SnapshotPageProxy implements PageInterface
     /**
      * get the tree of the page
      *
-     * @return array of Application\Sonata\PageBundle\Entity\Page $parents
+     * @return array of Application\Sonata\PageBundle\Entity\Page
      */
     public function getParents()
     {
@@ -265,6 +264,10 @@ class SnapshotPageProxy implements PageInterface
         return $this->getPage()->getTemplateCode();
     }
 
+    /**
+     * @param boolean $decorate
+     * @return void
+     */
     function setDecorate($decorate)
     {
         $this->getPage()->setDecorate($decorate);
@@ -280,11 +283,18 @@ class SnapshotPageProxy implements PageInterface
         return $this->getPage()->getDecorate();
     }
 
+    /**
+     * @return bool
+     */
     function isHybrid()
     {
-        return true;
+        return $this->getPage()->isHybrid();
     }
 
+    /**
+     * @param $position
+     * @return void
+     */
     function setPosition($position)
     {
         $this->getPage()->setPosition($position);
@@ -300,6 +310,10 @@ class SnapshotPageProxy implements PageInterface
         return $this->getPage()->getPosition();
     }
 
+    /**
+     * @param string $method
+     * @return void
+     */
     function setRequestMethod($method)
     {
         $this->getPage()->setRequestMethod($method);
@@ -574,5 +588,13 @@ class SnapshotPageProxy implements PageInterface
     function getUpdatedAt()
     {
         return $this->getPage()->getUpdatedAt();
+    }
+
+    /**
+     * @return boolean
+     */
+    function isDynamic()
+    {
+        return $this->getPage()->isDynamic();
     }
 }
