@@ -19,7 +19,7 @@ Next, be sure to enable the bundles in your application kernel:
   {
       return array(
           // ...
-          new Sonata\MediaBundle\SonataPageBundle(),
+          new Sonata\PageBundle\SonataPageBundle(),
           new Sonata\AdminBundle\SonataAdminBundle(),
           new Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),
           // ...
