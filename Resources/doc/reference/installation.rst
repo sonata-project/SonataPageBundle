@@ -143,6 +143,20 @@ file.
                 servers:
                     - { domain: kooqit.local, ip: 127.0.0.1, port: 80}
 
+Add Roles
+
+.. code-block:: yaml
+
+    # app/config/security.yml
+    security:
+        role_hierarchy:
+            ROLE_ADMIN: ROLE_USER
+            ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_SONATA_ADMIN, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH, SONATA]
+
+            SONATA:
+                - ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT # if you are not using acl then this line must be uncommented
+                - ROLE_SONATA_PAGE_ADMIN_BLOCK_EDIT
+
 At the end of your routing file, add the following lines
 
 .. code-block:: yaml
