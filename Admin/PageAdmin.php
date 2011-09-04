@@ -22,12 +22,16 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Cache\CacheElement;
 use Sonata\PageBundle\CmsManager\CmsManagerInterface;
 
-use Knp\Menu\MenuItem;
+use knp\Menu\ItemInterface as MenuItemInterface;
 
 class PageAdmin extends Admin
 {
     protected $cmsManager;
 
+    /**
+     * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
+     * @return void
+     */
     protected function configureShowField(ShowMapper $showMapper)
     {
         $showMapper
@@ -40,6 +44,10 @@ class PageAdmin extends Admin
         ;
     }
 
+    /**
+     * @param \Sonata\AdminBundle\Datagrid\ListMapper $listMapper
+     * @return void
+     */
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
@@ -50,6 +58,10 @@ class PageAdmin extends Admin
         ;
     }
 
+    /**
+     * @param \Sonata\AdminBundle\Datagrid\DatagridMapper $datagridMapper
+     * @return void
+     */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
@@ -73,6 +85,10 @@ class PageAdmin extends Admin
         ;
     }
 
+    /**
+     * @param \Sonata\AdminBundle\Form\FormMapper $formMapper
+     * @return void
+     */
     protected function configureFormFields(FormMapper $formMapper)
     {
         $templates = array();
@@ -141,17 +157,30 @@ class PageAdmin extends Admin
         ));
     }
 
+    /**
+     * @param \Sonata\AdminBundle\Route\RouteCollection $collection
+     * @return void
+     */
     protected function configureRoutes(RouteCollection $collection)
     {
         $collection->add('snapshots');
     }
 
+    /**
+     * @return string
+     */
     public function getListTemplate()
     {
         return 'SonataPageBundle:PageAdmin:list.html.twig';
     }
 
-    protected function configureSideMenu(MenuItem $menu, $action, Admin $childAdmin = null)
+    /**
+     * @param \knp\Menu\ItemInterface $menu
+     * @param $action
+     * @param null|\Sonata\AdminBundle\Admin\Admin $childAdmin
+     * @return
+     */
+    protected function configureSideMenu(MenuItemInterface $menu, $action, Admin $childAdmin = null)
     {
         if (!$childAdmin && !in_array($action, array('edit'))) {
             return;
