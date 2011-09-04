@@ -22,7 +22,7 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Cache\CacheElement;
 use Sonata\PageBundle\CmsManager\CmsManagerInterface;
 
-use Knp\Bundle\MenuBundle\MenuItem;
+use Knp\Menu\MenuItem;
 
 class PageAdmin extends Admin
 {
@@ -163,23 +163,23 @@ class PageAdmin extends Admin
 
         $menu->addChild(
             $this->trans('sidemenu.link_edit_page'),
-            $admin->generateUrl('edit', array('id' => $id))
+            array('uri' => $admin->generateUrl('edit', array('id' => $id)))
         );
 
         $menu->addChild(
             $this->trans('sidemenu.link_list_blocks'),
-            $admin->generateUrl('sonata.page.admin.block.list', array('id' => $id))
+            array('uri' => $admin->generateUrl('sonata.page.admin.block.list', array('id' => $id)))
         );
 
         $menu->addChild(
             $this->trans('sidemenu.link_list_snapshots'),
-            $admin->generateUrl('sonata.page.admin.snapshot.list', array('id' => $id))
+            array('uri' => $admin->generateUrl('sonata.page.admin.snapshot.list', array('id' => $id)))
         );
 
         if (!$this->getSubject()->isHybrid()) {
             $menu->addChild(
                 $this->trans('view_page'),
-                $this->getRouter()->getGenerator()->getContext()->getBaseUrl().$this->getSubject()->getUrl()
+                array('uri' => $this->getRouter()->getGenerator()->getContext()->getBaseUrl().$this->getSubject()->getUrl())
             );
         }
     }
