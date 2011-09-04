@@ -22,7 +22,7 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Cache\CacheElement;
 use Sonata\PageBundle\CmsManager\CmsManagerInterface;
 
-use knp\Menu\ItemInterface as MenuItemInterface;
+use Knp\Menu\ItemInterface as MenuItemInterface;
 
 class PageAdmin extends Admin
 {
@@ -175,7 +175,7 @@ class PageAdmin extends Admin
     }
 
     /**
-     * @param \knp\Menu\ItemInterface $menu
+     * @param \Knp\Menu\ItemInterface $menu
      * @param $action
      * @param null|\Sonata\AdminBundle\Admin\Admin $childAdmin
      * @return
