@@ -177,19 +177,20 @@ class CmsPageManager extends BaseCmsPageManager
         }
 
         if (null === $id || !isset($this->pages[$id])) {
+            $this->pages[$id] = false;
+
             $page = $this->getPageManager()->findOneBy(array($fieldName => $value));
 
             if ($page) {
                 $this->loadBlocks($page);
+                $id = $page->getId();
+
+                if ($fieldName != 'id') {
+                    $this->pageReferences[$fieldName][$value] = $id;
+                }
+
+                $this->pages[$id] = $page;
             }
-
-            $id = $page->getId();
-
-            if ($fieldName != 'id') {
-                $this->pageReferences[$fieldName][$value] = $id;
-            }
-
-            $this->pages[$id] = $page;
         }
 
         return $this->pages[$id];

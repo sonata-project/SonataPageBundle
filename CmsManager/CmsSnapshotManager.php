@@ -192,17 +192,19 @@ class CmsSnapshotManager extends BaseCmsPageManager
 
             $page = new SnapshotPageProxy($this->getPageManager(), $snapshot);
 
+            $this->pages[$id] = false;
+
             if ($page) {
                $this->loadBlocks($page);
-            }
 
-            $id = $page->getId();
+                $id = $page->getId();
 
-            if ($fieldName != 'id') {
-                $this->pageReferences[$fieldName][$value] = $id;
+                if ($fieldName != 'id') {
+                    $this->pageReferences[$fieldName][$value] = $id;
+                }
+
+                $this->pages[$id] = $page;
             }
-            
-            $this->pages[$id] = $page;
         }
 
         return $this->pages[$id];
