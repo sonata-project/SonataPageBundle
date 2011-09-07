@@ -264,7 +264,10 @@ class PageAdmin extends Admin
     {
         $actions = parent::getBatchActions();
 
-        $actions['snapshot'] = $this->trans('create_snapshot');
+        $actions['snapshot'] = array(
+            'label' => $this->trans('create_snapshot'),
+            'ask_confirmation' => true
+        );
 
         return $actions;
     }
