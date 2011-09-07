@@ -61,7 +61,10 @@ class SnapshotAdmin extends Admin
     {
         $actions = parent::getBatchActions();
 
-        $actions['toggle_enabled'] = $this->trans('toggle_enabled');
+        $actions['toggle_enabled'] = array(
+            'label' => $this->trans('toggle_enabled'),
+            'ask_confirmation' => true
+        );
 
         return $actions;
     }
