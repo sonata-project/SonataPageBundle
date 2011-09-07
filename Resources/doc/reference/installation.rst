@@ -14,6 +14,7 @@ Next, be sure to enable the bundles in your application kernel:
 
 .. code-block:: php
 
+  <?php
   // app/appkernel.php
   public function registerbundles()
   {
@@ -43,6 +44,7 @@ Now, add the new `Application` Bundle to the kernel
 
 .. code-block:: php
 
+    <?php
     public function registerbundles()
     {
         return array(
@@ -60,6 +62,7 @@ Update the ``autoload.php`` to add new namespaces :
 
 .. code-block:: php
 
+    <?php
     $loader->registerNamespaces(array(
         'Sonata'                             => __DIR__,
         'Application'                        => __DIR__,

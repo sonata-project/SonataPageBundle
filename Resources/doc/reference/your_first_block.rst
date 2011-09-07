@@ -7,8 +7,8 @@ A block service is just a service which must implements the ``BlockServiceInterf
 interface. There is only one instance of a block service, however there are many block
 instances.
 
-1. First namespaces
--------------------
+First namespaces
+----------------
 
 The ``BaseBlockService`` implements some basic methods defined by the interface.
 The current Rss block will extend this base class. The others `use` statements are required
@@ -25,8 +25,8 @@ by the interface and remaining methods.
     use Sonata\PageBundle\Model\PageInterface;
     use Sonata\PageBundle\Block\BaseBlockService;
 
-2. Default settings
--------------------
+Default settings
+----------------
 
 A block service needs settings to work properly, so to ensure consistency, the service should
 define a ``getDefaultSettings`` method. In the current tutorial, the default settings are:
@@ -36,6 +36,7 @@ define a ``getDefaultSettings`` method. In the current tutorial, the default set
 
 .. code-block:: php
 
+    <?php
     function getDefaultSettings()
     {
         return array(
@@ -44,14 +45,15 @@ define a ``getDefaultSettings`` method. In the current tutorial, the default set
         );
     }
 
-3. Form Edition
----------------
+Form Edition
+------------
 
 The ``PageBundle`` relies on the ``AdminBundle`` to manage form edition and keep
 a good consistency.
 
 .. code-block:: php
 
+    <?php
     public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
     {
         $formMapper->addType('settings', 'sonata_type_immutable_array', array(
@@ -67,6 +69,7 @@ Symfony2 assertions, like :
 
 .. code-block:: php
 
+    <?php
     function validateBlock(ErrorElement $errorElement, BlockInterface $block)
     {
         $errorElement
@@ -84,14 +87,15 @@ Symfony2 assertions, like :
 The ``sonata_type_immutable_array`` type is a specific form type which allows to edit
 an array.
 
-4. Execute
-----------
+Execute
+-------
 
 The next step is the execute method, this method must return a ``Response`` object, this
 object is used to render the block.
 
 .. code-block:: php
 
+    <?php
     public function execute(BlockInterface $block, PageInterface $page, Response $response = null)
     {
         // merge settings
@@ -127,8 +131,8 @@ object is used to render the block.
         ), $response);
     }
 
-5. Template
------------
+Template
+--------
 
 A block template is very simple, in the current tutorial, we are looping on feeds or if not
 defined, a error message is displayed.
@@ -152,8 +156,8 @@ defined, a error message is displayed.
         </div>
     {% endblock %}
 
-6. Service
-----------
+Service
+-------
 
 We are almost done! Now just declare the block as a service.
 
