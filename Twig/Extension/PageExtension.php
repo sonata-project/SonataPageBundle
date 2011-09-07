@@ -97,8 +97,8 @@ class PageExtension extends \Twig_Extension
         if ($page) {
             $breadcrumbs = $page->getParents();
 
-            if ($options['force_view_home_page'] && (!isset($breadcrumbs[0]) || $breadcrumbs[0]->getUrl() != '/')) {
-                $homePage = $this->cmsManagerSelector->retrieve()->getPageByUrl('/');
+            if ($options['force_view_home_page'] && (!isset($breadcrumbs[0]) || $breadcrumbs[0]->getRouteName() != 'homepage')) {
+                $homePage = $this->cmsManagerSelector->retrieve()->getPageByRouteName('homepage');
                 if ($homePage) {
                     array_unshift($breadcrumbs, $homePage);
                 }
