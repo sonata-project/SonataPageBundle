@@ -45,17 +45,7 @@ class PageManager implements PageManagerInterface
      */
     public function getPageByName($routeName)
     {
-        $pages = $this->entityManager->createQueryBuilder()
-            ->select('p')
-            ->from( $this->class, 'p')
-            ->where('p.routeName = :routeName')
-            ->setParameters(array(
-                'routeName' => $routeName
-            ))
-            ->getQuery()
-            ->execute();
-
-        return count($pages) > 0 ? $pages[0] : false;
+        return $this->findOneBy(array('routeName' => $routeName));
     }
 
     protected function getRepository()
@@ -71,17 +61,7 @@ class PageManager implements PageManagerInterface
      */
     public function getPageByUrl($url)
     {
-        $pages = $this->entityManager->createQueryBuilder()
-            ->select('p')
-            ->from( $this->class, 'p')
-            ->where('p.url = :url')
-            ->setParameters(array(
-                'url' => $url
-            ))
-            ->getQuery()
-            ->execute();
-
-        return count($pages) > 0 ? $pages[0] : false;
+        return $this->findOneBy(array('url' => $url));
     }
 
     public function getDefaultTemplateCode()

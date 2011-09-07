@@ -149,11 +149,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
      */
     public function getPageByRouteName($routeName, $create = true)
     {
-        if (!isset($this->routePages[$routeName])) {
-            $this->routePages[$routeName] = $this->getPageBy('routeName', $routeName);
-        }
-
-        return $this->routePages[$routeName];
+        return $this->getPageBy('routeName', $routeName);
     }
 
     public function renderContainer($name, $page = null, BlockInterface $parentContainer = null)
@@ -179,19 +175,37 @@ class CmsSnapshotManager extends BaseCmsPageManager
      */
     public function getPageBy($fieldName, $value)
     {
-        $snapshot = $this->getPageManager()->findEnableSnapshot(array($fieldName => $value));
-
-        if (!$snapshot) {
-            throw new \RuntimeException(sprintf('Unable to find the snapshot : %s', $value));
+        if ('id' == $fieldName) {
+            $id = $value;
+        } elseif(isset($this->pageReferences[$fieldName][$value])) {
+            $id = $this->pageReferences[$fieldName][$value];
+        } else {
+            $id = null;
         }
 
-        $page = new SnapshotPageProxy($this->getPageManager(), $snapshot);
+        if (null === $id || !isset($this->pages[$id])) {
+            $snapshot = $this->getPageManager()->findEnableSnapshot(array($fieldName => $value));
 
-        if ($page) {
-           $this->loadBlocks($page);
+            if (!$snapshot) {
+                throw new \RuntimeException(sprintf('Unable to find the snapshot : %s', $value));
+            }
+
+            $page = new SnapshotPageProxy($this->getPageManager(), $snapshot);
+
+            if ($page) {
+               $this->loadBlocks($page);
+            }
+
+            $id = $page->getId();
+
+            if ($fieldName != 'id') {
+                $this->pageReferences[$fieldName][$value] = $id;
+            }
+            
+            $this->pages[$id] = $page;
         }
 
-        return $page;
+        return $this->pages[$id];
     }
 
     /**

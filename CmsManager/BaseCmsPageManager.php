@@ -31,7 +31,9 @@ use Sonata\AdminBundle\Admin\AdminInterface;
 
 abstract class BaseCmsPageManager implements CmsManagerInterface
 {
-    protected $routePages = array();
+    protected $pages = array();
+
+    protected $pageReferences = array();
 
     protected $currentPage;
 
@@ -456,22 +458,38 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     }
 
     /**
-     * @param $route_pages
+     * @param $pages
      * @return void
      */
-    public function setRoutePages($route_pages)
+    public function setPages($pages)
     {
-        $this->routePages = $route_pages;
+        $this->pages = $pages;
     }
 
     /**
      * @return array
      */
-    public function getRoutePages()
+    public function getPages()
     {
-        return $this->routePages;
+        return $this->pages;
     }
 
+    /**
+     * @param $pageReferences
+     * @return void
+     */
+    public function setPageReferences($pageReferences)
+    {
+        $this->pageReferences = $pageReferences;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPageReferences()
+    {
+        return $this->pageReferences;
+    }
     /**
      * @param $logger
      * @return void

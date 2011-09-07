@@ -163,22 +163,50 @@ class CmsPageManager extends BaseCmsPageManager
     }
 
     /**
+     * @param $fieldName
+     * @param $value
+     * @return \Sonata\PageBundle\Model\PageInterface
+     */
+    public function getPageBy($fieldName, $value) {      
+        if ('id' == $fieldName) {
+            $id = $value;
+        } elseif(isset($this->pageReferences[$fieldName][$value])) {
+            $id = $this->pageReferences[$fieldName][$value];
+        } else {
+            $id = null;
+        }
+
+        if (null === $id || !isset($this->pages[$id])) {
+            $page = $this->getPageManager()->findOneBy(array($fieldName => $value));
+
+            if ($page) {
+                $this->loadBlocks($page);
+            }
+
+            $id = $page->getId();
+
+            if ($fieldName != 'id') {
+                $this->pageReferences[$fieldName][$value] = $id;
+            }
+
+            $this->pages[$id] = $page;
+        }
+
+        return $this->pages[$id];
+    }
+
+    /**
      * return a fully loaded page ( + blocks ) from a route name
      *
      * if the page does not exists then the page is created.
      *
      * @param string $url
-     * @return Application\Sonata\PageBundle\Model\PageInterface
+     * @return \Sonata\PageBundle\Model\PageInterface
      */
     public function getPageByUrl($url)
     {
-        $page = $this->getPageManager()->getPageByUrl($url);
 
-        if ($page) {
-            $this->loadBlocks($page);
-        }
-
-        return $page;
+        return $this->getPageBy('url', $url);
     }
 
     /**
@@ -192,20 +220,15 @@ class CmsPageManager extends BaseCmsPageManager
      */
     public function getPageByRouteName($routeName, $create = true)
     {
-        if (!isset($this->routePages[$routeName])) {
-            $page = $this->getPageManager()->getPageByName($routeName);
+        $page = $this->getPageBy('routeName', $routeName);
 
-            if (!$page && !$create) {
-                throw new \RuntimeException(sprintf('Unable to find the page : %s', $routeName));
-            } else if (!$page) {
-                $page = $this->createPage($routeName);
-            }
-
-            $this->loadBlocks($page);
-            $this->routePages[$routeName] = $page;
+        if (!$page && !$create) {
+            throw new \RuntimeException(sprintf('Unable to find the page : %s', $routeName));
+        } else if (!$page) {
+            $page = $this->createPage($routeName);
         }
 
-        return $this->routePages[$routeName];
+        return $page;
     }
 
     /**
@@ -218,11 +241,8 @@ class CmsPageManager extends BaseCmsPageManager
      */
     public function getPageById($id)
     {
-        $page = $this->getPageManager()->findOneBy(array('id' => $id));
 
-        $this->loadBlocks($page);
-
-        return $page;
+        return $this->getPageBy('id', $id);
     }
 
     /**
