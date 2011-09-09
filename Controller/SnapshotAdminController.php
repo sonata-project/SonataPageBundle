@@ -60,20 +60,16 @@ class SnapshotAdminController extends Controller
         ));
     }
 
-    public function batchActionToggleEnabled(array $idx)
+    public function batchActionToggleEnabled($query)
     {
         if (!$this->get('security.context')->isGranted('ROLE_SONATA_PAGE_ADMIN_BLOCK_EDIT')) {
             throw new AccessDeniedException();
         }
 
         $snapshotManager = $this->get('sonata.page.manager.snapshot');
-        foreach ($idx as $id) {
-            $snapshot = $snapshotManager->findOneBy(array('id' => $id));
-
-            if ($snapshot) {
-                $snapshot->setEnabled(!$snapshot->getEnabled());
-                $snapshotManager->save($snapshot);
-            }
+        foreach ($query->getQuery()->iterate() as $snapshot) {
+            $snapshot[0]->setEnabled(!$snapshot[0]->getEnabled());
+            $snapshotManager->save($snapshot[0]);
         }
 
         return new RedirectResponse($this->admin->generateUrl('list'));
