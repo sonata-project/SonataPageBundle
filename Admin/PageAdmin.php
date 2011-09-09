@@ -142,10 +142,15 @@ class PageAdmin extends Admin
             ->end()
         ;
 
+        if (!$this->getSubject()->isCms()) {
+            $formMapper
+                ->with($this->trans('form_page.group_advanced_label'), array('collapsed' => true))
+                    ->add('decorate', null,  array('required' => false))
+                ->end();
+        }
 
         $formMapper
             ->with($this->trans('form_page.group_advanced_label'), array('collapsed' => true))
-                ->add('decorate', null,  array('required' => false))
                 ->add('javascript', null,  array('required' => false))
                 ->add('stylesheet', null, array('required' => false))
                 ->add('rawHeaders', null, array('required' => false))

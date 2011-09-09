@@ -638,6 +638,14 @@ abstract class Page implements PageInterface
     }
 
     /**
+     * @return bool
+     */
+    public function isCms()
+    {
+        return !$this->isHybrid();
+    }
+
+    /**
      * Returns true if the page is internal, ie: no direct url
      * @return boolean
      */
