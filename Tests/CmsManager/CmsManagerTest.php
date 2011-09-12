@@ -28,8 +28,9 @@ class CmsPageManagerTest extends \PHPUnit_Framework_TestCase
         $pageManager  = $this->getMock('Sonata\\PageBundle\\Model\\PageManagerInterface');
         $templating   = $this->getMock('Symfony\\Component\\Templating\\EngineInterface');
         $cacheInvalidation = $this->getMock('Sonata\\PageBundle\\Cache\\Invalidation\\InvalidationInterface');
-
-        return new CmsPageManager($pageManager, $blockManager, $templating, $cacheInvalidation);
+        $router = $this->getMock('Symfony\\Component\\Routing\\RouterInterface');
+        
+        return new CmsPageManager($pageManager, $blockManager, $templating, $cacheInvalidation, $router);
     }
 
     public function testIsDecorable()
@@ -144,8 +145,9 @@ class CmsPageManagerTest extends \PHPUnit_Framework_TestCase
         $pageManager  = $this->getMock('Sonata\\PageBundle\\Model\\PageManagerInterface');
         $templating   = $this->getMock('Symfony\\Component\\Templating\\EngineInterface');
         $cacheInvalidation = $this->getMock('Sonata\\PageBundle\\Cache\\Invalidation\\InvalidationInterface');
-
-        $manager = new CmsPageManager($pageManager, $blockManager, $templating, $cacheInvalidation);
+        $router = $this->getMock('Symfony\\Component\\Routing\\RouterInterface');
+        
+        $manager = new CmsPageManager($pageManager, $blockManager, $templating, $cacheInvalidation, $router);
 
         $block = new Block;
         $block->setSettings(array('name' => 'findme'));
