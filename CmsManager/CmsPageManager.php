@@ -167,7 +167,7 @@ class CmsPageManager extends BaseCmsPageManager
      * @param $value
      * @return \Sonata\PageBundle\Model\PageInterface
      */
-    public function getPageBy($fieldName, $value) {      
+    public function getPageBy($fieldName, $value) {
         if ('id' == $fieldName) {
             $id = $value;
         } elseif(isset($this->pageReferences[$fieldName][$value])) {
@@ -347,7 +347,7 @@ class CmsPageManager extends BaseCmsPageManager
         }
 
         $service = $this->getBlockService($block);
-        $service->validateBlock($errorElement, $block);
+        $service->validateBlock($this, $errorElement, $block);
     }
 
     /**

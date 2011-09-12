@@ -25,36 +25,40 @@ interface BlockServiceInterface
 {
     /**
      * @abstract
+     * @param \Sonata\PageBundle\CmsManager\CmsManagerInterface $manager
      * @param \Sonata\AdminBundle\Form\FormMapper $form
      * @param \Sonata\PageBundle\Model\BlockInterface $block
      * @return void
      */
-    function buildEditForm(FormMapper $form, BlockInterface $block);
+    function buildEditForm(CmsManagerInterface $manager, FormMapper $form, BlockInterface $block);
 
     /**
      * @abstract
+     * @param \Sonata\PageBundle\CmsManager\CmsManagerInterface $manager
      * @param \Sonata\AdminBundle\Form\FormMapper $form
      * @param \Sonata\PageBundle\Model\BlockInterface $block
      * @return void
      */
-    function buildCreateForm(FormMapper $form, BlockInterface $block);
+    function buildCreateForm(CmsManagerInterface $manager, FormMapper $form, BlockInterface $block);
 
     /**
      * @abstract
+     * @param \Sonata\PageBundle\CmsManager\CmsManagerInterface $manager
      * @param \Sonata\PageBundle\Model\BlockInterface $block
      * @param \Sonata\PageBundle\Model\PageInterface $page
-     * @param \Symfony\Component\HttpFoundation\Response $response
+     * @param null|\Symfony\Component\HttpFoundation\Response $response
      * @return void
      */
-    function execute(BlockInterface $block, PageInterface $page, Response $response = null);
+    function execute(CmsManagerInterface $manager, BlockInterface $block, PageInterface $page, Response $response = null);
 
     /**
      * @abstract
+     * @param \Sonata\PageBundle\CmsManager\CmsManagerInterface $manager
      * @param \Sonata\AdminBundle\Validator\ErrorElement $errorElement
      * @param \Sonata\PageBundle\Model\BlockInterface $block
      * @return void
      */
-    function validateBlock(ErrorElement $errorElement, BlockInterface $block);
+    function validateBlock(CmsManagerInterface $manager, ErrorElement $errorElement, BlockInterface $block);
 
     /**
      * @abstract
@@ -72,21 +76,17 @@ interface BlockServiceInterface
 
     /**
      * @abstract
-     * @param \Sonata\PageBundle\Model\BlockInterface $block
-     * @return \Sonata\PageBundle\Cache\CacheElement
-     */
-    function getCacheElement(BlockInterface $block);
-
-    /**
-     *
-     * @param \Sonata\PageBundle\CmsManagerInterface $manager
-     */
-    function setManager(CmsManagerInterface $manager);
-
-    /**
-     * @abstract
+     * @param \Sonata\PageBundle\CmsManager\CmsManagerInterface $manager
      * @param \Sonata\PageBundle\Model\BlockInterface $block
      * @return void
      */
-    function load(BlockInterface $block);
+    function getCacheElement(CmsManagerInterface $manager, BlockInterface $block);
+
+    /**
+     * @abstract
+     * @param \Sonata\PageBundle\CmsManager\CmsManagerInterface $manager
+     * @param \Sonata\PageBundle\Model\BlockInterface $block
+     * @return void
+     */
+    function load(CmsManagerInterface $manager, BlockInterface $block);
 }

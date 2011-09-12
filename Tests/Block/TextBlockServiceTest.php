@@ -18,7 +18,6 @@ use Sonata\PageBundle\Block\TextBlockService;
 
 class TextBlockServiceTest extends BaseTestBlockService
 {
-
     public function testService()
     {
         $templating = new FakeTemplating;
@@ -35,10 +34,12 @@ class TextBlockServiceTest extends BaseTestBlockService
         $formMapper->expects($this->exactly(2))
             ->method('add');
 
-        $service->buildCreateForm($formMapper, $block);
-        $service->buildEditForm($formMapper, $block);
+        $manager = $this->getMock('Sonata\\PageBundle\\CmsManager\\CmsManagerInterface');
 
-        $response = $service->execute($block, $page);
+        $service->buildCreateForm($manager, $formMapper, $block);
+        $service->buildEditForm($manager, $formMapper, $block);
+
+        $response = $service->execute($manager, $block, $page);
 
         $this->assertEquals('my text', $templating->parameters['settings']['content']);
     }

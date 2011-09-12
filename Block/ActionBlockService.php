@@ -20,6 +20,7 @@ use Sonata\PageBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Generator\Mustache;
 use Sonata\AdminBundle\Validator\ErrorElement;
+use Sonata\PageBundle\CmsManager\CmsManagerInterface;
 
 /**
  * PageExtension
@@ -31,6 +32,11 @@ class ActionBlockService extends BaseBlockService
 {
     private $kernel;
 
+    /**
+     * @param $name
+     * @param \Symfony\Component\Templating\EngineInterface $templating
+     * @param \Symfony\Component\HttpKernel\HttpKernelInterface $kernel
+     */
     public function __construct($name, EngineInterface $templating, HttpKernelInterface $kernel)
     {
         parent::__construct($name, $templating);
@@ -39,12 +45,14 @@ class ActionBlockService extends BaseBlockService
     }
 
     /**
+     * @throws \Exception
+     * @param \Sonata\PageBundle\CmsManager\CmsManagerInterface $manager
      * @param \Sonata\PageBundle\Model\BlockInterface $block
      * @param \Sonata\PageBundle\Model\PageInterface $page
-     * @param \Symfony\Component\HttpFoundation\Response $response
+     * @param null|\Symfony\Component\HttpFoundation\Response $response
      * @return string
      */
-    public function execute(BlockInterface $block, PageInterface $page, Response $response = null)
+    public function execute(CmsManagerInterface $manager, BlockInterface $block, PageInterface $page, Response $response = null)
     {
         $parameters = (array)json_decode($block->getSetting('parameters'), true);
         $parameters = array_merge($parameters, array('_block' => $block, '_page' => $page));
@@ -67,17 +75,24 @@ class ActionBlockService extends BaseBlockService
         ), $response);
     }
 
-    public function validateBlock(ErrorElement $errorElement, BlockInterface $block)
+    /**
+     * @param \Sonata\PageBundle\CmsManager\CmsManagerInterface $manager
+     * @param \Sonata\AdminBundle\Validator\ErrorElement $errorElement
+     * @param \Sonata\PageBundle\Model\BlockInterface $block
+     * @return void
+     */
+    public function validateBlock(CmsManagerInterface $manager, ErrorElement $errorElement, BlockInterface $block)
     {
         // TODO: Implement validateBlock() method.
     }
 
     /**
+     * @param \Sonata\PageBundle\CmsManager\CmsManagerInterface $manager
      * @param \Sonata\AdminBundle\Form\FormMapper $formMapper
      * @param \Sonata\PageBundle\Model\BlockInterface $block
      * @return void
      */
-    public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
+    public function buildEditForm(CmsManagerInterface $manager, FormMapper $formMapper, BlockInterface $block)
     {
         $formMapper->add('settings', 'sonata_type_immutable_array', array(
             'keys' => array(
@@ -88,6 +103,9 @@ class ActionBlockService extends BaseBlockService
         ));
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return 'Action (core)';

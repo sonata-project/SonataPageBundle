@@ -103,7 +103,7 @@ class BlockAdmin extends Admin
     public function postUpdate($object)
     {
         $service      = $this->cmsManager->getBlockService($object);
-        $cacheElement = $service->getCacheElement($object);
+        $cacheElement = $service->getCacheElement($this->cmsManager, $object);
 
         $this->cmsManager->invalidate($cacheElement);
     }
@@ -119,7 +119,7 @@ class BlockAdmin extends Admin
     public function postPersist($object)
     {
         $service      = $this->cmsManager->getBlockService($object);
-        $cacheElement = $service->getCacheElement($object);
+        $cacheElement = $service->getCacheElement($this->cmsManager, $object);
 
         $this->cmsManager->invalidate($cacheElement);
     }

@@ -34,16 +34,18 @@ class ActionBlockServiceTest extends BaseTestBlockService
             'action' => 'SonataPageBundle:Page:blockPreview'
         ));
 
+        $manager = $this->getMock('Sonata\\PageBundle\\CmsManager\\CmsManagerInterface');
+
         $formMapper = $this->getMock('Sonata\\AdminBundle\\Form\\FormMapper', array(), array(), '', false);
         $formMapper->expects($this->exactly(2))
             ->method('add');
 
-        $service->buildCreateForm($formMapper, $block);
-        $service->buildEditForm($formMapper, $block);
+        $service->buildCreateForm($manager, $formMapper, $block);
+        $service->buildEditForm($manager, $formMapper, $block);
 
         $page = new Page;
 
-        $service->execute($block, $page);
+        $service->execute($manager, $block, $page);
 
         $this->assertEquals('SonataPageBundle:Page:blockPreview', $templating->parameters['block']->getSetting('action'));
     }

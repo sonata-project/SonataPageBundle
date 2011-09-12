@@ -105,8 +105,6 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     public function addBlockService($name, BlockServiceInterface $service)
     {
         $this->blockServices[$name] = $service;
-
-        $service->setManager($this);
     }
 
     /**
@@ -209,12 +207,10 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
 
         try {
             $service       = $this->getBlockService($block);
-            $service->load($block); // load the block
+            $service->load($this, $block); // load the block
 
             $cacheManager  = $this->getCacheService($block);
-            $cacheElement  = $service->getCacheElement($block);
-
-            $cacheElement->addKey('manager', $this->getCode());
+            $cacheElement  = $service->getCacheElement($this, $block);
 
             if ($useCache) {
                 if ($cacheManager->has($cacheElement)) {
@@ -232,7 +228,7 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
                 }
             }
 
-            $response = $service->execute($block, $page, $response);
+            $response = $service->execute($this, $block, $page, $response);
 
             if (!$response instanceof Response) {
                 throw new \RuntimeException('A block service must return a Response object');

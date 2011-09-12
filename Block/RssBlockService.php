@@ -16,6 +16,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\PageBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\AdminBundle\Validator\ErrorElement;
+use Sonata\PageBundle\CmsManager\CmsManagerInterface;
 
 /**
  * PageExtension
@@ -24,11 +25,17 @@ use Sonata\AdminBundle\Validator\ErrorElement;
  */
 class RssBlockService extends BaseBlockService
 {
+    /**
+     * @return string
+     */
     public function getName()
     {
         return 'Rss Reader';
     }
 
+    /**
+     * @return array
+     */
     public function getDefaultSettings()
     {
         return array(
@@ -37,7 +44,13 @@ class RssBlockService extends BaseBlockService
         );
     }
 
-    public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
+    /**
+     * @param \Sonata\PageBundle\CmsManager\CmsManagerInterface $manager
+     * @param \Sonata\AdminBundle\Form\FormMapper $formMapper
+     * @param \Sonata\PageBundle\Model\BlockInterface $block
+     * @return void
+     */
+    public function buildEditForm(CmsManagerInterface $manager, FormMapper $formMapper, BlockInterface $block)
     {
         $formMapper->add('settings', 'sonata_type_immutable_array', array(
             'keys' => array(
@@ -47,7 +60,13 @@ class RssBlockService extends BaseBlockService
         ));
     }
 
-    function validateBlock(ErrorElement $errorElement, BlockInterface $block)
+    /**
+     * @param \Sonata\PageBundle\CmsManager\CmsManagerInterface $manager
+     * @param \Sonata\AdminBundle\Validator\ErrorElement $errorElement
+     * @param \Sonata\PageBundle\Model\BlockInterface $block
+     * @return void
+     */
+    function validateBlock(CmsManagerInterface $manager, ErrorElement $errorElement, BlockInterface $block)
     {
         $errorElement
             ->with('settings.url')
@@ -61,7 +80,13 @@ class RssBlockService extends BaseBlockService
             ->end();
     }
 
-    public function execute(BlockInterface $block, PageInterface $page, Response $response = null)
+    /**
+     * @param \Sonata\PageBundle\Model\BlockInterface $block
+     * @param \Sonata\PageBundle\Model\PageInterface $page
+     * @param null|\Symfony\Component\HttpFoundation\Response $response
+     * @return string
+     */
+    public function execute(CmsManagerInterface $manager, BlockInterface $block, PageInterface $page, Response $response = null)
     {
         // merge settings
         $settings = array_merge($this->getDefaultSettings(), $block->getSettings());

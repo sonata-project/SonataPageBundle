@@ -17,6 +17,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\PageBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\AdminBundle\Validator\ErrorElement;
+use Sonata\PageBundle\CmsManager\CmsManagerInterface;
 
 /**
  * PageExtension
@@ -26,16 +27,23 @@ use Sonata\AdminBundle\Validator\ErrorElement;
  */
 class ChildrenPagesBlockService extends BaseBlockService
 {
-    public function execute(BlockInterface $block, PageInterface $page, Response $response = null)
+    /**
+     * @param \Sonata\PageBundle\CmsManager\CmsManagerInterface $manager
+     * @param \Sonata\PageBundle\Model\BlockInterface $block
+     * @param \Sonata\PageBundle\Model\PageInterface $page
+     * @param null|\Symfony\Component\HttpFoundation\Response $response
+     * @return string
+     */
+    public function execute(CmsManagerInterface $manager, BlockInterface $block, PageInterface $page, Response $response = null)
     {
         $settings = array_merge($this->getDefaultSettings(), $block->getSettings());
 
         if ($settings['current']) {
-            $page = $this->manager->getCurrentPage();
+            $page = $manager->getCurrentPage();
         } else if ($settings['pageId']) {
             $page = $settings['pageId'];
         } else {
-            $page = $this->manager->getPage('/');
+            $page = $manager->getPage('/');
         }
 
         return $this->renderResponse('SonataPageBundle:Block:block_core_children_pages.html.twig', array(
@@ -45,12 +53,24 @@ class ChildrenPagesBlockService extends BaseBlockService
         ), $response);
     }
 
-    public function validateBlock(ErrorElement $errorElement, BlockInterface $block)
+    /**
+     * @param \Sonata\PageBundle\CmsManager\CmsManagerInterface $manager
+     * @param \Sonata\AdminBundle\Validator\ErrorElement $errorElement
+     * @param \Sonata\PageBundle\Model\BlockInterface $block
+     * @return void
+     */
+    public function validateBlock(CmsManagerInterface $manager, ErrorElement $errorElement, BlockInterface $block)
     {
         // TODO: Implement validateBlock() method.
     }
 
-    public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
+    /**
+     * @param \Sonata\PageBundle\CmsManager\CmsManagerInterface $manager
+     * @param \Sonata\AdminBundle\Form\FormMapper $formMapper
+     * @param \Sonata\PageBundle\Model\BlockInterface $block
+     * @return void
+     */
+    public function buildEditForm(CmsManagerInterface $manager, FormMapper $formMapper, BlockInterface $block)
     {
         $formMapper->add('settings', 'sonata_type_immutable_array', array(
             'keys' => array(
@@ -72,6 +92,9 @@ class ChildrenPagesBlockService extends BaseBlockService
         ));
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return 'Children Page (core)';
@@ -92,20 +115,33 @@ class ChildrenPagesBlockService extends BaseBlockService
         );
     }
 
+    /**
+     * @param \Sonata\PageBundle\Model\BlockInterface $block
+     * @return void
+     */
     public function prePersist(BlockInterface $block)
     {
         $block->setSetting('pageId', is_object($block->getSetting('pageId')) ? $block->getSetting('pageId')->getId() : null);
     }
 
+    /**
+     * @param \Sonata\PageBundle\Model\BlockInterface $block
+     * @return void
+     */
     public function preUpdate(BlockInterface $block)
     {
         $block->setSetting('pageId', is_object($block->getSetting('pageId')) ? $block->getSetting('pageId')->getId() : null);
     }
 
-    public function load(BlockInterface $block)
+    /**
+     * @param \Sonata\PageBundle\CmsManager\CmsManagerInterface $manager
+     * @param \Sonata\PageBundle\Model\BlockInterface $block
+     * @return void
+     */
+    public function load(CmsManagerInterface $manager, BlockInterface $block)
     {
         if (is_numeric($block->getSetting('pageId'))) {
-            $block->setSetting('pageId', $this->manager->getPage($block->getSetting('pageId')));
+            $block->setSetting('pageId', $manager->getPage($block->getSetting('pageId')));
         }
     }
 }

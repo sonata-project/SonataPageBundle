@@ -24,6 +24,7 @@ by the interface and remaining methods.
     use Sonata\PageBundle\Model\BlockInterface;
     use Sonata\PageBundle\Model\PageInterface;
     use Sonata\PageBundle\Block\BaseBlockService;
+    use Sonata\PageBundle\CmsManager\CmsManagerInterface;
 
 Default settings
 ----------------
@@ -54,7 +55,7 @@ a good consistency.
 .. code-block:: php
 
     <?php
-    public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
+    public function buildEditForm(CmsManagerInterface $manager, FormMapper $formMapper, BlockInterface $block)
     {
         $formMapper->addType('settings', 'sonata_type_immutable_array', array(
             'keys' => array(
@@ -70,7 +71,7 @@ Symfony2 assertions, like :
 .. code-block:: php
 
     <?php
-    function validateBlock(ErrorElement $errorElement, BlockInterface $block)
+    function validateBlock(CmsManagerInterface $manager, ErrorElement $errorElement, BlockInterface $block)
     {
         $errorElement
             ->with('settings.url')
@@ -96,7 +97,7 @@ object is used to render the block.
 .. code-block:: php
 
     <?php
-    public function execute(BlockInterface $block, PageInterface $page, Response $response = null)
+    public function execute(CmsManagerInterface $manager, BlockInterface $block, PageInterface $page, Response $response = null)
     {
         // merge settings
         $settings = array_merge($this->getDefaultSettings(), $block->getSettings());

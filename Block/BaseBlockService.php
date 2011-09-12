@@ -30,8 +30,10 @@ abstract class BaseBlockService implements BlockServiceInterface
 
     protected $templating;
 
-    protected $manager;
-
+    /**
+     * @param $name
+     * @param \Symfony\Component\Templating\EngineInterface $templating
+     */
     public function __construct($name, EngineInterface $templating)
     {
         $this->name = $name;
@@ -71,12 +73,14 @@ abstract class BaseBlockService implements BlockServiceInterface
     /**
      * Returns the cache keys for the block
      *
+     * @param \Sonata\PageBundle\CmsManager\CmsManagerInterface $manager
      * @param \Sonata\PageBundle\Model\BlockInterface $block
      * @return \Sonata\PageBundle\Cache\CacheElement
      */
-    public function getCacheElement(BlockInterface $block)
+    public function getCacheElement(CmsManagerInterface $manager, BlockInterface $block)
     {
         $baseCacheKeys = array(
+            'manager'     => $manager->getCode(),
             'block_id'    => $block->getId(),
             'page_id'     => $block->getPage()->getId(),
             'updated_at'  => $block->getUpdatedAt()->format('U')
@@ -85,41 +89,70 @@ abstract class BaseBlockService implements BlockServiceInterface
         return new CacheElement($baseCacheKeys, $block->getTtl());
     }
 
-    public function setManager(CmsManagerInterface $manager)
+    /**
+     * @param \Sonata\PageBundle\CmsManager\CmsManagerInterface $manager
+     * @param \Sonata\AdminBundle\Form\FormMapper $formMapper
+     * @param \Sonata\PageBundle\Model\BlockInterface $block
+     * @return void
+     */
+    public function buildCreateForm(CmsManagerInterface $manager, FormMapper $formMapper, BlockInterface $block)
     {
-        $this->manager = $manager;
+        $this->buildEditForm($manager, $formMapper, $block);
     }
 
-    public function buildCreateForm(FormMapper $formMapper, BlockInterface $block)
-    {
-        return $this->buildEditForm($formMapper, $block);
-    }
-
+    /**
+     * @param \Sonata\PageBundle\Model\BlockInterface $block
+     * @return void
+     */
     public function prePersist(BlockInterface $block)
     {
     }
 
+    /**
+     * @param \Sonata\PageBundle\Model\BlockInterface $block
+     * @return void
+     */
     public function postPersist(BlockInterface $block)
     {
     }
 
+    /**
+     * @param \Sonata\PageBundle\Model\BlockInterface $block
+     * @return void
+     */
     public function preUpdate(BlockInterface $block)
     {
     }
 
+    /**
+     * @param \Sonata\PageBundle\Model\BlockInterface $block
+     * @return void
+     */
     public function postUpdate(BlockInterface $block)
     {
     }
 
+    /**
+     * @param \Sonata\PageBundle\Model\BlockInterface $block
+     * @return void
+     */
     public function preDelete(BlockInterface $block)
     {
     }
 
+    /**
+     * @param \Sonata\PageBundle\Model\BlockInterface $block
+     * @return void
+     */
     public function postDelete(BlockInterface $block)
     {
     }
 
-    public function load(BlockInterface $block)
+    /**
+     * @param \Sonata\PageBundle\Model\BlockInterface $block
+     * @return void
+     */
+    public function load(CmsManagerInterface $manager, BlockInterface $block)
     {
     }
 }
