@@ -29,7 +29,7 @@ class CmsPageManagerTest extends \PHPUnit_Framework_TestCase
         $templating   = $this->getMock('Symfony\\Component\\Templating\\EngineInterface');
         $cacheInvalidation = $this->getMock('Sonata\\PageBundle\\Cache\\Invalidation\\InvalidationInterface');
         $router = $this->getMock('Symfony\\Component\\Routing\\RouterInterface');
-        
+
         return new CmsPageManager($pageManager, $blockManager, $templating, $cacheInvalidation, $router);
     }
 
@@ -68,6 +68,12 @@ class CmsPageManagerTest extends \PHPUnit_Framework_TestCase
 
         //
         $request->headers->set('x-requested-with', null);
+
+        $request->headers->set('x-sonata-page-decorable', false);
+        $this->assertFalse($manager->isDecorable($request, HttpKernelInterface::MASTER_REQUEST, $response));
+
+        $request->headers->set('x-sonata-page-decorable', true);
+        
         $request->query->set('_route', 'test');
         $manager->setOption('ignore_routes', array('test'));
 
@@ -146,7 +152,7 @@ class CmsPageManagerTest extends \PHPUnit_Framework_TestCase
         $templating   = $this->getMock('Symfony\\Component\\Templating\\EngineInterface');
         $cacheInvalidation = $this->getMock('Sonata\\PageBundle\\Cache\\Invalidation\\InvalidationInterface');
         $router = $this->getMock('Symfony\\Component\\Routing\\RouterInterface');
-        
+
         $manager = new CmsPageManager($pageManager, $blockManager, $templating, $cacheInvalidation, $router);
 
         $block = new Block;

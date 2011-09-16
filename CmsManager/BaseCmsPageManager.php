@@ -133,7 +133,7 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
             return false;
         }
 
-        if ($request->headers->get('x-sonata-page-decorable') == false) {
+        if ($request->headers->get('x-sonata-page-decorable', true) == false) {
             return false;
         }
 
