@@ -133,6 +133,10 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
             return false;
         }
 
+        if ($request->headers->get('x-sonata-page-decorable') == false) {
+            return false;
+        }
+
         $routeName = $request->get('_route');
 
         return $this->isRouteNameDecorable($routeName) && $this->isRouteUriDecorable($request->getRequestUri());
