@@ -23,19 +23,34 @@ class BlockAdmin extends Admin
 {
     protected $parentAssociationMapping = 'page';
 
+    /**
+     * @var \Sonata\PageBundle\CmsManager\CmsPageManager
+     */
     protected $cmsManager;
 
+    /**
+     * @param \Sonata\PageBundle\CmsManager\CmsPageManager $cmsManager
+     * @return void
+     */
     public function setCmsManager(CmsPageManager $cmsManager)
     {
         $this->cmsManager = $cmsManager;
     }
 
+    /**
+     * @param \Sonata\AdminBundle\Route\RouteCollection $collection
+     * @return void
+     */
     protected function configureRoutes(RouteCollection $collection)
     {
         $collection->add('savePosition', 'save-position');
         $collection->add('view', $this->getRouterIdParameter().'/view');
     }
 
+    /**
+     * @param \Sonata\AdminBundle\Datagrid\ListMapper $listMapper
+     * @return void
+     */
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
@@ -46,6 +61,10 @@ class BlockAdmin extends Admin
         ;
     }
 
+    /**
+     * @param \Sonata\AdminBundle\Datagrid\DatagridMapper $datagridMapper
+     * @return void
+     */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
@@ -79,6 +98,10 @@ class BlockAdmin extends Admin
         }
     }
 
+    /**
+     * @param $id
+     * @return object
+     */
     public function getObject($id)
     {
         $subject = parent::getObject($id);
