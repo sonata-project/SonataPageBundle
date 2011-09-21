@@ -15,7 +15,7 @@ To begin, add the dependent bundles to the vendor/bundles directory. Add the fol
 
     The SonataAdminBundle must be installed, please refer to `the dedicated documentation for more information <http://sonata-project.org/bundles/admin>`_.
 
-Next, be sure to enable the bundles in your application kernel:
+Next, be sure to enable the ``EasyExtends`` bundle in your application kernel:
 
 .. code-block:: php
 
@@ -25,7 +25,6 @@ Next, be sure to enable the bundles in your application kernel:
   {
       return array(
           // ...
-          new Sonata\PageBundle\SonataPageBundle(),
           new Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),
           // ...
       );
