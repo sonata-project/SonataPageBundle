@@ -1,14 +1,19 @@
 Installation
 ============
 
-To begin, add the dependent bundles to the ``src/`` directory. If you're
-using git, you can add them as submodules::
+To begin, add the dependent bundles to the vendor/bundles directory. Add the following lines to the file deps::
 
-  git submodule add git://github.com/sonata-project/SonataPageBundle.git vendor/bundles/Sonata/PageBundle
+    [SonataPageBundle]
+        git=http://github.com/sonata-project/SonataPageBundle.git
+        target=/bundles/Sonata/PageBundle
 
-  // dependency bundles
-  git submodule add git://github.com/sonata-project/SonataAdminBundle.git vendor/bundles/Sonata/AdminBundle
-  git submodule add git://github.com/sonata-project/SonataEasyExtendsBundle.git vendor/bundles/Sonata/EasyExtendsBundle
+    [SonataEasyExtendsBundle]
+        git=http://github.com/sonata-project/SonataEasyExtendsBundle.git
+        target=/bundles/Sonata/EasyExtendsBundle
+
+.. note::
+
+    The SonataAdminBundle must be installed, please refer to `the dedicated documentation for more information <http://sonata-project.org/bundles/admin>`_.
 
 Next, be sure to enable the bundles in your application kernel:
 
@@ -21,7 +26,6 @@ Next, be sure to enable the bundles in your application kernel:
       return array(
           // ...
           new Sonata\PageBundle\SonataPageBundle(),
-          new Sonata\AdminBundle\SonataAdminBundle(),
           new Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),
           // ...
       );
@@ -53,7 +57,6 @@ Now, add the new `Application` Bundle to the kernel
 
             // Vendor specifics bundles
             new Sonata\PageBundle\SonataPageBundle(),
-            new Sonata\AdminBundle\SonataAdminBundle(),
             new Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),
         );
     }
@@ -173,7 +176,7 @@ At the end of your routing file, add the following lines
 
 Final step
 
-.. code-block::
+.. code-block:: console
 
     app/console sonata:page:update-core-routes
     app/console sonata:page:create-snapshots
