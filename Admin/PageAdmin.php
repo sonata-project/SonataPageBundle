@@ -98,6 +98,7 @@ class PageAdmin extends Admin
 
         $formMapper
             ->with($this->trans('form_page.group_main_label'))
+                ->add('url', 'text', array('attr' => array('readonly' => 'readonly')))
                 ->add('name')
                 ->add('enabled', null, array('required' => false))
                 ->add('position')
