@@ -23,6 +23,9 @@
         <parameter key="sonata.page.admin.snapshot.class">Sonata\PageBundle\Admin\SnapshotAdmin</parameter>
         <parameter key="sonata.page.admin.snapshot.controller">SonataPageBundle:SnapshotAdmin</parameter>
         <parameter key="sonata.page.admin.snapshot.entity">Application\Sonata\PageBundle\Entity\Snapshot</parameter>
+        
+        <!-- MISC -->
+        <parameter key="sonata.page.admin.page.translation_domain">SonataPageBundle</parameter>
     </parameters>
 
     <services>
@@ -43,6 +46,10 @@
             <call method="setCmsManager">
                 <argument type="service" id="sonata.page.cms.page" />
             </call>
+
+            <call method="setTranslationDomain">
+                <argument>%sonata.page.admin.page.translation_domain%</argument>
+ 	        </call>
         </service>
 
         <service id="sonata.page.admin.block" class="%sonata.page.admin.block.class%">

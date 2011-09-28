@@ -7,19 +7,6 @@
                 <target>Page</target>
             </trans-unit>
 
-            <trans-unit id="sidemenu.link_edit_page">
-                <source>sidemenu.link_edit_page</source>
-                <target>Page</target>
-            </trans-unit>
-            <trans-unit id="sidemenu.link_list_blocks">
-                <source>sidemenu.link_list_blocks</source>
-                <target>Blocs</target>
-            </trans-unit>
-            <trans-unit id="sidemenu.link_list_snapshots">
-                <source>sidemenu.link_list_snapshots</source>
-                <target>Snapshots</target>
-            </trans-unit>
-
             <trans-unit id="breadcrumb.link_page_list">
                 <source>breadcrumb.link_page_list</source>
                 <target>Pages</target>
@@ -43,6 +30,40 @@
             <trans-unit id="breadcrumb.link_snapshot_edit">
                 <source>breadcrumb.link_snapshot_edit</source>
                 <target>Edition</target>
+            </trans-unit>
+            
+            <trans-unit id="header.view_all_pages">
+                <source>header.view_all_pages</source>
+                <target>Voir toutes les pages</target>
+            </trans-unit>
+            <trans-unit id="header.show_zone">
+                <source>header.show_zone</source>
+                <target>Voir les zones</target>
+            </trans-unit>
+            <trans-unit id="header.edit_page">
+                <source>header.edit_page</source>
+                <target>Editer la page</target>
+            </trans-unit>
+            <trans-unit id="header.create_snapshot">
+                <source>header.create_snapshot</source>
+                <target>Créer un snapshot</target>
+            </trans-unit>
+            <trans-unit id="header.page_is_disabled">
+                <source>header.page_is_disabled</source>
+                <target>La page est inactive</target>
+            </trans-unit>
+
+            <trans-unit id="sidemenu.link_edit_page">
+                <source>sidemenu.link_edit_page</source>
+                <target>Page</target>
+            </trans-unit>
+            <trans-unit id="sidemenu.link_list_blocks">
+                <source>sidemenu.link_list_blocks</source>
+                <target>Blocs</target>
+            </trans-unit>
+            <trans-unit id="sidemenu.link_list_snapshots">
+                <source>sidemenu.link_list_snapshots</source>
+                <target>Snapshots</target>
             </trans-unit>
 
             <trans-unit id="form_page.group_main_label">

@@ -7,19 +7,6 @@
                 <target>Page</target>
             </trans-unit>
 
-            <trans-unit id="sidemenu.link_edit_page">
-                <source>sidemenu.link_edit_page</source>
-                <target>Page</target>
-            </trans-unit>
-            <trans-unit id="sidemenu.link_list_blocks">
-                <source>sidemenu.link_list_blocks</source>
-                <target>Blocks</target>
-            </trans-unit>
-            <trans-unit id="sidemenu.link_list_snapshots">
-                <source>sidemenu.link_list_snapshots</source>
-                <target>Snapshots</target>
-            </trans-unit>
-
             <trans-unit id="breadcrumb.link_page_list">
                 <source>breadcrumb.link_page_list</source>
                 <target>Pages</target>
@@ -45,6 +32,40 @@
                 <target>Edit</target>
             </trans-unit>
 
+            <trans-unit id="header.view_all_pages">
+                <source>header.view_all_pages</source>
+                <target>See all the pages</target>
+            </trans-unit>
+            <trans-unit id="header.show_zone">
+                <source>header.show_zone</source>
+                <target>See zoning</target>
+            </trans-unit>
+            <trans-unit id="header.edit_page">
+                <source>header.edit_page</source>
+                <target>Edit page</target>
+            </trans-unit>
+            <trans-unit id="header.create_snapshot">
+                <source>header.create_snapshot</source>
+                <target>Create snapshot snapshot</target>
+            </trans-unit>
+            <trans-unit id="header.page_is_disabled">
+                <source>header.page_is_disabled</source>
+                <target>Disabled page</target>
+            </trans-unit>
+            
+            <trans-unit id="sidemenu.link_edit_page">
+                <source>sidemenu.link_edit_page</source>
+                <target>Page</target>
+            </trans-unit>
+            <trans-unit id="sidemenu.link_list_blocks">
+                <source>sidemenu.link_list_blocks</source>
+                <target>Blocks</target>
+            </trans-unit>
+            <trans-unit id="sidemenu.link_list_snapshots">
+                <source>sidemenu.link_list_snapshots</source>
+                <target>Snapshots</target>
+            </trans-unit>
+
             <trans-unit id="form_page.group_main_label">
                 <source>form_page.group_main_label</source>
                 <target>General</target>
@@ -57,8 +78,6 @@
                 <source>form_page.group_advanced_label</source>
                 <target>Advanced</target>
             </trans-unit>
-
-
         </body>
     </file>
 </xliff>
