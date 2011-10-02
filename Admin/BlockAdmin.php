@@ -81,7 +81,7 @@ class BlockAdmin extends Admin
     {
         $block = $this->getSubject();
 
-        if ($block) {
+        if (null !== $block->getType()) {
             $service = $this->cmsManager->getBlockService($block);
 
             if ($block->getId() > 0) {

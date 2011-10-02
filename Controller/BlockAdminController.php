@@ -30,12 +30,4 @@ class BlockAdminController extends Controller
 
         return $this->renderJson(array('result' => $result ? 'ok' : 'ko'));
     }
-
-    public function createAction()
-    {
-
-        return $this->render('SonataPageBundle:BlockAdmin:create.html.twig', array(
-            'action' => 'create'
-        ));
-    }
 }
