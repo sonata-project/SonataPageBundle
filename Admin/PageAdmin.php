@@ -96,9 +96,16 @@ class PageAdmin extends Admin
             $templates[$code] = $template->getName();
         }
 
+        if (!$this->getSubject() || !$this->getSubject()->isInternal()) {
+            $formMapper
+                ->with($this->trans('form_page.group_main_label'))
+                    ->add('url', 'text', array('attr' => array('readonly' => 'readonly')))
+                ->end()
+            ;
+        }
+        
         $formMapper
             ->with($this->trans('form_page.group_main_label'))
-                ->add('url', 'text', array('attr' => array('readonly' => 'readonly')))
                 ->add('name')
                 ->add('enabled', null, array('required' => false))
                 ->add('position')
@@ -116,6 +123,7 @@ class PageAdmin extends Admin
         if (!$this->getSubject() || !$this->getSubject()->isDynamic()) {
             $formMapper
                 ->with($this->trans('form_page.group_main_label'))
+
                     ->add('target', 'sonata_page_selector', array(
                         'page'          => $this->getSubject() ?: null,
                         'model_manager' => $this->getModelManager(),
