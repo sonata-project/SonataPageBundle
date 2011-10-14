@@ -21,6 +21,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Cache\CacheElement;
 use Sonata\PageBundle\CmsManager\CmsManagerInterface;
+use Sonata\AdminBundle\Validator\ErrorElement;
 
 use Knp\Menu\ItemInterface as MenuItemInterface;
 
@@ -172,6 +173,28 @@ class PageAdmin extends Admin
     }
 
     /**
+     * @param \Sonata\AdminBundle\Validator\ErrorElement $errorElement
+     * @param $object
+     * @return void
+     */
+    public function validate(ErrorElement $errorElement, $object)
+    {
+        if (!$object->getUrl()) {
+            $this->cmsManager->getPageManager()->fixUrl($object);
+        }
+
+        $page = $this->cmsManager->getPageManager()->getPageByUrl($object->getUrl());
+
+        if (!$page) {
+            $page = $this->cmsManager->getPageManager()->getPageByUrl(substr($object->getUrl(), -1) == '/' ? substr($object->getUrl(), 0, -1) : $object->getUrl().'/');
+        }
+
+        if ($page && $page->getId() != $object->getId()) {
+            $errorElement->addViolation($this->trans('error.uniq_url', array('%url%' => $object->getUrl())));
+        }
+    }
+
+    /**
      * @param \Sonata\AdminBundle\Route\RouteCollection $collection
      * @return void
      */
@@ -250,7 +273,7 @@ class PageAdmin extends Admin
 
     public function setCmsManager(CmsManagerInterface $cmsManager)
     {
-        $this->cmsManager= $cmsManager;
+        $this->cmsManager = $cmsManager;
     }
 
     public function getNewInstance()
