@@ -54,8 +54,9 @@ abstract class BaseBlockService implements BlockServiceInterface
     }
 
     /**
+     * Get name
      *
-     * @return name
+     * @return string name
      */
     public function getName()
     {
@@ -63,6 +64,8 @@ abstract class BaseBlockService implements BlockServiceInterface
     }
 
     /**
+     * Get templating
+     *
      * @return \Symfony\Component\Templating\EngineInterface
      */
     public function getTemplating()
@@ -90,6 +93,8 @@ abstract class BaseBlockService implements BlockServiceInterface
     }
 
     /**
+     * Build form
+     *
      * @param \Sonata\PageBundle\CmsManager\CmsManagerInterface $manager
      * @param \Sonata\AdminBundle\Form\FormMapper $formMapper
      * @param \Sonata\PageBundle\Model\BlockInterface $block
