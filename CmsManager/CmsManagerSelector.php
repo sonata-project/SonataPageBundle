@@ -36,7 +36,7 @@ class CmsManagerSelector implements CmsManagerSelectorInterface
     {
         $securityContext = $this->container->get('security.context');
 
-        if ($securityContext->isGranted('ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT')) {
+        if ($securityContext->getToken() !== null && $securityContext->isGranted('ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT')) {
             $manager = $this->container->get('sonata.page.cms.page');
         } else {
             $manager = $this->container->get('sonata.page.cms.snapshot');
