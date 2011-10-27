@@ -52,7 +52,7 @@
                 <source>header.page_is_disabled</source>
                 <target>Disabled page</target>
             </trans-unit>
-            
+
             <trans-unit id="sidemenu.link_edit_page">
                 <source>sidemenu.link_edit_page</source>
                 <target>Page</target>
@@ -82,6 +82,14 @@
             <trans-unit id="error.uniq_url">
                 <source>error.uniq_url</source>
                 <target>The URL '% url%' is already associated with another page</target>
+            </trans-unit>
+            <trans-unit id="title_page_not_found">
+                <source>title_page_not_found</source>
+                <target>The page does not exist</target>
+            </trans-unit>
+            <trans-unit id="create_page">
+                <source>create_page</source>
+                <target>Create the page</target>
             </trans-unit>
         </body>
     </file>

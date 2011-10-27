@@ -31,7 +31,7 @@
                 <source>breadcrumb.link_snapshot_edit</source>
                 <target>Edition</target>
             </trans-unit>
-            
+
             <trans-unit id="header.view_all_pages">
                 <source>header.view_all_pages</source>
                 <target>Voir toutes les pages</target>
@@ -82,6 +82,14 @@
             <trans-unit id="error.uniq_url">
                 <source>error.uniq_url</source>
                 <target>L'URL '%url%' est déjà associée à une autre page</target>
+            </trans-unit>
+            <trans-unit id="title_page_not_found">
+                <source>title_page_not_found</source>
+                <target>La page n'existe pas</target>
+            </trans-unit>
+            <trans-unit id="create_page">
+                <source>create_page</source>
+                <target>Créer la page</target>
             </trans-unit>
         </body>
     </file>
