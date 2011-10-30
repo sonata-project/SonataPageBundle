@@ -16,9 +16,16 @@ file that was distributed with this source code.
 {% block content %}
 
     {% trans from 'SonataPageBundle'%}message_create_snapshots{% endtrans %}
-    <form action="{{ admin.generateUrl('snapshots') }}" method="POST">
 
-        <input type="submit" name="create" value="{% trans from 'SonataPageBundle' %}button_create_snapshots{% endtrans %}"/>
-    </form>
+    <div class="actions">
+        <form action="{{ admin.generateUrl('snapshots') }}" method="POST">
+
+            <input class="btn primary" type="submit" name="create" value="{% trans from 'SonataPageBundle' %}button_create_snapshots{% endtrans %}"/>
+
+            {% trans from 'SonataPageBundle' %}or_list{% endtrans %}
+
+            <a class="btn" href="{{ admin.generateUrl('list') }}">{% trans from 'SonataAdminBundle' %}link_action_list{% endtrans %}</a>
+        </form>
+    </div>
 
 {% endblock %}

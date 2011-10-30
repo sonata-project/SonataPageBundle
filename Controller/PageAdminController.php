@@ -67,9 +67,7 @@ class PageAdminController extends Controller
         }
 
         return $this->render('SonataPageBundle:PageAdmin:create_snapshots.html.twig', array(
-            'action'            => 'snapshots',
-            'admin'             => $this->admin,
-            'base_template'     => $this->getBaseTemplate(),
+            'action'  => 'snapshots',
         ));
     }
 }

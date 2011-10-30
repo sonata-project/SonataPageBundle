@@ -13,7 +13,6 @@ file that was distributed with this source code.
 
 {% block title %}{% trans from 'SonataPageBundle' %}title_create_snapshot{% endtrans %}{% endblock %}
 
-
 {% block content %}
 
     {% trans from 'SonataPageBundle'%}message_create_snapshot{% endtrans %}
@@ -22,7 +21,11 @@ file that was distributed with this source code.
 
         {{ form_rest(form) }}
 
-        <input type="submit" name="create" value="{% trans from 'SonataPageBundle' %}button_create_snapshot{% endtrans %}"/>
-    </form>
+        <div class="actions">
+            <input class="btn primary" type="submit" name="create" value="{% trans from 'SonataPageBundle' %}button_create_snapshot{% endtrans %}"/>
+            {% trans from 'SonataPageBundle' %}or_list{% endtrans %}
 
+            <a class="btn" href="{{ admin.generateUrl('list') }}">{% trans from 'SonataAdminBundle' %}link_action_list{% endtrans %}</a>
+        </div>
+    </form>
 {% endblock %}

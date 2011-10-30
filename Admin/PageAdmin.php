@@ -104,7 +104,7 @@ class PageAdmin extends Admin
                 ->end()
             ;
         }
-        
+
         $formMapper
             ->with($this->trans('form_page.group_main_label'))
                 ->add('name')
