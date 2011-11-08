@@ -18,6 +18,8 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\PageBundle\CmsManager\CmsPageManager;
+use Sonata\AdminBundle\Validator\ErrorElement;
+use Sonata\PageBundle\Model\BlockInterface;
 
 class BlockAdmin extends Admin
 {
@@ -27,6 +29,8 @@ class BlockAdmin extends Admin
      * @var \Sonata\PageBundle\CmsManager\CmsPageManager
      */
     protected $cmsManager;
+
+    protected $inValidate = false;
 
     /**
      * @param \Sonata\PageBundle\CmsManager\CmsPageManager $cmsManager
@@ -96,6 +100,22 @@ class BlockAdmin extends Admin
                 ->add('enabled')
                 ->add('position');
         }
+    }
+
+    /**
+     * @param \Sonata\AdminBundle\Validator\ErrorElement $errorElement
+     * @param \Sonata\PageBundle\Model\BlockInterface $block
+     */
+    public function validate(ErrorElement $errorElement, $block)
+    {
+        if ($this->inValidate) {
+            return;
+        }
+
+        // As block can be nested, we only need to validate the main block, no the children
+        $this->inValidate = true;
+        $this->cmsManager->validateBlock($errorElement, $block);
+        $this->inValidate = false;
     }
 
     /**
