@@ -43,7 +43,9 @@
             field="children"
             target-entity="Application\Sonata\PageBundle\Entity\Block"
             mapped-by="parent"
-            fetch="LAZY">
+            orphan-removal="true"
+            fetch="LAZY"
+            >
 
             <orphan-removal>true</orphan-removal>
 
