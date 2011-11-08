@@ -69,7 +69,7 @@ class PageAdmin extends Admin
             ->add('name')
             ->add('hybrid', 'doctrine_orm_callback', array(
                 'callback' => function($queryBuilder, $alias, $field, $data) {
-                    if (isset($data['value'])) {
+                    if (in_array($data['value'], array('hybrid', 'cms'))) {
                         $queryBuilder->andWhere(sprintf('%s.routeName %s :routeName', $alias, $data['value'] == 'cms' ? '=' : '!='));
                         $queryBuilder->setParameter('routeName', PageInterface::PAGE_ROUTE_CMS_NAME);
                     }
