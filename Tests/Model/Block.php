@@ -17,4 +17,6 @@ class Block extends \Sonata\PageBundle\Model\Block
     function getId() {
         return $this->id;
     }
+
+
 }

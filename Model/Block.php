@@ -189,15 +189,6 @@ abstract class Block implements BlockInterface
         $child->setPage($this->getPage());
     }
 
-    public function setChildren($children)
-    {
-        $this->children = new \Doctrine\Common\Collections\ArrayCollection();
-
-        foreach ($children as $child) {
-            $this->addChildren($child);
-        }
-    }
-
     /**
      * Get children
      *
@@ -206,11 +197,6 @@ abstract class Block implements BlockInterface
     public function getChildren()
     {
         return $this->children;
-    }
-
-    public function hasChildren()
-    {
-        return $this->children == null;
     }
 
     /**
@@ -290,5 +276,13 @@ abstract class Block implements BlockInterface
         }
 
         return $this->ttl;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasChildren()
+    {
+        return count($this->children) > 0;
     }
 }

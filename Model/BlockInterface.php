@@ -124,6 +124,12 @@ interface BlockInterface
     function getChildren();
 
     /**
+     * @abstract
+     * @return bool
+     */
+    function hasChildren();
+
+    /**
      * Set parent
      *
      * @param BlockInterface $parent

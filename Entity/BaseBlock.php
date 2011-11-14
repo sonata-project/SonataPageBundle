@@ -11,12 +11,13 @@
 namespace Sonata\PageBundle\Entity;
 
 use Sonata\PageBundle\Model\Block;
+use Doctrine\Common\Collections\ArrayCollection;
 
 abstract class BaseBlock extends Block
 {
     public function __construct()
     {
-        $this->children = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->children = new ArrayCollection;
 
         parent::__construct();
     }
@@ -30,5 +31,14 @@ abstract class BaseBlock extends Block
     public function preUpdate()
     {
         $this->updatedAt = new \DateTime;
+    }
+
+    public function setChildren($children)
+    {
+        $this->children = new ArrayCollection;
+
+        foreach ($children as $child) {
+            $this->addChildren($child);
+        }
     }
 }
