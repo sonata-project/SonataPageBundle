@@ -18,20 +18,7 @@
         </testsuite>
     </testsuites>
 
-    <filter>
-        <blacklist>
-            <directory>vendor</directory>
-            <directory>Tests</directory>
-            <exclude>
-                <directory>test/SonataPageBundle/vendor</directory>
-                <directory>test/SonataPageBundle/Tests</directory>
-            </exclude>
-        </blacklist>
-    </filter>
-
     <logging>
         <log type="coverage-html" target="coverage" charset="UTF-8" yui="true" />
-        <log type="coverage-php" target="coverage.cover"/>
     </logging>
-
 </phpunit>

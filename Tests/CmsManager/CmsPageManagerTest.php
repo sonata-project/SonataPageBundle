@@ -73,7 +73,7 @@ class CmsPageManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($manager->isDecorable($request, HttpKernelInterface::MASTER_REQUEST, $response));
 
         $request->headers->set('x-sonata-page-decorable', true);
-        
+
         $request->query->set('_route', 'test');
         $manager->setOption('ignore_routes', array('test'));
 
@@ -118,13 +118,14 @@ class CmsPageManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException \RuntimeException
      */
     public function testgetBlockServiceException()
     {
         $manager = $this->getManager();
+        $manager->setDebug(true);
 
-        $block = $this->getMock('block', array('getType'));
+        $block = $this->getMock('Sonata\PageBundle\Model\BlockInterface');
         $block->expects($this->any())
             ->method('getType')
             ->will($this->returnValue('fakse'));
