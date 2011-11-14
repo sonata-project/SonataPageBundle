@@ -297,6 +297,18 @@ interface PageInterface
 
     /**
      * @abstract
+     * @return boolean
+     */
+    function isCms();
+
+    /**
+     * @abstract
+     * @return boolean
+     */
+    function isInternal();
+
+    /**
+     * @abstract
      * @param int $position
      * @return void
      */
@@ -341,4 +353,31 @@ interface PageInterface
      * @return array
      */
     function getHeaders();
+
+    /**
+     * @abstract
+     * @param array $parents
+     */
+    function setParents(array $parents);
+
+    /**
+     * @abstract
+     *
+     */
+    function getParents();
+
+    /**
+     * Return the TTL value in second
+     *
+     * @abstract
+     * @return integer
+     */
+    function getTtl();
+
+    /**
+     * @abstract
+     * @param string $method
+     * @return bool
+     */
+    function hasRequestMethod($method);
 }

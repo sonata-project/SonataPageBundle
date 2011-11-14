@@ -124,13 +124,45 @@ interface SnapshotInterface
      */
     function getUpdatedAt();
 
+    /**
+     * @abstract
+     * @param bool $decorate
+     */
     function setDecorate($decorate);
 
+    /**
+     * @abstract
+     * @return bool
+     */
     function getDecorate();
 
+    /**
+     * @abstract
+     * return bool
+     */
     function isHybrid();
 
+    /**
+     * @abstract
+     * @param integer $position
+     */
     function setPosition($position);
 
+    /**
+     * @abstract
+     * @return integer
+     */
     function getPosition();
+
+    /**
+     * @abstract
+     * @param PageInterface $page
+     */
+    function setPage(PageInterface $page);
+
+    /**
+     * @abstract
+     * @return PageInterface
+     */
+    function getPage();
 }

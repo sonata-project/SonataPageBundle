@@ -17,7 +17,7 @@ use Sonata\PageBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\SnapshotInterface;
 use Sonata\PageBundle\Model\Template;
 
-use Application\Sonata\PageBundle\Entity\Page;
+use Sonata\PageBundle\Model\Page;
 use Doctrine\ORM\EntityManager;
 
 class PageManager implements PageManagerInterface

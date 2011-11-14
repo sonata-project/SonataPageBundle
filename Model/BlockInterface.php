@@ -46,6 +46,11 @@ interface BlockInterface
      */
     function getSettings();
 
+    /**
+     * @abstract
+     * @param $name
+     * @param $value
+     */
     function setSetting($name, $value);
 
     /**
@@ -166,5 +171,9 @@ interface BlockInterface
      */
     function getTtl();
 
+    /**
+     * @abstract
+     * @return string
+     */
     function __toString();
 }

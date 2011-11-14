@@ -288,6 +288,13 @@ abstract class Page implements PageInterface
      */
     public function setRawHeaders($rawHeaders)
     {
+        foreach (explode("\r\n", $rawHeaders) as $header) {
+            if (false != strpos($header, ':')) {
+                list($name, $headerStr) = explode(':', $header, 2);
+                $this->headers[trim($name)] = trim($headerStr);
+            }
+        }
+
         $this->rawHeaders = $rawHeaders;
     }
 
@@ -316,25 +323,20 @@ abstract class Page implements PageInterface
     }
 
     /**
+     * @param array $headers
+     */
+    public function setHeaders(array $headers = array())
+    {
+        $this->headers = $headers;
+    }
+
+    /**
      * Get headers
      *
      * @return array $headers
      */
     public function getHeaders()
     {
-        if (!$this->headers) {
-
-            $this->headers = array();
-
-            foreach (explode("\r\n", $this->getRawHeaders()) as $header) {
-
-                if (false != strpos($header, ':')) {
-                    list($name, $headerStr) = explode(':', $header, 2);
-                    $this->headers[trim($name)] = trim($headerStr);
-                }
-            }
-        }
-
         return $this->headers;
     }
     /**
@@ -399,6 +401,9 @@ abstract class Page implements PageInterface
         return $this->children;
     }
 
+    /**
+     * @param $children
+     */
     public function setChildren($children)
     {
         $this->children = $children;
@@ -449,9 +454,9 @@ abstract class Page implements PageInterface
      *
      * @param \Sonata\PageBundle\Model\SnapshotInterface $snapshot
      */
-    public function addSnapshot(PageInterface $snapshot)
+    public function addSnapshot(SnapshotInterface $snapshot)
     {
-        $this->snapshotes[] = $snapshot;
+        $this->snapshots[] = $snapshot;
 
         $snapshot->setPage($this);
     }
@@ -465,39 +470,6 @@ abstract class Page implements PageInterface
     {
         $this->target = $target;
     }
-
-    /**
-     * Add source
-     *
-     * @param \Sonata\PageBundle\Model\PageInterface $source
-     */
-    public function addSource(PageInterface $source)
-    {
-        $this->sources[] = $source;
-
-        $source->setTarget($this);
-    }
-
-    /**
-     * Get sources
-     *
-     * @return Doctrine\Common\Collections\Collection $sources
-     */
-    public function getSources()
-    {
-        return $this->sources;
-    }
-
-    /**
-     * Set sources
-     *
-     * @param \Sonata\PageBundle\Model\PageInterface $sources
-     */
-    public function setSources($sources)
-    {
-        $this->sources = $sources;
-    }
-
 
     /**
      * Add blocs
@@ -533,7 +505,7 @@ abstract class Page implements PageInterface
      * Get parent
      *
      * @param integer $level default -1
-     * @return Application\Sonata\PageBundle\Entity\Page $parent
+     * @return \Sonata\PageBundle\Model\PageInterface $parent
      */
     public function getParent($level = -1)
     {
@@ -551,7 +523,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Set parents
+     * Set the parent tree
      *
      * @param array $parents
      */
@@ -561,9 +533,9 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * get the tree of the page
+     * get the tree of the page, build it from the parent if the tree does not exist
      *
-     * @return array of Application\Sonata\PageBundle\Entity\Page $parents
+     * @return array of \Sonata\PageBundle\Model\PageInterface $parents
      */
     public function getParents()
     {
@@ -651,7 +623,7 @@ abstract class Page implements PageInterface
      */
     public function isInternal()
     {
-        return null === $this->getUrl();
+        return null === $this->getUrl() && !$this->isCms() && !$this->isHybrid();
     }
 
     /**
@@ -750,7 +722,7 @@ abstract class Page implements PageInterface
         $block = null;
 
         foreach ($this->getBlocks() as $blockTmp) {
-            if ($name == $blockTmp->getSetting('name')) {
+            if ($blockTmp->getType() == 'sonata.page.block.container' && $name == $blockTmp->getSetting('name')) {
                 $block = $blockTmp;
 
                 break;
@@ -794,10 +766,5 @@ abstract class Page implements PageInterface
         }
 
         return !$this->getRequestMethod() || false !== strpos($this->getRequestMethod(), $method);
-    }
-
-    public function setHeaders(array $headers = array())
-    {
-        $this->headers = $headers;
     }
 }
