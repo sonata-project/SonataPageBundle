@@ -69,7 +69,7 @@ class SnapshotPageProxy implements PageInterface
      *
      * @param \Sonata\PageBundle\Model\PageInterface $children
      */
-    function addChildren(PageInterface $children)
+    public function addChildren(PageInterface $children)
     {
         $this->getPage()->addChildren($children);
     }
@@ -78,7 +78,7 @@ class SnapshotPageProxy implements PageInterface
      * @param array $headers
      * @return void
      */
-    function setHeaders(array $headers = array())
+    public function setHeaders(array $headers = array())
     {
         $this->getPage()->setHeaders($headers);
     }
@@ -88,7 +88,7 @@ class SnapshotPageProxy implements PageInterface
      * @param $value
      * @return void
      */
-    function addHeader($name, $value)
+    public function addHeader($name, $value)
     {
         $this->getPage()->addHeader($name, $value);
     }
@@ -96,7 +96,7 @@ class SnapshotPageProxy implements PageInterface
     /**
      * @return array
      */
-    function getHeaders()
+    public function getHeaders()
     {
         return $this->getPage()->getHeaders();
     }
@@ -106,7 +106,7 @@ class SnapshotPageProxy implements PageInterface
      *
      * @return array
      */
-    function getChildren()
+    public function getChildren()
     {
         if (!$this->getPage()->getChildren()->count()) {
             $this->getPage()->setChildren(new SnapshotChildrenCollection($this->manager, $this->getPage()));
@@ -120,7 +120,7 @@ class SnapshotPageProxy implements PageInterface
      *
      * @param \Sonata\PageBundle\Model\BlockInterface $block
      */
-    function addBlocks(BlockInterface $block)
+    public function addBlocks(BlockInterface $block)
     {
         $this->getPage()->addBlocks($block);
     }
@@ -149,7 +149,7 @@ class SnapshotPageProxy implements PageInterface
      *
      * @param \Sonata\PageBundle\Model\PageInterface $target
      */
-    function setTarget(PageInterface $target)
+    public function setTarget(PageInterface $target)
     {
         $this->target = $target;
     }
@@ -239,7 +239,7 @@ class SnapshotPageProxy implements PageInterface
      *
      * @param PageInterface $parent
      */
-    function setParent(PageInterface $parent)
+    public function setParent(PageInterface $parent)
     {
         $this->getPage()->setParent($parent);
     }
@@ -249,7 +249,7 @@ class SnapshotPageProxy implements PageInterface
      *
      * @param string $templateCode
      */
-    function setTemplateCode($templateCode)
+    public function setTemplateCode($templateCode)
     {
         $this->getPage()->setTemplateCode($templateCode);
     }
@@ -259,7 +259,7 @@ class SnapshotPageProxy implements PageInterface
      *
      * @return string $templateCode
      */
-    function getTemplateCode()
+    public function getTemplateCode()
     {
         return $this->getPage()->getTemplateCode();
     }
@@ -268,7 +268,7 @@ class SnapshotPageProxy implements PageInterface
      * @param boolean $decorate
      * @return void
      */
-    function setDecorate($decorate)
+    public function setDecorate($decorate)
     {
         $this->getPage()->setDecorate($decorate);
     }
@@ -278,7 +278,7 @@ class SnapshotPageProxy implements PageInterface
      *
      * @return boolean $decorate
      */
-    function getDecorate()
+    public function getDecorate()
     {
         return $this->getPage()->getDecorate();
     }
@@ -286,7 +286,7 @@ class SnapshotPageProxy implements PageInterface
     /**
      * @return bool
      */
-    function isHybrid()
+    public function isHybrid()
     {
         return $this->getPage()->isHybrid();
     }
@@ -295,7 +295,7 @@ class SnapshotPageProxy implements PageInterface
      * @param $position
      * @return void
      */
-    function setPosition($position)
+    public function setPosition($position)
     {
         $this->getPage()->setPosition($position);
     }
@@ -305,7 +305,7 @@ class SnapshotPageProxy implements PageInterface
      *
      * @return integer
      */
-    function getPosition()
+    public function getPosition()
     {
         return $this->getPage()->getPosition();
     }
@@ -314,7 +314,7 @@ class SnapshotPageProxy implements PageInterface
      * @param string $method
      * @return void
      */
-    function setRequestMethod($method)
+    public function setRequestMethod($method)
     {
         $this->getPage()->setRequestMethod($method);
     }
@@ -324,7 +324,7 @@ class SnapshotPageProxy implements PageInterface
      *
      * @return string
      */
-    function getRequestMethod()
+    public function getRequestMethod()
     {
         return $this->getPage()->getRequestMethod();
     }
@@ -334,7 +334,7 @@ class SnapshotPageProxy implements PageInterface
      *
      * @return integer
      */
-    function getId()
+    public function getId()
     {
         return $this->getPage()->getId();
     }
@@ -344,7 +344,7 @@ class SnapshotPageProxy implements PageInterface
      *
      * @param integer $id
      */
-    function setId($id)
+    public function setId($id)
     {
         $this->getPage()->setId($id);
     }
@@ -354,7 +354,7 @@ class SnapshotPageProxy implements PageInterface
      *
      * @return string $routeName
      */
-    function getRouteName()
+    public function getRouteName()
     {
         return $this->getPage()->getRouteName();
     }
@@ -364,7 +364,7 @@ class SnapshotPageProxy implements PageInterface
      *
      * @param string $routeName
      */
-    function setRouteName($routeName)
+    public function setRouteName($routeName)
     {
         $this->getPage()->setRouteName($routeName);
     }
@@ -374,7 +374,7 @@ class SnapshotPageProxy implements PageInterface
      *
      * @param boolean $enabled
      */
-    function setEnabled($enabled)
+    public function setEnabled($enabled)
     {
         $this->getPage()->setEnabled($enabled);
     }
@@ -384,7 +384,7 @@ class SnapshotPageProxy implements PageInterface
      *
      * @return boolean $enabled
      */
-    function getEnabled()
+    public function getEnabled()
     {
         return $this->getPage()->getEnabled();
     }
@@ -394,7 +394,7 @@ class SnapshotPageProxy implements PageInterface
      *
      * @param string $name
      */
-    function setName($name)
+    public function setName($name)
     {
         $this->getPage()->setName($name);
     }
@@ -404,7 +404,7 @@ class SnapshotPageProxy implements PageInterface
      *
      * @return string $name
      */
-    function getName()
+    public function getName()
     {
         return $this->getPage()->getName();
     }
@@ -414,7 +414,7 @@ class SnapshotPageProxy implements PageInterface
      *
      * @param string $slug
      */
-    function setSlug($slug)
+    public function setSlug($slug)
     {
         $this->getPage()->setSlug($slug);
     }
@@ -424,7 +424,7 @@ class SnapshotPageProxy implements PageInterface
      *
      * @return string
      */
-    function getSlug()
+    public function getSlug()
     {
         return $this->getPage()->getSlug();
     }
@@ -435,7 +435,7 @@ class SnapshotPageProxy implements PageInterface
      * @param string $url
      * @return void
      */
-    function setUrl($url)
+    public function setUrl($url)
     {
         $this->getPage()->setUrl($url);
     }
@@ -445,7 +445,7 @@ class SnapshotPageProxy implements PageInterface
      *
      * @return string
      */
-    function getUrl()
+    public function getUrl()
     {
         return $this->getPage()->getUrl();
     }
@@ -455,7 +455,7 @@ class SnapshotPageProxy implements PageInterface
      *
      * @param string $customUrl
      */
-    function setCustomUrl($customUrl)
+    public function setCustomUrl($customUrl)
     {
         $this->getPage()->setCustomUrl($customUrl);
     }
@@ -465,7 +465,7 @@ class SnapshotPageProxy implements PageInterface
      *
      * @return integer $customUrl
      */
-    function getCustomUrl()
+    public function getCustomUrl()
     {
         return $this->getPage()->getCustomUrl();
     }
@@ -475,7 +475,7 @@ class SnapshotPageProxy implements PageInterface
      *
      * @param string $metaKeyword
      */
-    function setMetaKeyword($metaKeyword)
+    public function setMetaKeyword($metaKeyword)
     {
         $this->getPage()->setMetaKeyword($metaKeyword);
     }
@@ -485,7 +485,7 @@ class SnapshotPageProxy implements PageInterface
      *
      * @return string $metaKeyword
      */
-    function getMetaKeyword()
+    public function getMetaKeyword()
     {
         return $this->getPage()->getMetaKeyword();
     }
@@ -495,7 +495,7 @@ class SnapshotPageProxy implements PageInterface
      *
      * @param string $metaDescription
      */
-    function setMetaDescription($metaDescription)
+    public function setMetaDescription($metaDescription)
     {
         $this->getPage()->setMetaDescription($metaDescription);
     }
@@ -505,7 +505,7 @@ class SnapshotPageProxy implements PageInterface
      *
      * @return string $metaDescription
      */
-    function getMetaDescription()
+    public function getMetaDescription()
     {
         return $this->getPage()->getMetaDescription();
     }
@@ -515,7 +515,7 @@ class SnapshotPageProxy implements PageInterface
      *
      * @param string $javascript
      */
-    function setJavascript($javascript)
+    public function setJavascript($javascript)
     {
         $this->getPage()->setJavascript($javascript);
     }
@@ -525,7 +525,7 @@ class SnapshotPageProxy implements PageInterface
      *
      * @return string $javascript
      */
-    function getJavascript()
+    public function getJavascript()
     {
         return $this->getPage()->getJavascript();
     }
@@ -535,7 +535,7 @@ class SnapshotPageProxy implements PageInterface
      *
      * @param string $stylesheet
      */
-    function setStylesheet($stylesheet)
+    public function setStylesheet($stylesheet)
     {
         $this->getPage()->setStylesheet($stylesheet);
     }
@@ -545,7 +545,7 @@ class SnapshotPageProxy implements PageInterface
      *
      * @return string $stylesheet
      */
-    function getStylesheet()
+    public function getStylesheet()
     {
         return $this->getPage()->getStylesheet();
     }
@@ -555,7 +555,7 @@ class SnapshotPageProxy implements PageInterface
      *
      * @param \DateTime $createdAt
      */
-    function setCreatedAt(\DateTime $createdAt = null)
+    public function setCreatedAt(\DateTime $createdAt = null)
     {
         $this->getPage()->setCreatedAt($createdAt);
     }
@@ -565,7 +565,7 @@ class SnapshotPageProxy implements PageInterface
      *
      * @return datetime $createdAt
      */
-    function getCreatedAt()
+    public function getCreatedAt()
     {
         return $this->getPage()->getCreatedAt();
     }
@@ -575,7 +575,7 @@ class SnapshotPageProxy implements PageInterface
      *
      * @param \DateTime $updatedAt
      */
-    function setUpdatedAt(\DateTime $updatedAt = null)
+    public function setUpdatedAt(\DateTime $updatedAt = null)
     {
         $this->getPage()->setUpdatedAt($updatedAt);
     }
@@ -585,7 +585,7 @@ class SnapshotPageProxy implements PageInterface
      *
      * @return \DateTime $updatedAt
      */
-    function getUpdatedAt()
+    public function getUpdatedAt()
     {
         return $this->getPage()->getUpdatedAt();
     }
@@ -593,8 +593,47 @@ class SnapshotPageProxy implements PageInterface
     /**
      * @return boolean
      */
-    function isDynamic()
+    public function isDynamic()
     {
         return $this->getPage()->isDynamic();
+    }
+
+    /**
+     * @abstract
+     * @return boolean
+     */
+    public function isCms()
+    {
+        return $this->getPage()->isCms();
+    }
+
+    /**
+     * @abstract
+     * @return boolean
+     */
+    public function isInternal()
+    {
+        return $this->getPage()->isInternal();
+    }
+
+    /**
+     * Return the TTL value in second
+     *
+     * @abstract
+     * @return integer
+     */
+    public function getTtl()
+    {
+        return $this->getPage()->getTtl();
+    }
+
+    /**
+     * @abstract
+     * @param string $method
+     * @return bool
+     */
+    public function hasRequestMethod($method)
+    {
+        return $this->getPage()->hasRequestMethod($method);
     }
 }
