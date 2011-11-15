@@ -597,4 +597,36 @@ class SnapshotPageProxy implements PageInterface
     {
         return $this->getPage()->isDynamic();
     }
+    
+        
+    /**
+     * Return the TTL value in second
+     *
+     * @return integer
+     */
+    public function getTtl() {
+        return $this->getPage()->getTtl();
+    }
+    
+    /**
+     * @param string $method
+     * @return bool
+     */
+    public function hasRequestMethod($method) {
+        return $this->getPage()->hasRequestMethod($method);
+    }
+    
+    /**
+     * @return bool
+     */
+    public function isCms() {
+        return $this->getPage()->isCms();
+    }
+    
+    /**
+     * @return bool
+     */
+    public function isInternal() {
+        return $this->getPage()->isInternal();
+    }
 }
