@@ -92,7 +92,7 @@ class RssBlockService extends BaseBlockService
         $settings = array_merge($this->getDefaultSettings(), $block->getSettings());
 
         $feeds = false;
-        if (false && $settings['url']) {
+        if ($settings['url']) {
             $options = array(
                 'http' => array(
                     'user_agent' => 'Sonata/RSS Reader',
