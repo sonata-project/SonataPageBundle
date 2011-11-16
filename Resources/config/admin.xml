@@ -30,7 +30,7 @@
 
     <services>
         <service id="sonata.page.admin.page" class="%sonata.page.admin.page.class%">
-            <tag name="sonata.admin" manager_type="orm" group="sonata_page" label="page"/>
+            <tag name="sonata.admin" manager_type="orm" group="sonata_page" label="page" label_translator_strategy="sonata.admin.label.strategy.underscore"/>
             <argument />
             <argument>%sonata.page.admin.page.entity%</argument>
             <argument>%sonata.page.admin.page.controller%</argument>
@@ -53,7 +53,7 @@
         </service>
 
         <service id="sonata.page.admin.block" class="%sonata.page.admin.block.class%">
-            <tag name="sonata.admin" manager_type="orm" show_in_dashboard="false" group="sonata_page" label="block"/>
+            <tag name="sonata.admin" manager_type="orm" show_in_dashboard="false" group="sonata_page" label="block"  label_translator_strategy="sonata.admin.label.strategy.underscore"/>
             <argument />
             <argument>%sonata.page.admin.block.entity%</argument>
             <argument>%sonata.page.admin.block.controller%</argument>
@@ -68,7 +68,7 @@
         </service>
 
         <service id="sonata.page.admin.snapshot" class="%sonata.page.admin.snapshot.class%">
-            <tag name="sonata.admin" manager_type="orm" group="sonata_page" label="snapshot"/>
+            <tag name="sonata.admin" manager_type="orm" group="sonata_page" label="snapshot"  label_translator_strategy="sonata.admin.label.strategy.underscore"/>
             <argument />
             <argument>%sonata.page.admin.snapshot.entity%</argument>
             <argument>%sonata.page.admin.snapshot.controller%</argument>

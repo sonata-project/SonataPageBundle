@@ -67,15 +67,15 @@
             </trans-unit>
 
             <trans-unit id="form_page.group_main_label">
-                <source>form_page.group_main_label</source>
+                <source>form.group_main_label</source>
                 <target>Général</target>
             </trans-unit>
             <trans-unit id="form_page.group_seo_label">
-                <source>form_page.group_seo_label</source>
+                <source>form.group_seo_label</source>
                 <target>SEO</target>
             </trans-unit>
             <trans-unit id="form_page.group_advanced_label">
-                <source>form_page.group_advanced_label</source>
+                <source>form.group_advanced_label</source>
                 <target>Avancée</target>
             </trans-unit>
 
