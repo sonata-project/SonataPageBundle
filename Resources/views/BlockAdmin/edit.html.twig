@@ -13,8 +13,6 @@ file that was distributed with this source code.
 
 {% block form %}
     <form action="{{ admin.generateUrl('update', {'id' : object.id}) }}" method="POST">
-        {{ form_hidden(form) }}
-
         <p>
              {% block information %}
                 {{ object.type }}
@@ -23,7 +21,7 @@ file that was distributed with this source code.
 
         <p>
             {{ form_label(form.enabled) }}
-            {{ form_field(form.enabled) }}
+            {{ form_widget(form.enabled) }}
             {{ form_errors(form.enabled) }}
         </p>
 
@@ -33,7 +31,8 @@ file that was distributed with this source code.
             {% endblock %}
         </div>
 
-        <input type="submit" value="{% trans 'button_save' from 'SonataPageBundle' %}"/>
+        <input type="submit" value="{{ 'button_save'|trans({}, 'SonataPageBundle') }}"/>
 
+        {{ form_rest(form) }}
     </form>
 {% endblock %}

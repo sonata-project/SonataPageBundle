@@ -14,7 +14,7 @@ file that was distributed with this source code.
 {% block block %}
     <p>
         {{ form_label(form.settings.content) }} <br />
-        {{ form_field(form.settings.content, {'attr': {'class' : 'title'}}) }}
+        {{ form_widget(form.settings.content, {'attr': {'class' : 'title'}}) }}
         {{ form_errors(form.settings.content) }}
     </p>
 {% endblock %}

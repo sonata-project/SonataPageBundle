@@ -15,17 +15,17 @@ file that was distributed with this source code.
 
     <div>
         {{ form_label(form.settings.action) }} <br />
-        {{ form_field(form.settings.action, {'attr': {'class' : 'title'}}) }}
+        {{ form_widget(form.settings.action, {'attr': {'class' : 'title'}}) }}
         {{ form_errors(form.settings.action) }}
     </div>
 
-    <h2>{% trans 'title_parameters' from 'SonataPageBundle' %}</h2>
+    <h2>{{ 'title_parameters'|trans({}, 'SonataPageBundle') }}</h2>
     <table>
         {% for parameter in form.settings.parameters %}
 
                 <tr>
                     <td>{{ form_label(parameter) }}</td>
-                    <td>{{ form_field(parameter, {'attr': {'class' : 'title'}}) }} {{ form_errors(parameter) }}</td>
+                    <td>{{ form_widget(parameter, {'attr': {'class' : 'title'}}) }} {{ form_errors(parameter) }}</td>
                 </tr>
         {% endfor %}
     </table>

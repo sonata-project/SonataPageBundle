@@ -152,7 +152,7 @@ class PageAdmin extends Admin
             ->end()
         ;
 
-        if (!$this->getSubject()->isCms()) {
+        if ($this->hasSubject() && !$this->getSubject()->isCms()) {
             $formMapper
                 ->with($this->trans('form_page.group_advanced_label'), array('collapsed' => true))
                     ->add('decorate', null,  array('required' => false))

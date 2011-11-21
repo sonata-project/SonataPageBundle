@@ -196,7 +196,7 @@ class SnapshotPageProxy implements PageInterface
     /**
      * Set parent
      *
-     * @params array $parents
+     * @param array $parents
      */
     public function setParents(array $parents)
     {
