@@ -9,6 +9,7 @@
             <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" priority="-127" />
             <tag name="monolog.logger" channel="request" />
             <argument type="service" id="sonata.page.cms_manager_selector" />
+            <argument>%kernel.debug%</argument>
             <argument type="service" id="logger" on-invalid="null" />
         </service>
     </services>

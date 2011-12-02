@@ -16,18 +16,25 @@ class ExceptionListener
 {
     protected $cmsManagerSelector;
 
+    protected $debug;
+
     protected $logger;
 
     protected $status;
 
-    public function __construct(CmsManagerSelectorInterface $cmsManagerSelector, LoggerInterface $logger = null)
+    public function __construct(CmsManagerSelectorInterface $cmsManagerSelector, $debug, LoggerInterface $logger = null)
     {
         $this->cmsManagerSelector = $cmsManagerSelector;
+        $this->debug = $debug;
         $this->logger = $logger;
     }
 
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
+        if (true === $this->debug) {
+            return false;
+        }
+
         if (true === $this->status) {
             return false;
         }
@@ -70,6 +77,9 @@ class ExceptionListener
             } else {
                 error_log($message);
             }
+
+            // re-throw the exception as this is a catch-all
+            throw $exception;
         }
 
         if (!$page) {
@@ -92,6 +102,9 @@ class ExceptionListener
             } else {
                 error_log($message);
             }
+
+            // re-throw the exception as this is a catch-all
+            throw $exception;
         }
 
         $event->setResponse($response);
