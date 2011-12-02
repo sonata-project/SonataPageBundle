@@ -126,14 +126,17 @@ class SnapshotManager implements SnapshotManagerInterface
         if (isset($criteria['pageId'])) {
             $query->andWhere('s.page = :page');
             $parameters['page'] = $criteria['pageId'];
-        } else if (isset($criteria['url'])) {
+        } elseif (isset($criteria['url'])) {
             $query->andWhere('s.url = :url');
             $parameters['url'] = $criteria['url'];
-        } else if (isset($criteria['routeName'])) {
+        } elseif (isset($criteria['routeName'])) {
             $query->andWhere('s.routeName = :routeName');
             $parameters['routeName'] = $criteria['routeName'];
+        } elseif (isset($criteria['name'])) {
+            $query->andWhere('s.name = :name');
+            $parameters['name'] = $criteria['name'];
         } else {
-            throw new \RuntimeException('please provide a `pageId`, `url` or `routeName` as criteria key');
+            throw new \RuntimeException('please provide a `pageId`, `url`, `routeName` or `name` as criteria key');
         }
 
         $query->setParameters($parameters);
@@ -235,6 +238,7 @@ class SnapshotManager implements SnapshotManagerInterface
         $snapshot->setUrl($page->getUrl());
         $snapshot->setEnabled($page->getEnabled());
         $snapshot->setRouteName($page->getRouteName());
+        $snapshot->setName($page->getName());
         $snapshot->setPosition($page->getPosition());
         $snapshot->setDecorate($page->getDecorate());
 

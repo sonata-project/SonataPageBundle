@@ -8,6 +8,8 @@
         <field name="enabled"           type="boolean"      column="enabled"        default="false" />
         <field name="decorate"          type="boolean"      column="decorate"       default="false" />
 
+        <field name="name"              type="string"       column="name"           length="255"/>
+
         <field name="url"               type="text"         column="url"            nullable="true"/>
 
         <field name="parentId"          type="integer"      column="parent_id"      nullable="true" />
