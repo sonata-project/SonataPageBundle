@@ -49,8 +49,6 @@ class SnapshotAdmin extends Admin
     {
         $formMapper
             ->add('enabled', null, array('required' => false))
-            ->add('decorate')
-            ->add('url', 'text')
             ->add('publicationDateStart')
             ->add('publicationDateEnd')
 //            ->add('content')
