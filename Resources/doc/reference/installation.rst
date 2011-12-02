@@ -1,7 +1,7 @@
 Installation
 ============
 
-To begin, add the dependent bundles to the vendor/bundles directory. Add the following lines to the file deps:
+To begin, add the dependent bundles to the vendor/bundles directory. Add the following lines to the file deps::
 
     [SonataPageBundle]
         git=http://github.com/sonata-project/SonataPageBundle.git
@@ -60,7 +60,7 @@ Now, add the new `Application` Bundle to the kernel
         );
     }
 
-Update the ``autoload.php`` to add new namespaces :
+Update the ``autoload.php`` to add new namespaces:
 
 .. code-block:: php
 
@@ -72,7 +72,7 @@ Update the ``autoload.php`` to add new namespaces :
         // ... other declarations
     ));
 
-Then add these bundles in the config mapping definition :
+Then add these bundles in the config mapping definition:
 
 .. code-block:: yaml
 
@@ -148,18 +148,10 @@ file.
                 servers:
                     - { domain: kooqit.local, ip: 127.0.0.1, port: 80}
 
-To manage the http errors, add the following lines to your application
-configuration file:
-
-.. code-block:: yaml
-
-    # app/config/config.yml
-    catch_exceptions:
-        not_found: [404]
-        fatal:     [500]
-
-So you can use the same page for different http errors or specify specific page
-for each error.
+        # manage the http errors
+        catch_exceptions:
+            not_found: [404]    # render 404 page with "not_found" key (name generated: _page_internal_error_{key})
+            fatal:     [500]    # so you can use the same page for different http errors or specify specific page for each error
 
 Add Roles
 
