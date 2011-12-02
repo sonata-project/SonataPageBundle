@@ -16,6 +16,7 @@ use Sonata\PageBundle\Model\SnapshotPageProxy;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class PageController extends Controller
 {
@@ -39,13 +40,12 @@ class PageController extends Controller
                     'manager'    => $cms,
                     'creatable'  => $cms->isRouteNameDecorable($this->get('request')->get('_route')) && $cms->isRouteUriDecorable($pathInfo)
                 ));
-
             }
         } else {
             $manager  = $this->get('sonata.page.manager.snapshot');
 
             $snapshot = $manager->findEnableSnapshot(array(
-                'url'     => $pathInfo,
+                'url' => $pathInfo,
             ));
 
             if (!$snapshot) {
@@ -59,5 +59,38 @@ class PageController extends Controller
         $cms->setCurrentPage($page);
 
         return $cms->renderPage($page);
+    }
+
+    public function exceptionsListAction()
+    {
+        if (!$this->get('security.context')->isGranted('ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT')) {
+            throw new AccessDeniedException();
+        }
+
+        $cmsManager = $this->get('sonata.page.cms_manager_selector')->retrieve();
+
+        return $this->render('SonataPageBundle:Exceptions:list.html.twig', array(
+            'httpErrorCodes' => $cmsManager->getHttpErrorCodes(),
+        ));
+    }
+
+    public function exceptionEditAction($code)
+    {
+        if (!$this->get('security.context')->isGranted('ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT')) {
+            throw new AccessDeniedException();
+        }
+
+        $cmsManager = $this->get('sonata.page.cms_manager_selector')->retrieve();
+        $httpErrorCodes = $cmsManager->getHttpErrorCodes();
+
+        if (!array_key_exists($code, $httpErrorCodes)) {
+            throw new NotFoundHttpException(sprintf('The code "%s" is not set in the configuration', $code));
+        }
+
+        $page = $cmsManager->getPageByName($httpErrorCodes[$code]);
+
+        $cmsManager->setCurrentPage($page);
+
+        return $cmsManager->renderPage($page);
     }
 }

@@ -91,6 +91,19 @@
                 <source>create_page</source>
                 <target>Créer la page</target>
             </trans-unit>
+
+            <trans-unit id="title_list_exceptions">
+                <source>title_list_exceptions</source>
+                <target>Liste des pages d'erreur à traiter :</target>
+            </trans-unit>
+            <trans-unit id="manage_exception">
+                <source>manage_exception</source>
+                <target>la page %code%</target>
+            </trans-unit>
+            <trans-unit id="header.view_all_exceptions">
+                <source>header.view_all_exceptions</source>
+                <target>Voir toutes les erreurs</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

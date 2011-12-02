@@ -40,15 +40,9 @@ class CmsPageManager extends BaseCmsPageManager
 {
     protected $blockManager;
 
-    protected $templating;
-
     protected $pageAdmin;
 
     protected $blockAdmin;
-
-    protected $cacheInvalidation;
-
-    protected $router;
 
     /**
      * @param \Sonata\PageBundle\Model\PageManagerInterface $pageManager
@@ -58,18 +52,18 @@ class CmsPageManager extends BaseCmsPageManager
      * @param \Symfony\Component\Routing\RouterInterface $router
      */
     public function __construct(
-        PageManagerInterface $pageManager,
-        BlockManagerInterface $blockManager,
         EngineInterface $templating,
         InvalidationInterface $cacheInvalidation,
-        RouterInterface $router
+        RouterInterface $router,
+        array $httpErrorCodes = array(),
+        PageManagerInterface $pageManager,
+        BlockManagerInterface $blockManager
     )
     {
-        $this->pageManager        = $pageManager;
-        $this->blockManager       = $blockManager;
-        $this->templating         = $templating;
-        $this->cacheInvalidation  = $cacheInvalidation;
-        $this->router             = $router;
+        parent::__construct($templating, $cacheInvalidation, $router, $httpErrorCodes);
+
+        $this->pageManager  = $pageManager;
+        $this->blockManager = $blockManager;
     }
 
     /**
@@ -227,6 +221,22 @@ class CmsPageManager extends BaseCmsPageManager
             throw new \RuntimeException(sprintf('Unable to find the page : %s', $routeName));
         } else if (!$page) {
             $page = $this->createPage($routeName);
+        }
+
+        return $page;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPageByName($name, $create = true)
+    {
+        $page = $this->getPageBy('name', $name);
+
+        if (!$page && !$create) {
+            throw new \RuntimeException(sprintf('Unable to find the page : %s', $name));
+        } elseif (!$page) {
+            $page = $this->createPage($name);
         }
 
         return $page;

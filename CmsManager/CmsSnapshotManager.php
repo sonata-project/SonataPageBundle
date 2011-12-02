@@ -41,16 +41,16 @@ class CmsSnapshotManager extends BaseCmsPageManager
      * @param \Symfony\Component\Routing\RouterInterface $router
      */
     public function __construct(
-        SnapshotManagerInterface $pageManager,
         EngineInterface $templating,
         InvalidationInterface $cacheInvalidation,
-        RouterInterface $router
+        RouterInterface $router,
+        array $httpErrorCodes = array(),
+        SnapshotManagerInterface $pageManager
     )
     {
-        $this->pageManager        = $pageManager;
-        $this->templating         = $templating;
-        $this->cacheInvalidation  = $cacheInvalidation;
-        $this->router             = $router;
+        parent::__construct($templating, $cacheInvalidation, $router, $httpErrorCodes);
+
+        $this->pageManager = $pageManager;
     }
 
     /**
@@ -150,6 +150,14 @@ class CmsSnapshotManager extends BaseCmsPageManager
     public function getPageByRouteName($routeName, $create = true)
     {
         return $this->getPageBy('routeName', $routeName);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPageByName($name, $create = true)
+    {
+        return $this->getPageBy('name', $name);
     }
 
     public function renderContainer($name, $page = null, BlockInterface $parentContainer = null)

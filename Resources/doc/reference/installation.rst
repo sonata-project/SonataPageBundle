@@ -1,7 +1,7 @@
 Installation
 ============
 
-To begin, add the dependent bundles to the vendor/bundles directory. Add the following lines to the file deps::
+To begin, add the dependent bundles to the vendor/bundles directory. Add the following lines to the file deps:
 
     [SonataPageBundle]
         git=http://github.com/sonata-project/SonataPageBundle.git
@@ -83,7 +83,7 @@ Then add these bundles in the config mapping definition :
 Configuration
 -------------
 
-To use the ``AdminBundle``, add the following to your application configuration
+To use the ``AdminBundle``, add the following lines to your application configuration
 file.
 
 .. code-block:: yaml
@@ -148,6 +148,19 @@ file.
                 servers:
                     - { domain: kooqit.local, ip: 127.0.0.1, port: 80}
 
+To manage the http errors, add the following lines to your application
+configuration file:
+
+.. code-block:: yaml
+
+    # app/config/config.yml
+    catch_exceptions:
+        not_found: [404]
+        fatal:     [500]
+
+So you can use the same page for different http errors or specify specific page
+for each error.
+
 Add Roles
 
 .. code-block:: yaml
@@ -165,6 +178,11 @@ Add Roles
 At the end of your routing file, add the following lines
 
 .. code-block:: yaml
+
+    # app/config/routing.yml
+    sonata_page_exceptions:
+        resource: '@SonataPageBundle/Resources/config/routing/exceptions.xml'
+        prefix: /
 
     catchAll:
         pattern:  /{path}

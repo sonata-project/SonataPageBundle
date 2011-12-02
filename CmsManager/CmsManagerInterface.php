@@ -21,12 +21,19 @@ use Sonata\PageBundle\Cache\CacheElement;
 interface CmsManagerInterface
 {
     /**
+     * Returns http error codes
+     *
+     * @return array
+     */
+    function getHttpErrorCodes();
+
+    /**
      * @param string $name
      * @param \Sonata\PageBundle\Model\PageInterface $page
      * @param null|\Sonata\PageBundle\Model\BlockInterface $parentContainer
      * @return bool|null|\Sonata\PageBundle\Model\BlockInterface
      */
-    public function findContainer($name, PageInterface $page, BlockInterface $parentContainer = null);
+    function findContainer($name, PageInterface $page, BlockInterface $parentContainer = null);
 
     /**
      * Returns a fully loaded page ( + blocks ) from a route name
@@ -36,7 +43,7 @@ interface CmsManagerInterface
      * @param string $slug
      * @return Application\Sonata\PageBundle\Model\PageInterface
      */
-    public function getPageByUrl($slug);
+    function getPageByUrl($slug);
 
     /**
      * Returns a fully loaded page ( + blocks ) from a route name
@@ -47,7 +54,18 @@ interface CmsManagerInterface
      * @param boolean $create
      * @return \Sonata\PageBundle\Model\PageInterface
      */
-    public function getPageByRouteName($routeName, $create = true);
+    function getPageByRouteName($routeName, $create = true);
+
+    /**
+     * Returns a fully loaded page ( + blocks ) from a name
+     *
+     * if the page does not exists then the page is created.
+     *
+     * @param string $name
+     * @param boolean $create
+     * @return \Sonata\PageBundle\Model\PageInterface
+     */
+    function getPageByName($name, $create = true);
 
     /**
      * Returns a fully loaded pag ( + blocks ) from a page id
@@ -56,7 +74,7 @@ interface CmsManagerInterface
      * @param integer $id
      * @return \Sonata\PageBundle\Model\PageInterface
      */
-    public function getPageById($id);
+    function getPageById($id);
 
     /**
      *
@@ -64,23 +82,23 @@ interface CmsManagerInterface
      * @param integer $id
      * @return \Sonata\PageBundle\Model\PageInterface
      */
-    public function getBlock($id);
+    function getBlock($id);
 
     /**
      * @return string
      */
-    public function getCode();
+    function getCode();
 
     /**
      * @abstract
      * @param \Sonata\PageBundle\Cache\CacheElement $cacheElement
      * @return void
      */
-    public function invalidate(CacheElement $cacheElement);
+    function invalidate(CacheElement $cacheElement);
 
     /**
      * @abstract
      * @return Symfony\Component\Routing\RouterInterface
      */
-    public function getRouter();
+    function getRouter();
 }

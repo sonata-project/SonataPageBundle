@@ -42,12 +42,15 @@ class SonataPageExtension extends Extension
         $loader->load('form.xml');
         $loader->load('cache.xml');
         $loader->load('twig.xml');
+        $loader->load('http_kernel.xml');
+
         // todo: use the configuration class
         $configs = call_user_func_array('array_merge_recursive', $configs);
 
         $this->configureInvalidation($container, $configs);
         $this->configureCache($container, $configs);
         $this->configureTemplate($container, $configs);
+        $this->configureExceptions($container, $configs);
 
         $cmsPage = $container->getDefinition('sonata.page.cms.page');
         $cmsSnapshot = $container->getDefinition('sonata.page.cms.snapshot');
@@ -108,8 +111,8 @@ class SonataPageExtension extends Extension
         $cmsSnapshot = $container->getDefinition('sonata.page.cms.snapshot');
 
         $invalidate = isset($configs['cache_invalidation']['service']) ? $configs['cache_invalidation']['service'] : 'sonata.page.cache.invalidation.simple';
-        $cmsPage->replaceArgument(3, new Reference($invalidate));
-        $cmsSnapshot->replaceArgument(2, new Reference($invalidate));
+        $cmsPage->replaceArgument(1, new Reference($invalidate));
+        $cmsSnapshot->replaceArgument(1, new Reference($invalidate));
 
         if (!isset($configs['cache_invalidation']['classes'])) {
             $configs['cache_invalidation']['classes'] = array();
@@ -187,6 +190,28 @@ class SonataPageExtension extends Extension
         } else {
             $container->removeDefinition('sonata.page.cache.apc');
         }
+    }
+
+    public function configureExceptions(ContainerBuilder $container, $configs)
+    {
+        $cmsPage = $container->getDefinition('sonata.page.cms.page');
+        $cmsSnapshot = $container->getDefinition('sonata.page.cms.snapshot');
+
+        $config = isset($configs['catch_exceptions']) ? $configs['catch_exceptions'] : array();
+        $exceptions = array();
+
+        foreach ($config as $keyWord => $codes) {
+            if (is_array($codes)) {
+                foreach ($codes as $code) {
+                    $exceptions[$code] = sprintf('_page_internal_error_%s', $keyWord);
+                }
+            } else {
+                $exceptions[$codes] = sprintf('_page_internal_error_%s', $keyWord);
+            }
+        }
+
+        $cmsPage->replaceArgument(3, $exceptions);
+        $cmsSnapshot->replaceArgument(3, $exceptions);
     }
 
     /**

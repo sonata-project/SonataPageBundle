@@ -16,6 +16,7 @@ use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\Routing\RouterInterface;
 
 use Sonata\PageBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
@@ -31,6 +32,14 @@ use Sonata\AdminBundle\Admin\AdminInterface;
 
 abstract class BaseCmsPageManager implements CmsManagerInterface
 {
+    protected $templating;
+
+    protected $cacheInvalidation;
+
+    protected $router;
+
+    protected $httpErrorCodes;
+
     protected $pages = array();
 
     protected $pageReferences = array();
@@ -53,11 +62,25 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
 
     protected $blocks = array();
 
-    protected $cacheInvalidation;
-
     protected $recorder;
 
     protected $defaultTemplatePath = 'SonataPageBundle::layout.html.twig';
+
+    public function __construct(EngineInterface $templating, InvalidationInterface $cacheInvalidation, RouterInterface $router, array $httpErrorCodes = array())
+    {
+        $this->templating         = $templating;
+        $this->cacheInvalidation  = $cacheInvalidation;
+        $this->router             = $router;
+        $this->httpErrorCodes     = $httpErrorCodes;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getHttpErrorCodes()
+    {
+        return $this->httpErrorCodes;
+    }
 
     /**
      * filter the `core.response` event to decorated the action
