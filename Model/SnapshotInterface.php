@@ -158,7 +158,7 @@ interface SnapshotInterface
      * @abstract
      * @param PageInterface $page
      */
-    function setPage(PageInterface $page);
+    function setPage(PageInterface $page = null);
 
     /**
      * @abstract

@@ -233,7 +233,7 @@ abstract class Snapshot implements SnapshotInterface
         return $this->content;
     }
 
-    public function setPage(PageInterface $page)
+    public function setPage(PageInterface $page = null)
     {
         $this->page = $page;
     }
