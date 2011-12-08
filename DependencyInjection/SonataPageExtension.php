@@ -149,6 +149,16 @@ class SonataPageExtension extends Extension
         }
 
         if (isset($configs['caches']['sonata.page.cache.mongo'])) {
+            if (!class_exists('\Mongo', true)) {
+                throw new \RuntimeException(<<<HELP
+The `sonata.page.cache.mongo` service is configured, however the Mongo class is not available.
+
+To resolve this issue, please install the related library : http://php.net/manual/en/book.mongo.php
+or remove the mongo cache settings from the configuration file.
+HELP
+                );
+            }
+
             $settings = $configs['caches']['sonata.page.cache.mongo'];
 
             $servers    = isset($settings['servers']) ? (array) $settings['servers'] : array();
@@ -164,6 +174,17 @@ class SonataPageExtension extends Extension
         }
 
         if (isset($configs['caches']['sonata.page.cache.memcached'])) {
+
+            if (!class_exists('\Memcached', true)) {
+                throw new \RuntimeException(<<<HELP
+The `sonata.page.cache.memcached` service is configured, however the Memcached class is not available.
+
+To resolve this issue, please install the related library : http://php.net/manual/en/book.memcached.php
+or remove the memcached cache settings from the configuration file.
+HELP
+                );
+            }
+
             $settings = $configs['caches']['sonata.page.cache.memcached'];
 
             $prefix    = isset($settings['prefix']) ? (array) $settings['prefix'] : uniqid();
@@ -177,6 +198,17 @@ class SonataPageExtension extends Extension
         }
 
         if (isset($configs['caches']['sonata.page.cache.apc'])) {
+
+            if (!function_exists('apc_fetch')) {
+                throw new \RuntimeException(<<<HELP
+The `sonata.page.cache.apc` service is configured, however the apc_* functions are not available.
+
+To resolve this issue, please install the related library : http://php.net/manual/en/book.apc.php
+or remove the APC cache settings from the configuration file.
+HELP
+                );
+            }
+
             $settings = $configs['caches']['sonata.page.cache.apc'];
 
             $token     = isset($settings['token']) ? $settings['token'] : 'changeme';
