@@ -26,8 +26,14 @@ class SonataPageBundle extends Bundle
 
     public function boot()
     {
-        $recorder = $this->container->get('sonata.page.cache.recorder');
+        $options = $this->container->getParameter('twig.options');
 
-        TwigTemplate::attachRecorder($recorder);
+        if (!isset($options['base_template_class'])) {
+            return;
+        }
+
+        if (method_exists($options['base_template_class'], 'attachRecorder')) {
+            call_user_func(array($options['base_template_class'], 'attachRecorder'), $this->container->get('sonata.page.cache.recorder'));
+        }
     }
 }

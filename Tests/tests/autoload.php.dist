@@ -1,29 +1,29 @@
 <?php
 
 // try to reuse lib defined in a current symfony2 project
-$autoload = __DIR__.'/../../../../../../app/autoload.php';
+$autoload = __dir__.'/../../../../../../app/autoload.php';
 
 if (is_file($autoload)) {
     include $autoload;
 } else {
-    $vendorDir = __DIR__.'/../../vendor';
-    require_once $vendorDir.'/symfony/src/Symfony/Component/ClassLoader/UniversalClassLoader.php';
+    $vendordir = __dir__.'/../../vendor';
+    require_once $vendordir.'/symfony/src/symfony/component/classloader/universalclassloader.php';
 
-    $loader = new Symfony\Component\ClassLoader\UniversalClassLoader();
-    $loader->registerNamespaces(array(
-        'Symfony'               => array($vendorDir.'/symfony/src'),
-        'Sonata\AdminBundle'    => array($vendorDir),
-        'Knp'                   => array($vendorDir.'/knpmenu/src'),
-        'Doctrine\Common'       => array($vendorDir.'/doctrine-common/lib'),
-        'Doctrine\ORM'          => array($vendorDir.'/doctrine/lib'),
-        'Doctrine\DBAL'         => array($vendorDir.'/doctrine-dbal/lib'),
-        'Monolog'               => array($vendorDir.'/monolog/src')
+    $loader = new symfony\Component\Classloader\Universalclassloader();
+    $loader->registernamespaces(array(
+        'symfony'               => array($vendordir.'/symfony/src'),
+        'sonata\Adminbundle'    => array($vendordir),
+        'knp'                   => array($vendordir.'/knpmenu/src'),
+        'doctrine\Common'       => array($vendordir.'/doctrine-common/lib'),
+        'doctrine\Orm'          => array($vendordir.'/doctrine/lib'),
+        'doctrine\Dbal'         => array($vendordir.'/doctrine-dbal/lib'),
+        'monolog'               => array($vendordir.'/monolog/src')
     ));
     $loader->register();
 
     spl_autoload_register(function($class) {
-        if (0 === strpos($class, 'Sonata\\PageBundle\\')) {
-            $path = __DIR__.'/../../'.implode('/', array_slice(explode('\\', $class), 2)).'.php';
+        if (0 === strpos($class, 'sonata\\Pagebundle\\')) {
+            $path = __dir__.'/../../'.implode('/', array_slice(explode('\\', $class), 2)).'.php';
 
             if (!stream_resolve_include_path($path)) {
                 return false;
