@@ -15,17 +15,17 @@
 
         <service id="sonata.page.manager.page" class="%sonata.page.manager.page.class%">
             <argument type="service" id="sonata.page.entity_manager" />
-            <argument>Application\Sonata\PageBundle\Entity\Page</argument>
+            <argument>%sonata.page.admin.page.entity%</argument>
         </service>
 
         <service id="sonata.page.manager.snapshot" class="%sonata.page.manager.snapshot.class%">
             <argument type="service" id="sonata.page.entity_manager" />
-            <argument>Application\Sonata\PageBundle\Entity\Snapshot</argument>
+            <argument>%sonata.page.admin.snapshot.entity%</argument>
         </service>
 
         <service id="sonata.page.manager.block" class="%sonata.page.manager.block.class%">
             <argument type="service" id="sonata.page.entity_manager" />
-            <argument>Application\Sonata\PageBundle\Entity\Block</argument>
+            <argument>%sonata.page.admin.block.entity%</argument>
         </service>
 
         <service id="sonata.page.orm.event_subscriber" class="Sonata\PageBundle\Cache\Invalidation\DoctrineORMListener">
