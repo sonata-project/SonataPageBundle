@@ -94,7 +94,7 @@ class SnapshotManager implements SnapshotManagerInterface
         $this->entityManager->flush();
         //@todo: strange sql and low-level pdo usage: use dql or qb
         $sql = sprintf("UPDATE %s SET publication_date_end = '%s' WHERE id NOT IN(%s) AND page_id IN (%s) AND publication_date_end IS NULL",
-            $this->entityManager->getClassMetadata('Application\Sonata\PageBundle\Entity\Snapshot')->table['name'],
+            $this->entityManager->getClassMetadata($this->class)->table['name'],
             $now->format('Y-m-d H:i:s'),
             implode(',', $snapshotIds),
             implode(',', $pageIds)
@@ -309,7 +309,7 @@ class SnapshotManager implements SnapshotManagerInterface
     {
         $snapshots = $this->entityManager->createQueryBuilder()
             ->select('s')
-            ->from('Application\Sonata\PageBundle\Entity\Snapshot', 's')
+            ->from($this->class, 's')
             ->where('s.routeName = :routeName')
             ->setParameters(array(
                 'routeName' => $routeName
@@ -348,7 +348,7 @@ class SnapshotManager implements SnapshotManagerInterface
         try {
             $snapshot = $this->entityManager->createQueryBuilder()
                 ->select('s')
-                ->from('Application\Sonata\PageBundle\Entity\Snapshot', 's')
+                ->from($this->class, 's')
                 ->where('s.page = :pageId and s.enabled = 1')
                 ->andWhere('s.publicationDateStart <= :publicationDateStart AND ( s.publicationDateEnd IS NULL OR s.publicationDateEnd >= :publicationDateEnd )')
                 ->setParameters($parameters)
@@ -393,7 +393,7 @@ class SnapshotManager implements SnapshotManagerInterface
 
             $snapshots = $this->entityManager->createQueryBuilder()
                 ->select('s')
-                ->from('Application\Sonata\PageBundle\Entity\Snapshot', 's')
+                ->from($this->class, 's')
                 ->where('s.parentId = :parentId and s.enabled = 1')
                 ->andWhere('s.publicationDateStart <= :publicationDateStart AND ( s.publicationDateEnd IS NULL OR s.publicationDateEnd >= :publicationDateEnd )')
                 ->orderBy('s.position')
