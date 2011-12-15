@@ -29,7 +29,6 @@ class DebugBlocksCommand extends ContainerAwareCommand
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $cmsManager     = $this->getManager();
-        $pageManager    = $cmsManager->getPageManager();
         $blockServices  = $cmsManager->getBlockServices();
 
         foreach ($blockServices as $code => $service) {
