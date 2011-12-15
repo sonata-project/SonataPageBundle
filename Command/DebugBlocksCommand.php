@@ -22,7 +22,7 @@ class DebugBlocksCommand extends ContainerAwareCommand
 {
     public function configure()
     {
-        $this->setName('sonata:block:debug');
+        $this->setName('sonata:page:block-debug');
         $this->setDescription('Debug all blocks available, show default settings of each block');
     }
 
