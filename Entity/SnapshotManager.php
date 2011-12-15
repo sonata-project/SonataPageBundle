@@ -33,12 +33,15 @@ class SnapshotManager implements SnapshotManagerInterface
 
     protected $class;
 
+    protected $pageClass;
+
     protected $templates = array();
 
-    public function __construct(EntityManager $entityManager, $class = 'Application\Sonata\PageBundle\Entity\Snapshot', $templates = array())
+    public function __construct(EntityManager $entityManager, $class = 'Application\Sonata\PageBundle\Entity\Snapshot', $pageClass = 'Application\Sonata\PageBundle\Entity\Snapshot', $templates = array())
     {
         $this->entityManager = $entityManager;
         $this->class         = $class;
+        $this->pageClass     = $pageClass;
         $this->templates     = $templates;
     }
 
@@ -163,7 +166,7 @@ class SnapshotManager implements SnapshotManagerInterface
      */
     public function load(SnapshotInterface $snapshot)
     {
-        $page = new Page;
+        $page = new $this->pageClass;
 
         $page->setRouteName($snapshot->getRouteName());
         $page->setCustomUrl($snapshot->getUrl());
