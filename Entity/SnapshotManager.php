@@ -232,7 +232,7 @@ class SnapshotManager implements SnapshotManagerInterface
      */
     public function create(PageInterface $page)
     {
-        $snapshot = new \Application\Sonata\PageBundle\Entity\Snapshot();
+        $snapshot = new $this->class;
 
         $snapshot->setPage($page);
         $snapshot->setUrl($page->getUrl());
