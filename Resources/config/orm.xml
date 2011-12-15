@@ -22,6 +22,7 @@
             <argument type="service" id="sonata.page.entity_manager" />
             <argument>%sonata.page.admin.snapshot.entity%</argument>
             <argument>%sonata.page.admin.page.entity%</argument>
+            <argument>%sonata.page.admin.block.entity%</argument>
         </service>
 
         <service id="sonata.page.manager.block" class="%sonata.page.manager.block.class%">
