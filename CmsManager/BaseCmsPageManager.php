@@ -15,7 +15,6 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\Routing\RouterInterface;
 
 use Sonata\PageBundle\Model\BlockInterface;
@@ -80,34 +79,6 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     public function getHttpErrorCodes()
     {
         return $this->httpErrorCodes;
-    }
-
-    /**
-     * filter the `core.response` event to decorated the action
-     *
-     * @param \Symfony\Component\EventDispatcher\Event $event
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function onCoreResponse(Event $event)
-    {
-        $response    = $event->getResponse();
-        $requestType = $event->getRequestType();
-        $request     = $event->getRequest();
-
-        if ($this->isDecorable($request, $requestType, $response)) {
-            $page = $this->defineCurrentPage($request);
-
-            // only decorate hybrid page and page with decorate = true
-            if ($page && $page->isHybrid() && $page->getDecorate()) {
-                $parameters = array(
-                    'content'     => $response->getContent(),
-                );
-
-                $response = $this->renderPage($page, $parameters, $response);
-            }
-        }
-
-        return $response;
     }
 
     /**
