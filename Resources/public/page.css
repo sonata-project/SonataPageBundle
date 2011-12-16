@@ -53,15 +53,16 @@ body.cms-edit-mode div.cms-container:hover {
     background-color: #cccccc;
 }
 
-div.sonata-page-top-bar {
-    background-color: #3D3D3D;
-    padding: 5px;
-    color: #C4C4C4;
+.sonata-bc body, body {
+    margin-top: 40px !important;
 }
 
-div.sonata-page-top-bar a {
-    color: #C4C4C4;
-    text-decoration: none;
+div.sonata-page-top-bar {
+
+}
+
+div.sonata-page-top-bar label {
+    color: #BFBFBF;
 }
 
 body.cms-edit-mode div.cms-block-start {
