@@ -13,7 +13,7 @@ To begin, add the dependent bundles to the vendor/bundles directory. Add the fol
 
 .. note::
 
-    The SonataAdminBundle must be installed, please refer to `the dedicated documentation for more information <http://sonata-project.org/bundles/admin>`_.
+    The SonataAdminBundle and SonataDoctrineORMAdminBundle must be installed, please refer to `the dedicated documentation for more information <http://sonata-project.org/bundles/admin>`_.
 
 Next, be sure to enable the ``EasyExtends`` bundle in your application kernel:
 
