@@ -323,7 +323,7 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     public function getCacheService(BlockInterface $block)
     {
         if (!$this->hasCacheService($block->getType())) {
-            throw new \RuntimeException(sprintf('The block service `%s` referenced in the block `%s` does not exists', $block->getType(), $block->getId()));
+            throw new \RuntimeException(sprintf('The block service `%s` referenced in the block `%s` is not linked to a cache service.', $block->getType(), $block->getId()));
         }
 
         return $this->cacheServices[$block->getType()];
