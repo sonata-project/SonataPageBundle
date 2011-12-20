@@ -113,5 +113,12 @@ file that was distributed with this source code.
             {{ page.stylesheet|raw }}
         </style>
 
+        {#
+            These includes can be done only at this point as all blocks are loaded,
+            Limition : this does not work if a global page is loaded from an ESI tag inside a container block
+        #}
+        {{ page_include_stylesheets('screen') }}
+        {{ page_include_javascripts('screen') }}
+
     </body>
 </html>

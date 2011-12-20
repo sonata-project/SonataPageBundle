@@ -160,4 +160,20 @@ abstract class BaseBlockService implements BlockServiceInterface
     public function load(CmsManagerInterface $manager, BlockInterface $block)
     {
     }
+
+    /**
+     * @return array
+     */
+    function getJavacripts($media)
+    {
+        return array();
+    }
+
+    /**
+     * @return array
+     */
+    function getStylesheets($media)
+    {
+        return array();
+    }
 }

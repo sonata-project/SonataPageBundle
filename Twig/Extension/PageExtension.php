@@ -14,6 +14,7 @@ namespace Sonata\PageBundle\Twig\Extension;
 use Symfony\Component\Routing\Router;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
+use Sonata\PageBundle\Util\RecursiveBlockIteratorIterator;
 
 class PageExtension extends \Twig_Extension
 {
@@ -28,13 +29,15 @@ class PageExtension extends \Twig_Extension
     private $cmsManagerSelector;
 
     /**
-     * @var
+     * @var array
      */
     private $resources;
 
+    private $environment;
+
     /**
-     * @param Router $router
-     * @param CmsManagerSelectorInterface $cmsManagerSelector
+     * @param \Symfony\Component\Routing\Router $router
+     * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $cmsManagerSelector
      */
     public function __construct(Router $router, CmsManagerSelectorInterface $cmsManagerSelector)
     {
@@ -50,8 +53,10 @@ class PageExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'page_url'        => new \Twig_Function_Method($this, 'url'),
-            'page_breadcrumb' => new \Twig_Function_Method($this, 'breadcrumb', array('is_safe' => array('html'))),
+            'page_url'                 => new \Twig_Function_Method($this, 'url'),
+            'page_breadcrumb'          => new \Twig_Function_Method($this, 'breadcrumb', array('is_safe' => array('html'))),
+            'page_include_stylesheets' => new \Twig_Function_Method($this, 'includeStylesheets', array('is_safe' => array('html'))),
+            'page_include_javascripts' => new \Twig_Function_Method($this, 'includeJavascripts', array('is_safe' => array('html'))),
         );
     }
 
@@ -163,13 +168,107 @@ class PageExtension extends \Twig_Extension
      * @param array $parameters
      * @return string
      */
-    public function render($template, array $parameters = array())
+    private function render($template, array $parameters = array())
     {
         if (!isset($this->resources[$template])) {
             $this->resources[$template] = $this->environment->loadTemplate($template);
         }
 
         return $this->resources[$template]->render($parameters);
+    }
+
+    /**
+     * @param $media
+     * @param null|\Sonata\PageBundle\Model\PageInterface $page
+     * @return array|string
+     */
+    public function includeJavascripts($media, PageInterface $page = null)
+    {
+        $cms = $this->cmsManagerSelector->retrieve();
+
+        $services = $cms->getBlockServices();
+
+        $javascripts = array();
+
+        foreach ($this->getServicesType($page) as $id) {
+            $service = isset($services[$id]) ? $services[$id] : false;
+
+            if (!$service) {
+                continue;
+            }
+
+            $javascripts = array_merge($javascripts, $service->getJavacripts($media));
+        }
+
+        if (count($javascripts) == 0) {
+            return '';
+        }
+
+        $html = "";
+        foreach ($javascripts as $javascript) {
+            $html .= "\n" . sprintf('<script src="%s" type="text/javascript"></script>', $javascript);
+        }
+
+        return $html;
+    }
+
+    /**
+     * @param \Sonata\PageBundle\Model\PageInterface $page
+     * @return array
+     */
+    private function getServicesType(PageInterface $page = null)
+    {
+        $services = array();
+
+        if ($page) {
+            $blocks = new RecursiveBlockIteratorIterator($page->getBlocks());
+        } else {
+            $blocks = $this->cmsManagerSelector->retrieve()->getBlocks();
+        }
+
+        foreach ($blocks as $block) {
+            $services[] = $block->getType();
+        }
+
+        return array_unique($services);
+    }
+
+    /**
+     * @param $media
+     * @param null|\Sonata\PageBundle\Model\PageInterface $page
+     * @return array|string
+     */
+    public function includeStylesheets($media, PageInterface $page = null)
+    {
+        $cms = $this->cmsManagerSelector->retrieve();
+
+        $services = $cms->getBlockServices();
+
+        $stylesheets = array();
+
+        foreach ($this->getServicesType($page) as $id) {
+            $service = isset($services[$id]) ? $services[$id] : false;
+
+            if (!$service) {
+                continue;
+            }
+
+            $stylesheets = array_merge($stylesheets, $service->getStylesheets($media));
+        }
+
+        if (count($stylesheets) == 0) {
+            return '';
+        }
+
+        $html = sprintf("<style type='text/css' media='%s'>", $media);
+
+        foreach ($stylesheets as $stylesheet) {
+            $html .= "\n" . sprintf('@import url(%s);', $stylesheet, $media);
+        }
+
+        $html .= "\n</style>";
+
+        return $html;
     }
 }
 

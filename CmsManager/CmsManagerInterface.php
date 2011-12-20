@@ -101,4 +101,40 @@ interface CmsManagerInterface
      * @return Symfony\Component\Routing\RouterInterface
      */
     function getRouter();
+
+    /**
+     * Returns the current page
+     *
+     * @return \Sonata\PageBundle\Model\PageInterface
+     */
+    function getCurrentPage();
+
+    /**
+     * @param \Sonata\PageBundle\Model\PageInterface $page
+     * @return void
+     */
+    function setCurrentPage(PageInterface $page);
+
+    /**
+     * @param \Sonata\PageBundle\Model\BlockInterface $block
+     */
+    function getBlockService(BlockInterface $block);
+
+    /**
+     * @param array $blockServices
+     * @return void
+     */
+    function setBlockServices(array $blockServices);
+
+    /**
+     * @return array
+     */
+    function getBlockServices();
+
+    /**
+     * Returns the list of loaded block from the current http request
+     *
+     * @return array
+     */
+    function getBlocks();
 }
