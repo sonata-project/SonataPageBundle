@@ -6,11 +6,17 @@ body.cms-edit-mode div.cms-container {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dddddd', endColorstr='#eeeeee'); /* for IE */
     background: -webkit-gradient(linear, left top, left bottom, from(#ddd), to(#eee)); /* for webkit browsers */
     background: -moz-linear-gradient(top,  #ddd,  #eee); /* for firefox 3.6+ */
+
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 3px #8493A6;
+    margin: 1px;
 }
 
 body.cms-edit-mode div.cms-block-element {
     min-height: 25px;
     margin: 2px;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 3px #8493A6;
 }
 
 body.cms-edit-mode {
