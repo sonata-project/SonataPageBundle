@@ -18,6 +18,19 @@
         </testsuite>
     </testsuites>
 
+    <filter>
+        <whitelist>
+            <directory>./</directory>
+            <exclude>
+                <directory>./Tests/</directory>
+                <directory>./DataFixtures/</directory>
+                <directory>./Resources/</directory>
+                <directory>./DependencyInjection/</directory>
+                <directory>./Twig/</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+
     <logging>
         <log type="coverage-html" target="coverage" charset="UTF-8" yui="true" />
     </logging>
