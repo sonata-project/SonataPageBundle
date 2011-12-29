@@ -24,7 +24,7 @@ class ResponseListener
     protected $selector;
 
     /**
-     * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $
+     * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $selector
      */
     public function __construct(CmsManagerSelectorInterface $selector)
     {
@@ -34,7 +34,8 @@ class ResponseListener
     /**
      * filter the `core.response` event to decorated the action
      *
-     * @param \Symfony\Component\EventDispatcher\Event $event
+     * @param \Symfony\Component\HttpKernel\Event\FilterResponseEvent $event
+     * @return void
      */
     public function onCoreResponse(FilterResponseEvent $event)
     {
@@ -45,22 +46,25 @@ class ResponseListener
         }
 
         $response    = $event->getResponse();
-        $requestType = $event->getRequestType();
         $request     = $event->getRequest();
 
-        if ($cmsManager->isDecorable($request, $requestType, $response)) {
-            $page = $cmsManager->defineCurrentPage($request);
-
-            // only decorate hybrid page and page with decorate = true
-            if ($page && $page->isHybrid() && $page->getDecorate()) {
-                $parameters = array(
-                    'content'     => $response->getContent(),
-                );
-
-                $response = $cmsManager->renderPage($page, $parameters, $response);
-            }
+        if (!$cmsManager->isDecorable($request, $event->getRequestType(), $response)) {
+            return;
         }
 
-        $event->setResponse($response);
+        $page = $cmsManager->defineCurrentPage($request);
+
+        // only decorate hybrid page and page with decorate = true
+        if (!$page || !$page->isHybrid() || !$page->getDecorate()) {
+            return;
+        }
+
+        $event->setResponse(
+            $cmsManager->renderPage(
+                $page,
+                array('content' => $response->getContent()),
+                $response
+            )
+        );
     }
 }

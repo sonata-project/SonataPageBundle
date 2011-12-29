@@ -15,6 +15,9 @@ use Sonata\PageBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Cache\CacheElement;
 
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
 /**
  * @author     Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -137,4 +140,27 @@ interface CmsManagerInterface
      * @return array
      */
     function getBlocks();
+
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param $requestType
+     * @param \Symfony\Component\HttpFoundation\Response $response
+     * @return boolean
+     */
+    function isDecorable(Request $request, $requestType, Response $response);
+
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return \Sonata\PageBundle\Model\PageInterface
+     */
+    function defineCurrentPage(Request $request);
+
+    /**
+     * @abstract
+     * @param \Sonata\PageBundle\Model\PageInterface $page
+     * @param array $params
+     * @param null|\Symfony\Component\HttpFoundation\Response $response
+     * @return void
+     */
+    function renderPage(PageInterface $page, array $params = array(), Response $response = null);
 }

@@ -10,7 +10,6 @@
 
 namespace Sonata\PageBundle\Tests\Form\Type;
 
-use Sonata\AdminBundle\Model\ORM\ModelManager;
 use Sonata\PageBundle\Form\Type\PageSelectorType;
 use Sonata\PageBundle\Tests\Model\Page;
 

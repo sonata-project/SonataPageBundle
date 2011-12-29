@@ -369,7 +369,7 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @return \Sonata\PageBundle\Model\PageInterface
      */
-    public function defineCurrentPage($request)
+    public function defineCurrentPage(Request $request)
     {
         $routeName = $request->get('_route');
 
@@ -390,6 +390,10 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
         return $this->currentPage;
     }
 
+    /**
+     * @param \Sonata\PageBundle\Cache\CacheElement $cacheElement
+     * @return void
+     */
     public function invalidate(CacheElement $cacheElement)
     {
         $this->cacheInvalidation->invalidate($this->getCacheServices(), $cacheElement);
