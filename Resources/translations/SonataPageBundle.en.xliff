@@ -108,7 +108,7 @@
       </trans-unit>
       <trans-unit id="26" resname="error.uniq_url">
         <source>error.uniq_url</source>
-        <target>The URL '% url%' is already associated with another page</target>
+        <target>The URL '%url%' is already associated with another page</target>
       </trans-unit>
       <trans-unit id="27" resname="filter.label_enabled">
         <source>filter.label_enabled</source>
