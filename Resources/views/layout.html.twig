@@ -47,10 +47,9 @@ file that was distributed with this source code.
                                 {% endif %}
 
                                 <li style="padding: 6px 10px 11px;">
-                                    <input type="checkbox" id="page-action-enabled-edit" />
-                                    <label for="page-action-enabled-edit">{% trans from 'SonataPageBundle' %}header.show_zone{% endtrans%}</label>
+                                    <label for="page-action-enabled-edit"><input type="checkbox" id="page-action-enabled-edit" />{% trans from 'SonataPageBundle' %}header.show_zone{% endtrans%}</label>
+                                    <input type="submit" value="{% trans from 'SonataPageBundle' %}btn_save_position{% endtrans%}" id="page-action-save-position" />
                                 </li>
-                                <li><input type="submit" value="{% trans from 'SonataPageBundle' %}btn_save_position{% endtrans%}" id="page-action-save-position" /></li>
                             </ul>
                         </div>
                     </div>
