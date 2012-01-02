@@ -181,11 +181,3 @@ At the end of your routing file, add the following lines
         defaults: { _controller: SonataPageBundle:Page:catchAll }
         requirements:
             path: .*
-
-
-Final step
-
-.. code-block:: console
-
-    app/console sonata:page:update-core-routes
-    app/console sonata:page:create-snapshots
