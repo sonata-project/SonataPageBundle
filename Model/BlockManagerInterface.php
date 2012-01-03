@@ -12,7 +12,6 @@ namespace Sonata\PageBundle\Model;
 
 interface BlockManagerInterface
 {
-
     /**
      * return a block with the given id
      *
@@ -46,15 +45,19 @@ interface BlockManagerInterface
     function saveBlocksPosition(array $data = array());
 
     /**
-     * @param $options
+     * @param array $options
      * @return \Sonata\PageBundle\Model\BlockInterface
      */
     function createNewContainer(array $values = array());
 
     /**
-     * @abstract
-     * @param PageInterface $object
+     * @param \Sonata\PageBundle\Model\BlockInterface $object
      * @return void
      */
     function save(BlockInterface $object);
+
+    /**
+     * @return \Sonata\PageBundle\Model\BlockInterface
+     */
+    function create();
 }
