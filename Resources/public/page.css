@@ -23,6 +23,7 @@ body.cms-edit-mode {
     background-color: white !important;
     background-image: none !important;
     color: black !important;
+    padding-top: 40px;
 }
 
 body.cms-edit-mode div.cms-block-element {

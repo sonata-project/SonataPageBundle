@@ -18,7 +18,7 @@ file that was distributed with this source code.
         <ul class="sonata-page-menu-chilren-list">
             {% if page %}
                 {% for child in page.children %}
-                    <li class="sonata-page-menu-childre-element"><a href="{{ page_url(child) }}" title="{{ child.name|escape }}">{{ child.name }}</a></li>
+                    <li class="sonata-page-menu-children-element"><a href="{{ page_url(child) }}" title="{{ child.name|escape }}">{{ child.name }}</a></li>
                 {% endfor %}
             {% endif %}
         </ul>
