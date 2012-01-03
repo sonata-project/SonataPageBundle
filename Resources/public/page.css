@@ -96,3 +96,8 @@ textarea.title {
     height: 100px;
     width: 500px
 }
+
+body.cms-edit-mode div.cms-container {
+    min-height: 50px;
+    min-width: 150px;
+}
