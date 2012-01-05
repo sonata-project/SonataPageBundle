@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xsi="http://www.w3.org/2001/XMLSchema-instance" schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <mapped-superclass name="Sonata\PageBundle\Entity\BaseSite">
+
+        <field name="enabled"           type="boolean"      column="enabled"        default="false" />
+
+        <field name="name"              type="string"       column="name"           length="255"/>
+        <field name="relativePath"      type="string"       column="relative_path"  length="255"/>
+        <field name="domain"            type="string"       column="domain"         length="255"/>
+
+        <field name="createdAt"    type="datetime"   column="created_at" />
+        <field name="updatedAt"    type="datetime"   column="updated_at" />
+
+        <lifecycle-callbacks>
+            <lifecycle-callback type="prePersist" method="prePersist" />
+            <lifecycle-callback type="preUpdate" method="preUpdate" />
+        </lifecycle-callbacks>
+
+    </mapped-superclass>
+</doctrine-mapping>
