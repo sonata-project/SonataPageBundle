@@ -27,6 +27,12 @@ abstract class Site implements SiteInterface
 
     protected $relativePath;
 
+    protected $enabledFrom;
+
+    protected $enabledTo;
+
+    protected $isDefault;
+
     protected $formats = array();
 
     public function setId($id)
@@ -142,5 +148,35 @@ abstract class Site implements SiteInterface
     public function getRelativePath()
     {
         return $this->relativePath;
+    }
+
+    public function setIsDefault($default)
+    {
+        $this->isDefault = $default;
+    }
+
+    public function getIsDefault()
+    {
+        return $this->isDefault;
+    }
+
+    public function setEnabledFrom(\DateTime $enabledFrom)
+    {
+        $this->enabledFrom = $enabledFrom;
+    }
+
+    public function getEnabledFrom()
+    {
+        return $this->enabledFrom;
+    }
+
+    public function setEnabledTo(\DateTime $enabledTo)
+    {
+        $this->enabledTo = $enabledTo;
+    }
+
+    public function getEnabledTo()
+    {
+        return $this->enabledTo;
     }
 }

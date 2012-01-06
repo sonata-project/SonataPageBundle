@@ -3,13 +3,14 @@
     <mapped-superclass name="Sonata\PageBundle\Entity\BaseSite">
 
         <field name="enabled"           type="boolean"      column="enabled"        default="false" />
-
         <field name="name"              type="string"       column="name"           length="255"/>
         <field name="relativePath"      type="string"       column="relative_path"  length="255"/>
         <field name="domain"            type="string"       column="domain"         length="255"/>
-
-        <field name="createdAt"    type="datetime"   column="created_at" />
-        <field name="updatedAt"    type="datetime"   column="updated_at" />
+        <field name="enabledFrom"       type="datetime"     column="enabled_from" />
+        <field name="enabledTo"         type="datetime"     column="enabled_to"   />
+        <field name="isDefault"         type="boolean"      column="is_default"     length="255"/>
+        <field name="createdAt"         type="datetime"     column="created_at" />
+        <field name="updatedAt"         type="datetime"     column="updated_at" />
 
         <lifecycle-callbacks>
             <lifecycle-callback type="prePersist" method="prePersist" />

@@ -38,6 +38,39 @@ interface SiteInterface
     function getDomain();
 
     /**
+     * @return \DateTime
+     */
+    function getEnabledFrom();
+
+    /**
+     * @param \DateTime $enabledFrom
+     * @return void
+     */
+    function setEnabledFrom(\DateTime $enabledFrom);
+
+    /**
+     * @return \DateTime
+     */
+    function getEnabledTo();
+
+    /**
+     * @param \DateTime $enabledFrom
+     * @return void
+     */
+    function setEnabledTo(\DateTime $enabledFrom);
+
+    /**
+     * @return boolean
+     */
+    function getIsDefault();
+
+    /**
+     * @param boolean $default
+     * @return void
+     */
+    function setIsDefault($default);
+
+    /**
      * @param $path
      * @return void
      */

@@ -10,10 +10,10 @@
         <parameter key="sonata.page.manager.snapshot.class">Sonata\PageBundle\Entity\SnapshotManager</parameter>
         <parameter key="sonata.page.manager.site.class">Sonata\PageBundle\Entity\SiteManager</parameter>
 
-        <parameter key="sonata.page.site.class">Sonata\PageBundle\Entity\Site</parameter>
-        <parameter key="sonata.page.block.class">Sonata\PageBundle\Entity\Block</parameter>
-        <parameter key="sonata.page.snapshot.class">Sonata\PageBundle\Entity\Snapshot</parameter>
-        <parameter key="sonata.page.page.class">Sonata\PageBundle\Entity\Page</parameter>
+        <parameter key="sonata.page.site.class">Application\Sonata\PageBundle\Entity\Site</parameter>
+        <parameter key="sonata.page.block.class">Application\Sonata\PageBundle\Entity\Block</parameter>
+        <parameter key="sonata.page.snapshot.class">Application\Sonata\PageBundle\Entity\Snapshot</parameter>
+        <parameter key="sonata.page.page.class">Application\Sonata\PageBundle\Entity\Page</parameter>
     </parameters>
 
     <services>
