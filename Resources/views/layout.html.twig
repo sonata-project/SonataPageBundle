@@ -29,48 +29,62 @@ file that was distributed with this source code.
     </head>
 
     <body class="sonata-bc">
-        {% if page_admin is defined and page_admin.isGranted(['EDIT']) %}
-            <script src="{{ asset('bundles/sonatapage/page.js') }}" type="text/javascript"></script>
 
-            {# uncomment this line if you are not using the default twitter bootstrap layout in head tag #}
-            {#
-                <link rel="stylesheet" href="{{ asset('bundles/sonataadmin/bootstrap/bootstrap.css') }}" type="text/css" media="all" >
-            #}
+        {% if (page_admin is defined and page_admin.isGranted(['EDIT'])) or app.security.isGranted('ROLE_PREVIOUS_ADMIN') %}
+
             <link rel="stylesheet" href="{{ asset('bundles/sonatapage/page.css') }}" type="text/css" media="all">
+
+            {% if page_admin is defined and page_admin.isGranted(['EDIT']) %}
+                <script src="{{ asset('bundles/sonatapage/page.js') }}" type="text/javascript"></script>
+
+                {# uncomment this line if you are not using the default twitter bootstrap layout in head tag #}
+                {#
+                    <link rel="stylesheet" href="{{ asset('bundles/sonataadmin/bootstrap/bootstrap.css') }}" type="text/css" media="all" >
+                #}
+
+                <!-- CMS specific variables -->
+                <script>
+                    Page.url = {
+                        block_save_position: '{{ path('admin_sonata_page_block_savePosition') }}',
+                        block_edit:   '{{ path('admin_sonata_page_block_edit', {'id': 'BLOCK_ID'}) }}',
+                        page_edit:    '{{ path('admin_sonata_page_page_edit', {'id': page.id }) }}'
+                    }
+                </script>
+            {% endif %}
 
             <div class="sonata-bc sonata-page-top-bar">
                 <div class="topbar">
                     <div class="fill">
                         <div class="container">
                             <ul class="nav">
-                                <li><a href="{{ path('admin_sonata_page_page_edit', {'id': page.id }) }}" target="_new">{{ "header.edit_page"|trans({}, 'SonataPageBundle') }}</a></li>
-                                <li><a href="{{ path('admin_sonata_page_page_snapshot_create', {'id': page.id }) }}" target="_new">{{ "header.create_snapshot"|trans({}, 'SonataPageBundle') }}</a></li>
-                                <li><a href="{{ path('admin_sonata_page_page_list') }}" target="_new">{{ "header.view_all_pages"|trans({}, 'SonataPageBundle') }}</a></li>
-                                {% if manager.getHttpErrorCodes|length %}
-                                    <li></li><a href="{{ path('sonata_page_exceptions_list') }}" target="_new">{{ "header.view_all_exceptions"|trans({}, 'SonataPageBundle') }}</a></li>
-                                {% endif %}
-                                {% if not page.enabled %}
-                                    <li><span style="padding-left: 20px; background: red;"><strong><em>{{ 'header.page_is_disabled'|trans([], 'SonataPageBundle') }}</em></strong></span></li>
+                                {% if page_admin is defined and page_admin.isGranted(['EDIT']) %}
+                                    <li><a href="{{ path('admin_sonata_page_page_edit', {'id': page.id }) }}" target="_new">{{ "header.edit_page"|trans({}, 'SonataPageBundle') }}</a></li>
+                                    <li><a href="{{ path('admin_sonata_page_page_snapshot_create', {'id': page.id }) }}" target="_new">{{ "header.create_snapshot"|trans({}, 'SonataPageBundle') }}</a></li>
+                                    <li><a href="{{ path('admin_sonata_page_page_list') }}" target="_new">{{ "header.view_all_pages"|trans({}, 'SonataPageBundle') }}</a></li>
+
+
+                                    {% if manager.getHttpErrorCodes|length %}
+                                        <li></li><a href="{{ path('sonata_page_exceptions_list') }}" target="_new">{{ "header.view_all_exceptions"|trans({}, 'SonataPageBundle') }}</a></li>
+                                    {% endif %}
+                                    {% if not page.enabled %}
+                                        <li><span style="padding-left: 20px; background: red;"><strong><em>{{ 'header.page_is_disabled'|trans([], 'SonataPageBundle') }}</em></strong></span></li>
+                                    {% endif %}
+
+                                    <li style="padding: 6px 10px 11px;">
+                                        <label for="page-action-enabled-edit"><input type="checkbox" id="page-action-enabled-edit" />{% trans from 'SonataPageBundle' %}header.show_zone{% endtrans%}</label>
+                                        <input type="submit" value="{% trans from 'SonataPageBundle' %}btn_save_position{% endtrans%}" id="page-action-save-position" />
+                                    </li>
                                 {% endif %}
 
-                                <li style="padding: 6px 10px 11px;">
-                                    <label for="page-action-enabled-edit"><input type="checkbox" id="page-action-enabled-edit" />{% trans from 'SonataPageBundle' %}header.show_zone{% endtrans%}</label>
-                                    <input type="submit" value="{% trans from 'SonataPageBundle' %}btn_save_position{% endtrans%}" id="page-action-save-position" />
-                                </li>
+                                {% if app.security.isGranted('ROLE_PREVIOUS_ADMIN') %}
+                                    <li><a href="{{ url('homepage', {'_switch_user': '_exit'}) }}">{{ "switch_user_exit"|trans({}, 'SonataUserBundle')}}</a></li>
+                                {% endif %}
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- CMS specific variables -->
-            <script>
-                Page.url = {
-                    block_save_position: '{{ path('admin_sonata_page_block_savePosition') }}',
-                    block_edit:   '{{ path('admin_sonata_page_block_edit', {'id': 'BLOCK_ID'}) }}',
-                    page_edit:    '{{ path('admin_sonata_page_page_edit', {'id': page.id }) }}'
-                }
-            </script>
         {% endif %}
 
         <div class="container">
