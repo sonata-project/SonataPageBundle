@@ -57,6 +57,10 @@ file that was distributed with this source code.
                     <div class="fill">
                         <div class="container">
                             <ul class="nav">
+                                {% if app.security.isGranted('ROLE_SONATA_ADMIN') %}
+                                    <li><a href="{{ path('sonata_admin_dashboard') }}">{{ "header.sonata_admin_dashboard"|trans({}, 'SonataPageBundle') }}</a></li>
+                                {% endif %}
+
                                 {% if page_admin is defined and page_admin.isGranted(['EDIT']) %}
                                     <li><a href="{{ path('admin_sonata_page_page_edit', {'id': page.id }) }}" target="_new">{{ "header.edit_page"|trans({}, 'SonataPageBundle') }}</a></li>
                                     <li><a href="{{ path('admin_sonata_page_page_snapshot_create', {'id': page.id }) }}" target="_new">{{ "header.create_snapshot"|trans({}, 'SonataPageBundle') }}</a></li>
@@ -77,7 +81,7 @@ file that was distributed with this source code.
                                 {% endif %}
 
                                 {% if app.security.isGranted('ROLE_PREVIOUS_ADMIN') %}
-                                    <li><a href="{{ url('homepage', {'_switch_user': '_exit'}) }}">{{ "switch_user_exit"|trans({}, 'SonataUserBundle')}}</a></li>
+                                    <li><a href="{{ url('homepage', {'_switch_user': '_exit'}) }}">{{ "header.switch_user_exit"|trans({}, 'SonataPageBundle')}}</a></li>
                                 {% endif %}
                             </ul>
                         </div>

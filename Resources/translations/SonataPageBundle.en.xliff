@@ -390,6 +390,18 @@
         <source>view_page</source>
         <target>View page</target>
       </trans-unit>
+      <trans-unit id="97" resname="header.switch_user_exit">
+          <source>header.switch_user_exit</source>
+          <target>Exit impersonating mode</target>
+      </trans-unit>
+      <trans-unit id="98" resname="header.switch_user">
+          <source>header.switch_user</source>
+          <target>Impersonate User</target>
+      </trans-unit>
+      <trans-unit id="99" resname="header.sonata_admin_dashboard">
+          <source>header.sonata_admin_dashboard</source>
+          <target>Dashboard</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
