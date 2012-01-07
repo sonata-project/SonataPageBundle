@@ -402,6 +402,98 @@
           <source>header.sonata_admin_dashboard</source>
           <target>Dashboard</target>
       </trans-unit>
+      <trans-unit id="100" resname="list.label_is_default">
+          <source>list.label_is_default</source>
+          <target>Is Default</target>
+      </trans-unit>
+      <trans-unit id="101" resname="list.label_domain">
+          <source>list.label_domain</source>
+          <target>Domain</target>
+      </trans-unit>
+      <trans-unit id="102" resname="list.label_relative_path">
+          <source>list.label_relative_path</source>
+          <target>Relative Path</target>
+      </trans-unit>
+      <trans-unit id="103" resname="list.label_enabled_to">
+          <source>list.label_enabled_to</source>
+          <target>Enabled To</target>
+      </trans-unit>
+      <trans-unit id="104" resname="list.label_enabled_from">
+          <source>list.label_enabled_from</source>
+          <target>Enabled From</target>
+      </trans-unit>
+      <trans-unit id="105" resname="form.label_is_default">
+          <source>form.label_is_default</source>
+          <target>Is Default</target>
+      </trans-unit>
+      <trans-unit id="106" resname="form.label_domain">
+          <source>form.label_domain</source>
+          <target>Domain</target>
+      </trans-unit>
+      <trans-unit id="107" resname="form.label_relative_path">
+          <source>form.label_relative_path</source>
+          <target>Relative Path</target>
+      </trans-unit>
+      <trans-unit id="108" resname="form.label_enabled_to">
+          <source>form.label_enabled_to</source>
+          <target>Enabled To</target>
+      </trans-unit>
+      <trans-unit id="109" resname="form.label_enabled_from">
+          <source>form.label_enabled_from</source>
+          <target>Enabled From</target>
+      </trans-unit>
+      <trans-unit id="110" resname="breadcrumb.link_site_list">
+          <source>breadcrumb.link_site_list</source>
+          <target>Site List</target>
+      </trans-unit>
+      <trans-unit id="111" resname="breadcrumb.link_site_show">
+          <source>breadcrumb.link_site_show</source>
+          <target>Show</target>
+      </trans-unit>
+      <trans-unit id="112" resname="breadcrumb.link_site_create">
+          <source>breadcrumb.link_site_create</source>
+          <target>Create</target>
+      </trans-unit>
+      <trans-unit id="113" resname="breadcrumb.link_site_edit">
+          <source>breadcrumb.link_site_edit</source>
+          <target>Edit</target>
+      </trans-unit>
+      <trans-unit id="114" resname="list.label_create_snapshots">
+          <source>list.label_create_snapshots</source>
+          <target>Snapshots</target>
+      </trans-unit>
+      <trans-unit id="115" resname="link_create_snapshots">
+          <source>link_create_snapshots</source>
+          <target>Create snapshots</target>
+      </trans-unit>
+      <trans-unit id="116" resname="title_create_snapshots">
+          <source>title_create_snapshots</source>
+          <target>Create snapshots</target>
+      </trans-unit>
+      <trans-unit id="117" resname="message_create_snapshots">
+          <source>message_create_snapshots</source>
+          <target>Click on the create button to setup new snapshots for website : %site%</target>
+      </trans-unit>
+      <trans-unit id="118" resname="button_create_snapshots">
+          <source>button_create_snapshots</source>
+          <target>Create</target>
+      </trans-unit>
+      <trans-unit id="119" resname="breadcrumb.link_site_history">
+          <source>breadcrumb.link_site_history</source>
+          <target>History</target>
+      </trans-unit>
+      <trans-unit id="120" resname="form.label_site">
+          <source>form.label_site</source>
+          <target>Site</target>
+      </trans-unit>
+      <trans-unit id="121" resname="list.label_site">
+          <source>list.label_site</source>
+          <target>Site</target>
+      </trans-unit>
+      <trans-unit id="122" resname="site">
+          <source>site</source>
+          <target>Site</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

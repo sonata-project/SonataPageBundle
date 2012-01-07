@@ -26,6 +26,7 @@ use Sonata\PageBundle\Cache\CacheInterface;
 use Sonata\PageBundle\Util\RecursiveBlockIterator;
 use Sonata\PageBundle\Cache\CacheElement;
 use Sonata\PageBundle\Cache\Invalidation\InvalidationInterface;
+use Sonata\PageBundle\Model\SiteInterface;
 
 use Sonata\AdminBundle\Admin\AdminInterface;
 
@@ -67,12 +68,12 @@ class CmsSnapshotManager extends BaseCmsPageManager
      * @param mixed $page
      * @return \Sonata\PageBundle\Model\PageInterface
      */
-    public function getPage($page)
+    protected function getPage(SiteInterface $site, $page)
     {
         if (is_string($page) && substr($page, 0, 1) == '/') {
-            $page = $this->getPageByUrl($page);
+            $page = $this->getPageByUrl($site, $page);
         } else if (is_string($page)) { // page is a slug, load the related page
-            $page = $this->getPageByRouteName($page);
+            $page = $this->getPageByRouteName($site, $page);
         } else if ( is_numeric($page)) {
             $page = $this->getPageById($page);
         } else if (!$page) { // get the current page
@@ -87,10 +88,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
     }
 
     /**
-     * @param string $name
-     * @param \Sonata\PageBundle\Model\PageInterface $page
-     * @param null|\Sonata\PageBundle\Model\BlockInterface $parentContainer
-     * @return bool|null|\Sonata\PageBundle\Model\BlockInterface
+     * {@inheritdoc}
      */
     public function findContainer($name, PageInterface $page, BlockInterface $parentContainer = null)
     {
@@ -116,54 +114,44 @@ class CmsSnapshotManager extends BaseCmsPageManager
     }
 
     /**
-     * return a fully loaded page ( + blocks ) from a url
-     *
-     * @param string $url
-     * @return \Sonata\PageBundle\Model\PageInterface
+     * {@inheritdoc}
      */
-    public function getPageByUrl($url)
+    public function getPageByUrl(SiteInterface $site, $url)
     {
-        return $this->getPageBy('url', $url);
-    }
-
-
-    /**
-     * return a fully loaded page ( + blocks ) from a id
-     *
-     * @param integer $id
-     * @return \Sonata\PageBundle\Model\PageInterface
-     */
-    public function getPageById($id)
-    {
-        return $this->getPageBy('pageId', $id);
-    }
-
-    /**
-     * return a fully loaded page ( + blocks ) from a route name
-     *
-     * if the page does not exists then the page is created.
-     *
-     * @param string $routeName
-     * @param boolean $create default true
-     * @return \Sonata\PageBundle\Model\PageInterface
-     */
-    public function getPageByRouteName($routeName, $create = true)
-    {
-        return $this->getPageBy('routeName', $routeName);
+        return $this->getPageBy($site, 'url', $url);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getPageByName($name, $create = true)
+    public function getPageById($id)
     {
-        return $this->getPageBy('name', $name);
+        return $this->getPageBy(null, 'pageId', $id);
     }
 
-    public function renderContainer($name, $page = null, BlockInterface $parentContainer = null)
+    /**
+     * {@inheritdoc}
+     */
+    public function getPageByRouteName(SiteInterface $site, $routeName, $create = true)
+    {
+        return $this->getPageBy($site, 'routeName', $routeName);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPageByName(SiteInterface $site, $name, $create = true)
+    {
+        return $this->getPageBy($site, 'name', $name);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function renderContainer(SiteInterface $site, $name, $page = null, BlockInterface $parentContainer = null)
     {
         try {
-            $response = parent::renderContainer($name, $page, $parentContainer);
+            $response = parent::renderContainer($site, $name, $page, $parentContainer);
 
             return $response;
         } catch(\RunTimeException $e) {
@@ -181,7 +169,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
      * @param string $value
      * @return \Sonata\PageBundle\Model\PageInterface
      */
-    public function getPageBy($fieldName, $value)
+    protected function getPageBy(SiteInterface $site = null, $fieldName, $value)
     {
         if ('id' == $fieldName) {
             $id = $value;
@@ -192,7 +180,13 @@ class CmsSnapshotManager extends BaseCmsPageManager
         }
 
         if (null === $id || !isset($this->pages[$id])) {
-            $snapshot = $this->getPageManager()->findEnableSnapshot(array($fieldName => $value));
+            $parameters = array($fieldName => $value);
+
+            if ($site) {
+                $parameters['site'] = $site->getId();
+            }
+
+            $snapshot = $this->getPageManager()->findEnableSnapshot($parameters);
 
             if (!$snapshot) {
                 throw new \RuntimeException(sprintf('Unable to find the snapshot : %s', $value));

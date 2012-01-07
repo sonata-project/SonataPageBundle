@@ -18,6 +18,7 @@ use Symfony\Component\Form\FormView;
 
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\PageInterface;
+use Sonata\PageBundle\Model\SiteInterface;
 
 use Sonata\AdminBundle\Form\ChoiceList\ModelChoiceList;
 
@@ -68,7 +69,15 @@ class PageSelectorType extends ModelType
 
     public function getChoices($options = null)
     {
-        $pages = $this->manager->loadPages();
+        if (!$options['page'] instanceof PageInterface) {
+            return array();
+        }
+
+        if (!$options['page']->getSite() instanceof SiteInterface) {
+            return array();
+        }
+
+        $pages = $this->manager->loadPages($options['page']->getSite());
 
         $choices = array();
 
