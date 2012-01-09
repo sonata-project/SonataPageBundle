@@ -1,5 +1,5 @@
-Welcome to SonataPageBundle Documentation
-=========================================
+Page Bundle
+===========
 
 Reference Guide
 ---------------
@@ -10,6 +10,7 @@ Reference Guide
 
    reference/introduction
    reference/installation
+   reference/getting_started
    reference/twig_helpers
    reference/command_line
    reference/your_first_block

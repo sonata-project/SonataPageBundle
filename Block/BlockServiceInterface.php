@@ -24,7 +24,6 @@ use Sonata\AdminBundle\Validator\ErrorElement;
 interface BlockServiceInterface
 {
     /**
-     * @abstract
      * @param \Sonata\PageBundle\CmsManager\CmsManagerInterface $manager
      * @param \Sonata\AdminBundle\Form\FormMapper $form
      * @param \Sonata\PageBundle\Model\BlockInterface $block
@@ -33,7 +32,6 @@ interface BlockServiceInterface
     function buildEditForm(CmsManagerInterface $manager, FormMapper $form, BlockInterface $block);
 
     /**
-     * @abstract
      * @param \Sonata\PageBundle\CmsManager\CmsManagerInterface $manager
      * @param \Sonata\AdminBundle\Form\FormMapper $form
      * @param \Sonata\PageBundle\Model\BlockInterface $block
@@ -42,7 +40,6 @@ interface BlockServiceInterface
     function buildCreateForm(CmsManagerInterface $manager, FormMapper $form, BlockInterface $block);
 
     /**
-     * @abstract
      * @param \Sonata\PageBundle\CmsManager\CmsManagerInterface $manager
      * @param \Sonata\PageBundle\Model\BlockInterface $block
      * @param \Sonata\PageBundle\Model\PageInterface $page
@@ -52,7 +49,6 @@ interface BlockServiceInterface
     function execute(CmsManagerInterface $manager, BlockInterface $block, PageInterface $page, Response $response = null);
 
     /**
-     * @abstract
      * @param \Sonata\PageBundle\CmsManager\CmsManagerInterface $manager
      * @param \Sonata\AdminBundle\Validator\ErrorElement $errorElement
      * @param \Sonata\PageBundle\Model\BlockInterface $block
@@ -61,7 +57,6 @@ interface BlockServiceInterface
     function validateBlock(CmsManagerInterface $manager, ErrorElement $errorElement, BlockInterface $block);
 
     /**
-     * @abstract
      * @return string
      */
     function getName();
@@ -69,13 +64,11 @@ interface BlockServiceInterface
     /**
      * Returns the default settings link to the service
      *
-     * @abstract
      * @return array
      */
     function getDefaultSettings();
 
     /**
-     * @abstract
      * @param \Sonata\PageBundle\CmsManager\CmsManagerInterface $manager
      * @param \Sonata\PageBundle\Model\BlockInterface $block
      * @return void
@@ -83,10 +76,21 @@ interface BlockServiceInterface
     function getCacheElement(CmsManagerInterface $manager, BlockInterface $block);
 
     /**
-     * @abstract
      * @param \Sonata\PageBundle\CmsManager\CmsManagerInterface $manager
      * @param \Sonata\PageBundle\Model\BlockInterface $block
      * @return void
      */
     function load(CmsManagerInterface $manager, BlockInterface $block);
+
+    /**
+     * @param $media
+     * @return array
+     */
+    function getJavacripts($media);
+
+    /**
+     * @param $media
+     * @return array
+     */
+    function getStylesheets($media);
 }

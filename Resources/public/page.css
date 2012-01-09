@@ -6,17 +6,24 @@ body.cms-edit-mode div.cms-container {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dddddd', endColorstr='#eeeeee'); /* for IE */
     background: -webkit-gradient(linear, left top, left bottom, from(#ddd), to(#eee)); /* for webkit browsers */
     background: -moz-linear-gradient(top,  #ddd,  #eee); /* for firefox 3.6+ */
+
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 3px #8493A6;
+    margin: 1px;
 }
 
 body.cms-edit-mode div.cms-block-element {
     min-height: 25px;
     margin: 2px;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 3px #8493A6;
 }
 
 body.cms-edit-mode {
     background-color: white !important;
     background-image: none !important;
     color: black !important;
+    padding-top: 40px;
 }
 
 body.cms-edit-mode div.cms-block-element {
@@ -53,15 +60,16 @@ body.cms-edit-mode div.cms-container:hover {
     background-color: #cccccc;
 }
 
-div.sonata-page-top-bar {
-    background-color: #3D3D3D;
-    padding: 5px;
-    color: #C4C4C4;
+.sonata-bc body, body {
+    margin-top: 40px !important;
 }
 
-div.sonata-page-top-bar a {
-    color: #C4C4C4;
-    text-decoration: none;
+div.sonata-page-top-bar {
+
+}
+
+div.sonata-page-top-bar label {
+    color: #BFBFBF;
 }
 
 body.cms-edit-mode div.cms-block-start {
@@ -87,4 +95,9 @@ textarea.title {
     font-family: "Lucida Grande";
     height: 100px;
     width: 500px
+}
+
+body.cms-edit-mode div.cms-container {
+    min-height: 50px;
+    min-width: 150px;
 }

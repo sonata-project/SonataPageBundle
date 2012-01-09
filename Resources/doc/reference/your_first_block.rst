@@ -20,10 +20,11 @@ by the interface and remaining methods.
     namespace Sonata\PageBundle\Block;
 
     use Symfony\Component\HttpFoundation\Response;
+    use Symfony\Component\Form\Form;
     use Sonata\AdminBundle\Form\FormMapper;
     use Sonata\PageBundle\Model\BlockInterface;
     use Sonata\PageBundle\Model\PageInterface;
-    use Sonata\PageBundle\Block\BaseBlockService;
+    use Sonata\AdminBundle\Validator\ErrorElement;
     use Sonata\PageBundle\CmsManager\CmsManagerInterface;
 
 Default settings
@@ -57,10 +58,10 @@ a good consistency.
     <?php
     public function buildEditForm(CmsManagerInterface $manager, FormMapper $formMapper, BlockInterface $block)
     {
-        $formMapper->addType('settings', 'sonata_type_immutable_array', array(
+        $formMapper->add('settings', 'sonata_type_immutable_array', array(
             'keys' => array(
-                array('url', 'url', array()),
-                array('title', 'text', array()),
+                array('url', 'url', array('required' => false)),
+                array('title', 'text', array('required' => false)),
             )
         ));
     }

@@ -4,6 +4,12 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
+        <!-- SITE -->
+        <parameter key="sonata.page.admin.site.class">Sonata\PageBundle\Admin\SiteAdmin</parameter>
+        <parameter key="sonata.page.admin.site.controller">SonataAdminBundle:CRUD</parameter>
+        <parameter key="sonata.page.admin.site.entity">Application\Sonata\PageBundle\Entity\Site</parameter>
+        <parameter key="sonata.page.admin.site.translation_domain">SonataPageBundle</parameter>
+
         <!-- PAGE -->
         <parameter key="sonata.page.admin.page.class">Sonata\PageBundle\Admin\PageAdmin</parameter>
         <parameter key="sonata.page.admin.page.controller">SonataPageBundle:PageAdmin</parameter>
@@ -49,7 +55,7 @@
 
             <call method="setTranslationDomain">
                 <argument>%sonata.page.admin.page.translation_domain%</argument>
- 	        </call>
+            </call>
         </service>
 
         <service id="sonata.page.admin.block" class="%sonata.page.admin.block.class%">
@@ -64,7 +70,7 @@
 
             <call method="setTranslationDomain">
                 <argument>%sonata.page.admin.block.translation_domain%</argument>
- 	        </call>
+            </call>
         </service>
 
         <service id="sonata.page.admin.snapshot" class="%sonata.page.admin.snapshot.class%">
@@ -79,7 +85,18 @@
 
             <call method="setTranslationDomain">
                 <argument>%sonata.page.admin.snapshot.translation_domain%</argument>
- 	        </call>
+            </call>
+        </service>
+
+        <service id="sonata.page.admin.site" class="%sonata.page.admin.site.class%">
+            <tag name="sonata.admin" manager_type="orm" group="sonata_page" label="site"  label_translator_strategy="sonata.admin.label.strategy.underscore"/>
+            <argument />
+            <argument>%sonata.page.admin.site.entity%</argument>
+            <argument>%sonata.page.admin.site.controller%</argument>
+
+            <call method="setTranslationDomain">
+                <argument>%sonata.page.admin.site.translation_domain%</argument>
+            </call>
         </service>
     </services>
 

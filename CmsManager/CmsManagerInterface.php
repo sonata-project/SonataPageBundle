@@ -15,6 +15,9 @@ use Sonata\PageBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Cache\CacheElement;
 
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
 /**
  * @author     Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -101,4 +104,63 @@ interface CmsManagerInterface
      * @return Symfony\Component\Routing\RouterInterface
      */
     function getRouter();
+
+    /**
+     * Returns the current page
+     *
+     * @return \Sonata\PageBundle\Model\PageInterface
+     */
+    function getCurrentPage();
+
+    /**
+     * @param \Sonata\PageBundle\Model\PageInterface $page
+     * @return void
+     */
+    function setCurrentPage(PageInterface $page);
+
+    /**
+     * @param \Sonata\PageBundle\Model\BlockInterface $block
+     */
+    function getBlockService(BlockInterface $block);
+
+    /**
+     * @param array $blockServices
+     * @return void
+     */
+    function setBlockServices(array $blockServices);
+
+    /**
+     * @return array
+     */
+    function getBlockServices();
+
+    /**
+     * Returns the list of loaded block from the current http request
+     *
+     * @return array
+     */
+    function getBlocks();
+
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param $requestType
+     * @param \Symfony\Component\HttpFoundation\Response $response
+     * @return boolean
+     */
+    function isDecorable(Request $request, $requestType, Response $response);
+
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return \Sonata\PageBundle\Model\PageInterface
+     */
+    function defineCurrentPage(Request $request);
+
+    /**
+     * @abstract
+     * @param \Sonata\PageBundle\Model\PageInterface $page
+     * @param array $params
+     * @param null|\Symfony\Component\HttpFoundation\Response $response
+     * @return void
+     */
+    function renderPage(PageInterface $page, array $params = array(), Response $response = null);
 }

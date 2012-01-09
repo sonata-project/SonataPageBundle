@@ -8,6 +8,12 @@
         <parameter key="sonata.page.manager.page.class">Sonata\PageBundle\Entity\PageManager</parameter>
         <parameter key="sonata.page.manager.block.class">Sonata\PageBundle\Entity\BlockManager</parameter>
         <parameter key="sonata.page.manager.snapshot.class">Sonata\PageBundle\Entity\SnapshotManager</parameter>
+        <parameter key="sonata.page.manager.site.class">Sonata\PageBundle\Entity\SiteManager</parameter>
+
+        <parameter key="sonata.page.site.class">Application\Sonata\PageBundle\Entity\Site</parameter>
+        <parameter key="sonata.page.block.class">Application\Sonata\PageBundle\Entity\Block</parameter>
+        <parameter key="sonata.page.snapshot.class">Application\Sonata\PageBundle\Entity\Snapshot</parameter>
+        <parameter key="sonata.page.page.class">Application\Sonata\PageBundle\Entity\Page</parameter>
     </parameters>
 
     <services>
@@ -15,19 +21,24 @@
 
         <service id="sonata.page.manager.page" class="%sonata.page.manager.page.class%">
             <argument type="service" id="sonata.page.entity_manager" />
-            <argument>%sonata.page.admin.page.entity%</argument>
+            <argument>%sonata.page.page.class%</argument>
         </service>
 
         <service id="sonata.page.manager.snapshot" class="%sonata.page.manager.snapshot.class%">
             <argument type="service" id="sonata.page.entity_manager" />
-            <argument>%sonata.page.admin.snapshot.entity%</argument>
-            <argument>%sonata.page.admin.page.entity%</argument>
-            <argument>%sonata.page.admin.block.entity%</argument>
+            <argument>%sonata.page.snapshot.class%</argument>
+            <argument>%sonata.page.page.class%</argument>
+            <argument>%sonata.page.block.class%</argument>
         </service>
 
         <service id="sonata.page.manager.block" class="%sonata.page.manager.block.class%">
             <argument type="service" id="sonata.page.entity_manager" />
-            <argument>%sonata.page.admin.block.entity%</argument>
+            <argument>%sonata.page.block.class%</argument>
+        </service>
+
+        <service id="sonata.page.manager.site" class="%sonata.page.manager.site.class%">
+            <argument type="service" id="sonata.page.entity_manager" />
+            <argument>%sonata.page.site.class%</argument>
         </service>
 
         <service id="sonata.page.orm.event_subscriber" class="Sonata\PageBundle\Cache\Invalidation\DoctrineORMListener">
