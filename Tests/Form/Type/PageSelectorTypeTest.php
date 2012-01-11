@@ -12,20 +12,28 @@ namespace Sonata\PageBundle\Tests\Form\Type;
 
 use Sonata\PageBundle\Form\Type\PageSelectorType;
 use Sonata\PageBundle\Tests\Model\Page;
+use Sonata\PageBundle\Tests\Model\Site;
 
 class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
 {
-    public function loadPages()
+    protected $pages;
+
+    protected $site;
+
+    public function setUp()
     {
         $pages = array();
 
         $i = 1;
+
+        $this->site = new Site;
 
         $pageAll = new Page();
         $pageAll->setId($i);
         $pageAll->setRequestMethod('');
         $pageAll->setRouteName('all');
         $pageAll->setUrl('/all');
+        $pageAll->setSite($this->site);
         $pages[$i++] = $pageAll;
 
         $pagePost = new Page();
@@ -33,7 +41,8 @@ class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
         $pagePost->setRequestMethod('POST');
         $pagePost->setRouteName('post');
         $pagePost->setUrl('/post');
-        $pagePost->setParent($pageAll);;
+        $pagePost->setParent($pageAll);
+        $pagePost->setSite($this->site);
         $pages[$i++] = $pagePost;
 
         $pageGet = new Page();
@@ -42,6 +51,7 @@ class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
         $pageGet->setRouteName('get');
         $pageGet->setUrl('/get');
         $pageGet->setParent($pageAll);
+        $pageGet->setSite($this->site);
         $pages[$i++] = $pageGet;
 
         $page = new Page();
@@ -50,9 +60,10 @@ class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
         $page->setRouteName('get-post');
         $page->setUrl('/get-post');
         $page->setParent($pageAll);
+        $page->setSite($this->site);
         $pages[$i++] = $page;
 
-        return $pages;
+        $this->pages = $pages;
     }
 
     public function getPageManager()
@@ -61,12 +72,12 @@ class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
 
         $manager->expects($this->any())
             ->method('loadPages')
-            ->will($this->returnValue($this->loadPages()));
+            ->will($this->returnValue($this->pages));
 
         return $manager;
     }
 
-    public function testAllRequestMethodChoices()
+    public function testNoSite()
     {
         $pageSelector = new  PageSelectorType($this->getPageManager());
 
@@ -74,81 +85,84 @@ class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
             'request_method' => 'all'
         )));
 
-        $pages = $this->loadPages();
-
-        $this->assertEquals($options['choices'], $pages);
+        $this->assertEquals(array(), $options['choices']);
     }
-//
+
+
+    public function testAllRequestMethodChoices()
+    {
+        $pageSelector = new  PageSelectorType($this->getPageManager());
+
+        $options = $pageSelector->getDefaultOptions(array('site' => $this->site, 'choice_list' => 'fake', 'filter_choice' => array(
+            'request_method' => 'all'
+        )));
+
+        $this->assertEquals($this->pages, $options['choices']);
+    }
+
+
     public function testGetRequestMethodChoices()
     {
         $pageSelector = new  PageSelectorType($this->getPageManager());
 
-        $options = $pageSelector->getDefaultOptions(array('choice_list' => 'fake'));
+        $options = $pageSelector->getDefaultOptions(array('site' => $this->site, 'choice_list' => 'fake'));
 
-        $pages = $this->loadPages();
-        unset($pages[2]);
+        unset($this->pages[2]);
 
-        $this->assertEquals($options['choices'], $pages);
+        $this->assertEquals($this->pages, $options['choices']);
     }
 
     public function testPostRequestMethodChoices()
     {
         $pageSelector = new  PageSelectorType($this->getPageManager());
 
-        $options = $pageSelector->getDefaultOptions(array('choice_list' => 'fake', 'filter_choice' => array(
+        $options = $pageSelector->getDefaultOptions(array('site' => $this->site, 'choice_list' => 'fake', 'filter_choice' => array(
             'request_method' => 'post'
         )));
 
-        $pages = $this->loadPages();
-        unset($pages[3]);
+        unset($this->pages[3]);
 
-        $this->assertEquals($options['choices'], $pages);
+        $this->assertEquals($this->pages, $options['choices']);
     }
 
     public function testRootHierarchyChoices()
     {
         $pageSelector = new  PageSelectorType($this->getPageManager());
 
-        $options = $pageSelector->getDefaultOptions(array('choice_list' => 'fake', 'filter_choice' => array(
+        $options = $pageSelector->getDefaultOptions(array('site' => $this->site, 'choice_list' => 'fake', 'filter_choice' => array(
             'hierarchy' => 'root',
             'request_method' => 'all'
         )));
 
-        $pageTmps = $this->loadPages();
-        $pages = array(1 => $pageTmps[1]);
-
-        $this->assertEquals($options['choices'], $pages);
+        $this->assertEquals(array(1 => $this->pages[1]), $options['choices']);
     }
 
     public function testChildrenHierarchyChoices()
     {
         $pageSelector = new  PageSelectorType($this->getPageManager());
 
-        $options = $pageSelector->getDefaultOptions(array('choice_list' => 'fake', 'filter_choice' => array(
+        $options = $pageSelector->getDefaultOptions(array('site' => $this->site, 'choice_list' => 'fake', 'filter_choice' => array(
             'hierarchy' => 'children',
             'request_method' => 'all'
         )));
 
-        $pages = $this->loadPages();
-        unset($pages[1]);
+        unset($this->pages[1]);
 
-        $this->assertEquals($options['choices'], $pages);
+        $this->assertEquals($this->pages, $options['choices']);
     }
-
 
     public function testComplexHierarchyChoices()
     {
         $pageSelector = new  PageSelectorType($this->getPageManager());
 
-        $options = $pageSelector->getDefaultOptions(array('choice_list' => 'fake', 'filter_choice' => array(
+        $options = $pageSelector->getDefaultOptions(array('site' => $this->site, 'choice_list' => 'fake', 'filter_choice' => array(
             'hierarchy' => 'children',
             'request_method' => 'POST'
         )));
 
-        $pages = $this->loadPages();
-        unset($pages[1], $pages[3]);
+        unset($this->pages[1]);
+        unset($this->pages[3]);
 
-        $this->assertEquals($options['choices'], $pages);
+        $this->assertEquals($this->pages, $options['choices']);
     }
-
 }

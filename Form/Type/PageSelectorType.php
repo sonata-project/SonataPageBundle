@@ -43,6 +43,7 @@ class PageSelectorType extends ModelType
             'parent'            => 'choice',
             'preferred_choices' => array(),
             'page'              => null,
+            'site'              => null,
             'filter_choice'     => array('current_page' => false, 'request_method' => 'GET', 'dynamic' => true, 'hierarchy' => 'all'),
         );
 
@@ -66,9 +67,13 @@ class PageSelectorType extends ModelType
         return $options;
     }
 
-    public function getChoices($options = null)
+    protected function getChoices($options = null)
     {
-        $pages = $this->manager->loadPages();
+        if (!$options['site'] instanceof SiteInterface) {
+            return array();
+        }
+
+        $pages = $this->manager->loadPages($options['site']);
 
         $choices = array();
 

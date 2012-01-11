@@ -52,8 +52,18 @@ class ResponseListener
             return;
         }
 
-        $page = $cmsManager->defineCurrentPage($request);
+        $site = $this->siteSelector->retrieve();
 
+        if (!($page = $cmsManager->getCurrentPage())) {
+            $routeName = $request->get('_route');
+
+            if ($routeName == 'page_slug') { // true cms page
+                return;
+            }
+
+            $page = $cmsManager->getPageByRouteName($site, $routeName);
+        }
+        
         // only decorate hybrid page and page with decorate = true
         if (!$page || !$page->isHybrid() || !$page->getDecorate()) {
             return;
