@@ -63,7 +63,7 @@ class ResponseListener
 
             $page = $cmsManager->getPageByRouteName($site, $routeName);
         }
-        
+
         // only decorate hybrid page and page with decorate = true
         if (!$page || !$page->isHybrid() || !$page->getDecorate()) {
             return;

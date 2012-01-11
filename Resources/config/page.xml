@@ -8,12 +8,28 @@
         <parameter key="sonata.page.cms_manager.snapshot.class">Sonata\PageBundle\CmsManager\CmsSnapshotManager</parameter>
         <parameter key="sonata.page.response_listener.class">Sonata\PageBundle\Listener\ResponseListener</parameter>
         <parameter key="sonata.page.cms_manager_selector.class">Sonata\PageBundle\CmsManager\CmsManagerSelector</parameter>
+        <parameter key="sonata.page.site.selector.domain.class">Sonata\PageBundle\Site\DomainSiteSelector</parameter>
+        <parameter key="sonata.page.site.selector.domain_with_path.class">Sonata\PageBundle\Site\DomainPathSiteSelector</parameter>
     </parameters>
 
     <services>
         <service id="sonata.page.entity_manager" alias="doctrine.orm.default_entity_manager" />
 
-        <service id="sonata.page.response_listener" class="%sonata.page.response_listener.class%">
+        <service id="sonata.page.site.selector.domain" class="%sonata.page.site.selector.domain.class%">
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="512"/>
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequestRedirect" priority="0"/>
+
+            <argument type="service" id="sonata.page.manager.site" />
+        </service>
+
+        <service id="sonata.page.site.selector.domain_with_path" class="%sonata.page.site.selector.domain_with_path.class%">
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="512"/>
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequestRedirect" priority="0"/>
+
+            <argument type="service" id="sonata.page.manager.site" />
+        </service>
+
+        <service id="sonata.page.response_listener" class="%sonata.page.response_listener.class%" scope="request">
             <tag name="kernel.event_listener" event="kernel.response" method="onCoreResponse" priority="-1"/>
             <argument type="service" id="sonata.page.cms_manager_selector" />
         </service>

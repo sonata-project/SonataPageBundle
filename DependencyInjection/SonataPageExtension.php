@@ -48,6 +48,7 @@ class SonataPageExtension extends Extension
         // todo: use the configuration class
         $configs = call_user_func_array('array_merge_recursive', $configs);
 
+        $this->configureMultisite($container, $configs);
         $this->configureInvalidation($container, $configs);
         $this->configureCache($container, $configs);
         $this->configureTemplate($container, $configs);
@@ -67,6 +68,10 @@ class SonataPageExtension extends Extension
                 $cmsSnapshot->addMethodCall('addCacheService', array($id, new Reference($cache)));
             }
         }
+
+        $this->addClassesToCompile(array(
+            'Sonata\\PageBundle\\Request\\SiteRequest'
+        ));
 
         $this->registerDoctrineMapping($configs);
     }
@@ -273,6 +278,34 @@ class SonataPageExtension extends Extension
         ));
     }
 
+    /**
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param $configs
+     * @return void
+     */
+    public function configureMultisite(ContainerBuilder $container, $configs)
+    {
+        /**
+         * The multipath option required a specific router and RequestContext
+         */
+        if (isset($configs['multisite']) && $configs['multisite'] == 'domain_with_path') {
+            $container->setAlias('router', 'sonata.page.router.default');
+            $container->setAlias('sonata.page.site.selector', 'sonata.page.site.selector.domain_with_path');
+
+            $container->removeDefinition('sonata.page.site.selector.domain');
+        } else {
+            $container->setAlias('sonata.page.site.selector', 'sonata.page.site.selector.domain');
+
+            $container->removeDefinition('sonata.page.router.default');
+            $container->removeDefinition('sonata.page.site.selector.domain_with_path');
+        }
+    }
+
+    /**
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param $configs
+     * @return void
+     */
     public function configureTemplate(ContainerBuilder $container, $configs)
     {
         $pageManager = $container->getDefinition('sonata.page.manager.page');
@@ -310,6 +343,11 @@ class SonataPageExtension extends Extension
         $pageManager->addMethodCall('setDefaultTemplateCode', array($configs['default_template']));
     }
 
+    /**
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param $configs
+     * @return void
+     */
     public function configureInvalidation(ContainerBuilder $container, $configs)
     {
         $cmsPage = $container->getDefinition('sonata.page.cms.page');
@@ -333,6 +371,12 @@ class SonataPageExtension extends Extension
         $cmsSnapshot->addMethodCall('setRecorder', array(new Reference($recorder)));
     }
 
+    /**
+     * @throws \RuntimeException
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param $configs
+     * @return
+     */
     public function configureCache(ContainerBuilder $container, $configs)
     {
         if (!isset($configs['caches'])) {
@@ -429,6 +473,11 @@ HELP
         }
     }
 
+    /**
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param $configs
+     * @return void
+     */
     public function configureExceptions(ContainerBuilder $container, $configs)
     {
         $cmsPage = $container->getDefinition('sonata.page.cms.page');

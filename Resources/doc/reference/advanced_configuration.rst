@@ -4,17 +4,11 @@ Advanced Configuration
 Full configuration options:
 
 .. code-block:: yaml
-
-    services:
-        # this overwrite the default router by the PageBundle one to support
-        # multi domain
-        router:
-            alias: sonata.page.router.default
-
     #
     # more information can be found here http://sonata-project.org/bundles/page
     #
     sonata_page:
+        multisite: domain # or domain_with_path # the last one requires an altered app*.php file
         ignore_route_patterns:
             - /(.*)admin(.*)/   # ignore admin route, ie route containing 'admin'
             - /^_(.*)/          # ignore symfony routes
