@@ -113,6 +113,7 @@ class PageAdmin extends Admin
                 ->add('templateCode', 'choice', array('required' => true, 'choices' => $templates))
                 ->add('parent', 'sonata_page_selector', array(
                     'page'          => $this->getSubject() ?: null,
+                    'site'          => $this->getSubject() ? $this->getSubject()->getSite() : null,
                     'model_manager' => $this->getModelManager(),
                     'class'         => $this->getClass(),
                     'filter_choice' => array('hierarchy' => 'root'),
