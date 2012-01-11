@@ -124,12 +124,8 @@ interface SiteInterface
     function getUpdatedAt();
 
     /**
+     * @abstract
      * @return string
      */
     function __toString();
-
-    /**
-     * @return string
-     */
-    function getUrl();
 }

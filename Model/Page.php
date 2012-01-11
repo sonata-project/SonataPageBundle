@@ -13,7 +13,6 @@ namespace Sonata\PageBundle\Model;
 
 use Sonata\PageBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
-use Sonata\PageBundle\Model\SiteInterface;
 
 abstract class Page implements PageInterface
 {
@@ -68,8 +67,6 @@ abstract class Page implements PageInterface
     protected $decorate = true;
 
     protected $ttl;
-
-    protected $site;
 
     public function __construct()
     {
@@ -291,16 +288,14 @@ abstract class Page implements PageInterface
      */
     public function setRawHeaders($rawHeaders)
     {
-        $headers = array();
-
         foreach (explode("\r\n", $rawHeaders) as $header) {
             if (false != strpos($header, ':')) {
                 list($name, $headerStr) = explode(':', $header, 2);
-                $headers[trim($name)] = trim($headerStr);
+                $this->headers[trim($name)] = trim($headerStr);
             }
         }
 
-        $this->setHeaders($headers);
+        $this->rawHeaders = $rawHeaders;
     }
 
     /**
@@ -771,22 +766,5 @@ abstract class Page implements PageInterface
         }
 
         return !$this->getRequestMethod() || false !== strpos($this->getRequestMethod(), $method);
-    }
-
-    /**
-     * @param SiteInterface $site
-     * @return void
-     */
-    public function setSite(SiteInterface $site)
-    {
-        $this->site = $site;
-    }
-
-    /**
-     * @return
-     */
-    public function getSite()
-    {
-        return $this->site;
     }
 }

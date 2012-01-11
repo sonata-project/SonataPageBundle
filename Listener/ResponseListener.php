@@ -13,10 +13,7 @@
 namespace Sonata\PageBundle\Listener;
 
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
-use Sonata\PageBundle\Site\SiteSelectorInterface;
-
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * This class redirect the onCoreResponse event to the correct
@@ -24,18 +21,14 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ResponseListener
 {
-    protected $cmsSelector;
-
-    protected $siteSelector;
+    protected $selector;
 
     /**
-     * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $cmsSelector
-     * @param \Sonata\PageBundle\Site\SiteSelectorInterface $siteSelector
+     * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $selector
      */
-    public function __construct(CmsManagerSelectorInterface $cmsSelector, SiteSelectorInterface $siteSelector)
+    public function __construct(CmsManagerSelectorInterface $selector)
     {
-        $this->cmsSelector = $cmsSelector;
-        $this->siteSelector = $siteSelector;
+        $this->selector = $selector;
     }
 
     /**
@@ -46,7 +39,7 @@ class ResponseListener
      */
     public function onCoreResponse(FilterResponseEvent $event)
     {
-        $cmsManager  = $this->cmsSelector->retrieve();
+        $cmsManager  = $this->selector->retrieve();
 
         if (!$cmsManager) {
             return;
@@ -59,25 +52,12 @@ class ResponseListener
             return;
         }
 
-        $site = $this->siteSelector->retrieve();
-
-        if (!($page = $cmsManager->getCurrentPage())) {
-            $routeName = $request->get('_route');
-
-            if ($routeName == 'page_slug') { // true cms page
-                return;
-            }
-
-            $page = $cmsManager->getPageByRouteName($site, $routeName);
-//                    $this->getLogger()->crit(sprintf('[page:getCurrentPage] no page available for route : %s', $routeName));
-        }
+        $page = $cmsManager->defineCurrentPage($request);
 
         // only decorate hybrid page and page with decorate = true
         if (!$page || !$page->isHybrid() || !$page->getDecorate()) {
             return;
         }
-
-        $cmsManager->setCurrentPage($page);
 
         $event->setResponse(
             $cmsManager->renderPage(

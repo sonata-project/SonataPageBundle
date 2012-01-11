@@ -18,25 +18,6 @@
         </id>
 
         <many-to-one
-            field="site"
-            target-entity="Application\Sonata\PageBundle\Entity\Site"
-            inverted-by="pages"
-            >
-
-            <cascade>
-                <cascade-persist />
-            </cascade>
-
-            <join-columns>
-                <join-column
-                    name="site_id"
-                    referenced-column-name="id"
-                    on-delete="CASCADE"
-                />
-            </join-columns>
-        </many-to-one>
-
-        <many-to-one
             field="parent"
             target-entity="Application\Sonata\PageBundle\Entity\Page"
             inverted-by="children"

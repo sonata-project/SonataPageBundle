@@ -17,9 +17,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\Output;
-use Sonata\PageBundle\Model\SiteInterface;
 
-class UpdateCoreRoutesCommand extends BaseCommand
+class UpdateCoreRoutesCommand extends ContainerAwareCommand
 {
     public function configure()
     {
@@ -29,33 +28,13 @@ class UpdateCoreRoutesCommand extends BaseCommand
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        foreach ($this->getSiteManager()->findBy() as $site) {
-            $this->createRoute($site, $output);
-            $output->writeln("");
-        }
-
-        $output->writeln("<info>done!</info>");
-    }
-
-    /**
-     * @param \Sonata\PageBundle\Model\SiteInterface $site
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     * @return void
-     */
-    private function createRoute(SiteInterface $site, OutputInterface $output)
-    {
         $router      = $this->getContainer()->get('router');
-        $cmsManager  = $this->getCmsPageManager();
+        $cmsManager  = $this->getManager();
         $pageManager = $cmsManager->getPageManager();
 
-        $message = sprintf(" > <info>Updating core routes for site</info> : <comment>%s - %s</comment>", $site->getName(), $site->getUrl());
-
         $output->writeln(array(
-            str_repeat('=', strlen($message)),
-            "",
-            $message,
-            "",
-            str_repeat('=', strlen($message)),
+            "<comment>Updating/Creating hybrid pages</comment>",
+            str_repeat('-', 80)
         ));
 
         $knowRoutes = array();
@@ -64,12 +43,12 @@ class UpdateCoreRoutesCommand extends BaseCommand
 
             $knowRoutes[] = $name;
 
-            $page = $pageManager->getPageByName($site, $name);
+            $page = $pageManager->getPageByName($name);
 
             if (!$cmsManager->isRouteNameDecorable($name) || !$cmsManager->isRouteUriDecorable($route->getPattern())) {
                 if ($page) {
                     $page->setEnabled(false);
-                    $output->writeln(sprintf('  <error>DISABLE</error> <error>% -50s</error> %s', $name, $route->getPattern()));
+                    $output->writeln(sprintf('<error>DISABLE</error> <error>% -50s</error> %s', $name, $route->getPattern()));
                 } else {
                     continue;
                 }
@@ -89,18 +68,17 @@ class UpdateCoreRoutesCommand extends BaseCommand
                 $params = array_merge($params, $cmsManager->getCreateNewPageDefaultsByName($name));
 
                 $page = $pageManager->createNewPage($params);
-                $page->setSite($site);
             }
 
             $page->setRequestMethod(isset($requirements['_method']) ? $requirements['_method'] : 'GET|POST|HEAD|DELETE|PUT');
             $page->setSlug($route->getPattern());
             $pageManager->save($page);
 
-            $output->writeln(sprintf('  <info>%s</info> % -50s %s', $update ? 'UPDATE ' : 'CREATE ', $name, $route->getPattern()));
+            $output->writeln(sprintf('<info>%s</info> % -50s %s', $update ? 'UPDATE ' : 'CREATE ', $name, $route->getPattern()));
         }
 
         $has = false;
-        foreach ($pageManager->getHybridPages($site) as $page) {
+        foreach ($pageManager->getHybridPages() as $page) {
             if (!$page->isHybrid() || $page->isInternal()) {
                 continue;
             }
@@ -115,7 +93,7 @@ class UpdateCoreRoutesCommand extends BaseCommand
                     ));
                 }
 
-                $output->writeln(sprintf('  <error>ERROR</error>   %s', $page->getRouteName()));
+                $output->writeln(sprintf('<error>ERROR</error>   %s', $page->getRouteName()));
             }
         }
 
@@ -128,5 +106,13 @@ class UpdateCoreRoutesCommand extends BaseCommand
 MSG
 );
         }
+    }
+
+    /**
+     * @return \Sonata\PageBundle\CmsManager\CmsPageManager
+     */
+    public function getManager()
+    {
+        return $this->getContainer()->get('sonata.page.cms.page');
     }
 }

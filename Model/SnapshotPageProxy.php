@@ -23,11 +23,9 @@ class SnapshotPageProxy implements PageInterface
 
     private $parents;
 
-    private $site;
-
     /**
-     * @param \Sonata\PageBundle\Model\SnapshotManagerInterface $manager
-     * @param \Sonata\PageBundle\Model\SnapshotInterface $snapshot
+     * @param SnapshotManagerInterface $manager
+     * @param SnapshotInterface $snapshot
      */
     public function __construct(SnapshotManagerInterface $manager, SnapshotInterface $snapshot)
     {
@@ -37,7 +35,6 @@ class SnapshotPageProxy implements PageInterface
 
     /**
      * Get the page
-     *
      * @return \Sonata\PageBundle\Model\PageInterface
      */
     public function getPage()
@@ -602,7 +599,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     *
+     * @abstract
      * @return boolean
      */
     public function isCms()
@@ -611,7 +608,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     *
+     * @abstract
      * @return boolean
      */
     public function isInternal()
@@ -622,7 +619,7 @@ class SnapshotPageProxy implements PageInterface
     /**
      * Return the TTL value in second
      *
-     *
+     * @abstract
      * @return integer
      */
     public function getTtl()
@@ -631,38 +628,12 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     *
+     * @abstract
      * @param string $method
      * @return bool
      */
     public function hasRequestMethod($method)
     {
         return $this->getPage()->hasRequestMethod($method);
-    }
-
-    /**
-     * @param \Sonata\PageBundle\Model\SiteInterface $site
-     * @return void
-     */
-    public function setSite(SiteInterface $site)
-    {
-        $this->getPage()->setSite($site);
-    }
-
-    /**
-     * @return \Sonata\PageBundle\Model\SiteInterface
-     */
-    public function getSite()
-    {
-        return $this->getPage()->getSite();
-    }
-
-    /**
-     * @param string $headers
-     * @return
-     */
-    public function setRawHeaders($headers)
-    {
-        return $this->getPage()->setRawHeaders($headers);
     }
 }

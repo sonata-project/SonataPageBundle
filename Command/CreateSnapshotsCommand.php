@@ -17,9 +17,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\Output;
-use Sonata\PageBundle\Model\SiteInterface;
 
-class CreateSnapshotsCommand extends BaseCommand
+class CreateSnapshotsCommand extends ContainerAwareCommand
 {
     public function configure()
     {
@@ -29,55 +28,30 @@ class CreateSnapshotsCommand extends BaseCommand
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        foreach ($this->getSiteManager()->findBy() as $site) {
-            $this->createSnapshot($site, $output);
-            $output->writeln("");
-        }
+        $pageManager = $this->getContainer()->get('sonata.page.manager.page');
+        $snapshotManager = $this->getContainer()->get('sonata.page.manager.snapshot');
 
-        $output->writeln("<info>done!</info>");
-    }
-
-    /**
-     * @param \Sonata\PageBundle\Model\SiteInterface $site
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     * @return void
-     */
-    private function createSnapshot(SiteInterface $site, OutputInterface $output)
-    {
-        $message = sprintf(" > <info>Create snapshots for site</info> : <comment>%s - %s</comment>", $site->getName(), $site->getUrl());
-
-        $output->writeln(array(
-            str_repeat('=', strlen($message)),
-            "",
-            $message,
-            "",
-            str_repeat('=', strlen($message)),
-        ));
-
-        $this->getSnapshotManager()->getConnection()->beginTransaction();
+        $snapshotManager->getConnection()->beginTransaction();
 
         $snapshots = array();
-
-        $pages = $this->getPageManager()->findBy(array('site' => $site->getId()));
-
+        $pages = $pageManager->findBy();
         $count = count($pages);
         foreach ($pages as $pos => $page) {
-            $output->write(sprintf('  <info>%03d/%03d</info> % -50s ...', $pos + 1, $count, $page->getUrl()));
-
-            $snapshot = $this->getSnapshotManager()->create($page);
-
-            $this->getSnapshotManager()->save($snapshot);
+            $output->write(sprintf('<info>%03d/%03d</info> % -50s ...', $pos + 1, $count, $page->getUrl()));
+            $snapshot = $snapshotManager->create($page);
+            $snapshotManager->save($snapshot);
 
             $output->writeln(' OK !');
             $snapshots[] = $snapshot;
         }
 
         $output->writeln('');
-        $output->write('  Enabling snapshots ...');
+        $output->write('Enabling snapshots ...');
 
-        $this->getSnapshotManager()->enableSnapshots($site, $snapshots);
-        $this->getSnapshotManager()->getConnection()->commit();
+        $snapshotManager->enableSnapshots($snapshots);
 
-        $output->writeln(' <comment>OK</comment> !');
+        $snapshotManager->getConnection()->commit();
+
+        $output->writeln(' OK !');
     }
 }

@@ -13,76 +13,74 @@ namespace Sonata\PageBundle\Model;
 interface PageManagerInterface
 {
     /**
-     * Returns a page with the given routeName
+     * return a page with the given routeName
      *
-     * @param SiteInterface $site
      * @param string $routeName
      * @return PageInterface|false
      */
-    function getPageByName(SiteInterface $site, $routeName);
+    function getPageByName($routeName);
 
     /**
-     *
+     * @abstract
      * @param array $criteria
      * @return PageInterface
      */
     function findOneBy(array $criteria = array());
 
     /**
-     *
+     * @abstract
      * @param array $criteria
      * @return array
      */
     function findBy(array $criteria = array());
 
     /**
-     * Returns a page with the give slug
+     * return a page with the give slug
      *
-     * @param SiteInterface $site
      * @param string $url
      * @return PageInterface
      */
-    function getPageByUrl(SiteInterface $site, $url);
+    function getPageByUrl($url);
 
     /**
      * Returns a string, the code name of the template
-     *
+     * @abstract
      * @return string
      */
     function setDefaultTemplateCode($code);
 
     /**
-     *
+     * @abstract
      * @param PageInterface $object
      * @return void
      */
     function save(PageInterface $object);
 
     /**
-     *
+     * @abstract
      * @param array $params
      * @return PageInterface
      */
     function createNewPage(array $params = array());
 
     /**
-     *
+     * @abstract
      * @return array
      */
     function getTemplates();
 
     /**
-     *
+     * @abstract
      * @param string $code template code
      * @return Template
      */
     function getTemplate($code);
 
     /**
-     * Returns an array of Pages Entity where the id is the key
+     * Return an array of Pages Entity where the id is the key
      *
-     * @param SiteInterface $site
+     * @abstract
      * @return void
      */
-    function loadPages(SiteInterface $site);
+    function loadPages();
 }

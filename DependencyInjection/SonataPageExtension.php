@@ -245,4 +245,24 @@ HELP
         $cmsPage->replaceArgument(3, $exceptions);
         $cmsSnapshot->replaceArgument(3, $exceptions);
     }
+
+    /**
+     * Returns the base path for the XSD files.
+     *
+     * @return string The XSD base path
+     */
+    public function getXsdValidationBasePath()
+    {
+        return __DIR__.'/../Resources/config/schema';
+    }
+
+    public function getNamespace()
+    {
+        return 'http://www.sonata-project.org/schema/dic/page';
+    }
+
+    public function getAlias()
+    {
+        return "sonata_page";
+    }
 }

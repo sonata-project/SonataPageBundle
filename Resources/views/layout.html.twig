@@ -8,8 +8,6 @@ For the full copyright and license information, please view the LICENSE
 file that was distributed with this source code.
 
 #}
-{% set show_menu = (page_admin is defined and page_admin.isGranted(['EDIT'])) or app.security.isGranted('ROLE_PREVIOUS_ADMIN') %}
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -27,22 +25,12 @@ file that was distributed with this source code.
         <script src="{{ asset('bundles/sonatajquery/jquery-ui-1.8.17.js') }}" type="text/javascript"></script>
         <script src="{{ asset('bundles/sonatajquery/jquery-ui-i18n.js') }}" type="text/javascript"></script>
 
-        {% if show_menu %}
-            <script src="/bundles/sonataadmin/bootstrap/js/bootstrap-tabs.js" type="text/javascript"></script>
-            <script src="/bundles/sonataadmin/bootstrap/js/bootstrap-alerts.js" type="text/javascript"></script>
-            <script src="/bundles/sonataadmin/bootstrap/js/bootstrap-modal.js" type="text/javascript"></script>
-            <script src="/bundles/sonataadmin/bootstrap/js/bootstrap-twipsy.js" type="text/javascript"></script>
-            <script src="/bundles/sonataadmin/bootstrap/js/bootstrap-popover.js" type="text/javascript"></script>
-            <script src="/bundles/sonataadmin/bootstrap/js/bootstrap-scrollspy.js" type="text/javascript"></script>
-            <script src="/bundles/sonataadmin/bootstrap/js/bootstrap-dropdown.js" type="text/javascript"></script>
-        {% endif %}
-
         <title>{% block title %}{{ page.name }}{%endblock%}</title>
     </head>
 
     <body class="sonata-bc">
 
-        {% if show_menu %}
+        {% if (page_admin is defined and page_admin.isGranted(['EDIT'])) or app.security.isGranted('ROLE_PREVIOUS_ADMIN') %}
 
             <link rel="stylesheet" href="{{ asset('bundles/sonatapage/page.css') }}" type="text/css" media="all">
 
@@ -65,7 +53,7 @@ file that was distributed with this source code.
             {% endif %}
 
             <div class="sonata-bc sonata-page-top-bar">
-                <div class="topbar" data-dropdown="dropdown">
+                <div class="topbar">
                     <div class="fill">
                         <div class="container">
                             <ul class="nav">
@@ -74,32 +62,14 @@ file that was distributed with this source code.
                                 {% endif %}
 
                                 {% if page_admin is defined and page_admin.isGranted(['EDIT']) %}
-                                    {% if page_admin.sites|length > 0%}
-                                        <li class="dropdown">
-                                            <a href="#" class="dropdown-toggle">{{ site.name }}</a>
-                                            <ul class="dropdown-menu">
-                                                {% for site in page_admin.sites %}
-                                                    <li><a href="{{ site.url }}">{{ site.name }}</a></li>
-                                                {% endfor %}
-                                            </ul>
-                                        </li>
+                                    <li><a href="{{ path('admin_sonata_page_page_edit', {'id': page.id }) }}" target="_new">{{ "header.edit_page"|trans({}, 'SonataPageBundle') }}</a></li>
+                                    <li><a href="{{ path('admin_sonata_page_page_snapshot_create', {'id': page.id }) }}" target="_new">{{ "header.create_snapshot"|trans({}, 'SonataPageBundle') }}</a></li>
+                                    <li><a href="{{ path('admin_sonata_page_page_list') }}" target="_new">{{ "header.view_all_pages"|trans({}, 'SonataPageBundle') }}</a></li>
+
+
+                                    {% if manager.getHttpErrorCodes|length %}
+                                        <li></li><a href="{{ path('sonata_page_exceptions_list') }}" target="_new">{{ "header.view_all_exceptions"|trans({}, 'SonataPageBundle') }}</a></li>
                                     {% endif %}
-
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle">Page</a>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="{{ path('admin_sonata_page_page_edit', {'id': page.id }) }}" target="_new">{{ "header.edit_page"|trans({}, 'SonataPageBundle') }}</a></li>
-                                            <li><a href="{{ path('admin_sonata_page_page_snapshot_create', {'id': page.id }) }}" target="_new">{{ "header.create_snapshot"|trans({}, 'SonataPageBundle') }}</a></li>
-                                            <li class="divider"></li>
-                                            <li><a href="{{ path('admin_sonata_page_page_list') }}" target="_new">{{ "header.view_all_pages"|trans({}, 'SonataPageBundle') }}</a></li>
-
-                                            {% if manager.getHttpErrorCodes|length %}
-                                                <li class="divider"></li>
-                                                <li><a href="{{ path('sonata_page_exceptions_list') }}" target="_new">{{ "header.view_all_exceptions"|trans({}, 'SonataPageBundle') }}</a></li>
-                                            {% endif %}
-                                        </ul>
-                                    </li>
-
                                     {% if not page.enabled %}
                                         <li><span style="padding-left: 20px; background: red;"><strong><em>{{ 'header.page_is_disabled'|trans([], 'SonataPageBundle') }}</em></strong></span></li>
                                     {% endif %}
@@ -126,21 +96,19 @@ file that was distributed with this source code.
             <div class="content">
                 <div class="page-header">
                     <div class="pull-left">
-                        {{ manager.renderContainer(site, 'title', 'global')|raw }}
+                        {{ manager.renderContainer('title', 'global')|raw }}
                     </div>
 
                     <div class="pull-right navigation">
-                        {{ manager.renderContainer(site, 'header', 'global')|raw }}
+                        {{ manager.renderContainer('header', 'global')|raw }}
                     </div>
 
                     <div style="clear: both"></div>
                 </div>
 
                 <div class="row">
-                    {% if page.name != 'global'%}
-                        {{ manager.renderContainer(site, 'content_top', 'global')|raw }}
-                    {% endif %}
-                    {{ manager.renderContainer(site, 'content_top', page)|raw }}
+                    {{ manager.renderContainer('content_top', 'global')|raw }}
+                    {{ manager.renderContainer('content_top', page)|raw }}
                 </div>
 
                 <div class="row">
@@ -149,20 +117,18 @@ file that was distributed with this source code.
                     {% elseif block('content')%}
                         {{ block('content')|raw }}
                     {% else %}
-                        {{ manager.renderContainer(site, 'content', page)|raw }}
+                        {{ manager.renderContainer('content', page)|raw }}
                     {% endif %}
                 </div>
 
                 <div>
-                    {{ manager.renderContainer(site, 'content_bottom', page)|raw }}
-                    {% if page.name != 'global'%}
-                        {{ manager.renderContainer(site, 'content_bottom', 'global')|raw }}
-                    {% endif %}
+                    {{ manager.renderContainer('content_bottom', page)|raw }}
+                    {{ manager.renderContainer('content_bottom', 'global')|raw }}
                 </div>
             </div>
 
             <footer>
-                {{ manager.renderContainer(site, 'footer', 'global')|raw }}
+                {{ manager.renderContainer('footer', 'global')|raw }}
             </footer>
         </div>
 

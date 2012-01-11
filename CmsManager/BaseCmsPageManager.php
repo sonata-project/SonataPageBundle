@@ -26,7 +26,6 @@ use Sonata\PageBundle\Cache\CacheInterface;
 use Sonata\PageBundle\Cache\CacheElement;
 use Sonata\PageBundle\Cache\Invalidation\InvalidationInterface;
 use Sonata\PageBundle\Cache\Invalidation\Recorder;
-use Sonata\PageBundle\Model\SiteInterface;
 
 use Sonata\AdminBundle\Admin\AdminInterface;
 
@@ -265,15 +264,14 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     }
 
     /**
-     * @param \Sonata\PageBundle\Model\SiteInterface $site
      * @param string $name
      * @param \Sonata\PageBundle\Model\PageInterface $page
      * @param \Sonata\PageBundle\Model\BlockInterface $parentContainer
      * @return string
      */
-    public function renderContainer(SiteInterface $site, $name, $page = null, BlockInterface $parentContainer = null)
+    public function renderContainer($name, $page = null, BlockInterface $parentContainer = null)
     {
-        $page = $this->getPage($site, $page);
+        $page = $this->getPage($page);
 
         if (!$page) {
             return $this->templating->render('SonataPageBundle:Block:block_no_page_available.html.twig');
@@ -359,6 +357,37 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     public function hasCacheService($id)
     {
         return isset($this->cacheServices[$id]) ? true : false;
+    }
+
+    /**
+     * return the current page
+     *
+     * if the current route linked to a CMS page ( route name = `page_slug`)
+     *   then the page is retrieve by using a slug
+     *   otherwise the page is loaded from the route name
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return \Sonata\PageBundle\Model\PageInterface
+     */
+    public function defineCurrentPage(Request $request)
+    {
+        $routeName = $request->get('_route');
+
+        if ($this->currentPage) {
+            return $this->currentPage;
+        }
+
+        if ($routeName == 'page_slug') { // true cms page
+            return null;
+        } else { // hybrid page, ie an action is used
+            $this->currentPage = $this->getPageByRouteName($routeName);
+
+            if (!$this->currentPage && $this->getLogger()) {
+                $this->getLogger()->crit(sprintf('[page:getCurrentPage] no page available for route : %s', $routeName));
+            }
+        }
+
+        return $this->currentPage;
     }
 
     /**
@@ -606,7 +635,6 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
         return array(
             'page'    => $page,
             'manager' => $this,
-            'site'    => $page->getSite()
         );
     }
 }

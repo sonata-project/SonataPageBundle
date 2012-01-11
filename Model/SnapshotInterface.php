@@ -165,17 +165,4 @@ interface SnapshotInterface
      * @return PageInterface
      */
     function getPage();
-
-    /**
-     *
-     * @param SiteInterface $site
-     * @return void
-     */
-    function setSite(SiteInterface $site);
-
-    /**
-     *
-     * @return void
-     */
-    function getSite();
 }

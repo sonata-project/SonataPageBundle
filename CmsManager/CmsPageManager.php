@@ -23,8 +23,6 @@ use Sonata\PageBundle\Block\BlockServiceInterface;
 use Sonata\PageBundle\Cache\CacheInterface;
 use Sonata\PageBundle\Cache\Invalidation\InvalidationInterface;
 use Sonata\PageBundle\Cache\CacheElement;
-use Sonata\PageBundle\Model\SiteInterface;
-
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Validator\ErrorElement;
 
@@ -69,7 +67,7 @@ class CmsPageManager extends BaseCmsPageManager
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function getCode()
     {
@@ -77,7 +75,8 @@ class CmsPageManager extends BaseCmsPageManager
     }
 
     /**
-     * {@inheritdoc}
+     * @param \Sonata\PageBundle\Model\PageInterface $page
+     * @return array
      */
     protected function getRenderPageParams(PageInterface $page)
     {
@@ -93,12 +92,12 @@ class CmsPageManager extends BaseCmsPageManager
      * @param mixed $page
      * @return \Sonata\PageBundle\Model\PageInterface
      */
-    protected function getPage(SiteInterface $site, $page)
+    public function getPage($page)
     {
         if (is_string($page) && substr($page, 0, 1) == '/') {
-            $page = $this->getPageByUrl($site, $page);
+            $page = $this->getPageByUrl($page);
         } else if (is_string($page)) { // page is a slug, load the related page
-            $page = $this->getPageByRouteName($site, $page);
+            $page = $this->getPageByRouteName($page);
         } else if ( is_numeric($page)) {
             $page = $this->getPageById($page);
         } else if (!$page) { // get the current page
@@ -113,7 +112,10 @@ class CmsPageManager extends BaseCmsPageManager
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $name
+     * @param \Sonata\PageBundle\Model\PageInterface $page
+     * @param null|\Sonata\PageBundle\Model\BlockInterface $parentContainer
+     * @return bool|null|\Sonata\PageBundle\Model\BlockInterface
      */
     public function findContainer($name, PageInterface $page, BlockInterface $parentContainer = null)
     {
@@ -159,7 +161,7 @@ class CmsPageManager extends BaseCmsPageManager
      * @param $value
      * @return \Sonata\PageBundle\Model\PageInterface
      */
-    protected function getPageBy(SiteInterface $site = null, $fieldName, $value) {
+    public function getPageBy($fieldName, $value) {
         if ('id' == $fieldName) {
             $id = $value;
         } elseif(isset($this->pageReferences[$fieldName][$value])) {
@@ -171,15 +173,7 @@ class CmsPageManager extends BaseCmsPageManager
         if (null === $id || !isset($this->pages[$id])) {
             $this->pages[$id] = false;
 
-            $parameters = array(
-                $fieldName => $value,
-            );
-
-            if ($site) {
-                $parameters['site'] = $site->getId();
-            }
-
-            $page = $this->getPageManager()->findOneBy($parameters);
+            $page = $this->getPageManager()->findOneBy(array($fieldName => $value));
 
             if ($page) {
                 $this->loadBlocks($page);
@@ -197,24 +191,36 @@ class CmsPageManager extends BaseCmsPageManager
     }
 
     /**
-     * {@inheritdoc}
+     * return a fully loaded page ( + blocks ) from a route name
+     *
+     * if the page does not exists then the page is created.
+     *
+     * @param string $url
+     * @return \Sonata\PageBundle\Model\PageInterface
      */
-    public function getPageByUrl(SiteInterface $site, $url)
+    public function getPageByUrl($url)
     {
-        return $this->getPageBy($site, 'url', $url);
+
+        return $this->getPageBy('url', $url);
     }
 
     /**
-     * {@inheritdoc}
+     * return a fully loaded page ( + blocks ) from a route name
+     *
+     * if the page does not exists then the page is created.
+     *
+     * @param string $routeName
+     * @param boolean $create
+     * @return \Sonata\PageBundle\Model\PageInterface
      */
-    public function getPageByRouteName(SiteInterface $site, $routeName, $create = true)
+    public function getPageByRouteName($routeName, $create = true)
     {
-        $page = $this->getPageBy($site, 'routeName', $routeName);
+        $page = $this->getPageBy('routeName', $routeName);
 
         if (!$page && !$create) {
             throw new \RuntimeException(sprintf('Unable to find the page : %s', $routeName));
         } else if (!$page) {
-            $page = $this->createPage($site, $routeName);
+            $page = $this->createPage($routeName);
         }
 
         return $page;
@@ -223,25 +229,31 @@ class CmsPageManager extends BaseCmsPageManager
     /**
      * {@inheritdoc}
      */
-    public function getPageByName(SiteInterface $site, $name, $create = true)
+    public function getPageByName($name, $create = true)
     {
-        $page = $this->getPageBy($site, 'name', $name);
+        $page = $this->getPageBy('name', $name);
 
         if (!$page && !$create) {
             throw new \RuntimeException(sprintf('Unable to find the page : %s', $name));
         } elseif (!$page) {
-            $page = $this->createPage($site, $name);
+            $page = $this->createPage($name);
         }
 
         return $page;
     }
 
     /**
-     * {@inheritdoc}
+     * return a fully loaded page ( + blocks ) from a route name
+     *
+     * if the page does not exists then the page is created.
+     *
+     * @param integer $id
+     * @return \Sonata\PageBundle\Model\PageInterface
      */
     public function getPageById($id)
     {
-        return $this->getPageBy(null, 'id', $id);
+
+        return $this->getPageBy('id', $id);
     }
 
     /**
@@ -249,14 +261,12 @@ class CmsPageManager extends BaseCmsPageManager
      * @param string $routeName
      * @return \Sonata\PageBundle\Model\PageInterface
      */
-    public function createPage(SiteInterface $site, $routeName)
+    public function createPage($routeName)
     {
         $page = $this->getPageManager()->createNewPage(array(
             'routeName' => $routeName,
             'name'      => $routeName,
         ));
-
-        $page->setSite($site);
 
         $this->getPageManager()->save($page);
 
@@ -264,7 +274,9 @@ class CmsPageManager extends BaseCmsPageManager
     }
 
     /**
-     * {@inheritdoc}
+     *
+     * @param string $id
+     * @return \Sonata\PageBundle\Model\BlockInterface
      */
     public function getBlock($id)
     {

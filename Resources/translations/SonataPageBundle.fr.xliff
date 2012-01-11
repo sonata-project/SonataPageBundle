@@ -402,62 +402,6 @@
           <source>header.sonata_admin_dashboard</source>
           <target>Dashboard</target>
       </trans-unit>
-      <trans-unit id="100" resname="list.label_is_default">
-          <source>list.label_is_default</source>
-          <target>Par défaut</target>
-      </trans-unit>
-      <trans-unit id="101" resname="list.label_domain">
-          <source>list.label_domain</source>
-          <target>Nom de domaine</target>
-      </trans-unit>
-      <trans-unit id="102" resname="list.label_relative_path">
-          <source>list.label_relative_path</source>
-          <target>Chemin</target>
-      </trans-unit>
-      <trans-unit id="103" resname="list.label_enabled_to">
-          <source>list.label_enabled_to</source>
-          <target>Activé à partir</target>
-      </trans-unit>
-      <trans-unit id="104" resname="list.label_enabled_from">
-          <source>list.label_enabled_from</source>
-          <target>Activé jusqu'à</target>
-      </trans-unit>
-      <trans-unit id="105" resname="form.label_is_default">
-          <source>form.label_is_default</source>
-          <target>Par défaut</target>
-      </trans-unit>
-      <trans-unit id="106" resname="form.label_domain">
-          <source>form.label_domain</source>
-          <target>Nom de domaine</target>
-      </trans-unit>
-      <trans-unit id="107" resname="form.label_relative_path">
-          <source>form.label_relative_path</source>
-          <target>Chemin</target>
-      </trans-unit>
-      <trans-unit id="108" resname="form.label_enabled_to">
-          <source>form.label_enabled_to</source>
-          <target>Activé à partir</target>
-      </trans-unit>
-      <trans-unit id="109" resname="form.label_enabled_from">
-          <source>form.label_enabled_from</source>
-          <target>Activé jusqu'à</target>
-      </trans-unit>
-      <trans-unit id="110" resname="breadcrumb.link_site_list">
-          <source>breadcrumb.link_site_list</source>
-          <target>Liste des sites</target>
-      </trans-unit>
-      <trans-unit id="111" resname="breadcrumb.link_site_show">
-          <source>breadcrumb.link_site_show</source>
-          <target>Afficher</target>
-      </trans-unit>
-      <trans-unit id="112" resname="breadcrumb.link_site_create">
-          <source>breadcrumb.link_site_create</source>
-          <target>Créer</target>
-      </trans-unit>
-      <trans-unit id="113" resname="breadcrumb.link_site_edit">
-          <source>breadcrumb.link_site_edit</source>
-          <target>Editer</target>
-      </trans-unit>
     </body>
   </file>
 </xliff>

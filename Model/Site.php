@@ -65,11 +65,6 @@ abstract class Site implements SiteInterface
         return $this->enabled;
     }
 
-    public function getUrl()
-    {
-        return sprintf('http://%s%s', $this->getDomain(), $this->getRelativePath());
-    }
-
     /**
      * Set createdAt
      *

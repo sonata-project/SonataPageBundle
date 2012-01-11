@@ -15,7 +15,6 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SnapshotInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\BlockInterface;
-use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\Template;
 use Sonata\PageBundle\Model\SnapshotChildrenCollection;
 
@@ -64,15 +63,13 @@ class SnapshotManager implements SnapshotManagerInterface
     {
         return $this->entityManager->getConnection();
     }
-
     /**
      * Enabled a snapshot - make it public
      *
-     * @param \Sonata\PageBundle\Model\SiteInterface $site
-     * @param array $snapshots
-     * @return
+     * @param mixed $snapshots
+     * @return void
      */
-    public function enableSnapshots(SiteInterface $site, $snapshots)
+    public function enableSnapshots($snapshots)
     {
         if (!is_array($snapshots)) {
             $snapshots = array($snapshots);
@@ -96,12 +93,11 @@ class SnapshotManager implements SnapshotManagerInterface
 
         $this->entityManager->flush();
         //@todo: strange sql and low-level pdo usage: use dql or qb
-        $sql = sprintf("UPDATE %s SET publication_date_end = '%s' WHERE id NOT IN(%s) AND page_id IN (%s) AND publication_date_end IS NULL AND site_id = %d",
+        $sql = sprintf("UPDATE %s SET publication_date_end = '%s' WHERE id NOT IN(%s) AND page_id IN (%s) AND publication_date_end IS NULL",
             $this->entityManager->getClassMetadata('Application\Sonata\PageBundle\Entity\Snapshot')->table['name'],
             $now->format('Y-m-d H:i:s'),
             implode(',', $snapshotIds),
-            implode(',', $pageIds),
-            $site->getId()
+            implode(',', $pageIds)
         );
 
         $this->getConnection()->query($sql);
@@ -126,11 +122,6 @@ class SnapshotManager implements SnapshotManagerInterface
         $query = $this->getRepository()
             ->createQueryBuilder('s')
             ->andWhere('s.publicationDateStart <= :publicationDateStart AND ( s.publicationDateEnd IS NULL OR s.publicationDateEnd >= :publicationDateEnd )');
-
-        if (isset($criteria['site'])) {
-            $query->andWhere('s.site = :site');
-            $parameters['site'] = $criteria['site'];
-        }
 
         if (isset($criteria['pageId'])) {
             $query->andWhere('s.page = :page');
@@ -179,7 +170,6 @@ class SnapshotManager implements SnapshotManagerInterface
         $page->setUrl($snapshot->getUrl());
         $page->setPosition($snapshot->getPosition());
         $page->setDecorate($snapshot->getDecorate());
-        $page->setSite($snapshot->getSite());
 
         $content = json_decode($snapshot->getContent(), true);
 
@@ -251,7 +241,6 @@ class SnapshotManager implements SnapshotManagerInterface
         $snapshot->setName($page->getName());
         $snapshot->setPosition($page->getPosition());
         $snapshot->setDecorate($page->getDecorate());
-        $snapshot->setSite($page->getSite());
 
         if ($page->getParent()) {
             $snapshot->setParentId($page->getParent()->getId());
@@ -399,7 +388,7 @@ class SnapshotManager implements SnapshotManagerInterface
             $parameters = array(
                 'publicationDateStart'  => $date,
                 'publicationDateEnd'    => $date,
-                'parentId'              => $parent->getId(),
+                'parentId'              => $parent->getId()
             );
 
             $snapshots = $this->entityManager->createQueryBuilder()

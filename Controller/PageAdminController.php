@@ -43,31 +43,31 @@ class PageAdminController extends Controller
         return new RedirectResponse($this->admin->generateUrl('list', $this->admin->getFilterParameters()));
     }
 
-    public function createAction()
+    public function snapshotsAction()
     {
-        if (false === $this->admin->isGranted('CREATE')) {
+        if (!$this->get('security.context')->isGranted('ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT')) {
             throw new AccessDeniedException();
         }
 
-        if ($this->getRequest()->getMethod() == 'GET' && !$this->getRequest()->get('siteId')) {
-            $sites = $this->get('sonata.page.manager.site')->findBy();
+        if ($this->get('request')->getMethod() == "POST") {
+            $snapshotManager = $this->get('sonata.page.manager.snapshot');
 
-            if (count($sites) == 1) {
-                return $this->redirect($this->admin->generateUrl('create', array('siteId' => $sites[0]->getId())));
+            $pages = $this->get('sonata.page.manager.page')->findBy(array());
+            $snapshots = array();
+            foreach ($pages as $page) {
+                $snapshot = $snapshotManager->create($page);
+                $snapshotManager->save($snapshot);
+
+                $snapshots[] = $snapshot;
             }
 
-            try {
-                $current = $this->get('sonata.page.site.selector')->retrieve();
-            } catch(\RuntimeException $e) {
-                $current = false;
-            }
+            $snapshotManager->enableSnapshots($snapshots);
 
-            return $this->render('SonataPageBundle:PageAdmin:select_site.html.twig', array(
-                'sites'  => $sites,
-                'current' => $current,
-            ));
+            return new RedirectResponse($this->admin->generateUrl('list'));
         }
 
-        return parent::createAction();
+        return $this->render('SonataPageBundle:PageAdmin:create_snapshots.html.twig', array(
+            'action'  => 'snapshots',
+        ));
     }
 }

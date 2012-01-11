@@ -16,7 +16,6 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\SnapshotInterface;
 use Sonata\PageBundle\Model\Template;
-use Sonata\PageBundle\Model\SiteInterface;
 
 use Sonata\PageBundle\Model\Page;
 use Doctrine\ORM\EntityManager;
@@ -44,9 +43,9 @@ class PageManager implements PageManagerInterface
      * @param string $routeName
      * @return PageInterface|false
      */
-    public function getPageByName(SiteInterface $site, $routeName)
+    public function getPageByName($routeName)
     {
-        return $this->findOneBy(array('routeName' => $routeName, 'site' => $site->getId()));
+        return $this->findOneBy(array('routeName' => $routeName));
     }
 
     protected function getRepository()
@@ -60,9 +59,9 @@ class PageManager implements PageManagerInterface
      * @param string $url
      * @return PageInterface
      */
-    public function getPageByUrl(SiteInterface $site, $url)
+    public function getPageByUrl($url)
     {
-        return $this->findOneBy(array('url' => $url, 'site' => $site->getId()));
+        return $this->findOneBy(array('url' => $url));
     }
 
     public function getDefaultTemplateCode()
@@ -164,10 +163,10 @@ class PageManager implements PageManagerInterface
         return $this->getRepository()->findOneBy($criteria);
     }
 
-    public function loadPages(SiteInterface $site)
+    public function loadPages()
     {
         $pages = $this->entityManager
-            ->createQuery(sprintf('SELECT p FROM %s p INDEX BY p.id WHERE p.site = %d ORDER BY p.position ASC', $this->class, $site->getId()))
+            ->createQuery(sprintf('SELECT p FROM %s p INDEX BY p.id ORDER BY p.position ASC', $this->class))
             ->execute();
 
         foreach ($pages as $page) {
@@ -185,42 +184,29 @@ class PageManager implements PageManagerInterface
         return $pages;
     }
 
-    public function getHybridPages(SiteInterface $site)
+    public function getHybridPages()
     {
         return $this->entityManager->createQueryBuilder()
             ->select('p')
             ->from( $this->class, 'p')
-            ->where('p.routeName <> :routeName and p.site = :site')
+            ->where('p.routeName <> :routeName')
             ->setParameters(array(
-                'routeName' => PageInterface::PAGE_ROUTE_CMS_NAME,
-                'site' => $site->getId()
+                'routeName' => PageInterface::PAGE_ROUTE_CMS_NAME
             ))
             ->getQuery()
             ->execute();
     }
 
-    /**
-     * @param $templates
-     * @return void
-     */
     public function setTemplates($templates)
     {
         $this->templates = $templates;
     }
 
-    /**
-     * @return array
-     */
     public function getTemplates()
     {
         return $this->templates;
     }
 
-    /**
-     * @throws \RunTimeException
-     * @param $code
-     * @return string
-     */
     public function getTemplate($code)
     {
         if (!isset($this->templates[$code])) {
@@ -230,9 +216,6 @@ class PageManager implements PageManagerInterface
         return $this->templates[$code];
     }
 
-    /**
-     * @return string
-     */
     public function getClass()
     {
         return $this->class;
