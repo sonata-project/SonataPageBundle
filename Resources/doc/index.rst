@@ -11,7 +11,9 @@ Reference Guide
    reference/introduction
    reference/installation
    reference/getting_started
+   reference/multisite
    reference/twig_helpers
    reference/command_line
    reference/your_first_block
    reference/advanced_usage
+   reference/advanced_configuration
