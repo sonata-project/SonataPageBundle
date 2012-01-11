@@ -1,0 +1,92 @@
+Advanced Configuration
+======================
+
+Full configuration options:
+
+.. code-block:: yaml
+
+    services:
+        # this overwrite the default router by the PageBundle one to support
+        # multi domain
+        router:
+            alias: sonata.page.router.default
+
+    #
+    # more information can be found here http://sonata-project.org/bundles/page
+    #
+    sonata_page:
+        ignore_route_patterns:
+            - /(.*)admin(.*)/   # ignore admin route, ie route containing 'admin'
+            - /^_(.*)/          # ignore symfony routes
+
+        ignore_routes:
+            - sonata_page_esi_cache
+            - sonata_page_js_sync_cache
+            - sonata_page_js_async_cache
+            - sonata_page_apc_cache
+
+        ignore_uri_patterns:
+            - /admin(.*)/   # ignore admin route, ie route containing 'admin'
+
+        cache_invalidation:
+            service:  sonata.page.cache.invalidation.simple
+            recorder: sonata.page.cache.recorder
+            classes:
+                - [Application\Sonata\PageBundle\Entity\Block, getId]
+
+        default_template: default
+        templates:
+            default: { path: 'SonataPageBundle::layout.html.twig', name: 'default' }
+
+        page_defaults:
+            homepage: {decorate: false}
+
+        services:
+            sonata.page.block.text:
+            sonata.page.block.action:
+            sonata.page.block.container:
+            sonata.page.block.children_pages:
+            sonata.page.block.rss:
+
+            # block from Media Bundle
+            #sonata.media.block.media:
+            #sonata.media.block.gallery:
+            #sonata.media.block.feature_media:
+
+        caches:
+            sonata.page.cache.noop: ~
+            # Javascript synchronized load (usefull for user specific content)
+            sonata.page.cache.js_sync: ~
+            # Javascript asynchronized load (usefull for user specific content)
+            sonata.page.cache.js_async: ~
+
+            #sonata.page.cache.esi:
+            #    servers:
+            #        - varnishadm -T 127.0.0.1:2000 {{ COMMAND }} "{{ EXPRESSION }}"
+
+            #sonata.page.cache.mongo:
+            #    database:   cache
+            #    collection: cache
+            #    servers:
+            #        - '127.0.0.1:27017'
+            #        - 'username:password@localhost:27017'
+
+            #sonata.page.cache.memcached:
+            #    prefix: test     # prefix to ensure there is no clash between instances
+            #    servers:
+            #        - [127.0.0.1, 11211, 0]
+
+            #sonata.page.cache.apc:
+            #    token:  s3cur3   # token used to clear the related cache
+            #    prefix: test     # prefix to ensure there is no clash between instances
+            #    servers:
+            #        - { domain: kooqit.local, ip: 127.0.0.1, port: 80}
+
+    # Enable Doctrine to map the provided entities
+    doctrine:
+        orm:
+            entity_managers:
+                default:
+                    mappings:
+                        ApplicationSonataPageBundle: ~
+                        SonataPageBundle: ~

@@ -7,12 +7,48 @@ The bundle works on top of 3 simple models :
  * a ``Snapshot`` : The final representation of a page, the end user always see a Snapshot
 
 
+Creating a default site
+-----------------------
+
+First, you need to create a dedicated site, let's create a localhost site::
+
+    php app/console sonata:page:create-site
+
+Or::
+
+    php app/console  sonata:page:create-site --enabled=true --name=localhost --domain=localhost --relativePath=/ --enabledFrom=now --enabledTo="+10 years" --default=true
+
+
+The output might look like this::
+
+    Please define a value for Site.name : localhost
+    Please define a value for Site.domain : localhost
+    Please define a value for Site.relativePath : /
+    Please define a value for Site.enabled : true
+    Please define a value for Site.enabledFrom : now
+    Please define a value for Site.enabledTo : +10 years
+    Please define a value for Site.default : true
+
+    Creating website with the following information :
+      name : localhost
+      site : http(s)://localhost
+      enabled :  Tue, 10 Jan 2012 16:12:08 +0100 => Mon, 10 Jan 2022 16:12:08 +0100
+
+    Confirm site creation ?y
+
+    Site created !
+
+    You can now create the related pages and snapshots by running the followings commands:
+      php app/console sonata:page:update-core-routes --site=42
+      php app/console sonata:page:create-snapshots --site=42
+
+
 Creating default pages
 ----------------------
 
 As the Page bundle can handled symfony actions, actions need to be register, just runs the commands::
 
-    php app/console sonata:page:update-core-routes
+    php app/console sonata:page:update-core-routes --all
 
 The output might look like this::
 
@@ -64,7 +100,7 @@ Creating default snapshots
 
 At this point, no snapshots are available so the end user will get an error. The following command need to be runs::
 
-    php app/console sonata:page:create-snapshots
+    php app/console sonata:page:create-snapshots --all
 
 The output might look like this::
 
