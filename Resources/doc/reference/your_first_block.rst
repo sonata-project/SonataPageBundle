@@ -161,7 +161,7 @@ defined, a error message is displayed.
 Service
 -------
 
-We are almost done! Now just declare the block as a service.
+We are almost done! Now just declare the block as a service
 
 .. code-block:: xml
 
@@ -171,3 +171,14 @@ We are almost done! Now just declare the block as a service.
         <argument type="service" id="templating" />
     </service>
 
+and add it to sonata configuration
+
+.. code-block:: yaml
+
+    #config.yml
+    sonata_page:
+        services:
+            sonata.page.block.rss:
+    #           cache: sonata.page.cache.memcached 
+
+    
