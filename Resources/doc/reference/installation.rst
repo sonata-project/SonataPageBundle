@@ -176,6 +176,10 @@ At the end of your routing file, add the following lines
         resource: '@SonataPageBundle/Resources/config/routing/exceptions.xml'
         prefix: /
 
+    sonata_page_cache:
+        resource: '@SonataPageBundle/Resources/config/routing/cache.xml'
+        prefix: /
+
     catchAll:
         pattern:  /{path}
         defaults: { _controller: SonataPageBundle:Page:catchAll }
