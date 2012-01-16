@@ -18,8 +18,6 @@ use Sonata\PageBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\Template;
 use Sonata\PageBundle\Model\SnapshotChildrenCollection;
 
-use Application\Sonata\PageBundle\Entity\Page;
-
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\NoResultException;
 
@@ -39,12 +37,12 @@ class SnapshotManager implements SnapshotManagerInterface
 
     protected $templates = array();
 
-    public function __construct(EntityManager $entityManager, $class = 'Application\Sonata\PageBundle\Entity\Snapshot', $pageClass = 'Application\Sonata\PageBundle\Entity\Snapshot', $blockClass = 'Application\Sonata\PageBundle\Entity\Block', $templates = array())
+    public function __construct(EntityManager $entityManager, PageManager $pageManager, BlockManager $blockManager, $class = 'Application\Sonata\PageBundle\Entity\Snapshot', $templates = array())
     {
         $this->entityManager = $entityManager;
         $this->class         = $class;
-        $this->pageClass     = $pageClass;
-        $this->blockClass    = $blockClass;
+        $this->pageClass     = $pageManager->getClass();
+        $this->blockClass    = $blockManager->getClass();
         $this->templates     = $templates;
     }
 
