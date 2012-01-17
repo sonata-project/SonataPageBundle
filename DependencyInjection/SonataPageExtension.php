@@ -17,6 +17,7 @@ use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\Config\FileLocator;
+use Sonata\EasyExtendsBundle\Mapper\DoctrineCollector;
 
 /**
  * PageExtension
@@ -66,6 +67,210 @@ class SonataPageExtension extends Extension
                 $cmsSnapshot->addMethodCall('addCacheService', array($id, new Reference($cache)));
             }
         }
+
+        $this->registerDoctrineMapping($configs);
+    }
+
+    /**
+     * @param array $config
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @return void
+     */
+    public function registerDoctrineMapping(array $config)
+    {
+        $collector = DoctrineCollector::getInstance();
+
+        $collector->addAssociation('Application\\Sonata\\PageBundle\\Entity\\Page', 'mapOneToMany', array(
+            'fieldName'     => 'children',
+            'targetEntity'  => 'Application\\Sonata\\PageBundle\\Entity\\Page',
+            'cascade'       => array(
+                'remove',
+                'persist',
+                'refresh',
+                'merge',
+                'detach',
+             ),
+            'mappedBy'      => 'parent',
+            'orphanRemoval' => false,
+            'orderBy'       => array(
+                'position'  => 'ASC',
+            ),
+        ));
+
+        $collector->addAssociation('Application\\Sonata\\PageBundle\\Entity\\Page', 'mapOneToMany', array(
+            'fieldName'     => 'blocks',
+            'targetEntity'  => 'Application\\Sonata\\PageBundle\\Entity\\Block',
+            'cascade' => array(
+                'remove',
+                'persist',
+                'refresh',
+                'merge',
+                'detach',
+            ),
+            'mappedBy'      => 'page',
+            'orphanRemoval' => false,
+            'orderBy'       => array(
+                'position'  => 'ASC',
+            ),
+        ));
+
+        $collector->addAssociation('Application\\Sonata\\PageBundle\\Entity\\Page', 'mapOneToOne', array(
+            'fieldName'     => 'site',
+            'targetEntity'  => 'Application\\Sonata\\PageBundle\\Entity\\Site',
+            'cascade'       => array(
+                'persist',
+            ),
+            'mappedBy'      => NULL,
+            'inversedBy'    => NULL,
+            'joinColumns'   => array(
+                array(
+                    'name'  => 'site_id',
+                    'referencedColumnName' => 'id',
+                    'onDelete' => 'CASCADE',
+                ),
+            ),
+            'orphanRemoval' => false,
+        ));
+
+        $collector->addAssociation('Application\\Sonata\\PageBundle\\Entity\\Page', 'mapOneToOne', array(
+            'fieldName'     => 'parent',
+            'targetEntity'  => 'Application\\Sonata\\PageBundle\\Entity\\Page',
+            'cascade'       => array(
+                 'persist',
+            ),
+            'mappedBy'      => NULL,
+            'inversedBy'    => NULL,
+            'joinColumns'   => array(
+                array(
+                    'name'  => 'parent_id',
+                    'referencedColumnName' => 'id',
+                    'onDelete' => 'CASCADE',
+                ),
+            ),
+            'orphanRemoval' => false,
+        ));
+
+        $collector->addAssociation('Application\\Sonata\\PageBundle\\Entity\\Page', 'mapOneToMany', array(
+             'fieldName' => 'sources',
+             'targetEntity' => 'Application\\Sonata\\PageBundle\\Entity\\Page',
+             'cascade' => array(
+                 'remove',
+                 'persist',
+                 'refresh',
+                 'merge',
+                 'detach',
+             ),
+             'mappedBy' => 'target',
+             'orphanRemoval' => false,
+        ));
+
+        $collector->addAssociation('Application\\Sonata\\PageBundle\\Entity\\Page', 'mapOneToOne', array(
+            'fieldName' => 'target',
+            'targetEntity' => 'Application\\Sonata\\PageBundle\\Entity\\Page',
+            'cascade' => array(
+                'persist',
+            ),
+            'mappedBy' => NULL,
+            'inversedBy' => NULL,
+            'joinColumns' => array(
+                array(
+                    'name' => 'target_id',
+                    'referencedColumnName' => 'id',
+                    'onDelete' => 'CASCADE',
+                ),
+            ),
+            'orphanRemoval' => false,
+        ));
+
+        $collector->addAssociation('Application\\Sonata\\PageBundle\\Entity\\Block', 'mapOneToMany', array(
+            'fieldName' => 'children',
+            'targetEntity' => 'Application\\Sonata\\PageBundle\\Entity\\Block',
+            'cascade' => array(
+                'remove',
+                'persist',
+            ),
+            'mappedBy' => 'parent',
+            'orphanRemoval' => true,
+            'orderBy' => array(
+                'position' => 'ASC',
+            ),
+        ));
+
+        $collector->addAssociation('Application\\Sonata\\PageBundle\\Entity\\Block', 'mapOneToOne', array(
+            'fieldName' => 'parent',
+            'targetEntity' => 'Application\\Sonata\\PageBundle\\Entity\\Block',
+            'cascade' => array(
+            ),
+            'mappedBy' => NULL,
+            'inversedBy' => NULL,
+            'joinColumns' => array(
+                array(
+                    'name' => 'parent_id',
+                    'referencedColumnName' => 'id',
+                    'onDelete' => 'CASCADE',
+                ),
+            ),
+            'orphanRemoval' => false,
+        ));
+
+        $collector->addAssociation('Application\\Sonata\\PageBundle\\Entity\\Block', 'mapOneToOne', array(
+            'fieldName' => 'page',
+            'targetEntity' => 'Application\\Sonata\\PageBundle\\Entity\\Page',
+            'cascade' => array(
+                'persist',
+            ),
+            'mappedBy' => NULL,
+            'inversedBy' => NULL,
+            'joinColumns' => array(
+                array(
+                    'name' => 'page_id',
+                    'referencedColumnName' => 'id',
+                    'onDelete' => 'CASCADE',
+                ),
+            ),
+            'orphanRemoval' => false,
+        ));
+
+
+        $collector->addAssociation('Application\\Sonata\\PageBundle\\Entity\\Snapshot', 'mapOneToOne', array(
+            'fieldName'     => 'site',
+            'targetEntity'  => 'Application\\Sonata\\PageBundle\\Entity\\Site',
+            'cascade'       => array(
+                'persist',
+            ),
+            'mappedBy'      => NULL,
+            'inversedBy'    => NULL,
+            'joinColumns'   => array(
+                array(
+                    'name'      => 'site_id',
+                    'referencedColumnName' => 'id',
+                    'onDelete'  => 'CASCADE',
+                ),
+            ),
+            'orphanRemoval' => false,
+        ));
+
+        $collector->addAssociation('Application\\Sonata\\PageBundle\\Entity\\Snapshot', 'mapOneToOne', array(
+            'fieldName'     => 'page',
+            'targetEntity'  => 'Application\\Sonata\\PageBundle\\Entity\\Page',
+            'cascade' => array(
+                'remove',
+                'persist',
+                'refresh',
+                'merge',
+                'detach',
+            ),
+            'mappedBy'      => NULL,
+            'inversedBy'    => NULL,
+            'joinColumns'   => array(
+                array(
+                    'name' => 'page_id',
+                    'referencedColumnName' => 'id',
+                    'onDelete' => 'CASCADE',
+                ),
+            ),
+            'orphanRemoval' => false,
+        ));
     }
 
     public function configureTemplate(ContainerBuilder $container, $configs)
@@ -244,25 +449,5 @@ HELP
 
         $cmsPage->replaceArgument(3, $exceptions);
         $cmsSnapshot->replaceArgument(3, $exceptions);
-    }
-
-    /**
-     * Returns the base path for the XSD files.
-     *
-     * @return string The XSD base path
-     */
-    public function getXsdValidationBasePath()
-    {
-        return __DIR__.'/../Resources/config/schema';
-    }
-
-    public function getNamespace()
-    {
-        return 'http://www.sonata-project.org/schema/dic/page';
-    }
-
-    public function getAlias()
-    {
-        return "sonata_page";
     }
 }
