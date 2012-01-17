@@ -39,9 +39,14 @@
             <argument>%sonata.page.site.class%</argument>
         </service>
 
-        <service id="sonata.page.orm.event_subscriber" class="Sonata\PageBundle\Cache\Invalidation\DoctrineORMListener">
-            <tag name="doctrine.event_subscriber" connection="default" />
+        <service id="sonata.page.orm.event_subscriber.default" class="Sonata\PageBundle\Cache\Invalidation\DoctrineORMListener" >
             <argument type="service" id="sonata.page.cache.model_identifier" />
+        </service>
+
+        <service id="sonata.page.orm.event_subscriber" class="Sonata\PageBundle\Cache\Invalidation\DoctrineORMListenerContainerAware">
+            <tag name="doctrine.event_subscriber" connection="default" />
+            <argument type="service" id="service_container" />
+            <argument>sonata.page.orm.event_subscriber.default</argument>
         </service>
     </services>
 

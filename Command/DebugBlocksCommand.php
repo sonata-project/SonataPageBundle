@@ -18,7 +18,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\Output;
 
-class DebugBlocksCommand extends ContainerAwareCommand
+class DebugBlocksCommand extends BaseCommand
 {
     public function configure()
     {
@@ -28,7 +28,7 @@ class DebugBlocksCommand extends ContainerAwareCommand
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $cmsManager     = $this->getManager();
+        $cmsManager     = $this->getCmsPageManager();
         $blockServices  = $cmsManager->getBlockServices();
 
         foreach ($blockServices as $code => $service) {
@@ -42,13 +42,5 @@ class DebugBlocksCommand extends ContainerAwareCommand
                 $output->writeln(sprintf('    %s:%s%s', $key, str_repeat(' ', 20 - strlen($key)), $val));
             }
         }
-    }
-
-    /**
-     * @return \Sonata\PageBundle\CmsManager\CmsPageManager
-     */
-    public function getManager()
-    {
-        return $this->getContainer()->get('sonata.page.cms.page');
     }
 }

@@ -24,7 +24,8 @@ class CreateSiteCommand extends BaseCommand
     {
         $this->setName('sonata:page:create-site');
 
-        $this->addOption('no-confirmation', null, InputOption::VALUE_NONE, 'Ask confirmation before generating the site');
+        $this->addOption('confirmation', null, InputOption::VALUE_OPTIONAL, 'Ask confirmation before generating the site', true);
+
         $this->addOption('enabled', null, InputOption::VALUE_OPTIONAL, 'Site.enabled', false);
         $this->addOption('name', null, InputOption::VALUE_OPTIONAL, 'Site.name', null);
         $this->addOption('relativePath', null, InputOption::VALUE_OPTIONAL, 'Site.relativePath', null);
@@ -67,12 +68,13 @@ EOT
             }
         }
 
-
         // create the object
         $site = $this->getSiteManager()->create();
 
         $site->setName($values['name']);
+
         $site->setRelativePath($values['relativePath'] == '/' ? '' : $values['relativePath']);
+
         $site->setDomain($values['domain']);
         $site->setEnabledFrom(new \DateTime($values['enabledFrom']));
         $site->setEnabledTo(new \DateTime($values['enabledTo']));

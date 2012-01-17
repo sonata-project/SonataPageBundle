@@ -52,6 +52,8 @@ abstract class Snapshot implements SnapshotInterface
 
     protected $targetId;
 
+    protected $site;
+
     /**
      * Set routeName
      *
@@ -310,5 +312,22 @@ abstract class Snapshot implements SnapshotInterface
     public function getUrl()
     {
         return $this->url;
+    }
+
+    /**
+     * @param SiteInterface $site
+     * @return void
+     */
+    public function setSite(SiteInterface $site)
+    {
+        $this->site = $site;
+    }
+
+    /**
+     * @return
+     */
+    public function getSite()
+    {
+        return $this->site;
     }
 }

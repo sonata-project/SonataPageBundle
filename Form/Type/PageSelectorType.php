@@ -18,6 +18,7 @@ use Symfony\Component\Form\FormView;
 
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\PageInterface;
+use Sonata\PageBundle\Model\SiteInterface;
 
 use Sonata\AdminBundle\Form\ChoiceList\ModelChoiceList;
 
