@@ -209,4 +209,9 @@ class BlockManager implements BlockManagerInterface
     {
         return new $this->class;
     }
+
+    public function getClass()
+    {
+        return $this->class;
+    }
 }
