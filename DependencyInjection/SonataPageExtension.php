@@ -78,6 +78,10 @@ class SonataPageExtension extends Extension
      */
     public function registerDoctrineMapping(array $config)
     {
+        if (!class_exists('Application\\Sonata\\PageBundle\\Entity\\Page')) {
+            return;
+        }
+
         $collector = DoctrineCollector::getInstance();
 
         $collector->addAssociation('Application\\Sonata\\PageBundle\\Entity\\Page', 'mapOneToMany', array(
@@ -114,23 +118,23 @@ class SonataPageExtension extends Extension
             ),
         ));
 
-        $collector->addAssociation('Application\\Sonata\\PageBundle\\Entity\\Page', 'mapOneToOne', array(
-            'fieldName'     => 'site',
-            'targetEntity'  => 'Application\\Sonata\\PageBundle\\Entity\\Site',
-            'cascade'       => array(
-                'persist',
-            ),
-            'mappedBy'      => NULL,
-            'inversedBy'    => NULL,
-            'joinColumns'   => array(
-                array(
-                    'name'  => 'site_id',
-                    'referencedColumnName' => 'id',
-                    'onDelete' => 'CASCADE',
-                ),
-            ),
-            'orphanRemoval' => false,
-        ));
+//        $collector->addAssociation('Application\\Sonata\\PageBundle\\Entity\\Page', 'mapOneToOne', array(
+//            'fieldName'     => 'site',
+//            'targetEntity'  => 'Application\\Sonata\\PageBundle\\Entity\\Site',
+//            'cascade'       => array(
+//                'persist',
+//            ),
+//            'mappedBy'      => NULL,
+//            'inversedBy'    => NULL,
+//            'joinColumns'   => array(
+//                array(
+//                    'name'  => 'site_id',
+//                    'referencedColumnName' => 'id',
+//                    'onDelete' => 'CASCADE',
+//                ),
+//            ),
+//            'orphanRemoval' => false,
+//        ));
 
         $collector->addAssociation('Application\\Sonata\\PageBundle\\Entity\\Page', 'mapOneToOne', array(
             'fieldName'     => 'parent',
@@ -232,23 +236,23 @@ class SonataPageExtension extends Extension
         ));
 
 
-        $collector->addAssociation('Application\\Sonata\\PageBundle\\Entity\\Snapshot', 'mapOneToOne', array(
-            'fieldName'     => 'site',
-            'targetEntity'  => 'Application\\Sonata\\PageBundle\\Entity\\Site',
-            'cascade'       => array(
-                'persist',
-            ),
-            'mappedBy'      => NULL,
-            'inversedBy'    => NULL,
-            'joinColumns'   => array(
-                array(
-                    'name'      => 'site_id',
-                    'referencedColumnName' => 'id',
-                    'onDelete'  => 'CASCADE',
-                ),
-            ),
-            'orphanRemoval' => false,
-        ));
+//        $collector->addAssociation('Application\\Sonata\\PageBundle\\Entity\\Snapshot', 'mapOneToOne', array(
+//            'fieldName'     => 'site',
+//            'targetEntity'  => 'Application\\Sonata\\PageBundle\\Entity\\Site',
+//            'cascade'       => array(
+//                'persist',
+//            ),
+//            'mappedBy'      => NULL,
+//            'inversedBy'    => NULL,
+//            'joinColumns'   => array(
+//                array(
+//                    'name'      => 'site_id',
+//                    'referencedColumnName' => 'id',
+//                    'onDelete'  => 'CASCADE',
+//                ),
+//            ),
+//            'orphanRemoval' => false,
+//        ));
 
         $collector->addAssociation('Application\\Sonata\\PageBundle\\Entity\\Snapshot', 'mapOneToOne', array(
             'fieldName'     => 'page',
