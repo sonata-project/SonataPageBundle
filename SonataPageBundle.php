@@ -12,7 +12,7 @@ namespace Sonata\PageBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Sonata\PageBundle\DependencyInjection\TweakPass;
+use Sonata\PageBundle\DependencyInjection\Compiler\TweakCompilerPass;
 
 class SonataPageBundle extends Bundle
 {
@@ -20,7 +20,7 @@ class SonataPageBundle extends Bundle
     {
         parent::build($container);
 
-        $container->addCompilerPass(new TweakPass());
+        $container->addCompilerPass(new TweakCompilerPass());
     }
 
     public function boot()
