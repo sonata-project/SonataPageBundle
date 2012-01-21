@@ -66,7 +66,7 @@ class PageController extends Controller
         }
 
         return $this->render('SonataPageBundle:Exceptions:list.html.twig', array(
-            'httpErrorCodes' => $this->getCms()->getHttpErrorCodes(),
+            'httpErrorCodes' => $this->getCmsManager()->getHttpErrorCodes(),
         ));
     }
 
