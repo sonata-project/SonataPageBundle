@@ -66,12 +66,11 @@ abstract class BaseCommand extends ContainerAwareCommand
      */
     protected function getSites(InputInterface $input)
     {
-        if ($input->getOption('all')) {
-            return $this->getSiteManager()->findBy();
-        } else {
-            return array(
-                $this->getSiteManager()->findOneBy(array('id' => $input->getOption('site')))
-            );
+        $parameters = array();
+        if ($input->getOption('site') != 'all') {
+            $parameters['id'] = $input->getOption('site');
         }
+
+        return $this->getSiteManager()->findBy($parameters);
     }
 }

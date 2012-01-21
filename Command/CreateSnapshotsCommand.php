@@ -34,9 +34,31 @@ class CreateSnapshotsCommand extends BaseCommand
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        foreach ($this->getSiteManager()->findBy() as $site) {
-            $this->createSnapshot($site, $output);
-            $output->writeln("");
+        if (!$input->getOption('site') && !$input->getOption('all')) {
+            $output->writeln('Please provide an <info>--site=SITE_ID</info> option or the <info>--all</info> directive');
+            $output->writeln('');
+
+            $output->writeln(sprintf(" % 5s - % -30s - %s", "ID", "Name", "Url"));
+
+            foreach ($this->getSiteManager()->findBy() as $site) {
+                $output->writeln(sprintf(" % 5s - % -30s - %s", $site->getId(), $site->getName(), $site->getUrl()));
+            }
+
+            return;
+        }
+
+        foreach ($this->getSites($input) as $site) {
+            if ($input->getOption('site')) {
+                $this->createSnapshot($site, $output);
+                $output->writeln("");
+            } else {
+
+                $p = new Process(sprintf('%s sonata:page:create-snapshots --env=%s --site=%s %s', $input->getOption('base-command'), $input->getOption('env'), $site->getId(), $input->getOption('no-debug') ? '--no-debug' : ''));
+
+                $p->run(function($type, $data) use($output) {
+                    $output->write($data);
+                });
+            }
         }
 
         $output->writeln("<info>done!</info>");
