@@ -39,7 +39,9 @@ class DomainSiteSelector extends BaseSiteSelector
 
             $this->site = $site;
 
-            break;
+            if ($this->site->getDomain() != 'localhost') {
+                break;
+            }
         }
 
         if (!$this->site) {
