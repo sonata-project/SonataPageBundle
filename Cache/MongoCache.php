@@ -19,6 +19,11 @@ class MongoCache implements CacheInterface
 
     protected $collection;
 
+    /**
+     * @param array $servers
+     * @param $database
+     * @param $collection
+     */
     public function __construct(array $servers, $database, $collection)
     {
         $this->settings = array(
@@ -28,16 +33,27 @@ class MongoCache implements CacheInterface
         );
     }
 
+    /**
+     * @return mixed
+     */
     public function flushAll()
     {
         return $this->getCollection()->remove(array());
     }
 
+    /**
+     * @param array $keys
+     * @return mixed
+     */
     public function flush(array $keys = array())
     {
         return $this->getCollection()->remove($keys);
     }
 
+    /**
+     * @param CacheElement $cacheElement
+     * @return bool
+     */
     public function has(CacheElement $cacheElement)
     {
         $keys = $cacheElement->getKeys();
@@ -91,6 +107,10 @@ class MongoCache implements CacheInterface
         return $record ? unserialize($record['_value']->bin) : null;
     }
 
+    /**
+     * @param CacheElement $cacheElement
+     * @return array|null
+     */
     public function getRecord(CacheElement $cacheElement)
     {
         $keys = $cacheElement->getKeys();
@@ -105,6 +125,9 @@ class MongoCache implements CacheInterface
         return null;
     }
 
+    /**
+     * @return bool
+     */
     public function isContextual()
     {
         return true;

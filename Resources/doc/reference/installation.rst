@@ -96,27 +96,18 @@ file.
 
         ignore_routes:
             - sonata_page_esi_cache
-            - sonata_page_js_cache
+            - sonata_page_js_sync_cache
+            - sonata_page_js_async_cache
+            - sonata_page_apc_cache
 
         ignore_uri_patterns:
             - /admin(.*)/   # ignore admin route, ie route containing 'admin'
 
         services:
             sonata.page.block.text:
-                cache: sonata.page.cache.noop
-                default_settings: {}
-
             sonata.page.block.action:
-                cache: sonata.page.cache.noop
-                default_settings: {}
-
             sonata.page.block.container:
-                cache: sonata.page.cache.esi
-                default_settings: {}
-
             sonata.page.block.children_page:
-                cache: sonata.page.cache.noop
-                default_settings: {}
 
         page_defaults:
             homepage: {decorate: false} # disable decoration for homepage, key - is a page route
@@ -124,29 +115,6 @@ file.
         default_template: default # template key from templates section, used as default for pages
         templates:
             default: {default: true, path: 'SonataPageBundle::layout.html.twig', name: default }
-
-        caches:
-            sonata.page.cache.esi:
-                servers:
-                    - varnishadm -T 127.0.0.1:2000 {{ COMMAND }} "{{ EXPRESSION }}"
-
-            sonata.page.cache.mongo:
-                database:   cache
-                collection: cache
-                servers:
-                    - '127.0.0.1:27017'
-                    #- 'username:password@localhost:27017'
-
-            sonata.page.cache.memcached:
-                prefix: test     # prefix to ensure there is no clash between instances
-                servers:
-                    - [127.0.0.1, 11211, 0]
-
-            sonata.page.cache.apc:
-                token:  s3cur3   # token used to clear the related cache
-                prefix: test     # prefix to ensure there is no clash between instances
-                servers:
-                    - { domain: kooqit.local, ip: 127.0.0.1, port: 80}
 
         # manage the http errors
         catch_exceptions:

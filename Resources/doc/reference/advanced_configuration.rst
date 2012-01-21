@@ -26,7 +26,7 @@ Full configuration options:
             service:  sonata.page.cache.invalidation.simple
             recorder: sonata.page.cache.recorder
             classes:
-                - [Application\Sonata\PageBundle\Entity\Block, getId]
+                "Application\Sonata\PageBundle\Entity\Block": getId
 
         default_template: default
         templates:
@@ -37,10 +37,15 @@ Full configuration options:
 
         services:
             sonata.page.block.text:
+                cache: sonata.page.cache.noop
             sonata.page.block.action:
+                cache: sonata.page.cache.noop
             sonata.page.block.container:
+                cache: sonata.page.cache.noop
             sonata.page.block.children_pages:
+                cache: sonata.page.cache.noop
             sonata.page.block.rss:
+                cache: sonata.page.cache.noop
 
             # block from Media Bundle
             #sonata.media.block.media:
@@ -48,29 +53,23 @@ Full configuration options:
             #sonata.media.block.feature_media:
 
         caches:
-            sonata.page.cache.noop: ~
-            # Javascript synchronized load (usefull for user specific content)
-            sonata.page.cache.js_sync: ~
-            # Javascript asynchronized load (usefull for user specific content)
-            sonata.page.cache.js_async: ~
-
-            #sonata.page.cache.esi:
+            #esi:
             #    servers:
             #        - varnishadm -T 127.0.0.1:2000 {{ COMMAND }} "{{ EXPRESSION }}"
 
-            #sonata.page.cache.mongo:
+            #mongo:
             #    database:   cache
             #    collection: cache
             #    servers:
-            #        - '127.0.0.1:27017'
-            #        - 'username:password@localhost:27017'
+            #        - {host: 127.0.0.1, port: 27017, user: username, password: pASS'}
+            #        - {host: 127.0.0.2}
 
-            #sonata.page.cache.memcached:
+            #memcached:
             #    prefix: test     # prefix to ensure there is no clash between instances
             #    servers:
-            #        - [127.0.0.1, 11211, 0]
+            #        - {host: 127.0.0.1, port: 11211, weight: 0}
 
-            #sonata.page.cache.apc:
+            #apc:
             #    token:  s3cur3   # token used to clear the related cache
             #    prefix: test     # prefix to ensure there is no clash between instances
             #    servers:

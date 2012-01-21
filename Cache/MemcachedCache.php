@@ -21,22 +21,37 @@ class MemcachedCache implements CacheInterface
 
     protected $collection;
 
+    /**
+     * @param $prefix
+     * @param array $servers
+     */
     public function __construct($prefix, array $servers)
     {
         $this->prefix  = $prefix;
         $this->servers = $servers;
     }
 
+    /**
+     * @return bool
+     */
     public function flushAll()
     {
         return $this->getCollection()->flush();
     }
 
+    /**
+     * @param array $keys
+     * @return bool
+     */
     public function flush(array $keys = array())
     {
         return $this->getCollection()->delete($this->computeCacheKeys(new CacheElement($keys)));
     }
 
+    /**
+     * @param CacheElement $cacheElement
+     * @return bool
+     */
     public function has(CacheElement $cacheElement)
     {
         return $this->getCollection()->get($this->computeCacheKeys($cacheElement)) !== false;
@@ -45,13 +60,13 @@ class MemcachedCache implements CacheInterface
     /**
      * @return \Memcached
      */
-    public function getCollection()
+    private function getCollection()
     {
         if (!$this->collection) {
             $this->collection = new \Memcached();
 
             foreach ($this->servers as $server) {
-                $this->collection->addServer($server[0], $server[1], $server[2]);
+                $this->collection->addServer($server['host'], $server['port'], $server['weight']);
             }
         }
 
@@ -73,7 +88,11 @@ class MemcachedCache implements CacheInterface
         return $return;
     }
 
-    public function computeCacheKeys(CacheElement $cacheElement)
+    /**
+     * @param CacheElement $cacheElement
+     * @return string
+     */
+    private function computeCacheKeys(CacheElement $cacheElement)
     {
         $keys = $cacheElement->getKeys();
 
@@ -91,6 +110,9 @@ class MemcachedCache implements CacheInterface
         return $this->getCollection()->get($this->computeCacheKeys($cacheElement));
     }
 
+    /**
+     * @return bool
+     */
     public function isContextual()
     {
         return false;
