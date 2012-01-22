@@ -33,7 +33,7 @@ class DoctrineMappingPass implements CompilerPassInterface
         $parameterBag   = $container->getParameterBag();
         $pageClass      = $parameterBag->get('sonata.page.page.class');
         $blockClass     = $parameterBag->get('sonata.page.block.class');
-        $snpashotClass  = $parameterBag->get('sonata.page.snapshot.class');
+        $snapshotClass  = $parameterBag->get('sonata.page.snapshot.class');
         $siteClass      = $parameterBag->get('sonata.page.site.class');
 
         $collector = DoctrineCollector::getInstance();
