@@ -28,7 +28,6 @@ use Sonata\PageBundle\Cache\CacheInterface;
 use Sonata\PageBundle\Util\RecursiveBlockIterator;
 use Sonata\PageBundle\Cache\CacheElement;
 use Sonata\PageBundle\Cache\Invalidation\InvalidationInterface;
-use Sonata\PageBundle\Model\SiteInterface;
 
 use Sonata\AdminBundle\Admin\AdminInterface;
 
