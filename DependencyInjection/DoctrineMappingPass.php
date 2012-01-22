@@ -30,13 +30,13 @@ class DoctrineMappingPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $collector = DoctrineCollector::getInstance();
-        $parameterBag = $container->getParameterBag();
-
+        $parameterBag   = $container->getParameterBag();
         $pageClass      = $parameterBag->get('sonata.page.page.class');
         $blockClass     = $parameterBag->get('sonata.page.block.class');
         $snpashotClass  = $parameterBag->get('sonata.page.snapshot.class');
         $siteClass      = $parameterBag->get('sonata.page.site.class');
+
+        $collector = DoctrineCollector::getInstance();
 
         $collector->addAssociation($pageClass, 'mapOneToMany', array(
             'fieldName'     => 'children',
@@ -72,23 +72,23 @@ class DoctrineMappingPass implements CompilerPassInterface
             ),
         ));
 
-        $collector->addAssociation($pageClass, 'mapOneToOne', array(
-            'fieldName'     => 'site',
-            'targetEntity'  => $siteClass,
-            'cascade'       => array(
-                'persist',
-            ),
-            'mappedBy'      => NULL,
-            'inversedBy'    => NULL,
-            'joinColumns'   => array(
-                array(
-                    'name'  => 'site_id',
-                    'referencedColumnName' => 'id',
-                    'onDelete' => 'CASCADE',
-                ),
-            ),
-            'orphanRemoval' => false,
-        ));
+//        $collector->addAssociation($pageClass, 'mapManyToOne', array(
+//            'fieldName'     => 'site',
+//            'targetEntity'  => $siteClass,
+//            'cascade'       => array(
+//                'persist',
+//            ),
+//            'mappedBy'      => NULL,
+//            'inversedBy'    => NULL,
+//            'joinColumns'   => array(
+//                array(
+//                    'name'  => 'site_id',
+//                    'referencedColumnName' => 'id',
+//                    'onDelete' => 'CASCADE',
+//                ),
+//            ),
+//            'orphanRemoval' => false,
+//        ));
 
         $collector->addAssociation($pageClass, 'mapOneToOne', array(
             'fieldName'     => 'parent',
@@ -154,13 +154,13 @@ class DoctrineMappingPass implements CompilerPassInterface
             ),
         ));
 
-        $collector->addAssociation($blockClass, 'mapOneToOne', array(
+        $collector->addAssociation($blockClass, 'mapManyToOne', array(
             'fieldName' => 'parent',
             'targetEntity' => $blockClass,
             'cascade' => array(
             ),
             'mappedBy' => NULL,
-            'inversedBy' => NULL,
+            'inversedBy' => 'children',
             'joinColumns' => array(
                 array(
                     'name' => 'parent_id',
@@ -171,14 +171,14 @@ class DoctrineMappingPass implements CompilerPassInterface
             'orphanRemoval' => false,
         ));
 
-        $collector->addAssociation($blockClass, 'mapOneToOne', array(
+        $collector->addAssociation($blockClass, 'mapManyToOne', array(
             'fieldName' => 'page',
             'targetEntity' => $pageClass,
             'cascade' => array(
                 'persist',
             ),
             'mappedBy' => NULL,
-            'inversedBy' => NULL,
+            'inversedBy' => 'blocks',
             'joinColumns' => array(
                 array(
                     'name' => 'page_id',
@@ -190,35 +190,34 @@ class DoctrineMappingPass implements CompilerPassInterface
         ));
 
 
-        $collector->addAssociation($snpashotClass, 'mapOneToOne', array(
-            'fieldName'     => 'site',
-            'targetEntity'  => $siteClass,
-            'cascade'       => array(
-                'persist',
-            ),
-            'mappedBy'      => NULL,
-            'inversedBy'    => NULL,
-            'joinColumns'   => array(
-                array(
-                    'name'      => 'site_id',
-                    'referencedColumnName' => 'id',
-                    'onDelete'  => 'CASCADE',
-                ),
-            ),
-            'orphanRemoval' => false,
-        ));
+//        $collector->addAssociation($snapshotClass, 'mapManyToOne', array(
+//            'fieldName'     => 'site',
+//            'targetEntity'  => $siteClass,
+//            'cascade'       => array(
+//                'persist',
+//            ),
+//            'mappedBy'      => NULL,
+//            'inversedBy'    => 'snapshots',
+//            'joinColumns'   => array(
+//                array(
+//                    'name'      => 'site_id',
+//                    'referencedColumnName' => 'id',
+//                    'onDelete'  => 'CASCADE',
+//                ),
+//            ),
+//            'orphanRemoval' => false,
+//        ));
 
-        $collector->addAssociation($snpashotClass, 'mapOneToOne', array(
-            'fieldName'     => 'page',
-            'targetEntity'  => $pageClass,
+        $collector->addAssociation($pageClass, 'mapOneToMany', array(
+            'fieldName'     => 'snapshots',
+            'targetEntity'  => $snapshotClass,
             'cascade' => array(
                 'remove',
                 'persist',
                 'refresh',
                 'merge',
-                'detach',
             ),
-            'mappedBy'      => NULL,
+            'mappedBy'      => 'page',
             'inversedBy'    => NULL,
             'joinColumns'   => array(
                 array(
@@ -227,6 +226,20 @@ class DoctrineMappingPass implements CompilerPassInterface
                     'onDelete' => 'CASCADE',
                 ),
             ),
+            'orphanRemoval' => false,
+        ));
+
+        $collector->addAssociation($snapshotClass, 'mapManyToOne', array(
+            'fieldName'     => 'page',
+            'targetEntity'  => $pageClass,
+            'cascade' => array(
+                'remove',
+                'persist',
+                'refresh',
+                'merge',
+            ),
+            'mappedBy'      => NULL,
+            'inversedBy'    => 'snapshots',
             'orphanRemoval' => false,
         ));
     }
