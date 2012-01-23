@@ -12,10 +12,10 @@
 namespace Sonata\PageBundle\Entity;
 
 use Sonata\PageBundle\Model\PageInterface;
-use Sonata\PageBundle\Model\SnapshotInterface;
-use Sonata\PageBundle\Model\SnapshotManagerInterface;
-use Sonata\PageBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\SiteInterface;
+use Sonata\PageBundle\Model\SnapshotInterface;
+use Sonata\PageBundle\Model\BlockInterface;
+use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\Template;
 use Sonata\PageBundle\Model\SnapshotChildrenCollection;
 
@@ -274,6 +274,7 @@ class SnapshotManager implements SnapshotManagerInterface
         $content['created_at']        = $page->getCreatedAt()->format('U');
         $content['updated_at']        = $page->getUpdatedAt()->format('U');
         $content['slug']              = $page->getSlug();
+        $content['sites']             = $page->getSite() ? $page->getSite()->getId() : false;
         $content['parent_id']         = $page->getParent() ? $page->getParent()->getId() : false;
         $content['target_id']         = $page->getTarget() ? $page->getTarget()->getId() : false;
 
