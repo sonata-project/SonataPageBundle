@@ -48,7 +48,7 @@ class UpdateCoreRoutesCommand extends BaseCommand
          }
 
          foreach ($this->getSites($input) as $site) {
-             if ($input->getOption('site')) {
+             if ($input->getOption('site') != 'all') {
                  $this->createRoute($site, $output);
                  $output->writeln("");
              } else {

@@ -24,7 +24,7 @@ class CreateSiteCommand extends BaseCommand
     {
         $this->setName('sonata:page:create-site');
 
-        $this->addOption('confirmation', null, InputOption::VALUE_OPTIONAL, 'Ask confirmation before generating the site', true);
+        $this->addOption('no-confirmation', null, InputOption::VALUE_OPTIONAL, 'Ask confirmation before generating the site', false);
 
         $this->addOption('enabled', null, InputOption::VALUE_OPTIONAL, 'Site.enabled', false);
         $this->addOption('name', null, InputOption::VALUE_OPTIONAL, 'Site.name', null);

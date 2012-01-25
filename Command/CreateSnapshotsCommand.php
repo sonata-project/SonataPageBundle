@@ -48,7 +48,7 @@ class CreateSnapshotsCommand extends BaseCommand
         }
 
         foreach ($this->getSites($input) as $site) {
-            if ($input->getOption('site')) {
+            if ($input->getOption('site') != 'all') {
                 $this->createSnapshot($site, $output);
                 $output->writeln("");
             } else {
