@@ -406,9 +406,9 @@
           <source>list.label_is_default</source>
           <target>Is Default</target>
       </trans-unit>
-      <trans-unit id="101" resname="list.label_domain">
-          <source>list.label_domain</source>
-          <target>Domain</target>
+      <trans-unit id="101" resname="list.label_host">
+          <source>list.label_host</source>
+          <target>Host</target>
       </trans-unit>
       <trans-unit id="102" resname="list.label_relative_path">
           <source>list.label_relative_path</source>
@@ -426,9 +426,9 @@
           <source>form.label_is_default</source>
           <target>Is Default</target>
       </trans-unit>
-      <trans-unit id="106" resname="form.label_domain">
-          <source>form.label_domain</source>
-          <target>Domain</target>
+      <trans-unit id="106" resname="form.label_host">
+          <source>form.label_host</source>
+          <target>Host</target>
       </trans-unit>
       <trans-unit id="107" resname="form.label_relative_path">
           <source>form.label_relative_path</source>
@@ -493,6 +493,26 @@
       <trans-unit id="122" resname="site">
           <source>site</source>
           <target>Site</target>
+      </trans-unit>
+      <trans-unit id="123" resname="show.label_is_default">
+          <source>show.label_is_default</source>
+          <target>Is Default</target>
+      </trans-unit>
+      <trans-unit id="124" resname="show.label_host">
+          <source>show.label_host</source>
+          <target>Host</target>
+      </trans-unit>
+      <trans-unit id="125" resname="show.label_relative_path">
+          <source>show.label_relative_path</source>
+          <target>Relative Path</target>
+      </trans-unit>
+      <trans-unit id="126" resname="show.label_enabled_from">
+          <source>show.label_enabled_from</source>
+          <target>Enabled From</target>
+      </trans-unit>
+      <trans-unit id="127" resname="show.label_enabled_to">
+          <source>show.label_enabled_to</source>
+          <target>Enabled To</target>
       </trans-unit>
     </body>
   </file>

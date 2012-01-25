@@ -4,8 +4,8 @@
 
         <field name="enabled"           type="boolean"      column="enabled"        default="false" />
         <field name="name"              type="string"       column="name"           length="255"/>
-        <field name="relativePath"      type="string"       column="relative_path"  length="255"/>
-        <field name="domain"            type="string"       column="domain"         length="255"/>
+        <field name="relativePath"      type="string"       column="relative_path"  length="255" nullable='true'/>
+        <field name="host"              type="string"       column="host"           length="255"/>
         <field name="enabledFrom"       type="datetime"     column="enabled_from" />
         <field name="enabledTo"         type="datetime"     column="enabled_to"   />
         <field name="isDefault"         type="boolean"      column="is_default"     length="255"/>

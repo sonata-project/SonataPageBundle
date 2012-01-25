@@ -29,7 +29,7 @@ class CreateSiteCommand extends BaseCommand
         $this->addOption('enabled', null, InputOption::VALUE_OPTIONAL, 'Site.enabled', false);
         $this->addOption('name', null, InputOption::VALUE_OPTIONAL, 'Site.name', null);
         $this->addOption('relativePath', null, InputOption::VALUE_OPTIONAL, 'Site.relativePath', null);
-        $this->addOption('domain', null, InputOption::VALUE_OPTIONAL, 'Site.domain', null);
+        $this->addOption('host', null, InputOption::VALUE_OPTIONAL, 'Site.host', null);
         $this->addOption('enabledFrom', null, InputOption::VALUE_OPTIONAL, 'Site.enabledFrom', null);
         $this->addOption('enabledTo', null, InputOption::VALUE_OPTIONAL, 'Site.enabledTo', null);
         $this->addOption('default', null, InputOption::VALUE_OPTIONAL, 'Site.default', null);
@@ -52,7 +52,7 @@ EOT
 
         $values = array(
             'name'=> null,
-            'domain'=> null,
+            'host'=> null,
             'relativePath'=> null,
             'enabled'=> null,
             'enabledFrom'=> null,
@@ -75,7 +75,7 @@ EOT
 
         $site->setRelativePath($values['relativePath'] == '/' ? '' : $values['relativePath']);
 
-        $site->setDomain($values['domain']);
+        $site->setHost($values['host']);
         $site->setEnabledFrom(new \DateTime($values['enabledFrom']));
         $site->setEnabledTo(new \DateTime($values['enabledTo']));
         $site->setIsDefault($values['default']);
@@ -85,7 +85,7 @@ EOT
 
 Creating website with the following information :
   <info>name</info> : {$site->getName()}
-  <info>site</info> : http(s)://{$site->getDomain()}{$site->getRelativePath()}
+  <info>site</info> : http(s)://{$site->getHost()}{$site->getRelativePath()}
   <info>enabled</info> :  {$site->getEnabledFrom()->format('r')} => {$site->getEnabledto()->format('r')}
 
 INFO

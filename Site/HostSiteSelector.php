@@ -17,7 +17,7 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 
-class DomainSiteSelector extends BaseSiteSelector
+class HostSiteSelector extends BaseSiteSelector
 {
     /**
      * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
@@ -39,7 +39,7 @@ class DomainSiteSelector extends BaseSiteSelector
 
             $this->site = $site;
 
-            if ($this->site->getDomain() != 'localhost') {
+            if ($this->site->getHost() != 'localhost') {
                 break;
             }
         }

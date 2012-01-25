@@ -16,13 +16,13 @@ First, you need to create a dedicated site, let's create a localhost site::
 
 Or::
 
-    php app/console  sonata:page:create-site --enabled=true --name=localhost --domain=localhost --relativePath=/ --enabledFrom=now --enabledTo="+10 years" --default=true
+    php app/console  sonata:page:create-site --enabled=true --name=localhost --host=localhost --relativePath=/ --enabledFrom=now --enabledTo="+10 years" --default=true
 
 
 The output might look like this::
 
     Please define a value for Site.name : localhost
-    Please define a value for Site.domain : localhost
+    Please define a value for Site.host : localhost
     Please define a value for Site.relativePath : /
     Please define a value for Site.enabled : true
     Please define a value for Site.enabledFrom : now

@@ -19,7 +19,7 @@ use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Request\SiteRequestInterface;
 use Sonata\PageBundle\Request\SiteRequestContext;
 
-class DomainPathSiteSelector extends BaseSiteSelector
+class HostPathSiteSelector extends BaseSiteSelector
 {
      /**
      * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
@@ -28,7 +28,7 @@ class DomainPathSiteSelector extends BaseSiteSelector
     public function onKernelRequest(GetResponseEvent $event)
     {
         if (!$event->getRequest() instanceof SiteRequestInterface) {
-            throw new \RuntimeException('You must change the main Request object in the front controller (app.php) in order to use the `domain_with_path` strategy');
+            throw new \RuntimeException('You must change the main Request object in the front controller (app.php) in order to use the `host_with_path` strategy');
         }
 
         $this->setRequest($event->getRequest());
@@ -53,7 +53,7 @@ class DomainPathSiteSelector extends BaseSiteSelector
 
             $this->site = $site;
 
-            if ($this->site->getDomain() != 'localhost') {
+            if ($this->site->getHost() != 'localhost') {
                 break;
             }
         }

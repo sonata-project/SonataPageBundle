@@ -37,9 +37,9 @@ class SiteAdmin extends Admin
     {
         $showMapper
             ->add('name')
-            ->add('isDefault')
+//            ->add('isDefault')
             ->add('enabled')
-            ->add('domain')
+            ->add('host')
             ->add('relativePath')
             ->add('enabledFrom')
             ->add('enabledTo')
@@ -54,9 +54,9 @@ class SiteAdmin extends Admin
     {
         $listMapper
             ->addIdentifier('name')
-            ->add('isDefault')
+//            ->add('isDefault')
             ->add('enabled')
-            ->add('domain')
+            ->add('host')
             ->add('relativePath')
             ->add('enabledFrom')
             ->add('enabledTo')
@@ -84,9 +84,9 @@ class SiteAdmin extends Admin
         $formMapper
             ->add('name')
             ->add('isDefault', null, array('required' => false))
-            ->add('enabled', null, array('required' => false))
-            ->add('domain')
-            ->add('relativePath')
+//            ->add('enabled', null, array('required' => false))
+            ->add('host')
+            ->add('relativePath', null, array('required' => false))
             ->add('enabledFrom')
             ->add('enabledTo')
         ;

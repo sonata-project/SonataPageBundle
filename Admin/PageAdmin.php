@@ -56,7 +56,7 @@ class PageAdmin extends Admin
     {
         $listMapper
             ->add('hybrid', 'text', array('template' => 'SonataPageBundle:PageAdmin:field_hybrid.html.twig'))
-            ->add('name', null, array('identifier' => true))
+            ->addIdentifier('name')
             ->add('decorate')
             ->add('enabled')
             ->add('site')
@@ -131,7 +131,6 @@ class PageAdmin extends Admin
         if (!$this->getSubject() || !$this->getSubject()->isDynamic()) {
             $formMapper
                 ->with($this->trans('form_page.group_main_label'))
-
                     ->add('target', 'sonata_page_selector', array(
                         'page'          => $this->getSubject() ?: null,
                         'model_manager' => $this->getModelManager(),

@@ -81,7 +81,7 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
 
         if (count($sites) == 0) {
             $sites = $this->siteManager->findBy(array(
-                'domain'  => array($this->request->getHost(), 'localhost'),
+                'host'    => array($this->request->getHost(), 'localhost'),
                 'enabled' => true,
             ));
         }

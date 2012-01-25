@@ -23,7 +23,7 @@ abstract class Site implements SiteInterface
 
     protected $name;
 
-    protected $domain;
+    protected $host;
 
     protected $relativePath;
 
@@ -67,7 +67,19 @@ abstract class Site implements SiteInterface
 
     public function getUrl()
     {
-        return sprintf('http://%s%s', $this->getDomain(), $this->getRelativePath());
+        if ($this->isLocalhost()) {
+            return $this->getRelativePath();
+        }
+
+        return sprintf('http://%s%s', $this->getHost(), $this->getRelativePath());
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLocalhost()
+    {
+        return $this->getHost() == 'localhost';
     }
 
     /**
@@ -115,14 +127,14 @@ abstract class Site implements SiteInterface
         return $this->getName()?:'n/a';
     }
 
-    public function setDomain($domain)
+    public function setHost($host)
     {
-        $this->domain = $domain;
+        $this->host = $host;
     }
 
-    public function getDomain()
+    public function getHost()
     {
-        return $this->domain;
+        return $this->host;
     }
 
     public function setFormats($formats)

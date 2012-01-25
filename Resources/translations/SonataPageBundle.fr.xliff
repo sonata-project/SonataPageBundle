@@ -406,8 +406,8 @@
           <source>list.label_is_default</source>
           <target>Par défaut</target>
       </trans-unit>
-      <trans-unit id="101" resname="list.label_domain">
-          <source>list.label_domain</source>
+      <trans-unit id="101" resname="list.label_host">
+          <source>list.label_host</source>
           <target>Nom de domaine</target>
       </trans-unit>
       <trans-unit id="102" resname="list.label_relative_path">
@@ -426,8 +426,8 @@
           <source>form.label_is_default</source>
           <target>Par défaut</target>
       </trans-unit>
-      <trans-unit id="106" resname="form.label_domain">
-          <source>form.label_domain</source>
+      <trans-unit id="106" resname="form.label_host">
+          <source>form.label_host</source>
           <target>Nom de domaine</target>
       </trans-unit>
       <trans-unit id="107" resname="form.label_relative_path">
@@ -440,7 +440,7 @@
       </trans-unit>
       <trans-unit id="109" resname="form.label_enabled_from">
           <source>form.label_enabled_from</source>
-          <target>Activé jusqu'à</target>
+          <target>Activé jusqu'au</target>
       </trans-unit>
       <trans-unit id="110" resname="breadcrumb.link_site_list">
           <source>breadcrumb.link_site_list</source>
@@ -457,6 +457,62 @@
       <trans-unit id="113" resname="breadcrumb.link_site_edit">
           <source>breadcrumb.link_site_edit</source>
           <target>Editer</target>
+      </trans-unit>
+      <trans-unit id="114" resname="list.label_create_snapshots">
+          <source>list.label_create_snapshots</source>
+          <target>Publications</target>
+      </trans-unit>
+      <trans-unit id="115" resname="link_create_snapshots">
+          <source>link_create_snapshots</source>
+          <target>Ajouter Publications</target>
+      </trans-unit>
+      <trans-unit id="116" resname="title_create_snapshots">
+          <source>title_create_snapshots</source>
+          <target>Ajouter Publications</target>
+      </trans-unit>
+      <trans-unit id="117" resname="message_create_snapshots">
+          <source>message_create_snapshots</source>
+          <target>Valider pour rajouter des publications pour le site : %site%</target>
+      </trans-unit>
+      <trans-unit id="118" resname="button_create_snapshots">
+          <source>button_create_snapshots</source>
+          <target>Ajouter</target>
+      </trans-unit>
+      <trans-unit id="119" resname="breadcrumb.link_site_history">
+          <source>breadcrumb.link_site_history</source>
+          <target>Historique</target>
+      </trans-unit>
+      <trans-unit id="120" resname="form.label_site">
+          <source>form.label_site</source>
+          <target>Site</target>
+      </trans-unit>
+      <trans-unit id="121" resname="list.label_site">
+          <source>list.label_site</source>
+          <target>Site</target>
+      </trans-unit>
+      <trans-unit id="122" resname="site">
+          <source>site</source>
+          <target>Sites</target>
+      </trans-unit>
+      <trans-unit id="123" resname="show.label_is_default">
+          <source>show.label_is_default</source>
+          <target>Par défaut</target>
+      </trans-unit>
+      <trans-unit id="124" resname="show.label_host">
+          <source>show.label_host</source>
+          <target>Host</target>
+      </trans-unit>
+      <trans-unit id="125" resname="show.label_relative_path">
+          <source>show.label_relative_path</source>
+          <target>Chemin</target>
+      </trans-unit>
+      <trans-unit id="126" resname="show.label_enabled_from">
+          <source>show.label_enabled_from</source>
+          <target>Activé à partir</target>
+      </trans-unit>
+      <trans-unit id="127" resname="show.label_enabled_to">
+          <source>show.label_enabled_to</source>
+          <target>Activé jusqu'au</target>
       </trans-unit>
     </body>
   </file>

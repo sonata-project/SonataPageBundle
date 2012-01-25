@@ -27,15 +27,15 @@ interface SiteInterface
     function getName();
 
     /**
-     * @param $domain
+     * @param $host
      * @return void
      */
-    function setDomain($domain);
+    function setHost($host);
 
     /**
      * @return void
      */
-    function getDomain();
+    function getHost();
 
     /**
      * @return \DateTime
@@ -132,4 +132,9 @@ interface SiteInterface
      * @return string
      */
     function getUrl();
+
+    /**
+     * @return void
+     */
+    function isLocalhost();
 }

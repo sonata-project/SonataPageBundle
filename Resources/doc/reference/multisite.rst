@@ -4,11 +4,11 @@ Multisite
 The ``PageBundle`` handles multisite out of the box. However due to some limitation of the Symfony2 API, the
 multisite support is done around 2 strategies :
 
-* domain : you can configure a site per domain. This strategy works out of the box with no changes.
-* domain with path : you can configure site per domain and per path. This strategy requires some changes.
+* host : you can configure a site per host. This strategy works out of the box with no changes.
+* host with path : you can configure site per host and per path. This strategy requires some changes.
 
 
-Domain Strategy
+Host Strategy
 ---------------
 
 With this strategy it is possible to handle sites like :
@@ -22,13 +22,13 @@ Just configure the ``sonata_page`` section as:
 .. code-block:: yaml
 
     sonata_page:
-        multisite: domain
+        multisite: host
         [...]
 
 And that's it!
 
 
-Domain and Path Strategy
+Host and Path Strategy
 ------------------------
 
 With this strategy it is possible to handle sites like :
@@ -66,7 +66,7 @@ The last action is to configure the ``sonata_page`` section as:
 .. code-block:: yaml
 
     sonata_page:
-        multisite: domain_with_site
+        multisite: host_with_site
         [...]
 
 And that's it!

@@ -40,8 +40,8 @@ class SiteRequestContext extends RequestContext
     {
         $site = $this->selector->retrieve();
 
-        if ($site) {
-            return $site->getDomain();
+        if ($site && !$site->isLocalhost()) {
+            return $site->getHost();
         }
 
         return parent::getHost();
@@ -54,7 +54,7 @@ class SiteRequestContext extends RequestContext
     {
         $site = $this->selector->retrieve();
 
-        if ($site) {
+        if ($site && !$site->isLocalhost()) {
             return parent::getBaseUrl().$site->getRelativePath();
         }
 
