@@ -22,13 +22,13 @@ interface PageInterface
     function setRouteName($routeName);
 
     /**
-     * @abstract
+     *
      * @return mixed
      */
     function getId();
 
     /**
-     * @abstract
+     *
      * @param $id
      * @return mixed
      */
@@ -178,7 +178,7 @@ interface PageInterface
     /**
      * Get createdAt
      *
-     * @return datetime $createdAt
+     * @return \DateTime $createdAt
      */
     function getCreatedAt();
 
@@ -226,7 +226,7 @@ interface PageInterface
     function getBlocks();
 
     /**
-     * @abstract
+     *
      * @param PageInterface $target
      * @return void
      */
@@ -271,77 +271,77 @@ interface PageInterface
     /**
      * Indicates if the page should be decorated with the CMS outter layout
      *
-     * @abstract
+     *
      * @param boolean $decorate
      * @return void
      */
     function setDecorate($decorate);
 
     /**
-     * @abstract
+     *
      * @return void
      */
     function getDecorate();
 
     /**
-     * @abstract
+     *
      * @return boolean
      */
     function isHybrid();
 
     /**
-     * @abstract
+     *
      * @return boolean
      */
     function isDynamic();
 
     /**
-     * @abstract
+     *
      * @return boolean
      */
     function isCms();
 
     /**
-     * @abstract
+     *
      * @return boolean
      */
     function isInternal();
 
     /**
-     * @abstract
+     *
      * @param int $position
      * @return void
      */
     function setPosition($position);
 
     /**
-     * @abstract
+     *
      * @return int
      */
     function getPosition();
 
     /**
-     * @abstract
+     *
      * @param string $method
      * @return void
      */
     function setRequestMethod($method);
 
     /**
-     * @abstract
+     *
      * @return void
      */
     function getRequestMethod();
 
     /**
-     * @abstract
+     *
      * @param array $headers
      * @return void
      */
     function setHeaders(array $headers = array());
 
     /**
-     * @abstract
+     *
      * @param $name
      * @param $value
      * @return void
@@ -349,19 +349,19 @@ interface PageInterface
     function addHeader($name, $value);
 
     /**
-     * @abstract
+     *
      * @return array
      */
     function getHeaders();
 
     /**
-     * @abstract
+     *
      * @param array $parents
      */
     function setParents(array $parents);
 
     /**
-     * @abstract
+     *
      *
      */
     function getParents();
@@ -369,15 +369,34 @@ interface PageInterface
     /**
      * Return the TTL value in second
      *
-     * @abstract
+     *
      * @return integer
      */
     function getTtl();
 
     /**
-     * @abstract
+     *
      * @param string $method
      * @return bool
      */
     function hasRequestMethod($method);
+
+    /**
+     *
+     * @param SiteInterface $site
+     * @return void
+     */
+    function setSite(SiteInterface $site);
+
+    /**
+     *
+     * @return void
+     */
+    function getSite();
+
+    /**
+     * @param array $rawHeaders
+     * @return void
+     */
+    function setRawHeaders($rawHeaders);
 }

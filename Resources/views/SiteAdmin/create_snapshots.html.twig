@@ -15,10 +15,10 @@ file that was distributed with this source code.
 
 {% block content %}
 
-    {% trans from 'SonataPageBundle'%}message_create_snapshots{% endtrans %}
+    {{ "message_create_snapshots"|trans({'%site%': object.name }, 'SonataPageBundle') }}
 
     <div class="actions">
-        <form action="{{ admin.generateUrl('snapshots') }}" method="POST">
+        <form action="{{ admin.generateUrl('snapshots', {'id': object.id}) }}" method="POST">
 
             <input class="btn primary" type="submit" name="create" value="{% trans from 'SonataPageBundle' %}button_create_snapshots{% endtrans %}"/>
 

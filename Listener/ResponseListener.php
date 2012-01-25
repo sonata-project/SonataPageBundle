@@ -13,7 +13,10 @@
 namespace Sonata\PageBundle\Listener;
 
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
+use Sonata\PageBundle\Site\SiteSelectorInterface;
+
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * This class redirect the onCoreResponse event to the correct
@@ -21,14 +24,18 @@ use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
  */
 class ResponseListener
 {
-    protected $selector;
+    protected $cmsSelector;
+
+    protected $siteSelector;
 
     /**
-     * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $selector
+     * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $cmsSelector
+     * @param \Sonata\PageBundle\Site\SiteSelectorInterface $siteSelector
      */
-    public function __construct(CmsManagerSelectorInterface $selector)
+    public function __construct(CmsManagerSelectorInterface $cmsSelector, SiteSelectorInterface $siteSelector)
     {
-        $this->selector = $selector;
+        $this->cmsSelector = $cmsSelector;
+        $this->siteSelector = $siteSelector;
     }
 
     /**
@@ -39,7 +46,7 @@ class ResponseListener
      */
     public function onCoreResponse(FilterResponseEvent $event)
     {
-        $cmsManager  = $this->selector->retrieve();
+        $cmsManager  = $this->cmsSelector->retrieve();
 
         if (!$cmsManager) {
             return;
@@ -52,12 +59,24 @@ class ResponseListener
             return;
         }
 
-        $page = $cmsManager->defineCurrentPage($request);
+        $site = $this->siteSelector->retrieve();
+
+        if (!($page = $cmsManager->getCurrentPage())) {
+            $routeName = $request->get('_route');
+
+            if ($routeName == 'page_slug') { // true cms page
+                return;
+            }
+
+            $page = $cmsManager->getPageByRouteName($site, $routeName);
+        }
 
         // only decorate hybrid page and page with decorate = true
         if (!$page || !$page->isHybrid() || !$page->getDecorate()) {
             return;
         }
+
+        $cmsManager->setCurrentPage($page);
 
         $event->setResponse(
             $cmsManager->renderPage(

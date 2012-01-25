@@ -13,6 +13,7 @@ namespace Sonata\PageBundle\Cache;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Routing\RouterInterface;
 
 class ApcCache implements CacheInterface
 {
@@ -24,7 +25,13 @@ class ApcCache implements CacheInterface
 
     protected $router;
 
-    public function __construct($router, $token, $prefix, array $servers)
+    /**
+     * @param \Symfony\Component\Routing\RouterInterface $router
+     * @param string $token
+     * @param string $prefix
+     * @param array $servers
+     */
+    public function __construct(RouterInterface $router, $token, $prefix, array $servers)
     {
         $this->token   = $token;
         $this->prefix  = $prefix;
@@ -32,11 +39,17 @@ class ApcCache implements CacheInterface
         $this->router  = $router;
     }
 
-    public function getToken()
+    /**
+     * @return string
+     */
+    private function getToken()
     {
         return $this->token;
     }
 
+    /**
+     * @return bool
+     */
     public function flushAll()
     {
         $result = true;
@@ -63,18 +76,26 @@ class ApcCache implements CacheInterface
             $content = socket_read($socket, 1024);
 
             if ($result) {
-              $result = substr($content, -2) == 'ok' ? true : false;
+                $result = substr($content, -2) == 'ok' ? true : false;
             }
         }
 
         return $result;
     }
 
+    /**
+     * @param array $keys
+     * @return bool
+     */
     public function flush(array $keys = array())
     {
         return $this->flushAll();
     }
 
+    /**
+     * @param CacheElement $cacheElement
+     * @return bool|\string[]
+     */
     public function has(CacheElement $cacheElement)
     {
         return apc_exists($this->computeCacheKeys($cacheElement));
@@ -95,7 +116,11 @@ class ApcCache implements CacheInterface
         return $return;
     }
 
-    public function computeCacheKeys(CacheElement $cacheElement)
+    /**
+     * @param CacheElement $cacheElement
+     * @return string
+     */
+    private function computeCacheKeys(CacheElement $cacheElement)
     {
         $keys = $cacheElement->getKeys();
 
@@ -113,6 +138,11 @@ class ApcCache implements CacheInterface
         return apc_fetch($this->computeCacheKeys($cacheElement));
     }
 
+    /**
+     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
+     * @param $token
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function cacheAction($token)
     {
         if ($this->getToken() == $token) {
@@ -126,6 +156,9 @@ class ApcCache implements CacheInterface
         throw new AccessDeniedException('invalid token');
     }
 
+    /**
+     * @return bool
+     */
     public function isContextual()
     {
         return false;

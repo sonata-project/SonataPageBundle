@@ -29,6 +29,8 @@ class PageAdmin extends Admin
 {
     protected $cmsManager;
 
+    protected $siteManager;
+
     /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
      * @return void
@@ -36,6 +38,7 @@ class PageAdmin extends Admin
     protected function configureShowField(ShowMapper $showMapper)
     {
         $showMapper
+            ->add('site')
             ->add('routeName')
             ->add('enabled')
             ->add('decorate')
@@ -56,6 +59,7 @@ class PageAdmin extends Admin
             ->add('name', null, array('identifier' => true))
             ->add('decorate')
             ->add('enabled')
+            ->add('site')
         ;
     }
 
@@ -66,6 +70,7 @@ class PageAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
+            ->add('site')
             ->add('name')
             ->add('hybrid', 'doctrine_orm_callback', array(
                 'callback' => function($queryBuilder, $alias, $field, $data) {
@@ -107,12 +112,14 @@ class PageAdmin extends Admin
 
         $formMapper
             ->with($this->trans('form_page.group_main_label'))
+                ->add('site', null, array('attr' => array('readonly' => 'readonly')))
                 ->add('name')
                 ->add('enabled', null, array('required' => false))
                 ->add('position')
                 ->add('templateCode', 'choice', array('required' => true, 'choices' => $templates))
                 ->add('parent', 'sonata_page_selector', array(
                     'page'          => $this->getSubject() ?: null,
+                    'site'          => $this->getSubject() ? $this->getSubject()->getSite() : null,
                     'model_manager' => $this->getModelManager(),
                     'class'         => $this->getClass(),
                     'filter_choice' => array('hierarchy' => 'root'),
@@ -183,32 +190,15 @@ class PageAdmin extends Admin
             $this->cmsManager->getPageManager()->fixUrl($object);
         }
 
-        $page = $this->cmsManager->getPageManager()->getPageByUrl($object->getUrl());
+        $page = $this->cmsManager->getPageManager()->getPageByUrl($object->getSite(), $object->getUrl());
 
         if (!$page) {
-            $page = $this->cmsManager->getPageManager()->getPageByUrl(substr($object->getUrl(), -1) == '/' ? substr($object->getUrl(), 0, -1) : $object->getUrl().'/');
+            $page = $this->cmsManager->getPageManager()->getPageByUrl($object->getSite(), substr($object->getUrl(), -1) == '/' ? substr($object->getUrl(), 0, -1) : $object->getUrl().'/');
         }
 
         if ($page && $page->getId() != $object->getId()) {
             $errorElement->addViolation($this->trans('error.uniq_url', array('%url%' => $object->getUrl())));
         }
-    }
-
-    /**
-     * @param \Sonata\AdminBundle\Route\RouteCollection $collection
-     * @return void
-     */
-    protected function configureRoutes(RouteCollection $collection)
-    {
-        $collection->add('snapshots');
-    }
-
-    /**
-     * @return string
-     */
-    public function getListTemplate()
-    {
-        return 'SonataPageBundle:PageAdmin:list.html.twig';
     }
 
     /**
@@ -280,18 +270,31 @@ class PageAdmin extends Admin
     {
         $instance = parent::getNewInstance();
 
-        if ($this->hasRequest() && $this->getRequest()->get('url')) {
-            $slugs  = explode('/', $this->getRequest()->get('url'));
-            $slug   = array_pop($slugs);
+        if ($this->hasRequest()) {
 
-            $parent = $this->cmsManager->getPageByUrl(implode('/', $slugs));
-            if (!$parent) {
-                $parent = $this->cmsManager->getPageByUrl('/');
+            if ($this->getRequest()->get('url')) {
+                $slugs  = explode('/', $this->getRequest()->get('url'));
+                $slug   = array_pop($slugs);
+
+                $parent = $this->cmsManager->getPageByUrl(implode('/', $slugs));
+                if (!$parent) {
+                    $parent = $this->cmsManager->getPageByUrl('/');
+                }
+
+                $instance->setSlug(urldecode($slug));
+                $instance->setParent($parent ?: null);
+                $instance->setName(urldecode($slug));
             }
 
-            $instance->setSlug(urldecode($slug));
-            $instance->setParent($parent ?: null);
-            $instance->setName(urldecode($slug));
+            if ($this->getRequest()->get('siteId')) {
+                $site = $this->siteManager->findOneBy(array('id' => $this->getRequest()->get('siteId')));
+
+                if (!$site) {
+                    throw new \RuntimeException('Unable to find the site with id='.$this->getRequest()->get('siteId'));
+                }
+
+                $instance->setSite($site);
+            }
         }
 
         return $instance;
@@ -307,5 +310,20 @@ class PageAdmin extends Admin
         );
 
         return $actions;
+    }
+
+    public function setSiteManager($siteManager)
+    {
+        $this->siteManager = $siteManager;
+    }
+
+    public function getSiteManager()
+    {
+        return $this->siteManager;
+    }
+
+    public function getSites()
+    {
+        return $this->siteManager->findBy();
     }
 }

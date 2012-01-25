@@ -17,6 +17,8 @@ use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Config\Definition\Processor;
+
 use Sonata\EasyExtendsBundle\Mapper\DoctrineCollector;
 
 /**
@@ -35,6 +37,10 @@ class SonataPageExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
+        $processor = new Processor();
+        $configuration = new Configuration();
+        $config = $processor->processConfiguration($configuration, $configs);
+
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('page.xml');
         $loader->load('admin.xml');
@@ -45,35 +51,51 @@ class SonataPageExtension extends Extension
         $loader->load('twig.xml');
         $loader->load('http_kernel.xml');
 
-        // todo: use the configuration class
-        $configs = call_user_func_array('array_merge_recursive', $configs);
-
-        $this->configureInvalidation($container, $configs);
-        $this->configureCache($container, $configs);
-        $this->configureTemplate($container, $configs);
-        $this->configureExceptions($container, $configs);
+        $this->configureMultisite($container, $config);
+        $this->configureInvalidation($container, $config);
+        $this->configureCache($container, $config);
+        $this->configureTemplate($container, $config);
+        $this->configureExceptions($container, $config);
 
         $cmsPage = $container->getDefinition('sonata.page.cms.page');
         $cmsSnapshot = $container->getDefinition('sonata.page.cms.snapshot');
 
-        $cmsPage->addMethodCall('setOptions', array($configs));
-        $cmsSnapshot->addMethodCall('setOptions', array($configs));
+        $cmsPage->addMethodCall('setOptions', array($config));
+        $cmsSnapshot->addMethodCall('setOptions', array($config));
 
-        if (isset($configs['services'])) {
-            foreach ($configs['services'] as $id => $settings) {
-                $cache = isset($settings['cache']) ? $settings['cache'] : 'sonata.page.cache.noop';
-
-                $cmsPage->addMethodCall('addCacheService', array($id, new Reference($cache)));
-                $cmsSnapshot->addMethodCall('addCacheService', array($id, new Reference($cache)));
-            }
+        foreach ($config['services'] as $id => $settings) {
+            $cmsPage->addMethodCall('addCacheService', array($id, new Reference($settings['cache'])));
+            $cmsSnapshot->addMethodCall('addCacheService', array($id, new Reference($settings['cache'])));
         }
 
-        $this->registerDoctrineMapping($configs);
+        $this->addClassesToCompile(array(
+            'Sonata\\PageBundle\\Request\\SiteRequest'
+        ));
+
+        $this->registerDoctrineMapping($config);
+        $this->registerParameters($container, $config);
+    }
+
+    /**
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param $config
+     * @return void
+     */
+    public function registerParameters(ContainerBuilder $container, $config)
+    {
+        $container->setParameter('sonata.page.site.class', $config['class']['site']);
+        $container->setParameter('sonata.page.block.class', $config['class']['block']);
+        $container->setParameter('sonata.page.snapshot.class', $config['class']['snapshot']);
+        $container->setParameter('sonata.page.page.class', $config['class']['page']);
+
+        $container->setParameter('sonata.page.admin.site.entity', $config['class']['site']);
+        $container->setParameter('sonata.page.admin.block.entity', $config['class']['block']);
+        $container->setParameter('sonata.page.admin.snapshot.entity', $config['class']['snapshot']);
+        $container->setParameter('sonata.page.admin.page.entity', $config['class']['page']);
     }
 
     /**
      * @param array $config
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
      * @return void
      */
     public function registerDoctrineMapping(array $config)
@@ -84,9 +106,9 @@ class SonataPageExtension extends Extension
 
         $collector = DoctrineCollector::getInstance();
 
-        $collector->addAssociation('Application\\Sonata\\PageBundle\\Entity\\Page', 'mapOneToMany', array(
+        $collector->addAssociation($config['class']['page'], 'mapOneToMany', array(
             'fieldName'     => 'children',
-            'targetEntity'  => 'Application\\Sonata\\PageBundle\\Entity\\Page',
+            'targetEntity'  => $config['class']['page'],
             'cascade'       => array(
                 'remove',
                 'persist',
@@ -101,9 +123,9 @@ class SonataPageExtension extends Extension
             ),
         ));
 
-        $collector->addAssociation('Application\\Sonata\\PageBundle\\Entity\\Page', 'mapOneToMany', array(
+        $collector->addAssociation($config['class']['page'], 'mapOneToMany', array(
             'fieldName'     => 'blocks',
-            'targetEntity'  => 'Application\\Sonata\\PageBundle\\Entity\\Block',
+            'targetEntity'  => $config['class']['block'],
             'cascade' => array(
                 'remove',
                 'persist',
@@ -118,27 +140,27 @@ class SonataPageExtension extends Extension
             ),
         ));
 
-//        $collector->addAssociation('Application\\Sonata\\PageBundle\\Entity\\Page', 'mapOneToOne', array(
-//            'fieldName'     => 'site',
-//            'targetEntity'  => 'Application\\Sonata\\PageBundle\\Entity\\Site',
-//            'cascade'       => array(
-//                'persist',
-//            ),
-//            'mappedBy'      => NULL,
-//            'inversedBy'    => NULL,
-//            'joinColumns'   => array(
-//                array(
-//                    'name'  => 'site_id',
-//                    'referencedColumnName' => 'id',
-//                    'onDelete' => 'CASCADE',
-//                ),
-//            ),
-//            'orphanRemoval' => false,
-//        ));
+        $collector->addAssociation($config['class']['page'], 'mapOneToOne', array(
+            'fieldName'     => 'site',
+            'targetEntity'  => $config['class']['site'],
+            'cascade'       => array(
+                'persist',
+            ),
+            'mappedBy'      => NULL,
+            'inversedBy'    => NULL,
+            'joinColumns'   => array(
+                array(
+                    'name'  => 'site_id',
+                    'referencedColumnName' => 'id',
+                    'onDelete' => 'CASCADE',
+                ),
+            ),
+            'orphanRemoval' => false,
+        ));
 
-        $collector->addAssociation('Application\\Sonata\\PageBundle\\Entity\\Page', 'mapOneToOne', array(
+        $collector->addAssociation($config['class']['page'], 'mapOneToOne', array(
             'fieldName'     => 'parent',
-            'targetEntity'  => 'Application\\Sonata\\PageBundle\\Entity\\Page',
+            'targetEntity'  => $config['class']['page'],
             'cascade'       => array(
                  'persist',
             ),
@@ -154,9 +176,9 @@ class SonataPageExtension extends Extension
             'orphanRemoval' => false,
         ));
 
-        $collector->addAssociation('Application\\Sonata\\PageBundle\\Entity\\Page', 'mapOneToMany', array(
+        $collector->addAssociation($config['class']['page'], 'mapOneToMany', array(
              'fieldName' => 'sources',
-             'targetEntity' => 'Application\\Sonata\\PageBundle\\Entity\\Page',
+             'targetEntity' => $config['class']['page'],
              'cascade' => array(
                  'remove',
                  'persist',
@@ -168,9 +190,9 @@ class SonataPageExtension extends Extension
              'orphanRemoval' => false,
         ));
 
-        $collector->addAssociation('Application\\Sonata\\PageBundle\\Entity\\Page', 'mapOneToOne', array(
+        $collector->addAssociation($config['class']['page'], 'mapOneToOne', array(
             'fieldName' => 'target',
-            'targetEntity' => 'Application\\Sonata\\PageBundle\\Entity\\Page',
+            'targetEntity' => $config['class']['page'],
             'cascade' => array(
                 'persist',
             ),
@@ -186,9 +208,9 @@ class SonataPageExtension extends Extension
             'orphanRemoval' => false,
         ));
 
-        $collector->addAssociation('Application\\Sonata\\PageBundle\\Entity\\Block', 'mapOneToMany', array(
+        $collector->addAssociation($config['class']['block'], 'mapOneToMany', array(
             'fieldName' => 'children',
-            'targetEntity' => 'Application\\Sonata\\PageBundle\\Entity\\Block',
+            'targetEntity' => $config['class']['block'],
             'cascade' => array(
                 'remove',
                 'persist',
@@ -200,9 +222,9 @@ class SonataPageExtension extends Extension
             ),
         ));
 
-        $collector->addAssociation('Application\\Sonata\\PageBundle\\Entity\\Block', 'mapOneToOne', array(
+        $collector->addAssociation($config['class']['block'], 'mapOneToOne', array(
             'fieldName' => 'parent',
-            'targetEntity' => 'Application\\Sonata\\PageBundle\\Entity\\Block',
+            'targetEntity' => $config['class']['block'],
             'cascade' => array(
             ),
             'mappedBy' => NULL,
@@ -217,9 +239,9 @@ class SonataPageExtension extends Extension
             'orphanRemoval' => false,
         ));
 
-        $collector->addAssociation('Application\\Sonata\\PageBundle\\Entity\\Block', 'mapOneToOne', array(
+        $collector->addAssociation($config['class']['block'], 'mapOneToOne', array(
             'fieldName' => 'page',
-            'targetEntity' => 'Application\\Sonata\\PageBundle\\Entity\\Page',
+            'targetEntity' => $config['class']['page'],
             'cascade' => array(
                 'persist',
             ),
@@ -235,28 +257,27 @@ class SonataPageExtension extends Extension
             'orphanRemoval' => false,
         ));
 
+        $collector->addAssociation($config['class']['snapshot'], 'mapOneToOne', array(
+            'fieldName'     => 'site',
+            'targetEntity'  => $config['class']['site'],
+            'cascade'       => array(
+                'persist',
+            ),
+            'mappedBy'      => NULL,
+            'inversedBy'    => NULL,
+            'joinColumns'   => array(
+                array(
+                    'name'      => 'site_id',
+                    'referencedColumnName' => 'id',
+                    'onDelete'  => 'CASCADE',
+                ),
+            ),
+            'orphanRemoval' => false,
+        ));
 
-//        $collector->addAssociation('Application\\Sonata\\PageBundle\\Entity\\Snapshot', 'mapOneToOne', array(
-//            'fieldName'     => 'site',
-//            'targetEntity'  => 'Application\\Sonata\\PageBundle\\Entity\\Site',
-//            'cascade'       => array(
-//                'persist',
-//            ),
-//            'mappedBy'      => NULL,
-//            'inversedBy'    => NULL,
-//            'joinColumns'   => array(
-//                array(
-//                    'name'      => 'site_id',
-//                    'referencedColumnName' => 'id',
-//                    'onDelete'  => 'CASCADE',
-//                ),
-//            ),
-//            'orphanRemoval' => false,
-//        ));
-
-        $collector->addAssociation('Application\\Sonata\\PageBundle\\Entity\\Snapshot', 'mapOneToOne', array(
+        $collector->addAssociation($config['class']['snapshot'], 'mapOneToOne', array(
             'fieldName'     => 'page',
-            'targetEntity'  => 'Application\\Sonata\\PageBundle\\Entity\\Page',
+            'targetEntity'  => $config['class']['page'],
             'cascade' => array(
                 'remove',
                 'persist',
@@ -277,33 +298,46 @@ class SonataPageExtension extends Extension
         ));
     }
 
-    public function configureTemplate(ContainerBuilder $container, $configs)
+    /**
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param $config
+     * @return void
+     */
+    public function configureMultisite(ContainerBuilder $container, $config)
+    {
+        /**
+         * The multipath option required a specific router and RequestContext
+         */
+        if ($config['multisite'] == 'domain_with_path') {
+            $container->setAlias('router', 'sonata.page.router.default');
+            $container->setAlias('sonata.page.site.selector', 'sonata.page.site.selector.domain_with_path');
+
+            $container->removeDefinition('sonata.page.site.selector.domain');
+        } else {
+            $container->setAlias('sonata.page.site.selector', 'sonata.page.site.selector.domain');
+
+            $container->removeDefinition('sonata.page.router.default');
+            $container->removeDefinition('sonata.page.site.selector.domain_with_path');
+        }
+    }
+
+    /**
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param $config
+     * @return void
+     */
+    public function configureTemplate(ContainerBuilder $container, $config)
     {
         $pageManager = $container->getDefinition('sonata.page.manager.page');
         $snapshotManager = $container->getDefinition('sonata.page.manager.snapshot');
 
-        $defaults = array(
-            'name'   => 'n-a',
-            'path'   => 'SonataPageBundle::layout.html.twig',
-        );
-
-        if (!isset($configs['default_template'])) {
-            $configs['default_template'] = 'default';
-        }
-
-        if (!isset($configs['templates'])) {
-            $configs['templates'] = array('default' => array_merge($defaults, array(
-                'name' => 'default',
-            )));
-        }
         $definitions = array();
-        foreach ($configs['templates'] as $code => $info) {
-            $info = array_merge($defaults, $info);
-            $definition = new Definition('Sonata\PageBundle\Model\Template');
-            foreach ($defaults as $key => $value) {
-                $method = 'set' . ucfirst($key);
-                $definition->addMethodCall($method, array($info[$key]));
-            }
+        foreach ($config['templates'] as $code => $info) {
+            $definition = new Definition('Sonata\PageBundle\Model\Template', array(
+                $info['name'],
+                $info['path'],
+            ));
+
             $definition->setPublic(false);
             $definitions[$code] = $definition;
         }
@@ -311,53 +345,49 @@ class SonataPageExtension extends Extension
         $pageManager->addMethodCall('setTemplates', array($definitions));
         $snapshotManager->addMethodCall('setTemplates', array($definitions));
 
-        $pageManager->addMethodCall('setDefaultTemplateCode', array($configs['default_template']));
+        $pageManager->addMethodCall('setDefaultTemplateCode', array($config['default_template']));
     }
 
-    public function configureInvalidation(ContainerBuilder $container, $configs)
+    /**
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param $config
+     * @return void
+     */
+    public function configureInvalidation(ContainerBuilder $container, $config)
     {
         $cmsPage = $container->getDefinition('sonata.page.cms.page');
         $cmsSnapshot = $container->getDefinition('sonata.page.cms.snapshot');
 
-        $invalidate = isset($configs['cache_invalidation']['service']) ? $configs['cache_invalidation']['service'] : 'sonata.page.cache.invalidation.simple';
-        $cmsPage->replaceArgument(1, new Reference($invalidate));
-        $cmsSnapshot->replaceArgument(1, new Reference($invalidate));
-
-        if (!isset($configs['cache_invalidation']['classes'])) {
-            $configs['cache_invalidation']['classes'] = array();
-        }
+        $cmsPage->replaceArgument(1, new Reference($config['cache_invalidation']['service']));
+        $cmsSnapshot->replaceArgument(1, new Reference($config['cache_invalidation']['service']));
 
         $recorder = $container->getDefinition('sonata.page.cache.model_identifier');
-        foreach ($configs['cache_invalidation']['classes'] as $information) {
-            $recorder->addMethodCall('addClass', array($information[0], $information[1]));
+        foreach ($config['cache_invalidation']['classes'] as $class => $method) {
+            $recorder->addMethodCall('addClass', array($class, $method));
         }
 
-        $recorder = isset($configs['cache_invalidation']['recorder']) ? $configs['cache_invalidation']['recorder'] : 'sonata.page.cache.recorder';
-        $cmsPage->addMethodCall('setRecorder', array(new Reference($recorder)));
-        $cmsSnapshot->addMethodCall('setRecorder', array(new Reference($recorder)));
+        $cmsPage->addMethodCall('setRecorder', array(new Reference($config['cache_invalidation']['recorder'])));
+        $cmsSnapshot->addMethodCall('setRecorder', array(new Reference($config['cache_invalidation']['recorder'])));
     }
 
-    public function configureCache(ContainerBuilder $container, $configs)
+    /**
+     * @throws \RuntimeException
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param $config
+     * @return void
+     */
+    public function configureCache(ContainerBuilder $container, $config)
     {
-        if (!isset($configs['caches'])) {
-            $container->removeDefinition('sonata.page.cache.esi');
-            $container->removeDefinition('sonata.page.cache.mongo');
-            $container->removeDefinition('sonata.page.cache.apc');
-            $container->removeDefinition('sonata.page.cache.memcached');
-
-            return;
-        }
-
-        if (isset($configs['caches']['sonata.page.cache.esi']['servers'])) {
-            $servers = (array) $configs['caches']['sonata.page.cache.esi']['servers'];
-
-            $cache = $container->getDefinition('sonata.page.cache.esi');
-            $cache->replaceArgument(0, $servers);
+        if (isset($config['caches']['esi'])) {
+            $container
+                ->getDefinition('sonata.page.cache.esi')
+                ->replaceArgument(0, $config['caches']['esi']['servers'])
+            ;
         } else {
             $container->removeDefinition('sonata.page.cache.esi');
         }
 
-        if (isset($configs['caches']['sonata.page.cache.mongo'])) {
+        if (isset($config['caches']['mongo'])) {
             if (!class_exists('\Mongo', true)) {
                 throw new \RuntimeException(<<<HELP
 The `sonata.page.cache.mongo` service is configured, however the Mongo class is not available.
@@ -368,21 +398,26 @@ HELP
                 );
             }
 
-            $settings = $configs['caches']['sonata.page.cache.mongo'];
+            $servers = array();
+            foreach ($config['caches']['mongo']['servers'] as $server) {
+                if ($server['user']) {
+                    $servers[] = sprintf('%s:%s@%s:%s', $server['user'], $server['password'], $server['host'], $server['port']);
+                } else {
+                    $servers[] = sprintf('%s:%s', $server['host'], $server['port']);
+                }
+            }
 
-            $servers    = isset($settings['servers']) ? (array) $settings['servers'] : array();
-            $database   = isset($settings['database']) ? $settings['database'] : '';
-            $collection = isset($settings['collection']) ? $settings['collection'] : '';
-
-            $cache = $container->getDefinition('sonata.page.cache.mongo');
-            $cache->replaceArgument(0, $servers);
-            $cache->replaceArgument(1, $database);
-            $cache->replaceArgument(2, $collection);
+            $container
+                ->getDefinition('sonata.page.cache.mongo')
+                ->replaceArgument(0, $servers)
+                ->replaceArgument(1, $config['caches']['mongo']['database'])
+                ->replaceArgument(2, $config['caches']['mongo']['collection'])
+            ;
         } else {
             $container->removeDefinition('sonata.page.cache.mongo');
         }
 
-        if (isset($configs['caches']['sonata.page.cache.memcached'])) {
+        if (isset($configs['caches']['memcached'])) {
 
             if (!class_exists('\Memcached', true)) {
                 throw new \RuntimeException(<<<HELP
@@ -394,19 +429,16 @@ HELP
                 );
             }
 
-            $settings = $configs['caches']['sonata.page.cache.memcached'];
-
-            $prefix    = isset($settings['prefix']) ? (array) $settings['prefix'] : uniqid();
-            $servers   = isset($settings['servers']) ? (array) $settings['servers'] : array();
-
-            $cache = $container->getDefinition('sonata.page.cache.memcached');
-            $cache->replaceArgument(0, $prefix);
-            $cache->replaceArgument(1, $servers);
+            $container
+                ->getDefinition('sonata.page.cache.memcached')
+                ->replaceArgument(0, $config['caches']['memcached']['prefix'])
+                ->replaceArgument(1, $config['caches']['memcached']['servers'])
+            ;
         } else {
             $container->removeDefinition('sonata.page.cache.memcached');
         }
 
-        if (isset($configs['caches']['sonata.page.cache.apc'])) {
+        if (isset($configs['caches']['apc'])) {
 
             if (!function_exists('apc_fetch')) {
                 throw new \RuntimeException(<<<HELP
@@ -418,36 +450,31 @@ HELP
                 );
             }
 
-            $settings = $configs['caches']['sonata.page.cache.apc'];
-
-            $token     = isset($settings['token']) ? $settings['token'] : 'changeme';
-            $prefix    = isset($settings['prefix']) ? $settings['prefix'] : uniqid();
-            $servers   = isset($settings['servers']) ? (array) $settings['servers'] : array();
-
-            $cache = $container->getDefinition('sonata.page.cache.apc');
-            $cache->replaceArgument(1, $token);
-            $cache->replaceArgument(2, $prefix);
-            $cache->replaceArgument(3, $servers);
+            $container
+                ->getDefinition('sonata.page.cache.apc')
+                ->replaceArgument(1, $config['caches']['apc']['token'])
+                ->replaceArgument(2, $config['caches']['apc']['prefix'])
+                ->replaceArgument(3, $config['caches']['apc']['servers'])
+            ;
         } else {
             $container->removeDefinition('sonata.page.cache.apc');
         }
     }
 
-    public function configureExceptions(ContainerBuilder $container, $configs)
+    /**
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param $config
+     * @return void
+     */
+    public function configureExceptions(ContainerBuilder $container, $config)
     {
         $cmsPage = $container->getDefinition('sonata.page.cms.page');
         $cmsSnapshot = $container->getDefinition('sonata.page.cms.snapshot');
 
-        $config = isset($configs['catch_exceptions']) ? $configs['catch_exceptions'] : array();
         $exceptions = array();
-
-        foreach ($config as $keyWord => $codes) {
-            if (is_array($codes)) {
-                foreach ($codes as $code) {
-                    $exceptions[$code] = sprintf('_page_internal_error_%s', $keyWord);
-                }
-            } else {
-                $exceptions[$codes] = sprintf('_page_internal_error_%s', $keyWord);
+        foreach ($config['catch_exceptions'] as $keyWord => $codes) {
+            foreach ($codes as $code) {
+                $exceptions[$code] = sprintf('_page_internal_error_%s', $keyWord);
             }
         }
 

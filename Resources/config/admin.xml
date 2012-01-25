@@ -6,31 +6,22 @@
     <parameters>
         <!-- SITE -->
         <parameter key="sonata.page.admin.site.class">Sonata\PageBundle\Admin\SiteAdmin</parameter>
-        <parameter key="sonata.page.admin.site.controller">SonataAdminBundle:CRUD</parameter>
-        <parameter key="sonata.page.admin.site.entity">Application\Sonata\PageBundle\Entity\Site</parameter>
+        <parameter key="sonata.page.admin.site.controller">SonataPageBundle:SiteAdmin</parameter>
         <parameter key="sonata.page.admin.site.translation_domain">SonataPageBundle</parameter>
 
         <!-- PAGE -->
         <parameter key="sonata.page.admin.page.class">Sonata\PageBundle\Admin\PageAdmin</parameter>
         <parameter key="sonata.page.admin.page.controller">SonataPageBundle:PageAdmin</parameter>
-        <parameter key="sonata.page.admin.page.entity">Application\Sonata\PageBundle\Entity\Page</parameter>
         <parameter key="sonata.page.admin.page.translation_domain">SonataPageBundle</parameter>
 
         <!-- BLOCK -->
         <parameter key="sonata.page.admin.block.class">Sonata\PageBundle\Admin\BlockAdmin</parameter>
         <parameter key="sonata.page.admin.block.controller">SonataPageBundle:BlockAdmin</parameter>
-        <parameter key="sonata.page.admin.block.entity">Application\Sonata\PageBundle\Entity\Block</parameter>
         <parameter key="sonata.page.admin.block.translation_domain">%sonata.page.admin.page.translation_domain%</parameter>
-
-        <!-- TEMPLATE -->
-        <parameter key="sonata.page.admin.template.class">Sonata\PageBundle\Admin\TemplateAdmin</parameter>
-        <parameter key="sonata.page.admin.template.controller">SonataAdminBundle:CRUD</parameter>
-        <parameter key="sonata.page.admin.template.entity">Application\Sonata\PageBundle\Entity\Template</parameter>
 
         <!-- SNAPSHOT -->
         <parameter key="sonata.page.admin.snapshot.class">Sonata\PageBundle\Admin\SnapshotAdmin</parameter>
         <parameter key="sonata.page.admin.snapshot.controller">SonataPageBundle:SnapshotAdmin</parameter>
-        <parameter key="sonata.page.admin.snapshot.entity">Application\Sonata\PageBundle\Entity\Snapshot</parameter>
         <parameter key="sonata.page.admin.snapshot.translation_domain">%sonata.page.admin.page.translation_domain%</parameter>
     </parameters>
 
@@ -51,6 +42,10 @@
 
             <call method="setCmsManager">
                 <argument type="service" id="sonata.page.cms.page" />
+            </call>
+
+            <call method="setSiteManager">
+                <argument type="service" id="sonata.page.manager.site" />
             </call>
 
             <call method="setTranslationDomain">
@@ -74,7 +69,7 @@
         </service>
 
         <service id="sonata.page.admin.snapshot" class="%sonata.page.admin.snapshot.class%">
-            <tag name="sonata.admin" manager_type="orm" group="sonata_page" label="snapshot"  label_translator_strategy="sonata.admin.label.strategy.underscore"/>
+            <tag name="sonata.admin" manager_type="orm" group="sonata_page" label="snapshot" show_in_dashboard="false" label_translator_strategy="sonata.admin.label.strategy.underscore"/>
             <argument />
             <argument>%sonata.page.admin.snapshot.entity%</argument>
             <argument>%sonata.page.admin.snapshot.controller%</argument>

@@ -14,6 +14,7 @@ namespace Sonata\PageBundle\CmsManager;
 use Sonata\PageBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Cache\CacheElement;
+use Sonata\PageBundle\Model\SiteInterface;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -43,32 +44,35 @@ interface CmsManagerInterface
      *
      * if the page does not exists then the page is created.
      *
+     * @param \Sonata\PageBundle\Model\SiteInterface $site
      * @param string $slug
-     * @return Application\Sonata\PageBundle\Model\PageInterface
+     * @return \Sonata\PageBundle\Model\PageInterface
      */
-    function getPageByUrl($slug);
+    function getPageByUrl(SiteInterface $site, $slug);
 
     /**
      * Returns a fully loaded page ( + blocks ) from a route name
      *
      * if the page does not exists then the page is created.
      *
+     * @param \Sonata\PageBundle\Model\SiteInterface $site
      * @param string $routeName
      * @param boolean $create
      * @return \Sonata\PageBundle\Model\PageInterface
      */
-    function getPageByRouteName($routeName, $create = true);
+    function getPageByRouteName(SiteInterface $site, $routeName, $create = true);
 
     /**
      * Returns a fully loaded page ( + blocks ) from a name
      *
      * if the page does not exists then the page is created.
      *
+     * @param \Sonata\PageBundle\Model\SiteInterface $site
      * @param string $name
      * @param boolean $create
      * @return \Sonata\PageBundle\Model\PageInterface
      */
-    function getPageByName($name, $create = true);
+    function getPageByName(SiteInterface $site, $name, $create = true);
 
     /**
      * Returns a fully loaded pag ( + blocks ) from a page id
@@ -148,12 +152,6 @@ interface CmsManagerInterface
      * @return boolean
      */
     function isDecorable(Request $request, $requestType, Response $response);
-
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @return \Sonata\PageBundle\Model\PageInterface
-     */
-    function defineCurrentPage(Request $request);
 
     /**
      * @abstract

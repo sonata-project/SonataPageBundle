@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Sonata\PageBundle\DependencyInjection;
+namespace Sonata\PageBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -22,7 +22,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class TweakPass implements CompilerPassInterface
+class TweakCompilerPass implements CompilerPassInterface
 {
     /**
      * {@inheritDoc}
@@ -37,8 +37,8 @@ class TweakPass implements CompilerPassInterface
             $snapshotPage->addMethodCall('addBlockService', array($id, new Reference($id)));
         }
 
-        if ($container->hasDefinition('sonata.page.orm.event_subscriber')) {
-            $ormListener = $container->getDefinition('sonata.page.orm.event_subscriber');
+        if ($container->hasDefinition('sonata.page.orm.event_subscriber.default')) {
+            $ormListener = $container->getDefinition('sonata.page.orm.event_subscriber.default');
             foreach ($container->findTaggedServiceIds('sonata.page.cache') as $id => $attributes) {
                 if (!$container->hasDefinition($id)) {
                     continue;

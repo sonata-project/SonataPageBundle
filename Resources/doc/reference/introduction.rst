@@ -1,6 +1,20 @@
 Introduction
 ============
 
+This small introduction try to explain the basics concepts behind the ``PageBundle`.
+
+A Site
+------
+
+A ``Site`` is an entity linked to many Pages. The ``PageBundle`` can host many sites on a same project.
+
+Depends on the configuration a site can be represented by:
+
+ * a domain : sonata-project.org or sonata-project.com
+ * a domain + a path : sonata-project.org/uk or sonata-project.org/fr or sonata-project.com/uk
+
+The latter required a specific ``RequestContext`` to work. This is done by changing the ``router`` service.
+s
 A Page
 ------
 
