@@ -43,7 +43,7 @@ class ChildrenPagesBlockService extends BaseBlockService
         } else if ($settings['pageId']) {
             $page = $settings['pageId'];
         } else {
-            $page = $manager->getPage('/');
+            $page = $manager->getPage($page->getSite(), '/');
         }
 
         return $this->renderResponse('SonataPageBundle:Block:block_core_children_pages.html.twig', array(

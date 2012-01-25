@@ -93,7 +93,7 @@ class CmsPageManager extends BaseCmsPageManager
      * @param mixed $page
      * @return \Sonata\PageBundle\Model\PageInterface
      */
-    protected function getPage(SiteInterface $site, $page)
+    public function getPage(SiteInterface $site, $page)
     {
         if (is_string($page) && substr($page, 0, 1) == '/') {
             $page = $this->getPageByUrl($site, $page);

@@ -13,8 +13,8 @@ namespace Sonata\PageBundle\CmsManager;
 
 use Sonata\PageBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
-use Sonata\PageBundle\Cache\CacheElement;
 use Sonata\PageBundle\Model\SiteInterface;
+use Sonata\PageBundle\Cache\CacheElement;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -154,11 +154,17 @@ interface CmsManagerInterface
     function isDecorable(Request $request, $requestType, Response $response);
 
     /**
-     * @abstract
      * @param \Sonata\PageBundle\Model\PageInterface $page
      * @param array $params
      * @param null|\Symfony\Component\HttpFoundation\Response $response
      * @return void
      */
     function renderPage(PageInterface $page, array $params = array(), Response $response = null);
+
+    /**
+     * @param \Sonata\PageBundle\Model\SiteInterface $site
+     * @param $page
+     * @return \Sonata\PageBundle\Model\PageInterface
+     */
+    function getPage(SiteInterface $site, $page);
 }
