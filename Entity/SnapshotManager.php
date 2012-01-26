@@ -154,6 +154,7 @@ class SnapshotManager implements SnapshotManagerInterface
             throw new \RuntimeException('please provide a `pageId`, `url`, `routeName` or `name` as criteria key');
         }
 
+        $query->setMaxResults(1);
         $query->setParameters($parameters);
 
         try {
