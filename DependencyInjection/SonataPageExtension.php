@@ -140,7 +140,7 @@ class SonataPageExtension extends Extension
             ),
         ));
 
-        $collector->addAssociation($config['class']['page'], 'mapOneToOne', array(
+        $collector->addAssociation($config['class']['page'], 'mapManyToOne', array(
             'fieldName'     => 'site',
             'targetEntity'  => $config['class']['site'],
             'cascade'       => array(
@@ -158,7 +158,7 @@ class SonataPageExtension extends Extension
             'orphanRemoval' => false,
         ));
 
-        $collector->addAssociation($config['class']['page'], 'mapOneToOne', array(
+        $collector->addAssociation($config['class']['page'], 'mapManyToOne', array(
             'fieldName'     => 'parent',
             'targetEntity'  => $config['class']['page'],
             'cascade'       => array(
@@ -190,7 +190,7 @@ class SonataPageExtension extends Extension
              'orphanRemoval' => false,
         ));
 
-        $collector->addAssociation($config['class']['page'], 'mapOneToOne', array(
+        $collector->addAssociation($config['class']['page'], 'mapManyToOne', array(
             'fieldName' => 'target',
             'targetEntity' => $config['class']['page'],
             'cascade' => array(
@@ -222,7 +222,7 @@ class SonataPageExtension extends Extension
             ),
         ));
 
-        $collector->addAssociation($config['class']['block'], 'mapOneToOne', array(
+        $collector->addAssociation($config['class']['block'], 'mapManyToOne', array(
             'fieldName' => 'parent',
             'targetEntity' => $config['class']['block'],
             'cascade' => array(
@@ -239,7 +239,7 @@ class SonataPageExtension extends Extension
             'orphanRemoval' => false,
         ));
 
-        $collector->addAssociation($config['class']['block'], 'mapOneToOne', array(
+        $collector->addAssociation($config['class']['block'], 'mapManyToOne', array(
             'fieldName' => 'page',
             'targetEntity' => $config['class']['page'],
             'cascade' => array(
@@ -257,7 +257,7 @@ class SonataPageExtension extends Extension
             'orphanRemoval' => false,
         ));
 
-        $collector->addAssociation($config['class']['snapshot'], 'mapOneToOne', array(
+        $collector->addAssociation($config['class']['snapshot'], 'mapManyToOne', array(
             'fieldName'     => 'site',
             'targetEntity'  => $config['class']['site'],
             'cascade'       => array(
@@ -275,7 +275,7 @@ class SonataPageExtension extends Extension
             'orphanRemoval' => false,
         ));
 
-        $collector->addAssociation($config['class']['snapshot'], 'mapOneToOne', array(
+        $collector->addAssociation($config['class']['snapshot'], 'mapManyToOne', array(
             'fieldName'     => 'page',
             'targetEntity'  => $config['class']['page'],
             'cascade' => array(
