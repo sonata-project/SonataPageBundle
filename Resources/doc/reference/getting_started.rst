@@ -48,7 +48,7 @@ Creating default pages
 
 As the Page bundle can handled symfony actions, actions need to be register, just runs the commands::
 
-    php app/console sonata:page:update-core-routes --all
+    php app/console sonata:page:update-core-routes --site=all
 
 The output might look like this::
 
@@ -100,7 +100,7 @@ Creating default snapshots
 
 At this point, no snapshots are available so the end user will get an error. The following command need to be runs::
 
-    php app/console sonata:page:create-snapshots --all
+    php app/console sonata:page:create-snapshots --site=all
 
 The output might look like this::
 
