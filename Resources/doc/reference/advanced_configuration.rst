@@ -4,6 +4,7 @@ Advanced Configuration
 Full configuration options:
 
 .. code-block:: yaml
+
     #
     # more information can be found here http://sonata-project.org/bundles/page
     #
