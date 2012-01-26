@@ -15,18 +15,24 @@ use Symfony\Component\Routing\Router;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Util\RecursiveBlockIteratorIterator;
+use Sonata\PageBundle\Site\SiteSelectorInterface;
 
 class PageExtension extends \Twig_Extension
 {
     /**
-     * @var Router
+     * @var \Symfony\Component\Routing\Router
      */
     private $router;
 
     /**
-     * @var CmsManagerSelectorInterface
+     * @var \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface
      */
     private $cmsManagerSelector;
+
+    /**
+     * @var \Sonata\PageBundle\Site\SiteSelectorInterface
+     */
+    private $siteSelector;
 
     /**
      * @var array
@@ -38,11 +44,13 @@ class PageExtension extends \Twig_Extension
     /**
      * @param \Symfony\Component\Routing\Router $router
      * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $cmsManagerSelector
+     * @param \Sonata\PageBundle\Site\SiteSelectorInterface $siteSelector
      */
-    public function __construct(Router $router, CmsManagerSelectorInterface $cmsManagerSelector)
+    public function __construct(Router $router, CmsManagerSelectorInterface $cmsManagerSelector, SiteSelectorInterface $siteSelector)
     {
-        $this->router = $router;
+        $this->router             = $router;
         $this->cmsManagerSelector = $cmsManagerSelector;
+        $this->siteSelector       = $siteSelector;
     }
 
     /**
@@ -57,6 +65,7 @@ class PageExtension extends \Twig_Extension
             'page_breadcrumb'          => new \Twig_Function_Method($this, 'breadcrumb', array('is_safe' => array('html'))),
             'page_include_stylesheets' => new \Twig_Function_Method($this, 'includeStylesheets', array('is_safe' => array('html'))),
             'page_include_javascripts' => new \Twig_Function_Method($this, 'includeJavascripts', array('is_safe' => array('html'))),
+            'page_render_container'    => new \Twig_Function_Method($this, 'renderContainer', array('is_safe' => array('html'))),
         );
     }
 
@@ -103,7 +112,7 @@ class PageExtension extends \Twig_Extension
             $breadcrumbs = $page->getParents();
 
             if ($options['force_view_home_page'] && (!isset($breadcrumbs[0]) || $breadcrumbs[0]->getRouteName() != 'homepage')) {
-                $homePage = $this->cmsManagerSelector->retrieve()->getPageByRouteName('homepage');
+                $homePage = $this->cmsManagerSelector->retrieve()->getPageByRouteName($this->siteSelector->retrieve(), 'homepage');
                 if ($homePage) {
                     array_unshift($breadcrumbs, $homePage);
                 }
@@ -269,6 +278,29 @@ class PageExtension extends \Twig_Extension
         $html .= "\n</style>";
 
         return $html;
+    }
+
+    /**
+     * @param $name
+     * @param $page
+     * @return string
+     */
+    public function renderContainer($name, $page = null)
+    {
+        $cms  = $this->cmsManagerSelector->retrieve();
+        $site = $this->siteSelector->retrieve();
+
+        if ($page === null) {
+            $page = $cms->getCurrentPage();
+        } else if (!$page instanceof PageInterface) {
+            $page = $cms->getPage($site, $page);
+        }
+
+        if (!$page) {
+            return "";
+        }
+
+        return $cms->renderContainer($site, $name, $page);
     }
 }
 

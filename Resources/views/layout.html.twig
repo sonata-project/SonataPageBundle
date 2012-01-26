@@ -15,11 +15,11 @@ file that was distributed with this source code.
         <div class="content">
             <div class="page-header">
                 <div class="pull-left">
-                    {{ manager.renderContainer(site, 'title', 'global')|raw }}
+                    {{ page_render_container('title', 'global') }}
                 </div>
 
                 <div class="pull-right navigation">
-                    {{ manager.renderContainer(site, 'header', 'global')|raw }}
+                    {{ page_render_container('header', 'global') }}
                 </div>
 
                 <div style="clear: both"></div>
@@ -27,9 +27,9 @@ file that was distributed with this source code.
 
             <div class="row">
                 {% if page.name != 'global'%}
-                    {{ manager.renderContainer(site, 'content_top', 'global')|raw }}
+                    {{ page_render_container('content_top', 'global') }}
                 {% endif %}
-                {{ manager.renderContainer(site, 'content_top', page)|raw }}
+                {{ page_render_container('content_top', page) }}
             </div>
 
             <div class="row">
@@ -38,20 +38,21 @@ file that was distributed with this source code.
                 {% elseif block('content')%}
                     {{ block('content')|raw }}
                 {% else %}
-                    {{ manager.renderContainer(site, 'content', page)|raw }}
+                    {{ page_render_container('content', page) }}
                 {% endif %}
             </div>
 
             <div>
-                {{ manager.renderContainer(site, 'content_bottom', page)|raw }}
+                {{ page_render_container('content_bottom', page) }}
+
                 {% if page.name != 'global'%}
-                    {{ manager.renderContainer(site, 'content_bottom', 'global')|raw }}
+                    {{ page_render_container('content_bottom', 'global') }}
                 {% endif %}
             </div>
         </div>
 
         <footer>
-            {{ manager.renderContainer(site, 'footer', 'global')|raw }}
+            {{ page_render_container('footer', 'global') }}
         </footer>
     </div>
 {% endblock %}
