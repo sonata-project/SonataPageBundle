@@ -100,7 +100,7 @@ class SonataPageExtension extends Extension
      */
     public function registerDoctrineMapping(array $config)
     {
-        if (!class_exists('Application\\Sonata\\PageBundle\\Entity\\Page')) {
+        if (!class_exists($config['class']['page'])) {
             return;
         }
 

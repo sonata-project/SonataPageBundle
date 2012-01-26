@@ -19,15 +19,14 @@ class Template
 
     protected $enabled = true;
 
-    public function __construct($name, $template)
+    /**
+     * @param $name
+     * @param $path
+     */
+    public function __construct($name, $path)
     {
         $this->name = $name;
-        $this->template = $template;
-    }
-
-    public function setEnabled($enabled)
-    {
-        $this->enabled = $enabled;
+        $this->path = $path;
     }
 
     public function getEnabled()

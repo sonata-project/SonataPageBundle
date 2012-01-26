@@ -3,6 +3,8 @@
 namespace Sonata\PageBundle\HttpKernel\EventListener;
 
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
+use Sonata\PageBundle\Site\SiteSelectorInterface;
+
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
@@ -16,19 +18,33 @@ class ExceptionListener
 {
     protected $cmsManagerSelector;
 
+    protected $siteSelector;
+
     protected $debug;
 
     protected $logger;
 
     protected $status;
 
-    public function __construct(CmsManagerSelectorInterface $cmsManagerSelector, $debug, LoggerInterface $logger = null)
+    /**
+     * @param \Sonata\PageBundle\Site\SiteSelectorInterface $siteSelector
+     * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $cmsManagerSelector
+     * @param $debug
+     * @param null|\Symfony\Component\HttpKernel\Log\LoggerInterface $logger
+     */
+    public function __construct(SiteSelectorInterface $siteSelector, CmsManagerSelectorInterface $cmsManagerSelector, $debug, LoggerInterface $logger = null)
     {
         $this->cmsManagerSelector = $cmsManagerSelector;
-        $this->debug = $debug;
-        $this->logger = $logger;
+        $this->debug              = $debug;
+        $this->logger             = $logger;
+        $this->siteSelector       = $siteSelector;
     }
 
+    /**
+     * @throws \Exception
+     * @param \Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent $event
+     * @return bool
+     */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
         if (true === $this->debug) {
@@ -64,7 +80,7 @@ class ExceptionListener
         }
 
         try {
-            $page = $cmsManager->getPageByName($httpErrorCodes[$statusCode]);
+            $page = $cmsManager->getPageByName($this->siteSelector->retrieve(), $httpErrorCodes[$statusCode]);
         } catch (\Exception $e) {
             $message = sprintf('Exception thrown when handling an exception (%s: %s)', get_class($e), $e->getMessage());
 
