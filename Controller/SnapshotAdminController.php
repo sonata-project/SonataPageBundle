@@ -48,7 +48,7 @@ class SnapshotAdminController extends Controller
 
                 $snapshot = $snapshotManager->create($form->getData()->getPage());
                 $snapshotManager->save($snapshot);
-                $snapshotManager->enableSnapshots($snapshot);
+                $snapshotManager->enableSnapshots($page->getSite(), $snapshot);
             }
 
             return $this->redirect( $this->admin->generateUrl('edit', array('id' => $snapshot->getId())));
