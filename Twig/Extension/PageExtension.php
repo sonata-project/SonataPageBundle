@@ -290,10 +290,16 @@ class PageExtension extends \Twig_Extension
         $cms  = $this->cmsManagerSelector->retrieve();
         $site = $this->siteSelector->retrieve();
 
-        if ($page === null) {
-            $page = $cms->getCurrentPage();
-        } else if (!$page instanceof PageInterface) {
-            $page = $cms->getPage($site, $page);
+        $page = false;
+
+        try {
+            if ($page === null) {
+                $page = $cms->getCurrentPage();
+            } else if (!$page instanceof PageInterface) {
+                $page = $cms->getPage($site, $page);
+            }
+        } catch(\RuntimeException $e) {
+            // the snapshot does not exist
         }
 
         if (!$page) {
