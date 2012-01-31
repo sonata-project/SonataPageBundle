@@ -11,7 +11,6 @@
 
 namespace Sonata\PageBundle\CmsManager;
 
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -190,7 +189,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
             $snapshot = $this->getPageManager()->findEnableSnapshot($parameters);
 
             if (!$snapshot) {
-                throw new NotFoundHttpException(sprintf('Unable to find the snapshot : %s', $value));
+                return false;
             }
 
             $page = new SnapshotPageProxy($this->getPageManager(), $snapshot);
