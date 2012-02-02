@@ -139,7 +139,6 @@ class UpdateCoreRoutesCommand extends BaseCommand
                 $params = array(
                     'routeName'     => $name,
                     'name'          => $name,
-                    'url'           => $route->getPattern(),
                 );
                 $params = array_merge($params, $cmsManager->getCreateNewPageDefaultsByName($name));
 
