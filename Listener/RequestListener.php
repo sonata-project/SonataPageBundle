@@ -15,50 +15,53 @@ namespace Sonata\PageBundle\Listener;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * This class redirect the onCoreResponse event to the correct
  * cms manager upon user permission
  */
-class ResponseListener
+class RequestListener
 {
     protected $cmsSelector;
 
+    protected $siteSelector;
+
     /**
      * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $cmsSelector
+     * @param \Sonata\PageBundle\Site\SiteSelectorInterface $siteSelector
      */
-    public function __construct(CmsManagerSelectorInterface $cmsSelector)
+    public function __construct(CmsManagerSelectorInterface $cmsSelector, SiteSelectorInterface $siteSelector)
     {
         $this->cmsSelector = $cmsSelector;
+        $this->siteSelector = $siteSelector;
     }
 
     /**
-     * Filter the `core.response` event to decorated the action
+     * Filter the `core.request` event to decorated the action
      *
-     * @param \Symfony\Component\HttpKernel\Event\FilterResponseEvent $event
-     * @return void
+     * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
+     * @return
      */
-    public function onCoreResponse(FilterResponseEvent $event)
+    public function onCoreRequest(GetResponseEvent $event)
     {
         $cms = $this->cmsSelector->retrieve();
 
-        $page = $cms->getCurrentPage();
-
-        // only decorate hybrid page and page with decorate = true
-        if (!$page || !$page->isHybrid() || !$page->getDecorate()) {
+        if (!$cms) {
             return;
         }
 
-        $response = $event->getResponse();
+        $routeName = $event->getRequest()->get('_route');
 
-        if (!$cms->isDecorable($event->getRequest(), $event->getRequestType(), $response)) {
+        if ($routeName == 'page_slug') { // true cms page
             return;
         }
 
-        $response = $cms->renderPage($page, array('content' => $response->getContent()), $response);
+        $page = $cms->getPageByRouteName($this->siteSelector->retrieve(), $routeName);
 
-        $event->setResponse($response);
+        if ($page) {
+            $cms->setCurrentPage($page);
+        }
     }
 }

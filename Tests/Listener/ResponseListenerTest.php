@@ -21,15 +21,12 @@ use Sonata\PageBundle\Tests\Model\Site;
 
 class ResponseListenerTest extends \PHPUnit_Framework_TestCase
 {
-    public function testIsNonDecorable()
+    public function testPageIsNonDecorable()
     {
         $cmsManager = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerInterface');
-        $cmsManager->expects($this->once())->method('isDecorable')->will($this->returnValue(false));
 
         $cmsSelector = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
         $cmsSelector->expects($this->once())->method('retrieve')->will($this->returnValue($cmsManager));
-
-        $siteSelector = $this->getMock('Sonata\PageBundle\Site\SiteSelectorInterface');
 
         $kernel = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface');
         $request = new Request();
@@ -37,21 +34,21 @@ class ResponseListenerTest extends \PHPUnit_Framework_TestCase
 
         $event = new FilterResponseEvent($kernel, $request, 'master', $response);
 
-        $listener = new ResponseListener($cmsSelector, $siteSelector);
+        $listener = new ResponseListener($cmsSelector);
         $listener->onCoreResponse($event);
 
         $this->assertEquals('content', $event->getResponse()->getContent());
     }
 
-    public function testIsDecorable()
+    public function testPageIsDecorable()
     {
         $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
         $page->expects($this->once())->method('isHybrid')->will($this->returnValue(true));
         $page->expects($this->once())->method('getDecorate')->will($this->returnValue(true));
 
         $cmsManager = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerInterface');
+        $cmsManager->expects($this->once())->method('getCurrentPage')->will($this->returnValue($page));
         $cmsManager->expects($this->once())->method('isDecorable')->will($this->returnValue(true));
-        $cmsManager->expects($this->once())->method('getPageByRouteName')->will($this->returnValue($page));
         $cmsManager->expects($this->once())->method('renderPage')->will($this->returnCallback(function(PageInterface $page, array $params = array(), Response $response = null) {
             $response->setContent(sprintf('outter <%s> outter', $params['content']));
 
@@ -61,8 +58,30 @@ class ResponseListenerTest extends \PHPUnit_Framework_TestCase
         $cmsSelector = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
         $cmsSelector->expects($this->once())->method('retrieve')->will($this->returnValue($cmsManager));
 
-        $siteSelector = $this->getMock('Sonata\PageBundle\Site\SiteSelectorInterface');
-        $siteSelector->expects($this->once())->method('retrieve')->will($this->returnValue(new Site));
+
+        $kernel = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface');
+        $request = new Request();
+        $response = new Response('inner content');
+        $event = new FilterResponseEvent($kernel, $request, 'master', $response);
+
+        $listener = new ResponseListener($cmsSelector);
+        $listener->onCoreResponse($event);
+
+        $this->assertEquals('outter <inner content> outter', $event->getResponse()->getContent());
+    }
+
+    public function testResponseNotDecorable()
+    {
+        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+        $page->expects($this->once())->method('isHybrid')->will($this->returnValue(true));
+        $page->expects($this->once())->method('getDecorate')->will($this->returnValue(true));
+
+        $cmsManager = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerInterface');
+        $cmsManager->expects($this->once())->method('getCurrentPage')->will($this->returnValue($page));
+        $cmsManager->expects($this->once())->method('isDecorable')->will($this->returnValue(false));
+
+        $cmsSelector = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
+        $cmsSelector->expects($this->once())->method('retrieve')->will($this->returnValue($cmsManager));
 
 
         $kernel = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface');
@@ -70,9 +89,9 @@ class ResponseListenerTest extends \PHPUnit_Framework_TestCase
         $response = new Response('inner content');
         $event = new FilterResponseEvent($kernel, $request, 'master', $response);
 
-        $listener = new ResponseListener($cmsSelector, $siteSelector);
+        $listener = new ResponseListener($cmsSelector);
         $listener->onCoreResponse($event);
 
-        $this->assertEquals('outter <inner content> outter', $event->getResponse()->getContent());
+        $this->assertEquals('inner content', $event->getResponse()->getContent());
     }
 }
