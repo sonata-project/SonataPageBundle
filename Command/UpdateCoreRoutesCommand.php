@@ -49,7 +49,7 @@ class UpdateCoreRoutesCommand extends BaseCommand
 
          foreach ($this->getSites($input) as $site) {
              if ($input->getOption('site') != 'all') {
-                 $this->createRoute($site, $output);
+                 $this->updateRoutes($site, $output);
                  $output->writeln("");
              } else {
 
@@ -70,7 +70,7 @@ class UpdateCoreRoutesCommand extends BaseCommand
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      * @return void
      */
-    private function createRoute(SiteInterface $site, OutputInterface $output)
+    private function updateRoutes(SiteInterface $site, OutputInterface $output)
     {
         $router      = $this->getContainer()->get('router');
         $cmsManager  = $this->getCmsPageManager();
@@ -118,14 +118,41 @@ class UpdateCoreRoutesCommand extends BaseCommand
 
                 $page = $pageManager->createNewPage($params);
                 $page->setSite($site);
+                $page->setRequestMethod(isset($requirements['_method']) ? $requirements['_method'] : 'GET|POST|HEAD|DELETE|PUT');
             }
 
-            $page->setRequestMethod(isset($requirements['_method']) ? $requirements['_method'] : 'GET|POST|HEAD|DELETE|PUT');
             $page->setSlug($route->getPattern());
             $pageManager->save($page);
 
             $output->writeln(sprintf('  <info>%s</info> % -50s %s', $update ? 'UPDATE ' : 'CREATE ', $name, $route->getPattern()));
         }
+
+        foreach ($cmsManager->getHttpErrorCodes() as $name) {
+            $name = trim($name);
+
+            $knowRoutes[] = $name;
+
+            $page = $pageManager->getPageByName($site, $name);
+
+            if (!$page) {
+
+                $params = array(
+                    'routeName'     => $name,
+                    'name'          => $name,
+                    'url'           => $route->getPattern(),
+                );
+                $params = array_merge($params, $cmsManager->getCreateNewPageDefaultsByName($name));
+
+                $params['decorate'] = false;
+
+                $page = $pageManager->createNewPage($params);
+                $page->setSite($site);
+                $pageManager->save($page);
+                $output->writeln(sprintf('  <info>%s</info> % -50s %s', 'CREATE ', $name, ''));
+            }
+        }
+
+
 
         $has = false;
         foreach ($pageManager->getHybridPages($site) as $page) {
