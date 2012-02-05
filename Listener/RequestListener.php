@@ -58,10 +58,12 @@ class RequestListener
             return;
         }
 
-        $page = $cms->getPageByRouteName($this->siteSelector->retrieve(), $routeName);
+        if ($cms->isRouteNameDecorable($routeName) && $cms->isRouteUriDecorable($event->getRequest()->getRequestUri())) {
+            $page = $cms->getPageByRouteName($this->siteSelector->retrieve(), $routeName);
 
-        if ($page) {
-            $cms->setCurrentPage($page);
+            if ($page) {
+                $cms->setCurrentPage($page);
+            }
         }
     }
 }
