@@ -80,7 +80,7 @@ class ExceptionListener
         }
 
         try {
-            $page = $cmsManager->getPageByName($this->siteSelector->retrieve(), $httpErrorCodes[$statusCode]);
+            $page = $cmsManager->getPageByRouteName($this->siteSelector->retrieve(), $httpErrorCodes[$statusCode]);
         } catch (\Exception $e) {
             $message = sprintf('Exception thrown when handling an exception (%s: %s)', get_class($e), $e->getMessage());
 
