@@ -167,4 +167,16 @@ interface CmsManagerInterface
      * @return \Sonata\PageBundle\Model\PageInterface
      */
     function getPage(SiteInterface $site, $page);
+
+    /**
+     * @param $name
+     * @return boolean
+     */
+    function isRouteNameDecorable($name);
+
+    /**
+     * @param $name
+     * @return boolean
+     */
+    function isRouteUriDecorable($name);
 }
