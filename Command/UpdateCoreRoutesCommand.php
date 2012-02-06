@@ -139,6 +139,7 @@ class UpdateCoreRoutesCommand extends BaseCommand
                 $params = array(
                     'routeName'     => $name,
                     'name'          => $name,
+                    'url'           => "/".$name,
                 );
                 $params = array_merge($params, $cmsManager->getCreateNewPageDefaultsByName($name));
 
@@ -146,6 +147,8 @@ class UpdateCoreRoutesCommand extends BaseCommand
 
                 $page = $pageManager->createNewPage($params);
                 $page->setSite($site);
+                $page->setRequestMethod(isset($requirements['_method']) ? $requirements['_method'] : 'GET|POST|HEAD|DELETE|PUT');
+                
                 $pageManager->save($page);
                 $output->writeln(sprintf('  <info>%s</info> % -50s %s', 'CREATE ', $name, ''));
             }
