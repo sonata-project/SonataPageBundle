@@ -114,7 +114,7 @@ file.
 
         default_template: default # template key from templates section, used as default for pages
         templates:
-            default: {default: true, path: 'SonataPageBundle::layout.html.twig', name: default }
+            default: {path: 'SonataPageBundle::layout.html.twig', name: default }
 
         # manage the http errors
         catch_exceptions:
