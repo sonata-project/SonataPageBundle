@@ -17,6 +17,8 @@ use Sonata\PageBundle\Site\SiteSelectorInterface;
 
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Templating\EngineInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * This class redirect the onCoreResponse event to the correct
@@ -28,14 +30,18 @@ class RequestListener
 
     protected $siteSelector;
 
+    protected $templating;
+
     /**
      * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $cmsSelector
      * @param \Sonata\PageBundle\Site\SiteSelectorInterface $siteSelector
+     * @param \Symfony\Component\Templating\EngineInterface $templating
      */
-    public function __construct(CmsManagerSelectorInterface $cmsSelector, SiteSelectorInterface $siteSelector)
+    public function __construct(CmsManagerSelectorInterface $cmsSelector, SiteSelectorInterface $siteSelector, EngineInterface $templating)
     {
         $this->cmsSelector = $cmsSelector;
         $this->siteSelector = $siteSelector;
+        $this->templating = $templating;
     }
 
     /**
@@ -59,7 +65,15 @@ class RequestListener
         }
 
         if ($cms->isRouteNameDecorable($routeName) && $cms->isRouteUriDecorable($event->getRequest()->getRequestUri())) {
-            $page = $cms->getPageByRouteName($this->siteSelector->retrieve(), $routeName);
+            $site = $this->siteSelector->retrieve();
+
+            if (!$site) {
+                $event->setResponse(new Response($this->templating->render('SonataPageBundle:Site:no_site_enabled.html.twig'), 500));
+
+                return;
+            }
+
+            $page = $cms->getPageByRouteName($site, $routeName);
 
             if ($page) {
                 $cms->setCurrentPage($page);

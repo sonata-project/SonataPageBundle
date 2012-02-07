@@ -1,0 +1,38 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+        {% block page_stylesheets %}
+            <link rel="stylesheet" href="{{ asset('bundles/sonataadmin/bootstrap/bootstrap.css') }}" type="text/css" media="all" >
+            <link rel="stylesheet" href="{{ asset('bundles/sonatapage/default.css') }}" type="text/css" media="all" >
+        {% endblock %}
+
+        <title>{% block title %}Error{%endblock%}</title>
+    </head>
+
+    <body class="sonata-bc">
+        <div class="container">
+            <div class="content">
+                <div class="page-header">
+                    <h1>Sonata Project - Internal Error</h1>
+                </div>
+
+                <div class="row">
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+   </body>
+</html>
