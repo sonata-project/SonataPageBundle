@@ -15,6 +15,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+use Sonata\PageBundle\Exception\PageNotFoundException;
+
 class JsCache implements CacheInterface
 {
     protected $router;
@@ -146,7 +148,12 @@ CONTENT
             $manager = $this->container->get('sonata.page.cms.snapshot');
         }
 
-        $page    = $manager->getPageById($request->get('page_id'));
+        try {
+            $page = $manager->getPageById($request->get('page_id'));
+        } catch(PageNotFoundException $e) {
+            $page = false;
+        }
+
         $block   = $manager->getBlock($request->get('block_id'));
 
         if (!$page || !$block) {

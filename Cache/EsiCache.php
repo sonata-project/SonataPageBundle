@@ -14,6 +14,7 @@ use Symfony\Component\Routing\Router;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Process\Process;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Sonata\PageBundle\Exception\PageNotFoundException;
 
 /**
  * http://www.varnish-cache.org/docs/2.1/reference/varnishadm.html
@@ -118,7 +119,12 @@ class EsiCache implements CacheInterface
             $manager = $this->container->get('sonata.page.cms.snapshot');
         }
 
-        $page    = $manager->getPageById($request->get('page_id'));
+        try {
+            $page = $manager->getPageById($request->get('page_id'));
+        } catch(PageNotFoundException $e) {
+            $page = false;
+        }
+
         $block   = $manager->getBlock($request->get('block_id'));
 
         if (!$page || !$block) {

@@ -24,6 +24,7 @@ use Sonata\PageBundle\Cache\CacheInterface;
 use Sonata\PageBundle\Cache\Invalidation\InvalidationInterface;
 use Sonata\PageBundle\Cache\CacheElement;
 use Sonata\PageBundle\Model\SiteInterface;
+use Sonata\PageBundle\Exception\PageNotFoundException;
 
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Validator\ErrorElement;
@@ -106,7 +107,7 @@ class CmsPageManager extends BaseCmsPageManager
         }
 
         if (!$page instanceof PageInterface) {
-            throw new \RunTimeException('Unable to retrieve the page');
+            throw new PageNotFoundException('Unable to retrieve the page');
         }
 
         return $page;
@@ -181,16 +182,18 @@ class CmsPageManager extends BaseCmsPageManager
 
             $page = $this->getPageManager()->findOneBy($parameters);
 
-            if ($page) {
-                $this->loadBlocks($page);
-                $id = $page->getId();
-
-                if ($fieldName != 'id') {
-                    $this->pageReferences[$fieldName][$value] = $id;
-                }
-
-                $this->pages[$id] = $page;
+            if (!$page) {
+                throw new PageNotFoundException(sprintf('Unable to find the page : %s = %s', $fieldName, $value));
             }
+
+            $this->loadBlocks($page);
+            $id = $page->getId();
+
+            if ($fieldName != 'id') {
+                $this->pageReferences[$fieldName][$value] = $id;
+            }
+
+            $this->pages[$id] = $page;
         }
 
         return $this->pages[$id];
@@ -209,31 +212,15 @@ class CmsPageManager extends BaseCmsPageManager
      */
     public function getPageByRouteName(SiteInterface $site, $routeName, $create = true)
     {
-        $page = $this->getPageBy($site, 'routeName', $routeName);
-
-        if (!$page && !$create) {
-            throw new \RuntimeException(sprintf('Unable to find the page : %s', $routeName));
-        } else if (!$page) {
-            $page = $this->createPage($site, $routeName);
-        }
-
-        return $page;
+        return $this->getPageBy($site, 'routeName', $routeName);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getPageByName(SiteInterface $site, $name, $create = true)
+    public function getPageByName(SiteInterface $site, $name)
     {
-        $page = $this->getPageBy($site, 'name', $name);
-
-        if (!$page && !$create) {
-            throw new \RuntimeException(sprintf('Unable to find the page : %s', $name));
-        } elseif (!$page) {
-            $page = $this->createPage($site, $name);
-        }
-
-        return $page;
+        return $this->getPageBy($site, 'name', $name);
     }
 
     /**

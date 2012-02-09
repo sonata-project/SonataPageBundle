@@ -12,6 +12,7 @@ Reference Guide
    reference/installation
    reference/getting_started
    reference/multisite
+   reference/error_pages
    reference/twig_helpers
    reference/command_line
    reference/your_first_block

@@ -46,13 +46,14 @@ class ResponseListenerTest extends \PHPUnit_Framework_TestCase
         $page->expects($this->once())->method('isHybrid')->will($this->returnValue(true));
         $page->expects($this->once())->method('getDecorate')->will($this->returnValue(true));
 
+        // solve the reference issue with PHPUnit and closure
+        $response = new Response('inner content');
+
         $cmsManager = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerInterface');
         $cmsManager->expects($this->once())->method('getCurrentPage')->will($this->returnValue($page));
         $cmsManager->expects($this->once())->method('isDecorable')->will($this->returnValue(true));
-        $cmsManager->expects($this->once())->method('renderPage')->will($this->returnCallback(function(PageInterface $page, array $params = array(), Response $response = null) {
+        $cmsManager->expects($this->once())->method('renderPage')->will($this->returnCallback(function(PageInterface $page, array $params = array(), Response $r = null) use (&$response) {
             $response->setContent(sprintf('outter <%s> outter', $params['content']));
-
-            return $response;
         }));
 
         $cmsSelector = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
@@ -61,7 +62,7 @@ class ResponseListenerTest extends \PHPUnit_Framework_TestCase
 
         $kernel = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface');
         $request = new Request();
-        $response = new Response('inner content');
+
         $event = new FilterResponseEvent($kernel, $request, 'master', $response);
 
         $listener = new ResponseListener($cmsSelector);
@@ -73,11 +74,8 @@ class ResponseListenerTest extends \PHPUnit_Framework_TestCase
     public function testResponseNotDecorable()
     {
         $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
-        $page->expects($this->once())->method('isHybrid')->will($this->returnValue(true));
-        $page->expects($this->once())->method('getDecorate')->will($this->returnValue(true));
 
         $cmsManager = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerInterface');
-        $cmsManager->expects($this->once())->method('getCurrentPage')->will($this->returnValue($page));
         $cmsManager->expects($this->once())->method('isDecorable')->will($this->returnValue(false));
 
         $cmsSelector = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');

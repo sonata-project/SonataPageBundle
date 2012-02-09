@@ -18,6 +18,7 @@ use Sonata\PageBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\AdminBundle\Validator\ErrorElement;
 use Sonata\PageBundle\CmsManager\CmsManagerInterface;
+use Sonata\PageBundle\Exception\PageNotFoundException;
 
 /**
  * PageExtension
@@ -43,7 +44,12 @@ class ChildrenPagesBlockService extends BaseBlockService
         } else if ($settings['pageId']) {
             $page = $settings['pageId'];
         } else {
-            $page = $manager->getPage($page->getSite(), '/');
+            try {
+                $page = $manager->getPage($page->getSite(), '/');
+            } catch (PageNotFoundException $e) {
+                $page = false;
+            }
+
         }
 
         return $this->renderResponse('SonataPageBundle:Block:block_core_children_pages.html.twig', array(

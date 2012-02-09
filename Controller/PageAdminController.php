@@ -15,6 +15,7 @@ use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Sonata\PageBundle\Exception\PageNotFoundException;
 
 class PageAdminController extends Controller
 {
@@ -28,7 +29,12 @@ class PageAdminController extends Controller
 
         $snapshots = array();
         foreach ($query->execute() as $page) {
-            $page = $this->get('sonata.page.cms.page')->getPageById($page->getId());
+
+            try {
+                $page = $this->get('sonata.page.cms.page')->getPageById($page->getId());
+            } catch (PageNotFoundException $e) {
+                $page = false;
+            }
 
             if ($page) {
                 $snapshot = $snapshotManager->create($page);

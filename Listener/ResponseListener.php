@@ -14,6 +14,7 @@ namespace Sonata\PageBundle\Listener;
 
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
+use Sonata\PageBundle\Exception\InternalErrorException;
 
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,21 +45,23 @@ class ResponseListener
     {
         $cms = $this->cmsSelector->retrieve();
 
-        $page = $cms->getCurrentPage();
-
-        // only decorate hybrid page and page with decorate = true
-        if (!$page || !$page->isHybrid() || !$page->getDecorate()) {
-            return;
-        }
-
         $response = $event->getResponse();
 
         if (!$cms->isDecorable($event->getRequest(), $event->getRequestType(), $response)) {
             return;
         }
 
-        $response = $cms->renderPage($page, array('content' => $response->getContent()), $response);
+        $page = $cms->getCurrentPage();
 
-        $event->setResponse($response);
+        if (!$page) {
+            throw new InternalErrorException('No page instance available for the url, run the sonata:page:update-core-routes and sonata:page:create-snapshots commands');
+        }
+
+        // only decorate hybrid page and page with decorate = true
+        if (!$page->isHybrid() || !$page->getDecorate()) {
+            return;
+        }
+
+        $cms->renderPage($page, array('content' => $response->getContent()), $response);
     }
 }

@@ -18,7 +18,7 @@ file that was distributed with this source code.
 
         {% if creatable %}
             <p>
-                <a href="{{ path('admin_sonata_page_page_create', {'url': pathInfo}) }}">{{ "create_page"|trans({'pathInfo': pathInfo}, 'SonataPageBundle') }}</a>
+                <a href="{{ path('admin_sonata_page_page_create', {'url': pathInfo, 'siteId': site.id}) }}">{{ "create_page"|trans({'pathInfo': pathInfo}, 'SonataPageBundle') }}</a>
             </p>
         {% else %}
             <p>

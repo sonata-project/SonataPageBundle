@@ -27,6 +27,7 @@ use Sonata\PageBundle\Util\RecursiveBlockIterator;
 use Sonata\PageBundle\Cache\CacheElement;
 use Sonata\PageBundle\Cache\Invalidation\InvalidationInterface;
 use Sonata\PageBundle\Model\SiteInterface;
+use Sonata\PageBundle\Exception\PageNotFoundException;
 
 use Sonata\AdminBundle\Admin\AdminInterface;
 
@@ -81,7 +82,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
         }
 
         if (!$page instanceof PageInterface) {
-            throw new \RunTimeException('Unable to retrieve the snapshot');
+            throw new PageNotFoundException('Unable to retrieve the snapshot');
         }
 
         return $page;
@@ -189,7 +190,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
             $snapshot = $this->getPageManager()->findEnableSnapshot($parameters);
 
             if (!$snapshot) {
-                return false;
+                throw new PageNotFoundException();
             }
 
             $page = new SnapshotPageProxy($this->getPageManager(), $snapshot);

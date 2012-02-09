@@ -17,6 +17,8 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\PageBundle\Exception\PageNotFoundException;
+use Sonata\PageBundle\Exception\InternalErrorException;
 
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Cache\CacheElement;
@@ -189,10 +191,18 @@ class PageAdmin extends Admin
             $this->cmsManager->getPageManager()->fixUrl($object);
         }
 
-        $page = $this->cmsManager->getPageManager()->getPageByUrl($object->getSite(), $object->getUrl());
+        try {
+            $page = $this->cmsManager->getPageManager()->getPageByUrl($object->getSite(), $object->getUrl());
+        } catch (PageNotFoundException $e) {
+            $page = false;
+        }
 
         if (!$page) {
-            $page = $this->cmsManager->getPageManager()->getPageByUrl($object->getSite(), substr($object->getUrl(), -1) == '/' ? substr($object->getUrl(), 0, -1) : $object->getUrl().'/');
+            try {
+                $page = $this->cmsManager->getPageManager()->getPageByUrl($object->getSite(), substr($object->getUrl(), -1) == '/' ? substr($object->getUrl(), 0, -1) : $object->getUrl().'/');
+            } catch (PageNotFoundException $e) {
+                $page = false;
+            }
         }
 
         if ($page && $page->getId() != $object->getId()) {
@@ -269,34 +279,53 @@ class PageAdmin extends Admin
     {
         $instance = parent::getNewInstance();
 
-        if ($this->hasRequest()) {
+        if (!$this->hasRequest()) {
+            return $instance;
+        }
 
-            if ($this->getRequest()->get('url')) {
-                $slugs  = explode('/', $this->getRequest()->get('url'));
-                $slug   = array_pop($slugs);
+        if ($site = $this->getSite()) {
+            $instance->setSite($site);
+        }
 
-                $parent = $this->cmsManager->getPageByUrl(implode('/', $slugs));
-                if (!$parent) {
-                    $parent = $this->cmsManager->getPageByUrl('/');
+        if ($site && $this->getRequest()->get('url')) {
+            $slugs  = explode('/', $this->getRequest()->get('url'));
+            $slug   = array_pop($slugs);
+
+            try {
+                $parent = $this->cmsManager->getPageByUrl($site, implode('/', $slugs));
+            } catch (PageNotFoundException $e) {
+                try {
+                    $parent = $this->cmsManager->getPageByUrl($site, '/');
+                } catch (PageNotFoundException $e) {
+                    throw new InternalErrorException('Unable to find the root url, please create a route with url = /');
                 }
-
-                $instance->setSlug(urldecode($slug));
-                $instance->setParent($parent ?: null);
-                $instance->setName(urldecode($slug));
             }
 
-            if ($this->getRequest()->get('siteId')) {
-                $site = $this->siteManager->findOneBy(array('id' => $this->getRequest()->get('siteId')));
-
-                if (!$site) {
-                    throw new \RuntimeException('Unable to find the site with id='.$this->getRequest()->get('siteId'));
-                }
-
-                $instance->setSite($site);
-            }
+            $instance->setSlug(urldecode($slug));
+            $instance->setParent($parent ?: null);
+            $instance->setName(urldecode($slug));
         }
 
         return $instance;
+    }
+
+    public function getSite()
+    {
+        if (!$this->hasRequest()) {
+            return false;
+        }
+
+        if ($siteId = $this->getRequest()->get('siteId')) {
+            $site = $this->siteManager->findOneBy(array('id' => $siteId));
+
+            if (!$site) {
+                throw new \RuntimeException('Unable to find the site with id='.$this->getRequest()->get('siteId'));
+            }
+
+            return $site;
+        }
+
+        return false;
     }
 
     public function getBatchActions()

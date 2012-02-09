@@ -11,6 +11,9 @@
 
 namespace Sonata\PageBundle\Controller;
 
+use Sonata\PageBundle\Exception\PageNotFoundException;
+use Sonata\PageBundle\Exception\InternalErrorException;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,11 +32,22 @@ class PageController extends Controller
         $site = $this->getSiteSelector()->retrieve();
 
         $cms  = $this->getCmsManager();
-        $page = $cms->getPageByUrl($site, $pathInfo);
+
+        try {
+            $page = $cms->getPageByUrl($site, $pathInfo);
+        } catch (PageNotFoundException $e) {
+            $page = false;
+        }
 
         // always render the last page version for the admin
         if (!$page && $this->get('security.context')->isGranted('ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT')) {
-            $page = $cms->getPageByRouteName($site, 'catchAll');
+
+            try {
+                $page = $cms->getPageByRouteName($site, 'catchAll');
+            } catch (PageNotFoundException $e) {
+                throw new InternalErrorException('The route catchAll is missing, please add the route to the routing file');
+            }
+
             $cms->setCurrentPage($page);
 
             return $this->render('SonataPageBundle:Page:create.html.twig', array(
@@ -47,7 +61,7 @@ class PageController extends Controller
         }
 
         if (!$page) {
-            throw new NotFoundHttpException('The current url does not exist!');
+            throw new PageNotFoundException('The current url does not exist!');
         }
 
         $cms->setCurrentPage($page);
@@ -82,13 +96,16 @@ class PageController extends Controller
         }
 
         $cms = $this->getCmsManager();
-        $httpErrorCodes = $cms->getHttpErrorCodes();
 
-        if (!array_key_exists($code, $httpErrorCodes)) {
-            throw new NotFoundHttpException(sprintf('The code "%s" is not set in the configuration', $code));
+        if (!$cms->hasErrorCode($code)) {
+            throw new InternalErrorException(sprintf('The error code "%s" is not set in the configuration', $code));
         }
 
-        $page = $cms->getPageByName($this->getSiteSelector()->retrieve(), $httpErrorCodes[$code]);
+        try {
+            $page = $cms->getErrorCodePage($this->getSiteSelector()->retrieve(), $code);
+        } catch (PageNotFoundException $e) {
+            throw new InternalErrorException('The requested error page does not exist, please run the sonata:page:update-core-routes command', null, $e);
+        }
 
         $cms->setCurrentPage($page);
 

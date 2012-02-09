@@ -16,6 +16,7 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Util\RecursiveBlockIteratorIterator;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
+use Sonata\PageBundle\Exception\PageNotFoundException;
 
 class PageExtension extends \Twig_Extension
 {
@@ -112,7 +113,13 @@ class PageExtension extends \Twig_Extension
             $breadcrumbs = $page->getParents();
 
             if ($options['force_view_home_page'] && (!isset($breadcrumbs[0]) || $breadcrumbs[0]->getRouteName() != 'homepage')) {
-                $homePage = $this->cmsManagerSelector->retrieve()->getPageByRouteName($this->siteSelector->retrieve(), 'homepage');
+
+                try {
+                    $homePage = $this->cmsManagerSelector->retrieve()->getPageByRouteName($this->siteSelector->retrieve(), 'homepage');
+                } catch (PageNotFoundException $e) {
+                    $homePage = false;
+                }
+
                 if ($homePage) {
                     array_unshift($breadcrumbs, $homePage);
                 }
@@ -299,7 +306,7 @@ class PageExtension extends \Twig_Extension
             } else if ($page instanceof PageInterface) {
                 $targetPage = $page;
             }
-        } catch(\RuntimeException $e) {
+        } catch(PageNotFoundException $e) {
             // the snapshot does not exist
             $targetPage = false;
         }

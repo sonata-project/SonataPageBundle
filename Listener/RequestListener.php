@@ -14,6 +14,8 @@ namespace Sonata\PageBundle\Listener;
 
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
+use Sonata\PageBundle\Exception\InternalErrorException;
+use Sonata\PageBundle\Exception\PageNotFoundException;
 
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,18 +32,14 @@ class RequestListener
 
     protected $siteSelector;
 
-    protected $templating;
-
     /**
      * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $cmsSelector
      * @param \Sonata\PageBundle\Site\SiteSelectorInterface $siteSelector
-     * @param \Symfony\Component\Templating\EngineInterface $templating
      */
-    public function __construct(CmsManagerSelectorInterface $cmsSelector, SiteSelectorInterface $siteSelector, EngineInterface $templating)
+    public function __construct(CmsManagerSelectorInterface $cmsSelector, SiteSelectorInterface $siteSelector)
     {
         $this->cmsSelector = $cmsSelector;
         $this->siteSelector = $siteSelector;
-        $this->templating = $templating;
     }
 
     /**
@@ -55,7 +53,7 @@ class RequestListener
         $cms = $this->cmsSelector->retrieve();
 
         if (!$cms) {
-            return;
+            throw new InternalErrorException('No CMS Manager available');
         }
 
         $routeName = $event->getRequest()->get('_route');
@@ -64,20 +62,21 @@ class RequestListener
             return;
         }
 
-        if ($cms->isRouteNameDecorable($routeName) && $cms->isRouteUriDecorable($event->getRequest()->getRequestUri())) {
-            $site = $this->siteSelector->retrieve();
+        if (!$cms->isRouteNameDecorable($routeName) || !$cms->isRouteUriDecorable($event->getRequest()->getRequestUri())) {
+            return;
+        }
 
-            if (!$site) {
-                $event->setResponse(new Response($this->templating->render('SonataPageBundle:Site:no_site_enabled.html.twig'), 500));
+        $site = $this->siteSelector->retrieve();
 
-                return;
-            }
+        if (!$site) {
+            throw new InternalErrorException('No site available for the current request');
+        }
 
+        try {
             $page = $cms->getPageByRouteName($site, $routeName);
-
-            if ($page) {
-                $cms->setCurrentPage($page);
-            }
+            $cms->setCurrentPage($page);
+        } catch (PageNotFoundException $e) {
+            return;
         }
     }
 }

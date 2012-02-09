@@ -48,7 +48,7 @@ to ::
 
 Working file example :
 
-.. code-block:: yaml
+.. code-block:: php
 
     <?php
     require_once __DIR__.'/../app/bootstrap.php.cache';

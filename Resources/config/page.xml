@@ -40,7 +40,6 @@
             <tag name="kernel.event_listener" event="kernel.request" method="onCoreRequest" priority="-1"/>
             <argument type="service" id="sonata.page.cms_manager_selector" />
             <argument type="service" id="sonata.page.site.selector" />
-            <argument type="service" id="templating" />
         </service>
 
         <service id="sonata.page.cms_manager_selector" class="%sonata.page.cms_manager_selector.class%">

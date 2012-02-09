@@ -32,6 +32,19 @@ interface CmsManagerInterface
     function getHttpErrorCodes();
 
     /**
+     * @param $statusCode
+     * @return void
+     */
+    function hasErrorCode($statusCode);
+
+    /**
+     * @param \Sonata\PageBundle\Model\SiteInterface $site
+     * @param $statusCode
+     * @return \Sonata\PageBundle\Model\PageInterface
+     */
+    function getErrorCodePage(SiteInterface $site, $statusCode);
+
+    /**
      * @param string $name
      * @param \Sonata\PageBundle\Model\PageInterface $page
      * @param null|\Sonata\PageBundle\Model\BlockInterface $parentContainer
@@ -42,8 +55,6 @@ interface CmsManagerInterface
     /**
      * Returns a fully loaded page ( + blocks ) from a route name
      *
-     * if the page does not exists then the page is created.
-     *
      * @param \Sonata\PageBundle\Model\SiteInterface $site
      * @param string $slug
      * @return \Sonata\PageBundle\Model\PageInterface
@@ -53,26 +64,20 @@ interface CmsManagerInterface
     /**
      * Returns a fully loaded page ( + blocks ) from a route name
      *
-     * if the page does not exists then the page is created.
-     *
      * @param \Sonata\PageBundle\Model\SiteInterface $site
      * @param string $routeName
-     * @param boolean $create
      * @return \Sonata\PageBundle\Model\PageInterface
      */
-    function getPageByRouteName(SiteInterface $site, $routeName, $create = true);
+    function getPageByRouteName(SiteInterface $site, $routeName);
 
     /**
      * Returns a fully loaded page ( + blocks ) from a name
      *
-     * if the page does not exists then the page is created.
-     *
      * @param \Sonata\PageBundle\Model\SiteInterface $site
      * @param string $name
-     * @param boolean $create
      * @return \Sonata\PageBundle\Model\PageInterface
      */
-    function getPageByName(SiteInterface $site, $name, $create = true);
+    function getPageByName(SiteInterface $site, $name);
 
     /**
      * Returns a fully loaded pag ( + blocks ) from a page id

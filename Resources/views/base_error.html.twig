@@ -8,6 +8,7 @@ For the full copyright and license information, please view the LICENSE
 file that was distributed with this source code.
 
 #}
+{% set title = block('title') ? block('title') : 'Sonata Project - Internal Error' %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -18,14 +19,14 @@ file that was distributed with this source code.
             <link rel="stylesheet" href="{{ asset('bundles/sonatapage/default.css') }}" type="text/css" media="all" >
         {% endblock %}
 
-        <title>{% block title %}Error{%endblock%}</title>
+        <title>{{ title }}</title>
     </head>
 
     <body class="sonata-bc">
         <div class="container">
             <div class="content">
                 <div class="page-header">
-                    <h1>Sonata Project - Internal Error</h1>
+                    <h1>{{ title }}</h1>
                 </div>
 
                 <div class="row">

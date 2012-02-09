@@ -18,6 +18,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\Output;
 use Sonata\PageBundle\Model\SiteInterface;
+use Sonata\PageBundle\Exception\PageNotFoundException;
 
 use Symfony\Component\Process\Process;
 
@@ -35,7 +36,7 @@ class UpdateCoreRoutesCommand extends BaseCommand
     public function execute(InputInterface $input, OutputInterface $output)
     {
         if (!$input->getOption('site') && !$input->getOption('all')) {
-             $output->writeln('Please provide an <info>--site=SITE_ID</info> option or the <info>--all</info> directive');
+             $output->writeln('Please provide an <info>--site=SITE_ID</info> option or the <info>--site=all</info> directive');
              $output->writeln('');
 
              $output->writeln(sprintf(" % 5s - % -30s - %s", "ID", "Name", "Url"));
@@ -87,12 +88,18 @@ class UpdateCoreRoutesCommand extends BaseCommand
         ));
 
         $knowRoutes = array();
+
+        // Iterate over declared routes from the routing mechanism
         foreach ($router->getRouteCollection()->all() as $name => $route) {
             $name = trim($name);
 
             $knowRoutes[] = $name;
 
-            $page = $pageManager->getPageByName($site, $name);
+            try {
+                $page = $pageManager->getPageByName($site, $name);
+            } catch (PageNotFoundException $e) {
+                $page = false;
+            }
 
             if (!$cmsManager->isRouteNameDecorable($name) || !$cmsManager->isRouteUriDecorable($route->getPattern())) {
                 if ($page) {
@@ -127,12 +134,17 @@ class UpdateCoreRoutesCommand extends BaseCommand
             $output->writeln(sprintf('  <info>%s</info> % -50s %s', $update ? 'UPDATE ' : 'CREATE ', $name, $route->getPattern()));
         }
 
+        // Iterate over error pages
         foreach ($cmsManager->getHttpErrorCodes() as $name) {
             $name = trim($name);
 
             $knowRoutes[] = $name;
 
-            $page = $pageManager->getPageByName($site, $name);
+            try {
+                $page = $pageManager->getPageByName($site, $name);
+            } catch (PageNotFoundException $e) {
+                $page = false;
+            }
 
             if (!$page) {
 
@@ -140,6 +152,7 @@ class UpdateCoreRoutesCommand extends BaseCommand
                     'routeName'     => $name,
                     'name'          => $name,
                 );
+
                 $params = array_merge($params, $cmsManager->getCreateNewPageDefaultsByName($name));
 
                 $params['decorate'] = false;
@@ -150,8 +163,6 @@ class UpdateCoreRoutesCommand extends BaseCommand
                 $output->writeln(sprintf('  <info>%s</info> % -50s %s', 'CREATE ', $name, ''));
             }
         }
-
-
 
         $has = false;
         foreach ($pageManager->getHybridPages($site) as $page) {

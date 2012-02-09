@@ -27,6 +27,7 @@ use Sonata\PageBundle\Cache\CacheElement;
 use Sonata\PageBundle\Cache\Invalidation\InvalidationInterface;
 use Sonata\PageBundle\Cache\Invalidation\Recorder;
 use Sonata\PageBundle\Model\SiteInterface;
+use Sonata\PageBundle\Exception\InternalErrorException;
 
 use Sonata\AdminBundle\Admin\AdminInterface;
 
@@ -83,6 +84,29 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     }
 
     /**
+     * @param $statusCode
+     * @return bool
+     */
+    public function hasErrorCode($statusCode)
+    {
+        return array_key_exists($statusCode, $this->httpErrorCodes);
+    }
+
+    /**
+     * @param \Sonata\PageBundle\Model\SiteInterface $site
+     * @param $statusCode
+     * @return \Sonata\PageBundle\Model\PageInterface
+     */
+    public function getErrorCodePage(SiteInterface $site, $statusCode)
+    {
+        if (!$this->hasErrorCode($statusCode)) {
+            throw new InternalErrorException(sprintf('There is not page configured to handle the status code %d', $statusCode));
+        }
+
+        return $this->getPageByName($site, $this->httpErrorCodes[$statusCode]);
+    }
+
+    /**
      * @param $name
      * @param \Sonata\PageBundle\Cache\CacheInterface $cacheManager
      * @return void
@@ -132,9 +156,7 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
             return false;
         }
 
-        $routeName = $request->get('_route');
-
-        return $this->isRouteNameDecorable($routeName) && $this->isRouteUriDecorable($request->getRequestUri());
+        return $this->isRouteNameDecorable($request->get('_route')) && $this->isRouteUriDecorable($request->getRequestUri());
     }
 
     /**

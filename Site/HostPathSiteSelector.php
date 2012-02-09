@@ -57,10 +57,6 @@ class HostPathSiteSelector extends BaseSiteSelector
                 break;
             }
         }
-
-        if (!$this->site) {
-            throw new \RuntimeException('Unable to retrieve the current website');
-        }
     }
 
     /**

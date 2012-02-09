@@ -23,14 +23,15 @@ class RequestListenerTest extends \PHPUnit_Framework_TestCase
 {
     public function testValidSite()
     {
+        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+
         $cmsManager = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerInterface');
         $cmsManager->expects($this->once())->method('isRouteNameDecorable')->will($this->returnValue(true));
         $cmsManager->expects($this->once())->method('isRouteUriDecorable')->will($this->returnValue(true));
+        $cmsManager->expects($this->once())->method('getPageByRouteName')->will($this->returnValue($page));
 
         $cmsSelector = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
         $cmsSelector->expects($this->once())->method('retrieve')->will($this->returnValue($cmsManager));
-
-        $templating = $this->getMock('Symfony\Component\Templating\EngineInterface');
 
         $site = $this->getMock('Sonata\PageBundle\Model\SiteInterface');
 
@@ -42,10 +43,13 @@ class RequestListenerTest extends \PHPUnit_Framework_TestCase
 
         $event = new GetResponseEvent($kernel, $request, 'master');
 
-        $listener = new RequestListener($cmsSelector, $siteSelector, $templating);
+        $listener = new RequestListener($cmsSelector, $siteSelector);
         $listener->onCoreRequest($event);
     }
 
+    /**
+     * @expectedException \Sonata\PageBundle\Exception\InternalErrorException
+     */
     public function testNoSite()
     {
         $cmsManager = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerInterface');
@@ -55,9 +59,6 @@ class RequestListenerTest extends \PHPUnit_Framework_TestCase
         $cmsSelector = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
         $cmsSelector->expects($this->once())->method('retrieve')->will($this->returnValue($cmsManager));
 
-        $templating = $this->getMock('Symfony\Component\Templating\EngineInterface');
-        $templating->expects($this->once())->method('render')->will($this->returnValue('Error'));
-
         $siteSelector = $this->getMock('Sonata\PageBundle\Site\SiteSelectorInterface');
         $siteSelector->expects($this->once())->method('retrieve')->will($this->returnValue(false));
 
@@ -66,10 +67,7 @@ class RequestListenerTest extends \PHPUnit_Framework_TestCase
 
         $event = new GetResponseEvent($kernel, $request, 'master');
 
-        $listener = new RequestListener($cmsSelector, $siteSelector, $templating);
+        $listener = new RequestListener($cmsSelector, $siteSelector);
         $listener->onCoreRequest($event);
-
-        $this->assertNotNull($event->getResponse());
-        $this->assertEquals('Error', $event->getResponse()->getContent());
     }
 }
