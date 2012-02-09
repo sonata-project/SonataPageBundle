@@ -20,6 +20,7 @@ class PageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Page::slugify('S§!@@#$#$alut'), 's-alut');
         $this->assertEquals(Page::slugify('Symfony2'), 'symfony2');
         $this->assertEquals(Page::slugify('test'), 'test');
+        $this->assertEquals(Page::slugify('c\'est bientôt l\'été'), 'c-est-bientot-l-ete');
     }
 
     public function testHeader()
