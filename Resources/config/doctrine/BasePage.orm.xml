@@ -4,8 +4,9 @@
         <field name="routeName"         type="string"     column="route_name" length="255"/>
         <field name="position"          type="integer"      column="position"  default="1"/>
 
-        <field name="enabled"           type="boolean"      column="enabled"        default="false" />
+        <field name="enabled"           type="boolean"      column="enabled"         default="false" />
         <field name="decorate"          type="boolean"      column="decorate"        default="false" />
+        <field name="edited"            type="boolean"      column="edited"          default="false" />
 
         <field name="name"              type="string"       column="name"           length="255"/>
 

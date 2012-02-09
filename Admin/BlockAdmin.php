@@ -140,6 +140,7 @@ class BlockAdmin extends Admin
     {
         // fix weird bug with setter object not being call
         $object->setChildren($object->getChildren());
+        $object->getPage()->setEdited(true);
         $this->cmsManager->getBlockService($object)->preUpdate($object);
     }
 
@@ -154,6 +155,8 @@ class BlockAdmin extends Admin
     public function prePersist($object)
     {
         $this->cmsManager->getBlockService($object)->prePersist($object);
+
+        $object->getPage()->setEdited(true);
 
         // fix weird bug with setter object not being call
         $object->setChildren($object->getChildren());

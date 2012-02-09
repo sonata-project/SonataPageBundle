@@ -71,12 +71,15 @@ abstract class Page implements PageInterface
 
     protected $site;
 
+    protected $edited;
+
     public function __construct()
     {
-        $this->blocks = array();
-        $this->children = array();
-        $this->routeName = PageInterface::PAGE_ROUTE_CMS_NAME;
+        $this->blocks        = array();
+        $this->children      = array();
+        $this->routeName     = PageInterface::PAGE_ROUTE_CMS_NAME;
         $this->requestMethod = 'GET|POST|HEAD|DELETE|PUT';
+        $this->edited        = true;
     }
 
     /**
@@ -788,5 +791,15 @@ abstract class Page implements PageInterface
     public function getSite()
     {
         return $this->site;
+    }
+
+    public function setEdited($edited)
+    {
+        $this->edited = $edited;
+    }
+
+    public function getEdited()
+    {
+        return $this->edited;
     }
 }

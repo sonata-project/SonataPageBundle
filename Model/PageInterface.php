@@ -399,4 +399,15 @@ interface PageInterface
      * @return void
      */
     function setRawHeaders($rawHeaders);
+
+    /**
+     * @return boolean
+     */
+    function getEdited();
+
+    /**
+     * @abstract
+     * @return void
+     */
+    function setEdited($edited);
 }

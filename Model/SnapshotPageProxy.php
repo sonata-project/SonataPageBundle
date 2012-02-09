@@ -665,4 +665,20 @@ class SnapshotPageProxy implements PageInterface
     {
         return $this->getPage()->setRawHeaders($headers);
     }
+
+    /**
+     * @return boolean
+     */
+    public function getEdited()
+    {
+        return $this->getPage()->getEdited();
+    }
+
+    /**
+     * @return void
+     */
+    public function setEdited($edited)
+    {
+        return $this->getPage()->setEdited($edited);
+    }
 }

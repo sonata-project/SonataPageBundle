@@ -74,16 +74,11 @@ class SnapshotManager implements SnapshotManagerInterface
     /**
      * Enabled a snapshot - make it public
      *
-     * @param \Sonata\PageBundle\Model\SiteInterface $site
      * @param array $snapshots
      * @return
      */
-    public function enableSnapshots(SiteInterface $site, $snapshots)
+    public function enableSnapshots(array $snapshots)
     {
-        if (!is_array($snapshots)) {
-            $snapshots = array($snapshots);
-        }
-
         if (count($snapshots) == 0) {
             return;
         }
@@ -102,12 +97,11 @@ class SnapshotManager implements SnapshotManagerInterface
 
         $this->entityManager->flush();
         //@todo: strange sql and low-level pdo usage: use dql or qb
-        $sql = sprintf("UPDATE %s SET publication_date_end = '%s' WHERE id NOT IN(%s) AND page_id IN (%s) AND publication_date_end IS NULL AND site_id = %d",
+        $sql = sprintf("UPDATE %s SET publication_date_end = '%s' WHERE id NOT IN(%s) AND page_id IN (%s) AND publication_date_end IS NULL",
             $this->entityManager->getClassMetadata($this->class)->table['name'],
             $now->format('Y-m-d H:i:s'),
             implode(',', $snapshotIds),
-            implode(',', $pageIds),
-            $site->getId()
+            implode(',', $pageIds)
         );
 
         $this->getConnection()->query($sql);

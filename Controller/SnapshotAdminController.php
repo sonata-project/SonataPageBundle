@@ -25,10 +25,13 @@ class SnapshotAdminController extends Controller
         }
 
         $class = $this->get('sonata.page.manager.snapshot')->getClass();
+
+        $pageManager = $this->get('sonata.page.manager.page');
+
         $snapshot = new $class;
 
         if ($this->getRequest()->getMethod() == 'GET' && $this->getRequest()->get('pageId')) {
-            $page = $this->get('sonata.page.manager.page')->findOne(array('id' => $this->getRequest()->get('pageId')));
+            $page = $pageManager->findOne(array('id' => $this->getRequest()->get('pageId')));
         } elseif ($this->admin->isChild()) {
             $page = $this->admin->getParent()->getSubject();
         } else {
@@ -46,9 +49,15 @@ class SnapshotAdminController extends Controller
             if ($form->isValid()) {
                 $snapshotManager = $this->get('sonata.page.manager.snapshot');
 
-                $snapshot = $snapshotManager->create($form->getData()->getPage());
+                $page = $form->getData()->getPage();
+                $page->setEdited(false);
+
+                $snapshot = $snapshotManager->create($page);
+
                 $snapshotManager->save($snapshot);
-                $snapshotManager->enableSnapshots($page->getSite(), $snapshot);
+                $pageManager->save($page);
+
+                $snapshotManager->enableSnapshots(array($snapshot));
             }
 
             return $this->redirect( $this->admin->generateUrl('edit', array('id' => $snapshot->getId())));

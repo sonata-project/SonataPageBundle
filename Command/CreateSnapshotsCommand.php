@@ -85,7 +85,7 @@ class CreateSnapshotsCommand extends BaseCommand
 
         $snapshots = array();
 
-        $pages = $this->getPageManager()->findBy(array('site' => $site->getId()));
+        $pages = $this->getPageManager()->findBy(array('site' => $site->getId(), 'edited' => true));
 
         $count = count($pages);
         foreach ($pages as $pos => $page) {
@@ -93,6 +93,9 @@ class CreateSnapshotsCommand extends BaseCommand
 
             $snapshot = $this->getSnapshotManager()->create($page);
 
+            $page->setEdited(false);
+
+            $this->getPageManager()->save($page);
             $this->getSnapshotManager()->save($snapshot);
 
             $output->writeln(' OK !');
@@ -102,7 +105,7 @@ class CreateSnapshotsCommand extends BaseCommand
         $output->writeln('');
         $output->write('  Enabling snapshots ...');
 
-        $this->getSnapshotManager()->enableSnapshots($site, $snapshots);
+        $this->getSnapshotManager()->enableSnapshots($snapshots);
         $this->getSnapshotManager()->getConnection()->commit();
 
         $output->writeln(' <comment>OK</comment> !');

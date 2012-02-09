@@ -47,6 +47,7 @@ class PageAdmin extends Admin
             ->add('name')
             ->add('slug')
             ->add('customUrl')
+            ->add('edited')
         ;
     }
 
@@ -59,9 +60,10 @@ class PageAdmin extends Admin
         $listMapper
             ->add('hybrid', 'text', array('template' => 'SonataPageBundle:PageAdmin:field_hybrid.html.twig'))
             ->addIdentifier('name')
+            ->add('site')
             ->add('decorate')
             ->add('enabled')
-            ->add('site')
+            ->add('edited')
         ;
     }
 
@@ -74,6 +76,7 @@ class PageAdmin extends Admin
         $datagridMapper
             ->add('site')
             ->add('name')
+            ->add('edited')
             ->add('hybrid', 'doctrine_orm_callback', array(
                 'callback' => function($queryBuilder, $alias, $field, $data) {
                     if (in_array($data['value'], array('hybrid', 'cms'))) {
@@ -258,6 +261,8 @@ class PageAdmin extends Admin
 
     public function update($object)
     {
+        $object->setEdited(true);
+
         $this->preUpdate($object);
         $this->cmsManager->getPageManager()->save($object);
         $this->postUpdate($object);
@@ -265,6 +270,8 @@ class PageAdmin extends Admin
 
     public function create($object)
     {
+        $object->setEdited(true);
+
         $this->prePersist($object);
         $this->cmsManager->getPageManager()->save($object);
         $this->postPersist($object);
