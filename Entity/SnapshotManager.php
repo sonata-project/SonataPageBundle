@@ -11,15 +11,14 @@
 
 namespace Sonata\PageBundle\Entity;
 
+use Sonata\BlockBundle\Model\BlockInterface;
+
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SnapshotInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
-use Sonata\PageBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\Template;
 use Sonata\PageBundle\Model\SnapshotChildrenCollection;
-
-use Application\Sonata\PageBundle\Entity\Page;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\NoResultException;
@@ -40,7 +39,7 @@ class SnapshotManager implements SnapshotManagerInterface
 
     protected $templates = array();
 
-    public function __construct(EntityManager $entityManager, $class = 'Application\Sonata\PageBundle\Entity\Snapshot', $pageClass = 'Application\Sonata\PageBundle\Entity\Snapshot', $blockClass = 'Application\Sonata\PageBundle\Entity\Block', $templates = array())
+    public function __construct(EntityManager $entityManager, $class, $pageClass, $blockClass, $templates = array())
     {
         $this->entityManager = $entityManager;
         $this->class         = $class;
@@ -209,7 +208,7 @@ class SnapshotManager implements SnapshotManagerInterface
     /**
      * @param array $content
      * @param \Sonata\PageBundle\Model\PageInterface $page
-     * @return \Sonata\PageBundle\Model\BlockInterface
+     * @return \Sonata\BlockBundle\Model\BlockInterface
      */
     public function loadBlock(array $content, PageInterface $page)
     {
@@ -289,7 +288,7 @@ class SnapshotManager implements SnapshotManagerInterface
     }
 
     /**
-     * @param \Sonata\PageBundle\Model\BlockInterface $block
+     * @param \Sonata\BlockBundle\Model\BlockInterface $block
      * @return array
      */
     public function createBlocks(BlockInterface $block)

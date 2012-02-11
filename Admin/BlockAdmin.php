@@ -17,29 +17,21 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\PageBundle\CmsManager\CmsPageManager;
 use Sonata\AdminBundle\Validator\ErrorElement;
-use Sonata\PageBundle\Model\BlockInterface;
+
+use Sonata\CacheBundle\Cache\CacheManagerInterface;
+
+use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
 
 class BlockAdmin extends Admin
 {
     protected $parentAssociationMapping = 'page';
 
-    /**
-     * @var \Sonata\PageBundle\CmsManager\CmsPageManager
-     */
-    protected $cmsManager;
+    protected $blockManager;
+
+    protected $cacheManager;
 
     protected $inValidate = false;
-
-    /**
-     * @param \Sonata\PageBundle\CmsManager\CmsPageManager $cmsManager
-     * @return void
-     */
-    public function setCmsManager(CmsPageManager $cmsManager)
-    {
-        $this->cmsManager = $cmsManager;
-    }
 
     /**
      * @param \Sonata\AdminBundle\Route\RouteCollection $collection
@@ -86,17 +78,17 @@ class BlockAdmin extends Admin
         $block = $this->getSubject();
 
         if ($block) {
-            $service = $this->cmsManager->getBlockService($block);
+            $service = $this->blockManager->getBlockService($block);
 
             if ($block->getId() > 0) {
-                $service->buildEditForm($this->cmsManager, $formMapper, $block);
+                $service->buildEditForm($formMapper, $block);
             } else {
-                $service->buildCreateForm($this->cmsManager, $formMapper, $block);
+                $service->buildCreateForm($formMapper, $block);
             }
         } else {
 
             $formMapper
-                ->add('type', 'sonata_page_block_choice')
+                ->add('type', 'sonata_block_service_choice')
                 ->add('enabled')
                 ->add('position');
         }
@@ -104,7 +96,7 @@ class BlockAdmin extends Admin
 
     /**
      * @param \Sonata\AdminBundle\Validator\ErrorElement $errorElement
-     * @param \Sonata\PageBundle\Model\BlockInterface $block
+     * @param \Sonata\BlockBundle\Model\BlockInterface $block
      */
     public function validate(ErrorElement $errorElement, $block)
     {
@@ -114,7 +106,7 @@ class BlockAdmin extends Admin
 
         // As block can be nested, we only need to validate the main block, no the children
         $this->inValidate = true;
-        $this->cmsManager->validateBlock($errorElement, $block);
+        $this->blockManager->validateBlock($errorElement, $block);
         $this->inValidate = false;
     }
 
@@ -127,10 +119,10 @@ class BlockAdmin extends Admin
         $subject = parent::getObject($id);
 
         if ($subject) {
-            $service = $this->cmsManager->getBlockService($subject);
+            $service = $this->blockManager->getBlockService($subject);
             $subject->setSettings(array_merge($service->getDefaultSettings(), $subject->getSettings()));
 
-            $service->load($this->cmsManager, $subject);
+            $service->load($subject);
         }
 
         return $subject;
@@ -141,20 +133,20 @@ class BlockAdmin extends Admin
         // fix weird bug with setter object not being call
         $object->setChildren($object->getChildren());
         $object->getPage()->setEdited(true);
-        $this->cmsManager->getBlockService($object)->preUpdate($object);
+
+        $this->blockManager->getBlockService($object)->preUpdate($object);
     }
 
     public function postUpdate($object)
     {
-        $service      = $this->cmsManager->getBlockService($object);
-        $cacheElement = $service->getCacheElement($this->cmsManager, $object);
+        $service = $this->blockManager->getBlockService($object);
 
-        $this->cmsManager->invalidate($cacheElement);
+        $this->cacheManager->invalidate($service->getCacheKeys($object));
     }
 
     public function prePersist($object)
     {
-        $this->cmsManager->getBlockService($object)->prePersist($object);
+        $this->blockManager->getBlockService($object)->prePersist($object);
 
         $object->getPage()->setEdited(true);
 
@@ -164,9 +156,18 @@ class BlockAdmin extends Admin
 
     public function postPersist($object)
     {
-        $service      = $this->cmsManager->getBlockService($object);
-        $cacheElement = $service->getCacheElement($this->cmsManager, $object);
+        $service = $this->blockManager->getBlockService($object);
 
-        $this->cmsManager->invalidate($cacheElement);
+        $this->cacheManager->invalidate($service->getCacheKeys($object));
+    }
+
+    public function setBlockManager(BlockServiceManagerInterface $blockManager)
+    {
+        $this->blockManager = $blockManager;
+    }
+
+    public function setCacheManager(CacheManagerInterface $cacheManager)
+    {
+        $this->cacheManager = $cacheManager;
     }
 }

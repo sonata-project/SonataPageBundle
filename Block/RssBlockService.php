@@ -13,20 +13,19 @@ namespace Sonata\PageBundle\Block;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Form;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\PageBundle\Model\BlockInterface;
+use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\AdminBundle\Validator\ErrorElement;
 use Sonata\PageBundle\CmsManager\CmsManagerInterface;
 
 /**
- * PageExtension
  *
  * @author     Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class RssBlockService extends BaseBlockService
 {
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -34,7 +33,7 @@ class RssBlockService extends BaseBlockService
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function getDefaultSettings()
     {
@@ -45,12 +44,9 @@ class RssBlockService extends BaseBlockService
     }
 
     /**
-     * @param \Sonata\PageBundle\CmsManager\CmsManagerInterface $manager
-     * @param \Sonata\AdminBundle\Form\FormMapper $formMapper
-     * @param \Sonata\PageBundle\Model\BlockInterface $block
-     * @return void
+     * {@inheritdoc}
      */
-    public function buildEditForm(CmsManagerInterface $manager, FormMapper $formMapper, BlockInterface $block)
+    public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
     {
         $formMapper->add('settings', 'sonata_type_immutable_array', array(
             'keys' => array(
@@ -61,12 +57,9 @@ class RssBlockService extends BaseBlockService
     }
 
     /**
-     * @param \Sonata\PageBundle\CmsManager\CmsManagerInterface $manager
-     * @param \Sonata\AdminBundle\Validator\ErrorElement $errorElement
-     * @param \Sonata\PageBundle\Model\BlockInterface $block
-     * @return void
+     * {@inheritdoc}
      */
-    function validateBlock(CmsManagerInterface $manager, ErrorElement $errorElement, BlockInterface $block)
+    function validateBlock(ErrorElement $errorElement, BlockInterface $block)
     {
         $errorElement
             ->with('settings.url')
@@ -81,12 +74,9 @@ class RssBlockService extends BaseBlockService
     }
 
     /**
-     * @param \Sonata\PageBundle\Model\BlockInterface $block
-     * @param \Sonata\PageBundle\Model\PageInterface $page
-     * @param null|\Symfony\Component\HttpFoundation\Response $response
-     * @return string
+     * {@inheritdoc}
      */
-    public function execute(CmsManagerInterface $manager, BlockInterface $block, PageInterface $page, Response $response = null)
+    public function execute(BlockInterface $block, Response $response = null)
     {
         // merge settings
         $settings = array_merge($this->getDefaultSettings(), $block->getSettings());

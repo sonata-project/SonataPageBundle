@@ -11,6 +11,8 @@
             <argument type="service" id="router" />
             <argument type="service" id="sonata.page.cms_manager_selector" />
             <argument type="service" id="sonata.page.site.selector" />
+            <argument type="service" id="sonata.block.manager" />
+            <argument type="service" id="sonata.cache.manager" />
         </service>
     </services>
 </container>

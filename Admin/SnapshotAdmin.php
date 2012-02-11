@@ -18,14 +18,11 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 
-use Sonata\PageBundle\Cache\CacheElement;
-use Sonata\PageBundle\CmsManager\CmsManagerInterface;
+use Sonata\CacheBundle\Cache\CacheManagerInterface;
 
 class SnapshotAdmin extends Admin
 {
-    protected $cmsPage;
-
-    protected $cmsSnapshot;
+    protected $cacheManager;
 
     protected $parentAssociationMapping = 'page';
 
@@ -69,20 +66,20 @@ class SnapshotAdmin extends Admin
 
     public function postUpdate($object)
     {
-        $this->cmsSnapshot->invalidate(new CacheElement(array(
+        $this->cacheManager->invalidate(array(
            'page_id' => $object->getPage()->getId()
-        )));
+        ));
     }
 
     public function postPersist($object)
     {
-        $this->cmsSnapshot->invalidate(new CacheElement(array(
+        $this->cacheManager->invalidate(array(
            'page_id' => $object->getPage()->getId()
-        )));
+        ));
     }
 
-    public function setCmsSnapshot(CmsManagerInterface $cmsSnapshot)
+    public function setCacheManager(CacheManagerInterface $cacheManager)
     {
-        $this->cmsSnapshot = $cmsSnapshot;
+        $this->cacheManager = $cacheManager;
     }
 }

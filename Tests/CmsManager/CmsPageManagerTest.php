@@ -15,41 +15,34 @@ namespace Sonata\PageBundle\Tests\Page;
 use Sonata\PageBundle\CmsManager\CmsPageManager;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\DependencyInjection\Container;
 use Sonata\PageBundle\Tests\Model\Block;
 use Sonata\PageBundle\Tests\Model\Page;
+use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
+use Sonata\CacheBundle\Cache\CacheManagerInterface;
+use Sonata\PageBundle\Model\BlockInteractorInterface;
 
 class CmsPageManagerTest extends \PHPUnit_Framework_TestCase
 {
 
-    public function getManager()
+    public function getManager($services = array())
     {
-        $blockManager = $this->getMock('Sonata\\PageBundle\\Model\\BlockManagerInterface');
-        $pageManager  = $this->getMock('Sonata\\PageBundle\\Model\\PageManagerInterface');
-        $templating   = $this->getMock('Symfony\\Component\\Templating\\EngineInterface');
-        $cacheInvalidation = $this->getMock('Sonata\\PageBundle\\Cache\\Invalidation\\InvalidationInterface');
-        $router = $this->getMock('Symfony\\Component\\Routing\\RouterInterface');
+        $blocInteractor = isset($services['interactor']) ? $services['interactor'] : $this->getMock('Sonata\PageBundle\Model\BlockInteractorInterface');
+        $pageManager  = $this->getMock('Sonata\PageBundle\Model\PageManagerInterface');
 
         return new CmsPageManager(
-            $templating,
-            $cacheInvalidation,
-            $router,
             array('not_found' => array('404'), 'fatal' => array('500')),
             $pageManager,
-            $blockManager
+            $blocInteractor
         );
     }
 
     public function testIsDecorable()
     {
         // creating mock objects
-        $response = $this->getMock('Symfony\\Component\\HttpFoundation\\Response', array('dummy'), array(), 'ResponseMock');
+        $response = $this->getMock('Symfony\Component\HttpFoundation\Response', array('dummy'), array(), 'ResponseMock');
 
-        $request = $this->getMock('Symfony\\Component\\HttpFoundation\\Request', array('getRequestUri'), array(), 'RequestMock');
-        $request->expects($this->any())
-            ->method('getRequestUri')
-            ->will($this->returnValue('/myurl'));
-
+        $request = $this->getMock('Symfony\Component\HttpFoundation\Request', array('getRequestUri'), array(), 'RequestMock');
+        $request->expects($this->any())->method('getRequestUri')->will($this->returnValue('/myurl'));
 
         $manager = $this->getManager();
 
@@ -101,74 +94,24 @@ class CmsPageManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($manager->isDecorable($request, HttpKernelInterface::MASTER_REQUEST, $response));
     }
 
-
-    public function testgetBlockService()
+    public function testFindContainer()
     {
+        $blockInteractor = $this->getMockBuilder('Sonata\PageBundle\Model\BlockInteractorInterface')->getMock();
 
-        $manager = $this->getManager();
-
-        $block = $this->getMock('Sonata\PageBundle\Model\BlockInterface');
-        $block->expects($this->any())
-            ->method('getType')
-            ->will($this->returnValue('test'));
-
-        $this->assertFalse($manager->getBlockService($block));
-
-        $service = $this->getMock('Sonata\PageBundle\Block\BlockServiceInterface');
-        $service->expects($this->any())
-            ->method('setManager')
-            ->will($this->returnValue(null));
-
-        $manager->addBlockService('test', $service);
-
-        $this->assertInstanceOf(get_class($service), $manager->getBlockService($block));
-    }
-
-    /**
-     * @expectedException \RuntimeException
-     */
-    public function testgetBlockServiceException()
-    {
-        $manager = $this->getManager();
-        $manager->setDebug(true);
-
-        $block = $this->getMock('Sonata\PageBundle\Model\BlockInterface');
-        $block->expects($this->any())
-            ->method('getType')
-            ->will($this->returnValue('fakse'));
-
-        $manager->getBlockService($block);
-    }
-
-    public function testfindContainer()
-    {
-        $blockManager = $this->getMock('Sonata\\PageBundle\\Model\\BlockManagerInterface');
-        $blockManager = $this->getManager()->getBlockManager();
-        $blockManager->expects($this->once())
+        $blockInteractor->expects($this->once())
             ->method('createNewContainer')
             ->will($this->returnCallback(function($options) {
                 $block = new Block;
+
                 $block->setSettings($options);
+
                 return $block;
         }));
 
-        $blockManager->expects($this->once())
-            ->method('save')
-            ->will($this->returnValue(true));
 
-        $pageManager  = $this->getMock('Sonata\\PageBundle\\Model\\PageManagerInterface');
-        $templating   = $this->getMock('Symfony\\Component\\Templating\\EngineInterface');
-        $cacheInvalidation = $this->getMock('Sonata\\PageBundle\\Cache\\Invalidation\\InvalidationInterface');
-        $router = $this->getMock('Symfony\\Component\\Routing\\RouterInterface');
-
-        $manager = new CmsPageManager(
-            $templating,
-            $cacheInvalidation,
-            $router,
-            array('not_found' => array('404'), 'fatal' => array('500')),
-            $pageManager,
-            $blockManager
-        );
+        $manager = $this->getManager(array(
+            'interactor' => $blockInteractor
+        ));
 
         $block = new Block;
         $block->setSettings(array('name' => 'findme'));

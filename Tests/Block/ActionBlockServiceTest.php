@@ -22,8 +22,7 @@ class ActionBlockServiceTest extends BaseTestBlockService
     {
         $kernel = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface', array('render', 'handle'));
 
-        $kernel->expects($this->exactly(1))
-            ->method('render');
+        $kernel->expects($this->exactly(1))->method('render');
 
         $templating = new FakeTemplating;
         $service = new ActionBlockService('sonata.page.block.action', $templating, $kernel);
@@ -34,18 +33,13 @@ class ActionBlockServiceTest extends BaseTestBlockService
             'action' => 'SonataPageBundle:Page:blockPreview'
         ));
 
-        $manager = $this->getMock('Sonata\\PageBundle\\CmsManager\\CmsManagerInterface');
-
         $formMapper = $this->getMock('Sonata\\AdminBundle\\Form\\FormMapper', array(), array(), '', false);
-        $formMapper->expects($this->exactly(2))
-            ->method('add');
+        $formMapper->expects($this->exactly(2))->method('add');
 
-        $service->buildCreateForm($manager, $formMapper, $block);
-        $service->buildEditForm($manager, $formMapper, $block);
+        $service->buildCreateForm($formMapper, $block);
+        $service->buildEditForm($formMapper, $block);
 
-        $page = new Page;
-
-        $service->execute($manager, $block, $page);
+        $service->execute($block);
 
         $this->assertEquals('SonataPageBundle:Page:blockPreview', $templating->parameters['block']->getSetting('action'));
     }

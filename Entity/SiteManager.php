@@ -27,7 +27,7 @@ class SiteManager implements SiteManagerInterface
      * @param \Doctrine\ORM\EntityManager $entityManager
      * @param string $class
      */
-    public function __construct(EntityManager $entityManager, $class = 'Application\Sonata\PageBundle\Entity\Site')
+    public function __construct(EntityManager $entityManager, $class)
     {
         $this->entityManager = $entityManager;
         $this->class         = $class;

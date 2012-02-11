@@ -11,7 +11,7 @@
 
 namespace Sonata\PageBundle\Model;
 
-use Sonata\PageBundle\Model\BlockInterface;
+use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 
@@ -482,7 +482,7 @@ abstract class Page implements PageInterface
     /**
      * Add blocs
      *
-     * @param \Sonata\PageBundle\Model\BlockInterface $blocs
+     * @param \Sonata\BlockBundle\Model\BlockInterface $blocs
      */
     public function addBlocks(BlockInterface $blocs)
     {
@@ -723,7 +723,7 @@ abstract class Page implements PageInterface
      * Retrieve a block by name
      *
      * @param string $name
-     * @return Sonata\PageBundle\Model\BlockInterface
+     * @return Sonata\BlockBundle\Model\BlockInterface
      */
     public function getContainerByName($name)
     {

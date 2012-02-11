@@ -15,7 +15,6 @@ namespace Sonata\PageBundle\CmsManager;
 interface CmsManagerSelectorInterface
 {
     /**
-     * @abstract
      * @return CmsManagerInterface
      */
     function retrieve();

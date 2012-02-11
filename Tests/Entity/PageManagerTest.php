@@ -17,7 +17,9 @@ class PageManagerTest extends \PHPUnit_Framework_TestCase
 {
     public function testFixUrl()
     {
-        $manager = new PageManager($this->getMock('Doctrine\ORM\EntityManager', array(), array(), '', false));
+        $entityManager = $this->getMock('Doctrine\ORM\EntityManager', array(), array(), '', false);
+
+        $manager = new PageManager($entityManager, 'Foo\Bar');
 
         $page1 = new Page;
         $page1->setName('Salut comment ca va ?');

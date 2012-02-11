@@ -10,7 +10,8 @@
 
 namespace Sonata\PageBundle\Model;
 
-use Sonata\PageBundle\Model\BlockInterface;
+use Sonata\BlockBundle\Model\BlockInterface;
+
 use Sonata\PageBundle\Model\PageInterface;
 
 abstract class Block implements BlockInterface
@@ -179,7 +180,7 @@ abstract class Block implements BlockInterface
     /**
      * Add children
      *
-     * @param \Sonata\PageBundle\Model\BlockInterface $child
+     * @param \Sonata\BlockBundle\Model\BlockInterface $child
      */
     public function addChildren(BlockInterface $child)
     {
@@ -202,7 +203,7 @@ abstract class Block implements BlockInterface
     /**
      * Set parent
      *
-     * @param \Sonata\PageBundle\Model\BlockInterface $parent
+     * @param \Sonata\BlockBundle\Model\BlockInterface $parent
      */
     public function setParent(BlockInterface $parent = null)
     {

@@ -8,8 +8,6 @@ For the full copyright and license information, please view the LICENSE
 file that was distributed with this source code.
 
 #}
-{% set show_menu = (page_admin is defined and page_admin.isGranted(['EDIT'])) or app.security.isGranted('ROLE_PREVIOUS_ADMIN') %}
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -31,7 +29,7 @@ file that was distributed with this source code.
             <script src="{{ asset('bundles/sonatajquery/jquery-ui-i18n.js') }}" type="text/javascript"></script>
         {% endblock %}
 
-        {% if show_menu %}
+        {% if app.security.isGranted(['ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT', 'ROLE_PREVIOUS_ADMIN']) %}
             <script src="/bundles/sonataadmin/bootstrap/js/bootstrap-tabs.js" type="text/javascript"></script>
             <script src="/bundles/sonataadmin/bootstrap/js/bootstrap-alerts.js" type="text/javascript"></script>
             <script src="/bundles/sonataadmin/bootstrap/js/bootstrap-modal.js" type="text/javascript"></script>
@@ -47,11 +45,11 @@ file that was distributed with this source code.
     <body class="sonata-bc">
 
         {% block page_top_bar %}
-            {% if show_menu %}
+            {% if app.security.isGranted(['ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT', 'ROLE_PREVIOUS_ADMIN']) %}
 
                 <link rel="stylesheet" href="{{ asset('bundles/sonatapage/page.css') }}" type="text/css" media="all">
 
-                {% if page_admin is defined and page_admin.isGranted(['EDIT']) %}
+                {% if app.security.isGranted(['ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT']) %}
                     <script src="{{ asset('bundles/sonatapage/page.js') }}" type="text/javascript"></script>
 
                     {# uncomment this line if you are not using the default twitter bootstrap layout in head tag #}
@@ -78,8 +76,8 @@ file that was distributed with this source code.
                                         <li><a href="{{ path('sonata_admin_dashboard') }}">{{ "header.sonata_admin_dashboard"|trans({}, 'SonataPageBundle') }}</a></li>
                                     {% endif %}
 
-                                    {% if page_admin is defined and page_admin.isGranted(['EDIT']) %}
-                                        {% if page_admin.sites|length > 1 %}
+                                    {% if app.security.isGranted('ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT') %}
+                                        {% if false and page_admin.sites|length > 1 %}
                                             <li class="dropdown">
                                                 <a href="#" class="dropdown-toggle">{{ site.name }}</a>
                                                 <ul class="dropdown-menu">
@@ -142,8 +140,8 @@ file that was distributed with this source code.
                 These includes can be done only at this point as all blocks are loaded,
                 Limition : this does not work if a global page is loaded from an ESI tag inside a container block
             #}
-            {{ page_include_stylesheets('screen') }}
-            {{ page_include_javascripts('screen') }}
+            {{ sonata_block_include_stylesheets('screen') }}
+            {{ sonata_block_include_javascripts('screen') }}
         {% endblock %}
     </body>
 </html>

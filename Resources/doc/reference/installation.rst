@@ -3,6 +3,14 @@ Installation
 
 To begin, add the dependent bundles to the vendor/bundles directory. Add the following lines to the file deps::
 
+    [SonataCacheBundle]
+        git=http://github.com/sonata-project/SonataCacheBundle.git
+        target=/bundles/Sonata/CacheBundle
+
+    [SonataBlockBundle]
+        git=http://github.com/sonata-project/SonataBlockBundle.git
+        target=/bundles/Sonata/BlockBundle
+
     [SonataPageBundle]
         git=http://github.com/sonata-project/SonataPageBundle.git
         target=/bundles/Sonata/PageBundle
@@ -56,6 +64,8 @@ Now, add the new `Application` Bundle to the kernel
 
             // Vendor specifics bundles
             new Sonata\PageBundle\SonataPageBundle(),
+            new Sonata\PageBundle\SonataCacheBundle(),
+            new Sonata\PageBundle\SonataBlockBundle(),
             new Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),
         );
     }

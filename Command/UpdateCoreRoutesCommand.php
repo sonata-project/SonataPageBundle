@@ -75,7 +75,7 @@ class UpdateCoreRoutesCommand extends BaseCommand
     {
         $router      = $this->getContainer()->get('router');
         $cmsManager  = $this->getCmsPageManager();
-        $pageManager = $cmsManager->getPageManager();
+        $pageManager = $this->getPageManager();
 
         $message = sprintf(" > <info>Updating core routes for site</info> : <comment>%s - %s</comment>", $site->getName(), $site->getUrl());
 
@@ -95,11 +95,7 @@ class UpdateCoreRoutesCommand extends BaseCommand
 
             $knowRoutes[] = $name;
 
-            try {
-                $page = $pageManager->getPageByName($site, $name);
-            } catch (PageNotFoundException $e) {
-                $page = false;
-            }
+            $page = $pageManager->findOneBy(array('routeName' => $name, 'site' => $site->getId()));
 
             if (!$cmsManager->isRouteNameDecorable($name) || !$cmsManager->isRouteUriDecorable($route->getPattern())) {
                 if ($page) {
@@ -116,16 +112,13 @@ class UpdateCoreRoutesCommand extends BaseCommand
 
                 $requirements = $route->getRequirements();
 
-                $params = array(
+                $page = $pageManager->create(array(
                     'routeName'     => $name,
                     'name'          => $name,
                     'url'           => $route->getPattern(),
-                );
-                $params = array_merge($params, $cmsManager->getCreateNewPageDefaultsByName($name));
-
-                $page = $pageManager->createNewPage($params);
-                $page->setSite($site);
-                $page->setRequestMethod(isset($requirements['_method']) ? $requirements['_method'] : 'GET|POST|HEAD|DELETE|PUT');
+                    'site'          => $site,
+                    'requestMethod' => isset($requirements['_method']) ? $requirements['_method'] : 'GET|POST|HEAD|DELETE|PUT',
+                ));
             }
 
             $page->setSlug($route->getPattern());
@@ -140,26 +133,20 @@ class UpdateCoreRoutesCommand extends BaseCommand
 
             $knowRoutes[] = $name;
 
-            try {
-                $page = $pageManager->getPageByName($site, $name);
-            } catch (PageNotFoundException $e) {
-                $page = false;
-            }
+            $page = $pageManager->findOneBy(array('routeName' => $name, 'site' => $site->getId()));
 
             if (!$page) {
-
                 $params = array(
                     'routeName'     => $name,
                     'name'          => $name,
+                    'decorate'      => false,
+                    'site'          => $site,
                 );
 
-                $params = array_merge($params, $cmsManager->getCreateNewPageDefaultsByName($name));
+                $page = $pageManager->create($params);
 
-                $params['decorate'] = false;
-
-                $page = $pageManager->createNewPage($params);
-                $page->setSite($site);
                 $pageManager->save($page);
+
                 $output->writeln(sprintf('  <info>%s</info> % -50s %s', 'CREATE ', $name, ''));
             }
         }

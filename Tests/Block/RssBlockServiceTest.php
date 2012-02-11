@@ -25,7 +25,6 @@ class RssBlockServiceTest extends BaseTestBlockService
     {
         $templating = new FakeTemplating;
         $service    = new RssBlockService('sonata.page.block.rss', $templating);
-        $page       = new Page;
 
         $block = new Block;
         $block->setType('core.text');
@@ -34,14 +33,11 @@ class RssBlockServiceTest extends BaseTestBlockService
         ));
 
         $formMapper = $this->getMock('Sonata\\AdminBundle\\Form\\FormMapper', array(), array(), '', false);
-        $formMapper->expects($this->exactly(2))
-            ->method('add');
+        $formMapper->expects($this->exactly(2))->method('add');
 
-        $manager = $this->getMock('Sonata\\PageBundle\\CmsManager\\CmsManagerInterface');
+        $service->buildCreateForm($formMapper, $block);
+        $service->buildEditForm($formMapper, $block);
 
-        $service->buildCreateForm($manager, $formMapper, $block);
-        $service->buildEditForm($manager, $formMapper, $block);
-
-        $service->execute($manager, $block, $page);
+        $service->execute($block);
     }
 }

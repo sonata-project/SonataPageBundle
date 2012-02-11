@@ -22,7 +22,6 @@ class TextBlockServiceTest extends BaseTestBlockService
     {
         $templating = new FakeTemplating;
         $service    = new TextBlockService('sonata.page.block.text', $templating);
-        $page       = new Page;
 
         $block = new Block;
         $block->setType('core.text');
@@ -31,15 +30,12 @@ class TextBlockServiceTest extends BaseTestBlockService
         ));
 
         $formMapper = $this->getMock('Sonata\\AdminBundle\\Form\\FormMapper', array(), array(), '', false);
-        $formMapper->expects($this->exactly(2))
-            ->method('add');
+        $formMapper->expects($this->exactly(2))->method('add');
 
-        $manager = $this->getMock('Sonata\\PageBundle\\CmsManager\\CmsManagerInterface');
+        $service->buildCreateForm($formMapper, $block);
+        $service->buildEditForm($formMapper, $block);
 
-        $service->buildCreateForm($manager, $formMapper, $block);
-        $service->buildEditForm($manager, $formMapper, $block);
-
-        $response = $service->execute($manager, $block, $page);
+        $response = $service->execute($block);
 
         $this->assertEquals('my text', $templating->parameters['settings']['content']);
     }

@@ -9,13 +9,13 @@ file that was distributed with this source code.
 
 #}
 
-<!-- page({{ page.id }}, {{ page.routename }}) block({{ container.id }}, {{ container.type }} : {% if not container.hasParent()%} {{ container.settings.name }} {% else %} inner-container{% endif%}) -->
-<div id="cms-block-{{ container.id }}" class="cms-block cms-container{% if not container.hasParent()%} cms-container-root{% else %} cms-block-element{%endif%} {% if page.isInternal %} cms-block-internal{% endif%}">
+<!-- block({{ container.id }}, {{ container.type }} : {% if not container.hasParent()%} {{ container.settings.name }} {% else %} inner-container{% endif%}) -->
+<div id="cms-block-{{ container.id }}" class="cms-block cms-container{% if not container.hasParent()%} cms-container-root{% else %} cms-block-element{%endif%}">
     <div class="cms-block cms-block-element cms-fake-block">&nbsp;</div>
     {% for block in container.children %}
-        <!-- page({{ page.id }}, {{ page.routename }}) block({{ block.id }}, {{ block.type }}) -->
-        {{ manager.renderBlock(block, page).content | raw}}
-        <!-- end page({{ page.id }}, {{ page.routename }}) block({{ block.id }}, {{ block.type }}) -->
+        <!-- block({{ block.id }}, {{ block.type }}) -->
+        {{ sonata_block_render(block).content | raw}}
+        <!-- end block({{ block.id }}, {{ block.type }}) -->
     {% endfor %}
 </div>
-<!-- end page({{ page.id }}, {{ page.routename }}) block({{ container.id }}, {{ container.type }}) -->
+<!-- end block({{ container.id }}, {{ container.type }}) -->

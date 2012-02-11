@@ -2,6 +2,8 @@
 
 namespace Sonata\PageBundle\Model;
 
+use Sonata\BlockBundle\Model\BlockInterface;
+
 class SnapshotPageProxy implements PageInterface
 {
     /**
@@ -121,7 +123,7 @@ class SnapshotPageProxy implements PageInterface
     /**
      * Add blocs
      *
-     * @param \Sonata\PageBundle\Model\BlockInterface $block
+     * @param \Sonata\BlockBundle\Model\BlockInterface $block
      */
     public function addBlocks(BlockInterface $block)
     {
@@ -679,6 +681,6 @@ class SnapshotPageProxy implements PageInterface
      */
     public function setEdited($edited)
     {
-        return $this->getPage()->setEdited($edited);
+        $this->getPage()->setEdited($edited);
     }
 }

@@ -10,6 +10,8 @@
 
 namespace Sonata\PageBundle\Model;
 
+use Sonata\BlockBundle\Model\BlockInterface;
+
 interface PageInterface
 {
     const PAGE_ROUTE_CMS_NAME = 'page_slug';

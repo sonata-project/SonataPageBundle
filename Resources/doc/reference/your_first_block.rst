@@ -22,7 +22,7 @@ by the interface and remaining methods.
     use Symfony\Component\HttpFoundation\Response;
     use Symfony\Component\Form\Form;
     use Sonata\AdminBundle\Form\FormMapper;
-    use Sonata\PageBundle\Model\BlockInterface;
+    use Sonata\BlockBundle\Model\BlockInterface;
     use Sonata\PageBundle\Model\PageInterface;
     use Sonata\AdminBundle\Validator\ErrorElement;
     use Sonata\PageBundle\CmsManager\CmsManagerInterface;
@@ -179,6 +179,6 @@ and add it to sonata configuration
     sonata_page:
         services:
             sonata.page.block.rss:
-    #           cache: sonata.page.cache.memcached 
+    #           cache: sonata.page.cache.memcached
 
-    
+

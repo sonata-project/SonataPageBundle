@@ -8,49 +8,34 @@
  * file that was distributed with this source code.
  */
 
-
 namespace Sonata\PageBundle\CmsManager;
 
 use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Symfony\Component\Templating\EngineInterface;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\RouterInterface;
 
-use Sonata\PageBundle\Model\BlockInterface;
+use Sonata\BlockBundle\Model\BlockInterface;
+
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\SnapshotPageProxy;
-use Sonata\PageBundle\Block\BlockServiceInterface;
-use Sonata\PageBundle\Cache\CacheInterface;
 use Sonata\PageBundle\Util\RecursiveBlockIterator;
-use Sonata\PageBundle\Cache\CacheElement;
-use Sonata\PageBundle\Cache\Invalidation\InvalidationInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 
-use Sonata\AdminBundle\Admin\AdminInterface;
 
 /**
  * @author     Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class CmsSnapshotManager extends BaseCmsPageManager
 {
+    protected $pageManager;
+
     /**
+     * @param array $httpErrorCodes
      * @param \Sonata\PageBundle\Model\SnapshotManagerInterface $pageManager
-     * @param \Symfony\Component\Templating\EngineInterface $templating
-     * @param \Sonata\PageBundle\Cache\Invalidation\InvalidationInterface $cacheInvalidation
-     * @param \Symfony\Component\Routing\RouterInterface $router
      */
-    public function __construct(
-        EngineInterface $templating,
-        InvalidationInterface $cacheInvalidation,
-        RouterInterface $router,
-        array $httpErrorCodes = array(),
-        SnapshotManagerInterface $pageManager
-    )
+    public function __construct(array $httpErrorCodes = array(), SnapshotManagerInterface $pageManager)
     {
-        parent::__construct($templating, $cacheInvalidation, $router, $httpErrorCodes);
+        parent::__construct($httpErrorCodes);
 
         $this->pageManager = $pageManager;
     }
@@ -66,7 +51,9 @@ class CmsSnapshotManager extends BaseCmsPageManager
     /**
      * Return a PageInterface instance depends on the $page argument
      *
-     * @param mixed $page
+     * @throws \Sonata\PageBundle\Exception\PageNotFoundException
+     * @param \Sonata\PageBundle\Model\SiteInterface $site
+     * @param $page
      * @return \Sonata\PageBundle\Model\PageInterface
      */
     public function getPage(SiteInterface $site, $page)
@@ -115,59 +102,12 @@ class CmsSnapshotManager extends BaseCmsPageManager
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getPageByUrl(SiteInterface $site, $url)
-    {
-        return $this->getPageBy($site, 'url', $url);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getPageById($id)
-    {
-        return $this->getPageBy(null, 'pageId', $id);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getPageByRouteName(SiteInterface $site, $routeName, $create = true)
-    {
-        return $this->getPageBy($site, 'routeName', $routeName);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getPageByName(SiteInterface $site, $name, $create = true)
-    {
-        return $this->getPageBy($site, 'name', $name);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function renderContainer(SiteInterface $site, $name, $page = null, BlockInterface $parentContainer = null)
-    {
-        try {
-            $response = parent::renderContainer($site, $name, $page, $parentContainer);
-
-            return $response;
-        } catch(\RunTimeException $e) {
-
-            // silently fail error message
-            return '';
-        }
-
-    }
-
-    /**
-     * return a fully loaded page ( + blocks ) whose match with the $value of the $fieldName
+     * Return a fully loaded page ( + blocks ) whose match with the $value of the $fieldName
      *
-     * @param string $fieldName
-     * @param string $value
+     * @throws \Sonata\PageBundle\Exception\PageNotFoundException
+     * @param null|\Sonata\PageBundle\Model\SiteInterface $site
+     * @param $fieldName
+     * @param $value
      * @return \Sonata\PageBundle\Model\PageInterface
      */
     protected function getPageBy(SiteInterface $site = null, $fieldName, $value)
@@ -187,13 +127,13 @@ class CmsSnapshotManager extends BaseCmsPageManager
                 $parameters['site'] = $site->getId();
             }
 
-            $snapshot = $this->getPageManager()->findEnableSnapshot($parameters);
+            $snapshot = $this->pageManager->findEnableSnapshot($parameters);
 
             if (!$snapshot) {
                 throw new PageNotFoundException();
             }
 
-            $page = new SnapshotPageProxy($this->getPageManager(), $snapshot);
+            $page = new SnapshotPageProxy($this->pageManager, $snapshot);
 
             $this->pages[$id] = false;
 
@@ -218,7 +158,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
      *
      * @param \Sonata\PageBundle\Model\PageInterface $page
      */
-    public function loadBlocks(PageInterface $page)
+    private function loadBlocks(PageInterface $page)
     {
         $i = new RecursiveBlockIterator($page->getBlocks());
 
@@ -238,13 +178,5 @@ class CmsSnapshotManager extends BaseCmsPageManager
         }
 
         return null;
-    }
-
-    /**
-     * @return \Symfony\Component\Routing\RouterInterface
-     */
-    public function getRouter()
-    {
-        return $this->router;
     }
 }

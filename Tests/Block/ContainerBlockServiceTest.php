@@ -26,22 +26,17 @@ class ContainerBlockServiceTest extends BaseTestBlockService
         $block->setSettings(array(
             'name' => 'Symfony'
         ));
+
         $formMapper = $this->getMock('Sonata\\AdminBundle\\Form\\FormMapper', array(), array(), '', false);
-        $formMapper->expects($this->exactly(6))
-            ->method('add');
+        $formMapper->expects($this->exactly(6))->method('add');
 
-        $manager = $this->getMock('Sonata\\PageBundle\\CmsManager\\CmsManagerInterface');
+        $service->buildCreateForm($formMapper, $block);
+        $service->buildEditForm($formMapper, $block);
 
-        $service->buildCreateForm($manager, $formMapper, $block);
-        $service->buildEditForm($manager, $formMapper, $block);
-
-        $page = new Page;
-
-        $service->execute($manager, $block, $page);
+        $service->execute($block);
 
         $this->assertEquals('SonataPageBundle:Block:block_container.html.twig', $templating->view);
         $this->assertEquals('Symfony', $templating->parameters['container']->getSetting('name'));
-        $this->assertInstanceOf('Sonata\PageBundle\Tests\Model\Page', $templating->parameters['page']);
         $this->assertInstanceOf('Sonata\PageBundle\Tests\Model\Block', $templating->parameters['container']);
     }
 }

@@ -6,6 +6,7 @@ use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Sonata\PageBundle\Exception\InternalErrorException;
 use Sonata\PageBundle\Exception\PageNotFoundException;
+use Sonata\PageBundle\CmsManager\PageRendererInterface;
 
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
@@ -32,20 +33,24 @@ class ExceptionListener
 
     protected $templating;
 
+    protected $pageRenderer;
+
     /**
      * @param \Sonata\PageBundle\Site\SiteSelectorInterface $siteSelector
      * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $cmsManagerSelector
      * @param $debug
      * @param \Symfony\Component\Templating\EngineInterface $templating
+     * @param \Sonata\PageBundle\CmsManager\PageRendererInterface $pageRenderer
      * @param null|\Symfony\Component\HttpKernel\Log\LoggerInterface $logger
      */
-    public function __construct(SiteSelectorInterface $siteSelector, CmsManagerSelectorInterface $cmsManagerSelector, $debug, EngineInterface $templating, LoggerInterface $logger = null)
+    public function __construct(SiteSelectorInterface $siteSelector, CmsManagerSelectorInterface $cmsManagerSelector, $debug, EngineInterface $templating, PageRendererInterface $pageRenderer, LoggerInterface $logger = null)
     {
         $this->cmsManagerSelector = $cmsManagerSelector;
         $this->debug              = $debug;
         $this->logger             = $logger;
         $this->templating         = $templating;
         $this->siteSelector       = $siteSelector;
+        $this->pageRenderer       = $pageRenderer;
     }
 
     /**
@@ -127,7 +132,7 @@ class ExceptionListener
         $cmsManager->setCurrentPage($page);
 
         try {
-            $response = $cmsManager->renderPage($page, array(), new Response('', $statusCode));
+            $response = $this->pageRenderer->render($page, array(), new Response('', $statusCode));
         } catch (\Exception $e) {
             $this->logException($exception, $e);
 

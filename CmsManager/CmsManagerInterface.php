@@ -11,10 +11,12 @@
 
 namespace Sonata\PageBundle\CmsManager;
 
-use Sonata\PageBundle\Model\BlockInterface;
+use Sonata\BlockBundle\Model\BlockInterface;
+
+use Sonata\CacheBundle\Cache\CacheElement;
+
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SiteInterface;
-use Sonata\PageBundle\Cache\CacheElement;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,7 +35,7 @@ interface CmsManagerInterface
 
     /**
      * @param $statusCode
-     * @return void
+     * @return boolean
      */
     function hasErrorCode($statusCode);
 
@@ -47,8 +49,8 @@ interface CmsManagerInterface
     /**
      * @param string $name
      * @param \Sonata\PageBundle\Model\PageInterface $page
-     * @param null|\Sonata\PageBundle\Model\BlockInterface $parentContainer
-     * @return bool|null|\Sonata\PageBundle\Model\BlockInterface
+     * @param null|\Sonata\BlockBundle\Model\BlockInterface $parentContainer
+     * @return bool|null|\Sonata\BlockBundle\Model\BlockInterface
      */
     function findContainer($name, PageInterface $page, BlockInterface $parentContainer = null);
 
@@ -82,7 +84,6 @@ interface CmsManagerInterface
     /**
      * Returns a fully loaded pag ( + blocks ) from a page id
      *
-     * @abstract
      * @param integer $id
      * @return \Sonata\PageBundle\Model\PageInterface
      */
@@ -90,7 +91,6 @@ interface CmsManagerInterface
 
     /**
      *
-     * @abstract
      * @param integer $id
      * @return \Sonata\PageBundle\Model\PageInterface
      */
@@ -100,19 +100,6 @@ interface CmsManagerInterface
      * @return string
      */
     function getCode();
-
-    /**
-     * @abstract
-     * @param \Sonata\PageBundle\Cache\CacheElement $cacheElement
-     * @return void
-     */
-    function invalidate(CacheElement $cacheElement);
-
-    /**
-     * @abstract
-     * @return Symfony\Component\Routing\RouterInterface
-     */
-    function getRouter();
 
     /**
      * Returns the current page
@@ -128,22 +115,6 @@ interface CmsManagerInterface
     function setCurrentPage(PageInterface $page);
 
     /**
-     * @param \Sonata\PageBundle\Model\BlockInterface $block
-     */
-    function getBlockService(BlockInterface $block);
-
-    /**
-     * @param array $blockServices
-     * @return void
-     */
-    function setBlockServices(array $blockServices);
-
-    /**
-     * @return array
-     */
-    function getBlockServices();
-
-    /**
      * Returns the list of loaded block from the current http request
      *
      * @return array
@@ -157,14 +128,6 @@ interface CmsManagerInterface
      * @return boolean
      */
     function isDecorable(Request $request, $requestType, Response $response);
-
-    /**
-     * @param \Sonata\PageBundle\Model\PageInterface $page
-     * @param array $params
-     * @param null|\Symfony\Component\HttpFoundation\Response $response
-     * @return void
-     */
-    function renderPage(PageInterface $page, array $params = array(), Response $response = null);
 
     /**
      * @param \Sonata\PageBundle\Model\SiteInterface $site

@@ -52,7 +52,6 @@ class SonataPageExtension extends Extension
         $loader->load('http_kernel.xml');
 
         $this->configureMultisite($container, $config);
-        $this->configureInvalidation($container, $config);
         $this->configureCache($container, $config);
         $this->configureTemplate($container, $config);
         $this->configureExceptions($container, $config);
@@ -62,11 +61,6 @@ class SonataPageExtension extends Extension
 
         $cmsPage->addMethodCall('setOptions', array($config));
         $cmsSnapshot->addMethodCall('setOptions', array($config));
-
-        foreach ($config['services'] as $id => $settings) {
-            $cmsPage->addMethodCall('addCacheService', array($id, new Reference($settings['cache'])));
-            $cmsSnapshot->addMethodCall('addCacheService', array($id, new Reference($settings['cache'])));
-        }
 
         $this->addClassesToCompile(array(
             'Sonata\\PageBundle\\Request\\SiteRequest'
@@ -328,8 +322,7 @@ class SonataPageExtension extends Extension
      */
     public function configureTemplate(ContainerBuilder $container, $config)
     {
-        $pageManager = $container->getDefinition('sonata.page.manager.page');
-        $snapshotManager = $container->getDefinition('sonata.page.manager.snapshot');
+        $renderer = $container->getDefinition('sonata.page.renderer');
 
         $definitions = array();
         foreach ($config['templates'] as $code => $info) {
@@ -342,32 +335,20 @@ class SonataPageExtension extends Extension
             $definitions[$code] = $definition;
         }
 
-        $pageManager->addMethodCall('setTemplates', array($definitions));
-        $snapshotManager->addMethodCall('setTemplates', array($definitions));
+        $renderer->replaceArgument(3, $definitions);
+        $renderer->addMethodCall('setDefaultTemplateCode', array($config['default_template']));
 
-        $pageManager->addMethodCall('setDefaultTemplateCode', array($config['default_template']));
-    }
-
-    /**
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     * @param $config
-     * @return void
-     */
-    public function configureInvalidation(ContainerBuilder $container, $config)
-    {
-        $cmsPage = $container->getDefinition('sonata.page.cms.page');
-        $cmsSnapshot = $container->getDefinition('sonata.page.cms.snapshot');
-
-        $cmsPage->replaceArgument(1, new Reference($config['cache_invalidation']['service']));
-        $cmsSnapshot->replaceArgument(1, new Reference($config['cache_invalidation']['service']));
-
-        $recorder = $container->getDefinition('sonata.page.cache.model_identifier');
-        foreach ($config['cache_invalidation']['classes'] as $class => $method) {
-            $recorder->addMethodCall('addClass', array($class, $method));
-        }
-
-        $cmsPage->addMethodCall('setRecorder', array(new Reference($config['cache_invalidation']['recorder'])));
-        $cmsSnapshot->addMethodCall('setRecorder', array(new Reference($config['cache_invalidation']['recorder'])));
+        $container->getDefinition('sonata.page.manager.page')
+            ->replaceArgument('2', array(
+                'templateCode'  => $config['default_template'],
+                'enabled'       => true,
+                'routeName'     => null,
+                'name'          => null,
+                'slug'          => null,
+                'url'           => null,
+                'requestMethod' => null,
+                'decorate'      => true,
+            ));
     }
 
     /**
@@ -385,79 +366,6 @@ class SonataPageExtension extends Extension
             ;
         } else {
             $container->removeDefinition('sonata.page.cache.esi');
-        }
-
-        if (isset($config['caches']['mongo'])) {
-            if (!class_exists('\Mongo', true)) {
-                throw new \RuntimeException(<<<HELP
-The `sonata.page.cache.mongo` service is configured, however the Mongo class is not available.
-
-To resolve this issue, please install the related library : http://php.net/manual/en/book.mongo.php
-or remove the mongo cache settings from the configuration file.
-HELP
-                );
-            }
-
-            $servers = array();
-            foreach ($config['caches']['mongo']['servers'] as $server) {
-                if ($server['user']) {
-                    $servers[] = sprintf('%s:%s@%s:%s', $server['user'], $server['password'], $server['host'], $server['port']);
-                } else {
-                    $servers[] = sprintf('%s:%s', $server['host'], $server['port']);
-                }
-            }
-
-            $container
-                ->getDefinition('sonata.page.cache.mongo')
-                ->replaceArgument(0, $servers)
-                ->replaceArgument(1, $config['caches']['mongo']['database'])
-                ->replaceArgument(2, $config['caches']['mongo']['collection'])
-            ;
-        } else {
-            $container->removeDefinition('sonata.page.cache.mongo');
-        }
-
-        if (isset($configs['caches']['memcached'])) {
-
-            if (!class_exists('\Memcached', true)) {
-                throw new \RuntimeException(<<<HELP
-The `sonata.page.cache.memcached` service is configured, however the Memcached class is not available.
-
-To resolve this issue, please install the related library : http://php.net/manual/en/book.memcached.php
-or remove the memcached cache settings from the configuration file.
-HELP
-                );
-            }
-
-            $container
-                ->getDefinition('sonata.page.cache.memcached')
-                ->replaceArgument(0, $config['caches']['memcached']['prefix'])
-                ->replaceArgument(1, $config['caches']['memcached']['servers'])
-            ;
-        } else {
-            $container->removeDefinition('sonata.page.cache.memcached');
-        }
-
-        if (isset($configs['caches']['apc'])) {
-
-            if (!function_exists('apc_fetch')) {
-                throw new \RuntimeException(<<<HELP
-The `sonata.page.cache.apc` service is configured, however the apc_* functions are not available.
-
-To resolve this issue, please install the related library : http://php.net/manual/en/book.apc.php
-or remove the APC cache settings from the configuration file.
-HELP
-                );
-            }
-
-            $container
-                ->getDefinition('sonata.page.cache.apc')
-                ->replaceArgument(1, $config['caches']['apc']['token'])
-                ->replaceArgument(2, $config['caches']['apc']['prefix'])
-                ->replaceArgument(3, $config['caches']['apc']['servers'])
-            ;
-        } else {
-            $container->removeDefinition('sonata.page.cache.apc');
         }
     }
 
@@ -478,7 +386,7 @@ HELP
             }
         }
 
-        $cmsPage->replaceArgument(3, $exceptions);
-        $cmsSnapshot->replaceArgument(3, $exceptions);
+        $cmsPage->replaceArgument(0, $exceptions);
+        $cmsSnapshot->replaceArgument(0, $exceptions);
     }
 }

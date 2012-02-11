@@ -12,33 +12,35 @@
     </parameters>
 
     <services>
-        <service id="sonata.page.block.text" class="%sonata.page.block.text.class%" public="false">
-            <tag name="sonata.page.block" />
+        <service id="sonata.page.block.text" class="%sonata.page.block.text.class%">
+            <tag name="sonata.block" />
             <argument>sonata.page.block.text</argument>
             <argument type="service" id="templating" />
         </service>
 
-        <service id="sonata.page.block.action" class="%sonata.page.block.action.class%" public="false">
-            <tag name="sonata.page.block" />
+        <service id="sonata.page.block.action" class="%sonata.page.block.action.class%">
+            <tag name="sonata.block" />
             <argument>sonata.page.block.action</argument>
             <argument type="service" id="templating" />
             <argument type="service" id="http_kernel" />
         </service>
 
-        <service id="sonata.page.block.container" class="%sonata.page.block.container.class%" public="false">
-            <tag name="sonata.page.block" />
+        <service id="sonata.page.block.container" class="%sonata.page.block.container.class%">
+            <tag name="sonata.block" />
             <argument>sonata.page.block.container</argument>
             <argument type="service" id="templating" />
         </service>
 
-        <service id="sonata.page.block.children_pages" class="%sonata.page.block.children_pages.class%" public="false">
-            <tag name="sonata.page.block" />
+        <service id="sonata.page.block.children_pages" class="%sonata.page.block.children_pages.class%">
+            <tag name="sonata.block" />
             <argument>sonata.page.block.children_pages</argument>
             <argument type="service" id="templating" />
+            <argument type="service" id="sonata.page.site.selector" />
+            <argument type="service" id="sonata.page.cms_manager_selector" />
         </service>
 
-        <service id="sonata.page.block.rss" class="%sonata.page.block.rss.class%" public="false">
-            <tag name="sonata.page.block" />
+        <service id="sonata.page.block.rss" class="%sonata.page.block.rss.class%">
+            <tag name="sonata.block" />
             <argument>sonata.page.block.rss</argument>
             <argument type="service" id="templating" />
         </service>

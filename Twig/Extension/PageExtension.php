@@ -12,6 +12,13 @@
 namespace Sonata\PageBundle\Twig\Extension;
 
 use Symfony\Component\Routing\Router;
+use Symfony\Component\HttpFoundation\Response;
+
+use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
+
+use Sonata\CacheBundle\Cache\CacheManagerInterface;
+
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Util\RecursiveBlockIteratorIterator;
@@ -30,6 +37,10 @@ class PageExtension extends \Twig_Extension
      */
     private $cmsManagerSelector;
 
+    private $blockManager;
+
+    private $cacheManager;
+
     /**
      * @var \Sonata\PageBundle\Site\SiteSelectorInterface
      */
@@ -42,16 +53,22 @@ class PageExtension extends \Twig_Extension
 
     private $environment;
 
+    private $cacheBlocks;
+
     /**
      * @param \Symfony\Component\Routing\Router $router
      * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $cmsManagerSelector
      * @param \Sonata\PageBundle\Site\SiteSelectorInterface $siteSelector
+     * @param \Sonata\BlockBundle\Block\BlockServiceManagerInterface $blockManager
+     * @param \Sonata\CacheBundle\Cache\CacheManagerInterface $cacheManager
      */
-    public function __construct(Router $router, CmsManagerSelectorInterface $cmsManagerSelector, SiteSelectorInterface $siteSelector)
+    public function __construct(Router $router, CmsManagerSelectorInterface $cmsManagerSelector, SiteSelectorInterface $siteSelector, BlockServiceManagerInterface $blockManager, CacheManagerInterface $cacheManager)
     {
-        $this->router             = $router;
-        $this->cmsManagerSelector = $cmsManagerSelector;
-        $this->siteSelector       = $siteSelector;
+        $this->router              = $router;
+        $this->cmsManagerSelector  = $cmsManagerSelector;
+        $this->siteSelector        = $siteSelector;
+        $this->blockManager        = $blockManager;
+        $this->cacheManager        = $cacheManager;
     }
 
     /**
@@ -62,11 +79,10 @@ class PageExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'page_url'                 => new \Twig_Function_Method($this, 'url'),
-            'page_breadcrumb'          => new \Twig_Function_Method($this, 'breadcrumb', array('is_safe' => array('html'))),
-            'page_include_stylesheets' => new \Twig_Function_Method($this, 'includeStylesheets', array('is_safe' => array('html'))),
-            'page_include_javascripts' => new \Twig_Function_Method($this, 'includeJavascripts', array('is_safe' => array('html'))),
-            'page_render_container'    => new \Twig_Function_Method($this, 'renderContainer', array('is_safe' => array('html'))),
+            'sonata_page_url'                 => new \Twig_Function_Method($this, 'url'),
+            'sonata_page_breadcrumb'          => new \Twig_Function_Method($this, 'breadcrumb', array('is_safe' => array('html'))),
+            'sonata_page_render_container'    => new \Twig_Function_Method($this, 'renderContainer', array('is_safe' => array('html'))),
+            'sonata_page_render_block'        => new \Twig_Function_Method($this, 'renderBlock', array('is_safe' => array('html'))),
         );
     }
 
@@ -91,7 +107,7 @@ class PageExtension extends \Twig_Extension
     /**
      * @param null|\Sonata\PageBundle\Model\PageInterface $page
      * @param array $options
-     * @return
+     * @return string
      */
     public function breadcrumb(PageInterface $page = null, array $options = array())
     {
@@ -194,105 +210,12 @@ class PageExtension extends \Twig_Extension
     }
 
     /**
-     * @param $media
-     * @param null|\Sonata\PageBundle\Model\PageInterface $page
-     * @return array|string
-     */
-    public function includeJavascripts($media, PageInterface $page = null)
-    {
-        $cms = $this->cmsManagerSelector->retrieve();
-
-        $services = $cms->getBlockServices();
-
-        $javascripts = array();
-
-        foreach ($this->getServicesType($page) as $id) {
-            $service = isset($services[$id]) ? $services[$id] : false;
-
-            if (!$service) {
-                continue;
-            }
-
-            $javascripts = array_merge($javascripts, $service->getJavacripts($media));
-        }
-
-        if (count($javascripts) == 0) {
-            return '';
-        }
-
-        $html = "";
-        foreach ($javascripts as $javascript) {
-            $html .= "\n" . sprintf('<script src="%s" type="text/javascript"></script>', $javascript);
-        }
-
-        return $html;
-    }
-
-    /**
-     * @param \Sonata\PageBundle\Model\PageInterface $page
-     * @return array
-     */
-    private function getServicesType(PageInterface $page = null)
-    {
-        $services = array();
-
-        if ($page) {
-            $blocks = new RecursiveBlockIteratorIterator($page->getBlocks());
-        } else {
-            $blocks = $this->cmsManagerSelector->retrieve()->getBlocks();
-        }
-
-        foreach ($blocks as $block) {
-            $services[] = $block->getType();
-        }
-
-        return array_unique($services);
-    }
-
-    /**
-     * @param $media
-     * @param null|\Sonata\PageBundle\Model\PageInterface $page
-     * @return array|string
-     */
-    public function includeStylesheets($media, PageInterface $page = null)
-    {
-        $cms = $this->cmsManagerSelector->retrieve();
-
-        $services = $cms->getBlockServices();
-
-        $stylesheets = array();
-
-        foreach ($this->getServicesType($page) as $id) {
-            $service = isset($services[$id]) ? $services[$id] : false;
-
-            if (!$service) {
-                continue;
-            }
-
-            $stylesheets = array_merge($stylesheets, $service->getStylesheets($media));
-        }
-
-        if (count($stylesheets) == 0) {
-            return '';
-        }
-
-        $html = sprintf("<style type='text/css' media='%s'>", $media);
-
-        foreach ($stylesheets as $stylesheet) {
-            $html .= "\n" . sprintf('@import url(%s);', $stylesheet, $media);
-        }
-
-        $html .= "\n</style>";
-
-        return $html;
-    }
-
-    /**
      * @param $name
-     * @param $page
-     * @return string
+     * @param null $page
+     * @param bool $useCache
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function renderContainer($name, $page = null)
+    public function renderContainer($name, $page = null, $useCache = true)
     {
         $cms  = $this->cmsManagerSelector->retrieve();
         $site = $this->siteSelector->retrieve();
@@ -315,7 +238,57 @@ class PageExtension extends \Twig_Extension
             return "";
         }
 
-        return $cms->renderContainer($site, $name, $targetPage);
+        $container = $cms->findContainer($name, $targetPage);
+
+        if (!$container) {
+            return "";
+        }
+
+        return $this->renderBlock($container, $useCache);
+    }
+
+    /**
+     * @param \Sonata\BlockBundle\Model\BlockInterface $block
+     * @param bool $useCache
+     * @return string
+     */
+    public function renderBlock(BlockInterface $block, $useCache = true)
+    {
+        $cacheService = $cacheKeys = false;
+
+        if ($useCache && ($cacheService = $this->getCacheService($block))) {
+            $cacheKeys = $this->blockManager->getBlockService($block)->getCacheKeys($block);
+
+            if ($cacheService->has($cacheKeys)) {
+                $cacheElement = $cacheService->get($cacheKeys);
+
+                if (!$cacheElement->isExpired()) {
+                    return $cacheElement->getData();
+                }
+            }
+        }
+
+        $response = $this->blockManager->renderBlock($block);
+
+        if ($response->isCacheable() && $useCache && $cacheKeys && $cacheService) {
+            $cacheService->set($cacheKeys, $response, $block->getTtl());
+        }
+
+        return $response->getContent();
+    }
+
+    /**
+     * @param \Sonata\BlockBundle\Model\BlockInterface $block
+     * @return \Sonata\CacheBundle\Cache\CacheInterface;
+     */
+    protected function getCacheService(BlockInterface $block)
+    {
+        $type = isset($this->cacheBlocks[$block->getType()]) ? $this->cacheBlocks[$block->getType()] : false;
+
+        if (!$type) {
+            return false;
+        }
+
+        return $this->cacheManager->getCacheService($type);
     }
 }
-

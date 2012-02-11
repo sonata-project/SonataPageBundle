@@ -9,6 +9,8 @@
         <parameter key="sonata.page.manager.block.class">Sonata\PageBundle\Entity\BlockManager</parameter>
         <parameter key="sonata.page.manager.snapshot.class">Sonata\PageBundle\Entity\SnapshotManager</parameter>
         <parameter key="sonata.page.manager.site.class">Sonata\PageBundle\Entity\SiteManager</parameter>
+
+        <parameter key="sonata.page.block_interactor.class">Sonata\PageBundle\Entity\BlockInteractor</parameter>
     </parameters>
 
     <services>
@@ -17,6 +19,7 @@
         <service id="sonata.page.manager.page" class="%sonata.page.manager.page.class%">
             <argument type="service" id="sonata.page.entity_manager" />
             <argument>%sonata.page.page.class%</argument>
+            <argument />
         </service>
 
         <service id="sonata.page.manager.snapshot" class="%sonata.page.manager.snapshot.class%">
@@ -36,15 +39,11 @@
             <argument>%sonata.page.site.class%</argument>
         </service>
 
-        <service id="sonata.page.orm.event_subscriber.default" class="Sonata\PageBundle\Cache\Invalidation\DoctrineORMListener" >
-            <argument type="service" id="sonata.page.cache.model_identifier" />
+        <service id="sonata.page.block_interactor" class="%sonata.page.block_interactor.class%">
+            <argument type="service" id="doctrine" />
+            <argument type="service" id="sonata.page.manager.block" />
         </service>
 
-        <service id="sonata.page.orm.event_subscriber" class="Sonata\PageBundle\Cache\Invalidation\DoctrineORMListenerContainerAware">
-            <tag name="doctrine.event_subscriber" connection="default" />
-            <argument type="service" id="service_container" />
-            <argument>sonata.page.orm.event_subscriber.default</argument>
-        </service>
     </services>
 
 </container>

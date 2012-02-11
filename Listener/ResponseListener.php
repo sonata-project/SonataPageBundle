@@ -15,6 +15,7 @@ namespace Sonata\PageBundle\Listener;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Sonata\PageBundle\Exception\InternalErrorException;
+use Sonata\PageBundle\CmsManager\PageRendererInterface;
 
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,12 +28,16 @@ class ResponseListener
 {
     protected $cmsSelector;
 
+    protected $pageRenderer;
+
     /**
      * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $cmsSelector
+     * @param \Sonata\PageBundle\CmsManager\PageRendererInterface $pageRenderer
      */
-    public function __construct(CmsManagerSelectorInterface $cmsSelector)
+    public function __construct(CmsManagerSelectorInterface $cmsSelector, PageRendererInterface $pageRenderer)
     {
         $this->cmsSelector = $cmsSelector;
+        $this->pageRenderer = $pageRenderer;
     }
 
     /**
@@ -62,6 +67,6 @@ class ResponseListener
             return;
         }
 
-        $cms->renderPage($page, array('content' => $response->getContent()), $response);
+        $this->pageRenderer->render($page, array('content' => $response->getContent()), $response);
     }
 }

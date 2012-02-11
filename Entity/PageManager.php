@@ -13,12 +13,10 @@ namespace Sonata\PageBundle\Entity;
 
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\PageInterface;
-use Sonata\PageBundle\Model\BlockInterface;
-use Sonata\PageBundle\Model\SnapshotInterface;
 use Sonata\PageBundle\Model\Template;
 use Sonata\PageBundle\Model\SiteInterface;
-
 use Sonata\PageBundle\Model\Page;
+
 use Doctrine\ORM\EntityManager;
 
 class PageManager implements PageManagerInterface
@@ -27,26 +25,18 @@ class PageManager implements PageManagerInterface
 
     protected $class;
 
-    protected $templates = array();
+    protected $pageDefaults;
 
-    protected $defaultTemplateCode = 'default';
-
-    public function __construct(EntityManager $entityManager, $class = 'Application\Sonata\PageBundle\Entity\Page', $templates = array())
+    /**
+     * @param \Doctrine\ORM\EntityManager $entityManager
+     * @param $class
+     * @param array $pageDefaults
+     */
+    public function __construct(EntityManager $entityManager, $class, array $pageDefaults)
     {
         $this->entityManager = $entityManager;
         $this->class         = $class;
-        $this->templates     = $templates;
-    }
-
-    /**
-     * return a page with the given routeName
-     *
-     * @param string $routeName
-     * @return PageInterface|false
-     */
-    public function getPageByName(SiteInterface $site, $routeName)
-    {
-        return $this->findOneBy(array('routeName' => $routeName, 'site' => $site->getId()));
+        $this->pageDefaults  = $pageDefaults;
     }
 
     protected function getRepository()
@@ -55,54 +45,24 @@ class PageManager implements PageManagerInterface
     }
 
     /**
-     * return a page with the give slug
-     *
-     * @param string $url
-     * @return PageInterface
+     * {@inheritdoc}
      */
     public function getPageByUrl(SiteInterface $site, $url)
     {
         return $this->findOneBy(array('url' => $url, 'site' => $site->getId()));
     }
 
-    public function getDefaultTemplateCode()
-    {
-        return $this->defaultTemplateCode;
-    }
-
-    public function setDefaultTemplateCode($code)
-    {
-        $this->defaultTemplateCode = $code;
-
-        return $this;
-    }
-
-    protected function getCreateNewPageDefaults()
-    {
-        $time = new \DateTime;
-
-        return array(
-            'templateCode'  => $this->getDefaultTemplateCode(),
-            'enabled'       => true,
-            'routeName'     => null,
-            'name'          => null,
-            'slug'          => null,
-            'url'           => null,
-            'requestMethod' => null,
-            'decorate'      => true,
-            'createdAt'     => $time,
-            'updatedAt'     => $time,
-        );
-    }
-
-    public function createNewPage(array $defaults = array())
+    /**
+     * {@inheritdoc}
+     */
+    public function create(array $defaults = array())
     {
         // create a new page for this routing
-        $page = $this->getNewInstance();
-        foreach ($this->getCreateNewPageDefaults() as $key => $value) {
-            if (isset($defaults[$key])) {
-                $value = $defaults[$key];
-            }
+        $class = $this->getClass();
+
+        $page = new $class;
+
+        foreach (array_merge($this->pageDefaults, $defaults) as $key => $value) {
             $method = 'set' . ucfirst($key);
             $page->$method($value);
         }
@@ -110,6 +70,10 @@ class PageManager implements PageManagerInterface
         return $page;
     }
 
+    /**
+     * @param \Sonata\PageBundle\Model\PageInterface $page
+     * @return void
+     */
     public function fixUrl(PageInterface $page)
     {
         // hybrid page cannot be altered
@@ -132,6 +96,9 @@ class PageManager implements PageManagerInterface
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function save(PageInterface $page)
     {
         if (!$page->isHybrid() || $page->getRouteName() == 'homepage') {
@@ -145,25 +112,24 @@ class PageManager implements PageManagerInterface
     }
 
     /**
-     * @return \Sonata\PageBundle\Model\PageInterface
+     * {@inheritdoc}
      */
-    public function getNewInstance()
-    {
-        $class = $this->getClass();
-
-        return new $class;
-    }
-
     public function findBy(array $criteria = array())
     {
         return $this->getRepository()->findBy($criteria);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function findOneBy(array $criteria = array())
     {
         return $this->getRepository()->findOneBy($criteria);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function loadPages(SiteInterface $site)
     {
         $pages = $this->entityManager
@@ -185,6 +151,9 @@ class PageManager implements PageManagerInterface
         return $pages;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getHybridPages(SiteInterface $site)
     {
         return $this->entityManager->createQueryBuilder()
@@ -200,38 +169,7 @@ class PageManager implements PageManagerInterface
     }
 
     /**
-     * @param $templates
-     * @return void
-     */
-    public function setTemplates($templates)
-    {
-        $this->templates = $templates;
-    }
-
-    /**
-     * @return array
-     */
-    public function getTemplates()
-    {
-        return $this->templates;
-    }
-
-    /**
-     * @throws \RunTimeException
-     * @param $code
-     * @return string
-     */
-    public function getTemplate($code)
-    {
-        if (!isset($this->templates[$code])) {
-            throw new \RunTimeException(sprintf('No template references whith the code : %s', $code));
-        }
-
-        return $this->templates[$code];
-    }
-
-    /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getClass()
     {

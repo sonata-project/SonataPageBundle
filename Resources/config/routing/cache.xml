@@ -15,8 +15,4 @@
     <route id="sonata_page_js_sync_cache" pattern="/sonata/page/cache/js-sync">
         <default key="_controller">sonata.page.cache.js_sync:cacheAction</default>
     </route>
-
-    <route id="sonata_page_apc_cache" pattern="/sonata/page/cache/apc/{token}">
-        <default key="_controller">sonata.page.cache.apc:cacheAction</default>
-    </route>
 </routes>

@@ -17,20 +17,17 @@ class BlockTest extends \PHPUnit_Framework_TestCase
 
     public function testGetTtl()
     {
-        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
-
         $block = new Block;
-        $block->setPage($page);
 
         $this->assertFalse($block->hasChildren());
 
-        $child1 = $this->getMock('Sonata\PageBundle\Model\BlockInterface');
+        $child1 = $this->getMockBuilder('Sonata\PageBundle\Model\Block')->getMock();
         $child1->expects($this->once())->method('getTtl')->will($this->returnValue(100));
 
-        $child2 = $this->getMock('Sonata\PageBundle\Model\BlockInterface');
+        $child2 = $this->getMockBuilder('Sonata\PageBundle\Model\Block')->getMock();
         $child2->expects($this->once())->method('getTtl')->will($this->returnValue(50));
 
-        $child3 = $this->getMock('Sonata\PageBundle\Model\BlockInterface');
+        $child3 = $this->getMockBuilder('Sonata\PageBundle\Model\Block')->getMock();
         $child3->expects($this->once())->method('getTtl')->will($this->returnValue(65));
 
         $block->addChildren($child1);
@@ -46,7 +43,7 @@ class BlockTest extends \PHPUnit_Framework_TestCase
     {
         $time = new \DateTime;
         $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
-        $parent = $this->getMock('Sonata\PageBundle\Model\BlockInterface');
+        $parent = $this->getMockBuilder('Sonata\PageBundle\Model\Block')->getMock();
 
         $block = new Block;
 

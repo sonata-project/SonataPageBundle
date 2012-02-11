@@ -10,13 +10,13 @@
 
 namespace Sonata\PageBundle\Model;
 
-interface BlockManagerInterface
+interface BlockInteractorInterface
 {
     /**
      * return a block with the given id
      *
      * @param  $id
-     * @return BlockInterface
+     * @return \Sonata\BlockBundle\Model\BlockInterface
      */
     function getBlock($id);
 
@@ -24,7 +24,7 @@ interface BlockManagerInterface
      * return a flat list if page's blocks
      *
      * @param \Sonata\PageBundle\Model\PageInterface $page
-     * @return
+     * @return array
      */
     function getBlocksById(PageInterface $page);
 
@@ -45,19 +45,8 @@ interface BlockManagerInterface
     function saveBlocksPosition(array $data = array());
 
     /**
-     * @param array $options
-     * @return \Sonata\PageBundle\Model\BlockInterface
+     * @param array $values
+     * @return \Sonata\BlockBundle\Model\BlockInterface
      */
     function createNewContainer(array $values = array());
-
-    /**
-     * @param \Sonata\PageBundle\Model\BlockInterface $object
-     * @return void
-     */
-    function save(BlockInterface $object);
-
-    /**
-     * @return \Sonata\PageBundle\Model\BlockInterface
-     */
-    function create();
 }

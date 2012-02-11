@@ -12,6 +12,7 @@
             <argument type="service" id="sonata.page.cms_manager_selector" />
             <argument>%kernel.debug%</argument>
             <argument type="service" id="templating" />
+            <argument type="service" id="sonata.page.renderer" />
             <argument type="service" id="logger" on-invalid="null" />
         </service>
     </services>

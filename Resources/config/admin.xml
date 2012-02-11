@@ -40,8 +40,12 @@
                 <argument type="service" id="sonata.page.admin.snapshot" />
             </call>
 
-            <call method="setCmsManager">
-                <argument type="service" id="sonata.page.cms.page" />
+            <call method="setPageManager">
+                <argument type="service" id="sonata.page.manager.page" />
+            </call>
+
+            <call method="setCacheManager">
+                <argument type="service" id="sonata.cache.manager" />
             </call>
 
             <call method="setSiteManager">
@@ -59,8 +63,12 @@
             <argument>%sonata.page.admin.block.entity%</argument>
             <argument>%sonata.page.admin.block.controller%</argument>
 
-            <call method="setCmsManager">
-                <argument type="service" id="sonata.page.cms.page" />
+            <call method="setCacheManager">
+                <argument type="service" id="sonata.cache.manager" />
+            </call>
+
+            <call method="setBlockManager">
+                <argument type="service" id="sonata.block.manager" />
             </call>
 
             <call method="setTranslationDomain">
@@ -74,8 +82,8 @@
             <argument>%sonata.page.admin.snapshot.entity%</argument>
             <argument>%sonata.page.admin.snapshot.controller%</argument>
 
-            <call method="setCmsSnapshot">
-                <argument type="service" id="sonata.page.cms.snapshot" />
+            <call method="setCacheManager">
+                <argument type="service" id="sonata.cache.manager" />
             </call>
 
             <call method="setTranslationDomain">

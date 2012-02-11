@@ -11,28 +11,7 @@
 namespace Sonata\PageBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Sonata\PageBundle\DependencyInjection\Compiler\TweakCompilerPass;
 
 class SonataPageBundle extends Bundle
 {
-    public function build(ContainerBuilder $container)
-    {
-        parent::build($container);
-
-        $container->addCompilerPass(new TweakCompilerPass());
-    }
-
-    public function boot()
-    {
-        $options = $this->container->getParameter('twig.options');
-
-        if (!isset($options['base_template_class'])) {
-            return;
-        }
-
-        if (method_exists($options['base_template_class'], 'attachRecorder')) {
-            call_user_func(array($options['base_template_class'], 'attachRecorder'), $this->container->get('sonata.page.cache.recorder'));
-        }
-    }
 }

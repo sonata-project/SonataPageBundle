@@ -85,7 +85,9 @@ class CreateSnapshotsCommand extends BaseCommand
 
         $snapshots = array();
 
-        $pages = $this->getPageManager()->findBy(array('site' => $site->getId(), 'edited' => true));
+        $pages = $this->getPageManager()->findBy(array(
+            'site' => $site->getId(),
+        ));
 
         $count = count($pages);
         foreach ($pages as $pos => $page) {

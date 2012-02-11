@@ -17,15 +17,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
 
-use Sonata\PageBundle\Model\BlockInterface;
+use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
+use Sonata\BlockBundle\Model\BlockManagerInterface;
+
 use Sonata\PageBundle\Model\PageInterface;
-use Sonata\PageBundle\Model\BlockManagerInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
-use Sonata\PageBundle\Block\BlockServiceInterface;
-use Sonata\PageBundle\Cache\CacheInterface;
-use Sonata\PageBundle\Cache\CacheElement;
-use Sonata\PageBundle\Cache\Invalidation\InvalidationInterface;
-use Sonata\PageBundle\Cache\Invalidation\Recorder;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Exception\InternalErrorException;
 
@@ -33,12 +30,6 @@ use Sonata\AdminBundle\Admin\AdminInterface;
 
 abstract class BaseCmsPageManager implements CmsManagerInterface
 {
-    protected $templating;
-
-    protected $cacheInvalidation;
-
-    protected $router;
-
     protected $httpErrorCodes;
 
     protected $pages = array();
@@ -47,32 +38,20 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
 
     protected $currentPage;
 
-    protected $pageLoader;
-
     protected $options = array();
-
-    protected $blockServices = array();
 
     protected $logger;
 
     protected $debug = false;
 
-    protected $cacheServices = array();
-
-    protected $pageManager;
-
     protected $blocks = array();
 
-    protected $recorder;
-
-    protected $defaultTemplatePath = 'SonataPageBundle::layout.html.twig';
-
-    public function __construct(EngineInterface $templating, InvalidationInterface $cacheInvalidation, RouterInterface $router, array $httpErrorCodes = array())
+    /**
+     * @param array $httpErrorCodes
+     */
+    public function __construct(array $httpErrorCodes = array())
     {
-        $this->templating         = $templating;
-        $this->cacheInvalidation  = $cacheInvalidation;
-        $this->router             = $router;
-        $this->httpErrorCodes     = $httpErrorCodes;
+        $this->httpErrorCodes      = $httpErrorCodes;
     }
 
     /**
@@ -84,8 +63,7 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     }
 
     /**
-     * @param $statusCode
-     * @return bool
+     * {@inheritdoc}
      */
     public function hasErrorCode($statusCode)
     {
@@ -93,9 +71,7 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     }
 
     /**
-     * @param \Sonata\PageBundle\Model\SiteInterface $site
-     * @param $statusCode
-     * @return \Sonata\PageBundle\Model\PageInterface
+     * {@inheritdoc}
      */
     public function getErrorCodePage(SiteInterface $site, $statusCode)
     {
@@ -107,32 +83,7 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     }
 
     /**
-     * @param $name
-     * @param \Sonata\PageBundle\Cache\CacheInterface $cacheManager
-     * @return void
-     */
-    public function addCacheService($name, CacheInterface $cacheManager)
-    {
-        $this->cacheServices[$name] = $cacheManager;
-    }
-
-    /**
-     * @param $name
-     * @param \Sonata\PageBundle\Block\BlockServiceInterface $service
-     * @return void
-     */
-    public function addBlockService($name, BlockServiceInterface $service)
-    {
-        $this->blockServices[$name] = $service;
-    }
-
-    /**
-     * return true is the page can be decorate with an outter template
-     *
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param string $requestType
-     * @param \Symfony\Component\HttpFoundation\Response $response
-     * @return bool
+     * {@inheritdoc}
      */
     public function isDecorable(Request $request, $requestType, Response $response)
     {
@@ -160,8 +111,7 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     }
 
     /**
-     * @param string $routeName
-     * @return bool
+     * {@inheritdoc}
      */
     public function isRouteNameDecorable($routeName)
     {
@@ -185,8 +135,7 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     }
 
     /**
-     * @param string $uri
-     * @return bool
+     * {@inheritdoc}
      */
     public function isRouteUriDecorable($uri)
     {
@@ -200,202 +149,7 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     }
 
     /**
-     * @param $name
-     * @return array
-     */
-    public function getCreateNewPageDefaultsByName($name)
-    {
-        $params = $this->getOption('page_defaults', array());
-
-        return isset($params[$name]) ? $params[$name] : array();
-    }
-
-    /**
-     * Render a specialize block
-     *
-     * @param \Sonata\PageBundle\Model\BlockInterface $block
-     * @param \Sonata\PageBundle\Model\PageInterface $page
-     * @param boolean $useCache
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function renderBlock(BlockInterface $block, PageInterface $page, $useCache = true)
-    {
-        if ($this->getLogger()) {
-            $this->getLogger()->info(sprintf('[cms::renderBlock] block.id=%d, block.type=%s ', $block->getId(), $block->getType()));
-        }
-
-        $response = new Response;
-
-        try {
-            $service       = $this->getBlockService($block);
-            $service->load($this, $block); // load the block
-
-            $cacheManager  = $this->getCacheService($block);
-            $cacheElement  = $service->getCacheElement($this, $block);
-
-            if ($useCache) {
-                if ($cacheManager->has($cacheElement)) {
-                    $response = $cacheManager->get($cacheElement);
-
-                    if (!$response instanceof Response) {
-                        throw new \RuntimeException('The cache must return a Response object');
-                    }
-
-                    return $response;
-                }
-
-                if ($this->recorder && $cacheManager->isContextual()) {
-                    $this->recorder->reset();
-                }
-            }
-
-            $response = $service->execute($this, $block, $page, $response);
-
-            if (!$response instanceof Response) {
-                throw new \RuntimeException('A block service must return a Response object');
-            }
-
-            if ($useCache) {
-                $cacheElement->setValue($response);
-
-                if ($this->recorder && $cacheManager->isContextual()) {
-                    foreach ($this->recorder->get() as $class => $idx) {
-                        if (count($idx) == 0) {
-                            continue;
-                        }
-                        $cacheElement->addContextualKey($class, array_unique($idx));
-                    }
-
-                    $this->recorder->reset();
-                }
-
-                $cacheManager->set($cacheElement);
-            }
-        } catch (\Exception $e) {
-            if ($this->getLogger()) {
-                $this->getLogger()->crit(sprintf('[cms::renderBlock] block.id=%d - error while rendering block - %s', $block->getId(), $e->getMessage()));
-            }
-
-            if ($this->getDebug()) {
-                throw $e;
-            }
-
-            $response->setPrivate();
-        }
-
-        return $response;
-    }
-
-    /**
-     * @param \Sonata\PageBundle\Model\SiteInterface $site
-     * @param string $name
-     * @param \Sonata\PageBundle\Model\PageInterface $page
-     * @param \Sonata\PageBundle\Model\BlockInterface $parentContainer
-     * @return string
-     */
-    public function renderContainer(SiteInterface $site, $name, $page = null, BlockInterface $parentContainer = null)
-    {
-        $page = $this->getPage($site, $page);
-
-        if (!$page) {
-            return $this->templating->render('SonataPageBundle:Block:block_no_page_available.html.twig');
-        }
-
-        $container = $this->findContainer($name, $page, $parentContainer);
-
-        if (!$container) {
-            return '';
-        }
-
-        $response = $this->renderBlock($container, $page);
-
-        if (!$response instanceof Response) {
-            throw new \RunTimeException(sprintf('The container.id `%d` named `%s` from page.id `%d` must return a Response object', $container->getId(), $name, $page->getId()));
-        }
-
-        return $response->getContent();
-    }
-
-    /**
-     * Return the block service linked to the link
-     *
-     * @param \Sonata\PageBundle\Model\BlockInterface $block
-     * @return false|\Sonata\PageBundle\Block\BlockServiceInterface
-     */
-    public function getBlockService(BlockInterface $block)
-    {
-        if (!$this->hasBlockService($block->getType())) {
-            if ($this->getDebug()) {
-                throw new \RuntimeException(sprintf('The block service `%s` referenced in the block `%s` does not exists', $block->getType(), $block->getId()));
-            }
-
-            if ($this->getLogger()){
-                $this->getLogger()->crit(sprintf('[cms::getBlockService] block.id=%d - service:%s does not exists', $block->getId(), $block->getType()));
-            }
-
-            return false;
-        }
-
-        return $this->blockServices[$block->getType()];
-    }
-
-    /**
-     * @throws \RuntimeException
-     * @param \Sonata\PageBundle\Model\BlockInterface $block
-     * @return array|bool
-     */
-    public function getCacheService(BlockInterface $block)
-    {
-        if (!$this->hasCacheService($block->getType())) {
-            throw new \RuntimeException(sprintf('The block service `%s` referenced in the block `%s` is not linked to a cache service.', $block->getType(), $block->getId()));
-        }
-
-        return $this->cacheServices[$block->getType()];
-    }
-
-    /**
-     * Returns related cache services
-     *
-     * @return array
-     */
-    public function getCacheServices()
-    {
-        return $this->cacheServices;
-    }
-
-    /**
-     *
-     * @param sring $id
-     * @return boolean
-     */
-    public function hasBlockService($id)
-    {
-        return isset($this->blockServices[$id]) ? true : false;
-    }
-
-    /**
-     *
-     * @param sring $id
-     * @return boolean
-     */
-    public function hasCacheService($id)
-    {
-        return isset($this->cacheServices[$id]) ? true : false;
-    }
-
-    /**
-     * @param \Sonata\PageBundle\Cache\CacheElement $cacheElement
-     * @return void
-     */
-    public function invalidate(CacheElement $cacheElement)
-    {
-        $this->cacheInvalidation->invalidate($this->getCacheServices(), $cacheElement);
-    }
-
-    /**
-     * Returns the current page
-     *
-     * @return \Sonata\PageBundle\Model\PageInterface
+     * {@inheritdoc}
      */
     public function getCurrentPage()
     {
@@ -403,8 +157,7 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     }
 
     /**
-     * @param \Sonata\PageBundle\Model\PageInterface $page
-     * @return void
+     * {@inheritdoc}
      */
     public function setCurrentPage(PageInterface $page)
     {
@@ -446,23 +199,6 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     public function getOption($name, $default = null)
     {
         return isset($this->options[$name]) ? $this->options[$name] : $default;
-    }
-
-    /**
-     * @param $pages
-     * @return void
-     */
-    public function setPages($pages)
-    {
-        $this->pages = $pages;
-    }
-
-    /**
-     * @return array
-     */
-    public function getPages()
-    {
-        return $this->pages;
     }
 
     /**
@@ -508,40 +244,6 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     }
 
     /**
-     *
-     * @return bool
-     */
-    public function getDebug()
-    {
-        return $this->debug;
-    }
-
-    /**
-     * @param array $blockServices
-     * @return void
-     */
-    public function setBlockServices(array $blockServices)
-    {
-        $this->blockServices = $blockServices;
-    }
-
-    /**
-     * @return array
-     */
-    public function getBlockServices()
-    {
-        return $this->blockServices;
-    }
-
-    /**
-     * @return \Sonata\PageBundle\Model\PageManagerInterface
-     */
-    public function getPageManager()
-    {
-        return $this->pageManager;
-    }
-
-    /**
      * @param $blocks
      * @return void
      */
@@ -551,7 +253,7 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function getBlocks()
     {
@@ -559,76 +261,43 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     }
 
     /**
-     * @return
+     * {@inheritdoc}
      */
-    public function getCacheInvalidation()
+    public function getPageByUrl(SiteInterface $site, $url)
     {
-        return $this->cacheInvalidation;
+        return $this->getPageBy($site, 'url', $url);
     }
 
     /**
-     * @param \Sonata\PageBundle\Cache\Invalidation\Recorder $recorder
+     * {@inheritdoc}
+     */
+    public function getPageByRouteName(SiteInterface $site, $routeName, $create = true)
+    {
+        return $this->getPageBy($site, 'routeName', $routeName);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPageByName(SiteInterface $site, $name)
+    {
+        return $this->getPageBy($site, 'name', $name);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPageById($id)
+    {
+        return $this->getPageBy(null, 'id', $id);
+    }
+
+    /**
+     * @abstract
+     * @param null|\Sonata\PageBundle\Model\SiteInterface $site
+     * @param $fieldName
+     * @param $value
      * @return void
      */
-    public function setRecorder(Recorder $recorder)
-    {
-        $this->recorder = $recorder;
-    }
-
-    /**
-     * @return
-     */
-    public function getRecorder()
-    {
-        return $this->recorder;
-    }
-
-    /**
-     * @param \Sonata\PageBundle\Model\PageInterface $page
-     * @param array $params
-     * @param null|\Symfony\Component\HttpFoundation\Response $response
-     * @return null|\Symfony\Component\HttpFoundation\Response
-     */
-    public function renderPage(PageInterface $page, array $params = array(), Response $response = null)
-    {
-        if (!$response) {
-            if ($page->getTarget()) {
-                $page->addHeader('Location', sprintf('%s%s', $this->getRouter()->getContext()->getBaseUrl(), $page->getTarget()->getUrl()));
-                return new Response('', 302, $page->getHeaders());
-            }
-
-            if ($page->getHeaders()) {
-                $response = new Response('', 200, $page->getHeaders());
-            }
-        }
-
-        $template = false;
-        if ($this->getCurrentPage()) {
-            $template = $this->getPageManager()->getTemplate($this->getCurrentPage()->getTemplateCode())->getPath();
-        }
-
-        if (!$template) {
-            $template = $this->defaultTemplatePath;
-        }
-
-        $params  = array_merge($params, $this->getRenderPageParams($page));
-
-        $response = $this->templating->renderResponse($template, $params, $response);
-        $response->setTtl($page->getTtl());
-
-        return $response;
-    }
-
-    /**
-     * @param \Sonata\PageBundle\Model\PageInterface $page
-     * @return array
-     */
-    protected function getRenderPageParams(PageInterface $page)
-    {
-        return array(
-            'page'    => $page,
-            'manager' => $this,
-            'site'    => $page->getSite()
-        );
-    }
+    abstract protected function getPageBy(SiteInterface $site = null, $fieldName, $value);
 }

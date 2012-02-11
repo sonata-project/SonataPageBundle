@@ -11,6 +11,7 @@
 namespace Sonata\PageBundle\Entity;
 
 use Sonata\PageBundle\Model\Block;
+
 use Doctrine\Common\Collections\ArrayCollection;
 
 abstract class BaseBlock extends Block

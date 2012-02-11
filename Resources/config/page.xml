@@ -11,6 +11,7 @@
         <parameter key="sonata.page.cms_manager_selector.class">Sonata\PageBundle\CmsManager\CmsManagerSelector</parameter>
         <parameter key="sonata.page.site.selector.host.class">Sonata\PageBundle\Site\HostSiteSelector</parameter>
         <parameter key="sonata.page.site.selector.host_with_path.class">Sonata\PageBundle\Site\HostPathSiteSelector</parameter>
+        <parameter key="sonata.page.renderer.class">Sonata\PageBundle\CmsManager\PageRenderer</parameter>
     </parameters>
 
     <services>
@@ -34,6 +35,7 @@
             <tag name="kernel.event_listener" event="kernel.response" method="onCoreResponse" priority="-1"/>
 
             <argument type="service" id="sonata.page.cms_manager_selector" />
+            <argument type="service" id="sonata.page.renderer" />
         </service>
 
         <service id="sonata.page.request_listener" class="%sonata.page.request_listener.class%" scope="request">
@@ -46,24 +48,20 @@
             <argument type="service" id="service_container" />
         </service>
 
-        <service id="sonata.page.cms.page" class="%sonata.page.cms_manager.page.class%">
+        <service id="sonata.page.renderer" class="%sonata.page.renderer.class%">
+            <argument type="service" id="router" />
+            <argument type="service" id="sonata.page.cms_manager_selector" />
             <argument type="service" id="templating" />
             <argument />
-            <argument type="service" id="router" />
+        </service>
+
+        <service id="sonata.page.cms.page" class="%sonata.page.cms_manager.page.class%">
             <argument />
             <argument type="service" id="sonata.page.manager.page" />
-            <argument type="service" id="sonata.page.manager.block" />
+            <argument type="service" id="sonata.page.block_interactor" />
 
             <call method="setLogger">
                 <argument type="service" id="logger" />
-            </call>
-
-            <call method="setPageAdmin">
-                <argument type="service" id="sonata.page.admin.page"  strict="false"/>
-            </call>
-
-            <call method="setBlockAdmin">
-                <argument type="service" id="sonata.page.admin.block"  strict="false"/>
             </call>
 
             <call method="setDebug">
@@ -72,9 +70,6 @@
         </service>
 
          <service id="sonata.page.cms.snapshot" class="%sonata.page.cms_manager.snapshot.class%">
-             <argument type="service" id="templating" />
-             <argument/>
-             <argument type="service" id="router" />
              <argument />
              <argument type="service" id="sonata.page.manager.snapshot" />
 

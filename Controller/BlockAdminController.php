@@ -26,7 +26,7 @@ class BlockAdminController extends Controller
 
         $params = $this->get('request')->get('disposition');
 
-        $result = $this->get('sonata.page.manager.block')->saveBlocksPosition($params);
+        $result = $this->get('sonata.page.block_interactor')->saveBlocksPosition($params);
 
         return $this->renderJson(array('result' => $result ? 'ok' : 'ko'));
     }

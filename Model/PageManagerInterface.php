@@ -13,15 +13,6 @@ namespace Sonata\PageBundle\Model;
 interface PageManagerInterface
 {
     /**
-     * Returns a page with the given routeName
-     *
-     * @param SiteInterface $site
-     * @param string $routeName
-     * @return PageInterface|false
-     */
-    function getPageByName(SiteInterface $site, $routeName);
-
-    /**
      *
      * @param array $criteria
      * @return PageInterface
@@ -45,13 +36,6 @@ interface PageManagerInterface
     function getPageByUrl(SiteInterface $site, $url);
 
     /**
-     * Returns a string, the code name of the template
-     *
-     * @return string
-     */
-    function setDefaultTemplateCode($code);
-
-    /**
      *
      * @param PageInterface $object
      * @return void
@@ -63,20 +47,7 @@ interface PageManagerInterface
      * @param array $params
      * @return PageInterface
      */
-    function createNewPage(array $params = array());
-
-    /**
-     *
-     * @return array
-     */
-    function getTemplates();
-
-    /**
-     *
-     * @param string $code template code
-     * @return Template
-     */
-    function getTemplate($code);
+    function create(array $params = array());
 
     /**
      * Returns an array of Pages Entity where the id is the key

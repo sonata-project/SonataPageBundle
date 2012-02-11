@@ -15,6 +15,8 @@ $deps = array(
     array('doctrine-common', 'git://github.com/doctrine/common.git', 'origin/master'),
     array('doctrine-dbal', 'git://github.com/doctrine/dbal.git', 'origin/master'),
     array('Sonata/AdminBundle', 'git://github.com/sonata-project/SonataAdminBundle.git', 'origin/master'),
+    array('Sonata/CacheBundle', 'git://github.com/sonata-project/SonataCacheBundle.git', 'origin/master'),
+    array('Sonata/BlockBundle', 'git://github.com/sonata-project/SonataBlockBundle.git', 'origin/master'),
     array('monolog', 'git://github.com/Seldaek/monolog.git', 'origin/master'),
 
 );

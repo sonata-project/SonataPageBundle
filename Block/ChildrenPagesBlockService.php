@@ -12,44 +12,57 @@
 namespace Sonata\PageBundle\Block;
 
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Form\Form;
+use Symfony\Component\Templating\EngineInterface;
+
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\PageBundle\Model\BlockInterface;
-use Sonata\PageBundle\Model\PageInterface;
 use Sonata\AdminBundle\Validator\ErrorElement;
+
+use Sonata\BlockBundle\Model\BlockInterface;
+
+use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerInterface;
 use Sonata\PageBundle\Exception\PageNotFoundException;
+use Sonata\PageBundle\Site\SiteSelectorInterface;
+use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 
 /**
- * PageExtension
- *
  *
  * @author     Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class ChildrenPagesBlockService extends BaseBlockService
 {
+    protected $siteSelector;
+
+    protected $cmsManagerSelector;
+
+
+    public function __construct($name, EngineInterface $templating, SiteSelectorInterface $siteSelector, CmsManagerSelectorInterface $cmsManagerSelector)
+    {
+        parent::__construct($name, $templating);
+
+        $this->siteSelector       = $siteSelector;
+        $this->cmsManagerSelector = $cmsManagerSelector;
+    }
+
     /**
-     * @param \Sonata\PageBundle\CmsManager\CmsManagerInterface $manager
-     * @param \Sonata\PageBundle\Model\BlockInterface $block
-     * @param \Sonata\PageBundle\Model\PageInterface $page
-     * @param null|\Symfony\Component\HttpFoundation\Response $response
-     * @return string
+     * {@inheritdoc}
      */
-    public function execute(CmsManagerInterface $manager, BlockInterface $block, PageInterface $page, Response $response = null)
+    public function execute(BlockInterface $block, Response $response = null)
     {
         $settings = array_merge($this->getDefaultSettings(), $block->getSettings());
 
+        $cmsManager = $this->cmsManagerSelector->retrieve();
+
         if ($settings['current']) {
-            $page = $manager->getCurrentPage();
+            $page = $cmsManager->getCurrentPage();
         } else if ($settings['pageId']) {
             $page = $settings['pageId'];
         } else {
             try {
-                $page = $manager->getPage($page->getSite(), '/');
+                $page = $cmsManager->getPage($this->siteSelector->retrieve(), '/');
             } catch (PageNotFoundException $e) {
                 $page = false;
             }
-
         }
 
         return $this->renderResponse('SonataPageBundle:Block:block_core_children_pages.html.twig', array(
@@ -60,23 +73,17 @@ class ChildrenPagesBlockService extends BaseBlockService
     }
 
     /**
-     * @param \Sonata\PageBundle\CmsManager\CmsManagerInterface $manager
-     * @param \Sonata\AdminBundle\Validator\ErrorElement $errorElement
-     * @param \Sonata\PageBundle\Model\BlockInterface $block
-     * @return void
+     * {@inheritdoc}
      */
-    public function validateBlock(CmsManagerInterface $manager, ErrorElement $errorElement, BlockInterface $block)
+    public function validateBlock(ErrorElement $errorElement, BlockInterface $block)
     {
         // TODO: Implement validateBlock() method.
     }
 
     /**
-     * @param \Sonata\PageBundle\CmsManager\CmsManagerInterface $manager
-     * @param \Sonata\AdminBundle\Form\FormMapper $formMapper
-     * @param \Sonata\PageBundle\Model\BlockInterface $block
-     * @return void
+     * {@inheritdoc}
      */
-    public function buildEditForm(CmsManagerInterface $manager, FormMapper $formMapper, BlockInterface $block)
+    public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
     {
         $formMapper->add('settings', 'sonata_type_immutable_array', array(
             'keys' => array(
@@ -99,7 +106,7 @@ class ChildrenPagesBlockService extends BaseBlockService
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -107,9 +114,7 @@ class ChildrenPagesBlockService extends BaseBlockService
     }
 
     /**
-     * Returns the default options link to the service
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getDefaultSettings()
     {
@@ -122,8 +127,7 @@ class ChildrenPagesBlockService extends BaseBlockService
     }
 
     /**
-     * @param \Sonata\PageBundle\Model\BlockInterface $block
-     * @return void
+     * {@inheritdoc}
      */
     public function prePersist(BlockInterface $block)
     {
@@ -131,8 +135,7 @@ class ChildrenPagesBlockService extends BaseBlockService
     }
 
     /**
-     * @param \Sonata\PageBundle\Model\BlockInterface $block
-     * @return void
+     * {@inheritdoc}
      */
     public function preUpdate(BlockInterface $block)
     {
@@ -140,14 +143,15 @@ class ChildrenPagesBlockService extends BaseBlockService
     }
 
     /**
-     * @param \Sonata\PageBundle\CmsManager\CmsManagerInterface $manager
-     * @param \Sonata\PageBundle\Model\BlockInterface $block
-     * @return void
+     * {@inheritdoc}
      */
-    public function load(CmsManagerInterface $manager, BlockInterface $block)
+    public function load(BlockInterface $block)
     {
         if (is_numeric($block->getSetting('pageId'))) {
-            $block->setSetting('pageId', $manager->getPage($block->getSetting('pageId')));
+            $cmsManager = $this->cmsManagerSelector->retrieve();
+            $site       = $this->siteSelector->retrieve();
+
+            $block->setSetting('pageId', $cmsManager->getPage($site, $block->getSetting('pageId')));
         }
     }
 }

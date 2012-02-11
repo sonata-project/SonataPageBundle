@@ -17,21 +17,25 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Validator\ErrorElement;
+
 use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Exception\InternalErrorException;
-
 use Sonata\PageBundle\Model\PageInterface;
-use Sonata\PageBundle\Cache\CacheElement;
-use Sonata\PageBundle\CmsManager\CmsManagerInterface;
-use Sonata\AdminBundle\Validator\ErrorElement;
+use Sonata\PageBundle\Model\PageManagerInterface;
+use Sonata\PageBundle\Model\SiteManagerInterface;
+
+use Sonata\CacheBundle\Cache\CacheManagerInterface;
 
 use Knp\Menu\ItemInterface as MenuItemInterface;
 
 class PageAdmin extends Admin
 {
-    protected $cmsManager;
+    protected $pageManager;
 
     protected $siteManager;
+
+    protected $cacheManager;
 
     /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
@@ -102,11 +106,6 @@ class PageAdmin extends Admin
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
-        $templates = array();
-        foreach ($this->cmsManager->getPageManager()->getTemplates() as $code => $template) {
-            $templates[$code] = $template->getName();
-        }
-
         if (!$this->getSubject() || !$this->getSubject()->isInternal()) {
             $formMapper
                 ->with($this->trans('form_page.group_main_label'))
@@ -121,7 +120,7 @@ class PageAdmin extends Admin
                 ->add('name')
                 ->add('enabled', null, array('required' => false))
                 ->add('position')
-                ->add('templateCode', 'choice', array('required' => true, 'choices' => $templates))
+                ->add('templateCode', 'sonata_page_template', array('required' => true))
                 ->add('parent', 'sonata_page_selector', array(
                     'page'          => $this->getSubject() ?: null,
                     'site'          => $this->getSubject() ? $this->getSubject()->getSite() : null,
@@ -191,18 +190,18 @@ class PageAdmin extends Admin
     public function validate(ErrorElement $errorElement, $object)
     {
         if (!$object->getUrl()) {
-            $this->cmsManager->getPageManager()->fixUrl($object);
+            $this->pageManager->fixUrl($object);
         }
 
         try {
-            $page = $this->cmsManager->getPageManager()->getPageByUrl($object->getSite(), $object->getUrl());
+            $page = $this->pageManager->getPageByUrl($object->getSite(), $object->getUrl());
         } catch (PageNotFoundException $e) {
             $page = false;
         }
 
         if (!$page) {
             try {
-                $page = $this->cmsManager->getPageManager()->getPageByUrl($object->getSite(), substr($object->getUrl(), -1) == '/' ? substr($object->getUrl(), 0, -1) : $object->getUrl().'/');
+                $page = $this->pageManager->getPageByUrl($object->getSite(), substr($object->getUrl(), -1) == '/' ? substr($object->getUrl(), 0, -1) : $object->getUrl().'/');
             } catch (PageNotFoundException $e) {
                 $page = false;
             }
@@ -254,9 +253,11 @@ class PageAdmin extends Admin
 
     public function postUpdate($object)
     {
-        $this->cmsManager->invalidate(new CacheElement(array(
-           'page_id' => $object->getId()
-        )));
+        if ($this->cacheManager) {
+            $this->cacheManager->invalidate(array(
+               'page_id' => $object->getId()
+            ));
+        }
     }
 
     public function update($object)
@@ -264,7 +265,7 @@ class PageAdmin extends Admin
         $object->setEdited(true);
 
         $this->preUpdate($object);
-        $this->cmsManager->getPageManager()->save($object);
+        $this->pageManager->save($object);
         $this->postUpdate($object);
     }
 
@@ -273,13 +274,13 @@ class PageAdmin extends Admin
         $object->setEdited(true);
 
         $this->prePersist($object);
-        $this->cmsManager->getPageManager()->save($object);
+        $this->pageManager->save($object);
         $this->postPersist($object);
     }
 
-    public function setCmsManager(CmsManagerInterface $cmsManager)
+    public function setPageManager(PageManagerInterface $pageManager)
     {
-        $this->cmsManager = $cmsManager;
+        $this->pageManager = $pageManager;
     }
 
     public function getNewInstance()
@@ -299,10 +300,10 @@ class PageAdmin extends Admin
             $slug   = array_pop($slugs);
 
             try {
-                $parent = $this->cmsManager->getPageByUrl($site, implode('/', $slugs));
+                $parent = $this->pageManager->getPageByUrl($site, implode('/', $slugs));
             } catch (PageNotFoundException $e) {
                 try {
-                    $parent = $this->cmsManager->getPageByUrl($site, '/');
+                    $parent = $this->pageManager->getPageByUrl($site, '/');
                 } catch (PageNotFoundException $e) {
                     throw new InternalErrorException('Unable to find the root url, please create a route with url = /');
                 }
@@ -347,18 +348,18 @@ class PageAdmin extends Admin
         return $actions;
     }
 
-    public function setSiteManager($siteManager)
+    public function setSiteManager(SiteManagerInterface $siteManager)
     {
         $this->siteManager = $siteManager;
-    }
-
-    public function getSiteManager()
-    {
-        return $this->siteManager;
     }
 
     public function getSites()
     {
         return $this->siteManager->findBy();
+    }
+
+    public function setCacheManager(CacheManagerInterface $cacheManager)
+    {
+        $this->cacheManager = $cacheManager;
     }
 }

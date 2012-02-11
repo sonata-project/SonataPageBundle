@@ -66,7 +66,7 @@ class PageController extends Controller
 
         $cms->setCurrentPage($page);
 
-        return $cms->renderPage($page);
+        return $this->getPageRendered()->render($page);
     }
 
     /**
@@ -109,7 +109,7 @@ class PageController extends Controller
 
         $cms->setCurrentPage($page);
 
-        return $cms->renderPage($page);
+        return $this->getPageRendered()->render($page);
     }
 
     /**
@@ -126,5 +126,13 @@ class PageController extends Controller
     protected function getSiteSelector()
     {
         return $this->get('sonata.page.site.selector');
+    }
+
+    /**
+     * @return \Sonata\PageBundle\CmsManager\PageRendererInterface
+     */
+    protected function getPageRendered()
+    {
+        return $this->get('sonata.page.renderer');
     }
 }
