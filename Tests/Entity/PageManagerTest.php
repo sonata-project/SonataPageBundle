@@ -19,7 +19,7 @@ class PageManagerTest extends \PHPUnit_Framework_TestCase
     {
         $entityManager = $this->getMock('Doctrine\ORM\EntityManager', array(), array(), '', false);
 
-        $manager = new PageManager($entityManager, 'Foo\Bar');
+        $manager = new PageManager($entityManager, 'Foo\Bar', array());
 
         $page1 = new Page;
         $page1->setName('Salut comment ca va ?');
