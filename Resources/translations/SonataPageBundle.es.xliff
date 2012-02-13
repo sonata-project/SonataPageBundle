@@ -76,7 +76,7 @@
       </trans-unit>
       <trans-unit id="18" resname="breadcrumb.link_snapshot_list">
         <source>breadcrumb.link_snapshot_list</source>
-        <target>Fotos</target>
+        <target>Impresiones</target>
       </trans-unit>
       <trans-unit id="19" resname="breadcrumb.link_snapshot_update">
         <source>breadcrumb.link_snapshot_update</source>
@@ -88,7 +88,7 @@
       </trans-unit>
       <trans-unit id="21" resname="button_create_snapshot">
         <source>button_create_snapshot</source>
-        <target>Crear publicación</target>
+        <target>Crear impresión</target>
       </trans-unit>
       <trans-unit id="22" resname="cms">
         <source>cms</source>
@@ -100,7 +100,7 @@
       </trans-unit>
       <trans-unit id="24" resname="create_snapshot">
         <source>create_snapshot</source>
-        <target>Crear la publicación</target>
+        <target>Crear impresión</target>
       </trans-unit>
       <trans-unit id="25" resname="error.404">
         <source>error.404</source>
@@ -112,7 +112,7 @@
       </trans-unit>
       <trans-unit id="27" resname="filter.label_enabled">
         <source>filter.label_enabled</source>
-        <target>Activado</target>
+        <target>Activo</target>
       </trans-unit>
       <trans-unit id="28" resname="filter.label_hybrid">
         <source>filter.label_hybrid</source>
@@ -124,7 +124,7 @@
       </trans-unit>
       <trans-unit id="30" resname="filter.label_page">
         <source>filter.label_page</source>
-        <target>Pagina</target>
+        <target>Página</target>
       </trans-unit>
       <trans-unit id="31" resname="filter.label_route_name">
         <source>filter.label_route_name</source>
@@ -160,7 +160,7 @@
       </trans-unit>
       <trans-unit id="39" resname="form.label_enabled">
         <source>form.label_enabled</source>
-        <target>Activado</target>
+        <target>Activo</target>
       </trans-unit>
       <trans-unit id="40" resname="form.label_javascript">
         <source>form.label_javascript</source>
@@ -240,7 +240,7 @@
       </trans-unit>
       <trans-unit id="59" resname="header.create_snapshot">
         <source>header.create_snapshot</source>
-        <target>Crear publicación</target>
+        <target>Crear impresión</target>
       </trans-unit>
       <trans-unit id="60" resname="header.edit_page">
         <source>header.edit_page</source>
@@ -252,7 +252,7 @@
       </trans-unit>
       <trans-unit id="62" resname="header.show_zone">
         <source>header.show_zone</source>
-        <target>Mostrar zona</target>
+        <target>Mostrar zonas</target>
       </trans-unit>
       <trans-unit id="63" resname="header.view_all_exceptions">
         <source>header.view_all_exceptions</source>
@@ -264,7 +264,7 @@
       </trans-unit>
       <trans-unit id="65" resname="help_page_name">
         <source>help_page_name</source>
-        <target>El nombre de la página (se usa como el título de la página)</target>
+        <target>El nombre de la página (se usa como título de la página)</target>
       </trans-unit>
       <trans-unit id="66" resname="hybrid">
         <source>hybrid</source>
@@ -276,7 +276,7 @@
       </trans-unit>
       <trans-unit id="68" resname="list.label_enabled">
         <source>list.label_enabled</source>
-        <target>Activado</target>
+        <target>Activo</target>
       </trans-unit>
       <trans-unit id="69" resname="list.label_hybrid">
         <source>list.label_hybrid</source>
@@ -316,7 +316,7 @@
       </trans-unit>
       <trans-unit id="78" resname="message_create_snapshot">
         <source>message_create_snapshot</source>
-        <target>Crear una foto de la página</target>
+        <target>Crear una impresión de la página</target>
       </trans-unit>
       <trans-unit id="79" resname="or_list">
         <source>or_list</source>
@@ -336,7 +336,7 @@
       </trans-unit>
       <trans-unit id="83" resname="show.label_enabled">
         <source>show.label_enabled</source>
-        <target>Activado</target>
+        <target>Activo</target>
       </trans-unit>
       <trans-unit id="84" resname="show.label_name">
         <source>show.label_name</source>
@@ -360,11 +360,11 @@
       </trans-unit>
       <trans-unit id="89" resname="sidemenu.link_list_snapshots">
         <source>sidemenu.link_list_snapshots</source>
-        <target>Publicaciones</target>
+        <target>Impresiones</target>
       </trans-unit>
       <trans-unit id="90" resname="snapshot">
         <source>snapshot</source>
-        <target>Publicaciones</target>
+        <target>Impresiones</target>
       </trans-unit>
       <trans-unit id="91" resname="sonata_page">
         <source>sonata_page</source>
@@ -372,7 +372,7 @@
       </trans-unit>
       <trans-unit id="92" resname="title_create_snapshot">
         <source>title_create_snapshot</source>
-        <target>Crear publicación</target>
+        <target>Crear impresión</target>
       </trans-unit>
       <trans-unit id="93" resname="title_list_exceptions">
         <source>title_list_exceptions</source>
@@ -416,11 +416,11 @@
       </trans-unit>
       <trans-unit id="103" resname="list.label_enabled_to">
           <source>list.label_enabled_to</source>
-          <target>Activado hasta</target>
+          <target>Activo hasta</target>
       </trans-unit>
       <trans-unit id="104" resname="list.label_enabled_from">
           <source>list.label_enabled_from</source>
-          <target>Activado desde</target>
+          <target>Activo desde</target>
       </trans-unit>
       <trans-unit id="105" resname="form.label_is_default">
           <source>form.label_is_default</source>
@@ -436,11 +436,11 @@
       </trans-unit>
       <trans-unit id="108" resname="form.label_enabled_to">
           <source>form.label_enabled_to</source>
-          <target>Activado hasta</target>
+          <target>Activo hasta</target>
       </trans-unit>
       <trans-unit id="109" resname="form.label_enabled_from">
           <source>form.label_enabled_from</source>
-          <target>Activado desde</target>
+          <target>Activo desde</target>
       </trans-unit>
       <trans-unit id="110" resname="breadcrumb.link_site_list">
           <source>breadcrumb.link_site_list</source>
@@ -460,19 +460,19 @@
       </trans-unit>
       <trans-unit id="114" resname="list.label_create_snapshots">
           <source>list.label_create_snapshots</source>
-          <target>Fotos</target>
+          <target>Impresiones</target>
       </trans-unit>
       <trans-unit id="115" resname="link_create_snapshots">
           <source>link_create_snapshots</source>
-          <target>Crear fotos</target>
+          <target>Crear impresiones</target>
       </trans-unit>
       <trans-unit id="116" resname="title_create_snapshots">
           <source>title_create_snapshots</source>
-          <target>Crear fotos</target>
+          <target>Crear impresiones</target>
       </trans-unit>
       <trans-unit id="117" resname="message_create_snapshots">
           <source>message_create_snapshots</source>
-          <target>Haga clic en el boton crear para establecer nuevas fotos para el sitio web: %site%</target>
+          <target>Haga clic en el boton crear para establecer nuevas impresiones para el sitio web: %site%</target>
       </trans-unit>
       <trans-unit id="118" resname="button_create_snapshots">
           <source>button_create_snapshots</source>
@@ -508,11 +508,11 @@
       </trans-unit>
       <trans-unit id="126" resname="show.label_enabled_from">
           <source>show.label_enabled_from</source>
-          <target>Activado desde</target>
+          <target>Activo desde</target>
       </trans-unit>
       <trans-unit id="127" resname="show.label_enabled_to">
           <source>show.label_enabled_to</source>
-          <target>Activado hasta</target>
+          <target>Activo hasta</target>
       </trans-unit>
       <trans-unit id="128" resname="filter.label_site">
           <source>filter.label_site</source>
