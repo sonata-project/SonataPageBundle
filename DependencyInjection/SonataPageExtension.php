@@ -367,6 +367,13 @@ class SonataPageExtension extends Extension
         } else {
             $container->removeDefinition('sonata.page.cache.esi');
         }
+
+        $cacheBlocks = array();
+        foreach ($config['services'] as $service => $settings) {
+            $cacheBlocks[$service] = $settings['cache'];
+        }
+
+        $container->getDefinition('sonata.page.twig.extension')->replaceArgument(5, $cacheBlocks);
     }
 
     /**

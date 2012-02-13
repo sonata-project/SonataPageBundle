@@ -61,14 +61,16 @@ class PageExtension extends \Twig_Extension
      * @param \Sonata\PageBundle\Site\SiteSelectorInterface $siteSelector
      * @param \Sonata\BlockBundle\Block\BlockServiceManagerInterface $blockManager
      * @param \Sonata\CacheBundle\Cache\CacheManagerInterface $cacheManager
+     * @param array $cacheBlocks
      */
-    public function __construct(Router $router, CmsManagerSelectorInterface $cmsManagerSelector, SiteSelectorInterface $siteSelector, BlockServiceManagerInterface $blockManager, CacheManagerInterface $cacheManager)
+    public function __construct(Router $router, CmsManagerSelectorInterface $cmsManagerSelector, SiteSelectorInterface $siteSelector, BlockServiceManagerInterface $blockManager, CacheManagerInterface $cacheManager, array $cacheBlocks)
     {
         $this->router              = $router;
         $this->cmsManagerSelector  = $cmsManagerSelector;
         $this->siteSelector        = $siteSelector;
         $this->blockManager        = $blockManager;
         $this->cacheManager        = $cacheManager;
+        $this->cacheBlocks         = $cacheBlocks;
     }
 
     /**
