@@ -4,8 +4,8 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="sonata_page_esi_cache" pattern="/sonata/page/cache/esi">
-        <default key="_controller">sonata.page.cache.esi:cacheAction</default>
+    <route id="sonata_page_esi_cache" pattern="/sonata/page/cache/esi/{manager}/{pageId}/{blockId}">
+        <default key="_controller">sonata.cache.esi:cacheAction</default>
     </route>
 
     <route id="sonata_page_js_async_cache" pattern="/sonata/page/cache/js-async">

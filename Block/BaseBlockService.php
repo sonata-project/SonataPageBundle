@@ -13,6 +13,8 @@ namespace Sonata\PageBundle\Block;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
 
+use Sonata\PageBundle\Model\SnapshotPageProxy;
+
 /**
  * @author     Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -27,7 +29,8 @@ abstract class BaseBlockService extends \Sonata\BlockBundle\Block\BaseBlockServi
             'name'        => $this->getName(),
             'block_id'    => $block->getId(),
             'page_id'     => $block->getPage()->getId(),
-            'updated_at'  => $block->getUpdatedAt()->format('U')
+            'updated_at'  => $block->getUpdatedAt()->format('U'),
+            'manager'     => $block->getPage() instanceof SnapshotPageProxy ? 'snapshot' : 'page',
         );
     }
 }

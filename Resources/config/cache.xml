@@ -4,11 +4,12 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="sonata.page.cache.esi" class="Sonata\PageBundle\Cache\EsiCache">
+        <service id="sonata.page.cache.esi" class="Sonata\PageBundle\Cache\BlockEsiCache">
             <tag name="sonata.page.cache" />
             <argument type="collection" />
             <argument type="service" id="router" />
-            <argument type="service" id="service_container" />
+            <argument type="service" id="sonata.block.manager" />
+            <argument type="collection" />
         </service>
 
         <service id="sonata.page.cache.js_sync" class="Sonata\PageBundle\Cache\JsCache" >

@@ -41,14 +41,6 @@ class CmsSnapshotManager extends BaseCmsPageManager
     }
 
     /**
-     * @return string
-     */
-    public function getCode()
-    {
-        return 'snapshot';
-    }
-
-    /**
      * Return a PageInterface instance depends on the $page argument
      *
      * @throws \Sonata\PageBundle\Exception\PageNotFoundException

@@ -40,10 +40,6 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
 
     protected $options = array();
 
-    protected $logger;
-
-    protected $debug = false;
-
     protected $blocks = array();
 
     /**
@@ -217,31 +213,6 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     {
         return $this->pageReferences;
     }
-    /**
-     * @param $logger
-     * @return void
-     */
-    public function setLogger($logger)
-    {
-        $this->logger = $logger;
-    }
-
-    /**
-     * @return
-     */
-    public function getLogger()
-    {
-        return $this->logger;
-    }
-
-    /**
-     * @param $debug
-     * @return void
-     */
-    public function setDebug($debug)
-    {
-        $this->debug = $debug;
-    }
 
     /**
      * @param $blocks
@@ -293,7 +264,6 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     }
 
     /**
-     * @abstract
      * @param null|\Sonata\PageBundle\Model\SiteInterface $site
      * @param $fieldName
      * @param $value

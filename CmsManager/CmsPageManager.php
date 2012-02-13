@@ -51,14 +51,6 @@ class CmsPageManager extends BaseCmsPageManager
     /**
      * {@inheritdoc}
      */
-    public function getCode()
-    {
-        return 'page';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getPage(SiteInterface $site, $page)
     {
         if (is_string($page) && substr($page, 0, 1) == '/') {

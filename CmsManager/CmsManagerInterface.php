@@ -97,11 +97,6 @@ interface CmsManagerInterface
     function getBlock($id);
 
     /**
-     * @return string
-     */
-    function getCode();
-
-    /**
      * Returns the current page
      *
      * @return \Sonata\PageBundle\Model\PageInterface
