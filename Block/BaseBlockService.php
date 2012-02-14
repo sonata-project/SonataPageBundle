@@ -26,7 +26,6 @@ abstract class BaseBlockService extends \Sonata\BlockBundle\Block\BaseBlockServi
     public function getCacheKeys(BlockInterface $block)
     {
         return array(
-            'name'        => $this->getName(),
             'block_id'    => $block->getId(),
             'page_id'     => $block->getPage()->getId(),
             'updated_at'  => $block->getUpdatedAt()->format('U'),

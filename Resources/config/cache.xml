@@ -5,7 +5,8 @@
 
     <services>
         <service id="sonata.page.cache.esi" class="Sonata\PageBundle\Cache\BlockEsiCache">
-            <tag name="sonata.page.cache" />
+            <tag name="sonata.cache" />
+
             <argument type="collection" />
             <argument type="service" id="router" />
             <argument type="service" id="sonata.block.manager" />

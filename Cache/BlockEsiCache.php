@@ -108,7 +108,7 @@ class BlockEsiCache implements CacheInterface
             }
         }
 
-        return new CacheElement($keys, new Response(sprintf('<esi:include src="%s"/>', $this->getUrl($keys))));
+        return new CacheElement($keys, sprintf('<esi:include src="%s"/>', $this->getUrl($keys)));
     }
 
     /**
@@ -145,13 +145,13 @@ class BlockEsiCache implements CacheInterface
     {
         $manager = $this->getManager($request);
 
-        $page = $manager->getPageById($request->get('pageId'));
+        $page = $manager->getPageById($request->get('page_id'));
 
         if (!$page) {
-            throw new NotFoundHttpException(sprintf('Page not found : %s', $request->get('pageId')));
+            throw new NotFoundHttpException(sprintf('Page not found : %s', $request->get('page_id')));
         }
 
-        return $this->blockService->renderBlock($manager->getBlock($request->get('blockId')));
+        return $this->blockService->renderBlock($manager->getBlock($request->get('block_id')));
     }
 
     /**
@@ -162,7 +162,7 @@ class BlockEsiCache implements CacheInterface
     private function getManager(Request $request)
     {
         if (!isset($this->managers[$request->get('manager')])) {
-            throw new NotFoundHttpException(sprintf('The manager %s', $request->get('manager')));
+            throw new NotFoundHttpException(sprintf('The manager `%s` does not exist', $request->get('manager')));
         }
 
         return $this->managers[$request->get('manager')];

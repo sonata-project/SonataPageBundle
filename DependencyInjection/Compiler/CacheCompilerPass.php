@@ -39,7 +39,7 @@ class CacheCompilerPass implements CompilerPassInterface
                 continue;
             }
 
-            $services[] = new Reference($id);
+            $services[$attributes[0]['type']] = new Reference($id);
         }
 
         $container->getDefinition('sonata.page.cache.esi')->replaceArgument(3, $services);

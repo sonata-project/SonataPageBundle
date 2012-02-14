@@ -56,7 +56,7 @@
         </service>
 
         <service id="sonata.page.cms.page" class="%sonata.page.cms_manager.page.class%">
-            <tag name="sonata.page.manager"/>
+            <tag name="sonata.page.manager" type="page"/>
 
             <argument />
             <argument type="service" id="sonata.page.manager.page" />
@@ -64,7 +64,7 @@
         </service>
 
          <service id="sonata.page.cms.snapshot" class="%sonata.page.cms_manager.snapshot.class%">
-             <tag name="sonata.page.manager"/>
+             <tag name="sonata.page.manager" type="snapshot" />
 
              <argument />
              <argument type="service" id="sonata.page.manager.snapshot" />
