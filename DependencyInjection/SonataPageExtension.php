@@ -56,15 +56,15 @@ class SonataPageExtension extends Extension
         $this->configureTemplate($container, $config);
         $this->configureExceptions($container, $config);
 
-        $cmsPage = $container->getDefinition('sonata.page.cms.page');
-        $cmsSnapshot = $container->getDefinition('sonata.page.cms.snapshot');
-
-        $cmsPage->addMethodCall('setOptions', array($config));
-        $cmsSnapshot->addMethodCall('setOptions', array($config));
-
         $this->addClassesToCompile(array(
             'Sonata\\PageBundle\\Request\\SiteRequest'
         ));
+
+        $container->getDefinition('sonata.page.decorator_strategy')
+            ->replaceArgument(0, $config['ignore_routes'])
+            ->replaceArgument(1, $config['ignore_route_patterns'])
+            ->replaceArgument(2, $config['ignore_uri_patterns'])
+        ;
 
         $this->registerDoctrineMapping($config);
         $this->registerParameters($container, $config);

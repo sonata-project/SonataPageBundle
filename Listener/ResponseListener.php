@@ -16,6 +16,7 @@ use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Sonata\PageBundle\Exception\InternalErrorException;
 use Sonata\PageBundle\CmsManager\PageRendererInterface;
+use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,14 +31,18 @@ class ResponseListener
 
     protected $pageRenderer;
 
+    protected $decoratorStrategy;
+
     /**
      * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $cmsSelector
      * @param \Sonata\PageBundle\CmsManager\PageRendererInterface $pageRenderer
+     * @param \Sonata\PageBundle\CmsManager\DecoratorStrategyInterface $decoratorStrategy
      */
-    public function __construct(CmsManagerSelectorInterface $cmsSelector, PageRendererInterface $pageRenderer)
+    public function __construct(CmsManagerSelectorInterface $cmsSelector, PageRendererInterface $pageRenderer, DecoratorStrategyInterface $decoratorStrategy)
     {
-        $this->cmsSelector = $cmsSelector;
-        $this->pageRenderer = $pageRenderer;
+        $this->cmsSelector       = $cmsSelector;
+        $this->pageRenderer      = $pageRenderer;
+        $this->decoratorStrategy = $decoratorStrategy;
     }
 
     /**
@@ -52,7 +57,7 @@ class ResponseListener
 
         $response = $event->getResponse();
 
-        if (!$cms->isDecorable($event->getRequest(), $event->getRequestType(), $response)) {
+        if (!$this->decoratorStrategy->isDecorable($event->getRequest(), $event->getRequestType(), $response)) {
             return;
         }
 

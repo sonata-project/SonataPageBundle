@@ -270,10 +270,18 @@ class PageExtension extends \Twig_Extension
             }
         }
 
+        $recorder = $this->cacheManager->getRecorder();
+
+        if ($recorder) {
+            $recorder->push();
+        }
+
         $response = $this->blockManager->renderBlock($block);
 
+        $contextualKeys = $recorder ? $recorder->pop() : array();
+
         if ($response->isCacheable() && $useCache && $cacheKeys && $cacheService) {
-            $cacheService->set($cacheKeys, $response, $block->getTtl());
+            $cacheService->set($cacheKeys, $response, $block->getTtl(), $contextualKeys);
         }
 
         return $response->getContent();

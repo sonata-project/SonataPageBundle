@@ -12,6 +12,8 @@
         <parameter key="sonata.page.site.selector.host.class">Sonata\PageBundle\Site\HostSiteSelector</parameter>
         <parameter key="sonata.page.site.selector.host_with_path.class">Sonata\PageBundle\Site\HostPathSiteSelector</parameter>
         <parameter key="sonata.page.renderer.class">Sonata\PageBundle\CmsManager\PageRenderer</parameter>
+        <parameter key="sonata.page.decorator_strategy.class">Sonata\PageBundle\CmsManager\DecoratorStrategy</parameter>
+
     </parameters>
 
     <services>
@@ -36,12 +38,14 @@
 
             <argument type="service" id="sonata.page.cms_manager_selector" />
             <argument type="service" id="sonata.page.renderer" />
+            <argument type="service" id="sonata.page.decorator_strategy" />
         </service>
 
         <service id="sonata.page.request_listener" class="%sonata.page.request_listener.class%" scope="request">
             <tag name="kernel.event_listener" event="kernel.request" method="onCoreRequest" priority="-1"/>
             <argument type="service" id="sonata.page.cms_manager_selector" />
             <argument type="service" id="sonata.page.site.selector" />
+            <argument type="service" id="sonata.page.decorator_strategy" />
         </service>
 
         <service id="sonata.page.cms_manager_selector" class="%sonata.page.cms_manager_selector.class%">
@@ -68,6 +72,12 @@
 
              <argument />
              <argument type="service" id="sonata.page.manager.snapshot" />
+        </service>
+
+        <service id="sonata.page.decorator_strategy" class="%sonata.page.decorator_strategy.class%">
+            <argument />
+            <argument />
+            <argument />
         </service>
 
         <service id="sonata.page.router.default" class="%router.class%" public="false">

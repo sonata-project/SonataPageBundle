@@ -35,6 +35,10 @@ class CmsPageManager extends BaseCmsPageManager
 
     protected $pageManager;
 
+    protected $pageReferences = array();
+
+    protected $pages = array();
+
     /**
      * @param array $httpErrorCodes
      * @param \Sonata\PageBundle\Model\PageManagerInterface $pageManager

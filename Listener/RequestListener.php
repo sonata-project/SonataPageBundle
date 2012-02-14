@@ -16,6 +16,7 @@ use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Sonata\PageBundle\Exception\InternalErrorException;
 use Sonata\PageBundle\Exception\PageNotFoundException;
+use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,14 +33,18 @@ class RequestListener
 
     protected $siteSelector;
 
+    protected $decoratorStrategy;
+
     /**
      * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $cmsSelector
      * @param \Sonata\PageBundle\Site\SiteSelectorInterface $siteSelector
+     * @param \Sonata\PageBundle\CmsManager\DecoratorStrategyInterface $decoratorStrategy
      */
-    public function __construct(CmsManagerSelectorInterface $cmsSelector, SiteSelectorInterface $siteSelector)
+    public function __construct(CmsManagerSelectorInterface $cmsSelector, SiteSelectorInterface $siteSelector, DecoratorStrategyInterface $decoratorStrategy)
     {
-        $this->cmsSelector = $cmsSelector;
-        $this->siteSelector = $siteSelector;
+        $this->cmsSelector       = $cmsSelector;
+        $this->siteSelector      = $siteSelector;
+        $this->decoratorStrategy = $decoratorStrategy;
     }
 
     /**
@@ -62,7 +67,7 @@ class RequestListener
             return;
         }
 
-        if (!$cms->isRouteNameDecorable($routeName) || !$cms->isRouteUriDecorable($event->getRequest()->getRequestUri())) {
+        if (!$this->decoratorStrategy->isRouteNameDecorable($routeName) || !$this->decoratorStrategy->isRouteUriDecorable($event->getRequest()->getRequestUri())) {
             return;
         }
 

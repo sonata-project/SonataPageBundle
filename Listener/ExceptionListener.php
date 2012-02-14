@@ -7,6 +7,7 @@ use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Sonata\PageBundle\Exception\InternalErrorException;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\CmsManager\PageRendererInterface;
+use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
@@ -35,6 +36,8 @@ class ExceptionListener
 
     protected $pageRenderer;
 
+    protected $decoratorStrategy;
+
     /**
      * @param \Sonata\PageBundle\Site\SiteSelectorInterface $siteSelector
      * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $cmsManagerSelector
@@ -43,7 +46,7 @@ class ExceptionListener
      * @param \Sonata\PageBundle\CmsManager\PageRendererInterface $pageRenderer
      * @param null|\Symfony\Component\HttpKernel\Log\LoggerInterface $logger
      */
-    public function __construct(SiteSelectorInterface $siteSelector, CmsManagerSelectorInterface $cmsManagerSelector, $debug, EngineInterface $templating, PageRendererInterface $pageRenderer, LoggerInterface $logger = null)
+    public function __construct(SiteSelectorInterface $siteSelector, CmsManagerSelectorInterface $cmsManagerSelector, $debug, EngineInterface $templating, PageRendererInterface $pageRenderer, DecoratorStrategyInterface $decoratorStrategy, LoggerInterface $logger = null)
     {
         $this->cmsManagerSelector = $cmsManagerSelector;
         $this->debug              = $debug;
@@ -51,6 +54,7 @@ class ExceptionListener
         $this->templating         = $templating;
         $this->siteSelector       = $siteSelector;
         $this->pageRenderer       = $pageRenderer;
+        $this->decoratorStrategy  = $decoratorStrategy;
     }
 
     /**
@@ -102,7 +106,7 @@ class ExceptionListener
 
         $cmsManager = $this->cmsManagerSelector->retrieve();
 
-        if (!$cmsManager->isRouteNameDecorable($event->getRequest()->get('_route')) || !$cmsManager->isRouteUriDecorable($event->getRequest()->getRequestUri())) {
+        if (!$this->decoratorStrategy->isRouteNameDecorable($event->getRequest()->get('_route')) || !$this->decoratorStrategy->isRouteUriDecorable($event->getRequest()->getRequestUri())) {
             return;
         }
 

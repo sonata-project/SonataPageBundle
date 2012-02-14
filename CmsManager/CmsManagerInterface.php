@@ -117,29 +117,9 @@ interface CmsManagerInterface
     function getBlocks();
 
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param $requestType
-     * @param \Symfony\Component\HttpFoundation\Response $response
-     * @return boolean
-     */
-    function isDecorable(Request $request, $requestType, Response $response);
-
-    /**
      * @param \Sonata\PageBundle\Model\SiteInterface $site
      * @param $page
      * @return \Sonata\PageBundle\Model\PageInterface
      */
     function getPage(SiteInterface $site, $page);
-
-    /**
-     * @param $name
-     * @return boolean
-     */
-    function isRouteNameDecorable($name);
-
-    /**
-     * @param $name
-     * @return boolean
-     */
-    function isRouteUriDecorable($name);
 }

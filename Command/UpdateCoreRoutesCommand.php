@@ -76,6 +76,7 @@ class UpdateCoreRoutesCommand extends BaseCommand
         $router      = $this->getContainer()->get('router');
         $cmsManager  = $this->getCmsPageManager();
         $pageManager = $this->getPageManager();
+        $decorator   = $this->getDecoratorStrategy();
 
         $message = sprintf(" > <info>Updating core routes for site</info> : <comment>%s - %s</comment>", $site->getName(), $site->getUrl());
 
@@ -97,7 +98,7 @@ class UpdateCoreRoutesCommand extends BaseCommand
 
             $page = $pageManager->findOneBy(array('routeName' => $name, 'site' => $site->getId()));
 
-            if (!$cmsManager->isRouteNameDecorable($name) || !$cmsManager->isRouteUriDecorable($route->getPattern())) {
+            if (!$decorator->isRouteNameDecorable($name) || !$decorator->isRouteUriDecorable($route->getPattern())) {
                 if ($page) {
                     $page->setEnabled(false);
                     $output->writeln(sprintf('  <error>DISABLE</error> <error>% -50s</error> %s', $name, $route->getPattern()));

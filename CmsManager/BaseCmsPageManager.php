@@ -32,13 +32,7 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
 {
     protected $httpErrorCodes;
 
-    protected $pages = array();
-
-    protected $pageReferences = array();
-
     protected $currentPage;
-
-    protected $options = array();
 
     protected $blocks = array();
 
@@ -81,72 +75,6 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function isDecorable(Request $request, $requestType, Response $response)
-    {
-        if ($requestType != HttpKernelInterface::MASTER_REQUEST) {
-            return false;
-        }
-
-        if (($response->headers->get('Content-Type') ?: 'text/html') != 'text/html') {
-            return false;
-        }
-
-        if ($response->getStatusCode() != 200) {
-            return false;
-        }
-
-        if ($request->headers->get('x-requested-with') == 'XMLHttpRequest') {
-            return false;
-        }
-
-        if ($response->headers->get('x-sonata-page-decorable', true) == false) {
-            return false;
-        }
-
-        return $this->isRouteNameDecorable($request->get('_route')) && $this->isRouteUriDecorable($request->getRequestUri());
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isRouteNameDecorable($routeName)
-    {
-        if (!$routeName) {
-            return false;
-        }
-
-        foreach ($this->getOption('ignore_routes', array()) as $route) {
-            if ($routeName == $route) {
-                return false;
-            }
-        }
-
-        foreach ($this->getOption('ignore_route_patterns', array()) as $routePattern) {
-            if (preg_match($routePattern, $routeName)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isRouteUriDecorable($uri)
-    {
-        foreach ($this->getOption('ignore_uri_patterns', array()) as $uriPattern) {
-            if (preg_match($uriPattern, $uri)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getCurrentPage()
     {
         return $this->currentPage;
@@ -158,69 +86,6 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     public function setCurrentPage(PageInterface $page)
     {
         $this->currentPage = $page;
-    }
-
-    /**
-     * @param array $options
-     * @return void
-     */
-    public function setOptions(array $options = array())
-    {
-        $this->options = $options;
-    }
-
-    /**
-     * @return array
-     */
-    public function getOptions()
-    {
-        return $this->options;
-    }
-
-    /**
-     * @param $name
-     * @param $value
-     * @return void
-     */
-    public function setOption($name, $value)
-    {
-        $this->options[$name] = $value;
-    }
-
-    /**
-     * @param $name
-     * @param null $default
-     * @return null
-     */
-    public function getOption($name, $default = null)
-    {
-        return isset($this->options[$name]) ? $this->options[$name] : $default;
-    }
-
-    /**
-     * @param $pageReferences
-     * @return void
-     */
-    public function setPageReferences($pageReferences)
-    {
-        $this->pageReferences = $pageReferences;
-    }
-
-    /**
-     * @return array
-     */
-    public function getPageReferences()
-    {
-        return $this->pageReferences;
-    }
-
-    /**
-     * @param $blocks
-     * @return void
-     */
-    public function setBlocks($blocks)
-    {
-        $this->blocks = $blocks;
     }
 
     /**

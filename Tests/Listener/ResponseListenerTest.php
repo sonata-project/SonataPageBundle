@@ -24,6 +24,8 @@ class ResponseListenerTest extends \PHPUnit_Framework_TestCase
 {
     public function testPageIsNonDecorable()
     {
+        $decoratorStrategy = $this->getMock('Sonata\PageBundle\CmsManager\DecoratorStrategyInterface');
+
         $pageRenderer = $this->getMock('Sonata\PageBundle\CmsManager\PageRendererInterface');
 
         $cmsManager = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerInterface');
@@ -37,7 +39,7 @@ class ResponseListenerTest extends \PHPUnit_Framework_TestCase
 
         $event = new FilterResponseEvent($kernel, $request, 'master', $response);
 
-        $listener = new ResponseListener($cmsSelector, $pageRenderer);
+        $listener = new ResponseListener($cmsSelector, $pageRenderer, $decoratorStrategy);
         $listener->onCoreResponse($event);
 
         $this->assertEquals('content', $event->getResponse()->getContent());
@@ -59,8 +61,9 @@ class ResponseListenerTest extends \PHPUnit_Framework_TestCase
 
         $cmsManager = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerInterface');
         $cmsManager->expects($this->once())->method('getCurrentPage')->will($this->returnValue($page));
-        $cmsManager->expects($this->once())->method('isDecorable')->will($this->returnValue(true));
 
+        $decoratorStrategy = $this->getMock('Sonata\PageBundle\CmsManager\DecoratorStrategyInterface');
+        $decoratorStrategy->expects($this->once())->method('isDecorable')->will($this->returnValue(true));
 
         $cmsSelector = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
         $cmsSelector->expects($this->once())->method('retrieve')->will($this->returnValue($cmsManager));
@@ -70,7 +73,7 @@ class ResponseListenerTest extends \PHPUnit_Framework_TestCase
 
         $event = new FilterResponseEvent($kernel, $request, 'master', $response);
 
-        $listener = new ResponseListener($cmsSelector, $pageRenderer);
+        $listener = new ResponseListener($cmsSelector, $pageRenderer, $decoratorStrategy);
         $listener->onCoreResponse($event);
 
         $this->assertEquals('outter <inner content> outter', $event->getResponse()->getContent());
@@ -81,7 +84,9 @@ class ResponseListenerTest extends \PHPUnit_Framework_TestCase
         $pageRenderer = $this->getMock('Sonata\PageBundle\CmsManager\PageRendererInterface');
 
         $cmsManager = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerInterface');
-        $cmsManager->expects($this->once())->method('isDecorable')->will($this->returnValue(false));
+
+        $decoratorStrategy = $this->getMock('Sonata\PageBundle\CmsManager\DecoratorStrategyInterface');
+        $decoratorStrategy->expects($this->once())->method('isDecorable')->will($this->returnValue(false));
 
         $cmsSelector = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
         $cmsSelector->expects($this->once())->method('retrieve')->will($this->returnValue($cmsManager));
@@ -92,7 +97,7 @@ class ResponseListenerTest extends \PHPUnit_Framework_TestCase
         $response = new Response('inner content');
         $event = new FilterResponseEvent($kernel, $request, 'master', $response);
 
-        $listener = new ResponseListener($cmsSelector, $pageRenderer);
+        $listener = new ResponseListener($cmsSelector, $pageRenderer, $decoratorStrategy);
         $listener->onCoreResponse($event);
 
         $this->assertEquals('inner content', $event->getResponse()->getContent());

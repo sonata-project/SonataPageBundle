@@ -61,6 +61,14 @@ abstract class BaseCommand extends ContainerAwareCommand
     }
 
     /**
+     * @return \Sonata\PageBundle\CmsManager\DecoratorStrategyInterface
+     */
+    public function getDecoratorStrategy()
+    {
+        return $this->getContainer()->get('sonata.page.decorator_strategy');
+    }
+
+    /**
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @return array
      */

@@ -13,6 +13,7 @@ namespace Sonata\PageBundle\Controller;
 
 use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Exception\InternalErrorException;
+use Symfony\Component\HttpFoundation\Request;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -25,9 +26,9 @@ class PageController extends Controller
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @return \Symfony\Bundle\FrameworkBundle\Controller\Response
      */
-    public function catchAllAction()
+    public function catchAllAction(Request $request)
     {
-        $pathInfo = $this->get('request')->getPathInfo();
+        $pathInfo = $request->getPathInfo();
 
         $site = $this->getSiteSelector()->retrieve();
 
@@ -56,7 +57,7 @@ class PageController extends Controller
                 'site'       => $site,
                 'page_admin' => $this->get('sonata.page.admin.page'),
                 'manager'    => $cms,
-                'creatable'  => $cms->isRouteNameDecorable($this->get('request')->get('_route')) && $cms->isRouteUriDecorable($pathInfo)
+                'creatable'  => $this->getDecoratorStrategy()->isRouteNameDecorable($request->get('_route')) && $this->getDecoratorStrategy()->isRouteUriDecorable($pathInfo)
             ));
         }
 
@@ -134,5 +135,13 @@ class PageController extends Controller
     protected function getPageRendered()
     {
         return $this->get('sonata.page.renderer');
+    }
+
+    /**
+     * @return \Sonata\PageBundle\CmsManager\DecoratorStrategyInterface
+     */
+    public function getDecoratorStrategy()
+    {
+        return $this->get('sonata.page.decorator_strategy');
     }
 }

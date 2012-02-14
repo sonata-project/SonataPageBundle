@@ -29,6 +29,10 @@ class CmsSnapshotManager extends BaseCmsPageManager
 {
     protected $pageManager;
 
+    protected $pageReferences = array();
+
+    protected $pages = array();
+
     /**
      * @param array $httpErrorCodes
      * @param \Sonata\PageBundle\Model\SnapshotManagerInterface $pageManager
