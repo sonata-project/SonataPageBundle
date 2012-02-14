@@ -27,7 +27,7 @@ use Sonata\PageBundle\Exception\PageNotFoundException;
  */
 class CmsSnapshotManager extends BaseCmsPageManager
 {
-    protected $pageManager;
+    protected $snapshotManager;
 
     protected $pageReferences = array();
 
@@ -35,13 +35,13 @@ class CmsSnapshotManager extends BaseCmsPageManager
 
     /**
      * @param array $httpErrorCodes
-     * @param \Sonata\PageBundle\Model\SnapshotManagerInterface $pageManager
+     * @param \Sonata\PageBundle\Model\SnapshotManagerInterface $snapshotManager
      */
-    public function __construct(array $httpErrorCodes = array(), SnapshotManagerInterface $pageManager)
+    public function __construct(array $httpErrorCodes = array(), SnapshotManagerInterface $snapshotManager)
     {
         parent::__construct($httpErrorCodes);
 
-        $this->pageManager = $pageManager;
+        $this->snapshotManager = $snapshotManager;
     }
 
     /**
@@ -123,13 +123,13 @@ class CmsSnapshotManager extends BaseCmsPageManager
                 $parameters['site'] = $site->getId();
             }
 
-            $snapshot = $this->pageManager->findEnableSnapshot($parameters);
+            $snapshot = $this->snapshotManager->findEnableSnapshot($parameters);
 
             if (!$snapshot) {
                 throw new PageNotFoundException();
             }
 
-            $page = new SnapshotPageProxy($this->pageManager, $snapshot);
+            $page = new SnapshotPageProxy($this->snapshotManager, $snapshot);
 
             $this->pages[$id] = false;
 
