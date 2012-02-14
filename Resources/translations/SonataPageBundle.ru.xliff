@@ -514,6 +514,10 @@
           <source>show.label_enabled_to</source>
           <target>Включен до</target>
       </trans-unit>
+      <trans-unit id="128" resname="filter.label_site">
+        <source>filter.label_site</source>
+        <target>Сайт</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
