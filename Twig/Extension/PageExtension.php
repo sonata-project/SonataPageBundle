@@ -264,8 +264,8 @@ class PageExtension extends \Twig_Extension
             if ($cacheService->has($cacheKeys)) {
                 $cacheElement = $cacheService->get($cacheKeys);
 
-                if (!$cacheElement->isExpired()) {
-                    return $cacheElement->getData();
+                if (!$cacheElement->isExpired() && $cacheElement->getData() instanceof Response) {
+                    return $cacheElement->getData()->getContent();
                 }
             }
         }

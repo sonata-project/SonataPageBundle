@@ -13,18 +13,22 @@
             <argument type="collection" />
         </service>
 
-        <service id="sonata.page.cache.js_sync" class="Sonata\PageBundle\Cache\JsCache" >
-            <tag name="sonata.page.cache" />
+        <service id="sonata.page.cache.js_sync" class="Sonata\PageBundle\Cache\BlockJsCache" >
+            <tag name="sonata.cache" />
+
             <argument type="service" id="router" />
+            <argument type="service" id="sonata.page.cms_manager_selector" />
+            <argument type="service" id="sonata.block.manager" />
             <argument>true</argument>
-            <argument type="service" id="service_container" />
         </service>
 
-        <service id="sonata.page.cache.js_async" class="Sonata\PageBundle\Cache\JsCache" >
-            <tag name="sonata.page.cache" />
+        <service id="sonata.page.cache.js_async" class="Sonata\PageBundle\Cache\BlockJsCache" >
+            <tag name="sonata.cache" />
+
             <argument type="service" id="router" />
+            <argument type="service" id="sonata.page.cms_manager_selector" />
+            <argument type="service" id="sonata.block.manager" />
             <argument>false</argument>
-            <argument type="service" id="service_container" />
         </service>
     </services>
 </container>

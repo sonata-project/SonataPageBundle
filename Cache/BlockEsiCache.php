@@ -98,17 +98,29 @@ class BlockEsiCache implements CacheInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @throws \RuntimeException
+     * @param array $keys
+     * @return void
      */
-    public function get(array $keys)
+    private function validateKeys(array $keys)
     {
         foreach (array('block_id', 'page_id', 'manager', 'updated_at') as $key) {
             if (!isset($keys[$key])) {
                 throw new \RuntimeException(sprintf('Please define a `%s` key', $key));
             }
         }
+    }
 
-        return new CacheElement($keys, sprintf('<esi:include src="%s"/>', $this->getUrl($keys)));
+    /**
+     * {@inheritdoc}
+     */
+    public function get(array $keys)
+    {
+        $this->validateKeys($keys);
+
+        $content = sprintf('<esi:include src="%s" />', $this->router->generate('sonata_page_cache_esi', $keys, true));
+
+        return new CacheElement($keys, new Response($content));
     }
 
     /**
@@ -116,16 +128,9 @@ class BlockEsiCache implements CacheInterface
      */
     public function set(array $keys, $data, $ttl = 84600, array $contextualKeys = array())
     {
-        return new CacheElement($keys, $data, $ttl, $contextualKeys);
-    }
+        $this->validateKeys($keys);
 
-    /**
-     * @param array $keys
-     * @return string
-     */
-    protected function getUrl(array $keys)
-    {
-        return $this->router->generate('sonata_page_cache_esi', $keys, true);
+        return new CacheElement($keys, $data, $ttl, $contextualKeys);
     }
 
     /**
