@@ -246,7 +246,7 @@ class PageAdmin extends Admin
         if (!$this->getSubject()->isHybrid()) {
             $menu->addChild(
                 $this->trans('view_page'),
-                array('uri' => $this->getRouter()->getGenerator()->getContext()->getBaseUrl().$this->getSubject()->getUrl())
+                array('uri' => $this->getRouteGenerator()->generate('catchAll', array('path' => ltrim($this->getSubject()->getUrl(), '/'))))
             );
         }
     }
