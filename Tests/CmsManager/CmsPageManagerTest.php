@@ -29,11 +29,7 @@ class CmsPageManagerTest extends \PHPUnit_Framework_TestCase
         $blocInteractor = isset($services['interactor']) ? $services['interactor'] : $this->getMock('Sonata\PageBundle\Model\BlockInteractorInterface');
         $pageManager  = $this->getMock('Sonata\PageBundle\Model\PageManagerInterface');
 
-        return new CmsPageManager(
-            array('not_found' => array('404'), 'fatal' => array('500')),
-            $pageManager,
-            $blocInteractor
-        );
+        return new CmsPageManager($pageManager, $blocInteractor);
     }
 
     public function testFindContainer()

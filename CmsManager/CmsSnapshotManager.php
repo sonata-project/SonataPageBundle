@@ -34,13 +34,10 @@ class CmsSnapshotManager extends BaseCmsPageManager
     protected $pages = array();
 
     /**
-     * @param array $httpErrorCodes
      * @param \Sonata\PageBundle\Model\SnapshotManagerInterface $snapshotManager
      */
-    public function __construct(array $httpErrorCodes = array(), SnapshotManagerInterface $snapshotManager)
+    public function __construct(SnapshotManagerInterface $snapshotManager)
     {
-        parent::__construct($httpErrorCodes);
-
         $this->snapshotManager = $snapshotManager;
     }
 

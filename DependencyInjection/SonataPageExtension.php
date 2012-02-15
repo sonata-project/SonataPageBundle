@@ -383,9 +383,6 @@ class SonataPageExtension extends Extension
      */
     public function configureExceptions(ContainerBuilder $container, $config)
     {
-        $cmsPage = $container->getDefinition('sonata.page.cms.page');
-        $cmsSnapshot = $container->getDefinition('sonata.page.cms.snapshot');
-
         $exceptions = array();
         foreach ($config['catch_exceptions'] as $keyWord => $codes) {
             foreach ($codes as $code) {
@@ -393,7 +390,12 @@ class SonataPageExtension extends Extension
             }
         }
 
-        $cmsPage->replaceArgument(0, $exceptions);
-        $cmsSnapshot->replaceArgument(0, $exceptions);
+        $container->getDefinition('sonata.page.kernel.exception_listener')
+            ->replaceArgument(6, $exceptions)
+        ;
+
+        $container->getDefinition('sonata.page.renderer')
+            ->replaceArgument(4, $exceptions)
+        ;
     }
 }

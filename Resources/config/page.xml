@@ -57,12 +57,12 @@
             <argument type="service" id="sonata.page.cms_manager_selector" />
             <argument type="service" id="templating" />
             <argument />
+            <argument />
         </service>
 
         <service id="sonata.page.cms.page" class="%sonata.page.cms_manager.page.class%">
             <tag name="sonata.page.manager" type="page"/>
 
-            <argument />
             <argument type="service" id="sonata.page.manager.page" />
             <argument type="service" id="sonata.page.block_interactor" />
         </service>
@@ -70,7 +70,6 @@
          <service id="sonata.page.cms.snapshot" class="%sonata.page.cms_manager.snapshot.class%">
              <tag name="sonata.page.manager" type="snapshot" />
 
-             <argument />
              <argument type="service" id="sonata.page.manager.snapshot" />
         </service>
 

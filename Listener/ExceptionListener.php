@@ -38,15 +38,19 @@ class ExceptionListener
 
     protected $decoratorStrategy;
 
+    protected $httpErrorCodes;
+
     /**
      * @param \Sonata\PageBundle\Site\SiteSelectorInterface $siteSelector
      * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $cmsManagerSelector
      * @param $debug
      * @param \Symfony\Component\Templating\EngineInterface $templating
      * @param \Sonata\PageBundle\CmsManager\PageRendererInterface $pageRenderer
+     * @param \Sonata\PageBundle\CmsManager\DecoratorStrategyInterface $decoratorStrategy
+     * @param array $httpErrorCodes
      * @param null|\Symfony\Component\HttpKernel\Log\LoggerInterface $logger
      */
-    public function __construct(SiteSelectorInterface $siteSelector, CmsManagerSelectorInterface $cmsManagerSelector, $debug, EngineInterface $templating, PageRendererInterface $pageRenderer, DecoratorStrategyInterface $decoratorStrategy, LoggerInterface $logger = null)
+    public function __construct(SiteSelectorInterface $siteSelector, CmsManagerSelectorInterface $cmsManagerSelector, $debug, EngineInterface $templating, PageRendererInterface $pageRenderer, DecoratorStrategyInterface $decoratorStrategy, array $httpErrorCodes, LoggerInterface $logger = null)
     {
         $this->cmsManagerSelector = $cmsManagerSelector;
         $this->debug              = $debug;
@@ -55,6 +59,38 @@ class ExceptionListener
         $this->siteSelector       = $siteSelector;
         $this->pageRenderer       = $pageRenderer;
         $this->decoratorStrategy  = $decoratorStrategy;
+        $this->httpErrorCodes     = $httpErrorCodes;
+    }
+
+        /**
+     * {@inheritdoc}
+     */
+    public function getHttpErrorCodes()
+    {
+        return $this->httpErrorCodes;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasErrorCode($statusCode)
+    {
+        return array_key_exists($statusCode, $this->httpErrorCodes);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getErrorCodePage($statusCode)
+    {
+        if (!$this->hasErrorCode($statusCode)) {
+            throw new InternalErrorException(sprintf('There is not page configured to handle the status code %d', $statusCode));
+        }
+
+        $cms = $this->cmsManagerSelector->retrieve();
+        $site = $this->siteSelector->retrieve();
+
+        return $cms->getPageByName($site, $this->httpErrorCodes[$statusCode]);
     }
 
     /**

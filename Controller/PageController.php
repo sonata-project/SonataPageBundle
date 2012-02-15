@@ -81,7 +81,7 @@ class PageController extends Controller
         }
 
         return $this->render('SonataPageBundle:Exceptions:list.html.twig', array(
-            'httpErrorCodes' => $this->getCmsManager()->getHttpErrorCodes(),
+            'httpErrorCodes' => $this->getExceptionListener()->getHttpErrorCodes(),
         ));
     }
 
@@ -98,12 +98,12 @@ class PageController extends Controller
 
         $cms = $this->getCmsManager();
 
-        if (!$cms->hasErrorCode($code)) {
+        if (!$this->getExceptionListener()->hasErrorCode($code)) {
             throw new InternalErrorException(sprintf('The error code "%s" is not set in the configuration', $code));
         }
 
         try {
-            $page = $cms->getErrorCodePage($this->getSiteSelector()->retrieve(), $code);
+            $page = $this->getExceptionListener()->getErrorCodePage($code);
         } catch (PageNotFoundException $e) {
             throw new InternalErrorException('The requested error page does not exist, please run the sonata:page:update-core-routes command', null, $e);
         }
@@ -143,5 +143,13 @@ class PageController extends Controller
     public function getDecoratorStrategy()
     {
         return $this->get('sonata.page.decorator_strategy');
+    }
+
+    /**
+     * @return \Sonata\PageBundle\Listener\ExceptionListener
+     */
+    public function getExceptionListener()
+    {
+        return $this->get('sonata.page.kernel.exception_listener');
     }
 }

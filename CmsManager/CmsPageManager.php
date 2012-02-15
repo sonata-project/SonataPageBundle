@@ -40,14 +40,11 @@ class CmsPageManager extends BaseCmsPageManager
     protected $pages = array();
 
     /**
-     * @param array $httpErrorCodes
      * @param \Sonata\PageBundle\Model\PageManagerInterface $pageManager
      * @param \Sonata\PageBundle\Model\BlockInteractorInterface $blockInteractor
      */
-    public function __construct(array $httpErrorCodes = array(), PageManagerInterface $pageManager, BlockInteractorInterface $blockInteractor)
+    public function __construct(PageManagerInterface $pageManager, BlockInteractorInterface $blockInteractor)
     {
-        parent::__construct($httpErrorCodes);
-
         $this->pageManager     = $pageManager;
         $this->blockInteractor = $blockInteractor;
     }

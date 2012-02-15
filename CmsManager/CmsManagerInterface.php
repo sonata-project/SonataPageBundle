@@ -27,26 +27,6 @@ use Symfony\Component\HttpFoundation\Response;
 interface CmsManagerInterface
 {
     /**
-     * Returns http error codes
-     *
-     * @return array
-     */
-    function getHttpErrorCodes();
-
-    /**
-     * @param $statusCode
-     * @return boolean
-     */
-    function hasErrorCode($statusCode);
-
-    /**
-     * @param \Sonata\PageBundle\Model\SiteInterface $site
-     * @param $statusCode
-     * @return \Sonata\PageBundle\Model\PageInterface
-     */
-    function getErrorCodePage(SiteInterface $site, $statusCode);
-
-    /**
      * @param string $name
      * @param \Sonata\PageBundle\Model\PageInterface $page
      * @param null|\Sonata\BlockBundle\Model\BlockInterface $parentContainer

@@ -96,7 +96,7 @@ file that was distributed with this source code.
                                                 <li class="divider"></li>
                                                 <li><a href="{{ path('admin_sonata_page_page_list') }}" target="_new">{{ "header.view_all_pages"|trans({}, 'SonataPageBundle') }}</a></li>
 
-                                                {% if manager.getHttpErrorCodes|length %}
+                                                {% if error_codes|length %}
                                                     <li class="divider"></li>
                                                     <li><a href="{{ path('sonata_page_exceptions_list') }}" target="_new">{{ "header.view_all_exceptions"|trans({}, 'SonataPageBundle') }}</a></li>
                                                 {% endif %}

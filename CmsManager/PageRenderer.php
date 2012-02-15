@@ -31,18 +31,22 @@ class PageRenderer implements PageRendererInterface
 
     protected $defaultTemplatePath = 'SonataPageBundle::layout.html.twig';
 
+    protected $errorCodes;
+
     /**
      * @param \Symfony\Component\Routing\RouterInterface $router
      * @param CmsManagerSelectorInterface $cmsSelector
      * @param \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface $templating
      * @param array $templates
+     * @param array $errorCodes
      */
-    public function __construct(RouterInterface $router, CmsManagerSelectorInterface $cmsSelector, EngineInterface $templating, array $templates)
+    public function __construct(RouterInterface $router, CmsManagerSelectorInterface $cmsSelector, EngineInterface $templating, array $templates, array $errorCodes)
     {
         $this->router      = $router;
         $this->cmsSelector = $cmsSelector;
         $this->templating  = $templating;
         $this->templates   = $templates;
+        $this->errorCodes  = $errorCodes;
     }
 
     /**
@@ -76,6 +80,7 @@ class PageRenderer implements PageRendererInterface
         $params['page']    = $page;
         $params['site']    = $page->getSite();
         $params['manager'] = $cms;
+        $params['error_codes'] = $this->errorCodes;
 
         $response = $this->templating->renderResponse($template, $params, $response);
         $response->setTtl($page->getTtl());

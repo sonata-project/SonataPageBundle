@@ -30,47 +30,9 @@ use Sonata\AdminBundle\Admin\AdminInterface;
 
 abstract class BaseCmsPageManager implements CmsManagerInterface
 {
-    protected $httpErrorCodes;
-
     protected $currentPage;
 
     protected $blocks = array();
-
-    /**
-     * @param array $httpErrorCodes
-     */
-    public function __construct(array $httpErrorCodes = array())
-    {
-        $this->httpErrorCodes      = $httpErrorCodes;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getHttpErrorCodes()
-    {
-        return $this->httpErrorCodes;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function hasErrorCode($statusCode)
-    {
-        return array_key_exists($statusCode, $this->httpErrorCodes);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getErrorCodePage(SiteInterface $site, $statusCode)
-    {
-        if (!$this->hasErrorCode($statusCode)) {
-            throw new InternalErrorException(sprintf('There is not page configured to handle the status code %d', $statusCode));
-        }
-
-        return $this->getPageByName($site, $this->httpErrorCodes[$statusCode]);
-    }
 
     /**
      * {@inheritdoc}
