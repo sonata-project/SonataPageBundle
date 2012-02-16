@@ -146,7 +146,7 @@ class ExceptionListener
             return;
         }
 
-        if (!$cmsManager->hasErrorCode($statusCode)) {
+        if (!$this->hasErrorCode($statusCode)) {
             return;
         }
 
@@ -155,7 +155,7 @@ class ExceptionListener
         $this->logException($exception, $exception, $message);
 
         try {
-            $page = $cmsManager->getErrorCodePage($this->siteSelector->retrieve(), $statusCode);
+            $page = $this->getErrorCodePage($statusCode);
         } catch (PageNotFoundException $e) {
 
             $this->handleInternalError($e);
