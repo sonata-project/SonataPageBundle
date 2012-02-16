@@ -69,6 +69,14 @@ abstract class BaseCommand extends ContainerAwareCommand
     }
 
     /**
+     * @return \Sonata\PageBundle\Listener\ExceptionListener
+     */
+    public function getErrorListener()
+    {
+        return $this->getContainer()->get('sonata.page.kernel.exception_listener');
+    }
+
+    /**
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @return array
      */

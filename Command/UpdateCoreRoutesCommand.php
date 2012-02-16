@@ -129,7 +129,7 @@ class UpdateCoreRoutesCommand extends BaseCommand
         }
 
         // Iterate over error pages
-        foreach ($cmsManager->getHttpErrorCodes() as $name) {
+        foreach ($this->getErrorListener()->getHttpErrorCodes() as $name) {
             $name = trim($name);
 
             $knowRoutes[] = $name;
