@@ -46,6 +46,7 @@
             <argument type="service" id="sonata.page.cms_manager_selector" />
             <argument type="service" id="sonata.page.site.selector" />
             <argument type="service" id="sonata.page.decorator_strategy" />
+            <argument type="service" id="sonata.seo.page" />
         </service>
 
         <service id="sonata.page.cms_manager_selector" class="%sonata.page.cms_manager_selector.class%">

@@ -15,6 +15,10 @@ To begin, add the dependent bundles to the vendor/bundles directory. Add the fol
         git=http://github.com/sonata-project/SonataPageBundle.git
         target=/bundles/Sonata/PageBundle
 
+    [SonataSeoBundle]
+        git=http://github.com/sonata-project/SonataSeoBundle.git
+        target=/bundles/Sonata/SeoBundle
+
     [SonataEasyExtendsBundle]
         git=http://github.com/sonata-project/SonataEasyExtendsBundle.git
         target=/bundles/Sonata/EasyExtendsBundle
@@ -64,8 +68,9 @@ Now, add the new `Application` Bundle to the kernel
 
             // Vendor specifics bundles
             new Sonata\PageBundle\SonataPageBundle(),
-            new Sonata\PageBundle\SonataCacheBundle(),
-            new Sonata\PageBundle\SonataBlockBundle(),
+            new Sonata\CacheBundle\SonataCacheBundle(),
+            new Sonata\BlockBundle\SonataBlockBundle(),
+            new Sonata\SeoBundle\SonataSeoBundle(),
             new Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),
         );
     }

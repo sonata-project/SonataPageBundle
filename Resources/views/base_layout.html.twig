@@ -10,8 +10,10 @@ file that was distributed with this source code.
 #}
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <head {{ sonata_seo_head_attributes() }}>
+
+        {{ sonata_seo_title() }}
+        {{ sonata_seo_metadatas() }}
 
         {% block page_stylesheets %}
             <link rel="stylesheet" href="{{ asset('bundles/sonataadmin/bootstrap/bootstrap.css') }}" type="text/css" media="all" >
@@ -38,8 +40,6 @@ file that was distributed with this source code.
             <script src="/bundles/sonataadmin/bootstrap/js/bootstrap-scrollspy.js" type="text/javascript"></script>
             <script src="/bundles/sonataadmin/bootstrap/js/bootstrap-dropdown.js" type="text/javascript"></script>
         {% endif %}
-
-        <title>{% block title %}{{ page.name }}{%endblock%}</title>
     </head>
 
     <body class="sonata-bc">

@@ -18,6 +18,8 @@ use Sonata\PageBundle\Exception\InternalErrorException;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 
+use Sonata\SeoBundle\Seo\SeoPageInterface;
+
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Templating\EngineInterface;
@@ -35,16 +37,19 @@ class RequestListener
 
     protected $decoratorStrategy;
 
+    protected $seoPage;
+
     /**
      * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $cmsSelector
      * @param \Sonata\PageBundle\Site\SiteSelectorInterface $siteSelector
      * @param \Sonata\PageBundle\CmsManager\DecoratorStrategyInterface $decoratorStrategy
      */
-    public function __construct(CmsManagerSelectorInterface $cmsSelector, SiteSelectorInterface $siteSelector, DecoratorStrategyInterface $decoratorStrategy)
+    public function __construct(CmsManagerSelectorInterface $cmsSelector, SiteSelectorInterface $siteSelector, DecoratorStrategyInterface $decoratorStrategy, SeoPageInterface $seoPage)
     {
         $this->cmsSelector       = $cmsSelector;
         $this->siteSelector      = $siteSelector;
         $this->decoratorStrategy = $decoratorStrategy;
+        $this->seoPage           = $seoPage;
     }
 
     /**
@@ -80,6 +85,17 @@ class RequestListener
         try {
             $page = $cms->getPageByRouteName($site, $routeName);
             $cms->setCurrentPage($page);
+
+            $this->seoPage->setTitle($page->getName());
+
+            if ($page->getMetaDescription()) {
+                $this->seoPage->addMeta('name', 'description', $page->getMetaDescription());
+            }
+
+            if ($page->getMetaKeyword()) {
+                $this->seoPage->addMeta('name', 'keywords', $page->getMetaKeyword());
+            }
+
         } catch (PageNotFoundException $e) {
             return;
         }
