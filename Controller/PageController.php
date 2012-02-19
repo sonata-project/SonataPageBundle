@@ -67,6 +67,18 @@ class PageController extends Controller
 
         $cms->setCurrentPage($page);
 
+        $this->getSeoPage()->setTitle($page->getName());
+
+        if ($page->getMetaDescription()) {
+            $this->getSeoPage()->addMeta('name', 'description', $page->getMetaDescription());
+        }
+
+        if ($page->getMetaKeyword()) {
+            $this->getSeoPage()->addMeta('name', 'keywords', $page->getMetaKeyword());
+        }
+
+        $this->getSeoPage()->addMeta('property', 'og:type', 'article');
+
         return $this->getPageRendered()->render($page);
     }
 
@@ -151,5 +163,13 @@ class PageController extends Controller
     public function getExceptionListener()
     {
         return $this->get('sonata.page.kernel.exception_listener');
+    }
+
+    /**
+     * @return \Sonata\SeoBundle\Seo\SeoPageInterface
+     */
+    public function getSeoPage()
+    {
+        return $this->get('sonata.seo.page');
     }
 }

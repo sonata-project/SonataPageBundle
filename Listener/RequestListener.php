@@ -43,6 +43,7 @@ class RequestListener
      * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $cmsSelector
      * @param \Sonata\PageBundle\Site\SiteSelectorInterface $siteSelector
      * @param \Sonata\PageBundle\CmsManager\DecoratorStrategyInterface $decoratorStrategy
+     * @param \Sonata\SeoBundle\Seo\SeoPageInterface $seoPage
      */
     public function __construct(CmsManagerSelectorInterface $cmsSelector, SiteSelectorInterface $siteSelector, DecoratorStrategyInterface $decoratorStrategy, SeoPageInterface $seoPage)
     {
@@ -95,6 +96,8 @@ class RequestListener
             if ($page->getMetaKeyword()) {
                 $this->seoPage->addMeta('name', 'keywords', $page->getMetaKeyword());
             }
+
+            $this->seoPage->addMeta('property', 'og:type', 'article');
 
         } catch (PageNotFoundException $e) {
             return;
