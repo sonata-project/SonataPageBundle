@@ -26,6 +26,8 @@ class RequestListenerTest extends \PHPUnit_Framework_TestCase
     {
         $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
 
+        $seoPage = $this->getMock('Sonata\SeoBundle\Seo\SeoPageInterface');
+
         $decoratorStrategy = $this->getMock('Sonata\PageBundle\CmsManager\DecoratorStrategyInterface');
         $decoratorStrategy->expects($this->once())->method('isRouteNameDecorable')->will($this->returnValue(true));
         $decoratorStrategy->expects($this->once())->method('isRouteUriDecorable')->will($this->returnValue(true));
@@ -47,7 +49,7 @@ class RequestListenerTest extends \PHPUnit_Framework_TestCase
 
         $event = new GetResponseEvent($kernel, $request, 'master');
 
-        $listener = new RequestListener($cmsSelector, $siteSelector, $decoratorStrategy);
+        $listener = new RequestListener($cmsSelector, $siteSelector, $decoratorStrategy, $seoPage);
         $listener->onCoreRequest($event);
     }
 
@@ -57,6 +59,8 @@ class RequestListenerTest extends \PHPUnit_Framework_TestCase
     public function testNoSite()
     {
         $cmsManager = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerInterface');
+
+        $seoPage = $this->getMock('Sonata\SeoBundle\Seo\SeoPageInterface');
 
         $decoratorStrategy = $this->getMock('Sonata\PageBundle\CmsManager\DecoratorStrategyInterface');
         $decoratorStrategy->expects($this->once())->method('isRouteNameDecorable')->will($this->returnValue(true));
@@ -73,7 +77,7 @@ class RequestListenerTest extends \PHPUnit_Framework_TestCase
 
         $event = new GetResponseEvent($kernel, $request, 'master');
 
-        $listener = new RequestListener($cmsSelector, $siteSelector, $decoratorStrategy);
+        $listener = new RequestListener($cmsSelector, $siteSelector, $decoratorStrategy, $seoPage);
         $listener->onCoreRequest($event);
     }
 }

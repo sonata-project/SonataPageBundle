@@ -15,6 +15,7 @@ if (is_file($autoload)) {
         'Sonata\AdminBundle'    => array($vendorDir),
         'Sonata\CacheBundle'    => array($vendorDir),
         'Sonata\BlockBundle'    => array($vendorDir),
+        'Sonata\SeoBundle'    => array($vendorDir),
         'Knp'                   => array($vendorDir.'/knpmenu/src'),
         'Doctrine\Common'       => array($vendorDir.'/doctrine-common/lib'),
         'Doctrine\ORM'          => array($vendorDir.'/doctrine/lib'),

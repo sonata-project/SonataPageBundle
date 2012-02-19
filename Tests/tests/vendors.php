@@ -17,6 +17,7 @@ $deps = array(
     array('Sonata/AdminBundle', 'git://github.com/sonata-project/SonataAdminBundle.git', 'origin/master'),
     array('Sonata/CacheBundle', 'git://github.com/sonata-project/SonataCacheBundle.git', 'origin/master'),
     array('Sonata/BlockBundle', 'git://github.com/sonata-project/SonataBlockBundle.git', 'origin/master'),
+    array('Sonata/SeoBundle', 'git://github.com/sonata-project/SonataSeoBundle.git', 'origin/master'),
     array('monolog', 'git://github.com/Seldaek/monolog.git', 'origin/master'),
 
 );
