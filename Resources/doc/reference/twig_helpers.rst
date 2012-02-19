@@ -20,18 +20,18 @@ Render a container using the current page
 
 .. code-block:: jinja
 
-    {{ page_render_container('name') }}
+    {{ sonata_page_render_container('name') }}
 
 
 Render a container using a transversal page named blog
 
 .. code-block:: jinja
 
-    {{ page_render_container('name', '_blog') }}
+    {{ sonata_page_render_container('name', '_blog') }}
 
 
 Render a container using a page instance
 
 .. code-block:: jinja
 
-    {{ page_render_container('name', page) }}
+    {{ sonata_page_render_container('name', page) }}
