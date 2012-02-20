@@ -67,20 +67,29 @@ class PageController extends Controller
 
         $cms->setCurrentPage($page);
 
-        $this->getSeoPage()->setTitle($page->getName());
-
-        if ($page->getMetaDescription()) {
-            $this->getSeoPage()->addMeta('name', 'description', $page->getMetaDescription());
-        }
-
-        if ($page->getMetaKeyword()) {
-            $this->getSeoPage()->addMeta('name', 'keywords', $page->getMetaKeyword());
-        }
-
-        $this->getSeoPage()->addMeta('property', 'og:type', 'article');        
+        $this->addSeoMeta($page);
         $this->beforeRender($page);
 
         return $this->getPageRendered()->render($page);
+    }
+    
+    /**
+     * @param \Sonata\PageBundle\Model\PageInterface $page
+     * @return void
+     */
+    protected function addSeoMeta(PageInterface $page)
+    {
+        $this->getSeoPage()->setTitle($page->getName());
+        
+        if ($page->getMetaDescription()) {
+            $this->getSeoPage()->addMeta('name', 'description', $page->getMetaDescription());
+        }
+        
+        if ($page->getMetaKeyword()) {
+            $this->getSeoPage()->addMeta('name', 'keywords', $page->getMetaKeyword());
+        }
+        
+        $this->getSeoPage()->addMeta('property', 'og:type', 'article');
     }
 
     /**
