@@ -66,9 +66,7 @@ class PageController extends Controller
         }
 
         $cms->setCurrentPage($page);
-
         $this->addSeoMeta($page);
-        $this->beforeRender($page);
 
         return $this->getPageRendered()->render($page);
     }
@@ -181,14 +179,5 @@ class PageController extends Controller
     public function getSeoPage()
     {
         return $this->get('sonata.seo.page');
-    }
-    
-    /**
-     * @param \Sonata\PageBundle\Model\PageInterface $page
-     * @return void 
-     */
-    public function beforeRender(PageInterface $page)
-    {
-            
     }
 }
