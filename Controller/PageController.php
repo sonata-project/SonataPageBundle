@@ -11,10 +11,10 @@
 
 namespace Sonata\PageBundle\Controller;
 
+use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Exception\InternalErrorException;
 use Symfony\Component\HttpFoundation\Request;
-
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Response;
@@ -77,7 +77,8 @@ class PageController extends Controller
             $this->getSeoPage()->addMeta('name', 'keywords', $page->getMetaKeyword());
         }
 
-        $this->getSeoPage()->addMeta('property', 'og:type', 'article');
+        $this->getSeoPage()->addMeta('property', 'og:type', 'article');        
+        $this->beforeRender($page);
 
         return $this->getPageRendered()->render($page);
     }
@@ -171,5 +172,14 @@ class PageController extends Controller
     public function getSeoPage()
     {
         return $this->get('sonata.seo.page');
+    }
+    
+    /**
+     * @param \Sonata\PageBundle\Model\PageInterface $page
+     * @return void 
+     */
+    public function beforeRender(PageInterface $page)
+    {
+            
     }
 }
