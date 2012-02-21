@@ -98,6 +98,7 @@ class RequestListener
             }
 
             $this->seoPage->addMeta('property', 'og:type', 'article');
+            $this->seoPage->addHtmlAttributes('prefix','og: http://ogp.me/ns#');
 
         } catch (PageNotFoundException $e) {
             return;
