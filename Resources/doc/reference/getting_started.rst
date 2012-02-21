@@ -131,8 +131,8 @@ Add or Edit a Block
 
 Before adding a new block, please look to the default layout ``SonataPageBundle::layout.html.twig``, it contains different methods call.
 
-* ``manager.renderContainer('content', page)`` : render the container ``content`` of the current page
-* ``manager.renderContainer('content_bottom', 'global')`` : render the container ``content_bottom`` of the global page.
+* ``sonata_page_render_container('content', page)`` : render the container ``content`` of the current page
+* ``sonata_page_render_container('content_bottom', 'global')`` : render the container ``content_bottom`` of the global page.
 A global page does not belongs to the current url but it can be use on different pages.
 * ``page_include_stylesheets`` and ``page_include_javascripts`` : insert the stylesheets and javascripts used on the page by the related blocks.
 
