@@ -146,6 +146,14 @@ The block management is done from the front end : a block can be moved and edite
 * from the new interface you can add inner blocks and save the bock container.
 * refresh the front page, you should see the new blocks.
 
+To add a new container block, simply render the container with the desired name:
+
+``sonata_page_render_container('footer_left', 'global')``
+ 
+When the SonataPageBundle renders this container, it will automatically insert a `sonata.page.block.container` with the name `footer_left` if it
+does not exist yet. You will then be able to add new child blocks to it in the frontend. The second parameter is the name of the page.
+It can be either a string , or a `Page` instance. In case of a string, it will create a new  page with that name if it doesn't already exist.
+
 Publish a snapshot
 ------------------
 
