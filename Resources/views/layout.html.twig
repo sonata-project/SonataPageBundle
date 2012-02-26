@@ -35,10 +35,13 @@ file that was distributed with this source code.
             <div class="row">
                 {% if content is defined %}
                     {{ content|raw }}
-                {% elseif block('content')%}
-                    {{ block('content')|raw }}
-                {% else %}
-                    {{ sonata_page_render_container('content', page) }}
+                {% else %}                    
+                    {% set content = block('content') %}
+                    {% if content|length > 0 %}
+                        {{ content|raw }}
+                    {% else %}
+                        {{ sonata_page_render_container('content', page) }}
+                    {% endif %}
                 {% endif %}
             </div>
 
