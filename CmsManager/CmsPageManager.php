@@ -109,11 +109,7 @@ class CmsPageManager extends BaseCmsPageManager
     }
 
     /**
-     * @throws \Sonata\PageBundle\Exception\PageNotFoundException
-     * @param null|\Sonata\PageBundle\Model\SiteInterface $site
-     * @param $fieldName
-     * @param $value
-     * @return \Sonata\PageBundle\Model\PageInterface
+     * {@inheritdoc}
      */
     protected function getPageBy(SiteInterface $site = null, $fieldName, $value)
     {

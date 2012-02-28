@@ -1,0 +1,13 @@
+
+* Move cache and some block to the BlockBundle
+
+    Block names has been updated
+        UPDATE `page__bloc` SET `type` = 'sonata.block.service.text' WHERE `type` = 'sonata.page.block.text';
+        UPDATE `page__bloc` SET `type` = 'sonata.block.service.action' WHERE `type` = 'sonata.page.block.action';
+        UPDATE `page__bloc` SET `type` = 'sonata.block.service.rss' WHERE `type` = 'sonata.page.block.rss';
+
+        republish the snaphsot pages.
+
+* Sonata\PageBundle\Block\BaseBlockService does not exist anymore.
+
+    use Sonata\BlockBundle\Block\BaseBlockService;

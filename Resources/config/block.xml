@@ -4,27 +4,11 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="sonata.page.block.text.class">Sonata\PageBundle\Block\TextBlockService</parameter>
-        <parameter key="sonata.page.block.action.class">Sonata\PageBundle\Block\ActionBlockService</parameter>
         <parameter key="sonata.page.block.container.class">Sonata\PageBundle\Block\ContainerBlockService</parameter>
         <parameter key="sonata.page.block.children_pages.class">Sonata\PageBundle\Block\ChildrenPagesBlockService</parameter>
-        <parameter key="sonata.page.block.rss.class">Sonata\PageBundle\Block\RssBlockService</parameter>
     </parameters>
 
     <services>
-        <service id="sonata.page.block.text" class="%sonata.page.block.text.class%">
-            <tag name="sonata.block" />
-            <argument>sonata.page.block.text</argument>
-            <argument type="service" id="templating" />
-        </service>
-
-        <service id="sonata.page.block.action" class="%sonata.page.block.action.class%">
-            <tag name="sonata.block" />
-            <argument>sonata.page.block.action</argument>
-            <argument type="service" id="templating" />
-            <argument type="service" id="http_kernel" />
-        </service>
-
         <service id="sonata.page.block.container" class="%sonata.page.block.container.class%">
             <tag name="sonata.block" />
             <argument>sonata.page.block.container</argument>
@@ -37,12 +21,6 @@
             <argument type="service" id="templating" />
             <argument type="service" id="sonata.page.site.selector" />
             <argument type="service" id="sonata.page.cms_manager_selector" />
-        </service>
-
-        <service id="sonata.page.block.rss" class="%sonata.page.block.rss.class%">
-            <tag name="sonata.block" />
-            <argument>sonata.page.block.rss</argument>
-            <argument type="service" id="templating" />
         </service>
     </services>
 </container>

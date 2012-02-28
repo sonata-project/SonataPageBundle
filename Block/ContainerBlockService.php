@@ -12,11 +12,15 @@
 namespace Sonata\PageBundle\Block;
 
 use Symfony\Component\HttpFoundation\Response;
+
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Validator\ErrorElement;
+
 use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\BlockBundle\Block\BaseBlockService;
+
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Generator\Mustache;
-use Sonata\AdminBundle\Validator\ErrorElement;
 use Sonata\PageBundle\CmsManager\CmsManagerInterface;
 
 /**

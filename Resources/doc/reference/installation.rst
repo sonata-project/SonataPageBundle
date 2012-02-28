@@ -98,7 +98,7 @@ Then add these bundles in the config mapping definition:
 Configuration
 -------------
 
-To use the ``AdminBundle``, add the following lines to your application configuration
+To use the ``PageBundle``, add the following lines to your application configuration
 file.
 
 .. code-block:: yaml

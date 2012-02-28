@@ -14,7 +14,7 @@ file that was distributed with this source code.
     <div class="cms-block cms-block-element cms-fake-block">&nbsp;</div>
     {% for block in container.children %}
         <!-- block({{ block.id }}, {{ block.type }}) -->
-        {{ sonata_block_render(block).content | raw}}
+        {{ sonata_page_render_block(block) }}
         <!-- end block({{ block.id }}, {{ block.type }}) -->
     {% endfor %}
 </div>

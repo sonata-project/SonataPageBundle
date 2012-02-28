@@ -19,6 +19,7 @@ use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
 
 use Sonata\CacheBundle\Cache\CacheManagerInterface;
 
+use Sonata\PageBundle\Model\SnapshotPageProxy;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Util\RecursiveBlockIteratorIterator;
@@ -37,10 +38,6 @@ class PageExtension extends \Twig_Extension
      */
     private $cmsManagerSelector;
 
-    private $blockManager;
-
-    private $cacheManager;
-
     /**
      * @var \Sonata\PageBundle\Site\SiteSelectorInterface
      */
@@ -53,24 +50,16 @@ class PageExtension extends \Twig_Extension
 
     private $environment;
 
-    private $cacheBlocks;
-
     /**
      * @param \Symfony\Component\Routing\Router $router
      * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $cmsManagerSelector
      * @param \Sonata\PageBundle\Site\SiteSelectorInterface $siteSelector
-     * @param \Sonata\BlockBundle\Block\BlockServiceManagerInterface $blockManager
-     * @param \Sonata\CacheBundle\Cache\CacheManagerInterface $cacheManager
-     * @param array $cacheBlocks
      */
-    public function __construct(Router $router, CmsManagerSelectorInterface $cmsManagerSelector, SiteSelectorInterface $siteSelector, BlockServiceManagerInterface $blockManager, CacheManagerInterface $cacheManager, array $cacheBlocks)
+    public function __construct(Router $router, CmsManagerSelectorInterface $cmsManagerSelector, SiteSelectorInterface $siteSelector)
     {
         $this->router              = $router;
         $this->cmsManagerSelector  = $cmsManagerSelector;
         $this->siteSelector        = $siteSelector;
-        $this->blockManager        = $blockManager;
-        $this->cacheManager        = $cacheManager;
-        $this->cacheBlocks         = $cacheBlocks;
     }
 
     /**
@@ -256,49 +245,9 @@ class PageExtension extends \Twig_Extension
      */
     public function renderBlock(BlockInterface $block, $useCache = true)
     {
-        $cacheService = $cacheKeys = false;
-
-        if ($useCache && ($cacheService = $this->getCacheService($block))) {
-            $cacheKeys = $this->blockManager->getBlockService($block)->getCacheKeys($block);
-
-            if ($cacheService->has($cacheKeys)) {
-                $cacheElement = $cacheService->get($cacheKeys);
-
-                if (!$cacheElement->isExpired() && $cacheElement->getData() instanceof Response) {
-                    return $cacheElement->getData()->getContent();
-                }
-            }
-        }
-
-        $recorder = $this->cacheManager->getRecorder();
-
-        if ($recorder) {
-            $recorder->push();
-        }
-
-        $response = $this->blockManager->renderBlock($block);
-
-        $contextualKeys = $recorder ? $recorder->pop() : array();
-
-        if ($response->isCacheable() && $useCache && $cacheKeys && $cacheService) {
-            $cacheService->set($cacheKeys, $response, $block->getTtl(), $contextualKeys);
-        }
-
-        return $response->getContent();
-    }
-
-    /**
-     * @param \Sonata\BlockBundle\Model\BlockInterface $block
-     * @return \Sonata\CacheBundle\Cache\CacheInterface;
-     */
-    protected function getCacheService(BlockInterface $block)
-    {
-        $type = isset($this->cacheBlocks[$block->getType()]) ? $this->cacheBlocks[$block->getType()] : false;
-
-        if (!$type) {
-            return false;
-        }
-
-        return $this->cacheManager->getCacheService($type);
+        return $this->environment->getExtension('sonata_block')->renderBlock($block, $useCache, array(
+            'manager' => $block->getPage() instanceof SnapshotPageProxy ? 'snapshot' : 'page',
+            'page_id' => $block->getPage()->getId(),
+        ));
     }
 }

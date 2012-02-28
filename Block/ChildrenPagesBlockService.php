@@ -18,6 +18,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Validator\ErrorElement;
 
 use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\BlockBundle\Block\BaseBlockService;
 
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerInterface;
@@ -35,7 +36,12 @@ class ChildrenPagesBlockService extends BaseBlockService
 
     protected $cmsManagerSelector;
 
-
+    /**
+     * @param $name
+     * @param \Symfony\Component\Templating\EngineInterface $templating
+     * @param \Sonata\PageBundle\Site\SiteSelectorInterface $siteSelector
+     * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $cmsManagerSelector
+     */
     public function __construct($name, EngineInterface $templating, SiteSelectorInterface $siteSelector, CmsManagerSelectorInterface $cmsManagerSelector)
     {
         parent::__construct($name, $templating);

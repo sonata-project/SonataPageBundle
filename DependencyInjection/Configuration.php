@@ -97,16 +97,6 @@ class Configuration implements ConfigurationInterface
                 ->end()
             ->end()
 
-            ->arrayNode('services')
-                ->useAttributeAsKey('id')
-                ->addDefaultsIfNotSet()
-                ->prototype('array')
-                    ->children()
-                        ->scalarNode('cache')->defaultValue('sonata.cache.noop')->end()
-                    ->end()
-                ->end()
-            ->end()
-
             ->arrayNode('caches')
                 ->children()
                     ->arrayNode('esi')
@@ -118,6 +108,7 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
             ->end()
+
             ->arrayNode('catch_exceptions')
                 ->useAttributeAsKey('id')
                 ->prototype('variable')->isRequired()->end()
