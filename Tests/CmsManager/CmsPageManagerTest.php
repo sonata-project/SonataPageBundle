@@ -15,7 +15,7 @@ namespace Sonata\PageBundle\Tests\Page;
 use Sonata\PageBundle\CmsManager\CmsPageManager;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Sonata\PageBundle\Tests\Model\Block;
+use Sonata\BlockBundle\Model\Block;
 use Sonata\PageBundle\Tests\Model\Page;
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
 use Sonata\CacheBundle\Cache\CacheManagerInterface;
