@@ -21,7 +21,6 @@ use Sonata\BlockBundle\Block\BaseBlockService;
 
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Generator\Mustache;
-use Sonata\PageBundle\CmsManager\CmsManagerInterface;
 
 /**
  *
@@ -66,9 +65,9 @@ class ContainerBlockService extends BaseBlockService
         $formMapper->add('settings', 'sonata_type_immutable_array', array(
             'keys' => array(
                 array('layout', 'textarea', array()),
-                array('orientation', 'choice', array(
-                    'choices' => array('block' => 'Block', 'left' => 'Left')
-                )),
+//                array('orientation', 'choice', array(
+//                    'choices' => array('block' => 'Block', 'left' => 'Left')
+//                )),
             )
         ));
 

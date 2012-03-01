@@ -24,6 +24,10 @@ class BlockManager implements BlockManagerInterface
 
     protected $class;
 
+    /**
+     * @param \Doctrine\ORM\EntityManager $entityManager
+     * @param $class
+     */
     public function __construct(EntityManager $entityManager, $class)
     {
         $this->entityManager = $entityManager;

@@ -16,6 +16,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 abstract class BaseBlock extends Block
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
     public function __construct()
     {
         $this->children = new ArrayCollection;

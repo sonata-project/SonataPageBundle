@@ -11,7 +11,7 @@
 namespace Sonata\PageBundle\Model;
 
 use Sonata\BlockBundle\Model\BlockInterface;
-use Sonata\BlockBundle\Model\Block as BaseBlock;
+use Sonata\BlockBundle\Model\BaseBlock;
 
 use Sonata\PageBundle\Model\PageInterface;
 

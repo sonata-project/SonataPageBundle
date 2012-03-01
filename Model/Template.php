@@ -17,11 +17,9 @@ class Template
 
     protected $name;
 
-    protected $enabled = true;
-
     /**
-     * @param $name
-     * @param $path
+     * @param string $name
+     * @param string $path
      */
     public function __construct($name, $path)
     {
@@ -29,16 +27,17 @@ class Template
         $this->path = $path;
     }
 
-    public function getEnabled()
-    {
-        return $this->enabled;
-    }
-
+    /**
+     * @return
+     */
     public function getName()
     {
         return $this->name;
     }
 
+    /**
+     * @return
+     */
     public function getPath()
     {
         return $this->path;
