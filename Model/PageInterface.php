@@ -408,8 +408,12 @@ interface PageInterface
     function getEdited();
 
     /**
-     * @abstract
      * @return void
      */
     function setEdited($edited);
+
+    /**
+     * @return void
+     */
+    function isError();
 }

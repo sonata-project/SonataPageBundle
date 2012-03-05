@@ -802,4 +802,12 @@ abstract class Page implements PageInterface
     {
         return $this->edited;
     }
+
+    /**
+     * @return bool
+     */
+    public function isError()
+    {
+        return substr($this->getRouteName(), 0, 21) == '_page_internal_error_';
+    }
 }

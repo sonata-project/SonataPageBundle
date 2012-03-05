@@ -76,6 +76,10 @@ class PageManager implements PageManagerInterface
      */
     public function fixUrl(PageInterface $page)
     {
+        if ($page->isError()) {
+            return;
+        }
+
         // hybrid page cannot be altered
         if (!$page->isHybrid()) {
             if (!$page->getSlug()) {

@@ -106,7 +106,7 @@ class PageAdmin extends Admin
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
-        if (!$this->getSubject() || !$this->getSubject()->isInternal()) {
+        if (!$this->getSubject() || (!$this->getSubject()->isInternal() && !$this->getSubject()->isError())) {
             $formMapper
                 ->with($this->trans('form_page.group_main_label'))
                     ->add('url', 'text', array('attr' => array('readonly' => 'readonly')))
@@ -205,6 +205,10 @@ class PageAdmin extends Admin
             } catch (PageNotFoundException $e) {
                 $page = false;
             }
+        }
+
+        if ($object->isError()) {
+            return;
         }
 
         if ($page && $page->getId() != $object->getId()) {

@@ -683,4 +683,12 @@ class SnapshotPageProxy implements PageInterface
     {
         $this->getPage()->setEdited($edited);
     }
+
+    /**
+     * @return void
+     */
+    public function isError()
+    {
+        return $this->getPage()->isError();
+    }
 }
