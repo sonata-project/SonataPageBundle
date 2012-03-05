@@ -137,6 +137,7 @@ class PageAdmin extends Admin
                 ->with($this->trans('form_page.group_main_label'))
                     ->add('target', 'sonata_page_selector', array(
                         'page'          => $this->getSubject() ?: null,
+                        'site'          => $this->getSubject() ? $this->getSubject()->getSite() : null,
                         'model_manager' => $this->getModelManager(),
                         'class'         => $this->getClass(),
                         'filter_choice' => array('request_method' => 'all'),
