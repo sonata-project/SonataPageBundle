@@ -1,0 +1,32 @@
+{
+    "name": "sonata-project/page-bundle",
+    "type": "symfony-bundle",
+    "description": "Symfony SonataPageBundle",
+    "keywords": ["page", "sonata", "cms"],
+    "homepage": "http://sonata-project.org/bundles/page",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Thomas Rabaix",
+            "email": "thomas.rabaix@sonata-project.org"
+        },
+        {
+            "name": "Sonata Community",
+            "homepage": "https://github.com/sonata-project/SonataPageBundle/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2",
+        "symfony/framework-bundle": "2.*",
+        "sonata-project/admin-bundle": "master-dev",
+        "sonata-project/seo-bundle": "master-dev",
+        "friendsofsymfony/user-bundle": "1.*"
+    },
+    "suggest": {
+        "sonata-project/doctrine-orm-admin-bundle": "*"
+    },
+    "autoload": {
+        "psr-0": { "Sonata\\PageBundle": "" }
+    },
+    "target-dir": "Sonata/PageBundle"
+}
