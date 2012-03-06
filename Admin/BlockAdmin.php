@@ -77,7 +77,7 @@ class BlockAdmin extends Admin
     {
         $block = $this->getSubject();
 
-        if ($block) {
+        if ($block && ($block->getType() == 'sonata.page.block.container' || !$this->hasParentFieldDescription())) {
             $service = $this->blockManager->get($block);
 
             if ($block->getId() > 0) {
