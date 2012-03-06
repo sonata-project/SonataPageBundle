@@ -90,7 +90,7 @@ class ExceptionListener
         $cms = $this->cmsManagerSelector->retrieve();
         $site = $this->siteSelector->retrieve();
 
-        return $cms->getPageByName($site, $this->httpErrorCodes[$statusCode]);
+        return $cms->getPageByRouteName($site, $this->httpErrorCodes[$statusCode]);
     }
 
     /**
