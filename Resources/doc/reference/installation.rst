@@ -118,12 +118,6 @@ file.
         ignore_uri_patterns:
             - /admin(.*)/   # ignore admin route, ie route containing 'admin'
 
-        services:
-            sonata.page.block.text:
-            sonata.page.block.action:
-            sonata.page.block.container:
-            sonata.page.block.children_page:
-
         page_defaults:
             homepage: {decorate: false} # disable decoration for homepage, key - is a page route
 

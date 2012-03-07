@@ -1,5 +1,16 @@
+CHANGELOG
+=========
 
-* Move cache and some block to the BlockBundle
+A [BC BREAK] means the update will break the project for many reasons :
+
+* new mandatory configuration
+* new dependencies
+* class refactoring
+
+### 2012-02-28
+
+
+* [BC BREAK] Move cache and some block to the BlockBundle
 
     Block names has been updated
         UPDATE `page__bloc` SET `type` = 'sonata.block.service.text' WHERE `type` = 'sonata.page.block.text';
@@ -8,6 +19,11 @@
 
         republish the snaphsot pages.
 
-* Sonata\PageBundle\Block\BaseBlockService does not exist anymore.
+* [BC BREAK] Sonata\PageBundle\Block\BaseBlockService does not exist anymore.
 
     use Sonata\BlockBundle\Block\BaseBlockService;
+
+
+### 2012-02-18
+
+* [BC BREAK] Integrates the SeoBundle

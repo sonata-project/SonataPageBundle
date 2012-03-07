@@ -63,8 +63,6 @@ a ``Response`` object.
 By default the ``SonataPageBundle`` is shipped with core block services:
 
     - sonata.page.block.container      : Block container
-    - sonata.page.block.action         : Render a specific action
-    - sonata.page.block.text           : Render a text block
     - sonata.page.block.children_pages : Render a navigation panel
 
 A Snapshot
@@ -78,15 +76,7 @@ A Cache
 -------
 
 There is a cache mechanism integrated into the bundle. Each block service is linked
-to a cache service. The bundle provides different kind of cache handler :
-
-    - sonata.page.cache.noop        : default, no cache
-    - sonata.page.cache.esi         : Edge Side Include cache
-    - sonata.page.cache.mongo       : MongoDB cache backend
-    - sonata.page.cache.memcached   : Memcached cache backend
-    - sonata.page.cache.apc         : Apc cache backend
-    - sonata.page.cache.js_sync     : Javascript synchronized load
-    - sonata.page.cache.js_async    : Javascript asynchronized load
+to a cache service.
 
 Depending on the block logic some cache backends are more suitable than others:
 
@@ -97,5 +87,5 @@ Depending on the block logic some cache backends are more suitable than others:
 Of course if you don't have a reverse proxy server you can use other caching solution
 such as memcached, mongo or apc.
 
-The ``sonata.page.cache.noop`` cache can be use if you don't want caching!
+The ``sonata.cache.noop`` cache can be use if you don't want caching!
 
