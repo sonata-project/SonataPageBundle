@@ -21,9 +21,9 @@ Page commands
 
 - Update core routes, from routing files to page manager::
 
-    php app/console sonata:page:update-core-routes
+    php app/console sonata:page:update-core-routes --site=all
 
 - Create snapshots from defined pages::
 
-    php app/console sonata:page:create-snapshots
+    php app/console sonata:page:create-snapshots --site=all
 
