@@ -32,34 +32,28 @@ class Configuration implements ConfigurationInterface
             ->scalarNode('multisite')->isRequired()->end()
 
             ->arrayNode('ignore_route_patterns')
-                ->addDefaultsIfNotSet()
-                ->prototype('scalar')
-                    ->defaultValue(array(
-                        '/(.*)admin(.*)/',   # ignore admin route, ie route containing 'admin'
-                        '/^_(.*)/',          # ignore symfony routes
-                    ))
-                ->end()
+                ->defaultValue(array(
+                    '/(.*)admin(.*)/',   # ignore admin route, ie route containing 'admin'
+                    '/^_(.*)/',          # ignore symfony routes
+                ))
+                ->prototype('scalar')->end()
             ->end()
 
             ->arrayNode('ignore_routes')
-                ->addDefaultsIfNotSet()
-                ->prototype('scalar')
-                    ->defaultValue(array(
-                        'sonata_page_esi_cache',
-                        'sonata_page_js_sync_cache',
-                        'sonata_page_js_async_cache',
-                        'sonata_page_apc_cache',
-                    ))
-                ->end()
+                ->defaultValue(array(
+                    'sonata_page_esi_cache',
+                    'sonata_page_js_sync_cache',
+                    'sonata_page_js_async_cache',
+                    'sonata_page_apc_cache',
+                ))
+                ->prototype('scalar')->end()
             ->end()
 
             ->arrayNode('ignore_uri_patterns')
-                ->addDefaultsIfNotSet()
-                ->prototype('scalar')
-                    ->defaultValue(array(
-                        '/admin(.*)/',   # ignore admin route, ie route containing 'admin'
-                    ))
-                ->end()
+                ->defaultValue(array(
+                    '/admin(.*)/',   # ignore admin route, ie route containing 'admin'
+                ))
+                ->prototype('scalar')->end()
             ->end()
 
 
