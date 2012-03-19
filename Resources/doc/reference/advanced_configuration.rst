@@ -11,8 +11,8 @@ Full configuration options:
     sonata_page:
         multisite: host # or host_with_path # the last one requires an altered app*.php file
         ignore_route_patterns:
-            - /(.*)admin(.*)/   # ignore admin route, ie route containing 'admin'
-            - /^_(.*)/          # ignore symfony routes
+            - ^/(.*)admin(.*)   # ignore admin route, ie route containing 'admin'
+            - ^/_(.*)          # ignore symfony routes
 
         ignore_routes:
             - sonata_page_esi_cache
@@ -21,7 +21,7 @@ Full configuration options:
             - sonata_page_apc_cache
 
         ignore_uri_patterns:
-            - /admin(.*)/   # ignore admin route, ie route containing 'admin'
+            - admin(.*)   # ignore admin route, ie route containing 'admin'
 
         cache_invalidation:
             service:  sonata.page.cache.invalidation.simple

@@ -9,7 +9,6 @@
  * file that was distributed with this source code.
  */
 
-
 namespace Sonata\PageBundle\Listener;
 
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
@@ -67,13 +66,11 @@ class RequestListener
             throw new InternalErrorException('No CMS Manager available');
         }
 
-        $routeName = $event->getRequest()->get('_route');
-
-        if ($routeName == 'page_slug') { // true cms page
+        if ($event->getRequest()->get('_route') == 'page_slug') { // true cms page
             return;
         }
 
-        if (!$this->decoratorStrategy->isRouteNameDecorable($routeName) || !$this->decoratorStrategy->isRouteUriDecorable($event->getRequest()->getRequestUri())) {
+        if (!$this->decoratorStrategy->isRequestDecorable($event->getRequest())) {
             return;
         }
 
@@ -83,8 +80,12 @@ class RequestListener
             throw new InternalErrorException('No site available for the current request');
         }
 
+        if ($site->getLocale() && $site->getLocale() != $event->getRequest()->get('_locale')) {
+            throw new PageNotFoundException(sprintf('Invalid locale - site.locale=%s - request._locale=%s', $site->getLocale(), $event->getRequest()->get('_locale')));
+        }
+
         try {
-            $page = $cms->getPageByRouteName($site, $routeName);
+            $page = $cms->getPageByRouteName($site, $event->getRequest()->get('_route'));
             $cms->setCurrentPage($page);
 
             $this->seoPage->setTitle($page->getName());

@@ -59,6 +59,14 @@ class DecoratorStrategy implements DecoratorStrategyInterface
             return false;
         }
 
+        return $this->isRequestDecorable($request);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isRequestDecorable(Request $request)
+    {
         return $this->isRouteNameDecorable($request->get('_route')) && $this->isRouteUriDecorable($request->getRequestUri());
     }
 
@@ -78,7 +86,7 @@ class DecoratorStrategy implements DecoratorStrategyInterface
         }
 
         foreach ($this->ignoreRoutePatterns as $routePattern) {
-            if (preg_match($routePattern, $routeName)) {
+            if (preg_match(sprintf('#%s#', $routePattern), $routeName)) {
                 return false;
             }
         }
@@ -92,7 +100,7 @@ class DecoratorStrategy implements DecoratorStrategyInterface
     public function isRouteUriDecorable($uri)
     {
         foreach ($this->ignoreUriPatterns as $uriPattern) {
-            if (preg_match($uriPattern, $uri)) {
+            if (preg_match(sprintf('#%s#', $uriPattern), $uri)) {
                 return false;
             }
         }

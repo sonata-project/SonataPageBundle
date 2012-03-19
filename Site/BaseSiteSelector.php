@@ -16,10 +16,13 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Model\SiteInterface;
+use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 
 abstract class BaseSiteSelector implements SiteSelectorInterface
 {
     protected $siteManager;
+
+    protected $decoratorStrategy;
 
     protected $site;
 
@@ -27,10 +30,12 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
 
     /**
      * @param \Sonata\PageBundle\Model\SiteManagerInterface $siteManager
+     * @param \Sonata\PageBundle\CmsManager\DecoratorStrategyInterface $decoratorStrategy
      */
-    public function __construct(SiteManagerInterface $siteManager)
+    public function __construct(SiteManagerInterface $siteManager, DecoratorStrategyInterface $decoratorStrategy)
     {
         $this->siteManager = $siteManager;
+        $this->decoratorStrategy = $decoratorStrategy;
     }
 
     /**
@@ -100,6 +105,24 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
     {
 
     }
+
+    final public function onKernelRequest(GetResponseEvent $event)
+    {
+        if (!$this->decoratorStrategy->isRouteUriDecorable($event->getRequest()->getPathInfo())) {
+            return;
+        }
+
+        $this->setRequest($event->getRequest());
+
+        $this->handleKernelRequest($event);
+    }
+
+    /**
+     * @abstract
+     * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
+     * @return void
+     */
+    abstract protected function handleKernelRequest(GetResponseEvent $event);
 
     /**
      * @return \Symfony\Component\Routing\RequestContext

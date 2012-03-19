@@ -16,7 +16,7 @@ First, you need to create a dedicated site, let's create a localhost site::
 
 Or::
 
-    php app/console  sonata:page:create-site --enabled=true --name=localhost --host=localhost --relativePath=/ --enabledFrom=now --enabledTo="+10 years" --default=true
+    php app/console  sonata:page:create-site --enabled=true --name=localhost --locale=- --host=localhost --relativePath=/ --enabledFrom=now --enabledTo="+10 years" --default=true
 
 
 The output might look like this::
@@ -25,6 +25,7 @@ The output might look like this::
     Please define a value for Site.host : localhost
     Please define a value for Site.relativePath : /
     Please define a value for Site.enabled : true
+    Please define a value for Site.locale : -
     Please define a value for Site.enabledFrom : now
     Please define a value for Site.enabledTo : +10 years
     Please define a value for Site.default : true
@@ -149,7 +150,7 @@ The block management is done from the front end : a block can be moved and edite
 To add a new container block, simply render the container with the desired name:
 
 ``sonata_page_render_container('footer_left', 'global')``
- 
+
 When the SonataPageBundle renders this container, it will automatically insert a `sonata.page.block.container` with the name `footer_left` if it
 does not exist yet. You will then be able to add new child blocks to it in the frontend. The second parameter is the name of the page.
 It can be either a string , or a `Page` instance. In case of a string, it will create a new  page with that name if it doesn't already exist.

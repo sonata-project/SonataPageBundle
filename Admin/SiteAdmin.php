@@ -40,6 +40,7 @@ class SiteAdmin extends Admin
 //            ->add('isDefault')
             ->add('enabled')
             ->add('host')
+            ->add('locale')
             ->add('relativePath')
             ->add('enabledFrom')
             ->add('enabledTo')
@@ -54,10 +55,11 @@ class SiteAdmin extends Admin
     {
         $listMapper
             ->addIdentifier('name')
-//            ->add('isDefault')
+            ->add('isDefault')
             ->add('enabled')
             ->add('host')
             ->add('relativePath')
+            ->add('locale')
             ->add('enabledFrom')
             ->add('enabledTo')
             ->add('create_snapshots', 'string', array('template' => 'SonataPageBundle:SiteAdmin:list_create_snapshots.html.twig'))
@@ -84,8 +86,11 @@ class SiteAdmin extends Admin
         $formMapper
             ->add('name')
             ->add('isDefault', null, array('required' => false))
-//            ->add('enabled', null, array('required' => false))
+            ->add('enabled', null, array('required' => false))
             ->add('host')
+            ->add('locale', null, array(
+                'required' => false
+            ))
             ->add('relativePath', null, array('required' => false))
             ->add('enabledFrom')
             ->add('enabledTo')
