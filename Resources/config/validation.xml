@@ -10,6 +10,7 @@
                <option name="groups" >
                     <value>action_route</value>
                     <value>cms_route</value>
+                    <value>Default</value>
                </option>
            </constraint>
         </property>
