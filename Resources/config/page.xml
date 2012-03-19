@@ -24,6 +24,7 @@
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequestRedirect" priority="0"/>
 
             <argument type="service" id="sonata.page.manager.site" />
+            <argument type="service" id="sonata.page.decorator_strategy" />
         </service>
 
         <service id="sonata.page.site.selector.host_with_path" class="%sonata.page.site.selector.host_with_path.class%">
@@ -31,6 +32,7 @@
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequestRedirect" priority="0"/>
 
             <argument type="service" id="sonata.page.manager.site" />
+            <argument type="service" id="sonata.page.decorator_strategy" />
         </service>
 
         <service id="sonata.page.response_listener" class="%sonata.page.response_listener.class%" scope="request">

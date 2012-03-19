@@ -33,6 +33,7 @@ class CreateSiteCommand extends BaseCommand
         $this->addOption('enabledFrom', null, InputOption::VALUE_OPTIONAL, 'Site.enabledFrom', null);
         $this->addOption('enabledTo', null, InputOption::VALUE_OPTIONAL, 'Site.enabledTo', null);
         $this->addOption('default', null, InputOption::VALUE_OPTIONAL, 'Site.default', null);
+        $this->addOption('locale', null, InputOption::VALUE_OPTIONAL, 'Site.locale', null);
 
         $this->addOption('base-command', null, InputOption::VALUE_OPTIONAL, 'Site id', 'php app/console');
 
@@ -58,6 +59,7 @@ EOT
             'enabledFrom'=> null,
             'enabledTo'=> null,
             'default'=> null,
+            'locale'=> null,
         );
 
         foreach($values as $name => $value) {
@@ -79,6 +81,7 @@ EOT
         $site->setEnabledFrom(new \DateTime($values['enabledFrom']));
         $site->setEnabledTo(new \DateTime($values['enabledTo']));
         $site->setIsDefault($values['default']);
+        $site->setLocale($values['locale'] == '-' ? null : $values['locale']);
         $site->setEnabled(in_array($values['enabled'], array('true', 1, '1')));
 
         $output->writeln(<<<INFO

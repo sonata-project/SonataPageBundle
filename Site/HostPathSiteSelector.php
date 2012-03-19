@@ -13,6 +13,7 @@ namespace Sonata\PageBundle\Site;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Model\SiteInterface;
@@ -25,15 +26,14 @@ class HostPathSiteSelector extends BaseSiteSelector
      * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
      * @return void
      */
-    public function onKernelRequest(GetResponseEvent $event)
+    public function handleKernelRequest(GetResponseEvent $event)
     {
         if (!$event->getRequest() instanceof SiteRequestInterface) {
             throw new \RuntimeException('You must change the main Request object in the front controller (app.php) in order to use the `host_with_path` strategy');
         }
 
-        $this->setRequest($event->getRequest());
-
         $now = new \DateTime;
+        $defaultSite = false;
         foreach ($this->getSites() as $site) {
             if ($site->getEnabledFrom()->format('U') > $now->format('U')) {
                 continue;
@@ -44,6 +44,10 @@ class HostPathSiteSelector extends BaseSiteSelector
             }
 
             $results = array();
+
+            if (!$this->site && $site->getIsDefault()) {
+                $defaultSite = $site;
+            }
 
             if (!preg_match(sprintf('@^(%s)(.*|)@', $site->getRelativePath()), $event->getRequest()->getPathInfo(), $results)) {
                 continue;
@@ -56,6 +60,13 @@ class HostPathSiteSelector extends BaseSiteSelector
             if ($this->site->getHost() != 'localhost') {
                 break;
             }
+        }
+
+        // no valid site, but on there is a default site for the current request
+        if (!$this->site && $defaultSite) {
+            $event->setResponse(new RedirectResponse($defaultSite->getUrl()));
+        } else if ($this->site && $this->site->getLocale()) {
+            $event->getRequest()->attributes->set('_locale', $this->site->getLocale());
         }
     }
 

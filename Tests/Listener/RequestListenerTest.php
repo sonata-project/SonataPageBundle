@@ -29,9 +29,7 @@ class RequestListenerTest extends \PHPUnit_Framework_TestCase
         $seoPage = $this->getMock('Sonata\SeoBundle\Seo\SeoPageInterface');
 
         $decoratorStrategy = $this->getMock('Sonata\PageBundle\CmsManager\DecoratorStrategyInterface');
-        $decoratorStrategy->expects($this->once())->method('isRouteNameDecorable')->will($this->returnValue(true));
-        $decoratorStrategy->expects($this->once())->method('isRouteUriDecorable')->will($this->returnValue(true));
-
+        $decoratorStrategy->expects($this->once())->method('isRequestDecorable')->will($this->returnValue(true));
 
         $cmsManager = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerInterface');
         $cmsManager->expects($this->once())->method('getPageByRouteName')->will($this->returnValue($page));
@@ -63,8 +61,7 @@ class RequestListenerTest extends \PHPUnit_Framework_TestCase
         $seoPage = $this->getMock('Sonata\SeoBundle\Seo\SeoPageInterface');
 
         $decoratorStrategy = $this->getMock('Sonata\PageBundle\CmsManager\DecoratorStrategyInterface');
-        $decoratorStrategy->expects($this->once())->method('isRouteNameDecorable')->will($this->returnValue(true));
-        $decoratorStrategy->expects($this->once())->method('isRouteUriDecorable')->will($this->returnValue(true));
+        $decoratorStrategy->expects($this->once())->method('isRequestDecorable')->will($this->returnValue(true));
 
         $cmsSelector = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
         $cmsSelector->expects($this->once())->method('retrieve')->will($this->returnValue($cmsManager));

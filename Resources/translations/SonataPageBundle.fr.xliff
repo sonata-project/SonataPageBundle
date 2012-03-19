@@ -84,7 +84,7 @@
       </trans-unit>
       <trans-unit id="20" resname="btn_save_position">
         <source>btn_save_position</source>
-        <target>btn_save_position</target>
+        <target>Sauvegarder</target>
       </trans-unit>
       <trans-unit id="21" resname="button_create_snapshot">
         <source>button_create_snapshot</source>
@@ -416,11 +416,11 @@
       </trans-unit>
       <trans-unit id="103" resname="list.label_enabled_to">
           <source>list.label_enabled_to</source>
-          <target>Activé à partir</target>
+          <target>Activé jusqu'à</target>
       </trans-unit>
       <trans-unit id="104" resname="list.label_enabled_from">
           <source>list.label_enabled_from</source>
-          <target>Activé jusqu'à</target>
+          <target>Activé à partir</target>
       </trans-unit>
       <trans-unit id="105" resname="form.label_is_default">
           <source>form.label_is_default</source>
@@ -436,11 +436,11 @@
       </trans-unit>
       <trans-unit id="108" resname="form.label_enabled_to">
           <source>form.label_enabled_to</source>
-          <target>Activé à partir</target>
+          <target>Activé jusqu'au</target>
       </trans-unit>
       <trans-unit id="109" resname="form.label_enabled_from">
           <source>form.label_enabled_from</source>
-          <target>Activé jusqu'au</target>
+          <target>Activé à partir</target>
       </trans-unit>
       <trans-unit id="110" resname="breadcrumb.link_site_list">
           <source>breadcrumb.link_site_list</source>
@@ -513,6 +513,18 @@
       <trans-unit id="127" resname="show.label_enabled_to">
           <source>show.label_enabled_to</source>
           <target>Activé jusqu'au</target>
+      </trans-unit>
+      <trans-unit id="128" resname="list.label_locale">
+          <source>list.label_locale</source>
+          <target>Langue</target>
+      </trans-unit>
+      <trans-unit id="129" resname="show.label_locale">
+          <source>show.label_locale</source>
+          <target>Langue</target>
+      </trans-unit>
+      <trans-unit id="130" resname="form.label_locale">
+          <source>form.label_locale</source>
+          <target>Langue</target>
       </trans-unit>
     </body>
   </file>

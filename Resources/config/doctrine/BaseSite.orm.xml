@@ -11,6 +11,7 @@
         <field name="isDefault"         type="boolean"      column="is_default"     length="255"/>
         <field name="createdAt"         type="datetime"     column="created_at" />
         <field name="updatedAt"         type="datetime"     column="updated_at" />
+        <field name="locale"            type="string"       column="locale"         length="6" nullable="true"/>
 
         <lifecycle-callbacks>
             <lifecycle-callback type="prePersist" method="prePersist" />

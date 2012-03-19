@@ -23,10 +23,8 @@ class HostSiteSelector extends BaseSiteSelector
      * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
      * @return void
      */
-    public function onKernelRequest(GetResponseEvent $event)
+    public function handleKernelRequest(GetResponseEvent $event)
     {
-        $this->setRequest($event->getRequest());
-
         $now = new \DateTime;
         foreach ($this->getSites() as $site) {
             if ($site->getEnabledFrom()->format('U') > $now->format('U')) {
@@ -42,6 +40,10 @@ class HostSiteSelector extends BaseSiteSelector
             if ($this->site->getHost() != 'localhost') {
                 break;
             }
+        }
+
+        if ($this->site && $this->site->getLocale()) {
+            $event->getRequest()->attributes->get('_locale', $this->site->getLocale());
         }
     }
 }

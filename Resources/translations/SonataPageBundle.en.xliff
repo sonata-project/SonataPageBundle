@@ -514,6 +514,18 @@
           <source>show.label_enabled_to</source>
           <target>Enabled To</target>
       </trans-unit>
+      <trans-unit id="128" resname="list.label_locale">
+          <source>list.label_locale</source>
+          <target>Locale</target>
+      </trans-unit>
+      <trans-unit id="129" resname="show.label_locale">
+          <source>show.label_locale</source>
+          <target>Locale</target>
+      </trans-unit>
+      <trans-unit id="130" resname="form.label_locale">
+          <source>form.label_locale</source>
+          <target>Locale</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

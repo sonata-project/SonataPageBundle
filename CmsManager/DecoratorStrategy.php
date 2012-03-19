@@ -59,6 +59,14 @@ class DecoratorStrategy implements DecoratorStrategyInterface
             return false;
         }
 
+        return $this->isRequestDecorable($request);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isRequestDecorable(Request $request)
+    {
         return $this->isRouteNameDecorable($request->get('_route')) && $this->isRouteUriDecorable($request->getRequestUri());
     }
 

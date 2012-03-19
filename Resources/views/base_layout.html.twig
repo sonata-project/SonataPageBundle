@@ -77,11 +77,13 @@ file that was distributed with this source code.
                                     {% endif %}
 
                                     {% if app.security.isGranted('ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT') %}
-                                        {% if false and page_admin.sites|length > 1 %}
+                                        {% set sites = sonata_page.siteavailables %}
+
+                                        {% if sites|length > 1 %}
                                             <li class="dropdown">
                                                 <a href="#" class="dropdown-toggle">{{ site.name }}</a>
                                                 <ul class="dropdown-menu">
-                                                    {% for site in page_admin.sites %}
+                                                    {% for site in sites %}
                                                         <li><a href="{{ site.url }}">{{ site.name }}</a></li>
                                                     {% endfor %}
                                                 </ul>
