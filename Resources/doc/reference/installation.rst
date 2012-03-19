@@ -106,8 +106,8 @@ file.
     # app/config/config.yml
     sonata_page:
         ignore_route_patterns:
-            - /(.*)admin(.*)/   # ignore admin route, ie route containing 'admin'
-            - /^_(.*)/          # ignore symfony routes
+            - ^(.*)admin(.*)   # ignore admin route, ie route containing 'admin'
+            - ^_(.*)          # ignore symfony routes
 
         ignore_routes:
             - sonata_page_esi_cache
@@ -116,7 +116,7 @@ file.
             - sonata_page_apc_cache
 
         ignore_uri_patterns:
-            - /admin(.*)/   # ignore admin route, ie route containing 'admin'
+            - ^/admin(.*)   # ignore admin route, ie route containing 'admin'
 
         page_defaults:
             homepage: {decorate: false} # disable decoration for homepage, key - is a page route

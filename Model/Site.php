@@ -35,6 +35,8 @@ abstract class Site implements SiteInterface
 
     protected $formats = array();
 
+    protected $locale;
+
     public function setId($id)
     {
         $this->id = $id;
@@ -195,5 +197,15 @@ abstract class Site implements SiteInterface
     public function getEnabledTo()
     {
         return $this->enabledTo;
+    }
+
+    public function setLocale($locale)
+    {
+        $this->locale = $locale;
+    }
+
+    public function getLocale()
+    {
+        return $this->locale;
     }
 }

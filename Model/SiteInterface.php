@@ -38,6 +38,17 @@ interface SiteInterface
     function getHost();
 
     /**
+     * @return void
+     */
+    function getLocale();
+
+    /**
+     * @param $locale
+     * @return void
+     */
+    function setLocale($locale);
+
+    /**
      * @return \DateTime
      */
     function getEnabledFrom();

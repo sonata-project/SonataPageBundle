@@ -63,21 +63,21 @@ class DecoratorStrategyTest extends \PHPUnit_Framework_TestCase
 
     public function testIgnoreRouteNamePatternsMatch()
     {
-        $strategy = new DecoratorStrategy(array(), array('/test[0-2]{1}/'), array());
+        $strategy = new DecoratorStrategy(array(), array('test[0-2]{1}'), array());
 
         $this->assertFalse($strategy->isRouteNameDecorable('test2'));
     }
 
     public function testIgnoreUriPatternsMatch()
     {
-        $strategy = new DecoratorStrategy(array(), array(), array('/(.*)/'));
+        $strategy = new DecoratorStrategy(array(), array(), array('(.*)'));
 
         $this->assertFalse($strategy->isRouteUriDecorable('ok'));
     }
 
     public function testIgnoreUriPatternsNotMatch()
     {
-        $strategy = new DecoratorStrategy(array(), array(), array('/ok/'));
+        $strategy = new DecoratorStrategy(array(), array(), array('ok'));
 
         $this->assertFalse($strategy->isRouteUriDecorable('ok'));
     }

@@ -25,6 +25,12 @@ interface DecoratorStrategyInterface
     function isDecorable(Request $request, $requestType, Response $response);
 
     /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return void
+     */
+    function isRequestDecorable(Request $request);
+
+    /**
      * @param $routeName
      * @return boolean
      */
