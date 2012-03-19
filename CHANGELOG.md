@@ -7,8 +7,11 @@ A [BC BREAK] means the update will break the project for many reasons :
 * new dependencies
 * class refactoring
 
-### 2012-02-28
+### 2012-03-19
 
+* [BC BREAK] DecoratorStrategy : Update regular expressions, regular expression separators are not fixed in the class.
+
+### 2012-02-28
 
 * [BC BREAK] Move cache and some block to the BlockBundle
 
