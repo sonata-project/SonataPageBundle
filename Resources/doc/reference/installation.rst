@@ -105,6 +105,7 @@ file.
 
     # app/config/config.yml
     sonata_page:
+        multisite: host
         ignore_route_patterns:
             - /(.*)admin(.*)/   # ignore admin route, ie route containing 'admin'
             - /^_(.*)/          # ignore symfony routes
