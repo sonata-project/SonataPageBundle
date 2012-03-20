@@ -42,7 +42,7 @@ class HostSiteSelector extends BaseSiteSelector
         }
 
         if ($this->site && $this->site->getLocale()) {
-            $event->getRequest()->attributes->get('_locale', $this->site->getLocale());
+            $event->getRequest()->attributes->set('_locale', $this->site->getLocale());
         }
     }
 }
