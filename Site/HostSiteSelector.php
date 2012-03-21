@@ -20,8 +20,7 @@ use Sonata\PageBundle\Model\SiteInterface;
 class HostSiteSelector extends BaseSiteSelector
 {
     /**
-     * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
-     * @return void
+     * {@inheritdoc}
      */
     public function handleKernelRequest(GetResponseEvent $event)
     {

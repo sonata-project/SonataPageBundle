@@ -1,11 +1,15 @@
 CHANGELOG
 =========
 
-A [BC BREAK] means the update will break the project for many reasons :
+A [BC BREAK] means the update will break the project for many reasons:
 
 * new mandatory configuration
 * new dependencies
 * class refactoring
+
+### 2012-03-21
+
+* Add SEO fields to Site and alter the SeoPage information
 
 ### 2012-03-19
 

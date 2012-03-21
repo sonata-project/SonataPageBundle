@@ -25,6 +25,7 @@
 
             <argument type="service" id="sonata.page.manager.site" />
             <argument type="service" id="sonata.page.decorator_strategy" />
+            <argument type="service" id="sonata.seo.page" />
         </service>
 
         <service id="sonata.page.site.selector.host_with_path" class="%sonata.page.site.selector.host_with_path.class%">
@@ -33,6 +34,7 @@
 
             <argument type="service" id="sonata.page.manager.site" />
             <argument type="service" id="sonata.page.decorator_strategy" />
+            <argument type="service" id="sonata.seo.page" />
         </service>
 
         <service id="sonata.page.response_listener" class="%sonata.page.response_listener.class%" scope="request">

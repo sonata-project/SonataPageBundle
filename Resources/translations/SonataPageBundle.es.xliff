@@ -526,6 +526,58 @@
           <source>form.label_locale</source>
           <target>form.label_locale</target>
       </trans-unit>
+      <trans-unit id="131" resname="form_site.label_seo">
+          <source>form_site.label_seo</source>
+          <target>form_site.label_seo</target>
+      </trans-unit>
+      <trans-unit id="132" resname="form.label_title">
+          <source>form.label_title</source>
+          <target>form.label_title</target>
+      </trans-unit>
+      <trans-unit id="133" resname="form.label_meta_keywords">
+          <source>form.label_meta_keywords</source>
+          <target>form.label_meta_keywords</target>
+      </trans-unit>
+            <trans-unit id="134" resname="show.label_title">
+          <source>show.label_title</source>
+          <target>show.label_title</target>
+      </trans-unit>
+      <trans-unit id="135" resname="show.label_meta_description">
+          <source>show.label_meta_description</source>
+          <target>show.label_meta_description</target>
+      </trans-unit>
+      <trans-unit id="136" resname="show.label_meta_keywords">
+          <source>show.label_meta_keywords</source>
+          <target>show.label_meta_keywords</target>
+      </trans-unit>
+      <trans-unit id="137" resname="form_site.label_general">
+          <source>form_site.label_general</source>
+          <target>form_site.label_general</target>
+      </trans-unit>
+      <trans-unit id="138" resname="filter.label_site">
+          <source>filter.label_site</source>
+          <target>filter.label_site</target>
+      </trans-unit>
+      <trans-unit id="139" resname="filter.label_edited">
+          <source>filter.label_edited</source>
+          <target>filter.label_edited</target>
+      </trans-unit>
+      <trans-unit id="140" resname="list.label_edited">
+          <source>list.label_edited</source>
+          <target>list.label_edited</target>
+      </trans-unit>
+      <trans-unit id="141" resname="show.label_site">
+          <source>show.label_site</source>
+          <target>show.label_site</target>
+      </trans-unit>
+      <trans-unit id="142" resname="show.label_edited">
+          <source>show.label_edited</source>
+          <target>show.label_edited</target>
+      </trans-unit>
+      <trans-unit id="143" resname="breadcrumb.link_page_show">
+          <source>breadcrumb.link_page_show</source>
+          <target>breadcrumb.link_page_show</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
