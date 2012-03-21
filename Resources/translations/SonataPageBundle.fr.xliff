@@ -526,6 +526,58 @@
           <source>form.label_locale</source>
           <target>Langue</target>
       </trans-unit>
+      <trans-unit id="131" resname="form_site.label_seo">
+          <source>form_site.label_seo</source>
+          <target>Informations pour le référencement</target>
+      </trans-unit>
+      <trans-unit id="132" resname="form.label_title">
+          <source>form.label_title</source>
+          <target>Titre</target>
+      </trans-unit>
+      <trans-unit id="133" resname="form.label_meta_keywords">
+          <source>form.label_meta_keywords</source>
+          <target>Meta Keywords</target>
+      </trans-unit>
+      <trans-unit id="134" resname="show.label_title">
+          <source>show.label_title</source>
+          <target>Titre</target>
+      </trans-unit>
+      <trans-unit id="135" resname="show.label_meta_description">
+          <source>show.label_meta_description</source>
+          <target>Meta Description</target>
+      </trans-unit>
+      <trans-unit id="136" resname="show.label_meta_keywords">
+          <source>show.label_meta_keywords</source>
+          <target>Meta Keywords</target>
+      </trans-unit>
+      <trans-unit id="137" resname="form_site.label_general">
+          <source>form_site.label_general</source>
+          <target>Informations principales</target>
+      </trans-unit>
+      <trans-unit id="138" resname="filter.label_site">
+          <source>filter.label_site</source>
+          <target>Site</target>
+      </trans-unit>
+      <trans-unit id="139" resname="filter.label_edited">
+          <source>filter.label_edited</source>
+          <target>Edité</target>
+      </trans-unit>
+      <trans-unit id="140" resname="list.label_edited">
+          <source>list.label_edited</source>
+          <target>Edité</target>
+      </trans-unit>
+      <trans-unit id="141" resname="show.label_site">
+          <source>show.label_site</source>
+          <target>Site</target>
+      </trans-unit>
+      <trans-unit id="142" resname="show.label_edited">
+          <source>show.label_edited</source>
+          <target>Edité</target>
+      </trans-unit>
+      <trans-unit id="143" resname="breadcrumb.link_page_show">
+          <source>breadcrumb.link_page_show</source>
+          <target>Page</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

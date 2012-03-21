@@ -37,6 +37,12 @@ abstract class Site implements SiteInterface
 
     protected $locale;
 
+    protected $title;
+
+    protected $metaKeywords;
+
+    protected $metaDescription;
+
     public function setId($id)
     {
         $this->id = $id;
@@ -207,5 +213,35 @@ abstract class Site implements SiteInterface
     public function getLocale()
     {
         return $this->locale;
+    }
+
+    public function setMetaDescription($metaDescription)
+    {
+        $this->metaDescription = $metaDescription;
+    }
+
+    public function getMetaDescription()
+    {
+        return $this->metaDescription;
+    }
+
+    public function setMetaKeywords($metaKeywords)
+    {
+        $this->metaKeywords = $metaKeywords;
+    }
+
+    public function getMetaKeywords()
+    {
+        return $this->metaKeywords;
+    }
+
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+
+    public function getTitle()
+    {
+        return $this->title;
     }
 }

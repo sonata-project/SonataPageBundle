@@ -148,4 +148,37 @@ interface SiteInterface
      * @return void
      */
     function isLocalhost();
+
+    /**
+     * @param $metaDescription
+     * @return string
+     */
+    function setMetaDescription($metaDescription);
+
+    /**
+     * @return string
+     */
+    function getMetaDescription();
+
+    /**
+     * @param $metaKeywords
+     * @return string
+     */
+    function setMetaKeywords($metaKeywords);
+
+    /**
+     * @return string
+     */
+    function getMetaKeywords();
+
+    /**
+     * @param $title
+     * @return string
+     */
+    function setTitle($title);
+
+    /**
+     * @return string
+     */
+    function getTitle();
 }

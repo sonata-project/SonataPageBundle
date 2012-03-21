@@ -18,12 +18,6 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 
-use Sonata\PageBundle\Model\PageInterface;
-use Sonata\PageBundle\Cache\CacheElement;
-use Sonata\PageBundle\CmsManager\CmsManagerInterface;
-use Sonata\AdminBundle\Validator\ErrorElement;
-
-use Knp\Menu\ItemInterface as MenuItemInterface;
 
 class SiteAdmin extends Admin
 {
@@ -37,13 +31,16 @@ class SiteAdmin extends Admin
     {
         $showMapper
             ->add('name')
-//            ->add('isDefault')
+            ->add('isDefault')
             ->add('enabled')
             ->add('host')
             ->add('locale')
             ->add('relativePath')
             ->add('enabledFrom')
             ->add('enabledTo')
+            ->add('title')
+            ->add('metaDescription')
+            ->add('metaKeywords')
         ;
     }
 
@@ -84,27 +81,24 @@ class SiteAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('name')
-            ->add('isDefault', null, array('required' => false))
-            ->add('enabled', null, array('required' => false))
-            ->add('host')
-            ->add('locale', null, array(
-                'required' => false
-            ))
-            ->add('relativePath', null, array('required' => false))
-            ->add('enabledFrom')
-            ->add('enabledTo')
+            ->with($this->trans('form_site.label_general'))
+                ->add('name')
+                ->add('isDefault', null, array('required' => false))
+                ->add('enabled', null, array('required' => false))
+                ->add('host')
+                ->add('locale', null, array(
+                    'required' => false
+                ))
+                ->add('relativePath', null, array('required' => false))
+                ->add('enabledFrom')
+                ->add('enabledTo')
+            ->end()
+            ->with($this->trans('form_site.label_seo'))
+                ->add('title', null, array('required' => false))
+                ->add('metaDescription', 'textarea', array('required' => false))
+                ->add('metaKeywords', 'textarea', array('required' => false))
+            ->end()
         ;
-    }
-
-    /**
-     * @param \Sonata\AdminBundle\Validator\ErrorElement $errorElement
-     * @param $object
-     * @return void
-     */
-    public function validate(ErrorElement $errorElement, $object)
-    {
-
     }
 
     /**
