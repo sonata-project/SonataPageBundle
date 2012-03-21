@@ -53,13 +53,17 @@ class HostPathSiteSelector extends BaseSiteSelector
                 continue;
             }
 
-            $event->getRequest()->setPathInfo($results[2] ?: '/');
+            $pathInfo = $results[2];
 
             $this->site = $site;
 
             if ($this->site->getHost() != 'localhost') {
                 break;
             }
+        }
+
+        if ($this->site) {
+            $event->getRequest()->setPathInfo($pathInfo ?: '/');
         }
 
         // no valid site, but on there is a default site for the current request
