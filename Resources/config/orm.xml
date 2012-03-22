@@ -14,7 +14,10 @@
     </parameters>
 
     <services>
-        <service id="sonata.page.entity_manager" alias="doctrine.orm.default_entity_manager" />
+        <!--
+            This alias is now set in the extension. Allows us to change the entity manager we use. 
+            <service id="sonata.page.entity_manager" alias="doctrine.orm.default_entity_manager" />
+        -->
 
         <service id="sonata.page.manager.page" class="%sonata.page.manager.page.class%">
             <argument type="service" id="sonata.page.entity_manager" />
