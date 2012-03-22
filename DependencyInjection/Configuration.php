@@ -108,6 +108,8 @@ class Configuration implements ConfigurationInterface
                 ->prototype('variable')->isRequired()->end()
             ->end()
 
+            ->scalarNode('entity_manager')->defaultValue('default')->end()
+                
             ->arrayNode('class')
                 ->addDefaultsIfNotSet()
                 ->children()

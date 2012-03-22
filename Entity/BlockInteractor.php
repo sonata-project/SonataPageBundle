@@ -17,7 +17,7 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\BlockBundle\Model\BlockManagerInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
 
-use Symfony\Bundle\DoctrineBundle\Registry;
+use Doctrine\Bundle\DoctrineBundle\Registry;
 
 class BlockInteractor implements BlockInteractorInterface
 {
