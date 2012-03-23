@@ -7,6 +7,18 @@ A [BC BREAK] means the update will break the project for many reasons:
 * new dependencies
 * class refactoring
 
+### 2012-03-23
+
+* [BC BREAK] prefix internal route to _page_internal_*, all internals routes must be renamed to include the correct prefix
+
+    SQL Update :
+
+        UPDATE `page__page`
+        SET `route_name` = CONCAT('_page_internal_', route_name)
+        WHERE url IS NULL AND route_name != 'cms_page' AND SUBSTR(route_name, 1, 14) <> '_page_internal'
+
+        republish the snaphsot pages.
+
 ### 2012-03-21
 
 * Add SEO fields to Site and alter the SeoPage information
@@ -22,10 +34,11 @@ A [BC BREAK] means the update will break the project for many reasons:
 
 * [BC BREAK] Move cache and some block to the BlockBundle
 
-    Block names has been updated
-        UPDATE `page__bloc` SET `type` = 'sonata.block.service.text' WHERE `type` = 'sonata.page.block.text';
+    Block names has been updated:
+
+        UPDATE `page__bloc` SET `type` = 'sonata.block.service.text'   WHERE `type` = 'sonata.page.block.text';
         UPDATE `page__bloc` SET `type` = 'sonata.block.service.action' WHERE `type` = 'sonata.page.block.action';
-        UPDATE `page__bloc` SET `type` = 'sonata.block.service.rss' WHERE `type` = 'sonata.page.block.rss';
+        UPDATE `page__bloc` SET `type` = 'sonata.block.service.rss'    WHERE `type` = 'sonata.page.block.rss';
 
         republish the snaphsot pages.
 

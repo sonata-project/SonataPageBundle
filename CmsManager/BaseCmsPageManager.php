@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata project.
  *
@@ -8,25 +9,10 @@
  * file that was distributed with this source code.
  */
 
-
 namespace Sonata\PageBundle\CmsManager;
 
-use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Symfony\Component\Templating\EngineInterface;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\RouterInterface;
-
-use Sonata\BlockBundle\Model\BlockInterface;
-use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
-use Sonata\BlockBundle\Model\BlockManagerInterface;
-
 use Sonata\PageBundle\Model\PageInterface;
-use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteInterface;
-use Sonata\PageBundle\Exception\InternalErrorException;
-
-use Sonata\AdminBundle\Admin\AdminInterface;
 
 abstract class BaseCmsPageManager implements CmsManagerInterface
 {
@@ -69,7 +55,7 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function getPageByRouteName(SiteInterface $site, $routeName, $create = true)
+    public function getPageByRouteName(SiteInterface $site, $routeName)
     {
         return $this->getPageBy($site, 'routeName', $routeName);
     }

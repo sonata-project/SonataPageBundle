@@ -10,8 +10,6 @@
 
 namespace Sonata\PageBundle\CmsManager;
 
-use Symfony\Component\HttpKernel\HttpKernelInterface;
-
 use Sonata\BlockBundle\Model\BlockInterface;
 
 use Sonata\PageBundle\Model\PageInterface;
@@ -42,12 +40,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
     }
 
     /**
-     * Return a PageInterface instance depends on the $page argument
-     *
-     * @throws \Sonata\PageBundle\Exception\PageNotFoundException
-     * @param \Sonata\PageBundle\Model\SiteInterface $site
-     * @param $page
-     * @return \Sonata\PageBundle\Model\PageInterface
+     * {@inheritdoc}
      */
     public function getPage(SiteInterface $site, $page)
     {
@@ -66,6 +59,14 @@ class CmsSnapshotManager extends BaseCmsPageManager
         }
 
         return $page;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getInternalRoute(SiteInterface $site, $pageName)
+    {
+        return $this->getPageByRouteName($site, sprintf('_page_internal_%s', $pageName));
     }
 
     /**
@@ -95,13 +96,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
     }
 
     /**
-     * Return a fully loaded page ( + blocks ) whose match with the $value of the $fieldName
-     *
-     * @throws \Sonata\PageBundle\Exception\PageNotFoundException
-     * @param null|\Sonata\PageBundle\Model\SiteInterface $site
-     * @param $fieldName
-     * @param $value
-     * @return \Sonata\PageBundle\Model\PageInterface
+     * {@inheritdoc}
      */
     protected function getPageBy(SiteInterface $site = null, $fieldName, $value)
     {
@@ -161,8 +156,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
     }
 
     /**
-     * @param integer $id
-     * @return array|null
+     * {@inheritdoc}
      */
     public function getBlock($id)
     {

@@ -35,7 +35,7 @@ interface CmsManagerInterface
     function findContainer($name, PageInterface $page, BlockInterface $parentContainer = null);
 
     /**
-     * Returns a fully loaded page ( + blocks ) from a route name
+     * Returns a fully loaded page ( + blocks ) from a url
      *
      * @param \Sonata\PageBundle\Model\SiteInterface $site
      * @param string $slug
@@ -51,6 +51,15 @@ interface CmsManagerInterface
      * @return \Sonata\PageBundle\Model\PageInterface
      */
     function getPageByRouteName(SiteInterface $site, $routeName);
+
+    /**
+     * Returns a fully loaded page ( + blocks ) from an internal page name
+     *
+     * @param \Sonata\PageBundle\Model\SiteInterface $site
+     * @param $routeName
+     * @return void
+     */
+    function getInternalRoute(SiteInterface $site, $routeName);
 
     /**
      * Returns a fully loaded page ( + blocks ) from a name

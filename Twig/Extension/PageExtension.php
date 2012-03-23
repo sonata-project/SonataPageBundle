@@ -215,8 +215,8 @@ class PageExtension extends \Twig_Extension
         try {
             if ($page === null) {
                 $targetPage = $cms->getCurrentPage();
-            } else if (!$page instanceof PageInterface) {
-                $targetPage = $cms->getPage($site, $page);
+            } else if (!$page instanceof PageInterface && is_string($page)) {
+                $targetPage = $cms->getInternalRoute($site, $page);
             } else if ($page instanceof PageInterface) {
                 $targetPage = $page;
             }
