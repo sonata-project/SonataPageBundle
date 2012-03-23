@@ -26,19 +26,11 @@ class TemplateChoiceType extends ChoiceType
 
     public function getDefaultOptions(array $options)
     {
-        $multiple = isset($options['multiple']) && $options['multiple'];
-        $expanded = isset($options['expanded']) && $options['expanded'];
+        $options = parent::getDefaultOptions($options);
 
-        return array(
-            'multiple'      => false,
-            'expanded'      => false,
-            'choice_list'   => null,
-            'choices'       => $this->getTemplates(),
-            'preferred_choices' => array(),
-            'empty_data'        => $multiple || $expanded ? array() : '',
-            'empty_value'       => $multiple || $expanded || !isset($options['empty_value']) ? null : '',
-            'error_bubbling'    => false,
-        );
+        $options['choices'] = $this->getTemplates();
+
+        return $options;
     }
 
     public function getTemplates()
