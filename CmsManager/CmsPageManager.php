@@ -10,10 +10,7 @@
 
 namespace Sonata\PageBundle\CmsManager;
 
-use Symfony\Component\HttpKernel\HttpKernelInterface;
-
 use Sonata\BlockBundle\Model\BlockInterface;
-use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
 
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
@@ -58,7 +55,7 @@ class CmsPageManager extends BaseCmsPageManager
             $page = $this->getPageByUrl($site, $page);
         } else if (is_string($page)) { // page is a slug, load the related page
             $page = $this->getPageByRouteName($site, $page);
-        } else if ( is_numeric($page)) {
+        } else if (is_numeric($page)) {
             $page = $this->getPageById($page);
         } else if (!$page) { // get the current page
             $page = $this->getCurrentPage();
@@ -66,6 +63,35 @@ class CmsPageManager extends BaseCmsPageManager
 
         if (!$page instanceof PageInterface) {
             throw new PageNotFoundException('Unable to retrieve the page');
+        }
+
+        return $page;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getInternalRoute(SiteInterface $site, $pageName)
+    {
+        if (substr($pageName, 0, 5) == 'error') {
+            throw new \RuntimeException(sprintf('Illegal internal route name : %s, an internal page cannot start with `error`', $pageName));
+        }
+
+        $routeName = sprintf('_page_internal_%s', $pageName);
+
+        try {
+            $page = $this->getPageByRouteName($site, $routeName);
+        } catch(PageNotFoundException $e) {
+            $page = $this->pageManager->create(array(
+                'url'       => null,
+                'routeName' => $routeName,
+                'name'      => sprintf(sprintf('Internal Page : %s', $pageName)),
+                'decorate'  => false,
+            ));
+
+            $page->setSite($site);
+
+            $this->pageManager->save($page);
         }
 
         return $page;
