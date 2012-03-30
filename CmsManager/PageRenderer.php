@@ -82,13 +82,7 @@ class PageRenderer implements PageRendererInterface
         $params['manager'] = $cms;
         $params['error_codes'] = $this->errorCodes;
 
-        $response = $this->templating->renderResponse($template, $params, $response);
-
-        if ($page->isCms()) {
-            $response->setTtl($page->getTtl());
-        }
-
-        return $response;
+        return $this->templating->renderResponse($template, $params, $response);
     }
 
     /**

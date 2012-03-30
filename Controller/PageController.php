@@ -68,9 +68,15 @@ class PageController extends Controller
         $cms->setCurrentPage($page);
         $this->addSeoMeta($page);
 
-        return $this->getPageRendered()->render($page);
+        $response = $this->getPageRendered()->render($page);
+
+        if ($page->isCms() ) {
+            $response->setTtl($page->getTtl());
+        }
+
+        return $response;
     }
-    
+
     /**
      * @param \Sonata\PageBundle\Model\PageInterface $page
      * @return void
@@ -78,15 +84,15 @@ class PageController extends Controller
     protected function addSeoMeta(PageInterface $page)
     {
         $this->getSeoPage()->setTitle($page->getName());
-        
+
         if ($page->getMetaDescription()) {
             $this->getSeoPage()->addMeta('name', 'description', $page->getMetaDescription());
         }
-        
+
         if ($page->getMetaKeyword()) {
             $this->getSeoPage()->addMeta('name', 'keywords', $page->getMetaKeyword());
         }
-        
+
         $this->getSeoPage()->addMeta('property', 'og:type', 'article');
     }
 
