@@ -73,5 +73,9 @@ class ResponseListener
         }
 
         $this->pageRenderer->render($page, array('content' => $response->getContent()), $response);
+
+        if ($page->isCms() ) {
+            $response->setTtl($page->getTtl());
+        }
     }
 }
