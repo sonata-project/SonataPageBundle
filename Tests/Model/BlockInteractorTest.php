@@ -23,7 +23,7 @@ class BlockInteractorTest extends \PHPUnit_Framework_TestCase
     {
 
         $container = $this->getMockBuilder('Sonata\PageBundle\Model\Block')->getMock();
-        $registry = $this->getMockBuilder('Symfony\Bundle\DoctrineBundle\Registry')->disableOriginalConstructor()->getMock();
+        $registry = $this->getMockBuilder('Symfony\Bridge\Doctrine\RegistryInterface')->disableOriginalConstructor()->getMock();
         $blockManager = $this->getMock('Sonata\BlockBundle\Model\BlockManagerInterface');
         $blockManager->expects($this->any())->method('create')->will($this->returnValue($container));
 
