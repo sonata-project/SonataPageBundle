@@ -17,7 +17,7 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\BlockBundle\Model\BlockManagerInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
 
-use Symfony\Bundle\DoctrineBundle\Registry;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class BlockInteractor implements BlockInteractorInterface
 {
@@ -28,10 +28,10 @@ class BlockInteractor implements BlockInteractorInterface
     protected $blockManager;
 
     /**
-     * @param \Doctrine\Bundle\DoctrineBundle\Registry $registry
+     * @param \Symfony\Bridge\Doctrine\RegistryInterface $registry
      * @param \Sonata\BlockBundle\Model\BlockManagerInterface $blockManager
      */
-    public function __construct(Registry $registry, BlockManagerInterface $blockManager)
+    public function __construct(RegistryInterface $registry, BlockManagerInterface $blockManager)
     {
         $this->blockManager = $blockManager;
         $this->registry     = $registry;
