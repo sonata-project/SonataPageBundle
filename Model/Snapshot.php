@@ -28,6 +28,8 @@ abstract class Snapshot implements SnapshotInterface
 
     protected $enabled;
 
+    protected $showInMenu;
+
     protected $publicationDateStart;
 
     protected $publicationDateEnd;
@@ -102,6 +104,26 @@ abstract class Snapshot implements SnapshotInterface
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * Set showInMenu
+     *
+     * @param boolean $showInMenu
+     */
+    public function setShowInMenu($showInMenu)
+    {
+        $this->showInMenu = $showInMenu;
+    }
+
+    /**
+     * Get showInMenu
+     *
+     * @return boolean $showInMenu
+     */
+    public function getShowInMenu()
+    {
+        return $this->showInMenu;
     }
 
     /**

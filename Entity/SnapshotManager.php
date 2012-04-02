@@ -180,6 +180,7 @@ class SnapshotManager implements SnapshotManagerInterface
         $page->setPosition($snapshot->getPosition());
         $page->setDecorate($snapshot->getDecorate());
         $page->setSite($snapshot->getSite());
+        $page->setShowInMenu($snapshot->getShowInMenu());
 
         $content = json_decode($snapshot->getContent(), true);
 
@@ -247,6 +248,7 @@ class SnapshotManager implements SnapshotManagerInterface
         $snapshot->setPage($page);
         $snapshot->setUrl($page->getUrl());
         $snapshot->setEnabled($page->getEnabled());
+        $snapshot->setShowInMenu($page->getShowInMenu());
         $snapshot->setRouteName($page->getRouteName());
         $snapshot->setName($page->getName());
         $snapshot->setPosition($page->getPosition());

@@ -5,6 +5,7 @@
         <field name="position"          type="integer"      column="position"  default="1"/>
 
         <field name="enabled"           type="boolean"      column="enabled"         default="false" />
+        <field name="showInMenu"        type="boolean"      column="showInMenu"      default="false" nullable="true" />
         <field name="decorate"          type="boolean"      column="decorate"        default="false" />
         <field name="edited"            type="boolean"      column="edited"          default="false" />
 

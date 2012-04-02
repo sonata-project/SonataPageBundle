@@ -578,6 +578,10 @@
           <source>breadcrumb.link_page_show</source>
           <target>Page</target>
       </trans-unit>
+      <trans-unit id="144" resname="form.label_show_in_menu">
+                    <source>form.label_show_in_menu</source>
+                    <target>Show in Sitemenu</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

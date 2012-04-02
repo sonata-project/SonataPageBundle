@@ -47,6 +47,8 @@ abstract class Page implements PageInterface
 
     protected $enabled;
 
+    protected $showInMenu;
+
     protected $blocks;
 
     protected $parent;
@@ -125,6 +127,26 @@ abstract class Page implements PageInterface
     public function getEnabled()
     {
         return $this->enabled;
+    }
+
+    /**
+     * Set showInMenu
+     *
+     * @param boolean $showInMenu
+     */
+    public function setShowInMenu($showInMenu)
+    {
+        $this->showInMenu = $showInMenu;
+    }
+
+    /**
+     * Get showInMenu
+     *
+     * @return boolean $showInMenu
+     */
+    public function getShowInMenu()
+    {
+        return $this->showInMenu;
     }
 
     /**

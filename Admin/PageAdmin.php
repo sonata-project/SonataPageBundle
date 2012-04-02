@@ -47,6 +47,7 @@ class PageAdmin extends Admin
             ->add('site')
             ->add('routeName')
             ->add('enabled')
+            ->add('showInMenu')
             ->add('decorate')
             ->add('name')
             ->add('slug')
@@ -119,6 +120,7 @@ class PageAdmin extends Admin
                 ->add('site', null, array('attr' => array('readonly' => 'readonly')))
                 ->add('name')
                 ->add('enabled', null, array('required' => false))
+                ->add('showInMenu', null, array('required' => false))
                 ->add('position')
                 ->add('templateCode', 'sonata_page_template', array('required' => true))
                 ->add('parent', 'sonata_page_selector', array(

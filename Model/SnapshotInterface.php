@@ -41,6 +41,20 @@ interface SnapshotInterface
     function getEnabled();
 
     /**
+     * Set showInMenu
+     *
+     * @param boolean $showInMenu
+     */
+    function setShowInMenu($showInMenu);
+
+    /**
+     * Get showInMenu
+     *
+     * @return boolean $showInMenu
+     */
+    function getShowInMenu();
+
+    /**
      * Set name
      *
      * @param string $name
