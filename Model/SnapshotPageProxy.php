@@ -395,6 +395,26 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
+     * Set showInMenu
+     *
+     * @param boolean $showInMenu
+     */
+    public function setShowInMenu($showInMenu)
+    {
+        $this->getPage()->setShowInMenu($showInMenu);
+    }
+
+    /**
+     * Get showInMenu
+     *
+     * @return boolean $showInMenu
+     */
+    public function getShowInMenu()
+    {
+        return $this->getPage()->getShowInMenu();
+    }
+
+    /**
      * Set name
      *
      * @param string $name
