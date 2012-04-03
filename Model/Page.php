@@ -808,7 +808,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * @return
+     * @return SiteInterface $site
      */
     public function getSite()
     {

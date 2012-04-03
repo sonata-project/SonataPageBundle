@@ -406,7 +406,7 @@ interface PageInterface
 
     /**
      *
-     * @return void
+     * @return SiteInterface $site
      */
     function getSite();
 
