@@ -27,7 +27,7 @@ class SiteAdmin extends Admin
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
      * @return void
      */
-    protected function configureShowField(ShowMapper $showMapper)
+    protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
             ->add('name')
