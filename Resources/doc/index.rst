@@ -17,3 +17,4 @@ Reference Guide
    reference/command_line
    reference/advanced_usage
    reference/advanced_configuration
+   reference/varnish

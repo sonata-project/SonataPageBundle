@@ -34,14 +34,22 @@ class CmsManagerSelector implements CmsManagerSelectorInterface
      */
     public function retrieve()
     {
-        $securityContext = $this->container->get('security.context');
-
-        if ($securityContext->getToken() !== null && $securityContext->isGranted('ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT')) {
+        if ($this->isEditor()) {
             $manager = $this->container->get('sonata.page.cms.page');
         } else {
             $manager = $this->container->get('sonata.page.cms.snapshot');
         }
 
         return $manager;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isEditor()
+    {
+        $securityContext = $this->container->get('security.context');
+
+        return $securityContext->getToken() !== null && $securityContext->isGranted('ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT');
     }
 }

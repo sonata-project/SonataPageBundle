@@ -20,6 +20,7 @@ use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Cookie;
 
 /**
  * This class redirect the onCoreResponse event to the correct
@@ -56,9 +57,22 @@ class ResponseListener
         $cms = $this->cmsSelector->retrieve();
 
         $response = $event->getResponse();
+        $request  = $event->getRequest();
+
+        if ($this->cmsSelector->isEditor()) {
+            $response->setPrivate();
+
+            if (!$request->cookies->has('sonata_page_is_editor')) {
+                $response->headers->setCookie(new Cookie('sonata_page_is_editor', 1));
+            }
+        }
 
         if (!$this->decoratorStrategy->isDecorable($event->getRequest(), $event->getRequestType(), $response)) {
             return;
+        }
+
+        if (!$this->cmsSelector->isEditor() && $request->cookies->has('sonata_page_is_editor')) {
+            $response->headers->clearCookie('sonata_page_is_editor');
         }
 
         $page = $cms->getCurrentPage();
@@ -74,7 +88,7 @@ class ResponseListener
 
         $this->pageRenderer->render($page, array('content' => $response->getContent()), $response);
 
-        if ($page->isCms() ) {
+        if (!$this->cmsSelector->isEditor() && $page->isCms()) {
             $response->setTtl($page->getTtl());
         }
     }

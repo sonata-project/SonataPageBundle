@@ -18,4 +18,9 @@ interface CmsManagerSelectorInterface
      * @return CmsManagerInterface
      */
     function retrieve();
+
+    /**
+     * @return boolean
+     */
+    function isEditor();
 }

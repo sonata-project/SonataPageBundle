@@ -62,7 +62,7 @@ class ExceptionListener
         $this->httpErrorCodes     = $httpErrorCodes;
     }
 
-        /**
+    /**
      * {@inheritdoc}
      */
     public function getHttpErrorCodes()
