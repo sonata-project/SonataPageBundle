@@ -1,7 +1,8 @@
 Varnish
 =======
 
-varnishd -a :9330 -f app/config/varnish/dev_default.vlc -F -n /Users/rande/Projects/php/f6-taxy-g7/app/cache/dev/varnish
+When an user is connected as an editor, a cookie ``sonata_page_is_editor`` is set. So you can configure
+a Varnish as follow.
 
 VCL for Varnish 3.0::
 
