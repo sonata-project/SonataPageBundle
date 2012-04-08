@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="sonata.page.menu.menubuilder" class="Sonata\PageBundle\Menu\MenuBuilder">
+            <argument type="service" id="knp_menu.factory" />
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="sonata.page.menu.sitemainmenu" class="Knp\Menu\MenuItem"
+                 scope="request"
+                 factory-service="sonata.page.menu.menubuilder"
+                 factory-method="createMainMenu">
+            <tag name="knp_menu.menu" alias="SiteMainMenu" />
+            <argument type="service" id="request" />
+        </service>
+    </services>
+</container>

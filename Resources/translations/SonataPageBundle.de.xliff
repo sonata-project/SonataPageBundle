@@ -564,7 +564,7 @@
       </trans-unit>
       <trans-unit id="140" resname="list.label_edited">
           <source>list.label_edited</source>
-          <target>list.label_edited</target>
+          <target>bearbeitet</target>
       </trans-unit>
       <trans-unit id="141" resname="show.label_site">
           <source>show.label_site</source>
@@ -577,6 +577,10 @@
       <trans-unit id="143" resname="breadcrumb.link_page_show">
           <source>breadcrumb.link_page_show</source>
           <target>breadcrumb.link_page_show</target>
+      </trans-unit>
+      <trans-unit id="144" resname="form.label_show_in_menu">
+              <source>form.label_show_in_menu</source>
+              <target>Anzeigen im Seitenmenu</target>
       </trans-unit>
     </body>
   </file>
