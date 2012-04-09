@@ -23,6 +23,10 @@ To begin, add the dependent bundles to the vendor/bundles directory. Add the fol
         git=http://github.com/sonata-project/SonataEasyExtendsBundle.git
         target=/bundles/Sonata/EasyExtendsBundle
 
+    [SonataNotificationBundle]
+        git=http://github.com/sonata-project/SonataNotificationBundle.git
+        target=/bundles/Sonata/NotificationBundle
+
 .. note::
 
     The SonataAdminBundle and SonataDoctrineORMAdminBundle must be installed, please refer to `the dedicated documentation for more information <http://sonata-project.org/bundles/admin>`_.
@@ -70,6 +74,7 @@ Now, add the new `Application` Bundle to the kernel
             new Sonata\PageBundle\SonataPageBundle(),
             new Sonata\CacheBundle\SonataCacheBundle(),
             new Sonata\BlockBundle\SonataBlockBundle(),
+            new Sonata\NotificationBundle\SonataNotificationBundle(),
             new Sonata\SeoBundle\SonataSeoBundle(),
             new Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),
         );

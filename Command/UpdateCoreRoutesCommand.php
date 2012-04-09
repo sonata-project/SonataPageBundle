@@ -36,32 +36,30 @@ class UpdateCoreRoutesCommand extends BaseCommand
     public function execute(InputInterface $input, OutputInterface $output)
     {
         if (!$input->getOption('site') && !$input->getOption('all')) {
-             $output->writeln('Please provide an <info>--site=SITE_ID</info> option or the <info>--site=all</info> directive');
-             $output->writeln('');
+            $output->writeln('Please provide an <info>--site=SITE_ID</info> option or the <info>--site=all</info> directive');
+            $output->writeln('');
 
-             $output->writeln(sprintf(" % 5s - % -30s - %s", "ID", "Name", "Url"));
+            $output->writeln(sprintf(" % 5s - % -30s - %s", "ID", "Name", "Url"));
 
-             foreach ($this->getSiteManager()->findBy() as $site) {
-                 $output->writeln(sprintf(" % 5s - % -30s - %s", $site->getId(), $site->getName(), $site->getUrl()));
-             }
+            foreach ($this->getSiteManager()->findBy() as $site) {
+                $output->writeln(sprintf(" % 5s - % -30s - %s", $site->getId(), $site->getName(), $site->getUrl()));
+            }
 
-             return;
-         }
+            return;
+        }
 
-         foreach ($this->getSites($input) as $site) {
-             if ($input->getOption('site') != 'all') {
-                 $this->updateRoutes($site, $output);
-                 $output->writeln("");
-             } else {
+        foreach ($this->getSites($input) as $site) {
+            if ($input->getOption('site') != 'all') {
+                $this->updateRoutes($site, $output);
+                $output->writeln("");
+            } else {
+                $p = new Process(sprintf('%s sonata:page:update-core-routes --env=%s --site=%s %s', $input->getOption('base-command'), $input->getOption('env'), $site->getId(), $input->getOption('no-debug') ? '--no-debug' : ''));
 
-                 $p = new Process(sprintf('%s sonata:page:update-core-routes --env=%s --site=%s %s', $input->getOption('base-command'), $input->getOption('env'), $site->getId(), $input->getOption('no-debug') ? '--no-debug' : ''));
-
-                 $p->run(function($type, $data) use($output) {
-                     $output->write($data);
-                 });
-             }
-         }
-
+                $p->run(function($type, $data) use($output) {
+                    $output->write($data);
+                });
+            }
+        }
 
         $output->writeln("<info>done!</info>");
     }

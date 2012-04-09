@@ -25,25 +25,12 @@ class PageAdminController extends Controller
             throw new AccessDeniedException();
         }
 
-        $snapshotManager = $this->get('sonata.page.manager.snapshot');
-        $pageManager = $this->get('sonata.page.manager.page');
-
-        $snapshots = array();
         foreach ($query->execute() as $page) {
-            $page = $pageManager->findOneBy(array('id' => $page->getId()));
-
-            if ($page) {
-                $snapshot = $snapshotManager->create($page);
-                $snapshotManager->save($snapshot);
-
-                $snapshots[] = $snapshot;
-
-                $page->setEdited(false);
-                $pageManager->save($page);
-            }
+            $this->get('sonata.notification.backend')
+                ->createAndPublish('sonata.page.create_snapshot', array(
+                    'pageId' => $page->getId(),
+                ));
         }
-
-        $snapshotManager->enableSnapshots($snapshots);
 
         return new RedirectResponse($this->admin->generateUrl('list', $this->admin->getFilterParameters()));
     }

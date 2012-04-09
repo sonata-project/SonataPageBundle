@@ -35,26 +35,12 @@ class SiteAdminController extends Controller
         $this->admin->setSubject($object);
 
         if ($this->get('request')->getMethod() == "POST") {
-            $snapshotManager = $this->get('sonata.page.manager.snapshot');
-            $pageManager = $this->get('sonata.page.manager.page');
 
-            $pages = $pageManager->findBy(array(
-                'site' => $object->getId(),
-                'edited' => true
-            ));
-
-            $snapshots = array();
-            foreach ($pages as $page) {
-                $snapshot = $snapshotManager->create($page);
-                $page->setEdited(false);
-
-                $snapshotManager->save($snapshot);
-                $pageManager->save($page);
-
-                $snapshots[] = $snapshot;
-            }
-
-            $snapshotManager->enableSnapshots($snapshots);
+            $this->get('sonata.notification.backend')
+                ->createAndPublish('sonata.page.create_snapshots', array(
+                    'siteId' => $object->getId(),
+                    'mode'   => 'async'
+                ));
 
             $this->get('session')->setFlash('sonata_flash_success', $this->admin->trans('flash_snapshots_created_success'));
 

@@ -251,6 +251,11 @@ class SnapshotManager implements SnapshotManagerInterface
         $snapshot->setName($page->getName());
         $snapshot->setPosition($page->getPosition());
         $snapshot->setDecorate($page->getDecorate());
+
+        if (!$page->getSite()) {
+            throw new \RuntimeException(sprintf('No site linked to the page.id=%s', $page->getId()));
+        }
+
         $snapshot->setSite($page->getSite());
 
         if ($page->getParent()) {

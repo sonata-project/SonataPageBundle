@@ -77,6 +77,19 @@ abstract class BaseCommand extends ContainerAwareCommand
     }
 
     /**
+     * @param string $mode
+     * @return \Sonata\NotificationBundle\Backend\BackendInterface
+     */
+    public function getNotificationBackend($mode)
+    {
+        if ($mode == 'async') {
+            return $this->getContainer()->get('sonata.notification.backend');
+        }
+
+        return $this->getContainer()->get('sonata.notification.backend.runtime');
+    }
+
+    /**
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @return array
      */

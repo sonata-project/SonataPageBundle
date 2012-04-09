@@ -7,6 +7,15 @@ A [BC BREAK] means the update will break the project for many reasons:
 * new dependencies
 * class refactoring
 
+### 2012-04-09
+
+* [BC BREAK] The page bundle has now a dependency to the SonataNotificationBundle to run the snapshot task asynchronously.
+
+    Command changes :
+
+        app/console sonata:page:create-snapshots --site=all --mode=sync    # default mode (BC)
+        app/console sonata:page:create-snapshots --site=all --mode=async
+
 ### 2012-03-23
 
 * [BC BREAK] prefix internal route to _page_internal_*, all internals routes must be renamed to include the correct prefix

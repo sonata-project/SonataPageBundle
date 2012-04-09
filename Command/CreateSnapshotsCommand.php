@@ -27,9 +27,10 @@ class CreateSnapshotsCommand extends BaseCommand
     {
         $this->setName('sonata:page:create-snapshots');
         $this->setDescription('Create a snapshots of all pages available');
-        $this->addOption('all', null, InputOption::VALUE_NONE, 'Create snapshots for all sites');
         $this->addOption('site', null, InputOption::VALUE_OPTIONAL, 'Site id', null);
-        $this->addOption('base-command', null, InputOption::VALUE_OPTIONAL, 'Site id', 'php app/console');
+        $this->addOption('base-console', null, InputOption::VALUE_OPTIONAL, 'Base symfony console command', 'php app/console');
+
+        $this->addOption('mode', null, InputOption::VALUE_OPTIONAL, 'Run the command asynchronously', 'sync');
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
@@ -49,11 +50,21 @@ class CreateSnapshotsCommand extends BaseCommand
 
         foreach ($this->getSites($input) as $site) {
             if ($input->getOption('site') != 'all') {
-                $this->createSnapshot($site, $output);
-                $output->writeln("");
-            } else {
 
-                $p = new Process(sprintf('%s sonata:page:create-snapshots --env=%s --site=%s %s', $input->getOption('base-command'), $input->getOption('env'), $site->getId(), $input->getOption('no-debug') ? '--no-debug' : ''));
+                if ($input->getOption('mode') == 'async') {
+                    $output->write(sprintf("<info>%s</info> - Publish a notification command ...", $site->getName()));
+                } else {
+                    $output->write(sprintf("<info>%s</info> - Generating snapshots ...", $site->getName()));
+                }
+
+                $this->getNotificationBackend($input->getOption('mode'))->createAndPublish('sonata.page.create_snapshots', array(
+                    'siteId' => $site->getId(),
+                    'mode'   => $input->getOption('mode')
+                ));
+
+                $output->writeln(" done!");
+            } else {
+                $p = new Process(sprintf('%s sonata:page:create-snapshots --env=%s --site=%s --mode=%s %s ', $input->getOption('base-console'), $input->getOption('env'), $site->getId(), $input->getOption('mode'), $input->getOption('no-debug') ? '--no-debug' : ''));
 
                 $p->run(function($type, $data) use($output) {
                     $output->write($data);
@@ -62,54 +73,5 @@ class CreateSnapshotsCommand extends BaseCommand
         }
 
         $output->writeln("<info>done!</info>");
-    }
-
-    /**
-     * @param \Sonata\PageBundle\Model\SiteInterface $site
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     * @return void
-     */
-    private function createSnapshot(SiteInterface $site, OutputInterface $output)
-    {
-        $message = sprintf(" > <info>Create snapshots for site</info> : <comment>%s - %s</comment>", $site->getName(), $site->getUrl());
-
-        $output->writeln(array(
-            str_repeat('=', strlen($message)),
-            "",
-            $message,
-            "",
-            str_repeat('=', strlen($message)),
-        ));
-
-        $this->getSnapshotManager()->getConnection()->beginTransaction();
-
-        $snapshots = array();
-
-        $pages = $this->getPageManager()->findBy(array(
-            'site' => $site->getId(),
-        ));
-
-        $count = count($pages);
-        foreach ($pages as $pos => $page) {
-            $output->write(sprintf('  <info>%03d/%03d</info> % -50s ...', $pos + 1, $count, $page->getUrl()));
-
-            $snapshot = $this->getSnapshotManager()->create($page);
-
-            $page->setEdited(false);
-
-            $this->getPageManager()->save($page);
-            $this->getSnapshotManager()->save($snapshot);
-
-            $output->writeln(' OK !');
-            $snapshots[] = $snapshot;
-        }
-
-        $output->writeln('');
-        $output->write('  Enabling snapshots ...');
-
-        $this->getSnapshotManager()->enableSnapshots($snapshots);
-        $this->getSnapshotManager()->getConnection()->commit();
-
-        $output->writeln(' <comment>OK</comment> !');
     }
 }
