@@ -21,9 +21,10 @@ class MenuBuilder
     protected $cms;
 
     /**
-     * @param FactoryInterface $factory
+     * @param \Knp\Menu\FactoryInterface $factory
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
      */
-    public function __construct(FactoryInterface $factory, ContainerInterface $container)
+    public function __construct($factory, $container)
     {
         $this->factory = $factory;
         $this->container = $container;
