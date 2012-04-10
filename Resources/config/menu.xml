@@ -11,11 +11,9 @@
         </service>
 
         <service id="sonata.page.menu.sitemainmenu" class="Knp\Menu\MenuItem"
-                 scope="request"
                  factory-service="sonata.page.menu.menubuilder"
-                 factory-method="createMainMenu">
+                 factory-method="createSiteMainMenu">
             <tag name="knp_menu.menu" alias="SiteMainMenu" />
-            <argument type="service" id="request" />
         </service>
     </services>
 </container>

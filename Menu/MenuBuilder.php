@@ -56,17 +56,14 @@ class MenuBuilder
     }
 
 
-
-    // ACTUAL MENU GENERATION
-
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
+     * Build up the SiteMainMenu based on pages where the "showInMenu" field is enabled
      * @return \Knp\Menu\ItemInterface
      */
-    public function createMainMenu($request)
+    public function createSiteMainMenu()
     {
         $menu = $this->factory->createItem('root');
-        $menu->setCurrentUri($request->getRequestUri());
+        $menu->setCurrentUri($this->cms->getCurrentPage()->getUrl());
         $site = $this->cms->getCurrentPage()->getSite();
 
         $result = $this->pageManager->findBy(
@@ -98,6 +95,7 @@ class MenuBuilder
     }
 
     /**
+     * Parse a page and it childs to menu items
      * @param \Sonata\PageBundle\Model\PageInterface $page
      * @return \Knp\Menu\ItemInterface
      */
