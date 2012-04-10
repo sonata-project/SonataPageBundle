@@ -7,7 +7,12 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\PageInterface;
 
-
+/**
+ * The MenuBuilder builds up a (knp) menu based on page/snapshot entities where the 'showInMenu' field is enabled.
+ * The menu is provied by a service, see /Resources/config/menu.xml
+ *
+ * @author     Tamay Gündüz <coding@tamaygunduz.de>
+ */
 class MenuBuilder
 {
     private $factory;
