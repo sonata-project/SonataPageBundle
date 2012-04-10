@@ -68,14 +68,14 @@ class MenuBuilder
                 'site' => $site->getId(),
                 'enabled' => true,
                 'showInMenu' => true,
-                // this is part of a workaround which should be fixed if the issue with the snapshotmanager gets fixed
+                // this is part of a workaround which should be fixed when the issue with the snapshotmanager gets fixed
                 (get_class($this->pageManager) == 'Sonata\PageBundle\Entity\PageManager') ? 'parent' : 'parentId' => null,
             )
         );
 
 
         foreach ($result as $_page) {
-            // this is part of a workaround which should be fixed if the issue with the snapshotmanager gets fixed
+            // this is part of a workaround which should be fixed when the issue with the snapshotmanager gets fixed
             if (get_class($this->pageManager) == 'Sonata\PageBundle\Entity\SnapshotManager') {
                 /** @var $_page \Sonata\PageBundle\Model\SnapshotPageProxy */
                 $_page = $_page->getPage();
