@@ -2,13 +2,10 @@
 
 namespace Sonata\PageBundle\Menu;
 
-use Symfony\Component\HttpFoundation\Request;
 use Knp\Menu\FactoryInterface;
-
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\PageInterface;
-use Sonata\PageBundle\Exception\InternalErrorException;
 
 
 class MenuBuilder
