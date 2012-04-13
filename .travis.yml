@@ -8,3 +8,6 @@ env:
   - SYMFONY_VERSION=origin/2.0
 
 before_script: php Tests/tests/vendors.php
+
+notifications:
+    webhooks: http://sonata-project.org/bundles/page/master/travis
