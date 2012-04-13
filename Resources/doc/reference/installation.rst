@@ -6,14 +6,17 @@ To begin, add the dependent bundles to the vendor/bundles directory. Add the fol
     [SonataCacheBundle]
         git=http://github.com/sonata-project/SonataCacheBundle.git
         target=/bundles/Sonata/CacheBundle
+        version=origin/2.0
 
     [SonataBlockBundle]
         git=http://github.com/sonata-project/SonataBlockBundle.git
         target=/bundles/Sonata/BlockBundle
+        version=origin/2.0
 
     [SonataPageBundle]
         git=http://github.com/sonata-project/SonataPageBundle.git
         target=/bundles/Sonata/PageBundle
+        version=origin/2.0
 
     [SonataSeoBundle]
         git=http://github.com/sonata-project/SonataSeoBundle.git
