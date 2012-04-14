@@ -11,15 +11,15 @@
 
 namespace Sonata\PageBundle\Form\Type;
 
+use Symfony\Component\Form\Options;
+use Symfony\Component\Form\Extension\Core\ChoiceList\ChoiceListInterface;
 use Sonata\AdminBundle\Form\Type\ModelType;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SiteInterface;
-
 use Sonata\AdminBundle\Form\ChoiceList\ModelChoiceList;
 
 class PageSelectorType extends ModelType
@@ -31,9 +31,9 @@ class PageSelectorType extends ModelType
         $this->manager = $manager;
     }
 
-    public function getDefaultOptions(array $options)
+    public function getDefaultOptions()
     {
-        $defaultOptions = array(
+        $options = array(
             'template'          => 'choice',
             'multiple'          => false,
             'expanded'          => false,
@@ -46,24 +46,22 @@ class PageSelectorType extends ModelType
             'page'              => null,
             'site'              => null,
             'filter_choice'     => array('current_page' => false, 'request_method' => 'GET', 'dynamic' => true, 'hierarchy' => 'all'),
+            'choices'           => $this->getChoices(),
+            'choice_list'       => function (Options $opts, $previousValue) {
+                if ($previousValue instanceof ChoiceListInterface
+                        && count($choices = $previousValue->getChoices())) {
+                    return $choices;
+                }
+
+                return new ModelChoiceList(
+                        $opts['model_manager'],
+                        $opts['class'],
+                        $opts['property'],
+                        $opts['query'],
+                        $opts['choices']
+                );
+            }
         );
-
-        $options = array_replace($defaultOptions, $options);
-
-        if (!isset($options['choices'])) {
-            $options['filter_choice'] = isset($options['filter_choice']) ? array_replace($defaultOptions['filter_choice'], $options['filter_choice']) : $defaultOptions['filter_choice'];
-            $options['choices'] = $this->getChoices($options);
-        }
-
-        if (!isset($options['choice_list'])) {
-            $options['choice_list'] = new ModelChoiceList(
-                $options['model_manager'],
-                $options['class'],
-                $options['property'],
-                $options['query'],
-                $options['choices']
-            );
-        }
 
         return $options;
     }
