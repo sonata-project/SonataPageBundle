@@ -24,9 +24,9 @@ class TemplateChoiceType extends ChoiceType
         $this->renderer = $renderer;
     }
 
-    public function getDefaultOptions(array $options)
+    public function getDefaultOptions()
     {
-        $options = parent::getDefaultOptions($options);
+        $options = parent::getDefaultOptions();
 
         $options['choices'] = $this->getTemplates();
 
