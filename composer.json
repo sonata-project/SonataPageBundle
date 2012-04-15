@@ -21,7 +21,7 @@
         "symfony/framework-bundle": "2.*",
         "sonata-project/admin-bundle": "master-dev",
         "sonata-project/seo-bundle": "master-dev",
-        "friendsofsymfony/user-bundle": "1.*"
+        "friendsofsymfony/user-bundle": "dev-master"
     },
     "suggest": {
         "sonata-project/doctrine-orm-admin-bundle": "*"
