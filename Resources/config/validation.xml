@@ -15,4 +15,10 @@
            </constraint>
         </property>
     </class>
+
+    <class name="Application\Sonata\PageBundle\Entity\Site">
+        <property name="name">
+           <constraint name="NotNull" />
+        </property>
+    </class>
 </constraint-mapping>
