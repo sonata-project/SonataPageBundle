@@ -67,7 +67,7 @@ class SonataPageExtension extends Extension
         ;
 
         //Set the entity manager that we will use to store pages:
-        $container->setAlias('sonata.page.entity_manager', sprintf('doctrine.orm.%s_entity_manager', $config['entity_manager']));
+        $container->setAlias('sonata.page.entity_manager', $config['entity_manager']);
         
         $this->registerDoctrineMapping($config);
         $this->registerParameters($container, $config);

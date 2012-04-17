@@ -108,7 +108,7 @@ class Configuration implements ConfigurationInterface
                 ->prototype('variable')->isRequired()->end()
             ->end()
 
-            ->scalarNode('entity_manager')->defaultValue('default')->end()
+            ->scalarNode('entity_manager')->defaultValue('doctrine.orm.default_entity_manager')->end()
                 
             ->arrayNode('class')
                 ->addDefaultsIfNotSet()
