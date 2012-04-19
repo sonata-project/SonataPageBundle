@@ -66,6 +66,9 @@ class SonataPageExtension extends Extension
             ->replaceArgument(1, $config['ignore_route_patterns'])
             ->replaceArgument(2, $config['ignore_uri_patterns'])
         ;
+        
+        //Set the entity manager that should be used to store pages:
+        $container->setAlias('sonata.page.entity_manager', $config['entity_manager']);
 
         $this->registerDoctrineMapping($config);
         $this->registerParameters($container, $config);
