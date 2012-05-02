@@ -21,11 +21,11 @@
         "symfony/symfony": "2.0.*",
         "sonata-project/admin-bundle": "2.0.*",
         "sonata-project/seo-bundle": "master-dev",
-        "sonata-project/notification-bundle": "master-dev",
+        "sonata-project/notification-bundle": "2.0.*",
         "friendsofsymfony/user-bundle": "1.*"
     },
     "suggest": {
-        "sonata-project/doctrine-orm-admin-bundle": "*"
+        "sonata-project/doctrine-orm-admin-bundle": "2.0.*"
     },
     "autoload": {
         "psr-0": { "Sonata\\PageBundle": "" }
