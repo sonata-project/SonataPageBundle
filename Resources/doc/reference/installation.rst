@@ -1,7 +1,8 @@
 Installation
 ============
 
-To begin, add the dependent bundles to the vendor/bundles directory. Add the following lines to the file deps::
+To begin, add the dependent bundles to the vendor/bundles directory. Add the 
+following lines to the file deps::
 
     [SonataCacheBundle]
         git=http://github.com/sonata-project/SonataCacheBundle.git
@@ -32,7 +33,9 @@ To begin, add the dependent bundles to the vendor/bundles directory. Add the fol
 
 .. note::
 
-    The SonataAdminBundle and SonataDoctrineORMAdminBundle must be installed, please refer to `the dedicated documentation for more information <http://sonata-project.org/bundles/admin>`_.
+    The SonataAdminBundle and SonataDoctrineORMAdminBundle must be installed, 
+    please refer to `the dedicated documentation for more information 
+    <http://sonata-project.org/bundles/admin>`_.
 
 Next, be sure to enable the ``EasyExtends`` bundle in your application kernel:
 
@@ -89,8 +92,8 @@ Update the ``autoload.php`` to add new namespaces:
 
     <?php
     $loader->registerNamespaces(array(
-        'Sonata'                             => __DIR__,
-        'Application'                        => __DIR__,
+        'Sonata'       => __DIR__ . '/../vendor/bundles/',
+        'Application'  => __DIR__ . '/../src/',
 
         // ... other declarations
     ));
@@ -106,8 +109,8 @@ Then add these bundles in the config mapping definition:
 Configuration
 -------------
 
-To use the ``PageBundle``, add the following lines to your application configuration
-file.
+To use the ``PageBundle``, add the following lines to your application 
+configuration file.
 
 .. code-block:: yaml
 
