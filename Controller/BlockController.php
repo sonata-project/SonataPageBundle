@@ -17,6 +17,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 class BlockController extends Controller
 {
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function emptyAction()
     {
         return new Response('Empty response');

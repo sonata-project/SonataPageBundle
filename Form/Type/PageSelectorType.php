@@ -26,11 +26,17 @@ class PageSelectorType extends ModelType
 {
     protected $manager;
 
+    /**
+     * @param \Sonata\PageBundle\Model\PageManagerInterface $manager
+     */
     public function __construct(PageManagerInterface $manager)
     {
         $this->manager = $manager;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getDefaultOptions(array $options)
     {
         $defaultOptions = array(
@@ -68,6 +74,11 @@ class PageSelectorType extends ModelType
         return $options;
     }
 
+    /**
+     * @param array $options
+     *
+     * @return array
+     */
     protected function getChoices($options = null)
     {
         if (!$options['site'] instanceof SiteInterface) {
@@ -112,6 +123,12 @@ class PageSelectorType extends ModelType
         return $choices;
     }
 
+    /**
+     * @param \Sonata\PageBundle\Model\PageInterface      $page
+     * @param null|\Sonata\PageBundle\Model\PageInterface $currentPage
+     * @param array                                       $choices
+     * @param int                                         $level
+     */
     private function childWalker(PageInterface $page, PageInterface $currentPage = null, &$choices, $level = 1)
     {
         foreach ($page->getChildren() as $child) {

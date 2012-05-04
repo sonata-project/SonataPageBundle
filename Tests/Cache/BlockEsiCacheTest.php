@@ -19,7 +19,7 @@ class BlockEsiCacheTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @expectedException \RuntimeException
-     * @dataProvider getExceptionCacheKeys
+     * @dataProvider      getExceptionCacheKeys
      */
     public function testExceptions($keys)
     {

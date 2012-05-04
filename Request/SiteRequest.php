@@ -15,7 +15,8 @@ use Symfony\Component\HttpFoundation\Request as BaseRequest;
 class SiteRequest extends BaseRequest implements SiteRequestInterface
 {
     /**
-     * @param $pathInfo
+     * @param string $pathInfo
+     *
      * @return void
      */
     public function setPathInfo($pathInfo)
@@ -24,7 +25,8 @@ class SiteRequest extends BaseRequest implements SiteRequestInterface
     }
 
     /**
-     * @param $baseUrl
+     * @param string $baseUrl
+     *
      * @return void
      */
     public function setBaseUrl($baseUrl)

@@ -14,48 +14,56 @@ interface SnapshotManagerInterface
 {
     /**
      * @param array $criteria
+     *
      * @return SnapshotInterface
      */
     function findOneBy(array $criteria = array());
 
     /**
      * @param array $criteria
+     *
      * @return array
      */
     function findBy(array $criteria = array());
 
     /**
      * @param SnapshotInterface $object
+     *
      * @return void
      */
     function save(SnapshotInterface $object);
 
     /**
      * @param \Sonata\PageBundle\Model\PageInterface $page
+     *
      * @return \Sonata\PageBundle\Model\SnapshotInterface
      */
     function create(PageInterface $page);
 
     /**
      * @param \Sonata\PageBundle\Model\SnapshotInterface $snapshot
+     *
      * @return \Sonata\PageBundle\Model\PageInterface
      */
     function load(SnapshotInterface $snapshot);
 
     /**
      * @param \Sonata\PageBundle\Model\PageInterface $page
+     *
      * @return array
      */
     function getChildren(PageInterface $page);
 
     /**
      * @param array $criteria
+     *
      * @return \Sonata\PageBundle\Model\SnapshotInterface
      */
     function findEnableSnapshot(array $criteria);
 
     /**
      * @param array $snapshots
+     *
      * @return void
      */
     function enableSnapshots(array $snapshots);

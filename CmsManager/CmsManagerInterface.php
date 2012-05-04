@@ -27,9 +27,10 @@ use Symfony\Component\HttpFoundation\Response;
 interface CmsManagerInterface
 {
     /**
-     * @param string $name
-     * @param \Sonata\PageBundle\Model\PageInterface $page
+     * @param string                                        $name
+     * @param \Sonata\PageBundle\Model\PageInterface        $page
      * @param null|\Sonata\BlockBundle\Model\BlockInterface $parentContainer
+     *
      * @return bool|null|\Sonata\BlockBundle\Model\BlockInterface
      */
     function findContainer($name, PageInterface $page, BlockInterface $parentContainer = null);
@@ -38,7 +39,8 @@ interface CmsManagerInterface
      * Returns a fully loaded page ( + blocks ) from a url
      *
      * @param \Sonata\PageBundle\Model\SiteInterface $site
-     * @param string $slug
+     * @param string                                 $slug
+     *
      * @return \Sonata\PageBundle\Model\PageInterface
      */
     function getPageByUrl(SiteInterface $site, $slug);
@@ -47,7 +49,8 @@ interface CmsManagerInterface
      * Returns a fully loaded page ( + blocks ) from a route name
      *
      * @param \Sonata\PageBundle\Model\SiteInterface $site
-     * @param string $routeName
+     * @param string                                 $routeName
+     *
      * @return \Sonata\PageBundle\Model\PageInterface
      */
     function getPageByRouteName(SiteInterface $site, $routeName);
@@ -56,8 +59,9 @@ interface CmsManagerInterface
      * Returns a fully loaded page ( + blocks ) from an internal page name
      *
      * @param \Sonata\PageBundle\Model\SiteInterface $site
-     * @param $routeName
-     * @return void
+     * @param string                                 $routeName
+     *
+     * @return string
      */
     function getInternalRoute(SiteInterface $site, $routeName);
 
@@ -65,7 +69,8 @@ interface CmsManagerInterface
      * Returns a fully loaded page ( + blocks ) from a name
      *
      * @param \Sonata\PageBundle\Model\SiteInterface $site
-     * @param string $name
+     * @param string                                 $name
+     *
      * @return \Sonata\PageBundle\Model\PageInterface
      */
     function getPageByName(SiteInterface $site, $name);
@@ -74,6 +79,7 @@ interface CmsManagerInterface
      * Returns a fully loaded pag ( + blocks ) from a page id
      *
      * @param integer $id
+     *
      * @return \Sonata\PageBundle\Model\PageInterface
      */
     function getPageById($id);
@@ -81,6 +87,7 @@ interface CmsManagerInterface
     /**
      *
      * @param integer $id
+     *
      * @return \Sonata\PageBundle\Model\PageInterface
      */
     function getBlock($id);
@@ -94,6 +101,7 @@ interface CmsManagerInterface
 
     /**
      * @param \Sonata\PageBundle\Model\PageInterface $page
+     *
      * @return void
      */
     function setCurrentPage(PageInterface $page);
@@ -107,7 +115,8 @@ interface CmsManagerInterface
 
     /**
      * @param \Sonata\PageBundle\Model\SiteInterface $site
-     * @param $page
+     * @param string                                 $page
+     *
      * @return \Sonata\PageBundle\Model\PageInterface
      */
     function getPage(SiteInterface $site, $page);

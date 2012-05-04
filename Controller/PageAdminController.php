@@ -19,6 +19,13 @@ use Sonata\PageBundle\Exception\PageNotFoundException;
 
 class PageAdminController extends Controller
 {
+    /**
+     * @param mixed $query
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     *
+     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
+     */
     public function batchActionSnapshot($query)
     {
         if (!$this->get('security.context')->isGranted('ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT')) {
@@ -35,6 +42,11 @@ class PageAdminController extends Controller
         return new RedirectResponse($this->admin->generateUrl('list', $this->admin->getFilterParameters()));
     }
 
+    /**
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
+     */
     public function createAction()
     {
         if (false === $this->admin->isGranted('CREATE')) {
@@ -50,12 +62,12 @@ class PageAdminController extends Controller
 
             try {
                 $current = $this->get('sonata.page.site.selector')->retrieve();
-            } catch(\RuntimeException $e) {
+            } catch (\RuntimeException $e) {
                 $current = false;
             }
 
             return $this->render('SonataPageBundle:PageAdmin:select_site.html.twig', array(
-                'sites'  => $sites,
+                'sites'   => $sites,
                 'current' => $current,
             ));
         }

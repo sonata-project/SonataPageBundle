@@ -19,21 +19,29 @@ class TemplateChoiceType extends ChoiceType
 {
     protected $renderer;
 
+    /**
+     * @param \Sonata\PageBundle\CmsManager\PageRendererInterface $renderer
+     */
     public function __construct(PageRendererInterface $renderer)
     {
         $this->renderer = $renderer;
     }
 
+    /**
+     * @param array $options
+     *
+     * @return array
+     */
     public function getDefaultOptions(array $options)
     {
         $multiple = isset($options['multiple']) && $options['multiple'];
         $expanded = isset($options['expanded']) && $options['expanded'];
 
         return array(
-            'multiple'      => false,
-            'expanded'      => false,
-            'choice_list'   => null,
-            'choices'       => $this->getTemplates(),
+            'multiple'          => false,
+            'expanded'          => false,
+            'choice_list'       => null,
+            'choices'           => $this->getTemplates(),
             'preferred_choices' => array(),
             'empty_data'        => $multiple || $expanded ? array() : '',
             'empty_value'       => $multiple || $expanded || !isset($options['empty_value']) ? null : '',
@@ -41,6 +49,9 @@ class TemplateChoiceType extends ChoiceType
         );
     }
 
+    /**
+     * @return array
+     */
     public function getTemplates()
     {
         $templates = array();

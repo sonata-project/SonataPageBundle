@@ -78,6 +78,7 @@ abstract class BaseCommand extends ContainerAwareCommand
 
     /**
      * @param string $mode
+     *
      * @return \Sonata\NotificationBundle\Backend\BackendInterface
      */
     public function getNotificationBackend($mode)
@@ -91,6 +92,7 @@ abstract class BaseCommand extends ContainerAwareCommand
 
     /**
      * @param \Symfony\Component\Console\Input\InputInterface $input
+     *
      * @return array
      */
     protected function getSites(InputInterface $input)

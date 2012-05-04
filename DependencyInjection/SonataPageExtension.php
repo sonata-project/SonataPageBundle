@@ -30,10 +30,7 @@ use Sonata\EasyExtendsBundle\Mapper\DoctrineCollector;
 class SonataPageExtension extends Extension
 {
     /**
-     * Loads the url shortener configuration.
-     *
-     * @param array            $configs    An array of configuration settings
-     * @param ContainerBuilder $container A ContainerBuilder instance
+     * {@inheritdoc}
      */
     public function load(array $configs, ContainerBuilder $container)
     {
@@ -66,7 +63,7 @@ class SonataPageExtension extends Extension
             ->replaceArgument(1, $config['ignore_route_patterns'])
             ->replaceArgument(2, $config['ignore_uri_patterns'])
         ;
-        
+
         //Set the entity manager that should be used to store pages:
         $container->setAlias('sonata.page.entity_manager', $config['entity_manager']);
 
@@ -76,10 +73,9 @@ class SonataPageExtension extends Extension
 
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     * @param $config
-     * @return void
+     * @param array                                                   $config
      */
-    public function registerParameters(ContainerBuilder $container, $config)
+    public function registerParameters(ContainerBuilder $container, array $config)
     {
         $container->setParameter('sonata.page.site.class', $config['class']['site']);
         $container->setParameter('sonata.page.block.class', $config['class']['block']);
@@ -94,7 +90,6 @@ class SonataPageExtension extends Extension
 
     /**
      * @param array $config
-     * @return void
      */
     public function registerDoctrineMapping(array $config)
     {
@@ -298,8 +293,7 @@ class SonataPageExtension extends Extension
 
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     * @param $config
-     * @return void
+     * @param array                                                   $config
      */
     public function configureMultisite(ContainerBuilder $container, $config)
     {
@@ -321,8 +315,7 @@ class SonataPageExtension extends Extension
 
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     * @param $config
-     * @return void
+     * @param array                                                   $config
      */
     public function configureTemplate(ContainerBuilder $container, $config)
     {
@@ -358,10 +351,9 @@ class SonataPageExtension extends Extension
     /**
      * @throws \RuntimeException
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     * @param $config
-     * @return void
+     * @param array                                                   $config
      */
-    public function configureCache(ContainerBuilder $container, $config)
+    public function configureCache(ContainerBuilder $container, array $config)
     {
         if (isset($config['caches']['esi'])) {
             $container
@@ -375,8 +367,7 @@ class SonataPageExtension extends Extension
 
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     * @param $config
-     * @return void
+     * @param array                                                   $config
      */
     public function configureExceptions(ContainerBuilder $container, $config)
     {

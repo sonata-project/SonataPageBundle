@@ -29,8 +29,8 @@ class PageManager implements PageManagerInterface
 
     /**
      * @param \Doctrine\ORM\EntityManager $entityManager
-     * @param $class
-     * @param array $pageDefaults
+     * @param string                      $class
+     * @param array                       $pageDefaults
      */
     public function __construct(EntityManager $entityManager, $class, array $pageDefaults)
     {
@@ -39,6 +39,9 @@ class PageManager implements PageManagerInterface
         $this->pageDefaults  = $pageDefaults;
     }
 
+    /**
+     * @return \Doctrine\ORM\EntityRepository
+     */
     protected function getRepository()
     {
         return $this->entityManager->getRepository($this->class);

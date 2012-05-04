@@ -34,8 +34,7 @@ class BlockAdmin extends Admin
     protected $inValidate = false;
 
     /**
-     * @param \Sonata\AdminBundle\Route\RouteCollection $collection
-     * @return void
+     * {@inheritdoc}
      */
     protected function configureRoutes(RouteCollection $collection)
     {
@@ -44,8 +43,7 @@ class BlockAdmin extends Admin
     }
 
     /**
-     * @param \Sonata\AdminBundle\Datagrid\ListMapper $listMapper
-     * @return void
+     * {@inheritdoc}
      */
     protected function configureListFields(ListMapper $listMapper)
     {
@@ -58,8 +56,7 @@ class BlockAdmin extends Admin
     }
 
     /**
-     * @param \Sonata\AdminBundle\Datagrid\DatagridMapper $datagridMapper
-     * @return void
+     * {@inheritdoc}
      */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
@@ -70,8 +67,7 @@ class BlockAdmin extends Admin
     }
 
     /**
-     * @param \Sonata\AdminBundle\Form\FormMapper $formMapper
-     * @return void
+     * {@inheritdoc}
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
@@ -100,8 +96,7 @@ class BlockAdmin extends Admin
     }
 
     /**
-     * @param \Sonata\AdminBundle\Validator\ErrorElement $errorElement
-     * @param \Sonata\BlockBundle\Model\BlockInterface $block
+     * {@inheritdoc}
      */
     public function validate(ErrorElement $errorElement, $block)
     {
@@ -116,8 +111,7 @@ class BlockAdmin extends Admin
     }
 
     /**
-     * @param $id
-     * @return object
+     * {@inheritdoc}
      */
     public function getObject($id)
     {
@@ -133,6 +127,9 @@ class BlockAdmin extends Admin
         return $subject;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function preUpdate($object)
     {
         // fix weird bug with setter object not being call
@@ -142,6 +139,9 @@ class BlockAdmin extends Admin
         $this->blockManager->get($object)->preUpdate($object);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function postUpdate($object)
     {
         $service = $this->blockManager->get($object);
@@ -149,6 +149,9 @@ class BlockAdmin extends Admin
         $this->cacheManager->invalidate($service->getCacheKeys($object));
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function prePersist($object)
     {
         $this->blockManager->get($object)->prePersist($object);
@@ -159,6 +162,9 @@ class BlockAdmin extends Admin
         $object->setChildren($object->getChildren());
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function postPersist($object)
     {
         $service = $this->blockManager->get($object);
@@ -166,11 +172,17 @@ class BlockAdmin extends Admin
         $this->cacheManager->invalidate($service->getCacheKeys($object));
     }
 
+    /**
+     * @param \Sonata\BlockBundle\Block\BlockServiceManagerInterface $blockManager
+     */
     public function setBlockManager(BlockServiceManagerInterface $blockManager)
     {
         $this->blockManager = $blockManager;
     }
 
+    /**
+     * @param \Sonata\CacheBundle\Cache\CacheManagerInterface $cacheManager
+     */
     public function setCacheManager(CacheManagerInterface $cacheManager)
     {
         $this->cacheManager = $cacheManager;

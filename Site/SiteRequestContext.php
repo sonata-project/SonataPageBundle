@@ -18,12 +18,12 @@ class SiteRequestContext extends RequestContext
 
     /**
      * @param SiteSelectorInterface $site
-     * @param string $baseUrl
-     * @param string $method
-     * @param string $host
-     * @param string $scheme
-     * @param int $httpPort
-     * @param int $httpsPort
+     * @param string                $baseUrl
+     * @param string                $method
+     * @param string                $host
+     * @param string                $scheme
+     * @param int                   $httpPort
+     * @param int                   $httpsPort
      */
     public function __construct(SiteSelectorInterface $selector, $baseUrl = '', $method = 'GET', $host = 'localhost', $scheme = 'http', $httpPort = 80, $httpsPort = 443)
     {
@@ -32,6 +32,9 @@ class SiteRequestContext extends RequestContext
         parent::__construct($baseUrl, $method, $host, $scheme, $httpPort, $httpsPort);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getHost()
     {
         $site = $this->selector->retrieve();
@@ -43,12 +46,15 @@ class SiteRequestContext extends RequestContext
         return parent::getHost();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getBaseUrl()
     {
         $site = $this->selector->retrieve();
 
         if ($site) {
-            return parent::getBaseUrl().$site->getRelativePath();
+            return parent::getBaseUrl() . $site->getRelativePath();
         }
 
         return parent::getBaseUrl();

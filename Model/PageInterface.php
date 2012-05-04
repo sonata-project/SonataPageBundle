@@ -31,7 +31,8 @@ interface PageInterface
 
     /**
      *
-     * @param $id
+     * @param mixed $id
+     *
      * @return mixed
      */
     function setId($id);
@@ -96,6 +97,7 @@ interface PageInterface
      * Set Url
      *
      * @param string $url
+     *
      * @return void
      */
     function setUrl($url);
@@ -216,6 +218,7 @@ interface PageInterface
      * Add blocs
      *
      * @param BlockInterface $bloc
+     *
      * @return void
      */
     function addBlocks(BlockInterface $bloc);
@@ -230,9 +233,10 @@ interface PageInterface
     /**
      *
      * @param PageInterface $target
+     *
      * @return void
      */
-    function setTarget(PageInterface $target);
+    function setTarget(PageInterface $target = null);
 
     /**
      * Get target
@@ -246,12 +250,13 @@ interface PageInterface
      *
      * @param PageInterface $parent
      */
-    function setParent(PageInterface $parent);
+    function setParent(PageInterface $parent = null);
 
     /**
      * Get parent
      *
      * @param integer $level default -1
+     *
      * @return PageInterface $parent
      */
     function getParent($level = -1);
@@ -275,13 +280,14 @@ interface PageInterface
      *
      *
      * @param boolean $decorate
+     *
      * @return void
      */
     function setDecorate($decorate);
 
     /**
      *
-     * @return void
+     * @return boolean
      */
     function getDecorate();
 
@@ -312,6 +318,7 @@ interface PageInterface
     /**
      *
      * @param int $position
+     *
      * @return void
      */
     function setPosition($position);
@@ -325,27 +332,30 @@ interface PageInterface
     /**
      *
      * @param string $method
+     *
      * @return void
      */
     function setRequestMethod($method);
 
     /**
      *
-     * @return void
+     * @return string
      */
     function getRequestMethod();
 
     /**
      *
      * @param array $headers
+     *
      * @return void
      */
     function setHeaders(array $headers = array());
 
     /**
      *
-     * @param $name
-     * @param $value
+     * @param string $name
+     * @param mixed $value
+     *
      * @return void
      */
     function addHeader($name, $value);
@@ -357,14 +367,12 @@ interface PageInterface
     function getHeaders();
 
     /**
-     *
      * @param array $parents
      */
     function setParents(array $parents);
 
     /**
-     *
-     *
+     * @return array
      */
     function getParents();
 
@@ -377,28 +385,24 @@ interface PageInterface
     function getTtl();
 
     /**
-     *
      * @param string $method
+     *
      * @return bool
      */
     function hasRequestMethod($method);
 
     /**
-     *
      * @param SiteInterface $site
-     * @return void
      */
     function setSite(SiteInterface $site);
 
     /**
-     *
-     * @return void
+     * @return SiteInterface
      */
     function getSite();
 
     /**
      * @param array $rawHeaders
-     * @return void
      */
     function setRawHeaders($rawHeaders);
 
@@ -408,12 +412,12 @@ interface PageInterface
     function getEdited();
 
     /**
-     * @return void
+     * @param boolean $edited
      */
     function setEdited($edited);
 
     /**
-     * @return void
+     * @return boolean
      */
     function isError();
 }

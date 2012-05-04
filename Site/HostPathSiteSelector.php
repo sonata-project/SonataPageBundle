@@ -31,14 +31,14 @@ class HostPathSiteSelector extends BaseSiteSelector
             throw new \RuntimeException('You must change the main Request object in the front controller (app.php) in order to use the `host_with_path` strategy');
         }
 
-        $now = new \DateTime;
+        $now         = new \DateTime;
         $defaultSite = false;
         foreach ($this->getSites() as $site) {
             if ($site->getEnabledFrom()->format('U') > $now->format('U')) {
                 continue;
             }
 
-            if ($now->format('U') > $site->getEnabledTo()->format('U') ) {
+            if ($now->format('U') > $site->getEnabledTo()->format('U')) {
                 continue;
             }
 
@@ -85,7 +85,7 @@ class HostPathSiteSelector extends BaseSiteSelector
         }
 
         if ('Symfony\\Bundle\\FrameworkBundle\\Controller\\RedirectController::urlRedirectAction' == $request->get('_controller')) {
-            $request->attributes->set('path', $this->site->getRelativePath().$request->attributes->get('path'));
+            $request->attributes->set('path', $this->site->getRelativePath() . $request->attributes->get('path'));
         }
     }
 

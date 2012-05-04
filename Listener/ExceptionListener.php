@@ -41,14 +41,14 @@ class ExceptionListener
     protected $httpErrorCodes;
 
     /**
-     * @param \Sonata\PageBundle\Site\SiteSelectorInterface $siteSelector
+     * @param \Sonata\PageBundle\Site\SiteSelectorInterface             $siteSelector
      * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $cmsManagerSelector
-     * @param $debug
-     * @param \Symfony\Component\Templating\EngineInterface $templating
-     * @param \Sonata\PageBundle\CmsManager\PageRendererInterface $pageRenderer
-     * @param \Sonata\PageBundle\CmsManager\DecoratorStrategyInterface $decoratorStrategy
-     * @param array $httpErrorCodes
-     * @param null|\Symfony\Component\HttpKernel\Log\LoggerInterface $logger
+     * @param boolean                                                   $debug
+     * @param \Symfony\Component\Templating\EngineInterface             $templating
+     * @param \Sonata\PageBundle\CmsManager\PageRendererInterface       $pageRenderer
+     * @param \Sonata\PageBundle\CmsManager\DecoratorStrategyInterface  $decoratorStrategy
+     * @param array                                                     $httpErrorCodes
+     * @param null|\Symfony\Component\HttpKernel\Log\LoggerInterface    $logger
      */
     public function __construct(SiteSelectorInterface $siteSelector, CmsManagerSelectorInterface $cmsManagerSelector, $debug, EngineInterface $templating, PageRendererInterface $pageRenderer, DecoratorStrategyInterface $decoratorStrategy, array $httpErrorCodes, LoggerInterface $logger = null)
     {
@@ -87,7 +87,7 @@ class ExceptionListener
             throw new InternalErrorException(sprintf('There is not page configured to handle the status code %d', $statusCode));
         }
 
-        $cms = $this->cmsManagerSelector->retrieve();
+        $cms  = $this->cmsManagerSelector->retrieve();
         $site = $this->siteSelector->retrieve();
 
         return $cms->getPageByRouteName($site, $this->httpErrorCodes[$statusCode]);
@@ -95,7 +95,9 @@ class ExceptionListener
 
     /**
      * @throws \Exception
+     *
      * @param \Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent $event
+     *
      * @return bool
      */
     public function onKernelException(GetResponseForExceptionEvent $event)
@@ -109,6 +111,7 @@ class ExceptionListener
 
     /**
      * @param \Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent $event
+     *
      * @return void
      */
     private function handleInternalError(GetResponseForExceptionEvent $event)
@@ -122,7 +125,9 @@ class ExceptionListener
 
     /**
      * @throws \Exception
+     *
      * @param \Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent $event
+     *
      * @return void
      */
     private function handleNativeError(GetResponseForExceptionEvent $event)
@@ -137,7 +142,7 @@ class ExceptionListener
 
         $this->status = true;
 
-        $exception = $event->getException();
+        $exception  = $event->getException();
         $statusCode = $exception instanceof HttpExceptionInterface ? $exception->getStatusCode() : 500;
 
         $cmsManager = $this->cmsManagerSelector->retrieve();
@@ -186,7 +191,8 @@ class ExceptionListener
     /**
      * @param \Exception $originalException
      * @param \Exception $generatedException
-     * @param null $message
+     * @param null       $message
+     *
      * @return void
      */
     private function logException(\Exception $originalException, \Exception $generatedException, $message = null)

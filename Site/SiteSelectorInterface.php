@@ -22,6 +22,7 @@ interface SiteSelectorInterface
 
     /**
      * @param \Sonata\PageBundle\Model\SiteInterface $site
+     *
      * @return void
      */
     function set(SiteInterface $site);
@@ -33,6 +34,7 @@ interface SiteSelectorInterface
 
     /**
      * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
+     *
      * @return void
      */
     function onKernelRequest(GetResponseEvent $event);
@@ -42,6 +44,7 @@ interface SiteSelectorInterface
      * the relative path from the current active site.
      *
      * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
+     *
      * @return void
      */
     function onKernelRequestRedirect(GetResponseEvent $event);

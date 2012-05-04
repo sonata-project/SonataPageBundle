@@ -15,7 +15,8 @@ interface BlockInteractorInterface
     /**
      * return a block with the given id
      *
-     * @param  $id
+     * @param mixed $id
+     *
      * @return \Sonata\BlockBundle\Model\BlockInterface
      */
     function getBlock($id);
@@ -24,6 +25,7 @@ interface BlockInteractorInterface
      * return a flat list if page's blocks
      *
      * @param \Sonata\PageBundle\Model\PageInterface $page
+     *
      * @return array
      */
     function getBlocksById(PageInterface $page);
@@ -32,6 +34,7 @@ interface BlockInteractorInterface
      * load blocks attached the given page
      *
      * @param PageInterface $page
+     *
      * @return array $blocks
      */
     function loadPageBlocks(PageInterface $page);
@@ -40,12 +43,14 @@ interface BlockInteractorInterface
      * save the block
      *
      * @param array $data
+     *
      * @return bool
      */
     function saveBlocksPosition(array $data = array());
 
     /**
      * @param array $values
+     *
      * @return \Sonata\BlockBundle\Model\BlockInterface
      */
     function createNewContainer(array $values = array());

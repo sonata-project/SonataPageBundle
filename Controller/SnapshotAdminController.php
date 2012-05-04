@@ -18,6 +18,11 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class SnapshotAdminController extends Controller
 {
+    /**
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
+     */
     public function createAction()
     {
         if (false === $this->admin->isGranted('CREATE')) {
@@ -42,7 +47,7 @@ class SnapshotAdminController extends Controller
 
         $form = $this->createForm('sonata_page_create_snapshot', $snapshot);
 
-        if ( $this->getRequest()->getMethod() == 'POST') {
+        if ($this->getRequest()->getMethod() == 'POST') {
 
             $form->bindRequest($this->getRequest());
 
@@ -60,7 +65,7 @@ class SnapshotAdminController extends Controller
                 $snapshotManager->enableSnapshots(array($snapshot));
             }
 
-            return $this->redirect( $this->admin->generateUrl('edit', array('id' => $snapshot->getId())));
+            return $this->redirect($this->admin->generateUrl('edit', array('id' => $snapshot->getId())));
         }
 
         return $this->render('SonataPageBundle:SnapshotAdmin:create.html.twig', array(
@@ -69,6 +74,13 @@ class SnapshotAdminController extends Controller
         ));
     }
 
+    /**
+     * @param mixed $query
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     *
+     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
+     */
     public function batchActionToggleEnabled($query)
     {
         if (!$this->get('security.context')->isGranted('ROLE_SONATA_PAGE_ADMIN_BLOCK_EDIT')) {

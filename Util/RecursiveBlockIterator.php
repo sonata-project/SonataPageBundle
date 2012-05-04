@@ -12,6 +12,9 @@ namespace Sonata\PageBundle\Util;
 
 class RecursiveBlockIterator extends \ArrayIterator implements \RecursiveIterator
 {
+    /**
+     * @param $array
+     */
     public function __construct($array)
     {
         if (is_object($array)) {
@@ -21,11 +24,17 @@ class RecursiveBlockIterator extends \ArrayIterator implements \RecursiveIterato
         parent::__construct($array);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getChildren()
     {
         return new self($this->current()->getChildren());
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function hasChildren()
     {
         return $this->current()->hasChildren();

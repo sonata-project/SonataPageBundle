@@ -34,11 +34,11 @@ class PageRenderer implements PageRendererInterface
     protected $errorCodes;
 
     /**
-     * @param \Symfony\Component\Routing\RouterInterface $router
-     * @param CmsManagerSelectorInterface $cmsSelector
+     * @param \Symfony\Component\Routing\RouterInterface                 $router
+     * @param CmsManagerSelectorInterface                                $cmsSelector
      * @param \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface $templating
-     * @param array $templates
-     * @param array $errorCodes
+     * @param array                                                      $templates
+     * @param array                                                      $errorCodes
      */
     public function __construct(RouterInterface $router, CmsManagerSelectorInterface $cmsSelector, EngineInterface $templating, array $templates, array $errorCodes)
     {
@@ -77,9 +77,9 @@ class PageRenderer implements PageRendererInterface
             $template = $this->defaultTemplatePath;
         }
 
-        $params['page']    = $page;
-        $params['site']    = $page->getSite();
-        $params['manager'] = $cms;
+        $params['page']        = $page;
+        $params['site']        = $page->getSite();
+        $params['manager']     = $cms;
         $params['error_codes'] = $this->errorCodes;
 
         return $this->templating->renderResponse($template, $params, $response);

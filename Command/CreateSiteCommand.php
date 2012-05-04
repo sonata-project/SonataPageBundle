@@ -20,6 +20,9 @@ use Symfony\Component\Console\Output\Output;
 
 class CreateSiteCommand extends BaseCommand
 {
+    /**
+     * {@inheritdoc}
+     */
     public function configure()
     {
         $this->setName('sonata:page:create-site');
@@ -43,29 +46,32 @@ class CreateSiteCommand extends BaseCommand
 The <info>sonata:page:create-site</info> command create a new site entity.
 
 EOT
-    );
+);
 
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $dialog = $this->getHelperSet()->get('dialog');
 
         $values = array(
-            'name'=> null,
-            'host'=> null,
+            'name'        => null,
+            'host'        => null,
             'relativePath'=> null,
-            'enabled'=> null,
-            'enabledFrom'=> null,
-            'enabledTo'=> null,
-            'default'=> null,
-            'locale'=> null,
+            'enabled'     => null,
+            'enabledFrom' => null,
+            'enabledTo'   => null,
+            'default'     => null,
+            'locale'      => null,
         );
 
-        foreach($values as $name => $value) {
+        foreach ($values as $name => $value) {
             $values[$name] = $input->getOption($name);
 
-            while($values[$name] == null) {
+            while ($values[$name] == null) {
                 $values[$name] = $dialog->ask($output, sprintf("Please define a value for <info>Site.%s</info> : ", $name));
             }
         }

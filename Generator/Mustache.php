@@ -12,9 +12,17 @@ namespace Sonata\PageBundle\Generator;
 
 class Mustache
 {
+    /**
+     * @static
+     * @param $string
+     * @param array $parameters
+     *
+     * @return string
+     */
     static public function replace($string, array $parameters)
     {
-        $replacer = function ($match) use ($parameters) {
+        $replacer = function ($match) use ($parameters)
+        {
             return isset($parameters[$match[1]]) ? $parameters[$match[1]] : $match[0];
         };
 

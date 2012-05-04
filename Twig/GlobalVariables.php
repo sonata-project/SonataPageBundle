@@ -17,11 +17,17 @@ class GlobalVariables
 {
     protected $container;
 
+    /**
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
 
+    /**
+     * @return array
+     */
     public function getSiteAvailables()
     {
         return $this->container->get('sonata.page.manager.site')->findBy(array(
@@ -29,11 +35,17 @@ class GlobalVariables
         ));
     }
 
+    /**
+     * @return mixed
+     */
     public function getCmsManager()
     {
         return $this->container->get('sonata.page.cms_manager_selector')->retrieve();
     }
 
+    /**
+     * @return mixed
+     */
     public function getCurrentSite()
     {
         return $this->container->get('sonata.page.site.selector')->retrieve();

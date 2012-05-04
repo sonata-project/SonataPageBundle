@@ -36,8 +36,8 @@ class ResponseListener
 
     /**
      * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $cmsSelector
-     * @param \Sonata\PageBundle\CmsManager\PageRendererInterface $pageRenderer
-     * @param \Sonata\PageBundle\CmsManager\DecoratorStrategyInterface $decoratorStrategy
+     * @param \Sonata\PageBundle\CmsManager\PageRendererInterface       $pageRenderer
+     * @param \Sonata\PageBundle\CmsManager\DecoratorStrategyInterface  $decoratorStrategy
      */
     public function __construct(CmsManagerSelectorInterface $cmsSelector, PageRendererInterface $pageRenderer, DecoratorStrategyInterface $decoratorStrategy)
     {
@@ -50,6 +50,7 @@ class ResponseListener
      * Filter the `core.response` event to decorated the action
      *
      * @param \Symfony\Component\HttpKernel\Event\FilterResponseEvent $event
+     *
      * @return void
      */
     public function onCoreResponse(FilterResponseEvent $event)

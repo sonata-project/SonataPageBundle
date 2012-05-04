@@ -51,21 +51,19 @@ class PageExtension extends \Twig_Extension
     private $environment;
 
     /**
-     * @param \Symfony\Component\Routing\Router $router
+     * @param \Symfony\Component\Routing\Router                         $router
      * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $cmsManagerSelector
-     * @param \Sonata\PageBundle\Site\SiteSelectorInterface $siteSelector
+     * @param \Sonata\PageBundle\Site\SiteSelectorInterface             $siteSelector
      */
     public function __construct(Router $router, CmsManagerSelectorInterface $cmsManagerSelector, SiteSelectorInterface $siteSelector)
     {
-        $this->router              = $router;
-        $this->cmsManagerSelector  = $cmsManagerSelector;
-        $this->siteSelector        = $siteSelector;
+        $this->router             = $router;
+        $this->cmsManagerSelector = $cmsManagerSelector;
+        $this->siteSelector       = $siteSelector;
     }
 
     /**
-     * Returns a list of functions to add to the existing list.
-     *
-     * @return array An array of functions
+     * {@inheritdoc}
      */
     public function getFunctions()
     {
@@ -86,9 +84,7 @@ class PageExtension extends \Twig_Extension
     }
 
     /**
-     * Returns the name of the extension.
-     *
-     * @return string The extension name
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -97,7 +93,8 @@ class PageExtension extends \Twig_Extension
 
     /**
      * @param null|\Sonata\PageBundle\Model\PageInterface $page
-     * @param array $options
+     * @param array                                       $options
+     *
      * @return string
      */
     public function breadcrumb(PageInterface $page = null, array $options = array())
@@ -142,14 +139,16 @@ class PageExtension extends \Twig_Extension
 
     /**
      * @throws \RunTimeException
+     *
      * @param null|\Sonata\PageBundle\Model\PageInterface|string $page
-     * @param bool $absolute
+     * @param bool                                               $absolute
+     *
      * @return string
      */
     public function url($page = null, $absolute = false)
     {
         if (!$page) {
-             return '';
+            return '';
         }
 
         $context = $this->router->getContext();
@@ -188,7 +187,8 @@ class PageExtension extends \Twig_Extension
 
     /**
      * @param string $template
-     * @param array $parameters
+     * @param array  $parameters
+     *
      * @return string
      */
     private function render($template, array $parameters = array())
@@ -201,26 +201,31 @@ class PageExtension extends \Twig_Extension
     }
 
     /**
-     * @param $name
-     * @param null $page
-     * @param bool $useCache
+     * @param string $name
+     * @param null   $page
+     * @param bool   $useCache
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function renderContainer($name, $page = null, $useCache = true)
     {
-        $cms  = $this->cmsManagerSelector->retrieve();
-        $site = $this->siteSelector->retrieve();
+        $cms        = $this->cmsManagerSelector->retrieve();
+        $site       = $this->siteSelector->retrieve();
         $targetPage = false;
 
         try {
             if ($page === null) {
                 $targetPage = $cms->getCurrentPage();
-            } else if (!$page instanceof PageInterface && is_string($page)) {
-                $targetPage = $cms->getInternalRoute($site, $page);
-            } else if ($page instanceof PageInterface) {
-                $targetPage = $page;
+            } else {
+                if (!$page instanceof PageInterface && is_string($page)) {
+                    $targetPage = $cms->getInternalRoute($site, $page);
+                } else {
+                    if ($page instanceof PageInterface) {
+                        $targetPage = $page;
+                    }
+                }
             }
-        } catch(PageNotFoundException $e) {
+        } catch (PageNotFoundException $e) {
             // the snapshot does not exist
             $targetPage = false;
         }
@@ -240,7 +245,8 @@ class PageExtension extends \Twig_Extension
 
     /**
      * @param \Sonata\BlockBundle\Model\BlockInterface $block
-     * @param bool $useCache
+     * @param bool                                     $useCache
+     *
      * @return string
      */
     public function renderBlock(BlockInterface $block, $useCache = true)

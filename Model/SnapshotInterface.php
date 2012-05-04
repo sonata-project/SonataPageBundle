@@ -113,7 +113,7 @@ interface SnapshotInterface
     /**
      * Set updatedAt
      *
-     * @param datetime $updatedAt
+     * @param \Datetime $updatedAt
      */
     function setUpdatedAt(\DateTime $updatedAt = null);
 
@@ -125,57 +125,47 @@ interface SnapshotInterface
     function getUpdatedAt();
 
     /**
-     * @abstract
      * @param bool $decorate
      */
     function setDecorate($decorate);
 
     /**
-     * @abstract
      * @return bool
      */
     function getDecorate();
 
     /**
-     * @abstract
      * return bool
      */
     function isHybrid();
 
     /**
-     * @abstract
      * @param integer $position
      */
     function setPosition($position);
 
     /**
-     * @abstract
      * @return integer
      */
     function getPosition();
 
     /**
-     * @abstract
      * @param PageInterface $page
      */
     function setPage(PageInterface $page = null);
 
     /**
-     * @abstract
      * @return PageInterface
      */
     function getPage();
 
     /**
-     *
      * @param SiteInterface $site
-     * @return void
      */
     function setSite(SiteInterface $site);
 
     /**
-     *
-     * @return void
+     * @return SiteInterface
      */
     function getSite();
 }

@@ -37,7 +37,7 @@ class CmsPageManager extends BaseCmsPageManager
     protected $pages = array();
 
     /**
-     * @param \Sonata\PageBundle\Model\PageManagerInterface $pageManager
+     * @param \Sonata\PageBundle\Model\PageManagerInterface     $pageManager
      * @param \Sonata\PageBundle\Model\BlockInteractorInterface $blockInteractor
      */
     public function __construct(PageManagerInterface $pageManager, BlockInteractorInterface $blockInteractor)
@@ -81,7 +81,7 @@ class CmsPageManager extends BaseCmsPageManager
 
         try {
             $page = $this->getPageByRouteName($site, $routeName);
-        } catch(PageNotFoundException $e) {
+        } catch (PageNotFoundException $e) {
             $page = $this->pageManager->create(array(
                 'url'       => null,
                 'routeName' => $routeName,
@@ -141,7 +141,7 @@ class CmsPageManager extends BaseCmsPageManager
     {
         if ('id' == $fieldName) {
             $id = $value;
-        } elseif(isset($this->pageReferences[$fieldName][$value])) {
+        } elseif (isset($this->pageReferences[$fieldName][$value])) {
             $id = $this->pageReferences[$fieldName][$value];
         } else {
             $id = null;
@@ -193,6 +193,7 @@ class CmsPageManager extends BaseCmsPageManager
      * load all the related nested blocks linked to one page.
      *
      * @param \Sonata\PageBundle\Model\PageInterface $page
+     *
      * @return void
      */
     private function loadBlocks(PageInterface $page)

@@ -17,27 +17,31 @@ use Symfony\Component\HttpFoundation\Request;
 interface DecoratorStrategyInterface
 {
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param $requestType
+     * @param \Symfony\Component\HttpFoundation\Request  $request
+     * @param integer                                    $requestType
      * @param \Symfony\Component\HttpFoundation\Response $response
+     *
      * @return boolean
      */
     function isDecorable(Request $request, $requestType, Response $response);
 
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
+     *
      * @return void
      */
     function isRequestDecorable(Request $request);
 
     /**
-     * @param $routeName
+     * @param string $routeName
+     *
      * @return boolean
      */
     function isRouteNameDecorable($routeName);
 
     /**
-     * @param $uri
+     * @param string $uri
+     *
      * @return boolean
      */
     function isRouteUriDecorable($uri);

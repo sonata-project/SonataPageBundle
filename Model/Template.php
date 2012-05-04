@@ -28,7 +28,7 @@ class Template
     }
 
     /**
-     * @return
+     * @return string
      */
     public function getName()
     {
@@ -36,7 +36,7 @@ class Template
     }
 
     /**
-     * @return
+     * @return string
      */
     public function getPath()
     {

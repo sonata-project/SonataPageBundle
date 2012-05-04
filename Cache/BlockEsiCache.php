@@ -31,17 +31,17 @@ class BlockEsiCache implements CacheInterface
     protected $managers;
 
     /**
-     * @param array $servers
-     * @param \Symfony\Component\Routing\RouterInterface $router
+     * @param array                                                  $servers
+     * @param \Symfony\Component\Routing\RouterInterface             $router
      * @param \Sonata\BlockBundle\Block\BlockServiceManagerInterface $blockService
-     * @param array $managers
+     * @param array                                                  $managers
      */
     public function __construct(array $servers = array(), RouterInterface $router, BlockServiceManagerInterface $blockService, array $managers = array())
     {
-        $this->servers  = $servers;
-        $this->router   = $router;
+        $this->servers      = $servers;
+        $this->router       = $router;
         $this->blockService = $blockService;
-        $this->managers = $managers;
+        $this->managers     = $managers;
     }
 
     /**
@@ -55,6 +55,7 @@ class BlockEsiCache implements CacheInterface
     /**
      * @param string $command
      * @param string $expression
+     *
      * @return bool
      */
     private function runCommand($command, $expression)
@@ -99,7 +100,9 @@ class BlockEsiCache implements CacheInterface
 
     /**
      * @throws \RuntimeException
+     *
      * @param array $keys
+     *
      * @return void
      */
     private function validateKeys(array $keys)
@@ -134,7 +137,8 @@ class BlockEsiCache implements CacheInterface
     }
 
     /**
-     * @param $key
+     * @param string $key
+     *
      * @return string
      */
     protected function normalize($key)
@@ -144,6 +148,7 @@ class BlockEsiCache implements CacheInterface
 
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
+     *
      * @return mixed
      */
     public function cacheAction(Request $request)
@@ -161,7 +166,9 @@ class BlockEsiCache implements CacheInterface
 
     /**
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     *
      * @param \Symfony\Component\HttpFoundation\Request $request
+     *
      * @return \Sonata\PageBundle\CmsManager\CmsManagerInterface
      */
     private function getManager(Request $request)

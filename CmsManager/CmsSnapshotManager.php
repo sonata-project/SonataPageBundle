@@ -102,7 +102,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
     {
         if ('id' == $fieldName) {
             $id = $value;
-        } elseif(isset($this->pageReferences[$fieldName][$value])) {
+        } elseif (isset($this->pageReferences[$fieldName][$value])) {
             $id = $this->pageReferences[$fieldName][$value];
         } else {
             $id = null;
@@ -126,7 +126,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
             $this->pages[$id] = false;
 
             if ($page) {
-               $this->loadBlocks($page);
+                $this->loadBlocks($page);
 
                 $id = $page->getId();
 

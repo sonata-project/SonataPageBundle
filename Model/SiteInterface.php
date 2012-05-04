@@ -16,34 +16,37 @@ interface SiteInterface
     function getId();
 
     /**
-     * @param $name
+     * @param string $name
+     *
      * @return void
      */
     function setName($name);
 
     /**
-     * @return void
+     * @return string
      */
     function getName();
 
     /**
-     * @param $host
+     * @param string $host
+     *
      * @return void
      */
     function setHost($host);
 
     /**
-     * @return void
+     * @return string
      */
     function getHost();
 
     /**
-     * @return void
+     * @return string
      */
     function getLocale();
 
     /**
-     * @param $locale
+     * @param string $locale
+     *
      * @return void
      */
     function setLocale($locale);
@@ -55,6 +58,7 @@ interface SiteInterface
 
     /**
      * @param \DateTime $enabledFrom
+     *
      * @return void
      */
     function setEnabledFrom(\DateTime $enabledFrom);
@@ -66,6 +70,7 @@ interface SiteInterface
 
     /**
      * @param \DateTime $enabledFrom
+     *
      * @return void
      */
     function setEnabledTo(\DateTime $enabledFrom);
@@ -77,18 +82,20 @@ interface SiteInterface
 
     /**
      * @param boolean $default
+     *
      * @return void
      */
     function setIsDefault($default);
 
     /**
-     * @param $path
+     * @param string $path
+     *
      * @return void
      */
     function setRelativePath($path);
 
     /**
-     * @return void
+     * @return string
      */
     function getRelativePath();
 
@@ -145,12 +152,13 @@ interface SiteInterface
     function getUrl();
 
     /**
-     * @return void
+     * @return boolean
      */
     function isLocalhost();
 
     /**
-     * @param $metaDescription
+     * @param string $metaDescription
+     *
      * @return string
      */
     function setMetaDescription($metaDescription);
@@ -161,7 +169,8 @@ interface SiteInterface
     function getMetaDescription();
 
     /**
-     * @param $metaKeywords
+     * @param string $metaKeywords
+     *
      * @return string
      */
     function setMetaKeywords($metaKeywords);
@@ -172,7 +181,8 @@ interface SiteInterface
     function getMetaKeywords();
 
     /**
-     * @param $title
+     * @param string $title
+     *
      * @return string
      */
     function setTitle($title);

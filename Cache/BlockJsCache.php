@@ -36,16 +36,16 @@ class BlockJsCache implements CacheInterface
     protected $blockManager;
 
     /**
-     * @param \Symfony\Component\Routing\RouterInterface $router
+     * @param \Symfony\Component\Routing\RouterInterface                $router
      * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $cmsSelector
-     * @param \Sonata\BlockBundle\Block\BlockServiceManagerInterface $blockManager
-     * @param bool $sync
+     * @param \Sonata\BlockBundle\Block\BlockServiceManagerInterface    $blockManager
+     * @param bool                                                      $sync
      */
     public function __construct(RouterInterface $router, CmsManagerSelectorInterface $cmsSelector, BlockServiceManagerInterface $blockManager, $sync = false)
     {
-        $this->router = $router;
-        $this->sync   = $sync;
-        $this->cmsSelector = $cmsSelector;
+        $this->router       = $router;
+        $this->sync         = $sync;
+        $this->cmsSelector  = $cmsSelector;
         $this->blockManager = $blockManager;
     }
 
@@ -85,7 +85,9 @@ class BlockJsCache implements CacheInterface
 
     /**
      * @throws \RuntimeException
+     *
      * @param array $keys
+     *
      * @return void
      */
     private function validateKeys(array $keys)
@@ -99,6 +101,7 @@ class BlockJsCache implements CacheInterface
 
     /**
      * @param array $keys
+     *
      * @return string
      */
     protected function getSync(array $keys)
@@ -176,6 +179,7 @@ CONTENT
 
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function cacheAction(Request $request)
@@ -184,11 +188,11 @@ CONTENT
 
         try {
             $page = $cms->getPageById($request->get('page_id'));
-        } catch(PageNotFoundException $e) {
+        } catch (PageNotFoundException $e) {
             $page = false;
         }
 
-        $block   = $cms->getBlock($request->get('block_id'));
+        $block = $cms->getBlock($request->get('block_id'));
 
         if (!$page || !$block) {
             return new Response('', 404);

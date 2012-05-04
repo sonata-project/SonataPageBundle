@@ -31,13 +31,13 @@ class CreateSnapshotsConsumer implements ConsumerInterface
     /**
      * @param \Sonata\NotificationBundle\Backend\BackendInterface $asyncBackend
      * @param \Sonata\NotificationBundle\Backend\BackendInterface $runtimeBackend
-     * @param \Sonata\PageBundle\Model\PageManagerInterface $pageManager
+     * @param \Sonata\PageBundle\Model\PageManagerInterface       $pageManager
      */
     public function __construct(BackendInterface $asyncBackend, BackendInterface $runtimeBackend, PageManagerInterface $pageManager)
     {
-        $this->asyncBackend = $asyncBackend;
+        $this->asyncBackend   = $asyncBackend;
         $this->runtimeBackend = $runtimeBackend;
-        $this->pageManager = $pageManager;
+        $this->pageManager    = $pageManager;
     }
 
     /**

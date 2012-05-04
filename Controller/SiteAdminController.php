@@ -18,6 +18,12 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class SiteAdminController extends Controller
 {
+    /**
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
+     */
     public function snapshotsAction()
     {
         if (false === $this->admin->isGranted('EDIT')) {

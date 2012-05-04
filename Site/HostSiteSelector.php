@@ -30,7 +30,7 @@ class HostSiteSelector extends BaseSiteSelector
                 continue;
             }
 
-            if ($now->format('U') > $site->getEnabledTo()->format('U') ) {
+            if ($now->format('U') > $site->getEnabledTo()->format('U')) {
                 continue;
             }
 

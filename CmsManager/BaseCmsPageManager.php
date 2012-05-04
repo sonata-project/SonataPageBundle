@@ -78,9 +78,10 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
 
     /**
      * @param null|\Sonata\PageBundle\Model\SiteInterface $site
-     * @param $fieldName
-     * @param $value
-     * @return void
+     * @param string                                      $fieldName
+     * @param mixed                                       $value
+     *
+     * @return PageInterface
      */
     abstract protected function getPageBy(SiteInterface $site = null, $fieldName, $value);
 }

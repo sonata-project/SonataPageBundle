@@ -28,7 +28,7 @@ class BlockInteractor implements BlockInteractorInterface
     protected $blockManager;
 
     /**
-     * @param \Symfony\Bridge\Doctrine\RegistryInterface $registry
+     * @param \Symfony\Bridge\Doctrine\RegistryInterface      $registry
      * @param \Sonata\BlockBundle\Model\BlockManagerInterface $blockManager
      */
     public function __construct(RegistryInterface $registry, BlockManagerInterface $blockManager)
@@ -87,7 +87,7 @@ class BlockInteractor implements BlockInteractorInterface
 
         try {
             foreach ($data as $code => $block) {
-                $parent_id = (int) substr($code, 10);
+                $parent_id = (int)substr($code, 10);
 
                 $block['child'] = (isset($block['child']) && is_array($block['child'])) ? $block['child'] : array();
 
@@ -100,15 +100,14 @@ class BlockInteractor implements BlockInteractorInterface
             return false;
         }
 
-         $this->getEntityManager()->getConnection()->commit();
+        $this->getEntityManager()->getConnection()->commit();
 
-         return true;
+        return true;
     }
 
     /**
-     * @param $blocks
-     * @param $parentId
-     * @return
+     * @param array $blocks
+     * @param int   $parentId
      */
     protected function saveNestedPosition($blocks, $parentId)
     {

@@ -26,12 +26,12 @@ class CreateSnapshotConsumer implements ConsumerInterface
 
     /**
      * @param \Sonata\PageBundle\Model\SnapshotManagerInterface $snapshotManager
-     * @param \Sonata\PageBundle\Model\PageManagerInterface $pageManager
+     * @param \Sonata\PageBundle\Model\PageManagerInterface     $pageManager
      */
     public function __construct(SnapshotManagerInterface $snapshotManager, PageManagerInterface $pageManager)
     {
         $this->snapshotManager = $snapshotManager;
-        $this->pageManager = $pageManager;
+        $this->pageManager     = $pageManager;
     }
 
     /**

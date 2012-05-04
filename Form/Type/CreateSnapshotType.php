@@ -21,15 +21,16 @@ use Sonata\PageBundle\CmsManager\CmsPageManager;
 
 class CreateSnapshotType extends AbstractType
 {
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder->add('page');
     }
 
     /**
-     * Returns the name of this type.
-     *
-     * @return string The name of this type
+     * {@inheritdoc}
      */
     function getName()
     {

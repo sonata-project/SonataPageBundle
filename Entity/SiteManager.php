@@ -25,7 +25,7 @@ class SiteManager implements SiteManagerInterface
 
     /**
      * @param \Doctrine\ORM\EntityManager $entityManager
-     * @param string $class
+     * @param string                      $class
      */
     public function __construct(EntityManager $entityManager, $class)
     {
@@ -35,6 +35,7 @@ class SiteManager implements SiteManagerInterface
 
     /**
      * @param SiteInterface $site
+     *
      * @return SiteInterface
      */
     public function save(SiteInterface $site)
@@ -52,6 +53,7 @@ class SiteManager implements SiteManagerInterface
 
     /**
      * @param array $criteria
+     *
      * @return array
      */
     public function findBy(array $criteria = array())
@@ -61,6 +63,7 @@ class SiteManager implements SiteManagerInterface
 
     /**
      * @param array $criteria
+     *
      * @return SiteInterface
      */
     public function findOneBy(array $criteria = array())

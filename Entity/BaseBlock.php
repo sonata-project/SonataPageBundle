@@ -24,6 +24,9 @@ abstract class BaseBlock extends Block
         $this->id = $id;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function __construct()
     {
         $this->children = new ArrayCollection;
@@ -42,6 +45,9 @@ abstract class BaseBlock extends Block
         $this->updatedAt = new \DateTime;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setChildren($children)
     {
         $this->children = new ArrayCollection;

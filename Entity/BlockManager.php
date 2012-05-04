@@ -26,7 +26,7 @@ class BlockManager implements BlockManagerInterface
 
     /**
      * @param \Doctrine\ORM\EntityManager $entityManager
-     * @param $class
+     * @param string                      $class
      */
     public function __construct(EntityManager $entityManager, $class)
     {
@@ -70,6 +70,9 @@ class BlockManager implements BlockManagerInterface
         $this->entityManager->flush();
     }
 
+    /**
+     * @return \Doctrine\ORM\EntityRepository
+     */
     protected function getRepository()
     {
         return $this->entityManager->getRepository($this->class);
@@ -78,7 +81,7 @@ class BlockManager implements BlockManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function findBy(array $criteria = array())
+    public function findBy(array $criteria)
     {
         return $this->getRepository()->findBy($criteria);
     }
@@ -86,7 +89,7 @@ class BlockManager implements BlockManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function findOneBy(array $criteria = array())
+    public function findOneBy(array $criteria)
     {
         return $this->getRepository()->findOneBy($criteria);
     }

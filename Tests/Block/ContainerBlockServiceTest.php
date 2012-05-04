@@ -18,8 +18,8 @@ class ContainerBlockServiceTest extends \PHPUnit_Framework_TestCase
 {
     public function testService()
     {
-        $templating =  new FakeTemplating;
-        $service = new ContainerBlockService('core.container', $templating);
+        $templating = new FakeTemplating;
+        $service    = new ContainerBlockService('core.container', $templating);
 
         $block = new Block;
         $block->setType('core.container');

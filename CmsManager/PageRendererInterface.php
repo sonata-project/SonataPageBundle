@@ -16,38 +16,38 @@ use Symfony\Component\HttpFoundation\Response;
 interface PageRendererInterface
 {
     /**
-     * @param \Sonata\PageBundle\Model\PageInterface $page
-     * @param array $params
+     * @param \Sonata\PageBundle\Model\PageInterface          $page
+     * @param array                                           $params
      * @param null|\Symfony\Component\HttpFoundation\Response $response
-     * @return void
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function render(PageInterface $page, array $params = array(), Response $response = null);
 
     /**
-     * @return void
+     * @return string
      */
     public function getDefaultTemplateCode();
 
     /**
-     * @param $code
-     * @return void
+     * @param string $code
      */
     public function setDefaultTemplateCode($code);
 
     /**
-     * @param $templates
-     * @return void
+     * @param array $templates
      */
     public function setTemplates($templates);
 
     /**
-     * @return void
+     * @return array
      */
     public function getTemplates();
 
     /**
-     * @param $code
-     * @return void
+     * @param string $code
+     *
+     * @return string
      */
     public function getTemplate($code);
 }

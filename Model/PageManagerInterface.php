@@ -15,6 +15,7 @@ interface PageManagerInterface
     /**
      *
      * @param array $criteria
+     *
      * @return PageInterface
      */
     function findOneBy(array $criteria = array());
@@ -22,6 +23,7 @@ interface PageManagerInterface
     /**
      *
      * @param array $criteria
+     *
      * @return array
      */
     function findBy(array $criteria = array());
@@ -30,7 +32,8 @@ interface PageManagerInterface
      * Returns a page with the give slug
      *
      * @param SiteInterface $site
-     * @param string $url
+     * @param string        $url
+     *
      * @return PageInterface
      */
     function getPageByUrl(SiteInterface $site, $url);
@@ -38,6 +41,7 @@ interface PageManagerInterface
     /**
      *
      * @param PageInterface $object
+     *
      * @return void
      */
     function save(PageInterface $object);
@@ -45,6 +49,7 @@ interface PageManagerInterface
     /**
      *
      * @param array $params
+     *
      * @return PageInterface
      */
     function create(array $params = array());
@@ -53,6 +58,7 @@ interface PageManagerInterface
      * Returns an array of Pages Entity where the id is the key
      *
      * @param SiteInterface $site
+     *
      * @return void
      */
     function loadPages(SiteInterface $site);
