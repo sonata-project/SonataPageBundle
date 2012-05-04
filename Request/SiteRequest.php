@@ -12,12 +12,15 @@ namespace Sonata\PageBundle\Request;
 
 use Symfony\Component\HttpFoundation\Request as BaseRequest;
 
+/**
+ * SiteRequest
+ *
+ * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class SiteRequest extends BaseRequest implements SiteRequestInterface
 {
     /**
-     * @param string $pathInfo
-     *
-     * @return void
+     * {@inheritdoc}
      */
     public function setPathInfo($pathInfo)
     {
@@ -25,9 +28,7 @@ class SiteRequest extends BaseRequest implements SiteRequestInterface
     }
 
     /**
-     * @param string $baseUrl
-     *
-     * @return void
+     * {@inheritdoc}
      */
     public function setBaseUrl($baseUrl)
     {

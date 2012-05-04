@@ -14,6 +14,12 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * The DecoratorStrategy class defines if a request can be decorate by a PageInterface depends
+ * on the current request.
+ *
+ * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class DecoratorStrategy implements DecoratorStrategyInterface
 {
     protected $ignoreRoutes;

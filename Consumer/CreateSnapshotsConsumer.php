@@ -20,6 +20,11 @@ use Sonata\NotificationBundle\Backend\BackendInterface;
 use Sonata\NotificationBundle\Consumer\ConsumerInterface;
 use Sonata\NotificationBundle\Consumer\ConsumerEvent;
 
+/**
+ * Consumer class to generate snapshots
+ *
+ * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class CreateSnapshotsConsumer implements ConsumerInterface
 {
     protected $asyncBackend;

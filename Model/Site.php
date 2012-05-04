@@ -13,6 +13,11 @@ namespace Sonata\PageBundle\Model;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 
+/**
+ * Site
+ *
+ * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 abstract class Site implements SiteInterface
 {
     protected $enabled;

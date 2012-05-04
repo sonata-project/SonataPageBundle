@@ -15,6 +15,11 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 use Sonata\PageBundle\CmsManager\PageRendererInterface;
 
+/**
+ * Select a template
+ *
+ * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class TemplateChoiceType extends ChoiceType
 {
     protected $renderer;

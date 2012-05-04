@@ -12,6 +12,11 @@ namespace Sonata\PageBundle\Site;
 
 use Symfony\Component\Routing\RequestContext;
 
+/**
+ * SiteRequestContext
+ *
+ * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class SiteRequestContext extends RequestContext
 {
     protected $selector;

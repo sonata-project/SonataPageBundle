@@ -20,6 +20,12 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 
 use Sonata\CacheBundle\Cache\CacheManagerInterface;
 
+/**
+ *
+ * Admin definition for the Snapshot class
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class SnapshotAdmin extends Admin
 {
     protected $cacheManager;

@@ -23,6 +23,7 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Generator\Mustache;
 
 /**
+ * Render a container block
  *
  * @author     Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */

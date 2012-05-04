@@ -19,12 +19,9 @@ use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Model\BlockInteractorInterface;
 
 /**
- * The Manager class is in charge of retrieving the correct page (cms page or action page)
+ * The CmsPageManager class is in charge of retrieving the correct page (cms page or action page)
  *
- * An action page is linked to a symfony action and a cms page is a standalone page.
- *
- *
- * @author     Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class CmsPageManager extends BaseCmsPageManager
 {

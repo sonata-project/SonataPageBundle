@@ -13,6 +13,11 @@ namespace Sonata\PageBundle\Entity;
 
 use Sonata\PageBundle\Model\Page;
 
+/**
+ * The class stores Page information
+ *
+ * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 abstract class BasePage extends Page
 {
     /**

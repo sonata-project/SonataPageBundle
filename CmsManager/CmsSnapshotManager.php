@@ -19,9 +19,10 @@ use Sonata\PageBundle\Util\RecursiveBlockIterator;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 
-
 /**
- * @author     Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * The CmsSnapshotManager class is in charge of retrieving the correct page (cms page or action page)
+ *
+ * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class CmsSnapshotManager extends BaseCmsPageManager
 {

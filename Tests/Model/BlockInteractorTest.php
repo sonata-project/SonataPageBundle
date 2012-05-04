@@ -16,6 +16,9 @@ use Sonata\BlockBundle\Model\BlockManagerInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\Block;
 
+/**
+ *
+ */
 class BlockInteractorTest extends \PHPUnit_Framework_TestCase
 {
 

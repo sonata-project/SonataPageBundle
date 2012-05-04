@@ -13,6 +13,11 @@ namespace Sonata\PageBundle\CmsManager;
 use Sonata\PageBundle\Model\PageInterface;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * The PageRendererInterface defines methods to render a Page
+ *
+ * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 interface PageRendererInterface
 {
     /**
@@ -22,32 +27,32 @@ interface PageRendererInterface
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function render(PageInterface $page, array $params = array(), Response $response = null);
+    function render(PageInterface $page, array $params = array(), Response $response = null);
 
     /**
      * @return string
      */
-    public function getDefaultTemplateCode();
+    function getDefaultTemplateCode();
 
     /**
      * @param string $code
      */
-    public function setDefaultTemplateCode($code);
+    function setDefaultTemplateCode($code);
 
     /**
      * @param array $templates
      */
-    public function setTemplates($templates);
+    function setTemplates($templates);
 
     /**
      * @return array
      */
-    public function getTemplates();
+    function getTemplates();
 
     /**
      * @param string $code
      *
      * @return string
      */
-    public function getTemplate($code);
+    function getTemplate($code);
 }

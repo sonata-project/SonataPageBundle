@@ -18,6 +18,9 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ *
+ */
 class DecoratorStrategyTest extends \PHPUnit_Framework_TestCase
 {
     public function testIsDecorable()

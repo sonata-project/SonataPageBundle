@@ -4,6 +4,11 @@ namespace Sonata\PageBundle\Model;
 
 use Sonata\BlockBundle\Model\BlockInterface;
 
+/**
+ * SnapshotPageProxy
+ *
+ * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class SnapshotPageProxy implements PageInterface
 {
     /**

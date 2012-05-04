@@ -22,6 +22,11 @@ use Sonata\PageBundle\Model\SiteInterface;
 
 use Sonata\AdminBundle\Form\ChoiceList\ModelChoiceList;
 
+/**
+ * Select a page
+ *
+ * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class PageSelectorType extends ModelType
 {
     protected $manager;

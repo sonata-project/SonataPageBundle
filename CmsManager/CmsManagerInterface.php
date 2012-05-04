@@ -22,7 +22,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @author     Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * The CmsManagerInterface class is in charge of retrieving the correct page (cms page or action page)
+ *
+ * An action page is linked to a symfony action and a cms page is a standalone page.
+ *
+ * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 interface CmsManagerInterface
 {
@@ -101,8 +105,6 @@ interface CmsManagerInterface
 
     /**
      * @param \Sonata\PageBundle\Model\PageInterface $page
-     *
-     * @return void
      */
     function setCurrentPage(PageInterface $page);
 

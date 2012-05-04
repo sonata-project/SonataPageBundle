@@ -16,6 +16,9 @@ use Sonata\PageBundle\Cache\BlockJsCache;
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 
+/**
+ *
+ */
 class BlockJsCacheTest extends \PHPUnit_Framework_TestCase
 {
     /**

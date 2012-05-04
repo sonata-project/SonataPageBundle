@@ -21,6 +21,9 @@ use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
 use Sonata\CacheBundle\Cache\CacheManagerInterface;
 use Sonata\PageBundle\Model\BlockInteractorInterface;
 
+/**
+ *
+ */
 class CmsPageManagerTest extends \PHPUnit_Framework_TestCase
 {
 

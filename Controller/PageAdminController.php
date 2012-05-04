@@ -17,6 +17,11 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 
+/**
+ * Page Admin Controller
+ *
+ * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class PageAdminController extends Controller
 {
     /**

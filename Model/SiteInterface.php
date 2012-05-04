@@ -11,6 +11,11 @@
 
 namespace Sonata\PageBundle\Model;
 
+/**
+ * SiteInterface
+ *
+ * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 interface SiteInterface
 {
     function getId();

@@ -12,6 +12,11 @@ namespace Sonata\PageBundle\Model;
 
 use Sonata\BlockBundle\Model\BlockInterface;
 
+/**
+ * PageInterface
+ *
+ * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 interface PageInterface
 {
     const PAGE_ROUTE_CMS_NAME = 'page_slug';

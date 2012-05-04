@@ -9,7 +9,6 @@
  * file that was distributed with this source code.
  */
 
-
 namespace Sonata\PageBundle\Listener;
 
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
@@ -25,6 +24,8 @@ use Symfony\Component\HttpFoundation\Cookie;
 /**
  * This class redirect the onCoreResponse event to the correct
  * cms manager upon user permission
+ *
+ * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class ResponseListener
 {

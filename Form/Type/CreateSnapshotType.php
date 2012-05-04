@@ -19,6 +19,11 @@ use Symfony\Component\Form\AbstractType;
 
 use Sonata\PageBundle\CmsManager\CmsPageManager;
 
+/**
+ * Select a Page
+ *
+ * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class CreateSnapshotType extends AbstractType
 {
     /**
@@ -32,7 +37,7 @@ class CreateSnapshotType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    function getName()
+    public function getName()
     {
         return 'create_snapshot';
     }

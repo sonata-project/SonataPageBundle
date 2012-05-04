@@ -17,6 +17,11 @@ use Sonata\PageBundle\Model\SiteManagerInterface;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\NoResultException;
 
+/**
+ * This class manages SiteInterface persistency with the Doctrine ORM
+ *
+ * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class SiteManager implements SiteManagerInterface
 {
     protected $entityManager;

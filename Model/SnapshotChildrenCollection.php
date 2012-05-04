@@ -10,6 +10,11 @@
 
 namespace Sonata\PageBundle\Model;
 
+/**
+ * SnapshotChildrenCollection
+ *
+ * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class SnapshotChildrenCollection implements \Countable, \IteratorAggregate, \ArrayAccess
 {
     protected $manager;

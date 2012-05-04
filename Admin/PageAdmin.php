@@ -29,6 +29,11 @@ use Sonata\CacheBundle\Cache\CacheManagerInterface;
 
 use Knp\Menu\ItemInterface as MenuItemInterface;
 
+/**
+ * Admin definition for the Page class
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class PageAdmin extends Admin
 {
     protected $pageManager;

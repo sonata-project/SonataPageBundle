@@ -20,6 +20,11 @@ use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Request\SiteRequestInterface;
 use Sonata\PageBundle\Request\SiteRequestContext;
 
+/**
+ * HostPathSiteSelector
+ *
+ * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class HostPathSiteSelector extends BaseSiteSelector
 {
     /**

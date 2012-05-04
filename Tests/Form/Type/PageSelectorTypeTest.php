@@ -14,6 +14,9 @@ use Sonata\PageBundle\Form\Type\PageSelectorType;
 use Sonata\PageBundle\Tests\Model\Page;
 use Sonata\PageBundle\Tests\Model\Site;
 
+/**
+ *
+ */
 class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
 {
     protected $pages;

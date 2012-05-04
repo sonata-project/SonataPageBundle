@@ -11,6 +11,11 @@
 
 namespace Sonata\PageBundle\Model;
 
+/**
+ * Template
+ *
+ * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class Template
 {
     protected $path;

@@ -23,6 +23,11 @@ use Sonata\CacheBundle\Cache\CacheElement;
 
 use Sonata\PageBundle\Exception\PageNotFoundException;
 
+/**
+ * Cache a block through a Javascript code
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class BlockJsCache implements CacheInterface
 {
     protected $router;

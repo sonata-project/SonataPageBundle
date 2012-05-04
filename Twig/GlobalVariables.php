@@ -13,6 +13,11 @@ namespace Sonata\PageBundle\Twig;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * GlobalVariables
+ *
+ * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class GlobalVariables
 {
     protected $container;

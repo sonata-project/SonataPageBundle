@@ -17,6 +17,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 
+/**
+ * Render a PageInterface
+ *
+ * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class PageRenderer implements PageRendererInterface
 {
     protected $router;

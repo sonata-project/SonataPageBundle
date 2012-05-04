@@ -20,6 +20,11 @@ use Sonata\CacheBundle\Cache\CacheInterface;
 use Sonata\CacheBundle\Cache\CacheElement;
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
 
+/**
+ * Cache block through an esi statement
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class BlockEsiCache implements CacheInterface
 {
     protected $router;

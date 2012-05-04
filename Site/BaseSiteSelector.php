@@ -20,6 +20,11 @@ use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 use Sonata\SeoBundle\Seo\SeoPageInterface;
 
+/**
+ * BaseSiteSelector
+ *
+ * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 abstract class BaseSiteSelector implements SiteSelectorInterface
 {
     protected $siteManager;

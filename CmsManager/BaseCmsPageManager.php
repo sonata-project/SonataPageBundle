@@ -14,6 +14,11 @@ namespace Sonata\PageBundle\CmsManager;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 
+/**
+ * Base class CMS Manager
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 abstract class BaseCmsPageManager implements CmsManagerInterface
 {
     protected $currentPage;

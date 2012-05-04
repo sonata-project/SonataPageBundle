@@ -10,6 +10,11 @@
 
 namespace Sonata\PageBundle\Model;
 
+/**
+ * Defines methods to interact with the persistency layer of a PageInterface
+ *
+ * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 interface PageManagerInterface
 {
     /**
@@ -39,15 +44,11 @@ interface PageManagerInterface
     function getPageByUrl(SiteInterface $site, $url);
 
     /**
-     *
      * @param PageInterface $object
-     *
-     * @return void
      */
     function save(PageInterface $object);
 
     /**
-     *
      * @param array $params
      *
      * @return PageInterface
@@ -59,7 +60,7 @@ interface PageManagerInterface
      *
      * @param SiteInterface $site
      *
-     * @return void
+     * @return array
      */
     function loadPages(SiteInterface $site);
 }

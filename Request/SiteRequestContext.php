@@ -13,6 +13,11 @@ namespace Sonata\PageBundle\Request;
 use Symfony\Component\Routing\RequestContext;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 
+/**
+ * SiteRequestContext
+ *
+ * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class SiteRequestContext extends RequestContext
 {
     protected $selector;
@@ -34,7 +39,7 @@ class SiteRequestContext extends RequestContext
     }
 
     /**
-     * @return string|void
+     * {@inheritdoc}
      */
     public function getHost()
     {
@@ -48,7 +53,7 @@ class SiteRequestContext extends RequestContext
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getBaseUrl()
     {

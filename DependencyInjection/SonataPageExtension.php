@@ -24,7 +24,6 @@ use Sonata\EasyExtendsBundle\Mapper\DoctrineCollector;
 /**
  * PageExtension
  *
- *
  * @author     Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class SonataPageExtension extends Extension

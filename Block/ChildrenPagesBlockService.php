@@ -27,8 +27,9 @@ use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 
 /**
+ * Render children pages
  *
- * @author     Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class ChildrenPagesBlockService extends BaseBlockService
 {

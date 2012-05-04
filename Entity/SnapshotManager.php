@@ -8,7 +8,6 @@
  * file that was distributed with this source code.
  */
 
-
 namespace Sonata\PageBundle\Entity;
 
 use Sonata\BlockBundle\Model\BlockInterface;
@@ -25,6 +24,11 @@ use Doctrine\ORM\NoResultException;
 
 use Sonata\PageBundle\Model\SnapshotPageProxy;
 
+/**
+ * This class manages SnapshotInterface persistency with the Doctrine ORM
+ *
+ * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class SnapshotManager implements SnapshotManagerInterface
 {
     protected $entityManager;

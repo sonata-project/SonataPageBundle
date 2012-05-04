@@ -10,6 +10,11 @@
 
 namespace Sonata\PageBundle\Model;
 
+/**
+ * SiteManagerInterface
+ *
+ * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 interface SiteManagerInterface
 {
     /**

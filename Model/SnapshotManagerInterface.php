@@ -10,6 +10,11 @@
 
 namespace Sonata\PageBundle\Model;
 
+/**
+ * Defines methods to interact with the persistency layer of a SnapshotInterface
+ *
+ * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 interface SnapshotManagerInterface
 {
     /**
@@ -28,8 +33,6 @@ interface SnapshotManagerInterface
 
     /**
      * @param SnapshotInterface $object
-     *
-     * @return void
      */
     function save(SnapshotInterface $object);
 
@@ -63,8 +66,6 @@ interface SnapshotManagerInterface
 
     /**
      * @param array $snapshots
-     *
-     * @return void
      */
     function enableSnapshots(array $snapshots);
 }

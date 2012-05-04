@@ -14,6 +14,11 @@ use Sonata\PageBundle\Model\Block;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
+/**
+ * The class stores block information
+ *
+ * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 abstract class BaseBlock extends Block
 {
     /**

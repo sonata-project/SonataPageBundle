@@ -14,6 +14,9 @@ use Sonata\BlockBundle\Model\Block;
 use Sonata\PageBundle\Tests\Model\Page;
 use Sonata\PageBundle\Block\ContainerBlockService;
 
+/**
+ *
+ */
 class ContainerBlockServiceTest extends \PHPUnit_Framework_TestCase
 {
     public function testService()

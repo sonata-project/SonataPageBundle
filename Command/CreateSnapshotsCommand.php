@@ -21,6 +21,11 @@ use Sonata\PageBundle\Model\SiteInterface;
 
 use Symfony\Component\Process\Process;
 
+/**
+ * Create snapshots for a site
+ *
+ * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class CreateSnapshotsCommand extends BaseCommand
 {
     /**

@@ -12,6 +12,9 @@ namespace Sonata\PageBundle\Tests\Entity;
 
 use Sonata\PageBundle\Model\SnapshotPageProxy;
 
+/**
+ *
+ */
 class SnapshotPageProxyTest extends \PHPUnit_Framework_TestCase
 {
     public function testInterface()

@@ -19,6 +19,11 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 
 
+/**
+ * Admin definition for the Site class
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class SiteAdmin extends Admin
 {
     protected $cmsManager;

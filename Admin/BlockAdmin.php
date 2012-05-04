@@ -23,6 +23,11 @@ use Sonata\CacheBundle\Cache\CacheManagerInterface;
 
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
 
+/**
+ * Admin class for the Block model
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class BlockAdmin extends Admin
 {
     protected $parentAssociationMapping = 'page';

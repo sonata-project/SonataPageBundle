@@ -19,6 +19,11 @@ use Sonata\BlockBundle\Model\BlockInterface;
 
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
+/**
+ * This class interacts with blocks
+ *
+ * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class BlockInteractor implements BlockInteractorInterface
 {
     protected $pageBlocksLoaded = array();
