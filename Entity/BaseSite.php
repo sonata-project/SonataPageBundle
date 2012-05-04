@@ -15,7 +15,7 @@ use Sonata\PageBundle\Model\Site;
 /**
  * The class stores Site information
  *
- * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 abstract class BaseSite extends Site
 {

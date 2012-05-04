@@ -16,7 +16,7 @@ use Sonata\PageBundle\Site\SiteSelectorInterface;
 /**
  * SiteRequestContext
  *
- * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class SiteRequestContext extends RequestContext
 {

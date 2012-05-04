@@ -21,7 +21,7 @@ use Symfony\Component\Console\Output\Output;
 /**
  * Create a site
  *
- * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class CreateSiteCommand extends BaseCommand
 {

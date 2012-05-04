@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
  * The DecoratorStrategy class defines if a request can be decorate by a PageInterface depends
  * on the current request.
  *
- * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class DecoratorStrategy implements DecoratorStrategyInterface
 {

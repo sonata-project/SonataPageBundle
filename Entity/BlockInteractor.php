@@ -22,7 +22,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 /**
  * This class interacts with blocks
  *
- * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class BlockInteractor implements BlockInteractorInterface
 {

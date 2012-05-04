@@ -27,7 +27,7 @@ use Sonata\PageBundle\Model\SnapshotPageProxy;
 /**
  * This class manages SnapshotInterface persistency with the Doctrine ORM
  *
- * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class SnapshotManager implements SnapshotManagerInterface
 {

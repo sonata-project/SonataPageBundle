@@ -25,7 +25,7 @@ use Symfony\Component\Process\Process;
 /**
  * Update core routes by reading routing information
  *
- * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class UpdateCoreRoutesCommand extends BaseCommand
 {

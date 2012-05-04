@@ -18,7 +18,7 @@ use Sonata\PageBundle\CmsManager\PageRendererInterface;
 /**
  * Select a template
  *
- * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class TemplateChoiceType extends ChoiceType
 {

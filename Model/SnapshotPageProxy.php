@@ -7,7 +7,7 @@ use Sonata\BlockBundle\Model\BlockInterface;
 /**
  * SnapshotPageProxy
  *
- * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class SnapshotPageProxy implements PageInterface
 {

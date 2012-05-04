@@ -15,7 +15,7 @@ use Symfony\Component\Routing\RequestContext;
 /**
  * SiteRequestContext
  *
- * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class SiteRequestContext extends RequestContext
 {

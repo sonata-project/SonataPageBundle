@@ -20,7 +20,7 @@ use Sonata\PageBundle\Model\SiteInterface;
 /**
  * HostSiteSelector
  *
- * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class HostSiteSelector extends BaseSiteSelector
 {

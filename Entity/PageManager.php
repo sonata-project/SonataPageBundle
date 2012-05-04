@@ -22,7 +22,7 @@ use Doctrine\ORM\EntityManager;
 /**
  * This class manages PageInterface persistency with the Doctrine ORM
  *
- * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class PageManager implements PageManagerInterface
 {

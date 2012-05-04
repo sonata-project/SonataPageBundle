@@ -20,7 +20,7 @@ use Sonata\PageBundle\Exception\PageNotFoundException;
 /**
  * Page Admin Controller
  *
- * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class PageAdminController extends Controller
 {

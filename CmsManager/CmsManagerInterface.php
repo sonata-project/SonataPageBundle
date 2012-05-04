@@ -26,7 +26,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * An action page is linked to a symfony action and a cms page is a standalone page.
  *
- * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 interface CmsManagerInterface
 {

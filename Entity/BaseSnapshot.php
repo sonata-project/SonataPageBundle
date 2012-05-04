@@ -15,7 +15,7 @@ use Sonata\PageBundle\Model\Snapshot;
 /**
  * The class stores snapshot information
  *
- * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 abstract class BaseSnapshot extends Snapshot
 {

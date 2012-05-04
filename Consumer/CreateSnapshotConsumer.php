@@ -21,7 +21,7 @@ use Sonata\NotificationBundle\Consumer\ConsumerEvent;
 /**
  * Consumer class to generate a snapshot
  *
- * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class CreateSnapshotConsumer implements ConsumerInterface
 {

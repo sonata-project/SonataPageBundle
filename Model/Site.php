@@ -16,7 +16,7 @@ use Sonata\PageBundle\Model\PageInterface;
 /**
  * Site
  *
- * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 abstract class Site implements SiteInterface
 {

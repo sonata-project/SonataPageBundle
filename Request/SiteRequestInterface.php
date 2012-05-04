@@ -13,7 +13,7 @@ namespace Sonata\PageBundle\Request;
 /**
  * SiteRequestInterface
  *
- * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 interface SiteRequestInterface
 {

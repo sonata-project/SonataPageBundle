@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * The PageRendererInterface defines methods to render a Page
  *
- * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 interface PageRendererInterface
 {

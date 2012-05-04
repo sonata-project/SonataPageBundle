@@ -21,7 +21,7 @@ use Doctrine\ORM\EntityManager;
 /**
  * This class manages BlockInterface persistency with the Doctrine ORM
  *
- * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class BlockManager implements BlockManagerInterface
 {

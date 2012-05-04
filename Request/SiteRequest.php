@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request as BaseRequest;
 /**
  * SiteRequest
  *
- * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class SiteRequest extends BaseRequest implements SiteRequestInterface
 {

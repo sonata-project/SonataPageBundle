@@ -23,7 +23,7 @@ use Sonata\SeoBundle\Seo\SeoPageInterface;
 /**
  * BaseSiteSelector
  *
- * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 abstract class BaseSiteSelector implements SiteSelectorInterface
 {

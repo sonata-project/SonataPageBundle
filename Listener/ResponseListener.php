@@ -25,7 +25,7 @@ use Symfony\Component\HttpFoundation\Cookie;
  * This class redirect the onCoreResponse event to the correct
  * cms manager upon user permission
  *
- * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class ResponseListener
 {

@@ -15,7 +15,7 @@ use Sonata\BlockBundle\Model\BlockInterface;
 /**
  * PageInterface
  *
- * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 interface PageInterface
 {

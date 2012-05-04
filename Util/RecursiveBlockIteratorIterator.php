@@ -13,7 +13,7 @@ namespace Sonata\PageBundle\Util;
 /**
  * RecursiveBlockIteratorIterator
  *
- * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class RecursiveBlockIteratorIterator extends \RecursiveIteratorIterator
 {

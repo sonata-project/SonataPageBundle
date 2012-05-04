@@ -14,7 +14,7 @@ namespace Sonata\PageBundle\Model;
 /**
  * SiteInterface
  *
- * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 interface SiteInterface
 {

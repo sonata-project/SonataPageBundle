@@ -13,7 +13,7 @@ namespace Sonata\PageBundle\Model;
 /**
  * Defines methods to interact with the persistency layer of a PageInterface
  *
- * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 interface PageManagerInterface
 {

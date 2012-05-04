@@ -13,7 +13,7 @@ namespace Sonata\PageBundle\Model;
 /**
  * BlockInteractorInterface
  *
- * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 interface BlockInteractorInterface
 {

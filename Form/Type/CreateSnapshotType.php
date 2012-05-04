@@ -22,7 +22,7 @@ use Sonata\PageBundle\CmsManager\CmsPageManager;
 /**
  * Select a Page
  *
- * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class CreateSnapshotType extends AbstractType
 {

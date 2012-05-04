@@ -18,7 +18,7 @@ use Sonata\PageBundle\Model\PageInterface;
 /**
  * Block
  *
- * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 abstract class Block extends BaseBlock
 {

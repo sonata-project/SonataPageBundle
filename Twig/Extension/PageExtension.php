@@ -29,7 +29,7 @@ use Sonata\PageBundle\Exception\PageNotFoundException;
 /**
  * PageExtension
  *
- * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class PageExtension extends \Twig_Extension
 {

@@ -25,7 +25,7 @@ use Sonata\AdminBundle\Form\ChoiceList\ModelChoiceList;
 /**
  * Select a page
  *
- * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class PageSelectorType extends ModelType
 {
