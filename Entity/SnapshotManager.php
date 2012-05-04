@@ -171,7 +171,7 @@ class SnapshotManager implements SnapshotManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function findOneBy(array $criteria = array())
+    public function findOneBy(array $criteria)
     {
         return $this->getRepository()->findOneBy($criteria);
     }

@@ -17,14 +17,14 @@ interface SnapshotManagerInterface
      *
      * @return SnapshotInterface
      */
-    function findOneBy(array $criteria = array());
+    function findOneBy(array $criteria);
 
     /**
      * @param array $criteria
      *
      * @return array
      */
-    function findBy(array $criteria = array());
+    function findBy(array $criteria);
 
     /**
      * @param SnapshotInterface $object
