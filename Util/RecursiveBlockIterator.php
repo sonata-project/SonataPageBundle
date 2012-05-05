@@ -18,7 +18,7 @@ namespace Sonata\PageBundle\Util;
 class RecursiveBlockIterator extends \ArrayIterator implements \RecursiveIterator
 {
     /**
-     * @param $array
+     * @param array $array
      */
     public function __construct($array)
     {

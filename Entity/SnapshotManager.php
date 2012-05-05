@@ -333,6 +333,7 @@ class SnapshotManager implements SnapshotManagerInterface
      * return a page with the given routeName
      *
      * @param string $routeName
+     *
      * @return \Sonata\PageBundle\Model\PageInterface|false
      */
     public function getPageByName($routeName)

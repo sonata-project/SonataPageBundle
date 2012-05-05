@@ -349,6 +349,7 @@ class SonataPageExtension extends Extension
 
     /**
      * @throws \RuntimeException
+     *
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
      * @param array                                                   $config
      */

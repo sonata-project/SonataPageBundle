@@ -59,7 +59,7 @@ class RequestListener
      *
      * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
      *
-     * @return
+     * @return void
      */
     public function onCoreRequest(GetResponseEvent $event)
     {

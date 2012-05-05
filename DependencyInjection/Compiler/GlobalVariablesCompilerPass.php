@@ -22,12 +22,7 @@ use Symfony\Component\DependencyInjection\Reference;
 class GlobalVariablesCompilerPass implements CompilerPassInterface
 {
     /**
-     * You can modify the container here before it is dumped to PHP code.
-     *
-     * @param ContainerBuilder $container
-     * @return void
-     *
-     * @api
+     * {@inheritdoc}
      */
     function process(ContainerBuilder $container)
     {

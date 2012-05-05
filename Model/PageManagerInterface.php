@@ -18,7 +18,6 @@ namespace Sonata\PageBundle\Model;
 interface PageManagerInterface
 {
     /**
-     *
      * @param array $criteria
      *
      * @return PageInterface
@@ -26,7 +25,6 @@ interface PageManagerInterface
     function findOneBy(array $criteria = array());
 
     /**
-     *
      * @param array $criteria
      *
      * @return array

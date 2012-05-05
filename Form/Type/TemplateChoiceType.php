@@ -33,9 +33,7 @@ class TemplateChoiceType extends ChoiceType
     }
 
     /**
-     * @param array $options
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getDefaultOptions(array $options)
     {

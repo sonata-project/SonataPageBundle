@@ -80,6 +80,7 @@ class PageManager implements PageManagerInterface
 
     /**
      * @param \Sonata\PageBundle\Model\PageInterface $page
+     *
      * @return void
      */
     public function fixUrl(PageInterface $page)

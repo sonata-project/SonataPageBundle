@@ -29,16 +29,14 @@ interface PageInterface
     function setRouteName($routeName);
 
     /**
+     * Returns the id
      *
      * @return mixed
      */
     function getId();
 
     /**
-     *
      * @param mixed $id
-     *
-     * @return mixed
      */
     function setId($id);
 
@@ -223,8 +221,6 @@ interface PageInterface
      * Add blocs
      *
      * @param BlockInterface $bloc
-     *
-     * @return void
      */
     function addBlocks(BlockInterface $bloc);
 
@@ -236,7 +232,6 @@ interface PageInterface
     function getBlocks();
 
     /**
-     *
      * @param PageInterface $target
      *
      * @return void
@@ -291,37 +286,42 @@ interface PageInterface
     function setDecorate($decorate);
 
     /**
+     * Returns true if the page can be decorate
      *
      * @return boolean
      */
     function getDecorate();
 
     /**
+     * Returns true if the page is hybrid (symfony action with no parameter)
      *
      * @return boolean
      */
     function isHybrid();
 
     /**
+     * Returns true if the page is dynamic (symfony action with parameter)
      *
      * @return boolean
      */
     function isDynamic();
 
     /**
+     * Returns true if the page is static
      *
      * @return boolean
      */
     function isCms();
 
     /**
+     * Returns true if the page is internal (no direct access with an url)
+     * This is used to define transversal page
      *
      * @return boolean
      */
     function isInternal();
 
     /**
-     *
      * @param int $position
      *
      * @return void
@@ -329,13 +329,11 @@ interface PageInterface
     function setPosition($position);
 
     /**
-     *
      * @return int
      */
     function getPosition();
 
     /**
-     *
      * @param string $method
      *
      * @return void
@@ -343,13 +341,11 @@ interface PageInterface
     function setRequestMethod($method);
 
     /**
-     *
      * @return string
      */
     function getRequestMethod();
 
     /**
-     *
      * @param array $headers
      *
      * @return void
@@ -357,7 +353,6 @@ interface PageInterface
     function setHeaders(array $headers = array());
 
     /**
-     *
      * @param string $name
      * @param mixed $value
      *
@@ -366,7 +361,6 @@ interface PageInterface
     function addHeader($name, $value);
 
     /**
-     *
      * @return array
      */
     function getHeaders();

@@ -51,6 +51,9 @@ class SiteManager implements SiteManagerInterface
         return $site;
     }
 
+    /**
+     * @return \Doctrine\ORM\EntityRepository
+     */
     protected function getRepository()
     {
         return $this->entityManager->getRepository($this->class);
