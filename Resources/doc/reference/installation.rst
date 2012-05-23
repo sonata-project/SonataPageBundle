@@ -174,15 +174,11 @@ Don't forget to also add it in your autoload :
 
 .. code-block:: php
 
-    
-
-    .. code-block:: php
-
-        <?php
-        $loader->registerNamespaces(array(
-            // ...
-            'Application'       => __DIR__ . '/../src/',
-            // ... other declarations
-        ));
+    <?php
+    $loader->registerNamespaces(array(
+        // ...
+        'Application'       => __DIR__ . '/../src/',
+        // ... other declarations
+    ));
 
 And now, you're good to go !
