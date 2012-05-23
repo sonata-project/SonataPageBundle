@@ -1,2 +1,4 @@
 .DS_Store
 coverage
+composer.lock
+vendor/
