@@ -38,9 +38,9 @@ class MigrateToJsonTypeCommand extends BaseCommand
             // if the row need to migrate
             if (0 !== strpos($block['settings'], '{') && $block['settings'] !== '[]') {
                 $block['settings'] = json_encode(unserialize($block['settings']));
+                $connection->update($table, array('settings' => $block['settings']), array('id' => $block['id']));
                 $count++;
             }
-            $connection->update($table, array('settings' => $block['settings']), array('id' => $block['id']));
         }
 
         $output->writeln("Migrated $count blocks");
