@@ -15,6 +15,17 @@ A [BC BREAK] means the update will break the project for many reasons:
 
         app/console sonata:page:create-snapshots --site=all --mode=sync    # default mode (BC)
         app/console sonata:page:create-snapshots --site=all --mode=async
+### 2012-05-24
+
+* [BC BREAK] Mapped Block::$settings to doctrine JsonType (previously an ArrayType)
+
+    Add the new dependency sonata/doctrine-extensions :
+
+        php composer.phar update
+
+    Migration command :
+
+        php app/console sonata:page:migrate-block-json
 
 ### 2012-03-23
 
