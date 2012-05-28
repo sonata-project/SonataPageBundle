@@ -20,7 +20,7 @@
       </trans-unit>
       <trans-unit id="4" resname="breadcrumb.link_block_edit">
         <source>breadcrumb.link_block_edit</source>
-        <target>Editieren</target>
+        <target>Bearbeiten</target>
       </trans-unit>
       <trans-unit id="5" resname="breadcrumb.link_block_list">
         <source>breadcrumb.link_block_list</source>
@@ -48,7 +48,7 @@
       </trans-unit>
       <trans-unit id="11" resname="breadcrumb.link_page_edit">
         <source>breadcrumb.link_page_edit</source>
-        <target>Editieren</target>
+        <target>Bearbeiten</target>
       </trans-unit>
       <trans-unit id="12" resname="breadcrumb.link_page_list">
         <source>breadcrumb.link_page_list</source>
@@ -72,7 +72,7 @@
       </trans-unit>
       <trans-unit id="17" resname="breadcrumb.link_snapshot_edit">
         <source>breadcrumb.link_snapshot_edit</source>
-        <target>Editieren</target>
+        <target>Bearbeiten</target>
       </trans-unit>
       <trans-unit id="18" resname="breadcrumb.link_snapshot_list">
         <source>breadcrumb.link_snapshot_list</source>
@@ -128,7 +128,7 @@
       </trans-unit>
       <trans-unit id="31" resname="filter.label_route_name">
         <source>filter.label_route_name</source>
-        <target>Route Name</target>
+        <target>Routen Name</target>
       </trans-unit>
       <trans-unit id="32" resname="filter.label_type">
         <source>filter.label_type</source>
@@ -148,11 +148,11 @@
       </trans-unit>
       <trans-unit id="36" resname="form.label_children">
         <source>form.label_children</source>
-        <target>Children</target>
+        <target>Untergeordnet</target>
       </trans-unit>
       <trans-unit id="37" resname="form.label_custom_url">
         <source>form.label_custom_url</source>
-        <target>Custom URL</target>
+        <target>Spezifische URL</target>
       </trans-unit>
       <trans-unit id="38" resname="form.label_decorate">
         <source>form.label_decorate</source>
@@ -180,7 +180,7 @@
       </trans-unit>
       <trans-unit id="44" resname="form.label_parent">
         <source>form.label_parent</source>
-        <target>Parent</target>
+        <target>Übergeordnet</target>
       </trans-unit>
       <trans-unit id="45" resname="form.label_position">
         <source>form.label_position</source>
@@ -248,7 +248,7 @@
       </trans-unit>
       <trans-unit id="61" resname="header.page_is_disabled">
         <source>header.page_is_disabled</source>
-        <target>Ist deaktiviert</target>
+        <target>Deaktiviert</target>
       </trans-unit>
       <trans-unit id="62" resname="header.show_zone">
         <source>header.show_zone</source>
@@ -316,7 +316,7 @@
       </trans-unit>
       <trans-unit id="78" resname="message_create_snapshot">
         <source>message_create_snapshot</source>
-        <target>Seitenshapshot erzeugen</target>
+        <target>Seitenschnappschuss erzeugen</target>
       </trans-unit>
       <trans-unit id="79" resname="or_list">
         <source>or_list</source>
@@ -344,7 +344,7 @@
       </trans-unit>
       <trans-unit id="85" resname="show.label_route_name">
         <source>show.label_route_name</source>
-        <target>Route Name</target>
+        <target>Routen Name</target>
       </trans-unit>
       <trans-unit id="86" resname="show.label_slug">
         <source>show.label_slug</source>
@@ -380,7 +380,7 @@
       </trans-unit>
       <trans-unit id="94" resname="title_page_not_found">
         <source>title_page_not_found</source>
-        <target>Die Seite existiert nicht</target>
+        <target>Diese Seite existiert nicht</target>
       </trans-unit>
       <trans-unit id="95" resname="toggle_enabled">
         <source>toggle_enabled</source>
@@ -392,11 +392,11 @@
       </trans-unit>
       <trans-unit id="97" resname="header.switch_user_exit">
           <source>header.switch_user_exit</source>
-          <target>"Impersonating" Modus beenden</target>
+          <target>Imitierungs-Modus beenden</target>
       </trans-unit>
       <trans-unit id="98" resname="header.switch_user">
           <source>header.switch_user</source>
-          <target>Impersonate User</target>
+          <target>Benutzer imitieren</target>
       </trans-unit>
       <trans-unit id="99" resname="header.sonata_admin_dashboard">
           <source>header.sonata_admin_dashboard</source>
@@ -404,7 +404,7 @@
       </trans-unit>
       <trans-unit id="100" resname="list.label_is_default">
           <source>list.label_is_default</source>
-          <target>Ist standard</target>
+          <target>Standard</target>
       </trans-unit>
       <trans-unit id="101" resname="list.label_host">
           <source>list.label_host</source>
@@ -420,11 +420,11 @@
       </trans-unit>
       <trans-unit id="104" resname="list.label_enabled_from">
           <source>list.label_enabled_from</source>
-          <target>Aktiviert von</target>
+          <target>Aktiviert ab</target>
       </trans-unit>
       <trans-unit id="105" resname="form.label_is_default">
           <source>form.label_is_default</source>
-          <target>Ist standard</target>
+          <target>Standard</target>
       </trans-unit>
       <trans-unit id="106" resname="form.label_host">
           <source>form.label_host</source>
@@ -436,15 +436,15 @@
       </trans-unit>
       <trans-unit id="108" resname="form.label_enabled_to">
           <source>form.label_enabled_to</source>
-          <target>Aktiviert von</target>
+          <target>Aktiviert bis</target>
       </trans-unit>
       <trans-unit id="109" resname="form.label_enabled_from">
           <source>form.label_enabled_from</source>
-          <target>Aktiviert bis</target>
+          <target>Aktiviert ab</target>
       </trans-unit>
       <trans-unit id="110" resname="breadcrumb.link_site_list">
           <source>breadcrumb.link_site_list</source>
-          <target>Seitenliste</target>
+          <target>Websiteliste</target>
       </trans-unit>
       <trans-unit id="111" resname="breadcrumb.link_site_show">
           <source>breadcrumb.link_site_show</source>
@@ -460,19 +460,19 @@
       </trans-unit>
       <trans-unit id="114" resname="list.label_create_snapshots">
           <source>list.label_create_snapshots</source>
-          <target>Snapshots</target>
+          <target>Schnappschüsse</target>
       </trans-unit>
       <trans-unit id="115" resname="link_create_snapshots">
           <source>link_create_snapshots</source>
-          <target>Snapshot anlegen</target>
+          <target>Schnappschuss anlegen</target>
       </trans-unit>
       <trans-unit id="116" resname="title_create_snapshots">
           <source>title_create_snapshots</source>
-          <target>Snapshot anlegen</target>
+          <target>Schnappschuss anlegen</target>
       </trans-unit>
       <trans-unit id="117" resname="message_create_snapshots">
           <source>message_create_snapshots</source>
-          <target>Den "anlegen" Button anklicken um einen neuen Snapsho anzulegen : %site%</target>
+          <target>Den "anlegen" Button anklicken um einen neuen Schnappschuss anzulegen : %site%</target>
       </trans-unit>
       <trans-unit id="118" resname="button_create_snapshots">
           <source>button_create_snapshots</source>
@@ -484,19 +484,19 @@
       </trans-unit>
       <trans-unit id="120" resname="form.label_site">
           <source>form.label_site</source>
-          <target>Seite</target>
+          <target>Website</target>
       </trans-unit>
       <trans-unit id="121" resname="list.label_site">
           <source>list.label_site</source>
-          <target>Seite</target>
+          <target>Website</target>
       </trans-unit>
       <trans-unit id="122" resname="site">
           <source>site</source>
-          <target>Seite</target>
+          <target>Website</target>
       </trans-unit>
       <trans-unit id="123" resname="show.label_is_default">
           <source>show.label_is_default</source>
-          <target>Ist standard</target>
+          <target>Standard</target>
       </trans-unit>
       <trans-unit id="124" resname="show.label_host">
           <source>show.label_host</source>
@@ -508,7 +508,7 @@
       </trans-unit>
       <trans-unit id="126" resname="show.label_enabled_from">
           <source>show.label_enabled_from</source>
-          <target>Aktiviert von</target>
+          <target>Aktiviert ab</target>
       </trans-unit>
       <trans-unit id="127" resname="show.label_enabled_to">
           <source>show.label_enabled_to</source>
@@ -516,71 +516,71 @@
       </trans-unit>
       <trans-unit id="128" resname="list.label_locale">
           <source>list.label_locale</source>
-          <target>list.label_locale</target>
+          <target>Lokalisierung</target>
       </trans-unit>
       <trans-unit id="129" resname="show.label_locale">
           <source>show.label_locale</source>
-          <target>show.label_locale</target>
+          <target>Lokalisierung</target>
       </trans-unit>
       <trans-unit id="130" resname="form.label_locale">
           <source>form.label_locale</source>
-          <target>form.label_locale</target>
+          <target>Lokalisierung</target>
       </trans-unit>
       <trans-unit id="131" resname="form_site.label_seo">
           <source>form_site.label_seo</source>
-          <target>form_site.label_seo</target>
+          <target>SEO</target>
       </trans-unit>
       <trans-unit id="132" resname="form.label_title">
           <source>form.label_title</source>
-          <target>form.label_title</target>
+          <target>Titel</target>
       </trans-unit>
       <trans-unit id="133" resname="form.label_meta_keywords">
           <source>form.label_meta_keywords</source>
-          <target>form.label_meta_keywords</target>
+          <target>Meta Keywords</target>
       </trans-unit>
             <trans-unit id="134" resname="show.label_title">
           <source>show.label_title</source>
-          <target>show.label_title</target>
+          <target>Titel</target>
       </trans-unit>
       <trans-unit id="135" resname="show.label_meta_description">
           <source>show.label_meta_description</source>
-          <target>show.label_meta_description</target>
+          <target>Meta beschreibung</target>
       </trans-unit>
       <trans-unit id="136" resname="show.label_meta_keywords">
           <source>show.label_meta_keywords</source>
-          <target>show.label_meta_keywords</target>
+          <target>Meta Keywords</target>
       </trans-unit>
       <trans-unit id="137" resname="form_site.label_general">
           <source>form_site.label_general</source>
-          <target>form_site.label_general</target>
+          <target>Website Eigenschaften</target>
       </trans-unit>
       <trans-unit id="138" resname="filter.label_site">
           <source>filter.label_site</source>
-          <target>filter.label_site</target>
+          <target>Website</target>
       </trans-unit>
       <trans-unit id="139" resname="filter.label_edited">
           <source>filter.label_edited</source>
-          <target>filter.label_edited</target>
+          <target>bearbeitet</target>
       </trans-unit>
       <trans-unit id="140" resname="list.label_edited">
           <source>list.label_edited</source>
-          <target>list.label_edited</target>
+          <target>bearbeitet</target>
       </trans-unit>
       <trans-unit id="141" resname="show.label_site">
           <source>show.label_site</source>
-          <target>show.label_site</target>
+          <target>Website</target>
       </trans-unit>
       <trans-unit id="142" resname="show.label_edited">
           <source>show.label_edited</source>
-          <target>show.label_edited</target>
+          <target>Bearbeitet</target>
       </trans-unit>
       <trans-unit id="143" resname="breadcrumb.link_page_show">
           <source>breadcrumb.link_page_show</source>
-          <target>breadcrumb.link_page_show</target>
+          <target>Seite</target>
       </trans-unit>
       <trans-unit id="144" resname="sonata_page">
           <source>sonata_page</source>
-          <target>Pages</target>
+          <target>Seiten</target>
       </trans-unit>
     </body>
   </file>
