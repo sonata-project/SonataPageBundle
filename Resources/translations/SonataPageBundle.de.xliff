@@ -172,7 +172,7 @@
       </trans-unit>
       <trans-unit id="42" resname="form.label_meta_keyword">
         <source>form.label_meta_keyword</source>
-        <target>Meta Keyword</target>
+        <target>Meta Keywords</target>
       </trans-unit>
       <trans-unit id="43" resname="form.label_name">
         <source>form.label_name</source>
