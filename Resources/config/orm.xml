@@ -45,6 +45,7 @@
         <service id="sonata.page.block_interactor" class="%sonata.page.block_interactor.class%">
             <argument type="service" id="doctrine" />
             <argument type="service" id="sonata.page.manager.block" />
+            <argument type="service" id="service_container" />
         </service>
 
     </services>

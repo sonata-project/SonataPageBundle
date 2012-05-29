@@ -38,6 +38,8 @@ class BlockAdmin extends Admin
 
     protected $inValidate = false;
 
+    protected $securityContext;
+
     /**
      * {@inheritdoc}
      */
@@ -100,6 +102,11 @@ class BlockAdmin extends Admin
         }
     }
 
+    public function setSecurityContext($securityContext)
+    {
+        $this->securityContext = $securityContext;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -152,6 +159,12 @@ class BlockAdmin extends Admin
         $service = $this->blockManager->get($object);
 
         $this->cacheManager->invalidate($service->getCacheKeys($object));
+
+        foreach ($object->getChildren() as $child) {
+            if (false === $this->securityContext->isGranted('EDIT', $child)) {
+                $this->createObjectSecurity($child);
+            }
+        }
     }
 
     /**

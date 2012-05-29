@@ -17,6 +17,7 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\BlockBundle\Model\BlockManagerInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -32,14 +33,17 @@ class BlockInteractor implements BlockInteractorInterface
 
     protected $blockManager;
 
+    protected $container;
+
     /**
      * @param \Symfony\Bridge\Doctrine\RegistryInterface      $registry
      * @param \Sonata\BlockBundle\Model\BlockManagerInterface $blockManager
      */
-    public function __construct(RegistryInterface $registry, BlockManagerInterface $blockManager)
+    public function __construct(RegistryInterface $registry, BlockManagerInterface $blockManager, ContainerInterface $container)
     {
         $this->blockManager = $blockManager;
         $this->registry     = $registry;
+        $this->container    = $container;
     }
 
     /**
@@ -169,6 +173,8 @@ class BlockInteractor implements BlockInteractorInterface
 
         $this->blockManager->save($container);
 
+        $this->createObjectSecurity($container);
+
         return $container;
     }
 
@@ -202,5 +208,12 @@ class BlockInteractor implements BlockInteractorInterface
         $this->pageBlocksLoaded[$page->getId()] = true;
 
         return $blocks;
+    }
+
+    protected function createObjectSecurity($object)
+    {
+        $admin = $this->container->get('sonata.page.admin.block');
+
+        $admin->createObjectSecurity($object);
     }
 }
