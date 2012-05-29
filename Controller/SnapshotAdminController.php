@@ -68,6 +68,8 @@ class SnapshotAdminController extends Controller
                 $pageManager->save($page);
 
                 $snapshotManager->enableSnapshots(array($snapshot));
+
+                $this->get('sonata.page.admin.snapshot')->createObjectSecurity($snapshot);
             }
 
             return $this->redirect($this->admin->generateUrl('edit', array('id' => $snapshot->getId())));
