@@ -27,6 +27,8 @@ A [BC BREAK] means the update will break the project for many reasons:
 
         php app/console sonata:page:migrate-block-json
 
+* Mapped Snapshot::$content to JsonType (previously a manually encoded json string)
+
 ### 2012-03-23
 
 * [BC BREAK] prefix internal route to _page_internal_*, all internals routes must be renamed to include the correct prefix
