@@ -74,6 +74,10 @@
             <call method="setTranslationDomain">
                 <argument>%sonata.page.admin.block.translation_domain%</argument>
             </call>
+
+            <call method="setSecurityContext">
+                <argument type="service" id="security.context" />
+            </call>
         </service>
 
         <service id="sonata.page.admin.snapshot" class="%sonata.page.admin.snapshot.class%">

@@ -286,6 +286,7 @@ class PageAdmin extends Admin
         $this->prePersist($object);
         $this->pageManager->save($object);
         $this->postPersist($object);
+        $this->createObjectSecurity($object);
     }
 
     /**
