@@ -13,6 +13,8 @@ namespace Sonata\PageBundle\Form\Type;
 
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+
 use Sonata\PageBundle\CmsManager\PageRendererInterface;
 
 class TemplateChoiceType extends ChoiceType
@@ -24,13 +26,13 @@ class TemplateChoiceType extends ChoiceType
         $this->renderer = $renderer;
     }
 
-    public function getDefaultOptions()
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $options = parent::getDefaultOptions();
+        parent::setDefaultOptions($resolver);
 
-        $options['choices'] = $this->getTemplates();
-
-        return $options;
+        $resolver->setDefaults(array(
+            'choices' => $this->getTemplates()
+        ));
     }
 
     public function getTemplates()

@@ -11,16 +11,18 @@
 
 namespace Sonata\PageBundle\Form\Type;
 
-use Symfony\Component\Form\Options;
 use Symfony\Component\Form\Extension\Core\ChoiceList\ChoiceListInterface;
+
+use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+
 use Sonata\AdminBundle\Form\Type\ModelType;
-use Symfony\Component\Form\FormBuilder;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormView;
+use Sonata\AdminBundle\Form\ChoiceList\ModelChoiceList;
+
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SiteInterface;
-use Sonata\AdminBundle\Form\ChoiceList\ModelChoiceList;
+
 
 class PageSelectorType extends ModelType
 {
@@ -31,9 +33,9 @@ class PageSelectorType extends ModelType
         $this->manager = $manager;
     }
 
-    public function getDefaultOptions()
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $options = array(
+        $resolver->setDefaults(array(
             'template'          => 'choice',
             'multiple'          => false,
             'expanded'          => false,
@@ -45,8 +47,16 @@ class PageSelectorType extends ModelType
             'preferred_choices' => array(),
             'page'              => null,
             'site'              => null,
-            'filter_choice'     => array('current_page' => false, 'request_method' => 'GET', 'dynamic' => true, 'hierarchy' => 'all'),
             'choices'           => $this->getChoices(),
+            
+            'filter_choice'     => array(
+                'current_page'     => false, 
+                'request_method'   => 'GET', 
+                'dynamic'          => true, 
+                'hierarchy'        => 'all'
+            ),
+            
+            
             'choice_list'       => function (Options $opts, $previousValue) {
                 if ($previousValue instanceof ChoiceListInterface
                         && count($choices = $previousValue->getChoices())) {
@@ -61,9 +71,7 @@ class PageSelectorType extends ModelType
                         $opts['choices']
                 );
             }
-        );
-
-        return $options;
+        ));
     }
 
     protected function getChoices($options = null)
