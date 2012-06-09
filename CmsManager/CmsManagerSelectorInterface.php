@@ -12,10 +12,20 @@
 
 namespace Sonata\PageBundle\CmsManager;
 
+/**
+ * The CmsManagerSelectorInterface is in charge of retrieving the correct CmsManagerInterface instance
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 interface CmsManagerSelectorInterface
 {
     /**
      * @return CmsManagerInterface
      */
     function retrieve();
+
+    /**
+     * @return boolean
+     */
+    function isEditor();
 }

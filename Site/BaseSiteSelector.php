@@ -20,6 +20,11 @@ use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 use Sonata\SeoBundle\Seo\SeoPageInterface;
 
+/**
+ * BaseSiteSelector
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 abstract class BaseSiteSelector implements SiteSelectorInterface
 {
     protected $siteManager;
@@ -36,15 +41,15 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
     protected $request;
 
     /**
-     * @param \Sonata\PageBundle\Model\SiteManagerInterface $siteManager
+     * @param \Sonata\PageBundle\Model\SiteManagerInterface            $siteManager
      * @param \Sonata\PageBundle\CmsManager\DecoratorStrategyInterface $decoratorStrategy
-     * @param \Sonata\SeoBundle\Seo\SeoPageInterface $seoPage
+     * @param \Sonata\SeoBundle\Seo\SeoPageInterface                   $seoPage
      */
     public function __construct(SiteManagerInterface $siteManager, DecoratorStrategyInterface $decoratorStrategy, SeoPageInterface $seoPage)
     {
-        $this->siteManager = $siteManager;
+        $this->siteManager       = $siteManager;
         $this->decoratorStrategy = $decoratorStrategy;
-        $this->seoPage = $seoPage;
+        $this->seoPage           = $seoPage;
     }
 
     /**
@@ -69,6 +74,7 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
 
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
+     *
      * @return void
      */
     protected function setRequest(Request $request)
@@ -144,7 +150,9 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
 
     /**
      * @abstract
+     *
      * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
+     *
      * @return void
      */
     abstract protected function handleKernelRequest(GetResponseEvent $event);

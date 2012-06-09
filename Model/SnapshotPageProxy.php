@@ -4,6 +4,11 @@ namespace Sonata\PageBundle\Model;
 
 use Sonata\BlockBundle\Model\BlockInterface;
 
+/**
+ * SnapshotPageProxy
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class SnapshotPageProxy implements PageInterface
 {
     /**
@@ -29,7 +34,7 @@ class SnapshotPageProxy implements PageInterface
 
     /**
      * @param \Sonata\PageBundle\Model\SnapshotManagerInterface $manager
-     * @param \Sonata\PageBundle\Model\SnapshotInterface $snapshot
+     * @param \Sonata\PageBundle\Model\SnapshotInterface        $snapshot
      */
     public function __construct(SnapshotManagerInterface $manager, SnapshotInterface $snapshot)
     {
@@ -38,9 +43,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * Get the page
-     *
-     * @return \Sonata\PageBundle\Model\PageInterface
+     * {@inheritdoc}
      */
     public function getPage()
     {
@@ -50,7 +53,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * load the page
+     * {@inheritdoc}
      */
     private function load()
     {
@@ -60,9 +63,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * @param $method
-     * @param $arguments
-     * @return mixed
+     * {@inheritdoc}
      */
     public function __call($method, $arguments)
     {
@@ -70,9 +71,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * Add children
-     *
-     * @param \Sonata\PageBundle\Model\PageInterface $children
+     * {@inheritdoc}
      */
     public function addChildren(PageInterface $children)
     {
@@ -80,8 +79,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * @param array $headers
-     * @return void
+     * {@inheritdoc}
      */
     public function setHeaders(array $headers = array())
     {
@@ -89,9 +87,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * @param $name
-     * @param $value
-     * @return void
+     * {@inheritdoc}
      */
     public function addHeader($name, $value)
     {
@@ -99,7 +95,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function getHeaders()
     {
@@ -107,9 +103,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * Get children
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getChildren()
     {
@@ -121,9 +115,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * Add blocs
-     *
-     * @param \Sonata\BlockBundle\Model\BlockInterface $block
+     * {@inheritdoc}
      */
     public function addBlocks(BlockInterface $block)
     {
@@ -131,9 +123,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * Get blocs
-     *
-     * @return array $blocks
+     * {@inheritdoc}
      */
     public function getBlocks()
     {
@@ -150,17 +140,15 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * Set target
-     *
-     * @param \Sonata\PageBundle\Model\PageInterface $target
+     * {@inheritdoc}
      */
-    public function setTarget(PageInterface $target)
+    public function setTarget(PageInterface $target = null)
     {
         $this->target = $target;
     }
 
     /**
-     * @return \Sonata\PageBundle\Model\PageInterface|null
+     * {@inheritdoc}
      */
     public function getTarget()
     {
@@ -182,10 +170,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * Get parent
-     *
-     * @param int $level
-     * @return null|\Sonata\PageBundle\Model\PageInterface $parent
+     * {@inheritdoc}
      */
     public function getParent($level = -1)
     {
@@ -199,9 +184,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * Set parent
-     *
-     * @param array $parents
+     * {@inheritdoc}
      */
     public function setParents(array $parents)
     {
@@ -209,9 +192,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * get the tree of the page
-     *
-     * @return array of Application\Sonata\PageBundle\Entity\Page
+     * {@inheritdoc}
      */
     public function getParents()
     {
@@ -238,21 +219,16 @@ class SnapshotPageProxy implements PageInterface
         return $this->parents;
     }
 
-
     /**
-     * Set parent
-     *
-     * @param PageInterface $parent
+     * {@inheritdoc}
      */
-    public function setParent(PageInterface $parent)
+    public function setParent(PageInterface $parent = null)
     {
         $this->getPage()->setParent($parent);
     }
 
     /**
-     * Set template
-     *
-     * @param string $templateCode
+     * {@inheritdoc}
      */
     public function setTemplateCode($templateCode)
     {
@@ -260,9 +236,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * Get template
-     *
-     * @return string $templateCode
+     * {@inheritdoc}
      */
     public function getTemplateCode()
     {
@@ -270,8 +244,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * @param boolean $decorate
-     * @return void
+     * {@inheritdoc}
      */
     public function setDecorate($decorate)
     {
@@ -279,9 +252,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * get decorate
-     *
-     * @return boolean $decorate
+     * {@inheritdoc}
      */
     public function getDecorate()
     {
@@ -289,7 +260,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * @return bool
+     * {@inheritdoc}
      */
     public function isHybrid()
     {
@@ -297,8 +268,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * @param $position
-     * @return void
+     * {@inheritdoc}
      */
     public function setPosition($position)
     {
@@ -306,9 +276,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * get position
-     *
-     * @return integer
+     * {@inheritdoc}
      */
     public function getPosition()
     {
@@ -316,8 +284,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * @param string $method
-     * @return void
+     * {@inheritdoc}
      */
     public function setRequestMethod($method)
     {
@@ -325,9 +292,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * get request method
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getRequestMethod()
     {
@@ -335,9 +300,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * Get id of the page
-     *
-     * @return integer
+     * {@inheritdoc}
      */
     public function getId()
     {
@@ -345,9 +308,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * set id of the page
-     *
-     * @param integer $id
+     * {@inheritdoc}
      */
     public function setId($id)
     {
@@ -355,9 +316,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * Get routeName
-     *
-     * @return string $routeName
+     * {@inheritdoc}
      */
     public function getRouteName()
     {
@@ -365,9 +324,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * Set routeName
-     *
-     * @param string $routeName
+     * {@inheritdoc}
      */
     public function setRouteName($routeName)
     {
@@ -375,9 +332,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * Set enabled
-     *
-     * @param boolean $enabled
+     * {@inheritdoc}
      */
     public function setEnabled($enabled)
     {
@@ -385,9 +340,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * Get enabled
-     *
-     * @return boolean $enabled
+     * {@inheritdoc}
      */
     public function getEnabled()
     {
@@ -395,9 +348,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * Set name
-     *
-     * @param string $name
+     * {@inheritdoc}
      */
     public function setName($name)
     {
@@ -405,9 +356,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * Get name
-     *
-     * @return string $name
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -415,9 +364,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * Set slug
-     *
-     * @param string $slug
+     * {@inheritdoc}
      */
     public function setSlug($slug)
     {
@@ -425,9 +372,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * Get slug
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getSlug()
     {
@@ -435,10 +380,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * Set Url
-     *
-     * @param string $url
-     * @return void
+     * {@inheritdoc}
      */
     public function setUrl($url)
     {
@@ -446,9 +388,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * Get url
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getUrl()
     {
@@ -456,9 +396,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * Set customUrl
-     *
-     * @param string $customUrl
+     * {@inheritdoc}
      */
     public function setCustomUrl($customUrl)
     {
@@ -466,9 +404,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * Get customUrl
-     *
-     * @return integer $customUrl
+     * {@inheritdoc}
      */
     public function getCustomUrl()
     {
@@ -476,9 +412,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * Set metaKeyword
-     *
-     * @param string $metaKeyword
+     * {@inheritdoc}
      */
     public function setMetaKeyword($metaKeyword)
     {
@@ -486,9 +420,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * Get metaKeyword
-     *
-     * @return string $metaKeyword
+     * {@inheritdoc}
      */
     public function getMetaKeyword()
     {
@@ -496,9 +428,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * Set metaDescription
-     *
-     * @param string $metaDescription
+     * {@inheritdoc}
      */
     public function setMetaDescription($metaDescription)
     {
@@ -506,9 +436,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * Get metaDescription
-     *
-     * @return string $metaDescription
+     * {@inheritdoc}
      */
     public function getMetaDescription()
     {
@@ -516,9 +444,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * Set javascript
-     *
-     * @param string $javascript
+     * {@inheritdoc}
      */
     public function setJavascript($javascript)
     {
@@ -526,9 +452,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * Get javascript
-     *
-     * @return string $javascript
+     * {@inheritdoc}
      */
     public function getJavascript()
     {
@@ -536,9 +460,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * Set stylesheet
-     *
-     * @param string $stylesheet
+     * {@inheritdoc}
      */
     public function setStylesheet($stylesheet)
     {
@@ -546,9 +468,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * Get stylesheet
-     *
-     * @return string $stylesheet
+     * {@inheritdoc}
      */
     public function getStylesheet()
     {
@@ -556,9 +476,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
+     * {@inheritdoc}
      */
     public function setCreatedAt(\DateTime $createdAt = null)
     {
@@ -566,9 +484,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * Get createdAt
-     *
-     * @return datetime $createdAt
+     * {@inheritdoc}
      */
     public function getCreatedAt()
     {
@@ -576,9 +492,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * Set updatedAt
-     *
-     * @param \DateTime $updatedAt
+     * {@inheritdoc}
      */
     public function setUpdatedAt(\DateTime $updatedAt = null)
     {
@@ -586,9 +500,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * Get updatedAt
-     *
-     * @return \DateTime $updatedAt
+     * {@inheritdoc}
      */
     public function getUpdatedAt()
     {
@@ -596,7 +508,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * @return boolean
+     * {@inheritdoc}
      */
     public function isDynamic()
     {
@@ -604,8 +516,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     *
-     * @return boolean
+     * {@inheritdoc}
      */
     public function isCms()
     {
@@ -613,8 +524,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     *
-     * @return boolean
+     * {@inheritdoc}
      */
     public function isInternal()
     {
@@ -622,10 +532,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * Return the TTL value in second
-     *
-     *
-     * @return integer
+     * {@inheritdoc}
      */
     public function getTtl()
     {
@@ -633,9 +540,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     *
-     * @param string $method
-     * @return bool
+     * {@inheritdoc}
      */
     public function hasRequestMethod($method)
     {
@@ -643,8 +548,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * @param \Sonata\PageBundle\Model\SiteInterface $site
-     * @return void
+     * {@inheritdoc}
      */
     public function setSite(SiteInterface $site)
     {
@@ -652,7 +556,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * @return \Sonata\PageBundle\Model\SiteInterface
+     * {@inheritdoc}
      */
     public function getSite()
     {
@@ -660,16 +564,15 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * @param string $headers
-     * @return
+     * {@inheritdoc}
      */
     public function setRawHeaders($headers)
     {
-        return $this->getPage()->setRawHeaders($headers);
+        $this->getPage()->setRawHeaders($headers);
     }
 
     /**
-     * @return boolean
+     * {@inheritdoc}
      */
     public function getEdited()
     {
@@ -677,7 +580,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function setEdited($edited)
     {
@@ -685,7 +588,7 @@ class SnapshotPageProxy implements PageInterface
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function isError()
     {

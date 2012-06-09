@@ -17,15 +17,26 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 use Sonata\PageBundle\CmsManager\PageRendererInterface;
 
+/**
+ * Select a template
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class TemplateChoiceType extends ChoiceType
 {
     protected $renderer;
 
+    /**
+     * @param \Sonata\PageBundle\CmsManager\PageRendererInterface $renderer
+     */
     public function __construct(PageRendererInterface $renderer)
     {
         $this->renderer = $renderer;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         parent::setDefaultOptions($resolver);
@@ -35,6 +46,9 @@ class TemplateChoiceType extends ChoiceType
         ));
     }
 
+    /**
+     * @return array
+     */
     public function getTemplates()
     {
         $templates = array();

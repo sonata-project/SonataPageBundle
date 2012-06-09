@@ -14,6 +14,11 @@ use Sonata\PageBundle\Model\Block;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
+/**
+ * The class stores block information
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 abstract class BaseBlock extends Block
 {
     /**
@@ -24,6 +29,9 @@ abstract class BaseBlock extends Block
         $this->id = $id;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function __construct()
     {
         $this->children = new ArrayCollection;
@@ -42,6 +50,9 @@ abstract class BaseBlock extends Block
         $this->updatedAt = new \DateTime;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setChildren($children)
     {
         $this->children = new ArrayCollection;

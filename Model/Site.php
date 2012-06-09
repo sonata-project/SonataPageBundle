@@ -13,6 +13,11 @@ namespace Sonata\PageBundle\Model;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 
+/**
+ * Site
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 abstract class Site implements SiteInterface
 {
     protected $enabled;
@@ -43,20 +48,24 @@ abstract class Site implements SiteInterface
 
     protected $metaDescription;
 
+    /**
+     * {@inheritdoc}
+     */
     public function setId($id)
     {
         $this->id = $id;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function __construct()
     {
-        $this->enabled  = false;
+        $this->enabled = false;
     }
 
     /**
-     * Set enabled
-     *
-     * @param boolean $enabled
+     * {@inheritdoc}
      */
     public function setEnabled($enabled)
     {
@@ -64,15 +73,16 @@ abstract class Site implements SiteInterface
     }
 
     /**
-     * Get enabled
-     *
-     * @return boolean $enabled
+     * {@inheritdoc}
      */
     public function getEnabled()
     {
         return $this->enabled;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getUrl()
     {
         if ($this->isLocalhost()) {
@@ -91,9 +101,7 @@ abstract class Site implements SiteInterface
     }
 
     /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
+     * {@inheritdoc}
      */
     public function setCreatedAt(\DateTime $createdAt = null)
     {
@@ -101,9 +109,7 @@ abstract class Site implements SiteInterface
     }
 
     /**
-     * Get createdAt
-     *
-     * @return \DateTime $createdAt
+     * {@inheritdoc}
      */
     public function getCreatedAt()
     {
@@ -111,9 +117,7 @@ abstract class Site implements SiteInterface
     }
 
     /**
-     * Set updatedAt
-     *
-     * @param \DateTime $updatedAt
+     * {@inheritdoc}
      */
     public function setUpdatedAt(\DateTime $updatedAt = null)
     {
@@ -121,125 +125,192 @@ abstract class Site implements SiteInterface
     }
 
     /**
-     * Get updatedAt
-     *
-     * @return \DateTime
+     * {@inheritdoc}
      */
     public function getUpdatedAt()
     {
         return $this->updatedAt;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function __toString()
     {
-        return $this->getName()?:'n/a';
+        return $this->getName() ? : 'n/a';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setHost($host)
     {
         $this->host = $host;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getHost()
     {
         return $this->host;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setFormats($formats)
     {
         $this->formats = $formats;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getFormats()
     {
         return $this->formats;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setName($name)
     {
         $this->name = $name;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
         return $this->name;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setRelativePath($relativePath)
     {
         $this->relativePath = $relativePath;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getRelativePath()
     {
         return $this->relativePath;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setIsDefault($default)
     {
         $this->isDefault = $default;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getIsDefault()
     {
         return $this->isDefault;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setEnabledFrom(\DateTime $enabledFrom)
     {
         $this->enabledFrom = $enabledFrom;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getEnabledFrom()
     {
         return $this->enabledFrom;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setEnabledTo(\DateTime $enabledTo)
     {
         $this->enabledTo = $enabledTo;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getEnabledTo()
     {
         return $this->enabledTo;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setLocale($locale)
     {
         $this->locale = $locale;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getLocale()
     {
         return $this->locale;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setMetaDescription($metaDescription)
     {
         $this->metaDescription = $metaDescription;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getMetaDescription()
     {
         return $this->metaDescription;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setMetaKeywords($metaKeywords)
     {
         $this->metaKeywords = $metaKeywords;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getMetaKeywords()
     {
         return $this->metaKeywords;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setTitle($title)
     {
         $this->title = $title;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getTitle()
     {
         return $this->title;

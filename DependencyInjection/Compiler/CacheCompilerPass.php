@@ -18,6 +18,7 @@ use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
+ * CacheCompilerPass
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */

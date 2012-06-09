@@ -9,7 +9,6 @@
  * file that was distributed with this source code.
  */
 
-
 namespace Sonata\PageBundle\Listener;
 
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
@@ -20,10 +19,13 @@ use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Cookie;
 
 /**
  * This class redirect the onCoreResponse event to the correct
  * cms manager upon user permission
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class ResponseListener
 {
@@ -35,8 +37,8 @@ class ResponseListener
 
     /**
      * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $cmsSelector
-     * @param \Sonata\PageBundle\CmsManager\PageRendererInterface $pageRenderer
-     * @param \Sonata\PageBundle\CmsManager\DecoratorStrategyInterface $decoratorStrategy
+     * @param \Sonata\PageBundle\CmsManager\PageRendererInterface       $pageRenderer
+     * @param \Sonata\PageBundle\CmsManager\DecoratorStrategyInterface  $decoratorStrategy
      */
     public function __construct(CmsManagerSelectorInterface $cmsSelector, PageRendererInterface $pageRenderer, DecoratorStrategyInterface $decoratorStrategy)
     {
@@ -49,6 +51,7 @@ class ResponseListener
      * Filter the `core.response` event to decorated the action
      *
      * @param \Symfony\Component\HttpKernel\Event\FilterResponseEvent $event
+     *
      * @return void
      */
     public function onCoreResponse(FilterResponseEvent $event)
@@ -56,9 +59,22 @@ class ResponseListener
         $cms = $this->cmsSelector->retrieve();
 
         $response = $event->getResponse();
+        $request  = $event->getRequest();
+
+        if ($this->cmsSelector->isEditor()) {
+            $response->setPrivate();
+
+            if (!$request->cookies->has('sonata_page_is_editor')) {
+                $response->headers->setCookie(new Cookie('sonata_page_is_editor', 1));
+            }
+        }
 
         if (!$this->decoratorStrategy->isDecorable($event->getRequest(), $event->getRequestType(), $response)) {
             return;
+        }
+
+        if (!$this->cmsSelector->isEditor() && $request->cookies->has('sonata_page_is_editor')) {
+            $response->headers->clearCookie('sonata_page_is_editor');
         }
 
         $page = $cms->getCurrentPage();
@@ -74,7 +90,7 @@ class ResponseListener
 
         $this->pageRenderer->render($page, array('content' => $response->getContent()), $response);
 
-        if ($page->isCms() ) {
+        if (!$this->cmsSelector->isEditor() && $page->isCms()) {
             $response->setTtl($page->getTtl());
         }
     }

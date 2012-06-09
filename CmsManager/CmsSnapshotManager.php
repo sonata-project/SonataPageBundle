@@ -19,9 +19,10 @@ use Sonata\PageBundle\Util\RecursiveBlockIterator;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 
-
 /**
- * @author     Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * The CmsSnapshotManager class is in charge of retrieving the correct page (cms page or action page)
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class CmsSnapshotManager extends BaseCmsPageManager
 {
@@ -102,7 +103,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
     {
         if ('id' == $fieldName) {
             $id = $value;
-        } elseif(isset($this->pageReferences[$fieldName][$value])) {
+        } elseif (isset($this->pageReferences[$fieldName][$value])) {
             $id = $this->pageReferences[$fieldName][$value];
         } else {
             $id = null;
@@ -126,7 +127,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
             $this->pages[$id] = false;
 
             if ($page) {
-               $this->loadBlocks($page);
+                $this->loadBlocks($page);
 
                 $id = $page->getId();
 

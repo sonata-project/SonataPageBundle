@@ -27,6 +27,8 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * This class redirect the onCoreResponse event to the correct
  * cms manager upon user permission
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class RequestListener
 {
@@ -40,9 +42,9 @@ class RequestListener
 
     /**
      * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $cmsSelector
-     * @param \Sonata\PageBundle\Site\SiteSelectorInterface $siteSelector
-     * @param \Sonata\PageBundle\CmsManager\DecoratorStrategyInterface $decoratorStrategy
-     * @param \Sonata\SeoBundle\Seo\SeoPageInterface $seoPage
+     * @param \Sonata\PageBundle\Site\SiteSelectorInterface             $siteSelector
+     * @param \Sonata\PageBundle\CmsManager\DecoratorStrategyInterface  $decoratorStrategy
+     * @param \Sonata\SeoBundle\Seo\SeoPageInterface                    $seoPage
      */
     public function __construct(CmsManagerSelectorInterface $cmsSelector, SiteSelectorInterface $siteSelector, DecoratorStrategyInterface $decoratorStrategy, SeoPageInterface $seoPage)
     {
@@ -56,7 +58,8 @@ class RequestListener
      * Filter the `core.request` event to decorated the action
      *
      * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
-     * @return
+     *
+     * @return void
      */
     public function onCoreRequest(GetResponseEvent $event)
     {
@@ -99,7 +102,7 @@ class RequestListener
             }
 
             $this->seoPage->addMeta('property', 'og:type', 'article');
-            $this->seoPage->addHtmlAttributes('prefix','og: http://ogp.me/ns#');
+            $this->seoPage->addHtmlAttributes('prefix', 'og: http://ogp.me/ns#');
 
         } catch (PageNotFoundException $e) {
             return;

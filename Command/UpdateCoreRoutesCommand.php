@@ -22,8 +22,16 @@ use Sonata\PageBundle\Exception\PageNotFoundException;
 
 use Symfony\Component\Process\Process;
 
+/**
+ * Update core routes by reading routing information
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class UpdateCoreRoutesCommand extends BaseCommand
 {
+    /**
+     * {@inheritdoc}
+     */
     public function configure()
     {
         $this->setName('sonata:page:update-core-routes');
@@ -33,42 +41,45 @@ class UpdateCoreRoutesCommand extends BaseCommand
         $this->addOption('base-command', null, InputOption::VALUE_OPTIONAL, 'Site id', 'php app/console');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function execute(InputInterface $input, OutputInterface $output)
     {
         if (!$input->getOption('site') && !$input->getOption('all')) {
-             $output->writeln('Please provide an <info>--site=SITE_ID</info> option or the <info>--site=all</info> directive');
-             $output->writeln('');
+            $output->writeln('Please provide an <info>--site=SITE_ID</info> option or the <info>--site=all</info> directive');
+            $output->writeln('');
 
-             $output->writeln(sprintf(" % 5s - % -30s - %s", "ID", "Name", "Url"));
+            $output->writeln(sprintf(" % 5s - % -30s - %s", "ID", "Name", "Url"));
 
-             foreach ($this->getSiteManager()->findBy() as $site) {
-                 $output->writeln(sprintf(" % 5s - % -30s - %s", $site->getId(), $site->getName(), $site->getUrl()));
-             }
+            foreach ($this->getSiteManager()->findBy() as $site) {
+                $output->writeln(sprintf(" % 5s - % -30s - %s", $site->getId(), $site->getName(), $site->getUrl()));
+            }
 
-             return;
-         }
+            return;
+        }
 
-         foreach ($this->getSites($input) as $site) {
-             if ($input->getOption('site') != 'all') {
-                 $this->updateRoutes($site, $output);
-                 $output->writeln("");
-             } else {
+        foreach ($this->getSites($input) as $site) {
+            if ($input->getOption('site') != 'all') {
+                $this->updateRoutes($site, $output);
+                $output->writeln("");
+            } else {
+                $p = new Process(sprintf('%s sonata:page:update-core-routes --env=%s --site=%s %s', $input->getOption('base-command'), $input->getOption('env'), $site->getId(), $input->getOption('no-debug') ? '--no-debug' : ''));
 
-                 $p = new Process(sprintf('%s sonata:page:update-core-routes --env=%s --site=%s %s', $input->getOption('base-command'), $input->getOption('env'), $site->getId(), $input->getOption('no-debug') ? '--no-debug' : ''));
-
-                 $p->run(function($type, $data) use($output) {
-                     $output->write($data);
-                 });
-             }
-         }
-
+                $p->run(function($type, $data) use($output)
+                {
+                    $output->write($data);
+                });
+            }
+        }
 
         $output->writeln("<info>done!</info>");
     }
 
     /**
-     * @param \Sonata\PageBundle\Model\SiteInterface $site
+     * @param \Sonata\PageBundle\Model\SiteInterface            $site
      * @param \Symfony\Component\Console\Output\OutputInterface $output
+     *
      * @return void
      */
     private function updateRoutes(SiteInterface $site, OutputInterface $output)
@@ -96,7 +107,10 @@ class UpdateCoreRoutesCommand extends BaseCommand
 
             $knowRoutes[] = $name;
 
-            $page = $pageManager->findOneBy(array('routeName' => $name, 'site' => $site->getId()));
+            $page = $pageManager->findOneBy(array(
+                'routeName' => $name,
+                'site'      => $site->getId()
+            ));
 
             if (!$decorator->isRouteNameDecorable($name) || !$decorator->isRouteUriDecorable($route->getPattern())) {
                 if ($page) {
@@ -134,7 +148,10 @@ class UpdateCoreRoutesCommand extends BaseCommand
 
             $knowRoutes[] = $name;
 
-            $page = $pageManager->findOneBy(array('routeName' => $name, 'site' => $site->getId()));
+            $page = $pageManager->findOneBy(array(
+                'routeName' => $name,
+                'site'      => $site->getId()
+            ));
 
             if (!$page) {
                 $params = array(
@@ -179,7 +196,7 @@ class UpdateCoreRoutesCommand extends BaseCommand
               You must remove them manually.
 </error>
 MSG
-);
+            );
         }
     }
 }

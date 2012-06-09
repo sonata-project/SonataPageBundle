@@ -8,7 +8,6 @@
  * file that was distributed with this source code.
  */
 
-
 namespace Sonata\PageBundle\Entity;
 
 use Sonata\BlockBundle\Model\BlockInterface;
@@ -25,6 +24,11 @@ use Doctrine\ORM\NoResultException;
 
 use Sonata\PageBundle\Model\SnapshotPageProxy;
 
+/**
+ * This class manages SnapshotInterface persistency with the Doctrine ORM
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class SnapshotManager implements SnapshotManagerInterface
 {
     protected $entityManager;
@@ -39,6 +43,13 @@ class SnapshotManager implements SnapshotManagerInterface
 
     protected $templates = array();
 
+    /**
+     * @param \Doctrine\ORM\EntityManager $entityManager
+     * @param string                      $class
+     * @param string                      $pageClass
+     * @param string                      $blockClass
+     * @param array                       $templates
+     */
     public function __construct(EntityManager $entityManager, $class, $pageClass, $blockClass, $templates = array())
     {
         $this->entityManager = $entityManager;
@@ -49,8 +60,7 @@ class SnapshotManager implements SnapshotManagerInterface
     }
 
     /**
-     * @param SnapshotInterface $snapshot
-     * @return SnapshotInterface
+     * {@inheritdoc}
      */
     public function save(SnapshotInterface $snapshot)
     {
@@ -60,21 +70,24 @@ class SnapshotManager implements SnapshotManagerInterface
         return $snapshot;
     }
 
+    /**
+     * @return \Doctrine\ORM\EntityRepository
+     */
     protected function getRepository()
     {
         return $this->entityManager->getRepository($this->class);
     }
 
+    /**
+     * @return \Doctrine\DBAL\Connection
+     */
     public function getConnection()
     {
         return $this->entityManager->getConnection();
     }
 
     /**
-     * Enabled a snapshot - make it public
-     *
-     * @param array $snapshots
-     * @return
+     * {@inheritdoc}
      */
     public function enableSnapshots(array $snapshots)
     {
@@ -107,15 +120,17 @@ class SnapshotManager implements SnapshotManagerInterface
     }
 
     /**
-     * @param array $criteria
-     * @return array
+     * {@inheritdoc}
      */
-    public function findBy(array $criteria = array())
+    public function findBy(array $criteria)
     {
         return $this->getRepository()->findBy($criteria);
     }
 
-    public function findEnableSnapshot(array $criteria = array())
+    /**
+     * {@inheritdoc}
+     */
+    public function findEnableSnapshot(array $criteria)
     {
         $date = new \Datetime;
         $parameters = array(
@@ -158,17 +173,15 @@ class SnapshotManager implements SnapshotManagerInterface
     }
 
     /**
-     * @param array $criteria
-     * @return SnapshotInterface
+     * {@inheritdoc}
      */
-    public function findOneBy(array $criteria = array())
+    public function findOneBy(array $criteria)
     {
         return $this->getRepository()->findOneBy($criteria);
     }
 
     /**
-     * @param \Sonata\PageBundle\Model\SnapshotInterface $snapshot
-     * @return \Sonata\PageBundle\Model\PageInterface
+     * {@inheritdoc}
      */
     public function load(SnapshotInterface $snapshot)
     {
@@ -206,8 +219,9 @@ class SnapshotManager implements SnapshotManagerInterface
     }
 
     /**
-     * @param array $content
+     * @param array                                  $content
      * @param \Sonata\PageBundle\Model\PageInterface $page
+     *
      * @return \Sonata\BlockBundle\Model\BlockInterface
      */
     public function loadBlock(array $content, PageInterface $page)
@@ -237,8 +251,7 @@ class SnapshotManager implements SnapshotManagerInterface
     }
 
     /**
-     * @param \Sonata\PageBundle\Model\PageInterface $page
-     * @return \Sonata\PageBundle\Model\SnapshotInterface
+     * {@inheritdoc}
      */
     public function create(PageInterface $page)
     {
@@ -251,6 +264,11 @@ class SnapshotManager implements SnapshotManagerInterface
         $snapshot->setName($page->getName());
         $snapshot->setPosition($page->getPosition());
         $snapshot->setDecorate($page->getDecorate());
+
+        if (!$page->getSite()) {
+            throw new \RuntimeException(sprintf('No site linked to the page.id=%s', $page->getId()));
+        }
+
         $snapshot->setSite($page->getSite());
 
         if ($page->getParent()) {
@@ -261,21 +279,21 @@ class SnapshotManager implements SnapshotManagerInterface
             $snapshot->setTargetId($page->getTarget()->getId());
         }
 
-        $content = array();
-        $content['id']                = $page->getId();
-        $content['name']              = $page->getName();
-        $content['javascript']        = $page->getJavascript();
-        $content['stylesheet']        = $page->getStylesheet();
-        $content['raw_headers']       = $page->getRawHeaders();
-        $content['meta_description']  = $page->getMetaDescription();
-        $content['meta_keyword']      = $page->getMetaKeyword();
-        $content['template_code']     = $page->getTemplateCode();
-        $content['request_method']    = $page->getRequestMethod();
-        $content['created_at']        = $page->getCreatedAt()->format('U');
-        $content['updated_at']        = $page->getUpdatedAt()->format('U');
-        $content['slug']              = $page->getSlug();
-        $content['parent_id']         = $page->getParent() ? $page->getParent()->getId() : false;
-        $content['target_id']         = $page->getTarget() ? $page->getTarget()->getId() : false;
+        $content                     = array();
+        $content['id']               = $page->getId();
+        $content['name']             = $page->getName();
+        $content['javascript']       = $page->getJavascript();
+        $content['stylesheet']       = $page->getStylesheet();
+        $content['raw_headers']      = $page->getRawHeaders();
+        $content['meta_description'] = $page->getMetaDescription();
+        $content['meta_keyword']     = $page->getMetaKeyword();
+        $content['template_code']    = $page->getTemplateCode();
+        $content['request_method']   = $page->getRequestMethod();
+        $content['created_at']       = $page->getCreatedAt()->format('U');
+        $content['updated_at']       = $page->getUpdatedAt()->format('U');
+        $content['slug']             = $page->getSlug();
+        $content['parent_id']        = $page->getParent() ? $page->getParent()->getId() : false;
+        $content['target_id']        = $page->getTarget() ? $page->getTarget()->getId() : false;
 
         $content['blocks'] = array();
         foreach ($page->getBlocks() as $block) {
@@ -289,6 +307,7 @@ class SnapshotManager implements SnapshotManagerInterface
 
     /**
      * @param \Sonata\BlockBundle\Model\BlockInterface $block
+     *
      * @return array
      */
     public function createBlocks(BlockInterface $block)
@@ -314,6 +333,7 @@ class SnapshotManager implements SnapshotManagerInterface
      * return a page with the given routeName
      *
      * @param string $routeName
+     *
      * @return \Sonata\PageBundle\Model\PageInterface|false
      */
     public function getPageByName($routeName)
@@ -341,6 +361,7 @@ class SnapshotManager implements SnapshotManagerInterface
      * Get snapshot
      *
      * @param integer $pageId
+     *
      * @return \Sonata\PageBundle\Model\SnapshotInterface
      */
     public function getSnapshotByPageId($pageId)
@@ -377,6 +398,7 @@ class SnapshotManager implements SnapshotManagerInterface
      * Get page by id
      *
      * @param integer $id
+     *
      * @return \Sonata\PageBundle\Model\PageInterface
      */
     public function getPageById($id)
@@ -387,10 +409,7 @@ class SnapshotManager implements SnapshotManagerInterface
     }
 
     /**
-     * Get children
-     *
-     * @param \Sonata\PageBundle\Model\PageInterface $parent
-     * @return Collection
+     * {@inheritdoc}
      */
     public function getChildren(PageInterface $parent)
     {
@@ -425,16 +444,29 @@ class SnapshotManager implements SnapshotManagerInterface
         return $this->children[$parent->getId()];
     }
 
+    /**
+     * @param array $templates
+     */
     public function setTemplates($templates)
     {
         $this->templates = $templates;
     }
 
+    /**
+     * @return array
+     */
     public function getTemplates()
     {
         return $this->templates;
     }
 
+    /**
+     * @param string $code
+     *
+     * @return mixed
+     *
+     * @throws \RunTimeException
+     */
     public function getTemplate($code)
     {
         if (!isset($this->templates[$code])) {
@@ -444,6 +476,9 @@ class SnapshotManager implements SnapshotManagerInterface
         return $this->templates[$code];
     }
 
+    /**
+     * @return string
+     */
     public function getClass()
     {
         return $this->class;

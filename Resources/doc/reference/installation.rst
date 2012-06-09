@@ -1,33 +1,38 @@
 Installation
 ============
+Prerequisites
+-------------
+PHP 5.3 and Symfony 2 are needed to make this bundle work ; there are also some
+Sonata dependencies that need to be installed and configured beforehand :
 
-To begin, add the dependent bundles to the vendor/bundles directory. Add the following lines to the file deps::
+    - `SonataCacheBundle <http://sonata-project.org/bundles/cache>`_
+    - `SonataBlockBundle <http://sonata-project.org/bundles/block>`_
+    - `SonataSeoBundle <http://sonata-project.org/bundles/seo>`_
+    - `SonataEasyExtendsBundle <http://sonata-project.org/bundles/easy-extends>`_
+    - `SonataNotificationBundle <http://sonata-project.org/bundles/notification>`_
+    - `SonataAdminBundle <http://sonata-project.org/bundles/admin>`_
+    - `SonataDoctrineORMAdminBundle <http://sonata-project.org/bundles/doctrine-orm-admin>`_
 
-    [SonataCacheBundle]
-        git=http://github.com/sonata-project/SonataCacheBundle.git
-        target=/bundles/Sonata/CacheBundle
+You will need to install those in their 2.0 branches. Follow also their
+configuration step ; you will find everything you need in their installation
+chapter.
 
-    [SonataBlockBundle]
-        git=http://github.com/sonata-project/SonataBlockBundle.git
-        target=/bundles/Sonata/BlockBundle
+.. note::
+    If a dependency is already installed somewhere in your project or in 
+    another dependency, you won't need to install it again.
+
+Enable the Bundle
+-----------------
+Add the dependent bundles to the vendor/bundles directory. Add the following 
+lines to the file deps::
 
     [SonataPageBundle]
         git=http://github.com/sonata-project/SonataPageBundle.git
         target=/bundles/Sonata/PageBundle
+        version=origin/2.0
 
-    [SonataSeoBundle]
-        git=http://github.com/sonata-project/SonataSeoBundle.git
-        target=/bundles/Sonata/SeoBundle
-
-    [SonataEasyExtendsBundle]
-        git=http://github.com/sonata-project/SonataEasyExtendsBundle.git
-        target=/bundles/Sonata/EasyExtendsBundle
-
-.. note::
-
-    The SonataAdminBundle and SonataDoctrineORMAdminBundle must be installed, please refer to `the dedicated documentation for more information <http://sonata-project.org/bundles/admin>`_.
-
-Next, be sure to enable the ``EasyExtends`` bundle in your application kernel:
+After running ``php bin/vendors install``, be sure to enable the ``Page`` bundle
+with all its dependencies in your application kernel:
 
 .. code-block:: php
 
@@ -37,69 +42,38 @@ Next, be sure to enable the ``EasyExtends`` bundle in your application kernel:
   {
       return array(
           // ...
-          new Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),
+          new Sonata\SonataPageBundle\SonataPageBundle(),
           // ...
       );
   }
 
-At this point, the bundle is not yet ready. You need to generate the correct
-entities for the page::
+.. note:: 
+    If you do not have the ``Sonata`` namespace registered in your autoload,
+    update the ``autoload.php`` to add it :
 
-    php app/console sonata:easy-extends:generate SonataPageBundle
+    .. code-block:: php
 
-.. note::
-
-    The command will generate domain objects in an ``Application`` namespace.
-    So you can point entities associations to a global and common namespace.
-    This will make entities sharing very easily as your models are accessible
-    through a global namespace. For instance the page will be
-    ``Application\Sonata\PageBundle\Entity\Page``.
-
-Now, add the new `Application` Bundle to the kernel
-
-.. code-block:: php
-
-    <?php
-    public function registerbundles()
-    {
-        return array(
-            // Application Bundles
-            new Application\Sonata\PageBundle\ApplicationSonataPageBundle(),
-
-            // Vendor specifics bundles
-            new Sonata\PageBundle\SonataPageBundle(),
-            new Sonata\CacheBundle\SonataCacheBundle(),
-            new Sonata\BlockBundle\SonataBlockBundle(),
-            new Sonata\SeoBundle\SonataSeoBundle(),
-            new Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),
-        );
-    }
-
-Update the ``autoload.php`` to add new namespaces:
-
-.. code-block:: php
-
-    <?php
-    $loader->registerNamespaces(array(
-        'Sonata'                             => __DIR__,
-        'Application'                        => __DIR__,
-
-        // ... other declarations
-    ));
-
-Then add these bundles in the config mapping definition:
-
-.. code-block:: yaml
-
-    # app/config/config.yml
-    ApplicationSonataPageBundle: ~
-    SonataPageBundle: ~
+        <?php
+        $loader->registerNamespaces(array(
+            // ...
+            'Sonata'       => __DIR__ . '/../vendor/bundles/',
+            // ... other declarations
+        ));
 
 Configuration
 -------------
+To use the ``PageBundle``, add the following lines to your application 
+configuration file.
 
-To use the ``PageBundle``, add the following lines to your application configuration
-file.
+.. note::
+    If your ``auto_mapping`` have a ``false`` value, add these lines to your 
+    mapping configuration :
+
+    .. code-block:: yaml
+
+        # app/config/config.yml
+        ApplicationSonataPageBundle: ~
+        SonataPageBundle: ~
 
 .. code-block:: yaml
 
@@ -163,3 +137,48 @@ At the end of your routing file, add the following lines
         defaults: { _controller: SonataPageBundle:Page:catchAll }
         requirements:
             path: .*
+
+Extend the Bundle
+-----------------
+At this point, the bundle is usuable, but not quite ready yet. You need to 
+generate the correct entities for the page::
+
+    php app/console sonata:easy-extends:generate SonataPageBundle
+
+.. note::
+
+    The command will generate domain objects in an ``Application`` namespace.
+    So you can point entities associations to a global and common namespace.
+    This will make entities sharing very easily as your models are accessible
+    through a global namespace. For instance the page will be
+    ``Application\Sonata\PageBundle\Entity\Page``.
+
+Now, add the new `Application` Bundle to the kernel
+
+.. code-block:: php
+
+    <?php
+    public function registerbundles()
+    {
+        return array(
+            // ...
+
+            // Application Bundles
+            new Application\Sonata\PageBundle\ApplicationSonataPageBundle(),
+
+            // ...
+        );
+    }
+
+Don't forget to also add it in your autoload :
+
+.. code-block:: php
+
+    <?php
+    $loader->registerNamespaces(array(
+        // ...
+        'Application'       => __DIR__ . '/../src/',
+        // ... other declarations
+    ));
+
+And now, you're good to go !

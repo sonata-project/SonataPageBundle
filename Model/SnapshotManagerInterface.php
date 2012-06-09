@@ -10,54 +10,62 @@
 
 namespace Sonata\PageBundle\Model;
 
+/**
+ * Defines methods to interact with the persistency layer of a SnapshotInterface
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 interface SnapshotManagerInterface
 {
     /**
-     * @abstract
      * @param array $criteria
+     *
      * @return SnapshotInterface
      */
-    function findOneBy(array $criteria = array());
+    function findOneBy(array $criteria);
 
     /**
-     * @abstract
      * @param array $criteria
+     *
      * @return array
      */
-    function findBy(array $criteria = array());
+    function findBy(array $criteria);
 
     /**
-     * @abstract
      * @param SnapshotInterface $object
-     * @return void
      */
     function save(SnapshotInterface $object);
 
     /**
-     * @abstract
      * @param \Sonata\PageBundle\Model\PageInterface $page
+     *
      * @return \Sonata\PageBundle\Model\SnapshotInterface
      */
     function create(PageInterface $page);
 
     /**
-     * @abstract
      * @param \Sonata\PageBundle\Model\SnapshotInterface $snapshot
+     *
      * @return \Sonata\PageBundle\Model\PageInterface
      */
     function load(SnapshotInterface $snapshot);
 
     /**
-     * @abstract
      * @param \Sonata\PageBundle\Model\PageInterface $page
+     *
      * @return array
      */
     function getChildren(PageInterface $page);
 
     /**
-     * @abstract
      * @param array $criteria
+     *
      * @return \Sonata\PageBundle\Model\SnapshotInterface
      */
     function findEnableSnapshot(array $criteria);
+
+    /**
+     * @param array $snapshots
+     */
+    function enableSnapshots(array $snapshots);
 }

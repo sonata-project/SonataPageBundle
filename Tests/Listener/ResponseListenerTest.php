@@ -20,6 +20,9 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Tests\Model\Site;
 use Sonata\PageBundle\CmsManager\PageRendererInterface;
 
+/**
+ *
+ */
 class ResponseListenerTest extends \PHPUnit_Framework_TestCase
 {
     public function testPageIsNonDecorable()

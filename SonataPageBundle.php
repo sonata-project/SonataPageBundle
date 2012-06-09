@@ -16,8 +16,16 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Sonata\PageBundle\DependencyInjection\Compiler\CacheCompilerPass;
 use Sonata\PageBundle\DependencyInjection\Compiler\GlobalVariablesCompilerPass;
 
+/**
+ * SonataPageBundle
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class SonataPageBundle extends Bundle
 {
+    /**
+     * {@inheritdoc}
+     */
     public function build(ContainerBuilder $container)
     {
         parent::build($container);

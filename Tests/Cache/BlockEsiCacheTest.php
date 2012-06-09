@@ -15,11 +15,14 @@ namespace Sonata\PageBundle\Tests\Page;
 use Sonata\PageBundle\Cache\BlockEsiCache;
 use \Sonata\BlockBundle\Block\BlockServiceManagerInterface;
 
+/**
+ *
+ */
 class BlockEsiCacheTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @expectedException \RuntimeException
-     * @dataProvider getExceptionCacheKeys
+     * @dataProvider      getExceptionCacheKeys
      */
     public function testExceptions($keys)
     {

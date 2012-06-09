@@ -12,6 +12,11 @@ namespace Sonata\PageBundle\Model;
 
 use Sonata\BlockBundle\Model\BlockInterface;
 
+/**
+ * PageInterface
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 interface PageInterface
 {
     const PAGE_ROUTE_CMS_NAME = 'page_slug';
@@ -24,15 +29,14 @@ interface PageInterface
     function setRouteName($routeName);
 
     /**
+     * Returns the id
      *
      * @return mixed
      */
     function getId();
 
     /**
-     *
-     * @param $id
-     * @return mixed
+     * @param mixed $id
      */
     function setId($id);
 
@@ -96,6 +100,7 @@ interface PageInterface
      * Set Url
      *
      * @param string $url
+     *
      * @return void
      */
     function setUrl($url);
@@ -216,7 +221,6 @@ interface PageInterface
      * Add blocs
      *
      * @param BlockInterface $bloc
-     * @return void
      */
     function addBlocks(BlockInterface $bloc);
 
@@ -228,11 +232,11 @@ interface PageInterface
     function getBlocks();
 
     /**
-     *
      * @param PageInterface $target
+     *
      * @return void
      */
-    function setTarget(PageInterface $target);
+    function setTarget(PageInterface $target = null);
 
     /**
      * Get target
@@ -246,12 +250,13 @@ interface PageInterface
      *
      * @param PageInterface $parent
      */
-    function setParent(PageInterface $parent);
+    function setParent(PageInterface $parent = null);
 
     /**
      * Get parent
      *
      * @param integer $level default -1
+     *
      * @return PageInterface $parent
      */
     function getParent($level = -1);
@@ -275,96 +280,98 @@ interface PageInterface
      *
      *
      * @param boolean $decorate
+     *
      * @return void
      */
     function setDecorate($decorate);
 
     /**
+     * Returns true if the page can be decorate
      *
-     * @return void
+     * @return boolean
      */
     function getDecorate();
 
     /**
+     * Returns true if the page is hybrid (symfony action with no parameter)
      *
      * @return boolean
      */
     function isHybrid();
 
     /**
+     * Returns true if the page is dynamic (symfony action with parameter)
      *
      * @return boolean
      */
     function isDynamic();
 
     /**
+     * Returns true if the page is static
      *
      * @return boolean
      */
     function isCms();
 
     /**
+     * Returns true if the page is internal (no direct access with an url)
+     * This is used to define transversal page
      *
      * @return boolean
      */
     function isInternal();
 
     /**
-     *
      * @param int $position
+     *
      * @return void
      */
     function setPosition($position);
 
     /**
-     *
      * @return int
      */
     function getPosition();
 
     /**
-     *
      * @param string $method
+     *
      * @return void
      */
     function setRequestMethod($method);
 
     /**
-     *
-     * @return void
+     * @return string
      */
     function getRequestMethod();
 
     /**
-     *
      * @param array $headers
+     *
      * @return void
      */
     function setHeaders(array $headers = array());
 
     /**
+     * @param string $name
+     * @param mixed $value
      *
-     * @param $name
-     * @param $value
      * @return void
      */
     function addHeader($name, $value);
 
     /**
-     *
      * @return array
      */
     function getHeaders();
 
     /**
-     *
      * @param array $parents
      */
     function setParents(array $parents);
 
     /**
-     *
-     *
+     * @return array
      */
     function getParents();
 
@@ -377,28 +384,24 @@ interface PageInterface
     function getTtl();
 
     /**
-     *
      * @param string $method
+     *
      * @return bool
      */
     function hasRequestMethod($method);
 
     /**
-     *
      * @param SiteInterface $site
-     * @return void
      */
     function setSite(SiteInterface $site);
 
     /**
-     *
-     * @return void
+     * @return SiteInterface
      */
     function getSite();
 
     /**
      * @param array $rawHeaders
-     * @return void
      */
     function setRawHeaders($rawHeaders);
 
@@ -408,12 +411,12 @@ interface PageInterface
     function getEdited();
 
     /**
-     * @return void
+     * @param boolean $edited
      */
     function setEdited($edited);
 
     /**
-     * @return void
+     * @return boolean
      */
     function isError();
 }

@@ -14,6 +14,12 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * The DecoratorStrategy class defines if a request can be decorate by a PageInterface depends
+ * on the current request.
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class DecoratorStrategy implements DecoratorStrategyInterface
 {
     protected $ignoreRoutes;
@@ -43,7 +49,7 @@ class DecoratorStrategy implements DecoratorStrategyInterface
             return false;
         }
 
-        if (($response->headers->get('Content-Type') ?: 'text/html') != 'text/html') {
+        if (($response->headers->get('Content-Type') ? : 'text/html') != 'text/html') {
             return false;
         }
 
@@ -67,7 +73,7 @@ class DecoratorStrategy implements DecoratorStrategyInterface
      */
     public function isRequestDecorable(Request $request)
     {
-        return $this->isRouteNameDecorable($request->get('_route')) && $this->isRouteUriDecorable($request->getRequestUri());
+        return $this->isRouteNameDecorable($request->get('_route')) && $this->isRouteUriDecorable($request->getPathInfo());
     }
 
     /**

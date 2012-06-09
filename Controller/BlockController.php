@@ -15,8 +15,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Block controller
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class BlockController extends Controller
 {
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function emptyAction()
     {
         return new Response('Empty response');

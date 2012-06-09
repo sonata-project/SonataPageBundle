@@ -18,6 +18,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\Output;
 
+/**
+ * BaseCommand
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 abstract class BaseCommand extends ContainerAwareCommand
 {
     /**
@@ -77,7 +82,22 @@ abstract class BaseCommand extends ContainerAwareCommand
     }
 
     /**
+     * @param string $mode
+     *
+     * @return \Sonata\NotificationBundle\Backend\BackendInterface
+     */
+    public function getNotificationBackend($mode)
+    {
+        if ($mode == 'async') {
+            return $this->getContainer()->get('sonata.notification.backend');
+        }
+
+        return $this->getContainer()->get('sonata.notification.backend.runtime');
+    }
+
+    /**
      * @param \Symfony\Component\Console\Input\InputInterface $input
+     *
      * @return array
      */
     protected function getSites(InputInterface $input)

@@ -10,6 +10,9 @@
 
 namespace Sonata\PageBundle\Tests\Model;
 
+/**
+ *
+ */
 class Page extends \Sonata\PageBundle\Model\Page
 {
     protected $id;

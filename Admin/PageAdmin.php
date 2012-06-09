@@ -29,6 +29,11 @@ use Sonata\CacheBundle\Cache\CacheManagerInterface;
 
 use Knp\Menu\ItemInterface as MenuItemInterface;
 
+/**
+ * Admin definition for the Page class
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class PageAdmin extends Admin
 {
     protected $pageManager;
@@ -38,10 +43,9 @@ class PageAdmin extends Admin
     protected $cacheManager;
 
     /**
-     * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
-     * @return void
+     * {@inheritdoc}
      */
-    protected function configureShowField(ShowMapper $showMapper)
+    protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
             ->add('site')
@@ -56,8 +60,7 @@ class PageAdmin extends Admin
     }
 
     /**
-     * @param \Sonata\AdminBundle\Datagrid\ListMapper $listMapper
-     * @return void
+     * {@inheritdoc}
      */
     protected function configureListFields(ListMapper $listMapper)
     {
@@ -72,8 +75,7 @@ class PageAdmin extends Admin
     }
 
     /**
-     * @param \Sonata\AdminBundle\Datagrid\DatagridMapper $datagridMapper
-     * @return void
+     * {@inheritdoc}
      */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
@@ -101,8 +103,7 @@ class PageAdmin extends Admin
     }
 
     /**
-     * @param \Sonata\AdminBundle\Form\FormMapper $formMapper
-     * @return void
+     * {@inheritdoc}
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
@@ -184,9 +185,7 @@ class PageAdmin extends Admin
     }
 
     /**
-     * @param \Sonata\AdminBundle\Validator\ErrorElement $errorElement
-     * @param $object
-     * @return void
+     * {@inheritdoc}
      */
     public function validate(ErrorElement $errorElement, $object)
     {
@@ -218,10 +217,7 @@ class PageAdmin extends Admin
     }
 
     /**
-     * @param \Knp\Menu\ItemInterface $menu
-     * @param $action
-     * @param null|\Sonata\AdminBundle\Admin\Admin $childAdmin
-     * @return
+     * {@inheritdoc}
      */
     protected function configureSideMenu(MenuItemInterface $menu, $action, Admin $childAdmin = null)
     {
@@ -256,15 +252,21 @@ class PageAdmin extends Admin
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function postUpdate($object)
     {
         if ($this->cacheManager) {
             $this->cacheManager->invalidate(array(
-               'page_id' => $object->getId()
+                'page_id' => $object->getId()
             ));
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function update($object)
     {
         $object->setEdited(true);
@@ -274,6 +276,9 @@ class PageAdmin extends Admin
         $this->postUpdate($object);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function create($object)
     {
         $object->setEdited(true);
@@ -283,11 +288,17 @@ class PageAdmin extends Admin
         $this->postPersist($object);
     }
 
+    /**
+     * @param \Sonata\PageBundle\Model\PageManagerInterface $pageManager
+     */
     public function setPageManager(PageManagerInterface $pageManager)
     {
         $this->pageManager = $pageManager;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getNewInstance()
     {
         $instance = parent::getNewInstance();
@@ -301,8 +312,8 @@ class PageAdmin extends Admin
         }
 
         if ($site && $this->getRequest()->get('url')) {
-            $slugs  = explode('/', $this->getRequest()->get('url'));
-            $slug   = array_pop($slugs);
+            $slugs = explode('/', $this->getRequest()->get('url'));
+            $slug  = array_pop($slugs);
 
             try {
                 $parent = $this->pageManager->getPageByUrl($site, implode('/', $slugs));
@@ -322,6 +333,11 @@ class PageAdmin extends Admin
         return $instance;
     }
 
+    /**
+     * @return SiteInterface
+     *
+     * @throws \RuntimeException
+     */
     public function getSite()
     {
         if (!$this->hasRequest()) {
@@ -332,7 +348,7 @@ class PageAdmin extends Admin
             $site = $this->siteManager->findOneBy(array('id' => $siteId));
 
             if (!$site) {
-                throw new \RuntimeException('Unable to find the site with id='.$this->getRequest()->get('siteId'));
+                throw new \RuntimeException('Unable to find the site with id=' . $this->getRequest()->get('siteId'));
             }
 
             return $site;
@@ -341,28 +357,40 @@ class PageAdmin extends Admin
         return false;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getBatchActions()
     {
         $actions = parent::getBatchActions();
 
         $actions['snapshot'] = array(
-            'label' => $this->trans('create_snapshot'),
+            'label'            => $this->trans('create_snapshot'),
             'ask_confirmation' => true
         );
 
         return $actions;
     }
 
+    /**
+     * @param \Sonata\PageBundle\Model\SiteManagerInterface $siteManager
+     */
     public function setSiteManager(SiteManagerInterface $siteManager)
     {
         $this->siteManager = $siteManager;
     }
 
+    /**
+     * @return array
+     */
     public function getSites()
     {
         return $this->siteManager->findBy();
     }
 
+    /**
+     * @param \Sonata\CacheBundle\Cache\CacheManagerInterface $cacheManager
+     */
     public function setCacheManager(CacheManagerInterface $cacheManager)
     {
         $this->cacheManager = $cacheManager;

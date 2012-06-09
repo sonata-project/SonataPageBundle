@@ -19,15 +19,19 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 
 
+/**
+ * Admin definition for the Site class
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class SiteAdmin extends Admin
 {
     protected $cmsManager;
 
     /**
-     * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
-     * @return void
+     * {@inheritdoc}
      */
-    protected function configureShowField(ShowMapper $showMapper)
+    protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
             ->add('name')
@@ -45,8 +49,7 @@ class SiteAdmin extends Admin
     }
 
     /**
-     * @param \Sonata\AdminBundle\Datagrid\ListMapper $listMapper
-     * @return void
+     * {@inheritdoc}
      */
     protected function configureListFields(ListMapper $listMapper)
     {
@@ -64,8 +67,7 @@ class SiteAdmin extends Admin
     }
 
     /**
-     * @param \Sonata\AdminBundle\Datagrid\DatagridMapper $datagridMapper
-     * @return void
+     * {@inheritdoc}
      */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
@@ -75,8 +77,7 @@ class SiteAdmin extends Admin
     }
 
     /**
-     * @param \Sonata\AdminBundle\Form\FormMapper $formMapper
-     * @return void
+     * {@inheritdoc}
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
@@ -102,8 +103,7 @@ class SiteAdmin extends Admin
     }
 
     /**
-     * @param \Sonata\AdminBundle\Route\RouteCollection $collection
-     * @return void
+     * {@inheritdoc}
      */
     protected function configureRoutes(RouteCollection $collection)
     {

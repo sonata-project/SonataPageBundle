@@ -20,6 +20,11 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
+/**
+ * Page controller
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class PageController extends Controller
 {
     /**
@@ -32,7 +37,7 @@ class PageController extends Controller
 
         $site = $this->getSiteSelector()->retrieve();
 
-        $cms  = $this->getCmsManager();
+        $cms = $this->getCmsManager();
 
         try {
             $page = $cms->getPageByUrl($site, $pathInfo);
@@ -70,7 +75,7 @@ class PageController extends Controller
 
         $response = $this->getPageRendered()->render($page);
 
-        if ($page->isCms() ) {
+        if ($page->isCms()) {
             $response->setTtl($page->getTtl());
         }
 
@@ -79,6 +84,7 @@ class PageController extends Controller
 
     /**
      * @param \Sonata\PageBundle\Model\PageInterface $page
+     *
      * @return void
      */
     protected function addSeoMeta(PageInterface $page)
@@ -113,7 +119,9 @@ class PageController extends Controller
 
     /**
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException|\Symfony\Component\Security\Core\Exception\AccessDeniedException
-     * @param $code
+     *
+     * @param string $code
+     *
      * @return \Symfony\Bundle\FrameworkBundle\Controller\Response
      */
     public function exceptionEditAction($code)

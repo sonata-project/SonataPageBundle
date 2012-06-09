@@ -11,6 +11,11 @@
 
 namespace Sonata\PageBundle\Model;
 
+/**
+ * Template
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class Template
 {
     protected $path;
@@ -28,7 +33,7 @@ class Template
     }
 
     /**
-     * @return
+     * @return string
      */
     public function getName()
     {
@@ -36,7 +41,7 @@ class Template
     }
 
     /**
-     * @return
+     * @return string
      */
     public function getPath()
     {

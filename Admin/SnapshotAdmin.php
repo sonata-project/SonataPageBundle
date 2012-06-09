@@ -20,12 +20,20 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 
 use Sonata\CacheBundle\Cache\CacheManagerInterface;
 
+/**
+ * Admin definition for the Snapshot class
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class SnapshotAdmin extends Admin
 {
     protected $cacheManager;
 
     protected $parentAssociationMapping = 'page';
 
+    /**
+     * {@inheritdoc}
+     */
     public function configureListFields(ListMapper $listMapper)
     {
         $listMapper
@@ -36,12 +44,18 @@ class SnapshotAdmin extends Admin
         ;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
             ->add('routeName');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
@@ -52,32 +66,44 @@ class SnapshotAdmin extends Admin
         ;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getBatchActions()
     {
         $actions = parent::getBatchActions();
 
         $actions['toggle_enabled'] = array(
-            'label' => $this->trans('toggle_enabled'),
+            'label'            => $this->trans('toggle_enabled'),
             'ask_confirmation' => true
         );
 
         return $actions;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function postUpdate($object)
     {
         $this->cacheManager->invalidate(array(
-           'page_id' => $object->getPage()->getId()
+            'page_id' => $object->getPage()->getId()
         ));
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function postPersist($object)
     {
         $this->cacheManager->invalidate(array(
-           'page_id' => $object->getPage()->getId()
+            'page_id' => $object->getPage()->getId()
         ));
     }
 
+    /**
+     * @param \Sonata\CacheBundle\Cache\CacheManagerInterface $cacheManager
+     */
     public function setCacheManager(CacheManagerInterface $cacheManager)
     {
         $this->cacheManager = $cacheManager;

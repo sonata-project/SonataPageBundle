@@ -17,6 +17,11 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 
+/**
+ * HostSiteSelector
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class HostSiteSelector extends BaseSiteSelector
 {
     /**
@@ -30,7 +35,7 @@ class HostSiteSelector extends BaseSiteSelector
                 continue;
             }
 
-            if ($now->format('U') > $site->getEnabledTo()->format('U') ) {
+            if ($now->format('U') > $site->getEnabledTo()->format('U')) {
                 continue;
             }
 

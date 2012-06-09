@@ -10,6 +10,11 @@
 
 namespace Sonata\PageBundle\Exception;
 
+/**
+ * Exception used to raise an internal error
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class InternalErrorException extends \RuntimeException
 {
 

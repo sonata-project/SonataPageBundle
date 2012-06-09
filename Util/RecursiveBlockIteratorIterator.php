@@ -10,8 +10,16 @@
 
 namespace Sonata\PageBundle\Util;
 
+/**
+ * RecursiveBlockIteratorIterator
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class RecursiveBlockIteratorIterator extends \RecursiveIteratorIterator
 {
+    /**
+     * @param \Traversable $array
+     */
     public function __construct($array)
     {
         parent::__construct(new RecursiveBlockIterator($array), \RecursiveIteratorIterator::SELF_FIRST);

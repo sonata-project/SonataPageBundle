@@ -14,6 +14,9 @@ namespace Sonata\PageBundle\Tests\Block;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ *
+ */
 class FakeTemplating implements EngineInterface
 {
     public $view;

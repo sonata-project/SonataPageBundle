@@ -15,6 +15,11 @@ use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 
+/**
+ * Page
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 abstract class Page implements PageInterface
 {
     protected $createdAt;
@@ -73,6 +78,9 @@ abstract class Page implements PageInterface
 
     protected $edited;
 
+    /**
+     * {@inheritdoc}
+     */
     public function __construct()
     {
         $this->blocks        = array();
@@ -83,24 +91,23 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Set routeName
-     *
-     * @param string $routeName
+     * {@inheritdoc}
      */
     public function setRouteName($routeName)
     {
         $this->routeName = $routeName;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setId($id)
     {
         $this->id = $id;
     }
 
     /**
-     * Get routeName
-     *
-     * @return string $routeName
+     * {@inheritdoc}
      */
     public function getRouteName()
     {
@@ -108,9 +115,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Set enabled
-     *
-     * @param boolean $enabled
+     * {@inheritdoc}
      */
     public function setEnabled($enabled)
     {
@@ -118,9 +123,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Get enabled
-     *
-     * @return boolean $enabled
+     * {@inheritdoc}
      */
     public function getEnabled()
     {
@@ -128,9 +131,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Set name
-     *
-     * @param string $name
+     * {@inheritdoc}
      */
     public function setName($name)
     {
@@ -138,9 +139,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Get name
-     *
-     * @return string $name
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -148,9 +147,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Set slug
-     *
-     * @param integer $slug
+     * {@inheritdoc}
      */
     public function setSlug($slug)
     {
@@ -158,9 +155,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Get slug
-     *
-     * @return integer $slug
+     * {@inheritdoc}
      */
     public function getSlug()
     {
@@ -168,9 +163,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Set customUrl
-     *
-     * @param integer $customUrl
+     * {@inheritdoc}
      */
     public function setCustomUrl($customUrl)
     {
@@ -178,9 +171,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Get customUrl
-     *
-     * @return integer $customUrl
+     * {@inheritdoc}
      */
     public function getCustomUrl()
     {
@@ -188,9 +179,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Set requestMethod
-     *
-     * @param string $requestMethod
+     * {@inheritdoc}
      */
     public function setRequestMethod($requestMethod)
     {
@@ -198,9 +187,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Get requestMethod
-     *
-     * @return string $requestMethod
+     * {@inheritdoc}
      */
     public function getRequestMethod()
     {
@@ -208,9 +195,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Set metaKeyword
-     *
-     * @param string $metaKeyword
+     * {@inheritdoc}
      */
     public function setMetaKeyword($metaKeyword)
     {
@@ -218,9 +203,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Get metaKeyword
-     *
-     * @return string $metaKeyword
+     * {@inheritdoc}
      */
     public function getMetaKeyword()
     {
@@ -228,9 +211,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Set metaDescription
-     *
-     * @param string $metaDescription
+     * {@inheritdoc}
      */
     public function setMetaDescription($metaDescription)
     {
@@ -238,9 +219,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Get metaDescription
-     *
-     * @return string $metaDescription
+     * {@inheritdoc}
      */
     public function getMetaDescription()
     {
@@ -248,9 +227,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Set javascript
-     *
-     * @param text $javascript
+     * {@inheritdoc}
      */
     public function setJavascript($javascript)
     {
@@ -258,9 +235,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Get javascript
-     *
-     * @return text $javascript
+     * {@inheritdoc}
      */
     public function getJavascript()
     {
@@ -268,9 +243,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Set stylesheet
-     *
-     * @param text $stylesheet
+     * {@inheritdoc}
      */
     public function setStylesheet($stylesheet)
     {
@@ -278,9 +251,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Get stylesheet
-     *
-     * @return text $stylesheet
+     * {@inheritdoc}
      */
     public function getStylesheet()
     {
@@ -288,9 +259,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Set raw headers
-     *
-     * @param text $rawHeaders
+     * {@inheritdoc}
      */
     public function setRawHeaders($rawHeaders)
     {
@@ -307,9 +276,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Get Raw headers
-     *
-     * @return text $rawHeaders
+     * {@inheritdoc}
      */
     public function getRawHeaders()
     {
@@ -317,9 +284,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Add header
-     *
-     * @param text $headers
+     * {@inheritdoc}
      */
     public function addHeader($name, $header)
     {
@@ -331,7 +296,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * @param array $headers
+     * {@inheritdoc}
      */
     public function setHeaders(array $headers = array())
     {
@@ -339,18 +304,15 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Get headers
-     *
-     * @return array $headers
+     * {@inheritdoc}
      */
     public function getHeaders()
     {
         return $this->headers;
     }
+
     /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
+     * {@inheritdoc}
      */
     public function setCreatedAt(\DateTime $createdAt = null)
     {
@@ -358,9 +320,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Get createdAt
-     *
-     * @return \DateTime $createdAt
+     * {@inheritdoc}
      */
     public function getCreatedAt()
     {
@@ -368,9 +328,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Set updatedAt
-     *
-     * @param \DateTime $updatedAt
+     * {@inheritdoc}
      */
     public function setUpdatedAt(\DateTime $updatedAt = null)
     {
@@ -378,9 +336,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Get updatedAt
-     *
-     * @return \DateTime $updatedAt
+     * {@inheritdoc}
      */
     public function getUpdatedAt()
     {
@@ -388,9 +344,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Add children
-     *
-     * @param \Sonata\PageBundle\Model\PageInterface $children
+     * {@inheritdoc}
      */
     public function addChildren(PageInterface $children)
     {
@@ -400,9 +354,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Get children
-     *
-     * @return Doctrine\Common\Collections\Collection $children
+     * {@inheritdoc}
      */
     public function getChildren()
     {
@@ -410,7 +362,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * @param $children
+     * {@inheritdoc}
      */
     public function setChildren($children)
     {
@@ -418,9 +370,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Get snapshot
-     *
-     * @return  Application\Sonata\PageBundle\Entity\Snapshot $snapshots
+     * {@inheritdoc}
      */
     public function getSnapshot()
     {
@@ -428,9 +378,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Get snapshots
-     *
-     * @return Doctrine\Common\Collections\Collection $snapshots
+     * {@inheritdoc}
      */
     public function getSnapshots()
     {
@@ -438,9 +386,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Set $snapshots
-     *
-     * @param Doctrine\Common\Collections\Collection $snapshots
+     * {@inheritdoc}
      */
     public function setSnapshots($snapshots)
     {
@@ -448,9 +394,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Get target
-     *
-     * @return Application\Sonata\PageBundle\Entity\Page $target
+     * {@inheritdoc}
      */
     public function getTarget()
     {
@@ -458,9 +402,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Add snapshot
-     *
-     * @param \Sonata\PageBundle\Model\SnapshotInterface $snapshot
+     * {@inheritdoc}
      */
     public function addSnapshot(SnapshotInterface $snapshot)
     {
@@ -490,9 +432,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Get blocs
-     *
-     * @return Doctrine\Common\Collections\Collection $blocs
+     * {@inheritdoc}
      */
     public function getBlocks()
     {
@@ -500,9 +440,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Set parent
-     *
-     * @param \Sonata\PageBundle\Model\PageInterface $parent
+     * {@inheritdoc}
      */
     public function setParent(PageInterface $parent = null)
     {
@@ -510,15 +448,12 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Get parent
-     *
-     * @param integer $level default -1
-     * @return \Sonata\PageBundle\Model\PageInterface $parent
+     * {@inheritdoc}
      */
     public function getParent($level = -1)
     {
         if (-1 === $level) {
-           return $this->parent;
+            return $this->parent;
         }
 
         $parents = $this->getParents();
@@ -531,9 +466,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Set the parent tree
-     *
-     * @param array $parents
+     * {@inheritdoc}
      */
     public function setParents(array $parents)
     {
@@ -541,19 +474,17 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * get the tree of the page, build it from the parent if the tree does not exist
-     *
-     * @return array of \Sonata\PageBundle\Model\PageInterface $parents
+     * {@inheritdoc}
      */
     public function getParents()
     {
         if (!$this->parents) {
 
-            $page = $this;
+            $page    = $this;
             $parents = array();
 
             while ($page->getParent()) {
-                $page = $page->getParent();
+                $page      = $page->getParent();
                 $parents[] = $page;
             }
 
@@ -564,9 +495,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Set template
-     *
-     * @param string $templateCode
+     * {@inheritdoc}
      */
     public function setTemplateCode($templateCode)
     {
@@ -574,9 +503,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Get template
-     *
-     * @return string $templateCode
+     * {@inheritdoc}
      */
     public function getTemplateCode()
     {
@@ -597,20 +524,24 @@ abstract class Page implements PageInterface
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setDecorate($decorate)
     {
         $this->decorate = $decorate;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getDecorate()
     {
         return $this->decorate;
     }
 
     /**
-     * Returns true if the page represents an action
-     *
-     * @return boolean
+     * {@inheritdoc}
      */
     public function isHybrid()
     {
@@ -618,7 +549,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * @return bool
+     * {@inheritdoc}
      */
     public function isCms()
     {
@@ -626,8 +557,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Returns true if the page is internal, ie: no direct url
-     * @return boolean
+     * {@inheritdoc}
      */
     public function isInternal()
     {
@@ -635,30 +565,40 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Return true if the page is dynamic, ie hybrid and contains dynamic parameters
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function isDynamic()
     {
         return $this->isHybrid() && strpos($this->getUrl(), '{') !== false;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function __toString()
     {
-        return $this->getName()?: '-';
+        return $this->getName() ?: '-';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setPosition($position)
     {
         $this->position = $position;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getPosition()
     {
         return $this->position;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getTtl()
     {
         if ($this->ttl === null) {
@@ -667,7 +607,7 @@ abstract class Page implements PageInterface
             foreach ($this->getBlocks() as $block) {
                 $blockTtl = $block->getTtl();
 
-                $ttl = ($blockTtl < $ttl) ? $blockTtl : $ttl ;
+                $ttl = ($blockTtl < $ttl) ? $blockTtl : $ttl;
             }
 
             $this->ttl = $ttl;
@@ -676,11 +616,17 @@ abstract class Page implements PageInterface
         return $this->ttl;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setUrl($url)
     {
         $this->url = $this->routeName == 'homepage' ? '/' : $url;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getUrl()
     {
         return $this->routeName == 'homepage' ? '/' : $this->url;
@@ -690,7 +636,9 @@ abstract class Page implements PageInterface
      * source : http://snipplr.com/view/22741/slugify-a-string-in-php/
      *
      * @static
-     * @param  $text
+     *
+     * @param string $text
+     *
      * @return mixed|string
      */
     static public function slugify($text)
@@ -723,6 +671,7 @@ abstract class Page implements PageInterface
      * Retrieve a block by name
      *
      * @param string $name
+     *
      * @return Sonata\BlockBundle\Model\BlockInterface
      */
     public function getContainerByName($name)
@@ -744,6 +693,7 @@ abstract class Page implements PageInterface
      * Retrieve blocks by type
      *
      * @param string $type
+     *
      * @return array
      */
     public function getBlocksByType($type)
@@ -760,10 +710,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Return true if the page has the request method $method
-     * @param string $method
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function hasRequestMethod($method)
     {
@@ -777,8 +724,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * @param SiteInterface $site
-     * @return void
+     * {@inheritdoc}
      */
     public function setSite(SiteInterface $site)
     {
@@ -786,25 +732,31 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * @return
+     * {@inheritdoc}
      */
     public function getSite()
     {
         return $this->site;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setEdited($edited)
     {
         $this->edited = $edited;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getEdited()
     {
         return $this->edited;
     }
 
     /**
-     * @return bool
+     * {@inheritdoc}
      */
     public function isError()
     {

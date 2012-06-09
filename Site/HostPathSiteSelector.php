@@ -20,6 +20,11 @@ use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Request\SiteRequestInterface;
 use Sonata\PageBundle\Request\SiteRequestContext;
 
+/**
+ * HostPathSiteSelector
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class HostPathSiteSelector extends BaseSiteSelector
 {
     /**
@@ -31,14 +36,14 @@ class HostPathSiteSelector extends BaseSiteSelector
             throw new \RuntimeException('You must change the main Request object in the front controller (app.php) in order to use the `host_with_path` strategy');
         }
 
-        $now = new \DateTime;
+        $now         = new \DateTime;
         $defaultSite = false;
         foreach ($this->getSites() as $site) {
             if ($site->getEnabledFrom()->format('U') > $now->format('U')) {
                 continue;
             }
 
-            if ($now->format('U') > $site->getEnabledTo()->format('U') ) {
+            if ($now->format('U') > $site->getEnabledTo()->format('U')) {
                 continue;
             }
 
@@ -67,7 +72,7 @@ class HostPathSiteSelector extends BaseSiteSelector
 
         // no valid site, but on there is a default site for the current request
         if (!$this->site && $defaultSite) {
-            $event->setResponse(new RedirectResponse($defaultSite->getUrl()));
+            $event->setResponse(new RedirectResponse($defaultSite->getUrl(), 301));
         } else if ($this->site && $this->site->getLocale()) {
             $event->getRequest()->attributes->set('_locale', $this->site->getLocale());
         }
@@ -85,7 +90,7 @@ class HostPathSiteSelector extends BaseSiteSelector
         }
 
         if ('Symfony\\Bundle\\FrameworkBundle\\Controller\\RedirectController::urlRedirectAction' == $request->get('_controller')) {
-            $request->attributes->set('path', $this->site->getRelativePath().$request->attributes->get('path'));
+            $request->attributes->set('path', $this->site->getRelativePath() . $request->attributes->get('path'));
         }
     }
 

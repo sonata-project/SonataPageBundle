@@ -27,8 +27,9 @@ use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 
 /**
+ * Render children pages
  *
- * @author     Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class ChildrenPagesBlockService extends BaseBlockService
 {
@@ -37,9 +38,9 @@ class ChildrenPagesBlockService extends BaseBlockService
     protected $cmsManagerSelector;
 
     /**
-     * @param $name
-     * @param \Symfony\Component\Templating\EngineInterface $templating
-     * @param \Sonata\PageBundle\Site\SiteSelectorInterface $siteSelector
+     * @param string                                                    $name
+     * @param \Symfony\Component\Templating\EngineInterface             $templating
+     * @param \Sonata\PageBundle\Site\SiteSelectorInterface             $siteSelector
      * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $cmsManagerSelector
      */
     public function __construct($name, EngineInterface $templating, SiteSelectorInterface $siteSelector, CmsManagerSelectorInterface $cmsManagerSelector)

@@ -17,6 +17,11 @@ use Sonata\PageBundle\Model\SiteManagerInterface;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\NoResultException;
 
+/**
+ * This class manages SiteInterface persistency with the Doctrine ORM
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class SiteManager implements SiteManagerInterface
 {
     protected $entityManager;
@@ -25,7 +30,7 @@ class SiteManager implements SiteManagerInterface
 
     /**
      * @param \Doctrine\ORM\EntityManager $entityManager
-     * @param string $class
+     * @param string                      $class
      */
     public function __construct(EntityManager $entityManager, $class)
     {
@@ -35,6 +40,7 @@ class SiteManager implements SiteManagerInterface
 
     /**
      * @param SiteInterface $site
+     *
      * @return SiteInterface
      */
     public function save(SiteInterface $site)
@@ -45,6 +51,9 @@ class SiteManager implements SiteManagerInterface
         return $site;
     }
 
+    /**
+     * @return \Doctrine\ORM\EntityRepository
+     */
     protected function getRepository()
     {
         return $this->entityManager->getRepository($this->class);
@@ -52,6 +61,7 @@ class SiteManager implements SiteManagerInterface
 
     /**
      * @param array $criteria
+     *
      * @return array
      */
     public function findBy(array $criteria = array())
@@ -61,6 +71,7 @@ class SiteManager implements SiteManagerInterface
 
     /**
      * @param array $criteria
+     *
      * @return SiteInterface
      */
     public function findOneBy(array $criteria = array())

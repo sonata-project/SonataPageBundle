@@ -14,30 +14,40 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * This interface defines if a request can be decorate by a PageInterface depends
+ * on the current request
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 interface DecoratorStrategyInterface
 {
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param $requestType
+     * @param \Symfony\Component\HttpFoundation\Request  $request
+     * @param integer                                    $requestType
      * @param \Symfony\Component\HttpFoundation\Response $response
+     *
      * @return boolean
      */
     function isDecorable(Request $request, $requestType, Response $response);
 
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
+     *
      * @return void
      */
     function isRequestDecorable(Request $request);
 
     /**
-     * @param $routeName
+     * @param string $routeName
+     *
      * @return boolean
      */
     function isRouteNameDecorable($routeName);
 
     /**
-     * @param $uri
+     * @param string $uri
+     *
      * @return boolean
      */
     function isRouteUriDecorable($uri);

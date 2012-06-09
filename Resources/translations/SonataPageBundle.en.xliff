@@ -578,6 +578,10 @@
           <source>breadcrumb.link_page_show</source>
           <target>Page</target>
       </trans-unit>
+      <trans-unit id="144" resname="sonata_page">
+          <source>sonata_page</source>
+          <target>Pages</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

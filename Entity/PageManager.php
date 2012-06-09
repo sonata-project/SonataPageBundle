@@ -19,6 +19,11 @@ use Sonata\PageBundle\Model\Page;
 
 use Doctrine\ORM\EntityManager;
 
+/**
+ * This class manages PageInterface persistency with the Doctrine ORM
+ *
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ */
 class PageManager implements PageManagerInterface
 {
     protected $entityManager;
@@ -29,8 +34,8 @@ class PageManager implements PageManagerInterface
 
     /**
      * @param \Doctrine\ORM\EntityManager $entityManager
-     * @param $class
-     * @param array $pageDefaults
+     * @param string                      $class
+     * @param array                       $pageDefaults
      */
     public function __construct(EntityManager $entityManager, $class, array $pageDefaults)
     {
@@ -39,6 +44,9 @@ class PageManager implements PageManagerInterface
         $this->pageDefaults  = $pageDefaults;
     }
 
+    /**
+     * @return \Doctrine\ORM\EntityRepository
+     */
     protected function getRepository()
     {
         return $this->entityManager->getRepository($this->class);
@@ -72,6 +80,7 @@ class PageManager implements PageManagerInterface
 
     /**
      * @param \Sonata\PageBundle\Model\PageInterface $page
+     *
      * @return void
      */
     public function fixUrl(PageInterface $page)
