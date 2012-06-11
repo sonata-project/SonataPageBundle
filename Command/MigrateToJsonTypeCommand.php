@@ -23,7 +23,7 @@ class MigrateToJsonTypeCommand extends BaseCommand
     public function configure()
     {
         $this->setName('sonata:page:migrate-block-json');
-        $this->addOption('table', null, InputOption::VALUE_OPTIONAL, 'Block table', 'block');
+        $this->addOption('table', null, InputOption::VALUE_OPTIONAL, 'Block table', 'page__block');
         $this->setDescription('Migrate all block settings to the doctrine JsonType');
     }
 
