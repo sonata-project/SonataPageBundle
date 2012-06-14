@@ -17,7 +17,8 @@ A [BC BREAK] means the update will break the project for many reasons:
 
     Migration command :
 
-        php app/console sonata:page:migrate-block-json
+        php app/console sonata:page:migrate-block-json --table page__bloc
+        php app/console sonata:page:migrate-block-json --table page__bloc_audit
 
 * Mapped Snapshot::$content to JsonType (previously a manually encoded json string)
 
