@@ -7,6 +7,21 @@ A [BC BREAK] means the update will break the project for many reasons:
 * new dependencies
 * class refactoring
 
+### 2012-06-12
+
+* [BC BREAK] Mapped Block::$settings to doctrine JsonType (previously an ArrayType)
+
+    Add the new dependency sonata/doctrine-extensions :
+
+        php composer.phar update
+
+    Migration command :
+
+        php app/console sonata:page:migrate-block-json --table page__bloc
+        php app/console sonata:page:migrate-block-json --table page__bloc_audit
+
+* Mapped Snapshot::$content to JsonType (previously a manually encoded json string)
+
 ### 2012-04-09
 
 * [BC BREAK] The page bundle has now a dependency to the SonataNotificationBundle to run the snapshot task asynchronously.

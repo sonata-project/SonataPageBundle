@@ -14,7 +14,7 @@
 
         <field name="parentId"          type="integer"      column="parent_id"      nullable="true" />
         <field name="targetId"          type="integer"      column="target_id"      nullable="true" />
-        <field name="content"           type="text"         column="content"        nullable="true"/>
+        <field name="content"           type="json"         column="content"        nullable="true"/>
 
         <field name="publicationDateStart"   type="datetime"   column="publication_date_start"    nullable="true"/>
         <field name="publicationDateEnd"     type="datetime"   column="publication_date_end"      nullable="true"/>
