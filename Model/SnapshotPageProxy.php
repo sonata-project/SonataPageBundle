@@ -594,4 +594,20 @@ class SnapshotPageProxy implements PageInterface
     {
         return $this->getPage()->isError();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTitle()
+    {
+        return $this->getPage()->getTitle();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setTitle($title)
+    {
+        $this->getPage()->setTitle($title);
+    }
 }

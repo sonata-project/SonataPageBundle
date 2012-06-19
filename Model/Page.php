@@ -30,6 +30,8 @@ abstract class Page implements PageInterface
 
     protected $name;
 
+    protected $title;
+
     protected $slug;
 
     protected $url;
@@ -761,5 +763,21 @@ abstract class Page implements PageInterface
     public function isError()
     {
         return substr($this->getRouteName(), 0, 21) == '_page_internal_error_';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTitle()
+    {
+        return $this->title;
     }
 }

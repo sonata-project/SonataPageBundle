@@ -16,6 +16,7 @@
 
         <field name="requestMethod"     type="string"       column="request_method"     length="255" nullable="true" />
 
+        <field name="title"             type="string"       column="title"              nullable="true" length="255"/>
         <field name="metaKeyword"       type="string"       column="meta_keyword"       nullable="true" length="255"/>
         <field name="metaDescription"   type="string"       column="meta_description"   nullable="true" length="255"/>
 
