@@ -89,7 +89,7 @@ class PageController extends Controller
      */
     protected function addSeoMeta(PageInterface $page)
     {
-        $this->getSeoPage()->setTitle($page->getName());
+        $this->getSeoPage()->setTitle($page->getTitle() ?: $page->getName());
 
         if ($page->getMetaDescription()) {
             $this->getSeoPage()->addMeta('name', 'description', $page->getMetaDescription());
