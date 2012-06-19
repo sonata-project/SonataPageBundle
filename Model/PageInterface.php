@@ -419,4 +419,18 @@ interface PageInterface
      * @return boolean
      */
     function isError();
+
+    /**
+     * Return the title.
+     *
+     * @return string
+     */
+    function getTitle();
+
+    /**
+     * Set the title.
+     *
+     * @param string $title
+     */
+    function setTitle($title);
 }

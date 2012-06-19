@@ -194,12 +194,13 @@ class SnapshotManager implements SnapshotManagerInterface
         $page->setDecorate($snapshot->getDecorate());
         $page->setSite($snapshot->getSite());
 
-        $content = json_decode($snapshot->getContent(), true);
+        $content = $this->fixContent(json_decode($snapshot->getContent(), true));
 
         $page->setId($content['id']);
         $page->setJavascript($content['javascript']);
         $page->setStylesheet($content['stylesheet']);
         $page->setRawHeaders($content['raw_headers']);
+        $page->setTitle($content['title']);
         $page->setMetaDescription($content['meta_description']);
         $page->setMetaKeyword($content['meta_keyword']);
         $page->setName($content['name']);
@@ -216,6 +217,20 @@ class SnapshotManager implements SnapshotManagerInterface
         $page->setUpdatedAt($updatedAt);
 
         return $page;
+    }
+
+    /**
+     * @param array $content
+     *
+     * @return array
+     */
+    protected function fixContent(array $content)
+    {
+        if (!array_key_exists('title', $content)) {
+            $content['title'] = null;
+        }
+
+        return $content;
     }
 
     /**
@@ -285,6 +300,7 @@ class SnapshotManager implements SnapshotManagerInterface
         $content['javascript']       = $page->getJavascript();
         $content['stylesheet']       = $page->getStylesheet();
         $content['raw_headers']      = $page->getRawHeaders();
+        $content['title']            = $page->getTitle();
         $content['meta_description'] = $page->getMetaDescription();
         $content['meta_keyword']     = $page->getMetaKeyword();
         $content['template_code']    = $page->getTemplateCode();

@@ -159,6 +159,7 @@ class PageAdmin extends Admin
 
         $formMapper
             ->with($this->trans('form_page.group_seo_label'), array('collapsed' => true))
+                ->add('title', null, array('required' => false))
                 ->add('metaKeyword', 'textarea', array('required' => false))
                 ->add('metaDescription', 'textarea', array('required' => false))
             ->end()

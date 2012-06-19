@@ -91,7 +91,7 @@ class RequestListener
             $page = $cms->getPageByRouteName($site, $event->getRequest()->get('_route'));
             $cms->setCurrentPage($page);
 
-            $this->seoPage->setTitle($page->getName());
+            $this->seoPage->setTitle($page->getTitle() ?: $page->getName());
 
             if ($page->getMetaDescription()) {
                 $this->seoPage->addMeta('name', 'description', $page->getMetaDescription());
