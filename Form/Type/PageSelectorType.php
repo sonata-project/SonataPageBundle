@@ -34,7 +34,8 @@ class PageSelectorType extends ModelType
     protected $manager;
 
     /**
-     * @param \Sonata\PageBundle\Model\PageManagerInterface $manager
+     * @param PageManagerInterface $manager
+     * @param string               $type
      */
     public function __construct(PageManagerInterface $manager)
     {
@@ -46,6 +47,8 @@ class PageSelectorType extends ModelType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
+        $that = $this;
+
         $resolver->setDefaults(array(
             'template'          => 'choice',
             'multiple'          => false,
@@ -58,30 +61,15 @@ class PageSelectorType extends ModelType
             'preferred_choices' => array(),
             'page'              => null,
             'site'              => null,
-            'choices'           => $this->getChoices(),
-
+            'choices'           => function (Options $opts, $previousValue) use ($that) {
+                return $that->getChoices($opts);
+            },
             'filter_choice'     => array(
                 'current_page'     => false,
                 'request_method'   => 'GET',
                 'dynamic'          => true,
                 'hierarchy'        => 'all'
             ),
-
-
-            'choice_list'       => function (Options $opts, $previousValue) {
-                if ($previousValue instanceof ChoiceListInterface
-                        && count($choices = $previousValue->getChoices())) {
-                    return $choices;
-                }
-
-                return new ModelChoiceList(
-                        $opts['model_manager'],
-                        $opts['class'],
-                        $opts['property'],
-                        $opts['query'],
-                        $opts['choices']
-                );
-            }
         ));
     }
 
@@ -90,39 +78,46 @@ class PageSelectorType extends ModelType
      *
      * @return array
      */
-    protected function getChoices($options = null)
+    public function getChoices(Options $options)
     {
         if (!$options['site'] instanceof SiteInterface) {
             return array();
         }
+
+        $filter_choice = array_merge(array(
+            'current_page'     => false,
+            'request_method'   => 'GET',
+            'dynamic'          => true,
+            'hierarchy'        => 'all'
+        ), $options['filter_choice']);
 
         $pages = $this->manager->loadPages($options['site']);
 
         $choices = array();
 
         foreach ($pages as $page) {
-            if (!$options['filter_choice']['current_page'] && $options['page'] && $options['page']->getId() == $page->getId()) {
+            if (!$filter_choice['current_page'] && $options['page'] && $options['page']->getId() == $page->getId()) {
                 continue;
             }
 
             if (
-                'all' != $options['filter_choice']['hierarchy'] && (
-                    ('root' != $options['filter_choice']['hierarchy'] || $page->getParent()) &&
-                    ('children' != $options['filter_choice']['hierarchy'] || !$page->getParent())
+                'all' != $filter_choice['hierarchy'] && (
+                    ('root' != $filter_choice['hierarchy'] || $page->getParent()) &&
+                    ('children' != $filter_choice['hierarchy'] || !$page->getParent())
                 )
             ) {
                 continue;
             }
 
-            if ('all' != $options['filter_choice']['dynamic'] && (
-                    ($options['filter_choice']['dynamic'] && $page->isDynamic()) ||
-                    (!$options['filter_choice']['dynamic'] && !$page->isDynamic())
+            if ('all' != $filter_choice['dynamic'] && (
+                    ($filter_choice['dynamic'] && $page->isDynamic()) ||
+                    (!$filter_choice['dynamic'] && !$page->isDynamic())
                 )
             ) {
                 continue;
             }
 
-            if ('all' != $options['filter_choice']['request_method'] && !$page->hasRequestMethod($options['filter_choice']['request_method'])) {
+            if ('all' != $filter_choice['request_method'] && !$page->hasRequestMethod($filter_choice['request_method'])) {
                 continue;
             }
 
