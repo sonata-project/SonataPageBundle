@@ -41,10 +41,10 @@ class RequestListener
     protected $seoPage;
 
     /**
-     * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $cmsSelector
-     * @param \Sonata\PageBundle\Site\SiteSelectorInterface             $siteSelector
-     * @param \Sonata\PageBundle\CmsManager\DecoratorStrategyInterface  $decoratorStrategy
-     * @param \Sonata\SeoBundle\Seo\SeoPageInterface                    $seoPage
+     * @param CmsManagerSelectorInterface $cmsSelector
+     * @param SiteSelectorInterface       $siteSelector
+     * @param DecoratorStrategyInterface  $decoratorStrategy
+     * @param SeoPageInterface            $seoPage
      */
     public function __construct(CmsManagerSelectorInterface $cmsSelector, SiteSelectorInterface $siteSelector, DecoratorStrategyInterface $decoratorStrategy, SeoPageInterface $seoPage)
     {
@@ -57,7 +57,7 @@ class RequestListener
     /**
      * Filter the `core.request` event to decorated the action
      *
-     * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
+     * @param GetResponseEvent $event
      *
      * @return void
      */
