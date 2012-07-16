@@ -145,6 +145,25 @@ generate the correct entities for the page::
 
     php app/console sonata:easy-extends:generate SonataPageBundle
 
+If you're getting
+
+    [InvalidArgumentException]
+    Bundle "ApplicationSonataPageBundle" does not exist or it is not enabled.
+
+then comment this line:
+
+.. code-block:: yaml
+
+    # app/config/config.yml
+    doctrine:
+        orm:
+            entity_managers:
+                default:
+                    mappings:
+                        #ApplicationSonataPageBundle: ~
+
+Run the command again, and uncomment ApplicationSonataPageBundle after generation is complete.
+
 .. note::
 
     The command will generate domain objects in an ``Application`` namespace.
