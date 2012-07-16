@@ -177,7 +177,7 @@ Don't forget to also add it in your autoload :
     <?php
     $loader->registerNamespaces(array(
         // ...
-        'Application'       => __DIR__ . '/../src/',
+        'Application'       => __DIR__ . '/../app/',
         // ... other declarations
     ));
 
