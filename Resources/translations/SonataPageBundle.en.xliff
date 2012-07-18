@@ -192,7 +192,7 @@
       </trans-unit>
       <trans-unit id="47" resname="form.label_publication_date_start">
         <source>form.label_publication_date_start</source>
-        <target>Plublication start date</target>
+        <target>Publication start date</target>
       </trans-unit>
       <trans-unit id="48" resname="form.label_raw_headers">
         <source>form.label_raw_headers</source>
