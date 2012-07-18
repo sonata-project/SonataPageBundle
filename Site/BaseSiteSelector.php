@@ -41,9 +41,9 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
     protected $request;
 
     /**
-     * @param \Sonata\PageBundle\Model\SiteManagerInterface            $siteManager
-     * @param \Sonata\PageBundle\CmsManager\DecoratorStrategyInterface $decoratorStrategy
-     * @param \Sonata\SeoBundle\Seo\SeoPageInterface                   $seoPage
+     * @param SiteManagerInterface       $siteManager
+     * @param DecoratorStrategyInterface $decoratorStrategy
+     * @param SeoPageInterface           $seoPage
      */
     public function __construct(SiteManagerInterface $siteManager, DecoratorStrategyInterface $decoratorStrategy, SeoPageInterface $seoPage)
     {
@@ -73,7 +73,7 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
     }
 
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param Request $request
      *
      * @return void
      */
@@ -151,7 +151,7 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
     /**
      * @abstract
      *
-     * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
+     * @param GetResponseEvent $event
      *
      * @return void
      */
