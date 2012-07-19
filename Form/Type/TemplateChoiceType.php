@@ -64,4 +64,12 @@ class TemplateChoiceType extends ChoiceType
 
         return $templates;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getName()
+    {
+        return 'sonata_page_template';
+    }   
 }

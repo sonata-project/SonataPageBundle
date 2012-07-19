@@ -150,4 +150,12 @@ class PageSelectorType extends ModelType
             $this->childWalker($child, $currentPage, $choices, $level + 1);
         }
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getName()
+    {
+        return 'sonata_page_selector';
+    }   
 }
