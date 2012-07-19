@@ -204,6 +204,8 @@ generate the correct entities for the page::
 
     php app/console sonata:easy-extends:generate SonataPageBundle
 
+If you specify no parameter, the files are generated in app/Application/Sonata... but you can specify the path with --dest=src
+
 .. note::
 
     The command will generate domain objects in an ``Application`` namespace.
