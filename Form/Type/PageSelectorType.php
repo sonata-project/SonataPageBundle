@@ -35,7 +35,6 @@ class PageSelectorType extends ModelType
 
     /**
      * @param PageManagerInterface $manager
-     * @param string               $type
      */
     public function __construct(PageManagerInterface $manager)
     {
@@ -74,7 +73,7 @@ class PageSelectorType extends ModelType
     }
 
     /**
-     * @param array $options
+     * @param Options $options
      *
      * @return array
      */
@@ -158,5 +157,5 @@ class PageSelectorType extends ModelType
     public function getName()
     {
         return 'sonata_page_selector';
-    }   
+    }
 }

@@ -27,7 +27,7 @@ class TemplateChoiceType extends ChoiceType
     protected $renderer;
 
     /**
-     * @param \Sonata\PageBundle\CmsManager\PageRendererInterface $renderer
+     * @param PageRendererInterface $renderer
      */
     public function __construct(PageRendererInterface $renderer)
     {
@@ -65,5 +65,5 @@ class TemplateChoiceType extends ChoiceType
     public function getName()
     {
         return 'sonata_page_template';
-    }   
+    }
 }
