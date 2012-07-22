@@ -15,6 +15,8 @@ use Symfony\Component\Form\Extension\Core\ChoiceList\ChoiceListInterface;
 
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\FormInterface;
 
 use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\AdminBundle\Form\ChoiceList\ModelChoiceList;
@@ -44,20 +46,25 @@ class PageSelectorType extends ModelType
     /**
      * {@inheritdoc}
      */
+    public function buildView(FormView $view, FormInterface $form, array $options)
+    {
+        $view->vars['types'][] = 'sonata_type_model';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $that = $this;
 
         $resolver->setDefaults(array(
-            'template'          => 'choice',
             'multiple'          => false,
             'expanded'          => false,
             'model_manager'     => null,
             'class'             => null,
             'property'          => null,
             'query'             => null,
-            'parent'            => 'choice',
-            'preferred_choices' => array(),
             'page'              => null,
             'site'              => null,
             'choices'           => function (Options $opts, $previousValue) use ($that) {
