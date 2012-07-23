@@ -13,6 +13,7 @@ namespace Sonata\PageBundle\Tests\Form\Type;
 use Sonata\PageBundle\Form\Type\PageSelectorType;
 use Sonata\PageBundle\Tests\Model\Page;
 use Sonata\PageBundle\Tests\Model\Site;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  *
@@ -82,9 +83,11 @@ class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
 
     public function testNoSite()
     {
-        $pageSelector = new  PageSelectorType($this->getPageManager());
+        $pageSelector = new PageSelectorType($this->getPageManager());
 
-        $options = $pageSelector->getDefaultOptions(array('choice_list' => 'fake', 'filter_choice' => array(
+        $pageSelector->setDefaultOptions($options = new OptionsResolver());
+
+        $options = $options->resolve(array('filter_choice' => array(
             'request_method' => 'all'
         )));
 
@@ -94,9 +97,11 @@ class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
 
     public function testAllRequestMethodChoices()
     {
-        $pageSelector = new  PageSelectorType($this->getPageManager());
+        $pageSelector = new PageSelectorType($this->getPageManager());
 
-        $options = $pageSelector->getDefaultOptions(array('site' => $this->site, 'choice_list' => 'fake', 'filter_choice' => array(
+        $pageSelector->setDefaultOptions($options = new OptionsResolver());
+
+        $options = $options->resolve(array('site' => $this->site, 'filter_choice' => array(
             'request_method' => 'all'
         )));
 
@@ -106,9 +111,11 @@ class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
 
     public function testGetRequestMethodChoices()
     {
-        $pageSelector = new  PageSelectorType($this->getPageManager());
+        $pageSelector = new PageSelectorType($this->getPageManager());
 
-        $options = $pageSelector->getDefaultOptions(array('site' => $this->site, 'choice_list' => 'fake'));
+        $pageSelector->setDefaultOptions($options = new OptionsResolver());
+
+        $options = $options->resolve(array('site' => $this->site));
 
         unset($this->pages[2]);
 
@@ -117,9 +124,11 @@ class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
 
     public function testPostRequestMethodChoices()
     {
-        $pageSelector = new  PageSelectorType($this->getPageManager());
+        $pageSelector = new PageSelectorType($this->getPageManager());
 
-        $options = $pageSelector->getDefaultOptions(array('site' => $this->site, 'choice_list' => 'fake', 'filter_choice' => array(
+        $pageSelector->setDefaultOptions($options = new OptionsResolver());
+
+        $options = $options->resolve(array('site' => $this->site, 'filter_choice' => array(
             'request_method' => 'post'
         )));
 
@@ -130,9 +139,11 @@ class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
 
     public function testRootHierarchyChoices()
     {
-        $pageSelector = new  PageSelectorType($this->getPageManager());
+        $pageSelector = new PageSelectorType($this->getPageManager());
 
-        $options = $pageSelector->getDefaultOptions(array('site' => $this->site, 'choice_list' => 'fake', 'filter_choice' => array(
+        $pageSelector->setDefaultOptions($options = new OptionsResolver());
+
+        $options = $options->resolve(array('site' => $this->site, 'filter_choice' => array(
             'hierarchy' => 'root',
             'request_method' => 'all'
         )));
@@ -142,9 +153,11 @@ class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
 
     public function testChildrenHierarchyChoices()
     {
-        $pageSelector = new  PageSelectorType($this->getPageManager());
+        $pageSelector = new PageSelectorType($this->getPageManager());
 
-        $options = $pageSelector->getDefaultOptions(array('site' => $this->site, 'choice_list' => 'fake', 'filter_choice' => array(
+        $pageSelector->setDefaultOptions($options = new OptionsResolver());
+
+        $options = $options->resolve(array('site' => $this->site, 'filter_choice' => array(
             'hierarchy' => 'children',
             'request_method' => 'all'
         )));
@@ -156,9 +169,11 @@ class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
 
     public function testComplexHierarchyChoices()
     {
-        $pageSelector = new  PageSelectorType($this->getPageManager());
+        $pageSelector = new PageSelectorType($this->getPageManager());
 
-        $options = $pageSelector->getDefaultOptions(array('site' => $this->site, 'choice_list' => 'fake', 'filter_choice' => array(
+        $pageSelector->setDefaultOptions($options = new OptionsResolver());
+
+        $options = $options->resolve(array('site' => $this->site, 'filter_choice' => array(
             'hierarchy' => 'children',
             'request_method' => 'POST'
         )));

@@ -88,10 +88,13 @@ class ResponseListener
             return;
         }
 
-        $this->pageRenderer->render($page, array('content' => $response->getContent()), $response);
+        $response = $this->pageRenderer->render($page, array('content' => $response->getContent()), $response);
 
         if (!$this->cmsSelector->isEditor() && $page->isCms()) {
             $response->setTtl($page->getTtl());
         }
+
+
+        $event->setResponse($response);
     }
 }

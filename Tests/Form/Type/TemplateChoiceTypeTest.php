@@ -11,6 +11,7 @@
 namespace Sonata\PageBundle\Tests\Form\Type;
 
 use Sonata\PageBundle\Form\Type\TemplateChoiceType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TemplateChoiceTypeTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,7 +21,6 @@ class TemplateChoiceTypeTest extends \PHPUnit_Framework_TestCase
         $rendered->expects($this->once())->method('getTemplates')->will($this->returnValue(array()));
 
         $type = new TemplateChoiceType($rendered);
-        $type->getDefaultOptions(array());
-
+        $type->setDefaultOptions(new OptionsResolver());
     }
 }
