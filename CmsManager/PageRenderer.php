@@ -95,7 +95,7 @@ class PageRenderer implements PageRendererInterface
             return new StreamedResponse(
                 function() use ($templating, $template, &$params) { $templating->stream($template, $params); },
                 $response ? $response->getStatusCode() : 200,
-                $response ? $response->headers->all() : null
+                $response ? $response->headers->all() : array()
             );
         }
 
