@@ -48,7 +48,7 @@ class PageSelectorType extends ModelType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        $view->vars['types'][] = 'sonata_type_model';
+        $view->vars['block_prefixes'][] = 'sonata_type_model';
     }
 
     /**
