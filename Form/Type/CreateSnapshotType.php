@@ -36,6 +36,6 @@ class CreateSnapshotType extends AbstractType
      */
     public function getName()
     {
-        return 'create_snapshot';
+        return 'sonata_page_create_snapshot';
     }
 }
