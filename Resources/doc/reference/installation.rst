@@ -42,7 +42,7 @@ with all its dependencies in your application kernel:
   {
       return array(
           // ...
-          new Sonata\SonataPageBundle\SonataPageBundle(),
+          new Sonata\PageBundle\SonataPageBundle(),
           // ...
       );
   }
