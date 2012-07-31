@@ -16,9 +16,8 @@
             "homepage": "https://github.com/sonata-project/SonataPageBundle/contributors"
         }
     ],
+    "minimum-stability": "dev",
     "require": {
-        "php": ">=5.3.2",
-        "symfony/symfony": "2.1.*",
         "sonata-project/admin-bundle": "dev-master",
         "sonata-project/seo-bundle": "dev-master",
         "sonata-project/notification-bundle": "dev-master",
