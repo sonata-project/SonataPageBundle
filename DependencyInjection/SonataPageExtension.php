@@ -288,6 +288,26 @@ class SonataPageExtension extends Extension
             ),
             'orphanRemoval' => false,
         ));
+        
+        $collector->addIndex($config['class']['snapshot'], 'enabled', array(
+            'enabled'
+        ));
+        
+        $collector->addIndex($config['class']['snapshot'], 'publication_enabled', array(
+            'publication_date_start',
+            'publication_date_end',
+            'enabled'
+        ));
+        
+        $collector->addIndex($config['class']['snapshot'], 'route_name', array(
+            'route_name'
+        ));
+        
+        $collector->addIndex($config['class']['snapshot'], 'publication_route', array(
+            'publication_date_start',
+            'publication_date_end',
+            'route_name'
+        ));
     }
 
     /**
