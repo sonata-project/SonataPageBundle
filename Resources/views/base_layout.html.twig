@@ -106,8 +106,8 @@ file that was distributed with this source code.
 
                                         <li style="padding: 8px 0px 0px 0px;" >
                                             <form class="form-inline" style="margin: 0px">
-                                                <label for="page-action-enabled-edit"><input type="checkbox" id="page-action-enabled-edit" />{% trans from 'SonataPageBundle' %}header.show_zone{% endtrans%}</label>
-                                                <input type="submit" class="btn" value="{% trans from 'SonataPageBundle' %}btn_save_position{% endtrans%}" id="page-action-save-position" />
+                                                <label for="page-action-enabled-edit"><input type="checkbox" id="page-action-enabled-edit" />{{ 'header.show_zone'|trans({}, 'SonataPageBundle') }}</label>
+                                                <input type="submit" class="btn" value="{{ 'btn_save_position'|trans({}, 'SonataPageBundle') }}" id="page-action-save-position" />
                                             </form>
                                         </li>
                                     {% endif %}

@@ -11,21 +11,21 @@ file that was distributed with this source code.
 
 {% extends 'SonataAdminBundle:CRUD:action.html.twig' %}
 
-{% block title %}{% trans from 'SonataPageBundle' %}title_create_snapshot{% endtrans %}{% endblock %}
+{% block title %}{{ 'title_create_snapshot'|trans({}, 'SonataPageBundle') }}{% endblock %}
 
 {% block content %}
 
-    {% trans from 'SonataPageBundle'%}message_create_snapshot{% endtrans %}
+    {{ 'message_create_snapshot'|trans({}, 'SonataPageBundle') }}
 
     <form action="{{ admin.generateUrl('create') }}" method="POST">
 
         {{ form_rest(form) }}
 
         <div class="well form-actions">
-            <input class="btn btn-primary" type="submit" name="create" value="{% trans from 'SonataPageBundle' %}button_create_snapshot{% endtrans %}"/>
-            {% trans from 'SonataPageBundle' %}or_list{% endtrans %}
+            <input class="btn btn-primary" type="submit" name="create" value="{{ 'button_create_snapshot'|trans({}, 'SonataPageBundle') }}"/>
+            {{ 'or_list'|trans({}, 'SonataPageBundle') }}
 
-            <a class="btn" href="{{ admin.generateUrl('list') }}">{% trans from 'SonataAdminBundle' %}link_action_list{% endtrans %}</a>
+            <a class="btn" href="{{ admin.generateUrl('list') }}">{{ 'link_action_list'|trans({}, 'SonataAdminBundle') }}</a>
         </div>
     </form>
 {% endblock %}
