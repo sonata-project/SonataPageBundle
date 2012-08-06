@@ -11,27 +11,23 @@
 
 namespace Sonata\PageBundle\Form\Type;
 
-use Symfony\Component\Form\Extension\Core\ChoiceList\ChoiceListInterface;
-
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
-
-use Sonata\AdminBundle\Form\Type\ModelType;
-use Sonata\AdminBundle\Form\ChoiceList\ModelChoiceList;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\ChoiceList\SimpleChoiceList;
 
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SiteInterface;
-
 
 /**
  * Select a page
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class PageSelectorType extends ModelType
+class PageSelectorType extends AbstractType
 {
     protected $manager;
 
@@ -41,14 +37,6 @@ class PageSelectorType extends ModelType
     public function __construct(PageManagerInterface $manager)
     {
         $this->manager = $manager;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function buildView(FormView $view, FormInterface $form, array $options)
-    {
-        $view->vars['block_prefixes'][] = 'sonata_type_model';
     }
 
     /**
@@ -67,9 +55,10 @@ class PageSelectorType extends ModelType
             'query'             => null,
             'page'              => null,
             'site'              => null,
-            'choices'           => function (Options $opts, $previousValue) use ($that) {
-                return $that->getChoices($opts);
+            'choice_list'       => function (Options $opts, $previousValue) use ($that) {
+                return new SimpleChoiceList($that->getChoices($opts));
             },
+            'choices' => array(),
             'filter_choice'     => array(
                 'current_page'     => false,
                 'request_method'   => 'GET',
@@ -136,10 +125,10 @@ class PageSelectorType extends ModelType
     }
 
     /**
-     * @param \Sonata\PageBundle\Model\PageInterface      $page
-     * @param null|\Sonata\PageBundle\Model\PageInterface $currentPage
-     * @param array                                       $choices
-     * @param int                                         $level
+     * @param PageInterface $page
+     * @param PageInterface $currentPage
+     * @param array         $choices
+     * @param int           $level
      */
     private function childWalker(PageInterface $page, PageInterface $currentPage = null, &$choices, $level = 1)
     {
@@ -156,6 +145,14 @@ class PageSelectorType extends ModelType
 
             $this->childWalker($child, $currentPage, $choices, $level + 1);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getParent()
+    {
+        return 'sonata_type_model';
     }
 
     /**
