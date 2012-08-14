@@ -50,7 +50,7 @@ The output might look like this::
 Creating default pages
 ----------------------
 
-As the Page bundle can handled symfony actions, actions need to be register, just run the commands::
+As the Page bundle can handle symfony actions, actions need to be registered, just run the command::
 
     php app/console sonata:page:update-core-routes --site=all
 
