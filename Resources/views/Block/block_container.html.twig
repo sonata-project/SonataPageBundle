@@ -9,13 +9,15 @@ file that was distributed with this source code.
 
 #}
 
+{% if app.security.isGranted(['ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT']) %}
 <!-- block({{ container.id }}, {{ container.type }} : {% if not container.hasParent()%} {{ container.settings.name }} {% else %} inner-container{% endif%}) -->
 <div id="cms-block-{{ container.id }}" class="cms-block cms-container{% if not container.hasParent()%} cms-container-root{% else %} cms-block-element{%endif%}">
     <div class="cms-block cms-block-element cms-fake-block">&nbsp;</div>
+{% endif %}
     {% for block in container.children %}
-        <!-- block({{ block.id }}, {{ block.type }}) -->
         {{ sonata_page_render_block(block) }}
-        <!-- end block({{ block.id }}, {{ block.type }}) -->
     {% endfor %}
+{% if app.security.isGranted(['ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT']) %}
 </div>
 <!-- end block({{ container.id }}, {{ container.type }}) -->
+{% endif %}
