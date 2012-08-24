@@ -93,7 +93,7 @@ class ContainerBlockService extends BaseBlockService
     function getDefaultSettings()
     {
         return array(
-            'name'        => '',
+            'code'        => '',
             'layout'      => '{{ CONTENT }}',
             'orientation' => 'block',
         );

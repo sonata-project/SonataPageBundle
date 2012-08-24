@@ -22,12 +22,13 @@ use Sonata\PageBundle\Model\PageInterface;
  */
 abstract class Block extends BaseBlock
 {
+    /**
+     * @var PageInterface
+     */
     protected $page;
 
     /**
-     * Add children
-     *
-     * @param \Sonata\BlockBundle\Model\BlockInterface $child
+     * {@inheritDoc}
      */
     public function addChildren(BlockInterface $child)
     {
@@ -38,7 +39,7 @@ abstract class Block extends BaseBlock
     }
 
     /**
-     * Set page
+     * Sets a Page
      *
      * @param \Sonata\PageBundle\Model\PageInterface $page
      */
@@ -48,7 +49,7 @@ abstract class Block extends BaseBlock
     }
 
     /**
-     * Get page
+     * Return a Page
      *
      * @return \Sonata\PageBundle\Model\PageInterface $page
      */
@@ -57,6 +58,9 @@ abstract class Block extends BaseBlock
         return $this->page;
     }
 
+    /**
+     * Disables children lazy loading
+     */
     public function disableChildrenLazyLoading()
     {
         if (is_object($this->children)) {
