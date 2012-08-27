@@ -15,24 +15,27 @@ use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- *
+ * Mock Templating class
  */
 class FakeTemplating implements EngineInterface
 {
     public $view;
-
     public $parameters;
-
     public $response;
-
     public $name;
 
+    /**
+     * {@inheritDoc}
+     */
     public function render($name, array $parameters = array())
     {
         $this->name  = $name;
         $this->parameters = $parameters;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function renderResponse($view, array $parameters = array(), Response $response = null)
     {
         $this->view   = $view;
@@ -45,12 +48,18 @@ class FakeTemplating implements EngineInterface
         return new Response;
     }
 
-    function supports($name)
+    /**
+     * {@inheritDoc}
+     */
+    public function supports($name)
     {
         return true;
     }
 
-    function exists($name)
+    /**
+     * {@inheritDoc}
+     */
+    public function exists($name)
     {
         return true;
     }

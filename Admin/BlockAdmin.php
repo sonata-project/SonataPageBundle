@@ -54,6 +54,7 @@ class BlockAdmin extends Admin
     {
         $listMapper
             ->addIdentifier('type')
+            ->add('name')
             ->add('enabled')
             ->add('updatedAt')
             ->add('position')
@@ -66,6 +67,7 @@ class BlockAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
+            ->add('name')
             ->add('enabled')
             ->add('type')
         ;
@@ -77,6 +79,9 @@ class BlockAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $block = $this->getSubject();
+
+        // add name on all forms
+        $formMapper->add('name');
 
         $isContainerRoot = $block && $block->getType() == 'sonata.page.block.container' && !$this->hasParentFieldDescription();
         $isStandardBlock = $block && $block->getType() != 'sonata.page.block.container' && !$this->hasParentFieldDescription();

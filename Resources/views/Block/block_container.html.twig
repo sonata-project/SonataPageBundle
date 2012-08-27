@@ -9,7 +9,7 @@ file that was distributed with this source code.
 
 #}
 
-<!-- block({{ container.id }}, {{ container.type }} : {% if not container.hasParent()%} {{ container.settings.name }} {% else %} inner-container{% endif%}) -->
+<!-- block({{ container.id }}, {{ container.type }} : {% if not container.hasParent()%} {{ container.settings.code }} {% else %} inner-container{% endif%}) -->
 <div id="cms-block-{{ container.id }}" class="cms-block cms-container{% if not container.hasParent()%} cms-container-root{% else %} cms-block-element{%endif%}">
     <div class="cms-block cms-block-element cms-fake-block">&nbsp;</div>
     {% for block in container.children %}

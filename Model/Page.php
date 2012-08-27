@@ -670,18 +670,18 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Retrieve a block by name
+     * Retrieve a block by code
      *
-     * @param string $name
+     * @param string $code
      *
      * @return Sonata\BlockBundle\Model\BlockInterface
      */
-    public function getContainerByName($name)
+    public function getContainerByCode($code)
     {
         $block = null;
 
         foreach ($this->getBlocks() as $blockTmp) {
-            if ($blockTmp->getType() == 'sonata.page.block.container' && $name == $blockTmp->getSetting('name')) {
+            if ($blockTmp->getType() == 'sonata.page.block.container' && $blockTmp->getSetting('code') == $code) {
                 $block = $blockTmp;
 
                 break;
