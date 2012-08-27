@@ -15,19 +15,46 @@ use Sonata\PageBundle\Tests\Model\Page;
 use Sonata\PageBundle\Block\ContainerBlockService;
 
 /**
- *
+ * Test Container Block service
  */
 class ContainerBlockServiceTest extends \PHPUnit_Framework_TestCase
 {
-    public function testService()
+    /**
+     * test the block execute() method
+     */
+    public function testExecute()
     {
-        $templating = new FakeTemplating;
+        $templating = new FakeTemplating();
         $service    = new ContainerBlockService('core.container', $templating);
 
         $block = new Block;
+        $block->setName('block.name');
         $block->setType('core.container');
         $block->setSettings(array(
-            'name' => 'Symfony'
+            'code' => 'block.code'
+        ));
+
+        $service->execute($block);
+
+        $this->assertEquals('SonataPageBundle:Block:block_container.html.twig', $templating->view);
+        $this->assertEquals('block.code', $templating->parameters['container']->getSetting('code'));
+        $this->assertEquals('block.name', $templating->parameters['container']->getName());
+        $this->assertInstanceOf('Sonata\BlockBundle\Model\Block', $templating->parameters['container']);
+    }
+
+    /**
+     * test the block's form builders
+     */
+    public function testFormBuilder()
+    {
+        $templating = new FakeTemplating();
+        $service    = new ContainerBlockService('core.container', $templating);
+
+        $block = new Block;
+        $block->setName('block.name');
+        $block->setType('core.container');
+        $block->setSettings(array(
+            'name' => 'block.code'
         ));
 
         $formMapper = $this->getMock('Sonata\\AdminBundle\\Form\\FormMapper', array(), array(), '', false);
@@ -35,11 +62,5 @@ class ContainerBlockServiceTest extends \PHPUnit_Framework_TestCase
 
         $service->buildCreateForm($formMapper, $block);
         $service->buildEditForm($formMapper, $block);
-
-        $service->execute($block);
-
-        $this->assertEquals('SonataPageBundle:Block:block_container.html.twig', $templating->view);
-        $this->assertEquals('Symfony', $templating->parameters['container']->getSetting('name'));
-        $this->assertInstanceOf('Sonata\BlockBundle\Model\Block', $templating->parameters['container']);
     }
 }

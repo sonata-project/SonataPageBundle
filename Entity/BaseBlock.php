@@ -22,7 +22,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 abstract class BaseBlock extends Block
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function setId($id)
     {
@@ -30,7 +30,7 @@ abstract class BaseBlock extends Block
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function __construct()
     {
@@ -39,19 +39,25 @@ abstract class BaseBlock extends Block
         parent::__construct();
     }
 
+    /**
+     * Updates dates before creating/updating entity
+     */
     public function prePersist()
     {
         $this->createdAt = new \DateTime;
         $this->updatedAt = new \DateTime;
     }
 
+    /**
+     * Updates dates before updating entity
+     */
     public function preUpdate()
     {
         $this->updatedAt = new \DateTime;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function setChildren($children)
     {
