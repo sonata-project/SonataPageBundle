@@ -47,18 +47,11 @@ class PageSelectorType extends AbstractType
         $that = $this;
 
         $resolver->setDefaults(array(
-            'multiple'          => false,
-            'expanded'          => false,
-            'model_manager'     => null,
-            'class'             => null,
-            'property'          => null,
-            'query'             => null,
             'page'              => null,
             'site'              => null,
             'choice_list'       => function (Options $opts, $previousValue) use ($that) {
                 return new SimpleChoiceList($that->getChoices($opts));
             },
-            'choices' => array(),
             'filter_choice'     => array(
                 'current_page'     => false,
                 'request_method'   => 'GET',

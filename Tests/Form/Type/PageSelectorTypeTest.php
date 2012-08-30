@@ -91,9 +91,9 @@ class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
             'request_method' => 'all'
         )));
 
-        $this->assertEquals(array(), $options['choices']);
+        $this->assertInstanceOf('Symfony\Component\Form\Extension\Core\ChoiceList\SimpleChoiceList', $options['choice_list']);
+        $this->assertEquals(array(), $options['choice_list']->getValues());
     }
-
 
     public function testAllRequestMethodChoices()
     {
@@ -105,9 +105,9 @@ class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
             'request_method' => 'all'
         )));
 
-        $this->assertEquals($this->pages, $options['choices']);
+        $this->assertInstanceOf('Symfony\Component\Form\Extension\Core\ChoiceList\SimpleChoiceList', $options['choice_list']);
+        $this->assertCount(4, $options['choice_list']->getRemainingViews());
     }
-
 
     public function testGetRequestMethodChoices()
     {
@@ -117,9 +117,13 @@ class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
 
         $options = $options->resolve(array('site' => $this->site));
 
-        unset($this->pages[2]);
+        $this->assertInstanceOf('Symfony\Component\Form\Extension\Core\ChoiceList\SimpleChoiceList', $options['choice_list']);
+        $views = $options['choice_list']->getRemainingViews();
 
-        $this->assertEquals($this->pages, $options['choices']);
+        $this->assertCount(3, $views);
+        $this->assertEquals('all', $views[0]->label->getRouteName());
+        $this->assertEquals('get', $views[1]->label->getRouteName());
+        $this->assertEquals('get-post', $views[2]->label->getRouteName());
     }
 
     public function testPostRequestMethodChoices()
@@ -132,9 +136,13 @@ class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
             'request_method' => 'post'
         )));
 
-        unset($this->pages[3]);
+        $this->assertInstanceOf('Symfony\Component\Form\Extension\Core\ChoiceList\SimpleChoiceList', $options['choice_list']);
+        $views = $options['choice_list']->getRemainingViews();
 
-        $this->assertEquals($this->pages, $options['choices']);
+        $this->assertCount(3, $views);
+        $this->assertEquals('all', $views[0]->label->getRouteName());
+        $this->assertEquals('post', $views[1]->label->getRouteName());
+        $this->assertEquals('get-post', $views[2]->label->getRouteName());
     }
 
     public function testRootHierarchyChoices()
@@ -144,11 +152,15 @@ class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
         $pageSelector->setDefaultOptions($options = new OptionsResolver());
 
         $options = $options->resolve(array('site' => $this->site, 'filter_choice' => array(
-            'hierarchy' => 'root',
+            'hierarchy'      => 'root',
             'request_method' => 'all'
         )));
 
-        $this->assertEquals(array(1 => $this->pages[1]), $options['choices']);
+        $this->assertInstanceOf('Symfony\Component\Form\Extension\Core\ChoiceList\SimpleChoiceList', $options['choice_list']);
+        $views = $options['choice_list']->getRemainingViews();
+
+        $this->assertCount(1, $views);
+        $this->assertEquals('all', $views[0]->label->getRouteName());
     }
 
     public function testChildrenHierarchyChoices()
@@ -158,13 +170,17 @@ class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
         $pageSelector->setDefaultOptions($options = new OptionsResolver());
 
         $options = $options->resolve(array('site' => $this->site, 'filter_choice' => array(
-            'hierarchy' => 'children',
+            'hierarchy'      => 'children',
             'request_method' => 'all'
         )));
 
-        unset($this->pages[1]);
+        $this->assertInstanceOf('Symfony\Component\Form\Extension\Core\ChoiceList\SimpleChoiceList', $options['choice_list']);
+        $views = $options['choice_list']->getRemainingViews();
 
-        $this->assertEquals($this->pages, $options['choices']);
+        $this->assertCount(3, $views);
+        $this->assertEquals('post', $views[0]->label->getRouteName());
+        $this->assertEquals('get', $views[1]->label->getRouteName());
+        $this->assertEquals('get-post', $views[2]->label->getRouteName());
     }
 
     public function testComplexHierarchyChoices()
@@ -178,9 +194,11 @@ class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
             'request_method' => 'POST'
         )));
 
-        unset($this->pages[1]);
-        unset($this->pages[3]);
+        $this->assertInstanceOf('Symfony\Component\Form\Extension\Core\ChoiceList\SimpleChoiceList', $options['choice_list']);
+        $views = $options['choice_list']->getRemainingViews();
 
-        $this->assertEquals($this->pages, $options['choices']);
+        $this->assertCount(2, $views);
+        $this->assertEquals('post', $views[0]->label->getRouteName());
+        $this->assertEquals('get-post', $views[1]->label->getRouteName());
     }
 }
