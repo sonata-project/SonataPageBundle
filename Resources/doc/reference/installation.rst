@@ -18,30 +18,17 @@ configuration step ; you will find everything you need in their installation
 chapter.
 
 .. note::
-    If a dependency is already installed somewhere in your project or in 
+    If a dependency is already installed somewhere in your project or in
     another dependency, you won't need to install it again.
 
 Enable the Bundle
 -----------------
-Add the dependent bundles to the vendor/bundles directory. Add the following 
+Add the dependent bundles to the vendor/bundles directory. Add the following
 lines to the file deps::
 
-    [SonataPageBundle]
-        git=http://github.com/sonata-project/SonataPageBundle.git
-        target=/bundles/Sonata/PageBundle
-        version=origin/2.0
-
-    [SonataSeoBundle]
-        git=http://github.com/sonata-project/SonataSeoBundle.git
-        target=/bundles/Sonata/SeoBundle
-
-    [SonataEasyExtendsBundle]
-        git=http://github.com/sonata-project/SonataEasyExtendsBundle.git
-        target=/bundles/Sonata/EasyExtendsBundle
-
-    [sonata-doctrine-extensions]
-        git=http://github.com/sonata-project/sonata-doctrine-extensions.git
-        target=/sonata-doctrine-extensions/src
+    php composer.phar require sonata-project/page-bundle --no-update
+    php composer.phar require sonata-project/doctrine-orm-admin-bundle --no-update
+    php composer.phar update
 
 .. note::
 
@@ -95,37 +82,13 @@ Now, add the new `Application` Bundle to the kernel
         );
     }
 
-Update the ``autoload.php`` to add new namespaces:
-
-.. code-block:: php
-
-    <?php
-    $loader->registerNamespaces(array(
-        'Sonata'                             => __DIR__,
-        'Application'                        => __DIR__,
-        'Sonata\Doctrine'                    => __DIR__,
-
-        // ... other declarations
-    ));
-
-Then add these bundles in the config mapping definition:
-
-    .. code-block:: php
-
-        <?php
-        $loader->registerNamespaces(array(
-            // ...
-            'Sonata'       => __DIR__ . '/../vendor/bundles/',
-            // ... other declarations
-        ));
-
 Configuration
 -------------
-To use the ``PageBundle``, add the following lines to your application 
+To use the ``PageBundle``, add the following lines to your application
 configuration file.
 
 .. note::
-    If your ``auto_mapping`` have a ``false`` value, add these lines to your 
+    If your ``auto_mapping`` have a ``false`` value, add these lines to your
     mapping configuration :
 
     .. code-block:: yaml
@@ -199,7 +162,7 @@ At the end of your routing file, add the following lines
 
 Extend the Bundle
 -----------------
-At this point, the bundle is usuable, but not quite ready yet. You need to 
+At this point, the bundle is usuable, but not quite ready yet. You need to
 generate the correct entities for the page::
 
     php app/console sonata:easy-extends:generate SonataPageBundle
@@ -230,16 +193,5 @@ Now, add the new `Application` Bundle to the kernel
             // ...
         );
     }
-
-Don't forget to also add it in your autoload :
-
-.. code-block:: php
-
-    <?php
-    $loader->registerNamespaces(array(
-        // ...
-        'Application'       => __DIR__ . '/../src/',
-        // ... other declarations
-    ));
 
 And now, you're good to go !
