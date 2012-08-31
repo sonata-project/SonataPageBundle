@@ -13,6 +13,7 @@
         <parameter key="sonata.page.site.selector.host_with_path.class">Sonata\PageBundle\Site\HostPathSiteSelector</parameter>
         <parameter key="sonata.page.renderer.class">Sonata\PageBundle\CmsManager\PageRenderer</parameter>
         <parameter key="sonata.page.decorator_strategy.class">Sonata\PageBundle\CmsManager\DecoratorStrategy</parameter>
+        <parameter key="sonata.page.url_generator.class">Sonata\PageBundle\Generator\UrlGenerator</parameter>
 
     </parameters>
 
@@ -103,5 +104,9 @@
         </service>
 
         <service id="sonata.page.router.request_context" factory-method="getRequestContext" factory-service="sonata.page.site.selector" class="Symfony\Component\Routing\RequestContext" public="false" />
+
+        <service id="sonata.page.url_generator" class="%sonata.page.url_generator.class%">
+            <argument type="service" id="router" />
+        </service>
     </services>
 </container>
