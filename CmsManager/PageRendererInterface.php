@@ -21,11 +21,11 @@ use Symfony\Component\HttpFoundation\Response;
 interface PageRendererInterface
 {
     /**
-     * @param \Sonata\PageBundle\Model\PageInterface          $page
-     * @param array                                           $params
-     * @param null|\Symfony\Component\HttpFoundation\Response $response
+     * @param PageInterface $page
+     * @param array         $params
+     * @param Response      $response
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     function render(PageInterface $page, array $params = array(), Response $response = null);
 

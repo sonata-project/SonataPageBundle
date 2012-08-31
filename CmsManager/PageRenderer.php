@@ -14,8 +14,10 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Symfony\Component\Templating\StreamingEngineInterface;
 
 /**
  * Render a PageInterface
@@ -39,11 +41,11 @@ class PageRenderer implements PageRendererInterface
     protected $errorCodes;
 
     /**
-     * @param \Symfony\Component\Routing\RouterInterface                 $router
-     * @param CmsManagerSelectorInterface                                $cmsSelector
-     * @param \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface $templating
-     * @param array                                                      $templates
-     * @param array                                                      $errorCodes
+     * @param RouterInterface             $router
+     * @param CmsManagerSelectorInterface $cmsSelector
+     * @param EngineInterface             $templating
+     * @param array                       $templates
+     * @param array                       $errorCodes
      */
     public function __construct(RouterInterface $router, CmsManagerSelectorInterface $cmsSelector, EngineInterface $templating, array $templates, array $errorCodes)
     {
@@ -86,6 +88,16 @@ class PageRenderer implements PageRendererInterface
         $params['site']        = $page->getSite();
         $params['manager']     = $cms;
         $params['error_codes'] = $this->errorCodes;
+
+        if ($this->templating instanceof StreamingEngineInterface) {
+            $templating = $this->templating;
+
+            return new StreamedResponse(
+                function() use ($templating, $template, &$params) { $templating->stream($template, $params); },
+                $response ? $response->getStatusCode() : 200,
+                $response ? $response->headers->all() : array()
+            );
+        }
 
         return $this->templating->renderResponse($template, $params, $response);
     }

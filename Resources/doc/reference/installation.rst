@@ -18,21 +18,23 @@ configuration step ; you will find everything you need in their installation
 chapter.
 
 .. note::
-    If a dependency is already installed somewhere in your project or in 
+    If a dependency is already installed somewhere in your project or in
     another dependency, you won't need to install it again.
 
 Enable the Bundle
 -----------------
-Add the dependent bundles to the vendor/bundles directory. Add the following 
+Add the dependent bundles to the vendor/bundles directory. Add the following
 lines to the file deps::
 
-    [SonataPageBundle]
-        git=http://github.com/sonata-project/SonataPageBundle.git
-        target=/bundles/Sonata/PageBundle
-        version=origin/2.0
+    php composer.phar require sonata-project/page-bundle --no-update
+    php composer.phar require sonata-project/doctrine-orm-admin-bundle --no-update
+    php composer.phar update
 
-After running ``php bin/vendors install``, be sure to enable the ``Page`` bundle
-with all its dependencies in your application kernel:
+.. note::
+
+    The SonataAdminBundle and SonataDoctrineORMAdminBundle must be installed, please refer to `the dedicated documentation for more information <http://sonata-project.org/bundles/admin>`_.
+
+Next, be sure to enable the ``EasyExtends`` bundle in your application kernel:
 
 .. code-block:: php
 
@@ -47,26 +49,46 @@ with all its dependencies in your application kernel:
       );
   }
 
-.. note:: 
-    If you do not have the ``Sonata`` namespace registered in your autoload,
-    update the ``autoload.php`` to add it :
+At this point, the bundle is not yet ready. You need to generate the correct
+entities for the page::
 
-    .. code-block:: php
+    php app/console sonata:easy-extends:generate SonataPageBundle
 
-        <?php
-        $loader->registerNamespaces(array(
-            // ...
-            'Sonata'       => __DIR__ . '/../vendor/bundles/',
-            // ... other declarations
-        ));
+.. note::
+
+    The command will generate domain objects in an ``Application`` namespace.
+    So you can point entities associations to a global and common namespace.
+    This will make entities sharing very easily as your models are accessible
+    through a global namespace. For instance the page will be
+    ``Application\Sonata\PageBundle\Entity\Page``.
+
+Now, add the new `Application` Bundle to the kernel
+
+.. code-block:: php
+
+    <?php
+    public function registerbundles()
+    {
+        return array(
+            // Application Bundles
+            new Application\Sonata\PageBundle\ApplicationSonataPageBundle(),
+
+            // Vendor specifics bundles
+            new Sonata\PageBundle\SonataPageBundle(),
+            new Sonata\CacheBundle\SonataCacheBundle(),
+            new Sonata\BlockBundle\SonataBlockBundle(),
+            new Sonata\SeoBundle\SonataSeoBundle(),
+            new Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),
+        );
+    }
 
 Configuration
 -------------
-To use the ``PageBundle``, add the following lines to your application 
+To use the ``PageBundle``, add the following lines to your application
 configuration file.
 
 .. note::
-    If your ``auto_mapping`` have a ``false`` value, add these lines to your 
+    If your ``auto_mapping`` have a ``false`` value, add these lines to your
     mapping configuration :
 
     .. code-block:: yaml
@@ -140,7 +162,7 @@ At the end of your routing file, add the following lines
 
 Extend the Bundle
 -----------------
-At this point, the bundle is usuable, but not quite ready yet. You need to 
+At this point, the bundle is usuable, but not quite ready yet. You need to
 generate the correct entities for the page::
 
     php app/console sonata:easy-extends:generate SonataPageBundle
@@ -171,16 +193,5 @@ Now, add the new `Application` Bundle to the kernel
             // ...
         );
     }
-
-Don't forget to also add it in your autoload :
-
-.. code-block:: php
-
-    <?php
-    $loader->registerNamespaces(array(
-        // ...
-        'Application'       => __DIR__ . '/../src/',
-        // ... other declarations
-    ));
 
 And now, you're good to go !

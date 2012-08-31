@@ -11,10 +11,7 @@
 
 namespace Sonata\PageBundle\Form\Type;
 
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\FormBuilder;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
 
 use Sonata\PageBundle\CmsManager\CmsPageManager;
@@ -29,7 +26,7 @@ class CreateSnapshotType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('page');
     }
@@ -39,6 +36,6 @@ class CreateSnapshotType extends AbstractType
      */
     public function getName()
     {
-        return 'create_snapshot';
+        return 'sonata_page_create_snapshot';
     }
 }

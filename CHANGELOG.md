@@ -7,6 +7,44 @@ A [BC BREAK] means the update will break the project for many reasons:
 * new dependencies
 * class refactoring
 
+### 2012-08-31
+
+* [BC BREAK] Change prototype of "PageExtension::url" method and so "sonata_page_url" Twig helper.
+
+    Before: sonata_page_url(page, absolute)
+    After:  sonata_page_url(page, {'param1': 'value1', ...}, absolute)
+
+### 2012-08-24
+
+* [BC BREAK] Block::$settings "name" property is now a "code" property.
+
+    Database Migration: (replace table name)
+
+        ALTER TABLE page__bloc ADD name VARCHAR2(255) DEFAULT NULL;
+
+    Migration command: (change entity class as required)
+
+        php app/console sonata:page:migrate-block-name-setting --class="Application\Sonata\PageBundle\Entity\Block"
+
+    Optionally, set the --update-name parameter to true to update the "name" field with the old "name" setting.
+
+        php app/console sonata:page:migrate-block-name-setting --update-name=true
+
+### 2012-06-12
+
+* [BC BREAK] Mapped Block::$settings to doctrine JsonType (previously an ArrayType)
+
+    Add the new dependency sonata/doctrine-extensions :
+
+        php composer.phar update
+
+    Migration command :
+
+        php app/console sonata:page:migrate-block-json --table page__bloc
+        php app/console sonata:page:migrate-block-json --table page__bloc_audit
+
+* Mapped Snapshot::$content to JsonType (previously a manually encoded json string)
+
 ### 2012-04-09
 
 * [BC BREAK] The page bundle has now a dependency to the SonataNotificationBundle to run the snapshot task asynchronously.

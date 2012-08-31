@@ -194,7 +194,7 @@ class SnapshotManager implements SnapshotManagerInterface
         $page->setDecorate($snapshot->getDecorate());
         $page->setSite($snapshot->getSite());
 
-        $content = $this->fixContent(json_decode($snapshot->getContent(), true));
+        $content = $this->fixContent($snapshot->getContent());
 
         $page->setId($content['id']);
         $page->setJavascript($content['javascript']);
@@ -316,7 +316,7 @@ class SnapshotManager implements SnapshotManagerInterface
             $content['blocks'][] = $this->createBlocks($block);
         }
 
-        $snapshot->setContent(json_encode($content));
+        $snapshot->setContent($content);
 
         return $snapshot;
     }

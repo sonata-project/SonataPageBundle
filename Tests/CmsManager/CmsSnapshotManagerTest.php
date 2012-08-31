@@ -12,7 +12,7 @@
 
 namespace Sonata\PageBundle\Tests\Page;
 
-use Sonata\PageBundle\CmsManager\CmsPageManager;
+use Sonata\PageBundle\CmsManager\CmsSnapshotManager;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Sonata\BlockBundle\Model\Block;
@@ -22,12 +22,12 @@ use Sonata\CacheBundle\Cache\CacheManagerInterface;
 use Sonata\PageBundle\Model\BlockInteractorInterface;
 
 /**
- * Test CmsPageManager
+ * Test CmsSnapshotManager
  */
-class CmsPageManagerTest extends \PHPUnit_Framework_TestCase
+class CmsSnapshotManagerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Sonata\PageBundle\CmsManager\CmsPageManager
+     * @var \Sonata\PageBundle\CmsManager\CmsSnapshotManager
      */
     protected $manager;
 
@@ -37,8 +37,8 @@ class CmsPageManagerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->blockInteractor = $this->getMockBlockInteractor();
-        $this->pageManager  = $this->getMock('Sonata\PageBundle\Model\PageManagerInterface');
-        $this->manager = new CmsPageManager($this->pageManager, $this->blockInteractor);
+        $this->snapshotManager  = $this->getMock('Sonata\PageBundle\Model\SnapshotManagerInterface');
+        $this->manager = new CmsSnapshotManager($this->snapshotManager, $this->blockInteractor);
     }
 
     /**
@@ -59,16 +59,15 @@ class CmsPageManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test finding an non-existing container in a page does create a new block
+     * Test finding an non-existing container in a page does NOT create a new block
      */
-    public function testFindNonExistingContainerCreatesNewBlock()
+    public function testFindNonExistingContainerCreatesNoNewBlock()
     {
         $page = new Page();
 
         $container = $this->manager->findContainer('newcontainer', $page);
 
-        $this->assertInstanceOf('\Sonata\BlockBundle\Model\BlockInterface', $container, 'should be a block');
-        $this->assertEquals('newcontainer', $container->getSetting('code'));
+        $this->assertNull($container, 'should not create a new container block');
     }
 
     /**

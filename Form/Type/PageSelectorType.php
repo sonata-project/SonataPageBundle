@@ -11,28 +11,28 @@
 
 namespace Sonata\PageBundle\Form\Type;
 
-use Sonata\AdminBundle\Form\Type\ModelType;
-use Symfony\Component\Form\FormBuilder;
-use Symfony\Component\Form\FormInterface;
+use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\ChoiceList\SimpleChoiceList;
 
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SiteInterface;
-
-use Sonata\AdminBundle\Form\ChoiceList\ModelChoiceList;
 
 /**
  * Select a page
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class PageSelectorType extends ModelType
+class PageSelectorType extends AbstractType
 {
     protected $manager;
 
     /**
-     * @param \Sonata\PageBundle\Model\PageManagerInterface $manager
+     * @param PageManagerInterface $manager
      */
     public function __construct(PageManagerInterface $manager)
     {
@@ -42,81 +42,70 @@ class PageSelectorType extends ModelType
     /**
      * {@inheritdoc}
      */
-    public function getDefaultOptions(array $options)
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $defaultOptions = array(
-            'template'          => 'choice',
-            'multiple'          => false,
-            'expanded'          => false,
-            'model_manager'     => null,
-            'class'             => null,
-            'property'          => null,
-            'query'             => null,
-            'parent'            => 'choice',
-            'preferred_choices' => array(),
+        $that = $this;
+
+        $resolver->setDefaults(array(
             'page'              => null,
             'site'              => null,
-            'filter_choice'     => array('current_page' => false, 'request_method' => 'GET', 'dynamic' => true, 'hierarchy' => 'all'),
-        );
-
-        $options = array_replace($defaultOptions, $options);
-
-        if (!isset($options['choices'])) {
-            $options['filter_choice'] = isset($options['filter_choice']) ? array_replace($defaultOptions['filter_choice'], $options['filter_choice']) : $defaultOptions['filter_choice'];
-            $options['choices'] = $this->getChoices($options);
-        }
-
-        if (!isset($options['choice_list'])) {
-            $options['choice_list'] = new ModelChoiceList(
-                $options['model_manager'],
-                $options['class'],
-                $options['property'],
-                $options['query'],
-                $options['choices']
-            );
-        }
-
-        return $options;
+            'choice_list'       => function (Options $opts, $previousValue) use ($that) {
+                return new SimpleChoiceList($that->getChoices($opts));
+            },
+            'filter_choice'     => array(
+                'current_page'     => false,
+                'request_method'   => 'GET',
+                'dynamic'          => true,
+                'hierarchy'        => 'all'
+            ),
+        ));
     }
 
     /**
-     * @param array $options
+     * @param Options $options
      *
      * @return array
      */
-    protected function getChoices($options = null)
+    public function getChoices(Options $options)
     {
         if (!$options['site'] instanceof SiteInterface) {
             return array();
         }
+
+        $filter_choice = array_merge(array(
+            'current_page'     => false,
+            'request_method'   => 'GET',
+            'dynamic'          => true,
+            'hierarchy'        => 'all'
+        ), $options['filter_choice']);
 
         $pages = $this->manager->loadPages($options['site']);
 
         $choices = array();
 
         foreach ($pages as $page) {
-            if (!$options['filter_choice']['current_page'] && $options['page'] && $options['page']->getId() == $page->getId()) {
+            if (!$filter_choice['current_page'] && $options['page'] && $options['page']->getId() == $page->getId()) {
                 continue;
             }
 
             if (
-                'all' != $options['filter_choice']['hierarchy'] && (
-                    ('root' != $options['filter_choice']['hierarchy'] || $page->getParent()) &&
-                    ('children' != $options['filter_choice']['hierarchy'] || !$page->getParent())
+                'all' != $filter_choice['hierarchy'] && (
+                    ('root' != $filter_choice['hierarchy'] || $page->getParent()) &&
+                    ('children' != $filter_choice['hierarchy'] || !$page->getParent())
                 )
             ) {
                 continue;
             }
 
-            if ('all' != $options['filter_choice']['dynamic'] && (
-                    ($options['filter_choice']['dynamic'] && $page->isDynamic()) ||
-                    (!$options['filter_choice']['dynamic'] && !$page->isDynamic())
+            if ('all' != $filter_choice['dynamic'] && (
+                    ($filter_choice['dynamic'] && $page->isDynamic()) ||
+                    (!$filter_choice['dynamic'] && !$page->isDynamic())
                 )
             ) {
                 continue;
             }
 
-            if ('all' != $options['filter_choice']['request_method'] && !$page->hasRequestMethod($options['filter_choice']['request_method'])) {
+            if ('all' != $filter_choice['request_method'] && !$page->hasRequestMethod($filter_choice['request_method'])) {
                 continue;
             }
 
@@ -129,10 +118,10 @@ class PageSelectorType extends ModelType
     }
 
     /**
-     * @param \Sonata\PageBundle\Model\PageInterface      $page
-     * @param null|\Sonata\PageBundle\Model\PageInterface $currentPage
-     * @param array                                       $choices
-     * @param int                                         $level
+     * @param PageInterface $page
+     * @param PageInterface $currentPage
+     * @param array         $choices
+     * @param int           $level
      */
     private function childWalker(PageInterface $page, PageInterface $currentPage = null, &$choices, $level = 1)
     {
@@ -154,8 +143,16 @@ class PageSelectorType extends ModelType
     /**
      * {@inheritDoc}
      */
+    public function getParent()
+    {
+        return 'sonata_type_model';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getName()
     {
         return 'sonata_page_selector';
-    }   
+    }
 }

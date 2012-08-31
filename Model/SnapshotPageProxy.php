@@ -129,7 +129,7 @@ class SnapshotPageProxy implements PageInterface
     {
         if (!count($this->getPage()->getBlocks())) {
 
-            $content = json_decode($this->snapshot->getContent(), true);
+            $content = $this->snapshot->getContent();
 
             foreach ($content['blocks'] as $block) {
                 $this->addBlocks($this->manager->loadBlock($block, $this->getPage()));
@@ -153,7 +153,7 @@ class SnapshotPageProxy implements PageInterface
     public function getTarget()
     {
         if ($this->target === null) {
-            $content = json_decode($this->snapshot->getContent(), true);
+            $content = $this->snapshot->getContent();
 
             if (isset($content['target_id'])) {
                 $target = $this->manager->getPageById($content['target_id']);
@@ -202,7 +202,7 @@ class SnapshotPageProxy implements PageInterface
             $snapshot = $this->snapshot;
 
             while ($snapshot) {
-                $content = json_decode($snapshot->getContent(), true);
+                $content = $snapshot->getContent();
 
                 $parentId = $content['parent_id'];
 

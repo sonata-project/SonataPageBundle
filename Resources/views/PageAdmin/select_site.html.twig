@@ -11,11 +11,11 @@ file that was distributed with this source code.
 
 {% extends 'SonataAdminBundle:CRUD:action.html.twig' %}
 
-{% block title %}{% trans from 'SonataPageBundle' %}title_select_site{% endtrans %}{% endblock %}
+{% block title %}{{ 'title_select_site'|trans({}, 'SonataPageBundle') }}{% endblock %}
 
 {% block content %}
 
-    {% trans from 'SonataPageBundle'%}message_create_page{% endtrans %}
+    {{ 'message_create_page'|trans({}, 'SonataPageBundle')}}
 
     <ul>
         {% for site in sites %}
