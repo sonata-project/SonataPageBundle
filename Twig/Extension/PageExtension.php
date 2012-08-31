@@ -11,8 +11,8 @@
 
 namespace Sonata\PageBundle\Twig\Extension;
 
-use Symfony\Component\Routing\Router;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
@@ -34,17 +34,17 @@ use Sonata\PageBundle\Exception\PageNotFoundException;
 class PageExtension extends \Twig_Extension
 {
     /**
-     * @var \Symfony\Component\Routing\Router
+     * @var UrlGeneratorInterface
      */
-    private $router;
+    private $urlGenerator;
 
     /**
-     * @var \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface
+     * @var CmsManagerSelectorInterface
      */
     private $cmsManagerSelector;
 
     /**
-     * @var \Sonata\PageBundle\Site\SiteSelectorInterface
+     * @var SiteSelectorInterface
      */
     private $siteSelector;
 
@@ -53,16 +53,21 @@ class PageExtension extends \Twig_Extension
      */
     private $resources;
 
+    /**
+     * @var \Twig_Environment
+     */
     private $environment;
 
     /**
-     * @param \Symfony\Component\Routing\Router                         $router
-     * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $cmsManagerSelector
-     * @param \Sonata\PageBundle\Site\SiteSelectorInterface             $siteSelector
+     * Constructor
+     *
+     * @param UrlGeneratorInterface       $urlGenerator       An URL generator
+     * @param CmsManagerSelectorInterface $cmsManagerSelector A CMS manager selector
+     * @param SiteSelectorInterface       $siteSelector       A site selector
      */
-    public function __construct(Router $router, CmsManagerSelectorInterface $cmsManagerSelector, SiteSelectorInterface $siteSelector)
+    public function __construct(UrlGeneratorInterface $urlGenerator, CmsManagerSelectorInterface $cmsManagerSelector, SiteSelectorInterface $siteSelector)
     {
-        $this->router             = $router;
+        $this->urlGenerator       = $urlGenerator;
         $this->cmsManagerSelector = $cmsManagerSelector;
         $this->siteSelector       = $siteSelector;
     }
@@ -143,51 +148,31 @@ class PageExtension extends \Twig_Extension
     }
 
     /**
-     * @throws \RunTimeException
+     * Returns the URL of given page
      *
-     * @param null|\Sonata\PageBundle\Model\PageInterface|string $page
-     * @param bool                                               $absolute
+     * @param null|PageInterface|string $page       A Sonata page
+     * @param array                     $parameters An array of parameters
+     * @param boolean                   $absolute   Whether to generate an absolute URL
      *
      * @return string
+     *
+     * @throws \RunTimeException
      */
-    public function url($page = null, $absolute = false)
+    public function url($page = null, array $parameters = array(), $absolute = false)
     {
         if (!$page) {
             return '';
         }
 
-        $context = $this->router->getContext();
-
-        if ($page instanceof PageInterface) {
-            if ($page->isDynamic()) {
-                if ($this->environment->isDebug()) {
-                    throw new \RunTimeException('Unable to generate path for dynamic page');
-                }
-
-                return '';
+        try {
+            return $this->urlGenerator->generate($page, $parameters, $absolute);
+        } catch (\RunTimeException $e) {
+            if ($this->environment->isDebug()) {
+                throw $e;
             }
 
-            $url = $page->getCustomUrl() ?: $page->getUrl();
-        } else {
-            $url = $page;
+            return '';
         }
-
-        $url = sprintf('%s%s', $context->getBaseUrl(), $url);
-
-        if ($absolute && $context->getHost()) {
-            $scheme = $context->getScheme();
-
-            $port = '';
-            if ('http' === $scheme && 80 != $context->getHttpPort()) {
-                $port = ':'.$context->getHttpPort();
-            } elseif ('https' === $scheme && 443 != $context->getHttpsPort()) {
-                $port = ':'.$context->getHttpsPort();
-            }
-
-            $url = $scheme.'://'.$context->getHost().$port.$url;
-        }
-
-        return $url;
     }
 
     /**

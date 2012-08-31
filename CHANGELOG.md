@@ -7,6 +7,13 @@ A [BC BREAK] means the update will break the project for many reasons:
 * new dependencies
 * class refactoring
 
+### 2012-08-31
+
+* [BC BREAK] Change prototype of "PageExtension::url" method and so "sonata_page_url" Twig helper.
+
+    Before: sonata_page_url(page, absolute)
+    After:  sonata_page_url(page, {'param1': 'value1', ...}, absolute)
+
 ### 2012-08-24
 
 * [BC BREAK] Block::$settings "name" property is now a "code" property.
