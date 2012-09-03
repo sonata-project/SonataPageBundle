@@ -15,8 +15,8 @@ tweak this behavior by ignoring patterns :
 
     sonata_page:
         ignore_route_patterns:
-            - /(.*)admin(.*)/   # ignore admin route, ie route containing 'admin'
-            - /^_(.*)/          # ignore symfony routes
+            - (.*)admin(.*)   # ignore admin route, ie route containing 'admin'
+            - ^_(.*)          # ignore symfony routes
 
         ignore_routes:
             - sonata_page_esi_cache
