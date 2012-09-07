@@ -162,6 +162,10 @@ class SnapshotManager implements SnapshotManagerInterface
             throw new \RuntimeException('please provide a `pageId`, `url`, `routeName` or `name` as criteria key');
         }
 
+        // temporary fix for overlapping publish date
+        // fetch the latest publish date
+	    $query->addOrderBy('s.id', 'DESC');
+	    
         $query->setMaxResults(1);
         $query->setParameters($parameters);
 
