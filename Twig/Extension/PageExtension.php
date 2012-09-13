@@ -191,12 +191,12 @@ class PageExtension extends \Twig_Extension
      *
      * @return string
      */
-    public function ajaxUrl(BlockInterface $block, $absolute = false)
+    public function ajaxUrl(BlockInterface $block, $parameters = array(), $absolute = false)
     {
-        return $this->router->generate('sonata_page_ajax_block', array(
-            'pageId'  => $block->getPage()->getId(),
-            'blockId' => $block->getId()
-        ), $absolute);
+        $parameters['blockId'] = $block->getId();
+        $parameters['pageId']  = $block->getPage()->getId();
+
+        return $this->router->generate('sonata_page_ajax_block', $parameters, $absolute);
     }
 
     /**

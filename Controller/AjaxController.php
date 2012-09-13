@@ -66,43 +66,15 @@ class AjaxController
     {
         $cmsManager = $this->cmsManagerSelector->retrieve();
 
-        $page = $cmsManager->getPageById($pageId);
+        $page  = $cmsManager->getPageById($pageId);
+        $block = $cmsManager->getBlock($blockId);
 
-        $renderingBlock = $this->findBlockById($page->getBlocks(), $blockId);
-
-        if (null === $renderingBlock) {
+        if (!$block instanceof BlockInterface) {
             throw new BlockNotFoundException(sprintf('Unable to find block identifier "%s" in page "%s".', $blockId, $pageId));
         }
 
-        $response = $this->blockRenderer->render($renderingBlock);
+        $response = $this->blockRenderer->render($block);
 
         return $response;
-    }
-
-    /**
-     * Returns found block in page blocks array
-     *
-     * @param array   $page    Page model
-     * @param integer $blockId Block identifier
-     *
-     * @return BlockInterface|null
-     */
-    protected function findBlockById($blocks, $blockId)
-    {
-        $return = null;
-
-        foreach ($blocks as $block) {
-            if ($block->getId() == (int) $blockId) {
-                $return = $block;
-            } else {
-                $return = $this->findBlockById($block->getChildren(), $blockId);
-            }
-
-            if ($return) {
-                return $return;
-            }
-        }
-
-        return $return;
     }
 }
