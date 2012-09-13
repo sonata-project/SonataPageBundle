@@ -6,6 +6,7 @@
     <parameters>
         <parameter key="sonata.page.block.container.class">Sonata\PageBundle\Block\ContainerBlockService</parameter>
         <parameter key="sonata.page.block.children_pages.class">Sonata\PageBundle\Block\ChildrenPagesBlockService</parameter>
+        <parameter key="sonata.page.block.ajax.class">Sonata\PageBundle\Controller\AjaxController</parameter>
     </parameters>
 
     <services>
@@ -21,6 +22,11 @@
             <argument type="service" id="templating" />
             <argument type="service" id="sonata.page.site.selector" />
             <argument type="service" id="sonata.page.cms_manager_selector" />
+        </service>
+
+        <service id="sonata.page.block.ajax" class="%sonata.page.block.ajax.class%">
+            <argument type="service" id="sonata.page.cms_manager_selector" />
+            <argument type="service" id="sonata.block.renderer" />
         </service>
     </services>
 </container>
