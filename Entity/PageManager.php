@@ -91,15 +91,17 @@ class PageManager implements PageManagerInterface
 
         // hybrid page cannot be altered
         if (!$page->isHybrid()) {
-            if (!$page->getSlug()) {
-                $page->setSlug(Page::slugify($page->getName()));
-            }
-
             // make sure Page has a valid url
             if ($page->getParent()) {
+                if (!$page->getSlug()) {
+                    $page->setSlug(Page::slugify($page->getName()));
+                }
+
                 $base = $page->getParent()->getUrl() == '/' ? '/' : $page->getParent()->getUrl().'/';
                 $page->setUrl($base.$page->getSlug()) ;
             } else {
+                // a parent page does not have any slug - can have a custom url ...
+                $page->setSlug(null);
                 $page->setUrl('/'.$page->getSlug());
             }
         }
@@ -114,7 +116,7 @@ class PageManager implements PageManagerInterface
      */
     public function save(PageInterface $page)
     {
-        if (!$page->isHybrid() || $page->getRouteName() == 'homepage') {
+        if (!$page->isHybrid()) {
             $this->fixUrl($page);
         }
 

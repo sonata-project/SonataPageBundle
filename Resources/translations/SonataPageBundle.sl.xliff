@@ -447,6 +447,22 @@
           <source>sonata_page</source>
           <target>Pages</target>
       </trans-unit>
+      <trans-unit id="145" resname="form.label_route_alias">
+          <source>form.label_route_alias</source>
+          <target>form.label_route_alias</target>
+       </trans-unit>
+      <trans-unit id="146" resname="show.label_route_alias">
+          <source>show.label_route_alias</source>
+          <target>show.label_route_alias</target>
+       </trans-unit>
+      <trans-unit id="147" resname="list.label_route_alias">
+          <source>list.label_route_alias</source>
+          <target>list.label_route_alias</target>
+       </trans-unit>
+      <trans-unit id="148" resname="filter.label_route_alias">
+          <source>filter.label_route_alias</source>
+          <target>filter.label_route_alias</target>
+       </trans-unit>
     </body>
   </file>
 </xliff>

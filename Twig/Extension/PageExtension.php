@@ -11,7 +11,7 @@
 
 namespace Sonata\PageBundle\Twig\Extension;
 
-use Symfony\Component\Routing\Router;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 use Sonata\BlockBundle\Model\BlockInterface;
@@ -34,7 +34,7 @@ use Sonata\PageBundle\Exception\PageNotFoundException;
 class PageExtension extends \Twig_Extension
 {
     /**
-     * @var \Symfony\Component\Routing\Router
+     * @var \Symfony\Component\Routing\RouterInterface
      */
     private $router;
 
@@ -56,11 +56,11 @@ class PageExtension extends \Twig_Extension
     private $environment;
 
     /**
-     * @param \Symfony\Component\Routing\Router                         $router
-     * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $cmsManagerSelector
-     * @param \Sonata\PageBundle\Site\SiteSelectorInterface             $siteSelector
+     * @param RouterInterface             $router
+     * @param CmsManagerSelectorInterface $cmsManagerSelector
+     * @param SiteSelectorInterface       $siteSelector
      */
-    public function __construct(Router $router, CmsManagerSelectorInterface $cmsManagerSelector, SiteSelectorInterface $siteSelector)
+    public function __construct(RouterInterface $router, CmsManagerSelectorInterface $cmsManagerSelector, SiteSelectorInterface $siteSelector)
     {
         $this->router             = $router;
         $this->cmsManagerSelector = $cmsManagerSelector;
@@ -97,8 +97,8 @@ class PageExtension extends \Twig_Extension
     }
 
     /**
-     * @param null|\Sonata\PageBundle\Model\PageInterface $page
-     * @param array                                       $options
+     * @param PageInterface $page
+     * @param array         $options
      *
      * @return string
      */
@@ -145,49 +145,16 @@ class PageExtension extends \Twig_Extension
     /**
      * @throws \RunTimeException
      *
-     * @param null|\Sonata\PageBundle\Model\PageInterface|string $page
-     * @param bool                                               $absolute
+     * @deprecated
+     *
+     * @param PageInterface $page
+     * @param bool          $absolute
      *
      * @return string
      */
     public function url($page = null, $absolute = false)
     {
-        if (!$page) {
-            return '';
-        }
-
-        $context = $this->router->getContext();
-
-        if ($page instanceof PageInterface) {
-            if ($page->isDynamic()) {
-                if ($this->environment->isDebug()) {
-                    throw new \RunTimeException('Unable to generate path for dynamic page');
-                }
-
-                return '';
-            }
-
-            $url = $page->getCustomUrl() ?: $page->getUrl();
-        } else {
-            $url = $page;
-        }
-
-        $url = sprintf('%s%s', $context->getBaseUrl(), $url);
-
-        if ($absolute && $context->getHost()) {
-            $scheme = $context->getScheme();
-
-            $port = '';
-            if ('http' === $scheme && 80 != $context->getHttpPort()) {
-                $port = ':'.$context->getHttpPort();
-            } elseif ('https' === $scheme && 443 != $context->getHttpsPort()) {
-                $port = ':'.$context->getHttpsPort();
-            }
-
-            $url = $scheme.'://'.$context->getHost().$port.$url;
-        }
-
-        return $url;
+        throw new \RuntimeException('The function is deprecated, please use the standard Symfony router helper');
     }
 
     /**
@@ -249,8 +216,8 @@ class PageExtension extends \Twig_Extension
     }
 
     /**
-     * @param \Sonata\BlockBundle\Model\BlockInterface $block
-     * @param bool                                     $useCache
+     * @param BlockInterface $block
+     * @param bool           $useCache
      *
      * @return string
      */

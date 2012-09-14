@@ -8,9 +8,9 @@ Render a page url
 
 .. code-block:: jinja
 
-    {{ sonata_page_url(page) }} => /index.php/url/to/url
+    {{ path(page) }} => /index.php/url/to/url
 
-    {{ sonata_page_url(page, true) }} => http://sonata-project.org/index.php/url/to/url
+    {{ path(page, true) }} => http://sonata-project.org/index.php/url/to/url
 
 
 Container

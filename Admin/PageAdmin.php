@@ -50,6 +50,7 @@ class PageAdmin extends Admin
         $showMapper
             ->add('site')
             ->add('routeName')
+            ->add('routeAlias')
             ->add('enabled')
             ->add('decorate')
             ->add('name')
@@ -67,6 +68,7 @@ class PageAdmin extends Admin
         $listMapper
             ->add('hybrid', 'text', array('template' => 'SonataPageBundle:PageAdmin:field_hybrid.html.twig'))
             ->addIdentifier('name')
+            ->add('routeAlias')
             ->add('site')
             ->add('decorate')
             ->add('enabled')
@@ -82,6 +84,7 @@ class PageAdmin extends Admin
         $datagridMapper
             ->add('site')
             ->add('name')
+            ->add('routeAlias')
             ->add('edited')
             ->add('hybrid', 'doctrine_orm_callback', array(
                 'callback' => function($queryBuilder, $alias, $field, $data) {
@@ -117,7 +120,7 @@ class PageAdmin extends Admin
 
         $formMapper
             ->with($this->trans('form_page.group_main_label'))
-                ->add('site', null, array('attr' => array('readonly' => 'readonly')))
+                ->add('site')
                 ->add('name')
                 ->add('enabled', null, array('required' => false))
                 ->add('position')
@@ -136,6 +139,7 @@ class PageAdmin extends Admin
         if (!$this->getSubject() || !$this->getSubject()->isDynamic()) {
             $formMapper
                 ->with($this->trans('form_page.group_main_label'))
+                    ->add('routeAlias', null, array('required' => false))
                     ->add('target', 'sonata_page_selector', array(
                         'page'          => $this->getSubject() ?: null,
                         'site'          => $this->getSubject() ? $this->getSubject()->getSite() : null,
@@ -248,7 +252,7 @@ class PageAdmin extends Admin
         if (!$this->getSubject()->isHybrid()) {
             $menu->addChild(
                 $this->trans('view_page'),
-                array('uri' => $this->getRouteGenerator()->generate('catchAll', array('path' => ltrim($this->getSubject()->getUrl(), '/'))))
+                array('uri' => $this->getRouteGenerator()->generate('page_slug', array('path' => ltrim($this->getSubject()->getUrl(), '/'))))
             );
         }
     }
