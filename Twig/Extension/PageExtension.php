@@ -11,6 +11,7 @@
 
 namespace Sonata\PageBundle\Twig\Extension;
 
+use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -59,17 +60,23 @@ class PageExtension extends \Twig_Extension
     private $environment;
 
     /**
+     * @var \Symfony\Bundle\FrameworkBundle\Routing\Router
+     */
+    private $router;
+
+    /**
      * Constructor
      *
      * @param UrlGeneratorInterface       $urlGenerator       An URL generator
      * @param CmsManagerSelectorInterface $cmsManagerSelector A CMS manager selector
      * @param SiteSelectorInterface       $siteSelector       A site selector
      */
-    public function __construct(UrlGeneratorInterface $urlGenerator, CmsManagerSelectorInterface $cmsManagerSelector, SiteSelectorInterface $siteSelector)
+    public function __construct(UrlGeneratorInterface $urlGenerator, CmsManagerSelectorInterface $cmsManagerSelector, SiteSelectorInterface $siteSelector, Router $router)
     {
         $this->urlGenerator       = $urlGenerator;
         $this->cmsManagerSelector = $cmsManagerSelector;
         $this->siteSelector       = $siteSelector;
+        $this->router             = $router;
     }
 
     /**
@@ -78,6 +85,7 @@ class PageExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
+            'sonata_page_ajax_url'            => new \Twig_Function_Method($this, 'ajaxUrl'),
             'sonata_page_url'                 => new \Twig_Function_Method($this, 'url'),
             'sonata_page_breadcrumb'          => new \Twig_Function_Method($this, 'breadcrumb', array('is_safe' => array('html'))),
             'sonata_page_render_container'    => new \Twig_Function_Method($this, 'renderContainer', array('is_safe' => array('html'))),
@@ -173,6 +181,22 @@ class PageExtension extends \Twig_Extension
 
             return '';
         }
+    }
+
+    /**
+     * Returns the URL for an ajax request for given block
+     *
+     * @param \Sonata\BlockBundle\Model\BlockInterface $block    Block service
+     * @param bool                                     $absolute Provide absolute or relative url ?
+     *
+     * @return string
+     */
+    public function ajaxUrl(BlockInterface $block, $parameters = array(), $absolute = false)
+    {
+        $parameters['blockId'] = $block->getId();
+        $parameters['pageId']  = $block->getPage()->getId();
+
+        return $this->router->generate('sonata_page_ajax_block', $parameters, $absolute);
     }
 
     /**

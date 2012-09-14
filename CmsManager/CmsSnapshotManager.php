@@ -102,6 +102,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
     protected function getPageBy(SiteInterface $site = null, $fieldName, $value)
     {
         if ('id' == $fieldName) {
+            $fieldName = 'pageId';
             $id = $value;
         } elseif (isset($this->pageReferences[$fieldName][$value])) {
             $id = $this->pageReferences[$fieldName][$value];
