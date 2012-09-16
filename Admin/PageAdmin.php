@@ -194,30 +194,21 @@ class PageAdmin extends Admin
      */
     public function validate(ErrorElement $errorElement, $object)
     {
-        if (!$object->getUrl()) {
-            $this->pageManager->fixUrl($object);
-        }
+        $this->pageManager->fixUrl($object);
 
-        try {
-            $page = $this->pageManager->getPageByUrl($object->getSite(), $object->getUrl());
-        } catch (PageNotFoundException $e) {
-            $page = false;
-        }
-
-        if (!$page) {
-            try {
-                $page = $this->pageManager->getPageByUrl($object->getSite(), substr($object->getUrl(), -1) == '/' ? substr($object->getUrl(), 0, -1) : $object->getUrl().'/');
-            } catch (PageNotFoundException $e) {
-                $page = false;
-            }
-        }
+        $pages = $this->pageManager->findBy(array(
+            'site' => $object->getSite(),
+            'url'  => $object->getUrl()
+        ));
 
         if ($object->isError()) {
             return;
         }
 
-        if ($page && $page->getId() != $object->getId()) {
-            $errorElement->addViolation($this->trans('error.uniq_url', array('%url%' => $object->getUrl())));
+        foreach ($pages as $page) {
+            if ($page->getUrl() == $object->getUrl() && $page != $object) {
+                $errorElement->addViolation($this->trans('error.uniq_url', array('%url%' => $object->getUrl())));
+            }
         }
     }
 

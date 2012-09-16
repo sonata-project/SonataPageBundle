@@ -97,7 +97,14 @@ class PageManager implements PageManagerInterface
                     $page->setSlug(Page::slugify($page->getName()));
                 }
 
-                $base = $page->getParent()->getUrl() == '/' ? '/' : $page->getParent()->getUrl().'/';
+                if ($page->getParent()->getUrl() == '/') {
+                    $base = '/';
+                } elseif (substr($page->getParent()->getUrl(), -1) != '/') {
+                    $base = $page->getParent()->getUrl().'/';
+                } else {
+                    $base = $page->getParent()->getUrl();
+                }
+
                 $page->setUrl($base.$page->getSlug()) ;
             } else {
                 // a parent page does not have any slug - can have a custom url ...

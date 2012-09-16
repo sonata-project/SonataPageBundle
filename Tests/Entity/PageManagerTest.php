@@ -60,4 +60,29 @@ class PageManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(null, $page1->getSlug());
         $this->assertEquals('/', $page1->getUrl());
     }
+
+    public function testWithSlashAtTheEnd()
+    {
+        $entityManager = $this->getMock('Doctrine\ORM\EntityManager', array(), array(), '', false);
+
+        $manager = new PageManager($entityManager, 'Foo\Bar', array());
+
+        $homepage = new Page();
+        $homepage->setUrl('/');
+        $homepage->setName('homepage');
+
+        $bundle = new Page;
+        $bundle->setUrl('/bundles/');
+        $bundle->setName('Bundles');
+
+        $child = new Page;
+        $child->setName('foobar');
+
+        $bundle->addChildren($child);
+        $homepage->addChildren($bundle);
+
+        $manager->fixUrl($child);
+
+        $this->assertEquals('/bundles/foobar', $child->getUrl());
+    }
 }
