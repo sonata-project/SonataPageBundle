@@ -11,10 +11,8 @@
 
 namespace Sonata\PageBundle\Controller;
 
-use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Exception\InternalErrorException;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,70 +25,14 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class PageController extends Controller
 {
-//    /**
-//     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-//     * @return \Symfony\Bundle\FrameworkBundle\Controller\Response
-//     */
-//    public function catchAllAction(Request $request)
-//    {
-//        $pathInfo = $request->getPathInfo();
-//
-//        $site = $this->getSiteSelector()->retrieve();
-//
-//        $cms = $this->getCmsManager();
-//
-//        try {
-//            $page = $cms->getPageByUrl($site, $pathInfo);
-//        } catch (PageNotFoundException $e) {
-//            $page = false;
-//        }
-//
-//        // always render the last page version for the admin
-//        if (!$page && $this->get('security.context')->isGranted('ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT')) {
-//
-//            try {
-//                $page = $cms->getPageByRouteName($site, 'catchAll');
-//            } catch (PageNotFoundException $e) {
-//                throw new InternalErrorException('The route catchAll is missing, please add the route to the routing file');
-//            }
-//
-//            $cms->setCurrentPage($page);
-//
-//            return $this->render('SonataPageBundle:Page:create.html.twig', array(
-//                'pathInfo'   => $pathInfo,
-//                'page'       => $page,
-//                'site'       => $site,
-//                'page_admin' => $this->get('sonata.page.admin.page'),
-//                'manager'    => $cms,
-//                'creatable'  => $this->getDecoratorStrategy()->isRouteNameDecorable($request->get('_route')) && $this->getDecoratorStrategy()->isRouteUriDecorable($pathInfo)
-//            ));
-//        }
-//
-//        if (!$page) {
-//            throw new PageNotFoundException('The current url does not exist!');
-//        }
-//
-//        $cms->setCurrentPage($page);
-//        $this->addSeoMeta($page);
-//
-//        $response = $this->getPageRendered()->render($page);
-//
-//        if ($page->isCms()) {
-//            $response->setTtl($page->getTtl());
-//        }
-//
-//        return $response;
-//    }
-
-
-
     /**
-     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
-     * @return \Symfony\Bundle\FrameworkBundle\Controller\Response
+     * @throws AccessDeniedException
+     *
+     * @return Response
      */
     public function exceptionsListAction()
     {
-        if (!$this->get('security.context')->isGranted('ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT')) {
+        if (!$this->getCmsManagerSelector()->isEditor()) {
             throw new AccessDeniedException();
         }
 
@@ -100,15 +42,15 @@ class PageController extends Controller
     }
 
     /**
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException|\Symfony\Component\Security\Core\Exception\AccessDeniedException
+     * @throws NotFoundHttpException|AccessDeniedException
      *
      * @param string $code
      *
-     * @return \Symfony\Bundle\FrameworkBundle\Controller\Response
+     * @return Response
      */
     public function exceptionEditAction($code)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT')) {
+        if (!$this->getCmsManagerSelector()->isEditor()) {
             throw new AccessDeniedException();
         }
 
@@ -142,7 +84,15 @@ class PageController extends Controller
      */
     protected function getCmsManager()
     {
-        return $this->get('sonata.page.cms_manager_selector')->retrieve();
+        $this->getCmsManagerSelector()->retrieve();
+    }
+
+    /**
+     * @return \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface
+     */
+    protected function getCmsManagerSelector()
+    {
+        return $this->get('sonata.page.cms_manager_selector');
     }
 
     /**
