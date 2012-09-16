@@ -50,19 +50,22 @@ interface PageInterface
     /**
      * Get $outeAlias
      *
-     * @return string $routeAlias
+     * @return string $pageAlias
      */
-    function getRouteAlias();
+    function getPageAlias();
 
     /**
      * The route alias defines an internal url code that user can use to point
      * to an url. This feature must used with care to avoid to many generated queries
      *
-     * Set routeAlias
+     * For performance, all pageAlias must be prefixed by _page_alias_ this will avoid
+     * database lookup to load non existant alias
      *
-     * @param string $routeAlias
+     * Set pageAlias
+     *
+     * @param string $pageAlias
      */
-    function setRouteAlias($routeAlias);
+    function setPageAlias($pageAlias);
 
     /**
      * Set enabled

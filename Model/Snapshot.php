@@ -27,7 +27,7 @@ abstract class Snapshot implements SnapshotInterface
 
     protected $routeName;
 
-    protected $routeAlias;
+    protected $pageAlias;
 
     protected $name;
 
@@ -80,17 +80,17 @@ abstract class Snapshot implements SnapshotInterface
     /**
      * {@inheritdoc}
      */
-    public function setRouteAlias($routeAlias)
+    public function setPageAlias($pageAlias)
     {
-        $this->routeAlias = $routeAlias;
+        $this->pageAlias = $pageAlias;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getRouteAlias()
+    public function getPageAlias()
     {
-        return $this->routeAlias;
+        return $this->pageAlias;
     }
 
     /**

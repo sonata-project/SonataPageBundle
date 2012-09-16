@@ -63,11 +63,11 @@ interface CmsManagerInterface
      * Returns a fully loaded page ( + blocks ) from a route name
      *
      * @param SiteInterface $site
-     * @param string        $routeAlias
+     * @param string        $pageAlias
      *
      * @return PageInterface
      */
-    function getPageByRouteAlias(SiteInterface $site, $routeAlias);
+    function getPageByPageAlias(SiteInterface $site, $pageAlias);
 
     /**
      * Returns a fully loaded page ( + blocks ) from an internal page name

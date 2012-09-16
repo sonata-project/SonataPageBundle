@@ -12,6 +12,7 @@
 namespace Sonata\PageBundle\Admin;
 
 use Sonata\AdminBundle\Admin\Admin;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -50,7 +51,7 @@ class PageAdmin extends Admin
         $showMapper
             ->add('site')
             ->add('routeName')
-            ->add('routeAlias')
+            ->add('pageAlias')
             ->add('enabled')
             ->add('decorate')
             ->add('name')
@@ -68,7 +69,7 @@ class PageAdmin extends Admin
         $listMapper
             ->add('hybrid', 'text', array('template' => 'SonataPageBundle:PageAdmin:field_hybrid.html.twig'))
             ->addIdentifier('name')
-            ->add('routeAlias')
+            ->add('pageAlias')
             ->add('site')
             ->add('decorate')
             ->add('enabled')
@@ -84,7 +85,7 @@ class PageAdmin extends Admin
         $datagridMapper
             ->add('site')
             ->add('name')
-            ->add('routeAlias')
+            ->add('pageAlias')
             ->add('edited')
             ->add('hybrid', 'doctrine_orm_callback', array(
                 'callback' => function($queryBuilder, $alias, $field, $data) {
@@ -139,7 +140,7 @@ class PageAdmin extends Admin
         if (!$this->getSubject() || !$this->getSubject()->isDynamic()) {
             $formMapper
                 ->with($this->trans('form_page.group_main_label'))
-                    ->add('routeAlias', null, array('required' => false))
+                    ->add('pageAlias', null, array('required' => false))
                     ->add('target', 'sonata_page_selector', array(
                         'page'          => $this->getSubject() ?: null,
                         'site'          => $this->getSubject() ? $this->getSubject()->getSite() : null,
@@ -241,10 +242,16 @@ class PageAdmin extends Admin
         );
 
         if (!$this->getSubject()->isHybrid()) {
-            $menu->addChild(
-                $this->trans('view_page'),
-                array('uri' => $this->getRouteGenerator()->generate('page_slug', array('path' => ltrim($this->getSubject()->getUrl(), '/'))))
-            );
+
+            try {
+                $menu->addChild(
+                    $this->trans('view_page'),
+                    array('uri' => $this->getRouteGenerator()->generate('page_slug', array('path' => $this->getSubject()->getUrl())))
+                );
+            } catch (RouteNotFoundException $e) {
+                // avoid crashing the admin if the route is not setup correctly
+//                throw $e;
+            }
         }
     }
 

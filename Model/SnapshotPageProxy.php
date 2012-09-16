@@ -479,17 +479,17 @@ class SnapshotPageProxy implements PageInterface, Serializable
     /**
      * {@inheritdoc}
      */
-    public function getRouteAlias()
+    public function getPageAlias()
     {
-        return $this->getPage()->getRouteAlias();
+        return $this->getPage()->getPageAlias();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setRouteAlias($routeAlias)
+    public function setPageAlias($pageAlias)
     {
-        return $this->getPage()->setRouteAlias($routeAlias);
+        return $this->getPage()->setPageAlias($pageAlias);
     }
 
     /**

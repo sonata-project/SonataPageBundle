@@ -28,7 +28,7 @@ abstract class Page implements PageInterface
 
     protected $routeName;
 
-    protected $routeAlias;
+    protected $pageAlias;
 
     protected $name;
 
@@ -123,17 +123,21 @@ abstract class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function setRouteAlias($routeAlias)
+    public function setPageAlias($pageAlias)
     {
-        $this->routeAlias = $routeAlias;
+        if (substr($pageAlias, 0, 12) != '_page_alias_') {
+            $pageAlias = '_page_alias_'.$pageAlias;
+        }
+
+        $this->pageAlias = $pageAlias;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getRouteAlias()
+    public function getPageAlias()
     {
-        return $this->routeAlias;
+        return $this->pageAlias;
     }
 
     /**
