@@ -582,6 +582,22 @@
           <source>sonata_page</source>
           <target>Pages</target>
       </trans-unit>
+      <trans-unit id="145" resname="form.label_page_alias">
+          <source>form.label_page_alias</source>
+          <target>Technical Alias</target>
+       </trans-unit>
+      <trans-unit id="146" resname="show.label_page_alias">
+          <source>show.label_page_alias</source>
+          <target>Technical Alias</target>
+       </trans-unit>
+      <trans-unit id="147" resname="list.label_page_alias">
+          <source>list.label_page_alias</source>
+          <target>Technical Alias</target>
+       </trans-unit>
+      <trans-unit id="148" resname="filter.label_page_alias">
+          <source>filter.label_page_alias</source>
+          <target>Technical Alias</target>
+       </trans-unit>
     </body>
   </file>
 </xliff>

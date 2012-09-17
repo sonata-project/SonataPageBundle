@@ -3,13 +3,14 @@
 namespace Sonata\PageBundle\Model;
 
 use Sonata\BlockBundle\Model\BlockInterface;
+use Serializable;
 
 /**
  * SnapshotPageProxy
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class SnapshotPageProxy implements PageInterface
+class SnapshotPageProxy implements PageInterface, Serializable
 {
     /**
      * @var \Sonata\PageBundle\Model\SnapshotManagerInterface
@@ -57,7 +58,7 @@ class SnapshotPageProxy implements PageInterface
      */
     private function load()
     {
-        if (!$this->page) {
+        if (!$this->page && $this->manager) {
             $this->page = $this->manager->load($this->snapshot);
         }
     }
@@ -478,6 +479,22 @@ class SnapshotPageProxy implements PageInterface
     /**
      * {@inheritdoc}
      */
+    public function getPageAlias()
+    {
+        return $this->getPage()->getPageAlias();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setPageAlias($pageAlias)
+    {
+        return $this->getPage()->setPageAlias($pageAlias);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function setCreatedAt(\DateTime $createdAt = null)
     {
         $this->getPage()->setCreatedAt($createdAt);
@@ -609,5 +626,27 @@ class SnapshotPageProxy implements PageInterface
     public function setTitle($title)
     {
         $this->getPage()->setTitle($title);
+    }
+
+    public function __toString()
+    {
+        return $this->getPage()->__toString();
+    }
+
+    public function serialize()
+    {
+        if ($this->manager) {
+            return serialize(array(
+                'pageId'     => $this->getPage()->getId(),
+                'snapshotId' => $this->snapshot->getId(),
+            ));
+        }
+
+        return serialize(array());
+    }
+
+    public function unserialize($serialized)
+    {
+        // TODO: Implement unserialize() method.
     }
 }

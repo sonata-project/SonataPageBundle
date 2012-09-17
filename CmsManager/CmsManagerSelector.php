@@ -13,6 +13,9 @@
 namespace Sonata\PageBundle\CmsManager;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
  * This class return the correct manager instance :
@@ -55,8 +58,37 @@ class CmsManagerSelector implements CmsManagerSelectorInterface
      */
     public function isEditor()
     {
-        $securityContext = $this->container->get('security.context');
+        /**
+         * The current order of event is not suitable for the selector to be call
+         * by the router chain, so we need to use another mechanism. It is not perfect
+         * but do the job for now.
+         */
+        return $this->getSession()->get('sonata/page/isEditor', false);
+    }
 
-        return $securityContext->getToken() !== null && $securityContext->isGranted('ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT');
+    /**
+     * @return SessionInterface
+     */
+    private function getSession()
+    {
+        return $this->container->get('session');
+    }
+
+    /**
+     * @return SecurityContextInterface
+     */
+    private function getSecurityContext()
+    {
+        return $this->container->get('security.context');
+    }
+
+    /**
+     * @param InteractiveLoginEvent $event
+     */
+    public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
+    {
+        if ($this->getSecurityContext()->getToken() && $this->getSecurityContext()->isGranted('ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT')) {
+            $this->getSession()->set('sonata/page/isEditor', true);
+        }
     }
 }

@@ -22,13 +22,6 @@ interface PageInterface
     const PAGE_ROUTE_CMS_NAME = 'page_slug';
 
     /**
-     * Set routeName
-     *
-     * @param string $routeName
-     */
-    function setRouteName($routeName);
-
-    /**
      * Returns the id
      *
      * @return mixed
@@ -46,6 +39,33 @@ interface PageInterface
      * @return string $routeName
      */
     function getRouteName();
+
+    /**
+     * Set routeName
+     *
+     * @param string $routeName
+     */
+    function setRouteName($routeName);
+
+    /**
+     * Get $outeAlias
+     *
+     * @return string $pageAlias
+     */
+    function getPageAlias();
+
+    /**
+     * The route alias defines an internal url code that user can use to point
+     * to an url. This feature must used with care to avoid to many generated queries
+     *
+     * For performance, all pageAlias must be prefixed by _page_alias_ this will avoid
+     * database lookup to load non existant alias
+     *
+     * Set pageAlias
+     *
+     * @param string $pageAlias
+     */
+    function setPageAlias($pageAlias);
 
     /**
      * Set enabled

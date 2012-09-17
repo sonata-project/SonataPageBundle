@@ -17,12 +17,9 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
 
-use Sonata\CacheBundle\Cache\CacheManagerInterface;
-
 use Sonata\PageBundle\Model\SnapshotPageProxy;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
-use Sonata\PageBundle\Util\RecursiveBlockIteratorIterator;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 
@@ -102,8 +99,8 @@ class PageExtension extends \Twig_Extension
     }
 
     /**
-     * @param null|\Sonata\PageBundle\Model\PageInterface $page
-     * @param array                                       $options
+     * @param PageInterface $page
+     * @param array         $options
      *
      * @return string
      */
@@ -150,6 +147,8 @@ class PageExtension extends \Twig_Extension
     /**
      * Returns the URL of given page
      *
+     * @deprecated
+     *
      * @param null|PageInterface|string $page       A Sonata page
      * @param array                     $parameters An array of parameters
      * @param boolean                   $absolute   Whether to generate an absolute URL
@@ -160,19 +159,7 @@ class PageExtension extends \Twig_Extension
      */
     public function url($page = null, array $parameters = array(), $absolute = false)
     {
-        if (!$page) {
-            return '';
-        }
-
-        try {
-            return $this->urlGenerator->generate($page, $parameters, $absolute);
-        } catch (\RunTimeException $e) {
-            if ($this->environment->isDebug()) {
-                throw $e;
-            }
-
-            return '';
-        }
+        throw new \RuntimeException('The function is deprecated, please use the standard Symfony router helper');
     }
 
     /**
@@ -234,8 +221,8 @@ class PageExtension extends \Twig_Extension
     }
 
     /**
-     * @param \Sonata\BlockBundle\Model\BlockInterface $block
-     * @param bool                                     $useCache
+     * @param BlockInterface $block
+     * @param bool           $useCache
      *
      * @return string
      */

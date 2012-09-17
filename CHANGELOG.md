@@ -7,6 +7,24 @@ A [BC BREAK] means the update will break the project for many reasons:
 * new dependencies
 * class refactoring
 
+### 2012-09-14
+
+* [BC BREAK] Integrate the SymfonyCmfRoutingExtraBundle from the CMF project
+
+   ``sonata_page_url`` will raise an exception, just use the ``path`` twig helper
+
+   No more ``catchAll`` routing, now the routing is handled by the ``ChainRouter`` service
+
+   Introduce a ``pageAlias`` field, so this field will be used to generate an url using the
+   a code defined in the ``Page`` entity. This can be a nice feature if you want to generate a
+   link from a template but without knowing the url defined by an user in the backend.
+
+   For performance issue, the ``pageAlias`` must be prefixed by ``_page_alias_``,
+   this will avoid extra database lookup to occurs, so from a template you must call
+   the an alias like this ``path('_page_alias_homepage')``
+
+   The ``PageController::catchAll`` has been removed.
+
 ### 2012-08-31
 
 * [BC BREAK] Change prototype of "PageExtension::url" method and so "sonata_page_url" Twig helper.

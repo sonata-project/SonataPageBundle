@@ -28,6 +28,8 @@ abstract class Page implements PageInterface
 
     protected $routeName;
 
+    protected $pageAlias;
+
     protected $name;
 
     protected $title;
@@ -92,13 +94,7 @@ abstract class Page implements PageInterface
         $this->edited        = true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setRouteName($routeName)
-    {
-        $this->routeName = $routeName;
-    }
+
 
     /**
      * {@inheritdoc}
@@ -111,9 +107,37 @@ abstract class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
+    public function setRouteName($routeName)
+    {
+        $this->routeName = $routeName;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getRouteName()
     {
         return $this->routeName;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setPageAlias($pageAlias)
+    {
+        if (substr($pageAlias, 0, 12) != '_page_alias_') {
+            $pageAlias = '_page_alias_'.$pageAlias;
+        }
+
+        $this->pageAlias = $pageAlias;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPageAlias()
+    {
+        return $this->pageAlias;
     }
 
     /**
@@ -623,7 +647,7 @@ abstract class Page implements PageInterface
      */
     public function setUrl($url)
     {
-        $this->url = $this->routeName == 'homepage' ? '/' : $url;
+        $this->url = $url;
     }
 
     /**
@@ -631,7 +655,7 @@ abstract class Page implements PageInterface
      */
     public function getUrl()
     {
-        return $this->routeName == 'homepage' ? '/' : $this->url;
+        return $this->url;
     }
 
     /**
@@ -661,10 +685,6 @@ abstract class Page implements PageInterface
 
         // remove unwanted characters
         $text = preg_replace('~[^-\w]+~', '', $text);
-
-        if (empty($text)) {
-            return 'n-a';
-        }
 
         return $text;
     }

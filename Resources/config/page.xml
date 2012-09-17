@@ -14,7 +14,7 @@
         <parameter key="sonata.page.renderer.class">Sonata\PageBundle\CmsManager\PageRenderer</parameter>
         <parameter key="sonata.page.decorator_strategy.class">Sonata\PageBundle\CmsManager\DecoratorStrategy</parameter>
         <parameter key="sonata.page.url_generator.class">Sonata\PageBundle\Generator\UrlGenerator</parameter>
-
+        <parameter key="sonata.page.router.class">Sonata\PageBundle\Route\CmsPageRouter</parameter>
     </parameters>
 
     <services>
@@ -55,6 +55,8 @@
         </service>
 
         <service id="sonata.page.cms_manager_selector" class="%sonata.page.cms_manager_selector.class%">
+            <tag name="kernel.event_listener" event="security.interactive_login" method="onSecurityInteractiveLogin" />
+
             <argument type="service" id="service_container" />
         </service>
 
@@ -64,6 +66,7 @@
             <argument type="service" id="templating" />
             <argument />
             <argument />
+            <argument type="service" id="sonata.seo.page" />
         </service>
 
         <service id="sonata.page.cms.page" class="%sonata.page.cms_manager.page.class%">
@@ -107,6 +110,11 @@
 
         <service id="sonata.page.url_generator" class="%sonata.page.url_generator.class%">
             <argument type="service" id="router" />
+        </service>
+
+        <service id="sonata.page.router" class="%sonata.page.router.class%">
+            <argument type="service" id="sonata.page.cms_manager_selector" />
+            <argument type="service" id="sonata.page.site.selector"/>
         </service>
     </services>
 </container>

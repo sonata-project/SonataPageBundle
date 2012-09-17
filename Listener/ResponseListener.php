@@ -94,7 +94,6 @@ class ResponseListener
             $response->setTtl($page->getTtl());
         }
 
-
         $event->setResponse($response);
     }
 }
