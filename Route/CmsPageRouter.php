@@ -11,15 +11,15 @@
 namespace Sonata\PageBundle\Route;
 
 use Symfony\Component\Routing\RouterInterface;
-use Sonata\PageBundle\Model\PageInterface;
-use Sonata\NotificationBundle\Exception\InvalidParameterException;
-use Symfony\Component\Routing\Exception\RouteNotFoundException;
-use Sonata\PageBundle\Exception\PageNotFoundException;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
-use Sonata\PageBundle\CmsManager\CmsManagerSelector;
+use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
+use Sonata\PageBundle\Model\PageInterface;
+use Sonata\NotificationBundle\Exception\InvalidParameterException;
+use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 
 class CmsPageRouter implements RouterInterface
@@ -33,10 +33,10 @@ class CmsPageRouter implements RouterInterface
     protected $router;
 
     /**
-     * @param CmsManagerSelector     $cmsSelector
-     * @param SiteSelectorInterface  $siteSelector
+     * @param CmsManagerSelectorInterface $cmsSelector
+     * @param SiteSelectorInterface       $siteSelector
      */
-    public function __construct(CmsManagerSelector $cmsSelector, SiteSelectorInterface $siteSelector)
+    public function __construct(CmsManagerSelectorInterface $cmsSelector, SiteSelectorInterface $siteSelector)
     {
         $this->cmsSelector  = $cmsSelector;
         $this->siteSelector = $siteSelector;
