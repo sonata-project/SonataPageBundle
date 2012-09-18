@@ -31,11 +31,6 @@ use Sonata\PageBundle\Exception\PageNotFoundException;
 class PageExtension extends \Twig_Extension
 {
     /**
-     * @var UrlGeneratorInterface
-     */
-    private $urlGenerator;
-
-    /**
      * @var CmsManagerSelectorInterface
      */
     private $cmsManagerSelector;
@@ -58,13 +53,11 @@ class PageExtension extends \Twig_Extension
     /**
      * Constructor
      *
-     * @param UrlGeneratorInterface       $urlGenerator       An URL generator
      * @param CmsManagerSelectorInterface $cmsManagerSelector A CMS manager selector
      * @param SiteSelectorInterface       $siteSelector       A site selector
      */
-    public function __construct(UrlGeneratorInterface $urlGenerator, CmsManagerSelectorInterface $cmsManagerSelector, SiteSelectorInterface $siteSelector)
+    public function __construct(CmsManagerSelectorInterface $cmsManagerSelector, SiteSelectorInterface $siteSelector)
     {
-        $this->urlGenerator       = $urlGenerator;
         $this->cmsManagerSelector = $cmsManagerSelector;
         $this->siteSelector       = $siteSelector;
     }

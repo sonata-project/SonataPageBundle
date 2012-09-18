@@ -8,7 +8,6 @@
         <service id="sonata.page.twig.extension" class="Sonata\PageBundle\Twig\Extension\PageExtension" public="false">
             <tag name="twig.extension" />
 
-            <argument type="service" id="sonata.page.url_generator" />
             <argument type="service" id="sonata.page.cms_manager_selector" />
             <argument type="service" id="sonata.page.site.selector" />
         </service>

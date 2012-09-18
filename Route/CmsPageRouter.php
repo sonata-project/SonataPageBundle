@@ -82,6 +82,8 @@ class CmsPageRouter implements RouterInterface
             }
 
             $url = $parameters['path'];
+
+            unset($parameters['path']);
         } else {
             $url = $this->generatePageUrl($name);
         }
@@ -107,6 +109,10 @@ class CmsPageRouter implements RouterInterface
             }
 
             $url = $scheme.'://'.$this->context->getHost().$port.$url;
+        }
+
+        if (count($parameters) > 0) {
+            return sprintf('%s?%s', $url, http_build_query($parameters, '', '&'));
         }
 
         return $url;
