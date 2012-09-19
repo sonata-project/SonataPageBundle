@@ -84,7 +84,7 @@ class PageController extends Controller
      */
     protected function getCmsManager()
     {
-        $this->getCmsManagerSelector()->retrieve();
+        return $this->getCmsManagerSelector()->retrieve();
     }
 
     /**
