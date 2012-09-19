@@ -14,7 +14,7 @@ Full configuration options (config.yml file):
                 # enable the DynamicRouter with high priority to allow overwriting configured routes with content
                 #symfony_cmf_routing_extra.dynamic_router: 200
                 # enable the symfony default router with a lower priority
-                sonata.page.router: 50
+                sonata.page.router: 150
                 router.default: 100
 
     sonata_page:

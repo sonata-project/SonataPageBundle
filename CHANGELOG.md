@@ -25,9 +25,14 @@ A [BC BREAK] means the update will break the project for many reasons:
 
    The ``PageController::catchAll`` has been removed.
 
-   Execute the following migration:
+   Execute the following migrations
+
         ALTER TABLE page__page ADD page_alias VARCHAR(255) DEFAULT NULL
         ALTER TABLE page__snapshot ADD page_alias VARCHAR(255) DEFAULT NULL
+
+   Add the CMF bundle into the AppKernel.php
+
+        new Symfony\Cmf\Bundle\RoutingExtraBundle\SymfonyCmfRoutingExtraBundle()
 
 ### 2012-08-31
 

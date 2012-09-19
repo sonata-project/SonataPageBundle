@@ -11,6 +11,8 @@
 namespace Sonata\PageBundle\Route;
 
 use Symfony\Component\Routing\RouterInterface;
+use Sonata\PageBundle\CmsManager\CmsManagerInterface;
+use Sonata\PageBundle\Model\SiteInterface;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
@@ -148,6 +150,14 @@ class CmsPageRouter implements RouterInterface
     {
         $cms = $this->cmsSelector->retrieve();
         $site = $this->siteSelector->retrieve();
+
+        if (!$cms instanceof CmsManagerInterface){
+            throw new ResourceNotFoundException("No CmsManager defined");
+        }
+
+        if (!$site instanceof SiteInterface){
+            throw new ResourceNotFoundException("No site defined");
+        }
 
         try {
             $page = $cms->getPageByUrl($site, $pathinfo);
