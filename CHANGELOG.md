@@ -25,6 +25,10 @@ A [BC BREAK] means the update will break the project for many reasons:
 
    The ``PageController::catchAll`` has been removed.
 
+   Execute the following migration:
+        ALTER TABLE page__page ADD page_alias VARCHAR(255) DEFAULT NULL
+        ALTER TABLE page__snapshot ADD page_alias VARCHAR(255) DEFAULT NULL
+
 ### 2012-08-31
 
 * [BC BREAK] Change prototype of "PageExtension::url" method and so "sonata_page_url" Twig helper.
@@ -38,7 +42,7 @@ A [BC BREAK] means the update will break the project for many reasons:
 
     Database Migration: (replace table name)
 
-        ALTER TABLE page__bloc ADD name VARCHAR2(255) DEFAULT NULL;
+        ALTER TABLE page__bloc ADD name VARCHAR(255) DEFAULT NULL;
 
     Migration command: (change entity class as required)
 
