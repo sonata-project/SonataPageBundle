@@ -14,8 +14,12 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Symfony\Component\Templating\StreamingEngineInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Sonata\SeoBundle\Seo\SeoPageInterface;
 
 /**
  * Render a PageInterface
@@ -38,20 +42,24 @@ class PageRenderer implements PageRendererInterface
 
     protected $errorCodes;
 
+    protected $seoPage;
+
     /**
-     * @param \Symfony\Component\Routing\RouterInterface                 $router
-     * @param CmsManagerSelectorInterface                                $cmsSelector
-     * @param \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface $templating
-     * @param array                                                      $templates
-     * @param array                                                      $errorCodes
+     * @param RouterInterface             $router
+     * @param CmsManagerSelectorInterface $cmsSelector
+     * @param EngineInterface             $templating
+     * @param array                       $templates
+     * @param array                       $errorCodes
+     * @param SeoPageInterface            $seoPage
      */
-    public function __construct(RouterInterface $router, CmsManagerSelectorInterface $cmsSelector, EngineInterface $templating, array $templates, array $errorCodes)
+    public function __construct(RouterInterface $router, CmsManagerSelectorInterface $cmsSelector, EngineInterface $templating, array $templates, array $errorCodes, SeoPageInterface $seoPage = null)
     {
         $this->router      = $router;
         $this->cmsSelector = $cmsSelector;
         $this->templating  = $templating;
         $this->templates   = $templates;
         $this->errorCodes  = $errorCodes;
+        $this->seoPage     = $seoPage;
     }
 
     /**
@@ -62,6 +70,7 @@ class PageRenderer implements PageRendererInterface
         $cms = $this->cmsSelector->retrieve();
 
         if (!$response) {
+
             if ($page->getTarget()) {
                 $page->addHeader('Location', sprintf('%s%s', $this->router->getContext()->getBaseUrl(), $page->getTarget()->getUrl()));
 
@@ -87,7 +96,49 @@ class PageRenderer implements PageRendererInterface
         $params['manager']     = $cms;
         $params['error_codes'] = $this->errorCodes;
 
-        return $this->templating->renderResponse($template, $params, $response);
+        if ($this->templating instanceof StreamingEngineInterface) {
+            $templating = $this->templating;
+
+            return new StreamedResponse(
+                function() use ($templating, $template, &$params) { $templating->stream($template, $params); },
+                $response ? $response->getStatusCode() : 200,
+                $response ? $response->headers->all() : array()
+            );
+        }
+
+        $this->addSeoMeta($page);
+
+        $response = $this->templating->renderResponse($template, $params, $response);
+
+        if (!$this->cmsSelector->isEditor() && $page->isCms()) {
+            $response->setTtl($page->getTtl());
+        }
+
+        return $response;
+    }
+
+    /**
+     * @param PageInterface $page
+     *
+     * @return void
+     */
+    protected function addSeoMeta(PageInterface $page)
+    {
+        if (!$this->seoPage) {
+            return;
+        }
+
+        $this->seoPage->setTitle($page->getTitle() ?: $page->getName());
+
+        if ($page->getMetaDescription()) {
+            $this->seoPage->addMeta('name', 'description', $page->getMetaDescription());
+        }
+
+        if ($page->getMetaKeyword()) {
+            $this->seoPage->addMeta('name', 'keywords', $page->getMetaKeyword());
+        }
+
+        $this->seoPage->addMeta('property', 'og:type', 'article');
     }
 
     /**

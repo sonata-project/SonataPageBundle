@@ -3,6 +3,7 @@
 namespace Sonata\PageBundle\Listener;
 
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Sonata\PageBundle\Exception\InternalErrorException;
 use Sonata\PageBundle\Exception\PageNotFoundException;
@@ -102,6 +103,27 @@ class ExceptionListener
      */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
+
+        if ($event->getException() instanceof NotFoundHttpException && $this->cmsManagerSelector->isEditor()) {
+            $pathInfo = $event->getRequest()->getPathInfo();
+
+            // can only create a CMS page, so the '_route' must be null
+            $creatable = !$event->getRequest()->get('_route') && $this->decoratorStrategy->isRouteUriDecorable($pathInfo);
+
+            if ($creatable) {
+                $response = new Response($this->templating->render('SonataPageBundle:Page:create.html.twig', array(
+                    'pathInfo'   => $pathInfo,
+                    'site'       => $this->siteSelector->retrieve(),
+                    'creatable'  => $creatable
+                )), 404);
+
+                $event->setResponse($response);
+                $event->stopPropagation();
+
+                return;
+            }
+        }
+
         if ($event->getException() instanceof InternalErrorException) {
             $this->handleInternalError($event);
         } else {

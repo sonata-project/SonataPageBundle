@@ -15,57 +15,88 @@ namespace Sonata\PageBundle\Tests\Page;
 use Sonata\PageBundle\CmsManager\CmsPageManager;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Sonata\BlockBundle\Model\Block;
+use Sonata\PageBundle\Model\Block as AbtractBlock;
 use Sonata\PageBundle\Tests\Model\Page;
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
-use Sonata\CacheBundle\Cache\CacheManagerInterface;
 use Sonata\PageBundle\Model\BlockInteractorInterface;
 
+
+class CmsBlock extends AbtractBlock
+{
+    public function setId($id)
+    {}
+
+    public function getId()
+    {}
+}
+
 /**
- *
+ * Test CmsPageManager
  */
 class CmsPageManagerTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var \Sonata\PageBundle\CmsManager\CmsPageManager
+     */
+    protected $manager;
 
-    public function getManager($services = array())
+    /**
+     * Setup manager object to test
+     */
+    public function setUp()
     {
-        $blocInteractor = isset($services['interactor']) ? $services['interactor'] : $this->getMock('Sonata\PageBundle\Model\BlockInteractorInterface');
-        $pageManager  = $this->getMock('Sonata\PageBundle\Model\PageManagerInterface');
-
-        return new CmsPageManager($pageManager, $blocInteractor);
+        $this->blockInteractor = $this->getMockBlockInteractor();
+        $this->pageManager  = $this->getMock('Sonata\PageBundle\Model\PageManagerInterface');
+        $this->manager = new CmsPageManager($this->pageManager, $this->blockInteractor);
     }
 
-    public function testFindContainer()
+    /**
+     * Test finding an existing container in a page
+     */
+    public function testFindExistingContainer()
     {
-        $blockInteractor = $this->getMockBuilder('Sonata\PageBundle\Model\BlockInteractorInterface')->getMock();
+        $block = new CmsBlock();
+        $block->setSettings(array('code' => 'findme'));
 
-        $blockInteractor->expects($this->once())
-            ->method('createNewContainer')
-            ->will($this->returnCallback(function($options) {
-                $block = new Block;
-
-                $block->setSettings($options);
-
-                return $block;
-        }));
-
-
-        $manager = $this->getManager(array(
-            'interactor' => $blockInteractor
-        ));
-
-        $block = new Block;
-        $block->setSettings(array('name' => 'findme'));
-
-        $page = new Page;
+        $page = new Page();
         $page->addBlocks($block);
 
-        $container = $manager->findContainer('findme', $page);
+        $container = $this->manager->findContainer('findme', $page);
 
-        $this->assertEquals(spl_object_hash($block), spl_object_hash($container));
+        $this->assertEquals(spl_object_hash($block), spl_object_hash($container),
+            'should retrieve the block of the page');
+    }
 
-        $container = $manager->findContainer('newcontainer', $page);
+    /**
+     * Test finding an non-existing container in a page does create a new block
+     */
+    public function testFindNonExistingContainerCreatesNewBlock()
+    {
+        $page = new Page();
 
-        $this->assertEquals('newcontainer', $container->getSetting('name'));
+        $container = $this->manager->findContainer('newcontainer', $page);
+
+        $this->assertInstanceOf('Sonata\PageBundle\Model\PageBlockInterface', $container, 'should be a block');
+        $this->assertEquals('newcontainer', $container->getSetting('code'));
+    }
+
+    /**
+     * Returns a mock block interactor
+     *
+     * @return \Sonata\PageBundle\Model\BlockInteractorInterface
+     */
+    protected function getMockBlockInteractor()
+    {
+        $callback = function($options) {
+            $block = new CmsBlock;
+            $block->setSettings($options);
+
+            return $block;
+        };
+
+        $mock = $this->getMock('Sonata\PageBundle\Model\BlockInteractorInterface');
+        $mock->expects($this->any())->method('createNewContainer')->will($this->returnCallback($callback));
+
+        return $mock;
     }
 }

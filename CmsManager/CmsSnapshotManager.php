@@ -73,9 +73,9 @@ class CmsSnapshotManager extends BaseCmsPageManager
     /**
      * {@inheritdoc}
      */
-    public function findContainer($name, PageInterface $page, BlockInterface $parentContainer = null)
+    public function findContainer($code, PageInterface $page, BlockInterface $parentContainer = null)
     {
-        $container = false;
+        $container = null;
 
         if ($parentContainer) {
             // parent container is set, nothing to find, don't need to loop across the
@@ -86,7 +86,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
         // first level blocks are containers
         if (!$container && $page->getBlocks()) {
             foreach ($page->getBlocks() as $block) {
-                if ($block->getSetting('name') == $name) {
+                if ($block->getSetting('code') == $code) {
                     $container = $block;
                     break;
                 }
@@ -102,6 +102,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
     protected function getPageBy(SiteInterface $site = null, $fieldName, $value)
     {
         if ('id' == $fieldName) {
+            $fieldName = 'pageId';
             $id = $value;
         } elseif (isset($this->pageReferences[$fieldName][$value])) {
             $id = $this->pageReferences[$fieldName][$value];

@@ -10,37 +10,39 @@
 
 namespace Sonata\PageBundle\Model;
 
-use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\BlockBundle\Model\BaseBlock;
-
 use Sonata\PageBundle\Model\PageInterface;
+use Sonata\PageBundle\Model\PageBlockInterface;
+use Sonata\BlockBundle\Model\BlockInterface;
 
 /**
  * Block
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-abstract class Block extends BaseBlock
+abstract class Block extends BaseBlock implements PageBlockInterface
 {
+    /**
+     * @var PageInterface
+     */
     protected $page;
 
     /**
-     * Add children
-     *
-     * @param \Sonata\BlockBundle\Model\BlockInterface $child
+     * {@inheritDoc}
      */
     public function addChildren(BlockInterface $child)
     {
         $this->children[] = $child;
 
         $child->setParent($this);
-        $child->setPage($this->getPage());
+
+        if ($child instanceof PageBlockInterface) {
+            $child->setPage($this->getPage());
+        }
     }
 
     /**
-     * Set page
-     *
-     * @param \Sonata\PageBundle\Model\PageInterface $page
+     * {@inheritDoc}
      */
     public function setPage(PageInterface $page = null)
     {
@@ -48,15 +50,16 @@ abstract class Block extends BaseBlock
     }
 
     /**
-     * Get page
-     *
-     * @return \Sonata\PageBundle\Model\PageInterface $page
+     * {@inheritDoc}
      */
     public function getPage()
     {
         return $this->page;
     }
 
+    /**
+     * Disables children lazy loading
+     */
     public function disableChildrenLazyLoading()
     {
         if (is_object($this->children)) {

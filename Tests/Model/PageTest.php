@@ -227,7 +227,7 @@ class PageTest extends \PHPUnit_Framework_TestCase
         $page->addBlocks($block2);
         $page->addBlocks($block3);
 
-        $this->assertEquals($block3, $page->getContainerByName('gotcha'));
+        $this->assertEquals($block3, $page->getContainerByCode('gotcha'));
     }
 
     public function testGetBlockByType()
