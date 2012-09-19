@@ -15,11 +15,19 @@ namespace Sonata\PageBundle\Tests\Page;
 use Sonata\PageBundle\CmsManager\CmsSnapshotManager;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Sonata\BlockBundle\Model\Block;
+use Sonata\PageBundle\Model\Block;
 use Sonata\PageBundle\Tests\Model\Page;
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
-use Sonata\CacheBundle\Cache\CacheManagerInterface;
 use Sonata\PageBundle\Model\BlockInteractorInterface;
+
+class SnapshotBlock extends Block
+{
+    function setId($id)
+    {}
+
+    function getId()
+    {}
+}
 
 /**
  * Test CmsSnapshotManager
@@ -46,7 +54,7 @@ class CmsSnapshotManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testFindExistingContainer()
     {
-        $block = new Block();
+        $block = new SnapshotBlock();
         $block->setSettings(array('code' => 'findme'));
 
         $page = new Page();
@@ -54,8 +62,7 @@ class CmsSnapshotManagerTest extends \PHPUnit_Framework_TestCase
 
         $container = $this->manager->findContainer('findme', $page);
 
-        $this->assertEquals(spl_object_hash($block), spl_object_hash($container),
-            'should retrieve the block of the page');
+        $this->assertEquals(spl_object_hash($block), spl_object_hash($container), 'should retrieve the block of the page');
     }
 
     /**
@@ -78,16 +85,14 @@ class CmsSnapshotManagerTest extends \PHPUnit_Framework_TestCase
     protected function getMockBlockInteractor()
     {
         $callback = function($options) {
-            $block = new Block;
+            $block = new SnapshotBlock;
             $block->setSettings($options);
 
             return $block;
         };
 
         $mock = $this->getMock('Sonata\PageBundle\Model\BlockInteractorInterface');
-        $mock->expects($this->any())
-            ->method('createNewContainer')
-            ->will($this->returnCallback($callback));
+        $mock->expects($this->any())->method('createNewContainer')->will($this->returnCallback($callback));
 
         return $mock;
     }

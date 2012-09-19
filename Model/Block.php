@@ -10,17 +10,17 @@
 
 namespace Sonata\PageBundle\Model;
 
-use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\BlockBundle\Model\BaseBlock;
-
 use Sonata\PageBundle\Model\PageInterface;
+use Sonata\PageBundle\Model\PageBlockInterface;
+use Sonata\BlockBundle\Model\BlockInterface;
 
 /**
  * Block
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-abstract class Block extends BaseBlock
+abstract class Block extends BaseBlock implements PageBlockInterface
 {
     /**
      * @var PageInterface
@@ -35,13 +35,14 @@ abstract class Block extends BaseBlock
         $this->children[] = $child;
 
         $child->setParent($this);
-        $child->setPage($this->getPage());
+
+        if ($child instanceof PageBlockInterface) {
+            $child->setPage($this->getPage());
+        }
     }
 
     /**
-     * Sets a Page
-     *
-     * @param \Sonata\PageBundle\Model\PageInterface $page
+     * {@inheritDoc}
      */
     public function setPage(PageInterface $page = null)
     {
@@ -49,9 +50,7 @@ abstract class Block extends BaseBlock
     }
 
     /**
-     * Return a Page
-     *
-     * @return \Sonata\PageBundle\Model\PageInterface $page
+     * {@inheritDoc}
      */
     public function getPage()
     {

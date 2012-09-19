@@ -2,7 +2,7 @@
 
 namespace Sonata\PageBundle\Model;
 
-use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\PageBundle\Model\PageBlockInterface;
 use Serializable;
 
 /**
@@ -118,7 +118,7 @@ class SnapshotPageProxy implements PageInterface, Serializable
     /**
      * {@inheritdoc}
      */
-    public function addBlocks(BlockInterface $block)
+    public function addBlocks(PageBlockInterface $block)
     {
         $this->getPage()->addBlocks($block);
     }

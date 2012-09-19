@@ -15,11 +15,20 @@ namespace Sonata\PageBundle\Tests\Page;
 use Sonata\PageBundle\CmsManager\CmsPageManager;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Sonata\BlockBundle\Model\Block;
+use Sonata\PageBundle\Model\Block as AbtractBlock;
 use Sonata\PageBundle\Tests\Model\Page;
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
-use Sonata\CacheBundle\Cache\CacheManagerInterface;
 use Sonata\PageBundle\Model\BlockInteractorInterface;
+
+
+class CmsBlock extends AbtractBlock
+{
+    public function setId($id)
+    {}
+
+    public function getId()
+    {}
+}
 
 /**
  * Test CmsPageManager
@@ -46,7 +55,7 @@ class CmsPageManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testFindExistingContainer()
     {
-        $block = new Block();
+        $block = new CmsBlock();
         $block->setSettings(array('code' => 'findme'));
 
         $page = new Page();
@@ -67,7 +76,7 @@ class CmsPageManagerTest extends \PHPUnit_Framework_TestCase
 
         $container = $this->manager->findContainer('newcontainer', $page);
 
-        $this->assertInstanceOf('\Sonata\BlockBundle\Model\BlockInterface', $container, 'should be a block');
+        $this->assertInstanceOf('Sonata\PageBundle\Model\PageBlockInterface', $container, 'should be a block');
         $this->assertEquals('newcontainer', $container->getSetting('code'));
     }
 
@@ -79,16 +88,14 @@ class CmsPageManagerTest extends \PHPUnit_Framework_TestCase
     protected function getMockBlockInteractor()
     {
         $callback = function($options) {
-            $block = new Block;
+            $block = new CmsBlock;
             $block->setSettings($options);
 
             return $block;
         };
 
         $mock = $this->getMock('Sonata\PageBundle\Model\BlockInteractorInterface');
-        $mock->expects($this->any())
-            ->method('createNewContainer')
-            ->will($this->returnCallback($callback));
+        $mock->expects($this->any())->method('createNewContainer')->will($this->returnCallback($callback));
 
         return $mock;
     }

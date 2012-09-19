@@ -10,8 +10,6 @@
 
 namespace Sonata\PageBundle\Model;
 
-use Sonata\BlockBundle\Model\BlockInterface;
-
 /**
  * PageInterface
  *
@@ -240,9 +238,9 @@ interface PageInterface
     /**
      * Add blocs
      *
-     * @param BlockInterface $bloc
+     * @param PageBlockInterface $block
      */
-    function addBlocks(BlockInterface $bloc);
+    function addBlocks(PageBlockInterface $block);
 
     /**
      * Get blocs

@@ -11,7 +11,7 @@
 
 namespace Sonata\PageBundle\Model;
 
-use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 
@@ -93,8 +93,6 @@ abstract class Page implements PageInterface
         $this->requestMethod = 'GET|POST|HEAD|DELETE|PUT';
         $this->edited        = true;
     }
-
-
 
     /**
      * {@inheritdoc}
@@ -450,9 +448,9 @@ abstract class Page implements PageInterface
     /**
      * Add blocs
      *
-     * @param \Sonata\BlockBundle\Model\BlockInterface $blocs
+     * @param PageBlockInterface $blocs
      */
-    public function addBlocks(BlockInterface $blocs)
+    public function addBlocks(PageBlockInterface $blocs)
     {
         $this->blocks[] = $blocs;
     }
@@ -694,7 +692,7 @@ abstract class Page implements PageInterface
      *
      * @param string $code
      *
-     * @return Sonata\BlockBundle\Model\BlockInterface
+     * @return PageBlockInterface
      */
     public function getContainerByCode($code)
     {

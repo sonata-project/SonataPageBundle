@@ -11,17 +11,14 @@
 
 namespace Sonata\PageBundle\Twig\Extension;
 
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-
-use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
-
-use Sonata\PageBundle\Model\SnapshotPageProxy;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Sonata\PageBundle\Exception\PageNotFoundException;
+
+use Symfony\Component\Routing\RouterInterface;
 
 /**
  * PageExtension
@@ -51,15 +48,22 @@ class PageExtension extends \Twig_Extension
     private $environment;
 
     /**
+     * @var \Symfony\Component\Routing\RouterInterface
+     */
+    private $router;
+
+    /**
      * Constructor
      *
      * @param CmsManagerSelectorInterface $cmsManagerSelector A CMS manager selector
      * @param SiteSelectorInterface       $siteSelector       A site selector
+     * @param RouterInterface             $router             The Router
      */
-    public function __construct(CmsManagerSelectorInterface $cmsManagerSelector, SiteSelectorInterface $siteSelector)
+    public function __construct(CmsManagerSelectorInterface $cmsManagerSelector, SiteSelectorInterface $siteSelector, RouterInterface $router)
     {
         $this->cmsManagerSelector = $cmsManagerSelector;
         $this->siteSelector       = $siteSelector;
+        $this->router             = $router;
     }
 
     /**
@@ -68,6 +72,7 @@ class PageExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
+            'sonata_page_ajax_url'            => new \Twig_Function_Method($this, 'ajaxUrl'),
             'sonata_page_url'                 => new \Twig_Function_Method($this, 'url'),
             'sonata_page_breadcrumb'          => new \Twig_Function_Method($this, 'breadcrumb', array('is_safe' => array('html'))),
             'sonata_page_render_container'    => new \Twig_Function_Method($this, 'renderContainer', array('is_safe' => array('html'))),
@@ -156,6 +161,25 @@ class PageExtension extends \Twig_Extension
     }
 
     /**
+     * Returns the URL for an ajax request for given block
+     *
+     * @param PageBlockInterface $block    Block service
+     * @param bool               $absolute Provide absolute or relative url ?
+     *
+     * @return string
+     */
+    public function ajaxUrl(PageBlockInterface $block, $parameters = array(), $absolute = false)
+    {
+        $parameters['blockId'] = $block->getId();
+
+        if ($block->getPage() instanceof PageInterface) {
+            $parameters['pageId']  = $block->getPage()->getId();
+        }
+
+        return $this->router->generate('sonata_page_ajax_block', $parameters, $absolute);
+    }
+
+    /**
      * @param string $template
      * @param array  $parameters
      *
@@ -214,12 +238,12 @@ class PageExtension extends \Twig_Extension
     }
 
     /**
-     * @param BlockInterface $block
-     * @param bool           $useCache
+     * @param PageBlockInterface $block
+     * @param bool               $useCache
      *
      * @return string
      */
-    public function renderBlock(BlockInterface $block, $useCache = true)
+    public function renderBlock(PageBlockInterface $block, $useCache = true)
     {
         return $this->environment->getExtension('sonata_block')->renderBlock($block, $useCache, array(
             'manager' => $block->getPage() instanceof SnapshotPageProxy ? 'snapshot' : 'page',
