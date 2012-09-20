@@ -24,29 +24,55 @@ use Symfony\Component\Routing\RequestContext;
 class CmsPageRouterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @expectedException Symfony\Component\Routing\Exception\ResourceNotFoundException
+     * @var CmsManagerSelectorInterface
      */
-    public function testMatchToPageFound()
+    protected $cmsSelector;
+
+    /**
+     * @var SiteSelectorInterface
+     */
+    protected $siteSelector;
+
+    /**
+     * @var \Symfony\Component\Routing\RouterInterface
+     */
+    protected $defaultRouter;
+
+    /**
+     * @var CmsPageRouter
+     */
+    protected $router;
+
+    /**
+     * Setup test object with its dependencies
+     */
+    public function setup()
     {
-        $cms = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerInterface');
+        $this->cmsSelector   = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
+        $this->siteSelector  = $this->getMock('Sonata\PageBundle\Site\SiteSelectorInterface');
+        $this->defaultRouter = $this->getMockBuilder('Symfony\Component\Routing\Router')->disableOriginalConstructor()->getMock();
 
-        $cmsSelector = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
-        $cmsSelector->expects($this->any())->method('retrieve')->will($this->returnValue($cms));
-
-        $site = $this->getMock('Sonata\PageBundle\Model\SiteInterface');
-
-        $siteSelector = $this->getMock('Sonata\PageBundle\Site\SiteSelectorInterface');
-        $siteSelector->expects($this->any())->method('retrieve')->will($this->returnValue($site));
-
-        $cms = new CmsPageRouter($cmsSelector, $siteSelector);
-
-        $cms->match('/');
+        $this->router = new CmsPageRouter($this->cmsSelector, $this->siteSelector, $this->defaultRouter);
     }
 
     /**
      * @expectedException Symfony\Component\Routing\Exception\ResourceNotFoundException
      */
-    public function testMatchToCmsPage()
+    public function testMatchToPageFound()
+    {
+        $cms = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerInterface');
+        $this->cmsSelector->expects($this->any())->method('retrieve')->will($this->returnValue($cms));
+
+        $site = $this->getMock('Sonata\PageBundle\Model\SiteInterface');
+        $this->siteSelector->expects($this->any())->method('retrieve')->will($this->returnValue($site));
+
+        $this->router->match('/');
+    }
+
+    /**
+     * @expectedException Symfony\Component\Routing\Exception\ResourceNotFoundException
+     */
+    public function testMatchOnlyCmsPage()
     {
         $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
         $page->expects($this->any())->method('isCms')->will($this->returnValue(false));
@@ -54,17 +80,12 @@ class CmsPageRouterTest extends \PHPUnit_Framework_TestCase
         $cms = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerInterface');
         $cms->expects($this->any())->method('getPageByUrl')->will($this->returnValue($page));
 
-        $cmsSelector = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
-        $cmsSelector->expects($this->any())->method('retrieve')->will($this->returnValue($cms));
+        $this->cmsSelector->expects($this->any())->method('retrieve')->will($this->returnValue($cms));
 
         $site = $this->getMock('Sonata\PageBundle\Model\SiteInterface');
+        $this->siteSelector->expects($this->any())->method('retrieve')->will($this->returnValue($site));
 
-        $siteSelector = $this->getMock('Sonata\PageBundle\Site\SiteSelectorInterface');
-        $siteSelector->expects($this->any())->method('retrieve')->will($this->returnValue($site));
-
-        $cms = new CmsPageRouter($cmsSelector, $siteSelector);
-
-        $cms->match('/');
+        $this->router->match('/');
     }
 
     public function testMatch()
@@ -76,18 +97,12 @@ class CmsPageRouterTest extends \PHPUnit_Framework_TestCase
         $cms->expects($this->any())->method('getPageByUrl')->will($this->returnValue($page));
         $cms->expects($this->once())->method('setCurrentPage');
 
-        $cmsSelector = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
-        $cmsSelector->expects($this->any())->method('retrieve')->will($this->returnValue($cms));
-
+        $this->cmsSelector->expects($this->any())->method('retrieve')->will($this->returnValue($cms));
 
         $site = $this->getMock('Sonata\PageBundle\Model\SiteInterface');
+        $this->siteSelector->expects($this->any())->method('retrieve')->will($this->returnValue($site));
 
-        $siteSelector = $this->getMock('Sonata\PageBundle\Site\SiteSelectorInterface');
-        $siteSelector->expects($this->any())->method('retrieve')->will($this->returnValue($site));
-
-        $cms = new CmsPageRouter($cmsSelector, $siteSelector);
-
-        $route = $cms->match('/');
+        $route = $this->router->match('/');
 
         $this->assertEquals('sonata.page.renderer:render', $route['_controller']);
         $this->assertEquals('page_slug', $route['_route']);
@@ -99,46 +114,52 @@ class CmsPageRouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testGenerateInvalidPage()
     {
-        $cmsSelector = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
-        $siteSelector = $this->getMock('Sonata\PageBundle\Site\SiteSelectorInterface');
-
-        $cms = new CmsPageRouter($cmsSelector, $siteSelector);
-        $cms->generate('foobar');
+        $this->router->generate('foobar');
     }
 
     /**
      * @expectedException Sonata\NotificationBundle\Exception\InvalidParameterException
      */
-    public function testGenerateInvalidParameterException()
+    public function testGenerateWithPageSlugInvalidParameterException()
     {
-        $cmsSelector = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
-        $siteSelector = $this->getMock('Sonata\PageBundle\Site\SiteSelectorInterface');
-
-        $cms = new CmsPageRouter($cmsSelector, $siteSelector);
-        $cms->generate('page_slug');
+        $this->router->generate('page_slug', array());
     }
 
     /**
-     * @expectedException RuntimeException
+     * @expectedException \RuntimeException
      */
-    public function testGenerateInvalidContext()
+    public function testGenerateWithPageSlugInvalidContext()
     {
-        $cmsSelector = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
-        $siteSelector = $this->getMock('Sonata\PageBundle\Site\SiteSelectorInterface');
-
-        $cms = new CmsPageRouter($cmsSelector, $siteSelector);
-        $cms->generate('page_slug');
+        $this->router->generate('page_slug', array('path' => '/path/to/page'));
     }
 
-    public function testGenerateValidPageSlug()
+    public function testGenerateWithPageSlugValid()
     {
-        $cmsSelector = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
-        $siteSelector = $this->getMock('Sonata\PageBundle\Site\SiteSelectorInterface');
+        $this->router->setContext(new RequestContext);
 
-        $cms = new CmsPageRouter($cmsSelector, $siteSelector);
-        $cms->setContext(new RequestContext);
-        $this->assertEquals('/my/path', $cms->generate('page_slug', array('path' => '/my/path')));
-        $this->assertEquals('/my/path?foo=bar', $cms->generate('page_slug', array('path' => '/my/path', 'foo' => 'bar')));
-        $this->assertEquals('http://localhost/my/path?foo=bar', $cms->generate('page_slug', array('path' => '/my/path', 'foo' => 'bar'), true));
+        $url = $this->router->generate('page_slug', array('path' => '/my/path'));
+        $this->assertEquals('/my/path', $url);
+
+        $url = $this->router->generate('page_slug', array('path' => '/my/path', 'foo' => 'bar'));
+        $this->assertEquals('/my/path?foo=bar', $url);
+
+        $url = $this->router->generate('page_slug', array('path' => '/my/path', 'foo' => 'bar'), true);
+        $this->assertEquals('http://localhost/my/path?foo=bar', $url);
+    }
+
+    public function testGenerateWithDynamicPage()
+    {
+        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+        $page->expects($this->any())->method('isDynamic')->will($this->returnValue(true));
+        $page->expects($this->once())->method('getRouteName')->will($this->returnValue('test_route'));
+
+        $this->defaultRouter->expects($this->once())
+            ->method('generate')
+            ->with($this->equalTo('test_route'), $this->equalTo(array('key' => 'value')), $this->equalTo(true))
+            ->will($this->returnValue('http://localhost/test'));
+
+        $url = $this->router->generate($page, array('key' => 'value'), true);
+
+        $this->assertEquals('http://localhost/test', $url);
     }
 }
