@@ -110,6 +110,7 @@
         <service id="sonata.page.router" class="%sonata.page.router.class%">
             <argument type="service" id="sonata.page.cms_manager_selector" />
             <argument type="service" id="sonata.page.site.selector"/>
+            <argument type='service' id="router.default"/>
         </service>
     </services>
 </container>

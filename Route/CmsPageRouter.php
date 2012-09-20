@@ -26,22 +26,36 @@ use Sonata\PageBundle\Site\SiteSelectorInterface;
 
 class CmsPageRouter implements RouterInterface
 {
+    /**
+     * @var RequestContext
+     */
     protected $context;
 
+    /**
+     * @var CmsManagerSelectorInterface
+     */
     protected $cmsSelector;
 
+    /**
+     * @var SiteSelectorInterface
+     */
     protected $siteSelector;
 
+    /**
+     * @var RouterInterface
+     */
     protected $router;
 
     /**
-     * @param CmsManagerSelectorInterface $cmsSelector
-     * @param SiteSelectorInterface       $siteSelector
+     * @param CmsManagerSelectorInterface $cmsSelector  Cms manager selector
+     * @param SiteSelectorInterface       $siteSelector Sites selector
+     * @param RouterInterface             $router       Router for dynamic pages
      */
-    public function __construct(CmsManagerSelectorInterface $cmsSelector, SiteSelectorInterface $siteSelector)
+    public function __construct(CmsManagerSelectorInterface $cmsSelector, SiteSelectorInterface $siteSelector, RouterInterface $router)
     {
         $this->cmsSelector  = $cmsSelector;
         $this->siteSelector = $siteSelector;
+        $this->router       = $router;
     }
 
     /**
@@ -76,6 +90,11 @@ class CmsPageRouter implements RouterInterface
         // a Sonata Page CMS's alias must start by _page_alias_ to avoid to many queries
         if (!$name instanceof PageInterface && substr($name, 0, 12) !== '_page_alias_' && $name !== 'page_slug') {
             throw new RouteNotFoundException(sprintf('The Sonata CmsPageRouter cannot generate an action route (%s)', $name));
+        }
+
+        // Urls for dynamic pages are generated with their route name
+        if ($name instanceof PageInterface && $name->isDynamic()) {
+            return $this->router->generate($name->getRouteName(), $parameters, $absolute);
         }
 
         if ($name == 'page_slug') {
@@ -124,6 +143,7 @@ class CmsPageRouter implements RouterInterface
      * @param \Sonata\PageBundle\Model\PageInterface $page
      *
      * @return string
+     *
      * @throws \RunTimeException
      */
     private function generatePageUrl($page)
@@ -134,10 +154,6 @@ class CmsPageRouter implements RouterInterface
             } catch (PageNotFoundException $e) {
                 return false;
             }
-        }
-
-        if ($page->isDynamic()) {
-            return false;
         }
 
         return $page->getCustomUrl() ?: $page->getUrl();
@@ -151,17 +167,17 @@ class CmsPageRouter implements RouterInterface
         $cms = $this->cmsSelector->retrieve();
         $site = $this->siteSelector->retrieve();
 
-        if (!$cms instanceof CmsManagerInterface){
+        if (!$cms instanceof CmsManagerInterface) {
             throw new ResourceNotFoundException("No CmsManager defined");
         }
 
-        if (!$site instanceof SiteInterface){
+        if (!$site instanceof SiteInterface) {
             throw new ResourceNotFoundException("No site defined");
         }
 
         try {
             $page = $cms->getPageByUrl($site, $pathinfo);
-        } catch(PageNotFoundException $e) {
+        } catch (PageNotFoundException $e) {
             throw new ResourceNotFoundException($pathinfo, 0, $e);
         }
 
