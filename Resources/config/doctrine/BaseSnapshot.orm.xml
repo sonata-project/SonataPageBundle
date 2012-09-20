@@ -2,8 +2,10 @@
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xsi="http://www.w3.org/2001/XMLSchema-instance" schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
     <mapped-superclass name="Sonata\PageBundle\Entity\BaseSnapshot">
 
-        <field name="routeName"         type="string"     column="route_name" length="255"/>
-        <field name="position"          type="integer"      column="position"  default="1"/>
+        <field name="routeName"         type="string"       column="route_name"     length="255"/>
+        <field name="pageAlias"        type="string"        column="page_alias"    nullable="true" length="255"/>
+
+        <field name="position"          type="integer"      column="position"       default="1"/>
 
         <field name="enabled"           type="boolean"      column="enabled"        default="false" />
         <field name="decorate"          type="boolean"      column="decorate"       default="false" />
@@ -14,7 +16,7 @@
 
         <field name="parentId"          type="integer"      column="parent_id"      nullable="true" />
         <field name="targetId"          type="integer"      column="target_id"      nullable="true" />
-        <field name="content"           type="text"         column="content"        nullable="true"/>
+        <field name="content"           type="json"         column="content"        nullable="true"/>
 
         <field name="publicationDateStart"   type="datetime"   column="publication_date_start"    nullable="true"/>
         <field name="publicationDateEnd"     type="datetime"   column="publication_date_end"      nullable="true"/>

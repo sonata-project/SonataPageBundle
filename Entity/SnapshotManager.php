@@ -155,6 +155,9 @@ class SnapshotManager implements SnapshotManagerInterface
         } elseif (isset($criteria['routeName'])) {
             $query->andWhere('s.routeName = :routeName');
             $parameters['routeName'] = $criteria['routeName'];
+        } elseif (isset($criteria['pageAlias'])) {
+            $query->andWhere('s.pageAlias = :pageAlias');
+            $parameters['pageAlias'] = $criteria['pageAlias'];
         } elseif (isset($criteria['name'])) {
             $query->andWhere('s.name = :name');
             $parameters['name'] = $criteria['name'];
@@ -188,13 +191,14 @@ class SnapshotManager implements SnapshotManagerInterface
         $page = new $this->pageClass;
 
         $page->setRouteName($snapshot->getRouteName());
+        $page->setPageAlias($snapshot->getPageAlias());
         $page->setCustomUrl($snapshot->getUrl());
         $page->setUrl($snapshot->getUrl());
         $page->setPosition($snapshot->getPosition());
         $page->setDecorate($snapshot->getDecorate());
         $page->setSite($snapshot->getSite());
 
-        $content = $this->fixContent(json_decode($snapshot->getContent(), true));
+        $content = $this->fixContent($snapshot->getContent());
 
         $page->setId($content['id']);
         $page->setJavascript($content['javascript']);
@@ -276,6 +280,7 @@ class SnapshotManager implements SnapshotManagerInterface
         $snapshot->setUrl($page->getUrl());
         $snapshot->setEnabled($page->getEnabled());
         $snapshot->setRouteName($page->getRouteName());
+        $snapshot->setPageAlias($page->getPageAlias());
         $snapshot->setName($page->getName());
         $snapshot->setPosition($page->getPosition());
         $snapshot->setDecorate($page->getDecorate());
@@ -316,7 +321,7 @@ class SnapshotManager implements SnapshotManagerInterface
             $content['blocks'][] = $this->createBlocks($block);
         }
 
-        $snapshot->setContent(json_encode($content));
+        $snapshot->setContent($content);
 
         return $snapshot;
     }

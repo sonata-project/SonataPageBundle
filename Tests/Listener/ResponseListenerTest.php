@@ -53,6 +53,8 @@ class ResponseListenerTest extends \PHPUnit_Framework_TestCase
         $pageRenderer = $this->getMock('Sonata\PageBundle\CmsManager\PageRendererInterface');
         $pageRenderer->expects($this->once())->method('render')->will($this->returnCallback(function(PageInterface $page, array $params = array(), Response $r = null) use (&$response) {
             $response->setContent(sprintf('outter <%s> outter', $params['content']));
+
+            return $response;
         }));
 
         $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');

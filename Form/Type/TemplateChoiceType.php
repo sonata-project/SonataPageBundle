@@ -11,7 +11,8 @@
 
 namespace Sonata\PageBundle\Form\Type;
 
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 use Sonata\PageBundle\CmsManager\PageRendererInterface;
 
@@ -20,12 +21,12 @@ use Sonata\PageBundle\CmsManager\PageRendererInterface;
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class TemplateChoiceType extends ChoiceType
+class TemplateChoiceType extends AbstractType
 {
     protected $renderer;
 
     /**
-     * @param \Sonata\PageBundle\CmsManager\PageRendererInterface $renderer
+     * @param PageRendererInterface $renderer
      */
     public function __construct(PageRendererInterface $renderer)
     {
@@ -35,21 +36,11 @@ class TemplateChoiceType extends ChoiceType
     /**
      * {@inheritdoc}
      */
-    public function getDefaultOptions(array $options)
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $multiple = isset($options['multiple']) && $options['multiple'];
-        $expanded = isset($options['expanded']) && $options['expanded'];
-
-        return array(
-            'multiple'          => false,
-            'expanded'          => false,
-            'choice_list'       => null,
-            'choices'           => $this->getTemplates(),
-            'preferred_choices' => array(),
-            'empty_data'        => $multiple || $expanded ? array() : '',
-            'empty_value'       => $multiple || $expanded || !isset($options['empty_value']) ? null : '',
-            'error_bubbling'    => false,
-        );
+        $resolver->setDefaults(array(
+            'choices' => $this->getTemplates()
+        ));
     }
 
     /**
@@ -68,8 +59,16 @@ class TemplateChoiceType extends ChoiceType
     /**
      * {@inheritDoc}
      */
+    public function getParent()
+    {
+        return 'choice';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getName()
     {
         return 'sonata_page_template';
-    }   
+    }
 }

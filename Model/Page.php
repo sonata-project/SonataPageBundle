@@ -11,7 +11,7 @@
 
 namespace Sonata\PageBundle\Model;
 
-use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 
@@ -27,6 +27,8 @@ abstract class Page implements PageInterface
     protected $updatedAt;
 
     protected $routeName;
+
+    protected $pageAlias;
 
     protected $name;
 
@@ -95,14 +97,6 @@ abstract class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function setRouteName($routeName)
-    {
-        $this->routeName = $routeName;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function setId($id)
     {
         $this->id = $id;
@@ -111,9 +105,37 @@ abstract class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
+    public function setRouteName($routeName)
+    {
+        $this->routeName = $routeName;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getRouteName()
     {
         return $this->routeName;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setPageAlias($pageAlias)
+    {
+        if (substr($pageAlias, 0, 12) != '_page_alias_') {
+            $pageAlias = '_page_alias_'.$pageAlias;
+        }
+
+        $this->pageAlias = $pageAlias;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPageAlias()
+    {
+        return $this->pageAlias;
     }
 
     /**
@@ -426,9 +448,9 @@ abstract class Page implements PageInterface
     /**
      * Add blocs
      *
-     * @param \Sonata\BlockBundle\Model\BlockInterface $blocs
+     * @param PageBlockInterface $blocs
      */
-    public function addBlocks(BlockInterface $blocs)
+    public function addBlocks(PageBlockInterface $blocs)
     {
         $this->blocks[] = $blocs;
     }
@@ -623,7 +645,7 @@ abstract class Page implements PageInterface
      */
     public function setUrl($url)
     {
-        $this->url = $this->routeName == 'homepage' ? '/' : $url;
+        $this->url = $url;
     }
 
     /**
@@ -631,7 +653,7 @@ abstract class Page implements PageInterface
      */
     public function getUrl()
     {
-        return $this->routeName == 'homepage' ? '/' : $this->url;
+        return $this->url;
     }
 
     /**
@@ -662,26 +684,22 @@ abstract class Page implements PageInterface
         // remove unwanted characters
         $text = preg_replace('~[^-\w]+~', '', $text);
 
-        if (empty($text)) {
-            return 'n-a';
-        }
-
         return $text;
     }
 
     /**
-     * Retrieve a block by name
+     * Retrieve a block by code
      *
-     * @param string $name
+     * @param string $code
      *
-     * @return Sonata\BlockBundle\Model\BlockInterface
+     * @return PageBlockInterface
      */
-    public function getContainerByName($name)
+    public function getContainerByCode($code)
     {
         $block = null;
 
         foreach ($this->getBlocks() as $blockTmp) {
-            if ($blockTmp->getType() == 'sonata.page.block.container' && $name == $blockTmp->getSetting('name')) {
+            if ($blockTmp->getType() == 'sonata.page.block.container' && $blockTmp->getSetting('code') == $code) {
                 $block = $blockTmp;
 
                 break;

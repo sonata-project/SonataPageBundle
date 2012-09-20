@@ -55,4 +55,12 @@ class GlobalVariables
     {
         return $this->container->get('sonata.page.site.selector')->retrieve();
     }
+
+    /**
+     * @return boolean
+     */
+    public function isEditor()
+    {
+        return $this->container->get('sonata.page.cms_manager_selector')->isEditor();
+    }
 }

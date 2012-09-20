@@ -12,6 +12,7 @@
 namespace Sonata\PageBundle\Admin;
 
 use Sonata\AdminBundle\Admin\Admin;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -50,6 +51,7 @@ class PageAdmin extends Admin
         $showMapper
             ->add('site')
             ->add('routeName')
+            ->add('pageAlias')
             ->add('enabled')
             ->add('decorate')
             ->add('name')
@@ -67,6 +69,7 @@ class PageAdmin extends Admin
         $listMapper
             ->add('hybrid', 'text', array('template' => 'SonataPageBundle:PageAdmin:field_hybrid.html.twig'))
             ->addIdentifier('name')
+            ->add('pageAlias')
             ->add('site')
             ->add('decorate')
             ->add('enabled')
@@ -82,6 +85,7 @@ class PageAdmin extends Admin
         $datagridMapper
             ->add('site')
             ->add('name')
+            ->add('pageAlias')
             ->add('edited')
             ->add('hybrid', 'doctrine_orm_callback', array(
                 'callback' => function($queryBuilder, $alias, $field, $data) {
@@ -117,7 +121,7 @@ class PageAdmin extends Admin
 
         $formMapper
             ->with($this->trans('form_page.group_main_label'))
-                ->add('site', null, array('attr' => array('readonly' => 'readonly')))
+                ->add('site')
                 ->add('name')
                 ->add('enabled', null, array('required' => false))
                 ->add('position')
@@ -136,6 +140,7 @@ class PageAdmin extends Admin
         if (!$this->getSubject() || !$this->getSubject()->isDynamic()) {
             $formMapper
                 ->with($this->trans('form_page.group_main_label'))
+                    ->add('pageAlias', null, array('required' => false))
                     ->add('target', 'sonata_page_selector', array(
                         'page'          => $this->getSubject() ?: null,
                         'site'          => $this->getSubject() ? $this->getSubject()->getSite() : null,
@@ -190,30 +195,21 @@ class PageAdmin extends Admin
      */
     public function validate(ErrorElement $errorElement, $object)
     {
-        if (!$object->getUrl()) {
-            $this->pageManager->fixUrl($object);
-        }
+        $this->pageManager->fixUrl($object);
 
-        try {
-            $page = $this->pageManager->getPageByUrl($object->getSite(), $object->getUrl());
-        } catch (PageNotFoundException $e) {
-            $page = false;
-        }
-
-        if (!$page) {
-            try {
-                $page = $this->pageManager->getPageByUrl($object->getSite(), substr($object->getUrl(), -1) == '/' ? substr($object->getUrl(), 0, -1) : $object->getUrl().'/');
-            } catch (PageNotFoundException $e) {
-                $page = false;
-            }
-        }
+        $pages = $this->pageManager->findBy(array(
+            'site' => $object->getSite(),
+            'url'  => $object->getUrl()
+        ));
 
         if ($object->isError()) {
             return;
         }
 
-        if ($page && $page->getId() != $object->getId()) {
-            $errorElement->addViolation($this->trans('error.uniq_url', array('%url%' => $object->getUrl())));
+        foreach ($pages as $page) {
+            if ($page->getUrl() == $object->getUrl() && $page != $object) {
+                $errorElement->addViolation($this->trans('error.uniq_url', array('%url%' => $object->getUrl())));
+            }
         }
     }
 
@@ -246,10 +242,16 @@ class PageAdmin extends Admin
         );
 
         if (!$this->getSubject()->isHybrid()) {
-            $menu->addChild(
-                $this->trans('view_page'),
-                array('uri' => $this->getRouteGenerator()->generate('catchAll', array('path' => ltrim($this->getSubject()->getUrl(), '/'))))
-            );
+
+            try {
+                $menu->addChild(
+                    $this->trans('view_page'),
+                    array('uri' => $this->getRouteGenerator()->generate('page_slug', array('path' => $this->getSubject()->getUrl())))
+                );
+            } catch (RouteNotFoundException $e) {
+                // avoid crashing the admin if the route is not setup correctly
+//                throw $e;
+            }
         }
     }
 
@@ -345,7 +347,14 @@ class PageAdmin extends Admin
             return false;
         }
 
-        if ($siteId = $this->getRequest()->get('siteId')) {
+        if ($this->getRequest()->getMethod() == 'POST') {
+            $values = $this->getRequest()->get($this->getUniqid());
+            $siteId = isset($values['site']) ? $values['site'] : null;
+        }
+        
+        $siteId = (null !== $siteId) ? $siteId : $this->getRequest()->get('siteId');
+
+        if ($siteId) {
             $site = $this->siteManager->findOneBy(array('id' => $siteId));
 
             if (!$site) {

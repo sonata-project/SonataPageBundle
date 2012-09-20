@@ -25,33 +25,37 @@ file that was distributed with this source code.
                 <div style="clear: both"></div>
             </div>
 
-            <div class="row">
-                {% if page.name != 'global'%}
-                    {{ sonata_page_render_container('content_top', 'global') }}
-                {% endif %}
-                {{ sonata_page_render_container('content_top', page) }}
-            </div>
+            {% if page is defined %}
+                <div class="row">
+                    {% if page.name != 'global'%}
+                        {{ sonata_page_render_container('content_top', 'global') }}
+                    {% endif %}
+                    {{ sonata_page_render_container('content_top', page) }}
+                </div>
+            {% endif %}
 
             <div class="row">
                 {% if content is defined %}
                     {{ content|raw }}
-                {% else %}                    
+                {% else %}
                     {% set content = block('content') %}
                     {% if content|length > 0 %}
                         {{ content|raw }}
-                    {% else %}
+                    {% elseif page is defined %}
                         {{ sonata_page_render_container('content', page) }}
                     {% endif %}
                 {% endif %}
             </div>
 
-            <div>
-                {{ sonata_page_render_container('content_bottom', page) }}
+            {% if page is defined %}
+                <div>
+                    {{ sonata_page_render_container('content_bottom', page) }}
 
-                {% if page.name != 'global'%}
-                    {{ sonata_page_render_container('content_bottom', 'global') }}
-                {% endif %}
-            </div>
+                    {% if page.name != 'global'%}
+                        {{ sonata_page_render_container('content_bottom', 'global') }}
+                    {% endif %}
+                </div>
+            {% endif %}
         </div>
 
         <footer>
