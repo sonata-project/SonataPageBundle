@@ -345,12 +345,13 @@ class PageAdmin extends Admin
             return false;
         }
 
+        $siteId = $this->getRequest()->get('siteId');
+
         if ($this->getRequest()->getMethod() == 'POST') {
             $values = $this->getRequest()->get($this->getUniqid());
-            $siteId = isset($values['site']) ? $values['site'] : null;
+            
+            $siteId = isset($values['site']) ? $values['site'] : $siteId;
         }
-        
-        $siteId = (null !== $siteId) ? $siteId : $this->getRequest()->get('siteId');
 
         if ($siteId) {
             $site = $this->siteManager->findOneBy(array('id' => $siteId));
