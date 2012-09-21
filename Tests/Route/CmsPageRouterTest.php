@@ -110,7 +110,7 @@ class CmsPageRouterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Symfony\Component\Routing\Exception\RouteNotFoundException
+     * @expectedException RuntimeException
      */
     public function testGenerateInvalidPage()
     {
@@ -118,11 +118,20 @@ class CmsPageRouterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Sonata\NotificationBundle\Exception\InvalidParameterException
+     * @expectedException RuntimeException
      */
     public function testGenerateWithPageSlugInvalidParameterException()
     {
         $this->router->generate('page_slug', array());
+    }
+
+    public function testSupports()
+    {
+        $this->assertTrue($this->router->supports('page_slug'));
+        $this->assertTrue($this->router->supports('_page_alias_homepage'));
+        $this->assertFalse($this->router->supports('foobar'));
+        $this->assertFalse($this->router->supports(new \stdClass()));
+        $this->assertTrue($this->router->supports($this->getMock('Sonata\PageBundle\Model\PageInterface')));
     }
 
     /**
