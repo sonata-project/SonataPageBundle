@@ -53,8 +53,13 @@ class DecoratorStrategyTest extends \PHPUnit_Framework_TestCase
         //
         $request->headers->set('x-requested-with', null);
 
-        $request->headers->set('x-sonata-page-decorable', false);
+        $response->headers->set('x-sonata-page-decorable', false);
         $this->assertFalse($strategy->isDecorable($request, HttpKernelInterface::MASTER_REQUEST, $response));
+
+        //
+        $request->headers->set('x-requested-with', 'XMLHttpRequest');
+        $response->headers->set('x-sonata-page-decorable', true);
+        $this->assertTrue($strategy->isDecorable($request, HttpKernelInterface::MASTER_REQUEST, $response));
     }
 
     public function testIgnoreRouteNameMatch()
