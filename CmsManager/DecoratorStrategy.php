@@ -53,15 +53,16 @@ class DecoratorStrategy implements DecoratorStrategyInterface
             return false;
         }
 
+        // the main controller explicitly force the the page to be decorate
+        if ($response->headers->get('x-sonata-page-decorable', false) === true) {
+            return true;
+        }
+
         if ($response->getStatusCode() != 200) {
             return false;
         }
 
         if ($request->headers->get('x-requested-with') == 'XMLHttpRequest') {
-            return false;
-        }
-
-        if ($response->headers->get('x-sonata-page-decorable', true) == false) {
             return false;
         }
 
