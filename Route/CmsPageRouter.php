@@ -10,6 +10,7 @@
 
 namespace Sonata\PageBundle\Route;
 
+use Symfony\Cmf\Component\Routing\ChainedRouterInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerInterface;
 use Sonata\PageBundle\Model\SiteInterface;
@@ -20,11 +21,10 @@ use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Model\PageInterface;
-use Sonata\NotificationBundle\Exception\InvalidParameterException;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 
-class CmsPageRouter implements RouterInterface
+class CmsPageRouter implements ChainedRouterInterface
 {
     /**
      * @var RequestContext
@@ -85,13 +85,25 @@ class CmsPageRouter implements RouterInterface
     /**
      * {@inheritdoc}
      */
-    public function generate($name, $parameters = array(), $absolute = false)
+    public function supports($name)
     {
-        // a Sonata Page CMS's alias must start by _page_alias_ to avoid to many queries
-        if (!$name instanceof PageInterface && substr($name, 0, 12) !== '_page_alias_' && $name !== 'page_slug') {
-            throw new RouteNotFoundException(sprintf('The Sonata CmsPageRouter cannot generate an action route (%s)', $name));
+        if (is_string($name) && substr($name, 0, 12) !== '_page_alias_' && $name !== 'page_slug') {
+            return false;
         }
 
+        // a Sonata Page CMS's alias must start by _page_alias_ to avoid to many queries
+        if (is_object($name) && !$name instanceof PageInterface ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function generate($name, $parameters = array(), $absolute = false)
+    {
         // Urls for dynamic pages are generated with their route name
         if ($name instanceof PageInterface && $name->isDynamic()) {
             return $this->router->generate($name->getRouteName(), $parameters, $absolute);
@@ -99,14 +111,16 @@ class CmsPageRouter implements RouterInterface
 
         if ($name == 'page_slug') {
             if (!isset($parameters['path'])) {
-                throw new InvalidParameterException('Please provide a `path` parameters');
+                throw new \RuntimeException('Please provide a `path` parameters');
             }
 
             $url = $parameters['path'];
 
             unset($parameters['path']);
-        } else {
+        } elseif ($name instanceof PageInterface) {
             $url = $this->generatePageUrl($name);
+        } else {
+            throw new \RuntimeException('The route name is not supported');
         }
 
         if ($url === false) {
@@ -146,7 +160,7 @@ class CmsPageRouter implements RouterInterface
      *
      * @throws \RunTimeException
      */
-    private function generatePageUrl($page)
+    private function generatePageUrl(PageInterface $page)
     {
         if (!$page instanceof PageInterface) {
             try {
@@ -191,6 +205,7 @@ class CmsPageRouter implements RouterInterface
             '_controller' => 'sonata.page.renderer:render',
             '_route'      => 'page_slug',
             'page'        => $page,
+            'path'        => $pathinfo,
             'params'      => array()
         );
     }
