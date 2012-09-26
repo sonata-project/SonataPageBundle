@@ -110,7 +110,7 @@ class CmsPageRouterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException RuntimeException
+     * @expectedException \Symfony\Component\Routing\Exception\RouteNotFoundException
      */
     public function testGenerateInvalidPage()
     {
@@ -156,10 +156,36 @@ class CmsPageRouterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('http://localhost/my/path?foo=bar', $url);
     }
 
-    public function testGenerateWithDynamicPage()
+    public function testGenerateWithPage()
     {
         $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
-        $page->expects($this->any())->method('isDynamic')->will($this->returnValue(true));
+        $page->expects($this->any())->method('isHybrid')->will($this->returnValue(false));
+        $page->expects($this->once())->method('getUrl')->will($this->returnValue('/test/path'));
+
+        $this->router->setContext(new RequestContext());
+
+        $url = $this->router->generate($page, array('key' => 'value'), true);
+
+        $this->assertEquals('http://localhost/test/path?key=value', $url);
+    }
+
+    public function testGenerateWithPageCustomUrl()
+    {
+        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+        $page->expects($this->any())->method('isHybrid')->will($this->returnValue(false));
+        $page->expects($this->once())->method('getCustomUrl')->will($this->returnValue('/test/path'));
+
+        $this->router->setContext(new RequestContext());
+
+        $url = $this->router->generate($page, array('key' => 'value'), true);
+
+        $this->assertEquals('http://localhost/test/path?key=value', $url);
+    }
+
+    public function testGenerateWithHybridPage()
+    {
+        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+        $page->expects($this->any())->method('isHybrid')->will($this->returnValue(true));
         $page->expects($this->once())->method('getRouteName')->will($this->returnValue('test_route'));
 
         $this->defaultRouter->expects($this->once())
@@ -170,5 +196,48 @@ class CmsPageRouterTest extends \PHPUnit_Framework_TestCase
         $url = $this->router->generate($page, array('key' => 'value'), true);
 
         $this->assertEquals('http://localhost/test', $url);
+    }
+
+    public function testGenerateWithPageAlias()
+    {
+        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+        $page->expects($this->any())->method('isHybrid')->will($this->returnValue(false));
+        $page->expects($this->once())->method('getUrl')->will($this->returnValue('/test/path'));
+
+        $site = $this->getMock('Sonata\PageBundle\Model\SiteInterface');
+        $this->siteSelector->expects($this->once())->method('retrieve')->will($this->returnValue($site));
+
+        $cmsManager = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerInterface');
+        $cmsManager->expects($this->once())->method('getPageByPageAlias')->will($this->returnValue($page));
+        $this->cmsSelector->expects($this->once())->method('retrieve')->will($this->returnValue($cmsManager));
+
+        $this->router->setContext(new RequestContext());
+
+        $url = $this->router->generate('_page_alias_homepage', array('key' => 'value'), true);
+
+        $this->assertEquals('http://localhost/test/path?key=value', $url);
+    }
+
+    public function testGenerateWithPageAliasFromHybridPage()
+    {
+        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+        $page->expects($this->any())->method('isHybrid')->will($this->returnValue(true));
+        $page->expects($this->once())->method('getRouteName')->will($this->returnValue('test_route'));
+
+        $site = $this->getMock('Sonata\PageBundle\Model\SiteInterface');
+        $this->siteSelector->expects($this->once())->method('retrieve')->will($this->returnValue($site));
+
+        $cmsManager = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerInterface');
+        $cmsManager->expects($this->once())->method('getPageByPageAlias')->will($this->returnValue($page));
+        $this->cmsSelector->expects($this->once())->method('retrieve')->will($this->returnValue($cmsManager));
+
+        $this->defaultRouter->expects($this->once())
+            ->method('generate')
+            ->with($this->equalTo('test_route'), $this->equalTo(array('key' => 'value')), $this->equalTo(true))
+            ->will($this->returnValue('http://localhost/test/key/value'));
+
+        $url = $this->router->generate('_page_alias_homepage', array('key' => 'value'), true);
+
+        $this->assertEquals('http://localhost/test/key/value', $url);
     }
 }
