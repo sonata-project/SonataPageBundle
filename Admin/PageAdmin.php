@@ -284,6 +284,7 @@ class PageAdmin extends Admin
      */
     public function create($object)
     {
+
         $object->setEdited(true);
 
         $this->prePersist($object);
@@ -346,8 +347,17 @@ class PageAdmin extends Admin
         if (!$this->hasRequest()) {
             return false;
         }
+        
+        $siteId = null;
+        
+        if ($this->getRequest()->getMethod() == 'POST') {
+            $values = $this->getRequest()->get($this->getUniqid());
+            $siteId = isset($values['site']) ? $values['site'] : null;
+        }
+        
+        $siteId = (null !== $siteId) ? $siteId : $this->getRequest()->get('siteId');
 
-        if ($siteId = $this->getRequest()->get('siteId')) {
+        if ($siteId) {
             $site = $this->siteManager->findOneBy(array('id' => $siteId));
 
             if (!$site) {
