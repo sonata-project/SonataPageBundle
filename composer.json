@@ -22,6 +22,7 @@
         "sonata-project/seo-bundle": "dev-master",
         "sonata-project/notification-bundle": "dev-master",
         "sonata-project/doctrine-extensions" : "dev-master",
+        "sonata-project/cache-bundle": "dev-master",
         "symfony-cmf/routing-extra-bundle": "1.0.*"
     },
     "suggest": {
