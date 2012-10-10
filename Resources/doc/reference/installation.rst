@@ -44,7 +44,7 @@ Next, be sure to enable the ``EasyExtends`` bundle in your application kernel:
   {
       return array(
           // ...
-          new Sonata\SonataPageBundle\SonataPageBundle(),
+          new Sonata\PageBundle\SonataPageBundle(),
           // ...
       );
   }
