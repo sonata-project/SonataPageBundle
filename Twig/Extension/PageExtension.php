@@ -11,20 +11,14 @@
 
 namespace Sonata\PageBundle\Twig\Extension;
 
-use Symfony\Component\Routing\Router;
-use Symfony\Component\HttpFoundation\Response;
-
-use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
-
-use Sonata\CacheBundle\Cache\CacheManagerInterface;
-
-use Sonata\PageBundle\Model\SnapshotPageProxy;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
-use Sonata\PageBundle\Util\RecursiveBlockIteratorIterator;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Sonata\PageBundle\Exception\PageNotFoundException;
+
+use Symfony\Component\Routing\RouterInterface;
 
 /**
  * PageExtension
@@ -34,17 +28,12 @@ use Sonata\PageBundle\Exception\PageNotFoundException;
 class PageExtension extends \Twig_Extension
 {
     /**
-     * @var \Symfony\Component\Routing\Router
-     */
-    private $router;
-
-    /**
-     * @var \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface
+     * @var CmsManagerSelectorInterface
      */
     private $cmsManagerSelector;
 
     /**
-     * @var \Sonata\PageBundle\Site\SiteSelectorInterface
+     * @var SiteSelectorInterface
      */
     private $siteSelector;
 
@@ -53,18 +42,28 @@ class PageExtension extends \Twig_Extension
      */
     private $resources;
 
+    /**
+     * @var \Twig_Environment
+     */
     private $environment;
 
     /**
-     * @param \Symfony\Component\Routing\Router                         $router
-     * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $cmsManagerSelector
-     * @param \Sonata\PageBundle\Site\SiteSelectorInterface             $siteSelector
+     * @var \Symfony\Component\Routing\RouterInterface
      */
-    public function __construct(Router $router, CmsManagerSelectorInterface $cmsManagerSelector, SiteSelectorInterface $siteSelector)
+    private $router;
+
+    /**
+     * Constructor
+     *
+     * @param CmsManagerSelectorInterface $cmsManagerSelector A CMS manager selector
+     * @param SiteSelectorInterface       $siteSelector       A site selector
+     * @param RouterInterface             $router             The Router
+     */
+    public function __construct(CmsManagerSelectorInterface $cmsManagerSelector, SiteSelectorInterface $siteSelector, RouterInterface $router)
     {
-        $this->router             = $router;
         $this->cmsManagerSelector = $cmsManagerSelector;
         $this->siteSelector       = $siteSelector;
+        $this->router             = $router;
     }
 
     /**
@@ -73,6 +72,7 @@ class PageExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
+            'sonata_page_ajax_url'            => new \Twig_Function_Method($this, 'ajaxUrl'),
             'sonata_page_url'                 => new \Twig_Function_Method($this, 'url'),
             'sonata_page_breadcrumb'          => new \Twig_Function_Method($this, 'breadcrumb', array('is_safe' => array('html'))),
             'sonata_page_render_container'    => new \Twig_Function_Method($this, 'renderContainer', array('is_safe' => array('html'))),
@@ -97,8 +97,8 @@ class PageExtension extends \Twig_Extension
     }
 
     /**
-     * @param null|\Sonata\PageBundle\Model\PageInterface $page
-     * @param array                                       $options
+     * @param PageInterface $page
+     * @param array         $options
      *
      * @return string
      */
@@ -143,51 +143,40 @@ class PageExtension extends \Twig_Extension
     }
 
     /**
-     * @throws \RunTimeException
+     * Returns the URL of given page
      *
-     * @param null|\Sonata\PageBundle\Model\PageInterface|string $page
-     * @param bool                                               $absolute
+     * @deprecated
+     *
+     * @param null|PageInterface|string $page       A Sonata page
+     * @param array                     $parameters An array of parameters
+     * @param boolean                   $absolute   Whether to generate an absolute URL
+     *
+     * @return string
+     *
+     * @throws \RunTimeException
+     */
+    public function url($page = null, array $parameters = array(), $absolute = false)
+    {
+        throw new \RuntimeException('The function is deprecated, please use the standard Symfony router helper');
+    }
+
+    /**
+     * Returns the URL for an ajax request for given block
+     *
+     * @param PageBlockInterface $block    Block service
+     * @param bool               $absolute Provide absolute or relative url ?
      *
      * @return string
      */
-    public function url($page = null, $absolute = false)
+    public function ajaxUrl(PageBlockInterface $block, $parameters = array(), $absolute = false)
     {
-        if (!$page) {
-            return '';
+        $parameters['blockId'] = $block->getId();
+
+        if ($block->getPage() instanceof PageInterface) {
+            $parameters['pageId']  = $block->getPage()->getId();
         }
 
-        $context = $this->router->getContext();
-
-        if ($page instanceof PageInterface) {
-            if ($page->isDynamic()) {
-                if ($this->environment->isDebug()) {
-                    throw new \RunTimeException('Unable to generate path for dynamic page');
-                }
-
-                return '';
-            }
-
-            $url = $page->getCustomUrl() ?: $page->getUrl();
-        } else {
-            $url = $page;
-        }
-
-        $url = sprintf('%s%s', $context->getBaseUrl(), $url);
-
-        if ($absolute && $context->getHost()) {
-            $scheme = $context->getScheme();
-
-            $port = '';
-            if ('http' === $scheme && 80 != $context->getHttpPort()) {
-                $port = ':'.$context->getHttpPort();
-            } elseif ('https' === $scheme && 443 != $context->getHttpsPort()) {
-                $port = ':'.$context->getHttpsPort();
-            }
-
-            $url = $scheme.'://'.$context->getHost().$port.$url;
-        }
-
-        return $url;
+        return $this->router->generate('sonata_page_ajax_block', $parameters, $absolute);
     }
 
     /**
@@ -249,12 +238,12 @@ class PageExtension extends \Twig_Extension
     }
 
     /**
-     * @param \Sonata\BlockBundle\Model\BlockInterface $block
-     * @param bool                                     $useCache
+     * @param PageBlockInterface $block
+     * @param bool               $useCache
      *
      * @return string
      */
-    public function renderBlock(BlockInterface $block, $useCache = true)
+    public function renderBlock(PageBlockInterface $block, $useCache = true)
     {
         return $this->environment->getExtension('sonata_block')->renderBlock($block, $useCache, array(
             'manager' => $block->getPage() instanceof SnapshotPageProxy ? 'snapshot' : 'page',

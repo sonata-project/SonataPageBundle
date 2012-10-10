@@ -97,9 +97,9 @@ class CmsPageManager extends BaseCmsPageManager
     /**
      * {@inheritdoc}
      */
-    public function findContainer($name, PageInterface $page, BlockInterface $parentContainer = null)
+    public function findContainer($code, PageInterface $page, BlockInterface $parentContainer = null)
     {
-        $container = false;
+        $container = null;
 
         if ($parentContainer) {
             // parent container is set, nothing to find, don't need to loop across the
@@ -110,7 +110,7 @@ class CmsPageManager extends BaseCmsPageManager
         // first level blocks are containers
         if (!$container && $page->getBlocks()) {
             foreach ($page->getBlocks() as $block) {
-                if ($block->getSetting('name') == $name) {
+                if ($block->getSetting('code') == $code) {
 
                     $container = $block;
                     break;
@@ -122,7 +122,7 @@ class CmsPageManager extends BaseCmsPageManager
             $container = $this->blockInteractor->createNewContainer(array(
                 'enabled'  => true,
                 'page'     => $page,
-                'name'     => $name,
+                'code'     => $code,
                 'position' => 1,
                 'parent'   => $parentContainer
             ));

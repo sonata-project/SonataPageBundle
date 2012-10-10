@@ -68,6 +68,14 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     /**
      * {@inheritdoc}
      */
+    public function getPageByPageAlias(SiteInterface $site, $pageAlias)
+    {
+        return $this->getPageBy($site, 'pageAlias', $pageAlias);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getPageByName(SiteInterface $site, $name)
     {
         return $this->getPageBy($site, 'name', $name);

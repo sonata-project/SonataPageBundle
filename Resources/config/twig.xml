@@ -8,9 +8,9 @@
         <service id="sonata.page.twig.extension" class="Sonata\PageBundle\Twig\Extension\PageExtension" public="false">
             <tag name="twig.extension" />
 
-            <argument type="service" id="router" />
             <argument type="service" id="sonata.page.cms_manager_selector" />
             <argument type="service" id="sonata.page.site.selector" />
+            <argument type="service" id="router" />
         </service>
 
         <service id="sonata.page.twig.global" class="Sonata\PageBundle\Twig\GlobalVariables" >

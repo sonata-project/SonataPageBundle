@@ -10,9 +10,6 @@
 
 namespace Sonata\PageBundle\Model;
 
-use Sonata\BlockBundle\Model\BlockInterface;
-use Sonata\PageBundle\Model\PageInterface;
-
 /**
  * Site
  *

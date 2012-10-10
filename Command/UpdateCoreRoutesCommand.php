@@ -137,6 +137,8 @@ class UpdateCoreRoutesCommand extends BaseCommand
             }
 
             $page->setSlug($route->getPattern());
+            $page->setUrl($route->getPattern());
+            $page->setRequestMethod(isset($requirements['_method']) ? $requirements['_method'] : 'GET|POST|HEAD|DELETE|PUT');
             $pageManager->save($page);
 
             $output->writeln(sprintf('  <info>%s</info> % -50s %s', $update ? 'UPDATE ' : 'CREATE ', $name, $route->getPattern()));

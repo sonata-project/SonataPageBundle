@@ -49,8 +49,13 @@ class DecoratorStrategy implements DecoratorStrategyInterface
             return false;
         }
 
-        if (($response->headers->get('Content-Type') ? : 'text/html') != 'text/html') {
+        if ((substr($response->headers->get('Content-Type') ? : 'text/html', 0, 9)) != 'text/html') {
             return false;
+        }
+
+        // the main controller explicitly force the the page to be decorate
+        if ($response->headers->get('x-sonata-page-decorable', false) === true) {
+            return true;
         }
 
         if ($response->getStatusCode() != 200) {
@@ -58,10 +63,6 @@ class DecoratorStrategy implements DecoratorStrategyInterface
         }
 
         if ($request->headers->get('x-requested-with') == 'XMLHttpRequest') {
-            return false;
-        }
-
-        if ($response->headers->get('x-sonata-page-decorable', true) == false) {
             return false;
         }
 
