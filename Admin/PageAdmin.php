@@ -345,7 +345,15 @@ class PageAdmin extends Admin
             return false;
         }
 
-        if ($siteId = $this->getRequest()->get('siteId')) {
+        $siteId = $this->getRequest()->get('siteId');
+
+        if ($this->getRequest()->getMethod() == 'POST') {
+            $values = $this->getRequest()->get($this->getUniqid());
+            
+            $siteId = isset($values['site']) ? $values['site'] : $siteId;
+        }
+
+        if ($siteId) {
             $site = $this->siteManager->findOneBy(array('id' => $siteId));
 
             if (!$site) {
