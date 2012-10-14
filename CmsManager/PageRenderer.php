@@ -96,6 +96,8 @@ class PageRenderer implements PageRendererInterface
         $params['manager']     = $cms;
         $params['error_codes'] = $this->errorCodes;
 
+        $this->addSeoMeta($page);
+
         if ($this->templating instanceof StreamingEngineInterface) {
             $templating = $this->templating;
 
@@ -105,8 +107,6 @@ class PageRenderer implements PageRendererInterface
                 $response ? $response->headers->all() : array()
             );
         }
-
-        $this->addSeoMeta($page);
 
         $response = $this->templating->renderResponse($template, $params, $response);
 
