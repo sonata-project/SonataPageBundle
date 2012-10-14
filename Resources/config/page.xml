@@ -66,6 +66,7 @@
             <argument />
             <argument />
             <argument type="service" id="sonata.seo.page" />
+            <argument />
         </service>
 
         <service id="sonata.page.cms.page" class="%sonata.page.cms_manager.page.class%">

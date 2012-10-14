@@ -44,6 +44,8 @@ class PageRenderer implements PageRendererInterface
 
     protected $seoPage;
 
+    protected $useStream;
+
     /**
      * @param RouterInterface             $router
      * @param CmsManagerSelectorInterface $cmsSelector
@@ -51,8 +53,9 @@ class PageRenderer implements PageRendererInterface
      * @param array                       $templates
      * @param array                       $errorCodes
      * @param SeoPageInterface            $seoPage
+     * @param boolean                     $useStream
      */
-    public function __construct(RouterInterface $router, CmsManagerSelectorInterface $cmsSelector, EngineInterface $templating, array $templates, array $errorCodes, SeoPageInterface $seoPage = null)
+    public function __construct(RouterInterface $router, CmsManagerSelectorInterface $cmsSelector, EngineInterface $templating, array $templates, array $errorCodes, SeoPageInterface $seoPage = null, $useStream = true)
     {
         $this->router      = $router;
         $this->cmsSelector = $cmsSelector;
@@ -60,6 +63,7 @@ class PageRenderer implements PageRendererInterface
         $this->templates   = $templates;
         $this->errorCodes  = $errorCodes;
         $this->seoPage     = $seoPage;
+        $this->useStream   = $useStream;
     }
 
     /**
@@ -98,7 +102,7 @@ class PageRenderer implements PageRendererInterface
 
         $this->addSeoMeta($page);
 
-        if ($this->templating instanceof StreamingEngineInterface) {
+        if ($this->useStream && $this->templating instanceof StreamingEngineInterface) {
             $templating = $this->templating;
 
             return new StreamedResponse(

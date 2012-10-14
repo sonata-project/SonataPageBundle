@@ -52,6 +52,7 @@ class SonataPageExtension extends Extension
         $this->configureCache($container, $config);
         $this->configureTemplate($container, $config);
         $this->configureExceptions($container, $config);
+        $this->configurePageRenderer($container, $config);
 
         $this->addClassesToCompile(array(
             'Sonata\\PageBundle\\Request\\SiteRequest'
@@ -71,8 +72,18 @@ class SonataPageExtension extends Extension
     }
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     * @param array                                                   $config
+     * @param ContainerBuilder $container
+     * @param array            $config
+     */
+    public function configurePageRenderer(ContainerBuilder $container, array $config)
+    {
+        $container->getDefinition('sonata.page.renderer')
+            ->replaceArgument(6, $config['use_streamed_response']);
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     * @param array            $config
      */
     public function registerParameters(ContainerBuilder $container, array $config)
     {
@@ -291,8 +302,8 @@ class SonataPageExtension extends Extension
     }
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     * @param array                                                   $config
+     * @param ContainerBuilder $container
+     * @param array            $config
      */
     public function configureMultisite(ContainerBuilder $container, $config)
     {
@@ -313,8 +324,8 @@ class SonataPageExtension extends Extension
     }
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     * @param array                                                   $config
+     * @param ContainerBuilder $container
+     * @param array            $config
      */
     public function configureTemplate(ContainerBuilder $container, $config)
     {
@@ -350,8 +361,8 @@ class SonataPageExtension extends Extension
     /**
      * @throws \RuntimeException
      *
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     * @param array                                                   $config
+     * @param ContainerBuilder $container
+     * @param array            $config
      */
     public function configureCache(ContainerBuilder $container, array $config)
     {
@@ -366,8 +377,8 @@ class SonataPageExtension extends Extension
     }
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     * @param array                                                   $config
+     * @param ContainerBuilder $container
+     * @param array            $config
      */
     public function configureExceptions(ContainerBuilder $container, $config)
     {

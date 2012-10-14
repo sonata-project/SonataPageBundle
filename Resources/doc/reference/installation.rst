@@ -113,6 +113,7 @@ configuration file.
 
     sonata_page:
         multisite: host
+        use_streamed_response: true # set the value to false in debug mode or if the reverse proxy does not handle streamed response
         ignore_route_patterns:
             - ^(.*)admin(.*)   # ignore admin route, ie route containing 'admin'
             - ^_(.*)          # ignore symfony routes
