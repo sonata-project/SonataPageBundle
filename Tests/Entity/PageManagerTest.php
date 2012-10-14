@@ -85,4 +85,16 @@ class PageManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('/bundles/foobar', $child->getUrl());
     }
+
+    public function testCreateWithGlobalDefaults()
+    {
+        $entityManager = $this->getMock('Doctrine\ORM\EntityManager', array(), array(), '', false);
+
+        $manager = new PageManager($entityManager, 'Sonata\PageBundle\Tests\Model\Page', array(), array('my_route' => array('decorate' => false, 'name' => 'Salut!')));
+
+        $page = $manager->create(array('name' => 'My Name', 'routeName' => 'my_route'));
+
+        $this->assertEquals('My Name', $page->getName());
+        $this->assertFalse($page->getDecorate());
+    }
 }

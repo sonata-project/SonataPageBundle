@@ -32,15 +32,18 @@ class PageManager implements PageManagerInterface
 
     protected $pageDefaults;
 
+    protected $defaults;
+
     /**
      * @param \Doctrine\ORM\EntityManager $entityManager
      * @param string                      $class
      * @param array                       $pageDefaults
      */
-    public function __construct(EntityManager $entityManager, $class, array $pageDefaults)
+    public function __construct(EntityManager $entityManager, $class, array $defaults = array(), array $pageDefaults = array())
     {
         $this->entityManager = $entityManager;
         $this->class         = $class;
+        $this->defaults      = $defaults;
         $this->pageDefaults  = $pageDefaults;
     }
 
@@ -70,7 +73,13 @@ class PageManager implements PageManagerInterface
 
         $page = new $class;
 
-        foreach (array_merge($this->pageDefaults, $defaults) as $key => $value) {
+        if (isset($defaults['routeName']) && isset($this->pageDefaults[$defaults['routeName']])) {
+            $defaults = array_merge($this->pageDefaults[$defaults['routeName']], $defaults);
+        } else {
+            $defaults = array_merge($this->defaults, $defaults);
+        }
+
+        foreach ($defaults as $key => $value) {
             $method = 'set' . ucfirst($key);
             $page->$method($value);
         }

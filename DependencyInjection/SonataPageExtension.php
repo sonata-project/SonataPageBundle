@@ -79,6 +79,28 @@ class SonataPageExtension extends Extension
     {
         $container->getDefinition('sonata.page.renderer')
             ->replaceArgument(6, $config['use_streamed_response']);
+
+        $defaults = array(
+            'templateCode'  => $config['default_template'],
+            'enabled'       => true,
+            'routeName'     => null,
+            'name'          => null,
+            'slug'          => null,
+            'url'           => null,
+            'requestMethod' => null,
+            'decorate'      => true,
+        );
+
+        $container->getDefinition('sonata.page.manager.page')
+            ->replaceArgument(2, $defaults);
+
+
+        foreach ($config['page_defaults'] as $name => $pageDefaults) {
+            $config['page_defaults'][$name] = array_merge($defaults, $pageDefaults);
+        }
+
+        $container->getDefinition('sonata.page.manager.page')
+            ->replaceArgument(3, $config['page_defaults']);
     }
 
     /**
@@ -344,18 +366,6 @@ class SonataPageExtension extends Extension
 
         $renderer->replaceArgument(3, $definitions);
         $renderer->addMethodCall('setDefaultTemplateCode', array($config['default_template']));
-
-        $container->getDefinition('sonata.page.manager.page')
-            ->replaceArgument('2', array(
-                'templateCode'  => $config['default_template'],
-                'enabled'       => true,
-                'routeName'     => null,
-                'name'          => null,
-                'slug'          => null,
-                'url'           => null,
-                'requestMethod' => null,
-                'decorate'      => true,
-            ));
     }
 
     /**

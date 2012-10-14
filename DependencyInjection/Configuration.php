@@ -93,6 +93,7 @@ class Configuration implements ConfigurationInterface
                 ->prototype('array')
                     ->children()
                         ->booleanNode('decorate')->defaultValue(true)->end()
+                        ->booleanNode('enabled')->defaultValue(true)->end()
                     ->end()
                 ->end()
             ->end()

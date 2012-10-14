@@ -23,6 +23,7 @@
             <argument type="service" id="sonata.page.entity_manager" />
             <argument>%sonata.page.page.class%</argument>
             <argument />
+            <argument />
         </service>
 
         <service id="sonata.page.manager.snapshot" class="%sonata.page.manager.snapshot.class%">
