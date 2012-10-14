@@ -2,10 +2,10 @@
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xsi="http://www.w3.org/2001/XMLSchema-instance" schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
     <mapped-superclass name="Sonata\PageBundle\Entity\BaseBlock">
 
-        <field name="name"          type="string"     column="name"         length="255" />
+        <field name="name"          type="string"     column="name"         length="255" nullable="true"/>
         <field name="type"          type="string"     column="type"         length="64" />
         <field name="settings"      type="json"       column="settings" />
-        <field name="enabled"       type="boolean"    column="enabled"      nullable="true"         default="false"/>
+        <field name="enabled"       type="boolean"    column="enabled"      nullable="true"  default="false"/>
         <field name="position"      type="integer"    column="position"     nullable="true"/>
         <field name="createdAt"     type="datetime"   column="created_at" />
         <field name="updatedAt"     type="datetime"   column="updated_at" />
