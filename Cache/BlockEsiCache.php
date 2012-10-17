@@ -14,93 +14,36 @@ use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Process\Process;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpFoundation\Request;
 
-use Sonata\CacheBundle\Cache\CacheInterface;
 use Sonata\CacheBundle\Cache\CacheElement;
-use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
+use Sonata\BlockBundle\Block\BlockRendererInterface;
+use Sonata\CacheBundle\Adapter\EsiCache;
 
 /**
  * Cache block through an esi statement
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class BlockEsiCache implements CacheInterface
+class BlockEsiCache extends EsiCache
 {
-    protected $router;
-
-    protected $servers;
-
-    protected $blockService;
+    protected $blockRenderer;
 
     protected $managers;
 
     /**
-     * @param array                                                  $servers
-     * @param \Symfony\Component\Routing\RouterInterface             $router
-     * @param \Sonata\BlockBundle\Block\BlockServiceManagerInterface $blockService
+     * @param array                  $servers
+     * @param RouterInterface        $router
+     * @param BlockRendererInterface $blockService
      * @param array                                                  $managers
      */
-    public function __construct(array $servers = array(), RouterInterface $router, BlockServiceManagerInterface $blockService, array $managers = array())
+    public function __construct($token, array $servers = array(), RouterInterface $router, BlockRendererInterface $blockRenderer, array $managers = array())
     {
-        $this->servers      = $servers;
-        $this->router       = $router;
-        $this->blockService = $blockService;
-        $this->managers     = $managers;
-    }
+        parent::__construct($token, $servers, $router, null);
 
-    /**
-     * {@inheritdoc}
-     */
-    public function flushAll()
-    {
-        return $this->runCommand('purge', 'req.url ~ .*');
-    }
-
-    /**
-     * @param string $command
-     * @param string $expression
-     *
-     * @return bool
-     */
-    private function runCommand($command, $expression)
-    {
-        $return = true;
-        foreach ($this->servers as $server) {
-            $command = str_replace(array('{{ COMMAND }}', '{{ EXPRESSION }}'), array($command, $expression), $server);
-
-            $process = new Process($command);
-            if ($process->run() == 0) {
-                continue;
-            }
-
-            $return = false;
-        }
-
-        return $return;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function flush(array $keys = array())
-    {
-        $parameters = array();
-        foreach ($keys as $key => $value) {
-            $parameters[] = sprintf('obj.http.%s ~ %s', $this->normalize($key), $value);
-        }
-
-        $purge = implode(" && ", $parameters);
-
-        return $this->runCommand('purge', $purge);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function has(array $keys)
-    {
-        return true;
+        $this->blockRenderer = $blockRenderer;
+        $this->managers      = $managers;
     }
 
     /**
@@ -126,6 +69,8 @@ class BlockEsiCache implements CacheInterface
     {
         $this->validateKeys($keys);
 
+        $keys['_token'] = $this->computeHash($keys);
+
         $content = sprintf('<esi:include src="%s" />', $this->router->generate('sonata_page_cache_esi', $keys, true));
 
         return new CacheElement($keys, new Response($content));
@@ -142,22 +87,34 @@ class BlockEsiCache implements CacheInterface
     }
 
     /**
-     * @param string $key
+     * @param array $keys
      *
      * @return string
      */
-    protected function normalize($key)
+    protected function computeHash(array $keys)
     {
-        return sprintf('x-sonata-cache-%s', str_replace(array('_', '\\'), '-', strtolower($key)));
+        // values are casted into string for non numeric id
+        return hash('sha256', $this->token.serialize(array(
+            'manager'    => (string)$keys['manager'],
+            'page_id'    => (string)$keys['page_id'],
+            'block_id'   => (string)$keys['block_id'],
+            'updated_at' => (string)$keys['updated_at'],
+        )));
     }
 
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param Request $request
      *
      * @return mixed
      */
     public function cacheAction(Request $request)
     {
+        $parameters = array_merge($request->query->all(), $request->attributes->all());
+
+        if ($request->get('_token') != $this->computeHash($parameters)) {
+            throw new AccessDeniedHttpException('Invalid token');
+        }
+
         $manager = $this->getManager($request);
 
         $page = $manager->getPageById($request->get('page_id'));
@@ -166,13 +123,13 @@ class BlockEsiCache implements CacheInterface
             throw new NotFoundHttpException(sprintf('Page not found : %s', $request->get('page_id')));
         }
 
-        return $this->blockService->renderBlock($manager->getBlock($request->get('block_id')));
+        return $this->blockRenderer->render($manager->getBlock($request->get('block_id')));
     }
 
     /**
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @throws NotFoundHttpException
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param Request $request
      *
      * @return \Sonata\PageBundle\CmsManager\CmsManagerInterface
      */
@@ -183,13 +140,5 @@ class BlockEsiCache implements CacheInterface
         }
 
         return $this->managers[$request->get('manager')];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isContextual()
-    {
-        return true;
     }
 }

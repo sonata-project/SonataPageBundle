@@ -14,6 +14,7 @@ use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Process\Process;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpFoundation\Request;
 
 use Sonata\CacheBundle\Cache\CacheElement;
@@ -69,7 +70,7 @@ class BlockSsiCache extends SsiCache
     {
         $this->validateKeys($keys);
 
-        $keys['token'] = $this->computeHash($keys);
+        $keys['_token'] = $this->computeHash($keys);
 
         $content = sprintf('<!--# include virtual="%s" -->', $this->router->generate('sonata_page_cache_ssi', $keys, false));
 
@@ -87,12 +88,34 @@ class BlockSsiCache extends SsiCache
     }
 
     /**
+     * @param array $keys
+     *
+     * @return string
+     */
+    protected function computeHash(array $keys)
+    {
+        // values are casted into string for non numeric id
+        return hash('sha256', $this->token.serialize(array(
+            'manager'    => (string)$keys['manager'],
+            'page_id'    => (string)$keys['page_id'],
+            'block_id'   => (string)$keys['block_id'],
+            'updated_at' => (string)$keys['updated_at'],
+        )));
+    }
+
+    /**
      * @param Request $request
      *
      * @return mixed
      */
     public function cacheAction(Request $request)
     {
+        $parameters = array_merge($request->query->all(), $request->attributes->all());
+
+        if ($request->get('_token') != $this->computeHash($parameters)) {
+            throw new AccessDeniedHttpException('Invalid token');
+        }
+
         $manager = $this->getManager($request);
 
         $page = $manager->getPageById($request->get('page_id'));

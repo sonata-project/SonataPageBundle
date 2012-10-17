@@ -40,7 +40,7 @@ class CacheCompilerPass implements CompilerPassInterface
         }
 
         if ($container->hasDefinition('sonata.page.cache.esi')) {
-            $container->getDefinition('sonata.page.cache.esi')->replaceArgument(3, $services);
+            $container->getDefinition('sonata.page.cache.esi')->replaceArgument(4, $services);
         }
 
         if ($container->hasDefinition('sonata.page.cache.ssi')) {

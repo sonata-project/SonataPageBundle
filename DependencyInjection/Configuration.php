@@ -102,6 +102,7 @@ class Configuration implements ConfigurationInterface
                 ->children()
                     ->arrayNode('esi')
                         ->children()
+                            ->scalarNode('token')->defaultValue(hash('sha256', uniqid(mt_rand(), true)))->end()
                             ->arrayNode('servers')
                                 ->prototype('scalar')->end()
                             ->end()

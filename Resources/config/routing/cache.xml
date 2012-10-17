@@ -4,11 +4,11 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="sonata_page_cache_esi" pattern="/sonata/page/cache/esi/{manager}/{page_id}/{block_id}">
+    <route id="sonata_page_cache_esi" pattern="/sonata/page/cache/esi/{_token}/{manager}/{page_id}/{block_id}">
         <default key="_controller">sonata.page.cache.esi:cacheAction</default>
     </route>
 
-    <route id="sonata_page_cache_ssi" pattern="/sonata/page/cache/esi/{token}/{manager}/{page_id}/{block_id}">
+    <route id="sonata_page_cache_ssi" pattern="/sonata/page/cache/esi/{_token}/{manager}/{page_id}/{block_id}">
         <default key="_controller">sonata.page.cache.ssi:cacheAction</default>
     </route>
 

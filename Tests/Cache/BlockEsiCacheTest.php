@@ -13,7 +13,6 @@
 namespace Sonata\PageBundle\Tests\Page;
 
 use Sonata\PageBundle\Cache\BlockEsiCache;
-use \Sonata\BlockBundle\Block\BlockServiceManagerInterface;
 
 /**
  *
@@ -28,9 +27,9 @@ class BlockEsiCacheTest extends \PHPUnit_Framework_TestCase
     {
         $router = $this->getMock('Symfony\Component\Routing\RouterInterface');
 
-        $blockManager = $this->getMock('Sonata\BlockBundle\Block\BlockServiceManagerInterface');
+        $blockRenderer = $this->getMock('Sonata\BlockBundle\Block\BlockRendererInterface');
 
-        $cache = new BlockEsiCache(array(), $router, $blockManager);
+        $cache = new BlockEsiCache('My Token', array(), $router, $blockRenderer);
 
         $cache->get($keys, 'data');
     }
@@ -51,11 +50,11 @@ class BlockEsiCacheTest extends \PHPUnit_Framework_TestCase
     public function testInitCache()
     {
         $router = $this->getMock('Symfony\Component\Routing\RouterInterface');
-        $router->expects($this->any())->method('generate')->will($this->returnValue('http://sonata-project.org/cache/page/esi/page/5/4?updated_at=as'));
+        $router->expects($this->any())->method('generate')->will($this->returnValue('http://sonata-project.org/cache/XXX/page/esi/page/5/4?updated_at=as'));
 
-        $blockManager = $this->getMock('Sonata\BlockBundle\Block\BlockServiceManagerInterface');
+        $blockRenderer = $this->getMock('Sonata\BlockBundle\Block\BlockRendererInterface');
 
-        $cache = new BlockEsiCache(array(), $router, $blockManager);
+        $cache = new BlockEsiCache('My Token', array(), $router, $blockRenderer);
 
         $this->assertTrue($cache->flush(array()));
         $this->assertTrue($cache->flushAll());
@@ -77,7 +76,7 @@ class BlockEsiCacheTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('Sonata\CacheBundle\Cache\CacheElement', $cacheElement);
 
-        $this->assertEquals('<esi:include src="http://sonata-project.org/cache/page/esi/page/5/4?updated_at=as" />', $cacheElement->getData()->getContent());
+        $this->assertEquals('<esi:include src="http://sonata-project.org/cache/XXX/page/esi/page/5/4?updated_at=as" />', $cacheElement->getData()->getContent());
     }
 
 }
