@@ -56,7 +56,7 @@ class SiteAdmin extends Admin
         $listMapper
             ->addIdentifier('name')
             ->add('isDefault')
-            ->add('enabled')
+            ->add('enabled', null, array('editable' => true))
             ->add('host')
             ->add('relativePath')
             ->add('locale')

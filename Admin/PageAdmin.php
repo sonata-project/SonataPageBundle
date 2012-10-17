@@ -71,9 +71,9 @@ class PageAdmin extends Admin
             ->addIdentifier('name')
             ->add('pageAlias')
             ->add('site')
-            ->add('decorate')
-            ->add('enabled')
-            ->add('edited')
+            ->add('decorate', null, array('editable' => true))
+            ->add('enabled', null, array('editable' => true))
+            ->add('edited', null, array('editable' => true))
         ;
     }
 
@@ -347,14 +347,14 @@ class PageAdmin extends Admin
         if (!$this->hasRequest()) {
             return false;
         }
-        
+
         $siteId = null;
-        
+
         if ($this->getRequest()->getMethod() == 'POST') {
             $values = $this->getRequest()->get($this->getUniqid());
             $siteId = isset($values['site']) ? $values['site'] : null;
         }
-        
+
         $siteId = (null !== $siteId) ? $siteId : $this->getRequest()->get('siteId');
 
         if ($siteId) {
