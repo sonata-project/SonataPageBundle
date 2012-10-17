@@ -13,6 +13,15 @@
             <argument type="collection" />
         </service>
 
+        <service id="sonata.page.cache.ssi" class="Sonata\PageBundle\Cache\BlockSsiCache">
+            <tag name="sonata.cache" />
+
+            <argument />
+            <argument type="service" id="router" />
+            <argument type="service" id="sonata.block.renderer" />
+            <argument type="collection" />
+        </service>
+
         <service id="sonata.page.cache.js_sync" class="Sonata\PageBundle\Cache\BlockJsCache" >
             <tag name="sonata.cache" />
 

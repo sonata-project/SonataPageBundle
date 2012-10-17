@@ -26,9 +26,11 @@ Full configuration options (config.yml file):
 
         ignore_routes:
             - sonata_page_esi_cache
+            - sonata_page_ssi_cache
             - sonata_page_js_sync_cache
             - sonata_page_js_async_cache
             - sonata_cache_esi
+            - sonata_cache_ssi
             - sonata_cache_js_async
             - sonata_cache_js_sync
             - sonata_cache_apc
@@ -50,9 +52,12 @@ Full configuration options (config.yml file):
             homepage: {decorate: false}
 
         caches:
-            #esi:
-            #    servers:
-            #        - varnishadm -T 127.0.0.1:2000 {{ COMMAND }} "{{ EXPRESSION }}"
+            ssi:
+                token: an unique key # if not set a random value will be used
+
+            esi:
+                servers:
+                    - varnishadm -T 127.0.0.1:2000 {{ COMMAND }} "{{ EXPRESSION }}"
 
 
     # Enable Doctrine to map the provided entities

@@ -120,9 +120,14 @@ configuration file.
 
         ignore_routes:
             - sonata_page_esi_cache
+            - sonata_page_ssi_cache
             - sonata_page_js_sync_cache
             - sonata_page_js_async_cache
-            - sonata_page_apc_cache
+            - sonata_cache_esi
+            - sonata_cache_ssi
+            - sonata_cache_js_async
+            - sonata_cache_js_sync
+            - sonata_cache_apc
 
         ignore_uri_patterns:
             - ^/admin(.*)   # ignore admin route, ie route containing 'admin'

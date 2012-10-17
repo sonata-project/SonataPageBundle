@@ -384,6 +384,15 @@ class SonataPageExtension extends Extension
         } else {
             $container->removeDefinition('sonata.page.cache.esi');
         }
+
+        if (isset($config['caches']['ssi'])) {
+            $container
+                ->getDefinition('sonata.page.cache.ssi')
+                ->replaceArgument(0, $config['caches']['ssi']['token'])
+            ;
+        } else {
+            $container->removeDefinition('sonata.page.cache.ssi');
+        }
     }
 
     /**

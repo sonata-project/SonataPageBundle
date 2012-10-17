@@ -8,6 +8,10 @@
         <default key="_controller">sonata.page.cache.esi:cacheAction</default>
     </route>
 
+    <route id="sonata_page_cache_ssi" pattern="/sonata/page/cache/esi/{token}/{manager}/{page_id}/{block_id}">
+        <default key="_controller">sonata.page.cache.ssi:cacheAction</default>
+    </route>
+
     <route id="sonata_page_js_async_cache" pattern="/sonata/page/cache/js-async">
         <default key="_controller">sonata.page.cache.js_async:cacheAction</default>
     </route>

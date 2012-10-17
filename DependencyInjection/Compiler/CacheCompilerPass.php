@@ -29,10 +29,6 @@ class CacheCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('sonata.page.cache.esi')) {
-            return;
-        }
-
         $services = array();
 
         foreach ($container->findTaggedServiceIds('sonata.page.manager') as $id => $attributes) {
@@ -43,6 +39,12 @@ class CacheCompilerPass implements CompilerPassInterface
             $services[$attributes[0]['type']] = new Reference($id);
         }
 
-        $container->getDefinition('sonata.page.cache.esi')->replaceArgument(3, $services);
+        if ($container->hasDefinition('sonata.page.cache.esi')) {
+            $container->getDefinition('sonata.page.cache.esi')->replaceArgument(3, $services);
+        }
+
+        if ($container->hasDefinition('sonata.page.cache.ssi')) {
+            $container->getDefinition('sonata.page.cache.ssi')->replaceArgument(3, $services);
+        }
     }
 }
