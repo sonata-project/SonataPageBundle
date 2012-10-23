@@ -12,9 +12,8 @@
 namespace Sonata\PageBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Block Admin Controller
@@ -34,11 +33,35 @@ class BlockAdminController extends Controller
             throw new AccessDeniedException();
         }
 
-        $params = $this->get('request')->get('disposition');
+        try {
+            $params = $this->get('request')->get('disposition');
 
-        $result = $this->get('sonata.page.block_interactor')->saveBlocksPosition($params);
+            if (!is_array($params)) {
+                throw new HttpException(400, 'wrong parameters');
+            }
 
-        return $this->renderJson(array('result' => $result ? 'ok' : 'ko'));
+            $result = $this->get('sonata.page.block_interactor')->saveBlocksPosition($params);
+            $status = 200;
+        } catch (HttpException $e) {
+            $status = $e->getStatusCode();
+            $result = array(
+                'exception' => get_class($e),
+                'message'   => $e->getMessage(),
+                'code'      => $e->getCode()
+            );
+
+        } catch (\Exception $e) {
+            $status = 500;
+            $result = array(
+                'exception' => get_class($e),
+                'message'   => $e->getMessage(),
+                'code'      => $e->getCode()
+            );
+        }
+
+        $result = ($result === true) ? 'ok' : $result;
+
+        return $this->renderJson(array('result' => $result), $status);
     }
 
     /**

@@ -9,13 +9,20 @@ file that was distributed with this source code.
 
 #}
 
-<!-- block({{ container.id }}, {{ container.type }} : {% if not container.hasParent()%} {{ container.settings.code }} {% else %} inner-container{% endif%}) -->
-<div id="cms-block-{{ container.id }}" class="cms-block cms-container{% if not container.hasParent()%} cms-container-root{% else %} cms-block-element{%endif%}">
-    <div class="cms-block cms-block-element cms-fake-block">&nbsp;</div>
-    {% for block in container.children %}
-        <!-- block({{ block.id }}, {{ block.type }}) -->
-        {{ sonata_page_render_block(block) }}
-        <!-- end block({{ block.id }}, {{ block.type }}) -->
+{% extends "SonataPageBundle:Block:block_base.html.twig" %}
+
+{# block classes are prepended with a container class #}
+{% block block_class %} cms-container{% if not block.hasParent() %} cms-container-root{%endif%}{% if settings.class %} {{ settings.class }}{% endif %}{% endblock %}
+
+{# identify a block role used by the page editor #}
+{% block block_role %}container{% endblock %}
+
+{# render container block #}
+{% block block %}
+    {% if decorator %}{{ decorator.pre|raw }}{% endif %}
+    {% for child in block.children %}
+        {{ sonata_page_render_block(child) }}
     {% endfor %}
-</div>
-<!-- end block({{ container.id }}, {{ container.type }}) -->
+    {% if decorator %}{{ decorator.post|raw }}{% endif %}
+{% endblock %}
+

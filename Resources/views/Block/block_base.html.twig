@@ -1,0 +1,22 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+
+<div id="cms-block-{{ block.id }}"
+     class="cms-block{% if block.hasParent() %} cms-block-element{% endif %}{% block block_class %}{% endblock %}"
+    {% if sonata_page.isEditor %}
+        data-id="{{ block.id }}"
+        data-name="{{ block.name }}"
+        data-role="{% block block_role %}block{% endblock %}"
+        data-page-id="{{ block.page.id }}"
+    {% endif %}
+    >
+    {% block block %}EMPTY CONTENT{% endblock %}
+</div>

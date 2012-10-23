@@ -7,6 +7,23 @@ A [BC BREAK] means the update will break the project for many reasons:
 * new dependencies
 * class refactoring
 
+### 2012-10-23
+
+* [BC BREAK] The front page editor has been completely redesigned.
+
+  Assets ``page.js`` and ``page.css`` have been rewritten to provide new functionality to the front page editor.
+
+  Templates for base blocks and container blocks have been updated to provide additional information on blocks when
+  in the front editor mode.
+
+  ``BlockInteractor`` has its ``saveBlocksPosition()`` method updated. It now performs unit updates and does not
+  require a tree structure anymore.
+
+  The BlockManager interface and class have been updated to implement a ``updatePosition()`` method.
+
+* [BC BREAK] The container layout setting is now used to decorate inside the block div instead of decorating
+  outside.
+
 ### 2012-09-14
 
 * [BC BREAK] Integrate the SymfonyCmfRoutingExtraBundle from the CMF project

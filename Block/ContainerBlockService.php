@@ -11,64 +11,33 @@
 
 namespace Sonata\PageBundle\Block;
 
-use Symfony\Component\HttpFoundation\Response;
-
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Validator\ErrorElement;
 
-use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\BlockBundle\Block\BaseBlockService;
+use Sonata\BlockBundle\Model\BlockInterface;
 
-use Sonata\PageBundle\Model\PageInterface;
-use Sonata\PageBundle\Generator\Mustache;
+use Symfony\Component\HttpFoundation\Response;
+
 
 /**
- * Render a container block
+ * Render children pages
  *
- * @author     Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class ContainerBlockService extends BaseBlockService
 {
     /**
      * {@inheritdoc}
      */
-    public function execute(BlockInterface $block, Response $response = null)
-    {
-        $settings = array_merge($this->getDefaultSettings(), $block->getSettings());
-
-        $response = $this->renderResponse('SonataPageBundle:Block:block_container.html.twig', array(
-            'container' => $block,
-            'settings'  => $settings,
-        ), $response);
-
-        $response->setContent(Mustache::replace($settings['layout'], array(
-            'CONTENT' => $response->getContent()
-        )));
-
-        return $response;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function validateBlock(ErrorElement $errorElement, BlockInterface $block)
-    {
-        // TODO: Implement validateBlock() method.
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
     {
-        $formMapper->add('enabled', null, array('required' => false));
+        $formMapper->add('enabled');
 
         $formMapper->add('settings', 'sonata_type_immutable_array', array(
             'keys' => array(
                 array('layout', 'textarea', array()),
-//                array('orientation', 'choice', array(
-//                    'choices' => array('block' => 'Block', 'left' => 'Left')
-//                )),
+                array('class', 'text', array('required' => false)),
             )
         ));
 
@@ -82,20 +51,81 @@ class ContainerBlockService extends BaseBlockService
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function validateBlock(ErrorElement $errorElement, BlockInterface $block)
     {
-        return 'Container (core)';
+        // TODO: Implement validateBlock() method.
     }
 
     /**
      * {@inheritdoc}
      */
-    function getDefaultSettings()
+    public function execute(BlockInterface $block, Response $response = null)
+    {
+        $settings = array_merge($this->getDefaultSettings(), $block->getSettings());
+
+        $decorator = $this->getDecorator($settings['layout']);
+
+        $response = $this->renderResponse($this->getTemplate(), array(
+            'block'      => $block,
+            'decorator'  => $decorator,
+            'settings'   => $settings,
+        ), $response);
+
+        return $response;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDefaultSettings()
     {
         return array(
             'code'        => '',
             'layout'      => '{{ CONTENT }}',
-            'orientation' => 'block',
+            'class'       => ''
         );
+    }
+
+    /**
+     * Returns the block service name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Returns a decorator object/array from the container layout setting
+     *
+     * @param string $layout
+     *
+     * @return mixed
+     */
+    protected function getDecorator($layout)
+    {
+        $key = '{{ CONTENT }}';
+        if (strpos($layout, $key) === false) {
+            return array();
+        }
+
+        $segments = explode($key, $layout);
+        $decorator = array(
+            'pre'  => isset($segments[0]) ? $segments[0] : '',
+            'post' => isset($segments[1]) ? $segments[1] : '',
+        );
+
+        return $decorator;
+    }
+
+    /**
+     * Returns template used for the block rendering
+     *
+     * @return string
+     */
+    protected function getTemplate()
+    {
+        return 'SonataPageBundle:Block:block_container.html.twig';
     }
 }

@@ -98,4 +98,29 @@ class BlockManager implements BlockManagerInterface
     {
         return $this->getRepository()->findOneBy($criteria);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function updatePosition($id, $position, $parentId, $pageId)
+    {
+        $em = $this->entityManager;
+        $meta = $em->getClassMetadata($this->getClass());
+
+        // retrieve object references
+        $block = $em->getReference($this->getClass(), $id);
+        $pageRelation = $meta->getAssociationMapping('page');
+        $page = $em->getPartialReference($pageRelation['targetEntity'], $pageId);
+
+        $parentRelation = $meta->getAssociationMapping('parent');
+        $parent = $em->getPartialReference($parentRelation['targetEntity'], $parentId);
+
+        // set new values
+        $block->setPosition($position);
+        $block->setPage($page);
+        $block->setParent($parent);
+        $em->persist($block);
+
+        return $block;
+    }
 }
