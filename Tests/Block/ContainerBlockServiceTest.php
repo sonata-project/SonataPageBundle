@@ -37,9 +37,34 @@ class ContainerBlockServiceTest extends \PHPUnit_Framework_TestCase
         $service->execute($block);
 
         $this->assertEquals('SonataPageBundle:Block:block_container.html.twig', $templating->view);
-        $this->assertEquals('block.code', $templating->parameters['container']->getSetting('code'));
-        $this->assertEquals('block.name', $templating->parameters['container']->getName());
-        $this->assertInstanceOf('Sonata\BlockBundle\Model\Block', $templating->parameters['container']);
+        $this->assertEquals('block.code', $templating->parameters['block']->getSetting('code'));
+        $this->assertEquals('block.name', $templating->parameters['block']->getName());
+        $this->assertInstanceOf('Sonata\BlockBundle\Model\Block', $templating->parameters['block']);
+    }
+
+    /**
+     * test the container layout
+     */
+    public function testLayout()
+    {
+        $templating = new FakeTemplating();
+        $service    = new ContainerBlockService('core.container', $templating);
+
+        $block = new Block;
+        $block->setName('block.name');
+        $block->setType('core.container');
+        $block->setSettings(array(
+            'layout' => 'before{{ CONTENT }}after',
+            'code'   => 'block.code'
+        ));
+
+        $service->execute($block);
+
+        $this->assertInternalType('array', $templating->parameters['decorator']);
+        $this->assertArrayHasKey('pre', $templating->parameters['decorator']);
+        $this->assertArrayHasKey('post', $templating->parameters['decorator']);
+        $this->assertEquals('before', $templating->parameters['decorator']['pre']);
+        $this->assertEquals('after', $templating->parameters['decorator']['post']);
     }
 
     /**

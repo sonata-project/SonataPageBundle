@@ -11,13 +11,11 @@
 
 namespace Sonata\PageBundle\Entity;
 
-use Sonata\PageBundle\Model\BlockInteractorInterface;
-use Sonata\PageBundle\Model\PageInterface;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
 use Sonata\BlockBundle\Model\BlockManagerInterface;
-use Sonata\BlockBundle\Model\BlockInterface;
-
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Sonata\PageBundle\Model\BlockInteractorInterface;
+use Sonata\PageBundle\Model\PageInterface;
 
 /**
  * This class interacts with blocks
@@ -33,21 +31,15 @@ class BlockInteractor implements BlockInteractorInterface
     protected $blockManager;
 
     /**
-     * @param \Symfony\Bridge\Doctrine\RegistryInterface      $registry
-     * @param \Sonata\BlockBundle\Model\BlockManagerInterface $blockManager
+     * Constructor
+     *
+     * @param RegistryInterface     $registry     Doctrine registry
+     * @param BlockManagerInterface $blockManager Block manager
      */
     public function __construct(RegistryInterface $registry, BlockManagerInterface $blockManager)
     {
         $this->blockManager = $blockManager;
         $this->registry     = $registry;
-    }
-
-    /**
-     * @return \Doctrine\ORM\EntityManager
-     */
-    private function getEntityManager()
-    {
-        return $this->registry->getEntityManagerForClass($this->blockManager->getClass());
     }
 
     /**
@@ -88,61 +80,26 @@ class BlockInteractor implements BlockInteractorInterface
      */
     public function saveBlocksPosition(array $data = array())
     {
-        $this->getEntityManager()->getConnection()->beginTransaction();
+        $em = $this->getEntityManager();
+        $em->getConnection()->beginTransaction();
 
         try {
-            foreach ($data as $code => $block) {
-                $parent_id = (int)substr($code, 10);
+            foreach ($data as $block) {
+                if (!$block['id'] or !$block['position'] or !$block['parent_id'] or !$block['page_id']) {
+                    continue;
+                }
 
-                $block['child'] = (isset($block['child']) && is_array($block['child'])) ? $block['child'] : array();
-
-                $this->saveNestedPosition($block['child'], $parent_id);
+                $this->blockManager->updatePosition($block['id'], $block['position'], $block['parent_id'], $block['page_id']);
             }
 
+            $em->flush();
+            $em->getConnection()->commit();
         } catch (\Exception $e) {
-            $this->getEntityManager()->getConnection()->rollback();
-
-            return false;
+            $em->getConnection()->rollback();
+            throw $e;
         }
-
-        $this->getEntityManager()->getConnection()->commit();
 
         return true;
-    }
-
-    /**
-     * @param array $blocks
-     * @param int   $parentId
-     */
-    protected function saveNestedPosition($blocks, $parentId)
-    {
-        if (!is_array($blocks)) {
-            return;
-        }
-
-        $tableName = $this->getEntityManager()->getClassMetadata($this->blockManager->getClass())->table['name'];
-
-        $position = 1;
-        foreach ($blocks as $code => $block) {
-            $blockId = (int) substr($code, 10);
-
-            $sql = sprintf('UPDATE %s child, (SELECT p.page_id as page_id FROM %s p WHERE id = %d ) as parent SET child.position = %d, child.parent_id = %d, child.page_id = parent.page_id WHERE child.id = %d',
-                $tableName,
-                $tableName,
-                $parentId,
-                $position,
-                $parentId,
-                $blockId
-            );
-
-            $this->getEntityManager()->getConnection()->exec($sql);
-
-            $block['child'] = (isset($block['child']) && is_array($block['child'])) ? $block['child'] : array();
-
-            $this->saveNestedPosition($block['child'], $blockId, $this->getEntityManager());
-
-            $position++;
-        }
     }
 
     /**
@@ -203,5 +160,13 @@ class BlockInteractor implements BlockInteractorInterface
         $this->pageBlocksLoaded[$page->getId()] = true;
 
         return $blocks;
+    }
+
+    /**
+     * @return \Doctrine\ORM\EntityManager
+     */
+    private function getEntityManager()
+    {
+        return $this->registry->getEntityManagerForClass($this->blockManager->getClass());
     }
 }

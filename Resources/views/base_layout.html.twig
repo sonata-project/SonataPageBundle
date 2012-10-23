@@ -53,12 +53,14 @@ file that was distributed with this source code.
 
                     <!-- CMS specific variables -->
                     <script>
-                        Page.url = {};
-                        Page.url.block_save_position = '{{ path('admin_sonata_page_block_savePosition') }}';
-                        Page.url.block_edit          = '{{ path('admin_sonata_page_block_edit', {'id': 'BLOCK_ID'}) }}';
-                        {% if page is defined %}
-                            Page.url.page_edit           = '{{ path('admin_sonata_page_page_edit', {'id': page.id }) }}';
-                        {% endif %}
+                        jQuery(document).ready(function() {
+                            Sonata.Page.init({
+                                url: {
+                                    block_save_position: '{{ path('admin_sonata_page_block_savePosition') }}',
+                                    block_edit:          '{{ path('admin_sonata_page_block_edit', {'id': 'BLOCK_ID'}) }}'
+                                }
+                            });
+                        });
                     </script>
                 {% endif %}
 
