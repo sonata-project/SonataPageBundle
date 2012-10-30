@@ -197,6 +197,7 @@ class SnapshotManager implements SnapshotManagerInterface
         $page->setPosition($snapshot->getPosition());
         $page->setDecorate($snapshot->getDecorate());
         $page->setSite($snapshot->getSite());
+        $page->setEnabled($snapshot->getEnabled());
 
         $content = $this->fixContent($snapshot->getContent());
 

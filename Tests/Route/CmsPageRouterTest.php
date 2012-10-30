@@ -92,6 +92,7 @@ class CmsPageRouterTest extends \PHPUnit_Framework_TestCase
     {
         $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
         $page->expects($this->any())->method('isCms')->will($this->returnValue(true));
+        $page->expects($this->any())->method('getEnabled')->will($this->returnValue(true));
 
         $cms = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerInterface');
         $cms->expects($this->any())->method('getPageByUrl')->will($this->returnValue($page));
