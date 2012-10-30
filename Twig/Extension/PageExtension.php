@@ -17,6 +17,7 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Sonata\PageBundle\Exception\PageNotFoundException;
+use Sonata\PageBundle\Model\SnapshotPageProxy;
 
 use Symfony\Component\Routing\RouterInterface;
 
@@ -245,6 +246,10 @@ class PageExtension extends \Twig_Extension
      */
     public function renderBlock(PageBlockInterface $block, $useCache = true)
     {
+        if ($block->getEnabled() === false && !$this->cmsManagerSelector->isEditor()) {
+            return '';
+        }
+
         return $this->environment->getExtension('sonata_block')->renderBlock($block, $useCache, array(
             'manager' => $block->getPage() instanceof SnapshotPageProxy ? 'snapshot' : 'page',
             'page_id' => $block->getPage()->getId(),
