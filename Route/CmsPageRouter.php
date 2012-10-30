@@ -155,6 +155,10 @@ class CmsPageRouter implements ChainedRouterInterface
             throw new ResourceNotFoundException($pathinfo);
         }
 
+        if (!$page->getEnabled() && !$this->cmsSelector->isEditor()) {
+            throw new ResourceNotFoundException($pathinfo);
+        }
+
         $cms->setCurrentPage($page);
 
         return array (

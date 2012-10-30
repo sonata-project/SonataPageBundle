@@ -89,6 +89,11 @@ class RequestListener
 
         try {
             $page = $cms->getPageByRouteName($site, $event->getRequest()->get('_route'));
+
+            if (!$page->getEnabled() && !$this->cmsSelector->isEditor()) {
+                throw new PageNotFoundException(sprintf('The page is not enabled : id=%s', $page->getId()));
+            }
+
             $cms->setCurrentPage($page);
 
             $this->seoPage->setTitle($page->getTitle() ?: $page->getName());
