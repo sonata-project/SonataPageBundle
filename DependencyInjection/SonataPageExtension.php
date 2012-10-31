@@ -102,11 +102,7 @@ class SonataPageExtension extends Extension
             'fieldName'     => 'children',
             'targetEntity'  => $config['class']['page'],
             'cascade'       => array(
-                'remove',
                 'persist',
-                'refresh',
-                'merge',
-                'detach',
              ),
             'mappedBy'      => 'parent',
             'orphanRemoval' => false,
@@ -171,13 +167,7 @@ class SonataPageExtension extends Extension
         $collector->addAssociation($config['class']['page'], 'mapOneToMany', array(
              'fieldName' => 'sources',
              'targetEntity' => $config['class']['page'],
-             'cascade' => array(
-                 'remove',
-                 'persist',
-                 'refresh',
-                 'merge',
-                 'detach',
-             ),
+             'cascade' => array(),
              'mappedBy' => 'target',
              'orphanRemoval' => false,
         ));
@@ -271,11 +261,7 @@ class SonataPageExtension extends Extension
             'fieldName'     => 'page',
             'targetEntity'  => $config['class']['page'],
             'cascade' => array(
-                'remove',
                 'persist',
-                'refresh',
-                'merge',
-                'detach',
             ),
             'mappedBy'      => NULL,
             'inversedBy'    => NULL,

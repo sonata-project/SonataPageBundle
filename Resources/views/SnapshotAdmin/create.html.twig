@@ -19,7 +19,11 @@ file that was distributed with this source code.
 
     <form action="{{ admin.generateUrl('create') }}" method="POST">
 
-        {{ form_rest(form) }}
+        {% if admin.isChild() %}
+            <div style="display:none">{{ form_rest(form) }}</div>
+        {% else %}
+            {{ form_rest(form) }}
+        {% endif %}
 
         <div class="actions">
             <input class="btn primary" type="submit" name="create" value="{% trans from 'SonataPageBundle' %}button_create_snapshot{% endtrans %}"/>

@@ -56,13 +56,13 @@ abstract class Page implements PageInterface
 
     protected $blocks;
 
+    protected $sources;
+    
     protected $parent;
 
     protected $parents;
 
     protected $target;
-
-    protected $sources;
 
     protected $children;
 
