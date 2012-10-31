@@ -70,7 +70,9 @@ class SnapshotAdminController extends Controller
                 $snapshotManager->enableSnapshots(array($snapshot));
             }
 
-            return $this->redirect($this->admin->generateUrl('edit', array('id' => $snapshot->getId())));
+            return $this->redirect($this->admin->generateUrl('edit', array(
+                'id' => $snapshot->getId()
+            )));
         }
 
         return $this->render('SonataPageBundle:SnapshotAdmin:create.html.twig', array(
