@@ -9,7 +9,7 @@ file that was distributed with this source code.
 
 #}
 
-{% extends "SonataPageBundle:Block:block_base.html.twig" %}
+{% extends sonata_block.templates.block_base %}
 
 {# block classes are prepended with a container class #}
 {% block block_class %} cms-container{% if not block.hasParent() %} cms-container-root{%endif%}{% if settings.class %} {{ settings.class }}{% endif %}{% endblock %}
