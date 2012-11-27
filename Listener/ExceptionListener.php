@@ -169,7 +169,11 @@ class ExceptionListener
 
         $cmsManager = $this->cmsManagerSelector->retrieve();
 
-        if (!$this->decoratorStrategy->isRequestDecorable($event->getRequest())) {
+        if ($event->getRequest()->get('_route') && !$this->decoratorStrategy->isRouteNameDecorable($event->getRequest()->get('_route'))) {
+            return;
+        }
+
+        if (!$this->decoratorStrategy->isRouteUriDecorable($event->getRequest()->getPathInfo())) {
             return;
         }
 
