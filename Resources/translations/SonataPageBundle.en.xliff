@@ -4,7 +4,7 @@
     <body>
       <trans-unit id="0" resname="block">
         <source>block</source>
-        <target>Bloc</target>
+        <target>Block</target>
       </trans-unit>
       <trans-unit id="1" resname="breadcrumb.link_block_batch">
         <source>breadcrumb.link_block_batch</source>
