@@ -7,6 +7,23 @@ A [BC BREAK] means the update will break the project for many reasons:
 * new dependencies
 * class refactoring
 
+### 2012-12-13
+
+* [BC BREAK] A new ``type`` field has been added in Page and Snapshot models. This new field is used to
+  identify a ``page service`` that manages pages for a given type.
+
+  Database Migration: (replace table name)
+
+      ALTER TABLE page__page ADD type VARCHAR(255) DEFAULT NULL;
+      ALTER TABLE page__snapshot ADD type VARCHAR(255) DEFAULT NULL;
+
+* The ``PageRenderer`` class has been dropped and replaced by the page service workflow. When a page must be rendered,
+  it now uses the page service associated to the page type. A default page service has been created to provide the
+  same behavior as the previous workflow so there is not need to specify a page type for existing pages.
+
+* The templates management has also been completely refactored into a ``TemplateManager`` class. This class is now
+  responsible to render a template code.
+
 ### 2012-10-23
 
 * [BC BREAK] The front page editor has been completely redesigned.

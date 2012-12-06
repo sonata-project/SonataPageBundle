@@ -50,9 +50,10 @@ class SonataPageExtension extends Extension
 
         $this->configureMultisite($container, $config);
         $this->configureCache($container, $config);
-        $this->configureTemplate($container, $config);
+        $this->configureTemplates($container, $config);
         $this->configureExceptions($container, $config);
-        $this->configurePageRenderer($container, $config);
+        $this->configurePageDefaults($container, $config);
+        $this->configurePageServices($container, $config);
 
         $this->addClassesToCompile(array(
             'Sonata\\PageBundle\\Request\\SiteRequest'
@@ -61,8 +62,7 @@ class SonataPageExtension extends Extension
         $container->getDefinition('sonata.page.decorator_strategy')
             ->replaceArgument(0, $config['ignore_routes'])
             ->replaceArgument(1, $config['ignore_route_patterns'])
-            ->replaceArgument(2, $config['ignore_uri_patterns'])
-        ;
+            ->replaceArgument(2, $config['ignore_uri_patterns']);
 
         //Set the entity manager that should be used to store pages:
         $container->setAlias('sonata.page.entity_manager', $config['entity_manager']);
@@ -72,14 +72,13 @@ class SonataPageExtension extends Extension
     }
 
     /**
-     * @param ContainerBuilder $container
-     * @param array            $config
+     * Configure the page default settings
+     *
+     * @param ContainerBuilder $container Container builder
+     * @param array            $config    Array of configuration
      */
-    public function configurePageRenderer(ContainerBuilder $container, array $config)
+    public function configurePageDefaults(ContainerBuilder $container, array $config)
     {
-        $container->getDefinition('sonata.page.renderer')
-            ->replaceArgument(6, $config['use_streamed_response']);
-
         $defaults = array(
             'templateCode'  => $config['default_template'],
             'enabled'       => true,
@@ -104,8 +103,10 @@ class SonataPageExtension extends Extension
     }
 
     /**
-     * @param ContainerBuilder $container
-     * @param array            $config
+     * Registers service parameters from bundle configuration
+     *
+     * @param ContainerBuilder $container Container builder
+     * @param array            $config    Array of configuration
      */
     public function registerParameters(ContainerBuilder $container, array $config)
     {
@@ -121,6 +122,8 @@ class SonataPageExtension extends Extension
     }
 
     /**
+     * Registers doctrine mapping on concrete page entities
+     *
      * @param array $config
      */
     public function registerDoctrineMapping(array $config)
@@ -167,8 +170,8 @@ class SonataPageExtension extends Extension
             'cascade'       => array(
                 'persist',
             ),
-            'mappedBy'      => NULL,
-            'inversedBy'    => NULL,
+            'mappedBy'      => null,
+            'inversedBy'    => null,
             'joinColumns'   => array(
                 array(
                     'name'  => 'site_id',
@@ -185,8 +188,8 @@ class SonataPageExtension extends Extension
             'cascade'       => array(
                  'persist',
             ),
-            'mappedBy'      => NULL,
-            'inversedBy'    => NULL,
+            'mappedBy'      => null,
+            'inversedBy'    => null,
             'joinColumns'   => array(
                 array(
                     'name'  => 'parent_id',
@@ -211,8 +214,8 @@ class SonataPageExtension extends Extension
             'cascade' => array(
                 'persist',
             ),
-            'mappedBy' => NULL,
-            'inversedBy' => NULL,
+            'mappedBy' => null,
+            'inversedBy' => null,
             'joinColumns' => array(
                 array(
                     'name' => 'target_id',
@@ -242,8 +245,8 @@ class SonataPageExtension extends Extension
             'targetEntity' => $config['class']['block'],
             'cascade' => array(
             ),
-            'mappedBy' => NULL,
-            'inversedBy' => NULL,
+            'mappedBy' => null,
+            'inversedBy' => null,
             'joinColumns' => array(
                 array(
                     'name' => 'parent_id',
@@ -260,8 +263,8 @@ class SonataPageExtension extends Extension
             'cascade' => array(
                 'persist',
             ),
-            'mappedBy' => NULL,
-            'inversedBy' => NULL,
+            'mappedBy' => null,
+            'inversedBy' => null,
             'joinColumns' => array(
                 array(
                     'name' => 'page_id',
@@ -278,8 +281,8 @@ class SonataPageExtension extends Extension
             'cascade'       => array(
                 'persist',
             ),
-            'mappedBy'      => NULL,
-            'inversedBy'    => NULL,
+            'mappedBy'      => null,
+            'inversedBy'    => null,
             'joinColumns'   => array(
                 array(
                     'name'      => 'site_id',
@@ -296,8 +299,8 @@ class SonataPageExtension extends Extension
             'cascade' => array(
                 'persist',
             ),
-            'mappedBy'      => NULL,
-            'inversedBy'    => NULL,
+            'mappedBy'      => null,
+            'inversedBy'    => null,
             'joinColumns'   => array(
                 array(
                     'name' => 'page_id',
@@ -310,8 +313,10 @@ class SonataPageExtension extends Extension
     }
 
     /**
-     * @param ContainerBuilder $container
-     * @param array            $config
+     * Configure the multi-site feature
+     *
+     * @param ContainerBuilder $container Container builder
+     * @param array            $config    Array of configuration
      */
     public function configureMultisite(ContainerBuilder $container, $config)
     {
@@ -332,13 +337,19 @@ class SonataPageExtension extends Extension
     }
 
     /**
-     * @param ContainerBuilder $container
-     * @param array            $config
+     * Configure the page templates
+     *
+     * @param ContainerBuilder $container Container builder
+     * @param array            $config    Array of configuration
      */
-    public function configureTemplate(ContainerBuilder $container, $config)
+    public function configureTemplates(ContainerBuilder $container, $config)
     {
-        $renderer = $container->getDefinition('sonata.page.renderer');
+        $templateManager = $container->getDefinition('sonata.page.template_manager');
 
+        // inject stream option into template manager
+        $templateManager->replaceArgument(2, $config['use_streamed_response']);
+
+        // add all templates to manager
         $definitions = array();
         foreach ($config['templates'] as $code => $info) {
             $definition = new Definition('Sonata\PageBundle\Model\Template', array(
@@ -349,16 +360,17 @@ class SonataPageExtension extends Extension
             $definition->setPublic(false);
             $definitions[$code] = $definition;
         }
+        $templateManager->addMethodCall('setAll', array($definitions));
 
-        $renderer->replaceArgument(3, $definitions);
-        $renderer->addMethodCall('setDefaultTemplateCode', array($config['default_template']));
+        // set default template
+        $templateManager->addMethodCall('setDefaultTemplateCode', array($config['default_template']));
     }
 
     /**
-     * @throws \RuntimeException
+     * Configure the cache options
      *
-     * @param ContainerBuilder $container
-     * @param array            $config
+     * @param ContainerBuilder $container Container builder
+     * @param array            $config    Array of configuration
      */
     public function configureCache(ContainerBuilder $container, array $config)
     {
@@ -366,8 +378,7 @@ class SonataPageExtension extends Extension
             $container
                 ->getDefinition('sonata.page.cache.esi')
                 ->replaceArgument(0, $config['caches']['esi']['token'])
-                ->replaceArgument(1, $config['caches']['esi']['servers'])
-            ;
+                ->replaceArgument(1, $config['caches']['esi']['servers']);
         } else {
             $container->removeDefinition('sonata.page.cache.esi');
         }
@@ -375,16 +386,17 @@ class SonataPageExtension extends Extension
         if (isset($config['caches']['ssi'])) {
             $container
                 ->getDefinition('sonata.page.cache.ssi')
-                ->replaceArgument(0, $config['caches']['ssi']['token'])
-            ;
+                ->replaceArgument(0, $config['caches']['ssi']['token']);
         } else {
             $container->removeDefinition('sonata.page.cache.ssi');
         }
     }
 
     /**
-     * @param ContainerBuilder $container
-     * @param array            $config
+     * Configures the page custom exceptions
+     *
+     * @param ContainerBuilder $container Container builder
+     * @param array            $config    An array of bundle configuration
      */
     public function configureExceptions(ContainerBuilder $container, $config)
     {
@@ -395,12 +407,25 @@ class SonataPageExtension extends Extension
             }
         }
 
+        // add exception pages in exception_listener
         $container->getDefinition('sonata.page.kernel.exception_listener')
-            ->replaceArgument(6, $exceptions)
-        ;
+            ->replaceArgument(6, $exceptions);
 
-        $container->getDefinition('sonata.page.renderer')
-            ->replaceArgument(4, $exceptions)
-        ;
+        // add exception pages as default rendering parameters in page templates
+        $container->getDefinition('sonata.page.template_manager')
+            ->replaceArgument(1, array('error_codes' => $exceptions));
+    }
+
+    /**
+     * Configures the page services
+     *
+     * @param ContainerBuilder $container Container builder
+     * @param array            $config    An array of bundle configuration
+     */
+    public function configurePageServices(ContainerBuilder $container, $config)
+    {
+        // set the default page service to use when no page type has been set. (backward compatibility)
+        $definition = $container->getDefinition('sonata.page.page_service_manager');
+        $definition->addMethodCall('setDefault', array(new Reference($config['default_page_service'])));
     }
 }

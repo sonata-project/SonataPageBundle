@@ -27,15 +27,21 @@ class SnapshotPageProxy implements PageInterface, Serializable
      */
     private $page;
 
+    /**
+     * @var PageInterface|null
+     */
     private $target;
 
+    /**
+     * @var array
+     */
     private $parents;
 
-    private $site;
-
     /**
-     * @param \Sonata\PageBundle\Model\SnapshotManagerInterface $manager
-     * @param \Sonata\PageBundle\Model\SnapshotInterface        $snapshot
+     * Constructor
+     *
+     * @param SnapshotManagerInterface $manager  Snapshot manager
+     * @param SnapshotInterface        $snapshot Snapshot object
      */
     public function __construct(SnapshotManagerInterface $manager, SnapshotInterface $snapshot)
     {
@@ -628,11 +634,37 @@ class SnapshotPageProxy implements PageInterface, Serializable
         $this->getPage()->setTitle($title);
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function setType($type)
+    {
+        $this->getPage()->setType($type);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getType()
+    {
+       return $this->getPage()->getType();
+    }
+
+    /**
+     * Returns a string representation
+     *
+     * @return string
+     */
     public function __toString()
     {
         return $this->getPage()->__toString();
     }
 
+    /**
+     * Serialize a snapshot page proxy
+     *
+     * @return string
+     */
     public function serialize()
     {
         if ($this->manager) {
@@ -645,6 +677,13 @@ class SnapshotPageProxy implements PageInterface, Serializable
         return serialize(array());
     }
 
+    /**
+     * Unserialize a snapshot page proxy
+     *
+     * @param string $serialized
+     *
+     * @return mixed
+     */
     public function unserialize($serialized)
     {
         // TODO: Implement unserialize() method.
