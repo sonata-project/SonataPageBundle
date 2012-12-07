@@ -132,7 +132,9 @@ class PageRenderer implements PageRendererInterface
             return;
         }
 
-        $this->seoPage->setTitle($page->getTitle() ?: $page->getName());
+        if (!$this->seoPage->getTitle()) {
+            $this->seoPage->setTitle($page->getTitle() ?: $page->getName());
+        }
 
         if ($page->getMetaDescription()) {
             $this->seoPage->addMeta('name', 'description', $page->getMetaDescription());
