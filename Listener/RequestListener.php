@@ -87,30 +87,25 @@ class RequestListener
             throw new PageNotFoundException(sprintf('Invalid locale - site.locale=%s - request._locale=%s', $site->getLocale(), $event->getRequest()->get('_locale')));
         }
 
-        try {
-            $page = $cms->getPageByRouteName($site, $event->getRequest()->get('_route'));
+        $page = $cms->getPageByRouteName($site, $event->getRequest()->get('_route'));
 
-            if (!$page->getEnabled() && !$this->cmsSelector->isEditor()) {
-                throw new PageNotFoundException(sprintf('The page is not enabled : id=%s', $page->getId()));
-            }
-
-            $cms->setCurrentPage($page);
-
-            $this->seoPage->setTitle($page->getTitle() ?: $page->getName());
-
-            if ($page->getMetaDescription()) {
-                $this->seoPage->addMeta('name', 'description', $page->getMetaDescription());
-            }
-
-            if ($page->getMetaKeyword()) {
-                $this->seoPage->addMeta('name', 'keywords', $page->getMetaKeyword());
-            }
-
-            $this->seoPage->addMeta('property', 'og:type', 'article');
-            $this->seoPage->addHtmlAttributes('prefix', 'og: http://ogp.me/ns#');
-
-        } catch (PageNotFoundException $e) {
-            return;
+        if (!$page->getEnabled() && !$this->cmsSelector->isEditor()) {
+            throw new PageNotFoundException(sprintf('The page is not enabled : id=%s', $page->getId()));
         }
+
+        $cms->setCurrentPage($page);
+
+        $this->seoPage->setTitle($page->getTitle() ?: $page->getName());
+
+        if ($page->getMetaDescription()) {
+            $this->seoPage->addMeta('name', 'description', $page->getMetaDescription());
+        }
+
+        if ($page->getMetaKeyword()) {
+            $this->seoPage->addMeta('name', 'keywords', $page->getMetaKeyword());
+        }
+
+        $this->seoPage->addMeta('property', 'og:type', 'article');
+        $this->seoPage->addHtmlAttributes('prefix', 'og: http://ogp.me/ns#');
     }
 }
