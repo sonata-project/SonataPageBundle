@@ -28,6 +28,7 @@ class RequestListenerTest extends \PHPUnit_Framework_TestCase
     public function testValidSite()
     {
         $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+        $page->expects($this->once())->method('getEnabled')->will($this->returnValue(true));
 
         $seoPage = $this->getMock('Sonata\SeoBundle\Seo\SeoPageInterface');
 
