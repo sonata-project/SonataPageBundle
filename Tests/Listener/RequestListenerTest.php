@@ -11,17 +11,12 @@
 namespace Sonata\PageBundle\Tests\Listener;
 
 use Sonata\PageBundle\Listener\RequestListener;
-use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
-use Sonata\PageBundle\CmsManager\CmsManagerInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Sonata\PageBundle\Model\PageInterface;
-use Sonata\PageBundle\Tests\Model\Site;
-use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 
 /**
- *
+ * Test the page bundle request listener
  */
 class RequestListenerTest extends \PHPUnit_Framework_TestCase
 {

@@ -15,6 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 use Sonata\PageBundle\DependencyInjection\Compiler\CacheCompilerPass;
 use Sonata\PageBundle\DependencyInjection\Compiler\GlobalVariablesCompilerPass;
+use Sonata\PageBundle\DependencyInjection\Compiler\PageServiceCompilerPass;
 
 /**
  * SonataPageBundle
@@ -32,5 +33,6 @@ class SonataPageBundle extends Bundle
 
         $container->addCompilerPass(new CacheCompilerPass());
         $container->addCompilerPass(new GlobalVariablesCompilerPass());
+        $container->addCompilerPass(new PageServiceCompilerPass());
     }
 }

@@ -14,24 +14,24 @@ namespace Sonata\PageBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-use Sonata\PageBundle\Page\TemplateManagerInterface;
+use Sonata\PageBundle\Page\PageServiceManagerInterface;
 
 /**
- * Select a template
+ * Select a page type
  *
- * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Olivier Paradis <paradis.olivier@gmail.com>
  */
-class TemplateChoiceType extends AbstractType
+class PageTypeChoiceType extends AbstractType
 {
     /**
-     * @var TemplateManagerInterface
+     * @var PageServiceManagerInterface
      */
     protected $manager;
 
     /**
-     * @param TemplateManagerInterface $manager
+     * @param PageServiceManagerInterface $manager
      */
-    public function __construct(TemplateManagerInterface $manager)
+    public function __construct(PageServiceManagerInterface $manager)
     {
         $this->manager = $manager;
     }
@@ -42,21 +42,24 @@ class TemplateChoiceType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'choices' => $this->getTemplates()
+            'choices' => $this->getPageTypes()
         ));
     }
 
     /**
      * @return array
      */
-    public function getTemplates()
+    public function getPageTypes()
     {
-        $templates = array();
-        foreach ($this->manager->getAll() as $code => $template) {
-            $templates[$code] = $template->getName();
+        $services = $this->manager->getAll();
+        $types = array();
+        foreach ($services as $id => $service) {
+            $types[$id] = $service->getName();
         }
 
-        return $templates;
+        asort($types);
+
+        return $types;
     }
 
     /**
@@ -72,6 +75,6 @@ class TemplateChoiceType extends AbstractType
      */
     public function getName()
     {
-        return 'sonata_page_template';
+        return 'sonata_page_type_choice';
     }
 }

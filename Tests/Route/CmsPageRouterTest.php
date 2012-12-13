@@ -105,7 +105,7 @@ class CmsPageRouterTest extends \PHPUnit_Framework_TestCase
 
         $route = $this->router->match('/');
 
-        $this->assertEquals('sonata.page.renderer:render', $route['_controller']);
+        $this->assertEquals('sonata.page.page_service_manager:execute', $route['_controller']);
         $this->assertEquals('page_slug', $route['_route']);
 
     }

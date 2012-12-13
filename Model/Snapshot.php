@@ -29,6 +29,8 @@ abstract class Snapshot implements SnapshotInterface
 
     protected $pageAlias;
 
+    protected $type;
+
     protected $name;
 
     protected $url;
@@ -91,6 +93,22 @@ abstract class Snapshot implements SnapshotInterface
     public function getPageAlias()
     {
         return $this->pageAlias;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 
     /**

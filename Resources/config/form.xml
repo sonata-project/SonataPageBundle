@@ -17,8 +17,12 @@
 
         <service id="sonata.page.form.template_choice" class="Sonata\PageBundle\Form\Type\TemplateChoiceType">
             <tag name="form.type" alias="sonata_page_template" />
+            <argument type="service" id="sonata.page.template_manager" />
+        </service>
 
-            <argument type="service" id="sonata.page.renderer" />
+        <service id="sonata.page.form.page_type_choice" class="Sonata\PageBundle\Form\Type\PageTypeChoiceType">
+            <tag name="form.type" alias="sonata_page_type_choice" />
+            <argument type="service" id="sonata.page.page_service_manager" />
         </service>
 
     </services>
