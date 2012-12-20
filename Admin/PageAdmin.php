@@ -138,7 +138,18 @@ class PageAdmin extends Admin
                 ->add('name')
                 ->add('enabled', null, array('required' => false))
                 ->add('position')
-                ->add('type', 'sonata_page_type_choice', array('required' => false))
+            ->end();
+
+        if ($this->hasSubject() && !$this->getSubject()->isInternal()) {
+            $formMapper
+                ->with($this->trans('form_page.group_main_label'))
+                    ->add('type', 'sonata_page_type_choice', array('required' => false))
+                ->end()
+            ;
+        }
+
+        $formMapper
+            ->with($this->trans('form_page.group_main_label'))
                 ->add('templateCode', 'sonata_page_template', array('required' => true))
                 ->add('parent', 'sonata_page_selector', array(
                     'page'          => $this->getSubject() ?: null,
