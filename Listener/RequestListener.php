@@ -16,12 +16,10 @@ use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Sonata\PageBundle\Exception\InternalErrorException;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
-
-use Sonata\SeoBundle\Seo\SeoPageInterface;
+use Sonata\PageBundle\Model\PageInterface;
 
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -32,26 +30,33 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class RequestListener
 {
+    /**
+     * @var CmsManagerSelectorInterface
+     */
     protected $cmsSelector;
 
+    /**
+     * @var SiteSelectorInterface
+     */
     protected $siteSelector;
 
+    /**
+     * @var DecoratorStrategyInterface
+     */
     protected $decoratorStrategy;
 
-    protected $seoPage;
-
     /**
-     * @param CmsManagerSelectorInterface $cmsSelector
-     * @param SiteSelectorInterface       $siteSelector
-     * @param DecoratorStrategyInterface  $decoratorStrategy
-     * @param SeoPageInterface            $seoPage
+     * Constructor
+     *
+     * @param CmsManagerSelectorInterface $cmsSelector       Cms manager selector
+     * @param SiteSelectorInterface       $siteSelector      Site selector
+     * @param DecoratorStrategyInterface  $decoratorStrategy Decorator strategy
      */
-    public function __construct(CmsManagerSelectorInterface $cmsSelector, SiteSelectorInterface $siteSelector, DecoratorStrategyInterface $decoratorStrategy, SeoPageInterface $seoPage)
+    public function __construct(CmsManagerSelectorInterface $cmsSelector, SiteSelectorInterface $siteSelector, DecoratorStrategyInterface $decoratorStrategy)
     {
         $this->cmsSelector       = $cmsSelector;
         $this->siteSelector      = $siteSelector;
         $this->decoratorStrategy = $decoratorStrategy;
-        $this->seoPage           = $seoPage;
     }
 
     /**
@@ -60,20 +65,25 @@ class RequestListener
      * @param GetResponseEvent $event
      *
      * @return void
+     *
+     * @throws InternalErrorException
+     * @throws PageNotFoundException
      */
     public function onCoreRequest(GetResponseEvent $event)
     {
-        $cms = $this->cmsSelector->retrieve();
+        $request = $event->getRequest();
 
+        $cms = $this->cmsSelector->retrieve();
         if (!$cms) {
             throw new InternalErrorException('No CMS Manager available');
         }
 
-        if ($event->getRequest()->get('_route') == 'page_slug') { // true cms page
+        // true cms page
+        if ($request->get('_route') == PageInterface::PAGE_ROUTE_CMS_NAME) {
             return;
         }
 
-        if (!$this->decoratorStrategy->isRequestDecorable($event->getRequest())) {
+        if (!$this->decoratorStrategy->isRequestDecorable($request)) {
             return;
         }
 
@@ -83,29 +93,21 @@ class RequestListener
             throw new InternalErrorException('No site available for the current request');
         }
 
-        if ($site->getLocale() && $site->getLocale() != $event->getRequest()->get('_locale')) {
-            throw new PageNotFoundException(sprintf('Invalid locale - site.locale=%s - request._locale=%s', $site->getLocale(), $event->getRequest()->get('_locale')));
+        if ($site->getLocale() && $site->getLocale() != $request->get('_locale')) {
+            throw new PageNotFoundException(sprintf('Invalid locale - site.locale=%s - request._locale=%s', $site->getLocale(), $request->get('_locale')));
         }
 
-        $page = $cms->getPageByRouteName($site, $event->getRequest()->get('_route'));
+        try {
+            $page = $cms->getPageByRouteName($site, $request->get('_route'));
 
-        if (!$page->getEnabled() && !$this->cmsSelector->isEditor()) {
-            throw new PageNotFoundException(sprintf('The page is not enabled : id=%s', $page->getId()));
+            if (!$page->getEnabled() && !$this->cmsSelector->isEditor()) {
+                throw new PageNotFoundException(sprintf('The page is not enabled : id=%s', $page->getId()));
+            }
+
+            $cms->setCurrentPage($page);
+
+        } catch (PageNotFoundException $e) {
+            return;
         }
-
-        $cms->setCurrentPage($page);
-
-        $this->seoPage->setTitle($page->getTitle() ?: $page->getName());
-
-        if ($page->getMetaDescription()) {
-            $this->seoPage->addMeta('name', 'description', $page->getMetaDescription());
-        }
-
-        if ($page->getMetaKeyword()) {
-            $this->seoPage->addMeta('name', 'keywords', $page->getMetaKeyword());
-        }
-
-        $this->seoPage->addMeta('property', 'og:type', 'article');
-        $this->seoPage->addHtmlAttributes('prefix', 'og: http://ogp.me/ns#');
     }
 }

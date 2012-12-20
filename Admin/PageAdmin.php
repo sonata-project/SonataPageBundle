@@ -14,7 +14,6 @@ namespace Sonata\PageBundle\Admin;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
-use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -38,10 +37,19 @@ use Knp\Menu\ItemInterface as MenuItemInterface;
  */
 class PageAdmin extends Admin
 {
+    /**
+     * @var PageManagerInterface
+     */
     protected $pageManager;
 
+    /**
+     * @var SiteManagerInterface
+     */
     protected $siteManager;
 
+    /**
+     * @var CacheManagerInterface
+     */
     protected $cacheManager;
 
     /**
@@ -53,6 +61,7 @@ class PageAdmin extends Admin
             ->add('site')
             ->add('routeName')
             ->add('pageAlias')
+            ->add('type')
             ->add('enabled')
             ->add('decorate')
             ->add('name')
@@ -70,6 +79,7 @@ class PageAdmin extends Admin
         $listMapper
             ->add('hybrid', 'text', array('template' => 'SonataPageBundle:PageAdmin:field_hybrid.html.twig'))
             ->addIdentifier('name')
+            ->add('type')
             ->add('pageAlias')
             ->add('site')
             ->add('decorate', null, array('editable' => true))
@@ -86,7 +96,9 @@ class PageAdmin extends Admin
         $datagridMapper
             ->add('site')
             ->add('name')
+            ->add('type', null, array('field_type' => 'sonata_page_type_choice'))
             ->add('pageAlias')
+            ->add('parent')
             ->add('edited')
             ->add('hybrid', 'doctrine_orm_callback', array(
                 'callback' => function($queryBuilder, $alias, $field, $data) {
@@ -126,13 +138,13 @@ class PageAdmin extends Admin
                 ->add('name')
                 ->add('enabled', null, array('required' => false))
                 ->add('position')
+                ->add('type', 'sonata_page_type_choice', array('required' => false))
                 ->add('templateCode', 'sonata_page_template', array('required' => true))
                 ->add('parent', 'sonata_page_selector', array(
                     'page'          => $this->getSubject() ?: null,
                     'site'          => $this->getSubject() ? $this->getSubject()->getSite() : null,
                     'model_manager' => $this->getModelManager(),
                     'class'         => $this->getClass(),
-                    'filter_choice' => array('hierarchy' => 'root'),
                     'required'      => false
                 ))
             ->end()

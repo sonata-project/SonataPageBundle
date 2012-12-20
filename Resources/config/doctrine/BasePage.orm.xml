@@ -3,6 +3,7 @@
     <mapped-superclass name="Sonata\PageBundle\Entity\BasePage">
         <field name="routeName"         type="string"       column="route_name" length="255"/>
         <field name="pageAlias"        type="string"        column="page_alias" nullable="true" length="255" />
+        <field name="type"              type="string"       column="type"       nullable="true" length="255" />
 
         <field name="position"          type="integer"      column="position"        default="1"/>
 

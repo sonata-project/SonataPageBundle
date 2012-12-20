@@ -162,7 +162,7 @@ class CmsPageRouter implements ChainedRouterInterface
         $cms->setCurrentPage($page);
 
         return array (
-            '_controller' => 'sonata.page.renderer:render',
+            '_controller' => 'sonata.page.page_service_manager:execute',
             '_route'      => PageInterface::PAGE_ROUTE_CMS_NAME,
             'page'        => $page,
             'path'        => $pathinfo,
