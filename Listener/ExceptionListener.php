@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * ExceptionListener.
  *
- * @author Fabien Potencier <fabien@symfony.com>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class ExceptionListener
 {
@@ -42,14 +42,16 @@ class ExceptionListener
     protected $httpErrorCodes;
 
     /**
-     * @param \Sonata\PageBundle\Site\SiteSelectorInterface             $siteSelector
-     * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $cmsManagerSelector
-     * @param boolean                                                   $debug
-     * @param \Symfony\Component\Templating\EngineInterface             $templating
-     * @param \Sonata\PageBundle\CmsManager\PageRendererInterface       $pageRenderer
-     * @param \Sonata\PageBundle\CmsManager\DecoratorStrategyInterface  $decoratorStrategy
-     * @param array                                                     $httpErrorCodes
-     * @param null|\Symfony\Component\HttpKernel\Log\LoggerInterface    $logger
+     * Constructor.
+     *
+     * @param SiteSelectorInterface       $siteSelector       Site selector
+     * @param CmsManagerSelectorInterface $cmsManagerSelector Cms manager selector
+     * @param boolean                     $debug              Debug mode
+     * @param EngineInterface             $templating         Template engine
+     * @param PageRendererInterface       $pageRenderer       Page render
+     * @param DecoratorStrategyInterface  $decoratorStrategy  Decorator strategy
+     * @param array                       $httpErrorCodes     Http error codes managed
+     * @param null|LoggerInterface        $logger             Logger
      */
     public function __construct(SiteSelectorInterface $siteSelector, CmsManagerSelectorInterface $cmsManagerSelector, $debug, EngineInterface $templating, PageRendererInterface $pageRenderer, DecoratorStrategyInterface $decoratorStrategy, array $httpErrorCodes, LoggerInterface $logger = null)
     {
@@ -64,7 +66,9 @@ class ExceptionListener
     }
 
     /**
-     * {@inheritdoc}
+     * Returns list of http error codes managed.
+     *
+     * @return array
      */
     public function getHttpErrorCodes()
     {
@@ -72,7 +76,11 @@ class ExceptionListener
     }
 
     /**
-     * {@inheritdoc}
+     * Returns true if the http error code is defined.
+     *
+     * @param integer $statusCode
+     *
+     * @return bool
      */
     public function hasErrorCode($statusCode)
     {
@@ -80,7 +88,14 @@ class ExceptionListener
     }
 
     /**
-     * {@inheritdoc}
+     * Returns a fully loaded page from a route name by the http error code throw.
+     *
+     * @param integer $statusCode
+     *
+     * @return \Sonata\PageBundle\Model\PageInterface
+     *
+     * @throws \RuntimeException      When site is not found, check your state database
+     * @throws InternalErrorException When you do not configure page for http error code
      */
     public function getErrorCodePage($statusCode)
     {
@@ -91,19 +106,22 @@ class ExceptionListener
         $cms  = $this->cmsManagerSelector->retrieve();
         $site = $this->siteSelector->retrieve();
 
+        if (!$site) {
+            throw new \RuntimeException('No site available');
+        }
+
         return $cms->getPageByRouteName($site, $this->httpErrorCodes[$statusCode]);
     }
 
     /**
-     * @throws \Exception
+     * Returns response error under the environment and debug mode.
      *
-     * @param \Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent $event
+     * @param GetResponseForExceptionEvent $event
      *
      * @return bool
      */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
-
         if ($event->getException() instanceof NotFoundHttpException && $this->cmsManagerSelector->isEditor()) {
             $pathInfo = $event->getRequest()->getPathInfo();
 
@@ -132,7 +150,9 @@ class ExceptionListener
     }
 
     /**
-     * @param \Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent $event
+     * Returns html page for critical error.
+     *
+     * @param GetResponseForExceptionEvent $event
      *
      * @return void
      */
@@ -146,9 +166,9 @@ class ExceptionListener
     }
 
     /**
-     * @throws \Exception
+     * Seeks the problem.
      *
-     * @param \Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent $event
+     * @param GetResponseForExceptionEvent $event
      *
      * @return void
      */
@@ -187,37 +207,29 @@ class ExceptionListener
 
         try {
             $page = $this->getErrorCodePage($statusCode);
-        } catch (PageNotFoundException $e) {
 
-            $this->handleInternalError($e);
+            $cmsManager->setCurrentPage($page);
+
+            $response = $this->pageRenderer->render($page, array(), new Response('', $statusCode));
+        }
+        catch (\Exception $e) {
+            $this->logException($exception, $e);
+
+            $event->setException($e);
+            $this->handleInternalError($event);
 
             return;
-
-        } catch (\Exception $e) {
-            $this->logException($exception, $e);
-
-            // re-throw the exception as this is a catch-all
-            throw $exception;
-        }
-
-        $cmsManager->setCurrentPage($page);
-
-        try {
-            $response = $this->pageRenderer->render($page, array(), new Response('', $statusCode));
-        } catch (\Exception $e) {
-            $this->logException($exception, $e);
-
-            // re-throw the exception as this is a catch-all
-            throw $exception;
         }
 
         $event->setResponse($response);
     }
 
     /**
-     * @param \Exception $originalException
-     * @param \Exception $generatedException
-     * @param null       $message
+     * Log error.
+     *
+     * @param \Exception  $originalException
+     * @param \Exception  $generatedException
+     * @param null|string $message
      *
      * @return void
      */
