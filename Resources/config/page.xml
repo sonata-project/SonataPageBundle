@@ -15,6 +15,7 @@
         <parameter key="sonata.page.router.class"                       >Sonata\PageBundle\Route\CmsPageRouter</parameter>
         <parameter key="sonata.page.service.manager.class"              >Sonata\PageBundle\Page\PageServiceManager</parameter>
         <parameter key="sonata.page.template.manager.class"             >Sonata\PageBundle\Page\TemplateManager</parameter>
+        <parameter key="sonata.page.service.default.class"              >Sonata\PageBundle\Page\Service\DefaultPageService</parameter>
     </parameters>
 
     <services>
@@ -104,7 +105,7 @@
             <argument type='service' id="router.default"/>
         </service>
 
-        <service id="sonata.page.template_manager" class="Sonata\PageBundle\Page\TemplateManager">
+        <service id="sonata.page.template_manager" class="%sonata.page.template.manager.class%">
             <argument type="service" id="templating" />
             <argument type="collection"></argument>
             <argument/>
@@ -112,15 +113,9 @@
 
         <service id="sonata.page.page_service_manager" class="%sonata.page.service.manager.class%">
             <argument type="service" id="router" />
-            <argument type="service" id="sonata.page.template_manager" />
         </service>
 
-        <service id="sonata.page.breadcrumb_manager" class="Sonata\PageBundle\Breadcrumb\BreadcrumbManager">
-            <argument type="service" id="sonata.page.page_service_manager"/>
-        </service>
-
-        <!-- page services -->
-        <service id="sonata.page.service.default" class="Sonata\PageBundle\Page\Service\DefaultPageService">
+        <service id="sonata.page.service.default" class="%sonata.page.service.default.class%">
             <tag name="sonata.page"/>
             <argument>Default</argument>
             <argument type="service" id="sonata.page.template_manager" />
