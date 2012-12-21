@@ -134,7 +134,7 @@ class PageAdmin extends Admin
 
         $formMapper
             ->with($this->trans('form_page.group_main_label'))
-                ->add('site')
+                ->add('site', null, array('required' => true))
                 ->add('name')
                 ->add('enabled', null, array('required' => false))
                 ->add('position')
@@ -231,6 +231,10 @@ class PageAdmin extends Admin
         }
 
         foreach ($pages as $page) {
+            if ($page->isError() || $page->isInternal()) {
+                continue;
+            }
+
             if ($page->getUrl() == $object->getUrl() && $page != $object) {
                 $errorElement->addViolation($this->trans('error.uniq_url', array('%url%' => $object->getUrl())));
             }
