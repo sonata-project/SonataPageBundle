@@ -49,9 +49,4 @@ abstract class BasePageService implements PageServiceInterface
     {
         return $this->name;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    abstract public function execute(PageInterface $page, Request $request, array $parameters = array(), Response $response = null);
 }
