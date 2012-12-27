@@ -68,15 +68,15 @@ class PageController extends Controller
 
         $cms->setCurrentPage($page);
 
-        return $this->getPageRendered()->render($page);
+        return $this->getPageServiceManager()->execute($page, $this->getRequest());
     }
 
     /**
-     * @return \Sonata\PageBundle\CmsManager\PageRendererInterface
+     * @return \Sonata\PageBundle\Page\PageServiceManagerInterface
      */
-    protected function getPageRendered()
+    protected function getPageServiceManager()
     {
-        return $this->get('sonata.page.renderer');
+        return $this->get('sonata.page.page_service_manager');
     }
 
     /**

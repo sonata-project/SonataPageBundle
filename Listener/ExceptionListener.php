@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Sonata project.
+ *
+ * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Sonata\PageBundle\Listener;
 
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
@@ -7,7 +16,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Sonata\PageBundle\Exception\InternalErrorException;
 use Sonata\PageBundle\Exception\PageNotFoundException;
-use Sonata\PageBundle\CmsManager\PageRendererInterface;
+use Sonata\PageBundle\Page\PageServiceManagerInterface;
 use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 
 use Symfony\Component\Templating\EngineInterface;
@@ -23,46 +32,80 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ExceptionListener
 {
-    protected $cmsManagerSelector;
-
+    /**
+     * @var SiteSelectorInterface
+     */
     protected $siteSelector;
 
+    /**
+     * @var CmsManagerSelectorInterface
+     */
+    protected $cmsManagerSelector;
+
+    /**
+     * @var boolean
+     */
     protected $debug;
 
-    protected $logger;
-
-    protected $status;
-
+    /**
+     * @var EngineInterface
+     */
     protected $templating;
 
-    protected $pageRenderer;
+    /**
+     * @var PageServiceManagerInterface
+     */
+    protected $pageServiceManager;
 
+    /**
+     * @var DecoratorStrategyInterface
+     */
     protected $decoratorStrategy;
 
+    /**
+     * @var array
+     */
     protected $httpErrorCodes;
 
     /**
-     * Constructor.
+     * @var LoggerInterface|null
+     */
+    protected $logger;
+
+    /**
+     * @var boolean
+     */
+    protected $status;
+
+    /**
+     * Constructor
      *
      * @param SiteSelectorInterface       $siteSelector       Site selector
-     * @param CmsManagerSelectorInterface $cmsManagerSelector Cms manager selector
+     * @param CmsManagerSelectorInterface $cmsManagerSelector CMS Manager selector
      * @param boolean                     $debug              Debug mode
-     * @param EngineInterface             $templating         Template engine
-     * @param PageRendererInterface       $pageRenderer       Page render
+     * @param EngineInterface             $templating         Templating engine
+     * @param PageServiceManagerInterface $pageServiceManager Page service manager
      * @param DecoratorStrategyInterface  $decoratorStrategy  Decorator strategy
-     * @param array                       $httpErrorCodes     Http error codes managed
-     * @param null|LoggerInterface        $logger             Logger
+     * @param array                       $httpErrorCodes     An array of http error codes' routes
+     * @param LoggerInterface|null        $logger             Logger instance
      */
-    public function __construct(SiteSelectorInterface $siteSelector, CmsManagerSelectorInterface $cmsManagerSelector, $debug, EngineInterface $templating, PageRendererInterface $pageRenderer, DecoratorStrategyInterface $decoratorStrategy, array $httpErrorCodes, LoggerInterface $logger = null)
+    public function __construct(SiteSelectorInterface $siteSelector,
+                                CmsManagerSelectorInterface $cmsManagerSelector,
+                                $debug,
+                                EngineInterface $templating,
+                                PageServiceManagerInterface $pageServiceManager,
+                                DecoratorStrategyInterface $decoratorStrategy,
+                                array $httpErrorCodes,
+                                LoggerInterface $logger = null)
     {
+        $this->siteSelector       = $siteSelector;
         $this->cmsManagerSelector = $cmsManagerSelector;
         $this->debug              = $debug;
-        $this->logger             = $logger;
         $this->templating         = $templating;
-        $this->siteSelector       = $siteSelector;
-        $this->pageRenderer       = $pageRenderer;
+        $this->pageServiceManager = $pageServiceManager;
         $this->decoratorStrategy  = $decoratorStrategy;
         $this->httpErrorCodes     = $httpErrorCodes;
+        $this->logger             = $logger;
     }
 
     /**
@@ -114,11 +157,11 @@ class ExceptionListener
     }
 
     /**
-     * Returns response error under the environment and debug mode.
+     * Handles a kernel exception
      *
      * @param GetResponseForExceptionEvent $event
      *
-     * @return bool
+     * @throws \Exception
      */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
@@ -150,11 +193,9 @@ class ExceptionListener
     }
 
     /**
-     * Returns html page for critical error.
+     * Handles an internal error
      *
      * @param GetResponseForExceptionEvent $event
-     *
-     * @return void
      */
     private function handleInternalError(GetResponseForExceptionEvent $event)
     {
@@ -166,11 +207,11 @@ class ExceptionListener
     }
 
     /**
-     * Seeks the problem.
+     * Handles a native error
      *
      * @param GetResponseForExceptionEvent $event
      *
-     * @return void
+     * @throws mixed
      */
     private function handleNativeError(GetResponseForExceptionEvent $event)
     {
@@ -210,7 +251,7 @@ class ExceptionListener
 
             $cmsManager->setCurrentPage($page);
 
-            $response = $this->pageRenderer->render($page, array(), new Response('', $statusCode));
+            $response = $this->pageServiceManager->execute($page, $event->getRequest(), array(), new Response('', $statusCode));
         }
         catch (\Exception $e) {
             $this->logException($exception, $e);
@@ -225,13 +266,11 @@ class ExceptionListener
     }
 
     /**
-     * Log error.
+     * Logs exceptions
      *
-     * @param \Exception  $originalException
-     * @param \Exception  $generatedException
-     * @param null|string $message
-     *
-     * @return void
+     * @param \Exception  $originalException  Original exception that called the listener
+     * @param \Exception  $generatedException Generated exception
+     * @param string|null $message            Message to log
      */
     private function logException(\Exception $originalException, \Exception $generatedException, $message = null)
     {
