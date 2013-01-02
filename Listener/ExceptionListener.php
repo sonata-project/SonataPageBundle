@@ -109,7 +109,9 @@ class ExceptionListener
     }
 
     /**
-     * {@inheritdoc}
+     * Returns list of http error codes managed.
+     *
+     * @return array
      */
     public function getHttpErrorCodes()
     {
@@ -117,7 +119,11 @@ class ExceptionListener
     }
 
     /**
-     * {@inheritdoc}
+     * Returns true if the http error code is defined.
+     *
+     * @param integer $statusCode
+     *
+     * @return bool
      */
     public function hasErrorCode($statusCode)
     {
@@ -125,7 +131,14 @@ class ExceptionListener
     }
 
     /**
-     * {@inheritdoc}
+     * Returns a fully loaded page from a route name by the http error code throw.
+     *
+     * @param integer $statusCode
+     *
+     * @return \Sonata\PageBundle\Model\PageInterface
+     *
+     * @throws \RuntimeException      When site is not found, check your state database
+     * @throws InternalErrorException When you do not configure page for http error code
      */
     public function getErrorCodePage($statusCode)
     {
@@ -135,6 +148,10 @@ class ExceptionListener
 
         $cms  = $this->cmsManagerSelector->retrieve();
         $site = $this->siteSelector->retrieve();
+
+        if (!$site) {
+            throw new \RuntimeException('No site available');
+        }
 
         return $cms->getPageByRouteName($site, $this->httpErrorCodes[$statusCode]);
     }
@@ -148,7 +165,6 @@ class ExceptionListener
      */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
-
         if ($event->getException() instanceof NotFoundHttpException && $this->cmsManagerSelector->isEditor()) {
             $pathInfo = $event->getRequest()->getPathInfo();
 
@@ -232,28 +248,18 @@ class ExceptionListener
 
         try {
             $page = $this->getErrorCodePage($statusCode);
-        } catch (PageNotFoundException $e) {
 
-            $this->handleInternalError($e);
+            $cmsManager->setCurrentPage($page);
+
+            $response = $this->pageServiceManager->execute($page, $event->getRequest(), array(), new Response('', $statusCode));
+        }
+        catch (\Exception $e) {
+            $this->logException($exception, $e);
+
+            $event->setException($e);
+            $this->handleInternalError($event);
 
             return;
-
-        } catch (\Exception $e) {
-            $this->logException($exception, $e);
-
-            // re-throw the exception as this is a catch-all
-            throw $exception;
-        }
-
-        $cmsManager->setCurrentPage($page);
-
-        try {
-            $response = $this->pageServiceManager->execute($page, $event->getRequest(), array(), new Response('', $statusCode));
-        } catch (\Exception $e) {
-            $this->logException($exception, $e);
-
-            // re-throw the exception as this is a catch-all
-            throw $exception;
         }
 
         $event->setResponse($response);
