@@ -59,7 +59,7 @@ abstract class Page implements PageInterface
     protected $blocks;
 
     protected $sources;
-    
+
     protected $parent;
 
     protected $parents;
@@ -287,14 +287,7 @@ abstract class Page implements PageInterface
      */
     public function setRawHeaders($rawHeaders)
     {
-        $headers = array();
-
-        foreach (explode("\r\n", $rawHeaders) as $header) {
-            if (false != strpos($header, ':')) {
-                list($name, $headerStr) = explode(':', $header, 2);
-                $headers[trim($name)] = trim($headerStr);
-            }
-        }
+        $headers = $this->getHeadersAsArray($rawHeaders);
 
         $this->setHeaders($headers);
     }
@@ -317,6 +310,8 @@ abstract class Page implements PageInterface
         $headers[$name] = $header;
 
         $this->headers = $headers;
+
+        $this->rawHeaders = $this->getHeadersAsString($headers);
     }
 
     /**
@@ -325,6 +320,9 @@ abstract class Page implements PageInterface
     public function setHeaders(array $headers = array())
     {
         $this->headers = $headers;
+        foreach ($headers as $name => $header) {
+            $this->addHeader($name, $header);
+        }
     }
 
     /**
@@ -332,6 +330,10 @@ abstract class Page implements PageInterface
      */
     public function getHeaders()
     {
+        if (null === $this->headers) {
+            $rawHeaders = $this->getRawHeaders();
+            $this->headers = $this->getHeadersAsArray($rawHeaders);
+        }
         return $this->headers;
     }
 
@@ -797,5 +799,46 @@ abstract class Page implements PageInterface
     public function getTitle()
     {
         return $this->title;
+    }
+
+    /**
+     * Converts the headers passed as string to an array
+     *
+     * @param string $rawHeaders The headers
+     *
+     * @return array
+     */
+    protected  function getHeadersAsArray($rawHeaders)
+    {
+        $headers = array();
+
+        foreach (explode("\r\n", $rawHeaders) as $header) {
+            if (false != strpos($header, ':')) {
+                list($name, $headerStr) = explode(':', $header, 2);
+                $headers[trim($name)] = trim($headerStr);
+            }
+        }
+
+        return $headers;
+    }
+
+    /**
+     * Converts the headers passed as an associative array to a string
+     *
+     * @param array $headers The headers
+     *
+     * @return string
+     */
+    protected function getHeadersAsString(array $headers)
+    {
+        $rawHeaders = array();
+
+        foreach ($headers as $name => $header) {
+            $rawHeaders[] = sprintf('%s: %s', trim($name), trim($header));
+        }
+
+        $rawHeaders = implode("\r\n", $rawHeaders);
+
+        return $rawHeaders;
     }
 }
