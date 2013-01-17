@@ -49,6 +49,20 @@ interface SnapshotInterface
     function setPageAlias($pageAlias);
 
     /**
+     * Returns the page type
+     *
+     * @return string
+     */
+    function getType();
+
+    /**
+     * Sets the page type
+     *
+     * @param string $type
+     */
+    function setType($type);
+
+    /**
      * Set enabled
      *
      * @param boolean $enabled

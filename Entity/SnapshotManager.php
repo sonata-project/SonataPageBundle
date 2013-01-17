@@ -192,6 +192,7 @@ class SnapshotManager implements SnapshotManagerInterface
 
         $page->setRouteName($snapshot->getRouteName());
         $page->setPageAlias($snapshot->getPageAlias());
+        $page->setType($snapshot->getType());
         $page->setCustomUrl($snapshot->getUrl());
         $page->setUrl($snapshot->getUrl());
         $page->setPosition($snapshot->getPosition());
@@ -282,6 +283,7 @@ class SnapshotManager implements SnapshotManagerInterface
         $snapshot->setEnabled($page->getEnabled());
         $snapshot->setRouteName($page->getRouteName());
         $snapshot->setPageAlias($page->getPageAlias());
+        $snapshot->setType($page->getType());
         $snapshot->setName($page->getName());
         $snapshot->setPosition($page->getPosition());
         $snapshot->setDecorate($page->getDecorate());

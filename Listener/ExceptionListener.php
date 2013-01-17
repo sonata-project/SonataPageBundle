@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Sonata project.
+ *
+ * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Sonata\PageBundle\Listener;
 
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
@@ -7,7 +16,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Sonata\PageBundle\Exception\InternalErrorException;
 use Sonata\PageBundle\Exception\PageNotFoundException;
-use Sonata\PageBundle\CmsManager\PageRendererInterface;
+use Sonata\PageBundle\Page\PageServiceManagerInterface;
 use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 
 use Symfony\Component\Templating\EngineInterface;
@@ -19,52 +28,90 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * ExceptionListener.
  *
- * @author Fabien Potencier <fabien@symfony.com>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class ExceptionListener
 {
-    protected $cmsManagerSelector;
-
+    /**
+     * @var SiteSelectorInterface
+     */
     protected $siteSelector;
 
+    /**
+     * @var CmsManagerSelectorInterface
+     */
+    protected $cmsManagerSelector;
+
+    /**
+     * @var boolean
+     */
     protected $debug;
 
-    protected $logger;
-
-    protected $status;
-
+    /**
+     * @var EngineInterface
+     */
     protected $templating;
 
-    protected $pageRenderer;
+    /**
+     * @var PageServiceManagerInterface
+     */
+    protected $pageServiceManager;
 
+    /**
+     * @var DecoratorStrategyInterface
+     */
     protected $decoratorStrategy;
 
+    /**
+     * @var array
+     */
     protected $httpErrorCodes;
 
     /**
-     * @param \Sonata\PageBundle\Site\SiteSelectorInterface             $siteSelector
-     * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $cmsManagerSelector
-     * @param boolean                                                   $debug
-     * @param \Symfony\Component\Templating\EngineInterface             $templating
-     * @param \Sonata\PageBundle\CmsManager\PageRendererInterface       $pageRenderer
-     * @param \Sonata\PageBundle\CmsManager\DecoratorStrategyInterface  $decoratorStrategy
-     * @param array                                                     $httpErrorCodes
-     * @param null|\Symfony\Component\HttpKernel\Log\LoggerInterface    $logger
+     * @var LoggerInterface|null
      */
-    public function __construct(SiteSelectorInterface $siteSelector, CmsManagerSelectorInterface $cmsManagerSelector, $debug, EngineInterface $templating, PageRendererInterface $pageRenderer, DecoratorStrategyInterface $decoratorStrategy, array $httpErrorCodes, LoggerInterface $logger = null)
+    protected $logger;
+
+    /**
+     * @var boolean
+     */
+    protected $status;
+
+    /**
+     * Constructor
+     *
+     * @param SiteSelectorInterface       $siteSelector       Site selector
+     * @param CmsManagerSelectorInterface $cmsManagerSelector CMS Manager selector
+     * @param boolean                     $debug              Debug mode
+     * @param EngineInterface             $templating         Templating engine
+     * @param PageServiceManagerInterface $pageServiceManager Page service manager
+     * @param DecoratorStrategyInterface  $decoratorStrategy  Decorator strategy
+     * @param array                       $httpErrorCodes     An array of http error codes' routes
+     * @param LoggerInterface|null        $logger             Logger instance
+     */
+    public function __construct(SiteSelectorInterface $siteSelector,
+                                CmsManagerSelectorInterface $cmsManagerSelector,
+                                $debug,
+                                EngineInterface $templating,
+                                PageServiceManagerInterface $pageServiceManager,
+                                DecoratorStrategyInterface $decoratorStrategy,
+                                array $httpErrorCodes,
+                                LoggerInterface $logger = null)
     {
+        $this->siteSelector       = $siteSelector;
         $this->cmsManagerSelector = $cmsManagerSelector;
         $this->debug              = $debug;
-        $this->logger             = $logger;
         $this->templating         = $templating;
-        $this->siteSelector       = $siteSelector;
-        $this->pageRenderer       = $pageRenderer;
+        $this->pageServiceManager = $pageServiceManager;
         $this->decoratorStrategy  = $decoratorStrategy;
         $this->httpErrorCodes     = $httpErrorCodes;
+        $this->logger             = $logger;
     }
 
     /**
-     * {@inheritdoc}
+     * Returns list of http error codes managed.
+     *
+     * @return array
      */
     public function getHttpErrorCodes()
     {
@@ -72,7 +119,11 @@ class ExceptionListener
     }
 
     /**
-     * {@inheritdoc}
+     * Returns true if the http error code is defined.
+     *
+     * @param integer $statusCode
+     *
+     * @return bool
      */
     public function hasErrorCode($statusCode)
     {
@@ -80,7 +131,14 @@ class ExceptionListener
     }
 
     /**
-     * {@inheritdoc}
+     * Returns a fully loaded page from a route name by the http error code throw.
+     *
+     * @param integer $statusCode
+     *
+     * @return \Sonata\PageBundle\Model\PageInterface
+     *
+     * @throws \RuntimeException      When site is not found, check your state database
+     * @throws InternalErrorException When you do not configure page for http error code
      */
     public function getErrorCodePage($statusCode)
     {
@@ -91,19 +149,22 @@ class ExceptionListener
         $cms  = $this->cmsManagerSelector->retrieve();
         $site = $this->siteSelector->retrieve();
 
+        if (!$site) {
+            throw new \RuntimeException('No site available');
+        }
+
         return $cms->getPageByRouteName($site, $this->httpErrorCodes[$statusCode]);
     }
 
     /**
+     * Handles a kernel exception
+     *
+     * @param GetResponseForExceptionEvent $event
+     *
      * @throws \Exception
-     *
-     * @param \Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent $event
-     *
-     * @return bool
      */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
-
         if ($event->getException() instanceof NotFoundHttpException && $this->cmsManagerSelector->isEditor()) {
             $pathInfo = $event->getRequest()->getPathInfo();
 
@@ -132,9 +193,9 @@ class ExceptionListener
     }
 
     /**
-     * @param \Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent $event
+     * Handles an internal error
      *
-     * @return void
+     * @param GetResponseForExceptionEvent $event
      */
     private function handleInternalError(GetResponseForExceptionEvent $event)
     {
@@ -146,11 +207,11 @@ class ExceptionListener
     }
 
     /**
-     * @throws \Exception
+     * Handles a native error
      *
-     * @param \Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent $event
+     * @param GetResponseForExceptionEvent $event
      *
-     * @return void
+     * @throws mixed
      */
     private function handleNativeError(GetResponseForExceptionEvent $event)
     {
@@ -187,39 +248,29 @@ class ExceptionListener
 
         try {
             $page = $this->getErrorCodePage($statusCode);
-        } catch (PageNotFoundException $e) {
 
-            $this->handleInternalError($e);
+            $cmsManager->setCurrentPage($page);
+
+            $response = $this->pageServiceManager->execute($page, $event->getRequest(), array(), new Response('', $statusCode));
+        }
+        catch (\Exception $e) {
+            $this->logException($exception, $e);
+
+            $event->setException($e);
+            $this->handleInternalError($event);
 
             return;
-
-        } catch (\Exception $e) {
-            $this->logException($exception, $e);
-
-            // re-throw the exception as this is a catch-all
-            throw $exception;
-        }
-
-        $cmsManager->setCurrentPage($page);
-
-        try {
-            $response = $this->pageRenderer->render($page, array(), new Response('', $statusCode));
-        } catch (\Exception $e) {
-            $this->logException($exception, $e);
-
-            // re-throw the exception as this is a catch-all
-            throw $exception;
         }
 
         $event->setResponse($response);
     }
 
     /**
-     * @param \Exception $originalException
-     * @param \Exception $generatedException
-     * @param null       $message
+     * Logs exceptions
      *
-     * @return void
+     * @param \Exception  $originalException  Original exception that called the listener
+     * @param \Exception  $generatedException Generated exception
+     * @param string|null $message            Message to log
      */
     private function logException(\Exception $originalException, \Exception $generatedException, $message = null)
     {
