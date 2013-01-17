@@ -30,6 +30,8 @@ abstract class Page implements PageInterface
 
     protected $pageAlias;
 
+    protected $type;
+
     protected $name;
 
     protected $title;
@@ -136,6 +138,22 @@ abstract class Page implements PageInterface
     public function getPageAlias()
     {
         return $this->pageAlias;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 
     /**

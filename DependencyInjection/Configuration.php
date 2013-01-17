@@ -75,6 +75,7 @@ class Configuration implements ConfigurationInterface
                 ->end()
             ->end()
 
+            ->scalarNode('default_page_service')->defaultValue('sonata.page.service.default')->end()
             ->scalarNode('default_template')->isRequired()->end()
 
             ->arrayNode('templates')

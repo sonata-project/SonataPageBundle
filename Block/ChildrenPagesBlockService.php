@@ -157,7 +157,7 @@ class ChildrenPagesBlockService extends BaseBlockService
     {
         if (is_numeric($block->getSetting('pageId'))) {
             $cmsManager = $this->cmsManagerSelector->retrieve();
-            $site       = $this->siteSelector->retrieve();
+            $site       = $block->getPage()->getSite();
 
             $block->setSetting('pageId', $cmsManager->getPage($site, $block->getSetting('pageId')));
         }
