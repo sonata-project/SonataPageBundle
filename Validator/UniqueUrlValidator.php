@@ -27,7 +27,6 @@ class UniqueUrlValidator extends ConstraintValidator
     public function __construct(PageManagerInterface $manager)
     {
         $this->manager = $manager;
-
     }
 
     /**
@@ -47,6 +46,11 @@ class UniqueUrlValidator extends ConstraintValidator
             return;
         }
 
+        // do not validated error page
+        if ($value->isError()) {
+            return;
+        }
+
         $this->manager->fixUrl($value);
 
         $pages = $this->manager->findBy(array(
@@ -54,18 +58,13 @@ class UniqueUrlValidator extends ConstraintValidator
             'url'  => $value->getUrl()
         ));
 
-        // do not validated error page
-        if ($value->isError()) {
-            return;
-        }
-
         foreach ($pages as $page) {
             if ($page->isError() || $page->isInternal()) {
                 continue;
             }
 
             if ($page->getUrl() == $value->getUrl() && $page != $value) {
-                $this->context->addViolation($this->trans('error.uniq_url', array('%url%' => $value->getUrl())));
+                $this->context->addViolation('error.uniq_url', array('%url%' => $value->getUrl()));
             }
         }
     }
