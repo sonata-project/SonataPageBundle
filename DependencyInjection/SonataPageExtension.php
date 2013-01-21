@@ -47,6 +47,7 @@ class SonataPageExtension extends Extension
         $loader->load('twig.xml');
         $loader->load('http_kernel.xml');
         $loader->load('consumer.xml');
+        $loader->load('validators.xml');
 
         $this->configureMultisite($container, $config);
         $this->configureCache($container, $config);

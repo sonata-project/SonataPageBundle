@@ -5,6 +5,8 @@
         http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
 
     <class name="Application\Sonata\PageBundle\Entity\Page">
+        <constraint name="Sonata\PageBundle\Validator\Constraints\UniqueUrl" />
+
         <property name="name">
            <constraint name="NotNull" >
                <option name="groups" >
