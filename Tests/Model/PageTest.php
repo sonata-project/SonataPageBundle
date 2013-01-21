@@ -74,6 +74,10 @@ class PageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($page->getRawHeaders(), 'Cache-Control: no-cache');
         $this->assertEquals($page->getHeaders(), array('Cache-Control' => 'no-cache'));
 
+        $page->setHeaders(array());
+        $this->assertEquals($page->getRawHeaders(), '');
+        $this->assertEquals($page->getHeaders(), array());
+
         $page = new Page;
         $page->setRawHeaders($headersString);
         $this->assertEquals($page->getRawHeaders(), $headersString);
@@ -82,6 +86,10 @@ class PageTest extends \PHPUnit_Framework_TestCase
         $page->setRawHeaders('Cache-Control: no-cache');
         $this->assertEquals($page->getRawHeaders(), 'Cache-Control: no-cache');
         $this->assertEquals($page->getHeaders(), array('Cache-Control' => 'no-cache'));
+
+        $page->setRawHeaders('');
+        $this->assertEquals($page->getRawHeaders(), '');
+        $this->assertEquals($page->getHeaders(), array());
 
         $page = new Page;
         $page->addHeader('Cache-Control', 'no-cache');

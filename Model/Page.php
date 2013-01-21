@@ -337,7 +337,8 @@ abstract class Page implements PageInterface
      */
     public function setHeaders(array $headers = array())
     {
-        $this->headers = $headers;
+        $this->headers = array();
+        $this->rawHeaders = null;
         foreach ($headers as $name => $header) {
             $this->addHeader($name, $header);
         }
