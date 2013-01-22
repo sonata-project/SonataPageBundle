@@ -61,4 +61,11 @@ interface PageManagerInterface
      * @return array
      */
     function loadPages(SiteInterface $site);
+
+    /**
+     * @param PageInterface $page
+     *
+     * @return mixed
+     */
+    function fixUrl(PageInterface $page);
 }

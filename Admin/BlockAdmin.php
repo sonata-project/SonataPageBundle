@@ -108,21 +108,6 @@ class BlockAdmin extends Admin
     /**
      * {@inheritdoc}
      */
-    public function validate(ErrorElement $errorElement, $block)
-    {
-        if ($this->inValidate) {
-            return;
-        }
-
-        // As block can be nested, we only need to validate the main block, no the children
-        $this->inValidate = true;
-        $this->blockManager->validate($errorElement, $block);
-        $this->inValidate = false;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getObject($id)
     {
         $subject = parent::getObject($id);

@@ -217,33 +217,6 @@ class PageAdmin extends Admin
     /**
      * {@inheritdoc}
      */
-    public function validate(ErrorElement $errorElement, $object)
-    {
-        $this->pageManager->fixUrl($object);
-
-        $pages = $this->pageManager->findBy(array(
-            'site' => $object->getSite(),
-            'url'  => $object->getUrl()
-        ));
-
-        if ($object->isError()) {
-            return;
-        }
-
-        foreach ($pages as $page) {
-            if ($page->isError() || $page->isInternal()) {
-                continue;
-            }
-
-            if ($page->getUrl() == $object->getUrl() && $page != $object) {
-                $errorElement->addViolation($this->trans('error.uniq_url', array('%url%' => $object->getUrl())));
-            }
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function configureSideMenu(MenuItemInterface $menu, $action, AdminInterface $childAdmin = null)
     {
         if (!$childAdmin && !in_array($action, array('edit'))) {

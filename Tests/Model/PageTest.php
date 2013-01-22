@@ -29,22 +29,88 @@ class PageTest extends \PHPUnit_Framework_TestCase
 
     public function testHeader()
     {
-        $headers = array(
+        $expectedHeaders = array(
             'Location' => 'http://www.google.fr',
             'Expires' => '0',
         );
+        $expectedStringHeaders = "Location: http://www.google.fr\r\nExpires: 0";
 
         $page = new Page;
-        $page->setRawHeaders("Location: http://www.google.fr\r\nExpires: 0");
-        $this->assertEquals($page->getHeaders(), $headers);
+        $pageReflection = new \ReflectionClass($page);
 
-        $headers['Cache-Control'] = 'no-cache';
-        $page->addHeader('Cache-Control', "no-cache");
-        $this->assertEquals($page->getHeaders(), $headers);
+        $method = $pageReflection->getMethod('getHeadersAsArray');
+        $method->setAccessible(true);
+        foreach (array(
+                "Location: http://www.google.fr\r\nExpires: 0",
+                " Location: http://www.google.fr\r\nExpires: 0 ",
+                "Location:http://www.google.fr\r\nExpires:0",
+                "\r\nLocation: http://www.google.fr\r\nExpires: 0\r\nInvalid Header Line",
+            ) as $rawHeaders) {
+                $this->assertEquals($expectedHeaders, $method->invokeArgs($page, array($rawHeaders)), 'Page::getHeadersAsArray()');
+        }
+
+
+        $method = $pageReflection->getMethod('getHeadersAsString');
+        $method->setAccessible(true);
+        foreach (array(
+                array(
+                    "Location" => "http://www.google.fr",
+                    "Expires" => "0",
+                ),
+                array(
+                    " Location " => " http://www.google.fr ",
+                    "\r\nExpires " => " 0\r\n",
+                ),
+            ) as $headers) {
+                $this->assertEquals($expectedStringHeaders, $method->invokeArgs($page, array($headers)), 'Page::getHeadersAsString()');
+        }
+
+        $page = new Page;
+        $page->setHeaders($expectedHeaders);
+        $this->assertEquals($page->getRawHeaders(), $expectedStringHeaders);
+        $this->assertEquals($page->getHeaders(), $expectedHeaders);
+
+        $page->setHeaders(array('Cache-Control' => 'no-cache'));
+        $this->assertEquals($page->getRawHeaders(), 'Cache-Control: no-cache');
+        $this->assertEquals($page->getHeaders(), array('Cache-Control' => 'no-cache'));
+
+        $page->setHeaders(array());
+        $this->assertEquals($page->getRawHeaders(), '');
+        $this->assertEquals($page->getHeaders(), array());
+
+        $page = new Page;
+        $page->setRawHeaders($expectedStringHeaders);
+        $this->assertEquals($page->getRawHeaders(), $expectedStringHeaders);
+        $this->assertEquals($page->getHeaders(), $expectedHeaders);
+
+        $page->setRawHeaders('Cache-Control: no-cache');
+        $this->assertEquals($page->getRawHeaders(), 'Cache-Control: no-cache');
+        $this->assertEquals($page->getHeaders(), array('Cache-Control' => 'no-cache'));
+
+        $page->setRawHeaders('');
+        $this->assertEquals($page->getRawHeaders(), '');
+        $this->assertEquals($page->getHeaders(), array());
+
+        $page = new Page;
+        $page->addHeader('Cache-Control', 'no-cache');
+        $this->assertEquals($page->getRawHeaders(), 'Cache-Control: no-cache');
+        $this->assertEquals($page->getHeaders(), array('Cache-Control' => 'no-cache'));
+
+        $page->setRawHeaders($expectedStringHeaders);
+        $this->assertEquals($page->getRawHeaders(), $expectedStringHeaders);
+        $this->assertEquals($page->getHeaders(), $expectedHeaders);
+
+        $page->addHeader('Cache-Control', 'no-cache, private');
+        $this->assertEquals($page->getRawHeaders(), $expectedStringHeaders."\r\nCache-Control: no-cache, private");
+        $this->assertEquals($page->getHeaders(), array_merge($expectedHeaders, array('Cache-Control' => 'no-cache, private')));
+
+        $page->setRawHeaders($expectedStringHeaders);
+        $this->assertEquals($page->getRawHeaders(), $expectedStringHeaders);
+        $this->assertEquals($page->getHeaders(), $expectedHeaders);
 
         $page->addHeader('Location', "http://www.google.com");
-        $headers['Location'] = 'http://www.google.com';
-        $this->assertEquals($page->getHeaders(), $headers);
+        $expectedHeaders['Location'] = 'http://www.google.com';
+        $this->assertEquals($page->getHeaders(), $expectedHeaders);
     }
 
     public function testHasRequestMethod()
