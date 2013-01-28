@@ -236,6 +236,10 @@ class SnapshotManager implements SnapshotManagerInterface
             $content['title'] = null;
         }
 
+        if (!array_key_exists('name', $content)) {
+            $content['name'] = null;
+        }
+
         return $content;
     }
 
