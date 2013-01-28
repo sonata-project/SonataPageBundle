@@ -236,6 +236,10 @@ class SnapshotManager implements SnapshotManagerInterface
             $content['title'] = null;
         }
 
+        if (!array_key_exists('name', $content)) {
+            $content['name'] = null;
+        }
+
         return $content;
     }
 
@@ -251,6 +255,7 @@ class SnapshotManager implements SnapshotManagerInterface
 
         $block->setPage($page);
         $block->setId($content['id']);
+        $block->setName($content['name']);
         $block->setEnabled($content['enabled']);
         $block->setPosition($content['position']);
         $block->setSettings($content['settings']);
@@ -338,6 +343,7 @@ class SnapshotManager implements SnapshotManagerInterface
     {
         $content = array();
         $content['id']       = $block->getId();
+        $content['name']     = $block->getName();
         $content['enabled']  = $block->getEnabled();
         $content['position'] = $block->getPosition();
         $content['settings'] = $block->getSettings();
