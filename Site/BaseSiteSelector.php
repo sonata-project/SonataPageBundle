@@ -12,6 +12,7 @@ namespace Sonata\PageBundle\Site;
 
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -125,6 +126,10 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
      */
     final public function onKernelRequest(GetResponseEvent $event)
     {
+        if ($event->getRequestType() != HttpKernelInterface::MASTER_REQUEST) {
+            return;
+        }
+        
         if (!$this->decoratorStrategy->isRouteUriDecorable($event->getRequest()->getPathInfo())) {
             return;
         }
