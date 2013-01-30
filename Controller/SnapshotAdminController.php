@@ -64,7 +64,8 @@ class SnapshotAdminController extends Controller
 
                 $snapshot = $snapshotManager->create($page);
 
-                $snapshotManager->save($snapshot);
+                $this->admin->create($snapshot);
+
                 $pageManager->save($page);
 
                 $snapshotManager->enableSnapshots(array($snapshot));
