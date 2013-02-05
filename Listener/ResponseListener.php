@@ -96,7 +96,7 @@ class ResponseListener
         $page = $cms->getCurrentPage();
 
         // display a validation page before redirecting, so the editor can edit the current page
-        if ($response->isRedirection() && $this->cmsSelector->isEditor() && !$request->get('_sonata_page_skip')) {
+        if ($page && $response->isRedirection() && $this->cmsSelector->isEditor() && !$request->get('_sonata_page_skip')) {
             $response = new Response($this->templating->render('SonataPageBundle:Page:redirect.html.twig', array(
                 'response'   => $response,
                 'page'       => $page,
