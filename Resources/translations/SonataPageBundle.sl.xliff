@@ -463,6 +463,19 @@
           <source>filter.label_page_alias</source>
           <target>filter.label_page_alias</target>
        </trans-unit>
+      <trans-unit id="149" resname="title_page_redirected">
+          <source>title_page_redirected</source>
+          <target>Internal page redirection</target>
+      </trans-unit>
+      <trans-unit id="150" resname="message_page_redirected ">
+          <source>message_page_redirected</source>
+          <target><![CDATA[
+             This page is configured to redirect the end user to another page. In order
+             to configure it, the redirect has been blocked for editor only. <br />
+             <br />
+             Please click here to follow the redirection: <a href="%url%">%url%</a>.
+          ]]></target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
