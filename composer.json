@@ -1,11 +1,16 @@
 {
-    "name": "sonata-project/page-bundle",
+    "name": "rmzamora/page-bundle",
     "type": "symfony-bundle",
-    "description": "Symfony SonataPageBundle",
-    "keywords": ["page", "sonata", "cms"],
+    "description": "Symfony SonataPageBundle rmzamora forked",
+    "keywords": ["page", "sonata", "cms", "rmzamora forked"],
     "homepage": "http://sonata-project.org/bundles/page",
     "license": "MIT",
     "authors": [
+        {
+            "name": "Mell M. Zamora",
+            "email": "me@mellzamora.com",
+            "homepage": "http://mellzamora.com"
+        },    
         {
             "name": "Thomas Rabaix",
             "email": "thomas.rabaix@sonata-project.org",
