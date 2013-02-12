@@ -200,7 +200,7 @@ class SnapshotManager implements SnapshotManagerInterface
         $page->setSite($snapshot->getSite());
         $page->setEnabled($snapshot->getEnabled());
 
-        $content = $this->fixContent($snapshot->getContent());
+        $content = $this->fixPageContent($snapshot->getContent());
 
         $page->setId($content['id']);
         $page->setJavascript($content['javascript']);
@@ -230,12 +230,22 @@ class SnapshotManager implements SnapshotManagerInterface
      *
      * @return array
      */
-    protected function fixContent(array $content)
+    protected function fixPageContent(array $content)
     {
         if (!array_key_exists('title', $content)) {
             $content['title'] = null;
         }
 
+        return $content;
+    }
+
+    /**
+     * @param array $content
+     *
+     * @return array
+     */
+    protected function fixBlockContent(array $content)
+    {
         if (!array_key_exists('name', $content)) {
             $content['name'] = null;
         }
@@ -252,6 +262,8 @@ class SnapshotManager implements SnapshotManagerInterface
     public function loadBlock(array $content, PageInterface $page)
     {
         $block = new $this->blockClass;
+
+        $content = $this->fixBlockContent($content);
 
         $block->setPage($page);
         $block->setId($content['id']);
