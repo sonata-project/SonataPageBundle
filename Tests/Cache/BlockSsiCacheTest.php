@@ -29,7 +29,7 @@ class BlockSsiCacheTest extends \PHPUnit_Framework_TestCase
 
         $blockRenderer = $this->getMock('Sonata\BlockBundle\Block\BlockRendererInterface');
 
-        $cache = new BlockSsiCache(array(), $router, $blockRenderer);
+        $cache = new BlockSsiCache('', $router, $blockRenderer);
 
         $cache->get($keys, 'data');
     }
@@ -54,7 +54,7 @@ class BlockSsiCacheTest extends \PHPUnit_Framework_TestCase
 
         $blockRenderer = $this->getMock('Sonata\BlockBundle\Block\BlockRendererInterface');
 
-        $cache = new BlockSsiCache(array(), $router, $blockRenderer);
+        $cache = new BlockSsiCache('', $router, $blockRenderer);
 
         $this->assertTrue($cache->flush(array()));
         $this->assertTrue($cache->flushAll());
