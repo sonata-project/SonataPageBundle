@@ -15,9 +15,7 @@ use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SnapshotInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
-use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\Template;
-use Sonata\PageBundle\Model\SnapshotChildrenCollection;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\NoResultException;
@@ -429,7 +427,7 @@ class SnapshotManager implements SnapshotManagerInterface
                 ->getQuery()
                 ->getSingleResult();
 
-        } catch(NoResultException $e) {
+        } catch (NoResultException $e) {
             $snapshot = null;
         }
 

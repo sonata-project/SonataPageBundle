@@ -1,6 +1,5 @@
 <?php
 
-
 /*
  * This file is part of the Sonata package.
  *
@@ -13,19 +12,16 @@
 namespace Sonata\PageBundle\Tests\Page;
 
 use Sonata\PageBundle\CmsManager\CmsSnapshotManager;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Symfony\Component\HttpFoundation\ParameterBag;
 use Sonata\PageBundle\Model\Block;
 use Sonata\PageBundle\Tests\Model\Page;
-use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
 use Sonata\PageBundle\Model\BlockInteractorInterface;
 
 class SnapshotBlock extends Block
 {
-    function setId($id)
+    public function setId($id)
     {}
 
-    function getId()
+    public function getId()
     {}
 }
 

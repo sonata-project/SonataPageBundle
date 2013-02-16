@@ -15,14 +15,12 @@ use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Cookie;
-use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 
 use Sonata\PageBundle\Page\PageServiceManagerInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Exception\InternalErrorException;
 use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
-
 
 /**
  * This class redirect the onCoreResponse event to the correct

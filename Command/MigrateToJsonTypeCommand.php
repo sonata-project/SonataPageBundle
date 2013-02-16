@@ -11,8 +11,6 @@
 
 namespace Sonata\PageBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -34,7 +32,7 @@ class MigrateToJsonTypeCommand extends BaseCommand
         $connection = $this->getContainer()->get('doctrine.orm.entity_manager')->getConnection();
         $blocks = $connection->fetchAll("SELECT * FROM $table");
 
-        foreach($blocks as $block) {
+        foreach ($blocks as $block) {
             // if the row need to migrate
             if (0 !== strpos($block['settings'], '{') && $block['settings'] !== '[]') {
                 $block['settings'] = json_encode(unserialize($block['settings']));

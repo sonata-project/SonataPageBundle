@@ -12,7 +12,6 @@ namespace Sonata\PageBundle\Cache;
 
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Process\Process;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpFoundation\Request;
@@ -96,10 +95,10 @@ class BlockSsiCache extends SsiCache
     {
         // values are casted into string for non numeric id
         return hash('sha256', $this->token.serialize(array(
-            'manager'    => (string)$keys['manager'],
-            'page_id'    => (string)$keys['page_id'],
-            'block_id'   => (string)$keys['block_id'],
-            'updated_at' => (string)$keys['updated_at'],
+            'manager'    => (string) $keys['manager'],
+            'page_id'    => (string) $keys['page_id'],
+            'block_id'   => (string) $keys['block_id'],
+            'updated_at' => (string) $keys['updated_at'],
         )));
     }
 

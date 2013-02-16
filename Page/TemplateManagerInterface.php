@@ -30,7 +30,7 @@ interface TemplateManagerInterface
      *
      * @return Response
      */
-    function renderResponse($code, array $parameters = array(), Response $response = null);
+    public function renderResponse($code, array $parameters = array(), Response $response = null);
 
     /**
      * Adds a template
@@ -38,7 +38,7 @@ interface TemplateManagerInterface
      * @param string   $code     Code
      * @param Template $template Template object
      */
-    function add($code, Template $template);
+    public function add($code, Template $template);
 
     /**
      * Returns the template by code
@@ -47,33 +47,33 @@ interface TemplateManagerInterface
      *
      * @return Template|null
      */
-    function get($code);
+    public function get($code);
 
     /**
      * Sets the default template code
      *
      * @param string $code
      */
-    function setDefaultTemplateCode($code);
+    public function setDefaultTemplateCode($code);
 
     /**
      * Returns the default template code
      *
      * @return string
      */
-    function getDefaultTemplateCode();
+    public function getDefaultTemplateCode();
 
     /**
      * Sets the templates
      *
      * @param Template[] $templates
      */
-    function setAll($templates);
+    public function setAll($templates);
 
     /**
      * Returns the templates
      *
      * @return Template[]
      */
-    function getAll();
+    public function getAll();
 }

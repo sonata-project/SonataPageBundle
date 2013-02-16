@@ -20,7 +20,6 @@ use Sonata\PageBundle\Model\PageInterface;
 
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * This class redirect the onCoreResponse event to the correct

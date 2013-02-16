@@ -62,7 +62,6 @@ class Configuration implements ConfigurationInterface
                 ->prototype('scalar')->end()
             ->end()
 
-
             ->arrayNode('cache_invalidation')
                 ->addDefaultsIfNotSet()
                 ->children()

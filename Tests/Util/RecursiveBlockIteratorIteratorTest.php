@@ -42,7 +42,7 @@ class RecursiveBlockIteratorIteratorTest extends \PHPUnit_Framework_TestCase
         $i = new RecursiveBlockIteratorIterator(array($block1, $block4));
 
         $blocks = array();
-        foreach($i as $block) {
+        foreach ($i as $block) {
             $blocks[] = $block;
         }
 

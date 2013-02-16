@@ -8,14 +8,12 @@
  * file that was distributed with this source code.
  */
 
-
 namespace Sonata\PageBundle\Entity;
 
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\NoResultException;
 
 /**
  * This class manages SiteInterface persistency with the Doctrine ORM

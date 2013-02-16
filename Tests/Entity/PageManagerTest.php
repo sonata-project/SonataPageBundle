@@ -52,7 +52,6 @@ class PageManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('super-et-toi', $page2->getSlug());
         $this->assertEquals('/salut-comment-ca-va/super-et-toi', $page2->getUrl());
 
-
         // check to remove the parent, so $page1 becaume a parent
         $page1->setParent(null);
         $manager->fixUrl($parent);

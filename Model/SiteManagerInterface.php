@@ -22,29 +22,29 @@ interface SiteManagerInterface
      *
      * @return SiteInterface
      */
-    function findOneBy(array $criteria = array());
+    public function findOneBy(array $criteria = array());
 
     /**
      * @param array $criteria
      *
      * @return array
      */
-    function findBy(array $criteria = array());
+    public function findBy(array $criteria = array());
 
     /**
      * @param SiteInterface $object
      *
      * @return void
      */
-    function save(SiteInterface $object);
+    public function save(SiteInterface $object);
 
     /**
      * @return SiteInterface
      */
-    function create();
+    public function create();
 
     /**
      * @return string
      */
-    function getClass();
+    public function getClass();
 }
