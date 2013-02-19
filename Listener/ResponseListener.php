@@ -11,6 +11,7 @@
 
 namespace Sonata\PageBundle\Listener;
 
+use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -20,7 +21,6 @@ use Sonata\PageBundle\Page\PageServiceManagerInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Exception\InternalErrorException;
 use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
-
 
 /**
  * This class redirect the onCoreResponse event to the correct
@@ -46,17 +46,25 @@ class ResponseListener
     protected $decoratorStrategy;
 
     /**
+     * @var EngineInterface
+     */
+    protected $templating;
+
+    /**
      * @param CmsManagerSelectorInterface $cmsSelector        CMS manager selector
      * @param PageServiceManagerInterface $pageServiceManager Page service manager
      * @param DecoratorStrategyInterface  $decoratorStrategy  Decorator strategy
+     * @param EngineInterface             $templating         The template engine
      */
     public function __construct(CmsManagerSelectorInterface $cmsSelector,
                                 PageServiceManagerInterface $pageServiceManager,
-                                DecoratorStrategyInterface $decoratorStrategy)
+                                DecoratorStrategyInterface $decoratorStrategy,
+                                EngineInterface $templating)
     {
         $this->cmsSelector        = $cmsSelector;
         $this->pageServiceManager = $pageServiceManager;
         $this->decoratorStrategy  = $decoratorStrategy;
+        $this->templating         = $templating;
     }
 
     /**
@@ -83,6 +91,22 @@ class ResponseListener
             }
         }
 
+        $page = $cms->getCurrentPage();
+
+        // display a validation page before redirecting, so the editor can edit the current page
+        if ($page && $response->isRedirection() && $this->cmsSelector->isEditor() && !$request->get('_sonata_page_skip')) {
+            $response = new Response($this->templating->render('SonataPageBundle:Page:redirect.html.twig', array(
+                'response'   => $response,
+                'page'       => $page,
+            )));
+
+            $response->setPrivate();
+
+            $event->setResponse($response);
+
+            return;
+        }
+
         if (!$this->decoratorStrategy->isDecorable($event->getRequest(), $event->getRequestType(), $response)) {
             return;
         }
@@ -90,8 +114,6 @@ class ResponseListener
         if (!$this->cmsSelector->isEditor() && $request->cookies->has('sonata_page_is_editor')) {
             $response->headers->clearCookie('sonata_page_is_editor');
         }
-
-        $page = $cms->getCurrentPage();
 
         if (!$page) {
             throw new InternalErrorException('No page instance available for the url, run the sonata:page:update-core-routes and sonata:page:create-snapshots commands');

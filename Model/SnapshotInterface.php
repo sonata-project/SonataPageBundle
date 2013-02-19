@@ -22,21 +22,21 @@ interface SnapshotInterface
      *
      * @param string $routeName
      */
-    function setRouteName($routeName);
+    public function setRouteName($routeName);
 
     /**
      * Get routeName
      *
      * @return string $routeName
      */
-    function getRouteName();
+    public function getRouteName();
 
     /**
      * Get $outeAlias
      *
      * @return string $routeAlias
      */
-    function getPageAlias();
+    public function getPageAlias();
 
     /**
      * The route alias defines an internal url code that user can use to point
@@ -46,162 +46,162 @@ interface SnapshotInterface
      *
      * @param string $pageAlias
      */
-    function setPageAlias($pageAlias);
+    public function setPageAlias($pageAlias);
 
     /**
      * Returns the page type
      *
      * @return string
      */
-    function getType();
+    public function getType();
 
     /**
      * Sets the page type
      *
      * @param string $type
      */
-    function setType($type);
+    public function setType($type);
 
     /**
      * Set enabled
      *
      * @param boolean $enabled
      */
-    function setEnabled($enabled);
+    public function setEnabled($enabled);
 
     /**
      * Get enabled
      *
      * @return boolean $enabled
      */
-    function getEnabled();
+    public function getEnabled();
 
     /**
      * Set name
      *
      * @param string $name
      */
-    function setName($name);
+    public function setName($name);
 
     /**
      * Get name
      *
      * @return string $name
      */
-    function getName();
+    public function getName();
 
     /**
      * Set url
      *
      * @param string $url
      */
-    function setUrl($url);
+    public function setUrl($url);
 
     /**
      * Get url
      *
      * @return string $url
      */
-    function getUrl();
+    public function getUrl();
 
     /**
      * Set publicationDateStart
      *
      * @param \DateTime $publicationDateStart
      */
-    function setPublicationDateStart(\DateTime $publicationDateStart = null);
+    public function setPublicationDateStart(\DateTime $publicationDateStart = null);
 
     /**
      * Get publicationDateStart
      *
      * @return \DateTime $publicationDateStart
      */
-    function getPublicationDateStart();
+    public function getPublicationDateStart();
 
     /**
      * Set publicationDateEnd
      *
      * @param \DateTime $publicationDateEnd
      */
-    function setPublicationDateEnd(\DateTime $publicationDateEnd = null);
+    public function setPublicationDateEnd(\DateTime $publicationDateEnd = null);
 
     /**
      * Get publicationDateEnd
      *
      * @return \DateTime $publicationDateEnd
      */
-    function getPublicationDateEnd();
+    public function getPublicationDateEnd();
 
     /**
      * Set createdAt
      *
      * @param \DateTime $createdAt
      */
-    function setCreatedAt(\DateTime $createdAt = null);
+    public function setCreatedAt(\DateTime $createdAt = null);
 
     /**
      * Get createdAt
      *
      * @return \DateTime $createdAt
      */
-    function getCreatedAt();
+    public function getCreatedAt();
 
     /**
      * Set updatedAt
      *
      * @param \Datetime $updatedAt
      */
-    function setUpdatedAt(\DateTime $updatedAt = null);
+    public function setUpdatedAt(\DateTime $updatedAt = null);
 
     /**
      * Get updatedAt
      *
      * @return \DateTime $updatedAt
      */
-    function getUpdatedAt();
+    public function getUpdatedAt();
 
     /**
      * @param bool $decorate
      */
-    function setDecorate($decorate);
+    public function setDecorate($decorate);
 
     /**
      * @return bool
      */
-    function getDecorate();
+    public function getDecorate();
 
     /**
      * return bool
      */
-    function isHybrid();
+    public function isHybrid();
 
     /**
      * @param integer $position
      */
-    function setPosition($position);
+    public function setPosition($position);
 
     /**
      * @return integer
      */
-    function getPosition();
+    public function getPosition();
 
     /**
      * @param PageInterface $page
      */
-    function setPage(PageInterface $page = null);
+    public function setPage(PageInterface $page = null);
 
     /**
      * @return PageInterface
      */
-    function getPage();
+    public function getPage();
 
     /**
      * @param SiteInterface $site
      */
-    function setSite(SiteInterface $site);
+    public function setSite(SiteInterface $site);
 
     /**
      * @return SiteInterface
      */
-    function getSite();
+    public function getSite();
 }

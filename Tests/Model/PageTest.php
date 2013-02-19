@@ -49,7 +49,6 @@ class PageTest extends \PHPUnit_Framework_TestCase
                 $this->assertEquals($expectedHeaders, $method->invokeArgs($page, array($rawHeaders)), 'Page::getHeadersAsArray()');
         }
 
-
         $method = $pageReflection->getMethod('getHeadersAsString');
         $method->setAccessible(true);
         foreach (array(

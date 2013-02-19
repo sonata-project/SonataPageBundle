@@ -8,7 +8,6 @@
  * file that was distributed with this source code.
  */
 
-
 namespace Sonata\PageBundle\Entity;
 
 use Symfony\Bridge\Doctrine\RegistryInterface;

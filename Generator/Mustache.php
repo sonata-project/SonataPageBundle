@@ -25,10 +25,9 @@ class Mustache
      *
      * @return string
      */
-    static public function replace($string, array $parameters)
+    public static function replace($string, array $parameters)
     {
-        $replacer = function ($match) use ($parameters)
-        {
+        $replacer = function ($match) use ($parameters) {
             return isset($parameters[$match[1]]) ? $parameters[$match[1]] : $match[0];
         };
 

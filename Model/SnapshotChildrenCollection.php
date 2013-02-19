@@ -25,7 +25,7 @@ class SnapshotChildrenCollection implements \Countable, \IteratorAggregate, \Arr
 
     /**
      * @param SnapshotManagerInterface $manager
-     * @param PageInterface $page
+     * @param PageInterface            $page
      */
     public function __construct(SnapshotManagerInterface $manager, PageInterface $page)
     {

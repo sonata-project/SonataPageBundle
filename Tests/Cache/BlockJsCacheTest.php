@@ -1,6 +1,5 @@
 <?php
 
-
 /*
  * This file is part of the Sonata package.
  *
@@ -61,7 +60,6 @@ class BlockJsCacheTest extends \PHPUnit_Framework_TestCase
         $cmsManager = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
 
         $cache = new BlockJsCache($router, $cmsManager, $blockManager);
-
 
         $this->assertTrue($cache->flush(array()));
         $this->assertTrue($cache->flushAll());

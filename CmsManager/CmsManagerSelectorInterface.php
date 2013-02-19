@@ -9,7 +9,6 @@
  * file that was distributed with this source code.
  */
 
-
 namespace Sonata\PageBundle\CmsManager;
 
 /**
@@ -22,10 +21,10 @@ interface CmsManagerSelectorInterface
     /**
      * @return CmsManagerInterface
      */
-    function retrieve();
+    public function retrieve();
 
     /**
      * @return boolean
      */
-    function isEditor();
+    public function isEditor();
 }

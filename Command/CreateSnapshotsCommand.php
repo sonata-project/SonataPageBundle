@@ -11,13 +11,10 @@
 
 namespace Sonata\PageBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\Output;
-use Sonata\PageBundle\Model\SiteInterface;
 
 use Symfony\Component\Process\Process;
 
@@ -77,7 +74,7 @@ class CreateSnapshotsCommand extends BaseCommand
             } else {
                 $p = new Process(sprintf('%s sonata:page:create-snapshots --env=%s --site=%s --mode=%s %s ', $input->getOption('base-console'), $input->getOption('env'), $site->getId(), $input->getOption('mode'), $input->getOption('no-debug') ? '--no-debug' : ''));
 
-                $p->run(function($type, $data) use($output) {
+                $p->run(function($type, $data) use ($output) {
                     $output->write($data, OutputInterface::OUTPUT_RAW);
                 });
             }

@@ -17,11 +17,12 @@ class Site extends \Sonata\PageBundle\Model\Site
 {
     protected $id;
 
-    function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
     }
 
-    function getId()
+    public function getId()
     {
         return $this->id;
     }

@@ -57,8 +57,9 @@ class ResponseListenerTest extends \PHPUnit_Framework_TestCase
         $this->cmsManager = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerInterface');
         $this->cmsSelector = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
         $this->cmsSelector->expects($this->once())->method('retrieve')->will($this->returnValue($this->cmsManager));
+        $this->templating = $this->getMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
 
-        $this->listener = new ResponseListener($this->cmsSelector, $this->pageServiceManager, $this->decoratorStrategy);
+        $this->listener = new ResponseListener($this->cmsSelector, $this->pageServiceManager, $this->decoratorStrategy, $this->templating);
     }
 
     /**

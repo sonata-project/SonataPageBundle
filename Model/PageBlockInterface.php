@@ -18,12 +18,12 @@ interface PageBlockInterface extends BlockInterface
     /**
      * @return PageInterface
      */
-    function getPage();
+    public function getPage();
 
     /**
      * @param PageInterface $page The related page
      *
      * @return mixed
      */
-    function setPage(PageInterface $page = null);
+    public function setPage(PageInterface $page = null);
 }

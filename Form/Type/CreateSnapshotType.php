@@ -14,8 +14,6 @@ namespace Sonata\PageBundle\Form\Type;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
 
-use Sonata\PageBundle\CmsManager\CmsPageManager;
-
 /**
  * Select a Page
  *

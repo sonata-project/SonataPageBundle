@@ -13,7 +13,6 @@ namespace Sonata\PageBundle\Cache;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\HttpFoundation\Response;
 use \Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
@@ -146,7 +145,7 @@ CONTENT
     }
 
     /**
-     * @param array $keys
+     * @param  array  $keys
      * @return string
      */
     protected function getAsync(array $keys)

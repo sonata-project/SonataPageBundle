@@ -24,33 +24,33 @@ interface PageInterface
      *
      * @return mixed
      */
-    function getId();
+    public function getId();
 
     /**
      * @param mixed $id
      */
-    function setId($id);
+    public function setId($id);
 
     /**
      * Get routeName
      *
      * @return string $routeName
      */
-    function getRouteName();
+    public function getRouteName();
 
     /**
      * Set routeName
      *
      * @param string $routeName
      */
-    function setRouteName($routeName);
+    public function setRouteName($routeName);
 
     /**
      * Get $outeAlias
      *
      * @return string $pageAlias
      */
-    function getPageAlias();
+    public function getPageAlias();
 
     /**
      * The route alias defines an internal url code that user can use to point
@@ -63,70 +63,70 @@ interface PageInterface
      *
      * @param string $pageAlias
      */
-    function setPageAlias($pageAlias);
+    public function setPageAlias($pageAlias);
 
     /**
      * Returns the page type
      *
      * @return string
      */
-    function getType();
+    public function getType();
 
     /**
      * Sets the page type
      *
      * @param string $type
      */
-    function setType($type);
+    public function setType($type);
 
     /**
      * Set enabled
      *
      * @param boolean $enabled
      */
-    function setEnabled($enabled);
+    public function setEnabled($enabled);
 
     /**
      * Get enabled
      *
      * @return boolean $enabled
      */
-    function getEnabled();
+    public function getEnabled();
 
     /**
      * Set name
      *
      * @param string $name
      */
-    function setName($name);
+    public function setName($name);
 
     /**
      * Get name
      *
      * @return string $name
      */
-    function getName();
+    public function getName();
 
     /**
      * Set slug
      *
      * @param string $slug
      */
-    function setSlug($slug);
+    public function setSlug($slug);
 
     /**
      * Get slug
      *
      * @return string
      */
-    function getSlug();
+    public function getSlug();
 
     /**
      * Get url
      *
      * @return string
      */
-    function getUrl();
+    public function getUrl();
 
     /**
      * Set Url
@@ -135,154 +135,154 @@ interface PageInterface
      *
      * @return void
      */
-    function setUrl($url);
+    public function setUrl($url);
 
     /**
      * Set customUrl
      *
      * @param string $customUrl
      */
-    function setCustomUrl($customUrl);
+    public function setCustomUrl($customUrl);
 
     /**
      * Get customUrl
      *
      * @return integer $customUrl
      */
-    function getCustomUrl();
+    public function getCustomUrl();
 
     /**
      * Set metaKeyword
      *
      * @param string $metaKeyword
      */
-    function setMetaKeyword($metaKeyword);
+    public function setMetaKeyword($metaKeyword);
 
     /**
      * Get metaKeyword
      *
      * @return string $metaKeyword
      */
-    function getMetaKeyword();
+    public function getMetaKeyword();
 
     /**
      * Set metaDescription
      *
      * @param string $metaDescription
      */
-    function setMetaDescription($metaDescription);
+    public function setMetaDescription($metaDescription);
 
     /**
      * Get metaDescription
      *
      * @return string $metaDescription
      */
-    function getMetaDescription();
+    public function getMetaDescription();
 
     /**
      * Set javascript
      *
      * @param string $javascript
      */
-    function setJavascript($javascript);
+    public function setJavascript($javascript);
 
     /**
      * Get javascript
      *
      * @return string $javascript
      */
-    function getJavascript();
+    public function getJavascript();
 
     /**
      * Set stylesheet
      *
      * @param string $stylesheet
      */
-    function setStylesheet($stylesheet);
+    public function setStylesheet($stylesheet);
 
     /**
      * Get stylesheet
      *
      * @return string $stylesheet
      */
-    function getStylesheet();
+    public function getStylesheet();
 
     /**
      * Set createdAt
      *
      * @param \DateTime $createdAt
      */
-    function setCreatedAt(\DateTime $createdAt = null);
+    public function setCreatedAt(\DateTime $createdAt = null);
 
     /**
      * Get createdAt
      *
      * @return \DateTime $createdAt
      */
-    function getCreatedAt();
+    public function getCreatedAt();
 
     /**
      * Set updatedAt
      *
      * @param \DateTime $updatedAt
      */
-    function setUpdatedAt(\DateTime $updatedAt = null);
+    public function setUpdatedAt(\DateTime $updatedAt = null);
 
     /**
      * Get updatedAt
      *
      * @return \DateTime $updatedAt
      */
-    function getUpdatedAt();
+    public function getUpdatedAt();
 
     /**
      * Add children
      *
      * @param PageInterface $children
      */
-    function addChildren(PageInterface $children);
+    public function addChildren(PageInterface $children);
 
     /**
      * Get children
      *
      * @return array
      */
-    function getChildren();
+    public function getChildren();
 
     /**
      * Add blocs
      *
      * @param PageBlockInterface $block
      */
-    function addBlocks(PageBlockInterface $block);
+    public function addBlocks(PageBlockInterface $block);
 
     /**
      * Get blocs
      *
      * @return array
      */
-    function getBlocks();
+    public function getBlocks();
 
     /**
      * @param PageInterface $target
      *
      * @return void
      */
-    function setTarget(PageInterface $target = null);
+    public function setTarget(PageInterface $target = null);
 
     /**
      * Get target
      *
      * @return PageInterface
      */
-    function getTarget();
+    public function getTarget();
 
     /**
      * Set parent
      *
      * @param PageInterface $parent
      */
-    function setParent(PageInterface $parent = null);
+    public function setParent(PageInterface $parent = null);
 
     /**
      * Get parent
@@ -291,21 +291,21 @@ interface PageInterface
      *
      * @return PageInterface $parent
      */
-    function getParent($level = -1);
+    public function getParent($level = -1);
 
     /**
      * Set template
      *
      * @param string $templateCode
      */
-    function setTemplateCode($templateCode);
+    public function setTemplateCode($templateCode);
 
     /**
      * Get template
      *
      * @return string
      */
-    function getTemplateCode();
+    public function getTemplateCode();
 
     /**
      * Indicates if the page should be decorated with the CMS outter layout
@@ -315,35 +315,35 @@ interface PageInterface
      *
      * @return void
      */
-    function setDecorate($decorate);
+    public function setDecorate($decorate);
 
     /**
      * Returns true if the page can be decorate
      *
      * @return boolean
      */
-    function getDecorate();
+    public function getDecorate();
 
     /**
      * Returns true if the page is hybrid (symfony action with no parameter)
      *
      * @return boolean
      */
-    function isHybrid();
+    public function isHybrid();
 
     /**
      * Returns true if the page is dynamic (symfony action with parameter)
      *
      * @return boolean
      */
-    function isDynamic();
+    public function isDynamic();
 
     /**
      * Returns true if the page is static
      *
      * @return boolean
      */
-    function isCms();
+    public function isCms();
 
     /**
      * Returns true if the page is internal (no direct access with an url)
@@ -351,61 +351,61 @@ interface PageInterface
      *
      * @return boolean
      */
-    function isInternal();
+    public function isInternal();
 
     /**
      * @param int $position
      *
      * @return void
      */
-    function setPosition($position);
+    public function setPosition($position);
 
     /**
      * @return int
      */
-    function getPosition();
+    public function getPosition();
 
     /**
      * @param string $method
      *
      * @return void
      */
-    function setRequestMethod($method);
+    public function setRequestMethod($method);
 
     /**
      * @return string
      */
-    function getRequestMethod();
+    public function getRequestMethod();
 
     /**
      * @param array $headers
      *
      * @return void
      */
-    function setHeaders(array $headers = array());
+    public function setHeaders(array $headers = array());
 
     /**
      * @param string $name
-     * @param mixed $value
+     * @param mixed  $value
      *
      * @return void
      */
-    function addHeader($name, $value);
+    public function addHeader($name, $value);
 
     /**
      * @return array
      */
-    function getHeaders();
+    public function getHeaders();
 
     /**
      * @param array $parents
      */
-    function setParents(array $parents);
+    public function setParents(array $parents);
 
     /**
      * @return array
      */
-    function getParents();
+    public function getParents();
 
     /**
      * Return the TTL value in second
@@ -413,56 +413,56 @@ interface PageInterface
      *
      * @return integer
      */
-    function getTtl();
+    public function getTtl();
 
     /**
      * @param string $method
      *
      * @return bool
      */
-    function hasRequestMethod($method);
+    public function hasRequestMethod($method);
 
     /**
      * @param SiteInterface $site
      */
-    function setSite(SiteInterface $site);
+    public function setSite(SiteInterface $site);
 
     /**
      * @return SiteInterface
      */
-    function getSite();
+    public function getSite();
 
     /**
      * @param array $rawHeaders
      */
-    function setRawHeaders($rawHeaders);
+    public function setRawHeaders($rawHeaders);
 
     /**
      * @return boolean
      */
-    function getEdited();
+    public function getEdited();
 
     /**
      * @param boolean $edited
      */
-    function setEdited($edited);
+    public function setEdited($edited);
 
     /**
      * @return boolean
      */
-    function isError();
+    public function isError();
 
     /**
      * Return the title.
      *
      * @return string
      */
-    function getTitle();
+    public function getTitle();
 
     /**
      * Set the title.
      *
      * @param string $title
      */
-    function setTitle($title);
+    public function setTitle($title);
 }

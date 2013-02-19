@@ -598,6 +598,20 @@
           <source>filter.label_page_alias</source>
           <target>Alias technique</target>
        </trans-unit>
+      <trans-unit id="149" resname="title_page_redirected">
+          <source>title_page_redirected</source>
+          <target>Internal page redirection</target>
+      </trans-unit>
+      <trans-unit id="150" resname="message_page_redirected ">
+          <source>message_page_redirected</source>
+          <target><![CDATA[
+             La page est configurée pour rediriger l'utilisateur vers une autre page. Pour
+             permettre aux éditeurs d'éditer cette page; la redirection a été interceptée.
+             <br />
+             <br />
+             Merci de cliquer sur le lien pour suivre la redirection: <a href="%url%">%url%</a>.
+          ]]></target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -10,12 +10,7 @@
 
 namespace Sonata\PageBundle\Site;
 
-use Symfony\Component\Routing\RequestContext;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-
-use Sonata\PageBundle\Model\SiteManagerInterface;
-use Sonata\PageBundle\Model\SiteInterface;
 
 /**
  * HostSiteSelector

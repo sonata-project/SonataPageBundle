@@ -17,12 +17,12 @@ class Page extends \Sonata\PageBundle\Model\Page
 {
     protected $id;
 
-
-    function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
     }
 
-    function getId()
+    public function getId()
     {
         return $this->id;
     }

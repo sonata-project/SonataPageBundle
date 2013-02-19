@@ -1,6 +1,5 @@
 <?php
 
-
 /*
  * This file is part of the Sonata package.
  *
@@ -13,13 +12,9 @@
 namespace Sonata\PageBundle\Tests\Page;
 
 use Sonata\PageBundle\CmsManager\CmsPageManager;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Symfony\Component\HttpFoundation\ParameterBag;
 use Sonata\PageBundle\Model\Block as AbtractBlock;
 use Sonata\PageBundle\Tests\Model\Page;
-use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
 use Sonata\PageBundle\Model\BlockInteractorInterface;
-
 
 class CmsBlock extends AbtractBlock
 {

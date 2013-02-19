@@ -15,9 +15,7 @@ use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SnapshotInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
-use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\Template;
-use Sonata\PageBundle\Model\SnapshotChildrenCollection;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\NoResultException;
@@ -200,7 +198,7 @@ class SnapshotManager implements SnapshotManagerInterface
         $page->setSite($snapshot->getSite());
         $page->setEnabled($snapshot->getEnabled());
 
-        $content = $this->fixContent($snapshot->getContent());
+        $content = $this->fixPageContent($snapshot->getContent());
 
         $page->setId($content['id']);
         $page->setJavascript($content['javascript']);
@@ -230,10 +228,24 @@ class SnapshotManager implements SnapshotManagerInterface
      *
      * @return array
      */
-    protected function fixContent(array $content)
+    protected function fixPageContent(array $content)
     {
         if (!array_key_exists('title', $content)) {
             $content['title'] = null;
+        }
+
+        return $content;
+    }
+
+    /**
+     * @param array $content
+     *
+     * @return array
+     */
+    protected function fixBlockContent(array $content)
+    {
+        if (!array_key_exists('name', $content)) {
+            $content['name'] = null;
         }
 
         return $content;
@@ -249,8 +261,11 @@ class SnapshotManager implements SnapshotManagerInterface
     {
         $block = new $this->blockClass;
 
+        $content = $this->fixBlockContent($content);
+
         $block->setPage($page);
         $block->setId($content['id']);
+        $block->setName($content['name']);
         $block->setEnabled($content['enabled']);
         $block->setPosition($content['position']);
         $block->setSettings($content['settings']);
@@ -338,6 +353,7 @@ class SnapshotManager implements SnapshotManagerInterface
     {
         $content = array();
         $content['id']       = $block->getId();
+        $content['name']     = $block->getName();
         $content['enabled']  = $block->getEnabled();
         $content['position'] = $block->getPosition();
         $content['settings'] = $block->getSettings();
@@ -411,7 +427,7 @@ class SnapshotManager implements SnapshotManagerInterface
                 ->getQuery()
                 ->getSingleResult();
 
-        } catch(NoResultException $e) {
+        } catch (NoResultException $e) {
             $snapshot = null;
         }
 

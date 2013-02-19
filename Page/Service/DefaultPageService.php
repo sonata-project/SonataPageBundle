@@ -20,7 +20,6 @@ use Sonata\PageBundle\Page\Service\BasePageService;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Page\TemplateManagerInterface;
 
-
 /**
  * Default page service to render a page template.
  *

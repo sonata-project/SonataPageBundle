@@ -8,13 +8,10 @@
  * file that was distributed with this source code.
  */
 
-
 namespace Sonata\PageBundle\Entity;
 
 use Sonata\BlockBundle\Model\BlockManagerInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
-
-use Sonata\PageBundle\Model\PageInterface;
 
 use Doctrine\ORM\EntityManager;
 

@@ -13,7 +13,6 @@ namespace Sonata\PageBundle\Entity;
 
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\PageInterface;
-use Sonata\PageBundle\Model\Template;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\Page;
 
