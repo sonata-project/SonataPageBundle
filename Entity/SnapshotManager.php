@@ -94,27 +94,55 @@ class SnapshotManager implements SnapshotManagerInterface
         }
 
         $now = new \DateTime;
-        $pageIds = $snapshotIds = array();
+        $pageRefs = $snapshotIds = array();
+
+        // enable the new snapshots
+        $pageMapping = $this->entityManager->getClassMetadata($this->class)->getAssociationMapping('page');
         foreach ($snapshots as $snapshot) {
-            $pageIds[] = $snapshot->getPage()->getId();
+            $pageRefs[$snapshot->getPage()->getId()] = $this->entityManager->getReference($pageMapping['targetEntity'], $snapshot->getPage()->getId());
             $snapshotIds[] = $snapshot->getId();
 
-            $snapshot->setPublicationDateStart($now);
+            $snapshot->setPublicationDateStart(clone $now);
             $snapshot->setPublicationDateEnd(null);
 
             $this->entityManager->persist($snapshot);
         }
-
         $this->entityManager->flush();
-        //@todo: strange sql and low-level pdo usage: use dql or qb
-        $sql = sprintf("UPDATE %s SET publication_date_end = '%s' WHERE id NOT IN(%s) AND page_id IN (%s) AND publication_date_end IS NULL",
-            $this->entityManager->getClassMetadata($this->class)->table['name'],
-            $now->format('Y-m-d H:i:s'),
-            implode(',', $snapshotIds),
-            implode(',', $pageIds)
-        );
 
-        $this->getConnection()->query($sql);
+        // fetch the previously used snapshots
+        $qb = $this->entityManager->createQueryBuilder();
+        $qb->from($this->class, 's')
+            ->select('s')
+            ->where($qb->expr()->andX(
+                $qb->expr()->notIn('s.id', ':shapshotIds'),
+                $qb->expr()->in('s.page', ':pageRefs'),
+                $qb->expr()->orX(
+                    $qb->expr()->eq('s.enabled', ':enabled'),
+                    $qb->expr()->isNull('s.publicationDateEnd')
+                )
+            ))
+            ->setParameters(array(
+                'shapshotIds' => $snapshotIds,
+                'pageRefs' => $pageRefs,
+                'enabled' => 1
+            ))
+        ;
+        $snapshots = $qb->getQuery()->execute();
+
+        // disable the previously used snapshots
+        if (count($snapshots)) {
+            foreach ($snapshots as $snapshot) {
+                if ($snapshot->getEnabled()) {
+                    $snapshot->setEnabled(false);
+                }
+
+                if (!$snapshot->getPublicationDateEnd()) {
+                    $snapshot->setPublicationDateEnd(clone $now);
+                }
+            }
+
+            $this->entityManager->flush();
+        }
     }
 
     /**
