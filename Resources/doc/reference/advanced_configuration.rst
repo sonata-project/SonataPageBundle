@@ -36,7 +36,7 @@ Full configuration options (config.yml file):
             - sonata_cache_apc
 
         ignore_uri_patterns:
-            - ^/admin(.*)   # ignore admin route, ie route containing 'admin'
+            - ^/admin\/   # ignore admin route, ie route containing 'admin'
 
         cache_invalidation:
             service:  sonata.page.cache.invalidation.simple
