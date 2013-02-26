@@ -27,7 +27,7 @@ interface PageServiceManagerInterface
      * @param string               $type    Page type
      * @param PageServiceInterface $service Service
      */
-    function add($type, PageServiceInterface $service);
+    public function add($type, PageServiceInterface $service);
 
     /**
      * Returns the page service for given page
@@ -36,21 +36,21 @@ interface PageServiceManagerInterface
      *
      * @return PageServiceInterface
      */
-    function get($type);
+    public function get($type);
 
     /**
      * Returns all page services
      *
      * @return PageServiceInterface[]
      */
-    function getAll();
+    public function getAll();
 
     /**
      * Sets the default page service
      *
      * @param PageServiceInterface $service
      */
-    function setDefault(PageServiceInterface $service);
+    public function setDefault(PageServiceInterface $service);
 
     /**
      * Executes the page. This method acts as a controller's action for a specific page and is therefor expected
@@ -60,9 +60,9 @@ interface PageServiceManagerInterface
      * @param Request       $request    Request object
      * @param array         $parameters An array of view parameters. In the case of hybrid pages, it may have a
      *                                  parameter "content" that contains the view result of the controller.
-     * @param Response|null $response   Response object
+     * @param Response|null $response Response object
      *
      * @return Response
      */
-    function execute(PageInterface $page, Request $request, array $parameters = array(), Response $response = null);
+    public function execute(PageInterface $page, Request $request, array $parameters = array(), Response $response = null);
 }

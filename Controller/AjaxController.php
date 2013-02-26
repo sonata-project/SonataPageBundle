@@ -8,25 +8,16 @@
  * file that was distributed with this source code.
  */
 
-
 namespace Sonata\PageBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Templating\EngineInterface;
-
-use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Validator\ErrorElement;
 
 use Sonata\BlockBundle\Exception\BlockNotFoundException;
 use Sonata\BlockBundle\Model\BlockInterface;
-use Sonata\BlockBundle\Block\BaseBlockService;
 use Sonata\BlockBundle\Block\BlockRendererInterface;
 
-use Sonata\PageBundle\CmsManager\CmsManagerInterface;
-use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
-use Sonata\PageBundle\Model\PageInterface;
 
 /**
  * Render a block in ajax

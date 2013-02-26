@@ -9,7 +9,6 @@
  * file that was distributed with this source code.
  */
 
-
 namespace Sonata\PageBundle\CmsManager;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -63,6 +62,7 @@ class CmsManagerSelector implements CmsManagerSelectorInterface
          * by the router chain, so we need to use another mechanism. It is not perfect
          * but do the job for now.
          */
+
         return $this->getSession()->get('sonata/page/isEditor', false);
     }
 

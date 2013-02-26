@@ -11,11 +11,8 @@
 
 namespace Sonata\PageBundle\Consumer;
 
-use Sonata\NotificationBundle\Model\MessageInterface;
-use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 
-use Sonata\NotificationBundle\Exception\InvalidParameterException;
 use Sonata\NotificationBundle\Backend\BackendInterface;
 use Sonata\NotificationBundle\Consumer\ConsumerInterface;
 use Sonata\NotificationBundle\Consumer\ConsumerEvent;

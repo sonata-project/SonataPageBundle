@@ -10,7 +10,6 @@
 
 namespace Sonata\PageBundle\CmsManager;
 
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -29,26 +28,26 @@ interface DecoratorStrategyInterface
      *
      * @return boolean
      */
-    function isDecorable(Request $request, $requestType, Response $response);
+    public function isDecorable(Request $request, $requestType, Response $response);
 
     /**
      * @param Request $request
      *
      * @return boolean
      */
-    function isRequestDecorable(Request $request);
+    public function isRequestDecorable(Request $request);
 
     /**
      * @param string $routeName
      *
      * @return boolean
      */
-    function isRouteNameDecorable($routeName);
+    public function isRouteNameDecorable($routeName);
 
     /**
      * @param string $uri
      *
      * @return boolean
      */
-    function isRouteUriDecorable($uri);
+    public function isRouteUriDecorable($uri);
 }

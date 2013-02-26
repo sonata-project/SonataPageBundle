@@ -118,7 +118,10 @@ class PageServiceManagerTest extends \PHPUnit_Framework_TestCase
     public function testExecute()
     {
         // GIVEN
-        $request  = $this->getMock('Symfony\Component\HttpFoundation\Request');
+        $request  = $this
+            ->getMockBuilder('Symfony\Component\HttpFoundation\Request')
+            ->disableOriginalClone()
+            ->getMock();
         $response = $this->getMock('Symfony\Component\HttpFoundation\Response');
 
         $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');

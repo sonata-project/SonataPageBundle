@@ -22,14 +22,14 @@ interface PageManagerInterface
      *
      * @return PageInterface
      */
-    function findOneBy(array $criteria = array());
+    public function findOneBy(array $criteria = array());
 
     /**
      * @param array $criteria
      *
      * @return array
      */
-    function findBy(array $criteria = array());
+    public function findBy(array $criteria = array());
 
     /**
      * Returns a page with the give slug
@@ -39,19 +39,19 @@ interface PageManagerInterface
      *
      * @return PageInterface
      */
-    function getPageByUrl(SiteInterface $site, $url);
+    public function getPageByUrl(SiteInterface $site, $url);
 
     /**
      * @param PageInterface $object
      */
-    function save(PageInterface $object);
+    public function save(PageInterface $object);
 
     /**
      * @param array $params
      *
      * @return PageInterface
      */
-    function create(array $params = array());
+    public function create(array $params = array());
 
     /**
      * Returns an array of Pages Entity where the id is the key
@@ -60,12 +60,12 @@ interface PageManagerInterface
      *
      * @return array
      */
-    function loadPages(SiteInterface $site);
+    public function loadPages(SiteInterface $site);
 
     /**
      * @param PageInterface $page
      *
      * @return mixed
      */
-    function fixUrl(PageInterface $page);
+    public function fixUrl(PageInterface $page);
 }

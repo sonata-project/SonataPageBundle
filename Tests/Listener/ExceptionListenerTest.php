@@ -17,7 +17,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use Sonata\PageBundle\Listener\ExceptionListener;
 
-
 /**
  * Test the page bundle exception listener
  */

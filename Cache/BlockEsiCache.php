@@ -12,7 +12,6 @@ namespace Sonata\PageBundle\Cache;
 
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Process\Process;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,7 +35,7 @@ class BlockEsiCache extends EsiCache
      * @param array                  $servers
      * @param RouterInterface        $router
      * @param BlockRendererInterface $blockService
-     * @param array                                                  $managers
+     * @param array                  $managers
      */
     public function __construct($token, array $servers = array(), RouterInterface $router, BlockRendererInterface $blockRenderer, array $managers = array())
     {
@@ -95,10 +94,10 @@ class BlockEsiCache extends EsiCache
     {
         // values are casted into string for non numeric id
         return hash('sha256', $this->token.serialize(array(
-            'manager'    => (string)$keys['manager'],
-            'page_id'    => (string)$keys['page_id'],
-            'block_id'   => (string)$keys['block_id'],
-            'updated_at' => (string)$keys['updated_at'],
+            'manager'    => (string) $keys['manager'],
+            'page_id'    => (string) $keys['page_id'],
+            'block_id'   => (string) $keys['block_id'],
+            'updated_at' => (string) $keys['updated_at'],
         )));
     }
 

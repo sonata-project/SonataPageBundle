@@ -8,7 +8,6 @@
  * file that was distributed with this source code.
  */
 
-
 namespace Sonata\PageBundle\Block;
 
 use Sonata\AdminBundle\Form\FormMapper;
@@ -18,7 +17,6 @@ use Sonata\BlockBundle\Block\BaseBlockService;
 use Sonata\BlockBundle\Model\BlockInterface;
 
 use Symfony\Component\HttpFoundation\Response;
-
 
 /**
  * Render children pages

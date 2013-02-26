@@ -15,7 +15,6 @@ use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Sonata\PageBundle\Exception\InternalErrorException;
-use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Page\PageServiceManagerInterface;
 use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 
@@ -252,8 +251,7 @@ class ExceptionListener
             $cmsManager->setCurrentPage($page);
 
             $response = $this->pageServiceManager->execute($page, $event->getRequest(), array(), new Response('', $statusCode));
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             $this->logException($exception, $e);
 
             $event->setException($e);

@@ -50,11 +50,11 @@ class CmsPageManager extends BaseCmsPageManager
     {
         if (is_string($page) && substr($page, 0, 1) == '/') {
             $page = $this->getPageByUrl($site, $page);
-        } else if (is_string($page)) { // page is a slug, load the related page
+        } elseif (is_string($page)) { // page is a slug, load the related page
             $page = $this->getPageByRouteName($site, $page);
-        } else if (is_numeric($page)) {
+        } elseif (is_numeric($page)) {
             $page = $this->getPageById($page);
-        } else if (!$page) { // get the current page
+        } elseif (!$page) { // get the current page
             $page = $this->getCurrentPage();
         }
 

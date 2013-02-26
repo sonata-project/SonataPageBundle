@@ -10,13 +10,9 @@
 
 namespace Sonata\PageBundle\Site;
 
-use Symfony\Component\Routing\RequestContext;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-use Sonata\PageBundle\Model\SiteManagerInterface;
-use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Request\SiteRequestInterface;
 use Sonata\PageBundle\Request\SiteRequestContext;
 
@@ -73,7 +69,7 @@ class HostPathSiteSelector extends BaseSiteSelector
         // no valid site, but on there is a default site for the current request
         if (!$this->site && $defaultSite) {
             $event->setResponse(new RedirectResponse($defaultSite->getUrl(), 301));
-        } else if ($this->site && $this->site->getLocale()) {
+        } elseif ($this->site && $this->site->getLocale()) {
             $event->getRequest()->attributes->set('_locale', $this->site->getLocale());
         }
     }

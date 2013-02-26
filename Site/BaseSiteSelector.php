@@ -11,7 +11,6 @@
 namespace Sonata\PageBundle\Site;
 
 use Symfony\Component\Routing\RequestContext;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpFoundation\Request;
 

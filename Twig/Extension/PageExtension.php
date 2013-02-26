@@ -12,7 +12,6 @@
 namespace Sonata\PageBundle\Twig\Extension;
 
 use Sonata\PageBundle\Model\PageBlockInterface;
-use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Site\SiteSelectorInterface;

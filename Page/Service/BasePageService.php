@@ -11,13 +11,6 @@
 
 namespace Sonata\PageBundle\Page\Service;
 
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-
-use Sonata\PageBundle\Model\PageInterface;
-
 /**
  * Abstract page service that provides a basic implementation
  *

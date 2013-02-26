@@ -13,7 +13,6 @@ namespace Sonata\PageBundle\Tests\Listener;
 use Sonata\PageBundle\Listener\RequestListener;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Test the page bundle request listener

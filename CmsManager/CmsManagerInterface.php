@@ -8,18 +8,14 @@
  * file that was distributed with this source code.
  */
 
-
 namespace Sonata\PageBundle\CmsManager;
 
 use Sonata\BlockBundle\Model\BlockInterface;
-
-use Sonata\CacheBundle\Cache\CacheElement;
 
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * The CmsManagerInterface class is in charge of retrieving the correct page (cms page or action page)
@@ -37,17 +33,17 @@ interface CmsManagerInterface
      *
      * @return bool|null|BlockInterface
      */
-    function findContainer($name, PageInterface $page, BlockInterface $parentContainer = null);
+    public function findContainer($name, PageInterface $page, BlockInterface $parentContainer = null);
 
     /**
      * Returns a fully loaded page ( + blocks ) from a url
      *
      * @param SiteInterface $site
-     * @param string                                 $slug
+     * @param string        $slug
      *
      * @return PageInterface
      */
-    function getPageByUrl(SiteInterface $site, $slug);
+    public function getPageByUrl(SiteInterface $site, $slug);
 
     /**
      * Returns a fully loaded page ( + blocks ) from a route name
@@ -57,7 +53,7 @@ interface CmsManagerInterface
      *
      * @return PageInterface
      */
-    function getPageByRouteName(SiteInterface $site, $routeName);
+    public function getPageByRouteName(SiteInterface $site, $routeName);
 
     /**
      * Returns a fully loaded page ( + blocks ) from a route name
@@ -67,7 +63,7 @@ interface CmsManagerInterface
      *
      * @return PageInterface
      */
-    function getPageByPageAlias(SiteInterface $site, $pageAlias);
+    public function getPageByPageAlias(SiteInterface $site, $pageAlias);
 
     /**
      * Returns a fully loaded page ( + blocks ) from an internal page name
@@ -77,17 +73,17 @@ interface CmsManagerInterface
      *
      * @return string
      */
-    function getInternalRoute(SiteInterface $site, $routeName);
+    public function getInternalRoute(SiteInterface $site, $routeName);
 
     /**
      * Returns a fully loaded page ( + blocks ) from a name
      *
      * @param SiteInterface $site
-     * @param string                                 $name
+     * @param string        $name
      *
      * @return PageInterface
      */
-    function getPageByName(SiteInterface $site, $name);
+    public function getPageByName(SiteInterface $site, $name);
 
     /**
      * Returns a fully loaded pag ( + blocks ) from a page id
@@ -96,7 +92,7 @@ interface CmsManagerInterface
      *
      * @return PageInterface
      */
-    function getPageById($id);
+    public function getPageById($id);
 
     /**
      *
@@ -104,26 +100,26 @@ interface CmsManagerInterface
      *
      * @return PageInterface
      */
-    function getBlock($id);
+    public function getBlock($id);
 
     /**
      * Returns the current page
      *
      * @return PageInterface
      */
-    function getCurrentPage();
+    public function getCurrentPage();
 
     /**
      * @param PageInterface $page
      */
-    function setCurrentPage(PageInterface $page);
+    public function setCurrentPage(PageInterface $page);
 
     /**
      * Returns the list of loaded block from the current http request
      *
      * @return array
      */
-    function getBlocks();
+    public function getBlocks();
 
     /**
      * @param SiteInterface $site
@@ -131,5 +127,5 @@ interface CmsManagerInterface
      *
      * @return PageInterface
      */
-    function getPage(SiteInterface $site, $page);
+    public function getPage(SiteInterface $site, $page);
 }

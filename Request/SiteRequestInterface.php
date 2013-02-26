@@ -22,12 +22,12 @@ interface SiteRequestInterface
      *
      * @return void
      */
-    function setPathInfo($pathInfo);
+    public function setPathInfo($pathInfo);
 
     /**
      * @param string $baseUrl
      *
      * @return void
      */
-    function setBaseUrl($baseUrl);
+    public function setBaseUrl($baseUrl);
 }

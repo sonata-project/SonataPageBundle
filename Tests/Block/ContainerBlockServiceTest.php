@@ -11,7 +11,6 @@
 namespace Sonata\PageBundle\Tests\Block;
 
 use Sonata\BlockBundle\Model\Block;
-use Sonata\PageBundle\Tests\Model\Page;
 use Sonata\PageBundle\Block\ContainerBlockService;
 
 /**
