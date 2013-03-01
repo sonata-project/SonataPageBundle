@@ -54,10 +54,7 @@ class SonataPageExtension extends Extension
         $this->configureExceptions($container, $config);
         $this->configurePageDefaults($container, $config);
         $this->configurePageServices($container, $config);
-
-        $this->addClassesToCompile(array(
-            'Sonata\\PageBundle\\Request\\SiteRequest'
-        ));
+        $this->configureClassesToCompile();
 
         $container->getDefinition('sonata.page.decorator_strategy')
             ->replaceArgument(0, $config['ignore_routes'])
@@ -426,5 +423,60 @@ class SonataPageExtension extends Extension
         // set the default page service to use when no page type has been set. (backward compatibility)
         $definition = $container->getDefinition('sonata.page.page_service_manager');
         $definition->addMethodCall('setDefault', array(new Reference($config['default_page_service'])));
+    }
+
+    /**
+     * Add class to compile
+     */
+    public function configureClassesToCompile()
+    {
+        $this->addClassesToCompile(array(
+            'Sonata\\PageBundle\\Request\\SiteRequest',
+            'Sonata\\PageBundle\\Route\\CmsPageRouter',
+            'Sonata\\PageBundle\\CmsManager\\CmsManagerSelectorInterface',
+            'Sonata\\PageBundle\\CmsManager\\CmsManagerSelector',
+            'Sonata\\PageBundle\\Site\\SiteSelectorInterface',
+            'Sonata\\PageBundle\\Site\\BaseSiteSelector',
+            'Sonata\\PageBundle\\Site\\HostSiteSelector',
+            'Sonata\\PageBundle\\Model\\SiteManagerInterface',
+            'Sonata\\PageBundle\\Entity\\SiteManager',
+            'Sonata\\PageBundle\\CmsManager\\DecoratorStrategyInterface',
+            'Sonata\\PageBundle\\CmsManager\\DecoratorStrategy',
+            'Sonata\\PageBundle\\Twig\\Extension\\PageExtension',
+            'Sonata\\PageBundle\\Cache\\BlockEsiCache',
+            'Sonata\\PageBundle\\CmsManager\\CmsManagerInterface',
+            'Sonata\\PageBundle\\CmsManager\\BaseCmsPageManager',
+            'Sonata\\PageBundle\\CmsManager\\CmsPageManager',
+            'Sonata\\PageBundle\\Model\\PageManagerInterface',
+            'Sonata\\PageBundle\\Entity\\PageManager',
+            'Sonata\\PageBundle\\Model\\BlockInteractorInterface',
+            'Sonata\\PageBundle\\Entity\\BlockInteractor',
+            'Sonata\\PageBundle\\Entity\\BlockManager',
+            'Sonata\\PageBundle\\CmsManager\\CmsSnapshotManager',
+            'Sonata\\PageBundle\\Model\\SnapshotManagerInterface',
+            'Sonata\\PageBundle\\Entity\\SnapshotManager',
+            'Sonata\\PageBundle\\Cache\\BlockSsiCache',
+            'Sonata\\PageBundle\\Cache\\BlockJsCache',
+            'Sonata\\PageBundle\\Twig\\GlobalVariables',
+            'Sonata\\PageBundle\\Listener\\RequestListener',
+            'Sonata\\PageBundle\\Model\\SiteInterface',
+            'Sonata\\PageBundle\\Model\\Site',
+            'Sonata\\PageBundle\\Entity\\BaseSite',
+            'Sonata\\PageBundle\\Model\\SnapshotInterface',
+            'Sonata\\PageBundle\\Model\\Snapshot',
+            'Sonata\\PageBundle\\Model\\PageInterface',
+            'Sonata\\PageBundle\\Model\\Page',
+            'Sonata\\PageBundle\\Entity\\BasePage',
+            'Sonata\\PageBundle\\Exception\\PageNotFoundException',
+            'Sonata\\PageBundle\\Listener\\ResponseListener',
+            'Sonata\\PageBundle\\Page\\Service\\PageServiceInterface',
+            'Sonata\\PageBundle\\Page\\Service\\BasePageService',
+            'Sonata\\PageBundle\\Page\\Service\\DefaultPageService',
+            'Sonata\\PageBundle\\Page\\TemplateManagerInterface',
+            'Sonata\\PageBundle\\Page\\TemplateManager',
+            'Sonata\\PageBundle\\Model\\Template',
+            'Sonata\\PageBundle\\Page\\PageServiceManagerInterface',
+            'Sonata\\PageBundle\\Page\\PageServiceManager',
+        ));
     }
 }
