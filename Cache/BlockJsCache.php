@@ -110,7 +110,7 @@ class BlockJsCache implements CacheInterface
      */
     protected function getSync(array $keys)
     {
-        return sprintf("
+        return sprintf('
 <div id="block-cms-%s" >
     <script type="text/javascript">
         /*<![CDATA[*/
