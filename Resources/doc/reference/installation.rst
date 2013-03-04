@@ -130,7 +130,7 @@ configuration file.
             - sonata_cache_apc
 
         ignore_uri_patterns:
-            - ^/admin(.*)   # ignore admin route, ie route containing 'admin'
+            - ^/admin\/   # ignore admin route, ie route containing 'admin'
 
         page_defaults:
             homepage: {decorate: false} # disable decoration for homepage, key - is a page route

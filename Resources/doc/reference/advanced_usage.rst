@@ -23,7 +23,7 @@ tweak this behavior by ignoring patterns :
             - sonata_page_js_cache
 
         ignore_uri_patterns:
-            - ^/admin(.*)     # ignore admin route, ie route containing 'admin'
+            - ^/admin\/     # ignore admin route, ie route containing 'admin'
 
 Page defaults options
 ---------------------
