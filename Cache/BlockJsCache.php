@@ -110,22 +110,22 @@ class BlockJsCache implements CacheInterface
      */
     protected function getSync(array $keys)
     {
-        return sprintf(<<<CONTENT
+        return sprintf("
 <div id="block-cms-%s" >
     <script type="text/javascript">
         /*<![CDATA[*/
             (function () {
                 var block, xhr;
-                block = document.getElementById('block-cms-%s');
+                block = document.getElementById("block-cms-%s");
                 if (window.XMLHttpRequest) {
                     xhr = new XMLHttpRequest();
                 } else {
-                    xhr = new ActiveXObject('Microsoft.XMLHTTP');
+                    xhr = new ActiveXObject("Microsoft.XMLHTTP");
                 }
 
-                xhr.open('GET', '%s', false);
-                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-                xhr.send('');
+                xhr.open("GET", "%s", false);
+                xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+                xhr.send("");
 
                 // create an empty element
                 var div = document.createElement("div");
@@ -140,7 +140,7 @@ class BlockJsCache implements CacheInterface
         /*]]>*/
     </script>
 </div>
-CONTENT
+'
 , $keys['block_id'], $keys['block_id'], $this->router->generate('sonata_page_js_sync_cache', $keys, true));
     }
 
@@ -150,24 +150,24 @@ CONTENT
      */
     protected function getAsync(array $keys)
     {
-        return sprintf(<<<CONTENT
+        return sprintf('
 <div id="block-cms-%s" >
     <script type="text/javascript">
         /*<![CDATA[*/
 
             (function() {
-                var b = document.createElement('script');
-                b.type = 'text/javascript';
+                var b = document.createElement("script");
+                b.type = "text/javascript";
                 b.async = true;
-                b.src = '%s'
-                var s = document.getElementsByTagName('script')[0];
+                b.src = "%s"
+                var s = document.getElementsByTagName("script")[0];
                 s.parentNode.insertBefore(b, s);
             })();
 
         /*]]>*/
     </script>
 </div>
-CONTENT
+'
 , $keys['block_id'], $this->router->generate('sonata_page_js_async_cache', $keys, true));
     }
 
@@ -209,9 +209,9 @@ CONTENT
             return $response;
         }
 
-        $response->setContent(sprintf(<<<JS
+        $response->setContent(sprintf('
     (function () {
-        var block = document.getElementById('block-cms-%s');
+        var block = document.getElementById("block-cms-%s");
 
         var div = document.createElement("div");
         div.innerHTML = %s;
@@ -222,7 +222,7 @@ CONTENT
             }
         }
     })();
-JS
+'
 , $block->getId(), json_encode($response->getContent())));
 
         $response->headers->set('Content-Type', 'application/javascript');
