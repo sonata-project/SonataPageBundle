@@ -110,8 +110,8 @@ class BlockJsCache implements CacheInterface
      */
     protected function getSync(array $keys)
     {
-        return sprintf('
-<div id="block-cms-%s" >
+        return sprintf(
+'<div id="block-cms-%s" >
     <script type="text/javascript">
         /*<![CDATA[*/
             (function () {
@@ -139,8 +139,8 @@ class BlockJsCache implements CacheInterface
             })();
         /*]]>*/
     </script>
-</div>
-'
+</div>'
+
 , $keys['block_id'], $keys['block_id'], $this->router->generate('sonata_page_js_sync_cache', $keys, true));
     }
 
@@ -150,8 +150,8 @@ class BlockJsCache implements CacheInterface
      */
     protected function getAsync(array $keys)
     {
-        return sprintf('
-<div id="block-cms-%s" >
+        return sprintf(
+'<div id="block-cms-%s" >
     <script type="text/javascript">
         /*<![CDATA[*/
 
@@ -166,8 +166,7 @@ class BlockJsCache implements CacheInterface
 
         /*]]>*/
     </script>
-</div>
-'
+</div>'
 , $keys['block_id'], $this->router->generate('sonata_page_js_async_cache', $keys, true));
     }
 
