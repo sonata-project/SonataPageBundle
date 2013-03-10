@@ -10,6 +10,7 @@
 
 namespace Sonata\PageBundle\Entity;
 
+use Sonata\BlockBundle\Model\BlockManagerInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\TransformerInterface;
@@ -28,14 +29,18 @@ class Transformer implements TransformerInterface
 
     protected $pageManager;
 
+    protected $blockManager;
+
     /**
      * @param SnapshotManagerInterface $snapshotManager
      * @param PageManagerInterface     $pageManager
+     * @param BlockManagerInterface     $blockManager
      */
-    public function __construct(SnapshotManagerInterface $snapshotManager, PageManagerInterface $pageManager)
+    public function __construct(SnapshotManagerInterface $snapshotManager, PageManagerInterface $pageManager, BlockManagerInterface $blockManager)
     {
         $this->snapshotManager = $snapshotManager;
         $this->pageManager = $pageManager;
+        $this->blockManager = $blockManager;
     }
 
     /**
@@ -105,7 +110,7 @@ class Transformer implements TransformerInterface
      */
     public function load(SnapshotInterface $snapshot)
     {
-        $page = new $this->pageClass;
+        $page = $this->pageManager->create();
 
         $page->setRouteName($snapshot->getRouteName());
         $page->setPageAlias($snapshot->getPageAlias());
@@ -177,7 +182,7 @@ class Transformer implements TransformerInterface
      */
     protected function loadBlock(array $content, PageInterface $page)
     {
-        $block = new $this->blockClass;
+        $block = $this->blockManager->create();
 
         $content = $this->fixBlockContent($content);
 

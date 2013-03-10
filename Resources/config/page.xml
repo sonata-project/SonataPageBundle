@@ -80,6 +80,7 @@
         <service id="sonata.page.transformer" class="%sonata.page.transformer.class%">
             <argument type="service" id="sonata.page.manager.snapshot" />
             <argument type="service" id="sonata.page.manager.page" />
+            <argument type="service" id="sonata.page.manager.block" />
        </service>
 
         <service id="sonata.page.decorator_strategy" class="%sonata.page.decorator_strategy.class%">
