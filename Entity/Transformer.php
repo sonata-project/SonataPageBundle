@@ -88,6 +88,10 @@ class Transformer implements TransformerInterface
 
         $content['blocks'] = array();
         foreach ($page->getBlocks() as $block) {
+            if ($block->getParent()) { // ignore block with a parent => must be a child of a main
+                continue;
+            }
+
             $content['blocks'][] = $this->createBlocks($block);
         }
 
@@ -95,7 +99,6 @@ class Transformer implements TransformerInterface
 
         return $snapshot;
     }
-
 
     /**
      * {@inheritdoc}
