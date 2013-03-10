@@ -52,4 +52,9 @@ interface SnapshotManagerInterface
      * @param array $snapshots
      */
     public function enableSnapshots(array $snapshots);
+
+    /**
+     * @return string
+     */
+    public function getClass();
 }

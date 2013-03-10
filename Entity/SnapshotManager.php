@@ -35,21 +35,17 @@ class SnapshotManager implements SnapshotManagerInterface
 
     protected $class;
 
-    protected $blockClass;
-
     protected $templates = array();
 
     /**
      * @param EntityManager $entityManager
      * @param string        $class
-     * @param string        $blockClass
      * @param array         $templates
      */
-    public function __construct(EntityManager $entityManager, $class, $blockClass, $templates = array())
+    public function __construct(EntityManager $entityManager, $class, $templates = array())
     {
         $this->entityManager = $entityManager;
         $this->class         = $class;
-        $this->blockClass    = $blockClass;
         $this->templates     = $templates;
     }
 
@@ -190,7 +186,7 @@ class SnapshotManager implements SnapshotManagerInterface
      *
      * @param string $routeName
      *
-     * @return \Sonata\PageBundle\Model\PageInterface|false
+     * @return PageInterface|false
      */
     public function getPageByName($routeName)
     {
@@ -211,93 +207,6 @@ class SnapshotManager implements SnapshotManagerInterface
         }
 
         return false;
-    }
-
-    /**
-     * Get snapshot
-     *
-     * @param integer $pageId
-     *
-     * @return \Sonata\PageBundle\Model\SnapshotInterface
-     */
-    public function getSnapshotByPageId($pageId)
-    {
-        if (!$pageId) {
-            return null;
-        }
-
-        $date = new \Datetime;
-        $parameters = array(
-            'publicationDateStart'  => $date,
-            'publicationDateEnd'    => $date,
-            'pageId'                => $pageId
-        );
-
-        try {
-            $snapshot = $this->entityManager->createQueryBuilder()
-                ->select('s')
-                ->from($this->class, 's')
-                ->where('s.page = :pageId and s.enabled = 1')
-                ->andWhere('s.publicationDateStart <= :publicationDateStart AND ( s.publicationDateEnd IS NULL OR s.publicationDateEnd >= :publicationDateEnd )')
-                ->setParameters($parameters)
-                ->getQuery()
-                ->getSingleResult();
-
-        } catch (NoResultException $e) {
-            $snapshot = null;
-        }
-
-        return $snapshot;
-    }
-
-    /**
-     * Get page by id
-     *
-     * @param integer $id
-     *
-     * @return \Sonata\PageBundle\Model\PageInterface
-     */
-    public function getPageById($id)
-    {
-        $snapshot = $this->getSnapshotByPageId($id);
-
-        return $snapshot ? new SnapshotPageProxy($this, $snapshot) : null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getChildren(PageInterface $parent)
-    {
-        if (!isset($this->children[$parent->getId()])) {
-            $date = new \Datetime;
-            $parameters = array(
-                'publicationDateStart'  => $date,
-                'publicationDateEnd'    => $date,
-                'parentId'              => $parent->getId(),
-            );
-
-            $snapshots = $this->entityManager->createQueryBuilder()
-                ->select('s')
-                ->from($this->class, 's')
-                ->where('s.parentId = :parentId and s.enabled = 1')
-                ->andWhere('s.publicationDateStart <= :publicationDateStart AND ( s.publicationDateEnd IS NULL OR s.publicationDateEnd >= :publicationDateEnd )')
-                ->orderBy('s.position')
-                ->setParameters($parameters)
-                ->getQuery()
-                ->execute();
-
-            $pages = array();
-
-            foreach ($snapshots as $snapshot) {
-                $page = new SnapshotPageProxy($this, $snapshot);
-                $pages[$page->getId()] = $page;
-            }
-
-            $this->children[$parent->getId()] = new \Doctrine\Common\Collections\ArrayCollection($pages);
-        }
-
-        return $this->children[$parent->getId()];
     }
 
     /**

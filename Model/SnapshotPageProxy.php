@@ -40,13 +40,15 @@ class SnapshotPageProxy implements PageInterface, Serializable
     /**
      * Constructor
      *
-     * @param SnapshotManagerInterface $manager  Snapshot manager
-     * @param SnapshotInterface        $snapshot Snapshot object
+     * @param SnapshotManagerInterface $manager     Snapshot manager
+     * @param TransformerInterface     $transformer The transformer object
+     * @param SnapshotInterface        $snapshot    Snapshot object
      */
-    public function __construct(SnapshotManagerInterface $manager, SnapshotInterface $snapshot)
+    public function __construct(SnapshotManagerInterface $manager, TransformerInterface $transformer, SnapshotInterface $snapshot)
     {
         $this->manager  = $manager;
         $this->snapshot = $snapshot;
+        $this->transformer = $transformer;
     }
 
     /**
@@ -64,8 +66,8 @@ class SnapshotPageProxy implements PageInterface, Serializable
      */
     private function load()
     {
-        if (!$this->page && $this->manager) {
-            $this->page = $this->manager->load($this->snapshot);
+        if (!$this->page && $this->transformer) {
+            $this->page = $this->transformer->load($this->snapshot);
         }
     }
 
@@ -115,7 +117,7 @@ class SnapshotPageProxy implements PageInterface, Serializable
     public function getChildren()
     {
         if (!$this->getPage()->getChildren()->count()) {
-            $this->getPage()->setChildren(new SnapshotChildrenCollection($this->manager, $this->getPage()));
+            $this->getPage()->setChildren(new SnapshotChildrenCollection($this->transformer, $this->getPage()));
         }
 
         return $this->getPage()->getChildren();
@@ -135,11 +137,10 @@ class SnapshotPageProxy implements PageInterface, Serializable
     public function getBlocks()
     {
         if (!count($this->getPage()->getBlocks())) {
-
             $content = $this->snapshot->getContent();
 
             foreach ($content['blocks'] as $block) {
-                $this->addBlocks($this->manager->loadBlock($block, $this->getPage()));
+                $this->addBlocks($this->transformer->loadBlock($block, $this->getPage()));
             }
         }
 
@@ -163,10 +164,13 @@ class SnapshotPageProxy implements PageInterface, Serializable
             $content = $this->snapshot->getContent();
 
             if (isset($content['target_id'])) {
-                $target = $this->manager->getPageById($content['target_id']);
+
+                $target = $this->manager->findEnableSnapshot(array(
+                    'pageId' => $content['target_id']
+                ));
 
                 if ($target) {
-                    $this->setTarget($target);
+                    $this->setTarget(new SnapshotPageProxy($this->manager, $this->transformer, $target));
                 } else {
                     $this->target = false;
                 }
@@ -211,12 +215,14 @@ class SnapshotPageProxy implements PageInterface, Serializable
             while ($snapshot) {
                 $content = $snapshot->getContent();
 
-                $parentId = $content['parent_id'];
+                if ($content['parent_id']) {
+                    $snapshot = $this->manager->findEnableSnapshot(array(
+                        'pageId' => $content['parent_id']
+                    ));
 
-                $snapshot = $parentId ? $this->manager->getSnapshotByPageId($parentId) : null;
-
-                if ($snapshot) {
-                    $parents[] = new SnapshotPageProxy($this->manager, $snapshot);
+                    if ($snapshot) {
+                        $parents[] = new SnapshotPageProxy($this->manager, $this->transformer, $snapshot);
+                    }
                 }
             }
 

@@ -10,6 +10,7 @@
 
 namespace Sonata\PageBundle\Entity;
 
+use Doctrine\ORM\EntityManager;
 use Sonata\BlockBundle\Model\BlockManagerInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
@@ -17,6 +18,7 @@ use Sonata\PageBundle\Model\TransformerInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SnapshotInterface;
+use Sonata\PageBundle\Model\SnapshotPageProxy;
 
 /**
  * This class transform a SnapshotInterface into PageInterface
@@ -34,13 +36,15 @@ class Transformer implements TransformerInterface
     /**
      * @param SnapshotManagerInterface $snapshotManager
      * @param PageManagerInterface     $pageManager
-     * @param BlockManagerInterface     $blockManager
+     * @param BlockManagerInterface    $blockManager
+     * @param EntityManager            $entityManager
      */
-    public function __construct(SnapshotManagerInterface $snapshotManager, PageManagerInterface $pageManager, BlockManagerInterface $blockManager)
+    public function __construct(SnapshotManagerInterface $snapshotManager, PageManagerInterface $pageManager, BlockManagerInterface $blockManager, EntityManager $entityManager)
     {
         $this->snapshotManager = $snapshotManager;
         $this->pageManager = $pageManager;
         $this->blockManager = $blockManager;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -180,7 +184,7 @@ class Transformer implements TransformerInterface
      *
      * @return BlockInterface
      */
-    protected function loadBlock(array $content, PageInterface $page)
+    public function loadBlock(array $content, PageInterface $page)
     {
         $block = $this->blockManager->create();
 
@@ -232,5 +236,41 @@ class Transformer implements TransformerInterface
         }
 
         return $content;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getChildren(PageInterface $parent)
+    {
+        if (!isset($this->children[$parent->getId()])) {
+            $date = new \Datetime;
+            $parameters = array(
+                'publicationDateStart'  => $date,
+                'publicationDateEnd'    => $date,
+                'parentId'              => $parent->getId(),
+            );
+
+            $snapshots = $this->entityManager->createQueryBuilder()
+                ->select('s')
+                ->from($this->snapshotManager->getClass(), 's')
+                ->where('s.parentId = :parentId and s.enabled = 1')
+                ->andWhere('s.publicationDateStart <= :publicationDateStart AND ( s.publicationDateEnd IS NULL OR s.publicationDateEnd >= :publicationDateEnd )')
+                ->orderBy('s.position')
+                ->setParameters($parameters)
+                ->getQuery()
+                ->execute();
+
+            $pages = array();
+
+            foreach ($snapshots as $snapshot) {
+                $page = new SnapshotPageProxy($this->snapshotManager, $this, $snapshot);
+                $pages[$page->getId()] = $page;
+            }
+
+            $this->children[$parent->getId()] = new \Doctrine\Common\Collections\ArrayCollection($pages);
+        }
+
+        return $this->children[$parent->getId()];
     }
 }

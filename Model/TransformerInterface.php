@@ -31,4 +31,19 @@ interface TransformerInterface
      * @return SnapshotInterface
      */
     public function create(PageInterface $page);
+
+    /**
+     * @param PageInterface $page
+     *
+     * @return array
+     */
+    public function getChildren(PageInterface $page);
+
+    /**
+     * @param array         $content
+     * @param PageInterface $page
+     *
+     * @return BlockInterface
+     */
+    public function loadBlock(array $content, PageInterface $page);
 }
