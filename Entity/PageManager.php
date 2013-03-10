@@ -35,7 +35,8 @@ class PageManager implements PageManagerInterface
 
     /**
      * @param \Doctrine\ORM\EntityManager $entityManager
-     * @param string                      $class
+     * @param                             $class
+     * @param array                       $defaults
      * @param array                       $pageDefaults
      */
     public function __construct(EntityManager $entityManager, $class, array $defaults = array(), array $pageDefaults = array())

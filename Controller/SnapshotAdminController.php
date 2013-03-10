@@ -57,11 +57,12 @@ class SnapshotAdminController extends Controller
 
             if ($form->isValid()) {
                 $snapshotManager = $this->get('sonata.page.manager.snapshot');
+                $transformer = $this->get('sonata.page.transformer');
 
                 $page = $form->getData()->getPage();
                 $page->setEdited(false);
 
-                $snapshot = $snapshotManager->create($page);
+                $snapshot = $transformer->create($page);
 
                 $snapshotManager->save($snapshot);
                 $pageManager->save($page);

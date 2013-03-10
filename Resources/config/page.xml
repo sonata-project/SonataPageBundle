@@ -16,6 +16,9 @@
         <parameter key="sonata.page.service.manager.class"              >Sonata\PageBundle\Page\PageServiceManager</parameter>
         <parameter key="sonata.page.template.manager.class"             >Sonata\PageBundle\Page\TemplateManager</parameter>
         <parameter key="sonata.page.service.default.class"              >Sonata\PageBundle\Page\Service\DefaultPageService</parameter>
+        <parameter key="sonata.page.transformer.class"                  >Sonata\PageBundle\Entity\Transformer</parameter>
+
+
     </parameters>
 
     <services>
@@ -73,6 +76,11 @@
 
              <argument type="service" id="sonata.page.manager.snapshot" />
         </service>
+
+        <service id="sonata.page.transformer" class="%sonata.page.transformer.class%">
+            <argument type="service" id="sonata.page.manager.snapshot" />
+            <argument type="service" id="sonata.page.manager.page" />
+       </service>
 
         <service id="sonata.page.decorator_strategy" class="%sonata.page.decorator_strategy.class%">
             <argument />

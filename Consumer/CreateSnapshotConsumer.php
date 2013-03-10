@@ -15,6 +15,7 @@ use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\NotificationBundle\Consumer\ConsumerInterface;
 use Sonata\NotificationBundle\Consumer\ConsumerEvent;
+use Sonata\PageBundle\Model\TransformerInterface;
 
 /**
  * Consumer class to generate a snapshot
@@ -27,14 +28,18 @@ class CreateSnapshotConsumer implements ConsumerInterface
 
     protected $pageManager;
 
+    protected $transformer;
+
     /**
-     * @param \Sonata\PageBundle\Model\SnapshotManagerInterface $snapshotManager
-     * @param \Sonata\PageBundle\Model\PageManagerInterface     $pageManager
+     * @param SnapshotManagerInterface $snapshotManager
+     * @param PageManagerInterface     $pageManager
+     * @param TransformerInterface     $transformer
      */
-    public function __construct(SnapshotManagerInterface $snapshotManager, PageManagerInterface $pageManager)
+    public function __construct(SnapshotManagerInterface $snapshotManager, PageManagerInterface $pageManager, TransformerInterface $transformer)
     {
         $this->snapshotManager = $snapshotManager;
         $this->pageManager     = $pageManager;
+        $this->transformer     = $transformer;
     }
 
     /**
@@ -54,7 +59,7 @@ class CreateSnapshotConsumer implements ConsumerInterface
         $this->snapshotManager->getConnection()->beginTransaction();
 
         // creating snapshot
-        $snapshot = $this->snapshotManager->create($page);
+        $snapshot = $this->transformer->create($page);
 
         // update the page status
         $page->setEdited(false);
