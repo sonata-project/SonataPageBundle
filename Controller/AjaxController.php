@@ -37,8 +37,8 @@ class AjaxController
     protected $blockRenderer;
 
     /**
-     * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $cmsManagerSelector CMS Manager selector
-     * @param \Sonata\BlockBundle\Block\BlockRendererInterface          $blockRenderer      Block renderer
+     * @param CmsManagerSelectorInterface $cmsManagerSelector CMS Manager selector
+     * @param BlockRendererInterface      $blockRenderer      Block renderer
      */
     public function __construct(CmsManagerSelectorInterface $cmsManagerSelector, BlockRendererInterface $blockRenderer)
     {
@@ -49,9 +49,9 @@ class AjaxController
     /**
      * Action for ajax route rendering a block by calling his executeAjax() method
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request Symfony request object
-     * @param integer                                   $pageId  Page identifier
-     * @param integer                                   $blockId Block identifier
+     * @param Request $request Symfony request object
+     * @param integer $pageId  Page identifier
+     * @param integer $blockId Block identifier
      */
     public function execute(Request $request, $pageId, $blockId)
     {

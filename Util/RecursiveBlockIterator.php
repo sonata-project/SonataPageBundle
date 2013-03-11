@@ -15,7 +15,7 @@ namespace Sonata\PageBundle\Util;
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class RecursiveBlockIterator extends \ArrayIterator implements \RecursiveIterator
+class RecursiveBlockIterator extends \RecursiveArrayIterator implements \RecursiveIterator
 {
     /**
      * @param array $array
