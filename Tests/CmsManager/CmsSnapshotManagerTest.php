@@ -42,7 +42,8 @@ class CmsSnapshotManagerTest extends \PHPUnit_Framework_TestCase
     {
         $this->blockInteractor = $this->getMockBlockInteractor();
         $this->snapshotManager  = $this->getMock('Sonata\PageBundle\Model\SnapshotManagerInterface');
-        $this->manager = new CmsSnapshotManager($this->snapshotManager, $this->blockInteractor);
+        $this->transformer  = $this->getMock('Sonata\PageBundle\Model\TransformerInterface');
+        $this->manager = new CmsSnapshotManager($this->snapshotManager, $this->transformer);
     }
 
     /**

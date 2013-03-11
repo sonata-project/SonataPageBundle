@@ -453,6 +453,7 @@ class SonataPageExtension extends Extension
             "Sonata\\PageBundle\\Entity\\PageManager",
             "Sonata\\PageBundle\\Entity\\SiteManager",
             "Sonata\\PageBundle\\Entity\\SnapshotManager",
+            "Sonata\\PageBundle\\Entity\\Transformer",
             "Sonata\\PageBundle\\Generator\\Mustache",
             "Sonata\\PageBundle\\Listener\\ExceptionListener",
             "Sonata\\PageBundle\\Listener\\RequestListener",

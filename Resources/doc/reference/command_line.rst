@@ -27,3 +27,16 @@ Page commands
 
     php app/console sonata:page:create-snapshots --site=all
 
+Debug Commands
+--------------
+
+- Print page composition::
+
+    php app/console sonata:page:dump-page sonata.page.cms.snapshot PAGE_ID
+    php app/console sonata:page:dump-page sonata.page.cms.snapshot PAGE_ID --extended
+
+
+- Render a block::
+
+    php app/console sonata:page:render-block sonata.page.cms.snapshot PAGE_ID BLOCK_ID
+    php app/console sonata:page:render-block sonata.page.cms.page PAGE_ID BLOCK_ID

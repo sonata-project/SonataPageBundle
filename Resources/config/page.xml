@@ -72,6 +72,7 @@
              <tag name="sonata.page.manager" type="snapshot" />
 
              <argument type="service" id="sonata.page.manager.snapshot" />
+             <argument type="service" id="sonata.page.transformer" />
         </service>
 
         <service id="sonata.page.decorator_strategy" class="%sonata.page.decorator_strategy.class%">

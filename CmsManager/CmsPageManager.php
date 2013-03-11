@@ -189,9 +189,7 @@ class CmsPageManager extends BaseCmsPageManager
     /**
      * load all the related nested blocks linked to one page.
      *
-     * @param \Sonata\PageBundle\Model\PageInterface $page
-     *
-     * @return void
+     * @param PageInterface $page
      */
     private function loadBlocks(PageInterface $page)
     {

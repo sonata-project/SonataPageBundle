@@ -37,30 +37,14 @@ interface SnapshotManagerInterface
     public function save(SnapshotInterface $object);
 
     /**
-     * @param \Sonata\PageBundle\Model\PageInterface $page
-     *
-     * @return \Sonata\PageBundle\Model\SnapshotInterface
+     * @return SnapshotInterface
      */
-    public function create(PageInterface $page);
-
-    /**
-     * @param \Sonata\PageBundle\Model\SnapshotInterface $snapshot
-     *
-     * @return \Sonata\PageBundle\Model\PageInterface
-     */
-    public function load(SnapshotInterface $snapshot);
-
-    /**
-     * @param \Sonata\PageBundle\Model\PageInterface $page
-     *
-     * @return array
-     */
-    public function getChildren(PageInterface $page);
+    public function create();
 
     /**
      * @param array $criteria
      *
-     * @return \Sonata\PageBundle\Model\SnapshotInterface
+     * @return SnapshotInterface
      */
     public function findEnableSnapshot(array $criteria);
 
@@ -68,4 +52,9 @@ interface SnapshotManagerInterface
      * @param array $snapshots
      */
     public function enableSnapshots(array $snapshots);
+
+    /**
+     * @return string
+     */
+    public function getClass();
 }

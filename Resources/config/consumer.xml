@@ -18,6 +18,7 @@
 
             <argument type="service" id="sonata.page.manager.snapshot" />
             <argument type="service" id="sonata.page.manager.page" />
+            <argument type="service" id="sonata.page.transformer" />
         </service>
     </services>
 </container>

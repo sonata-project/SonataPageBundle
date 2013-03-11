@@ -68,4 +68,9 @@ interface PageManagerInterface
      * @return mixed
      */
     public function fixUrl(PageInterface $page);
+
+    /**
+     * @return string
+     */
+    public function getClass();
 }

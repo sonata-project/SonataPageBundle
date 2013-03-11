@@ -9,8 +9,8 @@
         <parameter key="sonata.page.manager.block.class">Sonata\PageBundle\Entity\BlockManager</parameter>
         <parameter key="sonata.page.manager.snapshot.class">Sonata\PageBundle\Entity\SnapshotManager</parameter>
         <parameter key="sonata.page.manager.site.class">Sonata\PageBundle\Entity\SiteManager</parameter>
-
         <parameter key="sonata.page.block_interactor.class">Sonata\PageBundle\Entity\BlockInteractor</parameter>
+        <parameter key="sonata.page.transformer.class">Sonata\PageBundle\Entity\Transformer</parameter>
     </parameters>
 
     <services>
@@ -29,8 +29,6 @@
         <service id="sonata.page.manager.snapshot" class="%sonata.page.manager.snapshot.class%">
             <argument type="service" id="sonata.page.entity_manager" />
             <argument>%sonata.page.snapshot.class%</argument>
-            <argument>%sonata.page.page.class%</argument>
-            <argument>%sonata.page.block.class%</argument>
         </service>
 
         <service id="sonata.page.manager.block" class="%sonata.page.manager.block.class%">
@@ -48,6 +46,12 @@
             <argument type="service" id="sonata.page.manager.block" />
         </service>
 
+        <service id="sonata.page.transformer" class="%sonata.page.transformer.class%">
+            <argument type="service" id="sonata.page.manager.snapshot" />
+            <argument type="service" id="sonata.page.manager.page" />
+            <argument type="service" id="sonata.page.manager.block" />
+            <argument type="service" id="sonata.page.entity_manager" />
+       </service>
     </services>
 
 </container>
