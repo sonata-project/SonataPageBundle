@@ -17,20 +17,20 @@ namespace Sonata\PageBundle\Model;
  */
 class SnapshotChildrenCollection implements \Countable, \IteratorAggregate, \ArrayAccess
 {
-    protected $manager;
+    protected $transformer;
 
     protected $page;
 
     protected $collection;
 
     /**
-     * @param SnapshotManagerInterface $manager
-     * @param PageInterface            $page
+     * @param TransformerInterface $transformer
+     * @param PageInterface        $page
      */
-    public function __construct(SnapshotManagerInterface $manager, PageInterface $page)
+    public function __construct(TransformerInterface $transformer, PageInterface $page)
     {
-        $this->manager = $manager;
-        $this->page    = $page;
+        $this->transformer = $transformer;
+        $this->page        = $page;
     }
 
     /**
@@ -38,7 +38,9 @@ class SnapshotChildrenCollection implements \Countable, \IteratorAggregate, \Arr
      */
     private function load()
     {
-        $this->collection = $this->manager->getChildren($this->page);
+        if ($this->collection == null) {
+            $this->collection = $this->transformer->getChildren($this->page);
+        }
     }
 
     /**

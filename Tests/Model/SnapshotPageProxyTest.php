@@ -21,7 +21,8 @@ class SnapshotPageProxyTest extends \PHPUnit_Framework_TestCase
     {
         $snapshotManager = $this->getMock('Sonata\PageBundle\Model\SnapshotManagerInterface');
         $snapshot = $this->getMock('Sonata\PageBundle\Model\SnapshotInterface');
+        $transformer  = $this->getMock('Sonata\PageBundle\Model\TransformerInterface');
 
-        new SnapshotPageProxy($snapshotManager, $snapshot);
+        new SnapshotPageProxy($snapshotManager, $transformer, $snapshot);
     }
 }
