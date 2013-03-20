@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata package.
  *
@@ -18,28 +19,38 @@ use Symfony\Component\HttpFoundation\Request;
 
 use Sonata\CacheBundle\Cache\CacheElement;
 use Sonata\BlockBundle\Block\BlockRendererInterface;
-use Sonata\CacheBundle\Adapter\EsiCache;
+use Sonata\CacheBundle\Adapter\VarnishCache;
 
 /**
  * Cache block through an esi statement
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class BlockEsiCache extends EsiCache
+class BlockEsiCache extends VarnishCache
 {
+    /**
+     * @var BlockRendererInterface
+     */
     protected $blockRenderer;
 
+    /**
+     * @var array
+     */
     protected $managers;
 
     /**
-     * @param array                  $servers
-     * @param RouterInterface        $router
-     * @param BlockRendererInterface $blockService
-     * @param array                  $managers
+     * Constructor
+     *
+     * @param string                 $token            A token
+     * @param array                  $servers          An array of servers
+     * @param RouterInterface        $router           A router instance
+     * @param string                 $purgeInstruction The purge instruction (purge in Varnish 2, ban in Varnish 3)
+     * @param BlockRendererInterface $blockRenderer    A block renderer instance
+     * @param array                  $managers         An array of managers
      */
-    public function __construct($token, array $servers = array(), RouterInterface $router, BlockRendererInterface $blockRenderer, array $managers = array())
+    public function __construct($token, array $servers, RouterInterface $router, $purgeInstruction, BlockRendererInterface $blockRenderer, array $managers = array())
     {
-        parent::__construct($token, $servers, $router, null);
+        parent::__construct($token, $servers, $router, $purgeInstruction, null);
 
         $this->blockRenderer = $blockRenderer;
         $this->managers      = $managers;
