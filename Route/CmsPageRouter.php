@@ -11,7 +11,6 @@
 namespace Sonata\PageBundle\Route;
 
 use Symfony\Cmf\Component\Routing\ChainedRouterInterface;
-use Symfony\Cmf\Component\Routing\VersatileGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerInterface;
 use Sonata\PageBundle\Model\SiteInterface;
@@ -128,18 +127,6 @@ class CmsPageRouter implements ChainedRouterInterface
         }
 
         return $url;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getRouteDebugMessage($name, array $parameters = array())
-    {
-        if ($this->generator instanceof VersatileGeneratorInterface) {
-            return $this->generator->getRouteDebugMessage($name, $parameters);
-        }
-
-        return "Route '$name' not found";
     }
 
     /**
