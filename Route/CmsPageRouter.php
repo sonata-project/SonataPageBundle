@@ -135,8 +135,8 @@ class CmsPageRouter implements ChainedRouterInterface
      */
     public function getRouteDebugMessage($name, array $parameters = array())
     {
-        if ($this->router instanceof VersatileGeneratorInterface) {
-            return $this->router->getRouteDebugMessage($name, $parameters);
+        if ($this->generator instanceof VersatileGeneratorInterface) {
+            return $this->generator->getRouteDebugMessage($name, $parameters);
         }
 
         return "Route '$name' not found";
