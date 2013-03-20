@@ -60,6 +60,10 @@ Available manager:
 
         $block = $manager->getBlock($input->getArgument('block_id'));
 
+        if (!$block) {
+            throw new \RuntimeException('Unable to find the related block');
+        }
+
         $output->writeln(sprintf("Id: %d - type: %s - name: %s", $block->getId(), $block->getType(), $block->getName()));
 
         foreach ($block->getSettings() as $name => $value) {

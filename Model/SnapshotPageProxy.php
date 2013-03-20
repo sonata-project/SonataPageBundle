@@ -215,15 +215,19 @@ class SnapshotPageProxy implements PageInterface, Serializable
             while ($snapshot) {
                 $content = $snapshot->getContent();
 
-                if ($content['parent_id']) {
-                    $snapshot = $this->manager->findEnableSnapshot(array(
-                        'pageId' => $content['parent_id']
-                    ));
-
-                    if ($snapshot) {
-                        $parents[] = new SnapshotPageProxy($this->manager, $this->transformer, $snapshot);
-                    }
+                if (!$content['parent_id']) {
+                    break;
                 }
+
+                $snapshot = $this->manager->findEnableSnapshot(array(
+                    'pageId' => $content['parent_id']
+                ));
+
+                if (!$snapshot) {
+                    break;
+                }
+
+                $parents[] = new SnapshotPageProxy($this->manager, $this->transformer, $snapshot);
             }
 
             $this->setParents(array_reverse($parents));
