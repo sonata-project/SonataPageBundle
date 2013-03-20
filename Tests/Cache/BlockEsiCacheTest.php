@@ -28,7 +28,7 @@ class BlockEsiCacheTest extends \PHPUnit_Framework_TestCase
 
         $blockRenderer = $this->getMock('Sonata\BlockBundle\Block\BlockRendererInterface');
 
-        $cache = new BlockEsiCache('My Token', array(), $router, $blockRenderer);
+        $cache = new BlockEsiCache('My Token', array(), $router, 'ban', $blockRenderer);
 
         $cache->get($keys, 'data');
     }
@@ -53,7 +53,7 @@ class BlockEsiCacheTest extends \PHPUnit_Framework_TestCase
 
         $blockRenderer = $this->getMock('Sonata\BlockBundle\Block\BlockRendererInterface');
 
-        $cache = new BlockEsiCache('My Token', array(), $router, $blockRenderer);
+        $cache = new BlockEsiCache('My Token', array(), $router, 'ban', $blockRenderer);
 
         $this->assertTrue($cache->flush(array()));
         $this->assertTrue($cache->flushAll());

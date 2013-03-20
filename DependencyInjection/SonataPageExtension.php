@@ -374,7 +374,8 @@ class SonataPageExtension extends Extension
             $container
                 ->getDefinition('sonata.page.cache.esi')
                 ->replaceArgument(0, $config['caches']['esi']['token'])
-                ->replaceArgument(1, $config['caches']['esi']['servers']);
+                ->replaceArgument(1, $config['caches']['esi']['servers'])
+                ->replaceArgument(3, 3 === $config['caches']['esi']['version'] ? 'ban' : 'purge');
         } else {
             $container->removeDefinition('sonata.page.cache.esi');
         }
