@@ -166,6 +166,6 @@ class BlockInteractor implements BlockInteractorInterface
      */
     private function getEntityManager()
     {
-        return $this->registry->getEntityManagerForClass($this->blockManager->getClass());
+        return $this->registry->getManagerForClass($this->blockManager->getClass());
     }
 }
