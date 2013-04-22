@@ -27,6 +27,10 @@ Page commands
 
     php app/console sonata:page:create-snapshots --site=all
 
+- Cleanup snapshots::
+
+    php app/console sonata:page:cleanup-snapshots --site=all --keep-snapshots=5
+
 Debug Commands
 --------------
 

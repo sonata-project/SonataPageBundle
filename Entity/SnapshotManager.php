@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata project.
  *
@@ -10,15 +11,11 @@
 
 namespace Sonata\PageBundle\Entity;
 
-use Sonata\BlockBundle\Model\BlockInterface;
-
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SnapshotInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
-use Sonata\PageBundle\Model\Template;
 
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\NoResultException;
 
 use Sonata\PageBundle\Model\SnapshotPageProxy;
 
@@ -29,18 +26,32 @@ use Sonata\PageBundle\Model\SnapshotPageProxy;
  */
 class SnapshotManager implements SnapshotManagerInterface
 {
+    /**
+     * @var EntityManager
+     */
     protected $entityManager;
 
+    /**
+     * @var array
+     */
     protected $children = array();
 
+    /**
+     * @var string
+     */
     protected $class;
 
+    /**
+     * @var array
+     */
     protected $templates = array();
 
     /**
-     * @param EntityManager $entityManager
-     * @param string        $class
-     * @param array         $templates
+     * Constructor
+     *
+     * @param EntityManager $entityManager An entity manager instance
+     * @param string        $class         Namespace of entity class
+     * @param array         $templates     An array of templates
      */
     public function __construct(EntityManager $entityManager, $class, $templates = array())
     {
@@ -66,14 +77,6 @@ class SnapshotManager implements SnapshotManagerInterface
         $this->entityManager->flush();
 
         return $snapshot;
-    }
-
-    /**
-     * @return \Doctrine\ORM\EntityRepository
-     */
-    protected function getRepository()
-    {
-        return $this->entityManager->getRepository($this->class);
     }
 
     /**
@@ -108,7 +111,7 @@ class SnapshotManager implements SnapshotManagerInterface
         $this->entityManager->flush();
         //@todo: strange sql and low-level pdo usage: use dql or qb
         $sql = sprintf("UPDATE %s SET publication_date_end = '%s' WHERE id NOT IN(%s) AND page_id IN (%s) AND publication_date_end IS NULL",
-            $this->entityManager->getClassMetadata($this->class)->table['name'],
+            $this->getTableName(),
             $now->format('Y-m-d H:i:s'),
             implode(',', $snapshotIds),
             implode(',', $pageIds)
@@ -132,9 +135,10 @@ class SnapshotManager implements SnapshotManagerInterface
     {
         $date = new \Datetime;
         $parameters = array(
-            'publicationDateStart'  => $date,
-            'publicationDateEnd'    => $date,
+            'publicationDateStart' => $date,
+            'publicationDateEnd'   => $date,
         );
+
         $query = $this->getRepository()
             ->createQueryBuilder('s')
             ->andWhere('s.publicationDateStart <= :publicationDateStart AND ( s.publicationDateEnd IS NULL OR s.publicationDateEnd >= :publicationDateEnd )');
@@ -166,11 +170,7 @@ class SnapshotManager implements SnapshotManagerInterface
         $query->setMaxResults(1);
         $query->setParameters($parameters);
 
-        try {
-            return $query->getQuery()->getSingleResult();
-        } catch (NoResultException $e) {
-            return null;
-        }
+        return $query->getQuery()->getOneOrNullResult();
     }
 
     /**
@@ -247,5 +247,56 @@ class SnapshotManager implements SnapshotManagerInterface
     public function getClass()
     {
         return $this->class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function cleanup(PageInterface $page, $keep)
+    {
+        if (!is_numeric($keep)) {
+            throw new \RuntimeException(sprintf('Please provide an integer value, %s given', gettype($keep)));
+        }
+
+        $tableName = $this->getTableName();
+
+        return $this->getConnection()->exec(sprintf(
+            'DELETE FROM %s
+            WHERE
+                page_id = %d
+                AND id NOT IN (
+                    SELECT id
+                    FROM (
+                        SELECT id, publication_date_end
+                        FROM %s
+                        WHERE page_id = %d
+                        ORDER BY publication_date_end DESC
+                    )
+                    %s
+            )',
+            $tableName,
+            $page->getId(),
+            $tableName,
+            $page->getId(),
+            sprintf($this->getConnection()->getDatabasePlatform()->getName() === 'oracle' ? 'WHERE rownum <= %d' : 'LIMIT %d', $keep)
+        ));
+    }
+
+    /**
+     * @return \Doctrine\ORM\EntityRepository
+     */
+    protected function getRepository()
+    {
+        return $this->entityManager->getRepository($this->class);
+    }
+
+    /**
+     * Gets the table name
+     *
+     * @return string
+     */
+    protected function getTableName()
+    {
+        return $this->entityManager->getClassMetadata($this->class)->table['name'];
     }
 }
