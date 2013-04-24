@@ -67,7 +67,7 @@ The last action is to configure the ``sonata_page`` section as:
 .. code-block:: yaml
 
     sonata_page:
-        multisite: host_with_site
+        multisite: host_with_path
         [...]
 
 And that's it!
