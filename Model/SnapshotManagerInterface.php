@@ -22,39 +22,49 @@ interface SnapshotManagerInterface
      *
      * @return SnapshotInterface
      */
-    public function findOneBy(array $criteria);
+    function findOneBy(array $criteria);
 
     /**
      * @param array $criteria
      *
      * @return array
      */
-    public function findBy(array $criteria);
+    function findBy(array $criteria);
 
     /**
      * @param SnapshotInterface $object
      */
-    public function save(SnapshotInterface $object);
+    function save(SnapshotInterface $object);
 
     /**
      * @return SnapshotInterface
      */
-    public function create();
+    function create();
 
     /**
      * @param array $criteria
      *
      * @return SnapshotInterface
      */
-    public function findEnableSnapshot(array $criteria);
+    function findEnableSnapshot(array $criteria);
 
     /**
      * @param array $snapshots
      */
-    public function enableSnapshots(array $snapshots);
+    function enableSnapshots(array $snapshots);
 
     /**
      * @return string
      */
-    public function getClass();
+    function getClass();
+
+    /**
+     * Cleanups the deprecated snapshots
+     *
+     * @param PageInterface $page A page instance
+     * @param integer       $keep Number of snapshots to keep
+     *
+     * @return integer The number of deleted rows
+     */
+    function cleanup(PageInterface $page, $keep);
 }
