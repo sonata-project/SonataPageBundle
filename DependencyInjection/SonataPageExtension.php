@@ -306,6 +306,12 @@ class SonataPageExtension extends Extension
             ),
             'orphanRemoval' => false,
         ));
+
+        $collector->addIndex($config['class']['snapshot'], 'idx_snapshot_dates_enabled', array(
+            'publication_date_start',
+            'publication_date_end',
+            'enabled'
+        ));
     }
 
     /**
