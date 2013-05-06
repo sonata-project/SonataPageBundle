@@ -43,7 +43,7 @@ class CreateSnapshotsCommand extends BaseCommand
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        if (!$input->getOption('site') && !$input->getOption('all')) {
+        if (!$input->getOption('site')) {
             $output->writeln('Please provide an <info>--site=SITE_ID</info> option or the <info>--site=all</info> directive');
             $output->writeln('');
 
