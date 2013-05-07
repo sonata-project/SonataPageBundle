@@ -20,6 +20,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\CacheBundle\Cache\CacheManagerInterface;
 
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Admin class for the Block model
@@ -30,6 +31,9 @@ class BlockAdmin extends Admin
 {
     protected $parentAssociationMapping = 'page';
 
+    /**
+     * @var BlockServiceManagerInterface
+     */
     protected $blockManager;
 
     protected $cacheManager;
@@ -112,7 +116,11 @@ class BlockAdmin extends Admin
 
         if ($subject) {
             $service = $this->blockManager->get($subject);
-            $subject->setSettings(array_merge($service->getDefaultSettings(), $subject->getSettings()));
+
+            $resolver = new OptionsResolver();
+            $service->setDefaultSettings($resolver);
+
+            $subject->setSettings($resolver->resolve($subject->getSettings()));
 
             $service->load($subject);
         }

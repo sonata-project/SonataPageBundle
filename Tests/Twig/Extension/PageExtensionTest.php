@@ -18,19 +18,6 @@ use Sonata\PageBundle\Model\PageInterface;
  */
 class PageExtensionTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @expectedException \RuntimeException
-     */
-    public function testUrl()
-    {
-        $cmsManager = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
-        $siteSelector = $this->getMock('Sonata\PageBundle\Site\SiteSelectorInterface');
-        $router = $this->getMock('Symfony\Component\Routing\RouterInterface');
-
-        $extension = new PageExtension($cmsManager, $siteSelector, $router);
-        $extension->url('sd');
-    }
-
     public function testAjaxUrl()
     {
         $cmsManager = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');

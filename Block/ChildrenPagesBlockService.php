@@ -10,7 +10,9 @@
 
 namespace Sonata\PageBundle\Block;
 
+use Sonata\BlockBundle\Block\BlockContextInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Templating\EngineInterface;
 
 use Sonata\AdminBundle\Form\FormMapper;
@@ -51,9 +53,9 @@ class ChildrenPagesBlockService extends BaseBlockService
     /**
      * {@inheritdoc}
      */
-    public function execute(BlockInterface $block, Response $response = null)
+    public function execute(BlockContextInterface $blockContext, Response $response = null)
     {
-        $settings = array_merge($this->getDefaultSettings(), $block->getSettings());
+        $settings = $blockContext->getSettings();
 
         $cmsManager = $this->cmsManagerSelector->retrieve();
 
@@ -69,9 +71,9 @@ class ChildrenPagesBlockService extends BaseBlockService
             }
         }
 
-        return $this->renderResponse('SonataPageBundle:Block:block_core_children_pages.html.twig', array(
+        return $this->renderResponse($blockContext->getTemplate(), array(
             'page'     => $page,
-            'block'    => $block,
+            'block'    => $blockContext->getBlock(),
             'settings' => $settings
         ), $response);
     }
@@ -121,14 +123,15 @@ class ChildrenPagesBlockService extends BaseBlockService
     /**
      * {@inheritdoc}
      */
-    public function getDefaultSettings()
+    public function setDefaultSettings(OptionsResolverInterface $resolver)
     {
-        return array(
-            'current' => true,
-            'pageId'  => null,
-            'title'   => '',
-            'class'   => '',
-        );
+        $resolver->setDefaults(array(
+            'current'  => true,
+            'pageId'   => null,
+            'title'    => '',
+            'class'    => '',
+            'template' => 'SonataPageBundle:Block:block_core_children_pages.html.twig'
+        ));
     }
 
     /**
@@ -152,7 +155,7 @@ class ChildrenPagesBlockService extends BaseBlockService
      */
     public function load(BlockInterface $block)
     {
-        if (is_numeric($block->getSetting('pageId'))) {
+        if (is_numeric($block->getSetting('pageId', null))) {
             $cmsManager = $this->cmsManagerSelector->retrieve();
             $site       = $block->getPage()->getSite();
 

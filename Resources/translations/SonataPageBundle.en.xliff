@@ -24,7 +24,7 @@
       </trans-unit>
       <trans-unit id="5" resname="breadcrumb.link_block_list">
         <source>breadcrumb.link_block_list</source>
-        <target>List</target>
+        <target>Blocks List</target>
       </trans-unit>
       <trans-unit id="6" resname="breadcrumb.link_block_update">
         <source>breadcrumb.link_block_update</source>
@@ -52,7 +52,7 @@
       </trans-unit>
       <trans-unit id="12" resname="breadcrumb.link_page_list">
         <source>breadcrumb.link_page_list</source>
-        <target>List</target>
+        <target>Pages List</target>
       </trans-unit>
       <trans-unit id="13" resname="breadcrumb.link_page_update">
         <source>breadcrumb.link_page_update</source>

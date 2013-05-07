@@ -13,6 +13,7 @@ namespace Sonata\PageBundle\Command;
 
 use Guzzle\Common\Exception\RuntimeException;
 use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\BlockBundle\Tests\Block\BlockContextManagerTest;
 use Sonata\PageBundle\CmsManager\CmsManagerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -64,19 +65,27 @@ Available manager:
             throw new \RuntimeException('Unable to find the related block');
         }
 
-        $output->writeln(sprintf("Id: %d - type: %s - name: %s", $block->getId(), $block->getType(), $block->getName()));
+        $output->writeln("<info>Block Information</info>");
+        $output->writeln(sprintf("  > Id: %d - type: %s - name: %s", $block->getId(), $block->getType(), $block->getName()));
 
         foreach ($block->getSettings() as $name => $value) {
-            $output->writeln(sprintf(" > %s: %s", $name, $value));
+            $output->writeln(sprintf("   >> %s: %s", $name, json_encode($value)));
         }
 
-        $output->writeln("--");
+        $context = $this->getContainer()->get('sonata.block.context_manager')->get($block);
+
+        $output->writeln("\n<info>BlockContext Information</info>");
+        foreach ($context->getSettings() as $name => $value) {
+            $output->writeln(sprintf("   >> %s: %s", $name, json_encode($value)));
+        }
+
+        $output->writeln("\n<info>Response Output</info>");
 
         // fake request
         $request = new Request();
         $this->getContainer()->enterScope('request');
         $this->getContainer()->set('request', $request, 'request');
 
-        $output->writeln($this->getContainer()->get('sonata.block.renderer')->render($block));
+        $output->writeln($this->getContainer()->get('sonata.block.renderer')->render($context));
     }
 }

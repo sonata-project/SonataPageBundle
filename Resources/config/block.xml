@@ -28,5 +28,10 @@
             <argument type="service" id="sonata.page.cms_manager_selector" />
             <argument type="service" id="sonata.block.renderer" />
         </service>
+
+        <service id="sonata.page.block.context_manager" class="Sonata\PageBundle\Block\BlockContextManager">
+            <argument type="service" id="sonata.block.loader.service" />
+            <argument type="service" id="sonata.block.manager" />
+        </service>
     </services>
 </container>

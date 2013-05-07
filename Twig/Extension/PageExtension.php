@@ -143,28 +143,11 @@ class PageExtension extends \Twig_Extension
     }
 
     /**
-     * Returns the URL of given page
-     *
-     * @deprecated
-     *
-     * @param null|PageInterface|string $page       A Sonata page
-     * @param array                     $parameters An array of parameters
-     * @param boolean                   $absolute   Whether to generate an absolute URL
-     *
-     * @return string
-     *
-     * @throws \RunTimeException
-     */
-    public function url($page = null, array $parameters = array(), $absolute = false)
-    {
-        throw new \RuntimeException('The function is deprecated, please use the standard Symfony router helper');
-    }
-
-    /**
      * Returns the URL for an ajax request for given block
      *
-     * @param PageBlockInterface $block    Block service
-     * @param bool               $absolute Provide absolute or relative url ?
+     * @param PageBlockInterface $block      Block service
+     * @param array              $parameters Provide absolute or relative url ?
+     * @param boolean            $absolute
      *
      * @return string
      */
@@ -197,11 +180,11 @@ class PageExtension extends \Twig_Extension
     /**
      * @param string $name
      * @param null   $page
-     * @param bool   $useCache
+     * @param array  $options
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function renderContainer($name, $page = null, $useCache = true)
+    public function renderContainer($name, $page = null, array $options = array())
     {
         $cms        = $this->cmsManagerSelector->retrieve();
         $site       = $this->siteSelector->retrieve();
@@ -234,24 +217,25 @@ class PageExtension extends \Twig_Extension
             return "";
         }
 
-        return $this->renderBlock($container, $useCache);
+        return $this->renderBlock($container, $options);
     }
 
     /**
      * @param PageBlockInterface $block
-     * @param bool               $useCache
+     * @param array              $options
      *
      * @return string
      */
-    public function renderBlock(PageBlockInterface $block, $useCache = true)
+    public function renderBlock(PageBlockInterface $block, array $options = array())
     {
         if ($block->getEnabled() === false && !$this->cmsManagerSelector->isEditor()) {
             return '';
         }
 
-        return $this->environment->getExtension('sonata_block')->renderBlock($block, $useCache, array(
-            'manager' => $block->getPage() instanceof SnapshotPageProxy ? 'snapshot' : 'page',
-            'page_id' => $block->getPage()->getId(),
-        ));
+        return $this->environment->getExtension('sonata_block')->renderBlock($block, array_merge(array(
+            'manager'   => $block->getPage() instanceof SnapshotPageProxy ? 'snapshot' : 'page',
+            'page_id'   => $block->getPage()->getId(),
+            'use_cache' => isset($options['use_cache']) ? $options['use_cache'] : true
+        ), $options));
     }
 }

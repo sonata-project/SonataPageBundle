@@ -10,6 +10,7 @@
 
 namespace Sonata\PageBundle\Tests\Block;
 
+use Sonata\BlockBundle\Block\BlockContext;
 use Sonata\BlockBundle\Model\Block;
 use Sonata\PageBundle\Block\ContainerBlockService;
 
@@ -26,14 +27,22 @@ class ContainerBlockServiceTest extends \PHPUnit_Framework_TestCase
         $templating = new FakeTemplating();
         $service    = new ContainerBlockService('core.container', $templating);
 
+
         $block = new Block;
         $block->setName('block.name');
         $block->setType('core.container');
         $block->setSettings(array(
-            'code' => 'block.code'
+            'code' => 'block.code',
         ));
 
-        $service->execute($block);
+        $blockContext = new BlockContext($block, array(
+            'code'        => '',
+            'layout'      => '{{ CONTENT }}',
+            'class'       => '',
+            'template'    => 'SonataPageBundle:Block:block_container.html.twig',
+        ));
+
+        $service->execute($blockContext);
 
         $this->assertEquals('SonataPageBundle:Block:block_container.html.twig', $templating->view);
         $this->assertEquals('block.code', $templating->parameters['block']->getSetting('code'));
@@ -52,12 +61,16 @@ class ContainerBlockServiceTest extends \PHPUnit_Framework_TestCase
         $block = new Block;
         $block->setName('block.name');
         $block->setType('core.container');
-        $block->setSettings(array(
-            'layout' => 'before{{ CONTENT }}after',
-            'code'   => 'block.code'
-        ));
 
-        $service->execute($block);
+        // we manually perform the settings merge
+        $blockContext = new BlockContext($block, array(
+             'code'        => 'block.code',
+             'layout'      => 'before{{ CONTENT }}after',
+             'class'       => '',
+             'template'    => 'SonataPageBundle:Block:block_container.html.twig',
+         ));
+
+        $service->execute($blockContext);
 
         $this->assertInternalType('array', $templating->parameters['decorator']);
         $this->assertArrayHasKey('pre', $templating->parameters['decorator']);

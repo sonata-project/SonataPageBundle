@@ -14,9 +14,11 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Validator\ErrorElement;
 
 use Sonata\BlockBundle\Block\BaseBlockService;
+use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
  * Render children pages
@@ -57,37 +59,30 @@ class ContainerBlockService extends BaseBlockService
     /**
      * {@inheritdoc}
      */
-    public function execute(BlockInterface $block, Response $response = null)
+    public function execute(BlockContextInterface $blockContext, Response $response = null)
     {
-        $settings = array_merge($this->getDefaultSettings(), $block->getSettings());
-
-        $decorator = $this->getDecorator($settings['layout']);
-
-        $response = $this->renderResponse($this->getTemplate(), array(
-            'block'      => $block,
-            'decorator'  => $decorator,
-            'settings'   => $settings,
+        return $this->renderResponse($blockContext->getTemplate(), array(
+            'block'      => $blockContext->getBlock(),
+            'decorator'  => $this->getDecorator($blockContext->getSetting('layout')),
+            'settings'   => $blockContext->getSettings(),
         ), $response);
-
-        return $response;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getDefaultSettings()
+    public function setDefaultSettings(OptionsResolverInterface $resolver)
     {
-        return array(
+        $resolver->setDefaults(array(
             'code'        => '',
             'layout'      => '{{ CONTENT }}',
-            'class'       => ''
-        );
+            'class'       => '',
+            'template'    => 'SonataPageBundle:Block:block_container.html.twig',
+        ));
     }
 
     /**
-     * Returns the block service name
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -99,7 +94,7 @@ class ContainerBlockService extends BaseBlockService
      *
      * @param string $layout
      *
-     * @return mixed
+     * @return array
      */
     protected function getDecorator($layout)
     {
@@ -115,15 +110,5 @@ class ContainerBlockService extends BaseBlockService
         );
 
         return $decorator;
-    }
-
-    /**
-     * Returns template used for the block rendering
-     *
-     * @return string
-     */
-    protected function getTemplate()
-    {
-        return 'SonataPageBundle:Block:block_container.html.twig';
     }
 }
