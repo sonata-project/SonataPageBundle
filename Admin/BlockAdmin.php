@@ -133,11 +133,11 @@ class BlockAdmin extends Admin
      */
     public function preUpdate($object)
     {
+        $this->blockManager->get($object)->preUpdate($object);
+
         // fix weird bug with setter object not being call
         $object->setChildren($object->getChildren());
         $object->getPage()->setEdited(true);
-
-        $this->blockManager->get($object)->preUpdate($object);
     }
 
     /**
@@ -145,6 +145,8 @@ class BlockAdmin extends Admin
      */
     public function postUpdate($object)
     {
+        $this->blockManager->get($object)->postUpdate($object);
+
         $service = $this->blockManager->get($object);
 
         $this->cacheManager->invalidate($service->getCacheKeys($object));
@@ -168,9 +170,27 @@ class BlockAdmin extends Admin
      */
     public function postPersist($object)
     {
+        $this->blockManager->get($object)->postPersist($object);
+
         $service = $this->blockManager->get($object);
 
         $this->cacheManager->invalidate($service->getCacheKeys($object));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function preRemove($object)
+    {
+        $this->blockManager->get($object)->preRemove($object);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function postRemove($object)
+    {
+        $this->blockManager->get($object)->postRemove($object);
     }
 
     /**
