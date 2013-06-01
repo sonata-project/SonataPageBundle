@@ -23,7 +23,8 @@
         "sonata-project/doctrine-extensions" : "1.*",
         "sonata-project/cache-bundle": "2.1.*",
         "symfony-cmf/routing-bundle": "1.1.*@dev",
-        "sonata-project/notification-bundle": "2.1.*"
+        "symfony-cmf/routing": "1.1.*@dev",
+        "sonata-project/notification-bundle": "2.2.*"
     },
     "require-dev": {
         "sonata-project/doctrine-orm-admin-bundle": "2.2.*@dev"
