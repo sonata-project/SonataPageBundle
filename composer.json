@@ -17,6 +17,7 @@
         }
     ],
     "require": {
+        "symfony/symfony": ">=2.2,<2.4-dev",
         "sonata-project/admin-bundle": ">=2.2.1",
         "sonata-project/seo-bundle": "1.*",
         "sonata-project/doctrine-extensions" : "1.*",
