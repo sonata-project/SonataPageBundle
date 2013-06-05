@@ -53,7 +53,7 @@ class SnapshotAdminController extends Controller
 
         if ($this->getRequest()->getMethod() == 'POST') {
 
-            $form->bindRequest($this->getRequest());
+            $form->bind($this->getRequest());
 
             if ($form->isValid()) {
                 $snapshotManager = $this->get('sonata.page.manager.snapshot');
