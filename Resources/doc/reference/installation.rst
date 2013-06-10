@@ -53,7 +53,15 @@ At this point, the bundle is not yet ready. You need to generate the correct
 entities for the page::
 
     php app/console sonata:easy-extends:generate SonataPageBundle
+    
+.. note::
 
+    If you get this error:
+    [Symfony\Component\Config\Definition\Exception\InvalidConfigurationException]  
+    The child node "multisite" at path "sonata_page" must be configured. 
+    It is due to the configuration not being in the config.yml. See the configuration section
+    below and retry.
+    
 .. note::
 
     The command will generate domain objects in an ``Application`` namespace.
