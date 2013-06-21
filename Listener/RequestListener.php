@@ -89,7 +89,7 @@ class RequestListener
         $site = $this->siteSelector->retrieve();
 
         if (!$site) {
-            throw new InternalErrorException('No site available for the current request');
+            throw new InternalErrorException('No site available for the current request with uri '.$request->getUri());
         }
 
         if ($site->getLocale() && $site->getLocale() != $request->get('_locale')) {
