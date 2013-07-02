@@ -53,7 +53,7 @@ class SiteAdminController extends Controller
                     'mode'   => 'async'
                 ));
 
-            $this->get('session')->setFlash('sonata_flash_success', $this->admin->trans('flash_snapshots_created_success'));
+            $this->addFlash('sonata_flash_success', $this->admin->trans('flash_snapshots_created_success'));
 
             return new RedirectResponse($this->admin->generateUrl('edit', array('id' => $object->getId())));
         }
