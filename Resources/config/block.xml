@@ -33,5 +33,17 @@
             <argument type="service" id="sonata.block.loader.service" />
             <argument type="service" id="sonata.block.manager" />
         </service>
+
+        <service id="sonata.page.block.global.title" class="Sonata\PageBundle\Block\GlobalTitleBlockService">
+            <tag name="sonata.block" />
+            <argument>sonata.page.block.global.title</argument>
+            <argument type="service" id="templating" />
+        </service>
+
+        <service id="sonata.page.block.global.footer" class="Sonata\PageBundle\Block\GlobalFooterBlockService">
+            <tag name="sonata.block" />
+            <argument>sonata.page.block.global.footer</argument>
+            <argument type="service" id="templating" />
+        </service>
     </services>
 </container>
