@@ -20,17 +20,19 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class MigrateBlockNameSettingCommand extends BaseCommand
 {
+    const CONTAINER_TYPE = "sonata.page.block.container";
+
     /**
      * {@inheritDoc}
      */
     public function configure()
     {
-        $this->setName('sonata:page:migrate-block-name-setting');
+        $this->setName('sonata:page:migrate-block-setting');
         $this->addOption('class', null, InputOption::VALUE_OPTIONAL, 'Block entity class',
             'Application\Sonata\PageBundle\Entity\Block');
         $this->addOption('update-name', null, InputOption::VALUE_OPTIONAL, 'update name field from code setting',
             false);
-        $this->setDescription('Migrate the "name" setting of all blocks into a "code" setting');
+        $this->setDescription('Migrate the "name" setting of all blocks into a "code" setting and remove unused "orientation" setting on "'.self::CONTAINER_TYPE.'" blocks');
     }
 
     /**
@@ -44,6 +46,15 @@ class MigrateBlockNameSettingCommand extends BaseCommand
 
         foreach ($blocks as $block) {
             $settings = $block->getSettings();
+
+            // Remove orientation option if it exists
+            if (self::CONTAINER_TYPE === $block->getType() && array_key_exists("orientation", $settings)) {
+                unset($settings['orientation']);
+                $block->setSettings($settings);
+
+                $this->getEntityManager()->persist($block);
+                $count++;
+            }
 
             // only change rows that need to
             if (isset($settings['name'])) {
