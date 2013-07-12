@@ -232,7 +232,7 @@ class PageExtension extends \Twig_Extension
             return '';
         }
 
-        return $this->environment->getExtension('sonata_block')->renderBlock($block, array_merge(array(
+        return $this->environment->getExtension('sonata_block')->render($block, array_merge(array(
             'manager'   => $block->getPage() instanceof SnapshotPageProxy ? 'snapshot' : 'page',
             'page_id'   => $block->getPage()->getId(),
             'use_cache' => isset($options['use_cache']) ? $options['use_cache'] : true
