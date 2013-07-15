@@ -326,14 +326,13 @@ class SonataPageExtension extends Extension
          * The multipath option required a specific router and RequestContext
          */
         if ($config['multisite'] == 'host_with_path') {
-            $container->setAlias('router', 'sonata.page.router.default');
+            $container->setAlias('router.request_context', 'sonata.page.router.request_context');
             $container->setAlias('sonata.page.site.selector', 'sonata.page.site.selector.host_with_path');
 
             $container->removeDefinition('sonata.page.site.selector.host');
         } else {
             $container->setAlias('sonata.page.site.selector', 'sonata.page.site.selector.host');
 
-            $container->removeDefinition('sonata.page.router.default');
             $container->removeDefinition('sonata.page.site.selector.host_with_path');
         }
     }
