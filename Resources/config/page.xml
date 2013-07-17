@@ -40,7 +40,7 @@
         </service>
 
         <service id="sonata.page.response_listener" class="%sonata.page.response_listener.class%" scope="request">
-            <tag name="kernel.event_listener" event="kernel.response" method="onCoreResponse" priority="-1"/>
+            <tag name="kernel.event_listener" event="kernel.response" method="onCoreResponse" priority="1"/>
 
             <argument type="service" id="sonata.page.cms_manager_selector" />
             <argument type="service" id="sonata.page.page_service_manager" />
