@@ -92,9 +92,9 @@ class BlockAdmin extends Admin
             $service = $this->blockManager->get($block);
 
             if ($block->getId() > 0) {
-                $service->buildEditForm($formMapper, $block);
+                $service->buildEditForm($this->cmsManager, $formMapper, $block);
             } else {
-                $service->buildCreateForm($formMapper, $block);
+                $service->buildCreateForm($this->cmsManager, $formMapper, $block);
             }
         } else {
 
@@ -122,7 +122,7 @@ class BlockAdmin extends Admin
 
             $subject->setSettings($resolver->resolve($subject->getSettings()));
 
-            $service->load($subject);
+            $service->load($this->cmsManager, $subject);
         }
 
         return $subject;
