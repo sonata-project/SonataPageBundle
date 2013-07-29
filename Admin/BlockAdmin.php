@@ -20,6 +20,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\CacheBundle\Cache\CacheManagerInterface;
 
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
+use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -120,7 +121,11 @@ class BlockAdmin extends Admin
             $resolver = new OptionsResolver();
             $service->setDefaultSettings($resolver);
 
-            $subject->setSettings($resolver->resolve($subject->getSettings()));
+            try {
+                $subject->setSettings($resolver->resolve($subject->getSettings()));
+            } catch (InvalidOptionsException $e) {
+                // @TODO : add a logging error or a flash message
+            }
 
             $service->load($subject);
         }
