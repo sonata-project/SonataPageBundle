@@ -602,7 +602,7 @@
           <source>title_page_redirected</source>
           <target>Interne Seiten Weiterleitung</target>
       </trans-unit>
-      <trans-unit id="150" resname="message_page_redirected ">
+      <trans-unit id="150" resname="message_page_redirected">
           <source>message_page_redirected</source>
           <target><![CDATA[
              Diese Seite ist als Weiterleitung konfiguriert. Um sie zu konfigurieren

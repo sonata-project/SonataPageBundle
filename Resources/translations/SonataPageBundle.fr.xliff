@@ -602,7 +602,7 @@
           <source>title_page_redirected</source>
           <target>Internal page redirection</target>
       </trans-unit>
-      <trans-unit id="150" resname="message_page_redirected ">
+      <trans-unit id="150" resname="message_page_redirected">
           <source>message_page_redirected</source>
           <target><![CDATA[
              La page est configurée pour rediriger l'utilisateur vers une autre page. Pour

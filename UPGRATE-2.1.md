@@ -22,8 +22,8 @@ UPGRADE FROM 2.0 to 2.1
 
         Migration command: (change entity class as required)
 
-            php app/console sonata:page:migrate-block-name-setting --class="Application\Sonata\PageBundle\Entity\Block"
+            php app/console sonata:page:migrate-block-setting --class="Application\Sonata\PageBundle\Entity\Block"
 
         Optionally, set the --update-name parameter to true to update the "name" field with the old "name" setting.
 
-            php app/console sonata:page:migrate-block-name-setting --update-name=true
+            php app/console sonata:page:migrate-block-setting --update-name=true

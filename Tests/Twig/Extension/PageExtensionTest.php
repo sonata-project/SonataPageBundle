@@ -24,12 +24,16 @@ class PageExtensionTest extends \PHPUnit_Framework_TestCase
         $siteSelector = $this->getMock('Sonata\PageBundle\Site\SiteSelectorInterface');
         $router = $this->getMock('Symfony\Component\Routing\RouterInterface');
         $router->expects($this->once())->method('generate')->will($this->returnValue('/foo/bar'));
+        $blockHelper = $this->getMockBuilder('Sonata\BlockBundle\Templating\Helper\BlockHelper')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
 
         $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
         $block = $this->getMock('Sonata\PageBundle\Model\PageBlockInterface');
         $block->expects($this->exactly(2))->method('getPage')->will($this->returnValue($page));
 
-        $extension = new PageExtension($cmsManager, $siteSelector, $router);
+        $extension = new PageExtension($cmsManager, $siteSelector, $router, $blockHelper);
         $this->assertEquals('/foo/bar', $extension->ajaxUrl($block));
     }
 }

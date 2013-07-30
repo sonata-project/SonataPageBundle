@@ -19,6 +19,7 @@ use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Model\SnapshotPageProxy;
 
 use Symfony\Component\Routing\RouterInterface;
+use Sonata\BlockBundle\Templating\Helper\BlockHelper;
 
 /**
  * PageExtension
@@ -53,17 +54,24 @@ class PageExtension extends \Twig_Extension
     private $router;
 
     /**
+     * @var BlockHelper
+     */
+    private $blockHelper;
+
+    /**
      * Constructor
      *
      * @param CmsManagerSelectorInterface $cmsManagerSelector A CMS manager selector
      * @param SiteSelectorInterface       $siteSelector       A site selector
      * @param RouterInterface             $router             The Router
+     * @param BlockHelper                 $blockHelper        The Block Helper
      */
-    public function __construct(CmsManagerSelectorInterface $cmsManagerSelector, SiteSelectorInterface $siteSelector, RouterInterface $router)
+    public function __construct(CmsManagerSelectorInterface $cmsManagerSelector, SiteSelectorInterface $siteSelector, RouterInterface $router, BlockHelper $blockHelper)
     {
         $this->cmsManagerSelector = $cmsManagerSelector;
         $this->siteSelector       = $siteSelector;
         $this->router             = $router;
+        $this->blockHelper        = $blockHelper;
     }
 
     /**
@@ -232,7 +240,7 @@ class PageExtension extends \Twig_Extension
             return '';
         }
 
-        return $this->environment->getExtension('sonata_block')->renderBlock($block, array_merge(array(
+        return $this->blockHelper->render($block, array_merge(array(
             'manager'   => $block->getPage() instanceof SnapshotPageProxy ? 'snapshot' : 'page',
             'page_id'   => $block->getPage()->getId(),
             'use_cache' => isset($options['use_cache']) ? $options['use_cache'] : true
