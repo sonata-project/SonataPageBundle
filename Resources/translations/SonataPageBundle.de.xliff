@@ -614,6 +614,18 @@
         <source>filter.label_parent</source>
         <target>Übergeordnet</target>
       </trans-unit>
+      <trans-unit id="152" resname="title_select_block_type">
+           <source>title_select_block_type</source>
+           <target>Select a block type</target>
+      </trans-unit>
+      <trans-unit id="153" resname="form.field_group_general">
+           <source>form.field_group_general</source>
+           <target>form.field_group_general</target>
+      </trans-unit>
+      <trans-unit id="154" resname="form.field_group_options">
+           <source>form.field_group_options</source>
+           <target>form.field_group_options</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

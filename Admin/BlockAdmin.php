@@ -102,6 +102,8 @@ class BlockAdmin extends Admin
             }
         }
 
+        $formMapper->with($this->trans('form.field_group_general'));
+
         // add name on all forms
         $formMapper->add('name');
 
@@ -125,14 +127,16 @@ class BlockAdmin extends Admin
                 ));
             }
 
+            if ($isStandardBlock) {
+                $formMapper->add('position', 'integer');
+            }
+
+            $formMapper->with($this->trans('form.field_group_options'));
+
             if ($block->getId() > 0) {
                 $service->buildEditForm($formMapper, $block);
             } else {
                 $service->buildCreateForm($formMapper, $block);
-            }
-
-            if ($isStandardBlock) {
-                $formMapper->add('position');
             }
 
         } else {
@@ -142,7 +146,7 @@ class BlockAdmin extends Admin
                     'context' => 'cms'
                 ))
                 ->add('enabled')
-                ->add('position');
+                ->add('position', 'integer');
         }
     }
 

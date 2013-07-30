@@ -31,6 +31,7 @@ class Configuration implements ConfigurationInterface
         $node = $treeBuilder->root('sonata_page')->children();
 
         $node
+            ->scalarNode('is_inline_edition_on')->defaultFalse()->end()
             ->scalarNode('use_streamed_response')->defaultTrue()->end()
             ->scalarNode('multisite')->isRequired()->end()
 
