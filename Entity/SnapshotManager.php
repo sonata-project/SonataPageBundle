@@ -271,8 +271,8 @@ class SnapshotManager implements SnapshotManagerInterface
                         FROM %s
                         WHERE page_id = %d
                         ORDER BY publication_date_end DESC
-                    )
-                    %s
+                        %s
+                    ) AS table_alias
             )',
             $tableName,
             $page->getId(),
