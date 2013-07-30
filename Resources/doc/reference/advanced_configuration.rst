@@ -59,6 +59,7 @@ Full configuration options (config.yml file):
                 servers:
                     - varnishadm -T 127.0.0.1:2000 {{ COMMAND }} "{{ EXPRESSION }}"
 
+        is_inline_edition_on: false # set to true to keep the old behavior. the feature will be deleted in futur versions
 
     # Enable Doctrine to map the provided entities
     doctrine:

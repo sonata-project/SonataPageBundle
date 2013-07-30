@@ -63,4 +63,12 @@ class GlobalVariables
     {
         return $this->container->get('sonata.page.cms_manager_selector')->isEditor();
     }
+
+    /**
+     * @return boolean
+     */
+    public function isInlineEditionOn()
+    {
+        return $this->container->getParameter('sonata.page.is_inline_edition_on');
+    }
 }

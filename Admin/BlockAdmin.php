@@ -11,6 +11,7 @@
 
 namespace Sonata\PageBundle\Admin;
 
+use Doctrine\ORM\EntityRepository;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -20,6 +21,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\CacheBundle\Cache\CacheManagerInterface;
 
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
+use Sonata\PageBundle\Model\PageInterface;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -83,6 +85,25 @@ class BlockAdmin extends Admin
     {
         $block = $this->getSubject();
 
+        if ($this->getParent()) {
+            $page = $this->getParent()->getSubject();
+
+            if (!$page instanceof PageInterface) {
+                throw new \RuntimeException('The BlockAdmin must be attached to a parent PageAdmin');
+            }
+
+            if ($block->getId() === null) { // new block
+                $block->setType($this->request->get('type'));
+                $block->setPage($page);
+            }
+
+            if ($block->getPage()->getId() != $page->getId()) {
+                throw new \RuntimeException('The page reference on BlockAdmin and parent admin are not the same');
+            }
+        }
+
+        $formMapper->with($this->trans('form.field_group_general'));
+
         // add name on all forms
         $formMapper->add('name');
 
@@ -92,11 +113,32 @@ class BlockAdmin extends Admin
         if ($isContainerRoot || $isStandardBlock) {
             $service = $this->blockManager->get($block);
 
+            if ($isStandardBlock) {
+                $formMapper->add('parent', 'entity', array(
+                    'class' => $this->getClass(),
+                    'query_builder' => function(EntityRepository $repository) use ($page) {
+                        return $repository->createQueryBuilder('a')
+                            ->andWhere('a.page = :page AND a.type = :type')
+                            ->setParameters(array(
+                                'page' => $page,
+                                'type' => 'sonata.page.block.container'
+                            ));
+                    }
+                ));
+            }
+
+            if ($isStandardBlock) {
+                $formMapper->add('position', 'integer');
+            }
+
+            $formMapper->with($this->trans('form.field_group_options'));
+
             if ($block->getId() > 0) {
                 $service->buildEditForm($formMapper, $block);
             } else {
                 $service->buildCreateForm($formMapper, $block);
             }
+
         } else {
 
             $formMapper
@@ -104,7 +146,7 @@ class BlockAdmin extends Admin
                     'context' => 'cms'
                 ))
                 ->add('enabled')
-                ->add('position');
+                ->add('position', 'integer');
         }
     }
 
@@ -212,5 +254,19 @@ class BlockAdmin extends Admin
     public function setCacheManager(CacheManagerInterface $cacheManager)
     {
         $this->cacheManager = $cacheManager;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPersistentParameters()
+    {
+        if (!$this->hasRequest()) {
+            return array();
+        }
+
+        return array(
+            'type'  => $this->getRequest()->get('type'),
+        );
     }
 }

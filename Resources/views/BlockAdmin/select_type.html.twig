@@ -1,0 +1,25 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+
+{% extends 'SonataAdminBundle:CRUD:action.html.twig' %}
+
+{% block title %}{{ 'title_select_block_type'|trans({}, 'SonataPageBundle') }}{% endblock %}
+
+{% block content %}
+    <h2>{{ 'title_select_block_type'|trans({}, 'SonataPageBundle') }}</h2>
+    <ul>
+        {% for code, service in services %}
+            <li><a href="{{ admin.generateUrl('create', {'type': code}) }}">{{ service.name }}</a></li>
+        {% else %}
+            <li>{{ 'no_type_available'|trans({}, 'SonataPageBundle') }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
