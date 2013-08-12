@@ -623,6 +623,10 @@
            <source>form.field_group_options</source>
            <target>Options</target>
       </trans-unit>
+      <trans-unit id="155" resname="flash_snapshots_created_success">
+           <source>flash_snapshots_created_success</source>
+           <target>Snapshots were successfully created.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

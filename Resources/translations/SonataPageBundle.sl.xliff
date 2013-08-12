@@ -488,6 +488,10 @@
            <source>form.field_group_options</source>
            <target>form.field_group_options</target>
       </trans-unit>
+      <trans-unit id="155" resname="flash_snapshots_created_success">
+           <source>flash_snapshots_created_success</source>
+           <target>flash_snapshots_created_success</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
