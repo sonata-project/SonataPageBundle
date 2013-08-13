@@ -11,7 +11,6 @@
 
 namespace Sonata\PageBundle\Command;
 
-use Guzzle\Common\Exception\RuntimeException;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -56,7 +55,7 @@ You can use the --extended option to dump block configuration
         $manager = $this->getContainer()->get($input->getArgument('manager'));
 
         if (!$manager instanceof CmsManagerInterface) {
-            throw new RuntimeException('The service does not implement the CmsManagerInterface');
+            throw new \RuntimeException('The service does not implement the CmsManagerInterface');
         }
 
         $page = $manager->getPageById($input->getArgument('page_id'));
