@@ -96,7 +96,7 @@ configuration file.
     .. code-block:: yaml
 
         # app/config/config.yml
-        ApplicationSonataPageBundle: ~
+        ApplicationSonataPageBundle: ~ # only once the ApplicationSonataPageBundle is generated
         SonataPageBundle: ~
 
 .. code-block:: yaml
