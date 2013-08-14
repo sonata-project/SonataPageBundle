@@ -11,6 +11,11 @@ A [BC BREAK] means the update will break the project for many reasons:
 * [BC BREAK] Inline edition has been deprecated, see UPGRADE-2.3 for more information.
 * It is now possible to add block from the admin backend
 
+
+### 2012-12-13
+
+* Add new block in the base_layout.html.twig file. Add new deprecated blocks
+
 ### 2012-12-13
 
 * [BC BREAK] A new ``type`` field has been added in Page and Snapshot models. This new field is used to

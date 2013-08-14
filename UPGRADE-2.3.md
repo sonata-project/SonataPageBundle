@@ -1,4 +1,4 @@
-UPGRADE FROM 2.3 to 2.3
+UPGRADE FROM 2.2 to 2.3
 =======================
 
 The inline edition (moving block around) from the front website has been deprecated. This has been done for differents reasons:
