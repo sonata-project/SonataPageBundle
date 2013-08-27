@@ -49,7 +49,8 @@ class HostPathSiteSelector extends BaseSiteSelector
                 $defaultSite = $site;
             }
 
-            if (!preg_match(sprintf('@^(%s)(.*|)@', $site->getRelativePath()), $event->getRequest()->getPathInfo(), $results)) {
+            $requestPathInfo = $event->getRequest()->get('pathInfo', $event->getRequest()->getPathInfo());
+            if (!preg_match(sprintf('@^(%s)(.*|)@', $site->getRelativePath()), $requestPathInfo, $results)) {
                 continue;
             }
 
