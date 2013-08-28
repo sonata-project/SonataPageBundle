@@ -12,6 +12,7 @@
             <argument type="service" id="sonata.page.site.selector" />
             <argument type="service" id="router" />
             <argument type="service" id="sonata.block.templating.helper" />
+            <argument type="service" id="twig.extension.httpkernel" />
         </service>
 
         <service id="sonata.page.twig.global" class="Sonata\PageBundle\Twig\GlobalVariables" >
