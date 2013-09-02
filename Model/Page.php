@@ -591,7 +591,7 @@ abstract class Page implements PageInterface
      */
     public function isHybrid()
     {
-        return $this->getRouteName() != self::PAGE_ROUTE_CMS_NAME;
+        return $this->getRouteName() != self::PAGE_ROUTE_CMS_NAME  && !$this->isInternal();
     }
 
     /**
@@ -599,7 +599,7 @@ abstract class Page implements PageInterface
      */
     public function isCms()
     {
-        return !$this->isHybrid();
+        return $this->getRouteName() == self::PAGE_ROUTE_CMS_NAME && !$this->isInternal();
     }
 
     /**
@@ -607,7 +607,7 @@ abstract class Page implements PageInterface
      */
     public function isInternal()
     {
-        return null === $this->getUrl() && !$this->isCms() && !$this->isHybrid();
+        return substr($this->getRouteName(), 0, 15) == '_page_internal_';
     }
 
     /**
@@ -617,6 +617,15 @@ abstract class Page implements PageInterface
     {
         return $this->isHybrid() && strpos($this->getUrl(), '{') !== false;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isError()
+    {
+        return substr($this->getRouteName(), 0, 21) == '_page_internal_error_';
+    }
+
 
     /**
      * {@inheritdoc}
@@ -795,14 +804,6 @@ abstract class Page implements PageInterface
     public function getEdited()
     {
         return $this->edited;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isError()
-    {
-        return substr($this->getRouteName(), 0, 21) == '_page_internal_error_';
     }
 
     /**

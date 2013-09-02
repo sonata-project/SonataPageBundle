@@ -230,6 +230,7 @@ class PageTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($page->isDynamic(), 'isDynamic');
         $this->assertFalse($page->isHybrid(), 'isHybrid');
         $this->assertFalse($page->isInternal(), 'isInternal');
+        $this->assertFalse($page->isError(), 'isError');
     }
 
     public function testPageTypeHybrid()
@@ -242,6 +243,33 @@ class PageTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($page->isDynamic(), 'isDynamic');
         $this->assertTrue($page->isHybrid(), 'isHybrid');
         $this->assertFalse($page->isInternal(), 'isInternal');
+        $this->assertFalse($page->isError(), 'isError');
+    }
+
+    public function testPageTypeInternal()
+    {
+        $page = new Page;
+        $page->setName('global');
+        $page->setRouteName('_page_internal_global');
+
+        $this->assertFalse($page->isCms(), 'isCms');
+        $this->assertFalse($page->isDynamic(), 'isDynamic');
+        $this->assertFalse($page->isHybrid(), 'isHybrid');
+        $this->assertTrue($page->isInternal(), 'isInternal');
+        $this->assertFalse($page->isError(), 'isError');
+    }
+
+    public function testPageTypeError()
+    {
+        $page = new Page;
+        $page->setName('global');
+        $page->setRouteName('_page_internal_error_global');
+
+        $this->assertFalse($page->isCms(), 'isCms');
+        $this->assertFalse($page->isDynamic(), 'isDynamic');
+        $this->assertFalse($page->isHybrid(), 'isHybrid');
+        $this->assertTrue($page->isInternal(), 'isInternal');
+        $this->assertTrue($page->isError(), 'isError');
     }
 
     public function testPageTypeDynamic()

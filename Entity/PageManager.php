@@ -94,7 +94,9 @@ class PageManager implements PageManagerInterface
      */
     public function fixUrl(PageInterface $page)
     {
-        if ($page->isError()) {
+        if ($page->isInternal()) {
+            $page->setUrl(null); // internal routes do not have any url ...
+
             return;
         }
 
