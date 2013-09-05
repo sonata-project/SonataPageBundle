@@ -18,6 +18,7 @@ use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Model\SnapshotPageProxy;
 
+use Symfony\Bridge\Twig\Extension\HttpKernelExtension;
 use Symfony\Component\Routing\RouterInterface;
 use Sonata\BlockBundle\Templating\Helper\BlockHelper;
 
@@ -59,6 +60,11 @@ class PageExtension extends \Twig_Extension
     private $blockHelper;
 
     /**
+     * @var \Symfony\Bridge\Twig\Extension\HttpKernelExtension
+     */
+    private $httpKernelExtension;
+
+    /**
      * Constructor
      *
      * @param CmsManagerSelectorInterface $cmsManagerSelector A CMS manager selector
@@ -66,12 +72,13 @@ class PageExtension extends \Twig_Extension
      * @param RouterInterface             $router             The Router
      * @param BlockHelper                 $blockHelper        The Block Helper
      */
-    public function __construct(CmsManagerSelectorInterface $cmsManagerSelector, SiteSelectorInterface $siteSelector, RouterInterface $router, BlockHelper $blockHelper)
+    public function __construct(CmsManagerSelectorInterface $cmsManagerSelector, SiteSelectorInterface $siteSelector, RouterInterface $router, BlockHelper $blockHelper, HttpKernelExtension $httpKernelExtension)
     {
         $this->cmsManagerSelector = $cmsManagerSelector;
         $this->siteSelector       = $siteSelector;
         $this->router             = $router;
         $this->blockHelper        = $blockHelper;
+        $this->httpKernelExtension = $httpKernelExtension;
     }
 
     /**
@@ -85,6 +92,7 @@ class PageExtension extends \Twig_Extension
             'sonata_page_breadcrumb'          => new \Twig_Function_Method($this, 'breadcrumb', array('is_safe' => array('html'))),
             'sonata_page_render_container'    => new \Twig_Function_Method($this, 'renderContainer', array('is_safe' => array('html'))),
             'sonata_page_render_block'        => new \Twig_Function_Method($this, 'renderBlock', array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('controller', array($this, 'controller'))
         );
     }
 
@@ -245,5 +253,28 @@ class PageExtension extends \Twig_Extension
             'page_id'   => $block->getPage()->getId(),
             'use_cache' => isset($options['use_cache']) ? $options['use_cache'] : true
         ), $options));
+    }
+
+    /**
+     * Forwards pathInfo to subrequests.
+     * Allows HostPathSiteSelector to work.
+     *
+     * @param string $controller
+     * @param array $attributes
+     * @param array $query
+     * @return \Symfony\Component\HttpKernel\Controller\ControllerReference
+     */
+    public function controller($controller, $attributes = array(), $query = array())
+    {
+        $globals = $this->environment->getGlobals();
+        if (!isset($attributes['pathInfo']))
+        {
+            $sitePath = $this->siteSelector->retrieve()->getRelativePath();
+            $currentPathInfo = $globals['app']->getRequest()->getPathInfo();
+
+            $attributes['pathInfo'] = $sitePath . $currentPathInfo;
+        }
+
+        return $this->httpKernelExtension->controller($controller, $attributes, $query);
     }
 }
