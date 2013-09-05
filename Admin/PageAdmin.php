@@ -241,7 +241,7 @@ class PageAdmin extends Admin
             array('uri' => $admin->generateUrl('sonata.page.admin.snapshot.list', array('id' => $id)))
         );
 
-        if (!$this->getSubject()->isHybrid()) {
+        if (!$this->getSubject()->isHybrid() && !$this->getSubject()->isInternal()) {
 
             try {
                 $menu->addChild(
