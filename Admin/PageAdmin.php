@@ -131,9 +131,15 @@ class PageAdmin extends Admin
             ;
         }
 
+        if ($this->hasSubject() && !$this->getSubject()->getId()) {
+            $formMapper
+                ->with($this->trans('form_page.group_main_label'))
+                    ->add('site', null, array('required' => true))
+                ->end();
+        }
+
         $formMapper
             ->with($this->trans('form_page.group_main_label'))
-                ->add('site', null, array('required' => true))
                 ->add('name')
                 ->add('enabled', null, array('required' => false))
                 ->add('position')
