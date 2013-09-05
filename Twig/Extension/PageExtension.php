@@ -260,15 +260,16 @@ class PageExtension extends \Twig_Extension
      * Allows HostPathSiteSelector to work.
      *
      * @param string $controller
-     * @param array $attributes
-     * @param array $query
+     * @param array  $attributes
+     * @param array  $query
+     *
      * @return \Symfony\Component\HttpKernel\Controller\ControllerReference
      */
     public function controller($controller, $attributes = array(), $query = array())
     {
         $globals = $this->environment->getGlobals();
-        if (!isset($attributes['pathInfo']))
-        {
+
+        if (!isset($attributes['pathInfo'])) {
             $sitePath = $this->siteSelector->retrieve()->getRelativePath();
             $currentPathInfo = $globals['app']->getRequest()->getPathInfo();
 

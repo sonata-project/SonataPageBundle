@@ -11,7 +11,6 @@
 namespace Sonata\PageBundle\Tests\Twig\Extension;
 
 use Sonata\PageBundle\Twig\Extension\PageExtension;
-use Sonata\PageBundle\Model\PageInterface;
 
 /**
  *
@@ -29,11 +28,16 @@ class PageExtensionTest extends \PHPUnit_Framework_TestCase
             ->getMock()
         ;
 
+        $HttpKernelExtension = $this->getMockBuilder('Symfony\Bridge\Twig\Extension\HttpKernelExtension')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
         $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
         $block = $this->getMock('Sonata\PageBundle\Model\PageBlockInterface');
         $block->expects($this->exactly(2))->method('getPage')->will($this->returnValue($page));
 
-        $extension = new PageExtension($cmsManager, $siteSelector, $router, $blockHelper);
+        $extension = new PageExtension($cmsManager, $siteSelector, $router, $blockHelper, $HttpKernelExtension);
         $this->assertEquals('/foo/bar', $extension->ajaxUrl($block));
     }
 }
