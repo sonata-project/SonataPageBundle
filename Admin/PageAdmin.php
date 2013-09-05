@@ -248,7 +248,7 @@ class PageAdmin extends Admin
                     $this->trans('view_page'),
                     array('uri' => $this->getRouteGenerator()->generate('page_slug', array('path' => $this->getSubject()->getUrl())))
                 );
-            } catch (RouteNotFoundException $e) {
+            } catch (Exception $e) {
                 // avoid crashing the admin if the route is not setup correctly
 //                throw $e;
             }
