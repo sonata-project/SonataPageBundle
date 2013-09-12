@@ -5,9 +5,9 @@ The ``PageBundle`` handles multisite out of the box. However due to some
 limitation of the Symfony2 API, the multisite support is done around 2 strategies :
 
 * host : you can configure a site per host. This strategy works out of the box 
-    with no changes.
+  with no changes.
 * host with path : you can configure site per host and per path. This strategy 
-    requires some changes.
+  requires some changes.
 
 
 Host Strategy
@@ -41,9 +41,9 @@ With this strategy it is possible to handle sites like :
 * http://sonata-project.net
 
 
-This strategy required a dedicated ``Request`` object. So you need to alter the 
-front controller to use the one provided by the PageBundle. To to so, open files: 
-app.php and app_dev.php and change the ``use`` statement to ::
+This strategy requires a dedicated ``Request`` object. So you need to alter the 
+front controller to use the one provided by the ``PageBundle``. To do so, open 
+files: app.php and app_dev.php and change the ``use`` statement to ::
 
     use Sonata\PageBundle\Request\SiteRequest as Request;
 
