@@ -85,6 +85,8 @@ class BlockAdmin extends Admin
     {
         $block = $this->getSubject();
 
+        $page = false;
+
         if ($this->getParent()) {
             $page = $this->getParent()->getSubject();
 
@@ -113,7 +115,8 @@ class BlockAdmin extends Admin
         if ($isContainerRoot || $isStandardBlock) {
             $service = $this->blockManager->get($block);
 
-            if ($isStandardBlock) {
+            // need to investigate on this case where $page == null ... this should not be possible
+            if ($isStandardBlock && $page) {
                 $formMapper->add('parent', 'entity', array(
                     'class' => $this->getClass(),
                     'query_builder' => function(EntityRepository $repository) use ($page) {
