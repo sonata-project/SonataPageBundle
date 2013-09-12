@@ -3,11 +3,11 @@ Getting Started
 
 The bundle works on top of 3 simple models :
  * a ``Page``  : A page is composed of Blocks and contains information about a 
-    page (routing, headers, etc...)
+   page (routing, headers, etc...)
  * a ``Block`` : A block contains information about an area of a page, a block 
-    can have children
- * a ``Snapshot`` : The final representation of a page, the end user always see 
-    a Snapshot
+   can have children
+ * a ``Snapshot`` : The final representation of a page, the end user always 
+   sees a Snapshot
 
 
 Creating a default site
@@ -139,13 +139,13 @@ Before adding a new block, please look to the default layout
 ``SonataPageBundle::layout.html.twig``, it contains different methods call.
 
 * ``sonata_page_render_container('content', page)`` : render the container 
-    ``content`` of the current page
+  ``content`` of the current page
 * ``sonata_page_render_container('content_bottom', 'global')`` : render the 
-    container ``content_bottom`` of the global page.
+  container ``content_bottom`` of the global page.
     
-    A global page does not belongs to the current url but it can be use on different pages.
+  A global page does not belong to the current url but it can be use on different pages.
 * ``page_include_stylesheets`` and ``page_include_javascripts`` : insert the 
-    stylesheets and javascripts used on the page by the related blocks.
+  stylesheets and javascripts used on the page by the related blocks.
 
 The block management is done from the front end : a block can be moved and 
 edited from:
@@ -165,7 +165,7 @@ To add a new container block, simply render the container with the desired name:
 When the SonataPageBundle renders this container, it will automatically insert 
 a `sonata.page.block.container` with the name `footer_left` if it does not exist
 yet. You will then be able to add new child blocks to it in the frontend. The 
-second parameter is the name of the page. It can be either a string , or a 
+second parameter is the name of the page. It can be either a string, or a 
 `Page` instance. In case of a string, it will create a new  page with that name 
 if it doesn't already exist.
 
@@ -173,5 +173,5 @@ Publish a snapshot
 ------------------
 
 The blocks added are not accessible to a non connected user, the blocks are 
-published trought the ``Snapshot`` model. So once the new page is built or 
-updated and ready to go live. Just click on 'Create publication'.
+published trough the ``Snapshot`` model. So once the new page is built or 
+updated and ready to go live, just click on 'Create publication'.
