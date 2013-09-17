@@ -628,6 +628,14 @@
            <source>flash_snapshots_created_success</source>
            <target>flash_snapshots_created_success</target>
       </trans-unit>
+      <trans-unit id="156" resname="title_message_create_page">
+            <source>title_message_create_page</source>
+            <target>Please select the targeted site</target>
+      </trans-unit>
+      <trans-unit id="157" resname="message_create_page">
+            <source>message_create_page</source>
+            <target>Before creating a new page, you need to select the website where the page will be located.</target>
+       </trans-unit>
     </body>
   </file>
 </xliff>

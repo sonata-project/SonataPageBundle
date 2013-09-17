@@ -13,22 +13,30 @@ file that was distributed with this source code.
 
 {% block title %}{{ 'title_select_site'|trans({}, 'SonataPageBundle') }}{% endblock %}
 
+{% block actions %}
+
+{% endblock %}
+
 {% block content %}
 
+    <h2>{{ 'title_message_create_page'|trans({}, 'SonataPageBundle') }}</h2>
+
+    <p>
     {{ 'message_create_page'|trans({}, 'SonataPageBundle')}}
+    </p>
 
     <ul>
         {% for site in sites %}
             <li>
-                <a href="{{ admin.generateUrl('create', {'siteId': site.id}) }}">
-
                 {% if current and site.id == current.id %}
                     <img src="{{ asset('bundles/sonataadmin/famfamfam/accept.png') }}" />
                 {% endif %}
 
-                {{ site.name }} - {{ site.url }}
+                <a href="{{ admin.generateUrl('create', {'siteId': site.id, 'uniqid': admin.uniqid}) }}">
 
+                {{ site.name }}
                 </a>
+                - {{ site.url }}
             </li>
         {% endfor%}
     </ul>

@@ -134,7 +134,7 @@ class PageAdmin extends Admin
         if ($this->hasSubject() && !$this->getSubject()->getId()) {
             $formMapper
                 ->with($this->trans('form_page.group_main_label'))
-                    ->add('site', null, array('required' => true))
+                    ->add('site', null, array('required' => true, 'read_only' => true))
                 ->end();
         }
 
