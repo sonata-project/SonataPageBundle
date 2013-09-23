@@ -162,6 +162,10 @@ class PageAdmin extends Admin
                     'model_manager' => $this->getModelManager(),
                     'class'         => $this->getClass(),
                     'required'      => false
+                ), array(
+                    'link_parameters' => array(
+                        'siteId' => $this->getSubject() ? $this->getSubject()->getSite()->getId() : null
+                    )
                 ))
             ->end()
         ;
@@ -177,6 +181,10 @@ class PageAdmin extends Admin
                         'class'         => $this->getClass(),
                         'filter_choice' => array('request_method' => 'all'),
                         'required'      => false
+                    ), array(
+                        'link_parameters' => array(
+                            'siteId' => $this->getSubject() ? $this->getSubject()->getSite()->getId() : null
+                        )
                     ))
                 ->end()
             ;
