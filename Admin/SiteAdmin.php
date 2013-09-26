@@ -86,7 +86,7 @@ class SiteAdmin extends Admin
                 ->add('isDefault', null, array('required' => false))
                 ->add('enabled', null, array('required' => false))
                 ->add('host')
-                ->add('locale', null, array(
+                ->add('locale', 'locale', array(
                     'required' => false
                 ))
                 ->add('relativePath', null, array('required' => false))
