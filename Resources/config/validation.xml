@@ -5,17 +5,17 @@
         http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
 
 
-    <class name="Application\Sonata\PageBundle\Entity\Block">
+    <class name="Sonata\BlockBundle\Model\BlockInterface">
         <constraint name="Sonata\AdminBundle\Validator\Constraints\InlineConstraint">
             <option name="service">sonata.block.manager</option>
             <option name="method">validate</option>
         </constraint>
     </class>
 
-    <class name="Application\Sonata\PageBundle\Entity\Page">
+    <class name="Sonata\PageBundle\Model\PageInterface">
         <constraint name="Sonata\PageBundle\Validator\Constraints\UniqueUrl" />
 
-        <property name="name">
+        <getter property="name">
            <constraint name="NotNull" >
                <option name="groups" >
                     <value>action_route</value>
@@ -23,12 +23,12 @@
                     <value>Default</value>
                </option>
            </constraint>
-        </property>
+        </getter>
     </class>
 
-    <class name="Application\Sonata\PageBundle\Entity\Site">
-        <property name="name">
+    <class name="Sonata\PageBundle\Model\SiteInterface">
+        <getter property="name">
            <constraint name="NotNull" />
-        </property>
+        </getter>
     </class>
 </constraint-mapping>
