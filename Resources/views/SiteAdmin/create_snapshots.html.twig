@@ -17,7 +17,7 @@ file that was distributed with this source code.
 
     {{ "message_create_snapshots"|trans({'%site%': object.name }, 'SonataPageBundle') }}
 
-    <div class="well form-actions">
+    <div class="well well-small form-actions">
         <form action="{{ admin.generateUrl('snapshots', {'id': object.id}) }}" method="POST">
 
             <input class="btn btn-primary" type="submit" name="create" value="{{ 'button_create_snapshots'|trans({}, 'SonataPageBundle') }}"/>
