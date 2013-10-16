@@ -154,6 +154,9 @@ class SnapshotManager implements SnapshotManagerInterface
         } elseif (isset($criteria['url'])) {
             $query->andWhere('s.url = :url');
             $parameters['url'] = $criteria['url'];
+        } elseif (isset($criteria['customUrl'])) {
+            $query->andWhere('s.customUrl = :customUrl');
+            $parameters['customUrl'] = $criteria['customUrl'];
         } elseif (isset($criteria['routeName'])) {
             $query->andWhere('s.routeName = :routeName');
             $parameters['routeName'] = $criteria['routeName'];
