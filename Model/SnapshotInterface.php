@@ -105,6 +105,20 @@ interface SnapshotInterface
     public function getUrl();
 
     /**
+     * Set customUrl
+     *
+     * @param string $customUrl
+     */
+    public function setCustomUrl($customUrl);
+
+    /**
+     * Get customUrl
+     *
+     * @return string $customUrl
+     */
+    public function getCustomUrl();
+
+    /**
      * Set publicationDateStart
      *
      * @param \DateTime $publicationDateStart
