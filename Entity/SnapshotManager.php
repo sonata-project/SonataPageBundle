@@ -259,27 +259,59 @@ class SnapshotManager implements SnapshotManagerInterface
         }
 
         $tableName = $this->getTableName();
+        $platform  = $this->getConnection()->getDatabasePlatform()->getName();
 
-        return $this->getConnection()->exec(sprintf(
-            'DELETE FROM %s
-            WHERE
-                page_id = %d
-                AND id NOT IN (
-                    SELECT id
-                    FROM (
-                        SELECT id, publication_date_end
-                        FROM %s
-                        WHERE page_id = %d
-                        ORDER BY publication_date_end DESC
-                        %s
-                    ) AS table_alias
-            )',
-            $tableName,
-            $page->getId(),
-            $tableName,
-            $page->getId(),
-            sprintf($this->getConnection()->getDatabasePlatform()->getName() === 'oracle' ? 'WHERE rownum <= %d' : 'LIMIT %d', $keep)
-        ));
+        if ('mysql' === $platform) {
+            return $this->getConnection()->exec(sprintf(
+                'DELETE FROM %s
+                WHERE
+                    page_id = %d
+                    AND id NOT IN (
+                        SELECT id
+                        FROM (
+                            SELECT id, publication_date_end
+                            FROM %s
+                            WHERE
+                                page_id = %d
+                            ORDER BY
+                                publication_date_end IS NULL DESC,
+                                publication_date_end DESC
+                            LIMIT %d
+                        ) AS table_alias
+                )',
+                $tableName,
+                $page->getId(),
+                $tableName,
+                $page->getId(),
+                $keep
+            ));
+        }
+
+        if ('oracle' === $platform) {
+            return $this->getConnection()->exec(sprintf(
+                'DELETE FROM %s
+                WHERE
+                    page_id = %d
+                    AND id NOT IN (
+                        SELECT id
+                        FROM (
+                            SELECT id, publication_date_end
+                            FROM %s
+                            WHERE
+                                page_id = %d
+                                AND rownum <= %d
+                            ORDER BY publication_date_end DESC
+                        ) AS table_alias
+                )',
+                $tableName,
+                $page->getId(),
+                $tableName,
+                $page->getId(),
+                $keep
+            ));
+        }
+
+        throw new \RuntimeException(sprintf('The %s database platform has not been tested yet. Please report us if it works and feel free to create a pull request to handle it ;-)', $platform));
     }
 
     /**
