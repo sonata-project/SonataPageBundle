@@ -18,3 +18,4 @@ Reference Guide
    reference/advanced_usage
    reference/advanced_configuration
    reference/varnish
+   reference/performance
