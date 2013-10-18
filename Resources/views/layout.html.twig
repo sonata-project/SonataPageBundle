@@ -13,12 +13,12 @@ file that was distributed with this source code.
 {% block page_container %}
     <div class="container">
         <div class="content">
-            <div class="page-header">
-                <div class="pull-left">
+            <div class="row-fluid page-header">
+                <div class="span4">
                     {{ sonata_page_render_container('title', 'global') }}
                 </div>
 
-                <div class="pull-right navigation">
+                <div class="span6 navigation pull-right">
                     {{ sonata_page_render_container('header', 'global') }}
                 </div>
 
@@ -26,7 +26,7 @@ file that was distributed with this source code.
             </div>
 
             {% if page is defined %}
-                <div class="row">
+                <div class="row-fluid">
                     {% if page.name != 'global'%}
                         {{ sonata_page_render_container('content_top', 'global') }}
                     {% endif %}
@@ -34,7 +34,7 @@ file that was distributed with this source code.
                 </div>
             {% endif %}
 
-            <div class="row">
+            <div class="row-fluid">
                 {% if content is defined %}
                     {{ content|raw }}
                 {% else %}
