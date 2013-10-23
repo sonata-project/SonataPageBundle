@@ -13,7 +13,7 @@ file that was distributed with this source code.
 <html {{ sonata_seo_html_attributes() }}>
 {% endblock %}
     {% block sonata_page_head %}
-        <head>
+        <head {{ sonata_seo_head_attributes() }}>
 
             {{ sonata_seo_title() }}
             {{ sonata_seo_metadatas() }}
