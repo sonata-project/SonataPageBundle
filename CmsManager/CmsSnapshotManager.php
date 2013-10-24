@@ -16,7 +16,7 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\SnapshotPageProxy;
 use Sonata\PageBundle\Model\TransformerInterface;
-use Sonata\PageBundle\Util\RecursiveBlockIterator;
+use Sonata\BlockBundle\Util\RecursiveBlockIterator;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 

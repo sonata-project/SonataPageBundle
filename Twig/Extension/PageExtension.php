@@ -11,6 +11,7 @@
 
 namespace Sonata\PageBundle\Twig\Extension;
 
+use Sonata\PageBundle\Cache\HttpCacheHandlerInterface;
 use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
@@ -67,17 +68,18 @@ class PageExtension extends \Twig_Extension
     /**
      * Constructor
      *
-     * @param CmsManagerSelectorInterface $cmsManagerSelector A CMS manager selector
-     * @param SiteSelectorInterface       $siteSelector       A site selector
-     * @param RouterInterface             $router             The Router
-     * @param BlockHelper                 $blockHelper        The Block Helper
+     * @param CmsManagerSelectorInterface $cmsManagerSelector  A CMS manager selector
+     * @param SiteSelectorInterface       $siteSelector        A site selector
+     * @param RouterInterface             $router              The Router
+     * @param BlockHelper                 $blockHelper         The Block Helper
+     * @param HttpKernelExtension         $httpKernelExtension
      */
     public function __construct(CmsManagerSelectorInterface $cmsManagerSelector, SiteSelectorInterface $siteSelector, RouterInterface $router, BlockHelper $blockHelper, HttpKernelExtension $httpKernelExtension)
     {
-        $this->cmsManagerSelector = $cmsManagerSelector;
-        $this->siteSelector       = $siteSelector;
-        $this->router             = $router;
-        $this->blockHelper        = $blockHelper;
+        $this->cmsManagerSelector  = $cmsManagerSelector;
+        $this->siteSelector        = $siteSelector;
+        $this->router              = $router;
+        $this->blockHelper         = $blockHelper;
         $this->httpKernelExtension = $httpKernelExtension;
     }
 
@@ -209,14 +211,10 @@ class PageExtension extends \Twig_Extension
         try {
             if ($page === null) {
                 $targetPage = $cms->getCurrentPage();
-            } else {
-                if (!$page instanceof PageInterface && is_string($page)) {
-                    $targetPage = $cms->getInternalRoute($site, $page);
-                } else {
-                    if ($page instanceof PageInterface) {
-                        $targetPage = $page;
-                    }
-                }
+            } else if (!$page instanceof PageInterface && is_string($page)) {
+                $targetPage = $cms->getInternalRoute($site, $page);
+            } else if ($page instanceof PageInterface) {
+                $targetPage = $page;
             }
         } catch (PageNotFoundException $e) {
             // the snapshot does not exist
@@ -248,11 +246,22 @@ class PageExtension extends \Twig_Extension
             return '';
         }
 
-        return $this->blockHelper->render($block, array_merge(array(
+        // defined extra default key for the cache
+        $pageCacheKeys = array(
             'manager'   => $block->getPage() instanceof SnapshotPageProxy ? 'snapshot' : 'page',
             'page_id'   => $block->getPage()->getId(),
-            'use_cache' => isset($options['use_cache']) ? $options['use_cache'] : true
-        ), $options));
+        );
+
+        // build the parameters array
+        $options = array_merge(array(
+            'use_cache'        => isset($options['use_cache']) ? $options['use_cache'] : true,
+            'extra_cache_keys' => array()
+        ), $pageCacheKeys, $options);
+
+        // make sure the parameters array contains all valid keys
+        $options['extra_cache_keys'] = array_merge($options['extra_cache_keys'], $pageCacheKeys);
+
+        return $this->blockHelper->render($block, $options);
     }
 
     /**

@@ -408,14 +408,6 @@ interface PageInterface
     public function getParents();
 
     /**
-     * Return the TTL value in second
-     *
-     *
-     * @return integer
-     */
-    public function getTtl();
-
-    /**
      * @param string $method
      *
      * @return bool

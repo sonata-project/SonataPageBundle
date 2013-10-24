@@ -7,21 +7,23 @@
         <service id="sonata.page.cache.esi" class="Sonata\PageBundle\Cache\BlockEsiCache">
             <tag name="sonata.cache" />
 
-            <argument />
-            <argument type="collection" />
+            <argument /> <!-- token -->
+            <argument type="collection" /> <!-- servers -->
             <argument type="service" id="router" />
-            <argument />
+            <argument /> <!-- base purge command -->
             <argument type="service" id="sonata.block.renderer" />
-            <argument type="collection" />
+            <argument type="service" id="sonata.page.block.context_manager" />
+            <argument type="collection" /> <!-- cms managers -->
         </service>
 
         <service id="sonata.page.cache.ssi" class="Sonata\PageBundle\Cache\BlockSsiCache">
             <tag name="sonata.cache" />
 
-            <argument />
+            <argument /> <!-- token -->
             <argument type="service" id="router" />
             <argument type="service" id="sonata.block.renderer" />
-            <argument type="collection" />
+            <argument type="service" id="sonata.page.block.context_manager" />
+            <argument type="collection" /> <!-- cms managers -->
         </service>
 
         <service id="sonata.page.cache.js_sync" class="Sonata\PageBundle\Cache\BlockJsCache" >
@@ -29,7 +31,8 @@
 
             <argument type="service" id="router" />
             <argument type="service" id="sonata.page.cms_manager_selector" />
-            <argument type="service" id="sonata.block.manager" />
+            <argument type="service" id="sonata.block.renderer" />
+            <argument type="service" id="sonata.page.block.context_manager" />
             <argument>true</argument>
         </service>
 
@@ -38,7 +41,8 @@
 
             <argument type="service" id="router" />
             <argument type="service" id="sonata.page.cms_manager_selector" />
-            <argument type="service" id="sonata.block.manager" />
+            <argument type="service" id="sonata.block.renderer" />
+            <argument type="service" id="sonata.page.block.context_manager" />
             <argument>false</argument>
         </service>
     </services>

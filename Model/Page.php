@@ -78,8 +78,6 @@ abstract class Page implements PageInterface
 
     protected $decorate = true;
 
-    protected $ttl;
-
     protected $site;
 
     protected $edited;
@@ -649,26 +647,6 @@ abstract class Page implements PageInterface
     public function getPosition()
     {
         return $this->position;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getTtl()
-    {
-        if ($this->ttl === null) {
-            $ttl = 84600 * 10; // todo : change this value
-
-            foreach ($this->getBlocks() as $block) {
-                $blockTtl = $block->getTtl();
-
-                $ttl = ($blockTtl < $ttl) ? $blockTtl : $ttl;
-            }
-
-            $this->ttl = $ttl;
-        }
-
-        return $this->ttl;
     }
 
     /**

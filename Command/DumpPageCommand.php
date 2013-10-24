@@ -89,7 +89,7 @@ You can use the --extended option to dump block configuration
 
         if ($extended) {
             foreach ($block->getSettings() as $name => $value) {
-                $output->writeln(sprintf("%s %s: %s", str_repeat("  ", $space + 1), $name, $value));
+                $output->writeln(sprintf("%s %s: %s", str_repeat("  ", $space + 1), $name, var_export($value, 1)));
             }
         }
 

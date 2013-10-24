@@ -10,12 +10,13 @@
 
 namespace Sonata\PageBundle\Cache;
 
+use Sonata\BlockBundle\Block\BlockContextManagerInterface;
+use Sonata\BlockBundle\Block\BlockRendererInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\HttpFoundation\Response;
 use \Symfony\Component\HttpFoundation\Request;
 
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
-use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
 
 use Sonata\CacheBundle\Cache\CacheInterface;
 use Sonata\CacheBundle\Cache\CacheElement;
@@ -33,24 +34,26 @@ class BlockJsCache implements CacheInterface
 
     protected $sync;
 
-    protected $securityContext;
+    protected $cmsSelector;
 
-    protected $managers;
+    protected $blockRenderer;
 
-    protected $blockManager;
+    protected $contextManager;
 
     /**
-     * @param \Symfony\Component\Routing\RouterInterface                $router
-     * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $cmsSelector
-     * @param \Sonata\BlockBundle\Block\BlockServiceManagerInterface    $blockManager
-     * @param bool                                                      $sync
+     * @param RouterInterface              $router
+     * @param CmsManagerSelectorInterface  $cmsSelector
+     * @param BlockRendererInterface       $blockRenderer
+     * @param BlockContextManagerInterface $contextManager
+     * @param bool                         $sync
      */
-    public function __construct(RouterInterface $router, CmsManagerSelectorInterface $cmsSelector, BlockServiceManagerInterface $blockManager, $sync = false)
+    public function __construct(RouterInterface $router, CmsManagerSelectorInterface $cmsSelector, BlockRendererInterface $blockRenderer, BlockContextManagerInterface $contextManager, $sync = false)
     {
-        $this->router       = $router;
-        $this->sync         = $sync;
-        $this->cmsSelector  = $cmsSelector;
-        $this->blockManager = $blockManager;
+        $this->router        = $router;
+        $this->sync          = $sync;
+        $this->cmsSelector   = $cmsSelector;
+        $this->blockRenderer = $blockRenderer;
+        $this->contextManager = $contextManager;
     }
 
     /**
@@ -98,7 +101,7 @@ class BlockJsCache implements CacheInterface
     {
         foreach (array('block_id', 'page_id', 'manager', 'updated_at') as $key) {
             if (!isset($keys[$key])) {
-                throw new \RuntimeException(sprintf('Please define a `%s` key', $key));
+                throw new \RuntimeException(sprintf('Please define a `%s` key, provided: %s', $key, json_encode(array_keys($keys))));
             }
         }
     }
@@ -154,7 +157,6 @@ class BlockJsCache implements CacheInterface
 '<div id="block-cms-%s" >
     <script type="text/javascript">
         /*<![CDATA[*/
-
             (function() {
                 var b = document.createElement("script");
                 b.type = "text/javascript";
@@ -201,7 +203,11 @@ class BlockJsCache implements CacheInterface
             return new Response('', 404);
         }
 
-        $response = $this->blockManager->renderBlock($block);
+        $options = array();
+
+        $blockContext = $this->contextManager->get($block, $options);
+        $response = $this->blockRenderer->render($blockContext);
+
         $response->setPrivate(); //  always set to private
 
         if ($this->sync) {

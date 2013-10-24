@@ -567,14 +567,6 @@ class SnapshotPageProxy implements PageInterface, Serializable
     /**
      * {@inheritdoc}
      */
-    public function getTtl()
-    {
-        return $this->getPage()->getTtl();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function hasRequestMethod($method)
     {
         return $this->getPage()->hasRequestMethod($method);

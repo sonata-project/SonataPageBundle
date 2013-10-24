@@ -92,7 +92,6 @@
         <service id="sonata.page.template_manager" class="%sonata.page.template.manager.class%">
             <argument type="service" id="templating" />
             <argument type="collection"></argument>
-            <argument/>
         </service>
 
         <service id="sonata.page.page_service_manager" class="%sonata.page.service.manager.class%">

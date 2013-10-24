@@ -101,7 +101,7 @@ class ChildrenPagesBlockService extends BaseBlockService
                 )),
                 array('pageId', 'sonata_page_selector', array(
                     'model_manager' => $formMapper->getAdmin()->getModelManager(),
-                    'class'         => 'Application\Sonata\PageBundle\Entity\Page',
+                    'class'         => $formMapper->getAdmin()->getClass(),
                     'site'          => $block->getPage()->getSite(),
                     'required'      => false
                 )),

@@ -56,7 +56,6 @@ class DefaultPageServiceTest extends \PHPUnit_Framework_TestCase
 
         // mock http response
         $response = $this->getMock('Symfony\Component\HttpFoundation\Response');
-        $response->expects($this->once())->method('setTtl');
 
         // mock a page instance
         $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');

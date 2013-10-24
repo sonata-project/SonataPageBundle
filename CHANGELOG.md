@@ -7,10 +7,13 @@ A [BC BREAK] means the update will break the project for many reasons:
 * new dependencies
 * class refactoring
 
+### 2013-10-22
+
+* remove the ``use_streamed_response`` option to fix cache handling, it is not possible to compute cache with a streaming response
+
 ### 2013-07-30
 * [BC BREAK] Inline edition has been deprecated, see UPGRADE-2.3 for more information.
 * It is now possible to add block from the admin backend
-
 
 ### 2012-12-13
 

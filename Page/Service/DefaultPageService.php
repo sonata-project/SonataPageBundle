@@ -42,9 +42,9 @@ class DefaultPageService extends BasePageService
     /**
      * Constructor
      *
-     * @param string                   $name            Page service name
-     * @param TemplateManagerInterface $templateManager Template manager
-     * @param SeoPageInterface         $seoPage         SEO page object
+     * @param string                    $name            Page service name
+     * @param TemplateManagerInterface  $templateManager Template manager
+     * @param SeoPageInterface          $seoPage         SEO page object
      */
     public function __construct($name, TemplateManagerInterface $templateManager, SeoPageInterface $seoPage = null)
     {
@@ -61,7 +61,6 @@ class DefaultPageService extends BasePageService
         $this->updateSeoPage($page);
 
         $response = $this->templateManager->renderResponse($page->getTemplateCode(), $parameters, $response);
-        $response->setTtl($page->getTtl());
 
         return $response;
     }

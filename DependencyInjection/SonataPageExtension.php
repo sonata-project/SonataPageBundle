@@ -321,7 +321,7 @@ class SonataPageExtension extends Extension
      * @param ContainerBuilder $container Container builder
      * @param array            $config    Array of configuration
      */
-    public function configureMultisite(ContainerBuilder $container, $config)
+    public function configureMultisite(ContainerBuilder $container, array $config)
     {
         /**
          * The multipath option required a specific router and RequestContext
@@ -344,12 +344,9 @@ class SonataPageExtension extends Extension
      * @param ContainerBuilder $container Container builder
      * @param array            $config    Array of configuration
      */
-    public function configureTemplates(ContainerBuilder $container, $config)
+    public function configureTemplates(ContainerBuilder $container, array $config)
     {
         $templateManager = $container->getDefinition('sonata.page.template_manager');
-
-        // inject stream option into template manager
-        $templateManager->replaceArgument(2, $config['use_streamed_response']);
 
         // add all templates to manager
         $definitions = array();
@@ -362,6 +359,7 @@ class SonataPageExtension extends Extension
             $definition->setPublic(false);
             $definitions[$code] = $definition;
         }
+
         $templateManager->addMethodCall('setAll', array($definitions));
 
         // set default template
@@ -401,7 +399,7 @@ class SonataPageExtension extends Extension
      * @param ContainerBuilder $container Container builder
      * @param array            $config    An array of bundle configuration
      */
-    public function configureExceptions(ContainerBuilder $container, $config)
+    public function configureExceptions(ContainerBuilder $container, array $config)
     {
         $exceptions = array();
         foreach ($config['catch_exceptions'] as $keyWord => $codes) {
@@ -425,7 +423,7 @@ class SonataPageExtension extends Extension
      * @param ContainerBuilder $container Container builder
      * @param array            $config    An array of bundle configuration
      */
-    public function configurePageServices(ContainerBuilder $container, $config)
+    public function configurePageServices(ContainerBuilder $container, array $config)
     {
         // set the default page service to use when no page type has been set. (backward compatibility)
         $definition = $container->getDefinition('sonata.page.page_service_manager');

@@ -98,25 +98,6 @@ class TemplateManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * test the rendering of a streamed response
-     */
-    public function testRenderStreamedResponse()
-    {
-        // GIVEN
-        $template = $this->getMockTemplate('template', 'path/to/template');
-        $templating = $this->getMock('\Sonata\PageBundle\Tests\Page\MockTemplating');
-
-        $manager = new TemplateManager($templating, array(), true);
-        $manager->add('test', $template);
-
-        // WHEN
-        $result = $manager->renderResponse('test');
-
-        // THEN
-        $this->assertInstanceOf('Symfony\Component\HttpFoundation\StreamedResponse', $result, 'should return a streamed response');
-    }
-
-    /**
      * test the rendering of a response with a non existing template code
      */
     public function testRenderResponseWithNonExistingCode()

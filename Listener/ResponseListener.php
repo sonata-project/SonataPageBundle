@@ -124,7 +124,10 @@ class ResponseListener
             return;
         }
 
-        $parameters = array('content' => $response->getContent());
+        $parameters = array(
+            'content' => $response->getContent()
+        );
+
         $response = $this->pageServiceManager->execute($page, $request, $parameters, $response);
 
         if (!$this->cmsSelector->isEditor() && $page->isCms()) {

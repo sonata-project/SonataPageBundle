@@ -12,8 +12,6 @@
 namespace Sonata\PageBundle\Tests\Page;
 
 use Sonata\PageBundle\Cache\BlockJsCache;
-use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
-use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 
 /**
  *
@@ -28,11 +26,12 @@ class BlockJsCacheTest extends \PHPUnit_Framework_TestCase
     {
         $router = $this->getMock('Symfony\Component\Routing\RouterInterface');
 
-        $blockManager = $this->getMock('Sonata\BlockBundle\Block\BlockServiceManagerInterface');
-
         $cmsManager = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
+        $blockRenderer = $this->getMock('Sonata\BlockBundle\Block\BlockRendererInterface');
+        $contextManager = $this->getMock('Sonata\BlockBundle\Block\BlockContextManagerInterface');
 
-        $cache = new BlockJsCache($router, $cmsManager, $blockManager);
+
+        $cache = new BlockJsCache($router, $cmsManager, $blockRenderer, $contextManager);
 
         $cache->get($keys, 'data');
     }
@@ -55,11 +54,12 @@ class BlockJsCacheTest extends \PHPUnit_Framework_TestCase
         $router = $this->getMock('Symfony\Component\Routing\RouterInterface');
         $router->expects($this->once())->method('generate')->will($this->returnValue('http://sonata-project.org/page/cache/js/block.js'));
 
-        $blockManager = $this->getMock('Sonata\BlockBundle\Block\BlockServiceManagerInterface');
+        $cmsSelectorManager = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
+        $blockRenderer = $this->getMock('Sonata\BlockBundle\Block\BlockRendererInterface');
+        $contextManager = $this->getMock('Sonata\BlockBundle\Block\BlockContextManagerInterface');
 
-        $cmsManager = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
+        $cache = new BlockJsCache($router, $cmsSelectorManager, $blockRenderer, $contextManager);
 
-        $cache = new BlockJsCache($router, $cmsManager, $blockManager);
 
         $this->assertTrue($cache->flush(array()));
         $this->assertTrue($cache->flushAll());
@@ -85,7 +85,6 @@ class BlockJsCacheTest extends \PHPUnit_Framework_TestCase
 <div id="block-cms-4" >
     <script type="text/javascript">
         /*<![CDATA[*/
-
             (function() {
                 var b = document.createElement("script");
                 b.type = "text/javascript";

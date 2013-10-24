@@ -10,6 +10,8 @@
 
 namespace Sonata\PageBundle\Cache;
 
+use Sonata\BlockBundle\Block\BlockContextManagerInterface;
+use Sonata\PageBundle\CmsManager\CmsManagerInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -28,22 +30,35 @@ use Sonata\CacheBundle\Adapter\SsiCache;
  */
 class BlockSsiCache extends SsiCache
 {
+    /**
+     * @var BlockRendererInterface
+     */
     protected $blockRenderer;
 
+    /**
+     * @var array
+     */
     protected $managers;
 
     /**
-     * @param string                 $token
-     * @param RouterInterface        $router
-     * @param BlockRendererInterface $blockService
-     * @param array                  $managers
+     * @var BlockContextManagerInterface
      */
-    public function __construct($token, RouterInterface $router, BlockRendererInterface $blockRenderer, array $managers = array())
+    protected $contextManager;
+
+    /**
+     * @param string                       $token
+     * @param RouterInterface              $router
+     * @param BlockRendererInterface       $blockService
+     * @param BlockContextManagerInterface $contextManager   Block Context manager
+     * @param array                        $managers
+     */
+    public function __construct($token, RouterInterface $router, BlockRendererInterface $blockRenderer, BlockContextManagerInterface $contextManager, array $managers = array())
     {
         parent::__construct($token, $router, null);
 
-        $this->managers     = $managers;
-        $this->blockRenderer = $blockRenderer;
+        $this->managers       = $managers;
+        $this->blockRenderer  = $blockRenderer;
+        $this->contextManager = $contextManager;
     }
 
     /**
@@ -123,7 +138,15 @@ class BlockSsiCache extends SsiCache
             throw new NotFoundHttpException(sprintf('Page not found : %s', $request->get('page_id')));
         }
 
-        return $this->blockRenderer->render($manager->getBlock($request->get('block_id')));
+        $block = $manager->getBlock($request->get('block_id'));
+
+        $blockContext = $this->contextManager->get($block);
+
+        $response = $this->blockRenderer->render($blockContext);
+
+        $response->headers->set('x-sonata-page-not-decorable', true);
+
+        return $response;
     }
 
     /**

@@ -284,23 +284,6 @@ class PageTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($page->isInternal(), 'isInternal');
     }
 
-    public function testPageTtl()
-    {
-        $page = new Page;
-        $block1 = $this->getMockBuilder('Sonata\PageBundle\Model\Block')->getMock();
-        $block1->expects($this->once())->method('getTtl')->will($this->returnValue(100));
-        $block2 = $this->getMockBuilder('Sonata\PageBundle\Model\Block')->getMock();
-        $block2->expects($this->once())->method('getTtl')->will($this->returnValue(50));
-        $block3 = $this->getMockBuilder('Sonata\PageBundle\Model\Block')->getMock();
-        $block3->expects($this->once())->method('getTtl')->will($this->returnValue(65));
-
-        $page->addBlocks($block1);
-        $page->addBlocks($block2);
-        $page->addBlocks($block3);
-
-        $this->assertEquals(50, $page->getTtl());
-    }
-
     public function testGetContainer()
     {
         $page = new Page;

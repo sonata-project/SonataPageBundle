@@ -27,8 +27,9 @@ class BlockSsiCacheTest extends \PHPUnit_Framework_TestCase
         $router = $this->getMock('Symfony\Component\Routing\RouterInterface');
 
         $blockRenderer = $this->getMock('Sonata\BlockBundle\Block\BlockRendererInterface');
+        $contextManager = $this->getMock('Sonata\BlockBundle\Block\BlockContextManagerInterface');
 
-        $cache = new BlockSsiCache('', $router, $blockRenderer);
+        $cache = new BlockSsiCache('', $router, $blockRenderer, $contextManager);
 
         $cache->get($keys, 'data');
     }
@@ -52,8 +53,9 @@ class BlockSsiCacheTest extends \PHPUnit_Framework_TestCase
         $router->expects($this->any())->method('generate')->will($this->returnValue('/cache/page/esi/XXXXX/page/5/4?updated_at=as'));
 
         $blockRenderer = $this->getMock('Sonata\BlockBundle\Block\BlockRendererInterface');
+        $contextManager = $this->getMock('Sonata\BlockBundle\Block\BlockContextManagerInterface');
 
-        $cache = new BlockSsiCache('', $router, $blockRenderer);
+        $cache = new BlockSsiCache('', $router, $blockRenderer, $contextManager);
 
         $this->assertTrue($cache->flush(array()));
         $this->assertTrue($cache->flushAll());

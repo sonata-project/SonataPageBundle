@@ -38,13 +38,6 @@ class TemplateManager implements TemplateManagerInterface
     protected $defaultParameters;
 
     /**
-     * Whether to stream the response or send the response at the end of processing
-     *
-     * @var boolean
-     */
-    protected $streamEnabled;
-
-    /**
      * Collection of available templates
      *
      * @var Template[]
@@ -70,13 +63,11 @@ class TemplateManager implements TemplateManagerInterface
      *
      * @param EngineInterface $engine            Templating engine
      * @param array           $defaultParameters An array of default view parameters
-     * @param boolean         $streamEnabled     Whether to enable stream or not
      */
-    public function __construct(EngineInterface $engine, array $defaultParameters = array(), $streamEnabled = false)
+    public function __construct(EngineInterface $engine, array $defaultParameters = array())
     {
         $this->engine            = $engine;
         $this->defaultParameters = $defaultParameters;
-        $this->streamEnabled     = $streamEnabled;
     }
 
     /**
@@ -157,22 +148,11 @@ class TemplateManager implements TemplateManagerInterface
      */
     public function renderResponse($code, array $parameters = array(), Response $response = null)
     {
-        $engine = $this->engine;
-        $parameters = array_merge($this->defaultParameters, $parameters);
-        $templatePath = $this->getTemplatePath($code);
-
-        if ($this->streamEnabled && $engine instanceof StreamingEngineInterface) {
-            $callback = function() use ($engine, $templatePath, &$parameters) {
-                $engine->stream($templatePath, $parameters);
-            };
-            $status = $response ? $response->getStatusCode() : 200;
-            $headers = $response ? $response->headers->all() : array();
-            $response = new StreamedResponse($callback, $status, $headers);
-        } else {
-            $response = $this->engine->renderResponse($templatePath, $parameters, $response);
-        }
-
-        return $response;
+        return $this->engine->renderResponse(
+            $this->getTemplatePath($code),
+            array_merge($this->defaultParameters, $parameters),
+            $response
+        );
     }
 
     /**

@@ -11,6 +11,7 @@
 
 namespace Sonata\PageBundle\Cache;
 
+use Sonata\BlockBundle\Block\BlockContextManagerInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -39,21 +40,28 @@ class BlockEsiCache extends VarnishCache
     protected $managers;
 
     /**
+     * @var BlockContextManagerInterface
+     */
+    protected $contextManager;
+
+    /**
      * Constructor
      *
-     * @param string                 $token            A token
-     * @param array                  $servers          An array of servers
-     * @param RouterInterface        $router           A router instance
-     * @param string                 $purgeInstruction The purge instruction (purge in Varnish 2, ban in Varnish 3)
-     * @param BlockRendererInterface $blockRenderer    A block renderer instance
-     * @param array                  $managers         An array of managers
+     * @param string                       $token            A token
+     * @param array                        $servers          An array of servers
+     * @param RouterInterface              $router           A router instance
+     * @param string                       $purgeInstruction The purge instruction (purge in Varnish 2, ban in Varnish 3)
+     * @param BlockRendererInterface       $blockRenderer    A block renderer instance
+     * @param BlockContextManagerInterface $contextManager   Block Context manager
+     * @param array                        $managers         An array of managers
      */
-    public function __construct($token, array $servers, RouterInterface $router, $purgeInstruction, BlockRendererInterface $blockRenderer, array $managers = array())
+    public function __construct($token, array $servers, RouterInterface $router, $purgeInstruction, BlockRendererInterface $blockRenderer, BlockContextManagerInterface $contextManager, array $managers = array())
     {
         parent::__construct($token, $servers, $router, $purgeInstruction, null);
 
-        $this->blockRenderer = $blockRenderer;
-        $this->managers      = $managers;
+        $this->blockRenderer  = $blockRenderer;
+        $this->managers       = $managers;
+        $this->contextManager = $contextManager;
     }
 
     /**
@@ -133,7 +141,15 @@ class BlockEsiCache extends VarnishCache
             throw new NotFoundHttpException(sprintf('Page not found : %s', $request->get('page_id')));
         }
 
-        return $this->blockRenderer->render($manager->getBlock($request->get('block_id')));
+        $block = $manager->getBlock($request->get('block_id'));
+
+        $blockContext = $this->contextManager->get($block);
+
+        $response = $this->blockRenderer->render($blockContext);
+
+        $response->headers->set('x-sonata-page-not-decorable', true);
+
+        return $response;
     }
 
     /**
