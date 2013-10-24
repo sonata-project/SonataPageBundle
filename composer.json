@@ -21,7 +21,7 @@
         "sonata-project/admin-bundle": "~2.2.7",
         "sonata-project/seo-bundle": "~1.1",
         "sonata-project/doctrine-extensions" : "~1.0",
-        "sonata-project/cache-bundle": "~2.1.*",
+        "sonata-project/cache-bundle": "~2.1",
         "symfony-cmf/routing-bundle": "~1.1",
         "sonata-project/notification-bundle": "~2.2"
     },
