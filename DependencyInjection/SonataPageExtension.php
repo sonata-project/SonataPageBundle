@@ -492,7 +492,6 @@ class SonataPageExtension extends Extension
             "Sonata\\PageBundle\\Site\\BaseSiteSelector",
             "Sonata\\PageBundle\\Site\\HostPathSiteSelector",
             "Sonata\\PageBundle\\Site\\HostSiteSelector",
-            "Sonata\\PageBundle\\Site\\SiteRequestContext",
             "Sonata\\PageBundle\\Site\\SiteSelectorInterface",
             "Sonata\\PageBundle\\Twig\\Extension\\PageExtension",
             "Sonata\\PageBundle\\Twig\\GlobalVariables",
