@@ -118,7 +118,11 @@ class PageManager implements PageManagerInterface
             } else {
                 // a parent page does not have any slug - can have a custom url ...
                 $page->setSlug(null);
-                $page->setUrl('/'.$page->getSlug());
+                $urlPrefix = '/';
+                if($page->getSite()->getRelativePath()){
+                    $urlPrefix = $page->getSite()->getRelativePath() . '/';
+                }
+                $page->setUrl($urlPrefix.$page->getSlug());
             }
         }
 
