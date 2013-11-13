@@ -45,15 +45,21 @@ html.sonata-bc, body.sonata-bc {
     font-weight: bold;
 }
 
+.sonata-bc .page-header .nav {
+    margin: 0;
+}
+
 .sonata-bc .page-header .nav a {
     font-size: 1.5em;
-    line-height: 40px;
+}
+
+.sonata-bc .page-header .nav .dropdown-menu a {
+    font-size: 1em;
 }
 
 .sonata-bc .page-header .nav .dropdown-toggle .caret-menu {
     border-top-color: #404040;
     border-bottom-color: #404040;
-    margin-top: 20px;
 }
 
 /* Give a quick and non-cross-browser friendly divider */
