@@ -186,7 +186,7 @@ class SonataPageExtension extends Extension
                  'persist',
             ),
             'mappedBy'      => null,
-            'inversedBy'    => null,
+            'inversedBy'    => 'children',
             'joinColumns'   => array(
                 array(
                     'name'  => 'parent_id',
@@ -212,7 +212,7 @@ class SonataPageExtension extends Extension
                 'persist',
             ),
             'mappedBy' => null,
-            'inversedBy' => null,
+            'inversedBy' => 'sources',
             'joinColumns' => array(
                 array(
                     'name' => 'target_id',
@@ -243,7 +243,7 @@ class SonataPageExtension extends Extension
             'cascade' => array(
             ),
             'mappedBy' => null,
-            'inversedBy' => null,
+            'inversedBy' => 'children',
             'joinColumns' => array(
                 array(
                     'name' => 'parent_id',
@@ -261,7 +261,7 @@ class SonataPageExtension extends Extension
                 'persist',
             ),
             'mappedBy' => null,
-            'inversedBy' => null,
+            'inversedBy' => 'blocks',
             'joinColumns' => array(
                 array(
                     'name' => 'page_id',
