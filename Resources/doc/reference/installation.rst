@@ -60,7 +60,8 @@ Before we can go on with generating our Application files trough the ``EasyExten
         multisite: host
         default_template: default # template key from templates section, used as default for
         templates:
-            default: {path: 'SonataPageBundle::layout.html.twig', name: default }
+            default:  { path: 'SonataPageBundle::layout.html.twig',          name: 'default' }
+            2columns: { path: 'SonataPageBundle::2columns_layout.html.twig', name: '2 columns layout' }
 
 At this point, the bundle is not yet ready. You need to generate the correct
 entities for the page::
@@ -150,7 +151,8 @@ configuration file.
 
         default_template: default # template key from templates section, used as default for pages
         templates:
-            default: {path: 'SonataPageBundle::layout.html.twig', name: default }
+            default:  { path: 'SonataPageBundle::layout.html.twig',          name: 'default' }
+            2columns: { path: 'SonataPageBundle::2columns_layout.html.twig', name: '2 columns layout' }
 
         # manage the http errors
         catch_exceptions:
