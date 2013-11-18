@@ -35,16 +35,18 @@ file that was distributed with this source code.
             {% endif %}
 
             <div class="row-fluid">
-                {% if content is defined %}
-                    {{ content|raw }}
-                {% else %}
-                    {% set content = block('content') %}
-                    {% if content|length > 0 %}
+                {% block page_content %}
+                    {% if content is defined %}
                         {{ content|raw }}
-                    {% elseif page is defined %}
-                        {{ sonata_page_render_container('content', page) }}
+                    {% else %}
+                        {% set content = block('content') %}
+                        {% if content|length > 0 %}
+                            {{ content|raw }}
+                        {% elseif page is defined %}
+                            {{ sonata_page_render_container('content', page) }}
+                        {% endif %}
                     {% endif %}
-                {% endif %}
+                {% endblock %}
             </div>
 
             {% if page is defined %}
