@@ -168,11 +168,11 @@
       </trans-unit>
       <trans-unit id="41" resname="form.label_meta_description">
         <source>form.label_meta_description</source>
-        <target>Opis (Meta Description)</target>
+        <target>Meta opis</target>
       </trans-unit>
       <trans-unit id="42" resname="form.label_meta_keyword">
         <source>form.label_meta_keyword</source>
-        <target>Ključne besede (Meta Keyword)</target>
+        <target>Meta ključne besede</target>
       </trans-unit>
       <trans-unit id="43" resname="form.label_name">
         <source>form.label_name</source>
@@ -390,115 +390,250 @@
         <source>view_page</source>
         <target>Ogled strani</target>
       </trans-unit>
-
+      <trans-unit id="97" resname="header.switch_user_exit">
+          <source>header.switch_user_exit</source>
+          <target>Izhod iz načina posnemanja</target>
+      </trans-unit>
+      <trans-unit id="98" resname="header.switch_user">
+          <source>header.switch_user</source>
+          <target>Posnemanje uporabnika</target>
+      </trans-unit>
+      <trans-unit id="99" resname="header.sonata_admin_dashboard">
+          <source>header.sonata_admin_dashboard</source>
+          <target>Kontrolna plošča</target>
+      </trans-unit>
+      <trans-unit id="100" resname="list.label_is_default">
+          <source>list.label_is_default</source>
+          <target>Je privzeto</target>
+      </trans-unit>
+      <trans-unit id="101" resname="list.label_host">
+          <source>list.label_host</source>
+          <target>Gostitelj</target>
+      </trans-unit>
+      <trans-unit id="102" resname="list.label_relative_path">
+          <source>list.label_relative_path</source>
+          <target>Relativna pot</target>
+      </trans-unit>
+      <trans-unit id="103" resname="list.label_enabled_to">
+          <source>list.label_enabled_to</source>
+          <target>Omogočeno za</target>
+      </trans-unit>
+      <trans-unit id="104" resname="list.label_enabled_from">
+          <source>list.label_enabled_from</source>
+          <target>Omogočeno od</target>
+      </trans-unit>
+      <trans-unit id="105" resname="form.label_is_default">
+          <source>form.label_is_default</source>
+          <target>Je privzeto</target>
+      </trans-unit>
+      <trans-unit id="106" resname="form.label_host">
+          <source>form.label_host</source>
+          <target>Gostitelj</target>
+      </trans-unit>
+      <trans-unit id="107" resname="form.label_relative_path">
+          <source>form.label_relative_path</source>
+          <target>Relativna pot</target>
+      </trans-unit>
+      <trans-unit id="108" resname="form.label_enabled_to">
+          <source>form.label_enabled_to</source>
+          <target>Omogočeno za</target>
+      </trans-unit>
+      <trans-unit id="109" resname="form.label_enabled_from">
+          <source>form.label_enabled_from</source>
+          <target>Omogočeno od</target>
+      </trans-unit>
+      <trans-unit id="110" resname="breadcrumb.link_site_list">
+          <source>breadcrumb.link_site_list</source>
+          <target>Seznam strani</target>
+      </trans-unit>
+      <trans-unit id="111" resname="breadcrumb.link_site_show">
+          <source>breadcrumb.link_site_show</source>
+          <target>Prikaži</target>
+      </trans-unit>
+      <trans-unit id="112" resname="breadcrumb.link_site_create">
+          <source>breadcrumb.link_site_create</source>
+          <target>Ustvari</target>
+      </trans-unit>
+      <trans-unit id="113" resname="breadcrumb.link_site_edit">
+          <source>breadcrumb.link_site_edit</source>
+          <target>Urejanje</target>
+      </trans-unit>
+      <trans-unit id="114" resname="list.label_create_snapshots">
+          <source>list.label_create_snapshots</source>
+          <target>Posnetki</target>
+      </trans-unit>
+      <trans-unit id="115" resname="link_create_snapshots">
+          <source>link_create_snapshots</source>
+          <target>Ustvari posnetke</target>
+      </trans-unit>
+      <trans-unit id="116" resname="title_create_snapshots">
+          <source>title_create_snapshots</source>
+          <target>Ustvari posnetke</target>
+      </trans-unit>
+      <trans-unit id="117" resname="message_create_snapshots">
+          <source>message_create_snapshots</source>
+          <target>Kliknite na gumb za ustvarjanje, da nastavite nove posnetke za spletno stran : %site%</target>
+      </trans-unit>
+      <trans-unit id="118" resname="button_create_snapshots">
+          <source>button_create_snapshots</source>
+          <target>Ustvari</target>
+      </trans-unit>
+      <trans-unit id="119" resname="breadcrumb.link_site_history">
+          <source>breadcrumb.link_site_history</source>
+          <target>Zgodovina</target>
+      </trans-unit>
+      <trans-unit id="120" resname="form.label_site">
+          <source>form.label_site</source>
+          <target>Stran</target>
+      </trans-unit>
+      <trans-unit id="121" resname="list.label_site">
+          <source>list.label_site</source>
+          <target>Stran</target>
+      </trans-unit>
+      <trans-unit id="122" resname="site">
+          <source>site</source>
+          <target>Stran</target>
+      </trans-unit>
+      <trans-unit id="123" resname="show.label_is_default">
+          <source>show.label_is_default</source>
+          <target>Je privzeto</target>
+      </trans-unit>
+      <trans-unit id="124" resname="show.label_host">
+          <source>show.label_host</source>
+          <target>Gostitelj</target>
+      </trans-unit>
+      <trans-unit id="125" resname="show.label_relative_path">
+          <source>show.label_relative_path</source>
+          <target>Relativna pot</target>
+      </trans-unit>
+      <trans-unit id="126" resname="show.label_enabled_from">
+          <source>show.label_enabled_from</source>
+          <target>Omogočeno od</target>
+      </trans-unit>
+      <trans-unit id="127" resname="show.label_enabled_to">
+          <source>show.label_enabled_to</source>
+          <target>Omogočeno za</target>
+      </trans-unit>
+      <trans-unit id="128" resname="list.label_locale">
+          <source>list.label_locale</source>
+          <target>Lokalnost</target>
+      </trans-unit>
+      <trans-unit id="129" resname="show.label_locale">
+          <source>show.label_locale</source>
+          <target>Lokalnost</target>
+      </trans-unit>
+      <trans-unit id="130" resname="form.label_locale">
+          <source>form.label_locale</source>
+          <target>Lokalnost</target>
+      </trans-unit>
       <trans-unit id="131" resname="form_site.label_seo">
           <source>form_site.label_seo</source>
-          <target>form_site.label_seo</target>
+          <target>SEO</target>
       </trans-unit>
       <trans-unit id="132" resname="form.label_title">
           <source>form.label_title</source>
-          <target>form.label_title</target>
+          <target>Naslov</target>
       </trans-unit>
       <trans-unit id="133" resname="form.label_meta_keywords">
           <source>form.label_meta_keywords</source>
-          <target>form.label_meta_keywords</target>
+          <target>Meta ključne besede</target>
       </trans-unit>
             <trans-unit id="134" resname="show.label_title">
           <source>show.label_title</source>
-          <target>show.label_title</target>
+          <target>Naslov</target>
       </trans-unit>
       <trans-unit id="135" resname="show.label_meta_description">
           <source>show.label_meta_description</source>
-          <target>show.label_meta_description</target>
+          <target>Meta opis</target>
       </trans-unit>
       <trans-unit id="136" resname="show.label_meta_keywords">
           <source>show.label_meta_keywords</source>
-          <target>show.label_meta_keywords</target>
+          <target>Meta ključne besede</target>
       </trans-unit>
       <trans-unit id="137" resname="form_site.label_general">
           <source>form_site.label_general</source>
-          <target>form_site.label_general</target>
+          <target>Splošno</target>
       </trans-unit>
       <trans-unit id="138" resname="filter.label_site">
           <source>filter.label_site</source>
-          <target>filter.label_site</target>
+          <target>Stran</target>
       </trans-unit>
       <trans-unit id="139" resname="filter.label_edited">
           <source>filter.label_edited</source>
-          <target>filter.label_edited</target>
+          <target>Urejeno</target>
       </trans-unit>
       <trans-unit id="140" resname="list.label_edited">
           <source>list.label_edited</source>
-          <target>list.label_edited</target>
+          <target>Urejeno</target>
       </trans-unit>
       <trans-unit id="141" resname="show.label_site">
           <source>show.label_site</source>
-          <target>show.label_site</target>
+          <target>Stran</target>
       </trans-unit>
       <trans-unit id="142" resname="show.label_edited">
           <source>show.label_edited</source>
-          <target>show.label_edited</target>
+          <target>Urejeno</target>
       </trans-unit>
       <trans-unit id="143" resname="breadcrumb.link_page_show">
           <source>breadcrumb.link_page_show</source>
-          <target>breadcrumb.link_page_show</target>
+          <target>Stran</target>
       </trans-unit>
       <trans-unit id="144" resname="sonata_page">
           <source>sonata_page</source>
-          <target>Pages</target>
+          <target>Strani</target>
       </trans-unit>
       <trans-unit id="145" resname="form.label_page_alias">
           <source>form.label_page_alias</source>
-          <target>form.label_page_alias</target>
+          <target>Tehnični alias</target>
        </trans-unit>
       <trans-unit id="146" resname="show.label_page_alias">
           <source>show.label_page_alias</source>
-          <target>show.label_page_alias</target>
+          <target>Tehnični alias</target>
        </trans-unit>
       <trans-unit id="147" resname="list.label_page_alias">
           <source>list.label_page_alias</source>
-          <target>list.label_page_alias</target>
+          <target>Tehnični alias</target>
        </trans-unit>
       <trans-unit id="148" resname="filter.label_page_alias">
           <source>filter.label_page_alias</source>
-          <target>filter.label_page_alias</target>
+          <target>Tehnični alias</target>
        </trans-unit>
       <trans-unit id="149" resname="title_page_redirected">
           <source>title_page_redirected</source>
-          <target>Internal page redirection</target>
+          <target>Notranja preusmeritev strani</target>
       </trans-unit>
       <trans-unit id="150" resname="message_page_redirected">
           <source>message_page_redirected</source>
           <target><![CDATA[
-             This page is configured to redirect the end user to another page. In order
-             to configure it, the redirect has been blocked for editor only. <br />
+             Ta stran je nastavljena, da preusmeri končnega uporabnika na drugo stran. Da jo
+             nastavite, je preusmeritev zablokirana samo za urejevalnik. <br />
              <br />
-             Please click here to follow the redirection: <a href="%url%">%url%</a>.
+             Prosimo, kliknite tu, da sledite preusmeritvi: <a href="%url%">%url%</a>.
           ]]></target>
       </trans-unit>
       <trans-unit id="152" resname="title_select_block_type">
            <source>title_select_block_type</source>
-           <target>Select a block type</target>
+           <target>Izbira tipa bloka</target>
       </trans-unit>
       <trans-unit id="153" resname="form.field_group_general">
            <source>form.field_group_general</source>
-           <target>form.field_group_general</target>
+           <target>Splošno</target>
       </trans-unit>
       <trans-unit id="154" resname="form.field_group_options">
            <source>form.field_group_options</source>
-           <target>form.field_group_options</target>
+           <target>Opcije</target>
       </trans-unit>
       <trans-unit id="155" resname="flash_snapshots_created_success">
            <source>flash_snapshots_created_success</source>
-           <target>flash_snapshots_created_success</target>
+           <target>Posnetki so bili uspešno ustvarjeni.</target>
       </trans-unit>
       <trans-unit id="156" resname="title_message_create_page">
             <source>title_message_create_page</source>
-            <target>Please select the targeted site</target>
+            <target>Prosimo izberite ciljno stran</target>
       </trans-unit>
       <trans-unit id="157" resname="message_create_page">
             <source>message_create_page</source>
-            <target>Before creating a new page, you need to select the website where the page will be located.</target>
+            <target>Pred ustvarjanjem nove strani, morate izbrati spletno stran, kje bo stran locirana.</target>
        </trans-unit>
     </body>
   </file>
