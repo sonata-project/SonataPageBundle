@@ -1,5 +1,6 @@
 Installation
 ============
+
 Prerequisites
 -------------
 PHP 5.3 and Symfony 2 are needed to make this bundle work ; there are also some
@@ -43,19 +44,21 @@ Next, be sure to enable the ``EasyExtends`` bundle in your application kernel:
 
 .. code-block:: php
 
-  <?php
-  // app/appkernel.php
-  public function registerbundles()
-  {
-      return array(
-          // ...
-          new Sonata\PageBundle\SonataPageBundle(),
-          // ...
-      );
-  }
+    <?php
+    // app/appkernel.php
+    public function registerbundles()
+    {
+        return array(
+            // ...
+            new Sonata\PageBundle\SonataPageBundle(),
+            // ...
+        );
+    }
 
 Before we can go on with generating our Application files trough the ``EasyExtends`` bundle, we need to add some lines which we will override later and now just need for the following step
+
 .. code-block:: yaml
+
     sonata_page:
         multisite: host
         default_template: default # template key from templates section, used as default for
