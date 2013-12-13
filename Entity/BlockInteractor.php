@@ -104,7 +104,7 @@ class BlockInteractor implements BlockInteractorInterface
     /**
      * {@inheritdoc}
      */
-    public function createNewContainer(array $values = array())
+    public function createNewContainer(array $values = array(), \Closure $alter = null)
     {
         $container = $this->blockManager->create();
         $container->setEnabled(isset($values['enabled']) ? $values['enabled'] : true);
@@ -122,6 +122,10 @@ class BlockInteractor implements BlockInteractorInterface
 
         if (isset($values['parent'])) {
             $container->setParent($values['parent']);
+        }
+
+        if ($alter) {
+            $alter($container);
         }
 
         $this->blockManager->save($container);
