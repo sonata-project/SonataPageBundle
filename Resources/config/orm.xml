@@ -20,25 +20,25 @@
         -->
 
         <service id="sonata.page.manager.page" class="%sonata.page.manager.page.class%">
-            <argument type="service" id="sonata.page.entity_manager" />
             <argument>%sonata.page.page.class%</argument>
+            <argument type="service" id="sonata.page.entity_manager" />
             <argument />
             <argument />
         </service>
 
         <service id="sonata.page.manager.snapshot" class="%sonata.page.manager.snapshot.class%">
-            <argument type="service" id="sonata.page.entity_manager" />
             <argument>%sonata.page.snapshot.class%</argument>
+            <argument type="service" id="sonata.page.entity_manager" />
         </service>
 
         <service id="sonata.page.manager.block" class="%sonata.page.manager.block.class%">
-            <argument type="service" id="sonata.page.entity_manager" />
             <argument>%sonata.page.block.class%</argument>
+            <argument type="service" id="sonata.page.entity_manager" />
         </service>
 
         <service id="sonata.page.manager.site" class="%sonata.page.manager.site.class%">
-            <argument type="service" id="sonata.page.entity_manager" />
             <argument>%sonata.page.site.class%</argument>
+            <argument type="service" id="sonata.page.entity_manager" />
         </service>
 
         <service id="sonata.page.block_interactor" class="%sonata.page.block_interactor.class%">

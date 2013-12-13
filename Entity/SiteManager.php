@@ -10,88 +10,23 @@
 
 namespace Sonata\PageBundle\Entity;
 
-use Sonata\PageBundle\Model\SiteInterface;
+use Sonata\CoreBundle\Entity\DoctrineBaseManager;
 use Sonata\PageBundle\Model\SiteManagerInterface;
-
-use Doctrine\ORM\EntityManager;
 
 /**
  * This class manages SiteInterface persistency with the Doctrine ORM
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class SiteManager implements SiteManagerInterface
+class SiteManager extends DoctrineBaseManager implements SiteManagerInterface
 {
-    protected $entityManager;
-
-    protected $class;
-
     /**
-     * @param \Doctrine\ORM\EntityManager $entityManager
-     * @param string                      $class
+     * {@inheritdoc}
      */
-    public function __construct(EntityManager $entityManager, $class)
+    public function save($site, $andFlush = true)
     {
-        $this->entityManager = $entityManager;
-        $this->class         = $class;
-    }
-
-    /**
-     * @param SiteInterface $site
-     *
-     * @return SiteInterface
-     */
-    public function save(SiteInterface $site)
-    {
-        $this->entityManager->persist($site);
-        $this->entityManager->flush();
+        parent::save($site, $andFlush);
 
         return $site;
-    }
-
-    /**
-     * @return \Doctrine\ORM\EntityRepository
-     */
-    protected function getRepository()
-    {
-        return $this->entityManager->getRepository($this->class);
-    }
-
-    /**
-     * @param array $criteria
-     *
-     * @return array
-     */
-    public function findBy(array $criteria = array())
-    {
-        return $this->getRepository()->findBy($criteria);
-    }
-
-    /**
-     * @param array $criteria
-     *
-     * @return SiteInterface
-     */
-    public function findOneBy(array $criteria = array())
-    {
-        return $this->getRepository()->findOneBy($criteria);
-    }
-
-    /**
-     * @return string
-     */
-    public function getClass()
-    {
-        return $this->class;
-    }
-
-    /**
-     * @return SiteInterface
-     */
-    public function create()
-    {
-        $class = $this->getClass();
-
-        return new $class;
     }
 }

@@ -11,8 +11,8 @@
 
 namespace Sonata\PageBundle\Entity;
 
+use Sonata\CoreBundle\Entity\DoctrineBaseManager;
 use Sonata\PageBundle\Model\PageInterface;
-use Sonata\PageBundle\Model\SnapshotInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
 
 use Doctrine\ORM\EntityManager;
@@ -24,22 +24,12 @@ use Sonata\PageBundle\Model\SnapshotPageProxy;
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class SnapshotManager implements SnapshotManagerInterface
+class SnapshotManager extends DoctrineBaseManager implements SnapshotManagerInterface
 {
-    /**
-     * @var EntityManager
-     */
-    protected $entityManager;
-
     /**
      * @var array
      */
     protected $children = array();
-
-    /**
-     * @var string
-     */
-    protected $class;
 
     /**
      * @var array
@@ -49,42 +39,25 @@ class SnapshotManager implements SnapshotManagerInterface
     /**
      * Constructor
      *
-     * @param EntityManager $entityManager An entity manager instance
      * @param string        $class         Namespace of entity class
+     * @param EntityManager $entityManager An entity manager instance
      * @param array         $templates     An array of templates
      */
-    public function __construct(EntityManager $entityManager, $class, $templates = array())
+    public function __construct($class, EntityManager $entityManager, $templates = array())
     {
-        $this->entityManager = $entityManager;
-        $this->class         = $class;
-        $this->templates     = $templates;
-    }
+        parent::__construct($class, $entityManager);
 
-    /**
-     * @return SnapshotInterface
-     */
-    public function create()
-    {
-        return new $this->class;
+        $this->templates     = $templates;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function save(SnapshotInterface $snapshot)
+    public function save($snapshot, $andFlush = true)
     {
-        $this->entityManager->persist($snapshot);
-        $this->entityManager->flush();
+        parent::save($snapshot);
 
         return $snapshot;
-    }
-
-    /**
-     * @return \Doctrine\DBAL\Connection
-     */
-    public function getConnection()
-    {
-        return $this->entityManager->getConnection();
     }
 
     /**
@@ -99,16 +72,16 @@ class SnapshotManager implements SnapshotManagerInterface
         $now = new \DateTime;
         $pageIds = $snapshotIds = array();
         foreach ($snapshots as $snapshot) {
-            $pageIds[] = $snapshot->getPage()->getId();
+            $pageIds[]     = $snapshot->getPage()->getId();
             $snapshotIds[] = $snapshot->getId();
 
             $snapshot->setPublicationDateStart($now);
             $snapshot->setPublicationDateEnd(null);
 
-            $this->entityManager->persist($snapshot);
+            $this->em->persist($snapshot);
         }
 
-        $this->entityManager->flush();
+        $this->em->flush();
         //@todo: strange sql and low-level pdo usage: use dql or qb
         $sql = sprintf("UPDATE %s SET publication_date_end = '%s' WHERE id NOT IN(%s) AND page_id IN (%s) AND publication_date_end IS NULL",
             $this->getTableName(),
@@ -118,14 +91,6 @@ class SnapshotManager implements SnapshotManagerInterface
         );
 
         $this->getConnection()->query($sql);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function findBy(array $criteria)
-    {
-        return $this->getRepository()->findBy($criteria);
     }
 
     /**
@@ -174,14 +139,6 @@ class SnapshotManager implements SnapshotManagerInterface
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function findOneBy(array $criteria)
-    {
-        return $this->getRepository()->findOneBy($criteria);
-    }
-
-    /**
      * return a page with the given routeName
      *
      * @param string $routeName
@@ -190,7 +147,7 @@ class SnapshotManager implements SnapshotManagerInterface
      */
     public function getPageByName($routeName)
     {
-        $snapshots = $this->entityManager->createQueryBuilder()
+        $snapshots = $this->em->createQueryBuilder()
             ->select('s')
             ->from($this->class, 's')
             ->where('s.routeName = :routeName')
@@ -239,14 +196,6 @@ class SnapshotManager implements SnapshotManagerInterface
         }
 
         return $this->templates[$code];
-    }
-
-    /**
-     * @return string
-     */
-    public function getClass()
-    {
-        return $this->class;
     }
 
     /**
@@ -312,23 +261,5 @@ class SnapshotManager implements SnapshotManagerInterface
         }
 
         throw new \RuntimeException(sprintf('The %s database platform has not been tested yet. Please report us if it works and feel free to create a pull request to handle it ;-)', $platform));
-    }
-
-    /**
-     * @return \Doctrine\ORM\EntityRepository
-     */
-    protected function getRepository()
-    {
-        return $this->entityManager->getRepository($this->class);
-    }
-
-    /**
-     * Gets the table name
-     *
-     * @return string
-     */
-    protected function getTableName()
-    {
-        return $this->entityManager->getClassMetadata($this->class)->table['name'];
     }
 }

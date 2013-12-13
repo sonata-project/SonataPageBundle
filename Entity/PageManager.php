@@ -11,11 +11,11 @@
 
 namespace Sonata\PageBundle\Entity;
 
+use Sonata\CoreBundle\Entity\DoctrineBaseManager;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\Page;
-
 use Doctrine\ORM\EntityManager;
 
 /**
@@ -23,36 +23,30 @@ use Doctrine\ORM\EntityManager;
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class PageManager implements PageManagerInterface
+class PageManager extends DoctrineBaseManager implements PageManagerInterface
 {
-    protected $entityManager;
-
-    protected $class;
-
+    /**
+     * @var array
+     */
     protected $pageDefaults;
 
+    /**
+     * @var array
+     */
     protected $defaults;
 
     /**
-     * @param \Doctrine\ORM\EntityManager $entityManager
-     * @param                             $class
-     * @param array                       $defaults
-     * @param array                       $pageDefaults
+     * @param string        $class
+     * @param EntityManager $entityManager
+     * @param array         $defaults
+     * @param array         $pageDefaults
      */
-    public function __construct(EntityManager $entityManager, $class, array $defaults = array(), array $pageDefaults = array())
+    public function __construct($class, EntityManager $entityManager, array $defaults = array(), array $pageDefaults = array())
     {
-        $this->entityManager = $entityManager;
-        $this->class         = $class;
-        $this->defaults      = $defaults;
-        $this->pageDefaults  = $pageDefaults;
-    }
+        parent::__construct($class, $entityManager);
 
-    /**
-     * @return \Doctrine\ORM\EntityRepository
-     */
-    protected function getRepository()
-    {
-        return $this->entityManager->getRepository($this->class);
+        $this->defaults     = $defaults;
+        $this->pageDefaults = $pageDefaults;
     }
 
     /**
@@ -60,7 +54,10 @@ class PageManager implements PageManagerInterface
      */
     public function getPageByUrl(SiteInterface $site, $url)
     {
-        return $this->findOneBy(array('url' => $url, 'site' => $site->getId()));
+        return $this->findOneBy(array(
+            'url'  => $url,
+            'site' => $site->getId()
+        ));
     }
 
     /**
@@ -132,14 +129,13 @@ class PageManager implements PageManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function save(PageInterface $page)
+    public function save($page, $andFlush = true)
     {
         if (!$page->isHybrid()) {
             $this->fixUrl($page);
         }
 
-        $this->entityManager->persist($page);
-        $this->entityManager->flush();
+        parent::save($page, $andFlush);
 
         return $page;
     }
@@ -147,25 +143,9 @@ class PageManager implements PageManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function findBy(array $criteria = array())
-    {
-        return $this->getRepository()->findBy($criteria);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function findOneBy(array $criteria = array())
-    {
-        return $this->getRepository()->findOneBy($criteria);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function loadPages(SiteInterface $site)
     {
-        $pages = $this->entityManager
+        $pages = $this->em
             ->createQuery(sprintf('SELECT p FROM %s p INDEX BY p.id WHERE p.site = %d ORDER BY p.position ASC', $this->class, $site->getId()))
             ->execute();
 
@@ -189,7 +169,7 @@ class PageManager implements PageManagerInterface
      */
     public function getHybridPages(SiteInterface $site)
     {
-        return $this->entityManager->createQueryBuilder()
+        return $this->em->createQueryBuilder()
             ->select('p')
             ->from( $this->class, 'p')
             ->where('p.routeName <> :routeName and p.site = :site')
@@ -199,13 +179,5 @@ class PageManager implements PageManagerInterface
             ))
             ->getQuery()
             ->execute();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getClass()
-    {
-        return $this->class;
     }
 }

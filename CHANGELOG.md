@@ -170,3 +170,7 @@ A [BC BREAK] means the update will break the project for many reasons:
 ### 2012-02-18
 
 * [BC BREAK] Integrates the SeoBundle
+
+### 2013-12-13
+
+* PageManager, BlockManager, SnapshotManager & SiteManager now extend the DoctrineBaseManager (from SonataCoreBundle).

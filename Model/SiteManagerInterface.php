@@ -10,41 +10,13 @@
 
 namespace Sonata\PageBundle\Model;
 
+use Sonata\CoreBundle\Entity\ManagerInterface;
+
 /**
  * SiteManagerInterface
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-interface SiteManagerInterface
+interface SiteManagerInterface extends ManagerInterface
 {
-    /**
-     * @param array $criteria
-     *
-     * @return SiteInterface
-     */
-    public function findOneBy(array $criteria = array());
-
-    /**
-     * @param array $criteria
-     *
-     * @return array
-     */
-    public function findBy(array $criteria = array());
-
-    /**
-     * @param SiteInterface $object
-     *
-     * @return void
-     */
-    public function save(SiteInterface $object);
-
-    /**
-     * @return SiteInterface
-     */
-    public function create();
-
-    /**
-     * @return string
-     */
-    public function getClass();
 }
