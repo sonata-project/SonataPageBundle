@@ -54,9 +54,10 @@ interface BlockInteractorInterface
     public function saveBlocksPosition(array $data = array());
 
     /**
-     * @param array $values
+     * @param array    $values An array of values for container creation
+     * @param \Closure $alter  A closure to alter container created
      *
      * @return \Sonata\BlockBundle\Model\BlockInterface
      */
-    public function createNewContainer(array $values = array());
+    public function createNewContainer(array $values = array(), \Closure $alter = null);
 }
