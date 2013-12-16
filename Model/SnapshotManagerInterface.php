@@ -10,37 +10,15 @@
 
 namespace Sonata\PageBundle\Model;
 
+use Sonata\CoreBundle\Entity\ManagerInterface;
+
 /**
  * Defines methods to interact with the persistency layer of a SnapshotInterface
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-interface SnapshotManagerInterface
+interface SnapshotManagerInterface extends ManagerInterface
 {
-    /**
-     * @param array $criteria
-     *
-     * @return SnapshotInterface
-     */
-    function findOneBy(array $criteria);
-
-    /**
-     * @param array $criteria
-     *
-     * @return array
-     */
-    function findBy(array $criteria);
-
-    /**
-     * @param SnapshotInterface $object
-     */
-    function save(SnapshotInterface $object);
-
-    /**
-     * @return SnapshotInterface
-     */
-    function create();
-
     /**
      * @param array $criteria
      *
@@ -52,11 +30,6 @@ interface SnapshotManagerInterface
      * @param array $snapshots
      */
     function enableSnapshots(array $snapshots);
-
-    /**
-     * @return string
-     */
-    function getClass();
 
     /**
      * Cleanups the deprecated snapshots

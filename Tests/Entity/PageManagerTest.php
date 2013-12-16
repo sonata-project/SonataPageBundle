@@ -22,7 +22,7 @@ class PageManagerTest extends \PHPUnit_Framework_TestCase
     {
         $entityManager = $this->getMock('Doctrine\ORM\EntityManager', array(), array(), '', false);
 
-        $manager = new PageManager($entityManager, 'Foo\Bar', array());
+        $manager = new PageManager('Foo\Bar', $entityManager, array());
 
         $page1 = new Page;
         $page1->setName('Salut comment ca va ?');
@@ -64,7 +64,7 @@ class PageManagerTest extends \PHPUnit_Framework_TestCase
     {
         $entityManager = $this->getMock('Doctrine\ORM\EntityManager', array(), array(), '', false);
 
-        $manager = new PageManager($entityManager, 'Foo\Bar', array());
+        $manager = new PageManager('Foo\Bar', $entityManager, array());
 
         $homepage = new Page();
         $homepage->setUrl('/');
@@ -89,7 +89,7 @@ class PageManagerTest extends \PHPUnit_Framework_TestCase
     {
         $entityManager = $this->getMock('Doctrine\ORM\EntityManager', array(), array(), '', false);
 
-        $manager = new PageManager($entityManager, 'Sonata\PageBundle\Tests\Model\Page', array(), array('my_route' => array('decorate' => false, 'name' => 'Salut!')));
+        $manager = new PageManager('Sonata\PageBundle\Tests\Model\Page', $entityManager, array(), array('my_route' => array('decorate' => false, 'name' => 'Salut!')));
 
         $page = $manager->create(array('name' => 'My Name', 'routeName' => 'my_route'));
 

@@ -14,86 +14,23 @@ use Sonata\BlockBundle\Model\BlockManagerInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
 
 use Doctrine\ORM\EntityManager;
+use Sonata\CoreBundle\Entity\DoctrineBaseManager;
 
 /**
  * This class manages BlockInterface persistency with the Doctrine ORM
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class BlockManager implements BlockManagerInterface
+class BlockManager extends DoctrineBaseManager implements BlockManagerInterface
 {
-    protected $entityManager;
-
-    protected $class;
-
-    /**
-     * @param \Doctrine\ORM\EntityManager $entityManager
-     * @param string                      $class
-     */
-    public function __construct(EntityManager $entityManager, $class)
-    {
-        $this->entityManager = $entityManager;
-        $this->class         = $class;
-    }
-
     /**
      * {@inheritdoc}
      */
-    public function save(BlockInterface $page)
+    public function save($page, $andFlush = true)
     {
-        $this->entityManager->persist($page);
-        $this->entityManager->flush();
+        parent::save($page, $andFlush);
 
         return $page;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function create()
-    {
-        return new $this->class;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getClass()
-    {
-        return $this->class;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function delete(BlockInterface $block)
-    {
-        $this->entityManager->remove($block);
-        $this->entityManager->flush();
-    }
-
-    /**
-     * @return \Doctrine\ORM\EntityRepository
-     */
-    protected function getRepository()
-    {
-        return $this->entityManager->getRepository($this->class);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function findBy(array $criteria)
-    {
-        return $this->getRepository()->findBy($criteria);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function findOneBy(array $criteria)
-    {
-        return $this->getRepository()->findOneBy($criteria);
     }
 
     /**
