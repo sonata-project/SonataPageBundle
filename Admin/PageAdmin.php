@@ -412,7 +412,7 @@ class PageAdmin extends Admin
      */
     public function getSites()
     {
-        return $this->siteManager->findBy();
+        return $this->siteManager->findBy(array());
     }
 
     /**

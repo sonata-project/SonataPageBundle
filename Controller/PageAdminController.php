@@ -57,7 +57,7 @@ class PageAdminController extends Controller
         }
 
         if ($this->getRequest()->getMethod() == 'GET' && !$this->getRequest()->get('siteId')) {
-            $sites = $this->get('sonata.page.manager.site')->findBy();
+            $sites = $this->get('sonata.page.manager.site')->findBy(array());
 
             if (count($sites) == 1) {
                 return $this->redirect($this->admin->generateUrl('create', array(
