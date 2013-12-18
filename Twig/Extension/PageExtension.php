@@ -249,7 +249,7 @@ class PageExtension extends \Twig_Extension
         // defined extra default key for the cache
         $pageCacheKeys = array(
             'manager'   => $block->getPage() instanceof SnapshotPageProxy ? 'snapshot' : 'page',
-            'page_id'   => $block->getPage()->getId(),
+            'page_id'   => (int)$block->getPage()->getId(),
         );
 
         // build the parameters array
