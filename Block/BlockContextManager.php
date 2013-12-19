@@ -32,7 +32,7 @@ class BlockContextManager extends BaseBlockContextManager
 
         $optionsResolver->addAllowedTypes(array(
             'manager' => array('string', 'bool'),
-            'page_id' => array('int', 'bool')
+            'page_id' => array('int', 'string', 'bool')
         ));
 
         $optionsResolver->setRequired(array(
