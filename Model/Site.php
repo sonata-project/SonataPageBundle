@@ -10,6 +10,8 @@
 
 namespace Sonata\PageBundle\Model;
 
+use Sonata\PageBundle\Exception\InternalErrorException;
+
 /**
  * Site
  *
@@ -220,8 +222,12 @@ abstract class Site implements SiteInterface
     /**
      * {@inheritdoc}
      */
-    public function setEnabledFrom(\DateTime $enabledFrom)
+    public function setEnabledFrom($enabledFrom)
     {
+        if (!(is_null($enabledFrom) || $enabledFrom instanceof \DateTime)) {
+            throw new InternalErrorException('Parameter "enabledFrom" must be either null or an instance of DateTime');
+        }
+
         $this->enabledFrom = $enabledFrom;
     }
 
@@ -236,8 +242,12 @@ abstract class Site implements SiteInterface
     /**
      * {@inheritdoc}
      */
-    public function setEnabledTo(\DateTime $enabledTo)
+    public function setEnabledTo($enabledTo)
     {
+        if (!(is_null($enabledTo) || $enabledTo instanceof \DateTime)) {
+            throw new InternalErrorException('Parameter "enabledTo" must be either null or an instance of DateTime');
+        }
+
         $this->enabledTo = $enabledTo;
     }
 
