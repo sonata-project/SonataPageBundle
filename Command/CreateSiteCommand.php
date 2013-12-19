@@ -87,18 +87,21 @@ EOT
         $site->setRelativePath($values['relativePath'] == '/' ? '' : $values['relativePath']);
 
         $site->setHost($values['host']);
-        $site->setEnabledFrom(new \DateTime($values['enabledFrom']));
-        $site->setEnabledTo(new \DateTime($values['enabledTo']));
+        $site->setEnabledFrom($values['enabledFrom'] == '-' ? null : new \DateTime($values['enabledFrom']));
+        $site->setEnabledTo($values['enabledTo'] == '-' ? null : new \DateTime($values['enabledTo']));
         $site->setIsDefault($values['default']);
         $site->setLocale($values['locale'] == '-' ? null : $values['locale']);
         $site->setEnabled(in_array($values['enabled'], array('true', 1, '1')));
+
+        $enabledFrom = $site->getEnabledFrom() instanceof \DateTime ? $site->getEnabledFrom()->format('r') : 'ALWAYS';
+        $enabledTo   = $site->getEnabledTo() instanceof \DateTime ? $site->getEnabledTo()->format('r') : 'ALWAYS';
 
         $output->writeln(<<<INFO
 
 Creating website with the following information :
   <info>name</info> : {$site->getName()}
   <info>site</info> : http(s)://{$site->getHost()}{$site->getRelativePath()}
-  <info>enabled</info> :  {$site->getEnabledFrom()->format('r')} => {$site->getEnabledto()->format('r')}
+  <info>enabled</info> :  <info>from</info> {$enabledFrom} => <info>to</info> {$enabledTo}
 
 INFO
 );
