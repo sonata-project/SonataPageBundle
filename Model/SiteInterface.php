@@ -66,7 +66,7 @@ interface SiteInterface
      *
      * @return void
      */
-    public function setEnabledFrom($enabledFrom);
+    public function setEnabledFrom(\DateTime $enabledFrom = null);
 
     /**
      * @return \DateTime
@@ -78,7 +78,7 @@ interface SiteInterface
      *
      * @return void
      */
-    public function setEnabledTo($enabledTo);
+    public function setEnabledTo(\DateTime $enabledTo = null);
 
     /**
      * @return boolean
