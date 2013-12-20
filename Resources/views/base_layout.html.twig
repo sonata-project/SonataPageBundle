@@ -38,9 +38,7 @@ file that was distributed with this source code.
                 {% endblock %}
             {% endblock %}
 
-            {% if sonata_page.isEditor or (app.security and app.security.token and is_granted('ROLE_PREVIOUS_ADMIN')) %}
-                <script src="{{ asset('bundles/sonataadmin/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
-            {% endif %}
+            <script src="{{ asset('bundles/sonataadmin/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
         </head>
     {% endblock %}
 
