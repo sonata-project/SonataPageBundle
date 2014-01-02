@@ -7,6 +7,12 @@ A [BC BREAK] means the update will break the project for many reasons:
 * new dependencies
 * class refactoring
 
+
+### 2014-01-02
+
+* Changed twig template ``Resources/views/base_layout.html.twig``
+
+
 ### 2013-10-22
 
 * remove the ``use_streamed_response`` option to fix cache handling, it is not possible to compute cache with a streaming response
