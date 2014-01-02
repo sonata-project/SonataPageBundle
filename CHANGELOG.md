@@ -10,7 +10,7 @@ A [BC BREAK] means the update will break the project for many reasons:
 
 ### 2014-01-02
 
-* Changed twig template ``Resources/views/base_layout.html.twig``
+* Changed twig template ``Resources/views/base_layout.html.twig``. Added Bootstrap3 classes while keeping Bootstrap2 classes (this shouldn't break BC).
 
 
 ### 2013-10-22
