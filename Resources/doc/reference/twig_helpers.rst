@@ -43,3 +43,9 @@ Render a container using a page instance
 .. code-block:: jinja
 
     {{ sonata_page_render_container('name', page) }}
+
+Optionally, you can pass as a third argument some settings that will override original container settings:
+
+.. code-block:: jinja
+
+    {{ sonata_page_render_container('name', page, {key: value}) }}
