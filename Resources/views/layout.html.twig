@@ -25,12 +25,14 @@ file that was distributed with this source code.
                 <div style="clear: both"></div>
             </div>
 
-            <div class="row">
-                {% if sonata_seo_context is not defined %}
-                    {% set sonata_seo_context = 'homepage' %}
-                {% endif %}
-                {{ sonata_block_render_event('breadcrumb', { 'context': sonata_seo_context, 'current_uri': app.request.requestUri }) }}
-            </div>
+            {% block sonata_page_breadcrumb %}
+                <div class="row">
+                    {% if sonata_seo_context is not defined %}
+                        {% set sonata_seo_context = 'homepage' %}
+                    {% endif %}
+                    {{ sonata_block_render_event('breadcrumb', { 'context': sonata_seo_context, 'current_uri': app.request.requestUri }) }}
+                </div>
+            {% endblock %}
 
             {% if page is defined %}
                 <div class="row">
