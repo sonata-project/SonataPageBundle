@@ -10,7 +10,7 @@
 
 namespace Sonata\PageBundle\Model;
 
-use Sonata\CoreBundle\Entity\ManagerInterface;
+use Sonata\CoreBundle\Model\ManagerInterface;
 
 /**
  * Defines methods to interact with the persistency layer of a PageInterface
