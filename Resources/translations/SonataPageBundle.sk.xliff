@@ -635,6 +635,10 @@
             <source>message_create_page</source>
             <target>Pred vytvorením novej stránky, musíte vybrať webovú stránku, kde bude stránka umiestnená.</target>
        </trans-unit>
+        <trans-unit id="158" resname="sonata_content">
+            <source>sonata_content</source>
+            <target>sonata_content</target>
+        </trans-unit>
     </body>
   </file>
 </xliff>

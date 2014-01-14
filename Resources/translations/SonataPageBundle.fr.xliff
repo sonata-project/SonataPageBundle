@@ -636,6 +636,10 @@
             <source>message_create_page</source>
             <target>Before creating a new page, you need to select the website where the page will be located.</target>
        </trans-unit>
+        <trans-unit id="158" resname="sonata_content">
+            <source>sonata_content</source>
+            <target>Contenu</target>
+        </trans-unit>
     </body>
   </file>
 </xliff>
