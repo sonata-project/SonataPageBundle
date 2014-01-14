@@ -7,6 +7,7 @@
         <parameter key="sonata.page.block.container.class">Sonata\PageBundle\Block\ContainerBlockService</parameter>
         <parameter key="sonata.page.block.children_pages.class">Sonata\PageBundle\Block\ChildrenPagesBlockService</parameter>
         <parameter key="sonata.page.block.ajax.class">Sonata\PageBundle\Controller\AjaxController</parameter>
+        <parameter key="sonata.page.block.breadcrumb.class">Sonata\PageBundle\Block\BreadcrumbBlockService</parameter>
     </parameters>
 
     <services>
@@ -32,6 +33,18 @@
         <service id="sonata.page.block.context_manager" class="Sonata\PageBundle\Block\BlockContextManager">
             <argument type="service" id="sonata.block.loader.service" />
             <argument type="service" id="sonata.block.manager" />
+        </service>
+
+        <service id="sonata.page.block.breadcrumb" class="%sonata.page.block.breadcrumb.class%">
+            <tag name="sonata.block"/>
+            <tag name="sonata.breadcrumb"/>
+
+            <argument>page</argument>
+            <argument>sonata.page.block.breadcrumb</argument>
+            <argument type="service" id="templating" />
+            <argument type="service" id="knp_menu.menu_provider" />
+            <argument type="service" id="knp_menu.factory" />
+            <argument type="service" id="sonata.page.cms_manager_selector" />
         </service>
     </services>
 </container>
