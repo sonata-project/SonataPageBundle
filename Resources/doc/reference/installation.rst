@@ -17,7 +17,7 @@ Sonata dependencies that need to be installed and configured beforehand :
 You will also need a SymfonyCmf Bundle to make the routing work depending on which Symfony version you are using
 
     - `SymfonyCmfRoutingExtraBundle <https://github.com/symfony-cmf/RoutingExtraBundle>` for Symfony <2.3_
-    - `SymfonyCmfRoutingBundle <https://github.com/symfony-cmf/RoutingBundle>` for Symfony <=2.3_
+    - `SymfonyCmfRoutingBundle <https://github.com/symfony-cmf/RoutingBundle>` for Symfony >=2.3_
 
 You will need to install those in their 2.0 branches. Follow also their
 configuration step ; you will find everything you need in their installation
