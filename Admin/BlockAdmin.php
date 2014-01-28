@@ -109,8 +109,8 @@ class BlockAdmin extends Admin
         // add name on all forms
         $formMapper->add('name');
 
-        $isContainerRoot = $block && ($block->getType() == 'sonata.page.block.container' || $block->getType() == 'sonata.block.service.container') && !$this->hasParentFieldDescription();
-        $isStandardBlock = $block && $block->getType() != 'sonata.page.block.container' && $block->getType() != 'sonata.block.service.container' && !$this->hasParentFieldDescription();
+        $isContainerRoot = $block && in_array($block->getType(), array('sonata.page.block.container', 'sonata.block.service.container')) && !$this->hasParentFieldDescription();
+        $isStandardBlock = $block && !in_array($block->getType(), array('sonata.page.block.container', 'sonata.block.service.container')) && !$this->hasParentFieldDescription();
 
         if ($isContainerRoot || $isStandardBlock) {
             $service = $this->blockManager->get($block);
@@ -121,11 +121,10 @@ class BlockAdmin extends Admin
                     'class' => $this->getClass(),
                     'query_builder' => function(EntityRepository $repository) use ($page) {
                         return $repository->createQueryBuilder('a')
-                            ->andWhere('a.page = :page AND a.type = :type OR a.type = :type2')
+                            ->andWhere('a.page = :page AND a.type IN :types')
                             ->setParameters(array(
                                 'page'  => $page,
-                                'type'  => 'sonata.page.block.container',
-                                'type2' => 'sonata.block.service.container',
+                                'types' => array('sonata.page.block.container', 'sonata.block.service.container'),
                             ));
                     }
                 ));
