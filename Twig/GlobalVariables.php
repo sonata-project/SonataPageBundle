@@ -67,7 +67,7 @@ class GlobalVariables
     /**
      * @return string
      */
-    public function defaultTemplate()
+    public function getDefaultTemplate()
     {
         $templateManager = $this->container->get('sonata.page.template_manager');
         return $templateManager->get($templateManager->getDefaultTemplateCode())->getPath();
