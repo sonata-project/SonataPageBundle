@@ -176,6 +176,21 @@ Add Roles
                 - ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT # if you are not using acl then this line must be uncommented
                 - ROLE_SONATA_PAGE_ADMIN_BLOCK_EDIT
 
+If you have decided to customize your logout management (in particular if you have set ``invalidate_session`` to false), you might want to add this logout handler:
+
+.. code-block:: yaml
+
+    # app/config/security.yml
+    security:
+        #...
+        firewalls:
+            #...
+            main: # replace with your firewall name
+                #...
+                logout:
+                    #...
+                    handlers: ['sonata.page.cms_manager_selector']
+
 At the end of your routing file, add the following lines
 
 .. code-block:: yaml

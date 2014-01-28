@@ -12,9 +12,13 @@
 namespace Sonata\PageBundle\CmsManager;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Security\Http\Logout\LogoutHandlerInterface;
 
 /**
  * This class return the correct manager instance :
@@ -23,7 +27,7 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class CmsManagerSelector implements CmsManagerSelectorInterface
+class CmsManagerSelector implements CmsManagerSelectorInterface, LogoutHandlerInterface
 {
     /**
      * @var \Symfony\Component\DependencyInjection\ContainerInterface
@@ -91,4 +95,17 @@ class CmsManagerSelector implements CmsManagerSelectorInterface
             $this->getSession()->set('sonata/page/isEditor', true);
         }
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function logout(Request $request, Response $response, TokenInterface $token)
+    {
+        $this->getSession()->set('sonata/page/isEditor', false);
+        if ($request->cookies->has('sonata_page_is_editor')) {
+            $response->headers->clearCookie('sonata_page_is_editor');
+        }
+    }
+
+
 }
