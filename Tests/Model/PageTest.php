@@ -289,14 +289,14 @@ class PageTest extends \PHPUnit_Framework_TestCase
         $page = new Page;
 
         $block1 = $this->getMockBuilder('Sonata\PageBundle\Model\Block')->getMock();
-        $block1->expects($this->once())->method('getType')->will($this->returnValue('sonata.page.block.action'));
+        $block1->expects($this->any())->method('getType')->will($this->returnValue('sonata.page.block.action'));
 
         $block2 = $this->getMockBuilder('Sonata\PageBundle\Model\Block')->getMock();
-        $block2->expects($this->once())->method('getType')->will($this->returnValue('sonata.page.block.container'));
+        $block2->expects($this->any())->method('getType')->will($this->returnValue('sonata.page.block.container'));
         $block2->expects($this->once())->method('getSetting')->will($this->returnValue('bar'));
 
         $block3 = $this->getMockBuilder('Sonata\PageBundle\Model\Block')->getMock();
-        $block3->expects($this->once())->method('getType')->will($this->returnValue('sonata.page.block.container'));
+        $block3->expects($this->any())->method('getType')->will($this->returnValue('sonata.page.block.container'));
         $block3->expects($this->once())->method('getSetting')->will($this->returnValue('gotcha'));
 
         $page->addBlocks($block1);
