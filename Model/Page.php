@@ -708,7 +708,7 @@ abstract class Page implements PageInterface
         $block = null;
 
         foreach ($this->getBlocks() as $blockTmp) {
-            if ($blockTmp->getType() == 'sonata.page.block.container' && $blockTmp->getSetting('code') == $code) {
+            if (($blockTmp->getType() == 'sonata.page.block.container' || $blockTmp->getType() == 'sonata.block.service.container') && $blockTmp->getSetting('code') == $code) {
                 $block = $blockTmp;
 
                 break;
