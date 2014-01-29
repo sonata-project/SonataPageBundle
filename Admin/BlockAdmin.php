@@ -121,7 +121,7 @@ class BlockAdmin extends Admin
                     'class' => $this->getClass(),
                     'query_builder' => function(EntityRepository $repository) use ($page) {
                         return $repository->createQueryBuilder('a')
-                            ->andWhere('a.page = :page AND a.type IN :types')
+                            ->andWhere('a.page = :page AND a.type IN (:types)')
                             ->setParameters(array(
                                 'page'  => $page,
                                 'types' => array('sonata.page.block.container', 'sonata.block.service.container'),
