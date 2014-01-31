@@ -39,7 +39,7 @@ class HostPathSiteSelector extends BaseSiteSelector
                 continue;
             }
 
-            if ($site->getEnabledTo() instanceof \DateTime   && $now->format('U') > $site->getEnabledTo()->format('U')) {
+            if ($site->getEnabledTo() instanceof \DateTime && $now->format('U') > $site->getEnabledTo()->format('U')) {
                 continue;
             }
 
