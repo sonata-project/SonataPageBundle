@@ -6,15 +6,13 @@ Flush commands
 
 - Flush cache elements matching the key ``block_id = 5``::
 
-    php app/console sonata:page:cache-flush snapshot --keys='{"block_id":5}'
-
-- Flush cache elements related to the service ``sonata.page.block.container``::
-
-    php app/console sonata:page:cache-flush snapshot --service=sonata.page.block.container
+    php app/console sonata:cache:flush --keys='{"block_id":5}'
 
 - Flush all cache elements::
 
-    php app/console sonata:page:cache-flush-all snapshot
+    php app/console sonata:cache:flush-all
+
+For more information about this, please have a look at the ``SonataCacheBundle`` documentation.
 
 Page commands
 -------------
