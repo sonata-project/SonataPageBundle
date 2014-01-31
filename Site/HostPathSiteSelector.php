@@ -35,11 +35,11 @@ class HostPathSiteSelector extends BaseSiteSelector
         $now         = new \DateTime;
         $defaultSite = false;
         foreach ($this->getSites() as $site) {
-            if ($site->getEnabledFrom()->format('U') > $now->format('U')) {
+            if ($site->getEnabledFrom() instanceof \DateTime && $site->getEnabledFrom()->format('U') > $now->format('U')) {
                 continue;
             }
 
-            if ($now->format('U') > $site->getEnabledTo()->format('U')) {
+            if ($site->getEnabledTo() instanceof \DateTime && $now->format('U') > $site->getEnabledTo()->format('U')) {
                 continue;
             }
 

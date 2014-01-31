@@ -62,11 +62,11 @@ interface SiteInterface
     public function getEnabledFrom();
 
     /**
-     * @param \DateTime $enabledFrom
+     * @param \DateTime|null $enabledFrom
      *
      * @return void
      */
-    public function setEnabledFrom(\DateTime $enabledFrom);
+    public function setEnabledFrom(\DateTime $enabledFrom = null);
 
     /**
      * @return \DateTime
@@ -74,11 +74,11 @@ interface SiteInterface
     public function getEnabledTo();
 
     /**
-     * @param \DateTime $enabledFrom
+     * @param \DateTime|null $enabledTo
      *
      * @return void
      */
-    public function setEnabledTo(\DateTime $enabledFrom);
+    public function setEnabledTo(\DateTime $enabledTo = null);
 
     /**
      * @return boolean
@@ -121,7 +121,7 @@ interface SiteInterface
     /**
      * Set createdAt
      *
-     * @param \Datetime $createdAt
+     * @param \Datetime|null $createdAt
      */
     public function setCreatedAt(\DateTime $createdAt = null);
 
@@ -135,7 +135,7 @@ interface SiteInterface
     /**
      * Set updatedAt
      *
-     * @param \Datetime $updatedAt
+     * @param \Datetime|null $updatedAt
      */
     public function setUpdatedAt(\DateTime $updatedAt = null);
 
