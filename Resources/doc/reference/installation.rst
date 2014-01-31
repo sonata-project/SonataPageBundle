@@ -66,41 +66,6 @@ Before we can go on with generating our Application files trough the ``EasyExten
             default:  { path: 'SonataPageBundle::layout.html.twig',          name: 'default' }
             2columns: { path: 'SonataPageBundle::2columns_layout.html.twig', name: '2 columns layout' }
 
-At this point, the bundle is not yet ready. You need to generate the correct
-entities for the page::
-
-    php app/console sonata:easy-extends:generate SonataPageBundle
-
-.. note::
-
-    The command will generate domain objects in an ``Application`` namespace.
-    So you can point entities associations to a global and common namespace.
-    This will make entities sharing very easily as your models are accessible
-    through a global namespace. For instance the page will be
-    ``Application\Sonata\PageBundle\Entity\Page``.
-
-Now, add the new `Application` Bundle to the kernel
-
-.. code-block:: php
-
-    <?php
-    public function registerbundles()
-    {
-        return array(
-            // Application Bundles
-            new Application\Sonata\PageBundle\ApplicationSonataPageBundle(),
-
-            // Vendor specifics bundles
-            new Sonata\PageBundle\SonataPageBundle(),
-            new Sonata\CacheBundle\SonataCacheBundle(),
-            new Sonata\BlockBundle\SonataBlockBundle(),
-            new Sonata\SeoBundle\SonataSeoBundle(),
-            new Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),
-
-            new Symfony\Cmf\Bundle\RoutingExtraBundle\SymfonyCmfRoutingExtraBundle(),
-        );
-    }
-
 Configuration
 -------------
 To use the ``PageBundle``, add the following lines to your application
