@@ -66,13 +66,14 @@ class HostPathSiteSelector extends BaseSiteSelector
 
         if ($this->site) {
             $event->getRequest()->setPathInfo($pathInfo ?: '/');
-        }
-
-        // no valid site, but on there is a default site for the current request
-        if (!$this->site && $defaultSite) {
-            $event->setResponse(new RedirectResponse($defaultSite->getUrl(), 301));
-        } elseif ($this->site && $this->site->getLocale()) {
-            $event->getRequest()->attributes->set('_locale', $this->site->getLocale());
+            if ($this->site->getLocale()) {
+                $event->getRequest()->attributes->set('_locale', $this->site->getLocale());
+            }
+        } elseif ($defaultSite) {
+            // Redirect to default site if uri is decorable
+            if ($this->decoratorStrategy->isRouteUriDecorable($event->getRequest()->getPathInfo())) {
+                $event->setResponse(new RedirectResponse($defaultSite->getUrl(), 301));
+            }
         }
     }
 
