@@ -13,6 +13,7 @@
         <parameter key="sonata.page.site.selector.host.class"           >Sonata\PageBundle\Site\HostSiteSelector</parameter>
         <parameter key="sonata.page.site.selector.host_with_path.class" >Sonata\PageBundle\Site\HostPathSiteSelector</parameter>
         <parameter key="sonata.page.router.class"                       >Sonata\PageBundle\Route\CmsPageRouter</parameter>
+        <parameter key="sonata.page.route.page.generator.class"         >Sonata\PageBundle\Route\RoutePageGenerator</parameter>
         <parameter key="sonata.page.service.manager.class"              >Sonata\PageBundle\Page\PageServiceManager</parameter>
         <parameter key="sonata.page.template.manager.class"             >Sonata\PageBundle\Page\TemplateManager</parameter>
         <parameter key="sonata.page.service.default.class"              >Sonata\PageBundle\Page\Service\DefaultPageService</parameter>
@@ -87,6 +88,13 @@
             <argument type="service" id="sonata.page.cms_manager_selector" />
             <argument type="service" id="sonata.page.site.selector"/>
             <argument type='service' id="router.default"/>
+        </service>
+
+        <service id="sonata.page.route.page.generator" class="%sonata.page.route.page.generator.class%">
+            <argument type='service' id="router.default" />
+            <argument type="service" id="sonata.page.manager.page" />
+            <argument type="service" id="sonata.page.decorator_strategy" />
+            <argument type="service" id="sonata.page.kernel.exception_listener" />
         </service>
 
         <service id="sonata.page.template_manager" class="%sonata.page.template.manager.class%">

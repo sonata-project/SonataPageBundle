@@ -18,6 +18,8 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 
+use Sonata\PageBundle\Route\RoutePageGenerator;
+
 /**
  * Admin definition for the Site class
  *
@@ -25,7 +27,25 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
  */
 class SiteAdmin extends Admin
 {
-    protected $cmsManager;
+    /**
+     * @var RoutePageGenerator
+     */
+    protected $routePageGenerator;
+
+    /**
+     * Constructor
+     *
+     * @param string             $code               A Sonata admin code
+     * @param string             $class              A Sonata admin class name
+     * @param string             $baseControllerName A Sonata admin base controller name
+     * @param RoutePageGenerator $routePageGenerator Sonata route page generator service
+     */
+    public function __construct($code, $class, $baseControllerName, RoutePageGenerator $routePageGenerator)
+    {
+        $this->routePageGenerator = $routePageGenerator;
+
+        parent::__construct($code, $class, $baseControllerName);
+    }
 
     /**
      * {@inheritdoc}
@@ -107,5 +127,13 @@ class SiteAdmin extends Admin
     protected function configureRoutes(RouteCollection $collection)
     {
         $collection->add('snapshots', $this->getRouterIdParameter().'/snapshots');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function postPersist($object)
+    {
+        $this->routePageGenerator->update($object);
     }
 }

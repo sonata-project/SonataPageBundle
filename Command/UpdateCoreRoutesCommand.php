@@ -58,7 +58,7 @@ class UpdateCoreRoutesCommand extends BaseCommand
 
         foreach ($this->getSites($input) as $site) {
             if ($input->getOption('site') != 'all') {
-                $this->updateRoutes($site, $output);
+                $this->getRoutePageGenerator()->update($site, $output);
                 $output->writeln("");
             } else {
                 $p = new Process(sprintf('%s sonata:page:update-core-routes --env=%s --site=%s %s', $input->getOption('base-command'), $input->getOption('env'), $site->getId(), $input->getOption('no-debug') ? '--no-debug' : ''));
@@ -73,128 +73,12 @@ class UpdateCoreRoutesCommand extends BaseCommand
     }
 
     /**
-     * @param \Sonata\PageBundle\Model\SiteInterface            $site
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * Returns Sonata route page generator service
      *
-     * @return void
+     * @return \Sonata\PageBundle\Route\RoutePageGenerator
      */
-    private function updateRoutes(SiteInterface $site, OutputInterface $output)
+    private function getRoutePageGenerator()
     {
-        $router      = $this->getContainer()->get('router');
-        $cmsManager  = $this->getCmsPageManager();
-        $pageManager = $this->getPageManager();
-        $decorator   = $this->getDecoratorStrategy();
-
-        $message = sprintf(" > <info>Updating core routes for site</info> : <comment>%s - %s</comment>", $site->getName(), $site->getUrl());
-
-        $output->writeln(array(
-            str_repeat('=', strlen($message)),
-            "",
-            $message,
-            "",
-            str_repeat('=', strlen($message)),
-        ));
-
-        $knowRoutes = array();
-
-        // Iterate over declared routes from the routing mechanism
-        foreach ($router->getRouteCollection()->all() as $name => $route) {
-            $name = trim($name);
-
-            $knowRoutes[] = $name;
-
-            $page = $pageManager->findOneBy(array(
-                'routeName' => $name,
-                'site'      => $site->getId()
-            ));
-
-            if (!$decorator->isRouteNameDecorable($name) || !$decorator->isRouteUriDecorable($route->getPattern())) {
-                if ($page) {
-                    $page->setEnabled(false);
-                    $output->writeln(sprintf('  <error>DISABLE</error> <error>% -50s</error> %s', $name, $route->getPattern()));
-                } else {
-                    continue;
-                }
-            }
-
-            $update = true;
-            if (!$page) {
-                $update = false;
-
-                $requirements = $route->getRequirements();
-
-                $page = $pageManager->create(array(
-                    'routeName'     => $name,
-                    'name'          => $name,
-                    'url'           => $route->getPattern(),
-                    'site'          => $site,
-                    'requestMethod' => isset($requirements['_method']) ? $requirements['_method'] : 'GET|POST|HEAD|DELETE|PUT',
-                ));
-            }
-
-            $page->setSlug($route->getPattern());
-            $page->setUrl($route->getPattern());
-            $page->setRequestMethod(isset($requirements['_method']) ? $requirements['_method'] : 'GET|POST|HEAD|DELETE|PUT');
-            $pageManager->save($page);
-
-            $output->writeln(sprintf('  <info>%s</info> % -50s %s', $update ? 'UPDATE ' : 'CREATE ', $name, $route->getPattern()));
-        }
-
-        // Iterate over error pages
-        foreach ($this->getErrorListener()->getHttpErrorCodes() as $name) {
-            $name = trim($name);
-
-            $knowRoutes[] = $name;
-
-            $page = $pageManager->findOneBy(array(
-                'routeName' => $name,
-                'site'      => $site->getId()
-            ));
-
-            if (!$page) {
-                $params = array(
-                    'routeName'     => $name,
-                    'name'          => $name,
-                    'decorate'      => false,
-                    'site'          => $site,
-                );
-
-                $page = $pageManager->create($params);
-
-                $pageManager->save($page);
-
-                $output->writeln(sprintf('  <info>%s</info> % -50s %s', 'CREATE ', $name, ''));
-            }
-        }
-
-        $has = false;
-        foreach ($pageManager->getHybridPages($site) as $page) {
-            if (!$page->isHybrid() || $page->isInternal()) {
-                continue;
-            }
-
-            if (!in_array($page->getRouteName(), $knowRoutes)) {
-                if (!$has) {
-                    $has = true;
-                    $output->writeln(array(
-                        '',
-                        'Some hybrid pages does not exist anymore',
-                         str_repeat('-', 80)
-                    ));
-                }
-
-                $output->writeln(sprintf('  <error>ERROR</error>   %s', $page->getRouteName()));
-            }
-        }
-
-        if ($has) {
-            $output->writeln(<<<MSG
-<error>
-  *WARNING* : Pages has been updated however some pages do not exist anymore.
-              You must remove them manually.
-</error>
-MSG
-            );
-        }
+        return $this->getContainer()->get('sonata.page.route.page.generator');
     }
 }

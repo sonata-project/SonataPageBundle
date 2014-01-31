@@ -96,6 +96,7 @@
             <argument />
             <argument>%sonata.page.admin.site.entity%</argument>
             <argument>%sonata.page.admin.site.controller%</argument>
+            <argument type="service" id="sonata.page.route.page.generator" />
 
             <call method="setTranslationDomain">
                 <argument>%sonata.page.admin.site.translation_domain%</argument>
