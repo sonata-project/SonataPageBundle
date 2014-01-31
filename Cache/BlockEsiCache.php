@@ -12,6 +12,7 @@
 namespace Sonata\PageBundle\Cache;
 
 use Sonata\BlockBundle\Block\BlockContextManagerInterface;
+use Sonata\CacheBundle\Invalidation\Recorder;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -45,6 +46,11 @@ class BlockEsiCache extends VarnishCache
     protected $contextManager;
 
     /**
+     * @var Recorder
+     */
+    protected $recorder;
+
+    /**
      * Constructor
      *
      * @param string                       $token            A token
@@ -54,14 +60,16 @@ class BlockEsiCache extends VarnishCache
      * @param BlockRendererInterface       $blockRenderer    A block renderer instance
      * @param BlockContextManagerInterface $contextManager   Block Context manager
      * @param array                        $managers         An array of managers
+     * @param Recorder                     $recorder         The cache recorder to build the contextual key
      */
-    public function __construct($token, array $servers, RouterInterface $router, $purgeInstruction, BlockRendererInterface $blockRenderer, BlockContextManagerInterface $contextManager, array $managers = array())
+    public function __construct($token, array $servers, RouterInterface $router, $purgeInstruction, BlockRendererInterface $blockRenderer, BlockContextManagerInterface $contextManager, array $managers = array(), Recorder $recorder = null)
     {
         parent::__construct($token, $servers, $router, $purgeInstruction, null);
 
         $this->blockRenderer  = $blockRenderer;
         $this->managers       = $managers;
         $this->contextManager = $contextManager;
+        $this->recorder       = $recorder;
     }
 
     /**
@@ -145,7 +153,22 @@ class BlockEsiCache extends VarnishCache
 
         $blockContext = $this->contextManager->get($block);
 
+        if ($this->recorder) {
+            $this->recorder->add($blockContext->getBlock());
+            $this->recorder->push();
+        }
+
         $response = $this->blockRenderer->render($blockContext);
+
+        if ($this->recorder) {
+            $keys = $this->recorder->pop();
+            $keys['page_id'] = $page->getId();
+            $keys['block_id'] = $block->getId();
+
+            foreach ($keys as $key => $value) {
+                $response->headers->set($this->normalize($key), $value);
+            }
+        }
 
         $response->headers->set('x-sonata-page-not-decorable', true);
 

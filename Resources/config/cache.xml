@@ -14,6 +14,7 @@
             <argument type="service" id="sonata.block.renderer" />
             <argument type="service" id="sonata.page.block.context_manager" />
             <argument type="collection" /> <!-- cms managers -->
+            <argument type="service" id="sonata.cache.recorder" />
         </service>
 
         <service id="sonata.page.cache.ssi" class="Sonata\PageBundle\Cache\BlockSsiCache">
