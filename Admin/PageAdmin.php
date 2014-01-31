@@ -272,6 +272,18 @@ class PageAdmin extends Admin
     /**
      * {@inheritdoc}
      */
+    public function preUpdate($object)
+    {
+        $object->setEdited(true);
+
+        foreach ($this->getExtensions() as $extension) {
+            $extension->preUpdate($this, $object);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function postUpdate($object)
     {
         if ($this->cacheManager) {
@@ -279,31 +291,18 @@ class PageAdmin extends Admin
                 'page_id' => $object->getId()
             ));
         }
+
+        foreach ($this->getExtensions() as $extension) {
+            $extension->postUpdate($this, $object);
+        }
     }
 
     /**
      * {@inheritdoc}
      */
-    public function update($object)
+    public function prePersist($object)
     {
         $object->setEdited(true);
-
-        $this->preUpdate($object);
-        $this->pageManager->save($object);
-        $this->postUpdate($object);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function create($object)
-    {
-
-        $object->setEdited(true);
-
-        $this->prePersist($object);
-        $this->pageManager->save($object);
-        $this->postPersist($object);
     }
 
     /**
