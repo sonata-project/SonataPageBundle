@@ -49,3 +49,25 @@ Optionally, you can pass as a third argument some settings that will override or
 .. code-block:: jinja
 
     {{ sonata_page_render_container('name', page, {key: value}) }}
+
+
+Block
+-----
+
+You can also render an existing block using this function by sending a block object instance:
+
+.. code-block:: jinja
+
+    {{ sonata_page_render_block(block, {key: value}) }}
+
+Or even create a on-the-fly block in a Twig template this way:
+
+.. code-block:: jinja
+
+    {{ sonata_page_render_block('my.template.text.block', {
+        type: 'sonata.block.service.text',
+        container: 'content_top',
+        settings: { content: 'Hi! this is my text content' }
+    }) }}
+
+This way, a ``sonata.block.service.text`` block will be added to your ``content_top`` container with the following settings given.

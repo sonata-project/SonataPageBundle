@@ -12,9 +12,9 @@ namespace Sonata\PageBundle\Tests\Entity;
 
 use Symfony\Bundle\DoctrineBundle\Registry;
 
-use Sonata\BlockBundle\Model\Block;
 use Sonata\BlockBundle\Model\BlockManagerInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\PageBundle\Tests\Model\Block;
 use Sonata\PageBundle\Entity\BlockInteractor;
 
 /**
@@ -52,6 +52,45 @@ class BlockInteractorTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($container->getEnabled());
 
         $this->assertEquals('my-code', $settings['code']);
+        $this->assertEquals('<div class="custom-layout">{{ CONTENT }}</div>', $settings['layout']);
+    }
+
+    /**
+     * Test createNewBlock() method with some values
+     */
+    public function testCreateNewBlock()
+    {
+        $registry = $this->getMockBuilder('Symfony\Bridge\Doctrine\RegistryInterface')->disableOriginalConstructor()->getMock();
+
+        $blockManager = $this->getMock('Sonata\BlockBundle\Model\BlockManagerInterface');
+        $blockManager->expects($this->any())->method('create')->will($this->returnValue(new Block()));
+
+        $blockInteractor = new BlockInteractor($registry, $blockManager);
+
+        $container = new Block();
+        $container->setName('my.custom.container');
+        $container->setType('sonata.page.block.container');
+
+        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+
+        $block = $blockInteractor->createNewBlock('my.custom.text.block', $container, array(
+            'type' => 'sonata.block.service.text',
+            'page' => $page,
+        ), function ($container) {
+            $container->setSetting('layout', '<div class="custom-layout">{{ CONTENT }}</div>');
+        });
+
+        $this->assertInstanceOf('\Sonata\BlockBundle\Model\BlockInterface', $block);
+
+        $settings = $block->getSettings();
+
+        $this->assertTrue($block->getEnabled());
+
+        $this->assertEquals('my.custom.text.block', $block->getName());
+        $this->assertEquals('sonata.block.service.text', $block->getType());
+        $this->assertEquals($container, $block->getParent());
+        $this->assertEquals($page, $block->getPage());
+
         $this->assertEquals('<div class="custom-layout">{{ CONTENT }}</div>', $settings['layout']);
     }
 }

@@ -26,8 +26,11 @@ class BlockContextManager extends BaseBlockContextManager
         parent::setDefaultSettings($optionsResolver, $block);
 
         $optionsResolver->setDefaults(array(
-            'manager' => false,
-            'page_id' => false,
+            'container' => null,
+            'type'      => null,
+            'settings'  => array(),
+            'manager'   => false,
+            'page_id'   => false,
         ));
 
         $optionsResolver->addAllowedTypes(array(
