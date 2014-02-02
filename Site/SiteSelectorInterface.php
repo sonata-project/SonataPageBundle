@@ -26,11 +26,6 @@ interface SiteSelectorInterface
     public function retrieve();
 
     /**
-     * @param \Sonata\PageBundle\Model\SiteInterface $site
-     */
-    public function set(SiteInterface $site);
-
-    /**
      * @return \Symfony\Component\Routing\RequestContext
      */
     public function getRequestContext();

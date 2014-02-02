@@ -60,55 +60,16 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function set(SiteInterface $site)
-    {
-        if (!$this->request) {
-            return;
-        }
-
-        $this->request->getSession()->set('sonata/page/site/current', $site->getId());
-    }
-
-    /**
      * @param Request $request
      *
-     * @return void
-     */
-    protected function setRequest(Request $request)
-    {
-        $this->request = $request;
-    }
-
-    /**
      * @return array
      */
-    protected function getSites()
+    protected function getSites(Request $request)
     {
-        if (!$this->request) {
-            throw new \RuntimeException('No Request attached');
-        }
-
-        $siteId = $this->request->getSession() ? $this->request->getSession()->get('sonata/page/site/current') : false;
-
-        $sites = array();
-        if ($siteId) {
-            $site = $this->siteManager->findOneBy(array('id' => $siteId));
-
-            if ($site) {
-                $sites = array($site);
-            }
-        }
-
-        if (count($sites) == 0) {
-            $sites = $this->siteManager->findBy(array(
-                'host'    => array($this->request->getHost(), 'localhost'),
-                'enabled' => true,
-            ));
-        }
-
-        return $sites;
+        return $this->siteManager->findBy(array(
+            'host'    => array($request->getHost(), 'localhost'),
+            'enabled' => true,
+        ));
     }
 
     /**
@@ -124,13 +85,11 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
      */
     final public function onKernelRequest(GetResponseEvent $event)
     {
-        $this->setRequest($event->getRequest());
-
-        $this->handleKernelRequest($event);
-        
         if (!$this->decoratorStrategy->isRouteUriDecorable($event->getRequest()->getPathInfo())) {
             return;
         }
+
+        $this->handleKernelRequest($event);
 
         if ($this->site) {
             if ($this->site->getTitle()) {

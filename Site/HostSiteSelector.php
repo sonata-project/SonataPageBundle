@@ -25,7 +25,7 @@ class HostSiteSelector extends BaseSiteSelector
     public function handleKernelRequest(GetResponseEvent $event)
     {
         $now = new \DateTime;
-        foreach ($this->getSites() as $site) {
+        foreach ($this->getSites($event->getRequest()) as $site) {
             if ($site->getEnabledFrom()->format('U') > $now->format('U')) {
                 continue;
             }

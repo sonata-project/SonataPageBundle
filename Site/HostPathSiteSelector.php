@@ -34,7 +34,7 @@ class HostPathSiteSelector extends BaseSiteSelector
 
         $now         = new \DateTime;
         $defaultSite = false;
-        foreach ($this->getSites() as $site) {
+        foreach ($this->getSites($event->getRequest()) as $site) {
             if ($site->getEnabledFrom()->format('U') > $now->format('U')) {
                 continue;
             }
