@@ -220,7 +220,7 @@ abstract class Site implements SiteInterface
     /**
      * {@inheritdoc}
      */
-    public function setEnabledFrom(\DateTime $enabledFrom)
+    public function setEnabledFrom(\DateTime $enabledFrom = null)
     {
         $this->enabledFrom = $enabledFrom;
     }
@@ -236,7 +236,7 @@ abstract class Site implements SiteInterface
     /**
      * {@inheritdoc}
      */
-    public function setEnabledTo(\DateTime $enabledTo)
+    public function setEnabledTo(\DateTime $enabledTo = null)
     {
         $this->enabledTo = $enabledTo;
     }
