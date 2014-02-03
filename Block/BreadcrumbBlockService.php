@@ -71,6 +71,10 @@ class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
         $parents = $page->getParents();
 
         foreach ($parents as $parent) {
+            if ($parent->isError()) {
+                continue;
+            }
+
             $menu->addChild($parent->getName(), array(
                 'route'           => 'page_slug',
                 'routeParameters' => array(
@@ -79,12 +83,14 @@ class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
             ));
         }
 
-        $menu->addChild($page->getName(), array(
-            'route'           => 'page_slug',
-            'routeParameters' => array(
-                'path' => $page->getUrl(),
-            ),
-        ));
+        if (!$page->isError()) {
+            $menu->addChild($page->getName(), array(
+                'route'           => 'page_slug',
+                'routeParameters' => array(
+                    'path' => $page->getUrl(),
+                ),
+            ));
+        }
 
         return $menu;
     }
