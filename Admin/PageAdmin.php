@@ -275,10 +275,6 @@ class PageAdmin extends Admin
     public function preUpdate($object)
     {
         $object->setEdited(true);
-
-        foreach ($this->getExtensions() as $extension) {
-            $extension->preUpdate($this, $object);
-        }
     }
 
     /**
@@ -290,10 +286,6 @@ class PageAdmin extends Admin
             $this->cacheManager->invalidate(array(
                 'page_id' => $object->getId()
             ));
-        }
-
-        foreach ($this->getExtensions() as $extension) {
-            $extension->postUpdate($this, $object);
         }
     }
 
