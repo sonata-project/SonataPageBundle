@@ -46,18 +46,34 @@ The output might look like this::
       php app/console sonata:page:update-core-routes --site=42
       php app/console sonata:page:create-snapshots --site=42
 
-Note: The following fields must have values specified when creating a site::
+Note: The following fields must have values specified when creating a site:
 
-    Field Name   | Type     | Description
-    -------------|----------|------------
-    name         | string   | Friendly name for the site.
-    host         | string   | Hostname used to reach the site.
-    relativePath | string   | The relative path for the site (only used by the HostPathSiteSelector; otherwise, just use '/').
-    enabled      | boolean  | If the site is enabled or not (true values are 'true', 1, '1'; all other values default to false).
-    enabledFrom  | DateTime | The Date/Time the site is enabled from (if site is always enabled and has no start Date/Time, use '-' as the value).
-    enabledTo    | DateTime | The Date/Time the site is enabled to (if site is always always enabled and has no end Date/Time, use '-' as the value).
-    default      | boolean  | Used by the HostPathSiteSelector as the default site if it is unable to match any other site (true values are 'true', 1, '1'; all other values default to false).
-    locale       | string   | the default locale for the site (use '-' as the value if specifying the locale is not needed).
++--------------+----------+-------------------------------------------------------------------------------+
+| Field Name   | Type     | Description                                                                   |
++==============+==========+===============================================================================+
+| name         | string   | Friendly name for the site.                                                   |
++--------------+----------+-------------------------------------------------------------------------------+
+| host         | string   | Hostname used to reach the site.                                              |
++--------------+----------+-------------------------------------------------------------------------------+
+| relativePath | string   | The relative path for the site (only used by the HostPathSiteSelector;        |
+|              |          | otherwise, just use '/').                                                     |
++--------------+----------+-------------------------------------------------------------------------------+
+| enabled      | boolean  | If the site is enabled or not (true values are 'true', 1, '1'; all other      |
+|              |          | values default to false).                                                     |
++--------------+----------+-------------------------------------------------------------------------------+
+| enabledFrom  | DateTime | The Date/Time the site is enabled from (if site is always enabled and has no  |
+|              |          | start Date/Time, use '-' as the value).                                       |
++--------------+----------+-------------------------------------------------------------------------------+
+| enabledTo    | DateTime | The Date/Time the site is enabled to (if site is always enabled and has no    |
+|              |          | end Date/Time, use '-' as the value).                                         |
++--------------+----------+-------------------------------------------------------------------------------+
+| default      | boolean  | Only used by the HostPathSiteSelector as the default site if it is unable to  |
+|              |          | match any other site (true values are 'true', 1, '1'; all other values        |
+|              |          | default to false).                                                            |
++--------------+----------+-------------------------------------------------------------------------------+
+| locale       | string   | The default locale for the site (use '-' as the value if specifying the       |
+|              |          | locale is not needed).                                                        |
++--------------+----------+-------------------------------------------------------------------------------+
 
 
 Creating default pages
