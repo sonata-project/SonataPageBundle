@@ -10,17 +10,16 @@
 
 namespace Sonata\PageBundle\Cache;
 
-use Sonata\BlockBundle\Block\BlockContextManagerInterface;
-use Sonata\PageBundle\CmsManager\CmsManagerInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpFoundation\Request;
 
-use Sonata\CacheBundle\Cache\CacheElement;
 use Sonata\BlockBundle\Block\BlockRendererInterface;
-
+use Sonata\BlockBundle\Block\BlockContextManagerInterface;
+use Sonata\PageBundle\CmsManager\CmsManagerInterface;
+use Sonata\Cache\CacheElement;
 use Sonata\CacheBundle\Adapter\SsiCache;
 
 /**

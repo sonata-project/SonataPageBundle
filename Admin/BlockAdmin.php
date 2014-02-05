@@ -18,7 +18,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 
-use Sonata\CacheBundle\Cache\CacheManagerInterface;
+use Sonata\Cache\CacheManagerInterface;
 
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
 use Sonata\PageBundle\Model\PageInterface;
@@ -252,7 +252,7 @@ class BlockAdmin extends Admin
     }
 
     /**
-     * @param \Sonata\CacheBundle\Cache\CacheManagerInterface $cacheManager
+     * @param \Sonata\Cache\CacheManagerInterface $cacheManager
      */
     public function setCacheManager(CacheManagerInterface $cacheManager)
     {

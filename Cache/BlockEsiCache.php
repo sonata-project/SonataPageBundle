@@ -12,14 +12,14 @@
 namespace Sonata\PageBundle\Cache;
 
 use Sonata\BlockBundle\Block\BlockContextManagerInterface;
-use Sonata\CacheBundle\Invalidation\Recorder;
+use Sonata\Cache\Invalidation\Recorder;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpFoundation\Request;
 
-use Sonata\CacheBundle\Cache\CacheElement;
+use Sonata\Cache\CacheElement;
 use Sonata\BlockBundle\Block\BlockRendererInterface;
 use Sonata\CacheBundle\Adapter\VarnishCache;
 
@@ -120,11 +120,11 @@ class BlockEsiCache extends VarnishCache
     protected function computeHash(array $keys)
     {
         // values are casted into string for non numeric id
-        return hash('sha256', $this->token.serialize(array(
-            'manager'    => (string) $keys['manager'],
-            'page_id'    => (string) $keys['page_id'],
-            'block_id'   => (string) $keys['block_id'],
-            'updated_at' => (string) $keys['updated_at'],
+        return hash('sha256', $this->token . serialize(array(
+            'manager'    => (string)$keys['manager'],
+            'page_id'    => (string)$keys['page_id'],
+            'block_id'   => (string)$keys['block_id'],
+            'updated_at' => (string)$keys['updated_at'],
         )));
     }
 
@@ -161,8 +161,8 @@ class BlockEsiCache extends VarnishCache
         $response = $this->blockRenderer->render($blockContext);
 
         if ($this->recorder) {
-            $keys = $this->recorder->pop();
-            $keys['page_id'] = $page->getId();
+            $keys             = $this->recorder->pop();
+            $keys['page_id']  = $page->getId();
             $keys['block_id'] = $block->getId();
 
             foreach ($keys as $key => $value) {

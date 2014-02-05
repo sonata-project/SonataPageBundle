@@ -10,25 +10,24 @@
 
 namespace Sonata\PageBundle\Cache;
 
-use Sonata\BlockBundle\Block\BlockContextManagerInterface;
-use Sonata\BlockBundle\Block\BlockRendererInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\HttpFoundation\Response;
-use \Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Request;
 
+use Sonata\BlockBundle\Block\BlockContextManagerInterface;
+use Sonata\BlockBundle\Block\BlockRendererInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
-
-use Sonata\CacheBundle\Cache\CacheInterface;
-use Sonata\CacheBundle\Cache\CacheElement;
-
 use Sonata\PageBundle\Exception\PageNotFoundException;
+use Sonata\Cache\CacheAdapterInterface;
+use Sonata\Cache\CacheElement;
+
 
 /**
  * Cache a block through a Javascript code
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class BlockJsCache implements CacheInterface
+class BlockJsCache implements CacheAdapterInterface
 {
     protected $router;
 

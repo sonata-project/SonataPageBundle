@@ -25,7 +25,7 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 
-use Sonata\CacheBundle\Cache\CacheManagerInterface;
+use Sonata\Cache\CacheManagerInterface;
 
 use Knp\Menu\ItemInterface as MenuItemInterface;
 
@@ -407,7 +407,7 @@ class PageAdmin extends Admin
     }
 
     /**
-     * @param \Sonata\CacheBundle\Cache\CacheManagerInterface $cacheManager
+     * @param \Sonata\Cache\CacheManagerInterface $cacheManager
      */
     public function setCacheManager(CacheManagerInterface $cacheManager)
     {

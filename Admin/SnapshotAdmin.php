@@ -16,7 +16,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 
-use Sonata\CacheBundle\Cache\CacheManagerInterface;
+use Sonata\Cache\CacheManagerInterface;
 
 /**
  * Admin definition for the Snapshot class
@@ -100,7 +100,7 @@ class SnapshotAdmin extends Admin
     }
 
     /**
-     * @param \Sonata\CacheBundle\Cache\CacheManagerInterface $cacheManager
+     * @param \Sonata\Cache\CacheManagerInterface $cacheManager
      */
     public function setCacheManager(CacheManagerInterface $cacheManager)
     {
