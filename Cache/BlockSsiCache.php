@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Sonata\CacheBundle\Cache\CacheElement;
 use Sonata\BlockBundle\Block\BlockRendererInterface;
 
-use Sonata\CacheBundle\Adapter\SsiCache;
+use Sonata\CacheBundle\Adapter\Cache\SsiCache;
 
 /**
  * Cache block through an ssi statement
