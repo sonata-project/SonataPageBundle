@@ -127,6 +127,16 @@ configuration file.
             not_found: [404]    # render 404 page with "not_found" key (name generated: _page_internal_error_{key})
             fatal:     [500]    # so you can use the same page for different http errors or specify specific page for each error
 
+Add json Doctrine type
+
+.. code-block:: yaml
+
+    # app/config/config.yml
+    doctrine:
+        dbal:
+            types:
+                json: Sonata\Doctrine\Types\JsonType
+
 Add Roles
 
 .. code-block:: yaml
