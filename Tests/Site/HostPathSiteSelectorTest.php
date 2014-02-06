@@ -11,17 +11,11 @@
 
 namespace Sonata\PageBundle\Tests\Site;
 
-use Sonata\PageBundle\Request\SiteRequest as Request;
-
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpFoundation\Request;
 
-use Sonata\PageBundle\Model\SiteManagerInterface;
-use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
-use Sonata\SeoBundle\Seo\SeoPageInterface;
-
+use Sonata\PageBundle\Request\SiteRequest;
 use Sonata\PageBundle\Entity\BaseSite;
-
 use Sonata\PageBundle\Site\HostPathSiteSelector as BaseSiteSelector;
 
 /**
@@ -30,12 +24,12 @@ use Sonata\PageBundle\Site\HostPathSiteSelector as BaseSiteSelector;
 class HostPathSiteSelectorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Perform the actual handleKernelRequest method test
+     * Perform the actual handleKernelSiteRequest method test
      */
     protected function performHandleKernelRequestTest($url)
     {
         $kernel = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface');
-        $request = Request::create($url);
+        $request = SiteRequest::create($url);
 
         $event = new GetResponseEvent($kernel, $request, 'master');
 
@@ -419,7 +413,7 @@ class HostPathSiteSelector extends BaseSiteSelector
 
         throw new NoValueException(sprintf('Unable to retrieve the value of `%s`', $this->getName()));
     }
-        
+
     /**
      * Camelize a string
      *

@@ -15,7 +15,6 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpFoundation\Request;
 
 use Sonata\PageBundle\Model\SiteManagerInterface;
-use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 use Sonata\SeoBundle\Seo\SeoPageInterface;
 
