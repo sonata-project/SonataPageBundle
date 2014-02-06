@@ -78,10 +78,10 @@ class SnapshotManager extends DoctrineBaseManager implements SnapshotManagerInte
             $snapshot->setPublicationDateStart($now);
             $snapshot->setPublicationDateEnd(null);
 
-            $this->em->persist($snapshot);
+            $this->om->persist($snapshot);
         }
 
-        $this->em->flush();
+        $this->om->flush();
         //@todo: strange sql and low-level pdo usage: use dql or qb
         $sql = sprintf("UPDATE %s SET publication_date_end = '%s' WHERE id NOT IN(%s) AND page_id IN (%s) AND publication_date_end IS NULL",
             $this->getTableName(),
@@ -147,7 +147,7 @@ class SnapshotManager extends DoctrineBaseManager implements SnapshotManagerInte
      */
     public function getPageByName($routeName)
     {
-        $snapshots = $this->em->createQueryBuilder()
+        $snapshots = $this->om->createQueryBuilder()
             ->select('s')
             ->from($this->class, 's')
             ->where('s.routeName = :routeName')

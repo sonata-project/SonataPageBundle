@@ -145,7 +145,7 @@ class PageManager extends DoctrineBaseManager implements PageManagerInterface
      */
     public function loadPages(SiteInterface $site)
     {
-        $pages = $this->em
+        $pages = $this->om
             ->createQuery(sprintf('SELECT p FROM %s p INDEX BY p.id WHERE p.site = %d ORDER BY p.position ASC', $this->class, $site->getId()))
             ->execute();
 
@@ -169,7 +169,7 @@ class PageManager extends DoctrineBaseManager implements PageManagerInterface
      */
     public function getHybridPages(SiteInterface $site)
     {
-        return $this->em->createQueryBuilder()
+        return $this->om->createQueryBuilder()
             ->select('p')
             ->from( $this->class, 'p')
             ->where('p.routeName <> :routeName and p.site = :site')
