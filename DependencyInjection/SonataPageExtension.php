@@ -41,6 +41,10 @@ class SonataPageExtension extends Extension
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('page.xml');
 
+        if (isset($bundles['FOSRestBundle'])) {
+            $loader->load('api_controllers.xml');
+        }
+
         if (isset($bundles['SonataAdminBundle'])) {
             $loader->load('admin.xml');
         }

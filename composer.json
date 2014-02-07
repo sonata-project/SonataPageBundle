@@ -27,6 +27,7 @@
         "sonata-project/notification-bundle": "~2.2"
     },
     "require-dev": {
+        "friendsofsymfony/rest-bundle": " 1.1.*",
         "sonata-project/doctrine-orm-admin-bundle": "~2.2"
     },
     "suggest": {
