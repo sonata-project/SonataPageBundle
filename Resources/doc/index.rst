@@ -19,3 +19,4 @@ Reference Guide
    reference/advanced_configuration
    reference/varnish
    reference/performance
+   reference/api
