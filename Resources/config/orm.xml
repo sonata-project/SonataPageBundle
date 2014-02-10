@@ -9,36 +9,32 @@
         <parameter key="sonata.page.manager.block.class">Sonata\PageBundle\Entity\BlockManager</parameter>
         <parameter key="sonata.page.manager.snapshot.class">Sonata\PageBundle\Entity\SnapshotManager</parameter>
         <parameter key="sonata.page.manager.site.class">Sonata\PageBundle\Entity\SiteManager</parameter>
+
         <parameter key="sonata.page.block_interactor.class">Sonata\PageBundle\Entity\BlockInteractor</parameter>
         <parameter key="sonata.page.transformer.class">Sonata\PageBundle\Entity\Transformer</parameter>
     </parameters>
 
     <services>
-        <!--
-          This alias is now set in the extension. Allows us to change the entity manager we use.
-          <service id="sonata.page.entity_manager" alias="doctrine.orm.default_entity_manager" />
-        -->
-
         <service id="sonata.page.manager.page" class="%sonata.page.manager.page.class%">
             <argument>%sonata.page.page.class%</argument>
-            <argument type="service" id="sonata.page.entity_manager" />
+            <argument type="service" id="doctrine" />
             <argument />
             <argument />
         </service>
 
         <service id="sonata.page.manager.snapshot" class="%sonata.page.manager.snapshot.class%">
             <argument>%sonata.page.snapshot.class%</argument>
-            <argument type="service" id="sonata.page.entity_manager" />
+            <argument type="service" id="doctrine" />
         </service>
 
         <service id="sonata.page.manager.block" class="%sonata.page.manager.block.class%">
             <argument>%sonata.page.block.class%</argument>
-            <argument type="service" id="sonata.page.entity_manager" />
+            <argument type="service" id="doctrine" />
         </service>
 
         <service id="sonata.page.manager.site" class="%sonata.page.manager.site.class%">
             <argument>%sonata.page.site.class%</argument>
-            <argument type="service" id="sonata.page.entity_manager" />
+            <argument type="service" id="doctrine" />
         </service>
 
         <service id="sonata.page.block_interactor" class="%sonata.page.block_interactor.class%">
@@ -50,7 +46,7 @@
             <argument type="service" id="sonata.page.manager.snapshot" />
             <argument type="service" id="sonata.page.manager.page" />
             <argument type="service" id="sonata.page.manager.block" />
-            <argument type="service" id="sonata.page.entity_manager" />
+            <argument type="service" id="doctrine" />
        </service>
     </services>
 

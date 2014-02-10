@@ -10,7 +10,7 @@
 
 namespace Sonata\PageBundle\Entity;
 
-use Sonata\CoreBundle\Entity\DoctrineBaseManager;
+use Sonata\CoreBundle\Model\BaseEntityManager;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 
 /**
@@ -18,7 +18,7 @@ use Sonata\PageBundle\Model\SiteManagerInterface;
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class SiteManager extends DoctrineBaseManager implements SiteManagerInterface
+class SiteManager extends BaseEntityManager implements SiteManagerInterface
 {
     /**
      * {@inheritdoc}

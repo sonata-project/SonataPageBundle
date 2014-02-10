@@ -20,8 +20,6 @@
     </parameters>
 
     <services>
-        <service id="sonata.page.entity_manager" alias="doctrine.orm.default_entity_manager" />
-
         <service id="sonata.page.site.selector.host" class="%sonata.page.site.selector.host.class%">
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="47"/>
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequestRedirect" priority="0"/>

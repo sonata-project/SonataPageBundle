@@ -11,17 +11,15 @@
 namespace Sonata\PageBundle\Entity;
 
 use Sonata\BlockBundle\Model\BlockManagerInterface;
-use Sonata\BlockBundle\Model\BlockInterface;
 
-use Doctrine\ORM\EntityManager;
-use Sonata\CoreBundle\Entity\DoctrineBaseManager;
+use Sonata\CoreBundle\Model\BaseEntityManager;
 
 /**
  * This class manages BlockInterface persistency with the Doctrine ORM
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class BlockManager extends DoctrineBaseManager implements BlockManagerInterface
+class BlockManager extends BaseEntityManager implements BlockManagerInterface
 {
     /**
      * {@inheritdoc}
@@ -38,22 +36,22 @@ class BlockManager extends DoctrineBaseManager implements BlockManagerInterface
      */
     public function updatePosition($id, $position, $parentId, $pageId)
     {
-        $em = $this->entityManager;
-        $meta = $em->getClassMetadata($this->getClass());
+
+        $meta = $this->getEntityManager()->getClassMetadata($this->getClass());
 
         // retrieve object references
-        $block = $em->getReference($this->getClass(), $id);
+        $block = $this->getEntityManager()->getReference($this->getClass(), $id);
         $pageRelation = $meta->getAssociationMapping('page');
-        $page = $em->getPartialReference($pageRelation['targetEntity'], $pageId);
+        $page = $this->getEntityManager()->getPartialReference($pageRelation['targetEntity'], $pageId);
 
         $parentRelation = $meta->getAssociationMapping('parent');
-        $parent = $em->getPartialReference($parentRelation['targetEntity'], $parentId);
+        $parent = $this->getEntityManager()->getPartialReference($parentRelation['targetEntity'], $parentId);
 
         // set new values
         $block->setPosition($position);
         $block->setPage($page);
         $block->setParent($parent);
-        $em->persist($block);
+        $this->getEntityManager()->persist($block);
 
         return $block;
     }

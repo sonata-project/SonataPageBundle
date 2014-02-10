@@ -11,19 +11,19 @@
 
 namespace Sonata\PageBundle\Entity;
 
-use Sonata\CoreBundle\Entity\DoctrineBaseManager;
+use Doctrine\Common\Persistence\ManagerRegistry;
+use Sonata\CoreBundle\Model\BaseEntityManager;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\Page;
-use Doctrine\ORM\EntityManager;
 
 /**
  * This class manages PageInterface persistency with the Doctrine ORM
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class PageManager extends DoctrineBaseManager implements PageManagerInterface
+class PageManager extends BaseEntityManager implements PageManagerInterface
 {
     /**
      * @var array
@@ -36,14 +36,14 @@ class PageManager extends DoctrineBaseManager implements PageManagerInterface
     protected $defaults;
 
     /**
-     * @param string        $class
-     * @param EntityManager $entityManager
-     * @param array         $defaults
-     * @param array         $pageDefaults
+     * @param string          $class
+     * @param ManagerRegistry $registry
+     * @param array           $defaults
+     * @param array           $pageDefaults
      */
-    public function __construct($class, EntityManager $entityManager, array $defaults = array(), array $pageDefaults = array())
+    public function __construct($class, ManagerRegistry $registry, array $defaults = array(), array $pageDefaults = array())
     {
-        parent::__construct($class, $entityManager);
+        parent::__construct($class, $registry);
 
         $this->defaults     = $defaults;
         $this->pageDefaults = $pageDefaults;
@@ -145,7 +145,7 @@ class PageManager extends DoctrineBaseManager implements PageManagerInterface
      */
     public function loadPages(SiteInterface $site)
     {
-        $pages = $this->om
+        $pages = $this->getEntityManager()
             ->createQuery(sprintf('SELECT p FROM %s p INDEX BY p.id WHERE p.site = %d ORDER BY p.position ASC', $this->class, $site->getId()))
             ->execute();
 
@@ -169,7 +169,7 @@ class PageManager extends DoctrineBaseManager implements PageManagerInterface
      */
     public function getHybridPages(SiteInterface $site)
     {
-        return $this->om->createQueryBuilder()
+        return $this->getEntityManager()->createQueryBuilder()
             ->select('p')
             ->from( $this->class, 'p')
             ->where('p.routeName <> :routeName and p.site = :site')

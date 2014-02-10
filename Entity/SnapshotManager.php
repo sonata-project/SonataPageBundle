@@ -11,11 +11,10 @@
 
 namespace Sonata\PageBundle\Entity;
 
-use Sonata\CoreBundle\Entity\DoctrineBaseManager;
+use Doctrine\Common\Persistence\ManagerRegistry;
+use Sonata\CoreBundle\Model\BaseEntityManager;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
-
-use Doctrine\ORM\EntityManager;
 
 use Sonata\PageBundle\Model\SnapshotPageProxy;
 
@@ -24,7 +23,7 @@ use Sonata\PageBundle\Model\SnapshotPageProxy;
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class SnapshotManager extends DoctrineBaseManager implements SnapshotManagerInterface
+class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterface
 {
     /**
      * @var array
@@ -39,13 +38,13 @@ class SnapshotManager extends DoctrineBaseManager implements SnapshotManagerInte
     /**
      * Constructor
      *
-     * @param string        $class         Namespace of entity class
-     * @param EntityManager $entityManager An entity manager instance
-     * @param array         $templates     An array of templates
+     * @param string          $class     Namespace of entity class
+     * @param ManagerRegistry $registry  An entity manager instance
+     * @param array           $templates An array of templates
      */
-    public function __construct($class, EntityManager $entityManager, $templates = array())
+    public function __construct($class, ManagerRegistry $registry, $templates = array())
     {
-        parent::__construct($class, $entityManager);
+        parent::__construct($class, $registry);
 
         $this->templates     = $templates;
     }
@@ -78,10 +77,10 @@ class SnapshotManager extends DoctrineBaseManager implements SnapshotManagerInte
             $snapshot->setPublicationDateStart($now);
             $snapshot->setPublicationDateEnd(null);
 
-            $this->om->persist($snapshot);
+            $this->getEntityManager()->persist($snapshot);
         }
 
-        $this->om->flush();
+        $this->getEntityManager()->flush();
         //@todo: strange sql and low-level pdo usage: use dql or qb
         $sql = sprintf("UPDATE %s SET publication_date_end = '%s' WHERE id NOT IN(%s) AND page_id IN (%s) AND publication_date_end IS NULL",
             $this->getTableName(),
@@ -147,7 +146,7 @@ class SnapshotManager extends DoctrineBaseManager implements SnapshotManagerInte
      */
     public function getPageByName($routeName)
     {
-        $snapshots = $this->om->createQueryBuilder()
+        $snapshots = $this->getEntityManager()->createQueryBuilder()
             ->select('s')
             ->from($this->class, 's')
             ->where('s.routeName = :routeName')

@@ -20,7 +20,7 @@ class PageManagerTest extends \PHPUnit_Framework_TestCase
 {
     public function testFixUrl()
     {
-        $entityManager = $this->getMock('Doctrine\ORM\EntityManager', array(), array(), '', false);
+        $entityManager = $this->getMock('Doctrine\Common\Persistence\ManagerRegistry', array(), array(), '', false);
 
         $manager = new PageManager('Foo\Bar', $entityManager, array());
 
@@ -62,7 +62,7 @@ class PageManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testWithSlashAtTheEnd()
     {
-        $entityManager = $this->getMock('Doctrine\ORM\EntityManager', array(), array(), '', false);
+        $entityManager = $this->getMock('Doctrine\Common\Persistence\ManagerRegistry', array(), array(), '', false);
 
         $manager = new PageManager('Foo\Bar', $entityManager, array());
 
@@ -87,7 +87,7 @@ class PageManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateWithGlobalDefaults()
     {
-        $entityManager = $this->getMock('Doctrine\ORM\EntityManager', array(), array(), '', false);
+        $entityManager = $this->getMock('Doctrine\Common\Persistence\ManagerRegistry', array(), array(), '', false);
 
         $manager = new PageManager('Sonata\PageBundle\Tests\Model\Page', $entityManager, array(), array('my_route' => array('decorate' => false, 'name' => 'Salut!')));
 

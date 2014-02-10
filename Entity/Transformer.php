@@ -10,7 +10,7 @@
 
 namespace Sonata\PageBundle\Entity;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Sonata\BlockBundle\Model\BlockManagerInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
@@ -19,6 +19,7 @@ use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SnapshotInterface;
 use Sonata\PageBundle\Model\SnapshotPageProxy;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * This class transform a SnapshotInterface into PageInterface
@@ -33,18 +34,20 @@ class Transformer implements TransformerInterface
 
     protected $blockManager;
 
+    protected $children = array();
+
     /**
      * @param SnapshotManagerInterface $snapshotManager
      * @param PageManagerInterface     $pageManager
      * @param BlockManagerInterface    $blockManager
-     * @param EntityManager            $entityManager
+     * @param RegistryInterface        $entityManager
      */
-    public function __construct(SnapshotManagerInterface $snapshotManager, PageManagerInterface $pageManager, BlockManagerInterface $blockManager, EntityManager $entityManager)
+    public function __construct(SnapshotManagerInterface $snapshotManager, PageManagerInterface $pageManager, BlockManagerInterface $blockManager, RegistryInterface $registry)
     {
         $this->snapshotManager = $snapshotManager;
-        $this->pageManager = $pageManager;
-        $this->blockManager = $blockManager;
-        $this->entityManager = $entityManager;
+        $this->pageManager     = $pageManager;
+        $this->blockManager    = $blockManager;
+        $this->registry        = $registry;
     }
 
     /**
@@ -178,6 +181,7 @@ class Transformer implements TransformerInterface
 
         return $content;
     }
+
     /**
      * @param array         $content
      * @param PageInterface $page
@@ -220,16 +224,16 @@ class Transformer implements TransformerInterface
      */
     protected function createBlocks(BlockInterface $block)
     {
-        $content = array();
-        $content['id']       = $block->getId();
-        $content['name']     = $block->getName();
-        $content['enabled']  = $block->getEnabled();
-        $content['position'] = $block->getPosition();
-        $content['settings'] = $block->getSettings();
-        $content['type']     = $block->getType();
+        $content               = array();
+        $content['id']         = $block->getId();
+        $content['name']       = $block->getName();
+        $content['enabled']    = $block->getEnabled();
+        $content['position']   = $block->getPosition();
+        $content['settings']   = $block->getSettings();
+        $content['type']       = $block->getType();
         $content['created_at'] = $block->getCreatedAt()->format('U');
         $content['updated_at'] = $block->getUpdatedAt()->format('U');
-        $content['blocks']   = array();
+        $content['blocks']     = array();
 
         foreach ($block->getChildren() as $child) {
             $content['blocks'][] = $this->createBlocks($child);
@@ -244,14 +248,20 @@ class Transformer implements TransformerInterface
     public function getChildren(PageInterface $parent)
     {
         if (!isset($this->children[$parent->getId()])) {
-            $date = new \Datetime;
+            $date       = new \Datetime;
             $parameters = array(
-                'publicationDateStart'  => $date,
-                'publicationDateEnd'    => $date,
-                'parentId'              => $parent->getId(),
+                'publicationDateStart' => $date,
+                'publicationDateEnd'   => $date,
+                'parentId'             => $parent->getId(),
             );
 
-            $snapshots = $this->entityManager->createQueryBuilder()
+            $manager = $this->registry->getManagerForClass($this->snapshotManager->getClass());
+
+            if (!$manager instanceof EntityManagerInterface) {
+                throw new \RuntimeException("Invalid entity manager type");
+            }
+
+            $snapshots = $manager->createQueryBuilder()
                 ->select('s')
                 ->from($this->snapshotManager->getClass(), 's')
                 ->where('s.parentId = :parentId and s.enabled = 1')
@@ -264,7 +274,7 @@ class Transformer implements TransformerInterface
             $pages = array();
 
             foreach ($snapshots as $snapshot) {
-                $page = new SnapshotPageProxy($this->snapshotManager, $this, $snapshot);
+                $page                  = new SnapshotPageProxy($this->snapshotManager, $this, $snapshot);
                 $pages[$page->getId()] = $page;
             }
 
