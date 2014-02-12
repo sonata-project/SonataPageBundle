@@ -472,6 +472,8 @@ abstract class Page implements PageInterface
      */
     public function addBlocks(PageBlockInterface $blocs)
     {
+        $blocs->setPage($this);
+
         $this->blocks[] = $blocs;
     }
 
