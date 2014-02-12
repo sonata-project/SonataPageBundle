@@ -16,6 +16,7 @@ Reference Guide
    reference/twig_helpers
    reference/command_line
    reference/advanced_usage
+   reference/page_services
    reference/advanced_configuration
    reference/varnish
    reference/performance
