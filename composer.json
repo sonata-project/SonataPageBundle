@@ -25,7 +25,10 @@
         "sonata-project/cache": "~1.0@dev",
         "sonata-project/core-bundle": "~2.2@dev",
         "symfony-cmf/routing-bundle": "~1.1",
-        "sonata-project/notification-bundle": "~2.2"
+        "sonata-project/notification-bundle": "~2.2",
+
+        "friendsofsymfony/rest-bundle": "~1.1",
+        "nelmio/api-doc-bundle": "~2.4"
     },
     "require-dev": {
         "friendsofsymfony/rest-bundle": "~1.1",
