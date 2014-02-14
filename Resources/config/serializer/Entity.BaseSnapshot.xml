@@ -12,7 +12,7 @@
         <property         name="url"       type="string"  expose="true" since-version="1.0" groups="sonata_api_read,sonata_search" />
         <property         name="parentId"  type="integer" expose="true" since-version="1.0" groups="sonata_api_read,sonata_search" />
         <property         name="targetId"  type="integer" expose="true" since-version="1.0" groups="sonata_api_read,sonata_search" />
-        <virtual-property name="content"   type="array"   expose="true" since-version="1.0" groups="sonata_api_read,sonata_search" method="getContent" />
+        <virtual-property name="content"   type="array"   expose="true" since-version="1.0" groups="sonata_api_read" method="getContent" />
 
         <property name="publicationDateStart" type="DateTime" expose="true" since-version="1.0" groups="sonata_api_read,sonata_api_write,sonata_search" />
         <property name="publicationDateEnd"   type="DateTime" expose="true" since-version="1.0" groups="sonata_api_read,sonata_api_write,sonata_search" />
