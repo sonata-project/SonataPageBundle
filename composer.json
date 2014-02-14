@@ -22,7 +22,7 @@
         "sonata-project/seo-bundle": "~1.1",
         "sonata-project/doctrine-extensions" : "~1.0",
         "sonata-project/cache-bundle": "~2.1",
-        "sonata-project/cache": "~1.0@dev",
+        "sonata-project/cache": "~1.0",
         "sonata-project/core-bundle": "~2.2@dev",
         "symfony-cmf/routing-bundle": "~1.1",
         "sonata-project/notification-bundle": "~2.2",
@@ -31,16 +31,14 @@
         "nelmio/api-doc-bundle": "~2.4"
     },
     "require-dev": {
-        "friendsofsymfony/rest-bundle": "~1.1",
         "sonata-project/doctrine-orm-admin-bundle": "~2.2"
     },
     "suggest": {
         "sonata-project/doctrine-orm-admin-bundle": "~2.2"
     },
     "autoload": {
-        "psr-0": { "Sonata\\PageBundle": "" }
+        "psr-4": { "Sonata\\PageBundle\\": "" }
     },
-    "target-dir": "Sonata/PageBundle",
     "extra": {
         "branch-alias": {
             "dev-master": "2.3.x-dev"
