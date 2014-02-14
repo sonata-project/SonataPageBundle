@@ -28,6 +28,7 @@
         "sonata-project/notification-bundle": "~2.2",
 
         "friendsofsymfony/rest-bundle": "~1.1",
+        "jms/serializer-bundle": "~0.11",
         "nelmio/api-doc-bundle": "~2.4"
     },
     "require-dev": {
