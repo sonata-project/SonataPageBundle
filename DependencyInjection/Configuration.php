@@ -33,7 +33,13 @@ class Configuration implements ConfigurationInterface
         $node
             ->scalarNode('is_inline_edition_on')->defaultFalse()->end()
             ->scalarNode('use_streamed_response')->defaultFalse()->end()
-            ->scalarNode('multisite')->isRequired()->end()
+            ->scalarNode('multisite')
+                ->isRequired()
+                ->validate()
+                    ->ifNotInArray(array('host', 'host_by_locale', 'host_with_path', 'host_with_path_by_locale'))
+                    ->thenInvalid('Invalid multisite configuration %s. For more information, see http://sonata-project.org/bundles/page/master/doc/reference/multisite.html')
+                ->end()
+            ->end()
 
             ->arrayNode('ignore_route_patterns')
                 ->defaultValue(array(

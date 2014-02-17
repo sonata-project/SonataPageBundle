@@ -119,6 +119,13 @@ interface SiteInterface
     public function getEnabled();
 
     /**
+     * Returns TRUE whether the site is enabled
+     *
+     * @return boolean
+     */
+    public function isEnabled();
+
+    /**
      * Set createdAt
      *
      * @param \Datetime|null $createdAt

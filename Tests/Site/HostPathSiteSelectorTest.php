@@ -39,17 +39,6 @@ class HostPathSiteSelectorTest extends \PHPUnit_Framework_TestCase
 
         $siteSelector = new HostPathSiteSelector($siteManager, $decoratorStrategy, $seoPage);
 
-        // Stash the request object in the siteSelector request property
-        $ref = new \ReflectionObject($siteSelector);
-
-        $property = $ref->getProperty('request');
-        $property->setAccessible(true);
-
-        $property->setValue($siteSelector, $request);
-
-        $property = $ref->getProperty('request');
-        $property->setAccessible(false);
-
         // Look for the first site matched that is enabled, has started, and has not expired.
         // localhost is a possible match, but only if no other sites match.
         $siteSelector->handleKernelRequest($event);
@@ -238,12 +227,10 @@ class HostPathSiteSelector extends BaseSiteSelector
      */
     protected function getSites(Request $request)
     {
-        return $this->_findSites(
-            array(
-                'host'    => array($request->getHost(), 'localhost'),
-                'enabled' => true,
-            )
-        );
+        return $this->_findSites(array(
+            'host'    => array($request->getHost(), 'localhost'),
+            'enabled' => true,
+        ));
     }
 
     /**
@@ -251,7 +238,7 @@ class HostPathSiteSelector extends BaseSiteSelector
      *
      * @return array
      */
-    protected function _findSites($params)
+    protected function _findSites(array $params)
     {
         $all_sites = $this->_getAllSites();
 
@@ -373,7 +360,7 @@ class HostPathSiteSelector extends BaseSiteSelector
         $sites[6]->setLocale('en_US');
 
         /* Site 7 - Site is disabled */
-        $sites[7] = new HostSite();
+        $sites[7] = new HostPathSite();
         $sites[7]->setEnabled(false);
         $sites[7]->setName('Site 7');
         $sites[7]->setRelativePath('/test7');

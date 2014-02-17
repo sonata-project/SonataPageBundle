@@ -45,17 +45,6 @@ class HostSiteSelectorTest extends \PHPUnit_Framework_TestCase
 
         $siteSelector = new HostSiteSelector($siteManager, $decoratorStrategy, $seoPage);
 
-        // Stash the request object in the siteSelector request property
-        $ref = new \ReflectionObject($siteSelector);
-
-        $property = $ref->getProperty('request');
-        $property->setAccessible(true);
-
-        $property->setValue($siteSelector, $request);
-
-        $property = $ref->getProperty('request');
-        $property->setAccessible(false);
-
         // Look for the first site matched that is enabled, has started, and has not expired.
         // localhost is a possible match, but only if no other sites match.
         $siteSelector->handleKernelRequest($event);
@@ -364,7 +353,7 @@ class HostSiteSelector extends BaseSiteSelector
 
         throw new NoValueException(sprintf('Unable to retrieve the value of `%s`', $this->getName()));
     }
-        
+
     /**
      * Camelize a string
      *

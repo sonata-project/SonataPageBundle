@@ -330,18 +330,39 @@ class SonataPageExtension extends Extension
      */
     public function configureMultisite(ContainerBuilder $container, array $config)
     {
-        /**
-         * The multipath option required a specific router and RequestContext
-         */
-        if ($config['multisite'] == 'host_with_path') {
-            $container->setAlias('router.request_context', 'sonata.page.router.request_context');
-            $container->setAlias('sonata.page.site.selector', 'sonata.page.site.selector.host_with_path');
+        $multisite = $config['multisite'];
 
-            $container->removeDefinition('sonata.page.site.selector.host');
-        } else {
+        if ('host' === $multisite) {
             $container->setAlias('sonata.page.site.selector', 'sonata.page.site.selector.host');
 
+            $container->removeDefinition('sonata.page.site.selector.host_by_locale');
             $container->removeDefinition('sonata.page.site.selector.host_with_path');
+            $container->removeDefinition('sonata.page.site.selector.host_with_path_by_locale');
+        } elseif ('host_by_locale' === $multisite) {
+            $container->setAlias('sonata.page.site.selector', 'sonata.page.site.selector.host_by_locale');
+
+            $container->removeDefinition('sonata.page.site.selector.host');
+            $container->removeDefinition('sonata.page.site.selector.host_with_path');
+            $container->removeDefinition('sonata.page.site.selector.host_with_path_by_locale');
+        } else {
+            /**
+             * The multipath option required a specific router and RequestContext
+             */
+            $container->setAlias('router.request_context', 'sonata.page.router.request_context');
+
+            if ('host_with_path' === $multisite) {
+                $container->setAlias('sonata.page.site.selector', 'sonata.page.site.selector.host_with_path');
+
+                $container->removeDefinition('sonata.page.site.selector.host_with_path_by_locale');
+                $container->removeDefinition('sonata.page.site.selector.host');
+                $container->removeDefinition('sonata.page.site.selector.host_by_locale');
+            } elseif ('host_with_path_by_locale' === $multisite) {
+                $container->setAlias('sonata.page.site.selector', 'sonata.page.site.selector.host_with_path_by_locale');
+
+                $container->removeDefinition('sonata.page.site.selector.host_with_path');
+                $container->removeDefinition('sonata.page.site.selector.host');
+                $container->removeDefinition('sonata.page.site.selector.host_by_locale');
+            }
         }
     }
 
