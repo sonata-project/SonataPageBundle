@@ -30,6 +30,9 @@ class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
         $kernel  = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface');
         $request = SiteRequest::create('http://www.example.com');
 
+        // Ensure request locale is null
+        $this->assertNull($request->attributes->get('_locale'));
+
         $event = new GetResponseEvent($kernel, $request, 'master');
 
         $this->siteSelector
@@ -39,6 +42,9 @@ class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
             ->will($this->returnValue($this->getSites()));
 
         $this->siteSelector->handleKernelRequest($event);
+
+        // Ensure request locale is en
+        $this->assertEquals('en', $request->attributes->get('_locale'));
 
         $site = $this->getSite();
 
@@ -56,6 +62,9 @@ class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
             'HTTP_ACCEPT_LANGUAGE' => 'fr-FR,fr;q=0.8,en-US;q=0.6,en;q=0.4'
         ));
 
+        // Ensure request locale is null
+        $this->assertNull($request->attributes->get('_locale'));
+
         $event = new GetResponseEvent($kernel, $request, 'master');
 
         $this->siteSelector
@@ -65,6 +74,9 @@ class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
             ->will($this->returnValue($this->getSites()));
 
         $this->siteSelector->handleKernelRequest($event);
+
+        // Ensure request locale is fr
+        $this->assertEquals('fr', $request->attributes->get('_locale'));
 
         $site = $this->getSite();
 

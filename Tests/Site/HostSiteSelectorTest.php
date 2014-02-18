@@ -37,6 +37,9 @@ class HostSiteSelectorTest extends \PHPUnit_Framework_TestCase
         $kernel = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface');
         $request = Request::create($url);
 
+        // Ensure request locale is null
+        $this->assertNull($request->attributes->get('_locale'));
+
         $event = new GetResponseEvent($kernel, $request, 'master');
 
         $siteManager = $this->getMock('Sonata\PageBundle\Model\SiteManagerInterface');
@@ -56,6 +59,9 @@ class HostSiteSelectorTest extends \PHPUnit_Framework_TestCase
         $property->setAccessible(true);
 
         $site = $property->getValue($siteSelector);
+
+        // Ensure request locale matches site locale
+        $this->assertEquals($site->getLocale(), $request->attributes->get('_locale'));
 
         return array(
             $site,
