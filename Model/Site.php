@@ -80,6 +80,24 @@ abstract class Site implements SiteInterface
     /**
      * {@inheritdoc}
      */
+    public function isEnabled()
+    {
+        $now = new \DateTime;
+
+        if ($this->getEnabledFrom() instanceof \DateTime && $this->getEnabledFrom()->format('U') > $now->format('U')) {
+            return false;
+        }
+
+        if ($this->getEnabledTo() instanceof \DateTime && $now->format('U') > $this->getEnabledTo()->format('U')) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getUrl()
     {
         if ($this->isLocalhost()) {

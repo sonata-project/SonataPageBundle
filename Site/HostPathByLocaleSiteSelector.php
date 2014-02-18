@@ -11,18 +11,17 @@
 
 namespace Sonata\PageBundle\Site;
 
+use Sonata\PageBundle\Request\SiteRequestInterface;
+
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-use Sonata\PageBundle\Request\SiteRequestInterface;
-use Sonata\PageBundle\Request\SiteRequestContext;
-
 /**
- * HostPathSiteSelector
+ * HostPathByLocaleSiteSelector
  *
- * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Rémi Marseille <marseille@ekino.com>
  */
-class HostPathSiteSelector extends BaseSiteSelector
+class HostPathByLocaleSiteSelector extends HostPathSiteSelector
 {
     /**
      * {@inheritdoc}
@@ -35,16 +34,14 @@ class HostPathSiteSelector extends BaseSiteSelector
             throw new \RuntimeException('You must change the main Request object in the front controller (app.php) in order to use the `host_with_path` strategy');
         }
 
-        $defaultSite = false;
+        $enabledSites = array();
 
         foreach ($this->getSites($request) as $site) {
             if (!$site->isEnabled()) {
                 continue;
             }
 
-            if (!$this->site && $site->getIsDefault()) {
-                $defaultSite = $site;
-            }
+            $enabledSites[] = $site;
 
             $pathInfo = $this->matchRequest($site, $request);
 
@@ -63,35 +60,13 @@ class HostPathSiteSelector extends BaseSiteSelector
             $request->setPathInfo($pathInfo ?: '/');
         }
 
-        // no valid site, but on there is a default site for the current request
-        if (!$this->site && $defaultSite) {
-            $event->setResponse(new RedirectResponse($defaultSite->getUrl(), 301));
+        // no valid site, but try to find a default site for the current request
+        if (!$this->site && count($enabledSites) > 0) {
+            $defaultSite = $this->getPreferredSite($enabledSites, $request);
+
+            $event->setResponse(new RedirectResponse($defaultSite->getUrl()));
         } elseif ($this->site && $this->site->getLocale()) {
             $request->attributes->set('_locale', $this->site->getLocale());
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function onKernelRequestRedirect(GetResponseEvent $event)
-    {
-        $request = $event->getRequest();
-
-        if (!$this->site) {
-            return;
-        }
-
-        if ('Symfony\\Bundle\\FrameworkBundle\\Controller\\RedirectController::urlRedirectAction' == $request->get('_controller')) {
-            $request->attributes->set('path', $this->site->getRelativePath() . $request->attributes->get('path'));
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getRequestContext()
-    {
-        return new SiteRequestContext($this);
     }
 }

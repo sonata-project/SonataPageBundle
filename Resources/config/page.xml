@@ -4,19 +4,21 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="sonata.page.cms_manager.page.class"             >Sonata\PageBundle\CmsManager\CmsPageManager</parameter>
-        <parameter key="sonata.page.cms_manager.snapshot.class"         >Sonata\PageBundle\CmsManager\CmsSnapshotManager</parameter>
-        <parameter key="sonata.page.cms_manager_selector.class"         >Sonata\PageBundle\CmsManager\CmsManagerSelector</parameter>
-        <parameter key="sonata.page.decorator_strategy.class"           >Sonata\PageBundle\CmsManager\DecoratorStrategy</parameter>
-        <parameter key="sonata.page.response_listener.class"            >Sonata\PageBundle\Listener\ResponseListener</parameter>
-        <parameter key="sonata.page.request_listener.class"             >Sonata\PageBundle\Listener\RequestListener</parameter>
-        <parameter key="sonata.page.site.selector.host.class"           >Sonata\PageBundle\Site\HostSiteSelector</parameter>
-        <parameter key="sonata.page.site.selector.host_with_path.class" >Sonata\PageBundle\Site\HostPathSiteSelector</parameter>
-        <parameter key="sonata.page.router.class"                       >Sonata\PageBundle\Route\CmsPageRouter</parameter>
-        <parameter key="sonata.page.route.page.generator.class"         >Sonata\PageBundle\Route\RoutePageGenerator</parameter>
-        <parameter key="sonata.page.service.manager.class"              >Sonata\PageBundle\Page\PageServiceManager</parameter>
-        <parameter key="sonata.page.template.manager.class"             >Sonata\PageBundle\Page\TemplateManager</parameter>
-        <parameter key="sonata.page.service.default.class"              >Sonata\PageBundle\Page\Service\DefaultPageService</parameter>
+        <parameter key="sonata.page.cms_manager.page.class"                       >Sonata\PageBundle\CmsManager\CmsPageManager</parameter>
+        <parameter key="sonata.page.cms_manager.snapshot.class"                   >Sonata\PageBundle\CmsManager\CmsSnapshotManager</parameter>
+        <parameter key="sonata.page.cms_manager_selector.class"                   >Sonata\PageBundle\CmsManager\CmsManagerSelector</parameter>
+        <parameter key="sonata.page.decorator_strategy.class"                     >Sonata\PageBundle\CmsManager\DecoratorStrategy</parameter>
+        <parameter key="sonata.page.response_listener.class"                      >Sonata\PageBundle\Listener\ResponseListener</parameter>
+        <parameter key="sonata.page.request_listener.class"                       >Sonata\PageBundle\Listener\RequestListener</parameter>
+        <parameter key="sonata.page.site.selector.host.class"                     >Sonata\PageBundle\Site\HostSiteSelector</parameter>
+        <parameter key="sonata.page.site.selector.host_by_locale.class"           >Sonata\PageBundle\Site\HostByLocaleSiteSelector</parameter>
+        <parameter key="sonata.page.site.selector.host_with_path.class"           >Sonata\PageBundle\Site\HostPathSiteSelector</parameter>
+        <parameter key="sonata.page.site.selector.host_with_path_by_locale.class" >Sonata\PageBundle\Site\HostPathByLocaleSiteSelector</parameter>
+        <parameter key="sonata.page.router.class"                                 >Sonata\PageBundle\Route\CmsPageRouter</parameter>
+        <parameter key="sonata.page.route.page.generator.class"                   >Sonata\PageBundle\Route\RoutePageGenerator</parameter>
+        <parameter key="sonata.page.service.manager.class"                        >Sonata\PageBundle\Page\PageServiceManager</parameter>
+        <parameter key="sonata.page.template.manager.class"                       >Sonata\PageBundle\Page\TemplateManager</parameter>
+        <parameter key="sonata.page.service.default.class"                        >Sonata\PageBundle\Page\Service\DefaultPageService</parameter>
     </parameters>
 
     <services>
@@ -29,7 +31,25 @@
             <argument type="service" id="sonata.seo.page" />
         </service>
 
+        <service id="sonata.page.site.selector.host_by_locale" class="%sonata.page.site.selector.host_by_locale.class%">
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="47"/>
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequestRedirect" priority="0"/>
+
+            <argument type="service" id="sonata.page.manager.site" />
+            <argument type="service" id="sonata.page.decorator_strategy" />
+            <argument type="service" id="sonata.seo.page" />
+        </service>
+
         <service id="sonata.page.site.selector.host_with_path" class="%sonata.page.site.selector.host_with_path.class%">
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="47"/>
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequestRedirect" priority="0"/>
+
+            <argument type="service" id="sonata.page.manager.site" />
+            <argument type="service" id="sonata.page.decorator_strategy" />
+            <argument type="service" id="sonata.seo.page" />
+        </service>
+
+        <service id="sonata.page.site.selector.host_with_path_by_locale" class="%sonata.page.site.selector.host_with_path_by_locale.class%">
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="47"/>
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequestRedirect" priority="0"/>
 

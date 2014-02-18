@@ -14,31 +14,36 @@ namespace Sonata\PageBundle\Site;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 /**
- * HostSiteSelector
+ * HostByLocaleSiteSelector
  *
- * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Rémi Marseille <marseille@ekino.com>
  */
-class HostSiteSelector extends BaseSiteSelector
+class HostByLocaleSiteSelector extends BaseSiteSelector
 {
     /**
      * {@inheritdoc}
      */
     public function handleKernelRequest(GetResponseEvent $event)
     {
-        foreach ($this->getSites($event->getRequest()) as $site) {
+        $request      = $event->getRequest();
+        $enabledSites = array();
+
+        foreach ($this->getSites($request) as $site) {
             if (!$site->isEnabled()) {
                 continue;
             }
 
-            $this->site = $site;
+            $enabledSites[] = $site;
 
-            if (!$this->site->isLocalhost()) {
+            if (!$site->isLocalhost()) {
                 break;
             }
         }
 
+        $this->site = $this->getPreferredSite($enabledSites, $request);
+
         if ($this->site && $this->site->getLocale()) {
-            $event->getRequest()->attributes->set('_locale', $this->site->getLocale());
+            $request->attributes->set('_locale', $this->site->getLocale());
         }
     }
 }
