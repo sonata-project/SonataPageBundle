@@ -31,6 +31,9 @@ class HostPathSiteSelectorTest extends \PHPUnit_Framework_TestCase
         $kernel = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface');
         $request = SiteRequest::create($url);
 
+        // Ensure request locale is null
+        $this->assertNull($request->attributes->get('_locale'));
+
         $event = new GetResponseEvent($kernel, $request, 'master');
 
         $siteManager = $this->getMock('Sonata\PageBundle\Model\SiteManagerInterface');
@@ -67,6 +70,12 @@ class HostPathSiteSelectorTest extends \PHPUnit_Framework_TestCase
 
         // Ensure we retrieved the "Site 0" site.
         $this->assertEquals('Site 0', $site->getName());
+
+        // Ensure request path info is /
+        $this->assertEquals('/', $event->getRequest()->getPathInfo());
+
+        // Ensure request locale matches site locale
+        $this->assertEquals($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
     }
 
     /**
@@ -79,6 +88,12 @@ class HostPathSiteSelectorTest extends \PHPUnit_Framework_TestCase
 
         // Ensure we retrieved the "Site 1" site.
         $this->assertEquals('Site 1', $site->getName());
+
+        // Ensure request path info is /
+        $this->assertEquals('/', $event->getRequest()->getPathInfo());
+
+        // Ensure request locale matches site locale
+        $this->assertEquals($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
     }
 
     /**
@@ -91,6 +106,12 @@ class HostPathSiteSelectorTest extends \PHPUnit_Framework_TestCase
 
         // Ensure we retrieved the "Site 1" site.
         $this->assertEquals('Site 2', $site->getName());
+
+        // Ensure request path info is /
+        $this->assertEquals('/', $event->getRequest()->getPathInfo());
+
+        // Ensure request locale matches site locale
+        $this->assertEquals($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
     }
 
     /**
@@ -103,6 +124,12 @@ class HostPathSiteSelectorTest extends \PHPUnit_Framework_TestCase
 
         // Ensure we retrieved the "Site 1" site.
         $this->assertEquals('Site 3', $site->getName());
+
+        // Ensure request path info is /
+        $this->assertEquals('/', $event->getRequest()->getPathInfo());
+
+        // Ensure request locale matches site locale
+        $this->assertEquals($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
     }
 
     /**
@@ -115,6 +142,12 @@ class HostPathSiteSelectorTest extends \PHPUnit_Framework_TestCase
 
         // Ensure we retrieved the "Site 1" site.
         $this->assertEquals('Site 4', $site->getName());
+
+        // Ensure request path info is /
+        $this->assertEquals('/', $event->getRequest()->getPathInfo());
+
+        // Ensure request locale matches site locale
+        $this->assertEquals($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
     }
 
     /**
@@ -136,6 +169,12 @@ class HostPathSiteSelectorTest extends \PHPUnit_Framework_TestCase
 
         // Ensure the redirect url is for "Site 2"
         $this->assertEquals('http://www.example.com/test2', $response->getTargetUrl());
+
+        // Ensure request path info is /test5
+        $this->assertEquals('/test5', $event->getRequest()->getPathInfo());
+
+        // Ensure request locale is null
+        $this->assertNull($event->getRequest()->attributes->get('_locale'));
     }
 
     /**
@@ -157,6 +196,12 @@ class HostPathSiteSelectorTest extends \PHPUnit_Framework_TestCase
 
         // Ensure the redirect url is for "Site 2"
         $this->assertEquals('http://www.example.com/test2', $response->getTargetUrl());
+
+        // Ensure request path info is /test6
+        $this->assertEquals('/test6', $event->getRequest()->getPathInfo());
+
+        // Ensure request locale is null
+        $this->assertNull($event->getRequest()->attributes->get('_locale'));
     }
 
     /**
@@ -178,6 +223,12 @@ class HostPathSiteSelectorTest extends \PHPUnit_Framework_TestCase
 
         // Ensure the redirect url is for "Site 2"
         $this->assertEquals('http://www.example.com/test2', $response->getTargetUrl());
+
+        // Ensure request path info is /test7
+        $this->assertEquals('/test7', $event->getRequest()->getPathInfo());
+
+        // Ensure request locale is null
+        $this->assertNull($event->getRequest()->attributes->get('_locale'));
     }
 
     /**
@@ -199,6 +250,12 @@ class HostPathSiteSelectorTest extends \PHPUnit_Framework_TestCase
 
         // Ensure the redirect url is for "Site 2"
         $this->assertEquals('http://www.example.com/test2', $response->getTargetUrl());
+
+        // Ensure request path info is /
+        $this->assertEquals('/', $event->getRequest()->getPathInfo());
+
+        // Ensure request locale is null
+        $this->assertNull($event->getRequest()->attributes->get('_locale'));
     }
 }
 
