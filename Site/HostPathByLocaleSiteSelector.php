@@ -35,6 +35,7 @@ class HostPathByLocaleSiteSelector extends HostPathSiteSelector
         }
 
         $enabledSites = array();
+        $pathInfo     = null;
 
         foreach ($this->getSites($request) as $site) {
             if (!$site->isEnabled()) {
@@ -43,13 +44,14 @@ class HostPathByLocaleSiteSelector extends HostPathSiteSelector
 
             $enabledSites[] = $site;
 
-            $pathInfo = $this->matchRequest($site, $request);
+            $match = $this->matchRequest($site, $request);
 
-            if (false === $pathInfo) {
+            if (false === $match) {
                 continue;
             }
 
             $this->site = $site;
+            $pathInfo   = $match;
 
             if (!$this->site->isLocalhost()) {
                 break;

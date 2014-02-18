@@ -36,6 +36,7 @@ class HostPathSiteSelector extends BaseSiteSelector
         }
 
         $defaultSite = false;
+        $pathInfo    = null;
 
         foreach ($this->getSites($request) as $site) {
             if (!$site->isEnabled()) {
@@ -46,13 +47,14 @@ class HostPathSiteSelector extends BaseSiteSelector
                 $defaultSite = $site;
             }
 
-            $pathInfo = $this->matchRequest($site, $request);
+            $match = $this->matchRequest($site, $request);
 
-            if (false === $pathInfo) {
+            if (false === $match) {
                 continue;
             }
 
             $this->site = $site;
+            $pathInfo   = $match;
 
             if (!$this->site->isLocalhost()) {
                 break;
