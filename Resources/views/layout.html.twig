@@ -14,15 +14,7 @@ file that was distributed with this source code.
     <div class="container">
         <div class="content">
             <div class="row page-header">
-                <div class="col-sm-4">
-                    {{ sonata_page_render_container('title', 'global') }}
-                </div>
-
-                <div class="col-sm-8 navigation pull-right">
-                    {{ sonata_page_render_container('header', 'global') }}
-                </div>
-
-                <div style="clear: both"></div>
+                {{ sonata_page_render_container('header', 'global') }}
             </div>
 
             {% block sonata_page_breadcrumb %}
