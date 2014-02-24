@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <serializer>
-    <class name="Sonata\PageBundle\Entity\BasePage" exclusion-policy="all" xml-root-name="page">
+    <class name="Sonata\PageBundle\Model\Page" exclusion-policy="all" xml-root-name="page">
 
         <property name="url"          type="string"  expose="true" since-version="1.0" groups="sonata_api_read,sonata_search" />
         <property name="name"         type="string"  expose="true" since-version="1.0" groups="sonata_api_read,sonata_api_write,sonata_search" />
@@ -24,6 +24,10 @@
         <property name="slug"          type="string"  expose="true" since-version="1.0" groups="sonata_api_read,sonata_search" />
         <property name="customUrl"     type="string"  expose="true" since-version="1.0" groups="sonata_api_read,sonata_search" />
         <property name="requestMethod" type="string"  expose="true" since-version="1.0" groups="sonata_api_read,sonata_search" />
+
+        <property name="parent" serialized-name="parent_id" type="sonata_page_page_id" expose="true" since-version="1.0" groups="sonata_api_read,sonata_api_write,sonata_search" />
+        <property name="target" serialized-name="target_id" type="sonata_page_page_id" expose="true" since-version="1.0" groups="sonata_api_read,sonata_api_write,sonata_search" />
+        <property name="site"   serialized-name="site_id"   type="sonata_page_site_id" expose="true" since-version="1.0" groups="sonata_api_read,sonata_api_write,sonata_search" />
 
         <property name="createdAt" type="DateTime" expose="true" since-version="1.0" groups="sonata_api_read,sonata_search" />
         <property name="updatedAt" type="DateTime" expose="true" since-version="1.0" groups="sonata_api_read,sonata_search" />

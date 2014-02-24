@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service id="sonata.page.serializer.handler.page" class="Sonata\PageBundle\Serializer\PageSerializerHandler">
+            <tag name="jms_serializer.subscribing_handler" />
+            <argument type="service" id="sonata.page.manager.page" />
+        </service>
+
+        <service id="sonata.page.serializer.handler.block" class="Sonata\PageBundle\Serializer\BlockSerializerHandler">
+            <tag name="jms_serializer.subscribing_handler" />
+            <argument type="service" id="sonata.page.manager.block" />
+        </service>
+
+        <service id="sonata.page.serializer.handler.site" class="Sonata\PageBundle\Serializer\SiteSerializerHandler">
+            <tag name="jms_serializer.subscribing_handler" />
+            <argument type="service" id="sonata.page.manager.site" />
+        </service>
+
+    </services>
+
+</container>
