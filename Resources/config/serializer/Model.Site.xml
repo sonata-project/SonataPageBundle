@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <serializer>
-    <class name="Sonata\PageBundle\Entity\BaseSite" exclusion-policy="all" xml-root-name="site">
+    <class name="Sonata\PageBundle\Model\Site" exclusion-policy="all" xml-root-name="site">
 
         <property name="name"            type="string"  expose="true" since-version="1.0" groups="sonata_api_read,sonata_api_write,sonata_search" />
         <property name="isDefault"       type="boolean" expose="true" since-version="1.0" groups="sonata_api_read,sonata_api_write,sonata_search" />
