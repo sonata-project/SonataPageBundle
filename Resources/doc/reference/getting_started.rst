@@ -2,22 +2,26 @@ Getting Started
 ===============
 
 The bundle works on top of 3 simple models :
- * a ``Page``  : A page is composed of Blocks and contains information about a 
+ * a ``Page``\ : A page is composed of Blocks and contains information about a
    page (routing, headers, etc...)
- * a ``Block`` : A block contains information about an area of a page, a block 
+ * a ``Block``\ : A block contains information about an area of a page, a block
    can have children
- * a ``Snapshot`` : The final representation of a page, the end user always 
+ * a ``Snapshot``\ : The final representation of a page, the end user always
    sees a Snapshot
 
 
 Creating a default site
 -----------------------
 
-First, you need to create a dedicated site, let's create a localhost site::
+First, you need to create a dedicated site, let's create a localhost site:
+
+.. code-block:: bash
 
     php app/console sonata:page:create-site
 
-Or::
+Or:
+
+.. code-block:: bash
 
     php app/console  sonata:page:create-site --enabled=true --name=localhost --locale=- --host=localhost --relativePath=/ --enabledFrom=now --enabledTo="+10 years" --default=true
 
@@ -79,7 +83,9 @@ Note: The following fields must have values specified when creating a site:
 Creating default pages
 ----------------------
 
-As the Page bundle can handled symfony actions, actions need to be register, just run the commands::
+As the Page bundle can handled symfony actions, actions need to be register, just run the commands:
+
+.. code-block:: bash
 
     php app/console sonata:page:update-core-routes --site=all
 
@@ -125,15 +131,17 @@ The output might look like this::
       *WARNING* : Pages has been updated however some pages do not exist anymore.
                   You must remove them manually.
 
-The command will print updated and created pages. The last part of the command 
-displays outdated actions, so depends on the change some dedicated actions must 
+The command will print updated and created pages. The last part of the command
+displays outdated actions, so depends on the change some dedicated actions must
 be done.
 
 Creating default snapshots
 --------------------------
 
 At this point, no snapshots are available so the end user will get an error. The
-following command need to be runned::
+following command need to be run:
+
+.. code-block:: bash
 
     php app/console sonata:page:create-snapshots --site=all
 
@@ -158,25 +166,25 @@ The output might look like this::
 
     Enabling snapshots ... OK !
 
-The command will take ``Page``s and then create the related ``Snapshot``s. At 
+The command will take ``Page``\ s and then create the related ``Snapshot``\ s. At
 this point the front is available for the end user.
 
 Add or Edit a Block
 -------------------
 
-Before adding a new block, please look to the default layout 
+Before adding a new block, please look to the default layout
 ``SonataPageBundle::layout.html.twig``, it contains different methods call.
 
-* ``sonata_page_render_container('content', page)`` : render the container 
+* ``sonata_page_render_container('content', page)``\ : render the container
   ``content`` of the current page
-* ``sonata_page_render_container('content_bottom', 'global')`` : render the 
+* ``sonata_page_render_container('content_bottom', 'global')``\ : render the
   container ``content_bottom`` of the global page.
-    
+
   A global page does not belong to the current url but it can be use on different pages.
-* ``page_include_stylesheets`` and ``page_include_javascripts`` : insert the 
+* ``page_include_stylesheets`` and ``page_include_javascripts``\ : insert the
   stylesheets and javascripts used on the page by the related blocks.
 
-The block management is done from the front end : a block can be moved and 
+The block management is done from the front end: a block can be moved and
 edited from:
 
 * login into the backend using an valid user
@@ -191,16 +199,16 @@ To add a new container block, simply render the container with the desired name:
 
 ``sonata_page_render_container('footer_left', 'global')``
 
-When the SonataPageBundle renders this container, it will automatically insert 
-a `sonata.page.block.container` with the name `footer_left` if it does not exist
-yet. You will then be able to add new child blocks to it in the frontend. The 
-second parameter is the name of the page. It can be either a string, or a 
-`Page` instance. In case of a string, it will create a new  page with that name 
+When the SonataPageBundle renders this container, it will automatically insert
+a ``sonata.page.block.container`` with the name ``footer_left`` if it does not exist
+yet. You will then be able to add new child blocks to it in the frontend. The
+second parameter is the name of the page. It can be either a string, or a
+``Page`` instance. In case of a string, it will create a new  page with that name
 if it doesn't already exist.
 
 Publish a snapshot
 ------------------
 
-The blocks added are not accessible to a non connected user, the blocks are 
-published trough the ``Snapshot`` model. So once the new page is built or 
+The blocks added are not accessible to a non connected user, the blocks are
+published trough the ``Snapshot`` model. So once the new page is built or
 updated and ready to go live, just click on 'Create publication'.

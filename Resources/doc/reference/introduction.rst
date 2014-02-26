@@ -15,8 +15,10 @@ sites on a same project.
 Depending on the configuration a site can be represented by:
 
  - a host : sonata-project.org or sonata-project.com
- - a host + a path : sonata-project.org/uk or sonata-project.org/fr 
+ - a host + a path : sonata-project.org/uk or sonata-project.org/fr
    or sonata-project.com/uk
+ - a host and a locale (locale detected from the browser)
+ - a host, path and a locale (locale detected from the browser)
 
 The latter requires a specific ``RequestContext`` to work. This is done by
 changing the ``router`` service.
@@ -41,11 +43,11 @@ solution, and this allows to easily include external Symfony bundles.
 Page types:
 
  - ``CMS Page`` : a standard CMS page with url
- - ``Hybrid Page`` : a page linked to a Symfony action, this can be any kind 
+ - ``Hybrid Page`` : a page linked to a Symfony action, this can be any kind
    of url matched by the router.
- - ``Dynamic Page`` : a dynamic page is a hybrid page with parameters 
+ - ``Dynamic Page`` : a dynamic page is a hybrid page with parameters
    ie, /blog/{year}/{month}/{slug}
- - ``Internal Page`` : page shared across different pages, very useful for 
+ - ``Internal Page`` : page shared across different pages, very useful for
    handling footer and header
 
 A Block
