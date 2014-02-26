@@ -9,7 +9,7 @@ Indexes
 The Doctrine ORM cannot defined indexes for ``varchar`` as the Doctrine's metadata framework does not accept the
 length requirement. So if you want to speed up queries you need to manually add indexes:
 
-.. code-block:: SQL
+.. code-block:: sql
 
     ALTER TABLE `page__snapshot` ADD INDEX `idx_snapshot_route_name` (`route_name` (32), `site_id`);
     ALTER TABLE `page__snapshot` ADD INDEX `idx_snapshot_route_alias` (`route_alias` (32), `site_id`);
@@ -22,6 +22,8 @@ Snapshots
 ~~~~~~~~~
 
 If your application contains a lot of snapshots which are not used anymore, this can slowdown the database server.
-You can clean up old snapshots by running the command::
+You can clean up old snapshots by running the command:
+
+.. code-block:: bash
 
     php app/console sonata:page:cleanup-snapshots --site=all --keep-snapshots=5

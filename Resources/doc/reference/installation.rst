@@ -4,7 +4,7 @@ Installation
 Prerequisites
 -------------
 PHP 5.3 and Symfony 2 are needed to make this bundle work ; there are also some
-Sonata dependencies that need to be installed and configured beforehand :
+Sonata dependencies that need to be installed and configured beforehand:
 
     - `SonataCacheBundle <http://sonata-project.org/bundles/cache>`_
     - `SonataBlockBundle <http://sonata-project.org/bundles/block>`_
@@ -14,14 +14,12 @@ Sonata dependencies that need to be installed and configured beforehand :
     - `SonataAdminBundle <http://sonata-project.org/bundles/admin>`_
     - `SonataDoctrineORMAdminBundle <http://sonata-project.org/bundles/doctrine-orm-admin>`_
 
-You will also need a SymfonyCmf Bundle to make the routing work depending on which Symfony version you are using
+You will also need a SymfonyCmf Bundle to make the routing work depending on which Symfony version you are using:
 
-    - `SymfonyCmfRoutingExtraBundle <https://github.com/symfony-cmf/RoutingExtraBundle>` for Symfony <2.3_
-    - `SymfonyCmfRoutingBundle <https://github.com/symfony-cmf/RoutingBundle>` for Symfony >=2.3_
+    - `SymfonyCmfRoutingExtraBundle <https://github.com/symfony-cmf/RoutingExtraBundle>`_ for Symfony <2.3
+    - `SymfonyCmfRoutingBundle <https://github.com/symfony-cmf/RoutingBundle>`_ for Symfony >=2.3
 
-You will need to install those in their 2.0 branches. Follow also their
-configuration step ; you will find everything you need in their installation
-chapter.
+Follow also their configuration steps; you will find everything you need in their installation chapter.
 
 .. note::
     If a dependency is already installed somewhere in your project or in
@@ -29,8 +27,9 @@ chapter.
 
 Enable the Bundle
 -----------------
-Add the dependent bundles to the vendor/bundles directory. Add the following
-lines to the file deps::
+Add the dependant bundles to the vendor/bundles directory:
+
+.. code-block:: bash
 
     php composer.phar require sonata-project/page-bundle --no-update
     php composer.phar require sonata-project/doctrine-orm-admin-bundle --no-update
@@ -40,7 +39,7 @@ lines to the file deps::
 
     The SonataAdminBundle and SonataDoctrineORMAdminBundle must be installed, please refer to `the dedicated documentation for more information <http://sonata-project.org/bundles/admin>`_.
 
-Next, be sure to enable the ``EasyExtends`` bundle in your application kernel:
+Next, be sure to enable the ``Page`` and ``EasyExtends`` bundles in your application kernel:
 
 .. code-block:: php
 
@@ -51,11 +50,12 @@ Next, be sure to enable the ``EasyExtends`` bundle in your application kernel:
         return array(
             // ...
             new Sonata\PageBundle\SonataPageBundle(),
+            new Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),
             // ...
         );
     }
 
-Before we can go on with generating our Application files trough the ``EasyExtends`` bundle, we need to add some lines which we will override later and now just need for the following step
+Before we can go on with generating our Application files trough the ``EasyExtends`` bundle, we need to add some lines which we will override later (we need them now only for the following step):
 
 .. code-block:: yaml
 
@@ -78,8 +78,13 @@ configuration file.
     .. code-block:: yaml
 
         # app/config/config.yml
-        ApplicationSonataPageBundle: ~ # only once the ApplicationSonataPageBundle is generated
-        SonataPageBundle: ~
+        doctrine:
+            orm:
+                entity_managers:
+                    default:
+                        mappings:
+                            ApplicationSonataPageBundle: ~ # only once the ApplicationSonataPageBundle is generated
+                            SonataPageBundle: ~
 
 .. code-block:: yaml
 
@@ -190,8 +195,10 @@ At the end of your routing file, add the following lines
 
 Extend the Bundle
 -----------------
-At this point, the bundle is usuable, but not quite ready yet. You need to
-generate the correct entities for the page::
+At this point, the bundle is usable, but not quite ready yet. You need to
+generate the correct entities for the page:
+
+.. code-block:: bash
 
     php app/console sonata:easy-extends:generate SonataPageBundle
 
