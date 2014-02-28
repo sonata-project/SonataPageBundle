@@ -17,11 +17,14 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Sonata\PageBundle\Exception\PageNotFoundException;
+use Sonata\PageBundle\Model\BlockInteractorInterface;
 use Sonata\PageBundle\Model\SnapshotPageProxy;
+
+use Sonata\BlockBundle\Templating\Helper\BlockHelper;
+use Sonata\BlockBundle\Model\BlockManagerInterface;
 
 use Symfony\Bridge\Twig\Extension\HttpKernelExtension;
 use Symfony\Component\Routing\RouterInterface;
-use Sonata\BlockBundle\Templating\Helper\BlockHelper;
 
 /**
  * PageExtension
@@ -66,20 +69,34 @@ class PageExtension extends \Twig_Extension
     private $httpKernelExtension;
 
     /**
+     * @var BlockManagerInterface
+     */
+    private $blockManager;
+
+    /**
+     * @var BlockInteractorInterface
+     */
+    private $blockInteractor;
+
+    /**
      * Constructor
      *
      * @param CmsManagerSelectorInterface $cmsManagerSelector  A CMS manager selector
      * @param SiteSelectorInterface       $siteSelector        A site selector
      * @param RouterInterface             $router              The Router
      * @param BlockHelper                 $blockHelper         The Block Helper
-     * @param HttpKernelExtension         $httpKernelExtension
+     * @param BlockManagerInterface       $blockManager        The block manager
+     * @param BlockInteractorInterface    $blockInteractor     The Page block interactor service
+     * @param HttpKernelExtension         $httpKernelExtension A HttpKernelExtension
      */
-    public function __construct(CmsManagerSelectorInterface $cmsManagerSelector, SiteSelectorInterface $siteSelector, RouterInterface $router, BlockHelper $blockHelper, HttpKernelExtension $httpKernelExtension)
+    public function __construct(CmsManagerSelectorInterface $cmsManagerSelector, SiteSelectorInterface $siteSelector, RouterInterface $router, BlockHelper $blockHelper, BlockManagerInterface $blockManager, BlockInteractorInterface $blockInteractor, HttpKernelExtension $httpKernelExtension)
     {
         $this->cmsManagerSelector  = $cmsManagerSelector;
         $this->siteSelector        = $siteSelector;
         $this->router              = $router;
         $this->blockHelper         = $blockHelper;
+        $this->blockManager        = $blockManager;
+        $this->blockInteractor     = $blockInteractor;
         $this->httpKernelExtension = $httpKernelExtension;
     }
 
@@ -240,8 +257,48 @@ class PageExtension extends \Twig_Extension
      *
      * @return string
      */
-    public function renderBlock(PageBlockInterface $block, array $options = array())
+    public function renderBlock($block, array $options = array())
     {
+        // If this is not a block instance, we try to create the new block
+        if (!$block instanceof PageBlockInterface) {
+            if (!is_string($block)) {
+                throw new \RuntimeException('sonata_page_render_block() first argument must be a block instance or a block name');
+            }
+
+            if (!isset($options['container']) || !isset($options['type'])) {
+                throw new \RuntimeException("You must give a container name when using sonata_page_render_block('my_custom_block', {container: 'my_container', type: 'sonata.block.type'})");
+            }
+
+            $cms = $this->cmsManagerSelector->retrieve();
+
+            try {
+                $page = $cms->getCurrentPage();
+            } catch (PageNotFoundException $e) {
+                return null;
+            }
+
+            $exists = $this->blockManager->findOneBy(array('page' => $page, 'name' => $block));
+
+            if ($exists) {
+                return null;
+            }
+
+            $page = $page instanceof SnapshotPageProxy ? $page->getPage() : $page;
+
+            $container = $this->blockManager->findOneBy(array(
+                'page' => $page,
+                'name' => $options['container']
+            ));
+
+            if (!$container) {
+                throw new \RuntimeException(sprintf('Unable to find container name "%s"', $options['container']));
+            }
+
+            $block = $this->blockInteractor->createNewBlock($block, $container, array_merge(
+                $options, array('page' => $page)
+            ));
+        }
+
         if ($block->getEnabled() === false && !$this->cmsManagerSelector->isEditor()) {
             return '';
         }

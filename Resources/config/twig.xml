@@ -12,6 +12,8 @@
             <argument type="service" id="sonata.page.site.selector" />
             <argument type="service" id="router" />
             <argument type="service" id="sonata.block.templating.helper" />
+            <argument type="service" id="sonata.page.manager.block" />
+            <argument type="service" id="sonata.page.block_interactor" />
             <argument type="service" id="twig.extension.httpkernel" />
         </service>
 

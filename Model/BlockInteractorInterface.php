@@ -10,6 +10,8 @@
 
 namespace Sonata\PageBundle\Model;
 
+use Sonata\BlockBundle\Model\BlockInterface;
+
 /**
  * BlockInteractorInterface
  *
@@ -60,4 +62,16 @@ interface BlockInteractorInterface
      * @return \Sonata\BlockBundle\Model\BlockInterface
      */
     public function createNewContainer(array $values = array(), \Closure $alter = null);
+
+    /**
+     * Creates a new page block
+     *
+     * @param string         $name      A block name
+     * @param array          $options   An array of options for block creation
+     * @param BlockInterface $container A container block
+     * @param \Closure       $alter     A closure to alter container created
+     *
+     * @return \Sonata\BlockBundle\Model\BlockInterface
+     */
+    public function createNewBlock($name, BlockInterface $container, array $options = array(), \Closure $alter = null);
 }

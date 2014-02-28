@@ -12,6 +12,7 @@ namespace Sonata\PageBundle\Entity;
 
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
+use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\BlockBundle\Model\BlockManagerInterface;
 use Sonata\PageBundle\Model\BlockInteractorInterface;
 use Sonata\PageBundle\Model\PageInterface;
@@ -131,6 +132,36 @@ class BlockInteractor implements BlockInteractorInterface
         $this->blockManager->save($container);
 
         return $container;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createNewBlock($name, BlockInterface $container, array $options = array(), \Closure $alter = null)
+    {
+        if (!isset($options['type']) || !isset($options['page'])) {
+            throw new \RuntimeException('Block "type" and "page" options must be defined');
+        }
+
+        $block = $this->blockManager->create();
+        $block->setParent($container);
+        $block->setType($options['type']);
+        $block->setPage($options['page']);
+        $block->setCreatedAt(new \DateTime());
+        $block->setUpdatedAt(new \DateTime());
+        $block->setEnabled(isset($options['enabled']) ? $options['enabled'] : true);
+
+        $block->setName($name);
+        $block->setSettings(isset($options['settings']) ? $options['settings'] : array());
+        $block->setPosition(isset($options['position']) ? $options['position'] : 1);
+
+        if ($alter) {
+            $alter($block);
+        }
+
+        $this->blockManager->save($block);
+
+        return $block;
     }
 
     /**
