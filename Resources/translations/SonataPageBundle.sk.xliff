@@ -611,6 +611,10 @@
              Prosím, kliknite sem pre pokračovanie v presmerovaní: <a href="%url%">%url%</a>.
           ]]></target>
       </trans-unit>
+      <trans-unit id="151" resname="filter.label_parent">
+        <source>filter.label_parent</source>
+        <target>Rodič</target>
+      </trans-unit>
       <trans-unit id="152" resname="title_select_block_type">
            <source>title_select_block_type</source>
            <target>Vyberte typ bloku</target>

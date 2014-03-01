@@ -612,6 +612,10 @@
              Merci de cliquer sur le lien pour suivre la redirection: <a href="%url%">%url%</a>.
           ]]></target>
       </trans-unit>
+      <trans-unit id="151" resname="filter.label_parent">
+        <source>filter.label_parent</source>
+        <target>Parent</target>
+      </trans-unit>
       <trans-unit id="152" resname="title_select_block_type">
            <source>title_select_block_type</source>
            <target>Sélectionner un type de bloc</target>
