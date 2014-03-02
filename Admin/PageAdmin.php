@@ -13,6 +13,7 @@ namespace Sonata\PageBundle\Admin;
 
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Admin\AdminInterface;
+use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -50,6 +51,16 @@ class PageAdmin extends Admin
      * @var CacheManagerInterface
      */
     protected $cacheManager;
+
+    public function configureRoutes(RouteCollection $routes)
+    {
+        $routes->add('compose', '{id}/compose', array(
+            'id' => null,
+        ));
+        $routes->add('compose_container_show', 'compose/container/{id}', array(
+            'id' => null,
+        ));
+    }
 
     /**
      * {@inheritdoc}

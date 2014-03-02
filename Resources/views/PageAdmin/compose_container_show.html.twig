@@ -1,0 +1,42 @@
+<div class="page-composer__container__view">
+    <h2 class="page-composer__container__view__header">{{ container.name }}</h2>
+
+    <div class="page-composer__block-type-selector">
+        <label>add block of type</label>
+        <select class="page-composer__block-type-selector__select">
+            {% for blockServiceId, blockService in blockServices %}
+                <option value="{{ blockServiceId }}">{{ blockService.name }}</option>
+            {% endfor %}
+        </select>
+        <a class="btn btn-action btn-small page-composer__block-type-selector__confirm"
+           href="{{ path('admin_sonata_page_page_block_create', { 'id': page.id }) }}"
+        >+</a>
+
+        <small class="page-composer__container__child-count pull-right">
+            blocks <span class="badge">{{ container.children|length }}</span>
+        </small>
+    </div>
+
+    <div class="page-composer__container__main-edition-area">
+    </div>
+
+    <ul class="page-composer__container__children">
+        {% for child in container.children %}
+            <li class="page-composer__container__child">
+                <a class="page-composer__container__child__edit"
+                   href="{{ path('admin_sonata_page_block_edit', { 'id': child.id }) }}"
+                >
+                    <h4>
+                        {{ child.name|default(child.type) }}
+                        <span class="page-composer__container__child__toggle">
+                            <span class="icon-chevron-down"></span>
+                            <span class="icon-chevron-up"></span>
+                        </span>
+                    </h4>
+                    <small>{{ child.type }}</small>
+                </a>
+                <div class="page-composer__container__child__content"></div>
+            </li>
+        {% endfor %}
+    </ul>
+</div>

@@ -1,0 +1,240 @@
+/**
+ *
+ * CSS dedicated to 'page composer' component.
+ *
+ * composer.js rely heavily on these style
+ * to handle forms show/hide and micro template preview.
+ *
+ */
+
+/*******************************************\
+
+    Layout structure preview
+
+\*******************************************/
+.page-composer__page-preview {
+    padding: 3px;
+    border-radius: 3px;
+    background-color: #f6f6f6;
+    box-shadow: 0 0 2px rgba(0,0,0,0.35) inset;
+    margin-bottom: 20px;
+}
+.page-composer__page-preview__containers {
+    position: relative;
+    min-height: 400px;
+}
+.page-composer__page-preview__container,
+.page-composer__page-preview__container--no-block {
+    position: absolute;
+    padding: 3px;
+    color: #404040 !important;
+    text-decoration: none !important;
+}
+.page-composer__page-preview__container__content {
+    border: 2px solid #fff;
+    background: #fff;
+    border-radius: 2px;
+    box-shadow: 0 0 1px rgba(0,0,0,0.35);
+    height: 100%;
+    padding: 5px 7px;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+.page-composer__page-preview__container__content:hover {
+    box-shadow: 0 0 1px rgba(0,0,0,0.7);
+}
+.page-composer__page-preview__container--active .page-composer__page-preview__container__content {
+    border-color: #8dd8c3;
+    box-shadow: none;
+}
+    .page-composer__page-preview__container__content:hover strong {
+        text-decoration: underline;
+    }
+.page-composer__page-preview__container--no-block .page-composer__page-preview__container__content {
+    box-shadow: none;
+    background: transparent;
+    border: 1px dotted #ccc;
+    color: #999;
+    cursor: auto;
+}
+.page-composer__page-preview__container__content i {
+    color: #999;
+    font-size: 11px;
+}
+.page-composer__page-preview__add-block {
+    position: absolute;
+    top:   5px;
+    right: 5px;
+    font-size: 16px;
+    width:  20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    display: block;
+    color: #000 !important;
+    text-decoration: none !important;
+    border-radius: 2px;
+}
+.page-composer__page-preview__add-block:hover {
+    background: #fff;
+    text-decoration: none;
+    color: #000;
+}
+
+
+
+/*******************************************\
+
+    Block type selector
+
+\*******************************************/
+.page-composer__block-type-selector {
+    padding: 7px 15px;
+    background: #fff;
+    /*box-shadow: 0 0 1px rgba(0,0,0,0.35);*/
+    border-top:    1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+.page-composer__block-type-selector label {
+    display: inline-block;
+    margin: 0;
+}
+.page-composer__block-type-selector select {
+    font-size: 12px;
+    margin-bottom: 0;
+    height:      26px;
+    line-height: 26px;
+}
+
+
+/*******************************************\
+
+    Container detailed view
+
+\*******************************************/
+.page-composer__container__view {
+    border-radius: 2px;
+    background-color: #f9f9f9;
+    border: 1px solid #dcdcdc;
+    border-radius: 2px;
+    overflow: hidden;
+}
+.page-composer__container__view .nav-tabs {
+    background-color: #f9f9f9;
+    border-bottom: none;
+}
+.page-composer__container__view .nav-tabs > li > a {
+    color: #5cc4a7;
+    border: none !important;
+    margin: 0;
+    border-radius: 0;
+}
+.page-composer__container__view .tabbable {
+    background: #fff;
+}
+.page-composer__container__view .well {
+    margin: 0;
+    box-shadow: none;
+    background: #ededed;
+    border-radius: 0;
+    border: none;
+}
+.page-composer__container__view__header {
+    padding: 10px 15px;
+    margin: 0 !important;
+    font-size: 24px !important;
+    line-height: 1em !important;
+    color: #5cc4a7 !important;
+}
+.page-composer__container__child-count {
+    margin-top: 4px;
+    color: #999;
+    font-size: 12px !important;
+}
+.page-composer__container__child-count .badge,
+.page-composer__container__main-edition-area .badge {
+    background-color: #8dd8c3;
+    text-shadow: none;
+}
+
+
+
+.page-composer__container__main-edition-area {
+    background: #fff;
+    border-top:    1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    position: relative;
+    display: none;
+}
+.page-composer__container__main-edition-area .badge {
+    position: absolute;
+    top:    8px;
+    right: 15px;
+}
+.page-composer__container__main-edition-area form {
+    margin: 0;
+}
+
+
+/*******************************************\
+
+    Container children (detailed view)
+
+\*******************************************/
+.page-composer__container__children {
+    margin: 0 0 10px 0 !important;
+    list-style: none;
+}
+.page-composer__container__child {
+    border-top: 1px solid #ddd;
+}
+.page-composer__container__child:first-child {
+    border-top: none;
+}
+.page-composer__container__child__content {
+    display: none;
+    border-top: 1px solid #ddd;
+}
+.page-composer__container__child__content form {
+    margin: 0 !important;
+}
+.page-composer__container__child--expanded .page-composer__container__child__content {
+    display: block;
+}
+.page-composer__container__child__edit {
+    display: block;
+    padding: 10px 15px 10px 12px;
+    cursor: pointer;
+    text-decoration: none !important;
+    color: #404040 !important;
+    border-left: 3px solid #f9f9f9;
+}
+.page-composer__container__child__toggle {
+    display: none;
+    margin-left: 10px;
+}
+.page-composer__container__child__toggle .icon-chevron-up {
+    display: none;
+}
+.page-composer__container__child--expanded .page-composer__container__child__toggle .icon-chevron-up {
+    display: inline-block;
+}
+.page-composer__container__child--expanded .page-composer__container__child__toggle .icon-chevron-down {
+    display: none;
+}
+.page-composer__container__child__edit:hover {
+    background: #fff;
+    border-left-color: #8dd8c3;
+}
+.page-composer__container__child--expanded .page-composer__container__child__edit {
+    border-left-color: #8dd8c3;
+}
+.page-composer__container__child__edit:hover .page-composer__container__child__toggle {
+    display: inline-block;
+}
+.page-composer__container__child h4 {
+    margin: 0 !important;
+    font-size: 14px !important;
+}
