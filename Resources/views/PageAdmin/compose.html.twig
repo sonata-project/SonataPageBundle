@@ -1,0 +1,71 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+
+{% extends 'SonataAdminBundle:CRUD:action.html.twig' %}
+
+{% block actions %}{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/sonatapage/composer.js') }}" type="text/javascript"></script>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/sonatapage/composer.css') }}" type="text/css" media="screen" />
+{% endblock %}
+
+{% block content %}
+    <h2>compose page "{{ page.name }}" <small>[template: <b>{{ template.name }}</b>]</small></h2>
+
+    <div class="row-fluid">
+        <div class="span4">
+            <div class="page-composer__page-preview">
+                <div class="page-composer__page-preview__containers">
+                    {% for container in containers %}
+                        {% if container.block is defined %}
+                            <a class="page-composer__page-preview__container"
+                               data-block-id="{{ container.block.id }}"
+                               style="top:{{ container.area.placement.y }}%;right:{{ container.area.placement.right }}%;bottom:{{ container.area.placement.bottom }}%;left:{{ container.area.placement.x }}%"
+                               href="{{ path('admin_sonata_page_page_compose_container_show', { 'id': container.block.id }) }}"
+                                    >
+                                <div class="page-composer__page-preview__container__content">
+                                    <strong>{{ container.block.name|default(container.area.name) }}</strong><br>
+                                    <small>{{ container.block.children|length }} blocks</small>
+                                    <span class="page-composer__page-preview__add-block">+</span>
+                                </div>
+                            </a>
+                        {% else %}
+                            <div class="page-composer__page-preview__container--no-block"
+                                 style="top:{{ container.area.placement.y }}%;right:{{ container.area.placement.right }}%;bottom:{{ container.area.placement.bottom }}%;left:{{ container.area.placement.x }}%"
+                                    >
+                                <div class="page-composer__page-preview__container__content">
+                                    <strong>{{ container.area.name }}</strong>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="span8">
+            <div class="page-composer__dyn-content">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            var composer = new PageComposer();
+            composer.setRoute('block_edit', "{{ path('admin_sonata_page_block_edit', { 'id': 'BLOCK_ID' }) }}");
+        });
+    </script>
+{% endblock %}

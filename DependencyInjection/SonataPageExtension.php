@@ -383,6 +383,7 @@ class SonataPageExtension extends Extension
             $definition = new Definition('Sonata\PageBundle\Model\Template', array(
                 $info['name'],
                 $info['path'],
+                $info['containers'],
             ));
 
             $definition->setPublic(false);
