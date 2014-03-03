@@ -45,7 +45,19 @@
         };
 
         this.bindPagePreviewHandlers();
+
+        // attach event listeners
+        var self  = this,
+            $this = $(this);
+        $this.on('containerclick', function (e) {
+            self.loadContainer(e.$container);
+        });
+        $this.on('containerloaded',       this.handleContainerLoaded);
+        $this.on('blockcreated',          this.handleBlockCreated);
+        $this.on('blockcreateformloaded', this.handleBlockCreateFormLoaded);
     };
+
+
 
     PageComposer.prototype = {
         /**
@@ -111,15 +123,16 @@
             return lastIndex !== -1 && lastIndex === position;
         },
 
-        handleCreatedChildBlock: function ($childBlock, containerId, blockId, blockName, blockType) {
+        handleBlockCreated: function (event) {
             var content = this.renderTemplate('childBlock', {
-                'name':     blockName,
-                'type':     blockType,
-                'edit_url': this.getRouteUrl('block_edit', { 'BLOCK_ID': blockId })
+                'name':       event.blockName,
+                'type':       event.blockType,
+                'edit_url':   this.getRouteUrl('block_edit',   { 'BLOCK_ID': event.blockId }),
+                'remove_url': this.getRouteUrl('block_remove', { 'BLOCK_ID': event.blockId })
             });
 
-            var $childBlock = $childBlock.html(content);
-            this.controlChildBlock($childBlock);
+            event.$childBlock.html(content);
+            this.controlChildBlock(event.$childBlock);
         },
 
         /**
@@ -129,13 +142,13 @@
          * @param containerId
          * @param blockType
          */
-        onCreateBlockResponse: function (response, containerId, blockType) {
+        handleBlockCreateFormLoaded: function (event) {
             var self               = this,
                 $containerChildren = this.$dynamicArea.find('.page-composer__container__children'),
                 $container         = this.$dynamicArea.find('.page-composer__container__main-edition-area');
 
             var $childBlock = $('<li class="page-composer__container__child"></li>');
-            $childBlock.html(response)
+            $childBlock.html(event.response);
             $containerChildren.append($childBlock);
 
             var $form         = $childBlock.find('form'),
@@ -147,9 +160,11 @@
                 $parentFormControl,
                 $positionFormControl;
 
+            Admin.setup_select2($form);
+
             $(document).scrollTo($childBlock, 200);
 
-            $form.parent().append('<span class="badge">' + blockType + '</span>');
+            $form.parent().append('<span class="badge">' + event.blockType + '</span>');
             $container.show();
 
             // scan form elements to find name/parent/position,
@@ -162,7 +177,7 @@
                     $nameFormControl = $formControl;
                 } else if (self.isFormControlTypeByName(formControlName, 'parent')) {
                     $parentFormControl = $formControl;
-                    $parentFormControl.val(containerId);
+                    $parentFormControl.val(event.containerId);
                     $parentFormControl.parent().parent().hide();
                 } else if (self.isFormControlTypeByName(formControlName, 'position')) {
                     $positionFormControl = $formControl;
@@ -190,7 +205,7 @@
 
                 var blockName = $nameFormControl.val();
                 if (blockName === '') {
-                    blockName = blockType;
+                    blockName = event.blockType;
                 }
 
                 $.ajax({
@@ -199,7 +214,13 @@
                     type: formMethod,
                     success: function (resp) {
                         if (resp.result && resp.result === 'ok' && resp.objectId) {
-                            self.handleCreatedChildBlock($childBlock, containerId, resp.objectId, blockName, blockType);
+                            var createdEvent = $.Event('blockcreated');
+                            createdEvent.$childBlock = $childBlock;
+                            createdEvent.containerId = event.containerId;
+                            createdEvent.blockId     = resp.objectId;
+                            createdEvent.blockName   = blockName;
+                            createdEvent.blockType   = event.blockType;
+                            $(self).trigger(createdEvent);
                         }
                     }
                 });
@@ -257,6 +278,7 @@
                     url:     editUrl,
                     success: function (resp) {
                         $container.html(resp);
+                        Admin.setup_select2($container);
                         $loader.hide();
                         self.toggleChildBlock($childBlock);
                     }
@@ -296,9 +318,9 @@
         /**
          * Handler called when a container block has been loaded.
          *
-         * @param containerId
+         * @param event
          */
-        onContainerResponse: function (containerId) {
+        handleContainerLoaded: function (event) {
             var self                     = this,
                 $children                = this.$dynamicArea.find('.page-composer__container__child'),
                 $blockTypeSelector       = this.$dynamicArea.find('.page-composer__block-type-selector'),
@@ -306,6 +328,8 @@
                 $blockTypeSelectorSelect = $blockTypeSelector.find('select'),
                 $blockTypeSelectorButton = $blockTypeSelector.find('.page-composer__block-type-selector__confirm'),
                 blockTypeSelectorUrl     = $blockTypeSelectorButton.attr('href');
+
+            Admin.setup_select2(this.$dynamicArea);
 
             // Load the block creation form trough ajax.
             $blockTypeSelectorButton.on('click', function (e) {
@@ -318,7 +342,12 @@
                     url:     blockTypeSelectorUrl + '?type=' + blockType,
                     success: function (resp) {
                         $blockTypeSelectorLoader.hide();
-                        self.onCreateBlockResponse(resp, containerId, blockType);
+
+                        var loadedEvent = $.Event('blockcreateformloaded');
+                        loadedEvent.response    = resp;
+                        loadedEvent.containerId = event.containerId;
+                        loadedEvent.blockType   = blockType;
+                        $(self).trigger(loadedEvent);
                     }
                 });
             });
@@ -345,7 +374,10 @@
                 var $container = $(this);
                 $container.on('click', function (e) {
                     e.preventDefault();
-                    self.loadContainer($container);
+
+                    var event = $.Event('containerclick');
+                    event.$container = $container;
+                    $(self).trigger(event);
                 });
             });
             this.loadContainer(this.$containerPreviews.eq(0));
@@ -370,7 +402,10 @@
                 url:     url,
                 success: function (resp) {
                     self.$dynamicArea.html(resp);
-                    self.onContainerResponse(containerId);
+
+                    var event = $.Event('containerloaded');
+                    event.containerId = containerId;
+                    $(self).trigger(event);
                 }
             });
         }
