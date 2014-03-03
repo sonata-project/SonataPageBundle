@@ -16,7 +16,9 @@
      *
      * @constructor
      */
-    var PageComposer = function () {
+    var PageComposer = function (pageId) {
+        this.pageId             = pageId;
+        this.$container         = $('.page-composer');
         this.$dynamicArea       = $('.page-composer__dyn-content');
         this.$pagePreview       = $('.page-composer__page-preview');
         this.$containerPreviews = this.$pagePreview.find('.page-composer__page-preview__container');
@@ -55,9 +57,25 @@
         $this.on('containerloaded',       this.handleContainerLoaded);
         $this.on('blockcreated',          this.handleBlockCreated);
         $this.on('blockcreateformloaded', this.handleBlockCreateFormLoaded);
+        $this.on('blockpositionsupdate',  this.handleBlockPositionsUpdate);
     };
 
 
+    function applyAdmin($context) {
+        if (global.admin === 'undefined') {
+            return;
+        }
+
+        Admin.setup_select2($context);
+        Admin.setup_xeditable($context);
+        Admin.add_pretty_errors($context);
+        Admin.add_filters($context);
+        Admin.set_object_field_value($context);
+        Admin.setup_collection_buttons($context);
+        Admin.setup_per_page_switcher($context);
+        Admin.setup_form_tabs_for_errors($context);
+        Admin.setup_inline_form_errors($context);
+    }
 
     PageComposer.prototype = {
         /**
@@ -123,6 +141,11 @@
             return lastIndex !== -1 && lastIndex === position;
         },
 
+        /**
+         * Called when a child block has been created.
+         *
+         * @param event
+         */
         handleBlockCreated: function (event) {
             var content = this.renderTemplate('childBlock', {
                 'name':       event.blockName,
@@ -131,8 +154,71 @@
                 'remove_url': this.getRouteUrl('block_remove', { 'BLOCK_ID': event.blockId })
             });
 
+            event.$childBlock.attr('data-block-id', event.blockId);
             event.$childBlock.html(content);
             this.controlChildBlock(event.$childBlock);
+        },
+
+        /**
+         * Display notification for current block container.
+         *
+         * @param message
+         * @param type
+         * @param persist
+         */
+        containerNotification: function (message, type, persist) {
+            var $notice = this.$dynamicArea.find('.page-composer__container__view__notice');
+            if ($notice.length === 1) {
+                if (this.containerNotificationTimer) {
+                    clearTimeout(this.containerNotificationTimer);
+                }
+                $notice.removeClass('persist success error');
+                if (type) {
+                    $notice.addClass(type);
+                }
+                $notice.text(message);
+                $notice.show();
+                if (persist !== true) {
+                    this.containerNotificationTimer = setTimeout(function () {
+                        $notice.hide().empty();
+                    }, 2000);
+                } else {
+                    var $close = $('<span class="close-notice">x</span>');
+                    $close.on('click', function () {
+                        $notice.hide().empty();
+                    });
+                    $notice.addClass('persist');
+                    $notice.append($close);
+                }
+            }
+        },
+
+        /**
+         * Save block positions. event.disposition contains positions data:
+         *    [
+         *      { id: 126, page_id: 2, parent_id: 18, position: 0 },
+         *      { id: 21,  page_id: 2, parent_id: 18, position: 1 },
+         *      ...
+         *    ]
+         *
+         * @param event
+         */
+        handleBlockPositionsUpdate: function (event) {
+            var self = this;
+            this.containerNotification('saving block positions…');
+            $.ajax({
+                url:  this.getRouteUrl('save_blocks_positions'),
+                type: 'POST',
+                data: { disposition: event.disposition },
+                success: function (resp) {
+                    if (resp.result && resp.result === 'ok') {
+                        self.containerNotification('block positions saved', 'success');
+                    }
+                },
+                error: function () {
+                    self.containerNotification('an error occured while saving block positions', 'error', true);
+                }
+            });
         },
 
         /**
@@ -160,7 +246,7 @@
                 $parentFormControl,
                 $positionFormControl;
 
-            Admin.setup_select2($form);
+            applyAdmin($form);
 
             $(document).scrollTo($childBlock, 200);
 
@@ -241,6 +327,11 @@
             }
         },
 
+        /**
+         * Remove givent block.
+         *
+         * @param $childBlock
+         */
         removeChildBlock: function ($childBlock) {
             $childBlock.remove();
         },
@@ -278,7 +369,7 @@
                     url:     editUrl,
                     success: function (resp) {
                         $container.html(resp);
-                        Admin.setup_select2($container);
+                        applyAdmin($container);
                         $loader.hide();
                         self.toggleChildBlock($childBlock);
                     }
@@ -322,6 +413,7 @@
          */
         handleContainerLoaded: function (event) {
             var self                     = this,
+                $childrenContainer       = this.$dynamicArea.find('.page-composer__container__children'),
                 $children                = this.$dynamicArea.find('.page-composer__container__child'),
                 $blockTypeSelector       = this.$dynamicArea.find('.page-composer__block-type-selector'),
                 $blockTypeSelectorLoader = $blockTypeSelector.find('.page-composer__block-type-selector__loader'),
@@ -329,7 +421,7 @@
                 $blockTypeSelectorButton = $blockTypeSelector.find('.page-composer__block-type-selector__confirm'),
                 blockTypeSelectorUrl     = $blockTypeSelectorButton.attr('href');
 
-            Admin.setup_select2(this.$dynamicArea);
+            applyAdmin(this.$dynamicArea);
 
             // Load the block creation form trough ajax.
             $blockTypeSelectorButton.on('click', function (e) {
@@ -353,13 +445,45 @@
             });
 
             // makes the container block children sortables.
-            this.$dynamicArea.find('.page-composer__container__children').sortable({
+            $childrenContainer.sortable({
                 revert:         true,
                 cursor:         'move',
                 revertDuration: 200,
                 delay:          200,
-                helper: function (event) {
-                    return $( "<div class='ui-widget-header'>I'm a custom helper</div>" );
+                helper: function (event, element) {
+                    var $element = $(element),
+                        name     = $element.find('.page-composer__container__child__edit h4').text().trim(),
+                        type     = $element.find('.page-composer__container__child__edit small').text().trim();
+
+                    $element.removeClass('page-composer__container__child--expanded');
+
+                    return $('<div class="page-composer__container__child__helper">' +
+                        '<h4>' + name + '</h4>' +
+                    '</div>');
+                },
+                update: function (event, ui) {
+                    var newPositions = [];
+                    $childrenContainer.find('.page-composer__container__child').each(function (position) {
+                        var $child   = $(this),
+                            parentId = $child.attr('data-parent-block-id'),
+                            childId  = $child.attr('data-block-id');
+
+                        // pending block creation has an undefined child id
+                        if (childId !== 'undefined') {
+                            newPositions.push({
+                                'id':        parseInt(childId, 10),
+                                'position':  position,
+                                'parent_id': parseInt(parentId, 10),
+                                'page_id':   self.pageId
+                            });
+                        }
+                    });
+
+                    if (newPositions.length > 0) {
+                        var updateEvent = $.Event('blockpositionsupdate');
+                        updateEvent.disposition = newPositions;
+                        $(self).trigger(updateEvent);
+                    }
                 }
             });
 
@@ -368,6 +492,9 @@
             });
         },
 
+        /**
+         * Bind click handlers to template layout preview blocks.
+         */
         bindPagePreviewHandlers: function () {
             var self = this;
             this.$containerPreviews.each(function () {

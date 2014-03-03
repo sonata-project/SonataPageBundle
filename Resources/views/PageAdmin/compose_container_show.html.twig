@@ -1,6 +1,8 @@
 <div class="page-composer__container__view">
     <h2 class="page-composer__container__view__header">{{ container.name }}</h2>
 
+    <span class="page-composer__container__view__notice">notice</span>
+
     <div class="page-composer__block-type-selector">
         <label>add block of type</label>
         <select class="page-composer__block-type-selector__select">
@@ -18,14 +20,11 @@
         </small>
     </div>
 
-    <!--
-    <div class="page-composer__container__main-edition-area">
-    </div>
-    -->
-
     <ul class="page-composer__container__children">
         {% for child in container.children %}
-            <li class="page-composer__container__child" data-block-id="{{ child.id }}">
+            <li class="page-composer__container__child"
+                data-block-id="{{ child.id }}" data-parent-block-id="{{ container.id }}"
+            >
                 <a class="page-composer__container__child__edit"
                    href="{{ path('admin_sonata_page_block_edit', { 'id': child.id }) }}"
                 >
