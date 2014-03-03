@@ -147,6 +147,13 @@
 
         /**
          * Called when a child block has been created.
+         * The event has the following properties:
+         *
+         *    $childBlock
+         *    parentId
+         *    blockId
+         *    blockName
+         *    blockType
          *
          * @param event
          */
@@ -158,7 +165,8 @@
                 'remove_url': this.getRouteUrl('block_remove', { 'BLOCK_ID': event.blockId })
             });
 
-            event.$childBlock.attr('data-block-id', event.blockId);
+            event.$childBlock.attr('data-block-id',        event.blockId);
+            event.$childBlock.attr('data-parent-block-id', event.parentId);
             event.$childBlock.html(content);
             this.controlChildBlock(event.$childBlock);
         },
@@ -306,7 +314,7 @@
                         if (resp.result && resp.result === 'ok' && resp.objectId) {
                             var createdEvent = $.Event('blockcreated');
                             createdEvent.$childBlock = $childBlock;
-                            createdEvent.containerId = event.containerId;
+                            createdEvent.parentId    = event.containerId;
                             createdEvent.blockId     = resp.objectId;
                             createdEvent.blockName   = blockName;
                             createdEvent.blockType   = event.blockType;

@@ -274,7 +274,7 @@
 }
 .page-composer__container__child__edit {
     display: block;
-    padding: 10px 15px 10px 12px;
+    padding: 10px 15px 10px 27px;
     cursor: pointer;
     text-decoration: none !important;
     color: #404040 !important;
@@ -313,7 +313,9 @@
 }
 .page-composer__container__child__toggle {
     display: none;
-    margin-left: 10px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
 }
 .page-composer__container__child__toggle .icon-chevron-up {
     display: none;
