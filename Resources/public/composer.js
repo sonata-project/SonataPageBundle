@@ -559,9 +559,10 @@
                 }
             });
 
-            $children.each(function () {
-                self.controlChildBlock($(this));
-            });
+            $children
+                .each(function () {
+                    self.controlChildBlock($(this));
+                });
         },
 
         /**
@@ -578,6 +579,13 @@
                     event.$container = $container;
                     $(self).trigger(event);
                 });
+            })
+            .droppable({
+                hoverClass: 'hover',
+                tolerance:  'pointer',
+                drop: function (event, ui) {
+                    console.log(ui.draggable);
+                }
             });
             this.loadContainer(this.$containerPreviews.eq(0));
         },
