@@ -99,8 +99,9 @@ class PageAdminController extends Controller
             throw new NotFoundHttpException(sprintf('unable to find the page with id : %s', $id));
         }
 
-        $containers = array();
-        $children   = array();
+        $containers       = array();
+        $orphanContainers = array();
+        $children         = array();
 
         $templateManager    = $this->get('sonata.page.template_manager');
         $template           = $templateManager->get($page->getTemplateCode());
@@ -114,8 +115,12 @@ class PageAdminController extends Controller
 
         foreach ($page->getBlocks() as $block) {
             $blockCode = $block->getSetting('code');
-            if ($block->getParent() === null && isset($containers[$blockCode])) {
-                $containers[$blockCode]['block'] = $block;
+            if ($block->getParent() === null) {
+                if (isset($containers[$blockCode])) {
+                    $containers[$blockCode]['block'] = $block;
+                } else {
+                    $orphanContainers[] = $block;
+                }
             } else {
                 $children[] = $block;
             }
@@ -124,10 +129,11 @@ class PageAdminController extends Controller
         $csrfProvider = $this->get('form.csrf_provider');
 
         return $this->render('SonataPageBundle:PageAdmin:compose.html.twig', array(
-            'template'   => $template,
-            'page'       => $page,
-            'containers' => $containers,
-            'csrfTokens' => array(
+            'template'         => $template,
+            'page'             => $page,
+            'containers'       => $containers,
+            'orphanContainers' => $orphanContainers,
+            'csrfTokens'       => array(
                 'remove' => $csrfProvider->generateCsrfToken('sonata.delete'),
             ),
         ));

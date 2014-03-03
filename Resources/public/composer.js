@@ -47,6 +47,7 @@
         };
 
         this.bindPagePreviewHandlers();
+        this.bindOrphansHandlers();
 
         // attach event listeners
         var self  = this,
@@ -581,6 +582,20 @@
             this.loadContainer(this.$containerPreviews.eq(0));
         },
 
+        bindOrphansHandlers: function () {
+            var self = this;
+            this.$container.find('.page-composer__orphan-container').each(function () {
+                var $container = $(this);
+                $container.on('click', function (e) {
+                    e.preventDefault();
+
+                    var event = $.Event('containerclick');
+                    event.$container = $container;
+                    $(self).trigger(event);
+                });
+            });
+        },
+
         /**
          * Loads the container detailed view trough ajax.
          *
@@ -592,14 +607,19 @@
                 self        = this;
 
             this.$dynamicArea.empty();
-            this.$containerPreviews.removeClass('page-composer__page-preview__container--active');
+            this.$containerPreviews.removeClass('active');
+            this.$container.find('.page-composer__orphan-container').removeClass('active');
 
-            $container.addClass('page-composer__page-preview__container--active');
+            $container.addClass('active');
 
             $.ajax({
                 url:     url,
                 success: function (resp) {
                     self.$dynamicArea.html(resp);
+
+                    $(document).scrollTo(self.$dynamicArea, 200, {
+                        offset: { top: -100 }
+                    });
 
                     var event = $.Event('containerloaded');
                     event.containerId = containerId;
