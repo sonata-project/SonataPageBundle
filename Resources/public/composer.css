@@ -45,7 +45,7 @@
 .page-composer__page-preview__container__content:hover {
     box-shadow: 0 0 1px rgba(0,0,0,0.7);
 }
-.page-composer__page-preview__container--active .page-composer__page-preview__container__content {
+.page-composer__page-preview__container.active .page-composer__page-preview__container__content {
     border-color: #8dd8c3;
     box-shadow: none;
 }
@@ -339,4 +339,39 @@
 .page-composer__container__child h4 {
     margin: 0 !important;
     font-size: 14px !important;
+}
+
+
+
+.page-composer__orphan-containers {
+    background-color: #f9f9f9;
+    border: 1px solid #dcdcdc;
+    border-radius: 2px;
+}
+.page-composer__orphan-containers ul {
+    list-style: none;
+    margin: 0;
+}
+.page-composer__orphan-container {
+    padding: 5px 15px 5px 12px;
+    border-top: 1px solid #dcdcdc;
+    cursor: pointer;
+    border-left: 3px solid #f9f9f9;
+}
+.page-composer__orphan-container.active {
+    border-left-color: #8dd8c3;
+}
+.page-composer__orphan-container:hover {
+    background: #fff;
+    border-left-color: #8dd8c3;
+}
+.page-composer__orphan-container:first-child {
+    border-top: none;
+}
+.page-composer__orphan-containers__header {
+    border-bottom: 1px solid #dcdcdc;
+    margin: 0 !important;
+    padding: 10px 15px;
+    font-size: 20px !important;
+    line-height: 1em !important;
 }
