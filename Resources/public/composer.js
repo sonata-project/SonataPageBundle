@@ -353,6 +353,7 @@
                 $form      = $container.find('form'),
                 url        = $form.attr('action'),
                 method     = $form.attr('method'),
+                blockType  = event.$block.find('.page-composer__container__child__edit small').text().trim(),
                 $nameFormControl,
                 $positionFormControl;
 
@@ -381,7 +382,7 @@
                         $loader.hide();
                         if (resp.result && resp.result === 'ok') {
                             if ($nameFormControl !== 'undefined') {
-                                $title.text($nameFormControl.val());
+                                $title.text($nameFormControl.val() !== '' ? $nameFormControl.val() : blockType);
                             }
                             event.$block.removeClass('page-composer__container__child--expanded');
                             $container.empty();
