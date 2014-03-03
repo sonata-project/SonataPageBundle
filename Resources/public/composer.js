@@ -58,9 +58,14 @@
         $this.on('blockcreated',          this.handleBlockCreated);
         $this.on('blockcreateformloaded', this.handleBlockCreateFormLoaded);
         $this.on('blockpositionsupdate',  this.handleBlockPositionsUpdate);
+        $this.on('blockeditformloaded',   this.handleBlockEditFormLoaded);
     };
 
-
+    /**
+     * Apply all Admin required functions.
+     *
+     * @param $context
+     */
     function applyAdmin($context) {
         if (global.admin === 'undefined') {
             return;
@@ -130,8 +135,7 @@
          * @param type
          * @returns {boolean}
          */
-        isFormControlTypeByName: function (name, type)
-        {
+        isFormControlTypeByName: function (name, type) {
             var position  = name.length,
                 search    = '[' + type + ']',
                 lastIndex = name.lastIndexOf(search);
@@ -337,6 +341,59 @@
         },
 
         /**
+         * Called when a block edit form has been loaded.
+         *
+         * @param event
+         */
+        handleBlockEditFormLoaded: function (event) {
+            var self       = this,
+                $title     = event.$block.find('.page-composer__container__child__edit h4'),
+                $container = event.$block.find('.page-composer__container__child__content'),
+                $loader    = event.$block.find('.page-composer__container__child__loader'),
+                $form      = $container.find('form'),
+                url        = $form.attr('action'),
+                method     = $form.attr('method'),
+                $nameFormControl,
+                $positionFormControl;
+
+            $form.find('input').each(function () {
+                var $formControl    = $(this),
+                    formControlName = $formControl.attr('name');
+
+                if (self.isFormControlTypeByName(formControlName, 'name')) {
+                    $nameFormControl = $formControl;
+                } else if (self.isFormControlTypeByName(formControlName, 'position')) {
+                    $positionFormControl = $formControl;
+                    $positionFormControl.parent().parent().parent().hide();
+                }
+            });
+
+            $form.on('submit', function (e) {
+                e.preventDefault();
+
+                $loader.show();
+
+                $.ajax({
+                    url:     url,
+                    data:    $form.serialize(),
+                    type:    method,
+                    success: function (resp) {
+                        $loader.hide();
+                        if (resp.result && resp.result === 'ok') {
+                            if ($nameFormControl !== 'undefined') {
+                                $title.text($nameFormControl.val());
+                            }
+                            event.$block.removeClass('page-composer__container__child--expanded');
+                            $container.empty();
+                        }
+                    }
+                });
+
+                return false;
+            });
+        },
+
+        /**
          * Takes control of a container child block.
          *
          * @param $childBlock
@@ -369,6 +426,11 @@
                     url:     editUrl,
                     success: function (resp) {
                         $container.html(resp);
+
+                        var editFormEvent = $.Event('blockeditformloaded');
+                        editFormEvent.$block = $childBlock;
+                        $(self).trigger(editFormEvent);
+
                         applyAdmin($container);
                         $loader.hide();
                         self.toggleChildBlock($childBlock);

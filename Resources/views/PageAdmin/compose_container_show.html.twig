@@ -28,14 +28,12 @@
                 <a class="page-composer__container__child__edit"
                    href="{{ path('admin_sonata_page_block_edit', { 'id': child.id }) }}"
                 >
-                    <h4>
-                        {{ child.name|default(child.type) }}
-                        <span class="page-composer__container__child__toggle">
-                            <span class="icon-chevron-down"></span>
-                            <span class="icon-chevron-up"></span>
-                        </span>
-                    </h4>
+                    <h4>{{ child.name|default(child.type) }}</h4>
                     <small>{{ child.type }}</small>
+                    <span class="page-composer__container__child__toggle">
+                        <span class="icon-chevron-down"></span>
+                        <span class="icon-chevron-up"></span>
+                    </span>
                 </a>
 
                 <div class="page-composer__container__child__remove">
