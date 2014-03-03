@@ -22,6 +22,7 @@ file that was distributed with this source code.
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('bundles/sonatapage/composer.css') }}" type="text/css" media="screen" />
+    <link rel="stylesheet" href="{{ asset('bundles/sonatapage/font-awesome/css/font-awesome.min.css') }}" type="text/css" media="screen" />
 {% endblock %}
 
 {% block content %}
@@ -42,13 +43,19 @@ file that was distributed with this source code.
                                     <div class="page-composer__page-preview__container__content">
                                         <strong>{{ container.block.name|default(container.area.name) }}</strong><br>
                                         <small>{{ container.block.children|length }} blocks</small>
-                                        <span class="page-composer__page-preview__add-block">+</span>
+                                        <span class="page-composer__page-preview__add-block">
+                                            <i class="fa fa-circle-o"></i>
+                                            <i class="fa fa-dot-circle-o"></i>
+                                        </span>
+                                        <span class="drop-indicator">
+                                            <span class="fa fa-download"></span>
+                                        </span>
                                     </div>
                                 </a>
                             {% else %}
                                 <div class="page-composer__page-preview__container--no-block"
                                      style="top:{{ container.area.placement.y }}%;right:{{ container.area.placement.right }}%;bottom:{{ container.area.placement.bottom }}%;left:{{ container.area.placement.x }}%"
-                                        >
+                                >
                                     <div class="page-composer__page-preview__container__content">
                                         <strong>{{ container.area.name }}</strong>
                                     </div>

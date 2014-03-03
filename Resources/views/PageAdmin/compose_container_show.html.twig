@@ -12,7 +12,7 @@
         </select>
         <a class="btn btn-action btn-small page-composer__block-type-selector__confirm"
            href="{{ path('admin_sonata_page_page_block_create', { 'id': page.id }) }}"
-        >+</a>
+        ><i class="fa fa-plus"></i></a>
         <span class="page-composer__block-type-selector__loader">loading</span>
 
         <small class="page-composer__container__child-count pull-right">
@@ -31,13 +31,13 @@
                     <h4>{{ child.name|default(child.type) }}</h4>
                     <small>{{ child.type }}</small>
                     <span class="page-composer__container__child__toggle">
-                        <span class="icon-chevron-down"></span>
-                        <span class="icon-chevron-up"></span>
+                        <i class="fa fa-chevron-down"></i>
+                        <i class="fa fa-chevron-up"></i>
                     </span>
                 </a>
 
                 <div class="page-composer__container__child__remove">
-                    <a class="badge" href="{{ path('admin_sonata_page_block_delete', { 'id': child.id }) }}">remove</a>
+                    <a class="badge" href="{{ path('admin_sonata_page_block_delete', { 'id': child.id }) }}">remove <i class="fa fa-times"></i> </a>
                     <span class="page-composer__container__child__remove__confirm">
                         confirm delete ? <span class="yes">yes</span> <span class="cancel">cancel</span>
                     </span>
