@@ -15,6 +15,7 @@ file that was distributed with this source code.
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="{{ asset('bundles/sonatapage/jquery.scrollTo.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/sonatapage/composer.js') }}" type="text/javascript"></script>
 {% endblock %}
 
@@ -65,7 +66,9 @@ file that was distributed with this source code.
     <script>
         $(document).ready(function () {
             var composer = new PageComposer();
-            composer.setRoute('block_edit', "{{ path('admin_sonata_page_block_edit', { 'id': 'BLOCK_ID' }) }}");
+            composer.csrfTokens = {{ csrfTokens|json_encode()|raw }};
+            composer.setRoute('block_edit',   "{{ path('admin_sonata_page_block_edit',   { 'id': 'BLOCK_ID' }) }}");
+            composer.setRoute('block_remove', "{{ path('admin_sonata_page_block_delete', { 'id': 'BLOCK_ID' }) }}");
         });
     </script>
 {% endblock %}

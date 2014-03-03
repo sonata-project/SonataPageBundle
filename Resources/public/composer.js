@@ -21,9 +21,9 @@
         this.$pagePreview       = $('.page-composer__page-preview');
         this.$containerPreviews = this.$pagePreview.find('.page-composer__page-preview__container');
         this.routes             = {};
+        this.csrfTokens         = {};
         this.templates          = {
-            childBlock: '<li class="page-composer__container__child">' +
-                '<a class="page-composer__container__child__edit" href="%edit_url%">' +
+            childBlock: '<a class="page-composer__container__child__edit" href="%edit_url%">' +
                     '<h4>%name%' +
                         '<span class="page-composer__container__child__toggle">' +
                             '<span class="icon-chevron-down"></span>' +
@@ -32,8 +32,16 @@
                     '</h4>' +
                     '<small>%type%</small>' +
                 '</a>' +
+                '<div class="page-composer__container__child__remove">' +
+                    '<a class="badge" href="%remove_url%">remove</a>' +
+                    '<span class="page-composer__container__child__remove__confirm">' +
+                    'confirm delete ? <span class="yes">yes</span> <span class="cancel">cancel</span>' +
+                    '</span>' +
+                '</div>' +
                 '<div class="page-composer__container__child__content"></div>' +
-            '</li>'
+                '<div class="page-composer__container__child__loader">' +
+                    '<span>loading</span>' +
+                '</div>'
         };
 
         this.bindPagePreviewHandlers();
@@ -103,18 +111,15 @@
             return lastIndex !== -1 && lastIndex === position;
         },
 
-        appendChildBlock: function (containerId, blockId, blockName, blockType) {
-            var $containerChildren = this.$dynamicArea.find('.page-composer__container__children');
-            if ($containerChildren.length === 1) {
-                var content = this.renderTemplate('childBlock', {
-                    'name':     blockName,
-                    'type':     blockType,
-                    'edit_url': this.getRouteUrl('block_edit', { 'BLOCK_ID': blockId })
-                });
+        handleCreatedChildBlock: function ($childBlock, containerId, blockId, blockName, blockType) {
+            var content = this.renderTemplate('childBlock', {
+                'name':     blockName,
+                'type':     blockType,
+                'edit_url': this.getRouteUrl('block_edit', { 'BLOCK_ID': blockId })
+            });
 
-                var $childBlock = $(content).prependTo($containerChildren);
-                this.controlChildBlock($childBlock);
-            }
+            var $childBlock = $childBlock.html(content);
+            this.controlChildBlock($childBlock);
         },
 
         /**
@@ -124,21 +129,27 @@
          * @param containerId
          * @param blockType
          */
-        onCreateBlockResponse: function (containerId, blockType) {
+        onCreateBlockResponse: function (response, containerId, blockType) {
             var self               = this,
-                $blockTypeSelector = this.$dynamicArea.find('.page-composer__block-type-selector'),
-                $container         = this.$dynamicArea.find('.page-composer__container__main-edition-area'),
-                $form              = $container.find('form'),
-                formAction         = $form.attr('action'),
-                formMethod         = $form.attr('method'),
-                $formControls      = $form.find('input, select, textarea'),
-                $formActions       = $form.find('.form-actions'),
+                $containerChildren = this.$dynamicArea.find('.page-composer__container__children'),
+                $container         = this.$dynamicArea.find('.page-composer__container__main-edition-area');
+
+            var $childBlock = $('<li class="page-composer__container__child"></li>');
+            $childBlock.html(response)
+            $containerChildren.append($childBlock);
+
+            var $form         = $childBlock.find('form'),
+                formAction    = $form.attr('action'),
+                formMethod    = $form.attr('method'),
+                $formControls = $form.find('input, select, textarea'),
+                $formActions  = $form.find('.form-actions'),
                 $nameFormControl,
                 $parentFormControl,
                 $positionFormControl;
 
+            $(document).scrollTo($childBlock, 200);
+
             $form.parent().append('<span class="badge">' + blockType + '</span>');
-            $blockTypeSelector.hide();
             $container.show();
 
             // scan form elements to find name/parent/position,
@@ -155,15 +166,10 @@
                     $parentFormControl.parent().parent().hide();
                 } else if (self.isFormControlTypeByName(formControlName, 'position')) {
                     $positionFormControl = $formControl;
-                    $positionFormControl.val(0);
+                    $positionFormControl.val($containerChildren.find('> *').length);
                     $positionFormControl.parent().parent().parent().hide();
                 }
             });
-
-            var cancel = function () {
-                $container.empty().hide();
-                $blockTypeSelector.show();
-            };
 
             $formActions.each(function () {
                 var $formAction   = $(this),
@@ -171,7 +177,8 @@
 
                 $cancelButton.on('click', function (e) {
                     e.preventDefault();
-                    cancel();
+                    $childBlock.remove();
+                    $(document).scrollTo(self.$dynamicArea, 200);
                 });
 
                 $formAction.append($cancelButton);
@@ -191,9 +198,8 @@
                     data: $form.serialize(),
                     type: formMethod,
                     success: function (resp) {
-                        cancel();
                         if (resp.result && resp.result === 'ok' && resp.objectId) {
-                            self.appendChildBlock(containerId, resp.objectId, blockName, blockType);
+                            self.handleCreatedChildBlock($childBlock, containerId, resp.objectId, blockName, blockType);
                         }
                     }
                 });
@@ -214,16 +220,27 @@
             }
         },
 
+        removeChildBlock: function ($childBlock) {
+            $childBlock.remove();
+        },
+
         /**
          * Takes control of a container child block.
          *
          * @param $childBlock
          */
         controlChildBlock: function ($childBlock) {
-            var self       = this,
-                $container = $childBlock.find('.page-composer__container__child__content'),
-                $edit      = $childBlock.find('.page-composer__container__child__edit'),
-                editUrl    = $edit.attr('href');
+            var self           = this,
+                $container     = $childBlock.find('.page-composer__container__child__content'),
+                $loader        = $childBlock.find('.page-composer__container__child__loader'),
+                $edit          = $childBlock.find('.page-composer__container__child__edit'),
+                editUrl        = $edit.attr('href'),
+                $remove        = $childBlock.find('.page-composer__container__child__remove'),
+                $removeButton  = $remove.find('a'),
+                $removeConfirm = $remove.find('.page-composer__container__child__remove__confirm'),
+                $removeCancel  = $removeConfirm.find('.cancel'),
+                $removeYes     = $removeConfirm.find('.yes'),
+                removeUrl      = $removeButton.attr('href');
 
             $edit.click(function (e) {
                 e.preventDefault();
@@ -235,13 +252,44 @@
                 }
 
                 // load edit form, then toggle
+                $loader.show();
                 $.ajax({
                     url:     editUrl,
                     success: function (resp) {
                         $container.html(resp);
+                        $loader.hide();
                         self.toggleChildBlock($childBlock);
                     }
                 });
+            });
+
+            $removeButton.on('click', function (e) {
+                e.preventDefault();
+                $removeButton.hide();
+                $removeConfirm.show();
+            });
+
+            $removeYes.on('click', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url:  removeUrl,
+                    type: 'POST',
+                    data: {
+                        '_method':            'DELETE',
+                        '_sonata_csrf_token': self.csrfTokens.remove
+                    },
+                    success: function (resp) {
+                        if (resp.result && resp.result === 'ok') {
+                            self.removeChildBlock($childBlock);
+                        }
+                    }
+                });
+            });
+
+            $removeCancel.on('click', function (e) {
+                e.preventDefault();
+                $removeConfirm.hide();
+                $removeButton.show();
             });
         },
 
@@ -253,8 +301,8 @@
         onContainerResponse: function (containerId) {
             var self                     = this,
                 $children                = this.$dynamicArea.find('.page-composer__container__child'),
-                $editionArea             = this.$dynamicArea.find('.page-composer__container__main-edition-area'),
                 $blockTypeSelector       = this.$dynamicArea.find('.page-composer__block-type-selector'),
+                $blockTypeSelectorLoader = $blockTypeSelector.find('.page-composer__block-type-selector__loader'),
                 $blockTypeSelectorSelect = $blockTypeSelector.find('select'),
                 $blockTypeSelectorButton = $blockTypeSelector.find('.page-composer__block-type-selector__confirm'),
                 blockTypeSelectorUrl     = $blockTypeSelectorButton.attr('href');
@@ -263,12 +311,14 @@
             $blockTypeSelectorButton.on('click', function (e) {
                 e.preventDefault();
 
+                $blockTypeSelectorLoader.css('display', 'inline-block');
+
                 var blockType = $blockTypeSelectorSelect.val();
                 $.ajax({
                     url:     blockTypeSelectorUrl + '?type=' + blockType,
                     success: function (resp) {
-                        $editionArea.html(resp);
-                        self.onCreateBlockResponse(containerId, blockType);
+                        $blockTypeSelectorLoader.hide();
+                        self.onCreateBlockResponse(resp, containerId, blockType);
                     }
                 });
             });
