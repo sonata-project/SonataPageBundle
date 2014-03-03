@@ -66,6 +66,7 @@ file that was distributed with this source code.
     <script>
         $(document).ready(function () {
             var composer = new PageComposer();
+
             composer.csrfTokens = {{ csrfTokens|json_encode()|raw }};
             composer.setRoute('block_edit',   "{{ path('admin_sonata_page_block_edit',   { 'id': 'BLOCK_ID' }) }}");
             composer.setRoute('block_remove', "{{ path('admin_sonata_page_block_delete', { 'id': 'BLOCK_ID' }) }}");
