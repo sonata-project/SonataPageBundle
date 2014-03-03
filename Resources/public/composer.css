@@ -221,7 +221,7 @@
     min-height: 40px;
 }
 .page-composer__container__child__helper {
-    background: #fff;
+    background: rgba(255,255,255,0.85);
     padding: 0 10px;
     box-shadow: 0 0 2px rgba(0,0,0,0.35);
     border-left: 3px solid #8dd8c3;
