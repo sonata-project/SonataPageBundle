@@ -11,18 +11,21 @@
         <a class="btn btn-action btn-small page-composer__block-type-selector__confirm"
            href="{{ path('admin_sonata_page_page_block_create', { 'id': page.id }) }}"
         >+</a>
+        <span class="page-composer__block-type-selector__loader">loading</span>
 
         <small class="page-composer__container__child-count pull-right">
             blocks <span class="badge">{{ container.children|length }}</span>
         </small>
     </div>
 
+    <!--
     <div class="page-composer__container__main-edition-area">
     </div>
+    -->
 
     <ul class="page-composer__container__children">
         {% for child in container.children %}
-            <li class="page-composer__container__child">
+            <li class="page-composer__container__child" data-block-id="{{ child.id }}">
                 <a class="page-composer__container__child__edit"
                    href="{{ path('admin_sonata_page_block_edit', { 'id': child.id }) }}"
                 >
@@ -35,7 +38,20 @@
                     </h4>
                     <small>{{ child.type }}</small>
                 </a>
-                <div class="page-composer__container__child__content"></div>
+
+                <div class="page-composer__container__child__remove">
+                    <a class="badge" href="{{ path('admin_sonata_page_block_delete', { 'id': child.id }) }}">remove</a>
+                    <span class="page-composer__container__child__remove__confirm">
+                        confirm delete ? <span class="yes">yes</span> <span class="cancel">cancel</span>
+                    </span>
+                </div>
+
+                <div class="page-composer__container__child__content">
+                </div>
+
+                <div class="page-composer__container__child__loader">
+                    <span>loading</span>
+                </div>
             </li>
         {% endfor %}
     </ul>

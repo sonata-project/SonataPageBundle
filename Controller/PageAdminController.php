@@ -121,10 +121,15 @@ class PageAdminController extends Controller
             }
         }
 
+        $csrfProvider = $this->get('form.csrf_provider');
+
         return $this->render('SonataPageBundle:PageAdmin:compose.html.twig', array(
-            'template'      => $template,
-            'page'          => $page,
-            'containers'    => $containers,
+            'template'   => $template,
+            'page'       => $page,
+            'containers' => $containers,
+            'csrfTokens' => array(
+                'remove' => $csrfProvider->generateCsrfToken('sonata.delete'),
+            ),
         ));
     }
 
