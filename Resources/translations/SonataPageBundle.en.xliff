@@ -638,7 +638,11 @@
       <trans-unit id="157" resname="message_create_page">
             <source>message_create_page</source>
             <target>Before creating a new page, you need to select the website where the page will be located.</target>
-       </trans-unit>
+      </trans-unit>
+      <trans-unit id="158" resname="sidemenu.link_compose_page">
+          <source>sidemenu.link_compose_page</source>
+          <target>Compose page</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

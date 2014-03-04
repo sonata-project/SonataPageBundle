@@ -257,8 +257,8 @@ class PageAdmin extends Admin
         );
 
         $menu->addChild(
-            $this->trans('sidemenu.link_list_blocks'),
-            array('uri' => $admin->generateUrl('sonata.page.admin.block.list', array('id' => $id)))
+            $this->trans('sidemenu.link_compose_page'),
+            array('uri' => $admin->generateUrl('compose', array('id' => $id)))
         );
 
         $menu->addChild(
