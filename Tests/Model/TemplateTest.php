@@ -25,10 +25,11 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
 
         $expected = array(
             'zone' => array(
-                'name' => 'n/a',
-                'type' => Template::TYPE_STATIC,
-                'blocks' => array()
-            )
+                'name'      => 'n/a',
+                'type'      => Template::TYPE_STATIC,
+                'blocks'    => array(),
+                'placement' => array(),
+            ),
         );
 
         $this->assertEquals($template->getContainers(), $expected);
