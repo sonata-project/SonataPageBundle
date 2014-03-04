@@ -26,22 +26,22 @@
         this.csrfTokens         = {};
         this.templates          = {
             childBlock: '<a class="page-composer__container__child__edit" href="%edit_url%">' +
-                    '<h4>%name%</h4>' +
-                    '<small>%type%</small>' +
-                    '<span class="page-composer__container__child__toggle">' +
-                        '<span class="fa fa-chevron-down"></span>' +
-                        '<span class="fa fa-chevron-up"></span>' +
-                    '</span>' +
+                '<h4>%name%</h4>' +
+                '<small>%type%</small>' +
+                '<span class="page-composer__container__child__toggle">' +
+                '<span class="fa fa-chevron-down"></span>' +
+                '<span class="fa fa-chevron-up"></span>' +
+                '</span>' +
                 '</a>' +
                 '<div class="page-composer__container__child__remove">' +
-                    '<a class="badge" href="%remove_url%">remove</a>' +
-                    '<span class="page-composer__container__child__remove__confirm">' +
-                    'confirm delete ? <span class="yes">yes</span> <span class="cancel">cancel</span>' +
-                    '</span>' +
+                '<a class="badge" href="%remove_url%">remove</a>' +
+                '<span class="page-composer__container__child__remove__confirm">' +
+                'confirm delete ? <span class="yes">yes</span> <span class="cancel">cancel</span>' +
+                '</span>' +
                 '</div>' +
                 '<div class="page-composer__container__child__content"></div>' +
                 '<div class="page-composer__container__child__loader">' +
-                    '<span>loading</span>' +
+                '<span>loading</span>' +
                 '</div>'
         };
 
@@ -56,6 +56,7 @@
         });
         $this.on('containerloaded',       this.handleContainerLoaded);
         $this.on('blockcreated',          this.handleBlockCreated);
+        $this.on('blockremoved',          this.handleBlockRemoved);
         $this.on('blockcreateformloaded', this.handleBlockCreateFormLoaded);
         $this.on('blockpositionsupdate',  this.handleBlockPositionsUpdate);
         $this.on('blockeditformloaded',   this.handleBlockEditFormLoaded);
@@ -170,6 +171,25 @@
             event.$childBlock.attr('data-parent-block-id', event.parentId);
             event.$childBlock.html(content);
             this.controlChildBlock(event.$childBlock);
+
+            // refresh parent block child count
+            var newChildCount = this.getContainerChildCountFromList(event.parentId);
+            if (newChildCount !== null) {
+                this.updateChildCount(event.parentId, newChildCount);
+            }
+        },
+
+        /**
+         * Remove given block.
+         *
+         * @param event
+         */
+        handleBlockRemoved: function (event) {
+            // refresh parent block child count
+            var newChildCount = this.getContainerChildCountFromList(event.parentId);
+            if (newChildCount !== null) {
+                this.updateChildCount(event.parentId, newChildCount);
+            }
         },
 
         /**
@@ -258,6 +278,39 @@
             this.updateChildCount(event.newParentId,      newChildCount + 1);
         },
 
+        /**
+         * Compute child count for the given block container id.
+         *
+         * @param containerId
+         * @returns {number}
+         */
+        getContainerChildCountFromList: function (containerId) {
+            var $blockView = this.$dynamicArea.find('.block-view-' + containerId);
+
+            if ($blockView.length === 0) {
+                return null;
+            }
+
+            var $children = $blockView.find('.page-composer__container__child'),
+                childCount = 0;
+
+            $children.each(function () {
+                var $child  = $(this),
+                    blockId = $child.attr('data-block-id');
+                if (blockId !== 'undefined') {
+                    childCount++;
+                }
+            });
+
+            return childCount;
+        },
+
+        /**
+         * Update child count for the given container block id.
+         *
+         * @param blockId
+         * @param count
+         */
         updateChildCount: function (blockId, count) {
             var $previewCount = $('.block-preview-' + blockId),
                 $viewCount    = $('.block-view-' + blockId);
@@ -383,15 +436,6 @@
         },
 
         /**
-         * Remove given block.
-         *
-         * @param $childBlock
-         */
-        removeChildBlock: function ($childBlock) {
-            $childBlock.remove();
-        },
-
-        /**
          * Called when a block edit form has been loaded.
          *
          * @param event
@@ -437,6 +481,8 @@
                             }
                             event.$block.removeClass('page-composer__container__child--expanded');
                             $container.empty();
+                        } else {
+
                         }
                     }
                 });
@@ -461,7 +507,8 @@
                 $removeConfirm = $remove.find('.page-composer__container__child__remove__confirm'),
                 $removeCancel  = $removeConfirm.find('.cancel'),
                 $removeYes     = $removeConfirm.find('.yes'),
-                removeUrl      = $removeButton.attr('href');
+                removeUrl      = $removeButton.attr('href'),
+                parentId       = parseInt($childBlock.attr('data-parent-block-id'), 10);
 
             $edit.click(function (e) {
                 e.preventDefault();
@@ -507,7 +554,11 @@
                     },
                     success: function (resp) {
                         if (resp.result && resp.result === 'ok') {
-                            self.removeChildBlock($childBlock);
+                            $childBlock.remove();
+
+                            var removedEvent = $.Event('blockremoved');
+                            removedEvent.parentId = parentId;
+                            $(self).trigger(removedEvent);
                         }
                     }
                 });
@@ -573,7 +624,7 @@
 
                     return $('<div class="page-composer__container__child__helper">' +
                         '<h4>' + name + '</h4>' +
-                    '</div>');
+                        '</div>');
                 },
                 update: function (event, ui) {
                     var newPositions = [];
@@ -622,48 +673,48 @@
                     $(self).trigger(event);
                 });
             })
-            .droppable({
-                hoverClass: 'hover',
-                tolerance:  'pointer',
-                drop: function (event, ui) {
-                    var droppedBlockId = ui.draggable.attr('data-block-id');
-                    if (droppedBlockId !== 'undefined') {
-                        ui.helper.remove();
-                        
-                        var $container  = $(this),
-                            parentId    = parseInt(ui.draggable.attr('data-parent-block-id'), 10),
-                            containerId = parseInt($container.attr('data-block-id'), 10);
-                        droppedBlockId  = parseInt(droppedBlockId, 10);
+                .droppable({
+                    hoverClass: 'hover',
+                    tolerance:  'pointer',
+                    drop: function (event, ui) {
+                        var droppedBlockId = ui.draggable.attr('data-block-id');
+                        if (droppedBlockId !== 'undefined') {
+                            ui.helper.remove();
 
-                        // play animation on drop, remove class on animation end to be able to re-apply
-                        $container.addClass('dropped');
-                        $container.on('webkitAnimationEnd oanimationend msAnimationEnd animationend', function (e) {
-                            $container.removeClass('dropped');
-                        });
+                            var $container  = $(this),
+                                parentId    = parseInt(ui.draggable.attr('data-parent-block-id'), 10),
+                                containerId = parseInt($container.attr('data-block-id'), 10);
+                            droppedBlockId  = parseInt(droppedBlockId, 10);
 
-                        if (parentId !== containerId) {
-                            $.ajax({
-                                url: self.getRouteUrl('block_switch_parent'),
-                                data: {
-                                    block_id:  droppedBlockId,
-                                    parent_id: containerId
-                                },
-                                success: function (resp) {
-                                    if (resp.result && resp.result === 'ok') {
-                                        self.removeChildBlock(ui.draggable);
+                            // play animation on drop, remove class on animation end to be able to re-apply
+                            $container.addClass('dropped');
+                            $container.on('webkitAnimationEnd oanimationend msAnimationEnd animationend', function (e) {
+                                $container.removeClass('dropped');
+                            });
 
-                                        var switchedEvent = $.Event('blockparentswitched');
-                                        switchedEvent.previousParentId = parentId;
-                                        switchedEvent.newParentId      = containerId;
-                                        switchedEvent.blockId          = droppedBlockId;
-                                        $(self).trigger(switchedEvent);
+                            if (parentId !== containerId) {
+                                $.ajax({
+                                    url: self.getRouteUrl('block_switch_parent'),
+                                    data: {
+                                        block_id:  droppedBlockId,
+                                        parent_id: containerId
+                                    },
+                                    success: function (resp) {
+                                        if (resp.result && resp.result === 'ok') {
+                                            ui.draggable.remove();
+
+                                            var switchedEvent = $.Event('blockparentswitched');
+                                            switchedEvent.previousParentId = parentId;
+                                            switchedEvent.newParentId      = containerId;
+                                            switchedEvent.blockId          = droppedBlockId;
+                                            $(self).trigger(switchedEvent);
+                                        }
                                     }
-                                }
-                            })
+                                })
+                            }
                         }
                     }
-                }
-            });
+                });
             this.loadContainer(this.$containerPreviews.eq(0));
         },
 
