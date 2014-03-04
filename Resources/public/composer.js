@@ -150,11 +150,11 @@
          * Called when a child block has been created.
          * The event has the following properties:
          *
-         *    $childBlock
-         *    parentId
-         *    blockId
-         *    blockName
-         *    blockType
+         *    $childBlock The child container dom element
+         *    parentId    The parent block id
+         *    blockId     The child block id
+         *    blockName   The block name
+         *    blockType   The block type
          *
          * @param event
          */
@@ -207,7 +207,9 @@
         },
 
         /**
-         * Save block positions. event.disposition contains positions data:
+         * Save block positions.
+         * event.disposition contains positions data:
+         *
          *    [
          *      { id: 126, page_id: 2, parent_id: 18, position: 0 },
          *      { id: 21,  page_id: 2, parent_id: 18, position: 1 },
@@ -328,6 +330,11 @@
             });
         },
 
+        /**
+         * Toggle a child block using '--expanded' class check.
+         *
+         * @param $childBlock
+         */
         toggleChildBlock: function ($childBlock) {
             var expandedClass = 'page-composer__container__child--expanded',
                 $children     = this.$dynamicArea.find('.page-composer__container__child');
@@ -341,7 +348,7 @@
         },
 
         /**
-         * Remove givent block.
+         * Remove given block.
          *
          * @param $childBlock
          */
@@ -584,7 +591,31 @@
                 hoverClass: 'hover',
                 tolerance:  'pointer',
                 drop: function (event, ui) {
-                    console.log(ui.draggable);
+                    event.stopPropagation();
+                    var droppedBlockId = ui.draggable.attr('data-block-id');
+                    if (droppedBlockId !== 'undefined') {
+                        ui.helper.remove();
+                        
+                        var $container  = $(this),
+                            parentId    = parseInt(ui.draggable.attr('data-parent-block-id'), 10),
+                            containerId = parseInt($container.attr('data-block-id'), 10);
+                        droppedBlockId  = parseInt(droppedBlockId, 10);
+
+                        if (parentId !== containerId) {
+                            $.ajax({
+                                url: self.getRouteUrl('block_switch_parent'),
+                                data: {
+                                    block_id:  droppedBlockId,
+                                    parent_id: containerId
+                                },
+                                success: function (resp) {
+                                    if (resp.result && resp.result === 'ok') {
+                                        self.removeChildBlock(ui.draggable);
+                                    }
+                                }
+                            })
+                        }
+                    }
                 }
             });
             this.loadContainer(this.$containerPreviews.eq(0));

@@ -96,6 +96,7 @@ file that was distributed with this source code.
             composer.setRoute('block_edit',            "{{ path('admin_sonata_page_block_edit',   { 'id': 'BLOCK_ID' }) }}");
             composer.setRoute('block_remove',          "{{ path('admin_sonata_page_block_delete', { 'id': 'BLOCK_ID' }) }}");
             composer.setRoute('save_blocks_positions', "{{ path('admin_sonata_page_block_savePosition') }}");
+            composer.setRoute('block_switch_parent',   "{{ path('admin_sonata_page_block_switchParent') }}");
         });
     </script>
 {% endblock %}
