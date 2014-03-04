@@ -91,4 +91,32 @@ class BlockAdminController extends Controller
 
         return parent::createAction();
     }
+
+    public function switchParentAction()
+    {
+        if (!$this->get('security.context')->isGranted('ROLE_SONATA_PAGE_ADMIN_BLOCK_EDIT')) {
+            throw new AccessDeniedException();
+        }
+
+        $blockId  = $this->get('request')->get('block_id');
+        $parentId = $this->get('request')->get('parent_id');
+        if ($blockId === null or $parentId === null) {
+            throw new HttpException(400, 'wrong parameters');
+        }
+
+        $block = $this->admin->getObject($blockId);
+        if (!$block) {
+            throw new PageNotFoundException(sprintf('Unable to find block with id %d', $blockId));
+        }
+
+        $parent = $this->admin->getObject($parentId);
+        if (!$block) {
+            throw new PageNotFoundException(sprintf('Unable to find parent block with id %d', $parentId));
+        }
+
+        $parent->addChildren($block);
+        $this->admin->update($parent);
+
+        return $this->renderJson(array('result' => 'ok'));
+    }
 }
