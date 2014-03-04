@@ -60,6 +60,7 @@
         $this.on('blockcreateformloaded', this.handleBlockCreateFormLoaded);
         $this.on('blockpositionsupdate',  this.handleBlockPositionsUpdate);
         $this.on('blockeditformloaded',   this.handleBlockEditFormLoaded);
+        $this.on('blockparentswitched',   this.handleBlockParentSwitched);
     };
 
     /**
@@ -234,6 +235,41 @@
                     self.containerNotification('an error occured while saving block positions', 'error', true);
                 }
             });
+        },
+
+        /**
+         * Called when a block parent has changed (typically on drag n' drop).
+         * The event has the following properties:
+         *
+         *    previousParentId
+         *    newParentId
+         *    blockId
+         *
+         * @param event
+         */
+        handleBlockParentSwitched: function (event) {
+            var $previousParentPreview  = $('.block-preview-' + event.previousParentId),
+                $oldChildCountIndicator = $previousParentPreview.find('.child-count'),
+                oldChildCount           = parseInt($oldChildCountIndicator.text().trim(), 10),
+                $newParentPreview       = $('.block-preview-' + event.newParentId),
+                $newChildCountIndicator = $newParentPreview.find('.child-count'),
+                newChildCount           = parseInt($newChildCountIndicator.text().trim(), 10);
+
+            this.updateChildCount(event.previousParentId, oldChildCount - 1);
+            this.updateChildCount(event.newParentId,      newChildCount + 1);
+        },
+
+        updateChildCount: function (blockId, count) {
+            var $previewCount = $('.block-preview-' + blockId),
+                $viewCount    = $('.block-view-' + blockId);
+
+            if ($previewCount.length > 0) {
+                $previewCount.find('.child-count').text(count);
+            }
+
+            if ($viewCount.length > 0) {
+                $viewCount.find('.page-composer__container__child-count span').text(count);
+            }
         },
 
         /**
@@ -591,7 +627,6 @@
                 hoverClass: 'hover',
                 tolerance:  'pointer',
                 drop: function (event, ui) {
-                    event.stopPropagation();
                     var droppedBlockId = ui.draggable.attr('data-block-id');
                     if (droppedBlockId !== 'undefined') {
                         ui.helper.remove();
@@ -611,6 +646,12 @@
                                 success: function (resp) {
                                     if (resp.result && resp.result === 'ok') {
                                         self.removeChildBlock(ui.draggable);
+
+                                        var switchedEvent = $.Event('blockparentswitched');
+                                        switchedEvent.previousParentId = parentId;
+                                        switchedEvent.newParentId      = containerId;
+                                        switchedEvent.blockId          = droppedBlockId;
+                                        $(self).trigger(switchedEvent);
                                     }
                                 }
                             })

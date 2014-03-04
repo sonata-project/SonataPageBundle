@@ -35,14 +35,14 @@ file that was distributed with this source code.
                     <div class="page-composer__page-preview__containers">
                         {% for container in containers %}
                             {% if container.block is defined %}
-                                <a class="page-composer__page-preview__container"
+                                <a class="page-composer__page-preview__container block-preview-{{ container.block.id }}"
                                    data-block-id="{{ container.block.id }}"
                                    style="top:{{ container.area.placement.y }}%;right:{{ container.area.placement.right }}%;bottom:{{ container.area.placement.bottom }}%;left:{{ container.area.placement.x }}%"
                                    href="{{ path('admin_sonata_page_page_compose_container_show', { 'id': container.block.id }) }}"
                                 >
                                     <div class="page-composer__page-preview__container__content">
                                         <strong>{{ container.block.name|default(container.area.name) }}</strong><br>
-                                        <small>{{ container.block.children|length }} blocks</small>
+                                        <small><span class="child-count">{{ container.block.children|length }}</span> blocks</small>
                                         <span class="page-composer__page-preview__add-block">
                                             <i class="fa fa-circle-o"></i>
                                             <i class="fa fa-dot-circle-o"></i>
@@ -70,11 +70,12 @@ file that was distributed with this source code.
                         <h3 class="page-composer__orphan-containers__header">Orphan containers</h3>
                         <ul>
                             {% for orphanContainer in orphanContainers %}
-                                <li class="page-composer__orphan-container" data-block-id="{{ orphanContainer.id }}"
+                                <li class="page-composer__orphan-container block-preview-{{ orphanContainer.id }}"
+                                    data-block-id="{{ orphanContainer.id }}"
                                     href="{{ path('admin_sonata_page_page_compose_container_show', { 'id': orphanContainer.id }) }}"
                                 >
                                     <strong>{{ orphanContainer.name|default(orphanContainer.type) }}</strong><br>
-                                    <small>{{ orphanContainer.children|length }} blocks</small>
+                                    <small><span class="child-count">{{ orphanContainer.children|length }}</span> blocks</small>
                                 </li>
                             {% endfor %}
                         </ul>
