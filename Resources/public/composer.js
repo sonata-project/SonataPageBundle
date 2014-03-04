@@ -26,13 +26,12 @@
         this.csrfTokens         = {};
         this.templates          = {
             childBlock: '<a class="page-composer__container__child__edit" href="%edit_url%">' +
-                    '<h4>%name%' +
-                        '<span class="page-composer__container__child__toggle">' +
-                            '<span class="icon-chevron-down"></span>' +
-                            '<span class="icon-chevron-up"></span>' +
-                        '</span>' +
-                    '</h4>' +
+                    '<h4>%name%</h4>' +
                     '<small>%type%</small>' +
+                    '<span class="page-composer__container__child__toggle">' +
+                        '<span class="fa fa-chevron-down"></span>' +
+                        '<span class="fa fa-chevron-up"></span>' +
+                    '</span>' +
                 '</a>' +
                 '<div class="page-composer__container__child__remove">' +
                     '<a class="badge" href="%remove_url%">remove</a>' +
@@ -635,6 +634,12 @@
                             parentId    = parseInt(ui.draggable.attr('data-parent-block-id'), 10),
                             containerId = parseInt($container.attr('data-block-id'), 10);
                         droppedBlockId  = parseInt(droppedBlockId, 10);
+
+                        // play animation on drop, remove class on animation end to be able to re-apply
+                        $container.addClass('dropped');
+                        $container.on('webkitAnimationEnd oanimationend msAnimationEnd animationend', function (e) {
+                            $container.removeClass('dropped');
+                        });
 
                         if (parentId !== containerId) {
                             $.ajax({
