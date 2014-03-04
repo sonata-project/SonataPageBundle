@@ -69,6 +69,27 @@
 .page-composer__page-preview__container.hover .drop-indicator {
     display: block;
 }
+
+@-webkit-keyframes droppedin {
+    0% {
+        background-color: #fff;
+        border-color: #fff;
+    }
+    50% {
+        background-color: #abf8d9;
+        border-color: #5cc4a7;
+    }
+    100% {
+        background-color: #fff;
+        border-color: #fff;
+    }
+}
+
+/* When we drop a block in a container */
+.page-composer__page-preview__container.dropped .page-composer__page-preview__container__content {
+    -webkit-animation-duration: 600ms;
+    -webkit-animation-name: droppedin;
+}
 .page-composer__page-preview__container__content:hover {
     box-shadow: 0 0 1px rgba(0,0,0,0.7);
     color: #404040;
