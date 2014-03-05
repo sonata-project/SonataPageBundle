@@ -12,10 +12,10 @@ length requirement. So if you want to speed up queries you need to manually add 
 .. code-block:: sql
 
     ALTER TABLE `page__snapshot` ADD INDEX `idx_snapshot_route_name` (`route_name` (32), `site_id`);
-    ALTER TABLE `page__snapshot` ADD INDEX `idx_snapshot_route_alias` (`route_alias` (32), `site_id`);
+    ALTER TABLE `page__snapshot` ADD INDEX `idx_snapshot_page_alias` (`page_alias` (32), `site_id`);
     ALTER TABLE `page__snapshot` ADD INDEX `idx_snapshot_url` (`url` (32), `site_id`);
     ALTER TABLE `page__page` ADD INDEX `idx_page_route_name` (`route_name` (32), `site_id`);
-    ALTER TABLE `page__page` ADD INDEX `idx_page_route_alias` (`route_alias` (32), `site_id`);
+    ALTER TABLE `page__page` ADD INDEX `idx_page_page_alias` (`page_alias` (32), `site_id`);
     ALTER TABLE `page__page` ADD INDEX `idx_page_url` (`url` (32), `site_id`);
 
 Snapshots
