@@ -25,6 +25,8 @@ file that was distributed with this source code.
     <link rel="stylesheet" href="{{ asset('bundles/sonatapage/font-awesome/css/font-awesome.min.css') }}" type="text/css" media="screen" />
 {% endblock %}
 
+{% block body_attributes %}class="sonata-bc page-composer-page sonata-ba-no-side-menu"{% endblock %}
+
 {% block content %}
     <div class="page-composer">
         <h2>compose page "{{ page.name }}" <small>[template: <b>{{ template.name }}</b>]</small></h2>
