@@ -44,6 +44,11 @@ class BlockAdmin extends Admin
     protected $inValidate = false;
 
     /**
+     * @var array
+     */
+    protected $containerBlockTypes = array();
+
+    /**
      * {@inheritdoc}
      */
     protected function configureRoutes(RouteCollection $collection)
@@ -124,7 +129,7 @@ class BlockAdmin extends Admin
                             ->andWhere('a.page = :page AND a.type IN (:types)')
                             ->setParameters(array(
                                 'page'  => $page,
-                                'types' => array('sonata.page.block.container', 'sonata.block.service.container'),
+                                'types' => $this->containerBlockTypes,
                             ));
                     }
                 ));
@@ -257,6 +262,14 @@ class BlockAdmin extends Admin
     public function setCacheManager(CacheManagerInterface $cacheManager)
     {
         $this->cacheManager = $cacheManager;
+    }
+
+    /**
+     * @param array $containerBlockTypes
+     */
+    public function setContainerBlockTypes(array $containerBlockTypes)
+    {
+        $this->containerBlockTypes = $containerBlockTypes;
     }
 
     /**
