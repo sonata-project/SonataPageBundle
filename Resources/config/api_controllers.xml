@@ -7,6 +7,8 @@
     <services>
         <service id="sonata.page.controller.api.page" class="Sonata\PageBundle\Controller\Api\PageController">
             <argument type="service" id="sonata.page.manager.page" />
+            <argument type="service" id="form.factory" />
+            <argument type="service" id="sonata.notification.backend" />
         </service>
     </services>
 </container>

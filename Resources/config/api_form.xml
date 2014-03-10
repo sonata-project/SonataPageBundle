@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="sonata.page.api.form.type.page" class="Sonata\CoreBundle\Form\Type\DoctrineORMSerializationType">
+            <tag name="form.type" alias="sonata_page_api_form_page" />
+
+            <argument type="service" id="jms_serializer.metadata_factory" />
+            <argument type="service" id="doctrine" />
+            <argument>sonata_page_api_form_page</argument>
+            <argument>%sonata.page.admin.page.entity%</argument>
+            <argument>sonata_api_write</argument>
+        </service>
+    </services>
+</container>
