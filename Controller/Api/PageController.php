@@ -15,6 +15,7 @@ use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\View;
 use JMS\Serializer\SerializationContext;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sonata\BlockBundle\Model\BlockManagerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\FormInterface;
@@ -40,6 +41,11 @@ class PageController
     protected $pageManager;
 
     /**
+     * @var BlockManagerInterface
+     */
+    protected $blockManager;
+
+    /**
      * @var FormFactoryInterface
      */
     protected $formFactory;
@@ -53,12 +59,14 @@ class PageController
      * Constructor
      *
      * @param PageManagerInterface  $pageManager
+     * @param BlockManagerInterface $blockManager
      * @param FormFactoryInterface  $formFactory
      * @param BackendInterface      $backend
      */
-    public function __construct(PageManagerInterface $pageManager, FormFactoryInterface $formFactory, BackendInterface $backend)
+    public function __construct(PageManagerInterface $pageManager, BlockManagerInterface $blockManager, FormFactoryInterface $formFactory, BackendInterface $backend)
     {
         $this->pageManager  = $pageManager;
+        $this->blockManager = $blockManager;
         $this->formFactory  = $formFactory;
         $this->backend      = $backend;
     }
@@ -149,6 +157,87 @@ class PageController
     public function getPageBlocksAction($id)
     {
         return $this->getPage($id)->getBlocks();
+    }
+
+    /**
+     * Adds a block
+     *
+     * @ApiDoc(
+     *  input={"class"="sonata_page_api_form_block", "name"="", "groups"={"sonata_api_write"}},
+     *  output={"class"="Sonata\PageBundle\Model\Block", "groups"={"sonata_api_read"}},
+     *  statusCodes={
+     *      200="Returned when successful",
+     *      400="Returned when an error has occured while block creation",
+     *      404="Returned when unable to find page"
+     *  }
+     * )
+     *
+     * @param Request $request A Symfony request
+     *
+     * @return BlockInterface
+     *
+     * @throws NotFoundHttpException
+     */
+    public function postPageBlockAction(Request $request)
+    {
+        return $this->handleWriteBlock($request);
+    }
+
+    /**
+     * Updates a block
+     *
+     * @ApiDoc(
+     *  requirements={
+     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="block identifier"}
+     *  },
+     *  input={"class"="sonata_page_api_form_block", "name"="", "groups"={"sonata_api_write"}},
+     *  output={"class"="Sonata\PageBundle\Model\Block", "groups"={"sonata_api_read"}},
+     *  statusCodes={
+     *      200="Returned when successful",
+     *      400="Returned when an error has occured while block creation",
+     *      404="Returned when unable to find page"
+     *  }
+     * )
+     *
+     * @param int     $id      Block id
+     * @param Request $request A Symfony request
+     *
+     * @return BlockInterface
+     *
+     * @throws NotFoundHttpException
+     */
+    public function putPageBlockAction($id, Request $request)
+    {
+        return $this->handleWriteBlock($request, $id);
+    }
+
+    /**
+     * Deletes a block
+     *
+     * @ApiDoc(
+     *  requirements={
+     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="block identifier"}
+     *  },
+     *  statusCodes={
+     *      200="Returned when block is successfully deleted",
+     *      400="Returned when an error has occured while block deletion",
+     *      404="Returned when unable to find block"
+     *  }
+     * )
+     *
+     * @param integer $id A Block identifier
+     *
+     * @return \FOS\RestBundle\View\View
+     *
+     * @throws NotFoundHttpException
+     */
+    public function deletePageBlockAction($id)
+    {
+        $block = $this->getBlock($id);
+
+        $this->blockManager->delete($block);
+
+        return array('deleted' => true);
     }
 
     /**
@@ -283,6 +372,26 @@ class PageController
     }
 
     /**
+     * Retrieves Block with id $id or throws an exception if it doesn't exist
+     *
+     * @param $id
+     *
+     * @return BlockInterface
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     */
+    protected function getBlock($id)
+    {
+        $block = $this->blockManager->findOneBy(array('id' => $id));
+
+        if (null === $block) {
+            throw new NotFoundHttpException(sprintf('Block (%d) not found', $id));
+        }
+
+        return $block;
+    }
+
+    /**
      * Write a page, this method is used by both POST and PUT action methods
      *
      * @param Request      $request Symfony request
@@ -305,6 +414,40 @@ class PageController
             $this->pageManager->save($page);
 
             $view = FOSRestView::create($page);
+            $serializationContext = SerializationContext::create();
+            $serializationContext->setGroups(array('sonata_api_read'));
+            $serializationContext->enableMaxDepthChecks();
+            $view->setSerializationContext($serializationContext);
+
+            return $view;
+        }
+
+        return $form;
+    }
+
+    /**
+     * Write a Block, this method is used by both POST and PUT action methods.
+     *
+     * @param Request      $request Symfony request
+     * @param integer|null $id      A Block identifier
+     *
+     * @return \FOS\RestBundle\View\View|FormInterface
+     */
+    protected function handleWriteBlock($request, $id = null)
+    {
+        $block = $id ? $this->getBlock($id) : null;
+
+        $form = $this->formFactory->createNamed(null, 'sonata_page_api_form_block', $block, array(
+            'csrf_protection' => false
+        ));
+
+        $form->bind($request);
+
+        if ($form->isValid()) {
+            $block = $form->getData();
+            $this->blockManager->save($block);
+
+            $view = FOSRestView::create($block);
             $serializationContext = SerializationContext::create();
             $serializationContext->setGroups(array('sonata_api_read'));
             $serializationContext->enableMaxDepthChecks();
