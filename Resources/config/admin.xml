@@ -76,7 +76,7 @@
             </call>
 
             <call method="setContainerBlockTypes">
-                <argument>%sonata.block.container_types%</argument>
+                <argument>%sonata.block.container.types%</argument>
             </call>
         </service>
 
