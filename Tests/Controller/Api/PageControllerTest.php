@@ -64,14 +64,18 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase
     /**
      * @param $page
      * @param $pageManager
+     * @param $blockManager
      * @param $formFactory
      *
      * @return PageController
      */
-    public function createPageController($page = null, $pageManager = null, $formFactory = null)
+    public function createPageController($page = null, $pageManager = null, $blockManager = null, $formFactory = null)
     {
         if (null === $pageManager) {
             $pageManager = $this->getMock('Sonata\PageBundle\Model\PageManagerInterface');
+        }
+        if (null === $blockManager) {
+            $blockManager = $this->getMock('Sonata\BlockBundle\Model\BlockManagerInterface');
         }
         if (null !== $page) {
             $pageManager->expects($this->once())->method('findOneBy')->will($this->returnValue($page));
@@ -82,6 +86,6 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase
 
         $backend = $this->getMock('Sonata\NotificationBundle\Backend\BackendInterface');
 
-        return new PageController($pageManager, $formFactory, $backend);
+        return new PageController($pageManager, $blockManager, $formFactory, $backend);
     }
 }
