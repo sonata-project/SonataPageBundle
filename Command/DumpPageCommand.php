@@ -81,7 +81,8 @@ You can use the --extended option to dump block configuration
     /**
      * @param BlockInterface  $block
      * @param OutputInterface $output
-     * @param int             $spance
+     * @param boolean         $extended
+     * @param int             $space
      */
     public function renderBlock(BlockInterface $block, OutputInterface $output, $extended, $space = 0)
     {

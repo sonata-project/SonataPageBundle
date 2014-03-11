@@ -37,12 +37,12 @@ class CmsSnapshotManager extends BaseCmsPageManager
 
     /**
      * @param SnapshotManagerInterface $snapshotManager
-     * @param TransformerInterface     $tranformer
+     * @param TransformerInterface     $transformer
      */
-    public function __construct(SnapshotManagerInterface $snapshotManager, TransformerInterface $tranformer)
+    public function __construct(SnapshotManagerInterface $snapshotManager, TransformerInterface $transformer)
     {
         $this->snapshotManager = $snapshotManager;
-        $this->transformer = $tranformer;
+        $this->transformer = $transformer;
     }
 
     /**
@@ -54,7 +54,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
             $page = $this->getPageByUrl($site, $page);
         } elseif (is_string($page)) { // page is a slug, load the related page
             $page = $this->getPageByRouteName($site, $page);
-        } elseif ( is_numeric($page)) {
+        } elseif (is_numeric($page)) {
             $page = $this->getPageById($page);
         } elseif (!$page) { // get the current page
             $page = $this->getCurrentPage();

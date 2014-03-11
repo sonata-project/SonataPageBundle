@@ -35,7 +35,7 @@ class CleanupSnapshotConsumer implements ConsumerInterface
     /**
      * Constructor
      *
-     * @param SnapshotManagerInterface $snapshotManager A snaphost manager instance
+     * @param SnapshotManagerInterface $snapshotManager A snapshot manager instance
      * @param PageManagerInterface     $pageManager     A page manager instance
      */
     public function __construct(SnapshotManagerInterface $snapshotManager, PageManagerInterface $pageManager)
