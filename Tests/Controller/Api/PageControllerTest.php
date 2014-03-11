@@ -13,7 +13,6 @@ namespace Sonata\Test\PageBundle\Controller\Api;
 
 use Sonata\PageBundle\Controller\Api\PageController;
 
-
 /**
  * Class PageControllerTest
  *

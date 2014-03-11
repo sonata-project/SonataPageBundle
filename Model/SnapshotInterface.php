@@ -32,7 +32,7 @@ interface SnapshotInterface
     public function getRouteName();
 
     /**
-     * Get $outeAlias
+     * Get routeAlias
      *
      * @return string $routeAlias
      */

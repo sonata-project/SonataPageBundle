@@ -649,7 +649,7 @@ class SnapshotPageProxy implements PageInterface, Serializable
      */
     public function getType()
     {
-       return $this->getPage()->getType();
+        return $this->getPage()->getType();
     }
 
     /**

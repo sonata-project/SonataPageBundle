@@ -106,6 +106,4 @@ class CmsManagerSelector implements CmsManagerSelectorInterface, LogoutHandlerIn
             $response->headers->clearCookie('sonata_page_is_editor');
         }
     }
-
-
 }

@@ -47,7 +47,7 @@ class BlockSsiCache extends SsiCache
     /**
      * @param string                       $token
      * @param RouterInterface              $router
-     * @param BlockRendererInterface       $blockService
+     * @param BlockRendererInterface       $blockRenderer
      * @param BlockContextManagerInterface $contextManager   Block Context manager
      * @param array                        $managers
      */

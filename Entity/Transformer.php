@@ -40,7 +40,7 @@ class Transformer implements TransformerInterface
      * @param SnapshotManagerInterface $snapshotManager
      * @param PageManagerInterface     $pageManager
      * @param BlockManagerInterface    $blockManager
-     * @param RegistryInterface        $entityManager
+     * @param RegistryInterface        $registry
      */
     public function __construct(SnapshotManagerInterface $snapshotManager, PageManagerInterface $pageManager, BlockManagerInterface $blockManager, RegistryInterface $registry)
     {

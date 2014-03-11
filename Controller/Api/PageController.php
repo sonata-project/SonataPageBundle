@@ -167,7 +167,7 @@ class PageController
      *  output={"class"="Sonata\PageBundle\Model\Block", "groups"={"sonata_api_read"}},
      *  statusCodes={
      *      200="Returned when successful",
-     *      400="Returned when an error has occured while block creation",
+     *      400="Returned when an error has occurred while block creation",
      *      404="Returned when unable to find page"
      *  }
      * )
@@ -194,7 +194,7 @@ class PageController
      *  output={"class"="Sonata\PageBundle\Model\Block", "groups"={"sonata_api_read"}},
      *  statusCodes={
      *      200="Returned when successful",
-     *      400="Returned when an error has occured while block creation",
+     *      400="Returned when an error has occurred while block creation",
      *      404="Returned when unable to find page"
      *  }
      * )
@@ -248,7 +248,7 @@ class PageController
      *  output={"class"="Sonata\PageBundle\Model\Page", "groups"={"sonata_api_read"}},
      *  statusCodes={
      *      200="Returned when successful",
-     *      400="Returned when an error has occured while page creation",
+     *      400="Returned when an error has occurred while page creation",
      *      404="Returned when unable to find page"
      *  }
      * )
@@ -275,7 +275,7 @@ class PageController
      *  output={"class"="Sonata\PageBundle\Model\Page", "groups"={"sonata_api_read"}},
      *  statusCodes={
      *      200="Returned when successful",
-     *      400="Returned when an error has occured while page update",
+     *      400="Returned when an error has occurred while page update",
      *      404="Returned when unable to find page"
      *  }
      * )
@@ -301,7 +301,7 @@ class PageController
      *  },
      *  statusCodes={
      *      200="Returned when page is successfully deleted",
-     *      400="Returned when an error has occured while page deletion",
+     *      400="Returned when an error has occurred while page deletion",
      *      404="Returned when unable to find page"
      *  }
      * )
@@ -329,8 +329,8 @@ class PageController
      *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="page identifier"}
      *  },
      *  statusCodes={
-     *      200="Returned when snapshots are sucessfully queued for creation",
-     *      400="Returned when an error has occured while snapshots creation",
+     *      200="Returned when snapshots are successfully queued for creation",
+     *      400="Returned when an error has occurred while snapshots creation",
      *      404="Returned when unable to find page"
      *  }
      * )

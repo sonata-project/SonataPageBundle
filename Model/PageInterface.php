@@ -46,7 +46,7 @@ interface PageInterface
     public function setRouteName($routeName);
 
     /**
-     * Get $outeAlias
+     * Get pageAlias
      *
      * @return string $pageAlias
      */
@@ -57,7 +57,7 @@ interface PageInterface
      * to an url. This feature must used with care to avoid to many generated queries
      *
      * For performance, all pageAlias must be prefixed by _page_alias_ this will avoid
-     * database lookup to load non existant alias
+     * database lookup to load non existent alias
      *
      * Set pageAlias
      *
@@ -308,7 +308,7 @@ interface PageInterface
     public function getTemplateCode();
 
     /**
-     * Indicates if the page should be decorated with the CMS outter layout
+     * Indicates if the page should be decorated with the CMS outer layout
      *
      *
      * @param boolean $decorate
