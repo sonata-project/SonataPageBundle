@@ -34,7 +34,7 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase
         $paramFetcher->expects($this->exactly(3))->method('get');
         $paramFetcher->expects($this->once())->method('all')->will($this->returnValue(array()));
 
-        $this->assertEquals(array($page), $this->createPageController(null, $pageManager)->getPagesAction($paramFetcher));
+        $this->assertEquals(array($page), $this->createPageController(null, null, $pageManager)->getPagesAction($paramFetcher));
     }
 
     public function testGetPageAction()
@@ -78,7 +78,7 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase
         $formFactory = $this->getMock('Symfony\Component\Form\FormFactoryInterface');
         $formFactory->expects($this->once())->method('createNamed')->will($this->returnValue($form));
 
-        $view = $this->createPageController(null, $pageManager, null, $formFactory)->postPageAction(new Request());
+        $view = $this->createPageController(null, null, $pageManager, null, $formFactory)->postPageAction(new Request());
 
         $this->assertInstanceOf('FOS\RestBundle\View\View', $view);
     }
@@ -97,7 +97,7 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase
         $formFactory = $this->getMock('Symfony\Component\Form\FormFactoryInterface');
         $formFactory->expects($this->once())->method('createNamed')->will($this->returnValue($form));
 
-        $view = $this->createPageController(null, $pageManager, null, $formFactory)->postPageAction(new Request());
+        $view = $this->createPageController(null, null, $pageManager, null, $formFactory)->postPageAction(new Request());
 
         $this->assertInstanceOf('Symfony\Component\Form\FormInterface', $view);
     }
@@ -117,7 +117,7 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase
         $formFactory = $this->getMock('Symfony\Component\Form\FormFactoryInterface');
         $formFactory->expects($this->once())->method('createNamed')->will($this->returnValue($form));
 
-        $view = $this->createPageController($page, $pageManager, null, $formFactory)->putPageAction(1, new Request());
+        $view = $this->createPageController($page, null, $pageManager, null, $formFactory)->putPageAction(1, new Request());
 
         $this->assertInstanceOf('FOS\RestBundle\View\View', $view);
     }
@@ -136,7 +136,7 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase
         $formFactory = $this->getMock('Symfony\Component\Form\FormFactoryInterface');
         $formFactory->expects($this->once())->method('createNamed')->will($this->returnValue($form));
 
-        $view = $this->createPageController($page, $pageManager, null, $formFactory)->putPageAction(1, new Request());
+        $view = $this->createPageController($page, null, $pageManager, null, $formFactory)->putPageAction(1, new Request());
 
         $this->assertInstanceOf('Symfony\Component\Form\FormInterface', $view);
     }
@@ -148,7 +148,7 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase
         $pageManager = $this->getMock('Sonata\PageBundle\Model\PageManagerInterface');
         $pageManager->expects($this->once())->method('delete');
 
-        $view = $this->createPageController($page, $pageManager)->deletePageAction(1);
+        $view = $this->createPageController($page, null, $pageManager)->deletePageAction(1);
 
         $this->assertEquals(array('deleted' => true), $view);
     }
@@ -160,7 +160,7 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase
         $pageManager = $this->getMock('Sonata\PageBundle\Model\PageManagerInterface');
         $pageManager->expects($this->never())->method('delete');
 
-        $this->createPageController(null, $pageManager)->deletePageAction(1);
+        $this->createPageController(null, null, $pageManager)->deletePageAction(1);
     }
 
     public function testPostPageBlockAction()
@@ -183,7 +183,7 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase
         $formFactory = $this->getMock('Symfony\Component\Form\FormFactoryInterface');
         $formFactory->expects($this->once())->method('createNamed')->will($this->returnValue($form));
 
-        $view = $this->createPageController($page, $pageManager, $blockManager, $formFactory)->postPageBlockAction(1, new Request());
+        $view = $this->createPageController($page, null, $pageManager, $blockManager, $formFactory)->postPageBlockAction(1, new Request());
 
         $this->assertInstanceOf('FOS\RestBundle\View\View', $view);
     }
@@ -206,21 +206,53 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase
         $formFactory = $this->getMock('Symfony\Component\Form\FormFactoryInterface');
         $formFactory->expects($this->once())->method('createNamed')->will($this->returnValue($form));
 
-        $view = $this->createPageController($page, $pageManager, $blockManager, $formFactory)->postPageBlockAction(1, new Request());
+        $view = $this->createPageController($page, null, $pageManager, $blockManager, $formFactory)->postPageBlockAction(1, new Request());
 
         $this->assertInstanceOf('Symfony\Component\Form\FormInterface', $view);
     }
 
+    public function testPostPageSnapshotAction()
+    {
+        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+
+        $backend = $this->getMock('Sonata\NotificationBundle\Backend\BackendInterface');
+        $backend->expects($this->once())->method('createAndPublish');
+
+        $view = $this->createPageController($page, null, null, null, null, $backend)->postPageSnapshotAction(1);
+
+        $this->assertEquals(array('queued' => true), $view);
+    }
+
+    public function testPostPagesSnapshotsAction()
+    {
+        $site = $this->getMock('Sonata\PageBundle\Model\SiteInterface');
+
+        $siteManager = $this->getMock('Sonata\PageBundle\Model\SiteManagerInterface');
+        $siteManager->expects($this->once())->method('findAll')->will($this->returnValue(array($site)));
+
+        $backend = $this->getMock('Sonata\NotificationBundle\Backend\BackendInterface');
+        $backend->expects($this->once())->method('createAndPublish');
+
+        $view = $this->createPageController(null, $siteManager, null, null, null, $backend)->postPagesSnapshotsAction();
+
+        $this->assertEquals(array('queued' => true), $view);
+    }
+
     /**
      * @param $page
+     * @param $siteManager
      * @param $pageManager
      * @param $blockManager
      * @param $formFactory
+     * @param $backend
      *
      * @return PageController
      */
-    public function createPageController($page = null, $pageManager = null, $blockManager = null, $formFactory = null)
+    public function createPageController($page = null, $siteManager = null, $pageManager = null, $blockManager = null, $formFactory = null, $backend = null)
     {
+        if (null === $siteManager) {
+            $siteManager = $this->getMock('Sonata\PageBundle\Model\SiteManagerInterface');
+        }
         if (null === $pageManager) {
             $pageManager = $this->getMock('Sonata\PageBundle\Model\PageManagerInterface');
         }
@@ -233,9 +265,10 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase
         if (null === $formFactory) {
             $formFactory = $this->getMock('Symfony\Component\Form\FormFactoryInterface');
         }
+        if (null === $backend) {
+            $backend = $this->getMock('Sonata\NotificationBundle\Backend\BackendInterface');
+        }
 
-        $backend = $this->getMock('Sonata\NotificationBundle\Backend\BackendInterface');
-
-        return new PageController($pageManager, $blockManager, $formFactory, $backend);
+        return new PageController($siteManager, $pageManager, $blockManager, $formFactory, $backend);
     }
 }
