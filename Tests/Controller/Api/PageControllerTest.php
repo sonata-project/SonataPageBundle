@@ -13,6 +13,8 @@ namespace Sonata\Test\PageBundle\Controller\Api;
 
 use Sonata\PageBundle\Controller\Api\PageController;
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * Class PageControllerTest
  *
@@ -38,6 +40,7 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase
     public function testGetPageAction()
     {
         $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+
         $this->assertEquals($page, $this->createPageController($page)->getPageAction(1));
     }
 
@@ -50,7 +53,7 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase
         $this->createPageController()->getPageAction(42);
     }
 
-    public function testGetPagePageblocksAction()
+    public function testGetPageBlocksAction()
     {
         $page  = $this->getMock('Sonata\PageBundle\Model\PageInterface');
         $block = $this->getMock('Sonata\PageBundle\Model\PageBlockInterface');
@@ -58,6 +61,154 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase
         $page->expects($this->once())->method('getBlocks')->will($this->returnValue(array($block)));
 
         $this->assertEquals(array($block), $this->createPageController($page)->getPageBlocksAction(1));
+    }
+
+    public function testPostPageAction()
+    {
+        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+
+        $pageManager = $this->getMock('Sonata\PageBundle\Model\PageManagerInterface');
+        $pageManager->expects($this->once())->method('save')->will($this->returnValue($page));
+
+        $form = $this->getMockBuilder('Symfony\Component\Form\Form')->disableOriginalConstructor()->getMock();
+        $form->expects($this->once())->method('bind');
+        $form->expects($this->once())->method('isValid')->will($this->returnValue(true));
+        $form->expects($this->once())->method('getData')->will($this->returnValue($page));
+
+        $formFactory = $this->getMock('Symfony\Component\Form\FormFactoryInterface');
+        $formFactory->expects($this->once())->method('createNamed')->will($this->returnValue($form));
+
+        $view = $this->createPageController(null, $pageManager, null, $formFactory)->postPageAction(new Request());
+
+        $this->assertInstanceOf('FOS\RestBundle\View\View', $view);
+    }
+
+    public function testPostPageInvalidAction()
+    {
+        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+
+        $pageManager = $this->getMock('Sonata\PageBundle\Model\PageManagerInterface');
+        $pageManager->expects($this->never())->method('save')->will($this->returnValue($page));
+
+        $form = $this->getMockBuilder('Symfony\Component\Form\Form')->disableOriginalConstructor()->getMock();
+        $form->expects($this->once())->method('bind');
+        $form->expects($this->once())->method('isValid')->will($this->returnValue(false));
+
+        $formFactory = $this->getMock('Symfony\Component\Form\FormFactoryInterface');
+        $formFactory->expects($this->once())->method('createNamed')->will($this->returnValue($form));
+
+        $view = $this->createPageController(null, $pageManager, null, $formFactory)->postPageAction(new Request());
+
+        $this->assertInstanceOf('Symfony\Component\Form\FormInterface', $view);
+    }
+
+    public function testPutPageAction()
+    {
+        $page = $this->getMock('Sonata\UserBundle\Model\PageInterface');
+
+        $pageManager = $this->getMock('Sonata\PageBundle\Model\PageManagerInterface');
+        $pageManager->expects($this->once())->method('save')->will($this->returnValue($page));
+
+        $form = $this->getMockBuilder('Symfony\Component\Form\Form')->disableOriginalConstructor()->getMock();
+        $form->expects($this->once())->method('bind');
+        $form->expects($this->once())->method('isValid')->will($this->returnValue(true));
+        $form->expects($this->once())->method('getData')->will($this->returnValue($page));
+
+        $formFactory = $this->getMock('Symfony\Component\Form\FormFactoryInterface');
+        $formFactory->expects($this->once())->method('createNamed')->will($this->returnValue($form));
+
+        $view = $this->createPageController($page, $pageManager, null, $formFactory)->putPageAction(1, new Request());
+
+        $this->assertInstanceOf('FOS\RestBundle\View\View', $view);
+    }
+
+    public function testPutPageInvalidAction()
+    {
+        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+
+        $pageManager = $this->getMock('Sonata\PageBundle\Model\PageManagerInterface');
+        $pageManager->expects($this->never())->method('save')->will($this->returnValue($page));
+
+        $form = $this->getMockBuilder('Symfony\Component\Form\Form')->disableOriginalConstructor()->getMock();
+        $form->expects($this->once())->method('bind');
+        $form->expects($this->once())->method('isValid')->will($this->returnValue(false));
+
+        $formFactory = $this->getMock('Symfony\Component\Form\FormFactoryInterface');
+        $formFactory->expects($this->once())->method('createNamed')->will($this->returnValue($form));
+
+        $view = $this->createPageController($page, $pageManager, null, $formFactory)->putPageAction(1, new Request());
+
+        $this->assertInstanceOf('Symfony\Component\Form\FormInterface', $view);
+    }
+
+    public function testDeletePageAction()
+    {
+        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+
+        $pageManager = $this->getMock('Sonata\PageBundle\Model\PageManagerInterface');
+        $pageManager->expects($this->once())->method('delete');
+
+        $view = $this->createPageController($page, $pageManager)->deletePageAction(1);
+
+        $this->assertEquals(array('deleted' => true), $view);
+    }
+
+    public function testDeletePageInvalidAction()
+    {
+        $this->setExpectedException('Symfony\Component\HttpKernel\Exception\NotFoundHttpException');
+
+        $pageManager = $this->getMock('Sonata\PageBundle\Model\PageManagerInterface');
+        $pageManager->expects($this->never())->method('delete');
+
+        $this->createPageController(null, $pageManager)->deletePageAction(1);
+    }
+
+    public function testPostPageBlockAction()
+    {
+        $block = $this->getMock('Sonata\PageBundle\Model\Block');
+        $block->expects($this->once())->method('setPage');
+
+        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+
+        $pageManager = $this->getMock('Sonata\PageBundle\Model\PageManagerInterface');
+
+        $blockManager = $this->getMock('Sonata\BlockBundle\Model\BlockManagerInterface');
+        $blockManager->expects($this->once())->method('save')->will($this->returnValue($block));
+
+        $form = $this->getMockBuilder('Symfony\Component\Form\Form')->disableOriginalConstructor()->getMock();
+        $form->expects($this->once())->method('bind');
+        $form->expects($this->once())->method('isValid')->will($this->returnValue(true));
+        $form->expects($this->once())->method('getData')->will($this->returnValue($block));
+
+        $formFactory = $this->getMock('Symfony\Component\Form\FormFactoryInterface');
+        $formFactory->expects($this->once())->method('createNamed')->will($this->returnValue($form));
+
+        $view = $this->createPageController($page, $pageManager, $blockManager, $formFactory)->postPageBlockAction(1, new Request());
+
+        $this->assertInstanceOf('FOS\RestBundle\View\View', $view);
+    }
+
+    public function testPostPageBlockInvalidAction()
+    {
+        $block = $this->getMock('Sonata\PageBundle\Model\Block');
+
+        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+
+        $pageManager = $this->getMock('Sonata\PageBundle\Model\PageManagerInterface');
+
+        $blockManager = $this->getMock('Sonata\BlockBundle\Model\BlockManagerInterface');
+        $blockManager->expects($this->never())->method('save')->will($this->returnValue($block));
+
+        $form = $this->getMockBuilder('Symfony\Component\Form\Form')->disableOriginalConstructor()->getMock();
+        $form->expects($this->once())->method('bind');
+        $form->expects($this->once())->method('isValid')->will($this->returnValue(false));
+
+        $formFactory = $this->getMock('Symfony\Component\Form\FormFactoryInterface');
+        $formFactory->expects($this->once())->method('createNamed')->will($this->returnValue($form));
+
+        $view = $this->createPageController($page, $pageManager, $blockManager, $formFactory)->postPageBlockAction(1, new Request());
+
+        $this->assertInstanceOf('Symfony\Component\Form\FormInterface', $view);
     }
 
     /**
