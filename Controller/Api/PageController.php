@@ -22,6 +22,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
+use Sonata\PageBundle\Model\SiteManagerInterface;
 use FOS\RestBundle\View\View as FOSRestView;
 use Sonata\NotificationBundle\Backend\BackendInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
@@ -35,6 +36,11 @@ use Sonata\BlockBundle\Model\BlockInterface;
  */
 class PageController
 {
+    /**
+     * @var SiteManagerInterface
+     */
+    protected $siteManager;
+
     /**
      * @var PageManagerInterface
      */
@@ -58,13 +64,15 @@ class PageController
     /**
      * Constructor
      *
+     * @param SiteManagerInterface  $siteManager
      * @param PageManagerInterface  $pageManager
      * @param BlockManagerInterface $blockManager
      * @param FormFactoryInterface  $formFactory
      * @param BackendInterface      $backend
      */
-    public function __construct(PageManagerInterface $pageManager, BlockManagerInterface $blockManager, FormFactoryInterface $formFactory, BackendInterface $backend)
+    public function __construct(SiteManagerInterface $siteManager, PageManagerInterface $pageManager, BlockManagerInterface $blockManager, FormFactoryInterface $formFactory, BackendInterface $backend)
     {
+        $this->siteManager  = $siteManager;
         $this->pageManager  = $pageManager;
         $this->blockManager = $blockManager;
         $this->formFactory  = $formFactory;
@@ -318,6 +326,33 @@ class PageController
         $this->backend->createAndPublish('sonata.page.create_snapshot', array(
             'pageId' => $page->getId(),
         ));
+
+        return array('queued' => true);
+    }
+
+    /**
+     * Creates snapshots of all pages
+     *
+     * @ApiDoc(
+     *  statusCodes={
+     *      200="Returned when snapshots are successfully queued for creation",
+     *      400="Returned when an error has occurred while snapshots creation",
+     *  }
+     * )
+     *
+     * @return \FOS\RestBundle\View\View
+     *
+     * @throws NotFoundHttpException
+     */
+    public function postPagesSnapshotsAction()
+    {
+        $sites = $this->siteManager->findAll();
+
+        foreach ($sites as $site) {
+            $this->backend->createAndPublish('sonata.page.create_snapshot', array(
+                'siteId' => $site->getId(),
+            ));
+        }
 
         return array('queued' => true);
     }
