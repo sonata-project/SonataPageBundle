@@ -37,10 +37,12 @@ class Parser
         }
 
         $colCount = strlen($rows[0]);
+
         foreach ($rows as $y => $row) {
-            if (strlen($row) < $colCount) {
+            if (strlen($row) !== $colCount && $y > 0) {
                 throw new \InvalidArgumentException(sprintf('Invalid template matrix, inconsistent row length, row "%d" should have a length of "%d"', $y, $colCount));
             }
+
             $cells = str_split($row);
             foreach ($cells as $x => $symbol) {
                 if (!array_key_exists($symbol, $mapping)) {
