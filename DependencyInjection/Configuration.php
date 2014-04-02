@@ -10,8 +10,11 @@
 
 namespace Sonata\PageBundle\DependencyInjection;
 
+use Sonata\PageBundle\Model\Template;
+use Sonata\PageBundle\Template\Matrix\Parser;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 
 /**
  * This is the class that validates and merges configuration from your app/config files
@@ -92,7 +95,69 @@ class Configuration implements ConfigurationInterface
                     ->children()
                         ->scalarNode('name')->end()
                         ->scalarNode('path')->end()
+                        ->scalarNode('inherits_containers')->end()
+                        ->arrayNode('containers')
+                            ->isRequired()
+                            ->requiresAtLeastOneElement()
+                            ->useAttributeAsKey('id')
+                            ->prototype('array')
+                                ->children()
+                                    ->scalarNode('name')->end()
+                                    ->scalarNode('type')
+                                        ->defaultValue(Template::TYPE_STATIC)
+                                    ->end()
+                                    ->arrayNode('blocks')
+                                        ->prototype('scalar')->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('matrix')
+                            ->isRequired()
+                            ->children()
+                                ->scalarNode('layout')->isRequired()->end()
+                                ->arrayNode('mapping')
+                                    ->isRequired()
+                                    ->requiresAtLeastOneElement()
+                                    ->prototype('scalar')->isRequired()->end()
+                                ->end()
+                            ->end()
+                            ->validate()
+                            ->always()
+                                ->then(function($matrix) {
+                                    return Parser::parse($matrix['layout'], $matrix['mapping']);
+                                })
+                            ->end()
+                        ->end()
                     ->end()
+                ->end()
+                ->validate()
+                ->always()
+                    ->then(function($templates) {
+                        foreach ($templates as $id => &$template) {
+                            if (isset($template['inherits_containers'])) {
+                                $inherits = $template['inherits_containers'];
+                                if (!isset($templates[$inherits])) {
+                                    throw new InvalidConfigurationException(sprintf('Template "%s" cannot inherits containers from undefined template "%s"', $id, $inherits));
+                                }
+                                $template['containers'] = array_merge($templates[$inherits]['containers'], $template['containers']);
+                            }
+                            foreach ($template['containers'] as $containerKey => $container) {
+                                if (!isset($template['matrix'][$containerKey])) {
+                                    throw new InvalidConfigurationException(sprintf('No area defined in matrix for template container "%s"', $containerKey));
+                                }
+                            }
+                            foreach ($template['matrix'] as $containerKey => $config) {
+                                if (!isset($template['containers'][$containerKey])) {
+                                    throw new InvalidConfigurationException(sprintf('No container defined for matrix area "%s"', $containerKey));
+                                }
+                                $template['containers'][$containerKey]['placement'] = $config;
+                            }
+                            unset($template['inherits_containers'], $template['matrix']);
+                        }
+
+                        return $templates;
+                    })
                 ->end()
             ->end()
 

@@ -84,7 +84,7 @@ class BlockInteractor implements BlockInteractorInterface
 
         try {
             foreach ($data as $block) {
-                if (!$block['id'] or !$block['position'] or !$block['parent_id'] or !$block['page_id']) {
+                if (!$block['id'] or !array_key_exists('position', $block) or !$block['parent_id'] or !$block['page_id']) {
                     continue;
                 }
 

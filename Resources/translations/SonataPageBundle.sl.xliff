@@ -638,7 +638,11 @@
       <trans-unit id="157" resname="message_create_page">
             <source>message_create_page</source>
             <target>Pred ustvarjanjem nove strani, morate izbrati spletno stran, kje bo stran locirana.</target>
-       </trans-unit>
+      </trans-unit>
+      <trans-unit id="158" resname="sidemenu.link_compose_page">
+          <source>sidemenu.link_compose_page</source>
+          <target>sidemenu.link_compose_page</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
