@@ -42,7 +42,7 @@ class PageController extends Controller
     }
 
     /**
-     * @throws NotFoundHttpException|AccessDeniedException
+     * @throws InternalErrorException|AccessDeniedException
      *
      * @param string $code
      *
