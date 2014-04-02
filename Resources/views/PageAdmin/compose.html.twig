@@ -31,8 +31,8 @@ file that was distributed with this source code.
     <div class="page-composer">
         <h2>compose page "{{ page.name }}" <small>[template: <b>{{ template.name }}</b>]</small></h2>
 
-        <div class="row-fluid">
-            <div class="span4">
+        <div class="row row-fluid">
+            <div class="col-md-4 span4">
                 <div class="page-composer__page-preview">
                     <div class="page-composer__page-preview__containers">
                         {% for container in containers %}
@@ -84,7 +84,7 @@ file that was distributed with this source code.
                     </div>
                 {% endif %}
             </div>
-            <div class="span8">
+            <div class="col-md-8 span8">
                 <div class="page-composer__dyn-content">
                 </div>
             </div>

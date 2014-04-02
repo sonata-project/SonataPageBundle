@@ -78,6 +78,13 @@
             <call method="setContainerBlockTypes">
                 <argument>%sonata.block.container.types%</argument>
             </call>
+
+            <call method="setFormTheme">
+                <argument type="collection">
+                    <argument>SonataPageBundle:Form:form_admin_fields.html.twig</argument>
+                    <argument>SonataDoctrineORMAdminBundle:Form:form_admin_fields.html.twig</argument>
+                </argument>
+            </call>
         </service>
 
         <service id="sonata.page.admin.snapshot" class="%sonata.page.admin.snapshot.class%">
