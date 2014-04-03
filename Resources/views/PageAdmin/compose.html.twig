@@ -31,75 +31,127 @@ file that was distributed with this source code.
     <div class="page-composer">
         <h2>compose page "{{ page.name }}" <small>[template: <b>{{ template.name }}</b>]</small></h2>
 
-        <div class="row row-fluid">
-            <div class="col-md-4 span4">
-                <div class="page-composer__page-preview">
-                    <div class="page-composer__page-preview__containers">
-                        {% for container in containers %}
-                            {% if container.block is defined %}
-                                <a class="page-composer__page-preview__container block-preview-{{ container.block.id }}"
-                                   data-block-id="{{ container.block.id }}"
-                                   style="top:{{ container.area.placement.y }}%;right:{{ container.area.placement.right }}%;bottom:{{ container.area.placement.bottom }}%;left:{{ container.area.placement.x }}%"
-                                   href="{{ path('admin_sonata_page_page_compose_container_show', { 'id': container.block.id }) }}"
-                                >
-                                    <div class="page-composer__page-preview__container__content">
-                                        <strong>{{ container.block.name|default(container.area.name) }}</strong><br>
-                                        <small><span class="child-count">{{ container.block.children|length }}</span> blocks</small>
-                                        <span class="page-composer__page-preview__add-block">
-                                            <i class="fa fa-circle-o"></i>
-                                            <i class="fa fa-dot-circle-o"></i>
-                                        </span>
-                                        <span class="drop-indicator">
-                                            <span class="fa fa-download"></span>
-                                        </span>
-                                    </div>
-                                </a>
-                            {% else %}
-                                <div class="page-composer__page-preview__container--no-block"
-                                     style="top:{{ container.area.placement.y }}%;right:{{ container.area.placement.right }}%;bottom:{{ container.area.placement.bottom }}%;left:{{ container.area.placement.x }}%"
-                                >
-                                    <div class="page-composer__page-preview__container__content">
-                                        <strong>{{ container.area.name }}</strong>
-                                    </div>
-                                </div>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
+        {% if containers|length == 0 %}
 
-                {% if orphanContainers|length > 0 %}
-                    <div class="page-composer__orphan-containers">
-                        <h3 class="page-composer__orphan-containers__header">Orphan containers</h3>
-                        <ul>
-                            {% for orphanContainer in orphanContainers %}
-                                <li class="page-composer__orphan-container block-preview-{{ orphanContainer.id }}"
-                                    data-block-id="{{ orphanContainer.id }}"
-                                    href="{{ path('admin_sonata_page_page_compose_container_show', { 'id': orphanContainer.id }) }}"
-                                >
-                                    <strong>{{ orphanContainer.name|default(orphanContainer.type) }}</strong><br>
-                                    <small><span class="child-count">{{ orphanContainer.children|length }}</span> blocks</small>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                {% endif %}
+            <div class="alert alert-warning">
+
+                <strong>Warning!</strong> Before using the composer option, you need to configure the template layout.
+                <br />The configuration must be done in the <code>sonata_page.templates</code> section.<br />
+
+            <br />
+            See a complete exemple here:
+
+
+<pre>
+sonata_page:
+    # [...]
+    templates:
+        default:
+            path: 'ApplicationSonataPageBundle::demo_layout.html.twig'
+            name: 'default'
+            containers:
+                header:
+                    name: Header
+                content_top:
+                    name: Top content
+                content:
+                    name: Main content
+                content_bottom:
+                    name: Bottom content
+                footer:
+                    name: Footer
+            matrix:
+                layout: |
+                    HHHHHHHH
+                    TTTTBBBB
+                    TTTTBBBB
+                    TTTTBBBB
+                    TTTTBBBB
+                    CCCCCCCC
+                    CCCCCCCC
+                    FFFFFFFF
+
+                mapping:
+                    H: header
+                    T: content_top
+                    C: content
+                    B: content_bottom
+                    F: footer
+</pre>
             </div>
-            <div class="col-md-8 span8">
-                <div class="page-composer__dyn-content">
+
+        {% else %}
+            <div class="row row-fluid">
+                <div class="col-md-4 span4">
+                    <div class="page-composer__page-preview">
+                        <div class="page-composer__page-preview__containers">
+                            {% for container in containers %}
+                                {% if container.block is defined %}
+                                    <a class="page-composer__page-preview__container block-preview-{{ container.block.id }}"
+                                       data-block-id="{{ container.block.id }}"
+                                       style="top:{{ container.area.placement.y }}%;right:{{ container.area.placement.right }}%;bottom:{{ container.area.placement.bottom }}%;left:{{ container.area.placement.x }}%"
+                                       href="{{ path('admin_sonata_page_page_compose_container_show', { 'id': container.block.id }) }}"
+                                    >
+                                        <div class="page-composer__page-preview__container__content">
+                                            <strong>{{ container.block.name|default(container.area.name) }}</strong><br>
+                                            <small><span class="child-count">{{ container.block.children|length }}</span> blocks</small>
+                                            <span class="page-composer__page-preview__add-block">
+                                                <i class="fa fa-circle-o"></i>
+                                                <i class="fa fa-dot-circle-o"></i>
+                                            </span>
+                                            <span class="drop-indicator">
+                                                <span class="fa fa-download"></span>
+                                            </span>
+                                        </div>
+                                    </a>
+                                {% else %}
+                                    <div class="page-composer__page-preview__container--no-block"
+                                         style="top:{{ container.area.placement.y }}%;right:{{ container.area.placement.right }}%;bottom:{{ container.area.placement.bottom }}%;left:{{ container.area.placement.x }}%"
+                                    >
+                                        <div class="page-composer__page-preview__container__content">
+                                            <strong>{{ container.area.name }}</strong>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    {% if orphanContainers|length > 0 %}
+                        <div class="page-composer__orphan-containers">
+                            <h3 class="page-composer__orphan-containers__header">Orphan containers</h3>
+                            <ul>
+                                {% for orphanContainer in orphanContainers %}
+                                    <li class="page-composer__orphan-container block-preview-{{ orphanContainer.id }}"
+                                        data-block-id="{{ orphanContainer.id }}"
+                                        href="{{ path('admin_sonata_page_page_compose_container_show', { 'id': orphanContainer.id }) }}"
+                                    >
+                                        <strong>{{ orphanContainer.name|default(orphanContainer.type) }}</strong><br>
+                                        <small><span class="child-count">{{ orphanContainer.children|length }}</span> blocks</small>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-md-8 span8">
+                    <div class="page-composer__dyn-content">
+                    </div>
                 </div>
             </div>
-        </div>
+            <script>
+                $(document).ready(function () {
+                    var composer = new PageComposer({{ page.id }});
+
+                    composer.csrfTokens = {{ csrfTokens|json_encode()|raw }};
+                    composer.setRoute('block_edit',            "{{ path('admin_sonata_page_block_edit',   { 'id': 'BLOCK_ID' }) }}");
+                    composer.setRoute('block_remove',          "{{ path('admin_sonata_page_block_delete', { 'id': 'BLOCK_ID' }) }}");
+                    composer.setRoute('save_blocks_positions', "{{ path('admin_sonata_page_block_savePosition') }}");
+                    composer.setRoute('block_switch_parent',   "{{ path('admin_sonata_page_block_switchParent') }}");
+                });
+            </script>
+        {% endif %}
     </div>
 
-    <script>
-        $(document).ready(function () {
-            var composer = new PageComposer({{ page.id }});
 
-            composer.csrfTokens = {{ csrfTokens|json_encode()|raw }};
-            composer.setRoute('block_edit',            "{{ path('admin_sonata_page_block_edit',   { 'id': 'BLOCK_ID' }) }}");
-            composer.setRoute('block_remove',          "{{ path('admin_sonata_page_block_delete', { 'id': 'BLOCK_ID' }) }}");
-            composer.setRoute('save_blocks_positions', "{{ path('admin_sonata_page_block_savePosition') }}");
-            composer.setRoute('block_switch_parent',   "{{ path('admin_sonata_page_block_switchParent') }}");
-        });
-    </script>
 {% endblock %}

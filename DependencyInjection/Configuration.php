@@ -97,7 +97,6 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('path')->end()
                         ->scalarNode('inherits_containers')->end()
                         ->arrayNode('containers')
-                            ->isRequired()
                             ->requiresAtLeastOneElement()
                             ->useAttributeAsKey('id')
                             ->prototype('array')
@@ -113,7 +112,6 @@ class Configuration implements ConfigurationInterface
                             ->end()
                         ->end()
                         ->arrayNode('matrix')
-                            ->isRequired()
                             ->children()
                                 ->scalarNode('layout')->isRequired()->end()
                                 ->arrayNode('mapping')
@@ -135,18 +133,16 @@ class Configuration implements ConfigurationInterface
                 ->always()
                     ->then(function($templates) {
                         foreach ($templates as $id => &$template) {
-                            if (isset($template['inherits_containers'])) {
-                                $inherits = $template['inherits_containers'];
-                                if (!isset($templates[$inherits])) {
-                                    throw new InvalidConfigurationException(sprintf('Template "%s" cannot inherits containers from undefined template "%s"', $id, $inherits));
-                                }
-                                $template['containers'] = array_merge($templates[$inherits]['containers'], $template['containers']);
+                            if (count($template['containers']) == 0) {
+                                continue;
                             }
+
                             foreach ($template['containers'] as $containerKey => $container) {
                                 if (!isset($template['matrix'][$containerKey])) {
                                     throw new InvalidConfigurationException(sprintf('No area defined in matrix for template container "%s"', $containerKey));
                                 }
                             }
+
                             foreach ($template['matrix'] as $containerKey => $config) {
                                 if (!isset($template['containers'][$containerKey])) {
                                     throw new InvalidConfigurationException(sprintf('No container defined for matrix area "%s"', $containerKey));
