@@ -641,7 +641,7 @@
       </trans-unit>
       <trans-unit id="158" resname="sidemenu.link_compose_page">
           <source>sidemenu.link_compose_page</source>
-          <target>Compose page</target>
+          <target>Composer (beta)</target>
       </trans-unit>
     </body>
   </file>

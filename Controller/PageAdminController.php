@@ -130,6 +130,8 @@ class PageAdminController extends Controller
         $csrfProvider = $this->get('form.csrf_provider');
 
         return $this->render('SonataPageBundle:PageAdmin:compose.html.twig', array(
+            'object'           => $page,
+            'action'           => 'edit',
             'template'         => $template,
             'page'             => $page,
             'containers'       => $containers,

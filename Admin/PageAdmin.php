@@ -257,8 +257,8 @@ class PageAdmin extends Admin
         );
 
         $menu->addChild(
-            $this->trans('sidemenu.link_compose_page'),
-            array('uri' => $admin->generateUrl('compose', array('id' => $id)))
+            $this->trans('sidemenu.link_list_blocks'),
+            array('uri' => $admin->generateUrl('sonata.page.admin.block.list', array('id' => $id)))
         );
 
         $menu->addChild(
@@ -273,11 +273,17 @@ class PageAdmin extends Admin
                     $this->trans('view_page'),
                     array('uri' => $this->getRouteGenerator()->generate('page_slug', array('path' => $this->getSubject()->getUrl())))
                 );
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // avoid crashing the admin if the route is not setup correctly
 //                throw $e;
             }
         }
+
+        $menu->addChild(
+            $this->trans('sidemenu.link_compose_page'),
+            array('uri' => $admin->generateUrl('compose', array('id' => $id)))
+        );
+
     }
 
     /**

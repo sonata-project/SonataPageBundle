@@ -11,7 +11,9 @@ file that was distributed with this source code.
 
 {% extends 'SonataAdminBundle:CRUD:action.html.twig' %}
 
-{% block actions %}{% endblock %}
+{% block tab_menu %}
+    {{ knp_menu_render(admin.sidemenu(action), {'currentClass' : 'active'}, 'list') }}
+{% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
