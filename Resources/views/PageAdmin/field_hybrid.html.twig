@@ -13,9 +13,9 @@ file that was distributed with this source code.
 {% block field %}
 {% spaceless %}
     {% if object.isHybrid %}
-        <img src="{{ asset('bundles/sonataadmin/famfamfam/page_gear.png') }}" />
+        <i class="fa fa-gears"></i>
     {% else %}
-        <img src="{{ asset('bundles/sonataadmin/famfamfam/page_code.png') }}" />
+        <i class="fa fa-code"></i>
     {% endif %}
 {% endspaceless %}
 {% endblock %}
