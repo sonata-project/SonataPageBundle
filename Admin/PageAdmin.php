@@ -134,6 +134,15 @@ class PageAdmin extends Admin
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
+
+        // define group zoning
+        $formMapper
+             ->with($this->trans('form_page.group_main_label'), array('class' => 'col-md-6'))
+             ->with($this->trans('form_page.group_seo_label'), array('class' => 'col-md-6'))
+             ->with($this->trans('form_page.group_advanced_label'), array('class' => 'col-md-6'))
+        ;
+
+
         if (!$this->getSubject() || (!$this->getSubject()->isInternal() && !$this->getSubject()->isError())) {
             $formMapper
                 ->with($this->trans('form_page.group_main_label'))
