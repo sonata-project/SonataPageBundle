@@ -11,6 +11,7 @@ Reference Guide
    reference/introduction
    reference/installation
    reference/getting_started
+   reference/page_composer
    reference/multisite
    reference/error_pages
    reference/twig_helpers
