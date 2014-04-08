@@ -20,7 +20,7 @@ file that was distributed with this source code.
 
             {% block sonata_page_stylesheets %}
                 {% block page_stylesheets %} {# Deprecated block #}
-                    {% for stylesheet in sonata_page.assets.css %}
+                    {% for stylesheet in sonata_page.assets.stylesheets %}
                         <link rel="stylesheet" href="{{ asset(stylesheet) }}" type="text/css" media="all"  />
                     {% endfor %}
                 {% endblock %}

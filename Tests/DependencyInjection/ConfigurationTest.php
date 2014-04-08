@@ -61,7 +61,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                 ),
             ),
             'assets' => array(
-                'css' => array(
+                'stylesheets' => array(
                     'bundles/sonataadmin/vendor/bootstrap/dist/css/bootstrap.min.css',
                     'bundles/sonatapage/default.css',
                     'bundles/sonatapage/page.css',
@@ -140,7 +140,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                 ),
             ),
             'assets' => array(
-                'css' => array(
+                'stylesheets' => array(
                     'bundles/sonataadmin/vendor/bootstrap/dist/css/bootstrap.min.css',
                     'bundles/sonatapage/default.css',
                     'bundles/sonatapage/page.css',

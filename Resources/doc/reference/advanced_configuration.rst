@@ -50,7 +50,7 @@ Full configuration options (config.yml file):
 
         # Assets loaded by default in template
         assets:
-            css:
+            stylesheets:
                 # Defaults:
                 - bundles/sonataadmin/vendor/bootstrap/dist/css/bootstrap.min.css
                 - bundles/sonatapage/default.css
