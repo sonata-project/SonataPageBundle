@@ -20,8 +20,9 @@ file that was distributed with this source code.
 
             {% block sonata_page_stylesheets %}
                 {% block page_stylesheets %} {# Deprecated block #}
-                    <link rel="stylesheet" href="{{ asset('bundles/sonataadmin/bootstrap/css/bootstrap.min.css') }}" type="text/css" media="all"  />
-                    <link rel="stylesheet" href="{{ asset('bundles/sonatapage/default.css') }}" type="text/css" media="all" />
+                    {% for stylesheet in sonata_page.assets.css %}
+                        <link rel="stylesheet" href="{{ asset(stylesheet) }}" type="text/css" media="all"  />
+                    {% endfor %}
                 {% endblock %}
             {% endblock %}
 
@@ -32,13 +33,11 @@ file that was distributed with this source code.
                         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
                     <![endif]-->
 
-                    <script src="{{ asset('bundles/sonatajquery/jquery-1.10.2.js') }}" type="text/javascript"></script>
-                    <script src="{{ asset('bundles/sonatajquery/jquery-ui-1.10.4.js') }}" type="text/javascript"></script>
-                    <script src="{{ asset('bundles/sonatajquery/jquery-ui-i18n.js') }}" type="text/javascript"></script>
+                    {% for js in sonata_page.assets.javascripts %}
+                        <script src="{{ asset(js) }}" type="text/javascript"></script>
+                    {% endfor %}
                 {% endblock %}
             {% endblock %}
-
-            <script src="{{ asset('bundles/sonataadmin/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
         </head>
     {% endblock %}
 
@@ -50,16 +49,7 @@ file that was distributed with this source code.
             {% block page_top_bar %} {# Deprecated block #}
                 {% if sonata_page.isEditor or (app.security and app.security.token and is_granted('ROLE_PREVIOUS_ADMIN')) %}
 
-                    <link rel="stylesheet" href="{{ asset('bundles/sonatapage/page.css') }}" type="text/css" media="all">
-
                     {% if sonata_page.isEditor and sonata_page.isInlineEditionOn %}
-                        <script src="{{ asset('bundles/sonatapage/page.js') }}" type="text/javascript"></script>
-
-                        {# uncomment this line if you are not using the default twitter bootstrap layout in head tag #}
-                        {#
-                            <link rel="stylesheet" href="{{ asset('bundles/sonataadmin/bootstrap/bootstrap.css') }}" type="text/css" media="all" >
-                        #}
-
                         <!-- CMS specific variables -->
                         <script>
                             jQuery(document).ready(function() {

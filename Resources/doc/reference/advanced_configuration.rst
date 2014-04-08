@@ -48,6 +48,21 @@ Full configuration options (config.yml file):
         templates:
             default: { path: 'SonataPageBundle::layout.html.twig', name: 'default' }
 
+        # Assets loaded by default in template
+        assets:
+            css:
+                # Defaults:
+                - bundles/sonataadmin/vendor/bootstrap/dist/css/bootstrap.min.css
+                - bundles/sonatapage/default.css
+                - bundles/sonatapage/page.css
+            javascripts:
+                # Defaults:
+                - bundles/sonataadmin/vendor/jquery/dist/jquery.min.js
+                - bundles/sonataadmin/vendor/jqueryui/ui/minified/jquery-ui.min.js
+                - bundles/sonataadmin/vendor/jqueryui/ui/minified/i18n/jquery-ui-i18n.min.js
+                - bundles/sonataadmin/vendor/bootstrap/dist/js/bootstrap.min.js
+                - bundles/sonatapage/page.js
+
         page_defaults:
             homepage: {decorate: false}
 

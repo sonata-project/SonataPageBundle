@@ -57,6 +57,17 @@ Breadcrumbs
 .. code-block:: jinja
 
     {{ sonata_page_breadcrumb(page, {key: value}) }}
-    
-where expected ``key`` options can be ``separator`` (string), ``current_class`` (string), 
+
+where expected ``key`` options can be ``separator`` (string), ``current_class`` (string),
 ``last_separator`` (string), ``force_view_home_page`` (boolean), ``container_attr`` (array of html attributes).
+
+Assets
+------
+
+.. code-block:: jinja
+
+    {% for js in sonata_page.assets.javascripts %}
+        {# ... #}
+    {% endfor %}
+
+This allows to access the javascripts and css assets configured in sonata_page configuration.

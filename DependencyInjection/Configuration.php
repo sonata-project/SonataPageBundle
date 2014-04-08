@@ -88,6 +88,35 @@ class Configuration implements ConfigurationInterface
             ->scalarNode('default_page_service')->defaultValue('sonata.page.service.default')->end()
             ->scalarNode('default_template')->isRequired()->end()
 
+            ->arrayNode('assets')
+                ->addDefaultsIfNotSet()
+                ->children()
+                    ->arrayNode('css')
+                        ->defaultValue(array(
+                                'bundles/sonataadmin/vendor/bootstrap/dist/css/bootstrap.min.css',
+
+                                'bundles/sonatapage/default.css',
+                                'bundles/sonatapage/page.css',
+                            ))
+                        ->prototype('scalar')->end()
+                    ->end()
+                    ->arrayNode('javascripts')
+                        ->defaultValue(array(
+                                'bundles/sonataadmin/vendor/jquery/dist/jquery.min.js',
+                                'bundles/sonataadmin/vendor/jqueryui/ui/minified/jquery-ui.min.js',
+                                'bundles/sonataadmin/vendor/jqueryui/ui/minified/i18n/jquery-ui-i18n.min.js',
+
+                                'bundles/sonataadmin/vendor/bootstrap/dist/js/bootstrap.min.js',
+
+                                'bundles/sonatapage/page.js',
+                            ))
+                        ->prototype('scalar')->end()
+                    ->end()
+                ->end()
+            ->end()
+
+
+
             ->arrayNode('templates')
                 ->isRequired()
                 ->useAttributeAsKey('id')
