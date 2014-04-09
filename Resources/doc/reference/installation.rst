@@ -132,6 +132,19 @@ configuration file.
             not_found: [404]    # render 404 page with "not_found" key (name generated: _page_internal_error_{key})
             fatal:     [500]    # so you can use the same page for different http errors or specify specific page for each error
 
+
+    sonata_admin:
+        assets:
+            javascripts:
+                - bundles/sonataadmin/vendor/jquery/dist/jquery.min.js
+                - bundles/sonataadmin/vendor/jquery.scrollTo/jquery.scrollTo.js
+                - bundles/sonataadmin/vendor/jqueryui/ui/minified/jquery-ui.min.js
+                - bundles/sonataadmin/vendor/jqueryui/ui/minified/i18n/jquery-ui-i18n.min.js
+
+            stylesheets:
+                - bundles/sonataadmin/vendor/AdminLTE/css/font-awesome.min.css
+                - bundles/sonataadmin/vendor/jqueryui/themes/flick/jquery-ui.min.css
+
 Add block context manager:
 
 .. code-block:: yaml
