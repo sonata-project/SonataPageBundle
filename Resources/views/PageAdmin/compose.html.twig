@@ -17,16 +17,12 @@ file that was distributed with this source code.
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('bundles/sonatapage/jquery.scrollTo.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('bundles/sonatapage/jquery-ui-1.10.4.custom/js/jquery-ui-1.10.4.custom.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/sonatapage/composer.js') }}" type="text/javascript"></script>
 {% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('bundles/sonatapage/jquery-ui-1.10.4.custom/css/smoothness/jquery-ui-1.10.4.custom.min.css') }}" type="text/css" media="screen" />
     <link rel="stylesheet" href="{{ asset('bundles/sonatapage/composer.css') }}" type="text/css" media="screen" />
-    <link rel="stylesheet" href="{{ asset('bundles/sonatapage/font-awesome/css/font-awesome.min.css') }}" type="text/css" media="screen" />
 {% endblock %}
 
 {% block body_attributes %}class="sonata-bc skin-black fixed page-composer-page sonata-ba-no-side-menu"{% endblock %}
