@@ -21,17 +21,28 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         $template = new Template('page', 'template.twig');
 
-        $template->addContainer('zone', array());
-
+        $template->addContainer('zone_A', array());
         $expected = array(
-            'zone' => array(
+            'zone_A' => array(
                 'name'      => 'n/a',
                 'type'      => Template::TYPE_STATIC,
                 'blocks'    => array(),
                 'placement' => array(),
+                'shared'    => false,
             ),
         );
+        $this->assertEquals($template->getContainers(), $expected);
 
+        $template->addContainer('zone_B', array(
+            'shared' => true,
+        ));
+        $expected['zone_B'] = array(
+            'name'      => 'n/a',
+            'type'      => Template::TYPE_STATIC,
+            'blocks'    => array(),
+            'placement' => array(),
+            'shared'    => true,
+        );
         $this->assertEquals($template->getContainers(), $expected);
     }
 }
