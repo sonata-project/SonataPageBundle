@@ -47,6 +47,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                         'header' => array(
                             'name'      => 'My Header',
                             'type'      => 1,
+                            'shared'    => false,
                             'blocks'    => array(),
                             'placement' => array(
                                 'x'      => 0,

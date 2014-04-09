@@ -26,22 +26,22 @@
         this.csrfTokens         = {};
         this.templates          = {
             childBlock: '<a class="page-composer__container__child__edit" href="%edit_url%">' +
-                '<h4>%name%</h4>' +
-                '<small>%type%</small>' +
-                '<span class="page-composer__container__child__toggle">' +
-                '<span class="fa fa-chevron-down"></span>' +
-                '<span class="fa fa-chevron-up"></span>' +
-                '</span>' +
+                    '<h4>%name%</h4>' +
+                    '<small>%type%</small>' +
+                    '<span class="page-composer__container__child__toggle">' +
+                        '<span class="fa fa-chevron-down"></span>' +
+                        '<span class="fa fa-chevron-up"></span>' +
+                    '</span>' +
                 '</a>' +
                 '<div class="page-composer__container__child__remove">' +
-                '<a class="badge" href="%remove_url%">remove</a>' +
-                '<span class="page-composer__container__child__remove__confirm">' +
-                'confirm delete ? <span class="yes">yes</span> <span class="cancel">cancel</span>' +
-                '</span>' +
+                    '<a class="badge" href="%remove_url%">remove</a>' +
+                    '<span class="page-composer__container__child__remove__confirm">' +
+                        'confirm delete ? <span class="yes">yes</span> <span class="cancel">cancel</span>' +
+                    '</span>' +
                 '</div>' +
                 '<div class="page-composer__container__child__content"></div>' +
                 '<div class="page-composer__container__child__loader">' +
-                '<span>loading</span>' +
+                    '<span>loading</span>' +
                 '</div>'
         };
 
@@ -715,7 +715,10 @@
                         }
                     }
                 });
-            this.loadContainer(this.$containerPreviews.eq(0));
+
+            if (this.$containerPreviews.length > 0) {
+                this.loadContainer(this.$containerPreviews.eq(0));
+            }
         },
 
         bindOrphansHandlers: function () {
