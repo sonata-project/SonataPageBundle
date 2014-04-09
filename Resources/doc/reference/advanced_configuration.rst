@@ -58,8 +58,6 @@ Full configuration options (config.yml file):
             javascripts:
                 # Defaults:
                 - bundles/sonataadmin/vendor/jquery/dist/jquery.min.js
-                - bundles/sonataadmin/vendor/jqueryui/ui/minified/jquery-ui.min.js
-                - bundles/sonataadmin/vendor/jqueryui/ui/minified/i18n/jquery-ui-i18n.min.js
                 - bundles/sonataadmin/vendor/bootstrap/dist/js/bootstrap.min.js
                 - bundles/sonatapage/page.js
 

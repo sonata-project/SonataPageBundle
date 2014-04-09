@@ -68,8 +68,6 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                 ),
                 'javascripts' => array(
                     'bundles/sonataadmin/vendor/jquery/dist/jquery.min.js',
-                    'bundles/sonataadmin/vendor/jqueryui/ui/minified/jquery-ui.min.js',
-                    'bundles/sonataadmin/vendor/jqueryui/ui/minified/i18n/jquery-ui-i18n.min.js',
 
                     'bundles/sonataadmin/vendor/bootstrap/dist/js/bootstrap.min.js',
 
@@ -147,8 +145,6 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                 ),
                 'javascripts' => array(
                     'bundles/sonataadmin/vendor/jquery/dist/jquery.min.js',
-                    'bundles/sonataadmin/vendor/jqueryui/ui/minified/jquery-ui.min.js',
-                    'bundles/sonataadmin/vendor/jqueryui/ui/minified/i18n/jquery-ui-i18n.min.js',
 
                     'bundles/sonataadmin/vendor/bootstrap/dist/js/bootstrap.min.js',
 
