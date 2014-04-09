@@ -38,6 +38,11 @@ class Template
         $this->name       = $name;
         $this->path       = $path;
         $this->containers = $containers;
+
+        // force normalization of containers
+        foreach ($this->containers as &$container) {
+            $container = $this->normalize($container);
+        }
     }
 
     /**
@@ -68,10 +73,11 @@ class Template
     protected function normalize(array $meta)
     {
         return array(
-            'name'      => isset($meta['name'])      ? $meta['name']   :    'n/a',
-            'type'      => isset($meta['type'])      ? $meta['type']   :    self::TYPE_STATIC,
-            'blocks'    => isset($meta['blocks'])    ? $meta['blocks'] :    array(),            // default block to be created
+            'name'      => isset($meta['name'])      ? $meta['name']      : 'n/a',
+            'type'      => isset($meta['type'])      ? $meta['type']      : self::TYPE_STATIC,
+            'blocks'    => isset($meta['blocks'])    ? $meta['blocks']    : array(),            // default block to be created
             'placement' => isset($meta['placement']) ? $meta['placement'] : array(),
+            'shared'    => isset($meta['shared'])    ? $meta['shared']    : false,
         );
     }
 

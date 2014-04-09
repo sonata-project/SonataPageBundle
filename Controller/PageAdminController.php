@@ -114,6 +114,7 @@ class PageAdminController extends Controller
             );
         }
 
+        // 'attach' containers to corresponding template area, otherwise add it to orphans
         foreach ($page->getBlocks() as $block) {
             $blockCode = $block->getSetting('code');
             if ($block->getParent() === null) {
@@ -124,6 +125,19 @@ class PageAdminController extends Controller
                 }
             } else {
                 $children[] = $block;
+            }
+        }
+
+        // searching for block defined in template which are not created
+        $blockInteractor = $this->get('sonata.page.block_interactor');
+        foreach ($containers as $id => $container) {
+            if (!isset($container['block']) && $templateContainers[$id]['shared'] === false) {
+                $blockContainer = $blockInteractor->createNewContainer(array(
+                    'page' => $page,
+                    'code' => $id,
+                ));
+
+                $containers[$id]['block'] = $blockContainer;
             }
         }
 

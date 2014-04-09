@@ -34,7 +34,7 @@
 .page-composer__page-preview__container__content {
     width: 100%;
     height: 100%;
-    border: 2px solid #fff;
+    border: 3px solid #fff;
     background: #fff;
     border-radius: 2px;
     box-shadow: 0 0 1px rgba(0,0,0,0.35);
@@ -95,7 +95,7 @@
     color: #404040;
 }
 .page-composer__page-preview__container.active .page-composer__page-preview__container__content {
-    border-color: #8dd8c3;
+    border-color: #00a65a;
     box-shadow: none;
     color: #404040;
 }
@@ -138,7 +138,6 @@
 .page-composer__block-type-selector {
     padding: 7px 15px;
     background: #fff;
-    /*box-shadow: 0 0 1px rgba(0,0,0,0.35);*/
     border-top:    1px solid #ddd;
     border-bottom: 1px solid #ddd;
 }
@@ -185,7 +184,7 @@
     background: #5cc4a7;
 }
 .page-composer__container__view__notice.error {
-    background: #ff4c41;
+    background: #f56954;
 }
 .page-composer__container__view__notice .close-notice {
     display: inline-block;
@@ -220,7 +219,7 @@
     margin: 0 !important;
     font-size: 24px !important;
     line-height: 1em !important;
-    color: #5cc4a7 !important;
+    color: #00a65a !important;
 }
 .page-composer__container__child-count {
     margin-top: 4px;
@@ -229,7 +228,7 @@
 }
 .page-composer__container__child-count .badge,
 .page-composer__container__child .badge {
-    background-color: #8dd8c3;
+    background-color: #00a65a;
     text-shadow: none;
 }
 .page-composer__container__child > .badge {
@@ -259,17 +258,22 @@
 .page-composer__container__children {
     margin: 0 0 10px 0 !important;
     list-style: none;
+    padding: 0;
 }
 .page-composer__container__child {
     border-top: 1px solid #ddd;
     position: relative;
     min-height: 40px;
 }
+.page-composer__container__child__helper,
+.page-composer__container__child__content {
+    border-left: 3px solid #00a65a;
+}
+
 .page-composer__container__child__helper {
     background: rgba(255,255,255,0.85);
     padding: 0 10px;
     box-shadow: 0 0 2px rgba(0,0,0,0.35);
-    border-left: 3px solid #8dd8c3;
 }
 .page-composer__container__child__helper h4 {
     font-size: 14px !important;
@@ -279,11 +283,16 @@
 }
 .page-composer__container__child__content {
     display: none;
-    border-top: 1px solid #eee;
-    border-left: 3px solid #8dd8c3;
 }
 .page-composer__container__child__content form {
     margin: 0 !important;
+}
+.page-composer__container__child .box {
+    border: none;
+    border-radius: 0;
+    margin-bottom: 0;
+    -moz-box-shadow: none;
+    box-shadow: none;
 }
 .page-composer__container__child--expanded .page-composer__container__child__content {
     display: block;
@@ -336,7 +345,7 @@
     display: block;
 }
 .page-composer__container__child__remove .badge {
-    background-color: #ff4c41;
+    background-color: #f56954;
     cursor: pointer;
 }
 .page-composer__container__child__remove__confirm {
@@ -351,10 +360,10 @@
     cursor: pointer;
 }
 .page-composer__container__child__remove__confirm span.yes {
-    background-color: #8dd8c3;
+    background-color: #00a65a;
 }
 .page-composer__container__child__remove__confirm span.cancel {
-    background-color: #ffa751;
+    background-color: #f56954;
 }
 .page-composer__container__child__toggle {
     display: none;
@@ -373,10 +382,11 @@
 }
 .page-composer__container__child__edit:hover {
     background: #fff;
-    border-left-color: #8dd8c3;
+    border-left-color: #00a65a;
 }
 .page-composer__container__child--expanded .page-composer__container__child__edit {
-    border-left-color: #8dd8c3;
+    border-left-color: #00a65a;
+    box-shadow: 0 0 2px rgba(0,0,0,0.35) inset;
 }
 .page-composer__container__child__edit:hover .page-composer__container__child__toggle {
     display: inline-block;
@@ -401,6 +411,7 @@
 .page-composer__orphan-containers ul {
     list-style: none;
     margin: 0;
+    padding: 0;
 }
 .page-composer__orphan-container {
     padding: 5px 15px 5px 12px;
@@ -409,11 +420,11 @@
     border-left: 3px solid #f9f9f9;
 }
 .page-composer__orphan-container.active {
-    border-left-color: #8dd8c3;
+    border-left-color: #00a65a;
 }
 .page-composer__orphan-container:hover {
     background: #fff;
-    border-left-color: #8dd8c3;
+    border-left-color: #00a65a;
 }
 .page-composer__orphan-container:first-child {
     border-top: none;
