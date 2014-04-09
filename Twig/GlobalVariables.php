@@ -74,6 +74,14 @@ class GlobalVariables
     }
 
     /**
+     * @return array
+     */
+    public function getAssets()
+    {
+        return $this->container->getParameter('sonata.page.assets');
+    }
+
+    /**
      * @return boolean
      */
     public function isInlineEditionOn()
