@@ -73,7 +73,7 @@ class CreateSnapshotsCommand extends BaseCommand
                 $output->writeln(" done!");
             } else {
                 $p = new Process(sprintf('%s sonata:page:create-snapshots --env=%s --site=%s --mode=%s %s ', $input->getOption('base-console'), $input->getOption('env'), $site->getId(), $input->getOption('mode'), $input->getOption('no-debug') ? '--no-debug' : ''));
-
+                $p->setTimeout(0);
                 $p->run(function($type, $data) use ($output) {
                     $output->write($data, OutputInterface::OUTPUT_RAW);
                 });
