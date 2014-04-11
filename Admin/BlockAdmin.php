@@ -122,16 +122,18 @@ class BlockAdmin extends Admin
         if ($isContainerRoot || $isStandardBlock) {
             $service = $this->blockManager->get($block);
 
+            $containerBlockTypes = $this->containerBlockTypes;
+
             // need to investigate on this case where $page == null ... this should not be possible
             if ($isStandardBlock && $page) {
                 $formMapper->add('parent', 'entity', array(
                     'class' => $this->getClass(),
-                    'query_builder' => function(EntityRepository $repository) use ($page) {
+                    'query_builder' => function(EntityRepository $repository) use ($page, $containerBlockTypes) {
                         return $repository->createQueryBuilder('a')
                             ->andWhere('a.page = :page AND a.type IN (:types)')
                             ->setParameters(array(
                                 'page'  => $page,
-                                'types' => $this->containerBlockTypes,
+                                'types' => $containerBlockTypes,
                             ));
                     }
                 ));
