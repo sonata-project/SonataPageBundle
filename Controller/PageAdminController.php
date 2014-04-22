@@ -134,7 +134,7 @@ class PageAdminController extends Controller
             if (!isset($container['block']) && $templateContainers[$id]['shared'] === false) {
                 $blockContainer = $blockInteractor->createNewContainer(array(
                     'page' => $page,
-                    'code' => $id,
+                    'code' => $templateContainers[$id]['name'],
                 ));
 
                 $containers[$id]['block'] = $blockContainer;

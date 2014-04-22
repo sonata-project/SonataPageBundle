@@ -271,6 +271,7 @@
 }
 
 .page-composer__container__child__helper {
+    position: absolute;
     background: rgba(255,255,255,0.85);
     padding: 0 10px;
     box-shadow: 0 0 2px rgba(0,0,0,0.35);
