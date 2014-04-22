@@ -28,8 +28,8 @@
                 <a class="page-composer__container__child__edit"
                    href="{{ path('admin_sonata_page_block_edit', { 'id': child.id }) }}"
                 >
-                    <h4>{{ child.name|default(child.type) }}</h4>
-                    <small>{{ child.type }}</small>
+                    <h4>{{ child.name|default(attribute(blockServices, child.type).name) }}</h4>
+                    <small>{{ attribute(blockServices, child.type).name }}</small>
                     <span class="page-composer__container__child__toggle">
                         <i class="fa fa-chevron-down"></i>
                         <i class="fa fa-chevron-up"></i>
