@@ -91,6 +91,8 @@ class PageController
      * @QueryParam(name="count", requirements="\d+", default="10", description="Number of pages by page")
      * @QueryParam(name="enabled", requirements="0|1", nullable=true, strict=true, description="Enabled/Disabled pages filter")
      * @QueryParam(name="edited", requirements="0|1", nullable=true, strict=true, description="Edited/Up to date pages filter")
+     * @QueryParam(name="internal", requirements="0|1", nullable=true, strict=true, description="Internal/Exposed pages filter")
+     * @QueryParam(name="root", requirements="0|1", nullable=true, strict=true, description="Filter pages having no parent id")
      * @QueryParam(name="orderBy", array=true, requirements="ASC|DESC", nullable=true, strict=true, description="Order by array (key is field, value is direction)")
      *
      * @View(serializerGroups="sonata_api_read", serializerEnableMaxDepthChecks=true)
@@ -102,11 +104,13 @@ class PageController
     public function getPagesAction(ParamFetcherInterface $paramFetcher)
     {
         $supportedFilters = array(
-            'enabled' => '',
-            'edited'  => '',
+            'enabled'  => '',
+            'edited'   => '',
+            'internal' => '',
+            'root'     => '',
         );
 
-        $page    = $paramFetcher->get('page') - 1;
+        $page    = $paramFetcher->get('page');
         $count   = $paramFetcher->get('count');
         $orderBy = $paramFetcher->get('orderBy');
         $filters = array_intersect_key($paramFetcher->all(), $supportedFilters);
@@ -116,7 +120,18 @@ class PageController
                 unset($filters[$key]);
             }
         }
-        return $this->pageManager->findBy($filters, $orderBy, $count, $page);
+
+        $pager = $this->pageManager->getPager($filters, $page, $count);
+
+        return array(
+            'pager' => array(
+                'per_page'   => (int) $pager->getMaxPerPage(),
+                'page'       => (int) $pager->getPage(),
+                'page_count' => (int) $pager->getLastPage(),
+                'total'      => (int) $pager->count(),
+            ),
+            'pages' => $pager->getResults(),
+        );
     }
 
     /**

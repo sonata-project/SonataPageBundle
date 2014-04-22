@@ -17,6 +17,8 @@ use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\Page;
+use Sonata\DoctrineORMAdminBundle\Datagrid\Pager;
+use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 
 /**
  * This class manages PageInterface persistency with the Doctrine ORM
@@ -58,6 +60,48 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
             'url'  => $url,
             'site' => $site->getId()
         ));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPager(array $criteria, $page, $maxPerPage = 10)
+    {
+        $query = $this->getRepository()
+            ->createQueryBuilder('p')
+            ->select('p');
+
+        $parameters = array();
+
+        if (isset($criteria['enabled'])) {
+            $query->andWhere('p.enabled = :enabled');
+            $parameters['enabled'] = $criteria['enabled'];
+        }
+
+        if (isset($criteria['edited'])) {
+            $query->andWhere('p.edited = :edited');
+            $parameters['edited'] = $criteria['edited'];
+        }
+
+        if (isset($criteria['root'])) {
+            $isRoot = (bool) $criteria['root'];
+            if ($isRoot) {
+                $query->andWhere('p.parent IS NULL');
+            } else {
+                $query->andWhere('p.parent IS NOT NULL');
+            }
+        }
+
+        $query->setParameters($parameters);
+
+        $pager = new Pager();
+        $pager->setMaxPerPage($maxPerPage);
+        $pager->setQuery(new ProxyQuery($query));
+        $pager->setPage($page);
+        $pager->init();
+
+
+        return $pager;
     }
 
     /**
