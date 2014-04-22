@@ -371,7 +371,7 @@
                 } else if (self.isFormControlTypeByName(formControlName, 'position')) {
                     $positionFormControl = $formControl;
                     $positionFormControl.val($containerChildren.find('> *').length);
-                    $positionFormControl.parent().parent().parent().hide();
+                    $positionFormControl.closest('.form-group').hide();
                 }
             });
 
@@ -460,7 +460,7 @@
                     $nameFormControl = $formControl;
                 } else if (self.isFormControlTypeByName(formControlName, 'position')) {
                     $positionFormControl = $formControl;
-                    $positionFormControl.parent().parent().parent().hide();
+                    $positionFormControl.closest('.form-group').hide();
                 }
             });
 
