@@ -622,7 +622,7 @@
 
                     $element.removeClass('page-composer__container__child--expanded');
 
-                    return $('<div class="page-composer__container__child__helper ui-draggable-helper">' +
+                    return $('<div class="page-composer__container__child__helper">' +
                                  '<h4>' + name + '</h4>' +
                              '</div>');
                 },
@@ -663,20 +663,22 @@
          */
         bindPagePreviewHandlers: function () {
             var self = this;
-            this.$containerPreviews.each(function () {
-                var $container = $(this);
-                $container.on('click', function (e) {
-                    e.preventDefault();
+            this.$containerPreviews
+                .each(function () {
+                    var $container = $(this);
+                    $container.on('click', function (e) {
+                        e.preventDefault();
 
-                    var event = $.Event('containerclick');
-                    event.$container = $container;
-                    $(self).trigger(event);
-                });
-            })
+                        var event = $.Event('containerclick');
+                        event.$container = $container;
+                        $(self).trigger(event);
+                    });
+                })
                 .droppable({
-                    hoverClass: 'hover',
-                    tolerance:  'pointer',
-                    revert:     true,
+                    hoverClass:        'hover',
+                    tolerance:         'pointer',
+                    revert:            true,
+                    connectToSortable: '.page-composer__container__children',
                     drop: function (event, ui) {
                         var droppedBlockId = ui.draggable.attr('data-block-id');
                         if (droppedBlockId !== 'undefined') {
