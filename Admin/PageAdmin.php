@@ -60,6 +60,8 @@ class PageAdmin extends Admin
         $routes->add('compose_container_show', 'compose/container/{id}', array(
             'id' => null,
         ));
+
+        $routes->add('tree', 'tree');
     }
 
     /**
@@ -252,40 +254,48 @@ class PageAdmin extends Admin
      */
     protected function configureSideMenu(MenuItemInterface $menu, $action, AdminInterface $childAdmin = null)
     {
-        if (!$childAdmin && !in_array($action, array('edit'))) {
-            return;
-        }
-
         $admin = $this->isChild() ? $this->getParent() : $this;
 
-        $id = $admin->getRequest()->get('id');
+        if ($childAdmin && $action == 'edit') {
+            $id = $admin->getRequest()->get('id');
 
-        $menu->addChild(
-            $this->trans('sidemenu.link_edit_page'),
-            array('uri' => $admin->generateUrl('edit', array('id' => $id)))
-        );
+            $menu->addChild(
+                $this->trans('sidemenu.link_edit_page'),
+                array('uri' => $admin->generateUrl('edit', array('id' => $id)))
+            );
 
-        $menu->addChild(
-            $this->trans('sidemenu.link_compose_page'),
-            array('uri' => $admin->generateUrl('compose', array('id' => $id)))
-        );
+            $menu->addChild(
+                $this->trans('sidemenu.link_compose_page'),
+                array('uri' => $admin->generateUrl('compose', array('id' => $id)))
+            );
 
-        $menu->addChild(
-            $this->trans('sidemenu.link_list_snapshots'),
-            array('uri' => $admin->generateUrl('sonata.page.admin.snapshot.list', array('id' => $id)))
-        );
+            $menu->addChild(
+                $this->trans('sidemenu.link_list_snapshots'),
+                array('uri' => $admin->generateUrl('sonata.page.admin.snapshot.list', array('id' => $id)))
+            );
 
-        if (!$this->getSubject()->isHybrid() && !$this->getSubject()->isInternal()) {
+            if (!$this->getSubject()->isHybrid() && !$this->getSubject()->isInternal()) {
 
-            try {
-                $menu->addChild(
-                    $this->trans('view_page'),
-                    array('uri' => $this->getRouteGenerator()->generate('page_slug', array('path' => $this->getSubject()->getUrl())))
-                );
-            } catch (\Exception $e) {
-                // avoid crashing the admin if the route is not setup correctly
+                try {
+                    $menu->addChild(
+                        $this->trans('view_page'),
+                        array('uri' => $this->getRouteGenerator()->generate('page_slug', array('path' => $this->getSubject()->getUrl())))
+                    );
+                } catch (\Exception $e) {
+                    // avoid crashing the admin if the route is not setup correctly
 //                throw $e;
+                }
             }
+        } elseif ($action == 'list' || $action == 'tree') {
+            $menu->addChild(
+                $this->trans('sidemenu.link_list_pages'),
+                array('uri' => $admin->generateUrl('list'))
+            );
+
+            $menu->addChild(
+                $this->trans('sidemenu.link_pages_tree'),
+                array('uri' => $admin->generateUrl('tree'))
+            );
         }
     }
 

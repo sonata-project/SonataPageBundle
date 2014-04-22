@@ -47,6 +47,40 @@ class PageAdminController extends Controller
     }
 
     /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function treeAction()
+    {
+        $sites = $this->get('sonata.page.manager.site')->findBy(array());
+        $pageManager = $this->get('sonata.page.manager.page');
+
+        $currentSite = null;
+        $siteId = $this->getRequest()->get('siteId');
+        foreach ($sites as $site) {
+            if ($siteId && $site->getId() == $siteId) {
+                $currentSite = $site;
+            } elseif (!$siteId && $site->getIsDefault()) {
+                $currentSite = $site;
+            }
+        }
+        if (!$currentSite && count($sites) == 1) {
+            $currentSite = $sites[0];
+        }
+
+        if ($currentSite) {
+            $pages = $pageManager->loadPages($currentSite);
+        } else {
+            $pages = array();
+        }
+
+        return $this->render('SonataPageBundle:PageAdmin:pages_tree.html.twig', array(
+            'sites'       => $sites,
+            'currentSite' => $currentSite,
+            'pages'       => $pages,
+        ));
+    }
+
+    /**
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      *
      * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
