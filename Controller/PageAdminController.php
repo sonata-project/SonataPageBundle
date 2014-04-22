@@ -174,7 +174,7 @@ class PageAdminController extends Controller
             throw new NotFoundHttpException(sprintf('unable to find the block with id : %s', $id));
         }
 
-        $blockServices = $this->get('sonata.block.manager')->getServices();
+        $blockServices = $this->get('sonata.block.manager')->getServicesByContext('sonata_page_bundle');
 
         return $this->render('SonataPageBundle:PageAdmin:compose_container_show.html.twig', array(
             'blockServices' => $blockServices,

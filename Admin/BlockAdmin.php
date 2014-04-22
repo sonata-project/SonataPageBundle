@@ -155,7 +155,7 @@ class BlockAdmin extends Admin
 
             $formMapper
                 ->add('type', 'sonata_block_service_choice', array(
-                    'context' => 'cms'
+                    'context' => 'sonata_page_bundle'
                 ))
                 ->add('enabled')
                 ->add('position', 'integer');

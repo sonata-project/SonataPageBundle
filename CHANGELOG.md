@@ -8,6 +8,10 @@ A [BC BREAK] means the update will break the project for many reasons:
 * class refactoring
 
 
+### 2014-04-23
+
+* [BC BREAK] The default context used with BlockBundle is now ``sonata_page_bundle``, it was ``cms`` before.
+
 ### 2014-01-02
 
 * Changed twig template ``Resources/views/base_layout.html.twig``. Added Bootstrap3 classes while keeping Bootstrap2 classes (this shouldn't break BC).
