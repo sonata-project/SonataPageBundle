@@ -60,6 +60,8 @@ class PageAdmin extends Admin
         $routes->add('compose_container_show', 'compose/container/{id}', array(
             'id' => null,
         ));
+
+        $routes->add('tree', 'tree');
     }
 
     /**
@@ -266,6 +268,7 @@ class PageAdmin extends Admin
 
         $admin = $this->isChild() ? $this->getParent() : $this;
 
+
         $id = $admin->getRequest()->get('id');
 
         $menu->addChild(
@@ -289,6 +292,7 @@ class PageAdmin extends Admin
         );
 
         if (!$this->getSubject()->isHybrid() && !$this->getSubject()->isInternal()) {
+
             try {
                 $menu->addChild(
                     $this->trans('view_page'),
