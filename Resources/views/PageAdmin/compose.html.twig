@@ -86,7 +86,7 @@ sonata_page:
                     <div class="page-composer__page-preview">
                         <div class="page-composer__page-preview__containers">
                             {% for container in containers %}
-                                {% if container.block is defined %}
+                                {% if container.block is defined and container.block %}
                                     <a class="page-composer__page-preview__container block-preview-{{ container.block.id }}"
                                        data-block-id="{{ container.block.id }}"
                                        style="top:{{ container.area.placement.y }}%;right:{{ container.area.placement.right }}%;bottom:{{ container.area.placement.bottom }}%;left:{{ container.area.placement.x }}%"
