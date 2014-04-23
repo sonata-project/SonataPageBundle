@@ -642,6 +642,30 @@
           <source>sidemenu.link_compose_page</source>
           <target>sidemenu.link_compose_page</target>
       </trans-unit>
+      <trans-unit id="159" resname="sidemenu.link_list_pages">
+          <source>sidemenu.link_list_pages</source>
+          <target>sidemenu.link_list_pages</target>
+      </trans-unit>
+      <trans-unit id="160" resname="sidemenu.link_pages_tree">
+          <source>sidemenu.link_pages_tree</source>
+          <target>sidemenu.link_pages_tree</target>
+      </trans-unit>
+      <trans-unit id="161" resname="breadcrumb.link_page_tree">
+          <source>breadcrumb.link_page_tree</source>
+          <target>breadcrumb.link_page_tree</target>
+      </trans-unit>
+      <trans-unit id="162" resname="pages.tree_site_label">
+          <source>pages.tree_site_label</source>
+          <target>pages.tree_site_label</target>
+      </trans-unit>
+      <trans-unit id="163" resname="pages.tree_mode">
+          <source>pages.tree_mode</source>
+          <target>pages.tree_mode</target>
+      </trans-unit>
+      <trans-unit id="164" resname="pages.list_mode">
+          <source>pages.list_mode</source>
+          <target>pages.list_mode</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

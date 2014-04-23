@@ -262,53 +262,46 @@ class PageAdmin extends Admin
      */
     protected function configureSideMenu(MenuItemInterface $menu, $action, AdminInterface $childAdmin = null)
     {
+        if (!$childAdmin && !in_array($action, array('edit'))) {
+            return;
+        }
+
         $admin = $this->isChild() ? $this->getParent() : $this;
 
-        if ($childAdmin && $action == 'edit') {
-            $id = $admin->getRequest()->get('id');
 
-            $menu->addChild(
-                $this->trans('sidemenu.link_edit_page'),
-                array('uri' => $admin->generateUrl('edit', array('id' => $id)))
-            );
+        $id = $admin->getRequest()->get('id');
 
-            $menu->addChild(
-                $this->trans('sidemenu.link_compose_page'),
-                array('uri' => $admin->generateUrl('compose', array('id' => $id)))
-            );
+        $menu->addChild(
+            $this->trans('sidemenu.link_edit_page'),
+            array('uri' => $admin->generateUrl('edit', array('id' => $id)))
+        );
 
-            $menu->addChild(
-                $this->trans('sidemenu.link_list_blocks'),
-                array('uri' => $admin->generateUrl('sonata.page.admin.block.list', array('id' => $id)))
-            );
+        $menu->addChild(
+            $this->trans('sidemenu.link_compose_page'),
+            array('uri' => $admin->generateUrl('compose', array('id' => $id)))
+        );
 
-            $menu->addChild(
-                $this->trans('sidemenu.link_list_snapshots'),
-                array('uri' => $admin->generateUrl('sonata.page.admin.snapshot.list', array('id' => $id)))
-            );
+        $menu->addChild(
+            $this->trans('sidemenu.link_list_blocks'),
+            array('uri' => $admin->generateUrl('sonata.page.admin.block.list', array('id' => $id)))
+        );
 
-            if (!$this->getSubject()->isHybrid() && !$this->getSubject()->isInternal()) {
+        $menu->addChild(
+            $this->trans('sidemenu.link_list_snapshots'),
+            array('uri' => $admin->generateUrl('sonata.page.admin.snapshot.list', array('id' => $id)))
+        );
 
-                try {
-                    $menu->addChild(
-                        $this->trans('view_page'),
-                        array('uri' => $this->getRouteGenerator()->generate('page_slug', array('path' => $this->getSubject()->getUrl())))
-                    );
-                } catch (\Exception $e) {
-                    // avoid crashing the admin if the route is not setup correctly
+        if (!$this->getSubject()->isHybrid() && !$this->getSubject()->isInternal()) {
+
+            try {
+                $menu->addChild(
+                    $this->trans('view_page'),
+                    array('uri' => $this->getRouteGenerator()->generate('page_slug', array('path' => $this->getSubject()->getUrl())))
+                );
+            } catch (\Exception $e) {
+                // avoid crashing the admin if the route is not setup correctly
 //                throw $e;
-                }
             }
-        } elseif ($action == 'list' || $action == 'tree') {
-            $menu->addChild(
-                $this->trans('sidemenu.link_list_pages'),
-                array('uri' => $admin->generateUrl('list'))
-            );
-
-            $menu->addChild(
-                $this->trans('sidemenu.link_pages_tree'),
-                array('uri' => $admin->generateUrl('tree'))
-            );
         }
     }
 

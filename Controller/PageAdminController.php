@@ -49,13 +49,25 @@ class PageAdminController extends Controller
     /**
      * @return \Symfony\Component\HttpFoundation\Response
      */
+    public function listAction()
+    {
+        if (!$this->getRequest()->get('filter')) {
+            return new RedirectResponse($this->admin->generateUrl('tree'));
+        }
+
+        return parent::listAction();
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function treeAction()
     {
         $sites = $this->get('sonata.page.manager.site')->findBy(array());
         $pageManager = $this->get('sonata.page.manager.page');
 
         $currentSite = null;
-        $siteId = $this->getRequest()->get('siteId');
+        $siteId = $this->getRequest()->get('site');
         foreach ($sites as $site) {
             if ($siteId && $site->getId() == $siteId) {
                 $currentSite = $site;
@@ -73,10 +85,18 @@ class PageAdminController extends Controller
             $pages = array();
         }
 
-        return $this->render('SonataPageBundle:PageAdmin:pages_tree.html.twig', array(
+        $datagrid = $this->admin->getDatagrid();
+        $formView = $datagrid->getForm()->createView();
+
+        $this->get('twig')->getExtension('form')->renderer->setTheme($formView, $this->admin->getFilterTheme());
+
+        return $this->render('SonataPageBundle:PageAdmin:tree.html.twig', array(
+            'action'      => 'tree',
             'sites'       => $sites,
             'currentSite' => $currentSite,
             'pages'       => $pages,
+            'form'        => $formView,
+            'csrf_token'  => $this->getCsrfToken('sonata.batch'),
         ));
     }
 
