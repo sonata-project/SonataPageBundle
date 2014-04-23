@@ -26,6 +26,7 @@ use Sonata\PageBundle\Model\SiteManagerInterface;
 use FOS\RestBundle\View\View as FOSRestView;
 use Sonata\NotificationBundle\Backend\BackendInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\AdminBundle\Datagrid\Pager;
 
 /**
  * Class PageController
@@ -84,7 +85,7 @@ class PageController
      *
      * @ApiDoc(
      *  resource=true,
-     *  output={"class"="Sonata\PageBundle\Model\PageInterface", "groups"="sonata_api_read"}
+     *  output={"class"="Sonata\AdminBundle\Datagrid\Pager", "groups"="sonata_api_read"}
      * )
      *
      * @QueryParam(name="page", requirements="\d+", default="1", description="Page for 'page' list pagination")
@@ -93,13 +94,13 @@ class PageController
      * @QueryParam(name="edited", requirements="0|1", nullable=true, strict=true, description="Edited/Up to date pages filter")
      * @QueryParam(name="internal", requirements="0|1", nullable=true, strict=true, description="Internal/Exposed pages filter")
      * @QueryParam(name="root", requirements="0|1", nullable=true, strict=true, description="Filter pages having no parent id")
-     * @QueryParam(name="orderBy", array=true, requirements="ASC|DESC", nullable=true, strict=true, description="Order by array (key is field, value is direction)")
+     * @QueryParam(name="orderBy", requirements="ASC|DESC", array=true, nullable=true, strict=true, description="Order by array (key is field, value is direction)")
      *
      * @View(serializerGroups="sonata_api_read", serializerEnableMaxDepthChecks=true)
      *
      * @param ParamFetcherInterface $paramFetcher
      *
-     * @return PageInterface[]
+     * @return Pager
      */
     public function getPagesAction(ParamFetcherInterface $paramFetcher)
     {
@@ -123,15 +124,7 @@ class PageController
 
         $pager = $this->pageManager->getPager($filters, $page, $count);
 
-        return array(
-            'pager' => array(
-                'per_page'   => (int) $pager->getMaxPerPage(),
-                'page'       => (int) $pager->getPage(),
-                'page_count' => (int) $pager->getLastPage(),
-                'total'      => (int) $pager->count(),
-            ),
-            'pages' => $pager->getResults(),
-        );
+        return $pager;
     }
 
     /**
