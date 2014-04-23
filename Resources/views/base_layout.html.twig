@@ -103,6 +103,15 @@ file that was distributed with this source code.
                                         </ul>
                                     </li>
 
+                                    {% if page is defined %}
+                                        <li>
+                                            <a href="{{ url('admin_sonata_page_page_compose', {'id': page.id}) }}">
+                                                <i class="fa fa-magic"></i>
+                                                {{ 'header.compose_page'|trans({}, 'SonataPageBundle')}}
+                                            </a>
+                                        </li>
+                                    {% endif %}
+
                                     {% if page is defined and not page.enabled %}
                                         <li><span style="padding-left: 20px; background: red;"><strong><em>{{ 'header.page_is_disabled'|trans([], 'SonataPageBundle') }}</em></strong></span></li>
                                     {% endif %}

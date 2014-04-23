@@ -667,6 +667,10 @@
           <source>pages.list_mode</source>
           <target>pages.list_mode</target>
       </trans-unit>
+      <trans-unit id="165" resname="header.compose_page">
+          <source>header.compose_page</source>
+          <target>header.compose_page</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
