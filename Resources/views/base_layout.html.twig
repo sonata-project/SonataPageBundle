@@ -136,13 +136,16 @@ file that was distributed with this source code.
         {% block sonata_page_asset_footer %}
             {% block page_asset_footer %} {# Deprecated block #}
                 {% if page is defined %}
-                    <script>
-                        {{ page.javascript|raw }}
-                    </script>
-
-                    <style>
-                        {{ page.stylesheet|raw }}
-                    </style>
+                    {% if page.javascript is not empty %}
+                        <script>
+                            {{ page.javascript|raw }}
+                        </script>
+                    {% endif %}
+                    {% if page.stylesheet is not empty %}
+                        <style>
+                            {{ page.stylesheet|raw }}
+                        </style>
+                    {% endif %}
                 {% endif %}
                 {#
                     These includes can be done only at this point as all blocks are loaded,
