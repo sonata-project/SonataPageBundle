@@ -155,7 +155,7 @@ class BlockAdmin extends Admin
 
             $formMapper
                 ->add('type', 'sonata_block_service_choice', array(
-                    'context' => 'cms'
+                    'context' => 'sonata_page_bundle'
                 ))
                 ->add('enabled')
                 ->add('position', 'integer');
@@ -179,6 +179,7 @@ class BlockAdmin extends Admin
                 $subject->setSettings($resolver->resolve($subject->getSettings()));
             } catch (InvalidOptionsException $e) {
                 // @TODO : add a logging error or a flash message
+
             }
 
             $service->load($subject);

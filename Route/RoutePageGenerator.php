@@ -11,6 +11,7 @@
 
 namespace Sonata\PageBundle\Route;
 
+use Sonata\PageBundle\Model\PageInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Sonata\PageBundle\CmsManager\CmsPageManager;
@@ -84,6 +85,22 @@ class RoutePageGenerator
 
         $knowRoutes = array();
 
+        $root = $this->pageManager->getPageByUrl($site, '/');
+
+        // no root url for the given website, create one
+        if (!$root) {
+            $root = $this->pageManager->create(array(
+                'routeName'     => PageInterface::PAGE_ROUTE_CMS_NAME,
+                'name'          => 'Homepage',
+                'url'           => '/',
+                'site'          => $site,
+                'requestMethod' => isset($requirements['_method']) ? $requirements['_method'] : 'GET|POST|HEAD|DELETE|PUT',
+                'slug'          => '/',
+            ));
+
+            $this->pageManager->save($root);
+        }
+
         // Iterate over declared routes from the routing mechanism
         foreach ($this->router->getRouteCollection()->all() as $name => $route) {
             $name = trim($name);
@@ -95,11 +112,11 @@ class RoutePageGenerator
                 'site'      => $site->getId()
             ));
 
-            if (!$this->decoratorStrategy->isRouteNameDecorable($name) || !$this->decoratorStrategy->isRouteUriDecorable($route->getPattern())) {
+            if (!$this->decoratorStrategy->isRouteNameDecorable($name) || !$this->decoratorStrategy->isRouteUriDecorable($route->getPath())) {
                 if ($page) {
                     $page->setEnabled(false);
 
-                    $this->writeln($output, sprintf('  <error>DISABLE</error> <error>% -50s</error> %s', $name, $route->getPattern()));
+                    $this->writeln($output, sprintf('  <error>DISABLE</error> <error>% -50s</error> %s', $name, $route->getPath()));
                 } else {
                     continue;
                 }
@@ -115,14 +132,18 @@ class RoutePageGenerator
                 $page = $this->pageManager->create(array(
                     'routeName'     => $name,
                     'name'          => $name,
-                    'url'           => $route->getPattern(),
+                    'url'           => $route->getPath(),
                     'site'          => $site,
                     'requestMethod' => isset($requirements['_method']) ? $requirements['_method'] : 'GET|POST|HEAD|DELETE|PUT',
                 ));
             }
 
-            $page->setSlug($route->getPattern());
-            $page->setUrl($route->getPattern());
+            if (!$page->getParent()) {
+                $page->setParent($root);
+            }
+
+            $page->setSlug($route->getPath());
+            $page->setUrl($route->getPath());
             $page->setRequestMethod(isset($requirements['_method']) ? $requirements['_method'] : 'GET|POST|HEAD|DELETE|PUT');
 
             $this->pageManager->save($page);
@@ -151,10 +172,13 @@ class RoutePageGenerator
 
                 $page = $this->pageManager->create($params);
 
-                $this->pageManager->save($page);
 
                 $this->writeln($output, sprintf('  <info>%s</info> % -50s %s', 'CREATE ', $name, ''));
             }
+
+            // an internal page or an error page should not have any parent (no direct access)
+            $page->setParent(null);
+            $this->pageManager->save($page);
         }
 
         $has = false;

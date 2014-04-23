@@ -82,6 +82,11 @@ class PageSelectorType extends AbstractType
         $choices = array();
 
         foreach ($pages as $page) {
+            // internal cannot be selected
+            if ($page->isInternal()) {
+                continue;
+            }
+
             if (!$filter_choice['current_page'] && $options['page'] && $options['page']->getId() == $page->getId()) {
                 continue;
             }
@@ -95,7 +100,7 @@ class PageSelectorType extends AbstractType
                 continue;
             }
 
-            if ('all' != $filter_choice['dynamic'] && (
+            if ('all' !== $filter_choice['dynamic'] && (
                     ($filter_choice['dynamic'] && $page->isDynamic()) ||
                     (!$filter_choice['dynamic'] && !$page->isDynamic())
                 )

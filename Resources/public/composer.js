@@ -371,7 +371,7 @@
                 } else if (self.isFormControlTypeByName(formControlName, 'position')) {
                     $positionFormControl = $formControl;
                     $positionFormControl.val($containerChildren.find('> *').length);
-                    $positionFormControl.parent().parent().parent().hide();
+                    $positionFormControl.closest('.form-group').hide();
                 }
             });
 
@@ -460,7 +460,7 @@
                     $nameFormControl = $formControl;
                 } else if (self.isFormControlTypeByName(formControlName, 'position')) {
                     $positionFormControl = $formControl;
-                    $positionFormControl.parent().parent().parent().hide();
+                    $positionFormControl.closest('.form-group').hide();
                 }
             });
 
@@ -623,8 +623,8 @@
                     $element.removeClass('page-composer__container__child--expanded');
 
                     return $('<div class="page-composer__container__child__helper">' +
-                        '<h4>' + name + '</h4>' +
-                        '</div>');
+                                 '<h4>' + name + '</h4>' +
+                             '</div>');
                 },
                 update: function (event, ui) {
                     var newPositions = [];
@@ -663,36 +663,39 @@
          */
         bindPagePreviewHandlers: function () {
             var self = this;
-            this.$containerPreviews.each(function () {
-                var $container = $(this);
-                $container.on('click', function (e) {
-                    e.preventDefault();
+            this.$containerPreviews
+                .each(function () {
+                    var $container = $(this);
+                    $container.on('click', function (e) {
+                        e.preventDefault();
 
-                    var event = $.Event('containerclick');
-                    event.$container = $container;
-                    $(self).trigger(event);
-                });
-            })
+                        var event = $.Event('containerclick');
+                        event.$container = $container;
+                        $(self).trigger(event);
+                    });
+                })
                 .droppable({
-                    hoverClass: 'hover',
-                    tolerance:  'pointer',
+                    hoverClass:        'hover',
+                    tolerance:         'pointer',
+                    revert:            true,
+                    connectToSortable: '.page-composer__container__children',
                     drop: function (event, ui) {
                         var droppedBlockId = ui.draggable.attr('data-block-id');
                         if (droppedBlockId !== 'undefined') {
                             ui.helper.remove();
 
-                            var $container  = $(this),
-                                parentId    = parseInt(ui.draggable.attr('data-parent-block-id'), 10),
-                                containerId = parseInt($container.attr('data-block-id'), 10);
-                            droppedBlockId  = parseInt(droppedBlockId, 10);
-
-                            // play animation on drop, remove class on animation end to be able to re-apply
-                            $container.addClass('dropped');
-                            $container.on('webkitAnimationEnd oanimationend msAnimationEnd animationend', function (e) {
-                                $container.removeClass('dropped');
-                            });
+                            var $container     = $(this),
+                                parentId       = parseInt(ui.draggable.attr('data-parent-block-id'), 10),
+                                containerId    = parseInt($container.attr('data-block-id'), 10);
+                                droppedBlockId = parseInt(droppedBlockId, 10);
 
                             if (parentId !== containerId) {
+                                // play animation on drop, remove class on animation end to be able to re-apply
+                                $container.addClass('dropped');
+                                $container.on('webkitAnimationEnd oanimationend msAnimationEnd animationend', function (e) {
+                                    $container.removeClass('dropped');
+                                });
+
                                 $.ajax({
                                     url: self.getRouteUrl('block_switch_parent'),
                                     data: {
@@ -710,7 +713,7 @@
                                             $(self).trigger(switchedEvent);
                                         }
                                     }
-                                })
+                                });
                             }
                         }
                     }

@@ -153,6 +153,11 @@ Add block context manager:
     sonata_block:
         context_manager: sonata.page.block.context_manager
 
+.. note::
+
+    Please you need to use the context ``sonata_page_bundle`` in the SonataBlockBundle to add block into a Page.
+
+
 Add json Doctrine type
 
 .. code-block:: yaml
