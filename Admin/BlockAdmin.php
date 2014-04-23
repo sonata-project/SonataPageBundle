@@ -179,6 +179,7 @@ class BlockAdmin extends Admin
                 $subject->setSettings($resolver->resolve($subject->getSettings()));
             } catch (InvalidOptionsException $e) {
                 // @TODO : add a logging error or a flash message
+
             }
 
             $service->load($subject);

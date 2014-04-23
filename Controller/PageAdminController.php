@@ -111,6 +111,7 @@ class PageAdminController extends Controller
         foreach ($templateContainers as $id => $container) {
             $containers[$id] = array(
                 'area' => $container,
+                'block' => false,
             );
         }
 
@@ -127,14 +128,17 @@ class PageAdminController extends Controller
                 $children[] = $block;
             }
         }
-
+        
         // searching for block defined in template which are not created
         $blockInteractor = $this->get('sonata.page.block_interactor');
+
         foreach ($containers as $id => $container) {
-            if (!isset($container['block']) && $templateContainers[$id]['shared'] === false) {
+
+            if ($container['block'] === false && $templateContainers[$id]['shared'] === false) {
                 $blockContainer = $blockInteractor->createNewContainer(array(
                     'page' => $page,
-                    'code' => $templateContainers[$id]['name'],
+                    'name' => $templateContainers[$id]['name'],
+                    'code' => $id,
                 ));
 
                 $containers[$id]['block'] = $blockContainer;

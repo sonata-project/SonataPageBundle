@@ -116,7 +116,12 @@ class BlockInteractor implements BlockInteractorInterface
             $container->setPage($values['page']);
         }
 
-        $container->setName(isset($values['code']) ? $values['code'] : 'No name defined');
+        if (isset($values['name'])) {
+            $container->setName($values['name']);
+        } else {
+            $container->setName(isset($values['code']) ? $values['code'] : 'No name defined');
+        }
+
         $container->setSettings(array('code' => isset($values['code']) ? $values['code'] : 'no code defined'));
         $container->setPosition(isset($values['position']) ? $values['position'] : 1);
 
