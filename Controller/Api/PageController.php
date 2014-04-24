@@ -94,6 +94,7 @@ class PageController
      * @QueryParam(name="edited", requirements="0|1", nullable=true, strict=true, description="Edited/Up to date pages filter")
      * @QueryParam(name="internal", requirements="0|1", nullable=true, strict=true, description="Internal/Exposed pages filter")
      * @QueryParam(name="root", requirements="0|1", nullable=true, strict=true, description="Filter pages having no parent id")
+     * @QueryParam(name="site", requirements="\d+", nullable=true, strict=true, description="Filter pages for a specific site's id")
      * @QueryParam(name="orderBy", requirements="ASC|DESC", array=true, nullable=true, strict=true, description="Order by array (key is field, value is direction)")
      *
      * @View(serializerGroups="sonata_api_read", serializerEnableMaxDepthChecks=true)
@@ -109,6 +110,7 @@ class PageController
             'edited'   => '',
             'internal' => '',
             'root'     => '',
+            'site'     => '',
         );
 
         $page    = $paramFetcher->get('page');
@@ -175,6 +177,33 @@ class PageController
     public function getPageBlocksAction($id)
     {
         return $this->getPage($id)->getBlocks();
+    }
+
+    /**
+     * Retrieves a specific page's child pages
+     *
+     * @ApiDoc(
+     *  requirements={
+     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="page id"}
+     *  },
+     *  output={"class"="Sonata\BlockBundle\Model\BlockInterface", "groups"="sonata_api_read"},
+     *  statusCodes={
+     *      200="Returned when successful",
+     *      404="Returned when page is not found"
+     *  }
+     * )
+     *
+     * @View(serializerGroups="sonata_api_read", serializerEnableMaxDepthChecks=true)
+     *
+     * @param $id
+     *
+     * @return PageInterface[]
+     */
+    public function getPagePagesAction($id)
+    {
+        $page = $this->getPage($id);
+
+        return $page->getChildren();
     }
 
     /**

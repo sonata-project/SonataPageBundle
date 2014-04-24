@@ -83,6 +83,12 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
             $parameters['edited'] = $criteria['edited'];
         }
 
+        if (isset($criteria['site'])) {
+            $query->leftJoin('p.site', 's');
+            $query->andWhere('s.id = :siteId');
+            $parameters['siteId'] = $criteria['site'];
+        }
+
         if (isset($criteria['root'])) {
             $isRoot = (bool) $criteria['root'];
             if ($isRoot) {
