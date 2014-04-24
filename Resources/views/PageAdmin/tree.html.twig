@@ -19,9 +19,9 @@ file that was distributed with this source code.
                 <div class="page-tree__item">
                     {% if page.parent %}<i class="fa fa-caret-right"></i>{% endif %}
                     <i class="fa page-tree__item__is-hybrid fa-{% if page.isHybrid %}gears{% else %}code{% endif %}"></i>
-                    <a class="page-tree__item__edit" href="{{ admin.generateUrl('edit', { id: page.id }) }}">{{ page.name }}</a>
+                    <a class="page-tree__item__edit" href="{{ admin.generateObjectUrl('edit', page) }}">{{ page.name }}</a>
                     <i class="text-muted">{{ page.url }}</i>
-                    <a class="label label-default pull-right" href="{{ admin.generateUrl('edit', { id: page.id }) }}">compose <i class="fa fa-magic"></i></a>
+                    <a class="label label-default pull-right" href="{{ admin.generateObjectUrl('compose', page) }}">compose <i class="fa fa-magic"></i></a>
                     {% if page.edited %}<span class="label label-warning pull-right">edited</span>{% endif %}
                 </div>
                 {% if page.children|length %}
