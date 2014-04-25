@@ -80,7 +80,7 @@ class PageAdminController extends Controller
         }
 
         if ($currentSite) {
-            $pages = $pageManager->loadPages($currentSite);
+            $pages = $pageManager->loadPages($currentSite, array('routeName' => 'page_slug'));
         } else {
             $pages = array();
         }
@@ -182,7 +182,7 @@ class PageAdminController extends Controller
                 $children[] = $block;
             }
         }
-        
+
         // searching for block defined in template which are not created
         $blockInteractor = $this->get('sonata.page.block_interactor');
 
