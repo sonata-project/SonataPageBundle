@@ -26,7 +26,7 @@ use Sonata\PageBundle\Model\SiteManagerInterface;
 use FOS\RestBundle\View\View as FOSRestView;
 use Sonata\NotificationBundle\Backend\BackendInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
-use Sonata\AdminBundle\Datagrid\Pager;
+use Sonata\DatagridBundle\Pager\PagerInterface;
 
 /**
  * Class PageController
@@ -85,7 +85,7 @@ class PageController
      *
      * @ApiDoc(
      *  resource=true,
-     *  output={"class"="Sonata\AdminBundle\Datagrid\Pager", "groups"="sonata_api_read"}
+     *  output={"class"="Sonata\DatagridBundle\Pager\PagerInterface", "groups"="sonata_api_read"}
      * )
      *
      * @QueryParam(name="page", requirements="\d+", default="1", description="Page for 'page' list pagination")
@@ -102,7 +102,7 @@ class PageController
      *
      * @param ParamFetcherInterface $paramFetcher
      *
-     * @return Pager
+     * @return PagerInterface
      */
     public function getPagesAction(ParamFetcherInterface $paramFetcher)
     {

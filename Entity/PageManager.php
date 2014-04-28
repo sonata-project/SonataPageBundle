@@ -17,8 +17,8 @@ use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\Page;
-use Sonata\DoctrineORMAdminBundle\Datagrid\Pager;
-use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
+use Sonata\DatagridBundle\Pager\Doctrine\Pager;;
+use Sonata\DatagridBundle\ProxyQuery\Doctrine\ProxyQuery;
 
 /**
  * This class manages PageInterface persistency with the Doctrine ORM

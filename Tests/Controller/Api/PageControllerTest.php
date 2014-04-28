@@ -26,10 +26,7 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetPagesAction()
     {
-        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
-
         $pager = $this->getMockBuilder('Sonata\AdminBundle\Datagrid\Pager')->disableOriginalConstructor()->getMock();
-        $pager->expects($this->once())->method('getResults')->will($this->returnValue(array($page)));
 
         $pageManager = $this->getMock('Sonata\PageBundle\Model\PageManagerInterface');
         $pageManager->expects($this->once())->method('getPager')->will($this->returnValue($pager));
@@ -38,15 +35,7 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase
         $paramFetcher->expects($this->exactly(3))->method('get');
         $paramFetcher->expects($this->once())->method('all')->will($this->returnValue(array()));
 
-        $this->assertEquals(array(
-            'pages' => array($page),
-            'pager' => array(
-                'per_page'   => 0,
-                'page'       => 0,
-                'page_count' => 0,
-                'total'      => 0,
-            ),
-        ), $this->createPageController(null, null, $pageManager)->getPagesAction($paramFetcher));
+        $this->assertSame($pager, $this->createPageController(null, null, $pageManager)->getPagesAction($paramFetcher));
     }
 
     public function testGetPageAction()
