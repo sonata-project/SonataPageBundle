@@ -26,6 +26,7 @@ use Sonata\PageBundle\Model\SiteManagerInterface;
 use FOS\RestBundle\View\View as FOSRestView;
 use Sonata\NotificationBundle\Backend\BackendInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\DatagridBundle\Pager\PagerInterface;
 
 /**
  * Class PageController
@@ -84,27 +85,37 @@ class PageController
      *
      * @ApiDoc(
      *  resource=true,
-     *  output={"class"="Sonata\PageBundle\Model\PageInterface", "groups"="sonata_api_read"}
+     *  output={"class"="Sonata\DatagridBundle\Pager\PagerInterface", "groups"="sonata_api_read"}
      * )
      *
      * @QueryParam(name="page", requirements="\d+", default="1", description="Page for 'page' list pagination")
      * @QueryParam(name="count", requirements="\d+", default="10", description="Number of pages by page")
      * @QueryParam(name="enabled", requirements="0|1", nullable=true, strict=true, description="Enabled/Disabled pages filter")
-     * @QueryParam(name="orderBy", array=true, requirements="ASC|DESC", nullable=true, strict=true, description="Order by array (key is field, value is direction)")
+     * @QueryParam(name="edited", requirements="0|1", nullable=true, strict=true, description="Edited/Up to date pages filter")
+     * @QueryParam(name="internal", requirements="0|1", nullable=true, strict=true, description="Internal/Exposed pages filter")
+     * @QueryParam(name="root", requirements="0|1", nullable=true, strict=true, description="Filter pages having no parent id")
+     * @QueryParam(name="site", requirements="\d+", nullable=true, strict=true, description="Filter pages for a specific site's id")
+     * @QueryParam(name="parent", requirements="\d+", nullable=true, strict=true, description="Get pages beeing child of given page id")
+     * @QueryParam(name="orderBy", requirements="ASC|DESC", array=true, nullable=true, strict=true, description="Order by array (key is field, value is direction)")
      *
      * @View(serializerGroups="sonata_api_read", serializerEnableMaxDepthChecks=true)
      *
      * @param ParamFetcherInterface $paramFetcher
      *
-     * @return PageInterface[]
+     * @return PagerInterface
      */
     public function getPagesAction(ParamFetcherInterface $paramFetcher)
     {
         $supportedFilters = array(
-            'enabled' => "",
+            'enabled'  => '',
+            'edited'   => '',
+            'internal' => '',
+            'root'     => '',
+            'site'     => '',
+            'parent'   => '',
         );
 
-        $page    = $paramFetcher->get('page') - 1;
+        $page    = $paramFetcher->get('page');
         $count   = $paramFetcher->get('count');
         $orderBy = $paramFetcher->get('orderBy');
         $filters = array_intersect_key($paramFetcher->all(), $supportedFilters);
@@ -114,7 +125,10 @@ class PageController
                 unset($filters[$key]);
             }
         }
-        return $this->pageManager->findBy($filters, $orderBy, $count, $page);
+
+        $pager = $this->pageManager->getPager($filters, $page, $count);
+
+        return $pager;
     }
 
     /**
@@ -165,6 +179,33 @@ class PageController
     public function getPageBlocksAction($id)
     {
         return $this->getPage($id)->getBlocks();
+    }
+
+    /**
+     * Retrieves a specific page's child pages
+     *
+     * @ApiDoc(
+     *  requirements={
+     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="page id"}
+     *  },
+     *  output={"class"="Sonata\BlockBundle\Model\BlockInterface", "groups"="sonata_api_read"},
+     *  statusCodes={
+     *      200="Returned when successful",
+     *      404="Returned when page is not found"
+     *  }
+     * )
+     *
+     * @View(serializerGroups="sonata_api_read", serializerEnableMaxDepthChecks=true)
+     *
+     * @param $id
+     *
+     * @return PageInterface[]
+     */
+    public function getPagePagesAction($id)
+    {
+        $page = $this->getPage($id);
+
+        return $page->getChildren();
     }
 
     /**

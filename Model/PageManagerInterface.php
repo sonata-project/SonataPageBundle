@@ -44,4 +44,13 @@ interface PageManagerInterface extends ManagerInterface
      * @return mixed
      */
     public function fixUrl(PageInterface $page);
+
+    /**
+     * @param array   $criteria
+     * @param integer $page
+     * @param integer $maxPerPage
+     *
+     * @return \Sonata\DatagridBundle\Pager\PagerInterface
+     */
+    public function getPager(array $criteria, $page, $maxPerPage = 10);
 }
