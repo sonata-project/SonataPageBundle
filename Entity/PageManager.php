@@ -17,7 +17,7 @@ use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\Page;
-use Sonata\DatagridBundle\Pager\Doctrine\Pager;;
+use Sonata\DatagridBundle\Pager\Doctrine\Pager;
 use Sonata\DatagridBundle\ProxyQuery\Doctrine\ProxyQuery;
 
 /**
