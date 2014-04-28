@@ -17,5 +17,10 @@
             <argument type="service" id="form.factory" />
             <argument type="service" id="sonata.notification.backend" />
         </service>
+
+        <service id="sonata.page.controller.api.site" class="Sonata\PageBundle\Controller\Api\SiteController">
+            <argument type="service" id="sonata.page.manager.site" />
+            <argument type="service" id="form.factory" />
+        </service>
     </services>
 </container>
