@@ -14,6 +14,7 @@ use Sonata\PageBundle\Tests\Model\Page;
 use Sonata\PageBundle\Entity\PageManager;
 
 /**
+ * Class PageManagerTest
  *
  */
 class PageManagerTest extends \PHPUnit_Framework_TestCase

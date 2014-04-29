@@ -57,30 +57,30 @@ class SiteController
      *
      * @ApiDoc(
      *  resource=true,
-     *  output={"class"="Sonata\AdminBundle\Datagrid\Pager", "groups"="sonata_api_read"}
+     *  output={"class"="Sonata\DatagridBundle\Pager\PagerInterface", "groups"="sonata_api_read"}
      * )
      *
      * @QueryParam(name="page", requirements="\d+", default="1", description="Page for site list pagination")
      * @QueryParam(name="count", requirements="\d+", default="10", description="Maximum number of sites per page")
+     * @QueryParam(name="enabled", requirements="0|1", nullable=true, strict=true, description="Enabled/Disabled sites filter")
+     * @QueryParam(name="is_default", requirements="0|1", nullable=true, strict=true, description="Default sites filter")
      *
      * @View(serializerGroups="sonata_api_read", serializerEnableMaxDepthChecks=true)
      *
      * @param ParamFetcherInterface $paramFetcher
      *
-     * @return Pager
+     * @return PagerInterface
      */
     public function getSitesAction(ParamFetcherInterface $paramFetcher)
     {
         $supportedFilters = array(
-            'enabled'  => '',
-            'edited'   => '',
-            'internal' => '',
-            'root'     => '',
+            'enabled'    => '',
+            'is_default' => '',
         );
 
-        $page    = $paramFetcher->get('page');
-        $count   = $paramFetcher->get('count');
-        //$orderBy = $paramFetcher->get('orderBy');
+        $page  = $paramFetcher->get('page');
+        $count = $paramFetcher->get('count');
+
         $filters = array_intersect_key($paramFetcher->all(), $supportedFilters);
 
         foreach ($filters as $key => $value) {
@@ -89,7 +89,7 @@ class SiteController
             }
         }
 
-        $pager = $this->siteManager->findAll();
+        $pager = $this->siteManager->getPager($filters, $page, $count);
 
         return $pager;
     }

@@ -46,6 +46,15 @@ interface PageManagerInterface extends ManagerInterface
     public function fixUrl(PageInterface $page);
 
     /**
+     * Retrieve pages, based on given criteria, a page at a time.
+     * Valid criteria are:
+     *    enabled - boolean
+     *    edited  - boolean
+     *    site    - int
+     *    parent  - int
+     *    root    - boolean
+     *
+     *
      * @param array   $criteria
      * @param integer $page
      * @param integer $maxPerPage

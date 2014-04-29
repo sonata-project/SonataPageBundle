@@ -12,6 +12,8 @@ namespace Sonata\PageBundle\Entity;
 
 use Sonata\CoreBundle\Model\BaseEntityManager;
 use Sonata\PageBundle\Model\SiteManagerInterface;
+use Sonata\DatagridBundle\Pager\Doctrine\Pager;
+use Sonata\DatagridBundle\ProxyQuery\Doctrine\ProxyQuery;
 
 /**
  * This class manages SiteInterface persistency with the Doctrine ORM
@@ -28,5 +30,37 @@ class SiteManager extends BaseEntityManager implements SiteManagerInterface
         parent::save($site, $andFlush);
 
         return $site;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPager(array $criteria, $page, $maxPerPage = 10)
+    {
+        $query = $this->getRepository()
+            ->createQueryBuilder('s')
+            ->select('s');
+
+        $parameters = array();
+
+        if (isset($criteria['enabled'])) {
+            $query->andWhere('s.enabled = :enabled');
+            $parameters['enabled'] = $criteria['enabled'];
+        }
+
+        if (isset($criteria['is_default'])) {
+            $query->andWhere('s.isDefault = :isDefault');
+            $parameters['isDefault'] = $criteria['is_default'];
+        }
+
+        $query->setParameters($parameters);
+
+        $pager = new Pager();
+        $pager->setMaxPerPage($maxPerPage);
+        $pager->setQuery(new ProxyQuery($query));
+        $pager->setPage($page);
+        $pager->init();
+
+        return $pager;
     }
 }
