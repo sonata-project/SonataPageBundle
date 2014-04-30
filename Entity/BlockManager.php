@@ -11,8 +11,10 @@
 namespace Sonata\PageBundle\Entity;
 
 use Sonata\BlockBundle\Model\BlockManagerInterface;
-
 use Sonata\CoreBundle\Model\BaseEntityManager;
+use Sonata\DatagridBundle\Pager\Doctrine\Pager;
+use Sonata\DatagridBundle\ProxyQuery\Doctrine\ProxyQuery;
+
 
 /**
  * This class manages BlockInterface persistency with the Doctrine ORM
@@ -54,5 +56,27 @@ class BlockManager extends BaseEntityManager implements BlockManagerInterface
         $this->getEntityManager()->persist($block);
 
         return $block;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPager(array $criteria, $page, $limit = 10, array $sort = array())
+    {
+        $query = $this->getRepository()
+            ->createQueryBuilder('b')
+            ->select('b');
+
+        $parameters = array();
+
+        $query->setParameters($parameters);
+
+        $pager = new Pager();
+        $pager->setMaxPerPage($limit);
+        $pager->setQuery(new ProxyQuery($query));
+        $pager->setPage($page);
+        $pager->init();
+
+        return $pager;
     }
 }

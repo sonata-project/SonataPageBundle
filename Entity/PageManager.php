@@ -65,7 +65,7 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function getPager(array $criteria, $page, $maxPerPage = 10)
+    public function getPager(array $criteria, $page, $limit = 10, array $sort = array())
     {
         $query = $this->getRepository()
             ->createQueryBuilder('p')
@@ -107,7 +107,7 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
         $query->setParameters($parameters);
 
         $pager = new Pager();
-        $pager->setMaxPerPage($maxPerPage);
+        $pager->setMaxPerPage($limit);
         $pager->setQuery(new ProxyQuery($query));
         $pager->setPage($page);
         $pager->init();

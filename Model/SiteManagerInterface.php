@@ -11,12 +11,13 @@
 namespace Sonata\PageBundle\Model;
 
 use Sonata\CoreBundle\Model\ManagerInterface;
+use Sonata\CoreBundle\Model\PageableManagerInterface;
 
 /**
  * SiteManagerInterface
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-interface SiteManagerInterface extends ManagerInterface
+interface SiteManagerInterface extends ManagerInterface, PageableManagerInterface
 {
 }

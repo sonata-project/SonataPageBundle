@@ -14,6 +14,7 @@ use Sonata\PageBundle\Tests\Model\Page;
 use Sonata\PageBundle\Entity\PageManager;
 
 /**
+ * Class PageManagerTest
  *
  */
 class PageManagerTest extends \PHPUnit_Framework_TestCase
@@ -95,5 +96,122 @@ class PageManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('My Name', $page->getName());
         $this->assertFalse($page->getDecorate());
+    }
+
+    protected function getPageManager($qbCallback)
+    {
+        $query = $this->getMockForAbstractClass('Doctrine\ORM\AbstractQuery', array(), '', false, true, true, array('execute'));
+        $query->expects($this->any())->method('execute')->will($this->returnValue(true));
+
+        $qb = $this->getMockBuilder('Doctrine\ORM\QueryBuilder')->disableOriginalConstructor()->getMock();
+        $qb->expects($this->any())->method('select')->will($this->returnValue($qb));
+        $qb->expects($this->any())->method('getQuery')->will($this->returnValue($query));
+
+        $qbCallback($qb);
+
+        $repository = $this->getMockBuilder('Doctrine\ORM\EntityRepository')->disableOriginalConstructor()->getMock();
+        $repository->expects($this->any())->method('createQueryBuilder')->will($this->returnValue($qb));
+
+        $em = $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock();
+        $em->expects($this->any())->method('getRepository')->will($this->returnValue($repository));
+
+        $registry = $this->getMock('Doctrine\Common\Persistence\ManagerRegistry');
+        $registry->expects($this->any())->method('getManagerForClass')->will($this->returnValue($em));
+
+        return new PageManager('Sonata\PageBundle\Entity\BasePage', $registry);
+    }
+
+    public function testGetPagerWithRootPages()
+    {
+        $self = $this;
+        $this
+            ->getPageManager(function ($qb) use ($self) {
+                $qb->expects($self->once())->method('andWhere')->with($self->equalTo('p.parent IS NULL'));
+            })
+            ->getPager(array('root' => true), 1);
+    }
+
+    public function testGetPagerWithNonRootPages()
+    {
+        $self = $this;
+        $this
+            ->getPageManager(function ($qb) use ($self) {
+                $qb->expects($self->once())->method('andWhere')->with($self->equalTo('p.parent IS NOT NULL'));
+            })
+            ->getPager(array('root' => false), 1);
+    }
+
+    public function testGetPagerWithEnabledPages()
+    {
+        $self = $this;
+        $this
+            ->getPageManager(function ($qb) use ($self) {
+                $qb->expects($self->once())->method('andWhere')->with($self->equalTo('p.enabled = :enabled'));
+                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(array('enabled' => true)));
+            })
+            ->getPager(array('enabled' => true), 1);
+    }
+
+    public function testGetPagerWithDisabledPages()
+    {
+        $self = $this;
+        $this
+            ->getPageManager(function ($qb) use ($self) {
+                $qb->expects($self->once())->method('andWhere')->with($self->equalTo('p.enabled = :enabled'));
+                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(array('enabled' => false)));
+            })
+            ->getPager(array('enabled' => false), 1);
+    }
+
+    public function testGetPagerWithEditedPages()
+    {
+        $self = $this;
+        $this
+            ->getPageManager(function ($qb) use ($self) {
+                $qb->expects($self->once())->method('andWhere')->with($self->equalTo('p.edited = :edited'));
+                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(array('edited' => true)));
+            })
+            ->getPager(array('edited' => true), 1);
+    }
+
+    public function testGetPagerWithNonEditedPages()
+    {
+        $self = $this;
+        $this
+            ->getPageManager(function ($qb) use ($self) {
+                $qb->expects($self->once())->method('andWhere')->with($self->equalTo('p.edited = :edited'));
+                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(array('edited' => false)));
+            })
+            ->getPager(array('edited' => false), 1);
+    }
+
+    public function testGetPagerWithParentChildPages()
+    {
+        $self = $this;
+        $this
+            ->getPageManager(function ($qb) use ($self) {
+                $qb->expects($self->once())->method('join')->with(
+                    $self->equalTo('p.parent'),
+                    $self->equalTo('pa')
+                );
+                $qb->expects($self->once())->method('andWhere')->with($self->equalTo('pa.id = :parentId'));
+                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(array('parentId' => 13)));
+            })
+            ->getPager(array('parent' => 13), 1);
+    }
+
+    public function testGetPagerWithSitePages()
+    {
+        $self = $this;
+        $this
+            ->getPageManager(function ($qb) use ($self) {
+                $qb->expects($self->once())->method('join')->with(
+                    $self->equalTo('p.site'),
+                    $self->equalTo('s')
+                );
+                $qb->expects($self->once())->method('andWhere')->with($self->equalTo('s.id = :siteId'));
+                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(array('siteId' => 13)));
+            })
+            ->getPager(array('site' => 13), 1);
     }
 }
