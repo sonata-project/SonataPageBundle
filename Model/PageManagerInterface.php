@@ -10,6 +10,7 @@
 
 namespace Sonata\PageBundle\Model;
 
+use Sonata\CoreBundle\Model\ManagerInterface;
 use Sonata\CoreBundle\Model\PageableManagerInterface;
 
 /**
@@ -17,7 +18,7 @@ use Sonata\CoreBundle\Model\PageableManagerInterface;
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-interface PageManagerInterface extends PageableManagerInterface
+interface PageManagerInterface extends ManagerInterface, PageableManagerInterface
 {
     /**
      * Returns a page with the give slug
