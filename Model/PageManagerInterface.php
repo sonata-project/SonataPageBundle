@@ -10,14 +10,14 @@
 
 namespace Sonata\PageBundle\Model;
 
-use Sonata\CoreBundle\Model\ManagerInterface;
+use Sonata\CoreBundle\Model\PageableManagerInterface;
 
 /**
  * Defines methods to interact with the persistency layer of a PageInterface
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-interface PageManagerInterface extends ManagerInterface
+interface PageManagerInterface extends PageableManagerInterface
 {
     /**
      * Returns a page with the give slug
@@ -44,22 +44,4 @@ interface PageManagerInterface extends ManagerInterface
      * @return mixed
      */
     public function fixUrl(PageInterface $page);
-
-    /**
-     * Retrieve pages, based on given criteria, a page at a time.
-     * Valid criteria are:
-     *    enabled - boolean
-     *    edited  - boolean
-     *    site    - int
-     *    parent  - int
-     *    root    - boolean
-     *
-     *
-     * @param array   $criteria
-     * @param integer $page
-     * @param integer $maxPerPage
-     *
-     * @return \Sonata\DatagridBundle\Pager\PagerInterface
-     */
-    public function getPager(array $criteria, $page, $maxPerPage = 10);
 }

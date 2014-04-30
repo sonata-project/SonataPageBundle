@@ -10,23 +10,13 @@
 
 namespace Sonata\PageBundle\Model;
 
-use Sonata\CoreBundle\Model\ManagerInterface;
+use Sonata\CoreBundle\Model\PageableManagerInterface;
 
 /**
  * SiteManagerInterface
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-interface SiteManagerInterface extends ManagerInterface
+interface SiteManagerInterface extends PageableManagerInterface
 {
-    /**
-     * Retrieve sites, based on given criteria, a page at a time.
-     *
-     * @param array   $criteria
-     * @param integer $page
-     * @param integer $maxPerPage
-     *
-     * @return \Sonata\DatagridBundle\Pager\PagerInterface
-     */
-    public function getPager(array $criteria, $page, $maxPerPage = 10);
 }
