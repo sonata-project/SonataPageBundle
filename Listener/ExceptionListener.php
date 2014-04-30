@@ -19,7 +19,7 @@ use Sonata\PageBundle\Page\PageServiceManagerInterface;
 use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 
 use Symfony\Component\Templating\EngineInterface;
-use Symfony\Component\HttpKernel\Log\LoggerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpFoundation\Response;
