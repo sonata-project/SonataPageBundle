@@ -69,6 +69,7 @@ You can use the --extended option to dump block configuration
             sprintf(" > Url: %s (%s)", $page->getUrl(), $page->getRequestMethod()),
             sprintf(" > Template: %s (%s)", $page->getTemplateCode(), $page->getDecorate() ? 'decorate': 'standalone'),
             sprintf(" > Kind: %s ", $page->isCms() ? 'cms' : ($page->isDynamic() ? 'dynamic' : ($page->isHybrid() ? 'hybrid': 'unknown'))),
+            sprintf(" > Class: %s ", get_class($page)),
             "",
             "<info>Blocks:</info>",
         ));
@@ -86,9 +87,15 @@ You can use the --extended option to dump block configuration
      */
     public function renderBlock(BlockInterface $block, OutputInterface $output, $extended, $space = 0)
     {
-        $output->writeln(sprintf("%s <comment>> Id: %d - type: %s - name: %s</comment>", str_repeat("  ", $space), $block->getId(), $block->getType(), $block->getName()));
+        $output->writeln(sprintf("%s <comment>> Id: %d - type: %s - name: %s</comment>",
+            str_repeat("  ", $space),
+            $block->getId(),
+            $block->getType(),
+            $block->getName()
+        ));
 
         if ($extended) {
+            $output->writeln(sprintf("%s page class: <comment>%s</comment>", str_repeat("  ", $space + 1), get_class($block->getPage())));
             foreach ($block->getSettings() as $name => $value) {
                 $output->writeln(sprintf("%s %s: %s", str_repeat("  ", $space + 1), $name, var_export($value, 1)));
             }

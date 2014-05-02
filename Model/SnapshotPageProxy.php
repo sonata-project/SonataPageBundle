@@ -140,7 +140,10 @@ class SnapshotPageProxy implements PageInterface, Serializable
             $content = $this->snapshot->getContent();
 
             foreach ($content['blocks'] as $block) {
-                $this->addBlocks($this->transformer->loadBlock($block, $this->getPage()));
+                $b = $this->transformer->loadBlock($block, $this);
+                $this->addBlocks($b);
+
+                $b->setPage($this);
             }
         }
 
