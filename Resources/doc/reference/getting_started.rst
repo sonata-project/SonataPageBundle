@@ -123,7 +123,7 @@ The output might look like this::
     CREATE  sonata_news_comment_moderation                     /blog/comment/moderation/{commentId}/{hash}/{status}
     UPDATE  catchAll                                           /{path}
 
-    Some hybrid pages does not exist anymore
+    Some hybrid pages do not exist anymore
     --------------------------------------------------------------------------------
     ERROR   sonata_news_archive_daily
     ERROR   global
