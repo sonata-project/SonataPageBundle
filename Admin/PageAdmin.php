@@ -181,7 +181,7 @@ class PageAdmin extends Admin
             ->end()
         ;
 
-        if (!$this->getSubject() || ($this->getSubject() && $this->getSubject()->getParent())) {
+        if (!$this->getSubject() || ($this->getSubject() && $this->getSubject()->getParent()) || ($this->getSubject() && !$this->getSubject()->getId())) {
             $formMapper
                 ->with($this->trans('form_page.group_main_label'))
                     ->add('parent', 'sonata_page_selector', array(

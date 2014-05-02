@@ -139,6 +139,8 @@ class BlockAdmin extends Admin
                 ));
             }
 
+            $formMapper->add('enabled');
+
             if ($isStandardBlock) {
                 $formMapper->add('position', 'integer');
             }
