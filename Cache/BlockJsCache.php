@@ -174,7 +174,7 @@ class BlockJsCache implements CacheAdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function set(array $keys, $data, $ttl = 84600, array $contextualKeys = array())
+    public function set(array $keys, $data, $ttl = 86400, array $contextualKeys = array())
     {
         $this->validateKeys($keys);
 
