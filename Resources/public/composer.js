@@ -73,15 +73,7 @@
             return;
         }
 
-        Admin.setup_select2($context);
-        Admin.setup_xeditable($context);
-        Admin.add_pretty_errors($context);
-        Admin.add_filters($context);
-        Admin.set_object_field_value($context);
-        Admin.setup_collection_buttons($context);
-        Admin.setup_per_page_switcher($context);
-        Admin.setup_form_tabs_for_errors($context);
-        Admin.setup_inline_form_errors($context);
+        Admin.shared_setup($context);
     }
 
     PageComposer.prototype = {
