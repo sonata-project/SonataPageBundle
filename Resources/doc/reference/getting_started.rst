@@ -83,7 +83,7 @@ Note: The following fields must have values specified when creating a site:
 Creating default pages
 ----------------------
 
-As the Page bundle can handled symfony actions, actions need to be register, just run the commands:
+As the Page bundle can handle symfony actions, actions need to be registered, just run the commands:
 
 .. code-block:: bash
 
@@ -132,8 +132,8 @@ The output might look like this::
                   You must remove them manually.
 
 The command will print updated and created pages. The last part of the command
-displays outdated actions, so depends on the change some dedicated actions must
-be done.
+displays outdated actions, so depending on the change some dedicated actions must
+be taken.
 
 Creating default snapshots
 --------------------------
@@ -173,21 +173,21 @@ Add or Edit a Block
 -------------------
 
 Before adding a new block, please look to the default layout
-``SonataPageBundle::layout.html.twig``, it contains different methods call.
+``SonataPageBundle::layout.html.twig``, it contains different method calls.
 
 * ``sonata_page_render_container('content', page)``\ : render the container
   ``content`` of the current page
 * ``sonata_page_render_container('content_bottom', 'global')``\ : render the
   container ``content_bottom`` of the global page.
 
-  A global page does not belong to the current url but it can be use on different pages.
+  A global page does not belong to the current url but it can be used on different pages.
 * ``page_include_stylesheets`` and ``page_include_javascripts``\ : insert the
   stylesheets and javascripts used on the page by the related blocks.
 
 The block management is done from the front end: a block can be moved and
-edited from:
+edited this way:
 
-* login into the backend using an valid user
+* login into the backend using a valid user
 * go back to the front,
 * you should see a black navigation bar
 * click on 'Show Zone'
