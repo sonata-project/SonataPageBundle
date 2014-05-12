@@ -185,9 +185,9 @@ Before adding a new block, please look to the default layout
   stylesheets and javascripts used on the page by the related blocks.
 
 The block management is done from the front end: a block can be moved and
-edited from:
+edited this way:
 
-* login into the backend using an valid user
+* login into the backend using a valid user
 * go back to the front,
 * you should see a black navigation bar
 * click on 'Show Zone'
