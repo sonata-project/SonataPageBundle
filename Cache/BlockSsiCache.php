@@ -93,7 +93,7 @@ class BlockSsiCache extends SsiCache
     /**
      * {@inheritdoc}
      */
-    public function set(array $keys, $data, $ttl = 84600, array $contextualKeys = array())
+    public function set(array $keys, $data, $ttl = CacheElement::DAY, array $contextualKeys = array())
     {
         $this->validateKeys($keys);
 
