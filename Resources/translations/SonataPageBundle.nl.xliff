@@ -601,7 +601,7 @@
       <trans-unit id="150" resname="message_page_redirected">
           <source>message_page_redirected</source>
           <target><![CDATA[
-             Deze pagina is als doorverwijzing naar een andere pagina ingesteld. 
+             Deze pagina is als doorverwijzing naar een andere pagina ingesteld.
              De doorverwijzing is onderbroken, zodat deze kan worden aangepast.<br />
              <br />
              Klik op de url om de doorverwijzing te volgen: <a href="%url%">%url%</a>
