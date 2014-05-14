@@ -189,7 +189,13 @@ class PageAdmin extends Admin
                         'site'          => $this->getSubject() ? $this->getSubject()->getSite() : null,
                         'model_manager' => $this->getModelManager(),
                         'class'         => $this->getClass(),
-                        'required'      => false,
+                        'required'      => (count($this->getModelManager()->findBy(
+                            $this->getClass(),
+                            array(
+                                'site' => $this->getSubject()->getSite(),
+                                'url'  => '/'
+                            )
+                        )) != 0), // is there already a page with / for url ?
                         'filter_choice' => array('hierarchy' => 'root'),
                     ), array(
                         'link_parameters' => array(
