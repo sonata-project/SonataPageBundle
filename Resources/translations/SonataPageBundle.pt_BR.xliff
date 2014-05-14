@@ -106,10 +106,6 @@
         <source>error.404</source>
         <target>Erro 404</target>
       </trans-unit>
-      <trans-unit id="26" resname="error.uniq_url">
-        <source>error.uniq_url</source>
-        <target>A URL '%url%' já está associada a outra página</target>
-      </trans-unit>
       <trans-unit id="27" resname="filter.label_enabled">
         <source>filter.label_enabled</source>
         <target>Ativo</target>

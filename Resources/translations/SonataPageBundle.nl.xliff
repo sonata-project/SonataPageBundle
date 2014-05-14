@@ -106,10 +106,6 @@
         <source>error.404</source>
         <target>Fout 404</target>
       </trans-unit>
-      <trans-unit id="26" resname="error.uniq_url">
-        <source>error.uniq_url</source>
-        <target>De URL '%url%' is al gekoppeld aan een andere pagina</target>
-      </trans-unit>
       <trans-unit id="27" resname="filter.label_enabled">
         <source>filter.label_enabled</source>
         <target>Ingeschakeld</target>
@@ -605,7 +601,7 @@
       <trans-unit id="150" resname="message_page_redirected">
           <source>message_page_redirected</source>
           <target><![CDATA[
-             Deze pagina is als doorverwijzing naar een andere pagina ingesteld. 
+             Deze pagina is als doorverwijzing naar een andere pagina ingesteld.
              De doorverwijzing is onderbroken, zodat deze kan worden aangepast.<br />
              <br />
              Klik op de url om de doorverwijzing te volgen: <a href="%url%">%url%</a>

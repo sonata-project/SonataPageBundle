@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+  <file source-language="en" target-language="pt_BR" datatype="plaintext"  original="file.ext">
+    <header />
+    <body>
+      <trans-unit id="26" resname="error.uniq_url">
+        <source>error.uniq_url</source>
+        <target>A URL '%url%' já está associada a outra página</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
