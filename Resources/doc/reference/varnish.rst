@@ -1,8 +1,8 @@
 Varnish
 =======
 
-When an user is connected as an editor, a cookie ``sonata_page_is_editor`` is set. 
-So you can configure a Varnish as follow.
+When a user is logged-in as an editor, a ``sonata_page_is_editor`` cookie is set.
+So you can configure a Varnish as follows.
 
 VCL for Varnish 3.0::
 

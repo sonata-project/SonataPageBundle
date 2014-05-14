@@ -13,7 +13,7 @@ namespace Sonata\PageBundle\Tests\Validator\Constraints;
 
 use Sonata\PageBundle\Validator\Constraints\UniqueUrl;
 
-class UniqeUrlTest extends \PHPUnit_Framework_TestCase
+class UniqueUrlTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testInstance()
