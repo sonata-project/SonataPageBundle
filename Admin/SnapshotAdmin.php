@@ -58,8 +58,8 @@ class SnapshotAdmin extends Admin
     {
         $formMapper
             ->add('enabled', null, array('required' => false))
-            ->add('publicationDateStart')
-            ->add('publicationDateEnd')
+            ->add('publicationDateStart', 'sonata_type_datetime_picker', array('dp_side_by_side' => true))
+            ->add('publicationDateEnd', 'sonata_type_datetime_picker', array('dp_side_by_side' => true))
 //            ->add('content')
         ;
     }
