@@ -110,8 +110,8 @@ class SiteAdmin extends Admin
                     'required' => false
                 ))
                 ->add('relativePath', null, array('required' => false))
-                ->add('enabledFrom')
-                ->add('enabledTo')
+                ->add('enabledFrom', 'sonata_type_datetime_picker', array('dp_side_by_side' => true))
+                ->add('enabledTo', 'sonata_type_datetime_picker', array('dp_side_by_side' => true))
             ->end()
             ->with($this->trans('form_site.label_seo'))
                 ->add('title', null, array('required' => false))
