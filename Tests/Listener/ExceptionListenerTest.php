@@ -145,15 +145,15 @@ class ExceptionListenerTest extends \PHPUnit_Framework_TestCase
         $exception->expects($this->any())->method('getStatusCode')->will($this->returnValue(404));
         $event = $this->getMockEvent($exception);
 
+        $this->assertEquals('en', $event->getRequest()->getLocale());
 
         // mock a site
         $site = $this->getMock('Sonata\PageBundle\Model\SiteInterface');
+        $site->expects($this->exactly(2))->method('getLocale')->will($this->returnValue('fr'));
 
         // mock an error page
         $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
-        $page->expects($this->any())
-            ->method('getSite')
-            ->will($this->returnValue($site));
+        $page->expects($this->exactly(2))->method('getSite')->will($this->returnValue($site));
 
         // mock cms manager to return the mock error page and set it as current page
         $this->cmsManager = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerInterface');
@@ -177,6 +177,7 @@ class ExceptionListenerTest extends \PHPUnit_Framework_TestCase
 
         // THEN
         // mock asserts
+        $this->assertEquals('fr', $event->getRequest()->getLocale());
     }
 
     /**
