@@ -155,7 +155,10 @@ class CmsSnapshotManager extends BaseCmsPageManager
      */
     private function loadBlocks(PageInterface $page)
     {
-        $i = new \RecursiveIteratorIterator(new RecursiveBlockIterator($page->getBlocks()));
+        $i = new \RecursiveIteratorIterator(
+            new RecursiveBlockIterator($page->getBlocks()),
+            \RecursiveIteratorIterator::SELF_FIRST
+        );
 
         foreach ($i as $block) {
             $this->blocks[$block->getId()] = $block;
