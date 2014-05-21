@@ -138,7 +138,7 @@ class RoutePageGenerator
                 ));
             }
 
-            if (!$page->getParent()) {
+            if (!$page->getParent() && $page->getId() != $root->getId()) {
                 $page->setParent($root);
             }
 
