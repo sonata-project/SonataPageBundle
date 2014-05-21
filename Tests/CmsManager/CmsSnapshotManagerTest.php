@@ -14,7 +14,6 @@ namespace Sonata\PageBundle\Tests\Page;
 use Sonata\PageBundle\CmsManager\CmsSnapshotManager;
 use Sonata\PageBundle\Model\Block;
 use Sonata\PageBundle\Tests\Model\Page;
-use Sonata\PageBundle\Model\BlockInteractorInterface;
 
 class SnapshotBlock extends Block
 {
@@ -34,6 +33,12 @@ class CmsSnapshotManagerTest extends \PHPUnit_Framework_TestCase
      * @var \Sonata\PageBundle\CmsManager\CmsSnapshotManager
      */
     protected $manager;
+
+    protected $blockInteractor;
+
+    protected $snapshotManager;
+
+    protected $transformer;
 
     /**
      * Setup manager object to test
@@ -72,6 +77,65 @@ class CmsSnapshotManagerTest extends \PHPUnit_Framework_TestCase
         $container = $this->manager->findContainer('newcontainer', $page);
 
         $this->assertNull($container, 'should not create a new container block');
+    }
+
+    /**
+     * @expectedException \Sonata\PageBundle\Exception\PageNotFoundException
+     */
+    public function testGetPageWithUnknownPage()
+    {
+        $this->snapshotManager->expects($this->once())->method('findEnableSnapshot')->will($this->returnValue(null));
+
+        $site = $this->getMock('Sonata\PageBundle\Model\SiteInterface');
+
+        $snapshotManager = new CmsSnapshotManager($this->snapshotManager, $this->transformer);
+
+        $snapshotManager->getPage($site, 1);
+    }
+
+    public function testGetPageWithId()
+    {
+        $cBlock = $this->getMock('Sonata\BlockBundle\Model\BlockInterface');
+        $cBlock->expects($this->any())->method('hasChildren')->will($this->returnValue(false));
+        $cBlock->expects($this->any())->method('getId')->will($this->returnValue(2));
+
+        $pBlock = $this->getMock('Sonata\BlockBundle\Model\BlockInterface');
+        $pBlock->expects($this->any())->method('getChildren')->will($this->returnValue(array($cBlock)));
+        $pBlock->expects($this->any())->method('hasChildren')->will($this->returnValue(true));
+        $pBlock->expects($this->any())->method('getId')->will($this->returnValue(1));
+
+        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+        $page->expects($this->any())->method('getBlocks')->will($this->returnCallback(function() use ($pBlock) {
+            static $count;
+
+            $count++;
+
+            if ($count == 1) {
+                return array();
+            }
+
+            return array($pBlock);
+        }));
+
+        $snapshot = $this->getMock('Sonata\PageBundle\Model\SnapshotInterface');
+        $snapshot->expects($this->once())->method('getContent')->will($this->returnValue(array(
+            // we don't care here about real values, the mock transformer will return the valid $pBlock instance
+            'blocks' => array()
+        )));
+
+        $this->snapshotManager->expects($this->once())->method('findEnableSnapshot')->will($this->returnValue($snapshot));
+        $this->transformer->expects($this->once())->method('load')->will($this->returnValue($page));
+
+        $site = $this->getMock('Sonata\PageBundle\Model\SiteInterface');
+
+        $snapshotManager = new CmsSnapshotManager($this->snapshotManager, $this->transformer);
+
+        $page = $snapshotManager->getPage($site, 1);
+
+        $this->assertInstanceOf('Sonata\PageBundle\Model\SnapshotPageProxy', $page);
+
+        $this->assertInstanceOf('Sonata\BlockBundle\Model\BlockInterface', $snapshotManager->getBlock(1));
+        $this->assertInstanceOf('Sonata\BlockBundle\Model\BlockInterface', $snapshotManager->getBlock(2));
     }
 
     /**

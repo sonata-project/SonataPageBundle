@@ -204,4 +204,11 @@ interface SnapshotInterface
      * @return SiteInterface
      */
     public function getSite();
+
+    /**
+     * Serialized data of the current page
+     *
+     * @return string
+     */
+    public function getContent();
 }
