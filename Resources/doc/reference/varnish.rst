@@ -316,8 +316,9 @@ VCL for varnish 2.1::
 Using ESI
 ---------
 Using Edge Side Includes ? Modify your configuration to `advertise ESI support,
-enable ESI parsing <http://http://symfony.com/doc/current/cookbook/cache/varnish.html#configuration>`
-and disable cookies when relevant.
+enable ESI parsing <http://http://symfony.com/doc/current/cookbook/cache/varnish.html#configuration>`_
+and disable cookies when (and if) relevant (it's not relevant if you are caching
+even when there are cookies, like above).
 
 Varnish 3.0::
 
@@ -326,6 +327,8 @@ Varnish 3.0::
         // Add a Surrogate-Capability header to announce ESI support.
         set req.http.Surrogate-Capability = "varnish_your_host=ESI/1.0";
 
+        // This part is not useful if you are caching even when there are cookies,
+        // like above.
         if (req.url ~ "^/sonata/page/cache/esi/") {
             // Let's assume your caching blocks that don't need the session
             unset req.http.Cookie;
@@ -344,6 +347,8 @@ Varnish 3.0::
 
             set beresp.do_esi = true;
         }
+        // This part is not useful if you are caching even when there are cookies,
+        // like above.
         if (req.url ~ "^/sonata/page/cache/esi/") {
             // Same assumption here, choose wisely which blocks will be cached.
             unset beresp.http.Set-Cookie;
