@@ -1,6 +1,8 @@
 Varnish
 =======
 
+Basic configuration
+-------------------
 When a user is logged-in as an editor, a ``sonata_page_is_editor`` cookie is set.
 So you can configure a Varnish as follows.
 
@@ -309,5 +311,43 @@ VCL for varnish 2.1::
         } else {
             set resp.http.X-Cache = "MISS";
         }
+    }
+
+Using ESI
+---------
+Using Edge Side Includes ? Modify your configuration to `advertise ESI support,
+enable ESI parsing <http://http://symfony.com/doc/current/cookbook/cache/varnish.html#configuration>`
+and disable cookies when relevant.
+
+Varnish 3.0::
+
+    sub vcl_recv {
+        // ...
+        // Add a Surrogate-Capability header to announce ESI support.
+        set req.http.Surrogate-Capability = "varnish_your_host=ESI/1.0";
+
+        if (req.url ~ "^/sonata/page/cache/esi/") {
+            // Let's assume your caching blocks that don't need the session
+            unset req.http.Cookie;
+        }
+        // ...
+    }
+
+    sub vcl_fetch {
+        // ...
+        /*
+        Check for ESI acknowledgement
+        and remove Surrogate-Control header
+        */
+        if (beresp.http.Surrogate-Control ~ "ESI/1.0") {
+            unset beresp.http.Surrogate-Control;
+
+            set beresp.do_esi = true;
+        }
+        if (req.url ~ "^/sonata/page/cache/esi/") {
+            // Same assumption here, choose wisely which blocks will be cached.
+            unset beresp.http.Set-Cookie;
+        }
+        // ...
     }
 
