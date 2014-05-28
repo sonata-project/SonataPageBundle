@@ -316,7 +316,7 @@ VCL for varnish 2.1::
 Using ESI
 ---------
 Using Edge Side Includes ? Modify your configuration to `advertise ESI support,
-enable ESI parsing <http://http://symfony.com/doc/current/cookbook/cache/varnish.html#configuration>`
+enable ESI parsing <http://http://symfony.com/doc/current/cookbook/cache/varnish.html#configuration>`_
 and disable cookies when relevant.
 
 Varnish 3.0::
