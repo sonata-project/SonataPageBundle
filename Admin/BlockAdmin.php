@@ -125,7 +125,7 @@ class BlockAdmin extends Admin
             $containerBlockTypes = $this->containerBlockTypes;
 
             // need to investigate on this case where $page == null ... this should not be possible
-            if ($isStandardBlock && $page) {
+            if ($isStandardBlock && $page && !empty($containerBlockTypes)) {
                 $formMapper->add('parent', 'entity', array(
                     'class' => $this->getClass(),
                     'query_builder' => function(EntityRepository $repository) use ($page, $containerBlockTypes) {
