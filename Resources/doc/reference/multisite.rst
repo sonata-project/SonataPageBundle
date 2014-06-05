@@ -63,7 +63,7 @@ With this strategy it is possible to handle sites like :
 
 This strategy requires a dedicated ``Request`` object. So you need to alter the
 front controller to use the one provided by the ``PageBundle``. To do so, open
-files: app.php and app_dev.php and change the ``use`` statement to ::
+files: app.php and app_dev.php to use the request factory ::
 
     use Sonata\PageBundle\Request\SiteRequest as Request;
 
@@ -71,16 +71,42 @@ Working file example:
 
 .. code-block:: php
 
-    <?php
-    require_once __DIR__.'/../app/bootstrap.php.cache';
-    require_once __DIR__.'/../app/AppKernel.php';
+  <?php
+  
+  use Symfony\Component\HttpFoundation\Request;
+  use Sonata\PageBundle\Request\SiteRequest;
 
-    $kernel = new AppKernel('dev', true);
-    $kernel->loadClassCache();
+  $loader = require_once __DIR__.'/../app/bootstrap.php.cache';
 
-    use Sonata\PageBundle\Request\SiteRequest as Request;
+  require_once __DIR__.'/../app/AppKernel.php';
 
-    $kernel->handle(Request::createFromGlobals())->send();
+  $kernel = new AppKernel('prod', false);
+  $kernel->loadClassCache();
+
+  Request::setFactory(function (
+    array $query = array(),
+    array $request = array(),
+    array $attributes = array(),
+    array $cookies = array(),
+    array $files = array(),
+    array $server = array(),
+    $content = null
+  ) {
+    return SiteRequest::create(
+      $query,
+      $request,
+      $attributes,
+      $cookies,
+      $files,
+      $server,
+      $content
+    );
+  });
+
+  $request = Request::createFromGlobals();
+  $response = $kernel->handle($request);
+  $response->send();
+  $kernel->terminate($request, $response);
 
 The last action is to configure the ``sonata_page`` section as:
 
