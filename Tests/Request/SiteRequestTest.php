@@ -15,7 +15,7 @@ use Sonata\PageBundle\Request\SiteRequest;
 /**
  *
  */
-class BlockTest extends \PHPUnit_Framework_TestCase
+class SiteRequestTest extends \PHPUnit_Framework_TestCase
 {
     public function testSiteRequest()
     {

@@ -7,6 +7,9 @@ A [BC BREAK] means the update will break the project for many reasons:
 * new dependencies
 * class refactoring
 
+### 2014-06-11
+
+* Add a RequestFactory to configure a valid Request (and configure the Request::$factory) to support Symfony 2.5
 
 ### 2014-04-23
 

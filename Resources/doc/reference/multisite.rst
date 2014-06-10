@@ -72,15 +72,19 @@ Working file example:
 .. code-block:: php
 
     <?php
-    require_once __DIR__.'/../app/bootstrap.php.cache';
-    require_once __DIR__.'/../app/AppKernel.php';
+    require_once __DIR__ . '/../app/bootstrap.php.cache';
+    require_once __DIR__ . '/../app/AppKernel.php';
 
-    $kernel = new AppKernel('dev', true);
-    $kernel->loadClassCache();
+    use Sonata\PageBundle\Request\RequestFactory;
 
-    use Sonata\PageBundle\Request\SiteRequest as Request;
+    $request = RequestFactory::createFromGlobals('host_with_path');
 
-    $kernel->handle(Request::createFromGlobals())->send();
+    $kernel = new AppKernel('prod', false);
+
+    $response = $kernel->handle($request);
+    $response->send();
+
+    $kernel->terminate($request, $response);
 
 The last action is to configure the ``sonata_page`` section as:
 
