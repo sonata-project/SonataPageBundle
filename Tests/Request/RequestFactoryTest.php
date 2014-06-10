@@ -24,7 +24,7 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function setup()
     {
-        $this->hasFactory = version_compare(Kernel::VERSION, '2.4', '>');
+        $this->hasFactory = version_compare(Kernel::VERSION, '2.5', '>=');
 
         if ($this->hasFactory) {
             Request::setFactory(null);
