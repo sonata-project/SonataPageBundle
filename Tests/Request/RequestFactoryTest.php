@@ -20,16 +20,20 @@ use Symfony\Component\HttpKernel\Kernel;
  */
 class RequestFactoryTest extends \PHPUnit_Framework_TestCase
 {
+    protected $hasFactory = false;
+
     public function setup()
     {
-        if (version_compare(Kernel::VERSION, '2.4', '>')) {
+        $this->hasFactory = version_compare(Kernel::VERSION, '2.4', '>');
+
+        if ($this->hasFactory) {
             Request::setFactory(null);
         }
     }
 
     public function tearDown()
     {
-        if (version_compare(Kernel::VERSION, '2.4', '>')) {
+        if ($this->hasFactory) {
             Request::setFactory(null);
         }
     }
@@ -49,13 +53,19 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
     public function testHostWithPathAndCreate()
     {
         $this->assertInstanceOf('Sonata\PageBundle\Request\SiteRequest', RequestFactory::create('host_with_path', '/'));
-        $this->assertInstanceOf('Sonata\PageBundle\Request\SiteRequest', Request::create('/'));
+
+        if ($this->hasFactory) {
+            $this->assertInstanceOf('Sonata\PageBundle\Request\SiteRequest', Request::create('/'));
+        }
     }
 
     public function testHostWithPathAndCreateFromGlobals()
     {
         $this->assertInstanceOf('Sonata\PageBundle\Request\SiteRequest', RequestFactory::createFromGlobals('host_with_path'));
-        $this->assertInstanceOf('Sonata\PageBundle\Request\SiteRequest', Request::create('/'));
+
+        if ($this->hasFactory) {
+            $this->assertInstanceOf('Sonata\PageBundle\Request\SiteRequest', Request::create('/'));
+        }
     }
 
     /**
