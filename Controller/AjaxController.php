@@ -10,6 +10,7 @@
 
 namespace Sonata\PageBundle\Controller;
 
+use Sonata\BlockBundle\Block\BlockContextManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -37,13 +38,20 @@ class AjaxController
     protected $blockRenderer;
 
     /**
-     * @param CmsManagerSelectorInterface $cmsManagerSelector CMS Manager selector
-     * @param BlockRendererInterface      $blockRenderer      Block renderer
+     * @var \Sonata\BlockBundle\Block\BlockContextManagerInterface
      */
-    public function __construct(CmsManagerSelectorInterface $cmsManagerSelector, BlockRendererInterface $blockRenderer)
+    protected $contextManager;
+
+    /**
+     * @param CmsManagerSelectorInterface  $cmsManagerSelector CMS Manager selector
+     * @param BlockRendererInterface       $blockRenderer      Block renderer
+     * @param BlockContextManagerInterface $contextManager     Context Manager
+     */
+    public function __construct(CmsManagerSelectorInterface $cmsManagerSelector, BlockRendererInterface $blockRenderer, BlockContextManagerInterface $contextManager)
     {
         $this->cmsManagerSelector = $cmsManagerSelector;
         $this->blockRenderer      = $blockRenderer;
+        $this->contextManager     = $contextManager;
     }
 
     /**
@@ -64,8 +72,8 @@ class AjaxController
             throw new BlockNotFoundException(sprintf('Unable to find block identifier "%s" in page "%s".', $blockId, $pageId));
         }
 
-        $response = $this->blockRenderer->render($block);
+        $blockContext = $this->contextManager->get($block);
 
-        return $response;
+        return $this->blockRenderer->render($blockContext);
     }
 }

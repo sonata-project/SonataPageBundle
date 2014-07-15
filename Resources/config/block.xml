@@ -28,6 +28,7 @@
         <service id="sonata.page.block.ajax" class="%sonata.page.block.ajax.class%">
             <argument type="service" id="sonata.page.cms_manager_selector" />
             <argument type="service" id="sonata.block.renderer" />
+            <argument type="service" id="sonata.block.context_manager" />
         </service>
 
         <service id="sonata.page.block.context_manager" class="Sonata\PageBundle\Block\BlockContextManager">
