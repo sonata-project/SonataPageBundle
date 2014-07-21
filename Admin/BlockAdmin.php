@@ -136,6 +136,8 @@ class BlockAdmin extends Admin
                                 'types' => $containerBlockTypes,
                             ));
                     }
+                ), array(
+                    'admin_code' => 'sonata.page.admin.block'
                 ));
             }
 
