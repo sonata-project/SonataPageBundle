@@ -192,6 +192,7 @@ class PageAdmin extends Admin
                         'required'      => false,
                         'filter_choice' => array('hierarchy' => 'root'),
                     ), array(
+                        'admin_code' => 'sonata.page.admin.page',
                         'link_parameters' => array(
                             'siteId' => $this->getSubject() ? $this->getSubject()->getSite()->getId() : null
                         )
@@ -212,6 +213,7 @@ class PageAdmin extends Admin
                         'filter_choice' => array('request_method' => 'all'),
                         'required'      => false
                     ), array(
+                        'admin_code' => 'sonata.page.admin.page',
                         'link_parameters' => array(
                             'siteId' => $this->getSubject() ? $this->getSubject()->getSite()->getId() : null
                         )
