@@ -31,7 +31,7 @@ class SiteAdminController extends Controller
      */
     public function snapshotsAction()
     {
-        if (false === $this->admin->isGranted('EDIT')) {
+        if (false === $this->get('sonata.page.admin.snapshot')->isGranted('CREATE')) {
             throw new AccessDeniedException();
         }
 
