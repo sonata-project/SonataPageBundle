@@ -667,6 +667,10 @@
           <source>header.compose_page</source>
           <target>header.compose_page</target>
       </trans-unit>
+      <trans-unit id="166" resname="no_type_available">
+          <source>no_type_available</source>
+          <target>no_type_available</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
