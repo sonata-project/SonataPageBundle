@@ -95,8 +95,8 @@ class Transformer implements TransformerInterface
         $content['created_at']       = $page->getCreatedAt()->format('U');
         $content['updated_at']       = $page->getUpdatedAt()->format('U');
         $content['slug']             = $page->getSlug();
-        $content['parent_id']        = $page->getParent() ? $page->getParent()->getId() : false;
-        $content['target_id']        = $page->getTarget() ? $page->getTarget()->getId() : false;
+        $content['parent_id']        = $page->getParent() ? $page->getParent()->getId() : null;
+        $content['target_id']        = $page->getTarget() ? $page->getTarget()->getId() : null;
 
         $content['blocks'] = array();
         foreach ($page->getBlocks() as $block) {
