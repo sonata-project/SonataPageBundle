@@ -596,7 +596,7 @@
        </trans-unit>
       <trans-unit id="149" resname="title_page_redirected">
           <source>title_page_redirected</source>
-          <target>Internal page redirection</target>
+          <target>Page interne de redirection</target>
       </trans-unit>
       <trans-unit id="150" resname="message_page_redirected">
           <source>message_page_redirected</source>
@@ -626,15 +626,15 @@
       </trans-unit>
       <trans-unit id="155" resname="flash_snapshots_created_success">
            <source>flash_snapshots_created_success</source>
-           <target>flash_snapshots_created_success</target>
+           <target>Snapshots crées avec succès</target>
       </trans-unit>
       <trans-unit id="156" resname="title_message_create_page">
             <source>title_message_create_page</source>
-            <target>Please select the targeted site</target>
+            <target>Merci de selectionner le site cible</target>
       </trans-unit>
       <trans-unit id="157" resname="message_create_page">
             <source>message_create_page</source>
-            <target>Before creating a new page, you need to select the website where the page will be located.</target>
+            <target>Avant de créer une nouvelle page, vous devez selectionner le site où la page sera accessible.</target>
        </trans-unit>
       <trans-unit id="158" resname="sidemenu.link_compose_page">
           <source>sidemenu.link_compose_page</source>
