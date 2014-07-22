@@ -91,7 +91,7 @@ class SnapshotAdminController extends Controller
      */
     public function batchActionToggleEnabled($query)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_SONATA_PAGE_ADMIN_BLOCK_EDIT')) {
+        if (false === $this->admin->isGranted('EDIT')) {
             throw new AccessDeniedException();
         }
 

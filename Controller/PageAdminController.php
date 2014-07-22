@@ -32,7 +32,7 @@ class PageAdminController extends Controller
      */
     public function batchActionSnapshot($query)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT')) {
+        if (false === $this->get('sonata.page.admin.snapshot')->isGranted('CREATE')) {
             throw new AccessDeniedException();
         }
 
