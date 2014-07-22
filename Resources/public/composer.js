@@ -69,7 +69,7 @@
      * @param $context
      */
     function applyAdmin($context) {
-        if (global.admin === undefined) {
+        if (typeof global.admin != 'undefined') {
             return;
         }
 
@@ -131,14 +131,14 @@
          */
         isFormControlTypeByName: function (name, type) {
             
-            if (name !== undefined) {
-                 var position  = name.length,
-                    search    = '[' + type + ']',
-                    lastIndex = name.lastIndexOf(search);
-
-                    position = position - search.length;
-
-                return lastIndex !== -1 && lastIndex === position;
+            if (typeof name != 'undefined') {
+                
+               var position = name.length,
+               search = '[' + type + ']',
+               lastIndex = name.lastIndexOf(search);
+               position = position - search.length;
+               
+               return lastIndex !== -1 && lastIndex === position;
             }
             
             return false;
@@ -294,7 +294,7 @@
             $children.each(function () {
                 var $child  = $(this),
                     blockId = $child.attr('data-block-id');
-                if (blockId !== undefined) {
+                if (typeof blockId != 'undefined') {
                     childCount++;
                 }
             });
@@ -473,7 +473,7 @@
                     success: function (resp) {
                         $loader.hide();
                         if (resp.result && resp.result === 'ok') {
-                            if ($nameFormControl !== undefined) {
+                            if (typeof $nameFormControl != 'undefined') {
                                 $title.text($nameFormControl.val() !== '' ? $nameFormControl.val() : blockType);
                             }
                             event.$block.removeClass('page-composer__container__child--expanded');
@@ -631,7 +631,7 @@
                             childId  = $child.attr('data-block-id');
 
                         // pending block creation has an undefined child id
-                        if (childId !== undefined) {
+                        if (typeof childId != 'undefined') {
                             newPositions.push({
                                 'id':        parseInt(childId, 10),
                                 'position':  position,
@@ -678,7 +678,7 @@
                     connectToSortable: '.page-composer__container__children',
                     drop: function (event, ui) {
                         var droppedBlockId = ui.draggable.attr('data-block-id');
-                        if (droppedBlockId !== undefined) {
+                        if (typeof droppedBlockId != 'undefined') {
                             ui.helper.remove();
 
                             var $container     = $(this),
