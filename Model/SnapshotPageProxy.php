@@ -166,7 +166,7 @@ class SnapshotPageProxy implements PageInterface, Serializable
         if ($this->target === null) {
             $content = $this->snapshot->getContent();
 
-            if (isset($content['target_id'])) {
+            if (isset($content['target_id']) && $content['target_id'] !== false) {
 
                 $target = $this->manager->findEnableSnapshot(array(
                     'pageId' => $content['target_id']

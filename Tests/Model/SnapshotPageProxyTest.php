@@ -17,12 +17,28 @@ use Sonata\PageBundle\Model\SnapshotPageProxy;
  */
 class SnapshotPageProxyTest extends \PHPUnit_Framework_TestCase
 {
-    public function testInterface()
+    public function setUp()
     {
-        $snapshotManager = $this->getMock('Sonata\PageBundle\Model\SnapshotManagerInterface');
-        $snapshot = $this->getMock('Sonata\PageBundle\Model\SnapshotInterface');
+        $this->snapshotManager = $this->getMock('Sonata\PageBundle\Model\SnapshotManagerInterface');
+        $this->snapshot = $this->getMock(
+            'Sonata\PageBundle\Model\Snapshot',
+            array('getContent')
+        );
         $transformer  = $this->getMock('Sonata\PageBundle\Model\TransformerInterface');
 
-        new SnapshotPageProxy($snapshotManager, $transformer, $snapshot);
+        $this->proxy = new SnapshotPageProxy($this->snapshotManager, $transformer, $this->snapshot);
+    }
+
+    public function testGetTarget()
+    {
+        $this->snapshot->expects($this->once())
+            ->method('getContent')
+            ->will($this->returnValue(array('target_id' => false)));
+
+        $this->snapshotManager->expects($this->exactly(0))
+            ->method('findEnableSnapshot');
+
+
+        $this->assertNull($this->proxy->getTarget());
     }
 }

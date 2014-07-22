@@ -97,6 +97,14 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
      */
     public function findEnableSnapshot(array $criteria)
     {
+        if (isset($criteria['pageId'])
+            && !is_int($criteria['pageId'])
+            && !is_numeric($criteria['pageId']) ) {
+            throw new \InvalidArgumentException(
+                "The page id should be an integer"
+            );
+        }
+
         $date = new \Datetime;
         $parameters = array(
             'publicationDateStart' => $date,
