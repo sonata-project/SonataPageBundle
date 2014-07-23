@@ -2,7 +2,7 @@ Introduction
 ============
 
 This small introduction will try to explain the basics concepts behind the
-``PageBundle`. Since the version 2.1 of ``PageBundle``, the Symfony CMF router
+``PageBundle``. Since the version 2.1 of ``PageBundle``, the Symfony CMF router
 chain is now integrated, this make the solution compatible with others projects
 using this component : ezPublish, CMF project and more ...
 
