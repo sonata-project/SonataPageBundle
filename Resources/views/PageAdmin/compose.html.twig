@@ -29,7 +29,7 @@ file that was distributed with this source code.
 
 {% block content %}
     <div class="page-composer">
-        <h2>compose page "{{ page.name }}" <small>[template: <b>{{ template.name }}</b>]</small></h2>
+        <h2>{{ 'page.compose_page'|trans({}, 'SonataPageBundle') }} "{{ page.name }}" <small>[template: <b>{{ template.name }}</b>]</small></h2>
 
         {% if containers|length == 0 %}
 
@@ -119,7 +119,7 @@ sonata_page:
 
                     {% if orphanContainers|length > 0 %}
                         <div class="page-composer__orphan-containers">
-                            <h3 class="page-composer__orphan-containers__header">Orphan containers</h3>
+                            <h3 class="page-composer__orphan-containers__header">{{ 'page.orphan_containers'|trans({}, 'SonataPageBundle') }}</h3>
                             <ul>
                                 {% for orphanContainer in orphanContainers %}
                                     <li class="page-composer__orphan-container block-preview-{{ orphanContainer.id }}"

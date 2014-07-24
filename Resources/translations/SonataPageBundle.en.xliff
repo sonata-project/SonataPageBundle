@@ -671,6 +671,14 @@
           <source>no_type_available</source>
           <target>No type available</target>
       </trans-unit>
+      <trans-unit id="167" resname="page.compose_page">
+          <source>page.compose_page</source>
+          <target>Compose page</target>
+      </trans-unit>
+      <trans-unit id="168" resname="page.orphan_containers">
+          <source>page.orphan_containers</source>
+          <target>Orphan containers</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
