@@ -56,13 +56,7 @@ abstract class BaseLocaleSiteSelectorTest extends \PHPUnit_Framework_TestCase
      */
     protected function getSite()
     {
-        // The site found is stored in the protected property "site", so we use Reflection to access it.
-        $ref = new \ReflectionObject($this->siteSelector);
-
-        $property = $ref->getProperty('site');
-        $property->setAccessible(true);
-
-        return $property->getValue($this->siteSelector);
+        return $this->siteSelector->retrieve();
     }
 
     /**
