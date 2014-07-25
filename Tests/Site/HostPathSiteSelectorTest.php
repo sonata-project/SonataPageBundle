@@ -288,6 +288,24 @@ class HostPathSiteSelectorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
     }
 
+    /**
+     * Site Test #12 - Should match "Site 9" and path info should match "/abc"
+     */
+    public function testSite12()
+    {
+        // Retrieve the site that would be matched from the request
+        list($site, $event) = $this->performHandleKernelRequestTest('http://www.example.org/abc');
+
+        // Ensure we retrieved the correct site.
+        $this->assertEquals('Site 9', $site->getName());
+
+        // Ensure request path info is /abc
+        $this->assertEquals('/abc', $event->getRequest()->getPathInfo());
+
+        // Ensure request locale matches site locale
+        $this->assertEquals($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
+    }
+
 }
 
 class HostPathSite extends BaseSite
@@ -467,6 +485,17 @@ class HostPathSiteSelector extends BaseSiteSelector
         $sites[8]->setEnabledTo($always);
         $sites[8]->setIsDefault(false);
         $sites[8]->setLocale('en_GB');
+
+        /* Site 9 - www.example.org and no relative path */
+        $sites[9] = new HostPathSite();
+        $sites[9]->setEnabled(true);
+        $sites[9]->setName('Site 9');
+        $sites[9]->setRelativePath(null);
+        $sites[9]->setHost('www.example.org');
+        $sites[9]->setEnabledFrom($always);
+        $sites[9]->setEnabledTo($always);
+        $sites[9]->setIsDefault(false);
+        $sites[9]->setLocale('en_GB');
 
         return $sites;
     }
