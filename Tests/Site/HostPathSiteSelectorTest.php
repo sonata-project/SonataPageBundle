@@ -257,6 +257,43 @@ class HostPathSiteSelectorTest extends \PHPUnit_Framework_TestCase
         // Ensure request locale is null
         $this->assertNull($event->getRequest()->attributes->get('_locale'));
     }
+
+    /**
+     * Site Test #10 - Should match "Site 8"
+     */
+    public function testSite10()
+    {
+        // Retrieve the site that would be matched from the request
+        list($site, $event) = $this->performHandleKernelRequestTest('http://www.example.com/test');
+
+        // Ensure we retrieved the correct site.
+        $this->assertEquals('Site 8', $site->getName());
+
+        // Ensure request path info is /
+        $this->assertEquals('/', $event->getRequest()->getPathInfo());
+
+        // Ensure request locale matches site locale
+        $this->assertEquals($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
+    }
+
+    /**
+     * Site Test #11 - Should match "Site 8" and path info should match "/abc"
+     */
+    public function testSite11()
+    {
+        // Retrieve the site that would be matched from the request
+        list($site, $event) = $this->performHandleKernelRequestTest('http://www.example.com/test/abc');
+
+        // Ensure we retrieved the correct site.
+        $this->assertEquals('Site 8', $site->getName());
+
+        // Ensure request path info is /abc
+        $this->assertEquals('/abc', $event->getRequest()->getPathInfo());
+
+        // Ensure request locale matches site locale
+        $this->assertEquals($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
+    }
+
 }
 
 class HostPathSite extends BaseSite
@@ -425,6 +462,17 @@ class HostPathSiteSelector extends BaseSiteSelector
         $sites[7]->setEnabledFrom($always);
         $sites[7]->setEnabledTo($always);
         $sites[7]->setLocale('en_US');
+
+        /* Site 8 - Relative path is a substring of the relative path of the other sites */
+        $sites[8] = new HostPathSite();
+        $sites[8]->setEnabled(true);
+        $sites[8]->setName('Site 8');
+        $sites[8]->setRelativePath('/test');
+        $sites[8]->setHost('www.example.com');
+        $sites[8]->setEnabledFrom($always);
+        $sites[8]->setEnabledTo($always);
+        $sites[8]->setIsDefault(false);
+        $sites[8]->setLocale('en_GB');
 
         return $sites;
     }
