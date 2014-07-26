@@ -58,23 +58,26 @@ class DefaultPageService extends BasePageService
      */
     public function execute(PageInterface $page, Request $request, array $parameters = array(), Response $response = null)
     {
-        $this->updateSeoPage($page);
+        $this->updateSeoPage($page, $request);
 
-        $response = $this->templateManager->renderResponse($page->getTemplateCode(), $parameters, $response);
-
-        return $response;
+        return $this->templateManager->renderResponse($page->getTemplateCode(), $parameters, $response);
     }
 
     /**
      * Updates the SEO page values for given page instance
      *
      * @param PageInterface $page
+     * @param Request       $request
+     *
+     * @return void
      */
-    protected function updateSeoPage(PageInterface $page)
+    protected function updateSeoPage(PageInterface $page, Request $request)
     {
         if (!$this->seoPage) {
             return;
         }
+
+        $this->seoPage->addHtmlAttributes('lang', $request->getLocale());
 
         if ($page->getTitle()) {
             $this->seoPage->setTitle($page->getTitle() ?: $page->getName());

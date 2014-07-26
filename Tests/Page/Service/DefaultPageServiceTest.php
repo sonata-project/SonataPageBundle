@@ -53,6 +53,7 @@ class DefaultPageServiceTest extends \PHPUnit_Framework_TestCase
 
         // mock a http request
         $request = $this->getMock('Symfony\Component\HttpFoundation\Request');
+        $request->expects($this->once())->method('getLocale')->will($this->returnValue('nl'));
 
         // mock http response
         $response = $this->getMock('Symfony\Component\HttpFoundation\Response');
@@ -76,7 +77,10 @@ class DefaultPageServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->seoPage->expects($this->exactly(3))->method('addMeta')->will($this->returnValueMap($metaMapping));
 
-        $this->seoPage->expects($this->once())
+        $this->seoPage->expects($this->at(0))
+            ->method('addHtmlAttributes')->with($this->equalTo('lang'), $this->equalTo('nl'));
+
+        $this->seoPage->expects($this->at(5))
             ->method('addHtmlAttributes')->with($this->equalTo('prefix'), $this->equalTo('og: http://ogp.me/ns#'));
 
         // mocked template manager should render something
