@@ -80,7 +80,9 @@ class DefaultPageService extends BasePageService
         $this->seoPage->addHtmlAttributes('lang', $request->getLocale());
 
         if ($page->getTitle()) {
-            $this->seoPage->setTitle($page->getTitle() ?: $page->getName());
+            $this->seoPage->setTitle($page->getTitle());
+        } else {
+            $this->seoPage->addTitle($page->getName());
         }
 
         if ($page->getMetaDescription()) {
