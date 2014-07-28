@@ -35,12 +35,14 @@ abstract class BaseLocaleSiteSelectorTest extends \PHPUnit_Framework_TestCase
         $sites = array();
 
         $sites[0] = new Site;
+        $sites[0]->setEnabled(true);
         $sites[0]->setRelativePath('/fr');
         $sites[0]->setHost('localhost');
         $sites[0]->setIsDefault(true);
         $sites[0]->setLocale('fr');
 
         $sites[1] = new Site;
+        $sites[1]->setEnabled(true);
         $sites[1]->setRelativePath('/en');
         $sites[1]->setHost('localhost');
         $sites[1]->setIsDefault(false);
