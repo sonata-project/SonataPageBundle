@@ -10,7 +10,7 @@ file that was distributed with this source code.
 #}
 {%- block sonata_page_html_tag -%}
 <!DOCTYPE html>
-<html {{ sonata_seo_html_attributes() }}>
+<html {{ sonata_seo_html_attributes() }} lang="{{ app.request.locale }}">
 {% endblock %}
     {% block sonata_page_head %}
         <head {{ sonata_seo_head_attributes() }}>
