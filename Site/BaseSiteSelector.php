@@ -140,7 +140,7 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
         // we read the value from the attribute to handle fragment support
         $requestPathInfo = $request->get('pathInfo', $request->getPathInfo());
 
-        if (!preg_match(sprintf('@^(%s)(.*|)@', $site->getRelativePath()), $requestPathInfo, $results)) {
+        if (!preg_match(sprintf('@^(%s)(/.*|$)@', $site->getRelativePath()), $requestPathInfo, $results)) {
             return false;
         }
 
