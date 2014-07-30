@@ -89,7 +89,5 @@ class DefaultPageService extends BasePageService
         if ($page->getMetaKeyword()) {
             $this->seoPage->addMeta('name', 'keywords', $page->getMetaKeyword());
         }
-
-        $this->seoPage->addHtmlAttributes('prefix', 'og: http://ogp.me/ns#');
     }
 }

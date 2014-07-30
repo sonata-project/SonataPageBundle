@@ -75,9 +75,6 @@ class DefaultPageServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->seoPage->expects($this->exactly(2))->method('addMeta')->will($this->returnValueMap($metaMapping));
 
-        $this->seoPage->expects($this->once())
-            ->method('addHtmlAttributes')->with($this->equalTo('prefix'), $this->equalTo('og: http://ogp.me/ns#'));
-
         // mocked template manager should render something
         $this->templateManager->expects($this->once())
             ->method('renderResponse')->with($this->equalTo('template code'))->will($this->returnValue($response));
