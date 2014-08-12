@@ -279,10 +279,12 @@ class PageExtension extends \Twig_Extension
         $globals = $this->environment->getGlobals();
 
         if (!isset($attributes['pathInfo'])) {
-            $sitePath = $this->siteSelector->retrieve()->getRelativePath();
-            $currentPathInfo = $globals['app']->getRequest()->getPathInfo();
-
-            $attributes['pathInfo'] = $sitePath . $currentPathInfo;
+            $siteSelector = $this->siteSelector->retrieve();
+            if (!empty($siteSelector)) {
+                $sitePath = $siteSelector->getRelativePath();
+                $currentPathInfo = $globals['app']->getRequest()->getPathInfo();
+                $attributes['pathInfo'] = $sitePath . $currentPathInfo;
+            }
         }
 
         return $this->httpKernelExtension->controller($controller, $attributes, $query);
