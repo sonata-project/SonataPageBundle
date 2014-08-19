@@ -52,13 +52,7 @@ class HostSiteSelectorTest extends \PHPUnit_Framework_TestCase
         // localhost is a possible match, but only if no other sites match.
         $siteSelector->handleKernelRequest($event);
 
-        // The site found is stored in the protected property "site", so we use Reflection to access it.
-        $ref = new \ReflectionObject($siteSelector);
-
-        $property = $ref->getProperty('site');
-        $property->setAccessible(true);
-
-        $site = $property->getValue($siteSelector);
+        $site = $siteSelector->retrieve();
 
         // Ensure request locale matches site locale
         $this->assertEquals($site->getLocale(), $request->attributes->get('_locale'));

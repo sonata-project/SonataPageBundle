@@ -35,12 +35,14 @@ abstract class BaseLocaleSiteSelectorTest extends \PHPUnit_Framework_TestCase
         $sites = array();
 
         $sites[0] = new Site;
+        $sites[0]->setEnabled(true);
         $sites[0]->setRelativePath('/fr');
         $sites[0]->setHost('localhost');
         $sites[0]->setIsDefault(true);
         $sites[0]->setLocale('fr');
 
         $sites[1] = new Site;
+        $sites[1]->setEnabled(true);
         $sites[1]->setRelativePath('/en');
         $sites[1]->setHost('localhost');
         $sites[1]->setIsDefault(false);
@@ -56,13 +58,7 @@ abstract class BaseLocaleSiteSelectorTest extends \PHPUnit_Framework_TestCase
      */
     protected function getSite()
     {
-        // The site found is stored in the protected property "site", so we use Reflection to access it.
-        $ref = new \ReflectionObject($this->siteSelector);
-
-        $property = $ref->getProperty('site');
-        $property->setAccessible(true);
-
-        return $property->getValue($this->siteSelector);
+        return $this->siteSelector->retrieve();
     }
 
     /**

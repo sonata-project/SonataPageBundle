@@ -92,7 +92,7 @@ abstract class Site implements SiteInterface
             return false;
         }
 
-        return true;
+        return $this->enabled;
     }
 
     /**

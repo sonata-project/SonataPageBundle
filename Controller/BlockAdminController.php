@@ -30,7 +30,7 @@ class BlockAdminController extends Controller
      */
     public function savePositionAction()
     {
-        if (!$this->get('security.context')->isGranted('ROLE_SONATA_PAGE_ADMIN_BLOCK_EDIT')) {
+        if (!$this->admin->isGranted('EDIT')) {
             throw new AccessDeniedException();
         }
 
@@ -70,7 +70,7 @@ class BlockAdminController extends Controller
      */
     public function createAction()
     {
-        if (false === $this->admin->isGranted('CREATE')) {
+        if (!$this->admin->isGranted('CREATE')) {
             throw new AccessDeniedException();
         }
 
@@ -94,7 +94,7 @@ class BlockAdminController extends Controller
 
     public function switchParentAction()
     {
-        if (!$this->get('security.context')->isGranted('ROLE_SONATA_PAGE_ADMIN_BLOCK_EDIT')) {
+        if (!$this->admin->isGranted('EDIT')) {
             throw new AccessDeniedException();
         }
 
