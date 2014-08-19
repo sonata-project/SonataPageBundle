@@ -626,7 +626,7 @@
       </trans-unit>
       <trans-unit id="155" resname="flash_snapshots_created_success">
            <source>flash_snapshots_created_success</source>
-           <target>Snapshots crées avec succès</target>
+           <target>Publications crées avec succès</target>
       </trans-unit>
       <trans-unit id="156" resname="title_message_create_page">
             <source>title_message_create_page</source>
