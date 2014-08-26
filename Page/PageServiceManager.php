@@ -17,6 +17,7 @@ use Symfony\Component\Routing\RouterInterface;
 
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Page\Service\PageServiceInterface;
+use Sonata\PageBundle\Page\PageServiceManagerInterface;
 
 /**
  * Manages all page services and the execution workflow of a page.
