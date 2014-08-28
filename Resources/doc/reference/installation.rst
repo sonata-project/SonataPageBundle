@@ -177,7 +177,7 @@ Extend the Bundle
 At this point, the bundle is usuable, but not quite ready yet. You need to
 generate the correct entities for the page::
 
-    php app/console sonata:easy-extends:generate SonataPageBundle
+    php app/console sonata:easy-extends:generate SonataPageBundle  -d src
 
 If you specify no parameter, the files are generated in app/Application/Sonata... but you can specify the path with --dest=src
 
