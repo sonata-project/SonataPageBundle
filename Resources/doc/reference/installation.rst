@@ -52,7 +52,7 @@ Next, be sure to enable the ``EasyExtends`` bundle in your application kernel:
 At this point, the bundle is not yet ready. You need to generate the correct
 entities for the page::
 
-    php app/console sonata:easy-extends:generate SonataPageBundle
+    php app/console sonata:easy-extends:generate SonataPageBundle --dest=src
 
 .. note::
 
