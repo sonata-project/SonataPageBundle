@@ -139,9 +139,9 @@ class PageAdmin extends Admin
 
         // define group zoning
         $formMapper
-             ->with($this->trans('form_page.group_main_label'), array('class' => 'col-md-6'))
-             ->with($this->trans('form_page.group_seo_label'), array('class' => 'col-md-6'))
-             ->with($this->trans('form_page.group_advanced_label'), array('class' => 'col-md-6'))
+             ->with($this->trans('form_page.group_main_label'), array('class' => 'col-md-6'))->end()
+             ->with($this->trans('form_page.group_seo_label'), array('class' => 'col-md-6'))->end()
+             ->with($this->trans('form_page.group_advanced_label'), array('class' => 'col-md-6'))->end()
         ;
 
 
