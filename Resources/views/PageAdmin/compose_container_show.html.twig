@@ -1,10 +1,10 @@
 <div class="page-composer__container__view block-view-{{ container.id }}" data-block-id="{{ container.id }}">
     <h2 class="page-composer__container__view__header">{{ container.name }}</h2>
 
-    <span class="page-composer__container__view__notice">notice</span>
+    <span class="page-composer__container__view__notice">{{ 'notice'|trans({}, 'SonataPageBundle') }}</span>
 
     <div class="page-composer__block-type-selector">
-        <label>add block of type</label>
+        <label>{{ 'composer.block.add.type'|trans({}, 'SonataPageBundle') }}</label>
         <select class="page-composer__block-type-selector__select">
             {% for blockServiceId, blockService in blockServices %}
                 <option value="{{ blockServiceId }}">{{ blockService.name }}</option>
@@ -13,10 +13,10 @@
         <a class="btn btn-action btn-small page-composer__block-type-selector__confirm"
            href="{{ path('admin_sonata_page_page_block_create', { 'id': page.id }) }}"
         ><i class="fa fa-plus"></i></a>
-        <span class="page-composer__block-type-selector__loader">loading</span>
+        <span class="page-composer__block-type-selector__loader">{{ 'loading'|trans({}, 'SonataPageBundle') }}</span>
 
         <small class="page-composer__container__child-count pull-right">
-            blocks <span class="badge">{{ container.children|length }}</span>
+            {{ 'blocks'|trans({}, 'SonataPageBundle') }} <span class="badge">{{ container.children|length }}</span>
         </small>
     </div>
 
@@ -37,9 +37,9 @@
                 </a>
 
                 <div class="page-composer__container__child__remove">
-                    <a class="badge" href="{{ path('admin_sonata_page_block_delete', { 'id': child.id }) }}">remove <i class="fa fa-times"></i> </a>
+                    <a class="badge" href="{{ path('admin_sonata_page_block_delete', { 'id': child.id }) }}">{{ 'composer.remove'|trans({}, 'SonataPageBundle') }} <i class="fa fa-times"></i> </a>
                     <span class="page-composer__container__child__remove__confirm">
-                        confirm delete ? <span class="yes">yes</span> <span class="cancel">cancel</span>
+                        {{ 'composer.remove.confirm'|trans({}, 'SonataPageBundle') }} <span class="yes">{{ 'yes'|trans({}, 'SonataPageBundle') }}</span> <span class="cancel">{{ 'cancel'|trans({}, 'SonataPageBundle') }}</span>
                     </span>
                 </div>
 
@@ -47,7 +47,7 @@
                 </div>
 
                 <div class="page-composer__container__child__loader">
-                    <span>loading</span>
+                    <span>{{ 'loading'|trans({}, 'SonataPageBundle') }}</span>
                 </div>
             </li>
         {% endfor %}
