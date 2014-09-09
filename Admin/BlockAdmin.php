@@ -111,15 +111,18 @@ class BlockAdmin extends Admin
             }
         }
 
-        $formMapper->with($this->trans('form.field_group_general'));
-
-        // add name on all forms
-        $formMapper->add('name');
+        $formMapper
+            ->with($this->trans('form.field_group_general'))
+                ->add('name')
+            ->end();
 
         $isContainerRoot = $block && in_array($block->getType(), array('sonata.page.block.container', 'sonata.block.service.container')) && !$this->hasParentFieldDescription();
         $isStandardBlock = $block && !in_array($block->getType(), array('sonata.page.block.container', 'sonata.block.service.container')) && !$this->hasParentFieldDescription();
 
         if ($isContainerRoot || $isStandardBlock) {
+
+            $formMapper->with($this->trans('form.field_group_general'));
+
             $service = $this->blockManager->get($block);
 
             $containerBlockTypes = $this->containerBlockTypes;
@@ -148,6 +151,7 @@ class BlockAdmin extends Admin
             }
 
             $formMapper->end();
+
             $formMapper->with($this->trans('form.field_group_options'));
 
             if ($block->getId() > 0) {
@@ -155,17 +159,18 @@ class BlockAdmin extends Admin
             } else {
                 $service->buildCreateForm($formMapper, $block);
             }
-            
+
             $formMapper->end();
 
         } else {
 
             $formMapper
-                ->add('type', 'sonata_block_service_choice', array(
-                    'context' => 'sonata_page_bundle'
-                ))
-                ->add('enabled')
-                ->add('position', 'integer')
+                ->with($this->trans('form.field_group_options'))
+                    ->add('type', 'sonata_block_service_choice', array(
+                        'context' => 'sonata_page_bundle'
+                    ))
+                    ->add('enabled')
+                    ->add('position', 'integer')
                 ->end()
             ;
         }

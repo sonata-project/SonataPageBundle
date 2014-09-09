@@ -182,7 +182,7 @@ class PageAdminController extends Controller
                 $children[] = $block;
             }
         }
-        
+
         // searching for block defined in template which are not created
         $blockInteractor = $this->get('sonata.page.block_interactor');
 
@@ -232,7 +232,7 @@ class PageAdminController extends Controller
             throw new NotFoundHttpException(sprintf('unable to find the block with id : %s', $id));
         }
 
-        $blockServices = $this->get('sonata.block.manager')->getServicesByContext('sonata_page_bundle');
+        $blockServices = $this->get('sonata.block.manager')->getServicesByContext('sonata_page_bundle', false);
 
         return $this->render('SonataPageBundle:PageAdmin:compose_container_show.html.twig', array(
             'blockServices' => $blockServices,
