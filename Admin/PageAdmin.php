@@ -300,7 +300,7 @@ class PageAdmin extends Admin
             try {
                 $menu->addChild(
                     $this->trans('view_page'),
-                    array('uri' => $this->getRouteGenerator()->generate('page_slug', array('path' => $this->getSubject()->getUrl())))
+                    array('uri' => $this->getRouteGenerator()->generate('page_slug', array('path' => $this->getSubject()->getSite()->getRelativePath().$this->getSubject()->getUrl())))
                 );
             } catch (\Exception $e) {
                 // avoid crashing the admin if the route is not setup correctly
