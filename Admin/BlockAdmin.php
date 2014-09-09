@@ -147,6 +147,7 @@ class BlockAdmin extends Admin
                 $formMapper->add('position', 'integer');
             }
 
+            $formMapper->end();
             $formMapper->with($this->trans('form.field_group_options'));
 
             if ($block->getId() > 0) {
@@ -154,6 +155,8 @@ class BlockAdmin extends Admin
             } else {
                 $service->buildCreateForm($formMapper, $block);
             }
+            
+            $formMapper->end();
 
         } else {
 
@@ -162,7 +165,9 @@ class BlockAdmin extends Admin
                     'context' => 'sonata_page_bundle'
                 ))
                 ->add('enabled')
-                ->add('position', 'integer');
+                ->add('position', 'integer')
+                ->end()
+            ;
         }
     }
 
