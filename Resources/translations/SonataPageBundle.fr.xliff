@@ -618,7 +618,7 @@
       </trans-unit>
       <trans-unit id="153" resname="form.field_group_general">
            <source>form.field_group_general</source>
-           <target>Block</target>
+           <target>Bloc</target>
       </trans-unit>
       <trans-unit id="154" resname="form.field_group_options">
            <source>form.field_group_options</source>
@@ -682,7 +682,7 @@
       </trans-unit>
       <trans-unit id="169" resname="composer.remove">
           <source>composer.remove</source>
-          <target>Retirer</target>
+          <target>Supprimer</target>
       </trans-unit>
       <trans-unit id="170" resname="composer.remove.confirm">
           <source>composer.remove.confirm</source>

@@ -14,7 +14,6 @@ namespace Sonata\PageBundle\Admin;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Route\RouteCollection;
-use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -139,9 +138,9 @@ class PageAdmin extends Admin
 
         // define group zoning
         $formMapper
-             ->with($this->trans('form_page.group_main_label'), array('class' => 'col-md-6'))
-             ->with($this->trans('form_page.group_seo_label'), array('class' => 'col-md-6'))
-             ->with($this->trans('form_page.group_advanced_label'), array('class' => 'col-md-6'))
+             ->with($this->trans('form_page.group_main_label'), array('class' => 'col-md-6'))->end()
+             ->with($this->trans('form_page.group_seo_label'), array('class' => 'col-md-6'))->end()
+             ->with($this->trans('form_page.group_advanced_label'), array('class' => 'col-md-6'))->end()
         ;
 
 
@@ -157,7 +156,8 @@ class PageAdmin extends Admin
             $formMapper
                 ->with($this->trans('form_page.group_main_label'))
                     ->add('site', null, array('required' => true, 'read_only' => true))
-                ->end();
+                ->end()
+            ;
         }
 
         $formMapper
@@ -165,7 +165,8 @@ class PageAdmin extends Admin
                 ->add('name')
                 ->add('enabled', null, array('required' => false))
                 ->add('position')
-            ->end();
+            ->end()
+        ;
 
         if ($this->hasSubject() && !$this->getSubject()->isInternal()) {
             $formMapper
@@ -243,7 +244,8 @@ class PageAdmin extends Admin
             $formMapper
                 ->with($this->trans('form_page.group_advanced_label'), array('collapsed' => true))
                     ->add('decorate', null,  array('required' => false))
-                ->end();
+                ->end()
+            ;
         }
 
         $formMapper
