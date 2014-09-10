@@ -59,6 +59,7 @@ class Transformer implements TransformerInterface
 
         $snapshot->setPage($page);
         $snapshot->setUrl($page->getUrl());
+        $snapshot->setCustomUrl($page->getCustomUrl());
         $snapshot->setEnabled($page->getEnabled());
         $snapshot->setRouteName($page->getRouteName());
         $snapshot->setPageAlias($page->getPageAlias());
@@ -122,7 +123,7 @@ class Transformer implements TransformerInterface
         $page->setRouteName($snapshot->getRouteName());
         $page->setPageAlias($snapshot->getPageAlias());
         $page->setType($snapshot->getType());
-        $page->setCustomUrl($snapshot->getUrl());
+        $page->setCustomUrl($snapshot->getCustomUrl());
         $page->setUrl($snapshot->getUrl());
         $page->setPosition($snapshot->getPosition());
         $page->setDecorate($snapshot->getDecorate());

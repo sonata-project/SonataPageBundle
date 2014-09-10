@@ -34,6 +34,8 @@ abstract class Snapshot implements SnapshotInterface
 
     protected $url;
 
+    protected $customUrl;
+
     protected $enabled;
 
     protected $publicationDateStart;
@@ -396,6 +398,22 @@ abstract class Snapshot implements SnapshotInterface
     public function getUrl()
     {
         return $this->url;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setCustomUrl($customUrl)
+    {
+        $this->customUrl = $customUrl;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCustomUrl()
+    {
+        return $this->customUrl;
     }
 
     /**
