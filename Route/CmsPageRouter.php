@@ -12,6 +12,7 @@ namespace Sonata\PageBundle\Route;
 
 use Symfony\Cmf\Component\Routing\ChainedRouterInterface;
 use Symfony\Cmf\Component\Routing\VersatileGeneratorInterface;
+use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RouterInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerInterface;
 use Sonata\PageBundle\Model\SiteInterface;
@@ -102,7 +103,7 @@ class CmsPageRouter implements ChainedRouterInterface
     /**
      * {@inheritdoc}
      */
-    public function generate($name, $parameters = array(), $absolute = false)
+    public function generate($name, $parameters = array(), $referenceType = self::ABSOLUTE_PATH)
     {
         try {
             $url = false;
@@ -112,11 +113,11 @@ class CmsPageRouter implements ChainedRouterInterface
             }
 
             if ($name instanceof PageInterface) {
-                $url = $this->generateFromPage($name, $parameters, $absolute);
+                $url = $this->generateFromPage($name, $parameters, $referenceType);
             }
 
             if ($this->isPageSlug($name)) {
-                $url = $this->generateFromPageSlug($parameters, $absolute);
+                $url = $this->generateFromPageSlug($parameters, $referenceType);
             }
 
             if ($url === false) {
@@ -186,19 +187,19 @@ class CmsPageRouter implements ChainedRouterInterface
     /**
      * Generates an URL from a Page object
      *
-     * @param PageInterface $page       Page object
-     * @param array         $parameters An array of parameters
-     * @param boolean       $absolute   Whether to generate an absolute path or not
+     * @param PageInterface $page          Page object
+     * @param array         $parameters    An array of parameters
+     * @param bool|string   $referenceType The type of reference to be generated (one of the constants)
      *
      * @return string
      *
      * @throws \RuntimeException
      */
-    protected function generateFromPage(PageInterface $page, array $parameters = array(), $absolute = false)
+    protected function generateFromPage(PageInterface $page, array $parameters = array(), $referenceType = self::ABSOLUTE_PATH)
     {
         // hybrid pages use, by definition, the default routing mechanism
         if ($page->isHybrid()) {
-            return $this->router->generate($page->getRouteName(), $parameters, $absolute);
+            return $this->router->generate($page->getRouteName(), $parameters, $referenceType);
         }
 
         $url = $this->getUrlFromPage($page);
@@ -207,20 +208,20 @@ class CmsPageRouter implements ChainedRouterInterface
             throw new \RuntimeException(sprintf('Page "%d" has no url or customUrl.', $page->getId()));
         }
 
-        return $this->decorateUrl($url, $parameters, $absolute);
+        return $this->decorateUrl($url, $parameters, $referenceType);
     }
 
     /**
      * Generates an URL for a page slug
      *
-     * @param array $parameters An array of parameters
-     * @param bool  $absolute   Whether to generate an absolute path or not
+     * @param array       $parameters    An array of parameters
+     * @param bool|string $referenceType The type of reference to be generated (one of the constants)
      *
      * @return string
      *
      * @throws \RuntimeException
      */
-    protected function generateFromPageSlug(array $parameters = array(), $absolute = false)
+    protected function generateFromPageSlug(array $parameters = array(), $referenceType = self::ABSOLUTE_PATH)
     {
         if (!isset($parameters['path'])) {
             throw new \RuntimeException('Please provide a `path` parameters');
@@ -229,39 +230,43 @@ class CmsPageRouter implements ChainedRouterInterface
         $url = $parameters['path'];
         unset($parameters['path']);
 
-        return $this->decorateUrl($url, $parameters, $absolute);
+        return $this->decorateUrl($url, $parameters, $referenceType);
     }
 
     /**
      * Decorates an URL with url context and query
      *
-     * @param string  $url        Relative URL
-     * @param array   $parameters An array of parameters
-     * @param boolean $absolute   Whether to generate an absolute path or not
+     * @param string      $url           Relative URL
+     * @param array       $parameters    An array of parameters
+     * @param bool|string $referenceType The type of reference to be generated (one of the constants)
      *
      * @return string
      *
      * @throws \RuntimeException
      */
-    protected function decorateUrl($url, array $parameters = array(), $absolute = false)
+    protected function decorateUrl($url, array $parameters = array(), $referenceType = self::ABSOLUTE_PATH)
     {
         if (!$this->context) {
             throw new \RuntimeException('No context associated to the CmsPageRouter');
         }
 
-        $url = sprintf('%s%s', $this->context->getBaseUrl(), $url);
-
-        if ($absolute && $this->context->getHost()) {
-            $scheme = $this->context->getScheme();
-
+        $schemeAuthority = '';
+        if ($this->context->getHost() && (self::ABSOLUTE_URL === $referenceType || self::NETWORK_PATH === $referenceType)) {
             $port = '';
-            if ('http' === $scheme && 80 != $this->context->getHttpPort()) {
-                $port = ':'.$this->context->getHttpPort();
-            } elseif ('https' === $scheme && 443 != $this->context->getHttpsPort()) {
-                $port = ':'.$this->context->getHttpsPort();
+            if ('http' === $this->context->getScheme() && 80 != $this->context->getHttpPort()) {
+                $port = sprintf(':%s', $this->context->getHttpPort());
+            } elseif ('https' === $this->context->getScheme() && 443 != $this->context->getHttpsPort()) {
+                $port = sprintf(':%s', $this->context->getHttpsPort());
             }
 
-            $url = $scheme.'://'.$this->context->getHost().$port.$url;
+            $schemeAuthority = self::NETWORK_PATH === $referenceType ? '//' : sprintf('%s://', $this->context->getScheme());
+            $schemeAuthority = sprintf('%s%s%s', $schemeAuthority, $this->context->getHost(), $port);
+        }
+
+        if (self::RELATIVE_PATH === $referenceType) {
+            $url = $this->getRelativePath($this->context->getPathInfo(), $url);
+        } else {
+            $url = sprintf('%s%s%s', $schemeAuthority, $this->context->getBaseUrl(), $url);
         }
 
         if (count($parameters) > 0) {
@@ -269,6 +274,18 @@ class CmsPageRouter implements ChainedRouterInterface
         }
 
         return $url;
+    }
+    /**
+     * Returns the target path as relative reference from the base path.
+     *
+     * @param string $basePath   The base path
+     * @param string $targetPath The target path
+     *
+     * @return string The relative target path
+     */
+    protected function getRelativePath($basePath, $targetPath)
+    {
+        return UrlGenerator::getRelativePath($basePath, $targetPath);
     }
 
     /**

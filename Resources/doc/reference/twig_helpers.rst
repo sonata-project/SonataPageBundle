@@ -8,9 +8,13 @@ Render a page url
 
 .. code-block:: jinja
 
-    {{ path(page) }} => /index.php/url/to/url
+    {{ path(page) }} => /absolute/path/to/url
 
-    {{ path(page, true) }} => http://sonata-project.org/index.php/url/to/url
+    {{ path(page, {}, true) }} => ../relative/path/to/url
+
+    {{ url(page) }} => http://sonata-project.org/absolute/url/to/url
+
+    {{ url(page, {}, true) }} => //sonata-project.org/network/path/to/url
 
 Render a block url to render it in AJAX (given we have a block id = 1 used on a page id = 2)
 
