@@ -62,29 +62,44 @@ With this strategy it is possible to handle sites like :
 
 
 This strategy requires a dedicated ``Request`` object. So you need to alter the
-front controller to use the one provided by the ``PageBundle``. To do so, open
-files: app.php and app_dev.php and change the ``use`` statement to ::
+front controller to use the one provided by the ``PageBundle``. To do so, open files: app.php and app_dev.php and edit the ``createFromGlobals`` statement 
 
-    use Sonata\PageBundle\Request\SiteRequest as Request;
+First, add the ``use`` statement ::
+
+   use Sonata\PageBundle\Request\RequestFactory;
+
+Then you should remplace ::
+
+   $request = Request::createFromGlobals();
+
+With ::
+
+   RequestFactory::createFromGlobals('host_with_path');
+
+Be sure to adapt the parameter 'host_with_path'
 
 Working file example:
 
 .. code-block:: php
 
     <?php
-    require_once __DIR__ . '/../app/bootstrap.php.cache';
-    require_once __DIR__ . '/../app/AppKernel.php';
+     use Sonata\PageBundle\Request\RequestFactory;
+     use Symfony\Component\ClassLoader\ApcClassLoader;
+     use Symfony\Component\HttpFoundation\Request;
 
-    use Sonata\PageBundle\Request\RequestFactory;
+     $loader = require_once __DIR__.'/../app/bootstrap.php.cache';
 
-    $request = RequestFactory::createFromGlobals('host_with_path');
+     require_once __DIR__.'/../app/AppKernel.php';
 
-    $kernel = new AppKernel('prod', false);
-
-    $response = $kernel->handle($request);
-    $response->send();
-
-    $kernel->terminate($request, $response);
+     $kernel = new AppKernel('prod', false);
+     $kernel->loadClassCache();
+     Request::enableHttpMethodParameterOverride();
+     
+     $request = RequestFactory::createFromGlobals('host_with_path');
+     
+     $response = $kernel->handle($request);
+     $response->send();
+     $kernel->terminate($request, $response);
 
 The last action is to configure the ``sonata_page`` section as:
 
@@ -93,6 +108,7 @@ The last action is to configure the ``sonata_page`` section as:
     sonata_page:
         multisite: host_with_path
         [...]
+
 
 And that's it!
 
