@@ -593,7 +593,10 @@
 
                 var blockType = $blockTypeSelectorSelect.val();
                 $.ajax({
-                    url:     blockTypeSelectorUrl + '?type=' + blockType,
+                    url:     blockTypeSelectorUrl,
+                    data:    {
+                        type: blockType
+                    },
                     success: function (resp) {
                         $blockTypeSelectorLoader.hide();
 

@@ -11,7 +11,7 @@
             {% endfor %}
         </select>
         <a class="btn btn-action btn-small page-composer__block-type-selector__confirm"
-           href="{{ path('admin_sonata_page_page_block_create', { 'id': page.id }) }}"
+           href="{{ admin.generateObjectUrl('sonata.page.admin.block.create', page) }}"
         ><i class="fa fa-plus"></i></a>
         <span class="page-composer__block-type-selector__loader">{{ 'loading'|trans({}, 'SonataPageBundle') }}</span>
 
@@ -26,7 +26,7 @@
                 data-block-id="{{ child.id }}" data-parent-block-id="{{ container.id }}"
             >
                 <a class="page-composer__container__child__edit"
-                   href="{{ path('admin_sonata_page_block_edit', { 'id': child.id }) }}"
+                   href="{{ admin_pool.getAdminByAdminCode('sonata.page.admin.block').generateUrl('edit', { 'id': child.id }) }}"
                 >
                     <h4>{{ child.name|default(attribute(blockServices, child.type).name) }}</h4>
                     <small>{{ attribute(blockServices, child.type).name }}</small>
@@ -37,7 +37,7 @@
                 </a>
 
                 <div class="page-composer__container__child__remove">
-                    <a class="badge" href="{{ path('admin_sonata_page_block_delete', { 'id': child.id }) }}">{{ 'composer.remove'|trans({}, 'SonataPageBundle') }} <i class="fa fa-times"></i> </a>
+                    <a class="badge" href="{{ admin_pool.getAdminByAdminCode('sonata.page.admin.block').generateUrl('delete', { 'id': child.id }) }}">{{ 'composer.remove'|trans({}, 'SonataPageBundle') }} <i class="fa fa-times"></i> </a>
                     <span class="page-composer__container__child__remove__confirm">
                         {{ 'composer.remove.confirm'|trans({}, 'SonataPageBundle') }} <span class="yes">{{ 'yes'|trans({}, 'SonataPageBundle') }}</span> <span class="cancel">{{ 'cancel'|trans({}, 'SonataPageBundle') }}</span>
                     </span>
