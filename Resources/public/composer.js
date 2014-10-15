@@ -479,7 +479,13 @@
                             event.$block.removeClass('page-composer__container__child--expanded');
                             $container.empty();
                         } else {
+                            $container.html(resp);
 
+                            var editFormEvent = $.Event('blockeditformloaded');
+                            editFormEvent.$block = event.$block;
+                            $(self).trigger(editFormEvent);
+
+                            applyAdmin($container);
                         }
                     }
                 });
