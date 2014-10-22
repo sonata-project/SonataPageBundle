@@ -14,9 +14,7 @@ use Sonata\PageBundle\CmsManager\DecoratorStrategy;
 use Sonata\PageBundle\Tests\Model\Page;
 use Sonata\PageBundle\Route\RoutePageGenerator;
 
-use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\StreamOutput;
-use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
@@ -45,7 +43,7 @@ class RoutePageGeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateRoutes()
     {
-        $site = $this->getMock('Sonata\PageBundle\Model\SiteInterface');
+        $site = $this->getSiteMock();
 
         $tmpFile = tmpfile();
 
@@ -61,10 +59,29 @@ class RoutePageGeneratorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertRegExp('/CREATE(.*)route1(.*)\/first_custom_route/', $output);
         $this->assertRegExp('/CREATE(.*)route1(.*)\/first_custom_route/', $output);
+        $this->assertRegExp('/CREATE(.*)test_hybrid_page_with_good_host(.*)\/third_custom_route/', $output);
         $this->assertRegExp('/CREATE(.*)404/', $output);
         $this->assertRegExp('/CREATE(.*)500/', $output);
 
+        $this->assertRegExp('/DISABLE(.*)test_hybrid_page_with_bad_host(.*)\/fourth_custom_route/', $output);
+
+        $this->assertRegExp('/UPDATE(.*)test_hybrid_page_with_bad_host(.*)\/fourth_custom_route/', $output);
+
         $this->assertRegExp('/ERROR(.*)test_hybrid_page_not_exists/', $output);
+    }
+
+    /**
+     * Returns a mock of a site model
+     *
+     * @return \Sonata\PageBundle\Model\SiteInterface
+     */
+    protected function getSiteMock()
+    {
+        $site = $this->getMock('Sonata\PageBundle\Model\SiteInterface');
+        $site->expects($this->any())->method('getHost')->will($this->returnValue('sonata-project.org'));
+        $site->expects($this->any())->method('getId')->will($this->returnValue(1));
+
+        return $site;
     }
 
     /**
@@ -77,6 +94,20 @@ class RoutePageGeneratorTest extends \PHPUnit_Framework_TestCase
         $collection = new RouteCollection();
         $collection->add('route1', new Route('first_custom_route'));
         $collection->add('route2', new Route('second_custom_route'));
+        $collection->add('test_hybrid_page_with_good_host', new Route(
+            'third_custom_route',
+            array(),
+            array('tld' => 'fr|org'),
+            array(),
+            'sonata-project.{tld}'
+        ));
+        $collection->add('test_hybrid_page_with_bad_host', new Route(
+            'fourth_custom_route',
+            array(),
+            array(),
+            array(),
+            'sonata-project.com'
+        ));
 
         $router = $this->getMockBuilder('Symfony\Component\Routing\Router')
             ->disableOriginalConstructor()
@@ -102,10 +133,23 @@ class RoutePageGeneratorTest extends \PHPUnit_Framework_TestCase
 
         $pageManager->expects($this->any())->method('create')->will($this->returnValue(new Page()));
 
-        $hybridPage= new Page();
-        $hybridPage->setRouteName('test_hybrid_page_not_exists');
+        $hybridPageNotExists = new Page();
+        $hybridPageNotExists->setRouteName('test_hybrid_page_not_exists');
 
-        $pageManager->expects($this->any())->method('getHybridPages')->will($this->returnValue(array($hybridPage)));
+        $hybridPageWithGoodHost = new Page();
+        $hybridPageWithGoodHost->setRouteName('test_hybrid_page_with_good_host');
+
+        $hybridPageWithBadHost = new Page();
+        $hybridPageWithBadHost->setRouteName('test_hybrid_page_with_bad_host');
+
+        $pageManager->expects($this->at(12))
+            ->method('findOneBy')
+            ->with($this->equalTo(array('routeName' => 'test_hybrid_page_with_bad_host', 'site' => 1)))
+            ->will($this->returnValue($hybridPageWithBadHost));
+
+        $pageManager->expects($this->any())
+            ->method('getHybridPages')
+            ->will($this->returnValue(array($hybridPageNotExists, $hybridPageWithGoodHost, $hybridPageWithBadHost)));
 
         $decoratorStrategy = new DecoratorStrategy(array(), array(), array());
 

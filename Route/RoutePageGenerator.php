@@ -14,7 +14,6 @@ namespace Sonata\PageBundle\Route;
 use Sonata\PageBundle\Model\PageInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Routing\RouterInterface;
-use Sonata\PageBundle\CmsManager\CmsPageManager;
 use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 use Sonata\PageBundle\Listener\ExceptionListener;
 use Sonata\PageBundle\Model\PageManagerInterface;
@@ -112,7 +111,14 @@ class RoutePageGenerator
                 'site'      => $site->getId()
             ));
 
-            if (!$this->decoratorStrategy->isRouteNameDecorable($name) || !$this->decoratorStrategy->isRouteUriDecorable($route->getPath())) {
+            $routeHostRegex = $route->compile()->getHostRegex();
+
+            if (
+                !$this->decoratorStrategy->isRouteNameDecorable($name)
+                || !$this->decoratorStrategy->isRouteUriDecorable($route->getPath())
+                || null !== $routeHostRegex
+                && !preg_match($routeHostRegex, $site->getHost())
+            ) {
                 if ($page) {
                     $page->setEnabled(false);
 
@@ -148,7 +154,7 @@ class RoutePageGenerator
 
             $this->pageManager->save($page);
 
-            $this->writeln($output, sprintf('  <info>%s</info> % -50s %s', $update ? 'UPDATE ' : 'CREATE ', $name, $route->getPattern()));
+            $this->writeln($output, sprintf('  <info>%s</info> % -50s %s', $update ? 'UPDATE ' : 'CREATE ', $name, $route->getPath()));
         }
 
         // Iterate over error pages
@@ -171,7 +177,6 @@ class RoutePageGenerator
                 );
 
                 $page = $this->pageManager->create($params);
-
 
                 $this->writeln($output, sprintf('  <info>%s</info> % -50s %s', 'CREATE ', $name, ''));
             }
