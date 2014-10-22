@@ -51,7 +51,9 @@ class Configuration implements ConfigurationInterface
                 ))
                 ->prototype('scalar')->end()
             ->end()
-
+            ->scalarNode('slugify_service')
+                ->defaultValue('sonata.core.slugify.native') # you should use: sonata.core.slugify.cocur
+            ->end()
             ->arrayNode('ignore_routes')
                 ->defaultValue(array(
                     'sonata_page_cache_esi',

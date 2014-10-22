@@ -35,4 +35,19 @@ class SonataPageBundle extends Bundle
         $container->addCompilerPass(new GlobalVariablesCompilerPass());
         $container->addCompilerPass(new PageServiceCompilerPass());
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function boot()
+    {
+        $container = $this->container;
+        $class     = $this->container->getParameter('sonata.page.page.class');
+
+        call_user_func(array($class, 'setSlugifyMethod'), function($text) use ($container) {
+            $service = $container->get($container->getParameter('sonata.page.slugify_service'));
+
+            return $service->slugify($text);
+        });
+    }
 }

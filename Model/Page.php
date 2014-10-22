@@ -82,6 +82,24 @@ abstract class Page implements PageInterface
 
     protected $edited;
 
+    protected static $slugifyMethod;
+
+    /**
+     * @return mixed
+     */
+    public static function getSlugifyMethod()
+    {
+        return self::$slugifyMethod;
+    }
+
+    /**
+     * @param mixed $slugifyMethod
+     */
+    public static function setSlugifyMethod(\Closure $slugifyMethod)
+    {
+        self::$slugifyMethod = $slugifyMethod;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -678,24 +696,29 @@ abstract class Page implements PageInterface
      */
     public static function slugify($text)
     {
-        // replace non letter or digits by -
-        $text = preg_replace('~[^\\pL\d]+~u', '-', $text);
+        // this code is for BC
+        if (!self::$slugifyMethod) {
+            // replace non letter or digits by -
+            $text = preg_replace('~[^\\pL\d]+~u', '-', $text);
 
-        // trim
-        $text = trim($text, '-');
+            // trim
+            $text = trim($text, '-');
 
-        // transliterate
-        if (function_exists('iconv')) {
-            $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+            // transliterate
+            if (function_exists('iconv')) {
+                $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+            }
+
+            // lowercase
+            $text = strtolower($text);
+
+            // remove unwanted characters
+            $text = preg_replace('~[^-\w]+~', '', $text);
+
+            return $text;
         }
 
-        // lowercase
-        $text = strtolower($text);
-
-        // remove unwanted characters
-        $text = preg_replace('~[^-\w]+~', '', $text);
-
-        return $text;
+        return call_user_func(self::$slugifyMethod, $text);
     }
 
     /**

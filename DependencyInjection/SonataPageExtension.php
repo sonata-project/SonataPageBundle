@@ -69,6 +69,7 @@ class SonataPageExtension extends Extension
         $this->configureClassesToCompile();
 
         $container->setParameter('sonata.page.assets', $config['assets']);
+        $container->setParameter('sonata.page.slugify_service', $config['slugify_service']);
 
         $container->setParameter('sonata.page.is_inline_edition_on', $config['is_inline_edition_on']);
         $container->getDefinition('sonata.page.decorator_strategy')

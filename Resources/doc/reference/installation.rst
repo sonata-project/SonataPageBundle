@@ -60,7 +60,8 @@ Before we can go on with generating our Application files trough the ``EasyExten
 .. code-block:: yaml
 
     sonata_page:
-        multisite: host
+        slugify_method:   sonata.core.slugify.cocur # old BC value is sonata.core.slugify.native
+        multisite:        host
         default_template: default # template key from templates section, used as default for
         templates:
             default:  { path: 'SonataPageBundle::layout.html.twig',          name: 'default' }
