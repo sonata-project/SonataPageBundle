@@ -67,6 +67,10 @@ Before we can go on with generating our Application files trough the ``EasyExten
             default:  { path: 'SonataPageBundle::layout.html.twig',          name: 'default' }
             2columns: { path: 'SonataPageBundle::2columns_layout.html.twig', name: '2 columns layout' }
 
+        # Generates a snapshot when a page is saved (from the admin)
+        direct_publication: false # or %kernel.debug% if you want to publish in dev mode (but not in prod)
+
+
 Configuration
 -------------
 To use the ``PageBundle``, add the following lines to your application

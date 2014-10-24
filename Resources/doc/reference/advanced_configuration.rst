@@ -24,6 +24,8 @@ Full configuration options (config.yml file):
             - ^(.*)admin(.*)   # ignore admin route, ie route containing 'admin'
             - ^_(.*)           # ignore symfony routes
 
+        # Generates a snapshot when a page is saved (from the admin)
+        direct_publication: false # or %kernel.debug% if you want to publish in dev mode (but not in prod)
         ignore_routes:
             - sonata_page_cache_esi
             - sonata_page_cache_ssi

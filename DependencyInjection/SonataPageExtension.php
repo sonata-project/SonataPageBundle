@@ -49,6 +49,10 @@ class SonataPageExtension extends Extension
 
         if (isset($bundles['SonataAdminBundle'])) {
             $loader->load('admin.xml');
+
+            if (!$config['direct_publication']) {
+                $container->removeDefinition('sonata.page.admin.extension.snapshot');
+            }
         }
 
         $loader->load('block.xml');

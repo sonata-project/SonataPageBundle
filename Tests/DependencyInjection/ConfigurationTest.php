@@ -109,7 +109,8 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                 'site'     => 'Application\\Sonata\\PageBundle\\Entity\\Site',
             ),
 
-            'slugify_service' => 'sonata.core.slugify.native'
+            'slugify_service' => 'sonata.core.slugify.native',
+            'direct_publication' => false,
         );
 
         $this->assertEquals($expected, $config);
@@ -188,7 +189,8 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                 'site'     => 'Application\\Sonata\\PageBundle\\Entity\\Site',
             ),
 
-            'slugify_service' => 'sonata.core.slugify.native'
+            'slugify_service' => 'sonata.core.slugify.native',
+            'direct_publication' => false,
         );
 
         $this->assertEquals($expected, $config);

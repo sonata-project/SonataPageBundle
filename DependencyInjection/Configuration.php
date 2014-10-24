@@ -115,8 +115,6 @@ class Configuration implements ConfigurationInterface
                 ->end()
             ->end()
 
-
-
             ->arrayNode('templates')
                 ->isRequired()
                 ->useAttributeAsKey('id')
@@ -231,6 +229,9 @@ class Configuration implements ConfigurationInterface
                     ->scalarNode('block')->defaultValue('Application\\Sonata\\PageBundle\\Entity\\Block')->end()
                     ->scalarNode('site')->defaultValue('Application\\Sonata\\PageBundle\\Entity\\Site')->end()
                 ->end()
+            ->end()
+            ->booleanNode('direct_publication')
+                ->defaultValue(false)
             ->end()
         ;
 

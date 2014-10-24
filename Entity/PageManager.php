@@ -141,9 +141,7 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
     }
 
     /**
-     * @param \Sonata\PageBundle\Model\PageInterface $page
-     *
-     * @return void
+     * {@inheritdoc}
      */
     public function fixUrl(PageInterface $page)
     {
