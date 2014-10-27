@@ -33,11 +33,21 @@
                         '<span class="fa fa-chevron-up"></span>' +
                     '</span>' +
                 '</a>' +
-                '<div class="page-composer__container__child__remove">' +
-                    '<a class="badge" href="%remove_url%">remove</a>' +
-                    '<span class="page-composer__container__child__remove__confirm">' +
-                        'confirm delete ? <span class="yes">yes</span> <span class="cancel">cancel</span>' +
-                    '</span>' +
+                '<div class="page-composer__container__child__right">' +
+                    '<div class="page-composer__container__child__remove">' +
+                        '<a class="badge" href="%remove_url%">Remove <i class="fa fa-times"></i> </a>' +
+                        '<span class="page-composer__container__child__remove__confirm">' +
+                            'Confirm Delete? <span class="yes">yes</span> <span class="cancel">cancel</span>' +
+                        '</span>' +
+                    '</div>' +
+
+                    '<div class="page-composer__container__child__switch-enabled" data-label-enable="enable" data-label-disable="disable">' +
+                        '<a class="badge bg-yellow" href="%switchenable_url%">Disable</a>' +
+                    '</div>' +
+
+                    '<div class="page-composer__container__child__enabled">' +
+                        '<small class="badge bg-green"><i class="fa fa-check"></i></small>' +
+                    '</div>' +
                 '</div>' +
                 '<div class="page-composer__container__child__content"></div>' +
                 '<div class="page-composer__container__child__loader">' +
@@ -130,17 +140,17 @@
          * @returns {boolean}
          */
         isFormControlTypeByName: function (name, type) {
-            
+
             if (typeof name != 'undefined') {
-                
+
                var position = name.length,
                search = '[' + type + ']',
                lastIndex = name.lastIndexOf(search);
                position = position - search.length;
-               
+
                return lastIndex !== -1 && lastIndex === position;
             }
-            
+
             return false;
         },
 
@@ -158,10 +168,11 @@
          */
         handleBlockCreated: function (event) {
             var content = this.renderTemplate('childBlock', {
-                'name':       event.blockName,
-                'type':       event.blockType,
-                'edit_url':   this.getRouteUrl('block_edit',   { 'BLOCK_ID': event.blockId }),
-                'remove_url': this.getRouteUrl('block_remove', { 'BLOCK_ID': event.blockId })
+                'name':             event.blockName,
+                'type':             event.blockType,
+                'edit_url':         this.getRouteUrl('block_edit',          { 'BLOCK_ID': event.blockId }),
+                'remove_url':       this.getRouteUrl('block_remove',        { 'BLOCK_ID': event.blockId }),
+                'switchenable_url': this.getRouteUrl('block_switch_enable', { 'BLOCK_ID': event.blockId })
             });
 
             event.$childBlock.attr('data-block-id',        event.blockId);
@@ -333,8 +344,14 @@
                 $containerChildren = this.$dynamicArea.find('.page-composer__container__children'),
                 $container         = this.$dynamicArea.find('.page-composer__container__main-edition-area');
 
-            var $childBlock = $('<li class="page-composer__container__child"></li>');
-            $childBlock.html(event.response);
+            var $childBlock = $(['<li class="page-composer__container__child">',
+                '<a class="page-composer__container__child__edit">',
+                    '<h4 class="page-composer__container__child__name">',
+                        '<input type="text" class="page-composer__container__child__name__input" />',
+                    '</h4>',
+                '</a>',
+            '</li>'].join(''));
+            $childBlock.append(event.response);
             $containerChildren.append($childBlock);
 
             var $form         = $childBlock.find('form'),
@@ -342,6 +359,7 @@
                 formMethod    = $form.attr('method'),
                 $formControls = $form.find('input, select, textarea'),
                 $formActions  = $form.find('.form-actions'),
+                $childName    = this.$dynamicArea.find('.page-composer__container__child__name'),
                 $nameFormControl,
                 $parentFormControl,
                 $positionFormControl;
@@ -361,6 +379,9 @@
 
                 if (self.isFormControlTypeByName(formControlName, 'name')) {
                     $nameFormControl = $formControl;
+                    $childName.find('.page-composer__container__child__name__input').bind("propertychange keyup input paste", function (e) {
+                        $nameFormControl.val($(this).val());
+                    });
                 } else if (self.isFormControlTypeByName(formControlName, 'parent')) {
                     $parentFormControl = $formControl;
                     $parentFormControl.val(event.containerId);
@@ -422,10 +443,15 @@
          */
         toggleChildBlock: function ($childBlock) {
             var expandedClass = 'page-composer__container__child--expanded',
-                $children     = this.$dynamicArea.find('.page-composer__container__child');
+                $children     = this.$dynamicArea.find('.page-composer__container__child'),
+                $childName    = $childBlock.find('.page-composer__container__child__name'),
+                $nameInput    = $childName.find('.page-composer__container__child__name__input');
 
             if ($childBlock.hasClass(expandedClass)) {
                 $childBlock.removeClass(expandedClass);
+                if ($childName.has('.page-composer__container__child__name__input')) {
+                    $childName.html($nameInput.val());
+                }
             } else {
                 $children.not($childBlock).removeClass(expandedClass);
                 $childBlock.addClass(expandedClass);
@@ -455,6 +481,15 @@
 
                 if (self.isFormControlTypeByName(formControlName, 'name')) {
                     $nameFormControl = $formControl;
+                    $title.html('<input type="text" class="page-composer__container__child__name__input" value="' + $title.text() + '">');
+                    $input = $title.find('input');
+                    $input.bind("propertychange keyup input paste", function (e) {
+                        $nameFormControl.val($input.val());
+                    });
+                    $input.on('click', function (e) {
+                        e.stopPropagation();
+                        e.preventDefault();
+                    });
                 } else if (self.isFormControlTypeByName(formControlName, 'position')) {
                     $positionFormControl = $formControl;
                     $positionFormControl.closest('.form-group').hide();
@@ -511,6 +546,16 @@
                 $removeCancel  = $removeConfirm.find('.cancel'),
                 $removeYes     = $removeConfirm.find('.yes'),
                 removeUrl      = $removeButton.attr('href'),
+                $switchEnabled = $childBlock.find('.page-composer__container__child__switch-enabled'),
+                $switchLblEnbl = $switchEnabled.attr('data-label-enable'),
+                $switchLblDsbl = $switchEnabled.attr('data-label-disable'),
+                $switchButton  = $switchEnabled.find('a'),
+                $switchBtnIcon = $switchButton.find('i'),
+                $switchLabel   = $childBlock.find('.page-composer__container__child__enabled'),
+                $switchLblSm   = $switchLabel.find('small'),
+                $switchLblIcon = $switchLabel.find('i'),
+                switchUrl      = $switchButton.attr('href'),
+                enabled        = parseInt($childBlock.attr('data-parent-block-enabled'), 1);
                 parentId       = parseInt($childBlock.attr('data-parent-block-id'), 10);
 
             $edit.click(function (e) {
@@ -536,6 +581,54 @@
                         applyAdmin($container);
                         $loader.hide();
                         self.toggleChildBlock($childBlock);
+                    }
+                });
+            });
+
+            $switchButton.on('click', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: switchUrl,
+                    type: 'POST',
+                    data: {
+                        '_sonata_csrf_token': self.csrfTokens.switchEnabled,
+                        'enabled': !enabled
+                    },
+                    success: function (resp) {
+                        if (resp.status && resp.status === 'OK') {
+                            $childBlock.attr('data-parent-block-enabled', !enabled);
+                            enabled = !enabled;
+                            $switchButton.toggleClass('bg-yellow bg-green');
+                            $switchBtnIcon.toggleClass('fa-toggle-off fa-toggle-on');
+
+                            if (enabled) {
+                                $switchButton.html($switchLblDsbl);
+                            } else {
+                                $switchButton.html($switchLblEnbl);
+                            }
+
+                            $switchLblSm.toggleClass('bg-yellow bg-green');
+                            $switchLblIcon.toggleClass('fa-times fa-check');
+
+                            if ($childBlock.has('form')) {
+                                var $form   = $childBlock.find('form'),
+                                    $inputs = $form.find('input');
+
+                                $inputs.each(function () {
+                                    var $formControl    = $(this),
+                                        formControlName = $formControl.attr('name');
+
+                                    if (self.isFormControlTypeByName(formControlName, 'enabled')) {
+                                        $formControl.val(parseInt(!enabled));
+                                    }
+                                });
+                            }
+                        } else {
+                            self.containerNotification('an error occured while saving block enabled status', 'error', true);
+                        }
+                    },
+                    error: function () {
+                        self.containerNotification('an error occured while saving block enabled status', 'error', true);
                     }
                 });
             });

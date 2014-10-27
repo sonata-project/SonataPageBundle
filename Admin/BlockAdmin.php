@@ -56,7 +56,6 @@ class BlockAdmin extends Admin
         $collection->add('savePosition', 'save-position');
         $collection->add('view', $this->getRouterIdParameter().'/view');
         $collection->add('switchParent', 'switch-parent');
-
     }
 
     /**
@@ -67,7 +66,7 @@ class BlockAdmin extends Admin
         $listMapper
             ->addIdentifier('type')
             ->add('name')
-            ->add('enabled')
+            ->add('enabled', null, array('editable' => true))
             ->add('updatedAt')
             ->add('position')
         ;
@@ -111,17 +110,29 @@ class BlockAdmin extends Admin
             }
         }
 
-        $formMapper
-            ->with($this->trans('form.field_group_general'))
-                ->add('name')
-            ->end();
+        $isComposer = $this->hasRequest() ? $this->getRequest()->get('composer', false) : false;
+        $generalGroupOptions = $optionsGroupOptions = array();
+        if ($isComposer) {
+            $generalGroupOptions['class'] = 'hidden';
+            $optionsGroupOptions['name']  = '';
+        }
+
+        $formMapper->with($this->trans('form.field_group_general'), $generalGroupOptions);
+
+        if (!$isComposer) {
+            $formMapper->add('name');
+        } else {
+            $formMapper->add('name', 'hidden');
+        }
+
+        $formMapper->end();
 
         $isContainerRoot = $block && in_array($block->getType(), array('sonata.page.block.container', 'sonata.block.service.container')) && !$this->hasParentFieldDescription();
         $isStandardBlock = $block && !in_array($block->getType(), array('sonata.page.block.container', 'sonata.block.service.container')) && !$this->hasParentFieldDescription();
 
         if ($isContainerRoot || $isStandardBlock) {
 
-            $formMapper->with($this->trans('form.field_group_general'));
+            $formMapper->with($this->trans('form.field_group_general'), $generalGroupOptions);
 
             $service = $this->blockManager->get($block);
 
@@ -144,7 +155,11 @@ class BlockAdmin extends Admin
                 ));
             }
 
-            $formMapper->add('enabled');
+            if ($isComposer) {
+                $formMapper->add('enabled', 'hidden', array('data' => true));
+            } else {
+                $formMapper->add('enabled');
+            }
 
             if ($isStandardBlock) {
                 $formMapper->add('position', 'integer');
@@ -152,7 +167,7 @@ class BlockAdmin extends Admin
 
             $formMapper->end();
 
-            $formMapper->with($this->trans('form.field_group_options'));
+            $formMapper->with($this->trans('form.field_group_options'), $optionsGroupOptions);
 
             if ($block->getId() > 0) {
                 $service->buildEditForm($formMapper, $block);
@@ -165,7 +180,7 @@ class BlockAdmin extends Admin
         } else {
 
             $formMapper
-                ->with($this->trans('form.field_group_options'))
+                ->with($this->trans('form.field_group_options'), $optionsGroupOptions)
                     ->add('type', 'sonata_block_service_choice', array(
                         'context' => 'sonata_page_bundle'
                     ))

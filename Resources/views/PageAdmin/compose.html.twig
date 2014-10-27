@@ -142,12 +142,13 @@ sonata_page:
             <script>
                 $(document).ready(function () {
                     var composer = new PageComposer({{ page.id }});
-                    
+
                     window.SonataPageComposer  = composer;
-                    
+
                     composer.csrfTokens = {{ csrfTokens|json_encode()|raw }};
                     composer.setRoute('block_edit',            "{{ admin_pool.getAdminByAdminCode('sonata.page.admin.block').generateUrl('edit',   { 'id': 'BLOCK_ID' }) }}");
                     composer.setRoute('block_remove',          "{{ admin_pool.getAdminByAdminCode('sonata.page.admin.block').generateUrl('delete', { 'id': 'BLOCK_ID' }) }}");
+                    composer.setRoute('block_switch_enable',   "{{ url('sonata_admin_set_object_field_value', {'objectId': 'BLOCK_ID', 'context': 'list', 'field': 'enabled', 'code': 'sonata.page.admin.block' }) }}");
                     composer.setRoute('save_blocks_positions', "{{ admin_pool.getAdminByAdminCode('sonata.page.admin.block').generateUrl('savePosition') }}");
                     composer.setRoute('block_switch_parent',   "{{ admin_pool.getAdminByAdminCode('sonata.page.admin.block').generateUrl('switchParent') }}");
                 });
