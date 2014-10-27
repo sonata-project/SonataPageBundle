@@ -287,12 +287,12 @@ class PageAdmin extends Admin
 
         $menu->addChild(
             $this->trans('sidemenu.link_list_blocks'),
-            array('uri' => $admin->generateUrl('sonata.page.admin.block.list', array('id' => $id)))
+            array('uri' => $admin->generateUrl('sonata.page.admin.page|sonata.page.admin.block.list', array('id' => $id)))
         );
-
+        
         $menu->addChild(
             $this->trans('sidemenu.link_list_snapshots'),
-            array('uri' => $admin->generateUrl('sonata.page.admin.snapshot.list', array('id' => $id)))
+            array('uri' => $admin->generateUrl('sonata.page.admin.page|sonata.page.admin.snapshot.list', array('id' => $id)))
         );
 
         if (!$this->getSubject()->isHybrid() && !$this->getSubject()->isInternal()) {
