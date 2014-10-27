@@ -711,6 +711,14 @@
           <source>blocks</source>
           <target>blocks</target>
       </trans-unit>
+      <trans-unit id="177" resname="composer.disable">
+          <source>composer.disable</source>
+          <target>Disable</target>
+      </trans-unit>
+      <trans-unit id="178" resname="composer.enable">
+          <source>composer.enable</source>
+          <target>Enable</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
