@@ -344,15 +344,30 @@
                 $containerChildren = this.$dynamicArea.find('.page-composer__container__children'),
                 $container         = this.$dynamicArea.find('.page-composer__container__main-edition-area');
 
-            var $childBlock = $(['<li class="page-composer__container__child">',
-                '<a class="page-composer__container__child__edit">',
-                    '<h4 class="page-composer__container__child__name">',
-                        '<input type="text" class="page-composer__container__child__name__input" />',
-                    '</h4>',
-                '</a>',
-            '</li>'].join(''));
-            $childBlock.append(event.response);
-            $containerChildren.append($childBlock);
+            if (event.container) {
+                var $childBlock   = event.container,
+                    $childContent = $childBlock.find('.page-composer__container__child__content');
+                $childContent.html(event.response);
+            } else {
+                var $childBlock = $(['<li class="page-composer__container__child">',
+                        '<a class="page-composer__container__child__edit">',
+                            '<h4 class="page-composer__container__child__name">',
+                                '<input type="text" class="page-composer__container__child__name__input" />',
+                            '</h4>',
+                        '</a>',
+                        '<div class="page-composer__container__child__right">',
+                            '<span class="badge">' + event.blockType + '</span>',
+                        '</div>',
+                        '<div class="page-composer__container__child__content">',
+                        '</div>',
+                    '</li>'].join('')),
+                    $childContent = $childBlock.find('.page-composer__container__child__content');
+
+                $childContent.append(event.response);
+                $containerChildren.append($childBlock);
+
+                $childContent.show();
+            }
 
             var $form         = $childBlock.find('form'),
                 formAction    = $form.attr('action'),
@@ -368,7 +383,6 @@
 
             $(document).scrollTo($childBlock, 200);
 
-            $form.parent().append('<span class="badge">' + event.blockType + '</span>');
             $container.show();
 
             // scan form elements to find name/parent/position,
@@ -416,7 +430,7 @@
                 }
 
                 $.ajax({
-                    url:  formAction,
+                    url:  formAction + '&' + $.param({'composer': 1}),
                     data: $form.serialize(),
                     type: formMethod,
                     success: function (resp) {
@@ -428,6 +442,15 @@
                             createdEvent.blockName   = blockName;
                             createdEvent.blockType   = event.blockType;
                             $(self).trigger(createdEvent);
+                        } else {
+                            var loadedEvent = $.Event('blockcreateformloaded');
+                            loadedEvent.response    = resp;
+                            loadedEvent.containerId = event.containerId;
+                            loadedEvent.blockType   = event.blockType;
+                            loadedEvent.container   = $childBlock;
+                            $(self).trigger(loadedEvent);
+
+                            applyAdmin($childContent);
                         }
                     }
                 });
