@@ -63,6 +63,10 @@ class PageAdminController extends Controller
      */
     public function treeAction()
     {
+        if (false === $this->admin->isGranted('LIST')) {
+            throw new AccessDeniedException();
+        }
+
         $sites = $this->get('sonata.page.manager.site')->findBy(array());
         $pageManager = $this->get('sonata.page.manager.page');
 
