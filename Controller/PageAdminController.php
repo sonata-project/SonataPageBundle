@@ -148,7 +148,10 @@ class PageAdminController extends Controller
      */
     public function composeAction()
     {
-        if (false === $this->admin->isGranted('LIST')) {
+        if (
+            false === $this->admin->isGranted('EDIT')
+            || false === $this->get('sonata.page.admin.block')->isGranted('LIST')
+        ) {
             throw new AccessDeniedException();
         }
 
