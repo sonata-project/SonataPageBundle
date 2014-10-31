@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * generated on: Fri Oct 31 2014 14:07:27 GMT+0100 (CET)
- * revision:     de86c7818f4133916359232a38f24b52b30d9f59
+ * generated on: Fri Oct 31 2014 15:06:58 GMT+0100 (CET)
+ * revision:     e97973344259d88e88d88078db248a0eb6198e32
  *
  */
 @charset "UTF-8";
@@ -24,6 +24,9 @@
  | SETUP (colors/sizes…)                                       |
  +-------------------------------------------------------------*/
 .page-composer {
+  /*---------------------------------------------------------------------------+
+   | MAIN CONTENT VIEW (block selector + editable blocks                       |
+   +---------------------------------------------------------------------------*/
   /*---------------------------------------------------------------------------+
    | ORPHAN BLOCKS (without container defined in current template              |
    +---------------------------------------------------------------------------*/ }
@@ -90,6 +93,57 @@
       margin-bottom: 0;
       height: 26px;
       line-height: 26px; }
+  .page-composer__container__view {
+    border-radius: 2px;
+    background-color: #f9f9f9;
+    border: 1px solid #dcdcdc;
+    border-radius: 2px;
+    position: relative; }
+    .page-composer__container__view__header {
+      padding: 10px 15px;
+      margin: 0 !important;
+      font-size: 24px !important;
+      line-height: 1em !important;
+      color: #00a65a !important; }
+    .page-composer__container__view__notice {
+      display: none;
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: #cfc4a7;
+      color: #fff;
+      border-radius: 2px;
+      padding: 3px 9px;
+      font-size: 11px; }
+      .page-composer__container__view__notice.persist {
+        padding-right: 3px; }
+      .page-composer__container__view__notice.success {
+        background: #5cc4a7; }
+      .page-composer__container__view__notice.error {
+        background: #f56954; }
+      .page-composer__container__view__notice .close-notice {
+        display: inline-block;
+        margin-left: 10px;
+        cursor: pointer;
+        background: rgba(0, 0, 0, 0.35);
+        padding: 0 5px;
+        border-radius: 2px; }
+    .page-composer__container__view .nav-tabs {
+      background-color: #f9f9f9;
+      border-bottom: none; }
+      .page-composer__container__view .nav-tabs > li > a {
+        color: #5cc4a7;
+        border: none !important;
+        margin: 0;
+        border-radius: 0; }
+    .page-composer__container__view .tabbable {
+      background: #fff; }
+    .page-composer__container__view .well {
+      margin: 0;
+      box-shadow: none;
+      background: #ededed;
+      border-radius: 0;
+      border: none; }
   .page-composer__orphan-containers {
     background-color: #f9f9f9;
     border: 1px solid #dcdcdc;
@@ -169,74 +223,6 @@
   background: #fff;
   text-decoration: none;
   color: #000; }
-
-/*******************************************\
-
-    Container detailed view
-
-\*******************************************/
-.page-composer__container__view {
-  border-radius: 2px;
-  background-color: #f9f9f9;
-  border: 1px solid #dcdcdc;
-  border-radius: 2px;
-  /*overflow: hidden;*/
-  position: relative; }
-
-.page-composer__container__view__notice {
-  display: none;
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  background: #cfc4a7;
-  color: #fff;
-  border-radius: 2px;
-  padding: 3px 9px;
-  font-size: 11px; }
-
-.page-composer__container__view__notice.persist {
-  padding-right: 3px; }
-
-.page-composer__container__view__notice.success {
-  background: #5cc4a7; }
-
-.page-composer__container__view__notice.error {
-  background: #f56954; }
-
-.page-composer__container__view__notice .close-notice {
-  display: inline-block;
-  margin-left: 10px;
-  cursor: pointer;
-  background: rgba(0, 0, 0, 0.35);
-  padding: 0 5px;
-  border-radius: 2px; }
-
-.page-composer__container__view .nav-tabs {
-  background-color: #f9f9f9;
-  border-bottom: none; }
-
-.page-composer__container__view .nav-tabs > li > a {
-  color: #5cc4a7;
-  border: none !important;
-  margin: 0;
-  border-radius: 0; }
-
-.page-composer__container__view .tabbable {
-  background: #fff; }
-
-.page-composer__container__view .well {
-  margin: 0;
-  box-shadow: none;
-  background: #ededed;
-  border-radius: 0;
-  border: none; }
-
-.page-composer__container__view__header {
-  padding: 10px 15px;
-  margin: 0 !important;
-  font-size: 24px !important;
-  line-height: 1em !important;
-  color: #00a65a !important; }
 
 .page-composer__container__child-count {
   margin-top: 4px;

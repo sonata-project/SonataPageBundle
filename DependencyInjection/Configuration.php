@@ -97,8 +97,7 @@ class Configuration implements ConfigurationInterface
                         ->defaultValue(array(
                                 'bundles/sonataadmin/vendor/bootstrap/dist/css/bootstrap.min.css',
 
-                                'bundles/sonatapage/default.css',
-                                'bundles/sonatapage/page.css',
+                                'bundles/sonatapage/sonata-page.css',
                             ))
                         ->prototype('scalar')->end()
                     ->end()
@@ -108,7 +107,7 @@ class Configuration implements ConfigurationInterface
 
                                 'bundles/sonataadmin/vendor/bootstrap/dist/js/bootstrap.min.js',
 
-                                'bundles/sonatapage/page.js',
+                                'bundles/sonatapage/sonata-page.js',
                             ))
                         ->prototype('scalar')->end()
                     ->end()

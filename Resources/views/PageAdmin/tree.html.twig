@@ -32,11 +32,6 @@ file that was distributed with this source code.
     </ul>
 {% endmacro %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('bundles/sonatapage/tree.css') }}" type="text/css" media="screen" />
-{% endblock %}
-
 {% block tab_menu %}
     {% include 'SonataPageBundle:PageAdmin:list_tab_menu.html.twig' with {
         'mode':        'tree',
