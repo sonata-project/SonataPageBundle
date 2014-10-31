@@ -1,0 +1,17 @@
+{
+  "name": "SonataAdminBundle",
+  "version": "0.0.0",
+  "description": "Sonata AdminBundle assets",
+  "main": "gulpfile.js",
+  "devDependencies": {
+    "gulp": "^3.8.8",
+    "gulp-concat": "^2.4.1",
+    "gulp-uglify": "^1.0.1",
+    "gulp-rename": "^1.2.0",
+    "gulp-ruby-sass": "^0.7.1",
+    "gulp-header": "^1.2.2",
+    "shelljs": "^0.3.0",
+    "gulp-cssmin": "^0.1.6",
+    "gulp-util": "^3.0.1"
+  }
+}
