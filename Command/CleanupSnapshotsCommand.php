@@ -53,10 +53,6 @@ class CleanupSnapshotsCommand extends BaseCommand
             return;
         }
 
-        if (!is_executable($input->getOption('base-console'))) {
-            throw new \InvalidArgumentException('Option "base-console" is not executable.');
-        }
-
         if (!in_array($input->getOption('mode'), array('async', 'sync'))) {
             throw new \InvalidArgumentException('Option "mode" is not valid (async|sync).');
         }
