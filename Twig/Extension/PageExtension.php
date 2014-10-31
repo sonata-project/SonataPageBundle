@@ -131,7 +131,9 @@ class PageExtension extends \Twig_Extension
             'current_class'        => '',
             'last_separator'       => '',
             'force_view_home_page' => true,
-            'container_attr'       => array('class' => 'sonata-page-breadcrumbs')
+            'container_attr'       => array('class' => 'sonata-page-breadcrumbs'),
+            'elements_attr'        => array(),
+            'template'             => 'SonataPageBundle:Page:breadcrumb.html.twig',
         ), $options);
 
         $breadcrumbs = array();
@@ -153,7 +155,7 @@ class PageExtension extends \Twig_Extension
             }
         }
 
-        return $this->render('SonataPageBundle:Page:breadcrumb.html.twig', array(
+        return $this->render($options['template'], array(
             'page'        => $page,
             'breadcrumbs' => $breadcrumbs,
             'options'     => $options

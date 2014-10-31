@@ -12,16 +12,23 @@ file that was distributed with this source code.
 {% if breadcrumbs %}
     <ul {% for attrname, attrvalue in options.container_attr %}{{ attrname }}="{{ attrvalue }}" {% endfor %}>
         {% for breadcrumb in breadcrumbs %}
-            {% if not breadcrumb.isdynamic %}
-                <li><a href="{{ path(breadcrumb) }}" title="{{ breadcrumb.name }}">{{ breadcrumb.name }}</a>{{ options.separator|raw }}</li>
-            {% else %}
-                <li>{{ breadcrumb.name }}{{ options.separator|raw }}</li>
-            {% endif %}
+            <li {% for attrname, attrvalue in options.elements_attr %}{{ attrname }}="{{ attrvalue }}" {% endfor %}>
+                {% if not breadcrumb.isdynamic %}
+                    <a href="{{ path(breadcrumb) }}" title="{{ breadcrumb.title ? : breadcrumb.name }}">{{ breadcrumb.title ? : breadcrumb.name }}</a>{{ options.separator|raw }}
+                {% else %}
+                    {{ breadcrumb.title ? : breadcrumb.name }}{{ options.separator|raw }}
+                {% endif %}
+            </li>
         {% endfor %}
-        {% if not page.isdynamic %}
-            <li class="{{ options.current_class }}"><a href="{{ path(page) }}" title="{{ page.name }}">{{ page.name }}</a>{{ options.last_separator|raw }}</li>
-        {% else %}
-            <li class="{{ options.current_class }}">{{ page.name }}{{ options.last_separator|raw }}</li>
-        {% endif %}
+
+        {% set li_attrs_class = options.elements_attr.class|default('') ~ ' ' ~ options.current_class %}
+        {% set li_attrs = options.elements_attr|merge({'class': li_attrs_class}) %}
+        <li {% for attrname, attrvalue in li_attrs %}{{ attrname }}="{{ attrvalue }}" {% endfor %}>
+            {% if not page.isdynamic %}
+                <a href="{{ path(page) }}" title="{{ page.title ? : page.name }}">{{ page.title ? : page.name }}</a>{{ options.last_separator|raw }}
+            {% else %}
+                {{ page.title ? : page.name }}{{ options.last_separator|raw }}
+            {% endif %}
+        </li>
     </ul>
 {% endif %}
