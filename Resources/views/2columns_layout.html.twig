@@ -12,13 +12,13 @@ file that was distributed with this source code.
 
 {% block page_content %}
     {% if page is defined %}
-        <div class="span6">
+        <div class="col-md-6">
             {% if page.name != 'global'%}
                 {{ sonata_page_render_container('left_col', 'global') }}
             {% endif %}
             {{ sonata_page_render_container('left_col', page) }}
         </div>
-        <div class="span6">
+        <div class="col-md-6">
             {% if page.name != 'global'%}
                 {{ sonata_page_render_container('right_col', 'global') }}
             {% endif %}
