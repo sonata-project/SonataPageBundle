@@ -665,43 +665,43 @@
       </trans-unit>
       <trans-unit id="165" resname="header.compose_page">
           <source>header.compose_page</source>
-          <target>Compose</target>
+          <target>Composer</target>
       </trans-unit>
       <trans-unit id="166" resname="no_type_available">
           <source>no_type_available</source>
-          <target>no_type_available</target>
+          <target>Geen type beschikbaar</target>
       </trans-unit>
       <trans-unit id="167" resname="page.compose_page">
           <source>page.compose_page</source>
-          <target>Compose page</target>
+          <target>Pagina</target>
       </trans-unit>
       <trans-unit id="168" resname="page.orphan_containers">
           <source>page.orphan_containers</source>
-          <target>Orphan containers</target>
+          <target>Wees containers</target>
       </trans-unit>
       <trans-unit id="169" resname="composer.remove">
           <source>composer.remove</source>
-          <target>remove</target>
+          <target>verwijderen</target>
       </trans-unit>
       <trans-unit id="170" resname="composer.remove.confirm">
           <source>composer.remove.confirm</source>
-          <target>confirm delete ?</target>
+          <target>Bevestig de verwijdering ?</target>
       </trans-unit>
       <trans-unit id="171" resname="yes">
           <source>yes</source>
-          <target>yes</target>
+          <target>ja</target>
       </trans-unit>
       <trans-unit id="172" resname="cancel">
           <source>cancel</source>
-          <target>cancel</target>
+          <target>annuleren</target>
       </trans-unit>
       <trans-unit id="173" resname="loading">
           <source>loading</source>
-          <target>loading</target>
+          <target>gegevens inladen</target>
       </trans-unit>
       <trans-unit id="174" resname="composer.block.add.type">
           <source>composer.block.add.type</source>
-          <target>add block of type</target>
+          <target>Blok toevoegen van het type</target>
       </trans-unit>
       <trans-unit id="175" resname="notice">
           <source>notice</source>
@@ -709,15 +709,15 @@
       </trans-unit>
       <trans-unit id="176" resname="blocks">
           <source>blocks</source>
-          <target>blocks</target>
+          <target>blokken</target>
       </trans-unit>
       <trans-unit id="177" resname="composer.disable">
           <source>composer.disable</source>
-          <target>Disable</target>
+          <target>uitschakelen</target>
       </trans-unit>
       <trans-unit id="178" resname="composer.enable">
           <source>composer.enable</source>
-          <target>Enable</target>
+          <target>inschakelen</target>
       </trans-unit>
     </body>
   </file>
