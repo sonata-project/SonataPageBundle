@@ -13,7 +13,9 @@ gulp.task('css', _.map(config.groups.css, function (files, name) {
         gulp.src(_.map(files, function (file) {
                 return config.source + '/scss/' + file;
             }))
-            .pipe(sass())
+            .pipe(sass({
+                container: name // isolate each group files
+            }))
             .pipe(concat('sonata-page.' + name + '.css'))
             .pipe(banner())
             .pipe(gulp.dest(config.dest))
@@ -22,5 +24,6 @@ gulp.task('css', _.map(config.groups.css, function (files, name) {
             .pipe(banner())
             .pipe(gulp.dest(config.dest));
     });
+
     return taskName;
 }));

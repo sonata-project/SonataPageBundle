@@ -21,5 +21,6 @@ gulp.task('js', _.map(config.groups.js, function (files, name) {
             .pipe(banner())
             .pipe(gulp.dest(config.dest));
     });
+
     return taskName;
 }));
