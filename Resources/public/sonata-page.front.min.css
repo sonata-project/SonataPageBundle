@@ -1,0 +1,14 @@
+/**
+ *
+ * This file is part of the Sonata package.
+ *
+ * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * generated on: Tue Nov 04 2014 14:59:49 GMT+0100 (CET)
+ * revision:     b07274abe971ec12ba3735cfd38847f55334583d
+ *
+ */
+div.cms-fake-block{display:none}body.sonata-bc,html.sonata-bc{background-color:#eee}.sonata-bc .container>footer div{text-align:center}.sonata-bc .container{width:820px}.sonata-bc .content{background-color:#fff;padding:20px;margin:0 -20px;-webkit-border-radius:0 0 6px 6px;-moz-border-radius:0 0 6px 6px;border-radius:0 0 6px 6px;-webkit-box-shadow:0 1px 2px rgba(0,0,0,.15);-moz-box-shadow:0 1px 2px rgba(0,0,0,.15);box-shadow:0 1px 2px rgba(0,0,0,.15)}.sonata-bc .page-header{background-color:#f5f5f5;padding:20px 20px 10px;margin:-20px -20px 20px}.sonata-bc .page-header a{color:#404040;font-weight:700}.sonata-bc .page-header .nav{margin:0}.sonata-bc .page-header .nav a{font-size:1.5em}.sonata-bc .page-header .nav .dropdown-menu a{font-size:1em}.sonata-bc .page-header .nav .dropdown-toggle .caret-menu{border-top-color:#404040;border-bottom-color:#404040}.sonata-bc .content .span4{margin-left:0;padding-left:19px}.sonata-bc .topbar .btn{border:0}.sonata-bc .row{margin-left:auto}li.sonata-page-menu-children-element{float:left;list-style:none;margin-left:20px;font-size:16px}a.sonata-media-gallery-media-item-link{border:1px solid #DDD;border-radius:4px;box-shadow:0 1px 1px rgba(0,0,0,.075);float:left;margin:0 0 18px 20px;padding:4px;display:block}a.sonata-media-gallery-media-item-link:hover{border-color:#0069d6;-webkit-box-shadow:0 1px 4px rgba(0,105,214,.25);-moz-box-shadow:0 1px 4px rgba(0,105,214,.25);box-shadow:0 1px 4px rgba(0,105,214,.25)}.sonata-page-top-bar{height:45px}.sonata-page-top-bar label{color:#BFBFBF}.cms-edit-mode-only{visibility:hidden}.cms-edit-mode .cms-edit-mode-only{visibility:visible}.cms-edit-mode .cms-block{position:relative;min-height:40px}.cms-edit-mode .cms-layout-role-block{background-color:rgba(255,150,0,.3)}.cms-edit-mode .cms-layout-title span{display:inline-block;padding:2px;font-size:12pt;color:#fff}.cms-edit-mode .cms-layout-role-container>.cms-layout-title{display:block;width:100%;background-color:#323232}.cms-edit-mode .cms-layout-role-block>.cms-layout-title{display:block;background-color:#4b3200}.cms-edit-mode .cms-container-drop-zone .cms-layout-role-block>.cms-layout-title,.cms-edit-mode .cms-container-drop-zone>.cms-layout-layer .cms-layout-title{display:block}.cms-edit-mode .cms-container{padding-top:24px;border:2px dotted #646464}.cms-edit-mode .cms-block-placeholder{background-color:rgba(100,100,100,.2);min-height:40px}.cms-edit-mode div.cms-block-hand-over{cursor:move}.cms-edit-mode div.cms-block-hand-over>.cms-layout-role-block{background-color:rgba(255,150,0,.5)}

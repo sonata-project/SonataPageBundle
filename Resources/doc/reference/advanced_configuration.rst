@@ -55,13 +55,12 @@ Full configuration options (config.yml file):
             stylesheets:
                 # Defaults:
                 - bundles/sonataadmin/vendor/bootstrap/dist/css/bootstrap.min.css
-                - bundles/sonatapage/default.css
-                - bundles/sonatapage/page.css
+                - bundles/sonatapage/sonata-page.front.min.css
             javascripts:
                 # Defaults:
                 - bundles/sonataadmin/vendor/jquery/dist/jquery.min.js
                 - bundles/sonataadmin/vendor/bootstrap/dist/js/bootstrap.min.js
-                - bundles/sonatapage/page.js
+                - bundles/sonatapage/sonata-page.front.min.js
 
         page_defaults:
             homepage: {decorate: false}

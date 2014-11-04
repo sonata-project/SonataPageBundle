@@ -7,3 +7,5 @@ nbproject
 coverage
 composer.lock
 vendor
+node_modules
+.sass-cache
