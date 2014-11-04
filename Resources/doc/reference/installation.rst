@@ -141,7 +141,7 @@ configuration file.
     sonata_admin:
         assets:
             javascripts:
-                - bundles/sonataadmin/vendor/jquery/dist/jquery.min.js
+                - bundles/sonatacore/vendor/jquery/dist/jquery.min.js
                 - bundles/sonataadmin/vendor/jquery.scrollTo/jquery.scrollTo.js
                 - bundles/sonataadmin/vendor/jqueryui/ui/minified/jquery-ui.min.js
                 - bundles/sonataadmin/vendor/jqueryui/ui/minified/i18n/jquery-ui-i18n.min.js

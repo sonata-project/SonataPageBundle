@@ -54,13 +54,13 @@ Full configuration options (config.yml file):
         assets:
             stylesheets:
                 # Defaults:
-                - bundles/sonataadmin/vendor/bootstrap/dist/css/bootstrap.min.css
+                - bundles/sonatacore/vendor/bootstrap/dist/css/bootstrap.min.css
                 - bundles/sonatapage/default.css
                 - bundles/sonatapage/page.css
             javascripts:
                 # Defaults:
-                - bundles/sonataadmin/vendor/jquery/dist/jquery.min.js
-                - bundles/sonataadmin/vendor/bootstrap/dist/js/bootstrap.min.js
+                - bundles/sonatacore/vendor/jquery/dist/jquery.min.js
+                - bundles/sonatacore/vendor/bootstrap/dist/js/bootstrap.min.js
                 - bundles/sonatapage/page.js
 
         page_defaults:
