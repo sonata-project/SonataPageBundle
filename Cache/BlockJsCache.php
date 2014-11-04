@@ -114,7 +114,7 @@ class BlockJsCache implements CacheAdapterInterface
     {
         return sprintf(
 '<div id="block-cms-%s" >
-    <script type="text/javascript">
+    <script>
         /*<![CDATA[*/
             (function () {
                 var block, xhr;
@@ -154,7 +154,7 @@ class BlockJsCache implements CacheAdapterInterface
     {
         return sprintf(
 '<div id="block-cms-%s" >
-    <script type="text/javascript">
+    <script>
         /*<![CDATA[*/
             (function() {
                 var b = document.createElement("script");

@@ -12,11 +12,11 @@ file that was distributed with this source code.
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta charset="UTF-8">
 
         {% block page_stylesheets %}
-            <link rel="stylesheet" href="{{ asset('bundles/sonataadmin/bootstrap/css/bootstrap.css') }}" type="text/css" media="all" >
-            <link rel="stylesheet" href="{{ asset('bundles/sonatapage/sonata-page.css') }}" type="text/css" media="all" >
+            <link rel="stylesheet" href="{{ asset('bundles/sonataadmin/bootstrap/css/bootstrap.css') }}" media="all" >
+            <link rel="stylesheet" href="{{ asset('bundles/sonatapage/sonata-page.css') }}" media="all" >
         {% endblock %}
 
         <title>{{ title }}</title>

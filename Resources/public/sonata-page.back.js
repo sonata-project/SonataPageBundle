@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * generated on: Wed Nov 05 2014 16:19:59 GMT+0100 (CET)
- * revision:     7337982af452589671dc570b0186c661161a980b
+ * generated on: Thu Nov 06 2014 00:08:07 GMT+0100 (CET)
+ * revision:     71deefa3b32e338654bad5b904239358daf1d7e6
  *
  */
 /**
@@ -325,7 +325,7 @@
                 var $childBlock = $(['<li class="page-composer__container__child">',
                         '<a class="page-composer__container__child__edit">',
                             '<h4 class="page-composer__container__child__name">',
-                                '<input type="text" class="page-composer__container__child__name__input" />',
+                                '<input type="text" class="page-composer__container__child__name__input">',
                             '</h4>',
                         '</a>',
                         '<div class="page-composer__container__child__right">',
