@@ -145,10 +145,12 @@ configuration file.
                 - bundles/sonataadmin/vendor/jquery.scrollTo/jquery.scrollTo.js
                 - bundles/sonataadmin/vendor/jqueryui/ui/minified/jquery-ui.min.js
                 - bundles/sonataadmin/vendor/jqueryui/ui/minified/i18n/jquery-ui-i18n.min.js
+                - bundles/sonatapage/sonata-page.back.min.js
 
             stylesheets:
                 - bundles/sonataadmin/vendor/AdminLTE/css/font-awesome.min.css
                 - bundles/sonataadmin/vendor/jqueryui/themes/flick/jquery-ui.min.css
+                - bundles/sonatapage/sonata-page.back.min.css
 
 Add block context manager:
 
