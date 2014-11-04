@@ -7,6 +7,25 @@ A [BC BREAK] means the update will break the project for many reasons:
 * new dependencies
 * class refactoring
 
+### 2014-11-04
+
+* [BC BREAK] Move assets management (js, css) to gulp and move css to sass.
+  You have now the following files available:
+
+  styles:
+
+  * sonata-page.back.css      *BO stylesheet*
+  * sonata-page.back.min.css  *BO minified stylesheet*
+  * sonata-page.front.css     *frontend stylesheet*
+  * sonata-page.front.min.css *frontend minified stylesheet*
+
+  javascripts:
+
+  * sonata-page.back.js      *BO javascript*
+  * sonata-page.back.min.js  *BO minified javascript*
+  * sonata-page.front.js     *frontend javascript*
+  * sonata-page.front.min.js *frontend minified javascript*
+
 ### 2014-06-11
 
 * Add a RequestFactory to configure a valid Request (and configure the Request::$factory) to support Symfony 2.5
