@@ -64,15 +64,12 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
             'assets' => array(
                 'stylesheets' => array(
                     'bundles/sonataadmin/vendor/bootstrap/dist/css/bootstrap.min.css',
-                    'bundles/sonatapage/default.css',
-                    'bundles/sonatapage/page.css',
+                    'bundles/sonatapage/sonata-page.front.css',
                 ),
                 'javascripts' => array(
                     'bundles/sonataadmin/vendor/jquery/dist/jquery.min.js',
-
                     'bundles/sonataadmin/vendor/bootstrap/dist/js/bootstrap.min.js',
-
-                    'bundles/sonatapage/page.js',
+                    'bundles/sonatapage/sonata-page.front.js',
                 )
             ),
             'is_inline_edition_on'  => false,
@@ -144,15 +141,12 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
             'assets' => array(
                 'stylesheets' => array(
                     'bundles/sonataadmin/vendor/bootstrap/dist/css/bootstrap.min.css',
-                    'bundles/sonatapage/default.css',
-                    'bundles/sonatapage/page.css',
+                    'bundles/sonatapage/sonata-page.front.css',
                 ),
                 'javascripts' => array(
                     'bundles/sonataadmin/vendor/jquery/dist/jquery.min.js',
-
                     'bundles/sonataadmin/vendor/bootstrap/dist/js/bootstrap.min.js',
-
-                    'bundles/sonatapage/page.js',
+                    'bundles/sonatapage/sonata-page.front.js',
                 )
             ),
             'is_inline_edition_on'  => false,

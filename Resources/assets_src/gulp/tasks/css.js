@@ -14,7 +14,10 @@ gulp.task('css', _.map(config.groups.css, function (files, name) {
                 return config.source + '/scss/' + file;
             }))
             .pipe(sass({
-                container: name // isolate each group files
+                // isolate each group files
+                // because the plugin puts all
+                // generated css in a single tmp dir
+                container: name
             }))
             .pipe(concat('sonata-page.' + name + '.css'))
             .pipe(banner())

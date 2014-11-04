@@ -1,7 +1,7 @@
 {
-  "name": "SonataAdminBundle",
-  "version": "0.0.0",
-  "description": "Sonata AdminBundle assets",
+  "name": "SonataPageBundle",
+  "version": "0.0.1",
+  "description": "SonataPageBundle assets",
   "main": "gulpfile.js",
   "devDependencies": {
     "gulp": "^3.8.8",
@@ -12,6 +12,7 @@
     "gulp-header": "^1.2.2",
     "shelljs": "^0.3.0",
     "gulp-cssmin": "^0.1.6",
-    "gulp-util": "^3.0.1"
+    "gulp-util": "^3.0.1",
+    "lodash": "~2.4.1"
   }
 }
