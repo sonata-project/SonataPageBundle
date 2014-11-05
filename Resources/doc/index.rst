@@ -22,3 +22,4 @@ Reference Guide
    reference/varnish
    reference/performance
    reference/api
+   reference/assets
