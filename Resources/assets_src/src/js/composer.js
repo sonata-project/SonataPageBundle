@@ -24,6 +24,7 @@
         this.$containerPreviews = this.$pagePreview.find('.page-composer__page-preview__container');
         this.routes             = {};
         this.csrfTokens         = {};
+        this.blockTypes         = {};
         this.templates          = {
             childBlock: '<a class="page-composer__container__child__edit" href="%edit_url%">' +
                     '<h4>%name%</h4>' +
@@ -169,7 +170,7 @@
         handleBlockCreated: function (event) {
             var content = this.renderTemplate('childBlock', {
                 'name':             event.blockName,
-                'type':             event.blockType,
+                'type':             event.blockTypeLabel,
                 'edit_url':         this.getRouteUrl('block_edit',          { 'BLOCK_ID': event.blockId }),
                 'remove_url':       this.getRouteUrl('block_remove',        { 'BLOCK_ID': event.blockId }),
                 'switchenable_url': this.getRouteUrl('block_switch_enable', { 'BLOCK_ID': event.blockId })
@@ -356,7 +357,7 @@
                             '</h4>',
                         '</a>',
                         '<div class="page-composer__container__child__right">',
-                            '<span class="badge">' + event.blockType + '</span>',
+                            '<span class="badge">' + event.blockName + '</span>',
                         '</div>',
                         '<div class="page-composer__container__child__content">',
                         '</div>',
@@ -424,10 +425,6 @@
             $form.on('submit', function (e) {
                 e.preventDefault();
 
-                var blockName = $nameFormControl.val();
-                if (blockName === '') {
-                    blockName = event.blockType;
-                }
 
                 $.ajax({
                     url:  formAction + '&' + $.param({'composer': 1}),
@@ -435,12 +432,20 @@
                     type: formMethod,
                     success: function (resp) {
                         if (resp.result && resp.result === 'ok' && resp.objectId) {
+                            var blockName = $nameFormControl.val();
+                            var blockType = self.blockTypes[event.blockType] || event.blockType;
+
+                            if (blockName === '') {
+                                blockName = blockType;
+                            }
+
                             var createdEvent = $.Event('blockcreated');
-                            createdEvent.$childBlock = $childBlock;
-                            createdEvent.parentId    = event.containerId;
-                            createdEvent.blockId     = resp.objectId;
-                            createdEvent.blockName   = blockName;
-                            createdEvent.blockType   = event.blockType;
+                            createdEvent.$childBlock    = $childBlock;
+                            createdEvent.parentId       = event.containerId;
+                            createdEvent.blockId        = resp.objectId;
+                            createdEvent.blockName      = blockName;
+                            createdEvent.blockType      = event.blockType;
+                            createdEvent.blockTypeLabel = blockType;
                             $(self).trigger(createdEvent);
                         } else {
                             var loadedEvent = $.Event('blockcreateformloaded');
@@ -707,6 +712,11 @@
 
             applyAdmin(this.$dynamicArea);
 
+            // Keep a reference to all block types associated with their names
+            $blockTypeSelectorSelect.find('option').each(function() {
+                self.blockTypes[$(this).val()] = $(this).text()
+            })
+
             // Load the block creation form trough ajax.
             $blockTypeSelectorButton.on('click', function (e) {
                 e.preventDefault();
@@ -714,6 +724,7 @@
                 $blockTypeSelectorLoader.css('display', 'inline-block');
 
                 var blockType = $blockTypeSelectorSelect.val();
+                var blockName = self.blockTypes[blockType] || blockType;
                 $.ajax({
                     url:     blockTypeSelectorUrl,
                     data:    {
@@ -726,6 +737,7 @@
                         loadedEvent.response    = resp;
                         loadedEvent.containerId = event.containerId;
                         loadedEvent.blockType   = blockType;
+                        loadedEvent.blockName   = blockName;
                         $(self).trigger(loadedEvent);
                     }
                 });
