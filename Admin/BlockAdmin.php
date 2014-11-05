@@ -56,6 +56,9 @@ class BlockAdmin extends Admin
         $collection->add('savePosition', 'save-position');
         $collection->add('view', $this->getRouterIdParameter().'/view');
         $collection->add('switchParent', 'switch-parent');
+        $collection->add('composePreview', '{block_id}/compose_preview', array(
+            'block_id' => null,
+        ));
     }
 
     /**

@@ -51,16 +51,19 @@ class PageAdmin extends Admin
      */
     protected $cacheManager;
 
-    public function configureRoutes(RouteCollection $routes)
+    /**
+     * {@inheritdoc}
+     */
+    public function configureRoutes(RouteCollection $collection)
     {
-        $routes->add('compose', '{id}/compose', array(
+        $collection->add('compose', '{id}/compose', array(
             'id' => null,
         ));
-        $routes->add('compose_container_show', 'compose/container/{id}', array(
+        $collection->add('compose_container_show', 'compose/container/{id}', array(
             'id' => null,
         ));
 
-        $routes->add('tree', 'tree');
+        $collection->add('tree', 'tree');
     }
 
     /**

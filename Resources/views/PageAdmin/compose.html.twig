@@ -22,54 +22,7 @@ file that was distributed with this source code.
         <h2>{{ 'page.compose_page'|trans({}, 'SonataPageBundle') }} "{{ page.name }}" <small>[template: <b>{{ template.name }}</b>]</small></h2>
 
         {% if containers|length == 0 %}
-
-            <div class="alert alert-warning">
-
-                <strong>Warning!</strong> Before using the composer option, you need to configure the template layout.
-                <br />The configuration must be done in the <code>sonata_page.templates</code> section.<br />
-
-            <br />
-            See a complete exemple here:
-
-
-<pre>
-sonata_page:
-    # [...]
-    templates:
-        default:
-            path: 'ApplicationSonataPageBundle::demo_layout.html.twig'
-            name: 'default'
-            containers:
-                header:
-                    name: Header
-                content_top:
-                    name: Top content
-                content:
-                    name: Main content
-                content_bottom:
-                    name: Bottom content
-                footer:
-                    name: Footer
-            matrix:
-                layout: |
-                    HHHHHHHH
-                    TTTTBBBB
-                    TTTTBBBB
-                    TTTTBBBB
-                    TTTTBBBB
-                    CCCCCCCC
-                    CCCCCCCC
-                    FFFFFFFF
-
-                mapping:
-                    H: header
-                    T: content_top
-                    C: content
-                    B: content_bottom
-                    F: footer
-</pre>
-            </div>
-
+            {% include 'SonataPageBundle:PageAdmin:compose_hint.html.twig' %}
         {% else %}
             <div class="row row-fluid">
                 <div class="col-md-4 span4">
@@ -131,16 +84,19 @@ sonata_page:
             </div>
             <script>
                 $(document).ready(function () {
-                    var composer = new PageComposer({{ page.id }});
-
-                    window.SonataPageComposer  = composer;
-
+                    var composer = new PageComposer({{ page.id }}, {
+                        translations: {
+                            cancel: "{{ 'cancel'|trans({}, 'SonataPageBundle') }}"
+                        },
+                        routes: {
+                            save_blocks_positions: "{{ admin_pool.getAdminByAdminCode('sonata.page.admin.block').generateUrl('savePosition') }}",
+                            block_switch_parent:   "{{ admin_pool.getAdminByAdminCode('sonata.page.admin.block').generateUrl('switchParent') }}",
+                            block_preview:         "{{ admin_pool.getAdminByAdminCode('sonata.page.admin.block').generateUrl('composePreview', { 'block_id': 'BLOCK_ID' }) }}"
+                        }
+                    });
                     composer.csrfTokens = {{ csrfTokens|json_encode()|raw }};
-                    composer.setRoute('block_edit',            "{{ admin_pool.getAdminByAdminCode('sonata.page.admin.block').generateUrl('edit',   { 'id': 'BLOCK_ID' }) }}");
-                    composer.setRoute('block_remove',          "{{ admin_pool.getAdminByAdminCode('sonata.page.admin.block').generateUrl('delete', { 'id': 'BLOCK_ID' }) }}");
-                    composer.setRoute('block_switch_enable',   "{{ url('sonata_admin_set_object_field_value', {'objectId': 'BLOCK_ID', 'context': 'list', 'field': 'enabled', 'code': 'sonata.page.admin.block' }) }}");
-                    composer.setRoute('save_blocks_positions', "{{ admin_pool.getAdminByAdminCode('sonata.page.admin.block').generateUrl('savePosition') }}");
-                    composer.setRoute('block_switch_parent',   "{{ admin_pool.getAdminByAdminCode('sonata.page.admin.block').generateUrl('switchParent') }}");
+
+                    window.SonataPageComposer = composer;
                 });
             </script>
         {% endif %}
