@@ -119,4 +119,38 @@ class BlockAdminController extends Controller
 
         return $this->renderJson(array('result' => 'ok'));
     }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
+     * @throws \Sonata\PageBundle\Exception\PageNotFoundException
+     */
+    public function composePreviewAction()
+    {
+        if (!$this->admin->isGranted('EDIT')) {
+            throw new AccessDeniedException();
+        }
+
+        $blockId = $this->get('request')->get('block_id');
+
+        /** @var \Sonata\PageBundle\Entity\BaseBlock $block */
+        $block = $this->admin->getObject($blockId);
+        if (!$block) {
+            throw new PageNotFoundException(sprintf('Unable to find block with id %d', $blockId));
+        }
+
+        $container = $block->getParent();
+        if (!$container) {
+            throw new PageNotFoundException('No parent found, unable to preview an orphan block');
+        }
+
+        $blockServices = $this->get('sonata.block.manager')->getServicesByContext('sonata_page_bundle', false);
+
+        return $this->render('SonataPageBundle:BlockAdmin:compose_preview.html.twig', array(
+            'container'     => $container,
+            'child'         => $block,
+            'blockServices' => $blockServices,
+        ));
+    }
 }

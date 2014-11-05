@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * generated on: Tue Nov 04 2014 14:59:50 GMT+0100 (CET)
- * revision:     b07274abe971ec12ba3735cfd38847f55334583d
+ * generated on: Wed Nov 05 2014 14:34:21 GMT+0100 (CET)
+ * revision:     c93c1b577191726eeb8506b9d299c6498558fa97
  *
  */
 /**
@@ -29,44 +29,17 @@
      *
      * @constructor
      */
-    var PageComposer = function (pageId) {
+    var PageComposer = function (pageId, options) {
+        var settings = options || {};
+
         this.pageId             = pageId;
         this.$container         = $('.page-composer');
         this.$dynamicArea       = $('.page-composer__dyn-content');
         this.$pagePreview       = $('.page-composer__page-preview');
         this.$containerPreviews = this.$pagePreview.find('.page-composer__page-preview__container');
-        this.routes             = {};
+        this.routes             = $.extend({}, settings.routes       || {});
+        this.translations       = $.extend({}, settings.translations || {});
         this.csrfTokens         = {};
-        this.templates          = {
-            childBlock: '<a class="page-composer__container__child__edit" href="%edit_url%">' +
-                    '<h4>%name%</h4>' +
-                    '<small>%type%</small>' +
-                    '<span class="page-composer__container__child__toggle">' +
-                        '<span class="fa fa-chevron-down"></span>' +
-                        '<span class="fa fa-chevron-up"></span>' +
-                    '</span>' +
-                '</a>' +
-                '<div class="page-composer__container__child__right">' +
-                    '<div class="page-composer__container__child__remove">' +
-                        '<a class="badge" href="%remove_url%">Remove <i class="fa fa-times"></i> </a>' +
-                        '<span class="page-composer__container__child__remove__confirm">' +
-                            'Confirm Delete? <span class="yes">yes</span> <span class="cancel">cancel</span>' +
-                        '</span>' +
-                    '</div>' +
-
-                    '<div class="page-composer__container__child__switch-enabled" data-label-enable="enable" data-label-disable="disable">' +
-                        '<a class="badge bg-yellow" href="%switchenable_url%">Disable</a>' +
-                    '</div>' +
-
-                    '<div class="page-composer__container__child__enabled">' +
-                        '<small class="badge bg-green"><i class="fa fa-check"></i></small>' +
-                    '</div>' +
-                '</div>' +
-                '<div class="page-composer__container__child__content"></div>' +
-                '<div class="page-composer__container__child__loader">' +
-                    '<span>loading</span>' +
-                '</div>'
-        };
 
         this.bindPagePreviewHandlers();
         this.bindOrphansHandlers();
@@ -101,11 +74,17 @@
 
     PageComposer.prototype = {
         /**
-         * @param id
-         * @param url
+         * Translates given label.
+         *
+         * @param {String} label
+         * @return {String}
          */
-        setRoute: function (id, url) {
-            this.routes[id] = url;
+        translate: function (label) {
+            if (this.translations[label]) {
+                return this.translations[label];
+            }
+
+            return label;
         },
 
         /**
@@ -127,24 +106,6 @@
         },
 
         /**
-         * @param id
-         * @param parameters
-         * @returns {*}
-         */
-        renderTemplate: function (id, parameters) {
-            if (!this.templates[id]) {
-                throw new Error('Template "' + id + '" does not exist');
-            }
-
-            var template = this.templates[id];
-            for (var paramKey in parameters) {
-                template = template.replace(new RegExp('%' + paramKey + '%'), parameters[paramKey]);
-            }
-
-            return template;
-        },
-
-        /**
          * Check if the given form element name attribute match specific type.
          * Used because form element names are 'hashes' (s5311aef39e552[name]).
          *
@@ -153,13 +114,11 @@
          * @returns {boolean}
          */
         isFormControlTypeByName: function (name, type) {
-
             if (typeof name != 'undefined') {
-
-               var position = name.length,
-               search = '[' + type + ']',
-               lastIndex = name.lastIndexOf(search);
-               position = position - search.length;
+               var position  = name.length,
+                   search    = '[' + type + ']',
+                   lastIndex = name.lastIndexOf(search),
+                   position  = position - search.length;
 
                return lastIndex !== -1 && lastIndex === position;
             }
@@ -180,24 +139,25 @@
          * @param event
          */
         handleBlockCreated: function (event) {
-            var content = this.renderTemplate('childBlock', {
-                'name':             event.blockName,
-                'type':             event.blockType,
-                'edit_url':         this.getRouteUrl('block_edit',          { 'BLOCK_ID': event.blockId }),
-                'remove_url':       this.getRouteUrl('block_remove',        { 'BLOCK_ID': event.blockId }),
-                'switchenable_url': this.getRouteUrl('block_switch_enable', { 'BLOCK_ID': event.blockId })
+            var self = this;
+            $.ajax({
+                url:     this.getRouteUrl('block_preview', { 'BLOCK_ID': event.blockId }),
+                type:    'GET',
+                success: function (resp) {
+                    var $content = $(resp);
+                    event.$childBlock.replaceWith($content);
+                    self.controlChildBlock($content);
+
+                    // refresh parent block child count
+                    var newChildCount = self.getContainerChildCountFromList(event.parentId);
+                    if (newChildCount !== null) {
+                        self.updateChildCount(event.parentId, newChildCount);
+                    }
+                },
+                error: function () {
+                    self.containerNotification('an error occured while fetching block preview', 'error', true);
+                }
             });
-
-            event.$childBlock.attr('data-block-id',        event.blockId);
-            event.$childBlock.attr('data-parent-block-id', event.parentId);
-            event.$childBlock.html(content);
-            this.controlChildBlock(event.$childBlock);
-
-            // refresh parent block child count
-            var newChildCount = this.getContainerChildCountFromList(event.parentId);
-            if (newChildCount !== null) {
-                this.updateChildCount(event.parentId, newChildCount);
-            }
         },
 
         /**
@@ -422,7 +382,7 @@
 
             $formActions.each(function () {
                 var $formAction   = $(this),
-                    $cancelButton = $('<span class="btn btn-warning">cancel</span>');
+                    $cancelButton = $('<span class="btn btn-warning">' + self.translate('cancel') + '</span>');
 
                 $cancelButton.on('click', function (e) {
                     e.preventDefault();
