@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * generated on: Wed Nov 05 2014 15:23:51 GMT+0100 (CET)
- * revision:     f9ff4fa4a36930c331fa4ff2ed9097f47aca34f4
+ * generated on: Wed Nov 05 2014 15:30:08 GMT+0100 (CET)
+ * revision:     1c90dae46b3a7c50af9e7f7d0a73e96ccca60eab
  *
  */
 /**
@@ -408,13 +408,15 @@
                     type: formMethod,
                     success: function (resp) {
                         if (resp.result && resp.result === 'ok' && resp.objectId) {
-                            var createdEvent = $.Event('blockcreated');
+                            var createdEvent = ;
                             createdEvent.$childBlock = $childBlock;
                             createdEvent.parentId    = event.containerId;
                             createdEvent.blockId     = resp.objectId;
                             createdEvent.blockName   = blockName;
                             createdEvent.blockType   = event.blockType;
-                            $(self).trigger(createdEvent);
+                            $(self).trigger($.Event('blockcreated', {
+                                
+                            }));
                         } else {
                             var loadedEvent = $.Event('blockcreateformloaded');
                             loadedEvent.response    = resp;

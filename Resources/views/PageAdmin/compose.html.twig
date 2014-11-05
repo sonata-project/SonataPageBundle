@@ -86,7 +86,7 @@ file that was distributed with this source code.
                 $(document).ready(function () {
                     var composer = new PageComposer({{ page.id }}, {
                         translations: {
-
+                            cancel: "{{ 'cancel'|trans({}, 'SonataPageBundle') }}"
                         },
                         routes: {
                             save_blocks_positions: "{{ admin_pool.getAdminByAdminCode('sonata.page.admin.block').generateUrl('savePosition') }}",
