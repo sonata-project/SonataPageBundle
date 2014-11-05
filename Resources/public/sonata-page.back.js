@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * generated on: Wed Nov 05 2014 14:34:21 GMT+0100 (CET)
- * revision:     c93c1b577191726eeb8506b9d299c6498558fa97
+ * generated on: Wed Nov 05 2014 15:23:51 GMT+0100 (CET)
+ * revision:     f9ff4fa4a36930c331fa4ff2ed9097f47aca34f4
  *
  */
 /**
@@ -329,7 +329,7 @@
                             '</h4>',
                         '</a>',
                         '<div class="page-composer__container__child__right">',
-                            '<span class="badge">' + event.blockType + '</span>',
+                            '<span class="badge">' + event.blockTypeLabel + '</span>',
                         '</div>',
                         '<div class="page-composer__container__child__content">',
                         '</div>',
@@ -686,7 +686,9 @@
 
                 $blockTypeSelectorLoader.css('display', 'inline-block');
 
-                var blockType = $blockTypeSelectorSelect.val();
+                var blockType      = $blockTypeSelectorSelect.val(),
+                    blockTypeLabel = $blockTypeSelectorSelect.find('option:selected').text();
+
                 $.ajax({
                     url:     blockTypeSelectorUrl,
                     data:    {
@@ -695,11 +697,12 @@
                     success: function (resp) {
                         $blockTypeSelectorLoader.hide();
 
-                        var loadedEvent = $.Event('blockcreateformloaded');
-                        loadedEvent.response    = resp;
-                        loadedEvent.containerId = event.containerId;
-                        loadedEvent.blockType   = blockType;
-                        $(self).trigger(loadedEvent);
+                        $(self).trigger($.Event('blockcreateformloaded', {
+                            response:       resp,
+                            containerId:    event.containerId,
+                            blockType:      blockType,
+                            blockTypeLabel: blockTypeLabel
+                        }));
                     }
                 });
             });

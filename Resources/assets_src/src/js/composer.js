@@ -316,7 +316,7 @@
                             '</h4>',
                         '</a>',
                         '<div class="page-composer__container__child__right">',
-                            '<span class="badge">' + event.blockType + '</span>',
+                            '<span class="badge">' + event.blockTypeLabel + '</span>',
                         '</div>',
                         '<div class="page-composer__container__child__content">',
                         '</div>',
@@ -673,7 +673,9 @@
 
                 $blockTypeSelectorLoader.css('display', 'inline-block');
 
-                var blockType = $blockTypeSelectorSelect.val();
+                var blockType      = $blockTypeSelectorSelect.val(),
+                    blockTypeLabel = $blockTypeSelectorSelect.find('option:selected').text();
+
                 $.ajax({
                     url:     blockTypeSelectorUrl,
                     data:    {
@@ -682,11 +684,12 @@
                     success: function (resp) {
                         $blockTypeSelectorLoader.hide();
 
-                        var loadedEvent = $.Event('blockcreateformloaded');
-                        loadedEvent.response    = resp;
-                        loadedEvent.containerId = event.containerId;
-                        loadedEvent.blockType   = blockType;
-                        $(self).trigger(loadedEvent);
+                        $(self).trigger($.Event('blockcreateformloaded', {
+                            response:       resp,
+                            containerId:    event.containerId,
+                            blockType:      blockType,
+                            blockTypeLabel: blockTypeLabel
+                        }));
                     }
                 });
             });
