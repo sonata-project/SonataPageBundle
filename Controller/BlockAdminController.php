@@ -41,8 +41,13 @@ class BlockAdminController extends Controller
                 throw new HttpException(400, 'wrong parameters');
             }
 
-            $result = $this->get('sonata.page.block_interactor')->saveBlocksPosition($params);
+            $result = $this->get('sonata.page.block_interactor')->saveBlocksPosition($params, false);
+
             $status = 200;
+
+            $pageAdmin = $this->get('sonata.page.admin.page');
+            $pageAdmin->setRequest($this->get('request'));
+            $pageAdmin->update($pageAdmin->getSubject());
         } catch (HttpException $e) {
             $status = $e->getStatusCode();
             $result = array(
