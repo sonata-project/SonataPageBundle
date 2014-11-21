@@ -45,13 +45,14 @@ interface BlockInteractorInterface
     public function loadPageBlocks(PageInterface $page);
 
     /**
-     * save the block
+     * save the blocks positions
      *
      * @param array $data
+     * @param bool  $partial Should we use partial references? (Better for performance, but can lead to query issues.)
      *
      * @return bool
      */
-    public function saveBlocksPosition(array $data = array());
+    public function saveBlocksPosition(array $data = array(), $partial = true);
 
     /**
      * @param array    $values An array of values for container creation

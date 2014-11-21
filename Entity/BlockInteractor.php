@@ -77,7 +77,7 @@ class BlockInteractor implements BlockInteractorInterface
     /**
      * {@inheritdoc}
      */
-    public function saveBlocksPosition(array $data = array())
+    public function saveBlocksPosition(array $data = array(), $partial = true)
     {
         $em = $this->getEntityManager();
         $em->getConnection()->beginTransaction();
@@ -88,7 +88,7 @@ class BlockInteractor implements BlockInteractorInterface
                     continue;
                 }
 
-                $this->blockManager->updatePosition($block['id'], $block['position'], $block['parent_id'], $block['page_id']);
+                $this->blockManager->updatePosition($block['id'], $block['position'], $block['parent_id'], $block['page_id'], $partial);
             }
 
             $em->flush();
