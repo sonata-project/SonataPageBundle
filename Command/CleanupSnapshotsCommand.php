@@ -29,7 +29,7 @@ class CleanupSnapshotsCommand extends BaseCommand
         $this->setName('sonata:page:cleanup-snapshots');
         $this->setDescription('Cleanups the deprecated snapshots by a given site');
 
-        $this->addOption('site', null, InputOption::VALUE_REQUIRED, 'Site id', null);
+        $this->addOption('site', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Site id', null);
         $this->addOption('base-console', null, InputOption::VALUE_OPTIONAL, 'Base Symfony console command', 'app/console');
         $this->addOption('mode', null, InputOption::VALUE_OPTIONAL, 'Run the command asynchronously', 'sync');
         $this->addOption('keep-snapshots', null, InputOption::VALUE_OPTIONAL, 'Keep a given count of snapshots per page', 5);

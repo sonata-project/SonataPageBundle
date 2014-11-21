@@ -34,7 +34,7 @@ class UpdateCoreRoutesCommand extends BaseCommand
         $this->setName('sonata:page:update-core-routes');
         $this->setDescription('Update core routes, from routing files to page manager');
         $this->addOption('all', null, InputOption::VALUE_NONE, 'Create snapshots for all sites');
-        $this->addOption('site', null, InputOption::VALUE_OPTIONAL, 'Site id', null);
+        $this->addOption('site', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Site id', null);
         $this->addOption('base-command', null, InputOption::VALUE_OPTIONAL, 'Site id', 'php app/console');
     }
 
