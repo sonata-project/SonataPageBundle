@@ -32,7 +32,7 @@ class CreateSnapshotsCommand extends BaseCommand
     {
         $this->setName('sonata:page:create-snapshots');
         $this->setDescription('Create a snapshots of all pages available');
-        $this->addOption('site', null, InputOption::VALUE_OPTIONAL, 'Site id', null);
+        $this->addOption('site', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Site id', null);
         $this->addOption('base-console', null, InputOption::VALUE_OPTIONAL, 'Base symfony console command', 'php app/console');
 
         $this->addOption('mode', null, InputOption::VALUE_OPTIONAL, 'Run the command asynchronously', 'sync');

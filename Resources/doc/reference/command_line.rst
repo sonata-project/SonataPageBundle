@@ -29,6 +29,12 @@ Page commands
 
     php app/console sonata:page:cleanup-snapshots --site=all --keep-snapshots=5
 
+Please note that you can also give multiple website identifiers for all those commands, this way:
+
+    php app/console sonata:page:update-core-routes --site=1 --site=2 --site=...
+    php app/console sonata:page:create-snapshots --site=1 --site=2 --site=...
+    php app/console sonata:page:cleanup-snapshots --site=1 --site=2 --site=...
+
 Debug Commands
 --------------
 

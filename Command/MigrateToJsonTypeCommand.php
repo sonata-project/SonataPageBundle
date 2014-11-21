@@ -18,6 +18,9 @@ use Symfony\Component\Console\Output\Output;
 
 class MigrateToJsonTypeCommand extends BaseCommand
 {
+    /**
+     * {@inheritDoc}
+     */
     public function configure()
     {
         $this->setName('sonata:page:migrate-block-json');
@@ -25,6 +28,9 @@ class MigrateToJsonTypeCommand extends BaseCommand
         $this->setDescription('Migrate all block settings to the doctrine JsonType');
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $count = 0;

@@ -43,8 +43,6 @@ You can use the --extended option to dump block configuration
         $this->addArgument('manager', InputArgument::REQUIRED, 'The manager service id');
         $this->addArgument('page_id', InputArgument::REQUIRED, 'The page id');
         $this->addOption('extended', null, InputOption::VALUE_NONE, 'Extended information');
-
-
     }
 
     /**
