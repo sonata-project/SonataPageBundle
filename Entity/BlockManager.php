@@ -81,6 +81,16 @@ class BlockManager extends BaseEntityManager implements BlockManagerInterface
 
         $parameters = array();
 
+        if (isset($criteria['enabled'])) {
+            $query->andWhere('p.enabled = :enabled');
+            $parameters['enabled'] = $criteria['enabled'];
+        }
+
+        if (isset($criteria['type'])) {
+            $query->andWhere('p.type = :enabled');
+            $parameters['type'] = $criteria['type'];
+        }
+
         $query->setParameters($parameters);
 
         $pager = new Pager();
