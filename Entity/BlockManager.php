@@ -87,7 +87,7 @@ class BlockManager extends BaseEntityManager implements BlockManagerInterface
         }
 
         if (isset($criteria['type'])) {
-            $query->andWhere('p.type = :enabled');
+            $query->andWhere('p.type = :type');
             $parameters['type'] = $criteria['type'];
         }
 
