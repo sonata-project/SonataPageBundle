@@ -50,10 +50,6 @@ class PageController extends Controller
      */
     public function exceptionEditAction($code)
     {
-        if (!$this->getCmsManagerSelector()->isEditor()) {
-            throw new AccessDeniedException();
-        }
-
         $cms = $this->getCmsManager();
 
         if (!$this->getExceptionListener()->hasErrorCode($code)) {
