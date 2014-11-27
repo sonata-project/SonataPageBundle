@@ -54,12 +54,12 @@ file that was distributed with this source code.
                         {% for site in sites %}
                             <li>
                                 <a href="{{ admin.generateUrl('tree', { 'site': site.id }) }}">
-                                    {{ site.name }}
                                     {% if currentSite and site.id == currentSite.id %}
                                         <span class="pull-right">
                                             <i class="fa fa-check"></i>
                                         </span>
                                     {% endif %}
+                                    {{ site.name }}
                                 </a>
                             </li>
                         {% endfor%}
