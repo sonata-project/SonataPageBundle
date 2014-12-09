@@ -13,14 +13,13 @@ namespace Sonata\PageBundle\Admin;
 
 use Doctrine\ORM\EntityRepository;
 use Sonata\AdminBundle\Admin\Admin;
-use Sonata\AdminBundle\Route\RouteCollection;
-use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
-
-use Sonata\Cache\CacheManagerInterface;
-
+use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
+use Sonata\Cache\CacheManagerInterface;
+use Sonata\PageBundle\Entity\BaseBlock;
 use Sonata\PageBundle\Model\PageInterface;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -39,8 +38,14 @@ class BlockAdmin extends Admin
      */
     protected $blockManager;
 
+    /**
+     * @var CacheManagerInterface
+     */
     protected $cacheManager;
 
+    /**
+     * @var bool
+     */
     protected $inValidate = false;
 
     /**
@@ -222,6 +227,8 @@ class BlockAdmin extends Admin
 
     /**
      * {@inheritdoc}
+     *
+     * @param BaseBlock $object
      */
     public function preUpdate($object)
     {
@@ -229,11 +236,16 @@ class BlockAdmin extends Admin
 
         // fix weird bug with setter object not being call
         $object->setChildren($object->getChildren());
-        $object->getPage()->setEdited(true);
+
+        if ($object->getPage() instanceof PageInterface) {
+            $object->getPage()->setEdited(true);
+        }
     }
 
     /**
      * {@inheritdoc}
+     *
+     * @param BaseBlock $object
      */
     public function postUpdate($object)
     {
@@ -246,12 +258,16 @@ class BlockAdmin extends Admin
 
     /**
      * {@inheritdoc}
+     *
+     * @param BaseBlock $object
      */
     public function prePersist($object)
     {
         $this->blockManager->get($object)->prePersist($object);
 
-        $object->getPage()->setEdited(true);
+        if ($object->getPage() instanceof PageInterface) {
+            $object->getPage()->setEdited(true);
+        }
 
         // fix weird bug with setter object not being call
         $object->setChildren($object->getChildren());
@@ -259,6 +275,8 @@ class BlockAdmin extends Admin
 
     /**
      * {@inheritdoc}
+     *
+     * @param BaseBlock $object
      */
     public function postPersist($object)
     {
@@ -271,6 +289,8 @@ class BlockAdmin extends Admin
 
     /**
      * {@inheritdoc}
+     *
+     * @param BaseBlock $object
      */
     public function preRemove($object)
     {
@@ -279,6 +299,8 @@ class BlockAdmin extends Admin
 
     /**
      * {@inheritdoc}
+     *
+     * @param BaseBlock $object
      */
     public function postRemove($object)
     {

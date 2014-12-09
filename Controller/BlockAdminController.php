@@ -12,6 +12,7 @@
 namespace Sonata\PageBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
+use Sonata\PageBundle\Admin\SharedBlockAdmin;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -79,7 +80,7 @@ class BlockAdminController extends Controller
             throw new AccessDeniedException();
         }
 
-        if (!$this->admin->getParent()) {
+        if (!$this->admin->getParent() && !$this->admin instanceof SharedBlockAdmin) {
             throw new PageNotFoundException('You cannot create a block without a page');
         }
 

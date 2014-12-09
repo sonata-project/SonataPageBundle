@@ -19,6 +19,11 @@
         <parameter key="sonata.page.admin.block.controller">SonataPageBundle:BlockAdmin</parameter>
         <parameter key="sonata.page.admin.block.translation_domain">%sonata.page.admin.page.translation_domain%</parameter>
 
+        <!-- SHARED BLOCK -->
+        <parameter key="sonata.page.admin.shared_block.class">Sonata\PageBundle\Admin\SharedBlockAdmin</parameter>
+        <parameter key="sonata.page.admin.shared_block.controller">%sonata.page.admin.block.controller%</parameter>
+        <parameter key="sonata.page.admin.shared_block.translation_domain">%sonata.page.admin.page.translation_domain%</parameter>
+
         <!-- SNAPSHOT -->
         <parameter key="sonata.page.admin.snapshot.class">Sonata\PageBundle\Admin\SnapshotAdmin</parameter>
         <parameter key="sonata.page.admin.snapshot.controller">SonataPageBundle:SnapshotAdmin</parameter>
@@ -79,6 +84,36 @@
 
             <call method="setTranslationDomain">
                 <argument>%sonata.page.admin.block.translation_domain%</argument>
+            </call>
+
+            <call method="setContainerBlockTypes">
+                <argument>%sonata.block.container.types%</argument>
+            </call>
+
+            <call method="setFormTheme">
+                <argument type="collection">
+                    <argument>SonataPageBundle:Form:form_admin_fields.html.twig</argument>
+                    <argument>SonataDoctrineORMAdminBundle:Form:form_admin_fields.html.twig</argument>
+                </argument>
+            </call>
+        </service>
+
+        <service id="sonata.page.admin.shared_block" class="%sonata.page.admin.shared_block.class%">
+            <tag name="sonata.admin" manager_type="orm" show_in_dashboard="true" group="sonata_page" label_catalogue="%sonata.page.admin.page.translation_domain%" label="shared_block"  label_translator_strategy="sonata.admin.label.strategy.underscore"/>
+            <argument />
+            <argument>%sonata.page.admin.block.entity%</argument>
+            <argument>%sonata.page.admin.shared_block.controller%</argument>
+
+            <call method="setCacheManager">
+                <argument type="service" id="sonata.cache.manager" />
+            </call>
+
+            <call method="setBlockManager">
+                <argument type="service" id="sonata.block.manager" />
+            </call>
+
+            <call method="setTranslationDomain">
+                <argument>%sonata.page.admin.shared_block.translation_domain%</argument>
             </call>
 
             <call method="setContainerBlockTypes">
