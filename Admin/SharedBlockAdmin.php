@@ -20,7 +20,7 @@ use Sonata\PageBundle\Entity\BaseBlock;
  *
  * @author Romain Mouillard <romain.mouillard@gmail.com>
  */
-class SharedBlockAdmin extends BlockAdmin
+class SharedBlockAdmin extends BaseBlockAdmin
 {
     protected $classnameLabel = 'shared_block';
 
