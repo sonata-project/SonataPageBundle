@@ -32,12 +32,15 @@ Add the dependant bundles to the vendor/bundles directory:
 .. code-block:: bash
 
     php composer.phar require sonata-project/page-bundle --no-update
+    php composer.phar require sonata-project/datagrid-bundle 2.2.*@dev --no-update #for SonataPageBundle > 2.3.6
     php composer.phar require sonata-project/doctrine-orm-admin-bundle --no-update
     php composer.phar update
 
 .. note::
 
     The SonataAdminBundle and SonataDoctrineORMAdminBundle must be installed, please refer to `the dedicated documentation for more information <http://sonata-project.org/bundles/admin>`_.
+    
+    The `SonataDatagridBundle <https://github.com/sonata-project/SonataDatagridBundle>`_ must be added in ``composer.json`` for SonataPageBundle versions above 2.3.6
 
 Next, be sure to enable the ``Page`` and ``EasyExtends`` bundles in your application kernel:
 
