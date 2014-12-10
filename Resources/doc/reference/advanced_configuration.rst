@@ -8,7 +8,7 @@ Full configuration options (config.yml file):
     #
     # more information can be found here http://sonata-project.org/bundles/page
     #
-    symfony_cmf_routing_extra:
+    cmf_routing:
         chain:
             routers_by_id:
                 # enable the DynamicRouter with high priority to allow overwriting configured routes with content
