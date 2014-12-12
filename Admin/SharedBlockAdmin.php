@@ -24,6 +24,10 @@ class SharedBlockAdmin extends BaseBlockAdmin
 {
     protected $classnameLabel = 'shared_block';
 
+    protected $baseRoutePattern = 'shared_block';
+
+    protected $baseRouteName = 'shared_block';
+
     /**
      * {@inheritdoc}
      */
