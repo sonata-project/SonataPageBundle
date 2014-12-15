@@ -10,9 +10,12 @@ This way, shared blocks are common to all your sites.
 
 .. note::
 
-    Changes on a shared block are likely to be echoed on pages which are using it as soon as a new snapshot is created for this page.
+    Changes on a shared block are automatically echoed on all pages which are using it.
 
 Using shared blocks in your pages
 ---------------------------------
 
-Coming soon...
+After creating a shared block, you can reference it in your pages by adding a "Shared Block" block.
+When configuring this block, you will be asked to select a shared block to use.
+
+When your page will be rendered, the referenced shared block will be displayed in its current state.
