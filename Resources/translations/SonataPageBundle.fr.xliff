@@ -720,6 +720,46 @@
           <source>composer.enable</source>
           <target>Activer</target>
       </trans-unit>
+      <trans-unit id="179" resname="shared_block">
+        <source>shared_block</source>
+        <target>Blocs Partagés</target>
+      </trans-unit>
+      <trans-unit id="180" resname="breadcrumb.link_shared_block_batch">
+        <source>breadcrumb.link_shared_block_batch</source>
+        <target>Blocs partagés traités par lots</target>
+      </trans-unit>
+      <trans-unit id="181" resname="breadcrumb.link_shared_block_create">
+        <source>breadcrumb.link_shared_block_create</source>
+        <target>Création d'un bloc partagé</target>
+      </trans-unit>
+      <trans-unit id="182" resname="breadcrumb.link_shared_block_delete">
+        <source>breadcrumb.link_shared_block_delete</source>
+        <target>Suppression d'un bloc partagé</target>
+      </trans-unit>
+      <trans-unit id="183" resname="breadcrumb.link_shared_block_edit">
+        <source>breadcrumb.link_shared_block_edit</source>
+        <target>Edition d'un block partagé</target>
+      </trans-unit>
+      <trans-unit id="184" resname="breadcrumb.link_shared_block_list">
+        <source>breadcrumb.link_shared_block_list</source>
+        <target>Liste des blocs partagés</target>
+      </trans-unit>
+      <trans-unit id="185" resname="breadcrumb.link_shared_block_update">
+        <source>breadcrumb.link_shared_block_update</source>
+        <target>Mise à jour des blocs partagés</target>
+      </trans-unit>
+      <trans-unit id="186" resname="sidemenu.link_list_shared_blocks">
+        <source>sidemenu.link_list_shared_blocks</source>
+        <target>Edition des blocs partagés</target>
+      </trans-unit>
+      <trans-unit id="187" resname="title_select_shared_block_type">
+        <source>title_select_shared_block_type</source>
+        <target>Sélectionner un type de bloc partagé</target>
+      </trans-unit>
+      <trans-unit id="188" resname="composer.shared_block.add.type">
+        <source>composer.shared_block.add.type</source>
+        <target>Ajouter un bloc partagé de type</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

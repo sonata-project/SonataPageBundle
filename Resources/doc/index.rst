@@ -12,6 +12,7 @@ Reference Guide
    reference/installation
    reference/getting_started
    reference/page_composer
+   reference/shared_blocks
    reference/multisite
    reference/error_pages
    reference/twig_helpers

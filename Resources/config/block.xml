@@ -8,6 +8,7 @@
         <parameter key="sonata.page.block.children_pages.class">Sonata\PageBundle\Block\ChildrenPagesBlockService</parameter>
         <parameter key="sonata.page.block.ajax.class">Sonata\PageBundle\Controller\AjaxController</parameter>
         <parameter key="sonata.page.block.breadcrumb.class">Sonata\PageBundle\Block\BreadcrumbBlockService</parameter>
+        <parameter key="sonata.page.block.shared_block.class">Sonata\PageBundle\Block\SharedBlockBlockService</parameter>
     </parameters>
 
     <services>
@@ -46,6 +47,14 @@
             <argument type="service" id="knp_menu.menu_provider" />
             <argument type="service" id="knp_menu.factory" />
             <argument type="service" id="sonata.page.cms_manager_selector" />
+        </service>
+
+        <service id="sonata.page.block.shared_block" class="%sonata.page.block.shared_block.class%">
+            <tag name="sonata.block" />
+            <argument>sonata.page.block.shared_block</argument>
+            <argument type="service" id="templating" />
+            <argument type="service" id="service_container" />
+            <argument type="service" id="sonata.page.manager.block" />
         </service>
     </services>
 </container>
