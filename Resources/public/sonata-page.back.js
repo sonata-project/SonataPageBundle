@@ -345,7 +345,7 @@
             var $form         = $childBlock.find('form'),
                 formAction    = $form.attr('action'),
                 formMethod    = $form.attr('method'),
-                $formControls = $form.find('input, select, textarea'),
+                $formControls = $form.find('.hidden').find('input, select, textarea'),
                 $formActions  = $form.find('.form-actions'),
                 $childName    = this.$dynamicArea.find('.page-composer__container__child__name'),
                 $nameFormControl,
@@ -477,6 +477,7 @@
 
                 if (self.isFormControlTypeByName(formControlName, 'name')) {
                     $nameFormControl = $formControl;
+
                     $title.html('<input type="text" class="page-composer__container__child__name__input" value="' + $title.text() + '">');
                     $input = $title.find('input');
                     $input.bind("propertychange keyup input paste", function (e) {
