@@ -11,6 +11,11 @@ file that was distributed with this source code.
 
 {% extends 'SonataAdminBundle:CRUD:base_list.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/sonatapage/sonata-page.back.css') }}" type="text/css" media="all" />
+{% endblock %}
+
 {% import _self as tree %}
 {% macro pages(pages, admin, rootPages) %}
     <ul{% if rootPages %} class="page-tree"{% endif %}>
