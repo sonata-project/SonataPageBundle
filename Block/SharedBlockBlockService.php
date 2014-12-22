@@ -148,7 +148,8 @@ class SharedBlockBlockService extends BaseBlockService
                 'sonata_field_description' => $fieldDescription,
                 'class'                    => $this->getSharedBlockAdmin()->getClass(),
                 'model_manager'            => $this->getSharedBlockAdmin()->getModelManager(),
-                'label'                    => 'block'
+                'label'                    => 'block',
+                'required'                 => false
             ));
     }
 
