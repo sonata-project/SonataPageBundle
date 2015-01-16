@@ -151,7 +151,7 @@ class BlockAdmin extends BaseBlockAdmin
      */
     public function getPersistentParameters()
     {
-        $parameters = array();
+        $parameters = parent::getPersistentParameters();
 
         if ($composer = $this->getRequest()->get('composer')) {
             $parameters['composer'] = $composer;
