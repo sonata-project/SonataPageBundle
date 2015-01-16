@@ -22,5 +22,9 @@
             <argument type="service" id="sonata.page.manager.site" />
             <argument type="service" id="form.factory" />
         </service>
+
+        <service id="sonata.page.controller.api.snapshot" class="Sonata\PageBundle\Controller\Api\SnapshotController">
+            <argument type="service" id="sonata.page.manager.snapshot" />
+        </service>
     </services>
 </container>
