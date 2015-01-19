@@ -11,13 +11,14 @@
 namespace Sonata\PageBundle\Model;
 
 use Sonata\CoreBundle\Model\ManagerInterface;
+use Sonata\CoreBundle\Model\PageableManagerInterface;
 
 /**
  * Defines methods to interact with the persistency layer of a SnapshotInterface
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-interface SnapshotManagerInterface extends ManagerInterface
+interface SnapshotManagerInterface extends ManagerInterface, PageableManagerInterface
 {
     /**
      * @param array $criteria

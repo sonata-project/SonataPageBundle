@@ -15,8 +15,9 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use Sonata\CoreBundle\Model\BaseEntityManager;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
-
 use Sonata\PageBundle\Model\SnapshotPageProxy;
+use Sonata\DatagridBundle\Pager\Doctrine\Pager;
+use Sonata\DatagridBundle\ProxyQuery\Doctrine\ProxyQuery;
 
 /**
  * This class manages SnapshotInterface persistency with the Doctrine ORM
@@ -260,5 +261,59 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
         }
 
         throw new \RuntimeException(sprintf('The %s database platform has not been tested yet. Please report us if it works and feel free to create a pull request to handle it ;-)', $platform));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPager(array $criteria, $page, $limit = 10, array $sort = array())
+    {
+        $query = $this->getRepository()
+            ->createQueryBuilder('s')
+            ->select('s');
+
+        $parameters = array();
+
+        if (isset($criteria['enabled'])) {
+            $query->andWhere('s.enabled = :enabled');
+            $parameters['enabled'] = $criteria['enabled'];
+        }
+
+        if (isset($criteria['site'])) {
+            $query->join('s.site', 'si');
+            $query->andWhere('si.id = :siteId');
+            $parameters['siteId'] = $criteria['site'];
+        }
+
+        if (isset($criteria['page_id'])) {
+            $query->join('s.page', 'p');
+            $query->andWhere('p.id = :pageId');
+            $parameters['pageId'] = $criteria['page_id'];
+        }
+
+        if (isset($criteria['parent'])) {
+            $query->join('s.parent', 'pa');
+            $query->andWhere('pa.id = :parentId');
+            $parameters['parentId'] = $criteria['parent'];
+        }
+
+        if (isset($criteria['root'])) {
+            $isRoot = (bool) $criteria['root'];
+            if ($isRoot) {
+                $query->andWhere('s.parent IS NULL');
+            } else {
+                $query->andWhere('s.parent IS NOT NULL');
+            }
+        }
+
+        $query->setParameters($parameters);
+
+        $pager = new Pager();
+        $pager->setMaxPerPage($limit);
+        $pager->setQuery(new ProxyQuery($query));
+        $pager->setPage($page);
+        $pager->init();
+
+        return $pager;
     }
 }

@@ -21,6 +21,11 @@
             <argument type="service" id="sonata.page.manager.site" />
         </service>
 
+        <service id="sonata.page.serializer.handler.snapshot" class="Sonata\PageBundle\Serializer\SnapshotSerializerHandler">
+            <tag name="jms_serializer.subscribing_handler" />
+            <argument type="service" id="sonata.page.manager.snapshot" />
+        </service>
+
     </services>
 
 </container>
