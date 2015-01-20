@@ -13,6 +13,7 @@ namespace Sonata\PageBundle\Admin;
 
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\BlockBundle\Block\BaseBlockService;
 use Sonata\PageBundle\Entity\BaseBlock;
 
 /**
@@ -24,9 +25,21 @@ class SharedBlockAdmin extends BaseBlockAdmin
 {
     protected $classnameLabel = 'shared_block';
 
-    protected $baseRoutePattern = 'shared_block';
+    /**
+     * {@inheritDoc}
+     */
+    public function getBaseRoutePattern()
+    {
+        return sprintf('%s/%s', parent::getBaseRoutePattern(), 'shared');
+    }
 
-    protected $baseRouteName = 'shared_block';
+    /**
+     * {@inheritDoc}
+     */
+    public function getBaseRouteName()
+    {
+        return sprintf('%s/%s', parent::getBaseRouteName(), 'shared');
+    }
 
     /**
      * {@inheritdoc}
@@ -56,12 +69,13 @@ class SharedBlockAdmin extends BaseBlockAdmin
 
         $formMapper
             ->with($this->trans('form.field_group_general'))
-                ->add('name')
+                ->add('name', null, ['required' => true])
                 ->add('enabled')
             ->end();
 
         $formMapper->with($this->trans('form.field_group_options'));
 
+        /** @var BaseBlockService $service */
         $service = $this->blockManager->get($block);
 
         if ($block->getId() > 0) {
@@ -86,5 +100,4 @@ class SharedBlockAdmin extends BaseBlockAdmin
 
         return $query;
     }
-
 }
