@@ -121,13 +121,36 @@ class SiteController
     }
 
     /**
+     * Adds a site
+     *
+     * @ApiDoc(
+     *  input={"class"="sonata_page_api_form_site", "name"="", "groups"={"sonata_api_write"}},
+     *  output={"class"="Sonata\PageBundle\Model\Site", "groups"={"sonata_api_read"}},
+     *  statusCodes={
+     *      200="Returned when successful",
+     *      400="Returned when an error has occurred while site creation"
+     *  }
+     * )
+     *
+     * @param Request $request A Symfony request
+     *
+     * @return SiteInterface
+     *
+     * @throws NotFoundHttpException
+     */
+    public function postSiteAction(Request $request)
+    {
+        return $this->handleWriteSite($request);
+    }
+
+    /**
      * Updates a site
      *
      * @ApiDoc(
      *  requirements={
      *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="site id"},
      *  },
-     *  input={"class"="sonata_page_api_form_block", "name"="", "groups"={"sonata_api_write"}},
+     *  input={"class"="sonata_page_api_form_site", "name"="", "groups"={"sonata_api_write"}},
      *  output={"class"="Sonata\PageBundle\Model\Site", "groups"={"sonata_api_read"}},
      *  statusCodes={
      *      200="Returned when successful",
@@ -145,29 +168,7 @@ class SiteController
      */
     public function putSiteAction($id, Request $request)
     {
-        $site = $id ? $this->getSite($id) : null;
-
-        $form = $this->formFactory->createNamed(null, 'sonata_page_api_form_site', $site, array(
-            'csrf_protection' => false,
-        ));
-
-        $form->bind($request);
-
-        if ($form->isValid()) {
-            $site = $form->getData();
-
-            $this->siteManager->save($site);
-
-            $view = FOSRestView::create($site);
-            $serializationContext = SerializationContext::create();
-            $serializationContext->setGroups(array('sonata_api_read'));
-            $serializationContext->enableMaxDepthChecks();
-            $view->setSerializationContext($serializationContext);
-
-            return $view;
-        }
-
-        return $form;
+        return $this->handleWriteSite($request, $id);
     }
 
     /**
@@ -217,5 +218,40 @@ class SiteController
         }
 
         return $site;
+    }
+
+    /**
+     * Write a site, this method is used by both POST and PUT action methods
+     *
+     * @param Request      $request Symfony request
+     * @param integer|null $id      A post identifier
+     *
+     * @return FormInterface
+     */
+    protected function handleWriteSite($request, $id = null)
+    {
+        $site = $id ? $this->getSite($id) : null;
+
+        $form = $this->formFactory->createNamed(null, 'sonata_page_api_form_site', $site, array(
+            'csrf_protection' => false,
+        ));
+
+        $form->bind($request);
+
+        if ($form->isValid()) {
+            $site = $form->getData();
+
+            $this->siteManager->save($site);
+
+            $view = FOSRestView::create($site);
+            $serializationContext = SerializationContext::create();
+            $serializationContext->setGroups(array('sonata_api_read'));
+            $serializationContext->enableMaxDepthChecks();
+            $view->setSerializationContext($serializationContext);
+
+            return $view;
+        }
+
+        return $form;
     }
 }
