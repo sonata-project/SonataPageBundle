@@ -12,6 +12,7 @@
 namespace Sonata\Test\PageBundle\Controller\Api;
 
 use Sonata\PageBundle\Controller\Api\SiteController;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class SiteControllerTest
@@ -49,6 +50,84 @@ class SiteControllerTest extends \PHPUnit_Framework_TestCase
     public function testGetSiteActionNotFoundException()
     {
         $this->createSiteController()->getSiteAction(1);
+    }
+
+    public function testPostSiteAction()
+    {
+        $site = $this->getMock('Sonata\PageBundle\Model\SiteInterface');
+
+        $siteManager = $this->getMock('Sonata\PageBundle\Model\SiteManagerInterface');
+        $siteManager->expects($this->once())->method('save')->will($this->returnValue($site));
+
+        $form = $this->getMockBuilder('Symfony\Component\Form\Form')->disableOriginalConstructor()->getMock();
+        $form->expects($this->once())->method('bind');
+        $form->expects($this->once())->method('isValid')->will($this->returnValue(true));
+        $form->expects($this->once())->method('getData')->will($this->returnValue($site));
+
+        $formFactory = $this->getMock('Symfony\Component\Form\FormFactoryInterface');
+        $formFactory->expects($this->once())->method('createNamed')->will($this->returnValue($form));
+
+        $view = $this->createSiteController(null, $siteManager, $formFactory)->postSiteAction(new Request());
+
+        $this->assertInstanceOf('FOS\RestBundle\View\View', $view);
+    }
+
+    public function testPostSiteInvalidAction()
+    {
+        $site = $this->getMock('Sonata\PageBundle\Model\SiteInterface');
+
+        $siteManager = $this->getMock('Sonata\PageBundle\Model\SiteManagerInterface');
+        $siteManager->expects($this->never())->method('save')->will($this->returnValue($site));
+
+        $form = $this->getMockBuilder('Symfony\Component\Form\Form')->disableOriginalConstructor()->getMock();
+        $form->expects($this->once())->method('bind');
+        $form->expects($this->once())->method('isValid')->will($this->returnValue(false));
+
+        $formFactory = $this->getMock('Symfony\Component\Form\FormFactoryInterface');
+        $formFactory->expects($this->once())->method('createNamed')->will($this->returnValue($form));
+
+        $view = $this->createSiteController(null, $siteManager, $formFactory)->postSiteAction(new Request());
+
+        $this->assertInstanceOf('Symfony\Component\Form\FormInterface', $view);
+    }
+
+    public function testPutSiteAction()
+    {
+        $site = $this->getMock('Sonata\PageBundle\Model\SiteInterface');
+
+        $siteManager = $this->getMock('Sonata\PageBundle\Model\SiteManagerInterface');
+        $siteManager->expects($this->once())->method('save')->will($this->returnValue($site));
+
+        $form = $this->getMockBuilder('Symfony\Component\Form\Form')->disableOriginalConstructor()->getMock();
+        $form->expects($this->once())->method('bind');
+        $form->expects($this->once())->method('isValid')->will($this->returnValue(true));
+        $form->expects($this->once())->method('getData')->will($this->returnValue($site));
+
+        $formFactory = $this->getMock('Symfony\Component\Form\FormFactoryInterface');
+        $formFactory->expects($this->once())->method('createNamed')->will($this->returnValue($form));
+
+        $view = $this->createSiteController($site, $siteManager, $formFactory)->putSiteAction(1, new Request());
+
+        $this->assertInstanceOf('FOS\RestBundle\View\View', $view);
+    }
+
+    public function testPutSiteInvalidAction()
+    {
+        $site = $this->getMock('Sonata\PageBundle\Model\SiteInterface');
+
+        $siteManager = $this->getMock('Sonata\PageBundle\Model\SiteManagerInterface');
+        $siteManager->expects($this->never())->method('save')->will($this->returnValue($site));
+
+        $form = $this->getMockBuilder('Symfony\Component\Form\Form')->disableOriginalConstructor()->getMock();
+        $form->expects($this->once())->method('bind');
+        $form->expects($this->once())->method('isValid')->will($this->returnValue(false));
+
+        $formFactory = $this->getMock('Symfony\Component\Form\FormFactoryInterface');
+        $formFactory->expects($this->once())->method('createNamed')->will($this->returnValue($form));
+
+        $view = $this->createSiteController($site, $siteManager, $formFactory)->putSiteAction(1, new Request());
+
+        $this->assertInstanceOf('Symfony\Component\Form\FormInterface', $view);
     }
 
     public function testDeleteSiteAction()
