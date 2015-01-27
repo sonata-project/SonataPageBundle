@@ -30,7 +30,7 @@ class SiteControllerTest extends \PHPUnit_Framework_TestCase
         $siteManager->expects($this->once())->method('getPager')->will($this->returnValue(array()));
 
         $paramFetcher = $this->getMock('FOS\RestBundle\Request\ParamFetcherInterface');
-        $paramFetcher->expects($this->exactly(2))->method('get');
+        $paramFetcher->expects($this->exactly(3))->method('get');
         $paramFetcher->expects($this->once())->method('all')->will($this->returnValue(array()));
 
         $this->assertEquals(array(), $this->createSiteController(null, $siteManager)->getSitesAction($paramFetcher));

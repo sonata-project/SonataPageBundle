@@ -64,6 +64,7 @@ class SiteController
      * @QueryParam(name="count", requirements="\d+", default="10", description="Maximum number of sites per page")
      * @QueryParam(name="enabled", requirements="0|1", nullable=true, strict=true, description="Enabled/Disabled sites filter")
      * @QueryParam(name="is_default", requirements="0|1", nullable=true, strict=true, description="Default sites filter")
+     * @QueryParam(name="orderBy", requirements="ASC|DESC", array=true, nullable=true, strict=true, description="Order by array (key is field, value is direction)")
      *
      * @View(serializerGroups="sonata_api_read", serializerEnableMaxDepthChecks=true)
      *
@@ -73,23 +74,29 @@ class SiteController
      */
     public function getSitesAction(ParamFetcherInterface $paramFetcher)
     {
-        $supportedFilters = array(
+        $supportedCriteria = array(
             'enabled'    => '',
             'is_default' => '',
         );
 
-        $page  = $paramFetcher->get('page');
-        $count = $paramFetcher->get('count');
+        $page    = $paramFetcher->get('page');
+        $limit   = $paramFetcher->get('count');
+        $sort    = $paramFetcher->get('orderBy');
+        $criteria = array_intersect_key($paramFetcher->all(), $supportedCriteria);
 
-        $filters = array_intersect_key($paramFetcher->all(), $supportedFilters);
-
-        foreach ($filters as $key => $value) {
+        foreach ($criteria as $key => $value) {
             if (null === $value) {
-                unset($filters[$key]);
+                unset($criteria[$key]);
             }
         }
 
-        $pager = $this->siteManager->getPager($filters, $page, $count);
+        if (!$sort) {
+            $sort = array();
+        } elseif (!is_array($sort)) {
+            $sort = array($sort => 'asc');
+        }
+
+        $pager = $this->siteManager->getPager($criteria, $page, $limit, $sort);
 
         return $pager;
     }
