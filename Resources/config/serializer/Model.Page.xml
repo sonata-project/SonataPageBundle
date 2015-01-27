@@ -21,8 +21,8 @@
 
         <property name="routeName"     type="string"  expose="true" since-version="1.0" groups="sonata_api_read,sonata_search" />
         <property name="edited"        type="boolean" expose="true" since-version="1.0" groups="sonata_api_read,sonata_search" />
-        <property name="slug"          type="string"  expose="true" since-version="1.0" groups="sonata_api_read,sonata_search" />
-        <property name="customUrl"     type="string"  expose="true" since-version="1.0" groups="sonata_api_read,sonata_search" />
+        <property name="slug"          type="string"  expose="true" since-version="1.0" groups="sonata_api_read,sonata_api_write,sonata_search" />
+        <property name="customUrl"     type="string"  expose="true" since-version="1.0" groups="sonata_api_read,sonata_api_write,sonata_search" />
         <property name="requestMethod" type="string"  expose="true" since-version="1.0" groups="sonata_api_read,sonata_search" />
 
         <property name="parent" serialized-name="parent_id" type="sonata_page_page_id" expose="true" since-version="1.0" groups="sonata_api_read,sonata_api_write,sonata_search" />
