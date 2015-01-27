@@ -30,6 +30,18 @@
            <constraint name="NotNull" />
         </property>
     </class>
+
+    <class name="Sonata\PageBundle\Model\Page">
+        <property name="name">
+            <constraint name="NotNull" />
+        </property>
+        <property name="position">
+            <constraint name="NotNull" />
+        </property>
+        <property name="templateCode">
+            <constraint name="NotNull" />
+        </property>
+    </class>
 </constraint-mapping>
 
 
