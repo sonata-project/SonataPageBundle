@@ -106,7 +106,7 @@ class PageController
      */
     public function getPagesAction(ParamFetcherInterface $paramFetcher)
     {
-        $supportedFilters = array(
+        $supportedCriteria = array(
             'enabled'  => '',
             'edited'   => '',
             'internal' => '',
@@ -115,18 +115,24 @@ class PageController
             'parent'   => '',
         );
 
-        $page    = $paramFetcher->get('page');
-        $count   = $paramFetcher->get('count');
-        $orderBy = $paramFetcher->get('orderBy');
-        $filters = array_intersect_key($paramFetcher->all(), $supportedFilters);
+        $page     = $paramFetcher->get('page');
+        $limit    = $paramFetcher->get('count');
+        $sort     = $paramFetcher->get('orderBy');
+        $criteria = array_intersect_key($paramFetcher->all(), $supportedCriteria);
 
-        foreach ($filters as $key => $value) {
+        foreach ($criteria as $key => $value) {
             if (null === $value) {
-                unset($filters[$key]);
+                unset($criteria[$key]);
             }
         }
 
-        $pager = $this->pageManager->getPager($filters, $page, $count);
+        if (!$sort) {
+            $sort = array();
+        } elseif (!is_array($sort)) {
+            $sort = array($sort => 'asc');
+        }
+
+        $pager = $this->pageManager->getPager($criteria, $page, $limit, $sort);
 
         return $pager;
     }

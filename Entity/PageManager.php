@@ -71,6 +71,20 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
             ->createQueryBuilder('p')
             ->select('p');
 
+        $fields = $this->getEntityManager()->getClassMetadata($this->class)->getFieldNames();
+
+        foreach ($sort as $field => $direction) {
+            if (!in_array($field, $fields)) {
+                throw new \RuntimeException(sprintf("Invalid sort field '%s' in '%s' class", $field, $this->class));
+            }
+        }
+        if (count($sort) == 0) {
+            $sort = array('name' => 'ASC');
+        }
+        foreach ($sort as $field => $direction) {
+            $query->orderBy(sprintf('p.%s', $field), strtoupper($direction));
+        }
+
         $parameters = array();
 
         if (isset($criteria['enabled'])) {
