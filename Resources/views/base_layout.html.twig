@@ -22,7 +22,7 @@ file that was distributed with this source code.
             {% block sonata_page_stylesheets %}
                 {% block page_stylesheets %} {# Deprecated block #}
                     {% for stylesheet in sonata_page.assets.stylesheets %}
-                        <link rel="stylesheet" href="{{ asset(stylesheet) }}" type="text/css" media="all"  />
+                        <link rel="stylesheet" href="{{ asset(stylesheet) }}" media="all">
                     {% endfor %}
                 {% endblock %}
             {% endblock %}
@@ -35,7 +35,7 @@ file that was distributed with this source code.
                     <![endif]-->
 
                     {% for js in sonata_page.assets.javascripts %}
-                        <script src="{{ asset(js) }}" type="text/javascript"></script>
+                        <script src="{{ asset(js) }}"></script>
                     {% endfor %}
                 {% endblock %}
 
@@ -120,8 +120,8 @@ file that was distributed with this source code.
                                     {% if sonata_page.isInlineEditionOn and page is defined %}
                                         <li>
                                             <form class="form-inline" style="margin: 0px">
-                                                <label class="checkbox inline" for="page-action-enabled-edit"><input type="checkbox" id="page-action-enabled-edit" />{{ 'header.show_zone'|trans({}, 'SonataPageBundle') }}</label>
-                                                <input type="submit" class="btn" value="{{ 'btn_save_position'|trans({}, 'SonataPageBundle') }}" id="page-action-save-position" />
+                                                <label class="checkbox inline" for="page-action-enabled-edit"><input type="checkbox" id="page-action-enabled-edit">{{ 'header.show_zone'|trans({}, 'SonataPageBundle') }}</label>
+                                                <input type="submit" class="btn" value="{{ 'btn_save_position'|trans({}, 'SonataPageBundle') }}" id="page-action-save-position">
                                             </form>
                                         </li>
                                     {% endif %}

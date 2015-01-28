@@ -312,7 +312,7 @@
                 var $childBlock = $(['<li class="page-composer__container__child">',
                         '<a class="page-composer__container__child__edit">',
                             '<h4 class="page-composer__container__child__name">',
-                                '<input type="text" class="page-composer__container__child__name__input" />',
+                                '<input type="text" class="page-composer__container__child__name__input">',
                             '</h4>',
                         '</a>',
                         '<div class="page-composer__container__child__right">',

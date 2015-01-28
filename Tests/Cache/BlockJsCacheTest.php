@@ -83,7 +83,7 @@ class BlockJsCacheTest extends \PHPUnit_Framework_TestCase
 
         $expected = <<<EXPECTED
 <div id="block-cms-4" >
-    <script type="text/javascript">
+    <script>
         /*<![CDATA[*/
             (function() {
                 var b = document.createElement("script");
