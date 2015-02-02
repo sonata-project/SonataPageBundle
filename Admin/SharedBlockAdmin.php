@@ -69,7 +69,7 @@ class SharedBlockAdmin extends BaseBlockAdmin
 
         $formMapper
             ->with($this->trans('form.field_group_general'))
-                ->add('name', null, ['required' => true])
+                ->add('name', null, array('required' => true))
                 ->add('enabled')
             ->end();
 
