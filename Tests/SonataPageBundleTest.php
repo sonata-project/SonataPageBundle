@@ -36,6 +36,7 @@ class SonataPageBundleTest extends \PHPUnit_Framework_TestCase
     {
         $bundle = new SonataPageBundle();
         $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $container->expects($this->exactly(1))->method('hasParameter')->will($this->returnValue(true));
         $container->expects($this->exactly(2))->method('getParameter')->will($this->returnCallback(function($value) {
             if ($value == 'sonata.page.page.class') {
                 return 'Sonata\PageBundle\Tests\Page';
