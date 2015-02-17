@@ -45,7 +45,13 @@ class SonataPageBundle extends Bundle
         $class     = $this->container->getParameter('sonata.page.page.class');
 
         call_user_func(array($class, 'setSlugifyMethod'), function($text) use ($container) {
-            $service = $container->get($container->getParameter('sonata.page.slugify_service'));
+            if ($container->hasParameter('sonata.page.slugify_service')) {
+                $id = $container->getParameter('sonata.page.slugify_service');
+            } else {
+                $id = 'sonata.core.slugify.native'; // default BC value, you should use sonata.core.slugify.cocur
+            }
+
+            $service = $container->get($id);
 
             return $service->slugify($text);
         });
