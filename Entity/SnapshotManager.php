@@ -63,19 +63,20 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
     /**
      * {@inheritdoc}
      */
-    public function enableSnapshots(array $snapshots)
+    public function enableSnapshots(array $snapshots, \DateTime $date = null)
     {
         if (count($snapshots) == 0) {
             return;
         }
 
-        $now = new \DateTime;
+        $date = $date ?: new \DateTime();
         $pageIds = $snapshotIds = array();
+
         foreach ($snapshots as $snapshot) {
             $pageIds[]     = $snapshot->getPage()->getId();
             $snapshotIds[] = $snapshot->getId();
 
-            $snapshot->setPublicationDateStart($now);
+            $snapshot->setPublicationDateStart($date);
             $snapshot->setPublicationDateEnd(null);
 
             $this->getEntityManager()->persist($snapshot);
@@ -83,9 +84,9 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
 
         $this->getEntityManager()->flush();
         //@todo: strange sql and low-level pdo usage: use dql or qb
-        $sql = sprintf("UPDATE %s SET publication_date_end = '%s' WHERE id NOT IN(%s) AND page_id IN (%s) AND publication_date_end IS NULL",
+        $sql = sprintf("UPDATE %s SET publication_date_end = '%s' WHERE id NOT IN(%s) AND page_id IN (%s)",
             $this->getTableName(),
-            $now->format('Y-m-d H:i:s'),
+            $date->format('Y-m-d H:i:s'),
             implode(',', $snapshotIds),
             implode(',', $pageIds)
         );

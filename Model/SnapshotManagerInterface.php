@@ -28,9 +28,10 @@ interface SnapshotManagerInterface extends ManagerInterface, PageableManagerInte
     function findEnableSnapshot(array $criteria);
 
     /**
-     * @param array $snapshots
+     * @param array          $snapshots A snapshots array to enable
+     * @param \DateTime|null $date      A date instance
      */
-    function enableSnapshots(array $snapshots);
+    function enableSnapshots(array $snapshots, \DateTime $date = null);
 
     /**
      * Cleanups the deprecated snapshots
