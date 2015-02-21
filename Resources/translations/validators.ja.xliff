@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="ja" datatype="plaintext"  original="file.ext">
+    <header />
+    <body>
+      <trans-unit id="26" resname="error.uniq_url">
+        <source>error.uniq_url</source>
+        <target>URL '%url%' はすでに他のページに関連づけられています</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

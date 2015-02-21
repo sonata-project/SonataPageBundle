@@ -1,0 +1,764 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="ja" datatype="plaintext"  original="file.ext">
+    <body>
+      <trans-unit id="0" resname="block">
+        <source>block</source>
+        <target>ブロック</target>
+      </trans-unit>
+      <trans-unit id="1" resname="breadcrumb.link_block_batch">
+        <source>breadcrumb.link_block_batch</source>
+        <target>バッチ</target>
+      </trans-unit>
+      <trans-unit id="2" resname="breadcrumb.link_block_create">
+        <source>breadcrumb.link_block_create</source>
+        <target>作成</target>
+      </trans-unit>
+      <trans-unit id="3" resname="breadcrumb.link_block_delete">
+        <source>breadcrumb.link_block_delete</source>
+        <target>削除</target>
+      </trans-unit>
+      <trans-unit id="4" resname="breadcrumb.link_block_edit">
+        <source>breadcrumb.link_block_edit</source>
+        <target>編集</target>
+      </trans-unit>
+      <trans-unit id="5" resname="breadcrumb.link_block_list">
+        <source>breadcrumb.link_block_list</source>
+        <target>ブロック一覧</target>
+      </trans-unit>
+      <trans-unit id="6" resname="breadcrumb.link_block_update">
+        <source>breadcrumb.link_block_update</source>
+        <target>更新</target>
+      </trans-unit>
+      <trans-unit id="7" resname="breadcrumb.link_dashboard">
+        <source>breadcrumb.link_dashboard</source>
+        <target>ダッシュボード</target>
+      </trans-unit>
+      <trans-unit id="8" resname="breadcrumb.link_page_batch">
+        <source>breadcrumb.link_page_batch</source>
+        <target>バッチ</target>
+      </trans-unit>
+      <trans-unit id="9" resname="breadcrumb.link_page_create">
+        <source>breadcrumb.link_page_create</source>
+        <target>作成</target>
+      </trans-unit>
+      <trans-unit id="10" resname="breadcrumb.link_page_delete">
+        <source>breadcrumb.link_page_delete</source>
+        <target>削除</target>
+      </trans-unit>
+      <trans-unit id="11" resname="breadcrumb.link_page_edit">
+        <source>breadcrumb.link_page_edit</source>
+        <target>編集</target>
+      </trans-unit>
+      <trans-unit id="12" resname="breadcrumb.link_page_list">
+        <source>breadcrumb.link_page_list</source>
+        <target>ページ一覧</target>
+      </trans-unit>
+      <trans-unit id="13" resname="breadcrumb.link_page_update">
+        <source>breadcrumb.link_page_update</source>
+        <target>更新</target>
+      </trans-unit>
+      <trans-unit id="14" resname="breadcrumb.link_snapshot_batch">
+        <source>breadcrumb.link_snapshot_batch</source>
+        <target>バッチ</target>
+      </trans-unit>
+      <trans-unit id="15" resname="breadcrumb.link_snapshot_create">
+        <source>breadcrumb.link_snapshot_create</source>
+        <target>作成</target>
+      </trans-unit>
+      <trans-unit id="16" resname="breadcrumb.link_snapshot_delete">
+        <source>breadcrumb.link_snapshot_delete</source>
+        <target>削除</target>
+      </trans-unit>
+      <trans-unit id="17" resname="breadcrumb.link_snapshot_edit">
+        <source>breadcrumb.link_snapshot_edit</source>
+        <target>編集</target>
+      </trans-unit>
+      <trans-unit id="18" resname="breadcrumb.link_snapshot_list">
+        <source>breadcrumb.link_snapshot_list</source>
+        <target>一覧</target>
+      </trans-unit>
+      <trans-unit id="19" resname="breadcrumb.link_snapshot_update">
+        <source>breadcrumb.link_snapshot_update</source>
+        <target>更新</target>
+      </trans-unit>
+      <trans-unit id="20" resname="btn_save_position">
+        <source>btn_save_position</source>
+        <target>Save Position</target>
+      </trans-unit>
+      <trans-unit id="21" resname="button_create_snapshot">
+        <source>button_create_snapshot</source>
+        <target>スナップショット作成</target>
+      </trans-unit>
+      <trans-unit id="22" resname="cms">
+        <source>cms</source>
+        <target>cms</target>
+      </trans-unit>
+      <trans-unit id="23" resname="create_page">
+        <source>create_page</source>
+        <target>ページ作成</target>
+      </trans-unit>
+      <trans-unit id="24" resname="create_snapshot">
+        <source>create_snapshot</source>
+        <target>Publication作成</target>
+      </trans-unit>
+      <trans-unit id="25" resname="error.404">
+        <source>error.404</source>
+        <target>Error 404</target>
+      </trans-unit>
+      <trans-unit id="27" resname="filter.label_enabled">
+        <source>filter.label_enabled</source>
+        <target>Enabled</target>
+      </trans-unit>
+      <trans-unit id="28" resname="filter.label_hybrid">
+        <source>filter.label_hybrid</source>
+        <target>Page Type</target>
+      </trans-unit>
+      <trans-unit id="29" resname="filter.label_name">
+        <source>filter.label_name</source>
+        <target>名前</target>
+      </trans-unit>
+      <trans-unit id="30" resname="filter.label_page">
+        <source>filter.label_page</source>
+        <target>ページ</target>
+      </trans-unit>
+      <trans-unit id="31" resname="filter.label_route_name">
+        <source>filter.label_route_name</source>
+        <target>ルート名</target>
+      </trans-unit>
+      <trans-unit id="32" resname="filter.label_type">
+        <source>filter.label_type</source>
+        <target>タイプ</target>
+      </trans-unit>
+      <trans-unit id="33" resname="form.group_advanced_label">
+        <source>form.group_advanced_label</source>
+        <target>高度</target>
+      </trans-unit>
+      <trans-unit id="34" resname="form.group_main_label">
+        <source>form.group_main_label</source>
+        <target>一般</target>
+      </trans-unit>
+      <trans-unit id="35" resname="form.group_seo_label">
+        <source>form.group_seo_label</source>
+        <target>SEO</target>
+      </trans-unit>
+      <trans-unit id="36" resname="form.label_children">
+        <source>form.label_children</source>
+        <target>子</target>
+      </trans-unit>
+      <trans-unit id="37" resname="form.label_custom_url">
+        <source>form.label_custom_url</source>
+        <target>カスタムURL</target>
+      </trans-unit>
+      <trans-unit id="38" resname="form.label_decorate">
+        <source>form.label_decorate</source>
+        <target>Decorate</target>
+      </trans-unit>
+      <trans-unit id="39" resname="form.label_enabled">
+        <source>form.label_enabled</source>
+        <target>Enabled</target>
+      </trans-unit>
+      <trans-unit id="40" resname="form.label_javascript">
+        <source>form.label_javascript</source>
+        <target>Javascript</target>
+      </trans-unit>
+      <trans-unit id="41" resname="form.label_meta_description">
+        <source>form.label_meta_description</source>
+        <target>Meta Description</target>
+      </trans-unit>
+      <trans-unit id="42" resname="form.label_meta_keyword">
+        <source>form.label_meta_keyword</source>
+        <target>Meta Keyword</target>
+      </trans-unit>
+      <trans-unit id="43" resname="form.label_name">
+        <source>form.label_name</source>
+        <target>名前</target>
+      </trans-unit>
+      <trans-unit id="44" resname="form.label_parent">
+        <source>form.label_parent</source>
+        <target>親</target>
+      </trans-unit>
+      <trans-unit id="45" resname="form.label_position">
+        <source>form.label_position</source>
+        <target>ポジション</target>
+      </trans-unit>
+      <trans-unit id="46" resname="form.label_publication_date_end">
+        <source>form.label_publication_date_end</source>
+        <target>公開終了日</target>
+      </trans-unit>
+      <trans-unit id="47" resname="form.label_publication_date_start">
+        <source>form.label_publication_date_start</source>
+        <target>公開開始日</target>
+      </trans-unit>
+      <trans-unit id="48" resname="form.label_raw_headers">
+        <source>form.label_raw_headers</source>
+        <target>生ヘッダ</target>
+      </trans-unit>
+      <trans-unit id="49" resname="form.label_settings">
+        <source>form.label_settings</source>
+        <target>設定</target>
+      </trans-unit>
+      <trans-unit id="50" resname="form.label_slug">
+        <source>form.label_slug</source>
+        <target>Slug</target>
+      </trans-unit>
+      <trans-unit id="51" resname="form.label_stylesheet">
+        <source>form.label_stylesheet</source>
+        <target>Stylesheet</target>
+      </trans-unit>
+      <trans-unit id="52" resname="form.label_target">
+        <source>form.label_target</source>
+        <target>Target</target>
+      </trans-unit>
+      <trans-unit id="53" resname="form.label_template_code">
+        <source>form.label_template_code</source>
+        <target>テンプレート</target>
+      </trans-unit>
+      <trans-unit id="54" resname="form.label_type">
+        <source>form.label_type</source>
+        <target>タイプ</target>
+      </trans-unit>
+      <trans-unit id="55" resname="form.label_url">
+        <source>form.label_url</source>
+        <target>Url</target>
+      </trans-unit>
+      <trans-unit id="56" resname="form_page.group_advanced_label">
+        <source>form_page.group_advanced_label</source>
+        <target>高度</target>
+      </trans-unit>
+      <trans-unit id="57" resname="form_page.group_main_label">
+        <source>form_page.group_main_label</source>
+        <target>メイン</target>
+      </trans-unit>
+      <trans-unit id="58" resname="form_page.group_seo_label">
+        <source>form_page.group_seo_label</source>
+        <target>SEO</target>
+      </trans-unit>
+      <trans-unit id="59" resname="header.create_snapshot">
+        <source>header.create_snapshot</source>
+        <target>スナップショット作成</target>
+      </trans-unit>
+      <trans-unit id="60" resname="header.edit_page">
+        <source>header.edit_page</source>
+        <target>ページ編集</target>
+      </trans-unit>
+      <trans-unit id="61" resname="header.page_is_disabled">
+        <source>header.page_is_disabled</source>
+        <target>無効</target>
+      </trans-unit>
+      <trans-unit id="62" resname="header.show_zone">
+        <source>header.show_zone</source>
+        <target>ゾーン表示</target>
+      </trans-unit>
+      <trans-unit id="63" resname="header.view_all_exceptions">
+        <source>header.view_all_exceptions</source>
+        <target>すべてのエラーを見る</target>
+      </trans-unit>
+      <trans-unit id="64" resname="header.view_all_pages">
+        <source>header.view_all_pages</source>
+        <target>すべてのページを見る</target>
+      </trans-unit>
+      <trans-unit id="65" resname="help_page_name">
+        <source>help_page_name</source>
+        <target>ページ名 (ページの表示名として使用)</target>
+      </trans-unit>
+      <trans-unit id="66" resname="hybrid">
+        <source>hybrid</source>
+        <target>hybrid</target>
+      </trans-unit>
+      <trans-unit id="67" resname="list.label_decorate">
+        <source>list.label_decorate</source>
+        <target>Decorate</target>
+      </trans-unit>
+      <trans-unit id="68" resname="list.label_enabled">
+        <source>list.label_enabled</source>
+        <target>Enabled</target>
+      </trans-unit>
+      <trans-unit id="69" resname="list.label_hybrid">
+        <source>list.label_hybrid</source>
+        <target>ページタイプ</target>
+      </trans-unit>
+      <trans-unit id="70" resname="list.label_name">
+        <source>list.label_name</source>
+        <target>名前</target>
+      </trans-unit>
+      <trans-unit id="71" resname="list.label_position">
+        <source>list.label_position</source>
+        <target>ポジション</target>
+      </trans-unit>
+      <trans-unit id="72" resname="list.label_publication_date_end">
+        <source>list.label_publication_date_end</source>
+        <target>公開終了日</target>
+      </trans-unit>
+      <trans-unit id="73" resname="list.label_publication_date_start">
+        <source>list.label_publication_date_start</source>
+        <target>公開開始日</target>
+      </trans-unit>
+      <trans-unit id="74" resname="list.label_type">
+        <source>list.label_type</source>
+        <target>タイプ</target>
+      </trans-unit>
+      <trans-unit id="75" resname="list.label_updated_at">
+        <source>list.label_updated_at</source>
+        <target>更新日時</target>
+      </trans-unit>
+      <trans-unit id="76" resname="list.label_url">
+        <source>list.label_url</source>
+        <target>Url</target>
+      </trans-unit>
+      <trans-unit id="77" resname="manage_exception">
+        <source>manage_exception</source>
+        <target>The %code% page</target>
+      </trans-unit>
+      <trans-unit id="78" resname="message_create_snapshot">
+        <source>message_create_snapshot</source>
+        <target>ページのスナップショットを作成</target>
+      </trans-unit>
+      <trans-unit id="79" resname="or_list">
+        <source>or_list</source>
+        <target>or</target>
+      </trans-unit>
+      <trans-unit id="80" resname="page">
+        <source>page</source>
+        <target>ページ</target>
+      </trans-unit>
+      <trans-unit id="81" resname="show.label_custom_url">
+        <source>show.label_custom_url</source>
+        <target>カスタムUrl</target>
+      </trans-unit>
+      <trans-unit id="82" resname="show.label_decorate">
+        <source>show.label_decorate</source>
+        <target>Decorate</target>
+      </trans-unit>
+      <trans-unit id="83" resname="show.label_enabled">
+        <source>show.label_enabled</source>
+        <target>Enabled</target>
+      </trans-unit>
+      <trans-unit id="84" resname="show.label_name">
+        <source>show.label_name</source>
+        <target>名前</target>
+      </trans-unit>
+      <trans-unit id="85" resname="show.label_route_name">
+        <source>show.label_route_name</source>
+        <target>ルート名</target>
+      </trans-unit>
+      <trans-unit id="86" resname="show.label_slug">
+        <source>show.label_slug</source>
+        <target>Slug</target>
+      </trans-unit>
+      <trans-unit id="87" resname="sidemenu.link_edit_page">
+        <source>sidemenu.link_edit_page</source>
+        <target>ページ編集</target>
+      </trans-unit>
+      <trans-unit id="88" resname="sidemenu.link_list_blocks">
+        <source>sidemenu.link_list_blocks</source>
+        <target>ブロック一覧</target>
+      </trans-unit>
+      <trans-unit id="89" resname="sidemenu.link_list_snapshots">
+        <source>sidemenu.link_list_snapshots</source>
+        <target>公開</target>
+      </trans-unit>
+      <trans-unit id="90" resname="snapshot">
+        <source>snapshot</source>
+        <target>公開</target>
+      </trans-unit>
+      <trans-unit id="91" resname="sonata_page">
+        <source>sonata_page</source>
+        <target>ページ</target>
+      </trans-unit>
+      <trans-unit id="92" resname="title_create_snapshot">
+        <source>title_create_snapshot</source>
+        <target>スナップショット作成</target>
+      </trans-unit>
+      <trans-unit id="93" resname="title_list_exceptions">
+        <source>title_list_exceptions</source>
+        <target>Error pages to manage:</target>
+      </trans-unit>
+      <trans-unit id="94" resname="title_page_not_found">
+        <source>title_page_not_found</source>
+        <target>ページが存在しません。</target>
+      </trans-unit>
+      <trans-unit id="95" resname="toggle_enabled">
+        <source>toggle_enabled</source>
+        <target>Toggle enabled</target>
+      </trans-unit>
+      <trans-unit id="96" resname="view_page">
+        <source>view_page</source>
+        <target>ページ表示</target>
+      </trans-unit>
+      <trans-unit id="97" resname="header.switch_user_exit">
+          <source>header.switch_user_exit</source>
+          <target>Exit impersonating mode</target>
+      </trans-unit>
+      <trans-unit id="98" resname="header.switch_user">
+          <source>header.switch_user</source>
+          <target>Impersonate User</target>
+      </trans-unit>
+      <trans-unit id="99" resname="header.sonata_admin_dashboard">
+          <source>header.sonata_admin_dashboard</source>
+          <target>ダッシュボード</target>
+      </trans-unit>
+      <trans-unit id="100" resname="list.label_is_default">
+          <source>list.label_is_default</source>
+          <target>デフォルト</target>
+      </trans-unit>
+      <trans-unit id="101" resname="list.label_host">
+          <source>list.label_host</source>
+          <target>ホスト</target>
+      </trans-unit>
+      <trans-unit id="102" resname="list.label_relative_path">
+          <source>list.label_relative_path</source>
+          <target>Relative Path</target>
+      </trans-unit>
+      <trans-unit id="103" resname="list.label_enabled_to">
+          <source>list.label_enabled_to</source>
+          <target>Enabled To</target>
+      </trans-unit>
+      <trans-unit id="104" resname="list.label_enabled_from">
+          <source>list.label_enabled_from</source>
+          <target>Enabled From</target>
+      </trans-unit>
+      <trans-unit id="105" resname="form.label_is_default">
+          <source>form.label_is_default</source>
+          <target>デフォルト</target>
+      </trans-unit>
+      <trans-unit id="106" resname="form.label_host">
+          <source>form.label_host</source>
+          <target>ホスト</target>
+      </trans-unit>
+      <trans-unit id="107" resname="form.label_relative_path">
+          <source>form.label_relative_path</source>
+          <target>Relative Path</target>
+      </trans-unit>
+      <trans-unit id="108" resname="form.label_enabled_to">
+          <source>form.label_enabled_to</source>
+          <target>Enabled To</target>
+      </trans-unit>
+      <trans-unit id="109" resname="form.label_enabled_from">
+          <source>form.label_enabled_from</source>
+          <target>Enabled From</target>
+      </trans-unit>
+      <trans-unit id="110" resname="breadcrumb.link_site_list">
+          <source>breadcrumb.link_site_list</source>
+          <target>サイト一覧</target>
+      </trans-unit>
+      <trans-unit id="111" resname="breadcrumb.link_site_show">
+          <source>breadcrumb.link_site_show</source>
+          <target>表示</target>
+      </trans-unit>
+      <trans-unit id="112" resname="breadcrumb.link_site_create">
+          <source>breadcrumb.link_site_create</source>
+          <target>作成</target>
+      </trans-unit>
+      <trans-unit id="113" resname="breadcrumb.link_site_edit">
+          <source>breadcrumb.link_site_edit</source>
+          <target>編集</target>
+      </trans-unit>
+      <trans-unit id="114" resname="list.label_create_snapshots">
+          <source>list.label_create_snapshots</source>
+          <target>スナップショット</target>
+      </trans-unit>
+      <trans-unit id="115" resname="link_create_snapshots">
+          <source>link_create_snapshots</source>
+          <target>スナップショット作成</target>
+      </trans-unit>
+      <trans-unit id="116" resname="title_create_snapshots">
+          <source>title_create_snapshots</source>
+          <target>スナップショット作成</target>
+      </trans-unit>
+      <trans-unit id="117" resname="message_create_snapshots">
+          <source>message_create_snapshots</source>
+          <target>ウェブサイト %site% の新しいスナップショットを設定するには作成ボタンをクリックしてください。</target>
+      </trans-unit>
+      <trans-unit id="118" resname="button_create_snapshots">
+          <source>button_create_snapshots</source>
+          <target>作成</target>
+      </trans-unit>
+      <trans-unit id="119" resname="breadcrumb.link_site_history">
+          <source>breadcrumb.link_site_history</source>
+          <target>履歴</target>
+      </trans-unit>
+      <trans-unit id="120" resname="form.label_site">
+          <source>form.label_site</source>
+          <target>サイト</target>
+      </trans-unit>
+      <trans-unit id="121" resname="list.label_site">
+          <source>list.label_site</source>
+          <target>サイト</target>
+      </trans-unit>
+      <trans-unit id="122" resname="site">
+          <source>site</source>
+          <target>サイト</target>
+      </trans-unit>
+      <trans-unit id="123" resname="show.label_is_default">
+          <source>show.label_is_default</source>
+          <target>デフォルト</target>
+      </trans-unit>
+      <trans-unit id="124" resname="show.label_host">
+          <source>show.label_host</source>
+          <target>ホスト</target>
+      </trans-unit>
+      <trans-unit id="125" resname="show.label_relative_path">
+          <source>show.label_relative_path</source>
+          <target>Relative Path</target>
+      </trans-unit>
+      <trans-unit id="126" resname="show.label_enabled_from">
+          <source>show.label_enabled_from</source>
+          <target>Enabled From</target>
+      </trans-unit>
+      <trans-unit id="127" resname="show.label_enabled_to">
+          <source>show.label_enabled_to</source>
+          <target>Enabled To</target>
+      </trans-unit>
+      <trans-unit id="128" resname="list.label_locale">
+          <source>list.label_locale</source>
+          <target>ロケール</target>
+      </trans-unit>
+      <trans-unit id="129" resname="show.label_locale">
+          <source>show.label_locale</source>
+          <target>ロケール</target>
+      </trans-unit>
+      <trans-unit id="130" resname="form.label_locale">
+          <source>form.label_locale</source>
+          <target>ロケール</target>
+      </trans-unit>
+      <trans-unit id="131" resname="form_site.label_seo">
+          <source>form_site.label_seo</source>
+          <target>SEO</target>
+      </trans-unit>
+      <trans-unit id="132" resname="form.label_title">
+          <source>form.label_title</source>
+          <target>タイトル</target>
+      </trans-unit>
+      <trans-unit id="133" resname="form.label_meta_keywords">
+          <source>form.label_meta_keywords</source>
+          <target>Meta Keywords</target>
+      </trans-unit>
+            <trans-unit id="134" resname="show.label_title">
+          <source>show.label_title</source>
+          <target>タイトル</target>
+      </trans-unit>
+      <trans-unit id="135" resname="show.label_meta_description">
+          <source>show.label_meta_description</source>
+          <target>Meta Description</target>
+      </trans-unit>
+      <trans-unit id="136" resname="show.label_meta_keywords">
+          <source>show.label_meta_keywords</source>
+          <target>Meta Keywords</target>
+      </trans-unit>
+      <trans-unit id="137" resname="form_site.label_general">
+          <source>form_site.label_general</source>
+          <target>一般</target>
+      </trans-unit>
+      <trans-unit id="138" resname="filter.label_site">
+          <source>filter.label_site</source>
+          <target>サイト</target>
+      </trans-unit>
+      <trans-unit id="139" resname="filter.label_edited">
+          <source>filter.label_edited</source>
+          <target>Edited</target>
+      </trans-unit>
+      <trans-unit id="140" resname="list.label_edited">
+          <source>list.label_edited</source>
+          <target>Edited</target>
+      </trans-unit>
+      <trans-unit id="141" resname="show.label_site">
+          <source>show.label_site</source>
+          <target>サイト</target>
+      </trans-unit>
+      <trans-unit id="142" resname="show.label_edited">
+          <source>show.label_edited</source>
+          <target>Edited</target>
+      </trans-unit>
+      <trans-unit id="143" resname="breadcrumb.link_page_show">
+          <source>breadcrumb.link_page_show</source>
+          <target>ページ</target>
+      </trans-unit>
+      <trans-unit id="144" resname="sonata_page">
+          <source>sonata_page</source>
+          <target>ページ</target>
+      </trans-unit>
+      <trans-unit id="145" resname="form.label_page_alias">
+          <source>form.label_page_alias</source>
+          <target>Technical Alias</target>
+       </trans-unit>
+      <trans-unit id="146" resname="show.label_page_alias">
+          <source>show.label_page_alias</source>
+          <target>Technical Alias</target>
+       </trans-unit>
+      <trans-unit id="147" resname="list.label_page_alias">
+          <source>list.label_page_alias</source>
+          <target>Technical Alias</target>
+       </trans-unit>
+      <trans-unit id="148" resname="filter.label_page_alias">
+          <source>filter.label_page_alias</source>
+          <target>Technical Alias</target>
+       </trans-unit>
+      <trans-unit id="149" resname="title_page_redirected">
+          <source>title_page_redirected</source>
+          <target>Internal page redirection</target>
+      </trans-unit>
+      <trans-unit id="150" resname="message_page_redirected">
+          <source>message_page_redirected</source>
+          <target><![CDATA[
+             This page is configured to redirect the end user to another page. In order
+             to configure it, the redirect has been blocked for editor only. <br />
+             <br />
+             Please click here to follow the redirection: <a href="%url%">%url%</a>.
+          ]]></target>
+      </trans-unit>
+      <trans-unit id="151" resname="filter.label_parent">
+        <source>filter.label_parent</source>
+        <target>親</target>
+      </trans-unit>
+      <trans-unit id="152" resname="title_select_block_type">
+           <source>title_select_block_type</source>
+           <target>ブロックタイプを選択してください。</target>
+      </trans-unit>
+      <trans-unit id="153" resname="form.field_group_general">
+           <source>form.field_group_general</source>
+           <target>一般</target>
+      </trans-unit>
+      <trans-unit id="154" resname="form.field_group_options">
+           <source>form.field_group_options</source>
+           <target>オプション</target>
+      </trans-unit>
+      <trans-unit id="155" resname="flash_snapshots_created_success">
+           <source>flash_snapshots_created_success</source>
+           <target>スナップショットは正常に作成されました。</target>
+      </trans-unit>
+      <trans-unit id="156" resname="title_message_create_page">
+            <source>title_message_create_page</source>
+            <target>ターゲットのサイトを選択してください。</target>
+      </trans-unit>
+      <trans-unit id="157" resname="message_create_page">
+            <source>message_create_page</source>
+            <target>新しいページを作成する前に、ページが位置するウェブサイトを選択する必要があります。</target>
+      </trans-unit>
+      <trans-unit id="158" resname="sidemenu.link_compose_page">
+          <source>sidemenu.link_compose_page</source>
+          <target>コンポーザ (beta)</target>
+      </trans-unit>
+      <trans-unit id="159" resname="sidemenu.link_list_pages">
+          <source>sidemenu.link_list_pages</source>
+          <target>ページ一覧</target>
+      </trans-unit>
+      <trans-unit id="160" resname="sidemenu.link_pages_tree">
+          <source>sidemenu.link_pages_tree</source>
+          <target>階層表示</target>
+      </trans-unit>
+      <trans-unit id="161" resname="breadcrumb.link_page_tree">
+          <source>breadcrumb.link_page_tree</source>
+          <target>階層</target>
+      </trans-unit>
+      <trans-unit id="162" resname="pages.tree_site_label">
+          <source>pages.tree_site_label</source>
+          <target>ページのサイト</target>
+      </trans-unit>
+      <trans-unit id="163" resname="pages.tree_mode">
+          <source>pages.tree_mode</source>
+          <target>階層表示</target>
+      </trans-unit>
+      <trans-unit id="164" resname="pages.list_mode">
+          <source>pages.list_mode</source>
+          <target>一覧表示</target>
+      </trans-unit>
+      <trans-unit id="165" resname="header.compose_page">
+          <source>header.compose_page</source>
+          <target>Compose</target>
+      </trans-unit>
+      <trans-unit id="166" resname="no_type_available">
+          <source>no_type_available</source>
+          <target>No type available</target>
+      </trans-unit>
+      <trans-unit id="167" resname="page.compose_page">
+          <source>page.compose_page</source>
+          <target>ページ構成</target>
+      </trans-unit>
+      <trans-unit id="168" resname="page.orphan_containers">
+          <source>page.orphan_containers</source>
+          <target>Orphan containers</target>
+      </trans-unit>
+      <trans-unit id="169" resname="composer.remove">
+          <source>composer.remove</source>
+          <target>削除</target>
+      </trans-unit>
+      <trans-unit id="170" resname="composer.remove.confirm">
+          <source>composer.remove.confirm</source>
+          <target>削除しますか?</target>
+      </trans-unit>
+      <trans-unit id="171" resname="yes">
+          <source>yes</source>
+          <target>はい</target>
+      </trans-unit>
+      <trans-unit id="172" resname="cancel">
+          <source>cancel</source>
+          <target>キャンセル</target>
+      </trans-unit>
+      <trans-unit id="173" resname="loading">
+          <source>loading</source>
+          <target>ロード中</target>
+      </trans-unit>
+      <trans-unit id="174" resname="composer.block.add.type">
+          <source>composer.block.add.type</source>
+          <target>追加ブロックタイプ</target>
+      </trans-unit>
+      <trans-unit id="175" resname="notice">
+          <source>notice</source>
+          <target>notice</target>
+      </trans-unit>
+      <trans-unit id="176" resname="blocks">
+          <source>blocks</source>
+          <target>ブロック</target>
+      </trans-unit>
+      <trans-unit id="177" resname="composer.disable">
+          <source>composer.disable</source>
+          <target>Disable</target>
+      </trans-unit>
+      <trans-unit id="178" resname="composer.enable">
+          <source>composer.enable</source>
+          <target>Enable</target>
+      </trans-unit>
+      <trans-unit id="179" resname="shared_block">
+          <source>shared_block</source>
+          <target>共有ブロック</target>
+      </trans-unit>
+      <trans-unit id="180" resname="breadcrumb.link_shared_block_batch">
+          <source>breadcrumb.link_shared_block_batch</source>
+          <target>バッチ</target>
+      </trans-unit>
+      <trans-unit id="181" resname="breadcrumb.link_shared_block_create">
+          <source>breadcrumb.link_shared_block_create</source>
+          <target>作成</target>
+      </trans-unit>
+      <trans-unit id="182" resname="breadcrumb.link_shared_block_delete">
+          <source>breadcrumb.link_shared_block_delete</source>
+          <target>削除</target>
+      </trans-unit>
+      <trans-unit id="183" resname="breadcrumb.link_shared_block_edit">
+          <source>breadcrumb.link_shared_block_edit</source>
+          <target>編集</target>
+      </trans-unit>
+      <trans-unit id="184" resname="breadcrumb.link_shared_block_list">
+          <source>breadcrumb.link_shared_block_list</source>
+          <target>共有ブロック一覧</target>
+      </trans-unit>
+      <trans-unit id="185" resname="breadcrumb.link_shared_block_update">
+          <source>breadcrumb.link_shared_block_update</source>
+          <target>更新</target>
+      </trans-unit>
+      <trans-unit id="186" resname="sidemenu.link_list_shared_blocks">
+          <source>sidemenu.link_list_shared_blocks</source>
+          <target>共有ブロック一覧</target>
+      </trans-unit>
+      <trans-unit id="187" resname="title_select_shared_block_type">
+          <source>title_select_shared_block_type</source>
+          <target>ブロックタイプ選択</target>
+      </trans-unit>
+      <trans-unit id="188" resname="composer.shared_block.add.type">
+          <source>composer.shared_block.add.type</source>
+          <target>ブロックタイプ追加</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
