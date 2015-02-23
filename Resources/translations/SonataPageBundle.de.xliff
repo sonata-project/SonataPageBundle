@@ -603,7 +603,7 @@
           <target><![CDATA[
              Diese Seite ist als Weiterleitung konfiguriert. Um sie zu konfigurieren
              wurde die Weiterleitung verhindert.<br />
-             Um der Weiterleitung zu folgen klicken sie bite hier: <a href="%url%">%url%</a>
+             Um der Weiterleitung zu folgen klicken Sie bitte hier: <a href="%url%">%url%</a>
           ]]></target>
       </trans-unit>
       <trans-unit id="151" resname="filter.label_parent">
