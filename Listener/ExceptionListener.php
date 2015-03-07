@@ -287,9 +287,9 @@ class ExceptionListener
 
         if (null !== $this->logger) {
             if (!$originalException instanceof HttpExceptionInterface || $originalException->getStatusCode() >= 500) {
-                $this->logger->crit($message);
+                $this->logger->crit($message, array( 'exception' => $originalException ));
             } else {
-                $this->logger->err($message);
+                $this->logger->err($message, array( 'exception' => $originalException ));
             }
         } else {
             error_log($message);
