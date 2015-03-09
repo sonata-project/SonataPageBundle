@@ -13,6 +13,7 @@ namespace Sonata\PageBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
@@ -27,7 +28,7 @@ class SnapshotAdminController extends Controller
      *
      * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
      */
-    public function createAction()
+    public function createAction(Request $request = null)
     {
         if (false === $this->admin->isGranted('CREATE')) {
             throw new AccessDeniedException();
@@ -39,8 +40,8 @@ class SnapshotAdminController extends Controller
 
         $snapshot = new $class;
 
-        if ($this->getRequest()->getMethod() == 'GET' && $this->getRequest()->get('pageId')) {
-            $page = $pageManager->findOne(array('id' => $this->getRequest()->get('pageId')));
+        if ($request->getMethod() == 'GET' && $request->get('pageId')) {
+            $page = $pageManager->findOne(array('id' => $request->get('pageId')));
         } elseif ($this->admin->isChild()) {
             $page = $this->admin->getParent()->getSubject();
         } else {
@@ -51,9 +52,9 @@ class SnapshotAdminController extends Controller
 
         $form = $this->createForm('sonata_page_create_snapshot', $snapshot);
 
-        if ($this->getRequest()->getMethod() == 'POST') {
+        if ($request->getMethod() == 'POST') {
 
-            $form->bind($this->getRequest());
+            $form->submit($request);
 
             if ($form->isValid()) {
                 $snapshotManager = $this->get('sonata.page.manager.snapshot');
