@@ -11,7 +11,7 @@
 namespace Sonata\PageBundle\Block;
 
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Validator\ErrorElement;
+use Sonata\CoreBundle\Validator\ErrorElement;
 
 use Sonata\BlockBundle\Block\Service\ContainerBlockService as BaseContainerBlockService;
 use Sonata\BlockBundle\Block\BlockContextInterface;

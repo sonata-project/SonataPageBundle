@@ -5,7 +5,7 @@
         http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
 
     <class name="Sonata\BlockBundle\Model\BaseBlock">
-        <constraint name="Sonata\AdminBundle\Validator\Constraints\InlineConstraint">
+        <constraint name="Sonata\CoreBundle\Validator\Constraints\InlineConstraint">
             <option name="service">sonata.block.manager</option>
             <option name="method">validate</option>
         </constraint>
