@@ -20,7 +20,7 @@
         "symfony/symfony": "~2.3",
         "sonata-project/admin-bundle": "dev-master",
         "sonata-project/block-bundle": "~2.3@dev",
-        "sonata-project/seo-bundle": "~1.1",
+        "sonata-project/seo-bundle": "~2.0@dev",
         "sonata-project/doctrine-extensions" : "~1.0",
         "sonata-project/cache-bundle": "~2.1,>=2.1.7",
         "sonata-project/core-bundle": "~2.3,>=2.3.1",
