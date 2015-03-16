@@ -11,14 +11,12 @@
 
 namespace Sonata\PageBundle\Page\Service;
 
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-
-use Sonata\SeoBundle\Seo\SeoPageInterface;
-
-use Sonata\PageBundle\Page\Service\BasePageService;
 use Sonata\PageBundle\Model\PageInterface;
+use Sonata\PageBundle\Page\Service\BasePageService;
 use Sonata\PageBundle\Page\TemplateManagerInterface;
+use Sonata\SeoBundle\Seo\SeoPageInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Default page service to render a page template.
@@ -60,15 +58,15 @@ class DefaultPageService extends BasePageService
     {
         $this->updateSeoPage($page);
 
-        $response = $this->templateManager->renderResponse($page->getTemplateCode(), $parameters, $response);
-
-        return $response;
+        return $this->templateManager->renderResponse($page->getTemplateCode(), $parameters, $response);
     }
 
     /**
      * Updates the SEO page values for given page instance
      *
      * @param PageInterface $page
+     *
+     * @return void
      */
     protected function updateSeoPage(PageInterface $page)
     {
@@ -77,7 +75,9 @@ class DefaultPageService extends BasePageService
         }
 
         if ($page->getTitle()) {
-            $this->seoPage->setTitle($page->getTitle() ?: $page->getName());
+            $this->seoPage->setTitle($page->getTitle());
+        } else {
+            $this->seoPage->addTitle($page->getName());
         }
 
         if ($page->getMetaDescription()) {
@@ -87,8 +87,5 @@ class DefaultPageService extends BasePageService
         if ($page->getMetaKeyword()) {
             $this->seoPage->addMeta('name', 'keywords', $page->getMetaKeyword());
         }
-
-        $this->seoPage->addMeta('property', 'og:type', 'article');
-        $this->seoPage->addHtmlAttributes('prefix', 'og: http://ogp.me/ns#');
     }
 }

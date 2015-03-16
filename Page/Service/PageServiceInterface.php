@@ -11,10 +11,9 @@
 
 namespace Sonata\PageBundle\Page\Service;
 
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-
 use Sonata\PageBundle\Model\PageInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Interface for a page service responsible for the management of pages from a given type.
