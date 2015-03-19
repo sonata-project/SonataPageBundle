@@ -612,7 +612,7 @@
       </trans-unit>
       <trans-unit id="152" resname="title_select_block_type">
            <source>title_select_block_type</source>
-           <target>Select a block type</target>
+           <target>Wähle einen Block-Typ</target>
       </trans-unit>
       <trans-unit id="153" resname="form.field_group_general">
            <source>form.field_group_general</source>
@@ -632,7 +632,7 @@
       </trans-unit>
       <trans-unit id="157" resname="message_create_page">
             <source>message_create_page</source>
-            <target>Before creating a new page, you need to select the website where the page will be located.</target>
+            <target>Vor dem Erstellen einer neuen Seite musst du eine Website auswählen wo diese zugehörig sein soll.</target>
       </trans-unit>
       <trans-unit id="158" resname="sidemenu.link_compose_page">
           <source>sidemenu.link_compose_page</source>
@@ -656,11 +656,11 @@
       </trans-unit>
       <trans-unit id="163" resname="pages.tree_mode">
           <source>pages.tree_mode</source>
-          <target>pages.tree_mode</target>
+          <target>Baum-Ansicht</target>
       </trans-unit>
       <trans-unit id="164" resname="pages.list_mode">
           <source>pages.list_mode</source>
-          <target>pages.list_mode</target>
+          <target>Listen-Ansicht</target>
       </trans-unit>
       <trans-unit id="165" resname="header.compose_page">
           <source>header.compose_page</source>
@@ -672,35 +672,35 @@
       </trans-unit>
       <trans-unit id="167" resname="page.compose_page">
           <source>page.compose_page</source>
-          <target>Compose page</target>
+          <target>Seite komponieren</target>
       </trans-unit>
       <trans-unit id="168" resname="page.orphan_containers">
           <source>page.orphan_containers</source>
-          <target>Orphan containers</target>
+          <target>Verwaiste Container</target>
       </trans-unit>
       <trans-unit id="169" resname="composer.remove">
           <source>composer.remove</source>
-          <target>remove</target>
+          <target>entfernen</target>
       </trans-unit>
       <trans-unit id="170" resname="composer.remove.confirm">
           <source>composer.remove.confirm</source>
-          <target>confirm delete ?</target>
+          <target>Löschen bestätigen ?target>
       </trans-unit>
       <trans-unit id="171" resname="yes">
           <source>yes</source>
-          <target>yes</target>
+          <target>Ja</target>
       </trans-unit>
       <trans-unit id="172" resname="cancel">
           <source>cancel</source>
-          <target>cancel</target>
+          <target>abbrechen</target>
       </trans-unit>
       <trans-unit id="173" resname="loading">
           <source>loading</source>
-          <target>loading</target>
+          <target>lädt</target>
       </trans-unit>
       <trans-unit id="174" resname="composer.block.add.type">
           <source>composer.block.add.type</source>
-          <target>add block of type</target>
+          <target>Block vom Typ hinzufügen</target>
       </trans-unit>
       <trans-unit id="175" resname="notice">
           <source>notice</source>
@@ -708,7 +708,7 @@
       </trans-unit>
       <trans-unit id="176" resname="blocks">
           <source>blocks</source>
-          <target>blocks</target>
+          <target>Blöcke</target>
       </trans-unit>
       <trans-unit id="177" resname="composer.disable">
           <source>composer.disable</source>
