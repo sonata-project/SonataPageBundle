@@ -628,7 +628,7 @@
       </trans-unit>
       <trans-unit id="156" resname="title_message_create_page">
             <source>title_message_create_page</source>
-            <target>Please select the targeted site</target>
+            <target>Bitte die entsprechende Website auswählen</target>
       </trans-unit>
       <trans-unit id="157" resname="message_create_page">
             <source>message_create_page</source>
