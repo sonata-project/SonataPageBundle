@@ -684,7 +684,7 @@
       </trans-unit>
       <trans-unit id="170" resname="composer.remove.confirm">
           <source>composer.remove.confirm</source>
-          <target>Löschen bestätigen ?target>
+          <target>Löschen bestätigen ?</target>
       </trans-unit>
       <trans-unit id="171" resname="yes">
           <source>yes</source>
