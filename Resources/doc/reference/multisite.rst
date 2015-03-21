@@ -19,7 +19,7 @@ Host Strategy
 
 With this strategy it is possible to handle sites like :
 
-* http://sonata-project.org
+* https://sonata-project.org
 * http://sonata-project.com
 * http://sonata-project.net
 
@@ -55,8 +55,8 @@ Host and Path Strategy
 
 With this strategy it is possible to handle sites like :
 
-* http://sonata-project.org
-* http://sonata-project.org/beta
+* https://sonata-project.org
+* https://sonata-project.org/beta
 * http://sonata-project.com/fr
 * http://sonata-project.net
 
