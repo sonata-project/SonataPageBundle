@@ -45,4 +45,22 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertEquals($template->getContainers(), $expected);
     }
+
+    public function testGetContainer()
+    {
+        $template = new Template('page', 'template.twig', array('header' => array(
+            'name' => 'Header',
+            'block' => array('text.block')
+        )));
+
+        $expected = array(
+            'name'      => 'Header',
+            'type'      => Template::TYPE_STATIC,
+            'blocks'    => array(),
+            'placement' => array(),
+            'shared'    => false
+        );
+
+        $this->assertEquals($expected, $template->getContainer('header'));
+    }
 }

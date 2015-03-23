@@ -66,6 +66,20 @@ class Template
     }
 
     /**
+     * @param $code
+     *
+     * @return array
+     */
+    public function getContainer($code)
+    {
+        if (isset($this->containers[$code])) {
+            return $this->containers[$code];
+        }
+
+        return array();
+    }
+
+    /**
      * @param array $meta
      *
      * @return array
