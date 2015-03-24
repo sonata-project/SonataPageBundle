@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * generated on: Thu Nov 06 2014 00:08:07 GMT+0100 (CET)
- * revision:     71deefa3b32e338654bad5b904239358daf1d7e6
+ * generated on: Tue Mar 24 2015 11:15:50 GMT+0100 (CET)
+ * revision:     049fc2564d2cb34e034745ef8074f686bfa8aa60
  *
  */
 /**
@@ -345,7 +345,7 @@
             var $form         = $childBlock.find('form'),
                 formAction    = $form.attr('action'),
                 formMethod    = $form.attr('method'),
-                $formControls = $form.find('.hidden').find('input, select, textarea'),
+                $formControls = $form.find('input, select, textarea'),
                 $formActions  = $form.find('.form-actions'),
                 $childName    = this.$dynamicArea.find('.page-composer__container__child__name'),
                 $nameFormControl,
@@ -477,7 +477,6 @@
 
                 if (self.isFormControlTypeByName(formControlName, 'name')) {
                     $nameFormControl = $formControl;
-
                     $title.html('<input type="text" class="page-composer__container__child__name__input" value="' + $title.text() + '">');
                     $input = $title.find('input');
                     $input.bind("propertychange keyup input paste", function (e) {

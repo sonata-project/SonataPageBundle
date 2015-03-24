@@ -14,6 +14,7 @@
  | SETUP (colors/sizes…)                                       |
  +-------------------------------------------------------------*/
 $color_green:     #00a65a;
+$color_blue:      #3c8dbc;
 $color_green_med: #5cc4a7;
 $color_red:       #f56954;
 
@@ -110,7 +111,6 @@ $color_red:       #f56954;
     border-radius: 2px;
     background-color: #f9f9f9;
     border: 1px solid #dcdcdc;
-    border-radius: 2px;
     position: relative;
 
     &__header {
@@ -118,7 +118,7 @@ $color_red:       #f56954;
       margin: 0 !important;
       font-size: 24px !important;
       line-height: 1em !important;
-      color: $color_green !important;
+      color: $color_blue !important;
     }
 
     &__notice {
@@ -203,11 +203,11 @@ $color_red:       #f56954;
     cursor: pointer;
     border-left: 3px solid #f9f9f9;
     &.active {
-      border-left-color: $color_green;
+      border-left-color: $color_blue;
     }
     &:hover {
       background: #fff;
-      border-left-color: $color_green;
+      border-left-color: $color_blue;
     }
     &:first-child {
       border-top: none;
@@ -249,7 +249,7 @@ $color_red:       #f56954;
   color: #404040;
 }
 .page-composer__page-preview__container.active .page-composer__page-preview__container__content {
-  border-color: $color_green;
+  border-color: $color_blue;
   box-shadow: none;
   color: #404040;
 }
@@ -283,7 +283,7 @@ $color_red:       #f56954;
 }
 .page-composer__container__child-count .badge,
 .page-composer__container__child .badge {
-  background-color: $color_green;
+  background-color: $color_blue;
   text-shadow: none;
 }
 .page-composer__container__child > .badge {
@@ -322,7 +322,7 @@ $color_red:       #f56954;
 }
 .page-composer__container__child__helper,
 .page-composer__container__child__content {
-  border-left: 3px solid $color_green;
+  border-left: 3px solid $color_blue;
 }
 
 .page-composer__container__child__helper {
@@ -449,10 +449,10 @@ $color_red:       #f56954;
 }
 .page-composer__container__child__edit:hover {
   background: #fff;
-  border-left-color: $color_green;
+  border-left-color: $color_blue;
 }
 .page-composer__container__child--expanded .page-composer__container__child__edit {
-  border-left-color: $color_green;
+  border-left-color: $color_blue;
   box-shadow: 0 0 2px rgba(0,0,0,0.35) inset;
 }
 .page-composer__container__child__edit:hover .page-composer__container__child__toggle {
