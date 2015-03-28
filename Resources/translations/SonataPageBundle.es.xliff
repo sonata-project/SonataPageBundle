@@ -468,7 +468,7 @@
       </trans-unit>
       <trans-unit id="117" resname="message_create_snapshots">
           <source>message_create_snapshots</source>
-          <target>Haga clic en el boton crear para establecer nuevas impresiones para el sitio web: %site%</target>
+          <target>Haga clic en el botón crear para establecer nuevas impresiones para el sitio web: %site%</target>
       </trans-unit>
       <trans-unit id="118" resname="button_create_snapshots">
           <source>button_create_snapshots</source>
@@ -528,7 +528,7 @@
       </trans-unit>
       <trans-unit id="132" resname="form.label_title">
           <source>form.label_title</source>
-          <target>form.label_title</target>
+          <target>Título</target>
       </trans-unit>
       <trans-unit id="133" resname="form.label_meta_keywords">
           <source>form.label_meta_keywords</source>
@@ -552,23 +552,23 @@
       </trans-unit>
       <trans-unit id="138" resname="filter.label_site">
           <source>filter.label_site</source>
-          <target>filter.label_site</target>
+          <target>Sitio web</target>
       </trans-unit>
       <trans-unit id="139" resname="filter.label_edited">
           <source>filter.label_edited</source>
-          <target>filter.label_edited</target>
+          <target>Editado</target>
       </trans-unit>
       <trans-unit id="140" resname="list.label_edited">
           <source>list.label_edited</source>
-          <target>list.label_edited</target>
+          <target>Editado</target>
       </trans-unit>
       <trans-unit id="141" resname="show.label_site">
           <source>show.label_site</source>
-          <target>show.label_site</target>
+          <target>Sitio web</target>
       </trans-unit>
       <trans-unit id="142" resname="show.label_edited">
           <source>show.label_edited</source>
-          <target>show.label_edited</target>
+          <target>Editado</target>
       </trans-unit>
       <trans-unit id="143" resname="breadcrumb.link_page_show">
           <source>breadcrumb.link_page_show</source>
@@ -693,11 +693,11 @@
       </trans-unit>
       <trans-unit id="172" resname="cancel">
           <source>cancel</source>
-          <target>cancel</target>
+          <target>cancelar</target>
       </trans-unit>
       <trans-unit id="173" resname="loading">
           <source>loading</source>
-          <target>loading</target>
+          <target>cargando</target>
       </trans-unit>
       <trans-unit id="174" resname="composer.block.add.type">
           <source>composer.block.add.type</source>
@@ -709,15 +709,15 @@
       </trans-unit>
       <trans-unit id="176" resname="blocks">
           <source>blocks</source>
-          <target>blocks</target>
+          <target>bloques</target>
       </trans-unit>
       <trans-unit id="177" resname="composer.disable">
           <source>composer.disable</source>
-          <target>Disable</target>
+          <target>Deshabilitar</target>
       </trans-unit>
       <trans-unit id="178" resname="composer.enable">
           <source>composer.enable</source>
-          <target>Enable</target>
+          <target>Habilitar</target>
       </trans-unit>
       <trans-unit id="179" resname="shared_block">
           <source>shared_block</source>
