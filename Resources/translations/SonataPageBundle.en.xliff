@@ -759,6 +759,18 @@
           <source>composer.shared_block.add.type</source>
           <target>add block of type</target>
       </trans-unit>
+      <trans-unit id="189" resname="pages.compose_label">
+          <source>pages.compose_label</source>
+          <target>compose</target>
+      </trans-unit>
+      <trans-unit id="190" resname="pages.edited_label">
+          <source>pages.edited_label</source>
+          <target>edited</target>
+      </trans-unit>
+      <trans-unit id="191" resname="page.compose_template_label">
+          <source>page.compose_template_label</source>
+          <target>template</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

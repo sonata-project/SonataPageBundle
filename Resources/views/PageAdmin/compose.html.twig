@@ -19,7 +19,7 @@ file that was distributed with this source code.
 
 {% block content %}
     <div class="page-composer">
-        <h2>{{ 'page.compose_page'|trans({}, 'SonataPageBundle') }} "{{ page.name }}" <small>[template: <b>{{ template.name }}</b>]</small></h2>
+        <h2>{{ 'page.compose_page'|trans({}, 'SonataPageBundle') }} "{{ page.name }}" <small>[{{ 'page.compose_template_label'|trans({}, 'SonataPageBundle') }}: <b>{{ template.name }}</b>]</small></h2>
 
         {% if containers|length == 0 %}
             {% include 'SonataPageBundle:PageAdmin:compose_hint.html.twig' %}
