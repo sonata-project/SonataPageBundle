@@ -86,7 +86,12 @@ file that was distributed with this source code.
                 $(document).ready(function () {
                     var composer = new PageComposer({{ page.id }}, {
                         translations: {
-                            cancel: "{{ 'cancel'|trans({}, 'SonataPageBundle') }}"
+                            cancel: "{{ 'cancel'|trans({}, 'SonataPageBundle') }}",
+                            block_position_saving: "{{ 'block_position_saving'|trans({}, 'SonataPageBundle') }}",
+                            block_position_saved_success: "{{ 'block_position_saved_success'|trans({}, 'SonataPageBundle') }}",
+                            block_position_saving_error: "{{ 'block_position_saving_error'|trans({}, 'SonataPageBundle') }}",
+                            block_fetching_error: "{{ 'block_fetching_error'|trans({}, 'SonataPageBundle') }}",
+                            block_enabled_saving_error: "{{ 'block_enabled_saving_error'|trans({}, 'SonataPageBundle') }}"
                         },
                         routes: {
                             save_blocks_positions: "{{ admin_pool.getAdminByAdminCode('sonata.page.admin.block').generateUrl('savePosition', { 'id': page.id }) }}",

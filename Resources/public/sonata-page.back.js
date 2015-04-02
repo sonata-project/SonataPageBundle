@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * generated on: Tue Mar 24 2015 11:15:50 GMT+0100 (CET)
- * revision:     049fc2564d2cb34e034745ef8074f686bfa8aa60
+ * generated on: Wed Apr 01 2015 17:49:10 GMT-0600 (CST)
+ * revision:     9928dcfe98ca076897b1230552b53c42cb3db832
  *
  */
 /**
@@ -221,18 +221,18 @@
          */
         handleBlockPositionsUpdate: function (event) {
             var self = this;
-            this.containerNotification('saving block positions…');
+            this.containerNotification(this.translate('block_position_saving'));
             $.ajax({
                 url:  this.getRouteUrl('save_blocks_positions'),
                 type: 'POST',
                 data: { disposition: event.disposition },
                 success: function (resp) {
                     if (resp.result && resp.result === 'ok') {
-                        self.containerNotification('block positions saved', 'success');
+                        self.containerNotification(self.translate('block_position_saved_success'), 'success');
                     }
                 },
                 error: function () {
-                    self.containerNotification('an error occured while saving block positions', 'error', true);
+                    self.containerNotification(self.translate('block_position_saved_success'), 'error', true);
                 }
             });
         },
@@ -620,11 +620,11 @@
                                 });
                             }
                         } else {
-                            self.containerNotification('an error occured while saving block enabled status', 'error', true);
+                            self.containerNotification(self.translate('block_enabled_saving_error'), 'error', true);
                         }
                     },
                     error: function () {
-                        self.containerNotification('an error occured while saving block enabled status', 'error', true);
+                        self.containerNotification(self.translate('block_enabled_saving_error'), 'error', true);
                     }
                 });
             });

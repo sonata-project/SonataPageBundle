@@ -208,18 +208,18 @@
          */
         handleBlockPositionsUpdate: function (event) {
             var self = this;
-            this.containerNotification('saving block positions…');
+            this.containerNotification(this.translate('block_position_saving'));
             $.ajax({
                 url:  this.getRouteUrl('save_blocks_positions'),
                 type: 'POST',
                 data: { disposition: event.disposition },
                 success: function (resp) {
                     if (resp.result && resp.result === 'ok') {
-                        self.containerNotification('block positions saved', 'success');
+                        self.containerNotification(self.translate('block_position_saved_success'), 'success');
                     }
                 },
                 error: function () {
-                    self.containerNotification('an error occured while saving block positions', 'error', true);
+                    self.containerNotification(self.translate('block_position_saved_success'), 'error', true);
                 }
             });
         },
@@ -607,11 +607,11 @@
                                 });
                             }
                         } else {
-                            self.containerNotification('an error occured while saving block enabled status', 'error', true);
+                            self.containerNotification(self.translate('block_enabled_saving_error'), 'error', true);
                         }
                     },
                     error: function () {
-                        self.containerNotification('an error occured while saving block enabled status', 'error', true);
+                        self.containerNotification(self.translate('block_enabled_saving_error'), 'error', true);
                     }
                 });
             });
