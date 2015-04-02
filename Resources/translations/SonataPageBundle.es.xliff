@@ -765,11 +765,31 @@
       </trans-unit>
       <trans-unit id="190" resname="pages.edited_label">
           <source>pages.edited_label</source>
-          <target>editar</target>
+          <target>editado</target>
       </trans-unit>
       <trans-unit id="191" resname="page.compose_template_label">
           <source>page.compose_template_label</source>
           <target>plantilla</target>
+      </trans-unit>
+      <trans-unit id="192" resname="block_position_saving">
+          <source>block_position_saving</source>
+          <target>guardando posición del bloque...</target>
+      </trans-unit>
+      <trans-unit id="193" resname="block_position_saved_success">
+          <source>block_position_saved_success</source>
+          <target>posición del bloque guardada</target>
+      </trans-unit>
+      <trans-unit id="194" resname="block_position_saving_error">
+          <source>block_position_saving_error</source>
+          <target>ocurrió un error mientras se guardaba la posición del bloque</target>
+      </trans-unit>
+      <trans-unit id="195" resname="block_fetching_error">
+          <source>block_fetching_error</source>
+          <target>ocurrió un error mientras se obtenía la vista previa del bloque</target>
+      </trans-unit>
+      <trans-unit id="196" resname="block_enabled_saving_error">
+          <source>block_enabled_saving_error</source>
+          <target>ocurrió un error mientras se habilitaba el bloque</target>
       </trans-unit>
     </body>
   </file>

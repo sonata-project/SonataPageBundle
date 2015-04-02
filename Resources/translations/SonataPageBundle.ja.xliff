@@ -771,6 +771,26 @@
           <source>page.compose_template_label</source>
           <target>page.compose_template_label</target>
       </trans-unit>
+      <trans-unit id="192" resname="block_position_saving">
+          <source>block_position_saving</source>
+          <target>block_position_saving</target>
+      </trans-unit>
+      <trans-unit id="193" resname="block_position_saved_success">
+          <source>block_position_saved_success</source>
+          <target>block_position_saved_success</target>
+      </trans-unit>
+      <trans-unit id="194" resname="block_position_saving_error">
+          <source>block_position_saving_error</source>
+          <target>block_position_saving_error</target>
+      </trans-unit>
+      <trans-unit id="195" resname="block_fetching_error">
+          <source>block_fetching_error</source>
+          <target>block_fetching_error</target>
+      </trans-unit>
+      <trans-unit id="196" resname="block_enabled_saving_error">
+          <source>block_enabled_saving_error</source>
+          <target>block_enabled_saving_error</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
