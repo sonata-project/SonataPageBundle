@@ -624,7 +624,7 @@
       </trans-unit>
       <trans-unit id="155" resname="flash_snapshots_created_success">
            <source>flash_snapshots_created_success</source>
-           <target>flash_snapshots_created_success</target>
+           <target>Snapshot erfolgreich erstellt!</target>
       </trans-unit>
       <trans-unit id="156" resname="title_message_create_page">
             <source>title_message_create_page</source>
@@ -668,7 +668,7 @@
       </trans-unit>
       <trans-unit id="166" resname="no_type_available">
           <source>no_type_available</source>
-          <target>no_type_available</target>
+          <target>Kein Typ verfügbar</target>
       </trans-unit>
       <trans-unit id="167" resname="page.compose_page">
           <source>page.compose_page</source>
@@ -704,7 +704,7 @@
       </trans-unit>
       <trans-unit id="175" resname="notice">
           <source>notice</source>
-          <target>notice</target>
+          <target>Hinweis</target>
       </trans-unit>
       <trans-unit id="176" resname="blocks">
           <source>blocks</source>
@@ -712,11 +712,11 @@
       </trans-unit>
       <trans-unit id="177" resname="composer.disable">
           <source>composer.disable</source>
-          <target>Disable</target>
+          <target>deaktivieren</target>
       </trans-unit>
       <trans-unit id="178" resname="composer.enable">
           <source>composer.enable</source>
-          <target>Enable</target>
+          <target>aktivieren</target>
       </trans-unit>
       <trans-unit id="179" resname="shared_block">
           <source>shared_block</source>
@@ -764,7 +764,7 @@
       </trans-unit>
       <trans-unit id="190" resname="pages.edited_label">
           <source>pages.edited_label</source>
-          <target>pages.edited_label</target>
+          <target>bearbeitet</target>
       </trans-unit>
       <trans-unit id="191" resname="page.compose_template_label">
           <source>page.compose_template_label</source>
