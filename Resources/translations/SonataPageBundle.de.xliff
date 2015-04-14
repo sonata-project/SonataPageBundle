@@ -760,7 +760,7 @@
       </trans-unit>
       <trans-unit id="189" resname="pages.compose_label">
           <source>pages.compose_label</source>
-          <target>pages.compose_label</target>
+          <target>compose</target>
       </trans-unit>
       <trans-unit id="190" resname="pages.edited_label">
           <source>pages.edited_label</source>
