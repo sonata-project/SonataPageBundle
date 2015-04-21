@@ -700,7 +700,7 @@
       </trans-unit>
       <trans-unit id="174" resname="composer.block.add.type">
           <source>composer.block.add.type</source>
-          <target>Block vom Typ hinzufügen</target>
+          <target>Block hinzufügen</target>
       </trans-unit>
       <trans-unit id="175" resname="notice">
           <source>notice</source>
