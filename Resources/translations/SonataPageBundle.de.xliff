@@ -312,7 +312,7 @@
       </trans-unit>
       <trans-unit id="78" resname="message_create_snapshot">
         <source>message_create_snapshot</source>
-        <target>Seitenschnappschuss erzeugen</target>
+        <target>Schnappschuss erzeugen</target>
       </trans-unit>
       <trans-unit id="79" resname="or_list">
         <source>or_list</source>
@@ -616,15 +616,15 @@
       </trans-unit>
       <trans-unit id="153" resname="form.field_group_general">
            <source>form.field_group_general</source>
-           <target>form.field_group_general</target>
+           <target>Allgemein</target>
       </trans-unit>
       <trans-unit id="154" resname="form.field_group_options">
            <source>form.field_group_options</source>
-           <target>form.field_group_options</target>
+           <target>Optionen</target>
       </trans-unit>
       <trans-unit id="155" resname="flash_snapshots_created_success">
            <source>flash_snapshots_created_success</source>
-           <target>Snapshot erfolgreich erstellt!</target>
+           <target>Schnappschuss erfolgreich erstellt!</target>
       </trans-unit>
       <trans-unit id="156" resname="title_message_create_page">
             <source>title_message_create_page</source>
