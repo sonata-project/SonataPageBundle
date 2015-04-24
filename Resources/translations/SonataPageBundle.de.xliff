@@ -312,7 +312,7 @@
       </trans-unit>
       <trans-unit id="78" resname="message_create_snapshot">
         <source>message_create_snapshot</source>
-        <target>Schnappschuss erzeugen</target>
+        <target>Publikation erzeugen</target>
       </trans-unit>
       <trans-unit id="79" resname="or_list">
         <source>or_list</source>
@@ -456,19 +456,19 @@
       </trans-unit>
       <trans-unit id="114" resname="list.label_create_snapshots">
           <source>list.label_create_snapshots</source>
-          <target>Schnappschüsse</target>
+          <target>Publikationen</target>
       </trans-unit>
       <trans-unit id="115" resname="link_create_snapshots">
           <source>link_create_snapshots</source>
-          <target>Schnappschuss anlegen</target>
+          <target>Publikation anlegen</target>
       </trans-unit>
       <trans-unit id="116" resname="title_create_snapshots">
           <source>title_create_snapshots</source>
-          <target>Schnappschuss anlegen</target>
+          <target>Publikation anlegen</target>
       </trans-unit>
       <trans-unit id="117" resname="message_create_snapshots">
           <source>message_create_snapshots</source>
-          <target>Den "anlegen" Button anklicken um einen neuen Schnappschuss anzulegen : %site%</target>
+          <target>Den "anlegen" Button anklicken um eine neue Publikation anzulegen : %site%</target>
       </trans-unit>
       <trans-unit id="118" resname="button_create_snapshots">
           <source>button_create_snapshots</source>
@@ -624,7 +624,7 @@
       </trans-unit>
       <trans-unit id="155" resname="flash_snapshots_created_success">
            <source>flash_snapshots_created_success</source>
-           <target>Schnappschuss erfolgreich erstellt!</target>
+           <target>Publikation erfolgreich erstellt!</target>
       </trans-unit>
       <trans-unit id="156" resname="title_message_create_page">
             <source>title_message_create_page</source>
