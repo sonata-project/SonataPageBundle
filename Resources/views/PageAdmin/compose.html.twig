@@ -37,7 +37,7 @@ file that was distributed with this source code.
                                     >
                                         <div class="page-composer__page-preview__container__content">
                                             <strong>{{ container.block.name|default(container.area.name) }}</strong><br>
-                                            <small><span class="child-count">{{ container.block.children|length }}</span> blocks</small>
+                                            <small><span class="child-count">{{ container.block.children|length }}</span> {% transchoice container.block.children|length from 'SonataPageBundle' %}page.compose_blocks_label{% endtranschoice %}</small>
                                             <span class="page-composer__page-preview__add-block">
                                                 <i class="fa fa-circle-o"></i>
                                                 <i class="fa fa-dot-circle-o"></i>
@@ -70,7 +70,7 @@ file that was distributed with this source code.
                                         href="{{ admin.generateUrl('compose_container_show', { 'id': orphanContainer.id }) }}"
                                     >
                                         <strong>{{ orphanContainer.name|default(orphanContainer.type) }}</strong><br>
-                                        <small><span class="child-count">{{ orphanContainer.children|length }}</span> blocks</small>
+                                        <small><span class="child-count">{{ orphanContainer.children|length }}</span> {% transchoice orphanContainer.children|length from 'SonataPageBundle' %}page.compose_blocks_label{% endtranschoice %}</small>
                                     </li>
                                 {% endfor %}
                             </ul>
