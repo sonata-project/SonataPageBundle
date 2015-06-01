@@ -251,7 +251,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
                                 page_id = %d
                                 AND rownum <= %d
                             ORDER BY publication_date_end DESC
-                        ) AS table_alias
+                        ) table_alias
                 )',
                 $tableName,
                 $page->getId(),
