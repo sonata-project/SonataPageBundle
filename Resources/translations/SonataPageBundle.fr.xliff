@@ -761,16 +761,16 @@
         <target>Ajouter un bloc partagé de type</target>
       </trans-unit>
       <trans-unit id="189" resname="pages.compose_label">
-          <source>pages.compose_label</source>
-          <target>pages.compose_label</target>
+        <source>pages.compose_label</source>
+        <target>Constituer</target>
       </trans-unit>
       <trans-unit id="190" resname="pages.edited_label">
-          <source>pages.edited_label</source>
-          <target>pages.edited_label</target>
+        <source>pages.edited_label</source>
+        <target>Editée</target>
       </trans-unit>
       <trans-unit id="191" resname="page.compose_template_label">
-          <source>page.compose_template_label</source>
-          <target>page.compose_template_label</target>
+        <source>page.compose_template_label</source>
+        <target>Modèle</target>
       </trans-unit>
     </body>
   </file>
