@@ -71,10 +71,9 @@ class DefaultPageServiceTest extends \PHPUnit_Framework_TestCase
         $metaMapping = array(
             array('name',       'description',  'page meta description', true),
             array('name',       'keywords',     'page meta keywords',    true),
-            array('property',   'og:type',      'article',               true)
         );
 
-        $this->seoPage->expects($this->exactly(3))->method('addMeta')->will($this->returnValueMap($metaMapping));
+        $this->seoPage->expects($this->exactly(2))->method('addMeta')->will($this->returnValueMap($metaMapping));
 
         $this->seoPage->expects($this->once())
             ->method('addHtmlAttributes')->with($this->equalTo('prefix'), $this->equalTo('og: http://ogp.me/ns#'));
