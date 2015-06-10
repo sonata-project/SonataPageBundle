@@ -16,6 +16,9 @@ use Sonata\PageBundle\Validator\Constraints\UniqueUrl;
 
 class UniqueUrlValidatorTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @group legacy
+     */
     public function testValidateWithNoPageFound()
     {
         $site = $this->getMock('Sonata\PageBundle\Model\SiteInterface');
