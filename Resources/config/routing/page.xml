@@ -4,7 +4,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="sonata_page_ajax_block" pattern="/_page/block/{pageId}/{blockId}">
+    <route id="sonata_page_ajax_block" path="/_page/block/{pageId}/{blockId}">
         <default key="_controller">sonata.page.block.ajax:execute</default>
     </route>
 
