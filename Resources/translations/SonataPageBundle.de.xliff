@@ -756,7 +756,7 @@
       </trans-unit>
       <trans-unit id="188" resname="composer.shared_block.add.type">
           <source>composer.shared_block.add.type</source>
-          <target>composer.shared_block.add.type</target>
+          <target>Block hinzfügen</target>
       </trans-unit>
       <trans-unit id="189" resname="pages.compose_label">
           <source>pages.compose_label</source>
@@ -768,7 +768,11 @@
       </trans-unit>
       <trans-unit id="191" resname="page.compose_template_label">
           <source>page.compose_template_label</source>
-          <target>page.compose_template_label</target>
+          <target>Template</target>
+      </trans-unit>
+      <trans-unit id="192" resname="page.compose_blocks_label">
+          <source>page.compose_blocks_label</source>
+          <target>{0} Blöcke|{1} Block|[2,Inf] Blöcke</target>
       </trans-unit>
     </body>
   </file>

@@ -772,6 +772,10 @@
         <source>page.compose_template_label</source>
         <target>Modèle</target>
       </trans-unit>
+      <trans-unit id="192" resname="page.compose_blocks_label">
+          <source>page.compose_blocks_label</source>
+          <target>page.compose_blocks_label</target>
+      </trans-unit>      
     </body>
   </file>
 </xliff>

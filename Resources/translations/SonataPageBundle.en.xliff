@@ -771,6 +771,10 @@
           <source>page.compose_template_label</source>
           <target>template</target>
       </trans-unit>
+      <trans-unit id="192" resname="page.compose_blocks_label">
+          <source>page.compose_blocks_label</source>
+          <target>{0} blocks|{1} block|[2,Inf] blocks</target>
+      </trans-unit>      
     </body>
   </file>
 </xliff>
