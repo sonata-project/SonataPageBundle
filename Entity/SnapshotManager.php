@@ -13,14 +13,14 @@ namespace Sonata\PageBundle\Entity;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Sonata\CoreBundle\Model\BaseEntityManager;
+use Sonata\DatagridBundle\Pager\Doctrine\Pager;
+use Sonata\DatagridBundle\ProxyQuery\Doctrine\ProxyQuery;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\SnapshotPageProxy;
-use Sonata\DatagridBundle\Pager\Doctrine\Pager;
-use Sonata\DatagridBundle\ProxyQuery\Doctrine\ProxyQuery;
 
 /**
- * This class manages SnapshotInterface persistency with the Doctrine ORM
+ * This class manages SnapshotInterface persistency with the Doctrine ORM.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -37,7 +37,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
     protected $templates = array();
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string          $class     Namespace of entity class
      * @param ManagerRegistry $registry  An entity manager instance
@@ -99,7 +99,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
      */
     public function findEnableSnapshot(array $criteria)
     {
-        $date = new \Datetime;
+        $date = new \Datetime();
         $parameters = array(
             'publicationDateStart' => $date,
             'publicationDateEnd'   => $date,
@@ -140,7 +140,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
     }
 
     /**
-     * return a page with the given routeName
+     * return a page with the given routeName.
      *
      * @param string $routeName
      *
@@ -153,7 +153,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
             ->from($this->class, 's')
             ->where('s.routeName = :routeName')
             ->setParameters(array(
-                'routeName' => $routeName
+                'routeName' => $routeName,
             ))
             ->getQuery()
             ->execute();

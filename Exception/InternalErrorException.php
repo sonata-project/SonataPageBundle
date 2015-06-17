@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata project.
  *
@@ -11,11 +12,10 @@
 namespace Sonata\PageBundle\Exception;
 
 /**
- * Exception used to raise an internal error
+ * Exception used to raise an internal error.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class InternalErrorException extends \RuntimeException
 {
-
 }

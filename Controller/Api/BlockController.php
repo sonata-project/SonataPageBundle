@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata package.
  *
@@ -10,21 +11,18 @@
 
 namespace Sonata\PageBundle\Controller\Api;
 
-use FOS\RestBundle\Request\ParamFetcherInterface;
-use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\View\View as FOSRestView;
 use JMS\Serializer\SerializationContext;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sonata\BlockBundle\Model\BlockManagerInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormFactoryInterface;
-use FOS\RestBundle\View\View as FOSRestView;
 use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\BlockBundle\Model\BlockManagerInterface;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Class BlockController
+ * Class BlockController.
  *
  * @author Vincent Composieux <vincent.composieux@gmail.com>
  */
@@ -41,7 +39,7 @@ class BlockController
     protected $formFactory;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param BlockManagerInterface $blockManager
      * @param FormFactoryInterface  $formFactory
@@ -53,7 +51,7 @@ class BlockController
     }
 
     /**
-     * Retrieves a specific block
+     * Retrieves a specific block.
      *
      * @ApiDoc(
      *  resource=true,
@@ -79,7 +77,7 @@ class BlockController
     }
 
     /**
-     * Updates a block
+     * Updates a block.
      *
      * @ApiDoc(
      *  requirements={
@@ -106,7 +104,7 @@ class BlockController
         $block = $id ? $this->getBlock($id) : null;
 
         $form = $this->formFactory->createNamed(null, 'sonata_page_api_form_block', $block, array(
-            'csrf_protection' => false
+            'csrf_protection' => false,
         ));
 
         $form->bind($request);
@@ -129,7 +127,7 @@ class BlockController
     }
 
     /**
-     * Deletes a block
+     * Deletes a block.
      *
      * @ApiDoc(
      *  requirements={
@@ -142,7 +140,7 @@ class BlockController
      *  }
      * )
      *
-     * @param integer $id A Block identifier
+     * @param int $id A Block identifier
      *
      * @return \FOS\RestBundle\View\View
      *
@@ -158,7 +156,7 @@ class BlockController
     }
 
     /**
-     * Retrieves Block with id $id or throws an exception if it doesn't exist
+     * Retrieves Block with id $id or throws an exception if it doesn't exist.
      *
      * @param $id
      *

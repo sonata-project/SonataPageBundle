@@ -11,14 +11,13 @@
 
 namespace Sonata\PageBundle\Consumer;
 
+use Sonata\NotificationBundle\Backend\BackendInterface;
+use Sonata\NotificationBundle\Consumer\ConsumerEvent;
+use Sonata\NotificationBundle\Consumer\ConsumerInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 
-use Sonata\NotificationBundle\Backend\BackendInterface;
-use Sonata\NotificationBundle\Consumer\ConsumerInterface;
-use Sonata\NotificationBundle\Consumer\ConsumerEvent;
-
 /**
- * Consumer class to generate snapshots
+ * Consumer class to generate snapshots.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -55,7 +54,7 @@ class CreateSnapshotsConsumer implements ConsumerInterface
 
         foreach ($pages as $page) {
             $backend->createAndPublish('sonata.page.create_snapshot', array(
-                'pageId' => $page->getId()
+                'pageId' => $page->getId(),
             ));
         }
     }

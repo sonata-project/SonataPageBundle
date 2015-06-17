@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata package.
  *
@@ -17,7 +18,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 
 /**
- * This is the class that validates and merges configuration from your app/config files
+ * This is the class that validates and merges configuration from your app/config files.
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html#cookbook-bundles-extension-config-class}
  *
@@ -148,7 +149,7 @@ class Configuration implements ConfigurationInterface
                             ->end()
                             ->validate()
                             ->always()
-                                ->then(function($matrix) {
+                                ->then(function ($matrix) {
                                     return Parser::parse($matrix['layout'], $matrix['mapping']);
                                 })
                             ->end()
@@ -157,7 +158,7 @@ class Configuration implements ConfigurationInterface
                 ->end()
                 ->validate()
                 ->always()
-                    ->then(function($templates) {
+                    ->then(function ($templates) {
                         foreach ($templates as $id => &$template) {
                             if (count($template['containers']) == 0) {
                                 continue;

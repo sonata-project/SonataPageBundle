@@ -11,14 +11,11 @@
 
 namespace Sonata\PageBundle\Page\Service;
 
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-
-use Sonata\SeoBundle\Seo\SeoPageInterface;
-
-use Sonata\PageBundle\Page\Service\BasePageService;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Page\TemplateManagerInterface;
+use Sonata\SeoBundle\Seo\SeoPageInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Default page service to render a page template.
@@ -40,11 +37,11 @@ class DefaultPageService extends BasePageService
     protected $seoPage;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param string                    $name            Page service name
-     * @param TemplateManagerInterface  $templateManager Template manager
-     * @param SeoPageInterface          $seoPage         SEO page object
+     * @param string                   $name            Page service name
+     * @param TemplateManagerInterface $templateManager Template manager
+     * @param SeoPageInterface         $seoPage         SEO page object
      */
     public function __construct($name, TemplateManagerInterface $templateManager, SeoPageInterface $seoPage = null)
     {
@@ -66,7 +63,7 @@ class DefaultPageService extends BasePageService
     }
 
     /**
-     * Updates the SEO page values for given page instance
+     * Updates the SEO page values for given page instance.
      *
      * @param PageInterface $page
      */

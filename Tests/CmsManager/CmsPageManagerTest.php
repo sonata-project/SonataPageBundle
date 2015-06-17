@@ -15,19 +15,20 @@ use Sonata\PageBundle\CmsManager\CmsPageManager;
 use Sonata\PageBundle\Model\Block as AbtractBlock;
 use Sonata\PageBundle\Tests\Model\Page;
 use Sonata\PageBundle\Tests\Model\Site;
-use Sonata\PageBundle\Model\BlockInteractorInterface;
 
 class CmsBlock extends AbtractBlock
 {
     public function setId($id)
-    {}
+    {
+    }
 
     public function getId()
-    {}
+    {
+    }
 }
 
 /**
- * Test CmsPageManager
+ * Test CmsPageManager.
  */
 class CmsPageManagerTest extends \PHPUnit_Framework_TestCase
 {
@@ -37,7 +38,7 @@ class CmsPageManagerTest extends \PHPUnit_Framework_TestCase
     protected $manager;
 
     /**
-     * Setup manager object to test
+     * Setup manager object to test.
      */
     public function setUp()
     {
@@ -47,7 +48,7 @@ class CmsPageManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test finding an existing container in a page
+     * Test finding an existing container in a page.
      */
     public function testFindExistingContainer()
     {
@@ -64,7 +65,7 @@ class CmsPageManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test finding an non-existing container in a page does create a new block
+     * Test finding an non-existing container in a page does create a new block.
      */
     public function testFindNonExistingContainerCreatesNewBlock()
     {
@@ -77,7 +78,7 @@ class CmsPageManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test get Page method with url return Page
+     * Test get Page method with url return Page.
      */
     public function testGetPageWithUrl()
     {
@@ -88,18 +89,17 @@ class CmsPageManagerTest extends \PHPUnit_Framework_TestCase
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
-        $page = "/test";
+        $page = '/test';
         $site = new Site();
 
         $this->assertInstanceOf('Sonata\PageBundle\Model\PageInterface', $manager->getPage($site, $page));
     }
 
     /**
-     * Test get Page method with url throw Exception
+     * Test get Page method with url throw Exception.
      *
      * @expectedException        \Sonata\PageBundle\Exception\PageNotFoundException
      * @expectedExceptionMessage Unable to find the page : url = /test
-     *
      */
     public function testGetPageWithUrlException()
     {
@@ -109,7 +109,7 @@ class CmsPageManagerTest extends \PHPUnit_Framework_TestCase
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
-        $page = "/test";
+        $page = '/test';
         $site = new Site();
 
         $pageManager->expects($this->any())->method('findOneBy')->will($this->returnValue(null));
@@ -119,7 +119,7 @@ class CmsPageManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test get Page method with url return Page
+     * Test get Page method with url return Page.
      */
     public function testGetPageWithRouteName()
     {
@@ -130,18 +130,17 @@ class CmsPageManagerTest extends \PHPUnit_Framework_TestCase
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
-        $page = "test";
+        $page = 'test';
         $site = new Site();
 
         $this->assertInstanceOf('Sonata\PageBundle\Model\PageInterface', $manager->getPage($site, $page));
     }
 
     /**
-     * Test get Page method with url throw Exception
+     * Test get Page method with url throw Exception.
      *
      * @expectedException        \Sonata\PageBundle\Exception\PageNotFoundException
      * @expectedExceptionMessage Unable to find the page : url = /test
-     *
      */
     public function testGetPageWithRouteNameException()
     {
@@ -151,7 +150,7 @@ class CmsPageManagerTest extends \PHPUnit_Framework_TestCase
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
-        $page = "/test";
+        $page = '/test';
         $site = new Site();
 
         $pageManager->expects($this->any())->method('findOneBy')->will($this->returnValue(null));
@@ -161,7 +160,7 @@ class CmsPageManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test get Page method with url return Page
+     * Test get Page method with url return Page.
      */
     public function testGetPageWithId()
     {
@@ -179,11 +178,10 @@ class CmsPageManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test get Page method with url throw Exception
+     * Test get Page method with url throw Exception.
      *
      * @expectedException        \Sonata\PageBundle\Exception\PageNotFoundException
      * @expectedExceptionMessage Unable to find the page : id = 1
-     *
      */
     public function testGetPageWithIdException()
     {
@@ -203,7 +201,7 @@ class CmsPageManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test get Page method with url return Page
+     * Test get Page method with url return Page.
      */
     public function testGetPageWithoutParam()
     {
@@ -221,11 +219,10 @@ class CmsPageManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test get Page method with url throw Exception
+     * Test get Page method with url throw Exception.
      *
      * @expectedException        \Sonata\PageBundle\Exception\PageNotFoundException
      * @expectedExceptionMessage Unable to retrieve the page
-     *
      */
     public function testGetPageWithoutParamException()
     {
@@ -245,14 +242,14 @@ class CmsPageManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Returns a mock block interactor
+     * Returns a mock block interactor.
      *
      * @return \Sonata\PageBundle\Model\BlockInteractorInterface
      */
     protected function getMockBlockInteractor()
     {
-        $callback = function($options) {
-            $block = new CmsBlock;
+        $callback = function ($options) {
+            $block = new CmsBlock();
             $block->setSettings($options);
 
             return $block;

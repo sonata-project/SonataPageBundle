@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata project.
  *
@@ -10,11 +11,8 @@
 
 namespace Sonata\PageBundle\Model;
 
-use Sonata\PageBundle\Model\PageInterface;
-use Sonata\PageBundle\Model\SnapshotInterface;
-
 /**
- * Snapshot
+ * Snapshot.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -235,7 +233,7 @@ abstract class Snapshot implements SnapshotInterface
      */
     public function __toString()
     {
-        return $this->getName()?: '-';
+        return $this->getName() ?: '-';
     }
 
     /**

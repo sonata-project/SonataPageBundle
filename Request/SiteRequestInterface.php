@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata project.
  *
@@ -11,7 +12,7 @@
 namespace Sonata\PageBundle\Request;
 
 /**
- * SiteRequestInterface
+ * SiteRequestInterface.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -19,15 +20,11 @@ interface SiteRequestInterface
 {
     /**
      * @param string $pathInfo
-     *
-     * @return void
      */
     public function setPathInfo($pathInfo);
 
     /**
      * @param string $baseUrl
-     *
-     * @return void
      */
     public function setBaseUrl($baseUrl);
 }

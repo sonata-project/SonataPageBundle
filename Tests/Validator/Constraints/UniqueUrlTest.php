@@ -15,7 +15,6 @@ use Sonata\PageBundle\Validator\Constraints\UniqueUrl;
 
 class UniqueUrlTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testInstance()
     {
         $constraint = new UniqueUrl();

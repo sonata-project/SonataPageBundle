@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata package.
  *
@@ -11,16 +12,16 @@
 namespace Sonata\PageBundle\Tests\Page;
 
 use Sonata\PageBundle\Page\TemplateManager;
-use Symfony\Component\Templating\StreamingEngineInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Symfony\Component\Templating\StreamingEngineInterface;
 
 /**
- * Test the template manager
+ * Test the template manager.
  */
 class TemplateManagerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Test adding a new template
+     * Test adding a new template.
      */
     public function testAddSingleTemplate()
     {
@@ -37,7 +38,7 @@ class TemplateManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test setting all templates
+     * Test setting all templates.
      */
     public function testSetAllTemplates()
     {
@@ -47,7 +48,7 @@ class TemplateManagerTest extends \PHPUnit_Framework_TestCase
 
         $templates = array(
             'test1' => $this->getMockTemplate('template'),
-            'test2' => $this->getMockTemplate('template')
+            'test2' => $this->getMockTemplate('template'),
         );
 
         // WHEN
@@ -60,7 +61,7 @@ class TemplateManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test setting the default template code
+     * Test setting the default template code.
      */
     public function testSetDefaultTemplateCode()
     {
@@ -76,7 +77,7 @@ class TemplateManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * test the rendering of a response
+     * test the rendering of a response.
      */
     public function testRenderResponse()
     {
@@ -98,7 +99,7 @@ class TemplateManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * test the rendering of a response with a non existing template code
+     * test the rendering of a response with a non existing template code.
      */
     public function testRenderResponseWithNonExistingCode()
     {
@@ -115,7 +116,7 @@ class TemplateManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * test the rendering of a response with no template code
+     * test the rendering of a response with no template code.
      */
     public function testRenderResponseWithoutCode()
     {
@@ -137,7 +138,7 @@ class TemplateManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * test the rendering of a response with default parameters
+     * test the rendering of a response with default parameters.
      */
     public function testRenderResponseWithDefaultParameters()
     {
@@ -166,7 +167,7 @@ class TemplateManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Returns the mock template
+     * Returns the mock template.
      *
      * @param string $name Name of the template
      * @param string $path Path to the file of the template
@@ -184,4 +185,5 @@ class TemplateManagerTest extends \PHPUnit_Framework_TestCase
 }
 
 abstract class MockTemplating implements EngineInterface, StreamingEngineInterface
-{}
+{
+}

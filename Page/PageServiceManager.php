@@ -11,13 +11,11 @@
 
 namespace Sonata\PageBundle\Page;
 
+use Sonata\PageBundle\Model\PageInterface;
+use Sonata\PageBundle\Page\Service\PageServiceInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
-
-use Sonata\PageBundle\Model\PageInterface;
-use Sonata\PageBundle\Page\Service\PageServiceInterface;
-use Sonata\PageBundle\Page\PageServiceManagerInterface;
 
 /**
  * Manages all page services and the execution workflow of a page.
@@ -45,7 +43,7 @@ class PageServiceManager implements PageServiceManagerInterface
     protected $router;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param RouterInterface $router Router
      */
@@ -72,7 +70,6 @@ class PageServiceManager implements PageServiceManagerInterface
         }
 
         if (!isset($this->services[$type])) {
-
             if (!$this->default) {
                 throw new \RuntimeException(sprintf('unable to find a default service for type "%s"', $type));
             }
@@ -121,7 +118,7 @@ class PageServiceManager implements PageServiceManagerInterface
     }
 
     /**
-     * Creates a base response for given page
+     * Creates a base response for given page.
      *
      * @param PageInterface $page
      *

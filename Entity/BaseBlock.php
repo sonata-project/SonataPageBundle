@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata project.
  *
@@ -10,12 +11,11 @@
 
 namespace Sonata\PageBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Sonata\PageBundle\Model\Block;
 
-use Doctrine\Common\Collections\ArrayCollection;
-
 /**
- * The class stores block information
+ * The class stores block information.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -34,26 +34,26 @@ abstract class BaseBlock extends Block
      */
     public function __construct()
     {
-        $this->children = new ArrayCollection;
+        $this->children = new ArrayCollection();
 
         parent::__construct();
     }
 
     /**
-     * Updates dates before creating/updating entity
+     * Updates dates before creating/updating entity.
      */
     public function prePersist()
     {
-        $this->createdAt = new \DateTime;
-        $this->updatedAt = new \DateTime;
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
     }
 
     /**
-     * Updates dates before updating entity
+     * Updates dates before updating entity.
      */
     public function preUpdate()
     {
-        $this->updatedAt = new \DateTime;
+        $this->updatedAt = new \DateTime();
     }
 
     /**
@@ -61,7 +61,7 @@ abstract class BaseBlock extends Block
      */
     public function setChildren($children)
     {
-        $this->children = new ArrayCollection;
+        $this->children = new ArrayCollection();
 
         foreach ($children as $child) {
             $this->addChildren($child);

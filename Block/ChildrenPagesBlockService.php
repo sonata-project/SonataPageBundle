@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata project.
  *
@@ -10,23 +11,20 @@
 
 namespace Sonata\PageBundle\Block;
 
+use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\BlockBundle\Block\BaseBlockService;
 use Sonata\BlockBundle\Block\BlockContextInterface;
+use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\CoreBundle\Validator\ErrorElement;
+use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
+use Sonata\PageBundle\Exception\PageNotFoundException;
+use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Templating\EngineInterface;
 
-use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\CoreBundle\Validator\ErrorElement;
-
-use Sonata\BlockBundle\Model\BlockInterface;
-use Sonata\BlockBundle\Block\BaseBlockService;
-
-use Sonata\PageBundle\Exception\PageNotFoundException;
-use Sonata\PageBundle\Site\SiteSelectorInterface;
-use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
-
 /**
- * Render children pages
+ * Render children pages.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -74,7 +72,7 @@ class ChildrenPagesBlockService extends BaseBlockService
         return $this->renderResponse($blockContext->getTemplate(), array(
             'page'     => $page,
             'block'    => $blockContext->getBlock(),
-            'settings' => $settings
+            'settings' => $settings,
         ), $response);
     }
 
@@ -94,21 +92,21 @@ class ChildrenPagesBlockService extends BaseBlockService
         $formMapper->add('settings', 'sonata_type_immutable_array', array(
             'keys' => array(
                 array('title', 'text', array(
-                  'required' => false
+                  'required' => false,
                 )),
                 array('current', 'checkbox', array(
-                  'required' => false
+                  'required' => false,
                 )),
                 array('pageId', 'sonata_page_selector', array(
                     'model_manager' => $formMapper->getAdmin()->getModelManager(),
                     'class'         => $formMapper->getAdmin()->getClass(),
                     'site'          => $block->getPage()->getSite(),
-                    'required'      => false
+                    'required'      => false,
                 )),
                 array('class', 'text', array(
-                  'required' => false
+                  'required' => false,
                 )),
-            )
+            ),
         ));
     }
 
@@ -130,7 +128,7 @@ class ChildrenPagesBlockService extends BaseBlockService
             'pageId'   => null,
             'title'    => '',
             'class'    => '',
-            'template' => 'SonataPageBundle:Block:block_core_children_pages.html.twig'
+            'template' => 'SonataPageBundle:Block:block_core_children_pages.html.twig',
         ));
     }
 

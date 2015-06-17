@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata project.
  *
@@ -10,15 +11,14 @@
 
 namespace Sonata\PageBundle;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-
 use Sonata\PageBundle\DependencyInjection\Compiler\CacheCompilerPass;
 use Sonata\PageBundle\DependencyInjection\Compiler\GlobalVariablesCompilerPass;
 use Sonata\PageBundle\DependencyInjection\Compiler\PageServiceCompilerPass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * SonataPageBundle
+ * SonataPageBundle.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -49,7 +49,7 @@ class SonataPageBundle extends Bundle
             return;
         }
 
-        call_user_func(array($class, 'setSlugifyMethod'), function($text) use ($container) {
+        call_user_func(array($class, 'setSlugifyMethod'), function ($text) use ($container) {
             if ($container->hasParameter('sonata.page.slugify_service')) {
                 $id = $container->getParameter('sonata.page.slugify_service');
             } else {

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata package.
  *
@@ -10,11 +11,11 @@
 
 namespace Sonata\PageBundle\Tests\Route;
 
-use Sonata\PageBundle\Route\CmsPageRouter;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
+use Sonata\PageBundle\Route\CmsPageRouter;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
-use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RequestContext;
 
 /**
  *
@@ -42,7 +43,7 @@ class CmsPageRouterTest extends \PHPUnit_Framework_TestCase
     protected $router;
 
     /**
-     * Setup test object with its dependencies
+     * Setup test object with its dependencies.
      */
     public function setup()
     {
@@ -105,7 +106,6 @@ class CmsPageRouterTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('sonata.page.page_service_manager:execute', $route['_controller']);
         $this->assertEquals('page_slug', $route['_route']);
-
     }
 
     /**

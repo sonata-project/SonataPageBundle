@@ -12,21 +12,21 @@
 namespace Sonata\PageBundle\Page\Service;
 
 /**
- * Abstract page service that provides a basic implementation
+ * Abstract page service that provides a basic implementation.
  *
  * @author Olivier Paradis <paradis.olivier@gmail.com>
  */
 abstract class BasePageService implements PageServiceInterface
 {
     /**
-     * Page service name used in the admin
+     * Page service name used in the admin.
      *
      * @var string
      */
     protected $name;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string $name Page service name
      */

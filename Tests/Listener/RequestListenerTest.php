@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata package.
  *
@@ -11,11 +12,11 @@
 namespace Sonata\PageBundle\Tests\Listener;
 
 use Sonata\PageBundle\Listener\RequestListener;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 /**
- * Test the page bundle request listener
+ * Test the page bundle request listener.
  */
 class RequestListenerTest extends \PHPUnit_Framework_TestCase
 {

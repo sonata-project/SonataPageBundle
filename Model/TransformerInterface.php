@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata project.
  *
@@ -9,9 +10,6 @@
  */
 
 namespace Sonata\PageBundle\Model;
-
-use Sonata\PageBundle\Model\PageInterface;
-use Sonata\PageBundle\Model\SnapshotInterface;
 
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>

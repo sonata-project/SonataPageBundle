@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata project.
  *
@@ -14,7 +15,7 @@ use Sonata\CoreBundle\Model\ManagerInterface;
 use Sonata\CoreBundle\Model\PageableManagerInterface;
 
 /**
- * Defines methods to interact with the persistency layer of a SnapshotInterface
+ * Defines methods to interact with the persistency layer of a SnapshotInterface.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -25,21 +26,21 @@ interface SnapshotManagerInterface extends ManagerInterface, PageableManagerInte
      *
      * @return SnapshotInterface
      */
-    function findEnableSnapshot(array $criteria);
+    public function findEnableSnapshot(array $criteria);
 
     /**
      * @param array          $snapshots A snapshots array to enable
      * @param \DateTime|null $date      A date instance
      */
-    function enableSnapshots(array $snapshots, \DateTime $date = null);
+    public function enableSnapshots(array $snapshots, \DateTime $date = null);
 
     /**
-     * Cleanups the deprecated snapshots
+     * Cleanups the deprecated snapshots.
      *
      * @param PageInterface $page A page instance
-     * @param integer       $keep Number of snapshots to keep
+     * @param int           $keep Number of snapshots to keep
      *
-     * @return integer The number of deleted rows
+     * @return int The number of deleted rows
      */
-    function cleanup(PageInterface $page, $keep);
+    public function cleanup(PageInterface $page, $keep);
 }

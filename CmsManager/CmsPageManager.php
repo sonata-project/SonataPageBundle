@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata project.
  *
@@ -11,15 +12,14 @@
 namespace Sonata\PageBundle\CmsManager;
 
 use Sonata\BlockBundle\Model\BlockInterface;
-
+use Sonata\PageBundle\Exception\PageNotFoundException;
+use Sonata\PageBundle\Model\BlockInteractorInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteInterface;
-use Sonata\PageBundle\Exception\PageNotFoundException;
-use Sonata\PageBundle\Model\BlockInteractorInterface;
 
 /**
- * The CmsPageManager class is in charge of retrieving the correct page (cms page or action page)
+ * The CmsPageManager class is in charge of retrieving the correct page (cms page or action page).
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -111,7 +111,6 @@ class CmsPageManager extends BaseCmsPageManager
         if (!$container && $page->getBlocks()) {
             foreach ($page->getBlocks() as $block) {
                 if ($block->getSetting('code') == $code) {
-
                     $container = $block;
                     break;
                 }
@@ -124,7 +123,7 @@ class CmsPageManager extends BaseCmsPageManager
                 'page'     => $page,
                 'code'     => $code,
                 'position' => 1,
-                'parent'   => $parentContainer
+                'parent'   => $parentContainer,
             ));
         }
 

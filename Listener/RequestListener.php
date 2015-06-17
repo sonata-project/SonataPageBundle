@@ -12,18 +12,17 @@
 namespace Sonata\PageBundle\Listener;
 
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
-use Sonata\PageBundle\Site\SiteSelectorInterface;
+use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 use Sonata\PageBundle\Exception\InternalErrorException;
 use Sonata\PageBundle\Exception\PageNotFoundException;
-use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 use Sonata\PageBundle\Model\PageInterface;
-
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 /**
  * This class redirect the onCoreResponse event to the correct
- * cms manager upon user permission
+ * cms manager upon user permission.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -45,7 +44,7 @@ class RequestListener
     protected $decoratorStrategy;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param CmsManagerSelectorInterface $cmsSelector       Cms manager selector
      * @param SiteSelectorInterface       $siteSelector      Site selector
@@ -59,11 +58,9 @@ class RequestListener
     }
 
     /**
-     * Filter the `core.request` event to decorated the action
+     * Filter the `core.request` event to decorated the action.
      *
      * @param GetResponseEvent $event
-     *
-     * @return void
      *
      * @throws InternalErrorException
      * @throws PageNotFoundException
@@ -104,7 +101,6 @@ class RequestListener
             }
 
             $cms->setCurrentPage($page);
-
         } catch (PageNotFoundException $e) {
             return;
         }

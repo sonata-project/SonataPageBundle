@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata project.
  *
@@ -11,12 +12,12 @@
 namespace Sonata\PageBundle\Entity;
 
 use Sonata\CoreBundle\Model\BaseEntityManager;
-use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\DatagridBundle\Pager\Doctrine\Pager;
 use Sonata\DatagridBundle\ProxyQuery\Doctrine\ProxyQuery;
+use Sonata\PageBundle\Model\SiteManagerInterface;
 
 /**
- * This class manages SiteInterface persistency with the Doctrine ORM
+ * This class manages SiteInterface persistency with the Doctrine ORM.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */

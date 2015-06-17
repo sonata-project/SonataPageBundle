@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata project.
  *
@@ -11,7 +12,7 @@
 namespace Sonata\PageBundle\Model;
 
 /**
- * SnapshotChildrenCollection
+ * SnapshotChildrenCollection.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -34,7 +35,7 @@ class SnapshotChildrenCollection implements \Countable, \IteratorAggregate, \Arr
     }
 
     /**
-     * load the children collection
+     * load the children collection.
      */
     private function load()
     {

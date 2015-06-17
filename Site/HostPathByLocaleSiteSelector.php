@@ -12,12 +12,11 @@
 namespace Sonata\PageBundle\Site;
 
 use Sonata\PageBundle\Request\SiteRequestInterface;
-
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 /**
- * HostPathByLocaleSiteSelector
+ * HostPathByLocaleSiteSelector.
  *
  * @author Rémi Marseille <marseille@ekino.com>
  */

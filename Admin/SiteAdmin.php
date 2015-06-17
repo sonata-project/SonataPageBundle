@@ -12,16 +12,15 @@
 namespace Sonata\PageBundle\Admin;
 
 use Sonata\AdminBundle\Admin\Admin;
+use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
-
 use Sonata\PageBundle\Route\RoutePageGenerator;
 
 /**
- * Admin definition for the Site class
+ * Admin definition for the Site class.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -33,7 +32,7 @@ class SiteAdmin extends Admin
     protected $routePageGenerator;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string             $code               A Sonata admin code
      * @param string             $class              A Sonata admin class name
@@ -107,7 +106,7 @@ class SiteAdmin extends Admin
                 ->add('enabled', null, array('required' => false))
                 ->add('host')
                 ->add('locale', 'locale', array(
-                    'required' => false
+                    'required' => false,
                 ))
                 ->add('relativePath', null, array('required' => false))
                 ->add('enabledFrom', 'sonata_type_datetime_picker', array('dp_side_by_side' => true))

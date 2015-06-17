@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata project.
  *
@@ -11,17 +12,14 @@
 namespace Sonata\PageBundle\Controller;
 
 use Sonata\BlockBundle\Block\BlockContextManagerInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-
+use Sonata\BlockBundle\Block\BlockRendererInterface;
 use Sonata\BlockBundle\Exception\BlockNotFoundException;
 use Sonata\BlockBundle\Model\BlockInterface;
-use Sonata\BlockBundle\Block\BlockRendererInterface;
-
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Render a block in ajax
+ * Render a block in ajax.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -55,11 +53,11 @@ class AjaxController
     }
 
     /**
-     * Action for ajax route rendering a block by calling his executeAjax() method
+     * Action for ajax route rendering a block by calling his executeAjax() method.
      *
      * @param Request $request Symfony request object
-     * @param integer $pageId  Page identifier
-     * @param integer $blockId Block identifier
+     * @param int     $pageId  Page identifier
+     * @param int     $blockId Block identifier
      */
     public function execute(Request $request, $pageId, $blockId)
     {
