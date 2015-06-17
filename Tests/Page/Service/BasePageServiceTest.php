@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata package.
  *
@@ -10,18 +11,18 @@
 
 namespace Sonata\PageBundle\Tests\Page\Service;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Page\Service\BasePageService;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Test the abstract base page service
+ * Test the abstract base page service.
  */
 class BasePageServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * test the service name
+     * test the service name.
      */
     public function testName()
     {
@@ -36,7 +37,7 @@ class BasePageServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test the service execution
+     * Test the service execution.
      */
     public function testExecution()
     {

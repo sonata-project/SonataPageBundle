@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata package.
  *
@@ -8,13 +9,12 @@
  * file that was distributed with this source code.
  */
 
-
 namespace Sonata\Test\PageBundle\Command;
 
 use Sonata\PageBundle\Command\BaseCommand;
 
 /**
- * Class BaseCommandTest
+ * Class BaseCommandTest.
  *
  * @author Vincent Composieux <vincent.composieux@gmail.com>
  */
@@ -26,7 +26,7 @@ class BaseCommandTest extends \PHPUnit_Framework_TestCase
     private $command;
 
     /**
-     * Sets up a new BaseCommand instance
+     * Sets up a new BaseCommand instance.
      */
     public function setUp()
     {
@@ -37,7 +37,7 @@ class BaseCommandTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests the getSites() method with different parameters
+     * Tests the getSites() method with different parameters.
      */
     public function testGetSites()
     {

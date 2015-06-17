@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata package.
  *
@@ -15,14 +16,14 @@ use Sonata\PageBundle\Entity\BaseSnapshot;
 class Snapshot extends BaseSnapshot
 {
     /**
-     * @var integer $id
+     * @var int
      */
     protected $id;
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer $id
+     * @return int $id
      */
     public function getId()
     {

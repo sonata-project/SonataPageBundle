@@ -11,10 +11,9 @@
 
 namespace Sonata\PageBundle\Page\Service;
 
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-
 use Sonata\PageBundle\Model\PageInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Interface for a page service responsible for the management of pages from a given type.
@@ -31,7 +30,7 @@ use Sonata\PageBundle\Model\PageInterface;
 interface PageServiceInterface
 {
     /**
-     * Returns the page service name
+     * Returns the page service name.
      *
      * @return string
      */
@@ -45,7 +44,7 @@ interface PageServiceInterface
      * @param Request       $request    Request object
      * @param array         $parameters An array of view parameters. In the case of hybrid pages, it may have a
      *                                  parameter "content" that contains the view result of the controller.
-     * @param Response|null $response Response object
+     * @param Response|null $response   Response object
      *
      * @return Response
      */

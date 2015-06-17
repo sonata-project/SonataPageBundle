@@ -14,11 +14,10 @@ namespace Sonata\PageBundle\Consumer;
 use Sonata\NotificationBundle\Backend\BackendInterface;
 use Sonata\NotificationBundle\Consumer\ConsumerEvent;
 use Sonata\NotificationBundle\Consumer\ConsumerInterface;
-
 use Sonata\PageBundle\Model\PageManagerInterface;
 
 /**
- * Consumer class to cleanup snapshots
+ * Consumer class to cleanup snapshots.
  */
 class CleanupSnapshotsConsumer implements ConsumerInterface
 {
@@ -38,7 +37,7 @@ class CleanupSnapshotsConsumer implements ConsumerInterface
     protected $pageManager;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param BackendInterface     $asyncBackend   An asynchronous backend instance
      * @param BackendInterface     $runtimeBackend A runtime backend instance

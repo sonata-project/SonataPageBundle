@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata package.
  *
@@ -15,20 +16,19 @@ use Sonata\BlockBundle\Model\Block;
 use Sonata\PageBundle\Block\ContainerBlockService;
 
 /**
- * Test Container Block service
+ * Test Container Block service.
  */
 class ContainerBlockServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * test the block execute() method
+     * test the block execute() method.
      */
     public function testExecute()
     {
         $templating = new FakeTemplating();
         $service    = new ContainerBlockService('core.container', $templating);
 
-
-        $block = new Block;
+        $block = new Block();
         $block->setName('block.name');
         $block->setType('core.container');
         $block->setSettings(array(
@@ -51,14 +51,14 @@ class ContainerBlockServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * test the container layout
+     * test the container layout.
      */
     public function testLayout()
     {
         $templating = new FakeTemplating();
         $service    = new ContainerBlockService('core.container', $templating);
 
-        $block = new Block;
+        $block = new Block();
         $block->setName('block.name');
         $block->setType('core.container');
 
@@ -80,18 +80,18 @@ class ContainerBlockServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * test the block's form builders
+     * test the block's form builders.
      */
     public function testFormBuilder()
     {
         $templating = new FakeTemplating();
         $service    = new ContainerBlockService('core.container', $templating);
 
-        $block = new Block;
+        $block = new Block();
         $block->setName('block.name');
         $block->setType('core.container');
         $block->setSettings(array(
-            'name' => 'block.code'
+            'name' => 'block.code',
         ));
 
         $formMapper = $this->getMock('Sonata\\AdminBundle\\Form\\FormMapper', array(), array(), '', false);

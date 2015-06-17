@@ -12,18 +12,17 @@
 namespace Sonata\PageBundle\Tests\Site;
 
 use Sonata\PageBundle\Request\SiteRequest;
-
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 /**
- * Tests the HostPathByLocaleSiteSelector service
+ * Tests the HostPathByLocaleSiteSelector service.
  *
  * @author Rémi Marseille <marseille@ekino.com>
  */
 class HostPathByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
 {
     /**
-     * Tests handleKernelRequest method redirects to /en
+     * Tests handleKernelRequest method redirects to /en.
      */
     public function testHandleKernelRequestRedirectsToEn()
     {
@@ -62,13 +61,13 @@ class HostPathByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
     }
 
     /**
-     * Tests handleKernelRequest method redirects to /fr
+     * Tests handleKernelRequest method redirects to /fr.
      */
     public function testHandleKernelRequestRedirectsToFr()
     {
         $kernel  = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface');
         $request = SiteRequest::create('http://www.example.com', 'GET', array(), array(), array(), array(
-            'HTTP_ACCEPT_LANGUAGE' => 'fr-FR,fr;q=0.8,en-US;q=0.6,en;q=0.4'
+            'HTTP_ACCEPT_LANGUAGE' => 'fr-FR,fr;q=0.8,en-US;q=0.6,en;q=0.4',
         ));
 
         // Ensure request locale is null

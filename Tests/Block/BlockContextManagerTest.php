@@ -14,7 +14,7 @@ namespace Sonata\PageBundle\Tests\Block;
 use Sonata\PageBundle\Block\BlockContextManager;
 
 /**
- * Class BlockContextManagerTest
+ * Class BlockContextManagerTest.
  *
  * @author Sullivan Senechal <soullivaneuh@gmail.com>
  */
@@ -49,5 +49,4 @@ class BlockContextManagerTest extends \PHPUnit_Framework_TestCase
             'ttl'              => 0,
         ), $blockContext->getSettings());
     }
-
 }

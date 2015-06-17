@@ -18,14 +18,16 @@ use Sonata\PageBundle\Tests\Model\Page;
 class SnapshotBlock extends Block
 {
     public function setId($id)
-    {}
+    {
+    }
 
     public function getId()
-    {}
+    {
+    }
 }
 
 /**
- * Test CmsSnapshotManager
+ * Test CmsSnapshotManager.
  */
 class CmsSnapshotManagerTest extends \PHPUnit_Framework_TestCase
 {
@@ -41,7 +43,7 @@ class CmsSnapshotManagerTest extends \PHPUnit_Framework_TestCase
     protected $transformer;
 
     /**
-     * Setup manager object to test
+     * Setup manager object to test.
      */
     public function setUp()
     {
@@ -52,7 +54,7 @@ class CmsSnapshotManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test finding an existing container in a page
+     * Test finding an existing container in a page.
      */
     public function testFindExistingContainer()
     {
@@ -68,7 +70,7 @@ class CmsSnapshotManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test finding an non-existing container in a page does NOT create a new block
+     * Test finding an non-existing container in a page does NOT create a new block.
      */
     public function testFindNonExistingContainerCreatesNoNewBlock()
     {
@@ -105,10 +107,10 @@ class CmsSnapshotManagerTest extends \PHPUnit_Framework_TestCase
         $pBlock->expects($this->any())->method('getId')->will($this->returnValue(1));
 
         $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
-        $page->expects($this->any())->method('getBlocks')->will($this->returnCallback(function() use ($pBlock) {
+        $page->expects($this->any())->method('getBlocks')->will($this->returnCallback(function () use ($pBlock) {
             static $count;
 
-            $count++;
+            ++$count;
 
             if ($count == 1) {
                 return array();
@@ -120,7 +122,7 @@ class CmsSnapshotManagerTest extends \PHPUnit_Framework_TestCase
         $snapshot = $this->getMock('Sonata\PageBundle\Model\SnapshotInterface');
         $snapshot->expects($this->once())->method('getContent')->will($this->returnValue(array(
             // we don't care here about real values, the mock transformer will return the valid $pBlock instance
-            'blocks' => array()
+            'blocks' => array(),
         )));
 
         $this->snapshotManager->expects($this->once())->method('findEnableSnapshot')->will($this->returnValue($snapshot));
@@ -139,14 +141,14 @@ class CmsSnapshotManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Returns a mock block interactor
+     * Returns a mock block interactor.
      *
      * @return \Sonata\PageBundle\Model\BlockInteractorInterface
      */
     protected function getMockBlockInteractor()
     {
-        $callback = function($options) {
-            $block = new SnapshotBlock;
+        $callback = function ($options) {
+            $block = new SnapshotBlock();
             $block->setSettings($options);
 
             return $block;

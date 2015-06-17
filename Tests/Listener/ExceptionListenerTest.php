@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata package.
  *
@@ -10,15 +11,14 @@
 
 namespace Sonata\PageBundle\Tests\Listener;
 
+use Sonata\PageBundle\Listener\ExceptionListener;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-use Sonata\PageBundle\Listener\ExceptionListener;
-
 /**
- * Test the page bundle exception listener
+ * Test the page bundle exception listener.
  */
 class ExceptionListenerTest extends \PHPUnit_Framework_TestCase
 {
@@ -63,7 +63,7 @@ class ExceptionListenerTest extends \PHPUnit_Framework_TestCase
     protected $listener;
 
     /**
-     * setup unit test
+     * setup unit test.
      */
     public function setUp()
     {
@@ -85,7 +85,7 @@ class ExceptionListenerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test an internal exception
+     * Test an internal exception.
      */
     public function testInternalException()
     {
@@ -107,7 +107,7 @@ class ExceptionListenerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test the not found exception in editor mode
+     * Test the not found exception in editor mode.
      */
     public function testNotFoundExceptionInEditorMode()
     {
@@ -135,7 +135,7 @@ class ExceptionListenerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test the not found exception rendering
+     * Test the not found exception rendering.
      */
     public function testNotFoundException()
     {
@@ -181,7 +181,7 @@ class ExceptionListenerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Returns a mocked event with given content data
+     * Returns a mocked event with given content data.
      *
      * @param \Exception $exception
      *

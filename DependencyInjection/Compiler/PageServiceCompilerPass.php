@@ -11,12 +11,12 @@
 
 namespace Sonata\PageBundle\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Inject page services into page service manager
+ * Inject page services into page service manager.
  *
  * @author Olivier Paradis <paradis@ekino.com>
  */

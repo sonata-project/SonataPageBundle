@@ -11,13 +11,12 @@
 
 namespace Sonata\PageBundle\Command;
 
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Output\Output;
 
 /**
- * Create a site
+ * Create a site.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -50,7 +49,6 @@ The <info>sonata:page:create-site</info> command create a new site entity.
 
 EOT
 );
-
     }
 
     /**
@@ -61,21 +59,21 @@ EOT
         $dialog = $this->getHelperSet()->get('dialog');
 
         $values = array(
-            'name'        => null,
-            'host'        => null,
-            'relativePath'=> null,
-            'enabled'     => null,
-            'enabledFrom' => null,
-            'enabledTo'   => null,
-            'default'     => null,
-            'locale'      => null,
+            'name'         => null,
+            'host'         => null,
+            'relativePath' => null,
+            'enabled'      => null,
+            'enabledFrom'  => null,
+            'enabledTo'    => null,
+            'default'      => null,
+            'locale'       => null,
         );
 
         foreach ($values as $name => $value) {
             $values[$name] = $input->getOption($name);
 
             while ($values[$name] == null) {
-                $values[$name] = $dialog->ask($output, sprintf("Please define a value for <info>Site.%s</info> : ", $name));
+                $values[$name] = $dialog->ask($output, sprintf('Please define a value for <info>Site.%s</info> : ', $name));
             }
         }
 
@@ -117,7 +115,6 @@ INFO
                 sprintf('  php app/console sonata:page:update-core-routes --site=%s', $site->getId()),
                 sprintf('  php app/console sonata:page:create-snapshots --site=%s', $site->getId()),
             ));
-
         } else {
             $output->writeln('<error>Site creation cancelled !</error>');
         }

@@ -11,13 +11,12 @@
 
 namespace Sonata\PageBundle\Form\Type;
 
+use Sonata\PageBundle\Page\TemplateManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-use Sonata\PageBundle\Page\TemplateManagerInterface;
-
 /**
- * Select a template
+ * Select a template.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -42,7 +41,7 @@ class TemplateChoiceType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'choices' => $this->getTemplates()
+            'choices' => $this->getTemplates(),
         ));
     }
 

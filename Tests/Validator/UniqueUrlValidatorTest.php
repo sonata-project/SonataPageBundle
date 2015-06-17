@@ -11,8 +11,8 @@
 
 namespace Sonata\PageBundle\Tests\Validator;
 
-use Sonata\PageBundle\Validator\UniqueUrlValidator;
 use Sonata\PageBundle\Validator\Constraints\UniqueUrl;
+use Sonata\PageBundle\Validator\UniqueUrlValidator;
 
 class UniqueUrlValidatorTest extends \PHPUnit_Framework_TestCase
 {
@@ -37,7 +37,7 @@ class UniqueUrlValidatorTest extends \PHPUnit_Framework_TestCase
         $validator = new UniqueUrlValidator($manager);
         $validator->initialize($context);
 
-        $validator->validate($page, new UniqueUrl);
+        $validator->validate($page, new UniqueUrl());
     }
 
     public function testValidateWithPageFound()
@@ -62,6 +62,6 @@ class UniqueUrlValidatorTest extends \PHPUnit_Framework_TestCase
         $validator = new UniqueUrlValidator($manager);
         $validator->initialize($context);
 
-        $validator->validate($page, new UniqueUrl);
+        $validator->validate($page, new UniqueUrl());
     }
 }

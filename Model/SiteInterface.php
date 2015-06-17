@@ -12,7 +12,7 @@
 namespace Sonata\PageBundle\Model;
 
 /**
- * SiteInterface
+ * SiteInterface.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -22,8 +22,6 @@ interface SiteInterface
 
     /**
      * @param string $name
-     *
-     * @return void
      */
     public function setName($name);
 
@@ -34,8 +32,6 @@ interface SiteInterface
 
     /**
      * @param string $host
-     *
-     * @return void
      */
     public function setHost($host);
 
@@ -51,8 +47,6 @@ interface SiteInterface
 
     /**
      * @param string $locale
-     *
-     * @return void
      */
     public function setLocale($locale);
 
@@ -63,8 +57,6 @@ interface SiteInterface
 
     /**
      * @param \DateTime|null $enabledFrom
-     *
-     * @return void
      */
     public function setEnabledFrom(\DateTime $enabledFrom = null);
 
@@ -75,27 +67,21 @@ interface SiteInterface
 
     /**
      * @param \DateTime|null $enabledTo
-     *
-     * @return void
      */
     public function setEnabledTo(\DateTime $enabledTo = null);
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getIsDefault();
 
     /**
-     * @param boolean $default
-     *
-     * @return void
+     * @param bool $default
      */
     public function setIsDefault($default);
 
     /**
      * @param string $path
-     *
-     * @return void
      */
     public function setRelativePath($path);
 
@@ -105,49 +91,49 @@ interface SiteInterface
     public function getRelativePath();
 
     /**
-     * Set enabled
+     * Set enabled.
      *
-     * @param boolean $enabled
+     * @param bool $enabled
      */
     public function setEnabled($enabled);
 
     /**
-     * Get enabled
+     * Get enabled.
      *
-     * @return boolean $enabled
+     * @return bool $enabled
      */
     public function getEnabled();
 
     /**
-     * Returns TRUE whether the site is enabled
+     * Returns TRUE whether the site is enabled.
      *
-     * @return boolean
+     * @return bool
      */
     public function isEnabled();
 
     /**
-     * Set createdAt
+     * Set createdAt.
      *
      * @param \Datetime|null $createdAt
      */
     public function setCreatedAt(\DateTime $createdAt = null);
 
     /**
-     * Get createdAt
+     * Get createdAt.
      *
      * @return \Datetime $createdAt
      */
     public function getCreatedAt();
 
     /**
-     * Set updatedAt
+     * Set updatedAt.
      *
      * @param \Datetime|null $updatedAt
      */
     public function setUpdatedAt(\DateTime $updatedAt = null);
 
     /**
-     * Get updatedAt
+     * Get updatedAt.
      *
      * @return \Datetime $updatedAt
      */
@@ -164,7 +150,7 @@ interface SiteInterface
     public function getUrl();
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isLocalhost();
 

@@ -11,20 +11,18 @@
 
 namespace Sonata\PageBundle\Listener;
 
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Cookie;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
-
-use Sonata\PageBundle\Page\PageServiceManagerInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
-use Sonata\PageBundle\Exception\InternalErrorException;
 use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
+use Sonata\PageBundle\Exception\InternalErrorException;
+use Sonata\PageBundle\Page\PageServiceManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 
 /**
  * This class redirect the onCoreResponse event to the correct
- * cms manager upon user permission
+ * cms manager upon user permission.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -68,11 +66,9 @@ class ResponseListener
     }
 
     /**
-     * Filter the `core.response` event to decorate the action
+     * Filter the `core.response` event to decorate the action.
      *
      * @param FilterResponseEvent $event
-     *
-     * @return void
      *
      * @throws InternalErrorException
      */
@@ -125,7 +121,7 @@ class ResponseListener
         }
 
         $parameters = array(
-            'content' => $response->getContent()
+            'content' => $response->getContent(),
         );
 
         $response = $this->pageServiceManager->execute($page, $request, $parameters, $response);

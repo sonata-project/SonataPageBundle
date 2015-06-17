@@ -15,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Mock Templating class
+ * Mock Templating class.
  */
 class FakeTemplating implements EngineInterface
 {
@@ -45,7 +45,7 @@ class FakeTemplating implements EngineInterface
             return $response;
         }
 
-        return new Response;
+        return new Response();
     }
 
     /**

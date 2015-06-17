@@ -11,18 +11,18 @@
 
 namespace Sonata\PageBundle\Page;
 
-use Symfony\Component\HttpFoundation\Response;
 use Sonata\PageBundle\Model\Template;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Interface for template management and rendering
+ * Interface for template management and rendering.
  *
  * @author Olivier Paradis <paradis.olivier@gmail.com>
  */
 interface TemplateManagerInterface
 {
     /**
-     * Renders a template code
+     * Renders a template code.
      *
      * @param string   $code       Template code
      * @param array    $parameters An array of view parameters
@@ -33,7 +33,7 @@ interface TemplateManagerInterface
     public function renderResponse($code, array $parameters = array(), Response $response = null);
 
     /**
-     * Adds a template
+     * Adds a template.
      *
      * @param string   $code     Code
      * @param Template $template Template object
@@ -41,7 +41,7 @@ interface TemplateManagerInterface
     public function add($code, Template $template);
 
     /**
-     * Returns the template by code
+     * Returns the template by code.
      *
      * @param string $code
      *
@@ -50,28 +50,28 @@ interface TemplateManagerInterface
     public function get($code);
 
     /**
-     * Sets the default template code
+     * Sets the default template code.
      *
      * @param string $code
      */
     public function setDefaultTemplateCode($code);
 
     /**
-     * Returns the default template code
+     * Returns the default template code.
      *
      * @return string
      */
     public function getDefaultTemplateCode();
 
     /**
-     * Sets the templates
+     * Sets the templates.
      *
      * @param Template[] $templates
      */
     public function setAll($templates);
 
     /**
-     * Returns the templates
+     * Returns the templates.
      *
      * @return Template[]
      */

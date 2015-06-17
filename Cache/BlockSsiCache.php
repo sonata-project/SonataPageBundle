@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata package.
  *
@@ -10,20 +11,19 @@
 
 namespace Sonata\PageBundle\Cache;
 
-use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpFoundation\Request;
-
-use Sonata\BlockBundle\Block\BlockRendererInterface;
 use Sonata\BlockBundle\Block\BlockContextManagerInterface;
-use Sonata\PageBundle\CmsManager\CmsManagerInterface;
+use Sonata\BlockBundle\Block\BlockRendererInterface;
 use Sonata\Cache\CacheElement;
 use Sonata\CacheBundle\Adapter\SsiCache;
+use Sonata\PageBundle\CmsManager\CmsManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\RouterInterface;
 
 /**
- * Cache block through an ssi statement
+ * Cache block through an ssi statement.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -48,7 +48,7 @@ class BlockSsiCache extends SsiCache
      * @param string                       $token
      * @param RouterInterface              $router
      * @param BlockRendererInterface       $blockRenderer
-     * @param BlockContextManagerInterface $contextManager   Block Context manager
+     * @param BlockContextManagerInterface $contextManager Block Context manager
      * @param array                        $managers
      */
     public function __construct($token, RouterInterface $router, BlockRendererInterface $blockRenderer, BlockContextManagerInterface $contextManager, array $managers = array())
@@ -64,8 +64,6 @@ class BlockSsiCache extends SsiCache
      * @throws \RuntimeException
      *
      * @param array $keys
-     *
-     * @return void
      */
     private function validateKeys(array $keys)
     {

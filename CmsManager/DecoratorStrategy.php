@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata project.
  *
@@ -10,9 +11,9 @@
 
 namespace Sonata\PageBundle\CmsManager;
 
-use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
  * The DecoratorStrategy class defines if a request can be decorate by a PageInterface depends
@@ -49,7 +50,7 @@ class DecoratorStrategy implements DecoratorStrategyInterface
             return false;
         }
 
-        if ((substr($response->headers->get('Content-Type') ? : 'text/html', 0, 9)) != 'text/html') {
+        if ((substr($response->headers->get('Content-Type') ?: 'text/html', 0, 9)) != 'text/html') {
             return false;
         }
 

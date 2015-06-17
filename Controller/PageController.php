@@ -11,15 +11,14 @@
 
 namespace Sonata\PageBundle\Controller;
 
-use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Exception\InternalErrorException;
+use Sonata\PageBundle\Exception\PageNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
- * Page controller
+ * Page controller.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */

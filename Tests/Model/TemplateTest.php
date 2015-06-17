@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata package.
  *
@@ -49,8 +50,8 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     public function testGetContainer()
     {
         $template = new Template('page', 'template.twig', array('header' => array(
-            'name' => 'Header',
-            'block' => array('text.block')
+            'name'  => 'Header',
+            'block' => array('text.block'),
         )));
 
         $expected = array(
@@ -58,7 +59,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             'type'      => Template::TYPE_STATIC,
             'blocks'    => array(),
             'placement' => array(),
-            'shared'    => false
+            'shared'    => false,
         );
 
         $this->assertEquals($expected, $template->getContainer('header'));

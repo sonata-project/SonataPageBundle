@@ -11,16 +11,16 @@
 
 namespace Sonata\PageBundle\Route;
 
-use Sonata\PageBundle\Model\PageInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Routing\RouterInterface;
 use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 use Sonata\PageBundle\Listener\ExceptionListener;
+use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Routing\RouterInterface;
 
 /**
- * This is the page generator service from existing routes
+ * This is the page generator service from existing routes.
  *
  * @author Vincent Composieux <vincent.composieux@gmail.com>
  */
@@ -47,7 +47,7 @@ class RoutePageGenerator
     protected $exceptionListener;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param RouterInterface            $router            A Symfony router service
      * @param PageManagerInterface       $pageManager       A Sonata Page manager
@@ -63,22 +63,20 @@ class RoutePageGenerator
     }
 
     /**
-     * Updates site page routes with all routes available in Symfony router service
+     * Updates site page routes with all routes available in Symfony router service.
      *
      * @param SiteInterface   $site   A page bundle site instance
      * @param OutputInterface $output A Symfony console output
-     *
-     * @return void
      */
     public function update(SiteInterface $site, OutputInterface $output = null)
     {
-        $message = sprintf(" > <info>Updating core routes for site</info> : <comment>%s - %s</comment>", $site->getName(), $site->getUrl());
+        $message = sprintf(' > <info>Updating core routes for site</info> : <comment>%s - %s</comment>', $site->getName(), $site->getUrl());
 
         $this->writeln($output, array(
             str_repeat('=', strlen($message)),
-            "",
+            '',
             $message,
-            "",
+            '',
             str_repeat('=', strlen($message)),
         ));
 
@@ -108,7 +106,7 @@ class RoutePageGenerator
 
             $page = $this->pageManager->findOneBy(array(
                 'routeName' => $name,
-                'site'      => $site->getId()
+                'site'      => $site->getId(),
             ));
 
             $routeHostRegex = $route->compile()->getHostRegex();
@@ -165,7 +163,7 @@ class RoutePageGenerator
 
             $page = $this->pageManager->findOneBy(array(
                 'routeName' => $name,
-                'site'      => $site->getId()
+                'site'      => $site->getId(),
             ));
 
             if (!$page) {
@@ -216,7 +214,7 @@ MSG
     }
 
     /**
-     * Output a Symfony console message with writeln() function
+     * Output a Symfony console message with writeln() function.
      *
      * @param OutputInterface $output  A Symfony console output instance
      * @param string          $message A string message to output

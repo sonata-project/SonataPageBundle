@@ -11,14 +11,13 @@
 
 namespace Sonata\PageBundle\Consumer;
 
-use Sonata\NotificationBundle\Consumer\ConsumerInterface;
 use Sonata\NotificationBundle\Consumer\ConsumerEvent;
-
-use Sonata\PageBundle\Model\SnapshotManagerInterface;
+use Sonata\NotificationBundle\Consumer\ConsumerInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
+use Sonata\PageBundle\Model\SnapshotManagerInterface;
 
 /**
- * Consumer class to cleanup snapshots by a given page
+ * Consumer class to cleanup snapshots by a given page.
  */
 class CleanupSnapshotConsumer implements ConsumerInterface
 {
@@ -33,7 +32,7 @@ class CleanupSnapshotConsumer implements ConsumerInterface
     protected $pageManager;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param SnapshotManagerInterface $snapshotManager A snapshot manager instance
      * @param PageManagerInterface     $pageManager     A page manager instance
@@ -50,7 +49,7 @@ class CleanupSnapshotConsumer implements ConsumerInterface
     public function process(ConsumerEvent $event)
     {
         $page = $this->pageManager->findOneBy(array(
-            'id' => $event->getMessage()->getValue('pageId')
+            'id' => $event->getMessage()->getValue('pageId'),
         ));
 
         if (!$page) {

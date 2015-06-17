@@ -11,9 +11,9 @@
 
 namespace Sonata\PageBundle\Block;
 
+use Sonata\BlockBundle\Block\BlockContextManager as BaseBlockContextManager;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Sonata\BlockBundle\Block\BlockContextManager as BaseBlockContextManager;
 
 class BlockContextManager extends BaseBlockContextManager
 {
@@ -32,12 +32,12 @@ class BlockContextManager extends BaseBlockContextManager
 
         $optionsResolver->addAllowedTypes(array(
             'manager' => array('string', 'bool'),
-            'page_id' => array('int', 'string', 'bool')
+            'page_id' => array('int', 'string', 'bool'),
         ));
 
         $optionsResolver->setRequired(array(
             'manager',
-            'page_id'
+            'page_id',
         ));
     }
 }

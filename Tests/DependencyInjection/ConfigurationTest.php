@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata package.
  *
@@ -18,22 +19,21 @@ use Symfony\Component\Config\Definition\Processor;
  */
 class ConfigurationTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testPageWithMatrix()
     {
         $processor = new Processor();
 
         $config = $processor->processConfiguration(new Configuration(), array(array(
-            'multisite' => 'host_with_path',
+            'multisite'        => 'host_with_path',
             'default_template' => 'default',
-            'templates' => array(
+            'templates'        => array(
                 'default' => array(
-                    'path' => 'ApplicationSonataPageBundle::demo_layout.html.twig',
-                    'name' => 'default',
+                    'path'       => 'ApplicationSonataPageBundle::demo_layout.html.twig',
+                    'name'       => 'default',
                     'containers' => array('header' => array('name' => 'My Header')),
-                    'matrix' => array('layout' => 'HHHH', 'mapping' => array('H' => 'header')),
-                )
-            )
+                    'matrix'     => array('layout' => 'HHHH', 'mapping' => array('H' => 'header')),
+                ),
+            ),
         )));
 
         $expected = array(
@@ -70,7 +70,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                     'bundles/sonataadmin/vendor/jquery/dist/jquery.min.js',
                     'bundles/sonataadmin/vendor/bootstrap/dist/js/bootstrap.min.js',
                     'bundles/sonatapage/sonata-page.front.js',
-                )
+                ),
             ),
             'is_inline_edition_on'  => false,
             'use_streamed_response' => false,
@@ -106,7 +106,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                 'site'     => 'Application\\Sonata\\PageBundle\\Entity\\Site',
             ),
 
-            'slugify_service' => 'sonata.core.slugify.native',
+            'slugify_service'    => 'sonata.core.slugify.native',
             'direct_publication' => false,
         );
 
@@ -118,14 +118,14 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $processor = new Processor();
 
         $config = $processor->processConfiguration(new Configuration(), array(array(
-            'multisite' => 'host_with_path',
+            'multisite'        => 'host_with_path',
             'default_template' => 'default',
-            'templates' => array(
+            'templates'        => array(
                 'default' => array(
                     'path' => 'ApplicationSonataPageBundle::demo_layout.html.twig',
                     'name' => 'default',
-                )
-            )
+                ),
+            ),
         )));
 
         $expected = array(
@@ -147,7 +147,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                     'bundles/sonataadmin/vendor/jquery/dist/jquery.min.js',
                     'bundles/sonataadmin/vendor/bootstrap/dist/js/bootstrap.min.js',
                     'bundles/sonatapage/sonata-page.front.js',
-                )
+                ),
             ),
             'is_inline_edition_on'  => false,
             'use_streamed_response' => false,
@@ -183,7 +183,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                 'site'     => 'Application\\Sonata\\PageBundle\\Entity\\Site',
             ),
 
-            'slugify_service' => 'sonata.core.slugify.native',
+            'slugify_service'    => 'sonata.core.slugify.native',
             'direct_publication' => false,
         );
 

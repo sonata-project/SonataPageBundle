@@ -11,20 +11,18 @@
 
 namespace Sonata\PageBundle\Twig\Extension;
 
-use Sonata\PageBundle\Cache\HttpCacheHandlerInterface;
+use Sonata\BlockBundle\Templating\Helper\BlockHelper;
+use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
+use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
-use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
-use Sonata\PageBundle\Site\SiteSelectorInterface;
-use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Model\SnapshotPageProxy;
-
+use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Symfony\Bridge\Twig\Extension\HttpKernelExtension;
 use Symfony\Component\Routing\RouterInterface;
-use Sonata\BlockBundle\Templating\Helper\BlockHelper;
 
 /**
- * PageExtension
+ * PageExtension.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -66,7 +64,7 @@ class PageExtension extends \Twig_Extension
     private $httpKernelExtension;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param CmsManagerSelectorInterface $cmsManagerSelector  A CMS manager selector
      * @param SiteSelectorInterface       $siteSelector        A site selector
@@ -94,7 +92,7 @@ class PageExtension extends \Twig_Extension
             'sonata_page_breadcrumb'          => new \Twig_Function_Method($this, 'breadcrumb', array('is_safe' => array('html'))),
             'sonata_page_render_container'    => new \Twig_Function_Method($this, 'renderContainer', array('is_safe' => array('html'))),
             'sonata_page_render_block'        => new \Twig_Function_Method($this, 'renderBlock', array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('controller', array($this, 'controller'))
+            new \Twig_SimpleFunction('controller', array($this, 'controller')),
         );
     }
 
@@ -142,7 +140,6 @@ class PageExtension extends \Twig_Extension
             $breadcrumbs = $page->getParents();
 
             if ($options['force_view_home_page'] && (!isset($breadcrumbs[0]) || $breadcrumbs[0]->getRouteName() != 'homepage')) {
-
                 try {
                     $homePage = $this->cmsManagerSelector->retrieve()->getPageByRouteName($this->siteSelector->retrieve(), 'homepage');
                 } catch (PageNotFoundException $e) {
@@ -158,16 +155,16 @@ class PageExtension extends \Twig_Extension
         return $this->render($options['template'], array(
             'page'        => $page,
             'breadcrumbs' => $breadcrumbs,
-            'options'     => $options
+            'options'     => $options,
         ));
     }
 
     /**
-     * Returns the URL for an ajax request for given block
+     * Returns the URL for an ajax request for given block.
      *
      * @param PageBlockInterface $block      Block service
      * @param array              $parameters Provide absolute or relative url ?
-     * @param boolean            $absolute
+     * @param bool               $absolute
      *
      * @return string
      */
@@ -213,9 +210,9 @@ class PageExtension extends \Twig_Extension
         try {
             if ($page === null) {
                 $targetPage = $cms->getCurrentPage();
-            } else if (!$page instanceof PageInterface && is_string($page)) {
+            } elseif (!$page instanceof PageInterface && is_string($page)) {
                 $targetPage = $cms->getInternalRoute($site, $page);
-            } else if ($page instanceof PageInterface) {
+            } elseif ($page instanceof PageInterface) {
                 $targetPage = $page;
             }
         } catch (PageNotFoundException $e) {
@@ -224,13 +221,13 @@ class PageExtension extends \Twig_Extension
         }
 
         if (!$targetPage) {
-            return "";
+            return '';
         }
 
         $container = $cms->findContainer($name, $targetPage);
 
         if (!$container) {
-            return "";
+            return '';
         }
 
         return $this->renderBlock($container, $options);
@@ -257,7 +254,7 @@ class PageExtension extends \Twig_Extension
         // build the parameters array
         $options = array_merge(array(
             'use_cache'        => isset($options['use_cache']) ? $options['use_cache'] : true,
-            'extra_cache_keys' => array()
+            'extra_cache_keys' => array(),
         ), $pageCacheKeys, $options);
 
         // make sure the parameters array contains all valid keys
@@ -284,7 +281,7 @@ class PageExtension extends \Twig_Extension
             $sitePath = $this->siteSelector->retrieve()->getRelativePath();
             $currentPathInfo = $globals['app']->getRequest()->getPathInfo();
 
-            $attributes['pathInfo'] = $sitePath . $currentPathInfo;
+            $attributes['pathInfo'] = $sitePath.$currentPathInfo;
         }
 
         return $this->httpKernelExtension->controller($controller, $attributes, $query);

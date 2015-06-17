@@ -12,10 +12,10 @@
 namespace Sonata\PageBundle\Validator;
 
 use Sonata\PageBundle\Model\PageInterface;
+use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
-use Sonata\PageBundle\Model\PageManagerInterface;
 
 class UniqueUrlValidator extends ConstraintValidator
 {
@@ -55,7 +55,7 @@ class UniqueUrlValidator extends ConstraintValidator
 
         $pages = $this->manager->findBy(array(
             'site' => $value->getSite(),
-            'url'  => $value->getUrl()
+            'url'  => $value->getUrl(),
         ));
 
         foreach ($pages as $page) {

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata project.
  *
@@ -14,14 +15,14 @@ use Sonata\CoreBundle\Model\ManagerInterface;
 use Sonata\CoreBundle\Model\PageableManagerInterface;
 
 /**
- * Defines methods to interact with the persistency layer of a PageInterface
+ * Defines methods to interact with the persistency layer of a PageInterface.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 interface PageManagerInterface extends ManagerInterface, PageableManagerInterface
 {
     /**
-     * Returns a page with the give slug
+     * Returns a page with the give slug.
      *
      * @param SiteInterface $site
      * @param string        $url
@@ -31,7 +32,7 @@ interface PageManagerInterface extends ManagerInterface, PageableManagerInterfac
     public function getPageByUrl(SiteInterface $site, $url);
 
     /**
-     * Returns an array of Pages Entity where the id is the key
+     * Returns an array of Pages Entity where the id is the key.
      *
      * @param SiteInterface $site
      *

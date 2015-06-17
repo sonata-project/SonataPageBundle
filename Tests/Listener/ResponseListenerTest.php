@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata package.
  *
@@ -11,14 +12,13 @@
 namespace Sonata\PageBundle\Tests\Listener;
 
 use Sonata\PageBundle\Listener\ResponseListener;
-
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Sonata\PageBundle\Model\PageInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Sonata\PageBundle\Model\PageInterface;
+use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 
 /**
- * Test the page bundle response listener
+ * Test the page bundle response listener.
  */
 class ResponseListenerTest extends \PHPUnit_Framework_TestCase
 {
@@ -48,7 +48,7 @@ class ResponseListenerTest extends \PHPUnit_Framework_TestCase
     protected $listener;
 
     /**
-     * setup unit test
+     * setup unit test.
      */
     public function setUp()
     {
@@ -63,7 +63,7 @@ class ResponseListenerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test the listener without a page
+     * Test the listener without a page.
      *
      * @expectedException \Sonata\PageBundle\Exception\InternalErrorException
      */
@@ -87,7 +87,7 @@ class ResponseListenerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test that the  listener does not mess up with response when a page is non decorable
+     * Test that the  listener does not mess up with response when a page is non decorable.
      */
     public function testPageIsNonDecorable()
     {
@@ -104,7 +104,7 @@ class ResponseListenerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test that the listener correctly decorates the response content when a page is decorable
+     * Test that the listener correctly decorates the response content when a page is decorable.
      */
     public function testPageIsDecorable()
     {
@@ -128,7 +128,7 @@ class ResponseListenerTest extends \PHPUnit_Framework_TestCase
         $this->pageServiceManager->expects($this->once())
             ->method('execute')
             ->with($this->equalTo($page), $this->anything(), array('content' => $content))
-            ->will($this->returnCallback(function(PageInterface $page, Request $request, array $params = array(), Response $response) {
+            ->will($this->returnCallback(function (PageInterface $page, Request $request, array $params = array(), Response $response) {
                 $response->setContent(sprintf('outer "%s" outer', $params['content']));
 
                 return $response;
@@ -145,7 +145,7 @@ class ResponseListenerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test that the listener correctly alters the http headers when the editor is enabled
+     * Test that the listener correctly alters the http headers when the editor is enabled.
      */
     public function testPageIsEditor()
     {
@@ -173,7 +173,7 @@ class ResponseListenerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Returns a mocked event with given content data
+     * Returns a mocked event with given content data.
      *
      * @param string $content
      *

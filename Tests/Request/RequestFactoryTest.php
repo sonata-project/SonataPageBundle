@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata package.
  *
@@ -13,7 +14,6 @@ namespace Sonata\PageBundle\Tests\Request;
 use Sonata\PageBundle\Request\RequestFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Kernel;
-
 
 /**
  *

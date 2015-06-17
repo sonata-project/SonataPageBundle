@@ -14,9 +14,10 @@ namespace Sonata\PageBundle\Tests;
 use Cocur\Slugify\Slugify;
 use Sonata\PageBundle\SonataPageBundle;
 
-class Page extends \Sonata\PageBundle\Model\Page {
+class Page extends \Sonata\PageBundle\Model\Page
+{
     /**
-     * Returns the id
+     * Returns the id.
      *
      * @return mixed
      */
@@ -28,7 +29,6 @@ class Page extends \Sonata\PageBundle\Model\Page {
 
 class SonataPageBundleTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @dataProvider getSlug
      */
@@ -37,7 +37,7 @@ class SonataPageBundleTest extends \PHPUnit_Framework_TestCase
         $bundle = new SonataPageBundle();
         $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
         $container->expects($this->exactly(1))->method('hasParameter')->will($this->returnValue(true));
-        $container->expects($this->exactly(2))->method('getParameter')->will($this->returnCallback(function($value) {
+        $container->expects($this->exactly(2))->method('getParameter')->will($this->returnCallback(function ($value) {
             if ($value == 'sonata.page.page.class') {
                 return 'Sonata\PageBundle\Tests\Page';
             }
@@ -51,7 +51,7 @@ class SonataPageBundleTest extends \PHPUnit_Framework_TestCase
         $bundle->setContainer($container);
         $bundle->boot();
 
-        $page = new Page;
+        $page = new Page();
         $page->setSlug($text);
         $this->assertEquals($page->getSlug(), $expected);
     }
@@ -59,8 +59,8 @@ class SonataPageBundleTest extends \PHPUnit_Framework_TestCase
     public function getSlug()
     {
         return array(
-            array("Salut comment ca va ?",  'salut-comment-ca-va'),
-            array("òüì",  'ouei')
+            array('Salut comment ca va ?',  'salut-comment-ca-va'),
+            array('òüì',  'ouei'),
         );
     }
 }

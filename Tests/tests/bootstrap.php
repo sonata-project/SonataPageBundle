@@ -9,16 +9,14 @@
  * file that was distributed with this source code.
  */
 
-
 // fix encoding issue while running text on different host with different locale configuration
-setlocale(LC_ALL, "en_US.UTF-8");
+setlocale(LC_ALL, 'en_US.UTF-8');
 
 if (file_exists($file = __DIR__.'/autoload.php')) {
     require_once $file;
 } elseif (file_exists($file = __DIR__.'/autoload.php.dist')) {
     require_once $file;
 }
-
 
 // try to get Symfony's PHPunit Bridge
 $files = array_filter(array(

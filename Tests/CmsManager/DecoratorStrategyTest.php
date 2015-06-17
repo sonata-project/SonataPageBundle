@@ -12,10 +12,10 @@
 namespace Sonata\PageBundle\Tests\Page;
 
 use Sonata\PageBundle\CmsManager\DecoratorStrategy;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
  *
@@ -33,7 +33,7 @@ class DecoratorStrategyTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($strategy->isDecorable($request, HttpKernelInterface::SUB_REQUEST, $response));
 
         //
-        $response->headers = new ParameterBag;
+        $response->headers = new ParameterBag();
         $response->headers->set('Content-Type', 'foo/test');
 
         $this->assertFalse($strategy->isDecorable($request, HttpKernelInterface::MASTER_REQUEST, $response));

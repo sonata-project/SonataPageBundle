@@ -9,3 +9,4 @@ composer.lock
 vendor
 node_modules
 .sass-cache
+.php_cs.cache

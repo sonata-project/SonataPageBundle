@@ -11,26 +11,23 @@
 
 namespace Sonata\PageBundle\Admin;
 
+use Knp\Menu\ItemInterface as MenuItemInterface;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Admin\AdminInterface;
+use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
-
-use Sonata\PageBundle\Exception\PageNotFoundException;
+use Sonata\Cache\CacheManagerInterface;
 use Sonata\PageBundle\Exception\InternalErrorException;
+use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 
-use Sonata\Cache\CacheManagerInterface;
-
-use Knp\Menu\ItemInterface as MenuItemInterface;
-
 /**
- * Admin definition for the Page class
+ * Admin definition for the Page class.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -115,7 +112,7 @@ class PageAdmin extends Admin
             ->add('parent')
             ->add('edited')
             ->add('hybrid', 'doctrine_orm_callback', array(
-                'callback' => function($queryBuilder, $alias, $field, $data) {
+                'callback' => function ($queryBuilder, $alias, $field, $data) {
                     if (in_array($data['value'], array('hybrid', 'cms'))) {
                         $queryBuilder->andWhere(sprintf('%s.routeName %s :routeName', $alias, $data['value'] == 'cms' ? '=' : '!='));
                         $queryBuilder->setParameter('routeName', PageInterface::PAGE_ROUTE_CMS_NAME);
@@ -126,9 +123,9 @@ class PageAdmin extends Admin
                     'choices'  => array(
                         'hybrid'  => $this->trans('hybrid'),
                         'cms'     => $this->trans('cms'),
-                    )
+                    ),
                 ),
-                'field_type' => 'choice'
+                'field_type' => 'choice',
             ))
         ;
     }
@@ -145,7 +142,6 @@ class PageAdmin extends Admin
              ->with($this->trans('form_page.group_seo_label'), array('class' => 'col-md-6'))->end()
              ->with($this->trans('form_page.group_advanced_label'), array('class' => 'col-md-6'))->end()
         ;
-
 
         if (!$this->getSubject() || (!$this->getSubject()->isInternal() && !$this->getSubject()->isError())) {
             $formMapper
@@ -196,10 +192,10 @@ class PageAdmin extends Admin
                         'required'      => false,
                         'filter_choice' => array('hierarchy' => 'root'),
                     ), array(
-                        'admin_code' => $this->getCode(),
+                        'admin_code'      => $this->getCode(),
                         'link_parameters' => array(
-                            'siteId' => $this->getSubject() ? $this->getSubject()->getSite()->getId() : null
-                        )
+                            'siteId' => $this->getSubject() ? $this->getSubject()->getSite()->getId() : null,
+                        ),
                     ))
                 ->end()
             ;
@@ -215,12 +211,12 @@ class PageAdmin extends Admin
                         'model_manager' => $this->getModelManager(),
                         'class'         => $this->getClass(),
                         'filter_choice' => array('request_method' => 'all'),
-                        'required'      => false
+                        'required'      => false,
                     ), array(
-                        'admin_code' => $this->getCode(),
+                        'admin_code'      => $this->getCode(),
                         'link_parameters' => array(
-                            'siteId' => $this->getSubject() ? $this->getSubject()->getSite()->getId() : null
-                        )
+                            'siteId' => $this->getSubject() ? $this->getSubject()->getSite()->getId() : null,
+                        ),
                     ))
                 ->end()
             ;
@@ -260,7 +256,7 @@ class PageAdmin extends Admin
         ;
 
         $formMapper->setHelps(array(
-            'name' => $this->trans('help_page_name')
+            'name' => $this->trans('help_page_name'),
         ));
     }
 
@@ -274,7 +270,6 @@ class PageAdmin extends Admin
         }
 
         $admin = $this->isChild() ? $this->getParent() : $this;
-
 
         $id = $admin->getRequest()->get('id');
 
@@ -292,14 +287,13 @@ class PageAdmin extends Admin
             $this->trans('sidemenu.link_list_blocks'),
             array('uri' => $admin->generateUrl('sonata.page.admin.page|sonata.page.admin.block.list', array('id' => $id)))
         );
-        
+
         $menu->addChild(
             $this->trans('sidemenu.link_list_snapshots'),
             array('uri' => $admin->generateUrl('sonata.page.admin.page|sonata.page.admin.snapshot.list', array('id' => $id)))
         );
 
         if (!$this->getSubject()->isHybrid() && !$this->getSubject()->isInternal()) {
-
             try {
                 $menu->addChild(
                     $this->trans('view_page'),
@@ -327,7 +321,7 @@ class PageAdmin extends Admin
     {
         if ($this->cacheManager) {
             $this->cacheManager->invalidate(array(
-                'page_id' => $object->getId()
+                'page_id' => $object->getId(),
             ));
         }
     }
@@ -409,7 +403,7 @@ class PageAdmin extends Admin
             $site = $this->siteManager->findOneBy(array('id' => $siteId));
 
             if (!$site) {
-                throw new \RuntimeException('Unable to find the site with id=' . $this->getRequest()->get('siteId'));
+                throw new \RuntimeException('Unable to find the site with id='.$this->getRequest()->get('siteId'));
             }
 
             return $site;
@@ -427,7 +421,7 @@ class PageAdmin extends Admin
 
         $actions['snapshot'] = array(
             'label'            => $this->trans('create_snapshot'),
-            'ask_confirmation' => true
+            'ask_confirmation' => true,
         );
 
         return $actions;

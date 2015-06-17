@@ -14,16 +14,16 @@ namespace Sonata\PageBundle\CmsManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Security\Http\Logout\LogoutHandlerInterface;
 
 /**
  * This class return the correct manager instance :
  *   - sonata.page.cms.page if the user is an editor (ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT)
- *   - sonata.page.cms.snapshot if the user is a standard user
+ *   - sonata.page.cms.snapshot if the user is a standard user.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -61,7 +61,7 @@ class CmsManagerSelector implements CmsManagerSelectorInterface, LogoutHandlerIn
      */
     public function isEditor()
     {
-        /**
+        /*
          * The current order of event is not suitable for the selector to be call
          * by the router chain, so we need to use another mechanism. It is not perfect
          * but do the job for now.
@@ -95,7 +95,7 @@ class CmsManagerSelector implements CmsManagerSelectorInterface, LogoutHandlerIn
             return $this->container->get('request');
         }
 
-        return null;
+        return;
     }
 
     /**
