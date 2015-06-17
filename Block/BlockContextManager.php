@@ -13,6 +13,7 @@ namespace Sonata\PageBundle\Block;
 
 use Sonata\BlockBundle\Model\BlockInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Sonata\BlockBundle\Block\BlockContextManager as BaseBlockContextManager;
 
 class BlockContextManager extends BaseBlockContextManager
@@ -23,7 +24,13 @@ class BlockContextManager extends BaseBlockContextManager
      */
     protected function setDefaultSettings(OptionsResolverInterface $optionsResolver, BlockInterface $block)
     {
-        parent::setDefaultSettings($optionsResolver, $block);
+        trigger_error(__CLASS__.'::'.__METHOD__.' is deprecated since version 2.3, to be renamed in 3.0. Use '.__CLASS__.'::configureSettings instead.');
+        $this->configureSettings($optionsResolver, $block);
+    }
+
+    protected function configureSettings(OptionsResolver $optionsResolver, BlockInterface $block)
+    {
+        parent::configureSettings($optionsResolver, $block);
 
         $optionsResolver->setDefaults(array(
             'manager' => false,
