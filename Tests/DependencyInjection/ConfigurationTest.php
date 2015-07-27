@@ -63,12 +63,12 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
             ),
             'assets' => array(
                 'stylesheets' => array(
-                    'bundles/sonataadmin/vendor/bootstrap/dist/css/bootstrap.min.css',
+                    'bundles/sonatacore/vendor/bootstrap/dist/css/bootstrap.min.css',
                     'bundles/sonatapage/sonata-page.front.css',
                 ),
                 'javascripts' => array(
-                    'bundles/sonataadmin/vendor/jquery/dist/jquery.min.js',
-                    'bundles/sonataadmin/vendor/bootstrap/dist/js/bootstrap.min.js',
+                    'bundles/sonatacore/vendor/jquery/dist/jquery.min.js',
+                    'bundles/sonatacore/vendor/bootstrap/dist/js/bootstrap.min.js',
                     'bundles/sonatapage/sonata-page.front.js',
                 ),
             ),
@@ -140,12 +140,12 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
             ),
             'assets' => array(
                 'stylesheets' => array(
-                    'bundles/sonataadmin/vendor/bootstrap/dist/css/bootstrap.min.css',
+                    'bundles/sonatacore/vendor/bootstrap/dist/css/bootstrap.min.css',
                     'bundles/sonatapage/sonata-page.front.css',
                 ),
                 'javascripts' => array(
-                    'bundles/sonataadmin/vendor/jquery/dist/jquery.min.js',
-                    'bundles/sonataadmin/vendor/bootstrap/dist/js/bootstrap.min.js',
+                    'bundles/sonatacore/vendor/jquery/dist/jquery.min.js',
+                    'bundles/sonatacore/vendor/bootstrap/dist/js/bootstrap.min.js',
                     'bundles/sonatapage/sonata-page.front.js',
                 ),
             ),
