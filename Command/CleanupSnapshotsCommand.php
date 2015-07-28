@@ -36,7 +36,7 @@ class CleanupSnapshotsCommand extends BaseCommand
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
@@ -63,7 +63,7 @@ class CleanupSnapshotsCommand extends BaseCommand
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {

@@ -33,7 +33,7 @@ class PageServiceCompilerPass implements CompilerPassInterface
     protected $tagName = 'sonata.page';
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function process(ContainerBuilder $container)
     {

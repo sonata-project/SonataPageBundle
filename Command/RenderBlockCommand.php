@@ -43,7 +43,7 @@ Available manager:
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {

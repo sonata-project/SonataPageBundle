@@ -22,7 +22,7 @@ use Sonata\PageBundle\Model\Block;
 abstract class BaseBlock extends Block
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setId($id)
     {
@@ -30,7 +30,7 @@ abstract class BaseBlock extends Block
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function __construct()
     {
@@ -57,7 +57,7 @@ abstract class BaseBlock extends Block
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setChildren($children)
     {

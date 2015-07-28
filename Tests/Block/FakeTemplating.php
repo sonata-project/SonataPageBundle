@@ -25,7 +25,7 @@ class FakeTemplating implements EngineInterface
     public $name;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function render($name, array $parameters = array())
     {
@@ -34,7 +34,7 @@ class FakeTemplating implements EngineInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function renderResponse($view, array $parameters = array(), Response $response = null)
     {
@@ -49,7 +49,7 @@ class FakeTemplating implements EngineInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function supports($name)
     {
@@ -57,7 +57,7 @@ class FakeTemplating implements EngineInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function exists($name)
     {

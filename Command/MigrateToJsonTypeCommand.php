@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class MigrateToJsonTypeCommand extends BaseCommand
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function configure()
     {
@@ -28,7 +28,7 @@ class MigrateToJsonTypeCommand extends BaseCommand
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {

@@ -200,7 +200,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function cleanup(PageInterface $page, $keep)
     {

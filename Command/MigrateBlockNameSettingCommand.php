@@ -23,7 +23,7 @@ class MigrateBlockNameSettingCommand extends BaseCommand
     const CONTAINER_TYPE = 'sonata.page.block.container';
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function configure()
     {
@@ -36,7 +36,7 @@ class MigrateBlockNameSettingCommand extends BaseCommand
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {

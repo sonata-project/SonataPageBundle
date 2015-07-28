@@ -27,7 +27,7 @@ use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 class Configuration implements ConfigurationInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getConfigTreeBuilder()
     {

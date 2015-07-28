@@ -46,7 +46,7 @@ You can use the --extended option to dump block configuration
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
