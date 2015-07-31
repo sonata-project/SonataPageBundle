@@ -11,7 +11,7 @@
 
 // fix encoding issue while running text on different host with different locale configuration
 setlocale(LC_ALL, 'en_US.utf8');
-setlocale(LC_CTYPE, "en_US.utf8");
+setlocale(LC_CTYPE, 'en_US.utf8');
 
 if (file_exists($file = __DIR__.'/autoload.php')) {
     require_once $file;
