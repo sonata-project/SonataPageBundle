@@ -2,6 +2,7 @@
     data-block-id="{{ child.id }}"
     data-parent-block-id="{{ container.id }}"
     data-block-enabled="{{ child.enabled|default('0') }}"
+    data-block-type="{{ child.type }}"
 >
     <a class="page-composer__container__child__edit"
        href="{{ admin_pool.getAdminByAdminCode('sonata.page.admin.block').generateUrl('edit', { 'id': child.id, 'composer': true }) }}"
