@@ -764,8 +764,20 @@
                     tolerance:         'pointer',
                     revert:            true,
                     connectToSortable: '.page-composer__container__children',
+                    accept: function (source) {
+                        var blockWhitelist = $(this).attr('data-block-whitelist');
+                        if (blockWhitelist === '') {
+                            return true;
+                        }
+
+                        blockWhitelist = blockWhitelist.split(',');
+                        var sourceBlockType = $(source).attr('data-block-type');
+
+                        return blockWhitelist.indexOf(sourceBlockType) !== -1;
+                    },
                     drop: function (event, ui) {
                         var droppedBlockId = ui.draggable.attr('data-block-id');
+
                         if (typeof droppedBlockId != 'undefined') {
                             ui.helper.remove();
 
@@ -802,7 +814,8 @@
                             }
                         }
                     }
-                });
+                })
+            ;
 
             if (this.$containerPreviews.length > 0) {
                 this.loadContainer(this.$containerPreviews.eq(0));
