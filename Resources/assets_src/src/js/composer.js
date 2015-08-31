@@ -142,7 +142,7 @@
                     }
                 },
                 error: function () {
-                    self.containerNotification('an error occured while fetching block preview', 'error', true);
+                    self.containerNotification('composer_preview_error', 'error', true);
                 }
             });
         },
@@ -177,7 +177,7 @@
                 if (type) {
                     $notice.addClass(type);
                 }
-                $notice.text(message);
+                $notice.text(this.translate(message));
                 $notice.show();
                 if (persist !== true) {
                     this.containerNotificationTimer = setTimeout(function () {
@@ -208,18 +208,18 @@
          */
         handleBlockPositionsUpdate: function (event) {
             var self = this;
-            this.containerNotification('saving block positions…');
+            this.containerNotification('composer_update_saving');
             $.ajax({
                 url:  this.getRouteUrl('save_blocks_positions'),
                 type: 'POST',
                 data: { disposition: event.disposition },
                 success: function (resp) {
                     if (resp.result && resp.result === 'ok') {
-                        self.containerNotification('block positions saved', 'success');
+                        self.containerNotification('composer_update_saved', 'success');
                     }
                 },
                 error: function () {
-                    self.containerNotification('an error occured while saving block positions', 'error', true);
+                    self.containerNotification('composer_update_error', 'error', true);
                 }
             });
         },
@@ -607,11 +607,11 @@
                                 });
                             }
                         } else {
-                            self.containerNotification('an error occured while saving block enabled status', 'error', true);
+                            self.containerNotification('composer_status_error', 'error', true);
                         }
                     },
                     error: function () {
-                        self.containerNotification('an error occured while saving block enabled status', 'error', true);
+                        self.containerNotification('composer_status_error', 'error', true);
                     }
                 });
             });

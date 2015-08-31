@@ -774,6 +774,26 @@
           <source>page.compose_blocks_label</source>
           <target>{0} Blöcke|{1} Block|[2,Inf] Blöcke</target>
       </trans-unit>
+      <trans-unit id="193" resname="page.composer_preview_error">
+          <source>page.composer_preview_error</source>
+          <target>Es ist ein Fehler beim Laden der Vorschau aufgetreten.</target>
+      </trans-unit>    
+      <trans-unit id="194" resname="page.composer_update_saving">
+          <source>page.composer_update_saving</source>
+          <target>Speichere Positionen...</target>
+      </trans-unit>      
+      <trans-unit id="195" resname="page.composer_update_saved">
+          <source>page.composer_update_saved</source>
+          <target>Positionen gespeichert</target>
+      </trans-unit>    
+      <trans-unit id="196" resname="page.composer_update_error">
+          <source>page.composer_update_error</source>
+          <target>Es ist ein Fehler beim Speichern der Positionen aufgetreten.</target>
+      </trans-unit>    
+      <trans-unit id="197" resname="page.composer_status_error">
+          <source>page.composer_status_error</source>
+          <target>Es ist ein Fehler beim Speichern des Status aufgetreten.</target>
+      </trans-unit>  
     </body>
   </file>
 </xliff>
