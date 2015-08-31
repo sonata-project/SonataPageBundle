@@ -775,6 +775,26 @@
           <source>page.compose_blocks_label</source>
           <target>page.compose_blocks_label</target>
       </trans-unit>         
+      <trans-unit id="193" resname="page.composer_preview_error">
+          <source>page.composer_preview_error</source>
+          <target>page.composer_preview_error</target>
+      </trans-unit>    
+      <trans-unit id="194" resname="page.composer_update_saving">
+          <source>page.composer_update_saving</source>
+          <target>page.composer_update_saving</target>
+      </trans-unit>      
+      <trans-unit id="195" resname="page.composer_update_saved">
+          <source>page.composer_update_saved</source>
+          <target>page.composer_update_saved</target>
+      </trans-unit>    
+      <trans-unit id="196" resname="page.composer_update_error">
+          <source>page.composer_update_error</source>
+          <target>page.composer_update_error</target>
+      </trans-unit>    
+      <trans-unit id="197" resname="page.composer_status_error">
+          <source>page.composer_status_error</source>
+          <target>page.composer_status_error</target>
+      </trans-unit>    
     </body>
   </file>
 </xliff>
