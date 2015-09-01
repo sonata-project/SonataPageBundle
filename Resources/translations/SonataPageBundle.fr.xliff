@@ -774,27 +774,27 @@
       </trans-unit>
       <trans-unit id="192" resname="page.compose_blocks_label">
           <source>page.compose_blocks_label</source>
-          <target>page.compose_blocks_label</target>
-      </trans-unit>      
+          <target>{0} bloc|{1} bloc|[2,Inf] blocs</target>
+      </trans-unit>
       <trans-unit id="193" resname="page.composer_preview_error">
           <source>page.composer_preview_error</source>
-          <target>page.composer_preview_error</target>
+          <target>Une erreur est survenue durant le chargement du bloc.</target>
       </trans-unit>    
       <trans-unit id="194" resname="page.composer_update_saving">
           <source>page.composer_update_saving</source>
-          <target>page.composer_update_saving</target>
+          <target>Sauvegarde de la position des blocs en cours...</target>
       </trans-unit>      
       <trans-unit id="195" resname="page.composer_update_saved">
           <source>page.composer_update_saved</source>
-          <target>page.composer_update_saved</target>
+          <target>Positions des blocs sauvegardées avec succès.</target>
       </trans-unit>    
       <trans-unit id="196" resname="page.composer_update_error">
           <source>page.composer_update_error</source>
-          <target>page.composer_update_error</target>
+          <target>Une erreur est survenue durant la sauvegarde de la position des blocs.</target>
       </trans-unit>    
       <trans-unit id="197" resname="page.composer_status_error">
           <source>page.composer_status_error</source>
-          <target>page.composer_status_error</target>
+          <target>Une erreur est survenue durant la sauvegarde du statut du bloc.</target>
       </trans-unit>    
     </body>
   </file>
