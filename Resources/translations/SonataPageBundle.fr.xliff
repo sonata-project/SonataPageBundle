@@ -638,7 +638,7 @@
        </trans-unit>
       <trans-unit id="158" resname="sidemenu.link_compose_page">
           <source>sidemenu.link_compose_page</source>
-          <target>Composer (beta)</target>
+          <target>Organiser (beta)</target>
       </trans-unit>
       <trans-unit id="159" resname="sidemenu.link_list_pages">
           <source>sidemenu.link_list_pages</source>
@@ -666,7 +666,7 @@
       </trans-unit>
       <trans-unit id="165" resname="header.compose_page">
           <source>header.compose_page</source>
-          <target>Composer</target>
+          <target>Organiser</target>
       </trans-unit>
       <trans-unit id="166" resname="no_type_available">
           <source>no_type_available</source>
@@ -762,7 +762,7 @@
       </trans-unit>
       <trans-unit id="189" resname="pages.compose_label">
         <source>pages.compose_label</source>
-        <target>Constituer</target>
+        <target>Organiser</target>
       </trans-unit>
       <trans-unit id="190" resname="pages.edited_label">
         <source>pages.edited_label</source>
