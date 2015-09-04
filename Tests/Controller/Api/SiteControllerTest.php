@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata package.
  *
@@ -8,22 +9,19 @@
  * file that was distributed with this source code.
  */
 
-
 namespace Sonata\Test\PageBundle\Controller\Api;
 
 use Sonata\PageBundle\Controller\Api\SiteController;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class SiteControllerTest
+ * Class SiteControllerTest.
  *
- * @package Sonata\Test\PageBundle\Controller\Api
  *
  * @author Benoit de Jacobet <benoit.de-jacobet@ekino.com>
  */
 class SiteControllerTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testGetSitesAction()
     {
         $siteManager = $this->getMock('Sonata\PageBundle\Model\SiteManagerInterface');

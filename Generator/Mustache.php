@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata project.
  *
@@ -11,7 +12,7 @@
 namespace Sonata\PageBundle\Generator;
 
 /**
- * Render a string using the mustache formatter : {{ var }}
+ * Render a string using the mustache formatter : {{ var }}.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */

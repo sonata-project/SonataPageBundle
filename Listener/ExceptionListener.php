@@ -11,18 +11,17 @@
 
 namespace Sonata\PageBundle\Listener;
 
+use Psr\Log\LoggerInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Sonata\PageBundle\Site\SiteSelectorInterface;
+use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 use Sonata\PageBundle\Exception\InternalErrorException;
 use Sonata\PageBundle\Page\PageServiceManagerInterface;
-use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
-
-use Symfony\Component\Templating\EngineInterface;
-use Psr\Log\LoggerInterface;
+use Sonata\PageBundle\Site\SiteSelectorInterface;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Templating\EngineInterface;
 
 /**
  * ExceptionListener.
@@ -42,7 +41,7 @@ class ExceptionListener
     protected $cmsManagerSelector;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $debug;
 
@@ -72,16 +71,16 @@ class ExceptionListener
     protected $logger;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $status;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param SiteSelectorInterface       $siteSelector       Site selector
      * @param CmsManagerSelectorInterface $cmsManagerSelector CMS Manager selector
-     * @param boolean                     $debug              Debug mode
+     * @param bool                        $debug              Debug mode
      * @param EngineInterface             $templating         Templating engine
      * @param PageServiceManagerInterface $pageServiceManager Page service manager
      * @param DecoratorStrategyInterface  $decoratorStrategy  Decorator strategy
@@ -120,7 +119,7 @@ class ExceptionListener
     /**
      * Returns true if the http error code is defined.
      *
-     * @param integer $statusCode
+     * @param int $statusCode
      *
      * @return bool
      */
@@ -132,7 +131,7 @@ class ExceptionListener
     /**
      * Returns a fully loaded page from a route name by the http error code throw.
      *
-     * @param integer $statusCode
+     * @param int $statusCode
      *
      * @return \Sonata\PageBundle\Model\PageInterface
      *
@@ -156,7 +155,7 @@ class ExceptionListener
     }
 
     /**
-     * Handles a kernel exception
+     * Handles a kernel exception.
      *
      * @param GetResponseForExceptionEvent $event
      *
@@ -174,7 +173,7 @@ class ExceptionListener
                 $response = new Response($this->templating->render('SonataPageBundle:Page:create.html.twig', array(
                     'pathInfo'   => $pathInfo,
                     'site'       => $this->siteSelector->retrieve(),
-                    'creatable'  => $creatable
+                    'creatable'  => $creatable,
                 )), 404);
 
                 $event->setResponse($response);
@@ -192,21 +191,21 @@ class ExceptionListener
     }
 
     /**
-     * Handles an internal error
+     * Handles an internal error.
      *
      * @param GetResponseForExceptionEvent $event
      */
     private function handleInternalError(GetResponseForExceptionEvent $event)
     {
         $content = $this->templating->render('SonataPageBundle::internal_error.html.twig', array(
-            'exception' => $event->getException()
+            'exception' => $event->getException(),
         ));
 
         $event->setResponse(new Response($content, 500));
     }
 
     /**
-     * Handles a native error
+     * Handles a native error.
      *
      * @param GetResponseForExceptionEvent $event
      *
@@ -273,7 +272,7 @@ class ExceptionListener
     }
 
     /**
-     * Logs exceptions
+     * Logs exceptions.
      *
      * @param \Exception  $originalException  Original exception that called the listener
      * @param \Exception  $generatedException Generated exception
@@ -287,9 +286,9 @@ class ExceptionListener
 
         if (null !== $this->logger) {
             if (!$originalException instanceof HttpExceptionInterface || $originalException->getStatusCode() >= 500) {
-                $this->logger->crit($message, array( 'exception' => $originalException ));
+                $this->logger->crit($message, array('exception' => $originalException));
             } else {
-                $this->logger->err($message, array( 'exception' => $originalException ));
+                $this->logger->err($message, array('exception' => $originalException));
             }
         } else {
             error_log($message);

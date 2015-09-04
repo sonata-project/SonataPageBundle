@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata project.
  *
@@ -14,7 +15,7 @@ use Sonata\CoreBundle\Model\ManagerInterface;
 use Sonata\CoreBundle\Model\PageableManagerInterface;
 
 /**
- * SiteManagerInterface
+ * SiteManagerInterface.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */

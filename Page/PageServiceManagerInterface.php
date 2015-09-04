@@ -11,10 +11,10 @@
 
 namespace Sonata\PageBundle\Page;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Page\Service\PageServiceInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Interface to manage page services.
@@ -22,7 +22,7 @@ use Sonata\PageBundle\Page\Service\PageServiceInterface;
 interface PageServiceManagerInterface
 {
     /**
-     * Adds a page service for given page type
+     * Adds a page service for given page type.
      *
      * @param string               $type    Page type
      * @param PageServiceInterface $service Service
@@ -30,7 +30,7 @@ interface PageServiceManagerInterface
     public function add($type, PageServiceInterface $service);
 
     /**
-     * Returns the page service for given page
+     * Returns the page service for given page.
      *
      * @param mixed $type A page type or page object
      *
@@ -39,14 +39,14 @@ interface PageServiceManagerInterface
     public function get($type);
 
     /**
-     * Returns all page services
+     * Returns all page services.
      *
      * @return PageServiceInterface[]
      */
     public function getAll();
 
     /**
-     * Sets the default page service
+     * Sets the default page service.
      *
      * @param PageServiceInterface $service
      */
@@ -60,7 +60,7 @@ interface PageServiceManagerInterface
      * @param Request       $request    Request object
      * @param array         $parameters An array of view parameters. In the case of hybrid pages, it may have a
      *                                  parameter "content" that contains the view result of the controller.
-     * @param Response|null $response Response object
+     * @param Response|null $response   Response object
      *
      * @return Response
      */

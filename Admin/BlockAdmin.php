@@ -17,7 +17,7 @@ use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\PageBundle\Model\PageInterface;
 
 /**
- * Admin class for the Block model
+ * Admin class for the Block model.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -86,7 +86,6 @@ class BlockAdmin extends BaseBlockAdmin
         $isStandardBlock = $block && !in_array($block->getType(), array('sonata.page.block.container', 'sonata.block.service.container')) && !$this->hasParentFieldDescription();
 
         if ($isContainerRoot || $isStandardBlock) {
-
             $formMapper->with($this->trans('form.field_group_general'), $generalGroupOptions);
 
             $service = $this->blockManager->get($block);
@@ -96,17 +95,17 @@ class BlockAdmin extends BaseBlockAdmin
             // need to investigate on this case where $page == null ... this should not be possible
             if ($isStandardBlock && $page && !empty($containerBlockTypes)) {
                 $formMapper->add('parent', 'entity', array(
-                        'class' => $this->getClass(),
-                        'query_builder' => function(EntityRepository $repository) use ($page, $containerBlockTypes) {
+                        'class'         => $this->getClass(),
+                        'query_builder' => function (EntityRepository $repository) use ($page, $containerBlockTypes) {
                             return $repository->createQueryBuilder('a')
                                 ->andWhere('a.page = :page AND a.type IN (:types)')
                                 ->setParameters(array(
                                         'page'  => $page,
                                         'types' => $containerBlockTypes,
                                     ));
-                        }
-                    ),array(
-                        'admin_code' => $this->getCode()
+                        },
+                    ), array(
+                        'admin_code' => $this->getCode(),
                     ));
             }
 
@@ -131,13 +130,11 @@ class BlockAdmin extends BaseBlockAdmin
             }
 
             $formMapper->end();
-
         } else {
-
             $formMapper
                 ->with($this->trans('form.field_group_options'), $optionsGroupOptions)
                 ->add('type', 'sonata_block_service_choice', array(
-                        'context' => 'sonata_page_bundle'
+                        'context' => 'sonata_page_bundle',
                     ))
                 ->add('enabled')
                 ->add('position', 'integer')

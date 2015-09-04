@@ -8,15 +8,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Sonata\PageBundle\Tests\Site;
 
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\HttpFoundation\Request;
-
-use Sonata\PageBundle\Request\SiteRequest;
 use Sonata\PageBundle\Entity\BaseSite;
+use Sonata\PageBundle\Request\SiteRequest;
 use Sonata\PageBundle\Site\HostPathSiteSelector as BaseSiteSelector;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 /**
  * @author Stephen Leavitt <stephen.leavitt@sonyatv.com>
@@ -24,7 +22,7 @@ use Sonata\PageBundle\Site\HostPathSiteSelector as BaseSiteSelector;
 class HostPathSiteSelectorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Perform the actual handleKernelSiteRequest method test
+     * Perform the actual handleKernelSiteRequest method test.
      */
     protected function performHandleKernelRequestTest($url)
     {
@@ -50,12 +48,12 @@ class HostPathSiteSelectorTest extends \PHPUnit_Framework_TestCase
 
         return array(
             $site,
-            $event
+            $event,
         );
     }
 
     /**
-     * Site Test #1 - Should match "Site 0"
+     * Site Test #1 - Should match "Site 0".
      */
     public function testSite1()
     {
@@ -73,7 +71,7 @@ class HostPathSiteSelectorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Site Test #2 - Should match "Site 1"
+     * Site Test #2 - Should match "Site 1".
      */
     public function testSite2()
     {
@@ -91,7 +89,7 @@ class HostPathSiteSelectorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Site Test #3 - Should match "Site 2"
+     * Site Test #3 - Should match "Site 2".
      */
     public function testSite3()
     {
@@ -109,7 +107,7 @@ class HostPathSiteSelectorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Site Test #4 - Should match "Site 3"
+     * Site Test #4 - Should match "Site 3".
      */
     public function testSite4()
     {
@@ -127,7 +125,7 @@ class HostPathSiteSelectorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Site Test #5 - Should match "Site 4"
+     * Site Test #5 - Should match "Site 4".
      */
     public function testSite5()
     {
@@ -145,7 +143,7 @@ class HostPathSiteSelectorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Site Test #6 - Should match no site, and the event response should yield a RedirectResponse object to redirect to "Site 2"
+     * Site Test #6 - Should match no site, and the event response should yield a RedirectResponse object to redirect to "Site 2".
      */
     public function testSite6()
     {
@@ -172,7 +170,7 @@ class HostPathSiteSelectorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Site Test #7 - Should match no site, and the event response should yield a RedirectResponse object to redirect to "Site 2"
+     * Site Test #7 - Should match no site, and the event response should yield a RedirectResponse object to redirect to "Site 2".
      */
     public function testSite7()
     {
@@ -199,7 +197,7 @@ class HostPathSiteSelectorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Site Test #8 - Should match no site, and the event response should yield a RedirectResponse object to redirect to "Site 2"
+     * Site Test #8 - Should match no site, and the event response should yield a RedirectResponse object to redirect to "Site 2".
      */
     public function testSite8()
     {
@@ -226,7 +224,7 @@ class HostPathSiteSelectorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Site Test #9 - Should match no site, and the event response should yield a RedirectResponse object to redirect to "Site 2"
+     * Site Test #9 - Should match no site, and the event response should yield a RedirectResponse object to redirect to "Site 2".
      */
     public function testSite9()
     {
@@ -253,7 +251,7 @@ class HostPathSiteSelectorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Site Test #10 - Should match "Site 8"
+     * Site Test #10 - Should match "Site 8".
      */
     public function testSite10()
     {
@@ -271,7 +269,7 @@ class HostPathSiteSelectorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Site Test #11 - Should match "Site 8" and path info should match "/abc"
+     * Site Test #11 - Should match "Site 8" and path info should match "/abc".
      */
     public function testSite11()
     {
@@ -289,7 +287,7 @@ class HostPathSiteSelectorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Site Test #12 - Should match "Site 9" and path info should match "/abc"
+     * Site Test #12 - Should match "Site 9" and path info should match "/abc".
      */
     public function testSite12()
     {
@@ -305,20 +303,19 @@ class HostPathSiteSelectorTest extends \PHPUnit_Framework_TestCase
         // Ensure request locale matches site locale
         $this->assertEquals($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
     }
-
 }
 
 class HostPathSite extends BaseSite
 {
     /**
-     * @var integer $id
+     * @var int
      */
     protected $id;
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer $id
+     * @return int $id
      */
     public function getId()
     {
@@ -501,7 +498,6 @@ class HostPathSiteSelector extends BaseSiteSelector
     }
 
     /**
-     *
      * @param object $object
      * @param string $fieldName
      *
@@ -513,8 +509,8 @@ class HostPathSiteSelector extends BaseSiteSelector
 
         $getters = array();
 
-        $getters[] = 'get' . $camelizedFieldName;
-        $getters[] = 'is' . $camelizedFieldName;
+        $getters[] = 'get'.$camelizedFieldName;
+        $getters[] = 'is'.$camelizedFieldName;
 
         foreach ($getters as $getter) {
             if (method_exists($object, $getter)) {
@@ -530,7 +526,7 @@ class HostPathSiteSelector extends BaseSiteSelector
     }
 
     /**
-     * Camelize a string
+     * Camelize a string.
      *
      * @static
      *
@@ -541,7 +537,7 @@ class HostPathSiteSelector extends BaseSiteSelector
     public static function _camelize($property)
     {
         return preg_replace_callback('/(^|[_. ])+(.)/', function ($match) {
-            return ('.' === $match[1] ? '_' : '') . strtoupper($match[2]);
+            return ('.' === $match[1] ? '_' : '').strtoupper($match[2]);
         }, $property);
     }
 }

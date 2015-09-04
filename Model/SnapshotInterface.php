@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata project.
  *
@@ -11,28 +12,28 @@
 namespace Sonata\PageBundle\Model;
 
 /**
- * Defines methods to interact with the persistency layer of a SnapshotInterface
+ * Defines methods to interact with the persistency layer of a SnapshotInterface.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 interface SnapshotInterface
 {
     /**
-     * Set routeName
+     * Set routeName.
      *
      * @param string $routeName
      */
     public function setRouteName($routeName);
 
     /**
-     * Get routeName
+     * Get routeName.
      *
      * @return string $routeName
      */
     public function getRouteName();
 
     /**
-     * Get routeAlias
+     * Get routeAlias.
      *
      * @return string $routeAlias
      */
@@ -40,7 +41,7 @@ interface SnapshotInterface
 
     /**
      * The route alias defines an internal url code that user can use to point
-     * to an url. This feature must used with care to avoid to many generated queries
+     * to an url. This feature must used with care to avoid to many generated queries.
      *
      * Set pageAlias
      *
@@ -49,112 +50,112 @@ interface SnapshotInterface
     public function setPageAlias($pageAlias);
 
     /**
-     * Returns the page type
+     * Returns the page type.
      *
      * @return string
      */
     public function getType();
 
     /**
-     * Sets the page type
+     * Sets the page type.
      *
      * @param string $type
      */
     public function setType($type);
 
     /**
-     * Set enabled
+     * Set enabled.
      *
-     * @param boolean $enabled
+     * @param bool $enabled
      */
     public function setEnabled($enabled);
 
     /**
-     * Get enabled
+     * Get enabled.
      *
-     * @return boolean $enabled
+     * @return bool $enabled
      */
     public function getEnabled();
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      */
     public function setName($name);
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string $name
      */
     public function getName();
 
     /**
-     * Set url
+     * Set url.
      *
      * @param string $url
      */
     public function setUrl($url);
 
     /**
-     * Get url
+     * Get url.
      *
      * @return string $url
      */
     public function getUrl();
 
     /**
-     * Set publicationDateStart
+     * Set publicationDateStart.
      *
      * @param \DateTime $publicationDateStart
      */
     public function setPublicationDateStart(\DateTime $publicationDateStart = null);
 
     /**
-     * Get publicationDateStart
+     * Get publicationDateStart.
      *
      * @return \DateTime $publicationDateStart
      */
     public function getPublicationDateStart();
 
     /**
-     * Set publicationDateEnd
+     * Set publicationDateEnd.
      *
      * @param \DateTime $publicationDateEnd
      */
     public function setPublicationDateEnd(\DateTime $publicationDateEnd = null);
 
     /**
-     * Get publicationDateEnd
+     * Get publicationDateEnd.
      *
      * @return \DateTime $publicationDateEnd
      */
     public function getPublicationDateEnd();
 
     /**
-     * Set createdAt
+     * Set createdAt.
      *
      * @param \DateTime $createdAt
      */
     public function setCreatedAt(\DateTime $createdAt = null);
 
     /**
-     * Get createdAt
+     * Get createdAt.
      *
      * @return \DateTime $createdAt
      */
     public function getCreatedAt();
 
     /**
-     * Set updatedAt
+     * Set updatedAt.
      *
      * @param \Datetime $updatedAt
      */
     public function setUpdatedAt(\DateTime $updatedAt = null);
 
     /**
-     * Get updatedAt
+     * Get updatedAt.
      *
      * @return \DateTime $updatedAt
      */
@@ -171,17 +172,17 @@ interface SnapshotInterface
     public function getDecorate();
 
     /**
-     * return bool
+     * return bool.
      */
     public function isHybrid();
 
     /**
-     * @param integer $position
+     * @param int $position
      */
     public function setPosition($position);
 
     /**
-     * @return integer
+     * @return int
      */
     public function getPosition();
 
@@ -206,7 +207,7 @@ interface SnapshotInterface
     public function getSite();
 
     /**
-     * Serialized data of the current page
+     * Serialized data of the current page.
      *
      * @return string
      */

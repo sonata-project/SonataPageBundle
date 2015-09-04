@@ -14,7 +14,7 @@ namespace Sonata\PageBundle\Site;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 /**
- * HostSiteSelector
+ * HostSiteSelector.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */

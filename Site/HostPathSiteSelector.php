@@ -11,14 +11,13 @@
 
 namespace Sonata\PageBundle\Site;
 
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-
-use Sonata\PageBundle\Request\SiteRequestInterface;
 use Sonata\PageBundle\Request\SiteRequestContext;
+use Sonata\PageBundle\Request\SiteRequestInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 /**
- * HostPathSiteSelector
+ * HostPathSiteSelector.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -85,7 +84,7 @@ class HostPathSiteSelector extends BaseSiteSelector
         }
 
         if ('Symfony\\Bundle\\FrameworkBundle\\Controller\\RedirectController::urlRedirectAction' == $request->get('_controller')) {
-            $request->attributes->set('path', $this->site->getRelativePath() . $request->attributes->get('path'));
+            $request->attributes->set('path', $this->site->getRelativePath().$request->attributes->get('path'));
         }
     }
 

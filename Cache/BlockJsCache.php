@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata package.
  *
@@ -10,20 +11,18 @@
 
 namespace Sonata\PageBundle\Cache;
 
-use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-
 use Sonata\BlockBundle\Block\BlockContextManagerInterface;
 use Sonata\BlockBundle\Block\BlockRendererInterface;
-use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
-use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\Cache\CacheAdapterInterface;
 use Sonata\Cache\CacheElement;
-
+use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
+use Sonata\PageBundle\Exception\PageNotFoundException;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\RouterInterface;
 
 /**
- * Cache a block through a Javascript code
+ * Cache a block through a Javascript code.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -93,8 +92,6 @@ class BlockJsCache implements CacheAdapterInterface
      * @throws \RuntimeException
      *
      * @param array $keys
-     *
-     * @return void
      */
     private function validateKeys(array $keys)
     {
@@ -141,13 +138,12 @@ class BlockJsCache implements CacheAdapterInterface
             })();
         /*]]>*/
     </script>
-</div>'
-
-, $keys['block_id'], $keys['block_id'], $this->router->generate('sonata_page_js_sync_cache', $keys, true));
+</div>', $keys['block_id'], $keys['block_id'], $this->router->generate('sonata_page_js_sync_cache', $keys, true));
     }
 
     /**
-     * @param  array  $keys
+     * @param array $keys
+     *
      * @return string
      */
     protected function getAsync(array $keys)
@@ -167,8 +163,7 @@ class BlockJsCache implements CacheAdapterInterface
 
         /*]]>*/
     </script>
-</div>'
-, $keys['block_id'], $this->router->generate('sonata_page_js_async_cache', $keys, true));
+</div>', $keys['block_id'], $this->router->generate('sonata_page_js_async_cache', $keys, true));
     }
 
     /**
@@ -226,8 +221,7 @@ class BlockJsCache implements CacheAdapterInterface
             }
         }
     })();
-'
-, $block->getId(), json_encode($response->getContent())));
+', $block->getId(), json_encode($response->getContent())));
 
         $response->headers->set('Content-Type', 'application/javascript');
 

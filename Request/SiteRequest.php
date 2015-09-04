@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata project.
  *
@@ -13,7 +14,7 @@ namespace Sonata\PageBundle\Request;
 use Symfony\Component\HttpFoundation\Request as BaseRequest;
 
 /**
- * SiteRequest
+ * SiteRequest.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */

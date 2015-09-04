@@ -12,12 +12,12 @@
 namespace Sonata\PageBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
- * Site Admin controller
+ * Site Admin controller.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -45,12 +45,11 @@ class SiteAdminController extends Controller
 
         $this->admin->setSubject($object);
 
-        if ($this->get('request')->getMethod() == "POST") {
-
+        if ($this->get('request')->getMethod() == 'POST') {
             $this->get('sonata.notification.backend')
                 ->createAndPublish('sonata.page.create_snapshots', array(
                     'siteId' => $object->getId(),
-                    'mode'   => 'async'
+                    'mode'   => 'async',
                 ));
 
             $this->addFlash('sonata_flash_success', $this->admin->trans('flash_snapshots_created_success'));
@@ -60,7 +59,7 @@ class SiteAdminController extends Controller
 
         return $this->render('SonataPageBundle:SiteAdmin:create_snapshots.html.twig', array(
             'action'  => 'snapshots',
-            'object'  => $object
+            'object'  => $object,
         ));
     }
 }

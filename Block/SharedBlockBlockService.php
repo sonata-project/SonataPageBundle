@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata project.
  *
@@ -10,7 +11,11 @@
 
 namespace Sonata\PageBundle\Block;
 
+use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Validator\ErrorElement;
+use Sonata\BlockBundle\Block\BaseBlockService;
 use Sonata\BlockBundle\Block\BlockContextInterface;
+use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\BlockBundle\Model\BlockManagerInterface;
 use Sonata\PageBundle\Admin\SharedBlockAdmin;
 use Sonata\PageBundle\Entity\BlockManager;
@@ -19,20 +24,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Templating\EngineInterface;
-
-use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Validator\ErrorElement;
-
-use Sonata\BlockBundle\Model\BlockInterface;
-use Sonata\BlockBundle\Block\BaseBlockService;
-
-use Sonata\PageBundle\Exception\PageNotFoundException;
-use Sonata\PageBundle\Site\SiteSelectorInterface;
-use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
- * Render a shared block
+ * Render a shared block.
  *
  * @author Romain Mouillard <romain.mouillard@gmail.com>
  */
@@ -84,7 +79,7 @@ class SharedBlockBlockService extends BaseBlockService
         return $this->renderResponse($blockContext->getTemplate(), array(
                 'block'       => $blockContext->getBlock(),
                 'settings'    => $blockContext->getSettings(),
-                'sharedBlock' => $sharedBlock
+                'sharedBlock' => $sharedBlock,
             ), $response);
     }
 
@@ -111,7 +106,7 @@ class SharedBlockBlockService extends BaseBlockService
         $formMapper->add('settings', 'sonata_type_immutable_array', array(
             'keys' => array(
                 array($this->getBlockBuilder($formMapper), null, array()),
-            )
+            ),
         ));
     }
 
@@ -141,7 +136,7 @@ class SharedBlockBlockService extends BaseBlockService
         $fieldDescription->setOption('edit', 'list');
         $fieldDescription->setAssociationMapping(array(
                 'fieldName' => 'block',
-                'type'      => \Doctrine\ORM\Mapping\ClassMetadataInfo::MANY_TO_ONE
+                'type'      => \Doctrine\ORM\Mapping\ClassMetadataInfo::MANY_TO_ONE,
             ));
 
         return $formMapper->create('blockId', 'sonata_type_model_list', array(
@@ -149,7 +144,7 @@ class SharedBlockBlockService extends BaseBlockService
                 'class'                    => $this->getSharedBlockAdmin()->getClass(),
                 'model_manager'            => $this->getSharedBlockAdmin()->getModelManager(),
                 'label'                    => 'block',
-                'required'                 => false
+                'required'                 => false,
             ));
     }
 
@@ -167,7 +162,7 @@ class SharedBlockBlockService extends BaseBlockService
     public function setDefaultSettings(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'template' => 'SonataPageBundle:Block:block_shared_block.html.twig'
+            'template' => 'SonataPageBundle:Block:block_shared_block.html.twig',
         ));
     }
 

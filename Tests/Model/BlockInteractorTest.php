@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata package.
  *
@@ -10,15 +11,11 @@
 
 namespace Sonata\PageBundle\Tests\Entity;
 
-use Symfony\Bundle\DoctrineBundle\Registry;
-
 use Sonata\BlockBundle\Model\Block;
-use Sonata\BlockBundle\Model\BlockManagerInterface;
-use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\PageBundle\Entity\BlockInteractor;
 
 /**
- * BlockInteractorTest class
+ * BlockInteractorTest class.
  *
  * This is the BlockInteractor test class
  *
@@ -27,7 +24,7 @@ use Sonata\PageBundle\Entity\BlockInteractor;
 class BlockInteractorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Test createNewContainer() method with some values
+     * Test createNewContainer() method with some values.
      */
     public function testCreateNewContainer()
     {
@@ -40,7 +37,7 @@ class BlockInteractorTest extends \PHPUnit_Framework_TestCase
 
         $container = $blockInteractor->createNewContainer(array(
             'enabled' => true,
-            'code'    => 'my-code'
+            'code'    => 'my-code',
         ), function ($container) {
             $container->setSetting('layout', '<div class="custom-layout">{{ CONTENT }}</div>');
         });

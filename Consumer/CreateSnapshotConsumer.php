@@ -11,14 +11,14 @@
 
 namespace Sonata\PageBundle\Consumer;
 
-use Sonata\PageBundle\Model\SnapshotManagerInterface;
-use Sonata\PageBundle\Model\PageManagerInterface;
-use Sonata\NotificationBundle\Consumer\ConsumerInterface;
 use Sonata\NotificationBundle\Consumer\ConsumerEvent;
+use Sonata\NotificationBundle\Consumer\ConsumerInterface;
+use Sonata\PageBundle\Model\PageManagerInterface;
+use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\TransformerInterface;
 
 /**
- * Consumer class to generate a snapshot
+ * Consumer class to generate a snapshot.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */

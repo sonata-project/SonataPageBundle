@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata package.
  *
@@ -11,15 +12,14 @@
 namespace Sonata\PageBundle\Tests\Route;
 
 use Sonata\PageBundle\CmsManager\DecoratorStrategy;
-use Sonata\PageBundle\Tests\Model\Page;
 use Sonata\PageBundle\Route\RoutePageGenerator;
-
+use Sonata\PageBundle\Tests\Model\Page;
 use Symfony\Component\Console\Output\StreamOutput;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
 /**
- * Test RoutePageGenerator service
+ * Test RoutePageGenerator service.
  *
  * @author Vincent Composieux <vincent.composieux@gmail.com>
  */
@@ -31,7 +31,7 @@ class RoutePageGeneratorTest extends \PHPUnit_Framework_TestCase
     protected $routePageGenerator;
 
     /**
-     * Set up dependencies
+     * Set up dependencies.
      */
     public function setUp()
     {
@@ -39,7 +39,7 @@ class RoutePageGeneratorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests site update route method with
+     * Tests site update route method with.
      */
     public function testUpdateRoutes()
     {
@@ -71,7 +71,7 @@ class RoutePageGeneratorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Returns a mock of a site model
+     * Returns a mock of a site model.
      *
      * @return \Sonata\PageBundle\Model\SiteInterface
      */
@@ -85,7 +85,7 @@ class RoutePageGeneratorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Returns a mock of Symfony router
+     * Returns a mock of Symfony router.
      *
      * @return \Symfony\Component\Routing\Router
      */
@@ -119,7 +119,7 @@ class RoutePageGeneratorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Returns Sonata route page generator service
+     * Returns Sonata route page generator service.
      *
      * @return RoutePageGenerator
      */

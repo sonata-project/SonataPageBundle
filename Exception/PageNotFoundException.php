@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata project.
  *
@@ -13,11 +14,10 @@ namespace Sonata\PageBundle\Exception;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Exception used to handle a page not found situation
+ * Exception used to handle a page not found situation.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class PageNotFoundException extends NotFoundHttpException
 {
-
 }

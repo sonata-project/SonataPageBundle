@@ -11,12 +11,8 @@
 
 namespace Sonata\PageBundle\Model;
 
-use Sonata\PageBundle\Model\PageBlockInterface;
-use Sonata\PageBundle\Model\PageInterface;
-use Sonata\PageBundle\Model\SiteInterface;
-
 /**
- * Page
+ * Page.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -474,7 +470,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Set target
+     * Set target.
      *
      * @param \Sonata\PageBundle\Model\PageInterface $target
      */
@@ -484,7 +480,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Add blocs
+     * Add blocs.
      *
      * @param PageBlockInterface $blocs
      */
@@ -543,7 +539,6 @@ abstract class Page implements PageInterface
     public function getParents()
     {
         if (!$this->parents) {
-
             $page    = $this;
             $parents = array();
 
@@ -644,7 +639,6 @@ abstract class Page implements PageInterface
         return substr($this->getRouteName(), 0, 21) == '_page_internal_error_';
     }
 
-
     /**
      * {@inheritdoc}
      */
@@ -686,7 +680,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * source : http://snipplr.com/view/22741/slugify-a-string-in-php/
+     * source : http://snipplr.com/view/22741/slugify-a-string-in-php/.
      *
      * @static
      *
@@ -722,7 +716,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Retrieve a block by code
+     * Retrieve a block by code.
      *
      * @param string $code
      *
@@ -744,7 +738,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Retrieve blocks by type
+     * Retrieve blocks by type.
      *
      * @param string $type
      *
@@ -826,7 +820,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Converts the headers passed as string to an array
+     * Converts the headers passed as string to an array.
      *
      * @param string $rawHeaders The headers
      *
@@ -847,7 +841,7 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Converts the headers passed as an associative array to a string
+     * Converts the headers passed as an associative array to a string.
      *
      * @param array $headers The headers
      *

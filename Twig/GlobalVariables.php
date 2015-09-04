@@ -14,7 +14,7 @@ namespace Sonata\PageBundle\Twig;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * GlobalVariables
+ * GlobalVariables.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -36,7 +36,7 @@ class GlobalVariables
     public function getSiteAvailables()
     {
         return $this->container->get('sonata.page.manager.site')->findBy(array(
-            'enabled' => true
+            'enabled' => true,
         ));
     }
 
@@ -57,7 +57,7 @@ class GlobalVariables
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isEditor()
     {
@@ -70,6 +70,7 @@ class GlobalVariables
     public function getDefaultTemplate()
     {
         $templateManager = $this->container->get('sonata.page.template_manager');
+
         return $templateManager->get($templateManager->getDefaultTemplateCode())->getPath();
     }
 
@@ -82,7 +83,7 @@ class GlobalVariables
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isInlineEditionOn()
     {

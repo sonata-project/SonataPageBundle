@@ -11,13 +11,13 @@
 
 namespace Sonata\PageBundle\Command;
 
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 
 /**
- * Cleanups the deprecated snapshots
+ * Cleanups the deprecated snapshots.
  */
 class CleanupSnapshotsCommand extends BaseCommand
 {
@@ -36,7 +36,7 @@ class CleanupSnapshotsCommand extends BaseCommand
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
@@ -44,10 +44,10 @@ class CleanupSnapshotsCommand extends BaseCommand
             $output->writeln('Please provide an <info>--site=SITE_ID</info> option or the <info>--site=all</info> directive');
             $output->writeln('');
 
-            $output->writeln(sprintf(" % 5s - % -30s - %s", "ID", "Name", "Url"));
+            $output->writeln(sprintf(' % 5s - % -30s - %s', 'ID', 'Name', 'Url'));
 
             foreach ($this->getSiteManager()->findBy(array()) as $site) {
-                $output->writeln(sprintf(" % 5s - % -30s - %s", $site->getId(), $site->getName(), $site->getUrl()));
+                $output->writeln(sprintf(' % 5s - % -30s - %s', $site->getId(), $site->getName(), $site->getUrl()));
             }
 
             return;
@@ -63,16 +63,16 @@ class CleanupSnapshotsCommand extends BaseCommand
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         foreach ($this->getSites($input) as $site) {
             if ($input->getOption('site') != 'all') {
                 if ($input->getOption('mode') == 'async') {
-                    $output->write(sprintf("<info>%s</info> - Publish a notification command ...", $site->getName()));
+                    $output->write(sprintf('<info>%s</info> - Publish a notification command ...', $site->getName()));
                 } else {
-                    $output->write(sprintf("<info>%s</info> - Cleanuping snapshots ...", $site->getName()));
+                    $output->write(sprintf('<info>%s</info> - Cleanuping snapshots ...', $site->getName()));
                 }
 
                 $this->getNotificationBackend($input->getOption('mode'))->createAndPublish('sonata.page.cleanup_snapshots', array(
@@ -81,7 +81,7 @@ class CleanupSnapshotsCommand extends BaseCommand
                     'keepSnapshots' => $input->getOption('keep-snapshots'),
                 ));
 
-                $output->writeln(" done!");
+                $output->writeln(' done!');
             } else {
                 $p = new Process(sprintf('%s sonata:page:cleanup-snapshots --env=%s --site=%s --mode=%s --keep-snapshots=%s %s',
                     $input->getOption('base-console'),
@@ -92,12 +92,12 @@ class CleanupSnapshotsCommand extends BaseCommand
                     $input->getOption('no-debug') ? '--no-debug' : ''
                 ));
 
-                $p->run(function($type, $data) use ($output) {
+                $p->run(function ($type, $data) use ($output) {
                     $output->write($data, OutputInterface::OUTPUT_RAW);
                 });
             }
         }
 
-        $output->writeln("<info>done!</info>");
+        $output->writeln('<info>done!</info>');
     }
 }

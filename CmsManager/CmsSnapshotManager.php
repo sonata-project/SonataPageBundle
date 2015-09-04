@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata project.
  *
@@ -11,17 +12,16 @@
 namespace Sonata\PageBundle\CmsManager;
 
 use Sonata\BlockBundle\Model\BlockInterface;
-
+use Sonata\BlockBundle\Util\RecursiveBlockIterator;
+use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Model\PageInterface;
+use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\SnapshotPageProxy;
 use Sonata\PageBundle\Model\TransformerInterface;
-use Sonata\BlockBundle\Util\RecursiveBlockIterator;
-use Sonata\PageBundle\Model\SiteInterface;
-use Sonata\PageBundle\Exception\PageNotFoundException;
 
 /**
- * The CmsSnapshotManager class is in charge of retrieving the correct page (cms page or action page)
+ * The CmsSnapshotManager class is in charge of retrieving the correct page (cms page or action page).
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -149,7 +149,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
     }
 
     /**
-     * load the blocks of the $page
+     * load the blocks of the $page.
      *
      * @param \Sonata\PageBundle\Model\PageInterface $page
      */
@@ -171,6 +171,6 @@ class CmsSnapshotManager extends BaseCmsPageManager
             return $this->blocks[$id];
         }
 
-        return null;
+        return;
     }
 }

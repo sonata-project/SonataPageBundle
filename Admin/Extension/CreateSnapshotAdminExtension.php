@@ -11,7 +11,6 @@
 
 namespace Sonata\PageBundle\Admin\Extension;
 
-
 use Sonata\AdminBundle\Admin\AdminExtension;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
@@ -37,14 +36,14 @@ class CreateSnapshotAdminExtension extends AdminExtension
     {
         if ($object instanceof BlockInterface && method_exists($object, 'getPage')) {
             $pageId = $object->getPage()->getId();
-        } else if($object instanceof PageInterface) {
+        } elseif ($object instanceof PageInterface) {
             $pageId = $object->getId();
         } else {
             return;
         }
 
         $this->backend->createAndPublish('sonata.page.create_snapshot', array(
-            'pageId' => $pageId
+            'pageId' => $pageId,
         ));
     }
 

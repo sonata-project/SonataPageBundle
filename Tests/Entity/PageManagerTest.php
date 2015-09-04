@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata package.
  *
@@ -10,12 +11,11 @@
 
 namespace Sonata\PageBundle\Tests\Entity;
 
-use Sonata\PageBundle\Tests\Model\Page;
 use Sonata\PageBundle\Entity\PageManager;
+use Sonata\PageBundle\Tests\Model\Page;
 
 /**
- * Class PageManagerTest
- *
+ * Class PageManagerTest.
  */
 class PageManagerTest extends \PHPUnit_Framework_TestCase
 {
@@ -25,10 +25,10 @@ class PageManagerTest extends \PHPUnit_Framework_TestCase
 
         $manager = new PageManager('Foo\Bar', $entityManager, array());
 
-        $page1 = new Page;
+        $page1 = new Page();
         $page1->setName('Salut comment ca va ?');
 
-        $page2 = new Page;
+        $page2 = new Page();
         $page2->setName('Super! et toi ?');
 
         $page1->addChildren($page2);
@@ -39,7 +39,7 @@ class PageManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('/', $page1->getUrl());
 
         // if a parent page becaume a child page, then the slug and the url must be updated
-        $parent = new Page;
+        $parent = new Page();
         $parent->addChildren($page1);
 
         $manager->fixUrl($parent);
@@ -71,11 +71,11 @@ class PageManagerTest extends \PHPUnit_Framework_TestCase
         $homepage->setUrl('/');
         $homepage->setName('homepage');
 
-        $bundle = new Page;
+        $bundle = new Page();
         $bundle->setUrl('/bundles/');
         $bundle->setName('Bundles');
 
-        $child = new Page;
+        $child = new Page();
         $child->setName('foobar');
 
         $bundle->addChildren($child);
@@ -104,7 +104,7 @@ class PageManagerTest extends \PHPUnit_Framework_TestCase
         $query->expects($this->any())->method('execute')->will($this->returnValue(true));
 
         $qb = $this->getMock('Doctrine\ORM\QueryBuilder', array(), array(
-            $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock()
+            $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock(),
         ));
 
         $qb->expects($this->any())->method('select')->will($this->returnValue($qb));
@@ -177,7 +177,7 @@ class PageManagerTest extends \PHPUnit_Framework_TestCase
                 $qb->expects($self->once())->method('setParameters')->with($self->equalTo(array()));
             })
             ->getPager(array(), 1, 10, array(
-                'name' => 'ASC',
+                'name'       => 'ASC',
                 'routeName'  => 'DESC',
             ));
     }

@@ -13,15 +13,15 @@ namespace Sonata\PageBundle\Entity;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Sonata\CoreBundle\Model\BaseEntityManager;
-use Sonata\PageBundle\Model\PageManagerInterface;
-use Sonata\PageBundle\Model\PageInterface;
-use Sonata\PageBundle\Model\SiteInterface;
-use Sonata\PageBundle\Model\Page;
 use Sonata\DatagridBundle\Pager\Doctrine\Pager;
 use Sonata\DatagridBundle\ProxyQuery\Doctrine\ProxyQuery;
+use Sonata\PageBundle\Model\Page;
+use Sonata\PageBundle\Model\PageInterface;
+use Sonata\PageBundle\Model\PageManagerInterface;
+use Sonata\PageBundle\Model\SiteInterface;
 
 /**
- * This class manages PageInterface persistency with the Doctrine ORM
+ * This class manages PageInterface persistency with the Doctrine ORM.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -58,7 +58,7 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
     {
         return $this->findOneBy(array(
             'url'  => $url,
-            'site' => $site->getId()
+            'site' => $site->getId(),
         ));
     }
 
@@ -126,7 +126,6 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
         $pager->setPage($page);
         $pager->init();
 
-
         return $pager;
     }
 
@@ -138,7 +137,7 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
         // create a new page for this routing
         $class = $this->getClass();
 
-        $page = new $class;
+        $page = new $class();
 
         if (isset($defaults['routeName']) && isset($this->pageDefaults[$defaults['routeName']])) {
             $defaults = array_merge($this->pageDefaults[$defaults['routeName']], $defaults);
@@ -147,7 +146,7 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
         }
 
         foreach ($defaults as $key => $value) {
-            $method = 'set' . ucfirst($key);
+            $method = 'set'.ucfirst($key);
             $page->$method($value);
         }
 
@@ -181,7 +180,7 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
                     $base = $page->getParent()->getUrl();
                 }
 
-                $page->setUrl($base.$page->getSlug()) ;
+                $page->setUrl($base.$page->getSlug());
             } else {
                 // a parent page does not have any slug - can have a custom url ...
                 $page->setSlug(null);
@@ -239,11 +238,11 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
     {
         return $this->getEntityManager()->createQueryBuilder()
             ->select('p')
-            ->from( $this->class, 'p')
+            ->from($this->class, 'p')
             ->where('p.routeName <> :routeName and p.site = :site')
             ->setParameters(array(
                 'routeName' => PageInterface::PAGE_ROUTE_CMS_NAME,
-                'site' => $site->getId()
+                'site'      => $site->getId(),
             ))
             ->getQuery()
             ->execute();

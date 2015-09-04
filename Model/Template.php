@@ -12,7 +12,7 @@
 namespace Sonata\PageBundle\Model;
 
 /**
- * Template
+ * Template.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -55,7 +55,7 @@ class Template
 
     /**
      * The meta array is an array containing the
-     *    - area name
+     *    - area name.
      *
      * @param string $code
      * @param array  $meta
