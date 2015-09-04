@@ -12,14 +12,13 @@
 namespace Sonata\PageBundle\Admin;
 
 use Sonata\AdminBundle\Admin\Admin;
-use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
-
+use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\Cache\CacheManagerInterface;
 
 /**
- * Admin definition for the Snapshot class
+ * Admin definition for the Snapshot class.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -73,7 +72,7 @@ class SnapshotAdmin extends Admin
 
         $actions['toggle_enabled'] = array(
             'label'            => $this->trans('toggle_enabled'),
-            'ask_confirmation' => true
+            'ask_confirmation' => true,
         );
 
         return $actions;
@@ -85,7 +84,7 @@ class SnapshotAdmin extends Admin
     public function postUpdate($object)
     {
         $this->cacheManager->invalidate(array(
-            'page_id' => $object->getPage()->getId()
+            'page_id' => $object->getPage()->getId(),
         ));
     }
 
@@ -95,7 +94,7 @@ class SnapshotAdmin extends Admin
     public function postPersist($object)
     {
         $this->cacheManager->invalidate(array(
-            'page_id' => $object->getPage()->getId()
+            'page_id' => $object->getPage()->getId(),
         ));
     }
 

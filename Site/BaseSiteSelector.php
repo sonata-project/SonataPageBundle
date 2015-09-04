@@ -11,17 +11,16 @@
 
 namespace Sonata\PageBundle\Site;
 
-use Symfony\Component\Routing\RequestContext;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\HttpFoundation\Request;
-
+use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
-use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 use Sonata\SeoBundle\Seo\SeoPageInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\Routing\RequestContext;
 
 /**
- * BaseSiteSelector
+ * BaseSiteSelector.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -126,12 +125,12 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
     }
 
     /**
-     * Returns TRUE whether the given site matches the given request
+     * Returns TRUE whether the given site matches the given request.
      *
      * @param SiteInterface $site    A site instance
      * @param Request       $request A request instance
      *
-     * @return string|boolean FALSE whether the site does not match
+     * @return string|bool FALSE whether the site does not match
      */
     protected function matchRequest(SiteInterface $site, Request $request)
     {
@@ -148,7 +147,7 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
     }
 
     /**
-     * Gets the preferred site based on the given request
+     * Gets the preferred site based on the given request.
      *
      * @param array   $sites   An array of enabled sites
      * @param Request $request A request instance
@@ -158,10 +157,10 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
     protected function getPreferredSite(array $sites, Request $request)
     {
         if (count($sites) === 0) {
-            return null;
+            return;
         }
 
-        $sitesLocales = array_map(function(SiteInterface $site) {
+        $sitesLocales = array_map(function (SiteInterface $site) {
             return $site->getLocale();
         }, $sites);
 
@@ -181,8 +180,6 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
      * @abstract
      *
      * @param GetResponseEvent $event
-     *
-     * @return void
      */
     abstract protected function handleKernelRequest(GetResponseEvent $event);
 }

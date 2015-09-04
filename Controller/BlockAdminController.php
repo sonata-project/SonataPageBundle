@@ -12,13 +12,12 @@
 namespace Sonata\PageBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
-use Sonata\PageBundle\Admin\SharedBlockAdmin;
 use Sonata\PageBundle\Exception\PageNotFoundException;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
- * Block Admin Controller
+ * Block Admin Controller.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -54,15 +53,14 @@ class BlockAdminController extends Controller
             $result = array(
                 'exception' => get_class($e),
                 'message'   => $e->getMessage(),
-                'code'      => $e->getCode()
+                'code'      => $e->getCode(),
             );
-
         } catch (\Exception $e) {
             $status = 500;
             $result = array(
                 'exception' => get_class($e),
                 'message'   => $e->getMessage(),
-                'code'      => $e->getCode()
+                'code'      => $e->getCode(),
             );
         }
 
@@ -82,7 +80,6 @@ class BlockAdminController extends Controller
 
         $sharedBlockAdminClass = $this->container->getParameter('sonata.page.admin.shared_block.class');
         if (!$this->admin->getParent() && get_class($this->admin) !== $sharedBlockAdminClass) {
-            
             throw new PageNotFoundException('You cannot create a block without a page');
         }
 
@@ -93,7 +90,7 @@ class BlockAdminController extends Controller
                 'services'      => $this->get('sonata.block.manager')->getServicesByContext('sonata_page_bundle'),
                 'base_template' => $this->getBaseTemplate(),
                 'admin'         => $this->admin,
-                'action'        => 'create'
+                'action'        => 'create',
             ));
         }
 

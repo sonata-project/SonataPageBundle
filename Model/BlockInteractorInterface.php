@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata project.
  *
@@ -11,14 +12,14 @@
 namespace Sonata\PageBundle\Model;
 
 /**
- * BlockInteractorInterface
+ * BlockInteractorInterface.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 interface BlockInteractorInterface
 {
     /**
-     * return a block with the given id
+     * return a block with the given id.
      *
      * @param mixed $id
      *
@@ -27,7 +28,7 @@ interface BlockInteractorInterface
     public function getBlock($id);
 
     /**
-     * return a flat list if page's blocks
+     * return a flat list if page's blocks.
      *
      * @param \Sonata\PageBundle\Model\PageInterface $page
      *
@@ -36,7 +37,7 @@ interface BlockInteractorInterface
     public function getBlocksById(PageInterface $page);
 
     /**
-     * load blocks attached the given page
+     * load blocks attached the given page.
      *
      * @param PageInterface $page
      *
@@ -45,7 +46,7 @@ interface BlockInteractorInterface
     public function loadPageBlocks(PageInterface $page);
 
     /**
-     * save the blocks positions
+     * save the blocks positions.
      *
      * @param array $data
      * @param bool  $partial Should we use partial references? (Better for performance, but can lead to query issues.)

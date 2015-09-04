@@ -15,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 
 /**
- * BaseCommand
+ * BaseCommand.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */

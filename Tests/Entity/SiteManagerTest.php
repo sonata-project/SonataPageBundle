@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata package.
  *
@@ -13,8 +14,7 @@ namespace Sonata\PageBundle\Tests\Entity;
 use Sonata\PageBundle\Entity\SiteManager;
 
 /**
- * Class SiteManagerTest
- *
+ * Class SiteManagerTest.
  */
 class SiteManagerTest extends \PHPUnit_Framework_TestCase
 {
@@ -23,9 +23,8 @@ class SiteManagerTest extends \PHPUnit_Framework_TestCase
         $query = $this->getMockForAbstractClass('Doctrine\ORM\AbstractQuery', array(), '', false, true, true, array('execute'));
         $query->expects($this->any())->method('execute')->will($this->returnValue(true));
 
-
         $qb = $this->getMock('Doctrine\ORM\QueryBuilder', array(), array(
-            $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock()
+            $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock(),
         ));
 
         $qb->expects($this->any())->method('select')->will($this->returnValue($qb));
@@ -99,7 +98,7 @@ class SiteManagerTest extends \PHPUnit_Framework_TestCase
                 $qb->expects($self->once())->method('setParameters')->with($self->equalTo(array()));
             })
             ->getPager(array(), 1, 10, array(
-                'name' => 'ASC',
+                'name'  => 'ASC',
                 'host'  => 'DESC',
             ));
     }

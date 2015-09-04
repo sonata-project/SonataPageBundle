@@ -2,11 +2,10 @@
 
 namespace Sonata\PageBundle\Model;
 
-use Sonata\PageBundle\Model\PageBlockInterface;
 use Serializable;
 
 /**
- * SnapshotPageProxy
+ * SnapshotPageProxy.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -38,7 +37,7 @@ class SnapshotPageProxy implements PageInterface, Serializable
     private $parents;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param SnapshotManagerInterface $manager     Snapshot manager
      * @param TransformerInterface     $transformer The transformer object
@@ -167,13 +166,12 @@ class SnapshotPageProxy implements PageInterface, Serializable
             $content = $this->snapshot->getContent();
 
             if (isset($content['target_id'])) {
-
                 $target = $this->manager->findEnableSnapshot(array(
-                    'pageId' => $content['target_id']
+                    'pageId' => $content['target_id'],
                 ));
 
                 if ($target) {
-                    $this->setTarget(new SnapshotPageProxy($this->manager, $this->transformer, $target));
+                    $this->setTarget(new self($this->manager, $this->transformer, $target));
                 } else {
                     $this->target = false;
                 }
@@ -223,14 +221,14 @@ class SnapshotPageProxy implements PageInterface, Serializable
                 }
 
                 $snapshot = $this->manager->findEnableSnapshot(array(
-                    'pageId' => $content['parent_id']
+                    'pageId' => $content['parent_id'],
                 ));
 
                 if (!$snapshot) {
                     break;
                 }
 
-                $parents[] = new SnapshotPageProxy($this->manager, $this->transformer, $snapshot);
+                $parents[] = new self($this->manager, $this->transformer, $snapshot);
             }
 
             $this->setParents(array_reverse($parents));
@@ -656,7 +654,7 @@ class SnapshotPageProxy implements PageInterface, Serializable
     }
 
     /**
-     * Returns a string representation
+     * Returns a string representation.
      *
      * @return string
      */
@@ -666,7 +664,7 @@ class SnapshotPageProxy implements PageInterface, Serializable
     }
 
     /**
-     * Serialize a snapshot page proxy
+     * Serialize a snapshot page proxy.
      *
      * @return string
      */
@@ -683,7 +681,7 @@ class SnapshotPageProxy implements PageInterface, Serializable
     }
 
     /**
-     * Unserialize a snapshot page proxy
+     * Unserialize a snapshot page proxy.
      *
      * @param string $serialized
      *

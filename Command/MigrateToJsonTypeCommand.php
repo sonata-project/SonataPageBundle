@@ -11,15 +11,14 @@
 
 namespace Sonata\PageBundle\Command;
 
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Output\Output;
 
 class MigrateToJsonTypeCommand extends BaseCommand
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function configure()
     {
@@ -29,7 +28,7 @@ class MigrateToJsonTypeCommand extends BaseCommand
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
@@ -43,7 +42,7 @@ class MigrateToJsonTypeCommand extends BaseCommand
             if (0 !== strpos($block['settings'], '{') && $block['settings'] !== '[]') {
                 $block['settings'] = json_encode(unserialize($block['settings']));
                 $connection->update($table, array('settings' => $block['settings']), array('id' => $block['id']));
-                $count++;
+                ++$count;
             }
         }
 

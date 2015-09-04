@@ -8,22 +8,20 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Sonata\PageBundle\Tests\Site;
 
 use Sonata\PageBundle\Request\SiteRequest;
-
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 /**
- * Tests the HostByLocaleSiteSelector service
+ * Tests the HostByLocaleSiteSelector service.
  *
  * @author Rémi Marseille <marseille@ekino.com>
  */
 class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
 {
     /**
-     * Tests handleKernelRequest method selects the site /en
+     * Tests handleKernelRequest method selects the site /en.
      */
     public function testHandleKernelRequestSelectsEn()
     {
@@ -53,13 +51,13 @@ class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
     }
 
     /**
-     * Tests handleKernelRequest method selects the site /fr
+     * Tests handleKernelRequest method selects the site /fr.
      */
     public function testHandleKernelRequestSelectsFr()
     {
         $kernel  = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface');
         $request = SiteRequest::create('http://www.example.com', 'GET', array(), array(), array(), array(
-            'HTTP_ACCEPT_LANGUAGE' => 'fr-FR,fr;q=0.8,en-US;q=0.6,en;q=0.4'
+            'HTTP_ACCEPT_LANGUAGE' => 'fr-FR,fr;q=0.8,en-US;q=0.6,en;q=0.4',
         ));
 
         // Ensure request locale is null

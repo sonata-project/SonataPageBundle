@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata project.
  *
@@ -11,12 +12,10 @@
 namespace Sonata\PageBundle\Model;
 
 use Sonata\BlockBundle\Model\BaseBlock;
-use Sonata\PageBundle\Model\PageInterface;
-use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
 
 /**
- * Block
+ * Block.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -28,7 +27,7 @@ abstract class Block extends BaseBlock implements PageBlockInterface
     protected $page;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function addChildren(BlockInterface $child)
     {
@@ -42,7 +41,7 @@ abstract class Block extends BaseBlock implements PageBlockInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setPage(PageInterface $page = null)
     {
@@ -50,7 +49,7 @@ abstract class Block extends BaseBlock implements PageBlockInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getPage()
     {
@@ -58,7 +57,7 @@ abstract class Block extends BaseBlock implements PageBlockInterface
     }
 
     /**
-     * Disables children lazy loading
+     * Disables children lazy loading.
      */
     public function disableChildrenLazyLoading()
     {

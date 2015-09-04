@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata package.
  *
@@ -13,8 +14,7 @@ namespace Sonata\PageBundle\Tests\Entity;
 use Sonata\PageBundle\Entity\SnapshotManager;
 
 /**
- * Class SnapshotManagerTest
- *
+ * Class SnapshotManagerTest.
  */
 class SnapshotManagerTest extends \PHPUnit_Framework_TestCase
 {
@@ -23,9 +23,8 @@ class SnapshotManagerTest extends \PHPUnit_Framework_TestCase
         $query = $this->getMockForAbstractClass('Doctrine\ORM\AbstractQuery', array(), '', false, true, true, array('execute'));
         $query->expects($this->any())->method('execute')->will($this->returnValue(true));
 
-
         $qb = $this->getMock('Doctrine\ORM\QueryBuilder', array(), array(
-            $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock()
+            $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock(),
         ));
 
         $qb->expects($this->any())->method('select')->will($this->returnValue($qb));
@@ -129,7 +128,7 @@ class SnapshotManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests the enableSnapshots() method to ensure execute queries are correct
+     * Tests the enableSnapshots() method to ensure execute queries are correct.
      */
     public function testEnableSnapshots()
     {
@@ -173,7 +172,7 @@ class SnapshotManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests the enableSnapshots() method to ensure execute queries are not executed when no snapshots are given
+     * Tests the enableSnapshots() method to ensure execute queries are not executed when no snapshots are given.
      */
     public function testEnableSnapshotsWhenNoSnapshots()
     {

@@ -11,22 +11,19 @@
 
 namespace Sonata\PageBundle\Page;
 
-use Symfony\Component\HttpFoundation\StreamedResponse;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Templating\StreamingEngineInterface;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
-
 use Sonata\PageBundle\Model\Template;
+use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Templates management and rendering
+ * Templates management and rendering.
  *
  * @author Olivier Paradis <paradis.olivier@gmail.com>
  */
 class TemplateManager implements TemplateManagerInterface
 {
     /**
-     * Templating engine
+     * Templating engine.
      *
      * @var EngineInterface
      */
@@ -38,28 +35,28 @@ class TemplateManager implements TemplateManagerInterface
     protected $defaultParameters;
 
     /**
-     * Collection of available templates
+     * Collection of available templates.
      *
      * @var Template[]
      */
     protected $templates;
 
     /**
-     * Default template code
+     * Default template code.
      *
      * @var string
      */
     protected $defaultTemplateCode = 'default';
 
     /**
-     * Default template path
+     * Default template path.
      *
      * @var string
      */
     protected $defaultTemplatePath = 'SonataPageBundle::layout.html.twig';
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param EngineInterface $engine            Templating engine
      * @param array           $defaultParameters An array of default view parameters
@@ -71,7 +68,7 @@ class TemplateManager implements TemplateManagerInterface
     }
 
     /**
-     * Adds a template
+     * Adds a template.
      *
      * @param string   $code     Code
      * @param Template $template Template object
@@ -82,7 +79,7 @@ class TemplateManager implements TemplateManagerInterface
     }
 
     /**
-     * Returns the template by code
+     * Returns the template by code.
      *
      * @param string $code
      *
@@ -91,14 +88,14 @@ class TemplateManager implements TemplateManagerInterface
     public function get($code)
     {
         if (!isset($this->templates[$code])) {
-            return null;
+            return;
         }
 
         return $this->templates[$code];
     }
 
     /**
-     * Sets the default template code
+     * Sets the default template code.
      *
      * @param string $code
      */
@@ -108,7 +105,7 @@ class TemplateManager implements TemplateManagerInterface
     }
 
     /**
-     * Returns the default template code
+     * Returns the default template code.
      *
      * @return string
      */
@@ -118,7 +115,7 @@ class TemplateManager implements TemplateManagerInterface
     }
 
     /**
-     * Sets the templates
+     * Sets the templates.
      *
      * @param Template[] $templates
      */
@@ -128,7 +125,7 @@ class TemplateManager implements TemplateManagerInterface
     }
 
     /**
-     * Returns the templates
+     * Returns the templates.
      *
      * @return Template[]
      */
@@ -138,7 +135,7 @@ class TemplateManager implements TemplateManagerInterface
     }
 
     /**
-     * Renders a template code
+     * Renders a template code.
      *
      * @param string   $code       Template code
      * @param array    $parameters An array of view parameters
@@ -156,7 +153,7 @@ class TemplateManager implements TemplateManagerInterface
     }
 
     /**
-     * Returns the template path for given code
+     * Returns the template path for given code.
      *
      * @param string|null $code
      *

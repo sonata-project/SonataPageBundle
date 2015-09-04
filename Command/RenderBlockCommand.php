@@ -13,13 +13,12 @@ namespace Sonata\PageBundle\Command;
 
 use Sonata\PageBundle\CmsManager\CmsManagerInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Migrates the name setting of all blocks into a code setting
+ * Migrates the name setting of all blocks into a code setting.
  */
 class RenderBlockCommand extends BaseCommand
 {
@@ -44,7 +43,7 @@ Available manager:
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
@@ -62,18 +61,18 @@ Available manager:
             throw new \RuntimeException('Unable to find the related block');
         }
 
-        $output->writeln("<info>Block Information</info>");
-        $output->writeln(sprintf("  > Id: %d - type: %s - name: %s", $block->getId(), $block->getType(), $block->getName()));
+        $output->writeln('<info>Block Information</info>');
+        $output->writeln(sprintf('  > Id: %d - type: %s - name: %s', $block->getId(), $block->getType(), $block->getName()));
 
         foreach ($block->getSettings() as $name => $value) {
-            $output->writeln(sprintf("   >> %s: %s", $name, json_encode($value)));
+            $output->writeln(sprintf('   >> %s: %s', $name, json_encode($value)));
         }
 
         $context = $this->getContainer()->get('sonata.block.context_manager')->get($block);
 
         $output->writeln("\n<info>BlockContext Information</info>");
         foreach ($context->getSettings() as $name => $value) {
-            $output->writeln(sprintf("   >> %s: %s", $name, json_encode($value)));
+            $output->writeln(sprintf('   >> %s: %s', $name, json_encode($value)));
         }
 
         $output->writeln("\n<info>Response Output</info>");

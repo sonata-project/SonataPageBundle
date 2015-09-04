@@ -30,7 +30,6 @@ class BlockJsCacheTest extends \PHPUnit_Framework_TestCase
         $blockRenderer = $this->getMock('Sonata\BlockBundle\Block\BlockRendererInterface');
         $contextManager = $this->getMock('Sonata\BlockBundle\Block\BlockContextManagerInterface');
 
-
         $cache = new BlockJsCache($router, $cmsManager, $blockRenderer, $contextManager);
 
         $cache->get($keys, 'data');
@@ -40,11 +39,11 @@ class BlockJsCacheTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(array()),
-            array(array('block_id' => 7)),
-            array(array('block_id' => 7, 'page_id' => 8)),
-            array(array('block_id' => 7, 'manager' => 8)),
-            array(array('manager' => 7, 'page_id' => 8)),
-            array(array('manager' => 7, 'page_id' => 8)),
+            array(array('block_id'   => 7)),
+            array(array('block_id'   => 7, 'page_id' => 8)),
+            array(array('block_id'   => 7, 'manager' => 8)),
+            array(array('manager'    => 7, 'page_id' => 8)),
+            array(array('manager'    => 7, 'page_id' => 8)),
             array(array('updated_at' => 'foo')),
         );
     }
@@ -60,7 +59,6 @@ class BlockJsCacheTest extends \PHPUnit_Framework_TestCase
 
         $cache = new BlockJsCache($router, $cmsSelectorManager, $blockRenderer, $contextManager);
 
-
         $this->assertTrue($cache->flush(array()));
         $this->assertTrue($cache->flushAll());
 
@@ -68,7 +66,7 @@ class BlockJsCacheTest extends \PHPUnit_Framework_TestCase
             'block_id'   => 4,
             'page_id'    => 5,
             'updated_at' => 'as',
-            'manager'    => 'page'
+            'manager'    => 'page',
         );
 
         $cacheElement = $cache->set($keys, 'data');
@@ -101,5 +99,4 @@ EXPECTED;
 
         $this->assertEquals($expected, $cacheElement->getData()->getContent());
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata project.
  *
@@ -10,14 +11,13 @@
 
 namespace Sonata\PageBundle\Entity;
 
-use Symfony\Bridge\Doctrine\RegistryInterface;
-
 use Sonata\BlockBundle\Model\BlockManagerInterface;
 use Sonata\PageBundle\Model\BlockInteractorInterface;
 use Sonata\PageBundle\Model\PageInterface;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * This class interacts with blocks
+ * This class interacts with blocks.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -30,7 +30,7 @@ class BlockInteractor implements BlockInteractorInterface
     protected $blockManager;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param RegistryInterface     $registry     Doctrine registry
      * @param BlockManagerInterface $blockManager Block manager
@@ -51,7 +51,7 @@ class BlockInteractor implements BlockInteractorInterface
             ->from($this->blockManager->getClass(), 'b')
             ->where('b.id = :id')
             ->setParameters(array(
-              'id' => $id
+              'id' => $id,
             ))
             ->getQuery()
             ->execute();
@@ -67,7 +67,7 @@ class BlockInteractor implements BlockInteractorInterface
         $blocks = $this->getEntityManager()
             ->createQuery(sprintf('SELECT b FROM %s b INDEX BY b.id WHERE b.page = :page ORDER BY b.position ASC', $this->blockManager->getClass()))
             ->setParameters(array(
-                 'page' => $page->getId()
+                 'page' => $page->getId(),
             ))
             ->execute();
 
@@ -108,8 +108,8 @@ class BlockInteractor implements BlockInteractorInterface
     {
         $container = $this->blockManager->create();
         $container->setEnabled(isset($values['enabled']) ? $values['enabled'] : true);
-        $container->setCreatedAt(new \DateTime);
-        $container->setUpdatedAt(new \DateTime);
+        $container->setCreatedAt(new \DateTime());
+        $container->setUpdatedAt(new \DateTime());
         $container->setType('sonata.page.block.container');
 
         if (isset($values['page'])) {

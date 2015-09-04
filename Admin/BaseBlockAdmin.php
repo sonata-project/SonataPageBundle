@@ -11,11 +11,9 @@
 
 namespace Sonata\PageBundle\Admin;
 
-use Doctrine\ORM\EntityRepository;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
 use Sonata\Cache\CacheManagerInterface;
@@ -25,7 +23,7 @@ use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Abstract admin class for the Block model
+ * Abstract admin class for the Block model.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -102,7 +100,6 @@ abstract class BaseBlockAdmin extends Admin
                 $subject->setSettings($resolver->resolve($subject->getSettings()));
             } catch (InvalidOptionsException $e) {
                 // @TODO : add a logging error or a flash message
-
             }
 
             $service->load($subject);

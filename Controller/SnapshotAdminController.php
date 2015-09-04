@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
- * Snapshot Admin Controller
+ * Snapshot Admin Controller.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -37,7 +37,7 @@ class SnapshotAdminController extends Controller
 
         $pageManager = $this->get('sonata.page.manager.page');
 
-        $snapshot = new $class;
+        $snapshot = new $class();
 
         if ($this->getRequest()->getMethod() == 'GET' && $this->getRequest()->get('pageId')) {
             $page = $pageManager->findOne(array('id' => $this->getRequest()->get('pageId')));
@@ -52,7 +52,6 @@ class SnapshotAdminController extends Controller
         $form = $this->createForm('sonata_page_create_snapshot', $snapshot);
 
         if ($this->getRequest()->getMethod() == 'POST') {
-
             $form->bind($this->getRequest());
 
             if ($form->isValid()) {
@@ -72,13 +71,13 @@ class SnapshotAdminController extends Controller
             }
 
             return $this->redirect($this->admin->generateUrl('edit', array(
-                'id' => $snapshot->getId()
+                'id' => $snapshot->getId(),
             )));
         }
 
         return $this->render('SonataPageBundle:SnapshotAdmin:create.html.twig', array(
             'action'  => 'create',
-            'form'    => $form->createView()
+            'form'    => $form->createView(),
         ));
     }
 

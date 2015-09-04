@@ -11,16 +11,13 @@
 
 namespace Sonata\PageBundle\Command;
 
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Output\Output;
-use Sonata\PageBundle\Model\SiteInterface;
-
 use Symfony\Component\Process\Process;
 
 /**
- * Update core routes by reading routing information
+ * Update core routes by reading routing information.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -47,10 +44,10 @@ class UpdateCoreRoutesCommand extends BaseCommand
             $output->writeln('Please provide an <info>--site=SITE_ID</info> option or the <info>--site=all</info> directive');
             $output->writeln('');
 
-            $output->writeln(sprintf(" % 5s - % -30s - %s", "ID", "Name", "Url"));
+            $output->writeln(sprintf(' % 5s - % -30s - %s', 'ID', 'Name', 'Url'));
 
             foreach ($this->getSiteManager()->findBy(array()) as $site) {
-                $output->writeln(sprintf(" % 5s - % -30s - %s", $site->getId(), $site->getName(), $site->getUrl()));
+                $output->writeln(sprintf(' % 5s - % -30s - %s', $site->getId(), $site->getName(), $site->getUrl()));
             }
 
             return;
@@ -59,21 +56,21 @@ class UpdateCoreRoutesCommand extends BaseCommand
         foreach ($this->getSites($input) as $site) {
             if ($input->getOption('site') != 'all') {
                 $this->getRoutePageGenerator()->update($site, $output);
-                $output->writeln("");
+                $output->writeln('');
             } else {
                 $p = new Process(sprintf('%s sonata:page:update-core-routes --env=%s --site=%s %s', $input->getOption('base-command'), $input->getOption('env'), $site->getId(), $input->getOption('no-debug') ? '--no-debug' : ''));
 
-                $p->run(function($type, $data) use ($output) {
+                $p->run(function ($type, $data) use ($output) {
                     $output->write($data);
                 });
             }
         }
 
-        $output->writeln("<info>done!</info>");
+        $output->writeln('<info>done!</info>');
     }
 
     /**
-     * Returns Sonata route page generator service
+     * Returns Sonata route page generator service.
      *
      * @return \Sonata\PageBundle\Route\RoutePageGenerator
      */

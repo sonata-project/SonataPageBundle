@@ -39,11 +39,11 @@ class BlockEsiCacheTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(array()),
-            array(array('block_id' => 7)),
-            array(array('block_id' => 7, 'page_id' => 8)),
-            array(array('block_id' => 7, 'manager' => 8)),
-            array(array('manager' => 7, 'page_id' => 8)),
-            array(array('manager' => 7, 'page_id' => 8)),
+            array(array('block_id'   => 7)),
+            array(array('block_id'   => 7, 'page_id' => 8)),
+            array(array('block_id'   => 7, 'manager' => 8)),
+            array(array('manager'    => 7, 'page_id' => 8)),
+            array(array('manager'    => 7, 'page_id' => 8)),
             array(array('updated_at' => 'foo')),
         );
     }
@@ -65,7 +65,7 @@ class BlockEsiCacheTest extends \PHPUnit_Framework_TestCase
             'block_id'   => 4,
             'page_id'    => 5,
             'updated_at' => 'as',
-            'manager'    => 'page'
+            'manager'    => 'page',
         );
 
         $cacheElement = $cache->set($keys, 'data');
@@ -80,5 +80,4 @@ class BlockEsiCacheTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('<esi:include src="http://sonata-project.org/cache/XXX/page/esi/page/5/4?updated_at=as" />', $cacheElement->getData()->getContent());
     }
-
 }

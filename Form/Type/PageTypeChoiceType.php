@@ -11,13 +11,12 @@
 
 namespace Sonata\PageBundle\Form\Type;
 
+use Sonata\PageBundle\Page\PageServiceManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-use Sonata\PageBundle\Page\PageServiceManagerInterface;
-
 /**
- * Select a page type
+ * Select a page type.
  *
  * @author Olivier Paradis <paradis.olivier@gmail.com>
  */
@@ -42,7 +41,7 @@ class PageTypeChoiceType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'choices' => $this->getPageTypes()
+            'choices' => $this->getPageTypes(),
         ));
     }
 
@@ -63,7 +62,7 @@ class PageTypeChoiceType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getParent()
     {
@@ -71,7 +70,7 @@ class PageTypeChoiceType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {

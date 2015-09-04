@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata package.
  *
@@ -11,10 +12,9 @@
 namespace Sonata\PageBundle\Tests\Form\Type;
 
 use Sonata\PageBundle\Form\Type\TemplateChoiceType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Test the template choice form type
+ * Test the template choice form type.
  */
 class TemplateChoiceTypeTest extends \PHPUnit_Framework_TestCase
 {
@@ -29,7 +29,7 @@ class TemplateChoiceTypeTest extends \PHPUnit_Framework_TestCase
     protected $type;
 
     /**
-     * setup each unit test
+     * setup each unit test.
      */
     public function setUp()
     {
@@ -38,7 +38,7 @@ class TemplateChoiceTypeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test getting options
+     * Test getting options.
      */
     public function testGetOptions()
     {
@@ -46,7 +46,7 @@ class TemplateChoiceTypeTest extends \PHPUnit_Framework_TestCase
         $template = $this->getMockTemplate('Template 1');
 
         $this->manager->expects($this->atLeastOnce())->method('getAll')->will($this->returnValue(array(
-            'my_template' => $template
+            'my_template' => $template,
         )));
 
         $resolver = $this->getMock('Symfony\Component\OptionsResolver\OptionsResolverInterface');
@@ -61,7 +61,7 @@ class TemplateChoiceTypeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Returns the mock template
+     * Returns the mock template.
      *
      * @param string $name Name of the template
      * @param string $path Path to the file of the template

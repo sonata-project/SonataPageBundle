@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata package.
  *
@@ -19,6 +20,9 @@ class PageTest extends \PHPUnit_Framework_TestCase
 {
     public function testSlugify()
     {
+        setlocale(LC_ALL, 'en_US.utf8');
+        setlocale(LC_CTYPE, 'en_US.utf8');
+
         $this->assertEquals(Page::slugify('test'), 'test');
         $this->assertEquals(Page::slugify('S§!@@#$#$alut'), 's-alut');
         $this->assertEquals(Page::slugify('Symfony2'), 'symfony2');
@@ -31,11 +35,11 @@ class PageTest extends \PHPUnit_Framework_TestCase
     {
         $expectedHeaders = array(
             'Location' => 'http://www.google.fr',
-            'Expires' => '0',
+            'Expires'  => '0',
         );
         $expectedStringHeaders = "Location: http://www.google.fr\r\nExpires: 0";
 
-        $page = new Page;
+        $page = new Page();
         $pageReflection = new \ReflectionClass($page);
 
         $method = $pageReflection->getMethod('getHeadersAsArray');
@@ -46,25 +50,25 @@ class PageTest extends \PHPUnit_Framework_TestCase
                 "Location:http://www.google.fr\r\nExpires:0",
                 "\r\nLocation: http://www.google.fr\r\nExpires: 0\r\nInvalid Header Line",
             ) as $rawHeaders) {
-                $this->assertEquals($expectedHeaders, $method->invokeArgs($page, array($rawHeaders)), 'Page::getHeadersAsArray()');
+            $this->assertEquals($expectedHeaders, $method->invokeArgs($page, array($rawHeaders)), 'Page::getHeadersAsArray()');
         }
 
         $method = $pageReflection->getMethod('getHeadersAsString');
         $method->setAccessible(true);
         foreach (array(
                 array(
-                    "Location" => "http://www.google.fr",
-                    "Expires" => "0",
+                    'Location' => 'http://www.google.fr',
+                    'Expires' => '0',
                 ),
                 array(
-                    " Location " => " http://www.google.fr ",
+                    ' Location ' => ' http://www.google.fr ',
                     "\r\nExpires " => " 0\r\n",
                 ),
             ) as $headers) {
-                $this->assertEquals($expectedStringHeaders, $method->invokeArgs($page, array($headers)), 'Page::getHeadersAsString()');
+            $this->assertEquals($expectedStringHeaders, $method->invokeArgs($page, array($headers)), 'Page::getHeadersAsString()');
         }
 
-        $page = new Page;
+        $page = new Page();
         $page->setHeaders($expectedHeaders);
         $this->assertEquals($page->getRawHeaders(), $expectedStringHeaders);
         $this->assertEquals($page->getHeaders(), $expectedHeaders);
@@ -77,7 +81,7 @@ class PageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($page->getRawHeaders(), '');
         $this->assertEquals($page->getHeaders(), array());
 
-        $page = new Page;
+        $page = new Page();
         $page->setRawHeaders($expectedStringHeaders);
         $this->assertEquals($page->getRawHeaders(), $expectedStringHeaders);
         $this->assertEquals($page->getHeaders(), $expectedHeaders);
@@ -90,7 +94,7 @@ class PageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($page->getRawHeaders(), '');
         $this->assertEquals($page->getHeaders(), array());
 
-        $page = new Page;
+        $page = new Page();
         $page->addHeader('Cache-Control', 'no-cache');
         $this->assertEquals($page->getRawHeaders(), 'Cache-Control: no-cache');
         $this->assertEquals($page->getHeaders(), array('Cache-Control' => 'no-cache'));
@@ -107,31 +111,31 @@ class PageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($page->getRawHeaders(), $expectedStringHeaders);
         $this->assertEquals($page->getHeaders(), $expectedHeaders);
 
-        $page->addHeader('Location', "http://www.google.com");
+        $page->addHeader('Location', 'http://www.google.com');
         $expectedHeaders['Location'] = 'http://www.google.com';
         $this->assertEquals($page->getHeaders(), $expectedHeaders);
     }
 
     public function testHasRequestMethod()
     {
-        $page = new Page;
-        $page->setRequestMethod("POST");
-        $this->assertEquals($page->hasRequestMethod("POST"), true);
-        $this->assertEquals($page->hasRequestMethod("GeT"), false);
+        $page = new Page();
+        $page->setRequestMethod('POST');
+        $this->assertEquals($page->hasRequestMethod('POST'), true);
+        $this->assertEquals($page->hasRequestMethod('GeT'), false);
 
-        $page->setRequestMethod("POST|GET");
-        $this->assertEquals($page->hasRequestMethod("POsT"), true);
-        $this->assertEquals($page->hasRequestMethod("GET"), true);
+        $page->setRequestMethod('POST|GET');
+        $this->assertEquals($page->hasRequestMethod('POsT'), true);
+        $this->assertEquals($page->hasRequestMethod('GET'), true);
 
-        $page->setRequestMethod("");
-        $this->assertEquals($page->hasRequestMethod("GET"), true);
-        $this->assertEquals($page->hasRequestMethod("post"), true);
-        $this->assertEquals($page->hasRequestMethod("biloute"), false);
+        $page->setRequestMethod('');
+        $this->assertEquals($page->hasRequestMethod('GET'), true);
+        $this->assertEquals($page->hasRequestMethod('post'), true);
+        $this->assertEquals($page->hasRequestMethod('biloute'), false);
     }
 
     public function testGetterSetter()
     {
-        $page = new Page;
+        $page = new Page();
         $page->setEnabled(true);
         $this->assertTrue($page->getEnabled());
 
@@ -158,14 +162,14 @@ class PageTest extends \PHPUnit_Framework_TestCase
 
         $children = array(
             new Page(),
-            new Page()
+            new Page(),
         );
 
         $page->setChildren($children);
         $this->assertEquals(2, count($page->getChildren()));
 
         $snapshots = array(
-            $this->getMock('Sonata\PageBundle\Model\SnapshotInterface')
+            $this->getMock('Sonata\PageBundle\Model\SnapshotInterface'),
         );
 
         $page->setSnapshots($snapshots);
@@ -197,15 +201,15 @@ class PageTest extends \PHPUnit_Framework_TestCase
 
     public function testParents()
     {
-        $root = new Page;
+        $root = new Page();
         $root->setName('root');
 
-        $level1 = new Page;
+        $level1 = new Page();
         $level1->setName('level 1');
-        $level2 = new Page;
+        $level2 = new Page();
         $level2->setName('level 2');
 
-        $page = new Page;
+        $page = new Page();
         $page->setName('page');
 
         $level1->setParent($root);
@@ -223,7 +227,7 @@ class PageTest extends \PHPUnit_Framework_TestCase
 
     public function testPageTypeCMS()
     {
-        $page = new Page;
+        $page = new Page();
         $page->setRouteName(Page::PAGE_ROUTE_CMS_NAME);
 
         $this->assertTrue($page->isCms(), 'isCms');
@@ -235,7 +239,7 @@ class PageTest extends \PHPUnit_Framework_TestCase
 
     public function testPageTypeHybrid()
     {
-        $page = new Page;
+        $page = new Page();
         $page->setRouteName('foo_bar');
         $page->setUrl('/hello/thomas');
 
@@ -248,7 +252,7 @@ class PageTest extends \PHPUnit_Framework_TestCase
 
     public function testPageTypeInternal()
     {
-        $page = new Page;
+        $page = new Page();
         $page->setName('global');
         $page->setRouteName('_page_internal_global');
 
@@ -261,7 +265,7 @@ class PageTest extends \PHPUnit_Framework_TestCase
 
     public function testPageTypeError()
     {
-        $page = new Page;
+        $page = new Page();
         $page->setName('global');
         $page->setRouteName('_page_internal_error_global');
 
@@ -274,7 +278,7 @@ class PageTest extends \PHPUnit_Framework_TestCase
 
     public function testPageTypeDynamic()
     {
-        $page = new Page;
+        $page = new Page();
         $page->setRouteName('foo_bar');
         $page->setUrl('/hello/{name}');
 
@@ -286,7 +290,7 @@ class PageTest extends \PHPUnit_Framework_TestCase
 
     public function testGetContainer()
     {
-        $page = new Page;
+        $page = new Page();
 
         $block1 = $this->getMockBuilder('Sonata\PageBundle\Model\Block')->getMock();
         $block1->expects($this->any())->method('getType')->will($this->returnValue('sonata.page.block.action'));
@@ -308,7 +312,7 @@ class PageTest extends \PHPUnit_Framework_TestCase
 
     public function testGetBlockByType()
     {
-        $page = new Page;
+        $page = new Page();
 
         $block1 = $this->getMockBuilder('Sonata\PageBundle\Model\Block')->getMock();
         $block1->expects($this->once())->method('getType')->will($this->returnValue('sonata.page.block.action'));

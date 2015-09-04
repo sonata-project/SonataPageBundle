@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata package.
  *
@@ -10,19 +11,16 @@
 
 namespace Sonata\PageBundle\Controller\Api;
 
-use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\View;
-use JMS\Serializer\SerializationContext;
+use FOS\RestBundle\Request\ParamFetcherInterface;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpFoundation\Request;
-use FOS\RestBundle\View\View as FOSRestView;
 use Sonata\PageBundle\Model\SnapshotInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Class SnapshotController
+ * Class SnapshotController.
  *
  * @author Benoit de Jacobet <benoit.de-jacobet@ekino.com>
  */
@@ -34,7 +32,7 @@ class SnapshotController
     protected $snapshotManager;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param SnapshotManagerInterface $snapshotManager
      */
@@ -44,7 +42,7 @@ class SnapshotController
     }
 
     /**
-     * Retrieves the list of snapshots (paginated)
+     * Retrieves the list of snapshots (paginated).
      *
      * @ApiDoc(
      *  resource=true,
@@ -99,7 +97,7 @@ class SnapshotController
     }
 
     /**
-     * Retrieves a specific snapshot
+     * Retrieves a specific snapshot.
      *
      * @ApiDoc(
      *  resource=true,
@@ -125,7 +123,7 @@ class SnapshotController
     }
 
     /**
-     * Deletes a snapshot
+     * Deletes a snapshot.
      *
      * @ApiDoc(
      *  requirements={
@@ -138,7 +136,7 @@ class SnapshotController
      *  }
      * )
      *
-     * @param integer $id A Snapshot identifier
+     * @param int $id A Snapshot identifier
      *
      * @return \FOS\RestBundle\View\View
      *
@@ -154,7 +152,7 @@ class SnapshotController
     }
 
     /**
-     * Retrieves Snapshot with id $id or throws an exception if it doesn't exist
+     * Retrieves Snapshot with id $id or throws an exception if it doesn't exist.
      *
      * @param $id
      *

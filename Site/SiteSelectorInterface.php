@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata project.
  *
@@ -10,11 +11,10 @@
 
 namespace Sonata\PageBundle\Site;
 
-use Sonata\PageBundle\Model\SiteInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 /**
- * SiteSelectorInterface
+ * SiteSelectorInterface.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */

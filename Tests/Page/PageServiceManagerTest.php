@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata package.
  *
@@ -13,7 +14,7 @@ namespace Sonata\PageBundle\Tests\Page;
 use Sonata\PageBundle\Page\PageServiceManager;
 
 /**
- * Test the page service manager
+ * Test the page service manager.
  */
 class PageServiceManagerTest extends \PHPUnit_Framework_TestCase
 {
@@ -28,7 +29,7 @@ class PageServiceManagerTest extends \PHPUnit_Framework_TestCase
     protected $manager;
 
     /**
-     * setup each test
+     * setup each test.
      */
     public function setUp()
     {
@@ -37,7 +38,7 @@ class PageServiceManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test adding a new page service
+     * Test adding a new page service.
      */
     public function testAdd()
     {
@@ -52,7 +53,7 @@ class PageServiceManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test getting a service using a page object
+     * Test getting a service using a page object.
      *
      * @depends testAdd
      */
@@ -73,7 +74,7 @@ class PageServiceManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test getting all page services
+     * Test getting all page services.
      *
      * @depends testAdd
      */
@@ -93,7 +94,7 @@ class PageServiceManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test the default page service
+     * Test the default page service.
      *
      * @depends testAdd
      */
@@ -111,7 +112,7 @@ class PageServiceManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test the page execution through a service
+     * Test the page execution through a service.
      *
      * @depends testDefault
      */

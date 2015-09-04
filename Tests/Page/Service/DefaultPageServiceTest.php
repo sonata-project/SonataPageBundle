@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata package.
  *
@@ -13,7 +14,7 @@ namespace Sonata\PageBundle\Tests\Page\Service;
 use Sonata\PageBundle\Page\Service\DefaultPageService;
 
 /**
- * Test the default page service
+ * Test the default page service.
  */
 class DefaultPageServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -33,7 +34,7 @@ class DefaultPageServiceTest extends \PHPUnit_Framework_TestCase
     protected $seoPage;
 
     /**
-     * setup unit tests
+     * setup unit tests.
      */
     public function setUp()
     {
@@ -45,7 +46,7 @@ class DefaultPageServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test the default page service execution
+     * Test the default page service execution.
      */
     public function testExecute()
     {
@@ -71,7 +72,7 @@ class DefaultPageServiceTest extends \PHPUnit_Framework_TestCase
         $metaMapping = array(
             array('name',       'description',  'page meta description', true),
             array('name',       'keywords',     'page meta keywords',    true),
-            array('property',   'og:type',      'article',               true)
+            array('property',   'og:type',      'article',               true),
         );
 
         $this->seoPage->expects($this->exactly(3))->method('addMeta')->will($this->returnValueMap($metaMapping));

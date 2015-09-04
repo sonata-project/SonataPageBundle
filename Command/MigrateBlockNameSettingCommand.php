@@ -11,19 +11,19 @@
 
 namespace Sonata\PageBundle\Command;
 
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Migrates the name setting of all blocks into a code setting
+ * Migrates the name setting of all blocks into a code setting.
  */
 class MigrateBlockNameSettingCommand extends BaseCommand
 {
-    const CONTAINER_TYPE = "sonata.page.block.container";
+    const CONTAINER_TYPE = 'sonata.page.block.container';
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function configure()
     {
@@ -36,7 +36,7 @@ class MigrateBlockNameSettingCommand extends BaseCommand
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
@@ -48,12 +48,12 @@ class MigrateBlockNameSettingCommand extends BaseCommand
             $settings = $block->getSettings();
 
             // Remove orientation option if it exists
-            if (self::CONTAINER_TYPE === $block->getType() && array_key_exists("orientation", $settings)) {
+            if (self::CONTAINER_TYPE === $block->getType() && array_key_exists('orientation', $settings)) {
                 unset($settings['orientation']);
                 $block->setSettings($settings);
 
                 $this->getEntityManager()->persist($block);
-                $count++;
+                ++$count;
             }
 
             // only change rows that need to
@@ -69,10 +69,10 @@ class MigrateBlockNameSettingCommand extends BaseCommand
                 }
 
                 $this->getEntityManager()->persist($block);
-                $count++;
+                ++$count;
             }
 
-            if ($count%100) {
+            if ($count % 100) {
                 $this->getEntityManager()->flush();
             }
         }
@@ -83,7 +83,7 @@ class MigrateBlockNameSettingCommand extends BaseCommand
     }
 
     /**
-     * Returns the entity repository for given class name
+     * Returns the entity repository for given class name.
      *
      * @param string $class Entity class name
      *
@@ -95,7 +95,7 @@ class MigrateBlockNameSettingCommand extends BaseCommand
     }
 
     /**
-     * Returns the entity manager
+     * Returns the entity manager.
      *
      * @return \Doctrine\ORM\EntityManager
      */

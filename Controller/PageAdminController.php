@@ -17,7 +17,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
- * Page Admin Controller
+ * Page Admin Controller.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -121,7 +121,7 @@ class PageAdminController extends Controller
             if (count($sites) == 1) {
                 return $this->redirect($this->admin->generateUrl('create', array(
                     'siteId' => $sites[0]->getId(),
-                    'uniqid' => $this->admin->getUniqid()
+                    'uniqid' => $this->admin->getUniqid(),
                 )));
             }
 
@@ -171,7 +171,7 @@ class PageAdminController extends Controller
 
         foreach ($templateContainers as $id => $container) {
             $containers[$id] = array(
-                'area' => $container,
+                'area'  => $container,
                 'block' => false,
             );
         }
@@ -194,7 +194,6 @@ class PageAdminController extends Controller
         $blockInteractor = $this->get('sonata.page.block_interactor');
 
         foreach ($containers as $id => $container) {
-
             if ($container['block'] === false && $templateContainers[$id]['shared'] === false) {
                 $blockContainer = $blockInteractor->createNewContainer(array(
                     'page' => $page,

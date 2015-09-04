@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata package.
  *
@@ -10,21 +11,21 @@
 
 namespace Sonata\PageBundle\Controller\Api;
 
-use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Request\ParamFetcherInterface;
+use FOS\RestBundle\View\View as FOSRestView;
 use JMS\Serializer\SerializationContext;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormFactoryInterface;
-use FOS\RestBundle\View\View as FOSRestView;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Class SiteController
+ * Class SiteController.
  *
  * @author Raphaël Benitte <benitteraphael@gmail.com>
  */
@@ -41,7 +42,7 @@ class SiteController
     protected $formFactory;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param SiteManagerInterface $siteManager
      * @param FormFactoryInterface $formFactory
@@ -53,7 +54,7 @@ class SiteController
     }
 
     /**
-     * Retrieves the list of sites (paginated)
+     * Retrieves the list of sites (paginated).
      *
      * @ApiDoc(
      *  resource=true,
@@ -102,7 +103,7 @@ class SiteController
     }
 
     /**
-     * Retrieves a specific site
+     * Retrieves a specific site.
      *
      * @ApiDoc(
      *  resource=true,
@@ -128,7 +129,7 @@ class SiteController
     }
 
     /**
-     * Adds a site
+     * Adds a site.
      *
      * @ApiDoc(
      *  input={"class"="sonata_page_api_form_site", "name"="", "groups"={"sonata_api_write"}},
@@ -151,7 +152,7 @@ class SiteController
     }
 
     /**
-     * Updates a site
+     * Updates a site.
      *
      * @ApiDoc(
      *  requirements={
@@ -179,7 +180,7 @@ class SiteController
     }
 
     /**
-     * Deletes a site
+     * Deletes a site.
      *
      * @ApiDoc(
      *  requirements={
@@ -192,7 +193,7 @@ class SiteController
      *  }
      * )
      *
-     * @param integer $id A Site identifier
+     * @param int $id A Site identifier
      *
      * @return \FOS\RestBundle\View\View
      *
@@ -208,7 +209,7 @@ class SiteController
     }
 
     /**
-     * Retrieves Site with id $id or throws an exception if it doesn't exist
+     * Retrieves Site with id $id or throws an exception if it doesn't exist.
      *
      * @param $id
      *
@@ -228,10 +229,10 @@ class SiteController
     }
 
     /**
-     * Write a site, this method is used by both POST and PUT action methods
+     * Write a site, this method is used by both POST and PUT action methods.
      *
-     * @param Request      $request Symfony request
-     * @param integer|null $id      A post identifier
+     * @param Request  $request Symfony request
+     * @param int|null $id      A post identifier
      *
      * @return FormInterface
      */

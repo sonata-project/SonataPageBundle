@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata project.
  *
@@ -10,11 +11,11 @@
 
 namespace Sonata\PageBundle\Request;
 
-use Symfony\Component\Routing\RequestContext;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
+use Symfony\Component\Routing\RequestContext;
 
 /**
- * SiteRequestContext
+ * SiteRequestContext.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -60,7 +61,7 @@ class SiteRequestContext extends RequestContext
         $site = $this->selector->retrieve();
 
         if ($site) {
-            return parent::getBaseUrl() . $site->getRelativePath();
+            return parent::getBaseUrl().$site->getRelativePath();
         }
 
         return parent::getBaseUrl();

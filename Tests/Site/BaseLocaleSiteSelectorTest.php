@@ -8,13 +8,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Sonata\PageBundle\Tests\Site;
 
 use Sonata\PageBundle\Entity\BaseSite;
 
 /**
- * Base test class of the locale selector services
+ * Base test class of the locale selector services.
  *
  * @author Rémi Marseille <marseille@ekino.com>
  */
@@ -26,7 +25,7 @@ abstract class BaseLocaleSiteSelectorTest extends \PHPUnit_Framework_TestCase
     protected $siteSelector;
 
     /**
-     * Gets fixtures of sites
+     * Gets fixtures of sites.
      *
      * @return Site[]
      */
@@ -34,14 +33,14 @@ abstract class BaseLocaleSiteSelectorTest extends \PHPUnit_Framework_TestCase
     {
         $sites = array();
 
-        $sites[0] = new Site;
+        $sites[0] = new Site();
         $sites[0]->setEnabled(true);
         $sites[0]->setRelativePath('/fr');
         $sites[0]->setHost('localhost');
         $sites[0]->setIsDefault(true);
         $sites[0]->setLocale('fr');
 
-        $sites[1] = new Site;
+        $sites[1] = new Site();
         $sites[1]->setEnabled(true);
         $sites[1]->setRelativePath('/en');
         $sites[1]->setHost('localhost');
@@ -52,7 +51,7 @@ abstract class BaseLocaleSiteSelectorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Gets the site from site selector
+     * Gets the site from site selector.
      *
      * @return Site|null
      */
@@ -62,7 +61,7 @@ abstract class BaseLocaleSiteSelectorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Cleanups the site selector
+     * Cleanups the site selector.
      */
     protected function tearDown()
     {
@@ -70,7 +69,7 @@ abstract class BaseLocaleSiteSelectorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Initializes the site selector
+     * Initializes the site selector.
      */
     protected function setUp()
     {
@@ -81,14 +80,14 @@ abstract class BaseLocaleSiteSelectorTest extends \PHPUnit_Framework_TestCase
 class Site extends BaseSite
 {
     /**
-     * @var integer $id
+     * @var int
      */
     protected $id;
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer $id
+     * @return int $id
      */
     public function getId()
     {

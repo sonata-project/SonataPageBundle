@@ -15,7 +15,7 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 
 /**
- * Base class CMS Manager
+ * Base class CMS Manager.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */

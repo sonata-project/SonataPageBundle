@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata project.
  *
@@ -11,20 +12,18 @@
 namespace Sonata\PageBundle\Entity;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Sonata\BlockBundle\Model\BlockManagerInterface;
-use Sonata\PageBundle\Model\PageManagerInterface;
-use Sonata\PageBundle\Model\SnapshotManagerInterface;
-use Sonata\PageBundle\Model\TransformerInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\BlockBundle\Model\BlockManagerInterface;
 use Sonata\PageBundle\Model\PageInterface;
+use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SnapshotInterface;
+use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\SnapshotPageProxy;
+use Sonata\PageBundle\Model\TransformerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * This class transform a SnapshotInterface into PageInterface
- *
- * @package Sonata\PageBundle\Entity
+ * This class transform a SnapshotInterface into PageInterface.
  */
 class Transformer implements TransformerInterface
 {
@@ -143,11 +142,11 @@ class Transformer implements TransformerInterface
         $page->setTemplateCode($content['template_code']);
         $page->setRequestMethod($content['request_method']);
 
-        $createdAt = new \DateTime;
+        $createdAt = new \DateTime();
         $createdAt->setTimestamp($content['created_at']);
         $page->setCreatedAt($createdAt);
 
-        $updatedAt = new \DateTime;
+        $updatedAt = new \DateTime();
         $updatedAt->setTimestamp($content['updated_at']);
         $page->setUpdatedAt($updatedAt);
 
@@ -202,11 +201,11 @@ class Transformer implements TransformerInterface
         $block->setSettings($content['settings']);
         $block->setType($content['type']);
 
-        $createdAt = new \DateTime;
+        $createdAt = new \DateTime();
         $createdAt->setTimestamp($content['created_at']);
         $block->setCreatedAt($createdAt);
 
-        $updatedAt = new \DateTime;
+        $updatedAt = new \DateTime();
         $updatedAt->setTimestamp($content['updated_at']);
         $block->setUpdatedAt($updatedAt);
 
@@ -248,7 +247,7 @@ class Transformer implements TransformerInterface
     public function getChildren(PageInterface $parent)
     {
         if (!isset($this->children[$parent->getId()])) {
-            $date       = new \Datetime;
+            $date       = new \Datetime();
             $parameters = array(
                 'publicationDateStart' => $date,
                 'publicationDateEnd'   => $date,
@@ -258,7 +257,7 @@ class Transformer implements TransformerInterface
             $manager = $this->registry->getManagerForClass($this->snapshotManager->getClass());
 
             if (!$manager instanceof EntityManagerInterface) {
-                throw new \RuntimeException("Invalid entity manager type");
+                throw new \RuntimeException('Invalid entity manager type');
             }
 
             $snapshots = $manager->createQueryBuilder()

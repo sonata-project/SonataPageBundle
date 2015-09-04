@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata project.
  *
@@ -11,7 +12,7 @@
 namespace Sonata\PageBundle\Model;
 
 /**
- * Site
+ * Site.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -82,7 +83,7 @@ abstract class Site implements SiteInterface
      */
     public function isEnabled()
     {
-        $now = new \DateTime;
+        $now = new \DateTime();
 
         if ($this->getEnabledFrom() instanceof \DateTime && $this->getEnabledFrom()->format('U') > $now->format('U')) {
             return false;
@@ -152,7 +153,7 @@ abstract class Site implements SiteInterface
      */
     public function __toString()
     {
-        return $this->getName() ? : 'n/a';
+        return $this->getName() ?: 'n/a';
     }
 
     /**

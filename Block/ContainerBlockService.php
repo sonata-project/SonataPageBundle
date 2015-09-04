@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata project.
  *
@@ -10,18 +11,11 @@
 
 namespace Sonata\PageBundle\Block;
 
-use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Validator\ErrorElement;
-
 use Sonata\BlockBundle\Block\Service\ContainerBlockService as BaseContainerBlockService;
-use Sonata\BlockBundle\Block\BlockContextInterface;
-use Sonata\BlockBundle\Model\BlockInterface;
-
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
- * Render children pages
+ * Render children pages.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */

@@ -11,17 +11,16 @@
 
 namespace Sonata\PageBundle\Form\Type;
 
-use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Sonata\PageBundle\Model\PageInterface;
+use Sonata\PageBundle\Model\PageManagerInterface;
+use Sonata\PageBundle\Model\SiteInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\ChoiceList\SimpleChoiceList;
-
-use Sonata\PageBundle\Model\PageManagerInterface;
-use Sonata\PageBundle\Model\PageInterface;
-use Sonata\PageBundle\Model\SiteInterface;
+use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
- * Select a page
+ * Select a page.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -54,7 +53,7 @@ class PageSelectorType extends AbstractType
                 'current_page'     => false,
                 'request_method'   => 'GET',
                 'dynamic'          => true,
-                'hierarchy'        => 'all'
+                'hierarchy'        => 'all',
             ),
         ));
     }
@@ -74,7 +73,7 @@ class PageSelectorType extends AbstractType
             'current_page'     => false,
             'request_method'   => 'GET',
             'dynamic'          => true,
-            'hierarchy'        => 'all'
+            'hierarchy'        => 'all',
         ), $options['filter_choice']);
 
         $pages = $this->manager->loadPages($options['site']);
@@ -144,7 +143,7 @@ class PageSelectorType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getParent()
     {
@@ -152,7 +151,7 @@ class PageSelectorType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {

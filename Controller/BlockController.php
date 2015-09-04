@@ -15,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Block controller
+ * Block controller.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */

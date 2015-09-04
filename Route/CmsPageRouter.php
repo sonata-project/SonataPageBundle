@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata project.
  *
@@ -10,21 +11,20 @@
 
 namespace Sonata\PageBundle\Route;
 
+use Sonata\PageBundle\CmsManager\CmsManagerInterface;
+use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
+use Sonata\PageBundle\Exception\PageNotFoundException;
+use Sonata\PageBundle\Model\PageInterface;
+use Sonata\PageBundle\Model\SiteInterface;
+use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Symfony\Cmf\Component\Routing\ChainedRouterInterface;
 use Symfony\Cmf\Component\Routing\VersatileGeneratorInterface;
-use Symfony\Component\Routing\Generator\UrlGenerator;
-use Symfony\Component\Routing\RouterInterface;
-use Sonata\PageBundle\CmsManager\CmsManagerInterface;
-use Sonata\PageBundle\Model\SiteInterface;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
+use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
-use Symfony\Component\Routing\Exception\RouteNotFoundException;
-
-use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
-use Sonata\PageBundle\Model\PageInterface;
-use Sonata\PageBundle\Exception\PageNotFoundException;
-use Sonata\PageBundle\Site\SiteSelectorInterface;
+use Symfony\Component\Routing\RouterInterface;
 
 class CmsPageRouter implements ChainedRouterInterface
 {
@@ -123,7 +123,6 @@ class CmsPageRouter implements ChainedRouterInterface
             if ($url === false) {
                 throw new RouteNotFoundException('The Sonata CmsPageRouter cannot find url');
             }
-
         } catch (PageNotFoundException $exception) {
             throw new RouteNotFoundException('The Sonata CmsPageRouter cannot find page');
         }
@@ -152,11 +151,11 @@ class CmsPageRouter implements ChainedRouterInterface
         $site = $this->siteSelector->retrieve();
 
         if (!$cms instanceof CmsManagerInterface) {
-            throw new ResourceNotFoundException("No CmsManager defined");
+            throw new ResourceNotFoundException('No CmsManager defined');
         }
 
         if (!$site instanceof SiteInterface) {
-            throw new ResourceNotFoundException("No site defined");
+            throw new ResourceNotFoundException('No site defined');
         }
 
         try {
@@ -175,17 +174,17 @@ class CmsPageRouter implements ChainedRouterInterface
 
         $cms->setCurrentPage($page);
 
-        return array (
+        return array(
             '_controller' => 'sonata.page.page_service_manager:execute',
             '_route'      => PageInterface::PAGE_ROUTE_CMS_NAME,
             'page'        => $page,
             'path'        => $pathinfo,
-            'params'      => array()
+            'params'      => array(),
         );
     }
 
     /**
-     * Generates an URL from a Page object
+     * Generates an URL from a Page object.
      *
      * @param PageInterface $page          Page object
      * @param array         $parameters    An array of parameters
@@ -212,7 +211,7 @@ class CmsPageRouter implements ChainedRouterInterface
     }
 
     /**
-     * Generates an URL for a page slug
+     * Generates an URL for a page slug.
      *
      * @param array       $parameters    An array of parameters
      * @param bool|string $referenceType The type of reference to be generated (one of the constants)
@@ -234,7 +233,7 @@ class CmsPageRouter implements ChainedRouterInterface
     }
 
     /**
-     * Decorates an URL with url context and query
+     * Decorates an URL with url context and query.
      *
      * @param string      $url           Relative URL
      * @param array       $parameters    An array of parameters
@@ -289,7 +288,7 @@ class CmsPageRouter implements ChainedRouterInterface
     }
 
     /**
-     * Retrieves a page object from a page alias
+     * Retrieves a page object from a page alias.
      *
      * @param string $alias
      *
@@ -306,7 +305,7 @@ class CmsPageRouter implements ChainedRouterInterface
     }
 
     /**
-     * Returns the Url from a Page object
+     * Returns the Url from a Page object.
      *
      * @param PageInterface $page
      *
@@ -318,7 +317,7 @@ class CmsPageRouter implements ChainedRouterInterface
     }
 
     /**
-     * Returns whether this name is a page alias or not
+     * Returns whether this name is a page alias or not.
      *
      * @param string $name
      *
@@ -330,7 +329,7 @@ class CmsPageRouter implements ChainedRouterInterface
     }
 
     /**
-     * Returns whether this name is a page slug route or not
+     * Returns whether this name is a page slug route or not.
      *
      * @param string $name
      *

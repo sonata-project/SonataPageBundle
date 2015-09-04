@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata package.
  *
@@ -10,28 +11,27 @@
 
 namespace Sonata\PageBundle\Controller\Api;
 
-use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Request\ParamFetcherInterface;
+use FOS\RestBundle\View\View as FOSRestView;
 use JMS\Serializer\SerializationContext;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\BlockBundle\Model\BlockManagerInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormFactoryInterface;
+use Sonata\DatagridBundle\Pager\PagerInterface;
+use Sonata\NotificationBundle\Backend\BackendInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
-use FOS\RestBundle\View\View as FOSRestView;
-use Sonata\NotificationBundle\Backend\BackendInterface;
-use Sonata\BlockBundle\Model\BlockInterface;
-use Sonata\DatagridBundle\Pager\PagerInterface;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Class PageController
+ * Class PageController.
  *
- * @package Sonata\PageBundle\Controller\Api
  *
  * @author Hugo Briand <briand@ekino.com>
  */
@@ -63,7 +63,7 @@ class PageController
     protected $backend;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param SiteManagerInterface  $siteManager
      * @param PageManagerInterface  $pageManager
@@ -81,7 +81,7 @@ class PageController
     }
 
     /**
-     * Retrieves the list of pages (paginated)
+     * Retrieves the list of pages (paginated).
      *
      * @ApiDoc(
      *  resource=true,
@@ -138,7 +138,7 @@ class PageController
     }
 
     /**
-     * Retrieves a specific page
+     * Retrieves a specific page.
      *
      * @ApiDoc(
      *  requirements={
@@ -163,7 +163,7 @@ class PageController
     }
 
     /**
-     * Retrieves a specific page's blocks
+     * Retrieves a specific page's blocks.
      *
      * @ApiDoc(
      *  requirements={
@@ -188,7 +188,7 @@ class PageController
     }
 
     /**
-     * Retrieves a specific page's child pages
+     * Retrieves a specific page's child pages.
      *
      * @ApiDoc(
      *  requirements={
@@ -215,7 +215,7 @@ class PageController
     }
 
     /**
-     * Adds a block
+     * Adds a block.
      *
      * @ApiDoc(
      *  requirements={
@@ -230,7 +230,7 @@ class PageController
      *  }
      * )
      *
-     * @param integer $id      A Page identifier
+     * @param int     $id      A Page identifier
      * @param Request $request A Symfony request
      *
      * @return BlockInterface
@@ -242,7 +242,7 @@ class PageController
         $page = $id ? $this->getPage($id) : null;
 
         $form = $this->formFactory->createNamed(null, 'sonata_page_api_form_block', null, array(
-            'csrf_protection' => false
+            'csrf_protection' => false,
         ));
 
         $form->bind($request);
@@ -266,7 +266,7 @@ class PageController
     }
 
     /**
-     * Adds a page
+     * Adds a page.
      *
      * @ApiDoc(
      *  input={"class"="sonata_page_api_form_page", "name"="", "groups"={"sonata_api_write"}},
@@ -290,7 +290,7 @@ class PageController
     }
 
     /**
-     * Updates a page
+     * Updates a page.
      *
      * @ApiDoc(
      *  requirements={
@@ -305,7 +305,7 @@ class PageController
      *  }
      * )
      *
-     * @param integer $id      A Page identifier
+     * @param int     $id      A Page identifier
      * @param Request $request A Symfony request
      *
      * @return PageInterface
@@ -318,7 +318,7 @@ class PageController
     }
 
     /**
-     * Deletes a page
+     * Deletes a page.
      *
      * @ApiDoc(
      *  requirements={
@@ -331,7 +331,7 @@ class PageController
      *  }
      * )
      *
-     * @param integer $id A Page identifier
+     * @param int $id A Page identifier
      *
      * @return \FOS\RestBundle\View\View
      *
@@ -347,7 +347,7 @@ class PageController
     }
 
     /**
-     * Creates snapshots of a page
+     * Creates snapshots of a page.
      *
      * @ApiDoc(
      *  requirements={
@@ -360,7 +360,7 @@ class PageController
      *  }
      * )
      *
-     * @param integer $id A Page identifier
+     * @param int $id A Page identifier
      *
      * @return \FOS\RestBundle\View\View
      *
@@ -378,7 +378,7 @@ class PageController
     }
 
     /**
-     * Creates snapshots of all pages
+     * Creates snapshots of all pages.
      *
      * @ApiDoc(
      *  statusCodes={
@@ -405,11 +405,12 @@ class PageController
     }
 
     /**
-     * Retrieves page with id $id or throws an exception if it doesn't exist
+     * Retrieves page with id $id or throws an exception if it doesn't exist.
      *
      * @param $id
      *
      * @return PageInterface
+     *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
     protected function getPage($id)
@@ -424,7 +425,7 @@ class PageController
     }
 
     /**
-     * Retrieves Block with id $id or throws an exception if it doesn't exist
+     * Retrieves Block with id $id or throws an exception if it doesn't exist.
      *
      * @param $id
      *
@@ -444,10 +445,10 @@ class PageController
     }
 
     /**
-     * Write a page, this method is used by both POST and PUT action methods
+     * Write a page, this method is used by both POST and PUT action methods.
      *
-     * @param Request      $request Symfony request
-     * @param integer|null $id      A page identifier
+     * @param Request  $request Symfony request
+     * @param int|null $id      A page identifier
      *
      * @return \FOS\RestBundle\View\View|FormInterface
      */
@@ -456,7 +457,7 @@ class PageController
         $page = $id ? $this->getPage($id) : null;
 
         $form = $this->formFactory->createNamed(null, 'sonata_page_api_form_page', $page, array(
-            'csrf_protection' => false
+            'csrf_protection' => false,
         ));
 
         $form->bind($request);
