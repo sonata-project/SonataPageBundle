@@ -12,7 +12,7 @@ Render a page url
 
     {{ path(page, {}, true) }} => ../relative/path/to/url
 
-    {{ url(page) }} => http://sonata-project.org/absolute/url/to/url
+    {{ url(page) }} => https://sonata-project.org/absolute/url/to/url
 
     {{ url(page, {}, true) }} => //sonata-project.org/network/path/to/url
 
@@ -24,7 +24,7 @@ Render a block url to render it in AJAX (given we have a block id = 1 used on a 
 
     {{ sonata_page_ajax_url(block, {'parameter': 'value'}) }} => /index.php/_page/block/2/1?parameter=value
 
-    {{ sonata_page_ajax_url(block, {'parameter': 'value'}, true) }} => http://sonata-project.org/index.php/_page/block/2/1?parameter=value
+    {{ sonata_page_ajax_url(block, {'parameter': 'value'}, true) }} => https://sonata-project.org/index.php/_page/block/2/1?parameter=value
 
 
 Container

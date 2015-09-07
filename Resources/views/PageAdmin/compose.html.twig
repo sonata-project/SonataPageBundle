@@ -19,7 +19,7 @@ file that was distributed with this source code.
 
 {% block content %}
     <div class="page-composer">
-        <h2>{{ 'page.compose_page'|trans({}, 'SonataPageBundle') }} "{{ page.name }}" <small>[template: <b>{{ template.name }}</b>]</small></h2>
+        <h2>{{ 'page.compose_page'|trans({}, 'SonataPageBundle') }} "{{ page.name }}" <small>[{{ 'page.compose_template_label'|trans({}, 'SonataPageBundle') }}: <b>{{ template.name }}</b>]</small></h2>
 
         {% if containers|length == 0 %}
             {% include 'SonataPageBundle:PageAdmin:compose_hint.html.twig' %}
@@ -32,12 +32,13 @@ file that was distributed with this source code.
                                 {% if container.block is defined and container.block %}
                                     <a class="page-composer__page-preview__container block-preview-{{ container.block.id }}"
                                        data-block-id="{{ container.block.id }}"
+                                       data-block-whitelist="{{ container.area.blocks|join(',') }}"
                                        style="top:{{ container.area.placement.y }}%;right:{{ container.area.placement.right }}%;bottom:{{ container.area.placement.bottom }}%;left:{{ container.area.placement.x }}%"
                                        href="{{ admin.generateUrl('compose_container_show', { 'id': container.block.id }) }}"
                                     >
                                         <div class="page-composer__page-preview__container__content">
                                             <strong>{{ container.block.name|default(container.area.name) }}</strong><br>
-                                            <small><span class="child-count">{{ container.block.children|length }}</span> blocks</small>
+                                            <small><span class="child-count">{{ container.block.children|length }}</span> {% transchoice container.block.children|length from 'SonataPageBundle' %}page.compose_blocks_label{% endtranschoice %}</small>
                                             <span class="page-composer__page-preview__add-block">
                                                 <i class="fa fa-circle-o"></i>
                                                 <i class="fa fa-dot-circle-o"></i>
@@ -70,7 +71,7 @@ file that was distributed with this source code.
                                         href="{{ admin.generateUrl('compose_container_show', { 'id': orphanContainer.id }) }}"
                                     >
                                         <strong>{{ orphanContainer.name|default(orphanContainer.type) }}</strong><br>
-                                        <small><span class="child-count">{{ orphanContainer.children|length }}</span> blocks</small>
+                                        <small><span class="child-count">{{ orphanContainer.children|length }}</span> {% transchoice orphanContainer.children|length from 'SonataPageBundle' %}page.compose_blocks_label{% endtranschoice %}</small>
                                     </li>
                                 {% endfor %}
                             </ul>
@@ -86,7 +87,12 @@ file that was distributed with this source code.
                 $(document).ready(function () {
                     var composer = new PageComposer({{ page.id }}, {
                         translations: {
-                            cancel: "{{ 'cancel'|trans({}, 'SonataPageBundle') }}"
+                            cancel: "{{ 'cancel'|trans({}, 'SonataPageBundle') }}",
+                            composer_preview_error: "{{ 'page.composer_preview_error'|trans({}, 'SonataPageBundle') }}",
+                            composer_update_saving: "{{ 'page.composer_update_saving'|trans({}, 'SonataPageBundle') }}",
+                            composer_update_saved: "{{ 'page.composer_update_saved'|trans({}, 'SonataPageBundle') }}",
+                            composer_update_error: "{{ 'page.composer_update_error'|trans({}, 'SonataPageBundle') }}",
+                            composer_status_error: "{{ 'page.composer_status_error'|trans({}, 'SonataPageBundle') }}"
                         },
                         routes: {
                             save_blocks_positions: "{{ admin_pool.getAdminByAdminCode('sonata.page.admin.block').generateUrl('savePosition', { 'id': page.id }) }}",

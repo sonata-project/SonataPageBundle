@@ -142,7 +142,7 @@
                     }
                 },
                 error: function () {
-                    self.containerNotification('an error occured while fetching block preview', 'error', true);
+                    self.containerNotification('composer_preview_error', 'error', true);
                 }
             });
         },
@@ -177,7 +177,7 @@
                 if (type) {
                     $notice.addClass(type);
                 }
-                $notice.text(message);
+                $notice.text(this.translate(message));
                 $notice.show();
                 if (persist !== true) {
                     this.containerNotificationTimer = setTimeout(function () {
@@ -208,18 +208,18 @@
          */
         handleBlockPositionsUpdate: function (event) {
             var self = this;
-            this.containerNotification('saving block positions…');
+            this.containerNotification('composer_update_saving');
             $.ajax({
                 url:  this.getRouteUrl('save_blocks_positions'),
                 type: 'POST',
                 data: { disposition: event.disposition },
                 success: function (resp) {
                     if (resp.result && resp.result === 'ok') {
-                        self.containerNotification('block positions saved', 'success');
+                        self.containerNotification('composer_update_saved', 'success');
                     }
                 },
                 error: function () {
-                    self.containerNotification('an error occured while saving block positions', 'error', true);
+                    self.containerNotification('composer_update_error', 'error', true);
                 }
             });
         },
@@ -538,7 +538,7 @@
                 $switchLblSm   = $switchLabel.find('small'),
                 $switchLblIcon = $switchLabel.find('i'),
                 switchUrl      = $switchButton.attr('href'),
-                enabled        = parseInt($childBlock.attr('data-parent-block-enabled'), 1);
+                enabled        = parseInt($childBlock.attr('data-block-enabled'), 2);
                 parentId       = parseInt($childBlock.attr('data-parent-block-id'), 10);
 
             $edit.click(function (e) {
@@ -607,11 +607,11 @@
                                 });
                             }
                         } else {
-                            self.containerNotification('an error occured while saving block enabled status', 'error', true);
+                            self.containerNotification('composer_status_error', 'error', true);
                         }
                     },
                     error: function () {
-                        self.containerNotification('an error occured while saving block enabled status', 'error', true);
+                        self.containerNotification('composer_status_error', 'error', true);
                     }
                 });
             });
@@ -764,8 +764,20 @@
                     tolerance:         'pointer',
                     revert:            true,
                     connectToSortable: '.page-composer__container__children',
+                    accept: function (source) {
+                        var blockWhitelist = $(this).attr('data-block-whitelist');
+                        if (blockWhitelist === '') {
+                            return true;
+                        }
+
+                        blockWhitelist = blockWhitelist.split(',');
+                        var sourceBlockType = $(source).attr('data-block-type');
+
+                        return blockWhitelist.indexOf(sourceBlockType) !== -1;
+                    },
                     drop: function (event, ui) {
                         var droppedBlockId = ui.draggable.attr('data-block-id');
+
                         if (typeof droppedBlockId != 'undefined') {
                             ui.helper.remove();
 
@@ -802,7 +814,8 @@
                             }
                         }
                     }
-                });
+                })
+            ;
 
             if (this.$containerPreviews.length > 0) {
                 this.loadContainer(this.$containerPreviews.eq(0));

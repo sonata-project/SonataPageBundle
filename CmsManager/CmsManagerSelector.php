@@ -67,7 +67,11 @@ class CmsManagerSelector implements CmsManagerSelectorInterface, LogoutHandlerIn
          * but do the job for now.
          */
 
-        return $this->getSession()->get('sonata/page/isEditor', false);
+        $request = $this->getRequest();
+        $session = $this->getSession();
+        $sessionAvailable = ($request && $request->hasPreviousSession()) || $session->isStarted();
+
+        return $sessionAvailable && $session->get('sonata/page/isEditor', false);
     }
 
     /**
@@ -76,6 +80,22 @@ class CmsManagerSelector implements CmsManagerSelectorInterface, LogoutHandlerIn
     private function getSession()
     {
         return $this->container->get('session');
+    }
+
+    /**
+     * @return null|Request
+     */
+    private function getRequest()
+    {
+        if ($this->container->has('request_stack')) {
+            return $this->container->get('request_stack')->getCurrentRequest();
+        }
+
+        if ($this->container->isScopeActive('request')) {
+            return $this->container->get('request');
+        }
+
+        return;
     }
 
     /**

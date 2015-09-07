@@ -6,13 +6,13 @@ Prerequisites
 PHP 5.3 and Symfony 2 are needed to make this bundle work ; there are also some
 Sonata dependencies that need to be installed and configured beforehand:
 
-    - `SonataCacheBundle <http://sonata-project.org/bundles/cache>`_
-    - `SonataBlockBundle <http://sonata-project.org/bundles/block>`_
-    - `SonataSeoBundle <http://sonata-project.org/bundles/seo>`_
-    - `SonataEasyExtendsBundle <http://sonata-project.org/bundles/easy-extends>`_
-    - `SonataNotificationBundle <http://sonata-project.org/bundles/notification>`_
-    - `SonataAdminBundle <http://sonata-project.org/bundles/admin>`_
-    - `SonataDoctrineORMAdminBundle <http://sonata-project.org/bundles/doctrine-orm-admin>`_
+    - `SonataCacheBundle <https://sonata-project.org/bundles/cache>`_
+    - `SonataBlockBundle <https://sonata-project.org/bundles/block>`_
+    - `SonataSeoBundle <https://sonata-project.org/bundles/seo>`_
+    - `SonataEasyExtendsBundle <https://sonata-project.org/bundles/easy-extends>`_
+    - `SonataNotificationBundle <https://sonata-project.org/bundles/notification>`_
+    - `SonataAdminBundle <https://sonata-project.org/bundles/admin>`_
+    - `SonataDoctrineORMAdminBundle <https://sonata-project.org/bundles/doctrine-orm-admin>`_
 
 You will also need a SymfonyCmf Bundle to make the routing work depending on which Symfony version you are using:
 
@@ -38,8 +38,8 @@ Add the dependant bundles to the vendor/bundles directory:
 
 .. note::
 
-    The SonataAdminBundle and SonataDoctrineORMAdminBundle must be installed, please refer to `the dedicated documentation for more information <http://sonata-project.org/bundles/admin>`_.
-    
+    The SonataAdminBundle and SonataDoctrineORMAdminBundle must be installed, please refer to `the dedicated documentation for more information <https://sonata-project.org/bundles/admin>`_.
+
     The `SonataDatagridBundle <https://github.com/sonata-project/SonataDatagridBundle>`_ must be added in ``composer.json`` for SonataPageBundle versions above 2.3.6
 
 Next, be sure to enable the ``Page`` and ``EasyExtends`` bundles in your application kernel:
@@ -63,7 +63,7 @@ Before we can go on with generating our Application files trough the ``EasyExten
 .. code-block:: yaml
 
     sonata_page:
-        slugify_method:   sonata.core.slugify.cocur # old BC value is sonata.core.slugify.native
+        slugify_service:   sonata.core.slugify.cocur # old BC value is sonata.core.slugify.native
         multisite:        host
         default_template: default # template key from templates section, used as default for
         templates:

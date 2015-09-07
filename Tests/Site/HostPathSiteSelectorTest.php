@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Sonata package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>

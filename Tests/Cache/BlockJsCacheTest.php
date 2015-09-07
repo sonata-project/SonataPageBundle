@@ -51,7 +51,7 @@ class BlockJsCacheTest extends \PHPUnit_Framework_TestCase
     public function testInitCache()
     {
         $router = $this->getMock('Symfony\Component\Routing\RouterInterface');
-        $router->expects($this->once())->method('generate')->will($this->returnValue('http://sonata-project.org/page/cache/js/block.js'));
+        $router->expects($this->once())->method('generate')->will($this->returnValue('https://sonata-project.org/page/cache/js/block.js'));
 
         $cmsSelectorManager = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
         $blockRenderer = $this->getMock('Sonata\BlockBundle\Block\BlockRendererInterface');
@@ -87,7 +87,7 @@ class BlockJsCacheTest extends \PHPUnit_Framework_TestCase
                 var b = document.createElement("script");
                 b.type = "text/javascript";
                 b.async = true;
-                b.src = "http://sonata-project.org/page/cache/js/block.js"
+                b.src = "https://sonata-project.org/page/cache/js/block.js"
                 var s = document.getElementsByTagName("script")[0];
                 s.parentNode.insertBefore(b, s);
             })();

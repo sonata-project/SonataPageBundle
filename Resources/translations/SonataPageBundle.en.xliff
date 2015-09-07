@@ -759,6 +759,42 @@
           <source>composer.shared_block.add.type</source>
           <target>add block of type</target>
       </trans-unit>
+      <trans-unit id="189" resname="pages.compose_label">
+          <source>pages.compose_label</source>
+          <target>compose</target>
+      </trans-unit>
+      <trans-unit id="190" resname="pages.edited_label">
+          <source>pages.edited_label</source>
+          <target>edited</target>
+      </trans-unit>
+      <trans-unit id="191" resname="page.compose_template_label">
+          <source>page.compose_template_label</source>
+          <target>template</target>
+      </trans-unit>
+      <trans-unit id="192" resname="page.compose_blocks_label">
+          <source>page.compose_blocks_label</source>
+          <target>{0} blocks|{1} block|[2,Inf] blocks</target>
+      </trans-unit>      
+      <trans-unit id="193" resname="page.composer_preview_error">
+          <source>page.composer_preview_error</source>
+          <target>An error occured while fetching block preview.</target>
+      </trans-unit>    
+      <trans-unit id="194" resname="page.composer_update_saving">
+          <source>page.composer_update_saving</source>
+          <target>Saving block positions…</target>
+      </trans-unit>      
+      <trans-unit id="195" resname="page.composer_update_saved">
+          <source>page.composer_update_saved</source>
+          <target>Block positions saved</target>
+      </trans-unit>    
+      <trans-unit id="196" resname="page.composer_update_error">
+          <source>page.composer_update_error</source>
+          <target>A error occured while saving block positions.</target>
+      </trans-unit>    
+      <trans-unit id="197" resname="page.composer_status_error">
+          <source>page.composer_status_error</source>
+          <target>An error occured while saving block enabled status.</target>
+      </trans-unit>    
     </body>
   </file>
 </xliff>

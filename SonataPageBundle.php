@@ -44,6 +44,11 @@ class SonataPageBundle extends Bundle
         $container = $this->container;
         $class     = $this->container->getParameter('sonata.page.page.class');
 
+        if (!class_exists($class)) {
+            // we only set the method if the class exist
+            return;
+        }
+
         call_user_func(array($class, 'setSlugifyMethod'), function ($text) use ($container) {
             if ($container->hasParameter('sonata.page.slugify_service')) {
                 $id = $container->getParameter('sonata.page.slugify_service');

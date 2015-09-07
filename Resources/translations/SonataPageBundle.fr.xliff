@@ -638,7 +638,7 @@
        </trans-unit>
       <trans-unit id="158" resname="sidemenu.link_compose_page">
           <source>sidemenu.link_compose_page</source>
-          <target>Composer (beta)</target>
+          <target>Organiser (beta)</target>
       </trans-unit>
       <trans-unit id="159" resname="sidemenu.link_list_pages">
           <source>sidemenu.link_list_pages</source>
@@ -666,7 +666,7 @@
       </trans-unit>
       <trans-unit id="165" resname="header.compose_page">
           <source>header.compose_page</source>
-          <target>Composer</target>
+          <target>Organiser</target>
       </trans-unit>
       <trans-unit id="166" resname="no_type_available">
           <source>no_type_available</source>
@@ -760,6 +760,42 @@
         <source>composer.shared_block.add.type</source>
         <target>Ajouter un bloc partagé de type</target>
       </trans-unit>
+      <trans-unit id="189" resname="pages.compose_label">
+        <source>pages.compose_label</source>
+        <target>Organiser</target>
+      </trans-unit>
+      <trans-unit id="190" resname="pages.edited_label">
+        <source>pages.edited_label</source>
+        <target>Editée</target>
+      </trans-unit>
+      <trans-unit id="191" resname="page.compose_template_label">
+        <source>page.compose_template_label</source>
+        <target>Modèle</target>
+      </trans-unit>
+      <trans-unit id="192" resname="page.compose_blocks_label">
+          <source>page.compose_blocks_label</source>
+          <target>{0} bloc|{1} bloc|[2,Inf] blocs</target>
+      </trans-unit>
+      <trans-unit id="193" resname="page.composer_preview_error">
+          <source>page.composer_preview_error</source>
+          <target>Une erreur est survenue durant le chargement du bloc.</target>
+      </trans-unit>    
+      <trans-unit id="194" resname="page.composer_update_saving">
+          <source>page.composer_update_saving</source>
+          <target>Sauvegarde de la position des blocs en cours...</target>
+      </trans-unit>      
+      <trans-unit id="195" resname="page.composer_update_saved">
+          <source>page.composer_update_saved</source>
+          <target>Positions des blocs sauvegardées avec succès.</target>
+      </trans-unit>    
+      <trans-unit id="196" resname="page.composer_update_error">
+          <source>page.composer_update_error</source>
+          <target>Une erreur est survenue durant la sauvegarde de la position des blocs.</target>
+      </trans-unit>    
+      <trans-unit id="197" resname="page.composer_status_error">
+          <source>page.composer_status_error</source>
+          <target>Une erreur est survenue durant la sauvegarde du statut du bloc.</target>
+      </trans-unit>    
     </body>
   </file>
 </xliff>

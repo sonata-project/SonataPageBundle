@@ -312,7 +312,7 @@
       </trans-unit>
       <trans-unit id="78" resname="message_create_snapshot">
         <source>message_create_snapshot</source>
-        <target>Seitenschnappschuss erzeugen</target>
+        <target>Publikation erzeugen</target>
       </trans-unit>
       <trans-unit id="79" resname="or_list">
         <source>or_list</source>
@@ -440,7 +440,7 @@
       </trans-unit>
       <trans-unit id="110" resname="breadcrumb.link_site_list">
           <source>breadcrumb.link_site_list</source>
-          <target>Websiteliste</target>
+          <target>Liste</target>
       </trans-unit>
       <trans-unit id="111" resname="breadcrumb.link_site_show">
           <source>breadcrumb.link_site_show</source>
@@ -456,19 +456,19 @@
       </trans-unit>
       <trans-unit id="114" resname="list.label_create_snapshots">
           <source>list.label_create_snapshots</source>
-          <target>Schnappschüsse</target>
+          <target>Publikationen</target>
       </trans-unit>
       <trans-unit id="115" resname="link_create_snapshots">
           <source>link_create_snapshots</source>
-          <target>Schnappschuss anlegen</target>
+          <target>Publikation anlegen</target>
       </trans-unit>
       <trans-unit id="116" resname="title_create_snapshots">
           <source>title_create_snapshots</source>
-          <target>Schnappschuss anlegen</target>
+          <target>Publikation anlegen</target>
       </trans-unit>
       <trans-unit id="117" resname="message_create_snapshots">
           <source>message_create_snapshots</source>
-          <target>Den "anlegen" Button anklicken um einen neuen Schnappschuss anzulegen : %site%</target>
+          <target>Den "anlegen" Button anklicken um eine neue Publikation anzulegen : %site%</target>
       </trans-unit>
       <trans-unit id="118" resname="button_create_snapshots">
           <source>button_create_snapshots</source>
@@ -612,55 +612,55 @@
       </trans-unit>
       <trans-unit id="152" resname="title_select_block_type">
            <source>title_select_block_type</source>
-           <target>Select a block type</target>
+           <target>Wähle einen Block-Typ</target>
       </trans-unit>
       <trans-unit id="153" resname="form.field_group_general">
            <source>form.field_group_general</source>
-           <target>form.field_group_general</target>
+           <target>Allgemein</target>
       </trans-unit>
       <trans-unit id="154" resname="form.field_group_options">
            <source>form.field_group_options</source>
-           <target>form.field_group_options</target>
+           <target>Optionen</target>
       </trans-unit>
       <trans-unit id="155" resname="flash_snapshots_created_success">
            <source>flash_snapshots_created_success</source>
-           <target>flash_snapshots_created_success</target>
+           <target>Publikation erfolgreich erstellt!</target>
       </trans-unit>
       <trans-unit id="156" resname="title_message_create_page">
             <source>title_message_create_page</source>
-            <target>Please select the targeted site</target>
+            <target>Bitte die entsprechende Website auswählen</target>
       </trans-unit>
       <trans-unit id="157" resname="message_create_page">
             <source>message_create_page</source>
-            <target>Before creating a new page, you need to select the website where the page will be located.</target>
+            <target>Vor dem Erstellen einer neuen Seite musst du eine Website auswählen wo diese zugehörig sein soll.</target>
       </trans-unit>
       <trans-unit id="158" resname="sidemenu.link_compose_page">
           <source>sidemenu.link_compose_page</source>
-          <target>sidemenu.link_compose_page</target>
+          <target>Compose</target>
       </trans-unit>
       <trans-unit id="159" resname="sidemenu.link_list_pages">
           <source>sidemenu.link_list_pages</source>
-          <target>sidemenu.link_list_pages</target>
+          <target>Liste</target>
       </trans-unit>
       <trans-unit id="160" resname="sidemenu.link_pages_tree">
           <source>sidemenu.link_pages_tree</source>
-          <target>sidemenu.link_pages_tree</target>
+          <target>Baum</target>
       </trans-unit>
       <trans-unit id="161" resname="breadcrumb.link_page_tree">
           <source>breadcrumb.link_page_tree</source>
-          <target>breadcrumb.link_page_tree</target>
+          <target>Baum</target>
       </trans-unit>
       <trans-unit id="162" resname="pages.tree_site_label">
           <source>pages.tree_site_label</source>
-          <target>pages.tree_site_label</target>
+          <target>Baum</target>
       </trans-unit>
       <trans-unit id="163" resname="pages.tree_mode">
           <source>pages.tree_mode</source>
-          <target>pages.tree_mode</target>
+          <target>Baum</target>
       </trans-unit>
       <trans-unit id="164" resname="pages.list_mode">
           <source>pages.list_mode</source>
-          <target>pages.list_mode</target>
+          <target>Liste</target>
       </trans-unit>
       <trans-unit id="165" resname="header.compose_page">
           <source>header.compose_page</source>
@@ -668,55 +668,55 @@
       </trans-unit>
       <trans-unit id="166" resname="no_type_available">
           <source>no_type_available</source>
-          <target>no_type_available</target>
+          <target>Kein Typ verfügbar</target>
       </trans-unit>
       <trans-unit id="167" resname="page.compose_page">
           <source>page.compose_page</source>
-          <target>Compose page</target>
+          <target>Compose</target>
       </trans-unit>
       <trans-unit id="168" resname="page.orphan_containers">
           <source>page.orphan_containers</source>
-          <target>Orphan containers</target>
+          <target>Verwaiste Container</target>
       </trans-unit>
       <trans-unit id="169" resname="composer.remove">
           <source>composer.remove</source>
-          <target>remove</target>
+          <target>entfernen</target>
       </trans-unit>
       <trans-unit id="170" resname="composer.remove.confirm">
           <source>composer.remove.confirm</source>
-          <target>confirm delete ?</target>
+          <target>Löschen bestätigen ?</target>
       </trans-unit>
       <trans-unit id="171" resname="yes">
           <source>yes</source>
-          <target>yes</target>
+          <target>Ja</target>
       </trans-unit>
       <trans-unit id="172" resname="cancel">
           <source>cancel</source>
-          <target>cancel</target>
+          <target>abbrechen</target>
       </trans-unit>
       <trans-unit id="173" resname="loading">
           <source>loading</source>
-          <target>loading</target>
+          <target>lädt</target>
       </trans-unit>
       <trans-unit id="174" resname="composer.block.add.type">
           <source>composer.block.add.type</source>
-          <target>add block of type</target>
+          <target>Block hinzufügen</target>
       </trans-unit>
       <trans-unit id="175" resname="notice">
           <source>notice</source>
-          <target>notice</target>
+          <target>Hinweis</target>
       </trans-unit>
       <trans-unit id="176" resname="blocks">
           <source>blocks</source>
-          <target>blocks</target>
+          <target>Blöcke</target>
       </trans-unit>
       <trans-unit id="177" resname="composer.disable">
           <source>composer.disable</source>
-          <target>Disable</target>
+          <target>deaktivieren</target>
       </trans-unit>
       <trans-unit id="178" resname="composer.enable">
           <source>composer.enable</source>
-          <target>Enable</target>
+          <target>aktivieren</target>
       </trans-unit>
       <trans-unit id="179" resname="shared_block">
           <source>shared_block</source>
@@ -756,8 +756,44 @@
       </trans-unit>
       <trans-unit id="188" resname="composer.shared_block.add.type">
           <source>composer.shared_block.add.type</source>
-          <target>composer.shared_block.add.type</target>
+          <target>Block hinzfügen</target>
       </trans-unit>
+      <trans-unit id="189" resname="pages.compose_label">
+          <source>pages.compose_label</source>
+          <target>compose</target>
+      </trans-unit>
+      <trans-unit id="190" resname="pages.edited_label">
+          <source>pages.edited_label</source>
+          <target>bearbeitet</target>
+      </trans-unit>
+      <trans-unit id="191" resname="page.compose_template_label">
+          <source>page.compose_template_label</source>
+          <target>Template</target>
+      </trans-unit>
+      <trans-unit id="192" resname="page.compose_blocks_label">
+          <source>page.compose_blocks_label</source>
+          <target>{0} Blöcke|{1} Block|[2,Inf] Blöcke</target>
+      </trans-unit>
+      <trans-unit id="193" resname="page.composer_preview_error">
+          <source>page.composer_preview_error</source>
+          <target>Es ist ein Fehler beim Laden der Vorschau aufgetreten.</target>
+      </trans-unit>    
+      <trans-unit id="194" resname="page.composer_update_saving">
+          <source>page.composer_update_saving</source>
+          <target>Speichere Positionen...</target>
+      </trans-unit>      
+      <trans-unit id="195" resname="page.composer_update_saved">
+          <source>page.composer_update_saved</source>
+          <target>Positionen gespeichert</target>
+      </trans-unit>    
+      <trans-unit id="196" resname="page.composer_update_error">
+          <source>page.composer_update_error</source>
+          <target>Es ist ein Fehler beim Speichern der Positionen aufgetreten.</target>
+      </trans-unit>    
+      <trans-unit id="197" resname="page.composer_status_error">
+          <source>page.composer_status_error</source>
+          <target>Es ist ein Fehler beim Speichern des Status aufgetreten.</target>
+      </trans-unit>  
     </body>
   </file>
 </xliff>

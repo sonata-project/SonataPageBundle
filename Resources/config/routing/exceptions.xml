@@ -4,11 +4,11 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="sonata_page_exceptions_list" pattern="/exceptions/list">
+    <route id="sonata_page_exceptions_list" path="/exceptions/list">
         <default key="_controller">SonataPageBundle:Page:exceptionsList</default>
     </route>
 
-    <route id="sonata_page_exceptions_edit" pattern="/exceptions/edit/{code}">
+    <route id="sonata_page_exceptions_edit" path="/exceptions/edit/{code}">
         <default key="_controller">SonataPageBundle:Page:exceptionEdit</default>
     </route>
 

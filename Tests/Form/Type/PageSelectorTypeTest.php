@@ -82,6 +82,9 @@ class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
         return $manager;
     }
 
+    /**
+     * @group legacy
+     */
     public function testNoSite()
     {
         $pageSelector = new PageSelectorType($this->getPageManager());
@@ -96,6 +99,9 @@ class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(), $options['choice_list']->getValues());
     }
 
+    /**
+     * @group legacy
+     */
     public function testAllRequestMethodChoices()
     {
         $pageSelector = new PageSelectorType($this->getPageManager());

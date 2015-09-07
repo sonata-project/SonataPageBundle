@@ -41,7 +41,7 @@ class Configuration implements ConfigurationInterface
                 ->isRequired()
                 ->validate()
                     ->ifNotInArray(array('host', 'host_by_locale', 'host_with_path', 'host_with_path_by_locale'))
-                    ->thenInvalid('Invalid multisite configuration %s. For more information, see http://sonata-project.org/bundles/page/master/doc/reference/multisite.html')
+                    ->thenInvalid('Invalid multisite configuration %s. For more information, see https://sonata-project.org/bundles/page/master/doc/reference/multisite.html')
                 ->end()
             ->end()
 
@@ -96,15 +96,15 @@ class Configuration implements ConfigurationInterface
                 ->children()
                     ->arrayNode('stylesheets')
                         ->defaultValue(array(
-                                'bundles/sonataadmin/vendor/bootstrap/dist/css/bootstrap.min.css',
+                                'bundles/sonatacore/vendor/bootstrap/dist/css/bootstrap.min.css',
                                 'bundles/sonatapage/sonata-page.front.css',
                             ))
                         ->prototype('scalar')->end()
                     ->end()
                     ->arrayNode('javascripts')
                         ->defaultValue(array(
-                                'bundles/sonataadmin/vendor/jquery/dist/jquery.min.js',
-                                'bundles/sonataadmin/vendor/bootstrap/dist/js/bootstrap.min.js',
+                                'bundles/sonatacore/vendor/jquery/dist/jquery.min.js',
+                                'bundles/sonatacore/vendor/bootstrap/dist/js/bootstrap.min.js',
                                 'bundles/sonatapage/sonata-page.front.js',
                             ))
                         ->prototype('scalar')->end()

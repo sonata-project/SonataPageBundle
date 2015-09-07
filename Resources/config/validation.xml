@@ -5,7 +5,7 @@
         http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
 
     <class name="Sonata\BlockBundle\Model\BaseBlock">
-        <constraint name="Sonata\AdminBundle\Validator\Constraints\InlineConstraint">
+        <constraint name="Sonata\CoreBundle\Validator\Constraints\InlineConstraint">
             <option name="service">sonata.block.manager</option>
             <option name="method">validate</option>
         </constraint>
@@ -23,23 +23,18 @@
                </option>
            </constraint>
         </property>
-    </class>
 
-    <class name="Sonata\PageBundle\Model\Site">
-        <property name="name">
-           <constraint name="NotNull" />
-        </property>
-    </class>
-
-    <class name="Sonata\PageBundle\Model\Page">
-        <property name="name">
-            <constraint name="NotNull" />
-        </property>
         <property name="position">
             <constraint name="NotNull" />
         </property>
         <property name="templateCode">
             <constraint name="NotNull" />
+        </property>
+    </class>
+
+    <class name="Sonata\PageBundle\Model\Site">
+        <property name="name">
+           <constraint name="NotNull" />
         </property>
     </class>
 </constraint-mapping>

@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * generated on: Thu Nov 06 2014 00:08:06 GMT+0100 (CET)
- * revision:     71deefa3b32e338654bad5b904239358daf1d7e6
+ * generated on: Wed Apr 01 2015 00:20:49 GMT-0600 (CST)
+ * revision:     a2858c1dd171a8c58bc87871bb7a17db46475d2e
  *
  */
 @charset "UTF-8";
@@ -97,14 +97,13 @@
     border-radius: 2px;
     background-color: #f9f9f9;
     border: 1px solid #dcdcdc;
-    border-radius: 2px;
     position: relative; }
     .page-composer__container__view__header {
       padding: 10px 15px;
       margin: 0 !important;
       font-size: 24px !important;
       line-height: 1em !important;
-      color: #00a65a !important; }
+      color: #3c8dbc !important; }
     .page-composer__container__view__notice {
       display: none;
       position: absolute;
@@ -164,10 +163,10 @@
     cursor: pointer;
     border-left: 3px solid #f9f9f9; }
     .page-composer__orphan-container.active {
-      border-left-color: #00a65a; }
+      border-left-color: #3c8dbc; }
     .page-composer__orphan-container:hover {
       background: #fff;
-      border-left-color: #00a65a; }
+      border-left-color: #3c8dbc; }
     .page-composer__orphan-container:first-child {
       border-top: none; }
 
@@ -198,7 +197,7 @@
   color: #404040; }
 
 .page-composer__page-preview__container.active .page-composer__page-preview__container__content {
-  border-color: #00a65a;
+  border-color: #3c8dbc;
   box-shadow: none;
   color: #404040; }
 
@@ -229,7 +228,7 @@
 
 .page-composer__container__child-count .badge,
 .page-composer__container__child .badge {
-  background-color: #00a65a;
+  background-color: #3c8dbc;
   text-shadow: none; }
 
 .page-composer__container__child > .badge {
@@ -264,7 +263,7 @@
 
 .page-composer__container__child__helper,
 .page-composer__container__child__content {
-  border-left: 3px solid #00a65a; }
+  border-left: 3px solid #3c8dbc; }
 
 .page-composer__container__child__helper {
   position: absolute;
@@ -390,10 +389,10 @@
 
 .page-composer__container__child__edit:hover {
   background: #fff;
-  border-left-color: #00a65a; }
+  border-left-color: #3c8dbc; }
 
 .page-composer__container__child--expanded .page-composer__container__child__edit {
-  border-left-color: #00a65a;
+  border-left-color: #3c8dbc;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.35) inset; }
 
 .page-composer__container__child__edit:hover .page-composer__container__child__toggle {
@@ -409,6 +408,7 @@
 .page-tree {
   list-style: none;
   padding-left: 0;
+  padding-bottom: 10px;
   margin-left: 15px;
   margin-right: 15px; }
 

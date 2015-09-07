@@ -13,6 +13,7 @@ namespace Sonata\PageBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
@@ -49,9 +50,9 @@ class PageAdminController extends Controller
     /**
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function listAction()
+    public function listAction(Request $request = null)
     {
-        if (!$this->getRequest()->get('filter')) {
+        if (!$request->get('filter')) {
             return new RedirectResponse($this->admin->generateUrl('tree'));
         }
 
@@ -61,7 +62,7 @@ class PageAdminController extends Controller
     /**
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function treeAction()
+    public function treeAction(Request $request = null)
     {
         if (false === $this->admin->isGranted('LIST')) {
             throw new AccessDeniedException();
@@ -71,7 +72,7 @@ class PageAdminController extends Controller
         $pageManager = $this->get('sonata.page.manager.page');
 
         $currentSite = null;
-        $siteId = $this->getRequest()->get('site');
+        $siteId = $request->get('site');
         foreach ($sites as $site) {
             if ($siteId && $site->getId() == $siteId) {
                 $currentSite = $site;
@@ -109,13 +110,13 @@ class PageAdminController extends Controller
      *
      * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
      */
-    public function createAction()
+    public function createAction(Request $request = null)
     {
         if (false === $this->admin->isGranted('CREATE')) {
             throw new AccessDeniedException();
         }
 
-        if ($this->getRequest()->getMethod() == 'GET' && !$this->getRequest()->get('siteId')) {
+        if ($request->getMethod() == 'GET' && !$this->getRequest()->get('siteId')) {
             $sites = $this->get('sonata.page.manager.site')->findBy(array());
 
             if (count($sites) == 1) {
@@ -146,7 +147,7 @@ class PageAdminController extends Controller
      * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
      * @throws NotFoundHttpException
      */
-    public function composeAction()
+    public function composeAction(Request $request = null)
     {
         if (
             false === $this->admin->isGranted('EDIT')
@@ -155,7 +156,7 @@ class PageAdminController extends Controller
             throw new AccessDeniedException();
         }
 
-        $id   = $this->get('request')->get($this->admin->getIdParameter());
+        $id   = $request->get($this->admin->getIdParameter());
         $page = $this->admin->getObject($id);
         if (!$page) {
             throw new NotFoundHttpException(sprintf('unable to find the page with id : %s', $id));
@@ -226,19 +227,36 @@ class PageAdminController extends Controller
      * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
      * @throws NotFoundHttpException
      */
-    public function composeContainerShowAction()
+    public function composeContainerShowAction(Request $request = null)
     {
         if (false === $this->get('sonata.page.admin.block')->isGranted('LIST')) {
             throw new AccessDeniedException();
         }
 
-        $id    = $this->get('request')->get($this->admin->getIdParameter());
+        $id    = $request->get($this->admin->getIdParameter());
         $block = $this->get('sonata.page.admin.block')->getObject($id);
         if (!$block) {
             throw new NotFoundHttpException(sprintf('unable to find the block with id : %s', $id));
         }
 
         $blockServices = $this->get('sonata.block.manager')->getServicesByContext('sonata_page_bundle', false);
+
+        // filter service using the template configuration
+        if ($page = $block->getPage()) {
+            $template = $this->get('sonata.page.template_manager')->get($page->getTemplateCode());
+
+            $container = $template->getContainer($block->getSetting('code'));
+
+            if (count($container['blocks']) > 0) {
+                foreach ($blockServices as $code => $service) {
+                    if (in_array($code, $container['blocks'])) {
+                        continue;
+                    }
+
+                    unset($blockServices[$code]);
+                }
+            }
+        }
 
         return $this->render('SonataPageBundle:PageAdmin:compose_container_show.html.twig', array(
             'blockServices' => $blockServices,

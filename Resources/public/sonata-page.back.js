@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * generated on: Thu Nov 06 2014 00:08:07 GMT+0100 (CET)
- * revision:     71deefa3b32e338654bad5b904239358daf1d7e6
+ * generated on: Thu Aug 13 2015 17:19:07 GMT+0200 (CEST)
+ * revision:     c1ba33adb260e00625ec71542a3e8c5c11ca85ad
  *
  */
 /**
@@ -345,7 +345,7 @@
             var $form         = $childBlock.find('form'),
                 formAction    = $form.attr('action'),
                 formMethod    = $form.attr('method'),
-                $formControls = $form.find('.hidden').find('input, select, textarea'),
+                $formControls = $form.find('input, select, textarea'),
                 $formActions  = $form.find('.form-actions'),
                 $childName    = this.$dynamicArea.find('.page-composer__container__child__name'),
                 $nameFormControl,
@@ -477,7 +477,6 @@
 
                 if (self.isFormControlTypeByName(formControlName, 'name')) {
                     $nameFormControl = $formControl;
-
                     $title.html('<input type="text" class="page-composer__container__child__name__input" value="' + $title.text() + '">');
                     $input = $title.find('input');
                     $input.bind("propertychange keyup input paste", function (e) {
@@ -552,7 +551,7 @@
                 $switchLblSm   = $switchLabel.find('small'),
                 $switchLblIcon = $switchLabel.find('i'),
                 switchUrl      = $switchButton.attr('href'),
-                enabled        = parseInt($childBlock.attr('data-parent-block-enabled'), 1);
+                enabled        = parseInt($childBlock.attr('data-block-enabled'), 2);
                 parentId       = parseInt($childBlock.attr('data-parent-block-id'), 10);
 
             $edit.click(function (e) {
@@ -778,8 +777,20 @@
                     tolerance:         'pointer',
                     revert:            true,
                     connectToSortable: '.page-composer__container__children',
+                    accept: function (source) {
+                        var blockWhitelist = $(this).attr('data-block-whitelist');
+                        if (blockWhitelist === '') {
+                            return true;
+                        }
+
+                        blockWhitelist = blockWhitelist.split(',');
+                        var sourceBlockType = $(source).attr('data-block-type');
+
+                        return blockWhitelist.indexOf(sourceBlockType) !== -1;
+                    },
                     drop: function (event, ui) {
                         var droppedBlockId = ui.draggable.attr('data-block-id');
+
                         if (typeof droppedBlockId != 'undefined') {
                             ui.helper.remove();
 
@@ -816,7 +827,8 @@
                             }
                         }
                     }
-                });
+                })
+            ;
 
             if (this.$containerPreviews.length > 0) {
                 this.loadContainer(this.$containerPreviews.eq(0));

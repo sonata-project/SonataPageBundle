@@ -6,7 +6,7 @@ Full configuration options (config.yml file):
 .. code-block:: yaml
 
     #
-    # more information can be found here http://sonata-project.org/bundles/page
+    # more information can be found here https://sonata-project.org/bundles/page
     #
     symfony_cmf_routing_extra:
         chain:

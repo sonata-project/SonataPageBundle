@@ -12,11 +12,11 @@
 namespace Sonata\PageBundle\Block;
 
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Validator\ErrorElement;
 use Sonata\BlockBundle\Block\BaseBlockService;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\BlockBundle\Model\BlockManagerInterface;
+use Sonata\CoreBundle\Validator\ErrorElement;
 use Sonata\PageBundle\Admin\SharedBlockAdmin;
 use Sonata\PageBundle\Entity\BlockManager;
 use Sonata\PageBundle\Model\Block;

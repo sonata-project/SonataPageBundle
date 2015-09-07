@@ -51,7 +51,7 @@ class BlockEsiCacheTest extends \PHPUnit_Framework_TestCase
     public function testInitCache()
     {
         $router = $this->getMock('Symfony\Component\Routing\RouterInterface');
-        $router->expects($this->any())->method('generate')->will($this->returnValue('http://sonata-project.org/cache/XXX/page/esi/page/5/4?updated_at=as'));
+        $router->expects($this->any())->method('generate')->will($this->returnValue('https://sonata-project.org/cache/XXX/page/esi/page/5/4?updated_at=as'));
 
         $blockRenderer = $this->getMock('Sonata\BlockBundle\Block\BlockRendererInterface');
         $contextManager = $this->getMock('Sonata\BlockBundle\Block\BlockContextManagerInterface');
@@ -78,6 +78,6 @@ class BlockEsiCacheTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('Sonata\Cache\CacheElement', $cacheElement);
 
-        $this->assertEquals('<esi:include src="http://sonata-project.org/cache/XXX/page/esi/page/5/4?updated_at=as" />', $cacheElement->getData()->getContent());
+        $this->assertEquals('<esi:include src="https://sonata-project.org/cache/XXX/page/esi/page/5/4?updated_at=as" />', $cacheElement->getData()->getContent());
     }
 }
