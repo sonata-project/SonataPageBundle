@@ -184,6 +184,17 @@ class Configuration implements ConfigurationInterface
                 ->end()
             ->end()
 
+            ->arrayNode('templates_admin')
+                ->addDefaultsIfNotSet()
+                ->children()
+                    ->scalarNode('list')->defaultValue('SonataPageBundle:PageAdmin:list.html.twig')->cannotBeEmpty()->end()
+                    ->scalarNode('tree')->defaultValue('SonataPageBundle:PageAdmin:tree.html.twig')->cannotBeEmpty()->end()
+                    ->scalarNode('compose')->defaultValue('SonataPageBundle:PageAdmin:compose.html.twig')->cannotBeEmpty()->end()
+                    ->scalarNode('compose_container_show')->defaultValue('SonataPageBundle:PageAdmin:compose_container_show.html.twig')->cannotBeEmpty()->end()
+                    ->scalarNode('select_site')->defaultValue('SonataPageBundle:PageAdmin:select_site.html.twig')->cannotBeEmpty()->end()
+                ->end()
+            ->end()
+
             ->arrayNode('page_defaults')
                 ->useAttributeAsKey('id')
                 ->prototype('array')

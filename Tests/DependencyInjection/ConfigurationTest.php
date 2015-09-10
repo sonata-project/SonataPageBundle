@@ -61,6 +61,13 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                     ),
                 ),
             ),
+            'templates_admin' => array(
+                'tree'                   => 'SonataPageBundle:PageAdmin:tree.html.twig',
+                'list'                   => 'SonataPageBundle:PageAdmin:list.html.twig',
+                'compose'                => 'SonataPageBundle:PageAdmin:compose.html.twig',
+                'select_site'            => 'SonataPageBundle:PageAdmin:select_site.html.twig',
+                'compose_container_show' => 'SonataPageBundle:PageAdmin:compose_container_show.html.twig',
+            ),
             'assets' => array(
                 'stylesheets' => array(
                     'bundles/sonataadmin/vendor/bootstrap/dist/css/bootstrap.min.css',
@@ -137,6 +144,13 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                     'name'       => 'default',
                     'containers' => array(),
                 ),
+            ),
+            'templates_admin' => array(
+                'tree'                   => 'SonataPageBundle:PageAdmin:tree.html.twig',
+                'list'                   => 'SonataPageBundle:PageAdmin:list.html.twig',
+                'compose'                => 'SonataPageBundle:PageAdmin:compose.html.twig',
+                'select_site'            => 'SonataPageBundle:PageAdmin:select_site.html.twig',
+                'compose_container_show' => 'SonataPageBundle:PageAdmin:compose_container_show.html.twig',
             ),
             'assets' => array(
                 'stylesheets' => array(

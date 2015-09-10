@@ -60,12 +60,6 @@
             <call method="setTranslationDomain">
                 <argument>%sonata.page.admin.page.translation_domain%</argument>
             </call>
-
-            <call method="setTemplates">
-                <argument type="collection">
-                    <argument key="list">SonataPageBundle:PageAdmin:list.html.twig</argument>
-                </argument>
-            </call>
         </service>
 
         <service id="sonata.page.admin.block" class="%sonata.page.admin.block.class%">
