@@ -209,7 +209,7 @@ interface SnapshotInterface
     /**
      * Serialized data of the current page.
      *
-     * @return string
+     * @return array
      */
     public function getContent();
 }

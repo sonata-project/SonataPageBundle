@@ -234,7 +234,7 @@ class SiteController
      * @param Request  $request Symfony request
      * @param int|null $id      A post identifier
      *
-     * @return FormInterface
+     * @return FormInterface|FOSRestView
      */
     protected function handleWriteSite($request, $id = null)
     {
