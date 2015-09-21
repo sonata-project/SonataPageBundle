@@ -249,14 +249,14 @@ interface PageInterface
     public function getChildren();
 
     /**
-     * Add blocs.
+     * Add blocks.
      *
      * @param PageBlockInterface $block
      */
     public function addBlocks(PageBlockInterface $block);
 
     /**
-     * Get blocs.
+     * Get blocks.
      *
      * @return array
      */
