@@ -480,15 +480,15 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Add blocs.
+     * Add blocks.
      *
-     * @param PageBlockInterface $blocs
+     * @param PageBlockInterface $blocks
      */
-    public function addBlocks(PageBlockInterface $blocs)
+    public function addBlocks(PageBlockInterface $blocks)
     {
-        $blocs->setPage($this);
+        $blocks->setPage($this);
 
-        $this->blocks[] = $blocs;
+        $this->blocks[] = $blocks;
     }
 
     /**
