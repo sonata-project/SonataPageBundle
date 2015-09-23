@@ -25,6 +25,12 @@ class BlockAdmin extends BaseBlockAdmin
 {
     protected $parentAssociationMapping = 'page';
 
+    protected $accessMapping = array(
+        'savePosition'   => 'EDIT',
+        'switchParent'   => 'EDIT',
+        'composePreview' => 'EDIT',
+    );
+
     /**
      * {@inheritdoc}
      */
