@@ -14,6 +14,7 @@ namespace Sonata\PageBundle\Controller;
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
@@ -23,16 +24,18 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class SnapshotAdminController extends Controller
 {
+    protected $accessMapping = array(
+        'batchToggleEnabled' => 'EDIT',
+    );
+
     /**
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return RedirectResponse|Response
      *
-     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
+     * @throws AccessDeniedException
      */
     public function createAction(Request $request = null)
     {
-        if (false === $this->admin->isGranted('CREATE')) {
-            throw new AccessDeniedException();
-        }
+        $this->checkAccess('create');
 
         $class = $this->get('sonata.page.manager.snapshot')->getClass();
 
@@ -85,15 +88,13 @@ class SnapshotAdminController extends Controller
     /**
      * @param mixed $query
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      *
-     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
+     * @throws AccessDeniedException
      */
     public function batchActionToggleEnabled($query)
     {
-        if (false === $this->admin->isGranted('EDIT')) {
-            throw new AccessDeniedException();
-        }
+        $this->checkAccess('batchToggleEnabled');
 
         $snapshotManager = $this->get('sonata.page.manager.snapshot');
         foreach ($query->getQuery()->iterate() as $snapshot) {

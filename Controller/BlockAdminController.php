@@ -15,7 +15,6 @@ use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Block Admin Controller.
@@ -31,9 +30,7 @@ class BlockAdminController extends Controller
      */
     public function savePositionAction(Request $request = null)
     {
-        if (!$this->admin->isGranted('EDIT')) {
-            throw new AccessDeniedException();
-        }
+        $this->admin->checkAccess('savePosition');
 
         try {
             $params = $request->get('disposition');
@@ -75,9 +72,7 @@ class BlockAdminController extends Controller
      */
     public function createAction(Request $request = null)
     {
-        if (!$this->admin->isGranted('CREATE')) {
-            throw new AccessDeniedException();
-        }
+        $this->admin->checkAccess('create');
 
         $sharedBlockAdminClass = $this->container->getParameter('sonata.page.admin.shared_block.class');
         if (!$this->admin->getParent() && get_class($this->admin) !== $sharedBlockAdminClass) {
@@ -98,11 +93,14 @@ class BlockAdminController extends Controller
         return parent::createAction();
     }
 
+    /**
+     * @param Request|null $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function switchParentAction(Request $request = null)
     {
-        if (!$this->admin->isGranted('EDIT')) {
-            throw new AccessDeniedException();
-        }
+        $this->admin->checkAccess('switchParent');
 
         $blockId  = $request->get('block_id');
         $parentId = $request->get('parent_id');
@@ -134,9 +132,7 @@ class BlockAdminController extends Controller
      */
     public function composePreviewAction(Request $request = null)
     {
-        if (!$this->admin->isGranted('EDIT')) {
-            throw new AccessDeniedException();
-        }
+        $this->admin->checkAccess('composePreview');
 
         $blockId = $request->get('block_id');
 
