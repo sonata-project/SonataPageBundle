@@ -12,7 +12,7 @@
 namespace Sonata\PageBundle\Block;
 
 use Sonata\BlockBundle\Block\Service\ContainerBlockService as BaseContainerBlockService;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Render children pages.
@@ -24,7 +24,7 @@ class ContainerBlockService extends BaseContainerBlockService
     /**
      * {@inheritdoc}
      */
-    public function setDefaultSettings(OptionsResolverInterface $resolver)
+    public function configureSettings(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'code'        => '',

@@ -13,17 +13,17 @@ namespace Sonata\PageBundle\Block;
 
 use Sonata\BlockBundle\Block\BlockContextManager as BaseBlockContextManager;
 use Sonata\BlockBundle\Model\BlockInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BlockContextManager extends BaseBlockContextManager
 {
     /**
-     * @param OptionsResolverInterface $optionsResolver
-     * @param BlockInterface           $block
+     * @param OptionsResolver $optionsResolver
+     * @param BlockInterface  $block
      */
-    protected function setDefaultSettings(OptionsResolverInterface $optionsResolver, BlockInterface $block)
+    protected function configureSettings(OptionsResolver $optionsResolver, BlockInterface $block)
     {
-        parent::setDefaultSettings($optionsResolver, $block);
+        parent::configureSettings($optionsResolver, $block);
 
         $optionsResolver->setDefaults(array(
             'manager' => false,
