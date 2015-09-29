@@ -22,7 +22,7 @@ use Sonata\PageBundle\Entity\BlockManager;
 use Sonata\PageBundle\Model\Block;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
@@ -159,7 +159,7 @@ class SharedBlockBlockService extends BaseBlockService
     /**
      * {@inheritdoc}
      */
-    public function setDefaultSettings(OptionsResolverInterface $resolver)
+    public function configureSettings(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'template' => 'SonataPageBundle:Block:block_shared_block.html.twig',
