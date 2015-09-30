@@ -114,7 +114,7 @@ class BlockAdminController extends Controller
         }
 
         $parent = $this->admin->getObject($parentId);
-        if (!$block) {
+        if (!$parent) {
             throw new PageNotFoundException(sprintf('Unable to find parent block with id %d', $parentId));
         }
 
