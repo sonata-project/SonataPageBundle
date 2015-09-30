@@ -15,18 +15,32 @@ You must implement an execute() method. This method is called with a Page Entity
 return a Response object. At this stage, the page service works a little bit like a Controller.
 
 For example, a simple implementation of a page service is to render the page. Normally, you could simply inject the
-Templating engine and use it to render a Response object, just as you would do in a standard Controller. However, pages
+templating engine and use it to render a Response object, just as you would do in a standard Controller. However, pages
 can be configured to use a particular template. Therefore, to render a page, you need to retrieve the page's configured
 template. This can be easily achieved by using the template manager service.
 
 .. code-block:: php
 
     <?php
+    // src/AppBundle/Service/CustomPageService.php
 
-    class MyService implements PageServiceInterface
+    namespace AppBundle\Service;
+
+    use Symfony\Component\HttpFoundation\Response;
+    use Symfony\Component\HttpFoundation\Request;
+    use Sonata\PageBundle\Model\PageInterface;
+    use Sonata\PageBundle\Page\TemplateManager;
+
+    class CustomPageService implements PageServiceInterface
     {
+        /**
+         * @var TemplateManager
+         */
+        private $templateManager;
+
         public function __construct($name, TemplateManager $templateManager)
         {
+            // ...
             $this->templateManager = $templateManager;
         }
 
@@ -43,10 +57,10 @@ it as being a page service:
 
 .. code-block:: xml
 
-    <service id="my_service_id" class="My\PageService\ClassName">
+    <service id="app.custom_page_service" class="AppBundle\Service\CustomPageService">
         <tag name="sonata.page"/>
-        <argument>Service name</argument>
+        <argument>Custom page service</argument>
         <argument type="service" id="sonata.page.template_manager" />
     </service>
 
-Once you have defined the service and the class, you will have a new page type to choose in the Page Admin.
+Once you have defined the service and the class, you will have a new page type to choose in the ``Page Admin``.

@@ -1,85 +1,129 @@
 Advanced Configuration
 ======================
 
-Full configuration options (config.yml file):
+More information can be found `here`_
 
-.. code-block:: yaml
+Full configuration options:
 
-    #
-    # more information can be found here https://sonata-project.org/bundles/page
-    #
-    symfony_cmf_routing_extra:
-        chain:
-            routers_by_id:
-                # enable the DynamicRouter with high priority to allow overwriting configured routes with content
-                #symfony_cmf_routing_extra.dynamic_router: 200
-                # enable the symfony default router with a lower priority
-                sonata.page.router: 150
-                router.default: 100
+.. configuration-block::
 
-    sonata_page:
-        multisite: host # or host_with_path # the last one requires an altered app*.php file
-        use_streamed_response: true # set the value to false in debug mode or if the reverse proxy does not handle streamed response
-        ignore_route_patterns:
-            - ^(.*)admin(.*)   # ignore admin route, ie route containing 'admin'
-            - ^_(.*)           # ignore symfony routes
+    .. code-block:: yaml
 
-        # Generates a snapshot when a page is saved (from the admin)
-        direct_publication: false # or %kernel.debug% if you want to publish in dev mode (but not in prod)
-        ignore_routes:
-            - sonata_page_cache_esi
-            - sonata_page_cache_ssi
-            - sonata_page_js_sync_cache
-            - sonata_page_js_async_cache
-            - sonata_cache_esi
-            - sonata_cache_ssi
-            - sonata_cache_js_async
-            - sonata_cache_js_sync
-            - sonata_cache_apc
+        # app/config/config.yml
 
-        ignore_uri_patterns:
-            - ^/admin\/   # ignore admin route, ie route containing 'admin'
+        symfony_cmf_routing_extra:
+            chain:
+                routers_by_id:
+                    # enable the DynamicRouter with high priority to allow overwriting configured routes with content
+                    #symfony_cmf_routing_extra.dynamic_router: 200
+                    # enable the symfony default router with a lower priority
+                    sonata.page.router: 150
+                    router.default: 100
 
-        cache_invalidation:
-            service:  sonata.page.cache.invalidation.simple
-            recorder: sonata.page.cache.recorder
-            classes:
-                "Application\Sonata\PageBundle\Entity\Block": getId
+    .. code-block:: yaml
 
-        default_template: default
-        templates:
-            default: { path: 'SonataPageBundle::layout.html.twig', name: 'default' }
+        # app/config/config.yml
 
-        # Assets loaded by default in template
-        assets:
-            stylesheets:
+        # Default configuration for extension with alias: "sonata_page"
+        sonata_page:
+            is_inline_edition_on:  false
+            use_streamed_response:  false
+            multisite:            ~ # Required
+            ignore_route_patterns:
+
                 # Defaults:
-                - bundles/sonataadmin/vendor/bootstrap/dist/css/bootstrap.min.css
-                - bundles/sonatapage/sonata-page.front.min.css
-            javascripts:
+                - /(.*)admin(.*)/
+                - /^_(.*)/
+            slugify_service:      sonata.core.slugify.native
+            ignore_routes:
+
                 # Defaults:
-                - bundles/sonataadmin/vendor/jquery/dist/jquery.min.js
-                - bundles/sonataadmin/vendor/bootstrap/dist/js/bootstrap.min.js
-                - bundles/sonatapage/sonata-page.front.min.js
+                - sonata_page_cache_esi
+                - sonata_page_cache_ssi
+                - sonata_page_js_sync_cache
+                - sonata_page_js_async_cache
+                - sonata_cache_esi
+                - sonata_cache_js_async
+                - sonata_cache_js_sync
+                - sonata_cache_apc
+            ignore_uri_patterns:
 
-        page_defaults:
-            homepage: {decorate: false}
+                # Default:
+                - /admin(.*)/
+            cache_invalidation:
+                service:              sonata.cache.invalidation.simple
+                recorder:             sonata.cache.recorder
+                classes:
 
-        caches:
-            ssi:
-                token: an unique key # if not set a random value will be used
+                    # Prototype
+                    id:                   ~
+            default_page_service:  sonata.page.service.default
+            default_template:     ~ # Required
+            assets:
+                stylesheets:
 
-            esi:
-                servers:
-                    - varnishadm -T 127.0.0.1:2000 {{ COMMAND }} "{{ EXPRESSION }}"
+                    # Defaults:
+                    - bundles/sonatacore/vendor/bootstrap/dist/css/bootstrap.min.css
+                    - bundles/sonatapage/sonata-page.front.css
+                javascripts:
 
-        is_inline_edition_on: false # set to true to keep the old behavior. the feature will be deleted in futur versions
+                    # Defaults:
+                    - bundles/sonatacore/vendor/jquery/dist/jquery.min.js
+                    - bundles/sonatacore/vendor/bootstrap/dist/js/bootstrap.min.js
+                    - bundles/sonatapage/sonata-page.front.js
+            templates:            # Required
 
-    # Enable Doctrine to map the provided entities
-    doctrine:
-        orm:
-            entity_managers:
-                default:
-                    mappings:
-                        ApplicationSonataPageBundle: ~
-                        SonataPageBundle: ~
+                # Prototype
+                id:
+                    name:                 ~
+                    path:                 ~
+                    inherits_containers:  ~
+                    containers:
+
+                        # Prototype
+                        id:
+                            name:                 ~
+                            shared:               false
+                            type:                 1
+                            blocks:               []
+                    matrix:
+                        layout:               ~ # Required
+                        mapping:              [] # Required
+            page_defaults:
+
+                # Prototype
+                id:
+                    decorate:             true
+                    enabled:              true
+            caches:
+                esi:
+                    token:                4b8fa46a0a00d0297e0b39b71aaeaa56cc2c40e3083642a720f940e9cf4ee718
+                    version:              2
+                    servers:              []
+                ssi:
+                    token:                adcd02dc23d9da234436d44b1ec58d147f86db2a08b94b872d969ce48687c386
+            catch_exceptions:
+
+                # Prototype
+                id:                   ~
+            class:
+                page:                 Application\Sonata\PageBundle\Entity\Page
+                snapshot:             Application\Sonata\PageBundle\Entity\Snapshot
+                block:                Application\Sonata\PageBundle\Entity\Block
+                site:                 Application\Sonata\PageBundle\Entity\Site
+            direct_publication:   false
+
+    .. code-block:: yaml
+
+        # app/config/config.yml
+
+        # Enable Doctrine to map the provided entities
+        doctrine:
+            orm:
+                entity_managers:
+                    default:
+                        mappings:
+                            ApplicationSonataPageBundle: ~
+                            SonataPageBundle: ~
+
+.. _`here`: https://sonata-project.org/bundles/page
