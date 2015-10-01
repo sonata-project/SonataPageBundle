@@ -35,7 +35,7 @@ class SnapshotAdminController extends Controller
      */
     public function createAction(Request $request = null)
     {
-        $this->checkAccess('create');
+        $this->admin->checkAccess('create');
 
         $class = $this->get('sonata.page.manager.snapshot')->getClass();
 
@@ -94,7 +94,7 @@ class SnapshotAdminController extends Controller
      */
     public function batchActionToggleEnabled($query)
     {
-        $this->checkAccess('batchToggleEnabled');
+        $this->admin->checkAccess('batchToggleEnabled');
 
         $snapshotManager = $this->get('sonata.page.manager.snapshot');
         foreach ($query->getQuery()->iterate() as $snapshot) {
