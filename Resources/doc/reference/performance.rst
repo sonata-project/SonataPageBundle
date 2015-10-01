@@ -6,7 +6,7 @@ This page try to list any good tips to improve performance.
 Indexes
 ~~~~~~~
 
-The Doctrine ORM cannot defined indexes for ``varchar`` as the Doctrine's metadata framework does not accept the
+The Doctrine ORM cannot define indexes for ``varchar`` as the Doctrine's metadata framework does not accept the
 length requirement. So if you want to speed up queries you need to manually add indexes:
 
 .. code-block:: sql
@@ -26,4 +26,4 @@ You can clean up old snapshots by running the command:
 
 .. code-block:: bash
 
-    php app/console sonata:page:cleanup-snapshots --site=all --keep-snapshots=5
+    $ php app/console sonata:page:cleanup-snapshots --site=all --keep-snapshots=5

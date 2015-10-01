@@ -9,21 +9,20 @@ The bundle works on top of 3 simple models :
  * a ``Snapshot``\ : The final representation of a page, the end user always
    sees a Snapshot
 
-
 Creating a default site
 -----------------------
 
-First, you need to create a dedicated site, let's create a localhost site:
+First, you need to create a dedicated site, let's create a `localhost` site:
 
 .. code-block:: bash
 
-    php app/console sonata:page:create-site
+    $ php app/console sonata:page:create-site
 
-Or:
+or:
 
 .. code-block:: bash
 
-    php app/console  sonata:page:create-site --enabled=true --name=localhost --locale=- --host=localhost --relativePath=/ --enabledFrom=now --enabledTo="+10 years" --default=true
+    $ php app/console  sonata:page:create-site --enabled=true --name=localhost --locale=- --host=localhost --relativePath=/ --enabledFrom=now --enabledTo="+10 years" --default=true
 
 
 The output might look like this::
@@ -50,7 +49,9 @@ The output might look like this::
       php app/console sonata:page:update-core-routes --site=42
       php app/console sonata:page:create-snapshots --site=42
 
-Note: The following fields must have values specified when creating a site:
+.. note::
+
+    The following fields must have values specified when creating a site:
 
 +--------------+----------+-------------------------------------------------------------------------------+
 | Field Name   | Type     | Description                                                                   |
@@ -79,7 +80,6 @@ Note: The following fields must have values specified when creating a site:
 |              |          | locale is not needed).                                                        |
 +--------------+----------+-------------------------------------------------------------------------------+
 
-
 Creating default pages
 ----------------------
 
@@ -87,7 +87,7 @@ As the Page bundle can handle symfony actions, actions need to be registered, ju
 
 .. code-block:: bash
 
-    php app/console sonata:page:update-core-routes --site=all
+    $ php app/console sonata:page:update-core-routes --site=all
 
 The output might look like this::
 
@@ -143,7 +143,7 @@ following command need to be run:
 
 .. code-block:: bash
 
-    php app/console sonata:page:create-snapshots --site=all
+    $ php app/console sonata:page:create-snapshots --site=all
 
 The output might look like this::
 

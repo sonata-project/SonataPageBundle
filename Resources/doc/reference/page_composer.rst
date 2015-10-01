@@ -79,7 +79,6 @@ Configure
                   B: content_bottom
                   F: footer
 
-
 Javascript
 ----------
 

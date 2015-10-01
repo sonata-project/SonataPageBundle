@@ -1,7 +1,7 @@
 Twig Helpers
 ============
 
-Url
+URL
 ---
 
 Render a page url
@@ -25,7 +25,6 @@ Render a block url to render it in AJAX (given we have a block id = 1 used on a 
     {{ sonata_page_ajax_url(block, {'parameter': 'value'}) }} => /index.php/_page/block/2/1?parameter=value
 
     {{ sonata_page_ajax_url(block, {'parameter': 'value'}, true) }} => https://sonata-project.org/index.php/_page/block/2/1?parameter=value
-
 
 Container
 ---------
@@ -53,7 +52,6 @@ Optionally, you can pass as a third argument some settings that will override or
 .. code-block:: jinja
 
     {{ sonata_page_render_container('name', page, {key: value}) }}
-
 
 Breadcrumbs
 -----------
