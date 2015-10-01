@@ -47,7 +47,7 @@ class Configuration implements ConfigurationInterface
 
             ->arrayNode('ignore_route_patterns')
                 ->defaultValue(array(
-                    '/(.*)admin(.*)/',   # ignore admin route, ie route containing 'admin'
+                    '/(.*)admin(.*)/',   # ignore admin route, i.e. route containing 'admin'
                     '/^_(.*)/',          # ignore symfony routes
                 ))
                 ->prototype('scalar')->end()
@@ -71,7 +71,7 @@ class Configuration implements ConfigurationInterface
 
             ->arrayNode('ignore_uri_patterns')
                 ->defaultValue(array(
-                    '/admin(.*)/',   # ignore admin route, ie route containing 'admin'
+                    '/admin(.*)/',   # ignore admin route, i.e. route containing 'admin'
                 ))
                 ->prototype('scalar')->end()
             ->end()
