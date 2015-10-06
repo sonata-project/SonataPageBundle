@@ -47,4 +47,4 @@ core routes):
 
         sonata_page:
             page_defaults:
-                homepage: {decorate: false} # disable decoration for route homepage
+                homepage: {decorate: false} # disable decoration for route 'homepage'

@@ -3,26 +3,27 @@ Installation
 
 Prerequisites
 -------------
+
 PHP 5.3 and Symfony 2 are needed to make this bundle work ; there are also some
 Sonata dependencies that need to be installed and configured beforehand:
 
-    - `SonataCacheBundle <https://sonata-project.org/bundles/cache>`_
-    - `SonataBlockBundle <https://sonata-project.org/bundles/block>`_
-    - `SonataSeoBundle <https://sonata-project.org/bundles/seo>`_
-    - `SonataEasyExtendsBundle <https://sonata-project.org/bundles/easy-extends>`_
-    - `SonataNotificationBundle <https://sonata-project.org/bundles/notification>`_
-    - `SonataAdminBundle <https://sonata-project.org/bundles/admin>`_
-    - `SonataDoctrineORMAdminBundle <https://sonata-project.org/bundles/doctrine-orm-admin>`_
+    - SonataAdminBundle_
+    - SonataDoctrineORMAdminBundle_
+    - SonataBlockBundle_
+    - SonataCacheBundle_
+    - SonataSeoBundle_
+    - SonataEasyExtendsBundle_
+    - SonataNotificationBundle_
 
 You will also need a SymfonyCmf Bundle to make the routing work depending on which Symfony version you are using:
 
 If you use Symfony ``< 2.3``
 
-    `SymfonyCmfRoutingExtraBundle <https://github.com/symfony-cmf/RoutingExtraBundle>`_
+    SymfonyCmfRoutingExtraBundle_
 
 and if you use Symfony ``>= 2.3``
 
-    `SymfonyCmfRoutingBundle <https://github.com/symfony-cmf/RoutingBundle>`_
+    SymfonyCmfRoutingBundle_
 
 Follow also their configuration steps; you will find everything you need in their installation chapter.
 
@@ -83,7 +84,6 @@ Before we can go on with generating our Application files trough the `EasyExtend
 
             # Generates a snapshot when a page is saved (from the admin)
             direct_publication: false # or %kernel.debug% if you want to publish in dev mode (but not in prod)
-
 
 Configuration
 -------------
@@ -275,14 +275,15 @@ If you don't specify the ``--dest`` parameter, the files are generated in ``app/
     through a global namespace. For instance the page will be
     ``Application\Sonata\PageBundle\Entity\Page``.
 
-Now, add the new `Application` Bundle to the kernel
+Enable the extended Bundle
+--------------------------
 
 .. code-block:: php
 
     <?php
     // app/AppKernel.php
 
-    public function registerbundles()
+    public function registerBundles()
     {
         return array(
             // ...
@@ -296,4 +297,13 @@ Now, add the new `Application` Bundle to the kernel
 
 And now, you're good to go !
 
-.. _`EasyExtendsBundle`: https://sonata-project.org/bundles/easy-extends/master/doc/index.html
+.. _SonataAdminBundle: https://sonata-project.org/bundles/admin
+.. _SonataDoctrineORMAdminBundle: https://sonata-project.org/bundles/doctrine-orm-admin
+.. _SonataBlockBundle: https://sonata-project.org/bundles/block
+.. _SonataCacheBundle: https://sonata-project.org/bundles/cache
+.. _SonataSeoBundle: https://sonata-project.org/bundles/seo
+.. _SonataEasyExtendsBundle: https://sonata-project.org/bundles/easy-extends
+.. _SonataNotificationBundle: https://sonata-project.org/bundles/notification
+.. _EasyExtendsBundle: https://sonata-project.org/bundles/easy-extends/master/doc/index.html
+.. _SymfonyCmfRoutingBundle: https://github.com/symfony-cmf/RoutingBundle
+.. _SymfonyCmfRoutingExtraBundle: https://github.com/symfony-cmf/RoutingExtraBundle
