@@ -2,7 +2,7 @@ Multisite
 =========
 
 The ``PageBundle`` handles multisite out of the box. However due to some
-limitation of the Symfony2 API, the multisite support is done around 4 strategies:
+limitation of the Symfony API, the multisite support is done around 4 strategies:
 
 ============================    ==========================================================================================================
 Type                            Description

@@ -27,7 +27,7 @@ A Page
 ------
 
 The ``SonataPageBundle`` is a special kind of CMS as it handles different types
-of pages. From within a Symfony2 application, actions are used to render a HTML
+of pages. From within a Symfony application, actions are used to render a HTML
 response. When you need to add a new component (or block) inside an action, you
 need to edit the template. In the other hand, in the CMS world, users edit areas
 and manage content but it is not possible to have complex actions or workflows.
