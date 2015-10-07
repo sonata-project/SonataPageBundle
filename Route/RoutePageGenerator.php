@@ -88,7 +88,22 @@ class RoutePageGenerator
 
         // no root url for the given website, create one
         if (!$root) {
-            $root = $this->pageManager->create(array(
+            // first search for a route
+            foreach ($this->router->getRouteCollection()->all() as $name => $route) {
+                if ($route->getPath() === "/") {
+                    $requirements = $route->getRequirements();
+                    $name = trim($name);
+                    $root = $this->pageManager->create(array(
+                        'routeName'     => $name,
+                        'name'          => $name,
+                        'url'           => $route->getPath(),
+                        'site'          => $site,
+                        'requestMethod' => isset($requirements['_method']) ? $requirements['_method'] : 'GET|POST|HEAD|DELETE|PUT',
+                        'slug'          => '/',
+                    ));
+                }
+            }
+            $root = ($root) ? $root : $this->pageManager->create(array(
                 'routeName'     => PageInterface::PAGE_ROUTE_CMS_NAME,
                 'name'          => 'Homepage',
                 'url'           => '/',
