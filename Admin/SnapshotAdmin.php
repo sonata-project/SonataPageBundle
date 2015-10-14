@@ -56,9 +56,9 @@ class SnapshotAdmin extends Admin
     public function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('enabled', null, array('required' => false))
+            ->add('enabled', null, array('required'                                              => false))
             ->add('publicationDateStart', 'sonata_type_datetime_picker', array('dp_side_by_side' => true))
-            ->add('publicationDateEnd', 'sonata_type_datetime_picker', array('required' => false, 'dp_side_by_side' => true))
+            ->add('publicationDateEnd', 'sonata_type_datetime_picker', array('required'          => false, 'dp_side_by_side' => true))
 //            ->add('content')
         ;
     }

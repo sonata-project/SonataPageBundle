@@ -30,7 +30,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                 'default' => array(
                     'path'       => 'ApplicationSonataPageBundle::demo_layout.html.twig',
                     'name'       => 'default',
-                    'containers' => array('header' => array('name' => 'My Header')),
+                    'containers' => array('header' => array('name'                   => 'My Header')),
                     'matrix'     => array('layout' => 'HHHH', 'mapping' => array('H' => 'header')),
                 ),
             ),

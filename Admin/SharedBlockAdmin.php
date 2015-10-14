@@ -26,7 +26,7 @@ class SharedBlockAdmin extends BaseBlockAdmin
     protected $classnameLabel = 'shared_block';
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getBaseRoutePattern()
     {
@@ -34,7 +34,7 @@ class SharedBlockAdmin extends BaseBlockAdmin
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getBaseRouteName()
     {

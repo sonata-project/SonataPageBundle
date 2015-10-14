@@ -89,9 +89,9 @@ class PageExtension extends \Twig_Extension
         return array(
             'sonata_page_ajax_url'            => new \Twig_Function_Method($this, 'ajaxUrl'),
             'sonata_page_url'                 => new \Twig_Function_Method($this, 'url'),
-            'sonata_page_breadcrumb'          => new \Twig_Function_Method($this, 'breadcrumb', array('is_safe' => array('html'))),
+            'sonata_page_breadcrumb'          => new \Twig_Function_Method($this, 'breadcrumb', array('is_safe'      => array('html'))),
             'sonata_page_render_container'    => new \Twig_Function_Method($this, 'renderContainer', array('is_safe' => array('html'))),
-            'sonata_page_render_block'        => new \Twig_Function_Method($this, 'renderBlock', array('is_safe' => array('html'))),
+            'sonata_page_render_block'        => new \Twig_Function_Method($this, 'renderBlock', array('is_safe'     => array('html'))),
             new \Twig_SimpleFunction('controller', array($this, 'controller')),
         );
     }
