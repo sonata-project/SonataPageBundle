@@ -78,7 +78,7 @@ class BlockAdmin extends BaseBlockAdmin
             $optionsGroupOptions['name']  = '';
         }
 
-        $formMapper->with($this->trans('form.field_group_general'), $generalGroupOptions);
+        $formMapper->with('form.field_group_general', $generalGroupOptions);
 
         if (!$isComposer) {
             $formMapper->add('name');
@@ -92,7 +92,7 @@ class BlockAdmin extends BaseBlockAdmin
         $isStandardBlock = $block && !in_array($block->getType(), array('sonata.page.block.container', 'sonata.block.service.container')) && !$this->hasParentFieldDescription();
 
         if ($isContainerRoot || $isStandardBlock) {
-            $formMapper->with($this->trans('form.field_group_general'), $generalGroupOptions);
+            $formMapper->with('form.field_group_general', $generalGroupOptions);
 
             $service = $this->blockManager->get($block);
 
@@ -127,7 +127,7 @@ class BlockAdmin extends BaseBlockAdmin
 
             $formMapper->end();
 
-            $formMapper->with($this->trans('form.field_group_options'), $optionsGroupOptions);
+            $formMapper->with('form.field_group_options', $optionsGroupOptions);
 
             if ($block->getId() > 0) {
                 $service->buildEditForm($formMapper, $block);
@@ -138,7 +138,7 @@ class BlockAdmin extends BaseBlockAdmin
             $formMapper->end();
         } else {
             $formMapper
-                ->with($this->trans('form.field_group_options'), $optionsGroupOptions)
+                ->with('form.field_group_options', $optionsGroupOptions)
                 ->add('type', 'sonata_block_service_choice', array(
                         'context' => 'sonata_page_bundle',
                     ))
