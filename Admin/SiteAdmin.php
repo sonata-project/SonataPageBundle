@@ -100,7 +100,7 @@ class SiteAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->with($this->trans('form_site.label_general'), array('class' => 'col-md-6'))
+            ->with('form_site.label_general', array('class' => 'col-md-6'))
                 ->add('name')
                 ->add('isDefault', null, array('required' => false))
                 ->add('enabled', null, array('required'   => false))
@@ -115,7 +115,7 @@ class SiteAdmin extends Admin
                     'dp_side_by_side' => true,
                 ))
             ->end()
-            ->with($this->trans('form_site.label_seo'), array('class' => 'col-md-6'))
+            ->with('form_site.label_seo', array('class' => 'col-md-6'))
                 ->add('title', null, array('required'                 => false))
                 ->add('metaDescription', 'textarea', array('required' => false))
                 ->add('metaKeywords', 'textarea', array('required'    => false))

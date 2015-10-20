@@ -68,12 +68,12 @@ class SharedBlockAdmin extends BaseBlockAdmin
         }
 
         $formMapper
-            ->with($this->trans('form.field_group_general'))
+            ->with('form.field_group_general')
                 ->add('name', null, array('required' => true))
                 ->add('enabled')
             ->end();
 
-        $formMapper->with($this->trans('form.field_group_options'));
+        $formMapper->with('form.field_group_options');
 
         /** @var BaseBlockService $service */
         $service = $this->blockManager->get($block);
