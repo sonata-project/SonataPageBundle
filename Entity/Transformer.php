@@ -18,7 +18,6 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SnapshotInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
-use Sonata\PageBundle\Model\SnapshotPageProxy;
 use Sonata\PageBundle\Model\TransformerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -42,6 +41,8 @@ class Transformer implements TransformerInterface
      */
     protected $blockManager;
 
+    protected $snapshotPageProxyClass;
+
     /**
      * @var BlockInterface[]
      */
@@ -53,12 +54,13 @@ class Transformer implements TransformerInterface
      * @param BlockManagerInterface    $blockManager
      * @param RegistryInterface        $registry
      */
-    public function __construct(SnapshotManagerInterface $snapshotManager, PageManagerInterface $pageManager, BlockManagerInterface $blockManager, RegistryInterface $registry)
+    public function __construct(SnapshotManagerInterface $snapshotManager, PageManagerInterface $pageManager, BlockManagerInterface $blockManager, RegistryInterface $registry, $snapshotPageProxyClass)
     {
-        $this->snapshotManager = $snapshotManager;
-        $this->pageManager     = $pageManager;
-        $this->blockManager    = $blockManager;
-        $this->registry        = $registry;
+        $this->snapshotManager   = $snapshotManager;
+        $this->pageManager       = $pageManager;
+        $this->blockManager      = $blockManager;
+        $this->registry          = $registry;
+        $this->snapshotPageProxyClass = $snapshotPageProxyClass;
     }
 
     /**
@@ -282,7 +284,7 @@ class Transformer implements TransformerInterface
             $pages = array();
 
             foreach ($snapshots as $snapshot) {
-                $page                  = new SnapshotPageProxy($this->snapshotManager, $this, $snapshot);
+                $page                  = new $this->snapshotPageProxy($this->snapshotManager, $this, $snapshot);
                 $pages[$page->getId()] = $page;
             }
 

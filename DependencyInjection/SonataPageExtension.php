@@ -514,6 +514,7 @@ class SonataPageExtension extends Extension
             'Sonata\\PageBundle\\Model\\SnapshotChildrenCollection',
             'Sonata\\PageBundle\\Model\\SnapshotInterface',
             'Sonata\\PageBundle\\Model\\SnapshotManagerInterface',
+            'Sonata\\PageBundle\\Model\\SnapshotPageProxyInterface',
             'Sonata\\PageBundle\\Model\\SnapshotPageProxy',
             'Sonata\\PageBundle\\Model\\Template',
             'Sonata\\PageBundle\\Page\\PageServiceManager',

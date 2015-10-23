@@ -17,7 +17,6 @@ use Sonata\DatagridBundle\Pager\Doctrine\Pager;
 use Sonata\DatagridBundle\ProxyQuery\Doctrine\ProxyQuery;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
-use Sonata\PageBundle\Model\SnapshotPageProxy;
 
 /**
  * This class manages SnapshotInterface persistency with the Doctrine ORM.
@@ -36,6 +35,8 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
      */
     protected $templates = array();
 
+    protected $snapshotPageProxyClass;
+
     /**
      * Constructor.
      *
@@ -43,11 +44,12 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
      * @param ManagerRegistry $registry  An entity manager instance
      * @param array           $templates An array of templates
      */
-    public function __construct($class, ManagerRegistry $registry, $templates = array())
+    public function __construct($class, $snapshotPageProxyClass, ManagerRegistry $registry, $templates = array())
     {
         parent::__construct($class, $registry);
 
         $this->templates     = $templates;
+        $this->snapshotPageProxyClass = $snapshotPageProxyClass;
     }
 
     /**
@@ -161,7 +163,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
         $snapshot = count($snapshots) > 0 ? $snapshots[0] : false;
 
         if ($snapshot) {
-            return new SnapshotPageProxy($this, $snapshot);
+            return new $this->snapshotPageProxy($this, $snapshot);
         }
 
         return false;

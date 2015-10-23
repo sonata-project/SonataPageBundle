@@ -17,7 +17,6 @@ use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
-use Sonata\PageBundle\Model\SnapshotPageProxy;
 use Sonata\PageBundle\Model\TransformerInterface;
 
 /**
@@ -47,14 +46,17 @@ class CmsSnapshotManager extends BaseCmsPageManager
      */
     protected $pages = array();
 
+    protected $snapshotPageProxyClass;
+
     /**
      * @param SnapshotManagerInterface $snapshotManager
      * @param TransformerInterface     $transformer
      */
-    public function __construct(SnapshotManagerInterface $snapshotManager, TransformerInterface $transformer)
+    public function __construct(SnapshotManagerInterface $snapshotManager, TransformerInterface $transformer, $snapshotPageProxyClass)
     {
         $this->snapshotManager = $snapshotManager;
         $this->transformer = $transformer;
+        $this->snapshotPageProxyClass = $snapshotPageProxyClass;
     }
 
     /**
@@ -140,7 +142,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
                 throw new PageNotFoundException();
             }
 
-            $page = new SnapshotPageProxy($this->snapshotManager, $this->transformer, $snapshot);
+            $page = new $this->snapshotPageProxyClass($this->snapshotManager, $this->transformer, $snapshot);
 
             $this->pages[$id] = false;
 

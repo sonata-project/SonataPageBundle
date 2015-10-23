@@ -2,14 +2,12 @@
 
 namespace Sonata\PageBundle\Model;
 
-use Serializable;
-
 /**
  * SnapshotPageProxy.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class SnapshotPageProxy implements PageInterface, Serializable
+class SnapshotPageProxy implements SnapshotPageProxyInterface
 {
     /**
      * @var SnapshotManagerInterface

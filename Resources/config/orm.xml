@@ -12,6 +12,7 @@
 
         <parameter key="sonata.page.block_interactor.class">Sonata\PageBundle\Entity\BlockInteractor</parameter>
         <parameter key="sonata.page.transformer.class">Sonata\PageBundle\Entity\Transformer</parameter>
+        <parameter key="sonata.page.proxy.snapshot.class">Sonata\PageBundle\Model\SnapshotPageProxy</parameter>
     </parameters>
 
     <services>
@@ -24,6 +25,7 @@
 
         <service id="sonata.page.manager.snapshot" class="%sonata.page.manager.snapshot.class%">
             <argument>%sonata.page.snapshot.class%</argument>
+            <argument>%sonata.page.proxy.snapshot.class%</argument>
             <argument type="service" id="doctrine" />
         </service>
 
@@ -47,7 +49,9 @@
             <argument type="service" id="sonata.page.manager.page" />
             <argument type="service" id="sonata.page.manager.block" />
             <argument type="service" id="doctrine" />
-       </service>
+            <argument>%sonata.page.proxy.snapshot.class%</argument>
+        </service>
+
     </services>
 
 </container>
