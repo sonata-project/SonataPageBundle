@@ -46,13 +46,17 @@ class CmsSnapshotManager extends BaseCmsPageManager
      */
     protected $pages = array();
 
+    /**
+     * @var string
+     */
     protected $snapshotPageProxyClass;
 
     /**
      * @param SnapshotManagerInterface $snapshotManager
      * @param TransformerInterface     $transformer
+     * @param string                   $snapshotPageProxyClass Namespace of SnaphostPageProxy class
      */
-    public function __construct(SnapshotManagerInterface $snapshotManager, TransformerInterface $transformer, $snapshotPageProxyClass)
+    public function __construct(SnapshotManagerInterface $snapshotManager, TransformerInterface $transformer, $snapshotPageProxyClass = 'Sonata\PageBundle\Model\SnapshotPageProxy')
     {
         $this->snapshotManager = $snapshotManager;
         $this->transformer = $transformer;

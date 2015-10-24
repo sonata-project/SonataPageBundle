@@ -41,20 +41,24 @@ class Transformer implements TransformerInterface
      */
     protected $blockManager;
 
-    protected $snapshotPageProxyClass;
-
     /**
      * @var BlockInterface[]
      */
     protected $children = array();
 
     /**
+     * @var string
+     */
+    protected $snapshotPageProxyClass;
+
+    /**
      * @param SnapshotManagerInterface $snapshotManager
      * @param PageManagerInterface     $pageManager
      * @param BlockManagerInterface    $blockManager
      * @param RegistryInterface        $registry
+     * @param string                   $snapshotPageProxyClass Namespace of SnapshotPageProxy class
      */
-    public function __construct(SnapshotManagerInterface $snapshotManager, PageManagerInterface $pageManager, BlockManagerInterface $blockManager, RegistryInterface $registry, $snapshotPageProxyClass)
+    public function __construct(SnapshotManagerInterface $snapshotManager, PageManagerInterface $pageManager, BlockManagerInterface $blockManager, RegistryInterface $registry, $snapshotPageProxyClass = 'Sonata\PageBundle\Model\SnapshotPageProxy')
     {
         $this->snapshotManager   = $snapshotManager;
         $this->pageManager       = $pageManager;
