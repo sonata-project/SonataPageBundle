@@ -796,6 +796,10 @@
           <source>page.composer_status_error</source>
           <target>Une erreur est survenue durant la sauvegarde du statut du bloc.</target>
       </trans-unit>    
+      <trans-unit id="198" resname="message_page_does_not_exist">
+          <source>message_page_does_not_exist</source>
+          <target>Cette page n'existe pas.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

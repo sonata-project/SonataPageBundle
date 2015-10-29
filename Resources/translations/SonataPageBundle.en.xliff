@@ -774,7 +774,7 @@
       <trans-unit id="192" resname="page.compose_blocks_label">
           <source>page.compose_blocks_label</source>
           <target>{0} blocks|{1} block|[2,Inf] blocks</target>
-      </trans-unit>      
+      </trans-unit>
       <trans-unit id="193" resname="page.composer_preview_error">
           <source>page.composer_preview_error</source>
           <target>An error occured while fetching block preview.</target>
@@ -794,7 +794,11 @@
       <trans-unit id="197" resname="page.composer_status_error">
           <source>page.composer_status_error</source>
           <target>An error occured while saving block enabled status.</target>
-      </trans-unit>    
+      </trans-unit>
+      <trans-unit id="198" resname="message_page_does_not_exist">
+          <source>message_page_does_not_exist</source>
+          <target>This page does not exist.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

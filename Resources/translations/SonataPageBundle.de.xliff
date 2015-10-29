@@ -794,6 +794,10 @@
           <source>page.composer_status_error</source>
           <target>Es ist ein Fehler beim Speichern des Status aufgetreten.</target>
       </trans-unit>  
+      <trans-unit id="198" resname="message_page_does_not_exist">
+          <source>message_page_does_not_exist</source>
+          <target>Diese Seite existiert nicht.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

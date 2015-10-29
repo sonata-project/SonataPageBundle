@@ -790,6 +790,10 @@
                 <source>page.composer_status_error</source>
                 <target>HIba történt a blokk státuszának mentése közben.</target>
             </trans-unit>
+            <trans-unit id="198" resname="message_page_does_not_exist">
+                <source>message_page_does_not_exist</source>
+                <target>message_page_does_not_exist</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
