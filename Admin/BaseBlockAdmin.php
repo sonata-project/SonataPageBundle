@@ -224,7 +224,7 @@ abstract class BaseBlockAdmin extends Admin
         }
 
         return array(
-            'type'  => $this->getRequest()->get('type'),
+            'type' => $this->getRequest()->get('type'),
         );
     }
 }
