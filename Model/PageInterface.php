@@ -11,6 +11,8 @@
 
 namespace Sonata\PageBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * PageInterface.
  *
@@ -244,7 +246,7 @@ interface PageInterface
     /**
      * Get children.
      *
-     * @return array
+     * @return ArrayCollection|array
      */
     public function getChildren();
 
@@ -258,7 +260,7 @@ interface PageInterface
     /**
      * Get blocks.
      *
-     * @return array
+     * @return ArrayCollection|array
      */
     public function getBlocks();
 

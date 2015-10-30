@@ -385,7 +385,7 @@ class PageAdmin extends Admin
     }
 
     /**
-     * @return SiteInterface
+     * @return SiteInterface|bool
      *
      * @throws \RuntimeException
      */

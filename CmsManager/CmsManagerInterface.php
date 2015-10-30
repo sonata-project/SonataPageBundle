@@ -70,7 +70,7 @@ interface CmsManagerInterface
      * @param SiteInterface $site
      * @param string        $routeName
      *
-     * @return string
+     * @return PageInterface
      */
     public function getInternalRoute(SiteInterface $site, $routeName);
 
