@@ -65,12 +65,14 @@ file that was distributed with this source code.
                             <h3 class="page-composer__orphan-containers__header">{{ 'page.orphan_containers'|trans({}, 'SonataPageBundle') }}</h3>
                             <ul>
                                 {% for orphanContainer in orphanContainers %}
-                                    <li class="page-composer__orphan-container block-preview-{{ orphanContainer.id }}"
-                                        data-block-id="{{ orphanContainer.id }}"
-                                        href="{{ admin.generateUrl('compose_container_show', { 'id': orphanContainer.id }) }}"
-                                    >
-                                        <strong>{{ orphanContainer.name|default(orphanContainer.type) }}</strong><br>
-                                        <small><span class="child-count">{{ orphanContainer.children|length }}</span> blocks</small>
+                                    <li>
+                                        <a class="page-composer__orphan-container block-preview-{{ orphanContainer.id }}"
+                                           data-block-id="{{ orphanContainer.id }}"
+                                           href="{{ admin.generateUrl('compose_container_show', { 'id': orphanContainer.id }) }}"
+                                                >
+                                            <strong>{{ orphanContainer.name|default(orphanContainer.type) }}</strong><br>
+                                            <small><span class="child-count">{{ orphanContainer.children|length }}</span> blocks</small>
+                                        </a>
                                     </li>
                                 {% endfor %}
                             </ul>
