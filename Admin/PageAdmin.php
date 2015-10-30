@@ -99,8 +99,8 @@ class PageAdmin extends Admin
             ->add('pageAlias')
             ->add('site')
             ->add('decorate', null, array('editable' => true))
-            ->add('enabled', null, array('editable'  => true))
-            ->add('edited', null, array('editable'   => true))
+            ->add('enabled', null, array('editable' => true))
+            ->add('edited', null, array('editable' => true))
         ;
     }
 
@@ -143,8 +143,8 @@ class PageAdmin extends Admin
 
         // define group zoning
         $formMapper
-             ->with('form_page.group_main_label', array('class'     => 'col-md-6'))->end()
-             ->with('form_page.group_seo_label', array('class'      => 'col-md-6'))->end()
+             ->with('form_page.group_main_label', array('class' => 'col-md-6'))->end()
+             ->with('form_page.group_seo_label', array('class' => 'col-md-6'))->end()
              ->with('form_page.group_advanced_label', array('class' => 'col-md-6'))->end()
         ;
 
@@ -230,7 +230,7 @@ class PageAdmin extends Admin
         if (!$this->getSubject() || !$this->getSubject()->isHybrid()) {
             $formMapper
                 ->with('form_page.group_seo_label')
-                    ->add('slug', 'text',  array('required'     => false))
+                    ->add('slug', 'text',  array('required' => false))
                     ->add('customUrl', 'text', array('required' => false))
                 ->end()
             ;
@@ -238,25 +238,25 @@ class PageAdmin extends Admin
 
         $formMapper
             ->with('form_page.group_seo_label', array('collapsed' => true))
-                ->add('title', null, array('required'                           => false))
-                ->add('metaKeyword', 'textarea', array('required'               => false))
-                ->add('metaDescription', 'textarea', array('required'           => false))
+                ->add('title', null, array('required' => false))
+                ->add('metaKeyword', 'textarea', array('required' => false))
+                ->add('metaDescription', 'textarea', array('required' => false))
             ->end()
         ;
 
         if ($this->hasSubject() && !$this->getSubject()->isCms()) {
             $formMapper
                 ->with('form_page.group_advanced_label', array('collapsed' => true))
-                    ->add('decorate', null,  array('required'                            => false))
+                    ->add('decorate', null,  array('required' => false))
                 ->end()
             ;
         }
 
         $formMapper
             ->with('form_page.group_advanced_label', array('collapsed' => true))
-                ->add('javascript', null,  array('required'                          => false))
-                ->add('stylesheet', null, array('required'                           => false))
-                ->add('rawHeaders', null, array('required'                           => false))
+                ->add('javascript', null,  array('required' => false))
+                ->add('stylesheet', null, array('required' => false))
+                ->add('rawHeaders', null, array('required' => false))
             ->end()
         ;
 
