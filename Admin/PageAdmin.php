@@ -174,7 +174,7 @@ class PageAdmin extends Admin
 
         if ($this->hasSubject() && !$this->getSubject()->isInternal()) {
             $formMapper
-                ->with($this->trans('form_page.group_main_label'))
+                ->with('form_page.group_main_label')
                     ->add('type', 'sonata_page_type_choice', array('required' => false))
                 ->end()
             ;
