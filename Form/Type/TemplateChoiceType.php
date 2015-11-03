@@ -46,7 +46,7 @@ class TemplateChoiceType extends AbstractType
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getTemplates()
     {

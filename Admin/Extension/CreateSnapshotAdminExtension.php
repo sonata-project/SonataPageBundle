@@ -19,6 +19,9 @@ use Sonata\PageBundle\Model\PageInterface;
 
 class CreateSnapshotAdminExtension extends AdminExtension
 {
+    /**
+     * @var BackendInterface
+     */
     protected $backend;
 
     /**
@@ -30,7 +33,7 @@ class CreateSnapshotAdminExtension extends AdminExtension
     }
 
     /**
-     * @param PageInterface $page
+     * @param PageInterface $object
      */
     protected function sendMessage($object)
     {

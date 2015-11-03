@@ -46,7 +46,7 @@ class PageTypeChoiceType extends AbstractType
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getPageTypes()
     {

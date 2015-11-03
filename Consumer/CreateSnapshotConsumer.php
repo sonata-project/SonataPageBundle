@@ -24,10 +24,19 @@ use Sonata\PageBundle\Model\TransformerInterface;
  */
 class CreateSnapshotConsumer implements ConsumerInterface
 {
+    /**
+     * @var SnapshotManagerInterface
+     */
     protected $snapshotManager;
 
+    /**
+     * @var PageManagerInterface
+     */
     protected $pageManager;
 
+    /**
+     * @var TransformerInterface
+     */
     protected $transformer;
 
     /**

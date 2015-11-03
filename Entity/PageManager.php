@@ -232,7 +232,9 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param SiteInterface $site
+     *
+     * @return mixed
      */
     public function getHybridPages(SiteInterface $site)
     {

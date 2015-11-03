@@ -12,17 +12,17 @@ use Serializable;
 class SnapshotPageProxy implements PageInterface, Serializable
 {
     /**
-     * @var \Sonata\PageBundle\Model\SnapshotManagerInterface
+     * @var SnapshotManagerInterface
      */
     private $manager;
 
     /**
-     * @var \Sonata\PageBundle\Model\SnapshotInterface
+     * @var SnapshotInterface
      */
     private $snapshot;
 
     /**
-     * @var \Sonata\PageBundle\Model\PageInterface
+     * @var PageInterface
      */
     private $page;
 
@@ -32,7 +32,7 @@ class SnapshotPageProxy implements PageInterface, Serializable
     private $target;
 
     /**
-     * @var array
+     * @var PageInterface[]
      */
     private $parents;
 

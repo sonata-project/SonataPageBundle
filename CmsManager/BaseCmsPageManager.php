@@ -11,6 +11,7 @@
 
 namespace Sonata\PageBundle\CmsManager;
 
+use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 
@@ -21,8 +22,14 @@ use Sonata\PageBundle\Model\SiteInterface;
  */
 abstract class BaseCmsPageManager implements CmsManagerInterface
 {
+    /**
+     * @var PageInterface
+     */
     protected $currentPage;
 
+    /**
+     * @var BlockInterface[]
+     */
     protected $blocks = array();
 
     /**
@@ -90,9 +97,9 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     }
 
     /**
-     * @param null|\Sonata\PageBundle\Model\SiteInterface $site
-     * @param string                                      $fieldName
-     * @param mixed                                       $value
+     * @param null|SiteInterface $site
+     * @param string             $fieldName
+     * @param mixed              $value
      *
      * @return PageInterface
      */

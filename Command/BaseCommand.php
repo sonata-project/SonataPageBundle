@@ -11,6 +11,11 @@
 
 namespace Sonata\PageBundle\Command;
 
+use Sonata\NotificationBundle\Backend\BackendInterface;
+use Sonata\PageBundle\CmsManager\CmsPageManager;
+use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
+use Sonata\PageBundle\Listener\ExceptionListener;
+use Sonata\PageBundle\Model\SiteManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 
@@ -22,7 +27,7 @@ use Symfony\Component\Console\Input\InputInterface;
 abstract class BaseCommand extends ContainerAwareCommand
 {
     /**
-     * @return \Sonata\PageBundle\Model\SiteManagerInterface
+     * @return SiteManagerInterface
      */
     public function getSiteManager()
     {
@@ -30,7 +35,7 @@ abstract class BaseCommand extends ContainerAwareCommand
     }
 
     /**
-     * @return \Sonata\PageBundle\Model\PageManagerInterface
+     * @return PageManagerInterface
      */
     public function getPageManager()
     {
@@ -38,7 +43,7 @@ abstract class BaseCommand extends ContainerAwareCommand
     }
 
     /**
-     * @return \Sonata\PageBundle\Model\BlockManagerInterface
+     * @return BlockManagerInterface
      */
     public function getBlockManager()
     {
@@ -46,7 +51,7 @@ abstract class BaseCommand extends ContainerAwareCommand
     }
 
     /**
-     * @return \Sonata\PageBundle\Model\SnapshotManagerInterface
+     * @return SnapshotManagerInterface
      */
     public function getSnapshotManager()
     {
@@ -54,7 +59,7 @@ abstract class BaseCommand extends ContainerAwareCommand
     }
 
     /**
-     * @return \Sonata\PageBundle\CmsManager\CmsPageManager
+     * @return CmsPageManager
      */
     public function getCmsPageManager()
     {
@@ -62,7 +67,7 @@ abstract class BaseCommand extends ContainerAwareCommand
     }
 
     /**
-     * @return \Sonata\PageBundle\CmsManager\DecoratorStrategyInterface
+     * @return DecoratorStrategyInterface
      */
     public function getDecoratorStrategy()
     {
@@ -70,7 +75,7 @@ abstract class BaseCommand extends ContainerAwareCommand
     }
 
     /**
-     * @return \Sonata\PageBundle\Listener\ExceptionListener
+     * @return ExceptionListener
      */
     public function getErrorListener()
     {
@@ -80,7 +85,7 @@ abstract class BaseCommand extends ContainerAwareCommand
     /**
      * @param string $mode
      *
-     * @return \Sonata\NotificationBundle\Backend\BackendInterface
+     * @return BackendInterface
      */
     public function getNotificationBackend($mode)
     {
@@ -92,7 +97,7 @@ abstract class BaseCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param InputInterface $input
      *
      * @return array
      */

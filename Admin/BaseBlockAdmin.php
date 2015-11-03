@@ -191,7 +191,7 @@ abstract class BaseBlockAdmin extends Admin
     }
 
     /**
-     * @param \Sonata\BlockBundle\Block\BlockServiceManagerInterface $blockManager
+     * @param BlockServiceManagerInterface $blockManager
      */
     public function setBlockManager(BlockServiceManagerInterface $blockManager)
     {
@@ -199,7 +199,7 @@ abstract class BaseBlockAdmin extends Admin
     }
 
     /**
-     * @param \Sonata\Cache\CacheManagerInterface $cacheManager
+     * @param CacheManagerInterface $cacheManager
      */
     public function setCacheManager(CacheManagerInterface $cacheManager)
     {

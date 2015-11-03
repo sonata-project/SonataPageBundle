@@ -12,9 +12,12 @@
 namespace Sonata\PageBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
+use Sonata\PageBundle\Entity\BaseBlock;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Block Admin Controller.
@@ -24,9 +27,11 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 class BlockAdminController extends Controller
 {
     /**
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param Request|null $request
      *
-     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
+     * @return Response
+     * 
+     * @throws AccessDeniedException
      */
     public function savePositionAction(Request $request = null)
     {
@@ -68,7 +73,7 @@ class BlockAdminController extends Controller
     }
 
     /**
-     * @return \Symfony\Component\HttpFoundation\Response
+     * {@inheritdoc}
      */
     public function createAction(Request $request = null)
     {
@@ -96,7 +101,7 @@ class BlockAdminController extends Controller
     /**
      * @param Request|null $request
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function switchParentAction(Request $request = null)
     {
@@ -125,10 +130,12 @@ class BlockAdminController extends Controller
     }
 
     /**
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param Request|null $request
      *
-     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
-     * @throws \Sonata\PageBundle\Exception\PageNotFoundException
+     * @return Response
+     *
+     * @throws AccessDeniedException
+     * @throws PageNotFoundException
      */
     public function composePreviewAction(Request $request = null)
     {
@@ -136,7 +143,7 @@ class BlockAdminController extends Controller
 
         $blockId = $request->get('block_id');
 
-        /** @var \Sonata\PageBundle\Entity\BaseBlock $block */
+        /** @var BaseBlock $block */
         $block = $this->admin->getObject($blockId);
         if (!$block) {
             throw new PageNotFoundException(sprintf('Unable to find block with id %d', $blockId));

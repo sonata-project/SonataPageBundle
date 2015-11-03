@@ -26,17 +26,17 @@ use Symfony\Component\HttpFoundation\Request;
 class AjaxController
 {
     /**
-     * @var \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface
+     * @var CmsManagerSelectorInterface
      */
     protected $cmsManagerSelector;
 
     /**
-     * @var \Sonata\BlockBundle\Block\BlockRendererInterface
+     * @var BlockRendererInterface
      */
     protected $blockRenderer;
 
     /**
-     * @var \Sonata\BlockBundle\Block\BlockContextManagerInterface
+     * @var BlockContextManagerInterface
      */
     protected $contextManager;
 
@@ -58,6 +58,8 @@ class AjaxController
      * @param Request $request Symfony request object
      * @param int     $pageId  Page identifier
      * @param int     $blockId Block identifier
+     *
+     * @return Response
      */
     public function execute(Request $request, $pageId, $blockId)
     {

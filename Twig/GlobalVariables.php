@@ -11,6 +11,8 @@
 
 namespace Sonata\PageBundle\Twig;
 
+use Sonata\PageBundle\CmsManager\CmsManagerInterface;
+use Sonata\PageBundle\Model\SiteInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -20,10 +22,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class GlobalVariables
 {
+    /**
+     * @var ContainerInterface
+     */
     protected $container;
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @param ContainerInterface $container
      */
     public function __construct(ContainerInterface $container)
     {
@@ -31,7 +36,7 @@ class GlobalVariables
     }
 
     /**
-     * @return array
+     * @return SiteInterface[]
      */
     public function getSiteAvailables()
     {
@@ -41,7 +46,7 @@ class GlobalVariables
     }
 
     /**
-     * @return mixed
+     * @return CmsManagerInterface
      */
     public function getCmsManager()
     {
@@ -49,7 +54,7 @@ class GlobalVariables
     }
 
     /**
-     * @return mixed
+     * @return SiteInterface
      */
     public function getCurrentSite()
     {

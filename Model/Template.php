@@ -18,10 +18,19 @@ namespace Sonata\PageBundle\Model;
  */
 class Template
 {
+    /**
+     * @var string
+     */
     protected $path;
 
+    /**
+     * @var string
+     */
     protected $name;
 
+    /**
+     * @var array
+     */
     protected $containers;
 
     const TYPE_STATIC = 1;

@@ -27,12 +27,24 @@ use Sonata\PageBundle\Model\TransformerInterface;
  */
 class CmsSnapshotManager extends BaseCmsPageManager
 {
+    /**
+     * @var SnapshotManagerInterface
+     */
     protected $snapshotManager;
 
+    /**
+     * @var TransformerInterface
+     */
     protected $transformer;
 
+    /**
+     * @var array
+     */
     protected $pageReferences = array();
 
+    /**
+     * @var PageInterface[]
+     */
     protected $pages = array();
 
     /**
@@ -151,7 +163,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
     /**
      * load the blocks of the $page.
      *
-     * @param \Sonata\PageBundle\Model\PageInterface $page
+     * @param PageInterface $page
      */
     private function loadBlocks(PageInterface $page)
     {

@@ -19,6 +19,8 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SnapshotPageProxy;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Symfony\Bridge\Twig\Extension\HttpKernelExtension;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
@@ -49,7 +51,7 @@ class PageExtension extends \Twig_Extension
     private $environment;
 
     /**
-     * @var \Symfony\Component\Routing\RouterInterface
+     * @var RouterInterface
      */
     private $router;
 
@@ -59,7 +61,7 @@ class PageExtension extends \Twig_Extension
     private $blockHelper;
 
     /**
-     * @var \Symfony\Bridge\Twig\Extension\HttpKernelExtension
+     * @var HttpKernelExtension
      */
     private $httpKernelExtension;
 
@@ -199,7 +201,7 @@ class PageExtension extends \Twig_Extension
      * @param null   $page
      * @param array  $options
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function renderContainer($name, $page = null, array $options = array())
     {
@@ -271,7 +273,7 @@ class PageExtension extends \Twig_Extension
      * @param array  $attributes
      * @param array  $query
      *
-     * @return \Symfony\Component\HttpKernel\Controller\ControllerReference
+     * @return ControllerReference
      */
     public function controller($controller, $attributes = array(), $query = array())
     {

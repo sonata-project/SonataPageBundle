@@ -30,15 +30,21 @@ use Symfony\Component\Templating\EngineInterface;
  */
 class ChildrenPagesBlockService extends BaseBlockService
 {
+    /**
+     * @var SiteSelectorInterface
+     */
     protected $siteSelector;
 
+    /**
+     * @var CmsManagerSelectorInterface
+     */
     protected $cmsManagerSelector;
 
     /**
-     * @param string                                                    $name
-     * @param \Symfony\Component\Templating\EngineInterface             $templating
-     * @param \Sonata\PageBundle\Site\SiteSelectorInterface             $siteSelector
-     * @param \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface $cmsManagerSelector
+     * @param string                      $name
+     * @param EngineInterface             $templating
+     * @param SiteSelectorInterface       $siteSelector
+     * @param CmsManagerSelectorInterface $cmsManagerSelector
      */
     public function __construct($name, EngineInterface $templating, SiteSelectorInterface $siteSelector, CmsManagerSelectorInterface $cmsManagerSelector)
     {

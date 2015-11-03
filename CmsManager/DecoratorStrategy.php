@@ -23,10 +23,19 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
  */
 class DecoratorStrategy implements DecoratorStrategyInterface
 {
+    /**
+     * @var array
+     */
     protected $ignoreRoutes;
 
+    /**
+     * @var array
+     */
     protected $ignoreRoutePatterns;
 
+    /**
+     * @var array
+     */
     protected $ignoreUriPatterns;
 
     /**

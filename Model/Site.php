@@ -18,32 +18,74 @@ namespace Sonata\PageBundle\Model;
  */
 abstract class Site implements SiteInterface
 {
+    /**
+     * @var bool
+     */
     protected $enabled;
 
+    /**
+     * @var \DateTime
+     */
     protected $createdAt;
 
+    /**
+     * @var \DateTime
+     */
     protected $updatedAt;
 
+    /**
+     * @var string
+     */
     protected $name;
 
+    /**
+     * @var string
+     */
     protected $host;
 
+    /**
+     * @var string
+     */
     protected $relativePath;
 
+    /**
+     * @var \DateTime
+     */
     protected $enabledFrom;
 
+    /**
+     * @var \DateTime
+     */
     protected $enabledTo;
 
+    /**
+     * @var bool
+     */
     protected $isDefault;
 
+    /**
+     * @var array
+     */
     protected $formats = array();
 
+    /**
+     * @var string
+     */
     protected $locale;
 
+    /**
+     * @var string
+     */
     protected $title;
 
+    /**
+     * @var string
+     */
     protected $metaKeywords;
 
+    /**
+     * @var string
+     */
     protected $metaDescription;
 
     /**

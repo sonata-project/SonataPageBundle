@@ -30,12 +30,12 @@ use Symfony\Component\Security\Http\Logout\LogoutHandlerInterface;
 class CmsManagerSelector implements CmsManagerSelectorInterface, LogoutHandlerInterface
 {
     /**
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface
+     * @var ContainerInterface
      */
     protected $container;
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @param ContainerInterface $container
      */
     public function __construct(ContainerInterface $container)
     {

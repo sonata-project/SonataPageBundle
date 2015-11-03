@@ -18,10 +18,19 @@ namespace Sonata\PageBundle\Model;
  */
 class SnapshotChildrenCollection implements \Countable, \IteratorAggregate, \ArrayAccess
 {
+    /**
+     * @var TransformerInterface
+     */
     protected $transformer;
 
+    /**
+     * @var PageInterface
+     */
     protected $page;
 
+    /**
+     * @var array
+     */
     protected $collection;
 
     /**

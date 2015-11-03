@@ -11,6 +11,8 @@
 
 namespace Sonata\PageBundle\Command;
 
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -87,7 +89,7 @@ class MigrateBlockNameSettingCommand extends BaseCommand
      *
      * @param string $class Entity class name
      *
-     * @return \Doctrine\ORM\EntityRepository
+     * @return EntityRepository
      */
     protected function getRepository($class)
     {
@@ -97,7 +99,7 @@ class MigrateBlockNameSettingCommand extends BaseCommand
     /**
      * Returns the entity manager.
      *
-     * @return \Doctrine\ORM\EntityManager
+     * @return EntityManager
      */
     protected function getEntityManager()
     {

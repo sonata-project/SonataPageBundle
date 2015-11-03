@@ -23,6 +23,9 @@ use Sonata\PageBundle\Entity\BaseBlock;
  */
 class SharedBlockAdmin extends BaseBlockAdmin
 {
+    /**
+     * @var string
+     */
     protected $classnameLabel = 'shared_block';
 
     /**
@@ -88,7 +91,7 @@ class SharedBlockAdmin extends BaseBlockAdmin
     }
 
     /**
-     * {@inheritDoc).
+     * {@inheritdoc}
      */
     public function createQuery($context = 'list')
     {
