@@ -188,30 +188,6 @@ class CmsPageRouterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('//localhost/test/path?key=value', $url);
     }
 
-    public function testGenerateWithPageCustomUrl()
-    {
-        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
-        $page->expects($this->exactly(5))->method('isHybrid')->will($this->returnValue(false));
-        $page->expects($this->exactly(5))->method('getCustomUrl')->will($this->returnValue('/test/path'));
-
-        $this->router->setContext(new RequestContext());
-
-        $url = $this->router->generate($page, array('key' => 'value'));
-        $this->assertEquals('/test/path?key=value', $url);
-
-        $url = $this->router->generate($page, array('key' => 'value'), UrlGeneratorInterface::ABSOLUTE_PATH);
-        $this->assertEquals('/test/path?key=value', $url);
-
-        $url = $this->router->generate($page, array('key' => 'value'), UrlGeneratorInterface::RELATIVE_PATH);
-        $this->assertEquals('test/path?key=value', $url);
-
-        $url = $this->router->generate($page, array('key' => 'value'), UrlGeneratorInterface::ABSOLUTE_URL);
-        $this->assertEquals('http://localhost/test/path?key=value', $url);
-
-        $url = $this->router->generate($page, array('key' => 'value'), UrlGeneratorInterface::NETWORK_PATH);
-        $this->assertEquals('//localhost/test/path?key=value', $url);
-    }
-
     public function testGenerateWithHybridPage()
     {
         $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
