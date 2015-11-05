@@ -14,7 +14,6 @@ namespace Sonata\PageBundle\Controller;
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
@@ -29,9 +28,7 @@ class SnapshotAdminController extends Controller
     );
 
     /**
-     * @return RedirectResponse|Response
-     *
-     * @throws AccessDeniedException
+     * {@inheritdoc}
      */
     public function createAction(Request $request = null)
     {

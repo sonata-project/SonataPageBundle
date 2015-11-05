@@ -23,6 +23,8 @@ class Parser
      * @param string $matrix
      * @param array  $mapping
      *
+     * @return array
+     *
      * @throws \InvalidArgumentException
      */
     public static function parse($matrix, array $mapping)

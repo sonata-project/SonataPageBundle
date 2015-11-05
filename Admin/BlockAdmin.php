@@ -23,8 +23,14 @@ use Sonata\PageBundle\Model\PageInterface;
  */
 class BlockAdmin extends BaseBlockAdmin
 {
+    /**
+     * {@inheritdoc}
+     */
     protected $parentAssociationMapping = 'page';
 
+    /**
+     * {@inheritdoc}
+     */
     protected $accessMapping = array(
         'savePosition'   => 'EDIT',
         'switchParent'   => 'EDIT',

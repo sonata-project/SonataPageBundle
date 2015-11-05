@@ -11,6 +11,7 @@
 
 namespace Sonata\PageBundle\Command;
 
+use Sonata\PageBundle\Route\RoutePageGenerator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -72,7 +73,7 @@ class UpdateCoreRoutesCommand extends BaseCommand
     /**
      * Returns Sonata route page generator service.
      *
-     * @return \Sonata\PageBundle\Route\RoutePageGenerator
+     * @return RoutePageGenerator
      */
     private function getRoutePageGenerator()
     {

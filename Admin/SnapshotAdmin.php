@@ -24,8 +24,14 @@ use Sonata\Cache\CacheManagerInterface;
  */
 class SnapshotAdmin extends Admin
 {
+    /**
+     * @var CacheManagerInterface
+     */
     protected $cacheManager;
 
+    /**
+     * {@inheritdoc}
+     */
     protected $parentAssociationMapping = 'page';
 
     /**
@@ -99,7 +105,7 @@ class SnapshotAdmin extends Admin
     }
 
     /**
-     * @param \Sonata\Cache\CacheManagerInterface $cacheManager
+     * @param CacheManagerInterface $cacheManager
      */
     public function setCacheManager(CacheManagerInterface $cacheManager)
     {

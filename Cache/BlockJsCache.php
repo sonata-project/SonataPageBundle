@@ -28,14 +28,29 @@ use Symfony\Component\Routing\RouterInterface;
  */
 class BlockJsCache implements CacheAdapterInterface
 {
+    /**
+     * @var RouterInterface
+     */
     protected $router;
 
+    /**
+     * @var bool
+     */
     protected $sync;
 
+    /**
+     * @var CmsManagerSelectorInterface
+     */
     protected $cmsSelector;
 
+    /**
+     * @var BlockRendererInterface
+     */
     protected $blockRenderer;
 
+    /**
+     * @var BlockContextManagerInterface
+     */
     protected $contextManager;
 
     /**
@@ -177,9 +192,9 @@ class BlockJsCache implements CacheAdapterInterface
     }
 
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function cacheAction(Request $request)
     {

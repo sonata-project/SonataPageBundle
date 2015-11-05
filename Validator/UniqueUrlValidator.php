@@ -19,6 +19,9 @@ use Symfony\Component\Validator\ConstraintValidator;
 
 class UniqueUrlValidator extends ConstraintValidator
 {
+    /**
+     * @var PageManagerInterface
+     */
     protected $manager;
 
     /**

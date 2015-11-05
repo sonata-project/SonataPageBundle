@@ -215,7 +215,7 @@ class SiteController
      *
      * @return SiteInterface
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @throws NotFoundHttpException
      */
     protected function getSite($id)
     {

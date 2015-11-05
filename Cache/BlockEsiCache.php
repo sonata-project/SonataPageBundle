@@ -16,6 +16,7 @@ use Sonata\BlockBundle\Block\BlockRendererInterface;
 use Sonata\Cache\CacheElement;
 use Sonata\Cache\Invalidation\Recorder;
 use Sonata\CacheBundle\Adapter\VarnishCache;
+use Sonata\PageBundle\CmsManager\CmsManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -35,7 +36,7 @@ class BlockEsiCache extends VarnishCache
     protected $blockRenderer;
 
     /**
-     * @var array
+     * @var CmsManagerInterface[]
      */
     protected $managers;
 
@@ -110,9 +111,7 @@ class BlockEsiCache extends VarnishCache
     }
 
     /**
-     * @param array $keys
-     *
-     * @return string
+     * {@inheritdoc}
      */
     protected function computeHash(array $keys)
     {
@@ -126,9 +125,7 @@ class BlockEsiCache extends VarnishCache
     }
 
     /**
-     * @param Request $request
-     *
-     * @return mixed
+     * {@inheritdoc}
      */
     public function cacheAction(Request $request)
     {
@@ -177,7 +174,7 @@ class BlockEsiCache extends VarnishCache
      *
      * @param Request $request
      *
-     * @return \Sonata\PageBundle\CmsManager\CmsManagerInterface
+     * @return CmsManagerInterface
      */
     private function getManager(Request $request)
     {

@@ -68,10 +68,7 @@ class TemplateManager implements TemplateManagerInterface
     }
 
     /**
-     * Adds a template.
-     *
-     * @param string   $code     Code
-     * @param Template $template Template object
+     * {@inheritdoc}
      */
     public function add($code, Template $template)
     {
@@ -79,11 +76,7 @@ class TemplateManager implements TemplateManagerInterface
     }
 
     /**
-     * Returns the template by code.
-     *
-     * @param string $code
-     *
-     * @return Template|null
+     * {@inheritdoc}
      */
     public function get($code)
     {
@@ -95,9 +88,7 @@ class TemplateManager implements TemplateManagerInterface
     }
 
     /**
-     * Sets the default template code.
-     *
-     * @param string $code
+     * {@inheritdoc}
      */
     public function setDefaultTemplateCode($code)
     {
@@ -105,9 +96,7 @@ class TemplateManager implements TemplateManagerInterface
     }
 
     /**
-     * Returns the default template code.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getDefaultTemplateCode()
     {
@@ -115,9 +104,7 @@ class TemplateManager implements TemplateManagerInterface
     }
 
     /**
-     * Sets the templates.
-     *
-     * @param Template[] $templates
+     * {@inheritdoc}
      */
     public function setAll($templates)
     {
@@ -125,9 +112,7 @@ class TemplateManager implements TemplateManagerInterface
     }
 
     /**
-     * Returns the templates.
-     *
-     * @return Template[]
+     * {@inheritdoc}
      */
     public function getAll()
     {
@@ -135,13 +120,7 @@ class TemplateManager implements TemplateManagerInterface
     }
 
     /**
-     * Renders a template code.
-     *
-     * @param string   $code       Template code
-     * @param array    $parameters An array of view parameters
-     * @param Response $response   Response to update
-     *
-     * @return Response
+     * {@inheritdoc}
      */
     public function renderResponse($code, array $parameters = array(), Response $response = null)
     {

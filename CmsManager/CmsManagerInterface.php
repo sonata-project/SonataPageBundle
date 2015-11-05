@@ -115,7 +115,7 @@ interface CmsManagerInterface
     /**
      * Returns the list of loaded block from the current http request.
      *
-     * @return array
+     * @return BlockInterface[]
      */
     public function getBlocks();
 

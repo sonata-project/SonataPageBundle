@@ -25,17 +25,29 @@ use Sonata\PageBundle\Model\SiteInterface;
  */
 class CmsPageManager extends BaseCmsPageManager
 {
+    /**
+     * @var BlockInteractorInterface
+     */
     protected $blockInteractor;
 
+    /**
+     * @var PageManagerInterface
+     */
     protected $pageManager;
 
+    /**
+     * @var array
+     */
     protected $pageReferences = array();
 
+    /**
+     * @var PageInterface[]
+     */
     protected $pages = array();
 
     /**
-     * @param \Sonata\PageBundle\Model\PageManagerInterface     $pageManager
-     * @param \Sonata\PageBundle\Model\BlockInteractorInterface $blockInteractor
+     * @param PageManagerInterface     $pageManager
+     * @param BlockInteractorInterface $blockInteractor
      */
     public function __construct(PageManagerInterface $pageManager, BlockInteractorInterface $blockInteractor)
     {

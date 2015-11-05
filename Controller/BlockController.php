@@ -22,7 +22,7 @@ use Symfony\Component\HttpFoundation\Response;
 class BlockController extends Controller
 {
     /**
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function emptyAction()
     {

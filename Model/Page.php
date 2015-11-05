@@ -18,66 +18,159 @@ namespace Sonata\PageBundle\Model;
  */
 abstract class Page implements PageInterface
 {
+    /**
+     * @var \DateTime
+     */
     protected $createdAt;
 
+    /**
+     * @var \DateTime
+     */
     protected $updatedAt;
 
+    /**
+     * @var string
+     */
     protected $routeName;
 
+    /**
+     * @var string
+     */
     protected $pageAlias;
 
+    /**
+     * @var string
+     */
     protected $type;
 
+    /**
+     * @var string
+     */
     protected $name;
 
+    /**
+     * @var string
+     */
     protected $title;
 
+    /**
+     * @var string
+     */
     protected $slug;
 
+    /**
+     * @var string
+     */
     protected $url;
 
+    /**
+     * @var string
+     */
     protected $customUrl;
 
+    /**
+     * @var string
+     */
     protected $requestMethod;
 
+    /**
+     * @var string
+     */
     protected $metaKeyword;
 
+    /**
+     * @var string
+     */
     protected $metaDescription;
 
+    /**
+     * @var string
+     */
     protected $javascript;
 
+    /**
+     * @var string
+     */
     protected $stylesheet;
 
+    /**
+     * @var string
+     */
     protected $rawHeaders;
 
+    /**
+     * @var array
+     */
     protected $headers;
 
+    /**
+     * @var bool
+     */
     protected $enabled;
 
+    /**
+     * @var PageBlockInterface[]
+     */
     protected $blocks;
 
+    /**
+     * @deprecated This property is deprecated since version 2.4 and will be removed in 3.0.
+     */
     protected $sources;
 
+    /**
+     * @var PageInterface
+     */
     protected $parent;
 
+    /**
+     * @var PageInterface[]
+     */
     protected $parents;
 
+    /**
+     * @var PageInterface
+     */
     protected $target;
 
+    /**
+     * @var PageInterface[]
+     */
     protected $children;
 
+    /**
+     * @var SnapshotInterface[]
+     */
     protected $snapshots;
 
+    /**
+     * @var string
+     */
     protected $templateCode;
 
+    /**
+     * @var int
+     */
     protected $position = 1;
 
+    /**
+     * @var bool
+     */
     protected $decorate = true;
 
+    /**
+     * @var SiteInterface
+     */
     protected $site;
 
+    /**
+     * @var bool
+     */
     protected $edited;
 
+    /**
+     * @var \Closure
+     */
     protected static $slugifyMethod;
 
     /**
@@ -472,7 +565,7 @@ abstract class Page implements PageInterface
     /**
      * Set target.
      *
-     * @param \Sonata\PageBundle\Model\PageInterface $target
+     * @param PageInterface $target
      */
     public function setTarget(PageInterface $target = null)
     {

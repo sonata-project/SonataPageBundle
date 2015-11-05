@@ -162,7 +162,7 @@ class BlockController
      *
      * @return BlockInterface
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @throws NotFoundHttpException
      */
     protected function getBlock($id)
     {

@@ -15,6 +15,7 @@ use Knp\Menu\FactoryInterface;
 use Knp\Menu\Provider\MenuProviderInterface;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
+use Sonata\PageBundle\Model\PageInterface;
 use Sonata\SeoBundle\Block\Breadcrumb\BaseBreadcrumbMenuBlockService;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 
@@ -98,7 +99,7 @@ class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
     /**
      * Return the current Page.
      *
-     * @return \Sonata\PageBundle\Model\PageInterface
+     * @return PageInterface
      */
     protected function getCurrentPage()
     {

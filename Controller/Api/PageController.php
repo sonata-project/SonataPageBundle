@@ -411,7 +411,7 @@ class PageController
      *
      * @return PageInterface
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @throws NotFoundHttpException
      */
     protected function getPage($id)
     {
@@ -431,7 +431,7 @@ class PageController
      *
      * @return BlockInterface
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @throws NotFoundHttpException
      */
     protected function getBlock($id)
     {
@@ -450,7 +450,7 @@ class PageController
      * @param Request  $request Symfony request
      * @param int|null $id      A page identifier
      *
-     * @return \FOS\RestBundle\View\View|FormInterface
+     * @return FormInterface
      */
     protected function handleWritePage($request, $id = null)
     {

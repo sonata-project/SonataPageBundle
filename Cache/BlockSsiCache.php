@@ -99,9 +99,7 @@ class BlockSsiCache extends SsiCache
     }
 
     /**
-     * @param array $keys
-     *
-     * @return string
+     * {@inheritdoc}
      */
     protected function computeHash(array $keys)
     {
@@ -115,9 +113,7 @@ class BlockSsiCache extends SsiCache
     }
 
     /**
-     * @param Request $request
-     *
-     * @return mixed
+     * {@inheritdoc}
      */
     public function cacheAction(Request $request)
     {

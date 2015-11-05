@@ -18,38 +18,89 @@ namespace Sonata\PageBundle\Model;
  */
 abstract class Snapshot implements SnapshotInterface
 {
+    /**
+     * @var \DateTime
+     */
     protected $createdAt;
 
+    /**
+     * @var \DateTime
+     */
     protected $updatedAt;
 
+    /**
+     * @var string
+     */
     protected $routeName;
 
+    /**
+     * @var string
+     */
     protected $pageAlias;
 
+    /**
+     * @var string
+     */
     protected $type;
 
+    /**
+     * @var string
+     */
     protected $name;
 
+    /**
+     * @var string
+     */
     protected $url;
 
+    /**
+     * @var
+     */
     protected $enabled;
 
+    /**
+     * @var \DateTime
+     */
     protected $publicationDateStart;
 
+    /**
+     * @var \DateTime
+     */
     protected $publicationDateEnd;
 
+    /**
+     * @var int
+     */
     protected $position = 1;
 
+    /**
+     * @var bool
+     */
     protected $decorate = true;
 
+    /**
+     * @var array
+     */
     protected $content = array();
 
+    /**
+     * @var PageInterface
+     */
     protected $page;
 
+    /**
+     * @var PageInterface[]
+     */
     protected $children = array();
 
+    /**
+     * @var PageInterface
+     */
     protected $parent;
 
+    /**
+     * @var int
+     */
     protected $parentId;
 
     protected $sources;
@@ -58,6 +109,9 @@ abstract class Snapshot implements SnapshotInterface
 
     protected $targetId;
 
+    /**
+     * @var SiteInterface
+     */
     protected $site;
 
     /**

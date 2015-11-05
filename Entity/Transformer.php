@@ -27,12 +27,24 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class Transformer implements TransformerInterface
 {
+    /**
+     * @var SnapshotManagerInterface
+     */
     protected $snapshotManager;
 
+    /**
+     * @var PageManagerInterface
+     */
     protected $pageManager;
 
+    /**
+     * @var BlockManagerInterface
+     */
     protected $blockManager;
 
+    /**
+     * @var BlockInterface[]
+     */
     protected $children = array();
 
     /**
@@ -182,10 +194,7 @@ class Transformer implements TransformerInterface
     }
 
     /**
-     * @param array         $content
-     * @param PageInterface $page
-     *
-     * @return BlockInterface
+     * {@inheritdoc}
      */
     public function loadBlock(array $content, PageInterface $page)
     {

@@ -11,8 +11,12 @@
 
 namespace Sonata\PageBundle\Controller;
 
+use Sonata\PageBundle\CmsManager\CmsManagerInterface;
+use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Exception\InternalErrorException;
 use Sonata\PageBundle\Exception\PageNotFoundException;
+use Sonata\PageBundle\Listener\ExceptionListener;
+use Sonata\PageBundle\Page\PageServiceManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -67,7 +71,7 @@ class PageController extends Controller
     }
 
     /**
-     * @return \Sonata\PageBundle\Page\PageServiceManagerInterface
+     * @return PageServiceManagerInterface
      */
     protected function getPageServiceManager()
     {
@@ -75,7 +79,7 @@ class PageController extends Controller
     }
 
     /**
-     * @return \Sonata\PageBundle\CmsManager\CmsManagerInterface
+     * @return CmsManagerInterface
      */
     protected function getCmsManager()
     {
@@ -83,7 +87,7 @@ class PageController extends Controller
     }
 
     /**
-     * @return \Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface
+     * @return CmsManagerSelectorInterface
      */
     protected function getCmsManagerSelector()
     {
@@ -91,7 +95,7 @@ class PageController extends Controller
     }
 
     /**
-     * @return \Sonata\PageBundle\Listener\ExceptionListener
+     * @return ExceptionListener
      */
     public function getExceptionListener()
     {
