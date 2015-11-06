@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * generated on: Thu Nov 06 2014 00:08:06 GMT+0100 (CET)
- * revision:     71deefa3b32e338654bad5b904239358daf1d7e6
+ * generated on: Fri Nov 06 2015 13:04:38 GMT+0100 (CET)
+ * revision:     31405246909db315cb388c5dc2e7640388b49bc5
  *
  */
 /**
@@ -506,3 +506,12 @@ Sonata.Page = {
         }
     }
 };
+
+
+// auto-initialize plugin
+$(function () {
+    $('[data-page-editor]').each(function () {
+        var attr = $(this).data('page-editor');
+        Sonata.Page.init(attr);
+    });
+});

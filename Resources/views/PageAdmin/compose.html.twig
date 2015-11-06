@@ -26,7 +26,23 @@ file that was distributed with this source code.
         {% else %}
             <div class="row row-fluid">
                 <div class="col-md-4 span4">
-                    <div class="page-composer__page-preview">
+                    <div class="page-composer__page-preview" data-page-composer='{{ {
+                        pageId: page.id,
+                        csrfTokens: csrfTokens,
+                        translations: {
+                            cancel: 'cancel'|trans({}, 'SonataPageBundle'),
+                            composer_preview_error: 'page.composer_preview_error'|trans({}, 'SonataPageBundle'),
+                            composer_update_saving: 'page.composer_update_saving'|trans({}, 'SonataPageBundle'),
+                            composer_update_saved: 'page.composer_update_saved'|trans({}, 'SonataPageBundle'),
+                            composer_update_error: 'page.composer_update_error'|trans({}, 'SonataPageBundle'),
+                            composer_status_error: 'page.composer_status_error'|trans({}, 'SonataPageBundle')
+                        },
+                        routes: {
+                            save_blocks_positions: admin_pool.getAdminByAdminCode('sonata.page.admin.block').generateUrl('savePosition', { 'id': page.id }),
+                            block_switch_parent:   admin_pool.getAdminByAdminCode('sonata.page.admin.block').generateUrl('switchParent'),
+                            block_preview:         admin_pool.getAdminByAdminCode('sonata.page.admin.block').generateUrl('composePreview', { 'block_id': 'BLOCK_ID' })
+                        }
+                    }|json_encode()|raw }}'>
                         <div class="page-composer__page-preview__containers">
                             {% for container in containers %}
                                 {% if container.block is defined and container.block %}
@@ -83,30 +99,6 @@ file that was distributed with this source code.
                     </div>
                 </div>
             </div>
-            <script>
-                $(document).ready(function () {
-                    var composer = new PageComposer({{ page.id }}, {
-                        translations: {
-                            cancel: "{{ 'cancel'|trans({}, 'SonataPageBundle') }}",
-                            composer_preview_error: "{{ 'page.composer_preview_error'|trans({}, 'SonataPageBundle') }}",
-                            composer_update_saving: "{{ 'page.composer_update_saving'|trans({}, 'SonataPageBundle') }}",
-                            composer_update_saved: "{{ 'page.composer_update_saved'|trans({}, 'SonataPageBundle') }}",
-                            composer_update_error: "{{ 'page.composer_update_error'|trans({}, 'SonataPageBundle') }}",
-                            composer_status_error: "{{ 'page.composer_status_error'|trans({}, 'SonataPageBundle') }}"
-                        },
-                        routes: {
-                            save_blocks_positions: "{{ admin_pool.getAdminByAdminCode('sonata.page.admin.block').generateUrl('savePosition', { 'id': page.id }) }}",
-                            block_switch_parent:   "{{ admin_pool.getAdminByAdminCode('sonata.page.admin.block').generateUrl('switchParent') }}",
-                            block_preview:         "{{ admin_pool.getAdminByAdminCode('sonata.page.admin.block').generateUrl('composePreview', { 'block_id': 'BLOCK_ID' }) }}"
-                        }
-                    });
-                    composer.csrfTokens = {{ csrfTokens|json_encode()|raw }};
-
-                    window.SonataPageComposer = composer;
-                });
-            </script>
         {% endif %}
     </div>
-
-
 {% endblock %}
