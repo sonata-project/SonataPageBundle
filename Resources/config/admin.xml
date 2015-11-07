@@ -73,6 +73,7 @@
             <argument />
             <argument>%sonata.page.admin.block.entity%</argument>
             <argument>%sonata.page.admin.block.controller%</argument>
+            <argument>%sonata_block.blocks%</argument>
 
             <call method="setCacheManager">
                 <argument type="service" id="sonata.cache.manager" />
