@@ -37,6 +37,13 @@ class SnapshotAdmin extends Admin
     /**
      * {@inheritdoc}
      */
+    protected $accessMapping = array(
+        'batchToggleEnabled' => 'EDIT',
+    );
+
+    /**
+     * {@inheritdoc}
+     */
     public function configureListFields(ListMapper $listMapper)
     {
         $listMapper

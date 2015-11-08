@@ -23,10 +23,6 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class SnapshotAdminController extends Controller
 {
-    protected $accessMapping = array(
-        'batchToggleEnabled' => 'EDIT',
-    );
-
     /**
      * {@inheritdoc}
      */
