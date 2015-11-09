@@ -103,6 +103,9 @@ abstract class Snapshot implements SnapshotInterface
      */
     protected $parentId;
 
+    /**
+     * @deprecated since version 2.4 and will be removed in 3.0.
+     */
     protected $sources;
 
     protected $target;
@@ -387,18 +390,22 @@ abstract class Snapshot implements SnapshotInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated since version 2.4 and will be removed in 3.0.
      */
     public function setSources($sources)
     {
+        trigger_error('The '.__METHOD__.' method is deprecated since version 2.4 and will be removed in 3.0.', E_USER_DEPRECATED);
+
         $this->sources = $sources;
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated since version 2.4 and will be removed in 3.0.
      */
     public function getSource()
     {
+        trigger_error('The '.__METHOD__.' method is deprecated since version 2.4 and will be removed in 3.0.', E_USER_DEPRECATED);
+
         return $this->sources;
     }
 
