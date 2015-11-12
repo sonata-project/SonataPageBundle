@@ -24,7 +24,7 @@ file that was distributed with this source code.
             {% for code, service in services %}
                 <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
                     <a  href="{{ admin.generateUrl('create', {'type': code}) }}"
-                        class="btn btn-app btn-block"
+                        class="btn btn-app btn-block sonata-block-type"
                         data-toggle="tooltip"
                         data-placement="top"
                         title="{{ service.blockMetadata.description|trans({}, service.blockMetadata.domain|default('SonataPageBundle')) }}"
