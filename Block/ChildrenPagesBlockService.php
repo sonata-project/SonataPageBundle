@@ -90,20 +90,25 @@ class ChildrenPagesBlockService extends BaseBlockService
             'keys' => array(
                 array('title', 'text', array(
                   'required' => false,
+                    'label'  => 'form.label_title',
                 )),
                 array('current', 'checkbox', array(
                   'required' => false,
+                  'label'    => 'form.label_current',
                 )),
                 array('pageId', 'sonata_page_selector', array(
                     'model_manager' => $formMapper->getAdmin()->getModelManager(),
                     'class'         => $formMapper->getAdmin()->getClass(),
                     'site'          => $block->getPage()->getSite(),
                     'required'      => false,
+                    'label'         => 'form.label_page',
                 )),
                 array('class', 'text', array(
                   'required' => false,
+                  'label'    => 'form.label_class',
                 )),
             ),
+            'translation_domain' => 'SonataPageBundle',
         ));
     }
 

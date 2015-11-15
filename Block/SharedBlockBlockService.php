@@ -131,7 +131,9 @@ class SharedBlockBlockService extends BaseBlockService
     protected function getBlockBuilder(FormMapper $formMapper)
     {
         // simulate an association ...
-        $fieldDescription = $this->getSharedBlockAdmin()->getModelManager()->getNewFieldDescriptionInstance($this->sharedBlockAdmin->getClass(), 'block');
+        $fieldDescription = $this->getSharedBlockAdmin()->getModelManager()->getNewFieldDescriptionInstance($this->sharedBlockAdmin->getClass(), 'block', array(
+            'translation_domain' => 'SonataPageBundle',
+        ));
         $fieldDescription->setAssociationAdmin($this->getSharedBlockAdmin());
         $fieldDescription->setAdmin($formMapper->getAdmin());
         $fieldDescription->setOption('edit', 'list');
@@ -144,7 +146,7 @@ class SharedBlockBlockService extends BaseBlockService
                 'sonata_field_description' => $fieldDescription,
                 'class'                    => $this->getSharedBlockAdmin()->getClass(),
                 'model_manager'            => $this->getSharedBlockAdmin()->getModelManager(),
-                'label'                    => 'block',
+                'label'                    => 'form.label_block',
                 'required'                 => false,
             ));
     }

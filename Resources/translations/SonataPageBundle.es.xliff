@@ -839,6 +839,74 @@
           <source>sonata.page.block.pagelist</source>
           <target>sonata.page.block.pagelist</target>
       </trans-unit>
+      <trans-unit id="209" resname="form.label_block">
+          <source>form.label_block</source>
+          <target>form.label_block</target>
+      </trans-unit>
+      <trans-unit id="210" resname="form.label_title">
+          <source>form.label_title</source>
+          <target>form.label_title</target>
+      </trans-unit>
+      <trans-unit id="211" resname="form.label_current">
+          <source>form.label_current</source>
+          <target>form.label_current</target>
+      </trans-unit>
+      <trans-unit id="212" resname="form.label_page">
+          <source>form.label_page</source>
+          <target>form.label_page</target>
+      </trans-unit>
+      <trans-unit id="213" resname="form.label_class">
+          <source>form.label_class</source>
+          <target>form.label_class</target>
+      </trans-unit>
+      <trans-unit id="214" resname="form.label_text">
+          <source>form.label_text</source>
+          <target>form.label_text</target>
+      </trans-unit>
+      <trans-unit id="215" resname="form.label_cache_policy">
+          <source>form.label_cache_policy</source>
+          <target>form.label_cache_policy</target>
+      </trans-unit>
+      <trans-unit id="216" resname="form.label_cache_policy_public">
+          <source>form.label_cache_policy_public</source>
+          <target>form.label_cache_policy_public</target>
+      </trans-unit>
+      <trans-unit id="217" resname="form.label_cache_policy_private">
+          <source>form.label_cache_policy_private</source>
+          <target>form.label_cache_policy_private</target>
+      </trans-unit>
+      <trans-unit id="218" resname="form.label_menu_name">
+          <source>form.label_menu_name</source>
+          <target>form.label_menu_name</target>
+      </trans-unit>
+      <trans-unit id="219" resname="form.label_safe_labels">
+          <source>form.label_safe_labels</source>
+          <target>form.label_safe_labels</target>
+      </trans-unit>
+      <trans-unit id="220" resname="form.label_current_class">
+          <source>form.label_current_class</source>
+          <target>form.label_current_class</target>
+      </trans-unit>
+      <trans-unit id="221" resname="form.label_first_class">
+          <source>form.label_first_class</source>
+          <target>form.label_first_class</target>
+      </trans-unit>
+      <trans-unit id="222" resname="form.label_last_class">
+          <source>form.label_last_class</source>
+          <target>form.label_last_class</target>
+      </trans-unit>
+      <trans-unit id="223" resname="form.label_menu_class">
+          <source>form.label_menu_class</source>
+          <target>form.label_menu_class</target>
+      </trans-unit>
+      <trans-unit id="224" resname="form.label_children_class">
+          <source>form.label_children_class</source>
+          <target>form.label_children_class</target>
+      </trans-unit>
+      <trans-unit id="225" resname="form.label_menu_template">
+          <source>form.label_menu_template</source>
+          <target>form.label_menu_template</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
