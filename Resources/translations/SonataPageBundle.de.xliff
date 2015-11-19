@@ -672,7 +672,7 @@
       </trans-unit>
       <trans-unit id="167" resname="page.compose_page">
           <source>page.compose_page</source>
-          <target>Compose</target>
+          <target>Editor</target>
       </trans-unit>
       <trans-unit id="168" resname="page.orphan_containers">
           <source>page.orphan_containers</source>
@@ -760,7 +760,7 @@
       </trans-unit>
       <trans-unit id="189" resname="pages.compose_label">
           <source>pages.compose_label</source>
-          <target>compose</target>
+          <target>Editor</target>
       </trans-unit>
       <trans-unit id="190" resname="pages.edited_label">
           <source>pages.edited_label</source>
