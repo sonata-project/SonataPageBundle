@@ -21,6 +21,7 @@ use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Symfony\Bridge\Twig\Extension\HttpKernelExtension;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
@@ -170,7 +171,7 @@ class PageExtension extends \Twig_Extension implements \Twig_Extension_InitRunti
      *
      * @return string
      */
-    public function ajaxUrl(PageBlockInterface $block, $parameters = array(), $absolute = false)
+    public function ajaxUrl(PageBlockInterface $block, $parameters = array(), $absolute = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
         $parameters['blockId'] = $block->getId();
 
