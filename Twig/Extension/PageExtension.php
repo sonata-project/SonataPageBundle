@@ -90,11 +90,11 @@ class PageExtension extends \Twig_Extension implements \Twig_Extension_InitRunti
     public function getFunctions()
     {
         return array(
-            new \Twig_SimpleFunction('sonata_page_ajax_url' , array($this, 'ajaxUrl')),
-            new \Twig_SimpleFunction('sonata_page_url' , array($this, 'url')),
-            new \Twig_SimpleFunction('sonata_page_breadcrumb' , array($this, 'breadcrumb'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('sonata_page_render_container' , array($this, 'renderContainer'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('sonata_page_render_block' , array($this, 'renderBlock'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('sonata_page_ajax_url', array($this, 'ajaxUrl')),
+            new \Twig_SimpleFunction('sonata_page_url', array($this, 'url')),
+            new \Twig_SimpleFunction('sonata_page_breadcrumb', array($this, 'breadcrumb'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('sonata_page_render_container', array($this, 'renderContainer'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('sonata_page_render_block', array($this, 'renderBlock'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('controller', array($this, 'controller')),
         );
     }
