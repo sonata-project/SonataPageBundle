@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * generated on: Thu Aug 13 2015 17:19:07 GMT+0200 (CEST)
- * revision:     c1ba33adb260e00625ec71542a3e8c5c11ca85ad
+ * generated on: Fri Nov 06 2015 13:04:38 GMT+0100 (CET)
+ * revision:     31405246909db315cb388c5dc2e7640388b49bc5
  *
  */
 /**
@@ -39,7 +39,7 @@
         this.$containerPreviews = this.$pagePreview.find('.page-composer__page-preview__container');
         this.routes             = $.extend({}, settings.routes       || {});
         this.translations       = $.extend({}, settings.translations || {});
-        this.csrfTokens         = {};
+        this.csrfTokens         = $.extend({}, settings.csrfTokens   || {});
 
         this.bindPagePreviewHandlers();
         this.bindOrphansHandlers();
@@ -155,7 +155,7 @@
                     }
                 },
                 error: function () {
-                    self.containerNotification('an error occured while fetching block preview', 'error', true);
+                    self.containerNotification('composer_preview_error', 'error', true);
                 }
             });
         },
@@ -190,7 +190,7 @@
                 if (type) {
                     $notice.addClass(type);
                 }
-                $notice.text(message);
+                $notice.text(this.translate(message));
                 $notice.show();
                 if (persist !== true) {
                     this.containerNotificationTimer = setTimeout(function () {
@@ -221,18 +221,18 @@
          */
         handleBlockPositionsUpdate: function (event) {
             var self = this;
-            this.containerNotification('saving block positions…');
+            this.containerNotification('composer_update_saving');
             $.ajax({
                 url:  this.getRouteUrl('save_blocks_positions'),
                 type: 'POST',
                 data: { disposition: event.disposition },
                 success: function (resp) {
                     if (resp.result && resp.result === 'ok') {
-                        self.containerNotification('block positions saved', 'success');
+                        self.containerNotification('composer_update_saved', 'success');
                     }
                 },
                 error: function () {
-                    self.containerNotification('an error occured while saving block positions', 'error', true);
+                    self.containerNotification('composer_update_error', 'error', true);
                 }
             });
         },
@@ -620,11 +620,11 @@
                                 });
                             }
                         } else {
-                            self.containerNotification('an error occured while saving block enabled status', 'error', true);
+                            self.containerNotification('composer_status_error', 'error', true);
                         }
                     },
                     error: function () {
-                        self.containerNotification('an error occured while saving block enabled status', 'error', true);
+                        self.containerNotification('composer_status_error', 'error', true);
                     }
                 });
             });
@@ -883,6 +883,14 @@
     };
 
     global.PageComposer = PageComposer;
+
+    // auto-initialize plugin
+    $(function () {
+        $('[data-page-composer]').each(function () {
+            var attr = $(this).data('page-composer');
+            new PageComposer(attr.pageId, attr);
+        });
+    });
 
 })(jQuery, window);
 

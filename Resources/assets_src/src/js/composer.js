@@ -26,7 +26,7 @@
         this.$containerPreviews = this.$pagePreview.find('.page-composer__page-preview__container');
         this.routes             = $.extend({}, settings.routes       || {});
         this.translations       = $.extend({}, settings.translations || {});
-        this.csrfTokens         = {};
+        this.csrfTokens         = $.extend({}, settings.csrfTokens   || {});
 
         this.bindPagePreviewHandlers();
         this.bindOrphansHandlers();
@@ -870,5 +870,13 @@
     };
 
     global.PageComposer = PageComposer;
+
+    // auto-initialize plugin
+    $(function () {
+        $('[data-page-composer]').each(function () {
+            var attr = $(this).data('page-composer');
+            new PageComposer(attr.pageId, attr);
+        });
+    });
 
 })(jQuery, window);

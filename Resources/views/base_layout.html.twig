@@ -65,7 +65,15 @@ file that was distributed with this source code.
                         </script>
                     {% endif %}
 
-                    <header class="sonata-bc sonata-page-top-bar navbar navbar-inverse navbar-fixed-top" role="banner">
+                    <header class="sonata-bc sonata-page-top-bar navbar navbar-inverse navbar-fixed-top" role="banner"
+                    {% if sonata_page.isEditor and sonata_page.isInlineEditionOn %}
+                        data-page-editor='{{ {
+                            url: {
+                                block_save_position: sonata_admin.objectUrl('sonata.page.admin.page', 'edit', page),
+                                block_edit:          sonata_admin.url('sonata.page.admin.page|sonata.page.admin.block', 'edit', {'id': 'BLOCK_ID'})
+                            }
+                        }|json_encode()|raw }}'
+                    {% endif %}>
                         <div class="container">
                             <ul class="nav navbar-nav">
                                 {% if app.security and app.security.token and is_granted('ROLE_SONATA_ADMIN') %}

@@ -492,4 +492,13 @@ Sonata.Page = {
 
         }
     }
-}
+};
+
+
+// auto-initialize plugin
+$(function () {
+    $('[data-page-editor]').each(function () {
+        var attr = $(this).data('page-editor');
+        Sonata.Page.init(attr);
+    });
+});
