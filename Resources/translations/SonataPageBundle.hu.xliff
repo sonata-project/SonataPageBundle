@@ -794,6 +794,46 @@
                 <source>message_page_does_not_exist</source>
                 <target>message_page_does_not_exist</target>
             </trans-unit>
+            <trans-unit id="199" resname="title_content_pages">
+                <source>title_content_pages</source>
+                <target>title_content_pages</target>
+            </trans-unit>
+            <trans-unit id="200" resname="label_page_enabled">
+                <source>label_page_enabled</source>
+                <target>label_page_enabled</target>
+            </trans-unit>
+            <trans-unit id="201" resname="label_page_disabled">
+                <source>label_page_disabled</source>
+                <target>label_page_disabled</target>
+            </trans-unit>
+            <trans-unit id="202" resname="title_system_pages">
+                <source>title_system_pages</source>
+                <target>title_system_pages</target>
+            </trans-unit>
+            <trans-unit id="203" resname="no_pages_found">
+                <source>no_pages_found</source>
+                <target>no_pages_found</target>
+            </trans-unit>
+            <trans-unit id="204" resname="view_all_pages">
+                <source>view_all_pages</source>
+                <target>view_all_pages</target>
+            </trans-unit>
+            <trans-unit id="205" resname="form.label_mode">
+                <source>form.label_mode</source>
+                <target>form.label_mode</target>
+            </trans-unit>
+            <trans-unit id="206" resname="form.label_mode_public">
+                <source>form.label_mode_public</source>
+                <target>form.label_mode_public</target>
+            </trans-unit>
+            <trans-unit id="207" resname="form.label_mode_admin">
+                <source>form.label_mode_admin</source>
+                <target>form.label_mode_admin</target>
+            </trans-unit>
+            <trans-unit id="208" resname="sonata.page.block.pagelist">
+                <source>sonata.page.block.pagelist</source>
+                <target>sonata.page.block.pagelist</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
