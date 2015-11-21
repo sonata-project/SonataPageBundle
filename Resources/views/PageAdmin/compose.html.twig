@@ -83,11 +83,11 @@ file that was distributed with this source code.
                             <ul>
                                 {% for orphanContainer in orphanContainers %}
                                     <li class="page-composer__orphan-container block-preview-{{ orphanContainer.id }}"
-                                        data-block-id="{{ orphanContainer.id }}"
-                                        href="{{ admin.generateUrl('compose_container_show', { 'id': orphanContainer.id }) }}"
-                                    >
-                                        <strong>{{ orphanContainer.name|default(orphanContainer.type) }}</strong><br>
-                                        <small><span class="child-count">{{ orphanContainer.children|length }}</span> {% transchoice orphanContainer.children|length from 'SonataPageBundle' %}page.compose_blocks_label{% endtranschoice %}</small>
+                                        data-block-id="{{ orphanContainer.id }}">
+                                        <a href="{{ admin.generateUrl('compose_container_show', { 'id': orphanContainer.id }) }}">
+                                            <strong>{{ orphanContainer.name|default(orphanContainer.type) }}</strong><br>
+                                            <small><span class="child-count">{{ orphanContainer.children|length }}</span> {% transchoice orphanContainer.children|length from 'SonataPageBundle' %}page.compose_blocks_label{% endtranschoice %}</small>
+                                        </a>
                                     </li>
                                 {% endfor %}
                             </ul>
