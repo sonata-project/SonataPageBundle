@@ -16,7 +16,10 @@ use Sonata\CoreBundle\Model\BaseEntityManager;
 use Sonata\DatagridBundle\Pager\Doctrine\Pager;
 use Sonata\DatagridBundle\ProxyQuery\Doctrine\ProxyQuery;
 use Sonata\PageBundle\Model\PageInterface;
+use Sonata\PageBundle\Model\SnapshotInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
+use Sonata\PageBundle\Model\SnapshotPageProxyFactory;
+use Sonata\PageBundle\Model\TransformerInterface;
 
 /**
  * This class manages SnapshotInterface persistency with the Doctrine ORM.
@@ -36,24 +39,24 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
     protected $templates = array();
 
     /**
-     * @var string
+     * @var SnapshotPageProxyFactory
      */
-    protected $snapshotPageProxyClass;
+    protected $snapshotPageProxyFactory;
 
     /**
      * Constructor.
      *
-     * @param string          $class                  Namespace of entity class
-     * @param ManagerRegistry $registry               An entity manager instance
-     * @param array           $templates              An array of templates
-     * @param string          $snapshotPageProxyClass Namespace of SnapshotPageProxy class
+     * @param string                   $class                    Namespace of entity class
+     * @param ManagerRegistry          $registry                 An entity manager instance
+     * @param array                    $templates                An array of templates
+     * @param SnapshotPageProxyFactory $snapshotPageProxyFactory SnapshotPageProxy factory
      */
-    public function __construct($class, ManagerRegistry $registry, $templates = array(), $snapshotPageProxyClass = 'Sonata\PageBundle\Model\SnapshotPageProxy')
+    public function __construct($class, ManagerRegistry $registry, $templates = array(), SnapshotPageProxyFactory $snapshotPageProxyFactory)
     {
         parent::__construct($class, $registry);
 
-        $this->templates     = $templates;
-        $this->snapshotPageProxyClass = $snapshotPageProxyClass;
+        $this->templates                = $templates;
+        $this->snapshotPageProxyFactory = $snapshotPageProxyFactory;
     }
 
     /**
@@ -143,34 +146,6 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
         $query->setParameters($parameters);
 
         return $query->getQuery()->getOneOrNullResult();
-    }
-
-    /**
-     * return a page with the given routeName.
-     *
-     * @param string $routeName
-     *
-     * @return PageInterface|false
-     */
-    public function getPageByName($routeName)
-    {
-        $snapshots = $this->getEntityManager()->createQueryBuilder()
-            ->select('s')
-            ->from($this->class, 's')
-            ->where('s.routeName = :routeName')
-            ->setParameters(array(
-                'routeName' => $routeName,
-            ))
-            ->getQuery()
-            ->execute();
-
-        $snapshot = count($snapshots) > 0 ? $snapshots[0] : false;
-
-        if ($snapshot) {
-            return new $this->snapshotPageProxy($this, $snapshot);
-        }
-
-        return false;
     }
 
     /**
@@ -322,5 +297,20 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
         $pager->init();
 
         return $pager;
+    }
+
+    /**
+     * Create a snapShotPageProxy instance.
+     *
+     * @param TransformerInterface $transformer
+     * @param SnapshotInterface    $snapshot
+     *
+     * @return SnapshotPageProxyInterface
+     */
+    public function createSnapShopPageProxy(TransformerInterface $transformer, SnapshotInterface $snapshot)
+    {
+        return $this->snapshotPageProxyFactory
+            ->create($this, $transformer, $snapshot)
+        ;
     }
 }

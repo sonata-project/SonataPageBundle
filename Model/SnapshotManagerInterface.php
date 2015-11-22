@@ -43,4 +43,14 @@ interface SnapshotManagerInterface extends ManagerInterface, PageableManagerInte
      * @return int The number of deleted rows
      */
     public function cleanup(PageInterface $page, $keep);
+
+    /**
+     * Create snapShotPageProxy instance.
+     *
+     * @param TransformerInterface $transformer
+     * @param SnapshotInterface    $snapshot
+     *
+     * @return mixed
+     */
+    public function createSnapShopPageProxy(TransformerInterface $transformer, SnapshotInterface $snapshot);
 }

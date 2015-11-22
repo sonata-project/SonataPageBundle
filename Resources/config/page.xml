@@ -92,7 +92,6 @@
 
              <argument type="service" id="sonata.page.manager.snapshot" />
              <argument type="service" id="sonata.page.transformer" />
-             <argument>%sonata.page.proxy.snapshot.class%</argument>
         </service>
 
         <service id="sonata.page.decorator_strategy" class="%sonata.page.decorator_strategy.class%">

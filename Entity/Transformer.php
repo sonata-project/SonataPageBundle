@@ -47,24 +47,18 @@ class Transformer implements TransformerInterface
     protected $children = array();
 
     /**
-     * @var string
-     */
-    protected $snapshotPageProxyClass;
-
-    /**
      * @param SnapshotManagerInterface $snapshotManager
      * @param PageManagerInterface     $pageManager
      * @param BlockManagerInterface    $blockManager
      * @param RegistryInterface        $registry
      * @param string                   $snapshotPageProxyClass Namespace of SnapshotPageProxy class
      */
-    public function __construct(SnapshotManagerInterface $snapshotManager, PageManagerInterface $pageManager, BlockManagerInterface $blockManager, RegistryInterface $registry, $snapshotPageProxyClass = 'Sonata\PageBundle\Model\SnapshotPageProxy')
+    public function __construct(SnapshotManagerInterface $snapshotManager, PageManagerInterface $pageManager, BlockManagerInterface $blockManager, RegistryInterface $registry)
     {
         $this->snapshotManager   = $snapshotManager;
         $this->pageManager       = $pageManager;
         $this->blockManager      = $blockManager;
         $this->registry          = $registry;
-        $this->snapshotPageProxyClass = $snapshotPageProxyClass;
     }
 
     /**
@@ -288,7 +282,7 @@ class Transformer implements TransformerInterface
             $pages = array();
 
             foreach ($snapshots as $snapshot) {
-                $page                  = new $this->snapshotPageProxy($this->snapshotManager, $this, $snapshot);
+                $page = $this->snapshotManager->createSnapShopPageProxy($this, $snapshot);
                 $pages[$page->getId()] = $page;
             }
 

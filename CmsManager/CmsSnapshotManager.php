@@ -47,20 +47,13 @@ class CmsSnapshotManager extends BaseCmsPageManager
     protected $pages = array();
 
     /**
-     * @var string
-     */
-    protected $snapshotPageProxyClass;
-
-    /**
      * @param SnapshotManagerInterface $snapshotManager
      * @param TransformerInterface     $transformer
-     * @param string                   $snapshotPageProxyClass Namespace of SnaphostPageProxy class
      */
-    public function __construct(SnapshotManagerInterface $snapshotManager, TransformerInterface $transformer, $snapshotPageProxyClass = 'Sonata\PageBundle\Model\SnapshotPageProxy')
+    public function __construct(SnapshotManagerInterface $snapshotManager, TransformerInterface $transformer)
     {
         $this->snapshotManager = $snapshotManager;
         $this->transformer = $transformer;
-        $this->snapshotPageProxyClass = $snapshotPageProxyClass;
     }
 
     /**
@@ -146,7 +139,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
                 throw new PageNotFoundException();
             }
 
-            $page = new $this->snapshotPageProxyClass($this->snapshotManager, $this->transformer, $snapshot);
+            $page = $this->snapshotManager->createSnapShopPageProxy($this->transformer, $snapshot);
 
             $this->pages[$id] = false;
 

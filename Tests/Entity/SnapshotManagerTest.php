@@ -41,7 +41,12 @@ class SnapshotManagerTest extends \PHPUnit_Framework_TestCase
         $registry = $this->getMock('Doctrine\Common\Persistence\ManagerRegistry');
         $registry->expects($this->any())->method('getManagerForClass')->will($this->returnValue($em));
 
-        return new SnapshotManager('Sonata\PageBundle\Entity\BaseSnapshot', $registry);
+        $snapshotProxyFactory = $this->getMockBuilder('Sonata\PageBundle\Model\SnapshotPageProxyFactory')
+            ->setConstructorArgs(array('Sonata\PageBundle\Model\SnapshotPageProxy'))
+            ->getMock()
+        ;
+
+        return new SnapshotManager('Sonata\PageBundle\Entity\BaseSnapshot', $registry, array(), $snapshotProxyFactory);
     }
 
     public function testGetPager()
