@@ -41,6 +41,8 @@ Add the dependant bundles to the vendor/bundles directory:
     $ php composer.phar require sonata-project/page-bundle --no-update
     $ php composer.phar require sonata-project/datagrid-bundle 2.2.*@dev --no-update #for SonataPageBundle > 2.3.6
     $ php composer.phar require sonata-project/doctrine-orm-admin-bundle --no-update
+    $ php composer.phar require friendsofsymfony/rest-bundle  --no-update # optional when using api
+    $ php composer.phar require nelmio/api-doc-bundle  --no-update # optional when using api
     $ php composer.phar update
 
 .. note::
