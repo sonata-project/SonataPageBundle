@@ -9,6 +9,7 @@
         <parameter key="sonata.page.block.ajax.class">Sonata\PageBundle\Controller\AjaxController</parameter>
         <parameter key="sonata.page.block.breadcrumb.class">Sonata\PageBundle\Block\BreadcrumbBlockService</parameter>
         <parameter key="sonata.page.block.shared_block.class">Sonata\PageBundle\Block\SharedBlockBlockService</parameter>
+        <parameter key="sonata.page.block.pagelist.class">Sonata\PageBundle\Block\PageListBlockService</parameter>
     </parameters>
 
     <services>
@@ -55,6 +56,13 @@
             <argument type="service" id="templating" />
             <argument type="service" id="service_container" />
             <argument type="service" id="sonata.page.manager.block" />
+        </service>
+
+        <service id="sonata.page.block.pages" class="%sonata.page.block.pagelist.class%">
+            <tag name="sonata.block" />
+            <argument>sonata.page.block.pagelist</argument>
+            <argument type="service" id="templating" />
+            <argument type="service" id="sonata.page.manager.page" />
         </service>
     </services>
 </container>
