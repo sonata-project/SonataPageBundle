@@ -16,6 +16,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
+use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\Cache\CacheManagerInterface;
 use Sonata\PageBundle\Entity\BaseBlock;
 use Sonata\PageBundle\Model\PageInterface;
@@ -91,21 +92,44 @@ abstract class BaseBlockAdmin extends Admin
         $subject = parent::getObject($id);
 
         if ($subject) {
-            $service = $this->blockManager->get($subject);
-
-            $resolver = new OptionsResolver();
-            $service->setDefaultSettings($resolver);
-
-            try {
-                $subject->setSettings($resolver->resolve($subject->getSettings()));
-            } catch (InvalidOptionsException $e) {
-                // @TODO : add a logging error or a flash message
-            }
-
-            $service->load($subject);
+            return $this->loadBlockDefaults($subject);
         }
 
         return $subject;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getNewInstance()
+    {
+        $block =  parent::getNewInstance();
+        $block->setType($this->getPersistentParameter('type'));
+
+        return $this->loadBlockDefaults($block);
+    }
+
+    /**
+     * @param BlockInterface $block
+     *
+     * @return BlockInterface
+     */
+    private function loadBlockDefaults(BlockInterface $block)
+    {
+        $service = $this->blockManager->get($block);
+
+        $resolver = new OptionsResolver();
+        $service->setDefaultSettings($resolver);
+
+        try {
+            $block->setSettings($resolver->resolve($block->getSettings()));
+        } catch (InvalidOptionsException $e) {
+            // @TODO : add a logging error or a flash message
+        }
+
+        $service->load($block);
+
+        return $block;
     }
 
     /**
