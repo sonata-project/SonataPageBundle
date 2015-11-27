@@ -840,6 +840,74 @@
           <source>sonata.page.block.pagelist</source>
           <target>sonata.page.block.pagelist</target>
       </trans-unit>
+      <trans-unit id="209" resname="form.label_block">
+          <source>form.label_block</source>
+          <target>Bloc</target>
+      </trans-unit>
+      <trans-unit id="210" resname="form.label_title">
+          <source>form.label_title</source>
+          <target>Titre</target>
+      </trans-unit>
+      <trans-unit id="211" resname="form.label_current">
+          <source>form.label_current</source>
+          <target>Page actuelle</target>
+      </trans-unit>
+      <trans-unit id="212" resname="form.label_page">
+          <source>form.label_page</source>
+          <target>Page</target>
+      </trans-unit>
+      <trans-unit id="213" resname="form.label_class">
+          <source>form.label_class</source>
+          <target>Class CSS</target>
+      </trans-unit>
+      <trans-unit id="214" resname="form.label_text">
+          <source>form.label_text</source>
+          <target>Text</target>
+      </trans-unit>
+      <trans-unit id="215" resname="form.label_cache_policy">
+          <source>form.label_cache_policy</source>
+          <target>Méthode de cache</target>
+      </trans-unit>
+      <trans-unit id="216" resname="form.label_cache_policy_public">
+          <source>form.label_cache_policy_public</source>
+          <target>Public</target>
+      </trans-unit>
+      <trans-unit id="217" resname="form.label_cache_policy_private">
+          <source>form.label_cache_policy_private</source>
+          <target>Privé</target>
+      </trans-unit>
+      <trans-unit id="218" resname="form.label_menu_name">
+          <source>form.label_menu_name</source>
+          <target>Nom du menu</target>
+      </trans-unit>
+      <trans-unit id="219" resname="form.label_safe_labels">
+          <source>form.label_safe_labels</source>
+          <target>Labels</target>
+      </trans-unit>
+      <trans-unit id="220" resname="form.label_current_class">
+          <source>form.label_current_class</source>
+          <target>Class CSS élément séléctionné</target>
+      </trans-unit>
+      <trans-unit id="221" resname="form.label_first_class">
+          <source>form.label_first_class</source>
+          <target>Class CSS premier élément</target>
+      </trans-unit>
+      <trans-unit id="222" resname="form.label_last_class">
+          <source>form.label_last_class</source>
+          <target>Class CSS dernier élément</target>
+      </trans-unit>
+      <trans-unit id="223" resname="form.label_menu_class">
+          <source>form.label_menu_class</source>
+          <target>Class CSS Menu</target>
+      </trans-unit>
+      <trans-unit id="224" resname="form.label_children_class">
+          <source>form.label_children_class</source>
+          <target>Class CSS enfant</target>
+      </trans-unit>
+      <trans-unit id="225" resname="form.label_menu_template">
+          <source>form.label_menu_template</source>
+          <target>Modèle de page</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
