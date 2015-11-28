@@ -58,7 +58,7 @@
             <argument type="service" id="sonata.page.manager.block" />
         </service>
 
-        <service id="sonata.page.block.pages" class="%sonata.page.block.pagelist.class%">
+        <service id="sonata.page.block.pagelist" class="%sonata.page.block.pagelist.class%">
             <tag name="sonata.block" />
             <argument>sonata.page.block.pagelist</argument>
             <argument type="service" id="templating" />
