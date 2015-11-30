@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * generated on: Wed Apr 01 2015 00:20:49 GMT-0600 (CST)
- * revision:     a2858c1dd171a8c58bc87871bb7a17db46475d2e
+ * generated on: Wed Nov 11 2015 19:03:38 GMT+0100 (CET)
+ * revision:     1fe87f63e13f2b732e24d6cfeb84f1c5b28b90e8
  *
  */
 @charset "UTF-8";
@@ -401,6 +401,13 @@
 .page-composer__container__child h4 {
   margin: 0 !important;
   font-size: 14px !important; }
+
+a.sonata-block-type > span {
+  max-width: 100%;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; }
 
 /********************************************************************\
    Page tree
