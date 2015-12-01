@@ -11,6 +11,7 @@
 
 namespace Sonata\PageBundle;
 
+use Sonata\CoreBundle\Form\FormHelper;
 use Sonata\PageBundle\DependencyInjection\Compiler\CacheCompilerPass;
 use Sonata\PageBundle\DependencyInjection\Compiler\GlobalVariablesCompilerPass;
 use Sonata\PageBundle\DependencyInjection\Compiler\PageServiceCompilerPass;
@@ -27,10 +28,16 @@ class SonataPageBundle extends Bundle
     /**
      * {@inheritdoc}
      */
+    public function init()
+    {
+        $this->registerFormMapping();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function build(ContainerBuilder $container)
     {
-        parent::build($container);
-
         $container->addCompilerPass(new CacheCompilerPass());
         $container->addCompilerPass(new GlobalVariablesCompilerPass());
         $container->addCompilerPass(new PageServiceCompilerPass());
@@ -41,6 +48,8 @@ class SonataPageBundle extends Bundle
      */
     public function boot()
     {
+        $this->registerFormMapping();
+
         $container = $this->container;
         $class     = $this->container->getParameter('sonata.page.page.class');
 
@@ -60,5 +69,22 @@ class SonataPageBundle extends Bundle
 
             return $service->slugify($text);
         });
+    }
+
+    /**
+     * Register form mapping information.
+     */
+    public function registerFormMapping()
+    {
+        FormHelper::registerFormTypeMapping(array(
+            'sonata_page_api_form_site'   => 'Sonata\CoreBundle\Form\Type\DoctrineORMSerializationType',
+            'sonata_page_api_form_page'   => 'Sonata\CoreBundle\Form\Type\DoctrineORMSerializationType',
+            'sonata_page_api_form_block'  => 'Sonata\CoreBundle\Form\Type\DoctrineORMSerializationType',
+            'sonata_page_selector'        => 'Sonata\PageBundle\Form\Type\PageSelectorType',
+            'sonata_page_create_snapshot' => 'Sonata\PageBundle\Form\Type\CreateSnapshotType',
+            'sonata_page_template'        => 'Sonata\PageBundle\Form\Type\TemplateChoiceType',
+            'sonata_page_type_choice'     => 'Sonata\PageBundle\Form\Type\PageTypeChoiceType',
+            'cmf_routing_route_type'      => 'Symfony\Cmf\Bundle\RoutingBundle\Form\Type\RouteTypeType',
+        ));
     }
 }
