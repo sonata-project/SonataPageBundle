@@ -19,6 +19,7 @@ use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
@@ -153,7 +154,7 @@ class BlockJsCache implements CacheAdapterInterface
             })();
         /*]]>*/
     </script>
-</div>', $keys['block_id'], $keys['block_id'], $this->router->generate('sonata_page_js_sync_cache', $keys, true));
+</div>', $keys['block_id'], $keys['block_id'], $this->router->generate('sonata_page_js_sync_cache', $keys, UrlGeneratorInterface::ABSOLUTE_URL));
     }
 
     /**
@@ -178,7 +179,7 @@ class BlockJsCache implements CacheAdapterInterface
 
         /*]]>*/
     </script>
-</div>', $keys['block_id'], $this->router->generate('sonata_page_js_async_cache', $keys, true));
+</div>', $keys['block_id'], $this->router->generate('sonata_page_js_async_cache', $keys, UrlGeneratorInterface::ABSOLUTE_URL));
     }
 
     /**

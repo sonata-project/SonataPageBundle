@@ -21,6 +21,7 @@ use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Symfony\Bridge\Twig\Extension\HttpKernelExtension;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
@@ -28,7 +29,7 @@ use Symfony\Component\Routing\RouterInterface;
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class PageExtension extends \Twig_Extension
+class PageExtension extends \Twig_Extension implements \Twig_Extension_InitRuntimeInterface
 {
     /**
      * @var CmsManagerSelectorInterface
@@ -89,11 +90,11 @@ class PageExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'sonata_page_ajax_url'            => new \Twig_Function_Method($this, 'ajaxUrl'),
-            'sonata_page_url'                 => new \Twig_Function_Method($this, 'url'),
-            'sonata_page_breadcrumb'          => new \Twig_Function_Method($this, 'breadcrumb', array('is_safe'      => array('html'))),
-            'sonata_page_render_container'    => new \Twig_Function_Method($this, 'renderContainer', array('is_safe' => array('html'))),
-            'sonata_page_render_block'        => new \Twig_Function_Method($this, 'renderBlock', array('is_safe'     => array('html'))),
+            new \Twig_SimpleFunction('sonata_page_ajax_url', array($this, 'ajaxUrl')),
+            new \Twig_SimpleFunction('sonata_page_url', array($this, 'url')),
+            new \Twig_SimpleFunction('sonata_page_breadcrumb', array($this, 'breadcrumb'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('sonata_page_render_container', array($this, 'renderContainer'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('sonata_page_render_block', array($this, 'renderBlock'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('controller', array($this, 'controller')),
         );
     }
@@ -170,7 +171,7 @@ class PageExtension extends \Twig_Extension
      *
      * @return string
      */
-    public function ajaxUrl(PageBlockInterface $block, $parameters = array(), $absolute = false)
+    public function ajaxUrl(PageBlockInterface $block, $parameters = array(), $absolute = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
         $parameters['blockId'] = $block->getId();
 
