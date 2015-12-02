@@ -325,7 +325,7 @@ class CmsPageRouter implements ChainedRouterInterface
      */
     protected function isPageAlias($name)
     {
-        return (is_string($name) && substr($name, 0, 12) === '_page_alias_');
+        return is_string($name) && substr($name, 0, 12) === '_page_alias_';
     }
 
     /**
@@ -337,6 +337,6 @@ class CmsPageRouter implements ChainedRouterInterface
      */
     protected function isPageSlug($name)
     {
-        return (is_string($name) && $name == PageInterface::PAGE_ROUTE_CMS_NAME);
+        return is_string($name) && $name == PageInterface::PAGE_ROUTE_CMS_NAME;
     }
 }
