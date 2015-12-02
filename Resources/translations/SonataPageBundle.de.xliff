@@ -468,11 +468,11 @@
       </trans-unit>
       <trans-unit id="117" resname="message_create_snapshots">
           <source>message_create_snapshots</source>
-          <target>Den "anlegen" Button anklicken um eine neue Publikation anzulegen : %site%</target>
+          <target>Sind Sie sicher, dass Sie für die Seite "%site%" neue Snapshots anlegen möchten?</target>
       </trans-unit>
       <trans-unit id="118" resname="button_create_snapshots">
           <source>button_create_snapshots</source>
-          <target>Anlegen</target>
+          <target>Snapshots anlegen</target>
       </trans-unit>
       <trans-unit id="119" resname="breadcrumb.link_site_history">
           <source>breadcrumb.link_site_history</source>
