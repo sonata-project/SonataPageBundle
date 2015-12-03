@@ -6,7 +6,7 @@
 
     <services>
 
-        <service id="sonata.page.api.form.type.site" class="Sonata\CoreBundle\Form\Type\DoctrineORMSerializationType">
+        <service id="sonata.page.api.form.type.site" class="Sonata\PageBundle\Form\Type\ApiSiteType">
             <tag name="form.type" alias="sonata_page_api_form_site" />
 
             <argument type="service" id="jms_serializer.metadata_factory" />
@@ -16,7 +16,7 @@
             <argument>sonata_api_write</argument>
         </service>
 
-        <service id="sonata.page.api.form.type.page" class="Sonata\CoreBundle\Form\Type\DoctrineORMSerializationType">
+        <service id="sonata.page.api.form.type.page" class="Sonata\PageBundle\Form\Type\ApiPageType">
             <tag name="form.type" alias="sonata_page_api_form_page" />
 
             <argument type="service" id="jms_serializer.metadata_factory" />
@@ -26,7 +26,7 @@
             <argument>sonata_api_write</argument>
         </service>
 
-        <service id="sonata.page.api.form.type.block" class="Sonata\CoreBundle\Form\Type\DoctrineORMSerializationType">
+        <service id="sonata.page.api.form.type.block" class="Sonata\PageBundle\Form\Type\ApiBlockType">
             <tag name="form.type" alias="sonata_page_api_form_block" />
 
             <argument type="service" id="jms_serializer.metadata_factory" />

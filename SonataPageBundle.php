@@ -77,9 +77,9 @@ class SonataPageBundle extends Bundle
     public function registerFormMapping()
     {
         FormHelper::registerFormTypeMapping(array(
-            'sonata_page_api_form_site'   => 'Sonata\CoreBundle\Form\Type\DoctrineORMSerializationType',
-            'sonata_page_api_form_page'   => 'Sonata\CoreBundle\Form\Type\DoctrineORMSerializationType',
-            'sonata_page_api_form_block'  => 'Sonata\CoreBundle\Form\Type\DoctrineORMSerializationType',
+            'sonata_page_api_form_site'   => 'Sonata\PageBundle\Form\Type\ApiSiteType',
+            'sonata_page_api_form_page'   => 'Sonata\PageBundle\Form\Type\ApiPageType',
+            'sonata_page_api_form_block'  => 'Sonata\PageBundle\Form\Type\ApiBlockType',
             'sonata_page_selector'        => 'Sonata\PageBundle\Form\Type\PageSelectorType',
             'sonata_page_create_snapshot' => 'Sonata\PageBundle\Form\Type\CreateSnapshotType',
             'sonata_page_template'        => 'Sonata\PageBundle\Form\Type\TemplateChoiceType',
