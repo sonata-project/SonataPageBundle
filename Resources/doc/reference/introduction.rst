@@ -1,9 +1,9 @@
 Introduction
 ============
 
-This small introduction will try to explain the basics concepts behind the
+This small introduction will try to explain the basic concepts behind the
 ``PageBundle``. Since the version 2.1 of ``PageBundle``, the Symfony CMF router
-chain is now integrated, this make the solution compatible with others projects
+chain is now integrated, this makes the solution compatible with others projects
 using this component : ezPublish, CMF project and more ...
 
 A Site
@@ -16,7 +16,7 @@ Depends on the configuration a site can be represented by:
 
  * a host : sonata-project.org or sonata-project.com
  * a host + a path : sonata-project.org/uk or sonata-project.org/fr or
-    sonata-project.com/uk
+   sonata-project.com/uk
 
 The latter required a specific ``RequestContext`` to work. This is done by
 changing the ``router`` service.
@@ -24,11 +24,11 @@ changing the ``router`` service.
 A Page
 ------
 
-The ``SonataPageBundle`` is a special kind of CMS as it handles different types
-of page. From within a Symfony2 application, actions are used to render a HTML
+The ``SonataPageBundle`` is a special kind of CMS as it handles different page
+types. From within a Symfony2 application, actions are used to render an HTML
 response. When you need to add a new component (or block) inside an action, you
 need to edit the template. In the other hand, in the CMS world, users edit area
-and manage content but it is not possible to have complex actions or workflows.
+and manage content, but it is not possible to have complex actions or workflows.
 
 It is very difficult to mix CMS page and Action page inside one and unique
 solution. The easiest way is to build the project with 2 backends, one for the
@@ -42,11 +42,11 @@ Page types:
 
     - ``CMS Page``: a standard CMS page with url
     - ``Hybrid Page`` : a page linked to a Symfony action, this can be any kind
-        of url matched by the router.
-    - ``Dynamic Page`` : a dynamic page is an hybrid page with parameters
-        ie, /blog/{year}/{month}/{slug}
+      of url matched by the router.
+    - ``Dynamic Page`` : a dynamic page is an hybrid page with parameters i.e.,
+      /blog/{year}/{month}/{slug}
     - ``Internal Page`` : page shared across different pages, very useful for
-        handling footer and header
+      handling footer and header
 
 A Block
 -------
@@ -61,6 +61,7 @@ A block is a small unit, it contains the following information:
     - service id
     - position
     - settings used by the service
+
 
 Each block service must implement the ``Sonata\PageBundle\Block\BlockServiceInterface``
 which defines a set of functions to create so the service can be integrated
@@ -94,4 +95,4 @@ Depending on the block logic some cache backends are more suitable than others:
 Of course if you don't have a reverse proxy server you can use other caching
 solution such as memcached, mongo or apc.
 
-The ``sonata.cache.noop`` cache can be use if you don't want caching!
+The ``sonata.cache.noop`` cache can be used if you don't want caching!
