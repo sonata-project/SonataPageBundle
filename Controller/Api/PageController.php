@@ -245,7 +245,7 @@ class PageController
             'csrf_protection' => false,
         ));
 
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
             $block = $form->getData();
@@ -460,7 +460,7 @@ class PageController
             'csrf_protection' => false,
         ));
 
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
             $page = $form->getData();

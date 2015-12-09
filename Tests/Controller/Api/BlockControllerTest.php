@@ -46,7 +46,7 @@ class BlockControllerTest extends \PHPUnit_Framework_TestCase
         $blockManager->expects($this->once())->method('save')->will($this->returnValue($block));
 
         $form = $this->getMockBuilder('Symfony\Component\Form\Form')->disableOriginalConstructor()->getMock();
-        $form->expects($this->once())->method('bind');
+        $form->expects($this->once())->method('submit');
         $form->expects($this->once())->method('isValid')->will($this->returnValue(true));
         $form->expects($this->once())->method('getData')->will($this->returnValue($block));
 
@@ -66,7 +66,7 @@ class BlockControllerTest extends \PHPUnit_Framework_TestCase
         $blockManager->expects($this->never())->method('save')->will($this->returnValue($block));
 
         $form = $this->getMockBuilder('Symfony\Component\Form\Form')->disableOriginalConstructor()->getMock();
-        $form->expects($this->once())->method('bind');
+        $form->expects($this->once())->method('submit');
         $form->expects($this->once())->method('isValid')->will($this->returnValue(false));
 
         $formFactory = $this->getMock('Symfony\Component\Form\FormFactoryInterface');

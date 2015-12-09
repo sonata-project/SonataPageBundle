@@ -244,7 +244,7 @@ class SiteController
             'csrf_protection' => false,
         ));
 
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
             $site = $form->getData();
