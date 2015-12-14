@@ -14,7 +14,9 @@ namespace Sonata\PageBundle\Admin;
 use Doctrine\ORM\EntityRepository;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\BlockBundle\Block\BlockServiceInterface;
 use Sonata\PageBundle\Model\PageInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Admin class for the Block model.
@@ -27,6 +29,26 @@ class BlockAdmin extends BaseBlockAdmin
      * {@inheritdoc}
      */
     protected $parentAssociationMapping = 'page';
+
+    /**
+     * @var array
+     */
+    protected $blocks;
+
+    /**
+     * BlockAdmin constructor.
+     *
+     * @param string $code
+     * @param string $class
+     * @param string $baseControllerName
+     * @param array  $blocks
+     */
+    public function __construct($code, $class, $baseControllerName, array $blocks = array())
+    {
+        parent::__construct($code, $class, $baseControllerName);
+
+        $this->blocks = $blocks;
+    }
 
     /**
      * {@inheritdoc}
@@ -77,6 +99,8 @@ class BlockAdmin extends BaseBlockAdmin
             }
         }
 
+        $blockType = $block->getType();
+
         $isComposer = $this->hasRequest() ? $this->getRequest()->get('composer', false) : false;
         $generalGroupOptions = $optionsGroupOptions = array();
         if ($isComposer) {
@@ -94,8 +118,8 @@ class BlockAdmin extends BaseBlockAdmin
 
         $formMapper->end();
 
-        $isContainerRoot = $block && in_array($block->getType(), array('sonata.page.block.container', 'sonata.block.service.container')) && !$this->hasParentFieldDescription();
-        $isStandardBlock = $block && !in_array($block->getType(), array('sonata.page.block.container', 'sonata.block.service.container')) && !$this->hasParentFieldDescription();
+        $isContainerRoot = $block && in_array($blockType, array('sonata.page.block.container', 'sonata.block.service.container')) && !$this->hasParentFieldDescription();
+        $isStandardBlock = $block && !in_array($blockType, array('sonata.page.block.container', 'sonata.block.service.container')) && !$this->hasParentFieldDescription();
 
         if ($isContainerRoot || $isStandardBlock) {
             $formMapper->with('form.field_group_general', $generalGroupOptions);
@@ -141,6 +165,26 @@ class BlockAdmin extends BaseBlockAdmin
                 $service->buildCreateForm($formMapper, $block);
             }
 
+            if ($formMapper->has('settings') && isset($this->blocks[$blockType]['templates'])) {
+                $settingsField = $formMapper->get('settings');
+
+                if (!$settingsField->has('template')) {
+                    $choices = array();
+
+                    if (null !== $defaultTemplate = $this->getDefaultTemplate($service)) {
+                        $choices[$defaultTemplate] = 'default';
+                    }
+
+                    foreach ($this->blocks[$blockType]['templates'] as $item) {
+                        $choices[$item['template']] = $item['name'];
+                    }
+
+                    if (count($choices) > 1) {
+                        $settingsField->add('template', 'choice', array('choices' => $choices));
+                    }
+                }
+            }
+
             $formMapper->end();
         } else {
             $formMapper
@@ -153,6 +197,24 @@ class BlockAdmin extends BaseBlockAdmin
                 ->end()
             ;
         }
+    }
+
+    /**
+     * @param BlockServiceInterface $blockService
+     *
+     * @return string|null
+     */
+    private function getDefaultTemplate(BlockServiceInterface $blockService)
+    {
+        $resolver = new OptionsResolver();
+        $blockService->setDefaultSettings($resolver);
+        $options = $resolver->resolve();
+
+        if (isset($options['template'])) {
+            return $options['template'];
+        }
+
+        return;
     }
 
     /**

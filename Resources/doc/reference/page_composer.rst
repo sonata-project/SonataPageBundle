@@ -79,6 +79,19 @@ Configure
                   B: content_bottom
                   F: footer
 
+Template chooser
+^^^^^^^^^^^^^^^^
+
+If you have added some custom templates to a block for the ``SonataBlockBundle`` you get a template chooser.
+
+.. code-block:: yaml
+
+   sonata_block:
+          acme.demo.block.demo:
+              templates:
+                 - { name: 'Simple', template: 'AcmeDemoBundle:Block:demo_simple.html.twig' }
+                 - { name: 'Big',    template: 'AcmeDemoBundle:Block:demo_big.html.twig' }
+
 Javascript
 ----------
 
