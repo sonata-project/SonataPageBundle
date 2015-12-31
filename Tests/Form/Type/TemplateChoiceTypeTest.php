@@ -12,6 +12,7 @@
 namespace Sonata\PageBundle\Tests\Form\Type;
 
 use Sonata\PageBundle\Form\Type\TemplateChoiceType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Test the template choice form type.
@@ -49,10 +50,8 @@ class TemplateChoiceTypeTest extends \PHPUnit_Framework_TestCase
             'my_template' => $template,
         )));
 
-        $resolver = $this->getMock('Symfony\Component\OptionsResolver\OptionsResolverInterface');
-
         // WHEN
-        $this->type->setDefaultOptions($resolver);
+        $this->type->setDefaultOptions(new OptionsResolver());
 
         // THEN
         $this->type->getTemplates();
