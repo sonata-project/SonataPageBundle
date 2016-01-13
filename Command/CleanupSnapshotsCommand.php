@@ -72,7 +72,7 @@ class CleanupSnapshotsCommand extends BaseCommand
                 if ($input->getOption('mode') == 'async') {
                     $output->write(sprintf('<info>%s</info> - Publish a notification command ...', $site->getName()));
                 } else {
-                    $output->write(sprintf('<info>%s</info> - Cleanuping snapshots ...', $site->getName()));
+                    $output->write(sprintf('<info>%s</info> - Cleaning up snapshots ...', $site->getName()));
                 }
 
                 $this->getNotificationBackend($input->getOption('mode'))->createAndPublish('sonata.page.cleanup_snapshots', array(

@@ -132,7 +132,7 @@ class SnapshotController
      *  },
      *  statusCodes={
      *      200="Returned when snapshots is successfully deleted",
-     *      400="Returned when an error has occured while deleting the snapshots",
+     *      400="Returned when an error has occurred while deleting the snapshots",
      *      404="Returned when unable to find the snapshots"
      *  }
      * )

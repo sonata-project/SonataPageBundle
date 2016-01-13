@@ -146,7 +146,7 @@ class BlockJsCache implements CacheAdapterInterface
                 var div = document.createElement("div");
                 div.innerHTML = xhr.responseText;
 
-                fo  r (var node in div.childNodes) {
+                for (var node in div.childNodes) {
                     if (div.childNodes[node] && div.childNodes[node].nodeType == 1) {
                         block.parentNode.replaceChild(div.childNodes[node], block);
                     }
@@ -172,7 +172,7 @@ class BlockJsCache implements CacheAdapterInterface
                 var b = document.createElement("script");
                 b.type = "text/javascript";
                 b.async = true;
-                b.src = "%s"
+                b.src = "%s";
                 var s = document.getElementsByTagName("script")[0];
                 s.parentNode.insertBefore(b, s);
             })();

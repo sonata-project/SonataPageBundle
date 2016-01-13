@@ -38,7 +38,7 @@ class PageManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(null, $page1->getSlug());
         $this->assertEquals('/', $page1->getUrl());
 
-        // if a parent page becaume a child page, then the slug and the url must be updated
+        // if a parent page becomes a child page, then the slug and the url must be updated
         $parent = new Page();
         $parent->addChildren($page1);
 
@@ -53,7 +53,7 @@ class PageManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('super-et-toi', $page2->getSlug());
         $this->assertEquals('/salut-comment-ca-va/super-et-toi', $page2->getUrl());
 
-        // check to remove the parent, so $page1 becaume a parent
+        // check to remove the parent, so $page1 becomes a parent
         $page1->setParent(null);
         $manager->fixUrl($parent);
 

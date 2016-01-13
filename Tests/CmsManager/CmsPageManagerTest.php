@@ -12,11 +12,11 @@
 namespace Sonata\PageBundle\Tests\Page;
 
 use Sonata\PageBundle\CmsManager\CmsPageManager;
-use Sonata\PageBundle\Model\Block as AbtractBlock;
+use Sonata\PageBundle\Model\Block as AbstractBlock;
 use Sonata\PageBundle\Tests\Model\Page;
 use Sonata\PageBundle\Tests\Model\Site;
 
-class CmsBlock extends AbtractBlock
+class CmsBlock extends AbstractBlock
 {
     public function setId($id)
     {
