@@ -188,7 +188,7 @@ class SiteController
      *  },
      *  statusCodes={
      *      200="Returned when site is successfully deleted",
-     *      400="Returned when an error has occured while deleting the site",
+     *      400="Returned when an error has occurred while deleting the site",
      *      404="Returned when unable to find the site"
      *  }
      * )

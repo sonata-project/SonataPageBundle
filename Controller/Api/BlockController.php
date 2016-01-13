@@ -135,7 +135,7 @@ class BlockController
      *  },
      *  statusCodes={
      *      200="Returned when block is successfully deleted",
-     *      400="Returned when an error has occured while block deletion",
+     *      400="Returned when an error has occurred while block deletion",
      *      404="Returned when unable to find block"
      *  }
      * )
