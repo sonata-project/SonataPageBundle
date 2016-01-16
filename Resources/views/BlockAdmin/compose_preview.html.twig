@@ -24,11 +24,6 @@
     <div class="page-composer__container__child__right">
         <div class="page-composer__container__child__remove">
             <a class="badge" href="{{ admin_pool.getAdminByAdminCode('sonata.page.admin.block').generateUrl('delete', { 'id': child.id }) }}">{{ 'composer.remove'|trans({}, 'SonataPageBundle') }} <i class="fa fa-times"></i> </a>
-            <span class="page-composer__container__child__remove__confirm">
-                {{ 'composer.remove.confirm'|trans({}, 'SonataPageBundle') }}
-                <span class="yes">{{ 'yes'|trans({}, 'SonataPageBundle') }}</span>
-                <span class="cancel">{{ 'cancel'|trans({}, 'SonataPageBundle') }}</span>
-            </span>
         </div>
 
         <div class="page-composer__container__child__switch-enabled"
