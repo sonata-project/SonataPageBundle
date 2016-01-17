@@ -525,10 +525,6 @@
                 editUrl        = $edit.attr('href'),
                 $remove        = $childBlock.find('.page-composer__container__child__remove'),
                 $removeButton  = $remove.find('a'),
-                $removeConfirm = $remove.find('.page-composer__container__child__remove__confirm'),
-                $removeCancel  = $removeConfirm.find('.cancel'),
-                $removeYes     = $removeConfirm.find('.yes'),
-                removeUrl      = $removeButton.attr('href'),
                 $switchEnabled = $childBlock.find('.page-composer__container__child__switch-enabled'),
                 $switchLblEnbl = $switchEnabled.attr('data-label-enable'),
                 $switchLblDsbl = $switchEnabled.attr('data-label-disable'),
@@ -539,7 +535,6 @@
                 $switchLblIcon = $switchLabel.find('i'),
                 switchUrl      = $switchButton.attr('href'),
                 enabled        = parseInt($childBlock.attr('data-block-enabled'), 2);
-                parentId       = parseInt($childBlock.attr('data-parent-block-id'), 10);
 
             $edit.click(function (e) {
                 e.preventDefault();
@@ -618,12 +613,46 @@
 
             $removeButton.on('click', function (e) {
                 e.preventDefault();
-                $removeButton.hide();
-                $removeConfirm.show();
+                self.confirmRemoveContainer($childBlock);
             });
+        },
+
+        /**
+         * Shows a confirm dialog for a child removal request
+         *
+         * @param $childBlock
+         */
+        confirmRemoveContainer: function($childBlock) {
+            var self           = this,
+                $remove        = $childBlock.find('.page-composer__container__child__remove'),
+                $removeButton  = $remove.find('a'),
+                $removeDialog  = $childBlock.find('.page-composer__container__child__remove__dialog'),
+                removeUrl      = $removeButton.attr('href'),
+                parentId       = parseInt($childBlock.attr('data-parent-block-id'), 10);
+
+            if ($removeDialog.length == 0) {
+                $removeDialog = $(['<div class="modal fade page-composer__container__child__remove__dialog" tabindex="-1" role="dialog">',
+                      '<div class="modal-dialog" role="document">',
+                        '<div class="modal-content">',
+                          '<div class="modal-header">',
+                            '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>',
+                            '<h4 class="modal-title">' + this.translate('composer_remove_confirm') + '</h4>',
+                          '</div>',
+                          '<div class="modal-body">',
+                          '</div>',
+                          '<div class="modal-footer">',
+                            '<button type="button" class="btn btn-default" data-dismiss="modal">' + this.translate('cancel') + '</button>',
+                            '<button type="button" class="btn btn-primary">' + this.translate('yes') + '</button>',
+                          '</div>',
+                        '</div>',
+                      '</div>',
+                    '</div>'].join(''));
+                $childBlock.append($removeDialog);
+            }
+
+            var $removeYes = $removeDialog.find('.btn-primary');
 
             $removeYes.on('click', function (e) {
-                e.preventDefault();
                 $.ajax({
                     url:  removeUrl,
                     type: 'POST',
@@ -641,13 +670,10 @@
                         }
                     }
                 });
+                $removeDialog.modal('hide');
             });
 
-            $removeCancel.on('click', function (e) {
-                e.preventDefault();
-                $removeConfirm.hide();
-                $removeButton.show();
-            });
+            $removeDialog.modal('show')
         },
 
         /**
