@@ -87,7 +87,7 @@ class BlockJsCacheTest extends \PHPUnit_Framework_TestCase
                 var b = document.createElement("script");
                 b.type = "text/javascript";
                 b.async = true;
-                b.src = "https://sonata-project.org/page/cache/js/block.js"
+                b.src = "https://sonata-project.org/page/cache/js/block.js";
                 var s = document.getElementsByTagName("script")[0];
                 s.parentNode.insertBefore(b, s);
             })();
