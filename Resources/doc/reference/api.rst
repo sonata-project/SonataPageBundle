@@ -49,19 +49,20 @@ Here's the configuration we used, you may adapt it to your needs:
 
 In order to activate the API's, you'll also need to add this to your routing:
 
-.. code-block:: yaml
+.. configuration-block::
 
-    # app/config/routing.yml
+    .. code-block:: yaml
 
-    NelmioApiDocBundle:
-        resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
-        prefix:   /api/doc
+        # app/config/routing.yml
 
-    sonata_api_page:
-        type:         rest
-        prefix:       /api/page
-        resource:     "@SonataPageBundle/Resources/config/routing/api.xml"
+        NelmioApiDocBundle:
+            resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+            prefix:   /api/doc
 
+        sonata_api_page:
+            type:         rest
+            prefix:       /api/page
+            resource:     "@SonataPageBundle/Resources/config/routing/api.xml"
 
 Serialization
 -------------
