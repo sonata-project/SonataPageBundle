@@ -49,7 +49,17 @@ file that was distributed with this source code.
                     {{ 'pages.tree_site_label'|trans({}, 'SonataPageBundle') }}
                     <div class="btn-group">
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <strong class="text-info">{{ currentSite.name }}</strong> <span class="caret"></span>
+                            <strong class="text-info">
+                                {%- if sites and sites|length > 0 -%}
+                                    {% if currentSite %}
+                                        {{ currentSite.name }}
+                                    {% else %}
+                                        {{ 'pages.label_no_site_selected'|trans({}, 'SonataPageBundle') }}
+                                    {% endif %}
+                                {%- else -%}
+                                    {{ 'pages.label_no_sites'|trans({}, 'SonataPageBundle') }}
+                                {%- endif -%}
+                            </strong> <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" role="menu">
                             {% for site in sites %}
@@ -64,6 +74,19 @@ file that was distributed with this source code.
                                     </a>
                                 </li>
                             {% endfor%}
+
+                            {% if is_granted('ROLE_SONATA_PAGE_ADMIN_SITE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="{{ path('admin_app_page_site_create') }}">
+                                        {{ 'link_action_create'|trans({}, 'SonataAdminBundle') }}
+                                        {{ 'show.label_site'|trans({}, 'SonataPageBundle')  }}
+                                        <span class="pull-right">
+                                            <i class="fa fa-plus-circle"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            {% endif %}
                         </ul>
                     </div>
                 </h1>
