@@ -40,9 +40,10 @@ class SonataPageExtension extends Extension
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('page.xml');
-        $loader->load('serializer.xml');
 
         if (isset($bundles['FOSRestBundle']) && isset($bundles['NelmioApiDocBundle'])) {
+            $loader->load('serializer.xml');
+
             $loader->load('api_controllers.xml');
             $loader->load('api_form.xml');
         }
