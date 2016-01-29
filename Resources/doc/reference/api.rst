@@ -46,7 +46,7 @@ Here's the configuration we used, you may adapt it to your needs:
             metadata:
                 directories:
                     -
-                        path: %kernel.root_dir%/../vendor/sonata-project/datagrid-bundle/Resources/config/serializer
+                        path: "%kernel.root_dir%/../vendor/sonata-project/datagrid-bundle/Resources/config/serializer"
                         namespace_prefix: 'Sonata\DatagridBundle'
 
 In order to activate the API's, you'll also need to add this to your routing:
