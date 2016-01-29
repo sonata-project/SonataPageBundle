@@ -44,7 +44,7 @@ Full configuration options (config.yml file):
             service:  sonata.page.cache.invalidation.simple
             recorder: sonata.page.cache.recorder
             classes:
-                "Application\Sonata\PageBundle\Entity\Block": getId
+                'Application\Sonata\PageBundle\Entity\Block': getId
 
         default_template: default
         templates:
