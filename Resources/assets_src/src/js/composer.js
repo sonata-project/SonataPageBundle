@@ -671,6 +671,11 @@
                     }
                 });
                 $removeDialog.modal('hide');
+
+                // Sometimes, there is a bug and the modal backdrop didn't fade out, so we have to force it
+                if ($('.modal-backdrop').length != 0) {
+                    $('.modal-backdrop').hide();
+                }
             });
 
             $removeDialog.modal('show')
