@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * generated on: Sat Jan 16 2016 22:37:39 GMT+0100 (CET)
- * revision:     8c208515c2af0f721311e1c6e08ad8c97c8e5f3d
+ * generated on: Tue Feb 02 2016 11:02:24 GMT+0100 (CET)
+ * revision:     ae10d632dc748e26844312e5a075ba3b9c46e4f4
  *
  */
 /**
@@ -684,6 +684,11 @@
                     }
                 });
                 $removeDialog.modal('hide');
+
+                // Sometimes, there is a bug and the modal backdrop didn't fade out, so we have to force it
+                if ($('.modal-backdrop').length != 0) {
+                    $('.modal-backdrop').hide();
+                }
             });
 
             $removeDialog.modal('show')
