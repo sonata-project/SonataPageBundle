@@ -42,6 +42,7 @@ matrix:
 
   allow_failures:
     - php: hhvm
+    - env: SYMFONY_VERSION="3.0.*" ACL_VERSION="dev-master"
 
 before_script:
   - (phpenv config-rm xdebug.ini || exit 0)
