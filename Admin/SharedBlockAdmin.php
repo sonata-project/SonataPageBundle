@@ -17,7 +17,7 @@ use Sonata\BlockBundle\Block\BaseBlockService;
 use Sonata\PageBundle\Entity\BaseBlock;
 
 /**
- * Admin class for shared Block model
+ * Admin class for shared Block model.
  *
  * @author Romain Mouillard <romain.mouillard@gmail.com>
  */
@@ -26,7 +26,7 @@ class SharedBlockAdmin extends BaseBlockAdmin
     protected $classnameLabel = 'shared_block';
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getBaseRoutePattern()
     {
@@ -34,7 +34,7 @@ class SharedBlockAdmin extends BaseBlockAdmin
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getBaseRouteName()
     {
@@ -88,15 +88,15 @@ class SharedBlockAdmin extends BaseBlockAdmin
     }
 
     /**
-     * {@inheritDoc)
+     * {@inheritDoc).
      */
     public function createQuery($context = 'list')
     {
         $query = parent::createQuery($context);
 
         // Filter on blocks without page and parents
-        $query->andWhere($query->expr()->isNull($query->getRootAlias() . '.page'));
-        $query->andWhere($query->expr()->isNull($query->getRootAlias() . '.parent'));
+        $query->andWhere($query->expr()->isNull($query->getRootAlias().'.page'));
+        $query->andWhere($query->expr()->isNull($query->getRootAlias().'.parent'));
 
         return $query;
     }
