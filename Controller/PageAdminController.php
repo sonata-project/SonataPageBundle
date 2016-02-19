@@ -96,7 +96,7 @@ class PageAdminController extends Controller
 
         $this->get('twig')->getExtension('form')->renderer->setTheme($formView, $this->admin->getFilterTheme());
 
-        return $this->render('SonataPageBundle:PageAdmin:tree.html.twig', array(
+        return $this->render($this->admin->getTemplate('tree'), array(
             'action'      => 'tree',
             'sites'       => $sites,
             'currentSite' => $currentSite,
@@ -129,7 +129,7 @@ class PageAdminController extends Controller
                 $current = false;
             }
 
-            return $this->render('SonataPageBundle:PageAdmin:select_site.html.twig', array(
+            return $this->render($this->admin->getTemplate('select_site'), array(
                 'sites'   => $sites,
                 'current' => $current,
             ));
@@ -205,7 +205,7 @@ class PageAdminController extends Controller
 
         $csrfProvider = $this->get('form.csrf_provider');
 
-        return $this->render('SonataPageBundle:PageAdmin:compose.html.twig', array(
+        return $this->render($this->admin->getTemplate('compose'), array(
             'object'           => $page,
             'action'           => 'edit',
             'template'         => $template,
@@ -257,7 +257,7 @@ class PageAdminController extends Controller
             }
         }
 
-        return $this->render('SonataPageBundle:PageAdmin:compose_container_show.html.twig', array(
+        return $this->render($this->admin->getTemplate('compose_container_show'), array(
             'blockServices' => $blockServices,
             'container'     => $block,
             'page'          => $block->getPage(),
