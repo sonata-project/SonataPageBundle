@@ -68,6 +68,7 @@ class SonataPageExtension extends Extension
         $this->configureMultisite($container, $config);
         $this->configureCache($container, $config);
         $this->configureTemplates($container, $config);
+        $this->configureTemplatesAdmin($container, $config);
         $this->configureExceptions($container, $config);
         $this->configurePageDefaults($container, $config);
         $this->configurePageServices($container, $config);
@@ -403,6 +404,21 @@ class SonataPageExtension extends Extension
 
         // set default template
         $templateManager->addMethodCall('setDefaultTemplateCode', array($config['default_template']));
+    }
+
+    /**
+     * Configure the page admin templates.
+     *
+     * @param ContainerBuilder $container Container builder
+     * @param array            $config    Array of configuration
+     */
+    public function configureTemplatesAdmin(ContainerBuilder $container, array $config)
+    {
+        $templateManager = $container->getDefinition('sonata.page.admin.page');
+
+        $definitions = $config['templates_admin'];
+
+        $templateManager->addMethodCall('setTemplates', array($definitions));
     }
 
     /**
