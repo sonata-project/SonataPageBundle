@@ -50,6 +50,13 @@ Full configuration options (config.yml file):
         templates:
             default: { path: 'SonataPageBundle::layout.html.twig', name: 'default' }
 
+        templates_admin:
+            list:                       SonataPageBundle:PageAdmin:list.html.twig
+            tree:                       SonataPageBundle:PageAdmin:tree.html.twig
+            compose:                    SonataPageBundle:PageAdmin:compose.html.twig
+            compose_container_show:     SonataPageBundle:PageAdmin:compose_container_show.html.twig
+            select_site:                SonataPageBundle:PageAdmin:select_site.html.twig
+
         # Assets loaded by default in template
         assets:
             stylesheets:
