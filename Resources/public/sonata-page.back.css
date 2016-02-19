@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * generated on: Wed Nov 11 2015 19:03:38 GMT+0100 (CET)
- * revision:     1fe87f63e13f2b732e24d6cfeb84f1c5b28b90e8
+ * generated on: Mon Feb 15 2016 18:19:17 GMT-0500 (Eastern Standard Time)
+ * revision:     8ad214287d1ca4359bb958cec1ec0d7c153f2244
  *
  */
 @charset "UTF-8";
@@ -161,7 +161,8 @@
     padding: 5px 15px 5px 12px;
     border-top: 1px solid #dcdcdc;
     cursor: pointer;
-    border-left: 3px solid #f9f9f9; }
+    border-left: 3px solid #f9f9f9;
+    display: block; }
     .page-composer__orphan-container.active {
       border-left-color: #3c8dbc; }
     .page-composer__orphan-container:hover {

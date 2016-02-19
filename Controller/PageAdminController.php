@@ -246,7 +246,7 @@ class PageAdminController extends Controller
 
             $container = $template->getContainer($block->getSetting('code'));
 
-            if (count($container['blocks']) > 0) {
+            if (isset($container['blocks']) && count($container['blocks']) > 0) {
                 foreach ($blockServices as $code => $service) {
                     if (in_array($code, $container['blocks'])) {
                         continue;
