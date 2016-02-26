@@ -80,6 +80,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                 ),
             ),
             'is_inline_edition_on'  => false,
+            'hide_disabled_blocks'  => false,
             'use_streamed_response' => false,
             'ignore_route_patterns' => array(
                 0 => '/(.*)admin(.*)/',
@@ -164,6 +165,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                 ),
             ),
             'is_inline_edition_on'  => false,
+            'hide_disabled_blocks'  => false,
             'use_streamed_response' => false,
             'ignore_route_patterns' => array(
                 0 => '/(.*)admin(.*)/',
