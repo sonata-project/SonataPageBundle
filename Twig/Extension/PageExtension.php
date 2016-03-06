@@ -67,6 +67,11 @@ class PageExtension extends \Twig_Extension implements \Twig_Extension_InitRunti
     private $httpKernelExtension;
 
     /**
+     * @var bool
+     */
+    private $hideDisabledBlocks;
+
+    /**
      * Constructor.
      *
      * @param CmsManagerSelectorInterface $cmsManagerSelector  A CMS manager selector
@@ -74,14 +79,22 @@ class PageExtension extends \Twig_Extension implements \Twig_Extension_InitRunti
      * @param RouterInterface             $router              The Router
      * @param BlockHelper                 $blockHelper         The Block Helper
      * @param HttpKernelExtension         $httpKernelExtension
+     * @param bool                        $hideDisabledBlocks
      */
-    public function __construct(CmsManagerSelectorInterface $cmsManagerSelector, SiteSelectorInterface $siteSelector, RouterInterface $router, BlockHelper $blockHelper, HttpKernelExtension $httpKernelExtension)
-    {
+    public function __construct(
+        CmsManagerSelectorInterface $cmsManagerSelector,
+        SiteSelectorInterface $siteSelector,
+        RouterInterface $router,
+        BlockHelper $blockHelper,
+        HttpKernelExtension $httpKernelExtension,
+        $hideDisabledBlocks = false
+    ) {
         $this->cmsManagerSelector  = $cmsManagerSelector;
         $this->siteSelector        = $siteSelector;
         $this->router              = $router;
         $this->blockHelper         = $blockHelper;
         $this->httpKernelExtension = $httpKernelExtension;
+        $this->hideDisabledBlocks  = $hideDisabledBlocks;
     }
 
     /**
@@ -244,7 +257,7 @@ class PageExtension extends \Twig_Extension implements \Twig_Extension_InitRunti
      */
     public function renderBlock(PageBlockInterface $block, array $options = array())
     {
-        if ($block->getEnabled() === false && !$this->cmsManagerSelector->isEditor()) {
+        if ($block->getEnabled() === false && !$this->cmsManagerSelector->isEditor() && $this->hideDisabledBlocks) {
             return '';
         }
 
