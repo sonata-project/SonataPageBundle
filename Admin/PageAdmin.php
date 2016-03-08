@@ -333,8 +333,13 @@ class PageAdmin extends Admin
             $slugs = explode('/', $this->getRequest()->get('url'));
             $slug  = array_pop($slugs);
 
+            if (count($slugs) == 1) {
+               	$parent_url = '/';
+            } else {
+               	$parent_url = implode('/', $slugs);
+            }
             try {
-                $parent = $this->pageManager->getPageByUrl($site, implode('/', $slugs));
+                $parent = $this->pageManager->getPageByUrl($site, $parent_url);
             } catch (PageNotFoundException $e) {
                 try {
                     $parent = $this->pageManager->getPageByUrl($site, '/');
@@ -343,6 +348,7 @@ class PageAdmin extends Admin
                 }
             }
 
+            $instance->setUrl($this->getRequest()->get('url'));
             $instance->setSlug(urldecode($slug));
             $instance->setParent($parent ?: null);
             $instance->setName(urldecode($slug));
