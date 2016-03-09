@@ -334,9 +334,9 @@ class PageAdmin extends Admin
             $slug  = array_pop($slugs);
 
             if (count($slugs) == 1) {
-               	$parent_url = '/';
+                $parent_url = '/';
             } else {
-               	$parent_url = implode('/', $slugs);
+                $parent_url = implode('/', $slugs);
             }
             try {
                 $parent = $this->pageManager->getPageByUrl($site, $parent_url);
