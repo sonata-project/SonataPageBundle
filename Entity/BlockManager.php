@@ -26,11 +26,11 @@ class BlockManager extends BaseEntityManager implements BlockManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function save($page, $andFlush = true)
+    public function save($block, $andFlush = true)
     {
-        parent::save($page, $andFlush);
+        parent::save($block, $andFlush);
 
-        return $page;
+        return $block;
     }
 
     /**
