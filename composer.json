@@ -26,7 +26,7 @@
         "sonata-project/cache": "^1.0.2",
         "sonata-project/core-bundle": "3.x-dev",
         "symfony-cmf/routing-bundle": "~1.1",
-        "sonata-project/notification-bundle": "~2.2",
+        "sonata-project/notification-bundle": "~2.2|dev-patch-1",
         "sonata-project/datagrid-bundle": "~2.2",
         "cocur/slugify": "~1.0"
     },
