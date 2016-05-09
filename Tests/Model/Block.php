@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Sonata\PageBundle\Tests\Model;
 
 use Sonata\PageBundle\Entity\BaseBlock;

@@ -9,7 +9,7 @@ use Sonata\PageBundle\Tests\Model\Page;
 class CreateBlockCommandTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Tests that Block is added into Page's blocks field
+     * Tests that Block is added into Page's blocks field.
      */
     public function testCreateBlock()
     {
