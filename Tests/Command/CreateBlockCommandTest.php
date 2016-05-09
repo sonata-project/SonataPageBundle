@@ -3,7 +3,7 @@
 namespace Sonata\Test\PageBundle\Command;
 
 use Sonata\PageBundle\Command\CreateBlockContainerCommand;
-use Sonata\PageBundle\Tests\Model\Block;
+use Sonata\PageBundle\Tests\Fixtures\Block;
 use Sonata\PageBundle\Tests\Model\Page;
 
 class CreateBlockCommandTest extends \PHPUnit_Framework_TestCase

@@ -1,6 +1,6 @@
 <?php
 
-namespace Sonata\PageBundle\Tests\Model;
+namespace Sonata\PageBundle\Tests\Fixtures;
 
 use Sonata\PageBundle\Entity\BaseBlock;
 
