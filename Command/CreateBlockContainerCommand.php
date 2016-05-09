@@ -2,6 +2,7 @@
 
 namespace Sonata\PageBundle\Command;
 
+use Sonata\PageBundle\Entity\BlockInteractor;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -16,7 +17,11 @@ class CreateBlockContainerCommand extends BaseCommand
         $this
             ->setName('sonata:page:create-block-container')
             ->setDescription('Creates a block container in all pages for specified template code')
-            ->addArgument('templateCode', InputArgument::REQUIRED, 'Template name according to sonata_page.yml (e.g. default)')
+            ->addArgument(
+                'templateCode',
+                InputArgument::REQUIRED,
+                'Template name according to sonata_page.yml (e.g. default)'
+            )
             ->addArgument('blockCode', InputArgument::REQUIRED, 'Block alias (e.g. content_bottom)')
             ->addArgument('blockName', InputArgument::OPTIONAL, 'Block name (e.g. Bottom container)')
         ;
@@ -53,14 +58,17 @@ class CreateBlockContainerCommand extends BaseCommand
         }
 
         $output->writeln('');
-        $output->writeln(sprintf('Don\'t forget to add block <comment>%s</comment> into your <comment>sonata_page.yml</comment>', $blockCode));
+        $output->writeln(sprintf(
+            "Don't forget to add block <comment>%s</comment> into your <comment>sonata_page.yml</comment>",
+            $blockCode
+        ));
         $output->writeln('');
 
         $output->writeln('<info>done!</info>');
     }
 
     /**
-     * @return \Sonata\PageBundle\Entity\BlockInteractor
+     * @return BlockInteractor
      */
     public function getBlockInteractor()
     {

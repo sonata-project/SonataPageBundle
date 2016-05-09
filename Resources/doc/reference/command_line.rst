@@ -35,6 +35,10 @@ Please note that you can also give multiple website identifiers for all those co
     $ php app/console sonata:page:create-snapshots --site=1 --site=2 --site=...
     $ php app/console sonata:page:cleanup-snapshots --site=1 --site=2 --site=...
 
+- Create block container::
+
+    $ php app/console sonata:page:create-block-container 2columns right_navigation "Right navigation"
+
 Debug Commands
 --------------
 
