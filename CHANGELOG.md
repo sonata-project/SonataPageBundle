@@ -7,6 +7,10 @@ A [BC BREAK] means the update will break the project for many reasons:
 * new dependencies
 * class refactoring
 
+## [Unreleased]
+### Fixed
+- Tree view showing if no filter is defined, show SonataAdminBundle list view instead. Caused a BC break with the form type: sonata_type_model.
+
 ### 2014-11-04
 
 * [BC BREAK] Move assets management (js, css) to gulp and move css to sass.
