@@ -16,7 +16,7 @@ use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
-use Sonata\PageBundle\Model\SnapshotPageProxy;
+use Sonata\PageBundle\Model\SnapshotPageProxyInterface;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Symfony\Bridge\Twig\Extension\HttpKernelExtension;
 use Symfony\Component\HttpFoundation\Response;
@@ -263,7 +263,7 @@ class PageExtension extends \Twig_Extension implements \Twig_Extension_InitRunti
 
         // defined extra default key for the cache
         $pageCacheKeys = array(
-            'manager'   => $block->getPage() instanceof SnapshotPageProxy ? 'snapshot' : 'page',
+            'manager'   => $block->getPage() instanceof SnapshotPageProxyInterface ? 'snapshot' : 'page',
             'page_id'   => $block->getPage()->getId(),
         );
 

@@ -18,7 +18,6 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SnapshotInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
-use Sonata\PageBundle\Model\SnapshotPageProxy;
 use Sonata\PageBundle\Model\TransformerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -52,13 +51,14 @@ class Transformer implements TransformerInterface
      * @param PageManagerInterface     $pageManager
      * @param BlockManagerInterface    $blockManager
      * @param RegistryInterface        $registry
+     * @param string                   $snapshotPageProxyClass Namespace of SnapshotPageProxy class
      */
     public function __construct(SnapshotManagerInterface $snapshotManager, PageManagerInterface $pageManager, BlockManagerInterface $blockManager, RegistryInterface $registry)
     {
-        $this->snapshotManager = $snapshotManager;
-        $this->pageManager     = $pageManager;
-        $this->blockManager    = $blockManager;
-        $this->registry        = $registry;
+        $this->snapshotManager   = $snapshotManager;
+        $this->pageManager       = $pageManager;
+        $this->blockManager      = $blockManager;
+        $this->registry          = $registry;
     }
 
     /**
@@ -282,7 +282,7 @@ class Transformer implements TransformerInterface
             $pages = array();
 
             foreach ($snapshots as $snapshot) {
-                $page                  = new SnapshotPageProxy($this->snapshotManager, $this, $snapshot);
+                $page = $this->snapshotManager->createSnapShopPageProxy($this, $snapshot);
                 $pages[$page->getId()] = $page;
             }
 
