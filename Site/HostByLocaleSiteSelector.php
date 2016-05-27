@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -25,7 +25,7 @@ class HostByLocaleSiteSelector extends BaseSiteSelector
      */
     public function handleKernelRequest(GetResponseEvent $event)
     {
-        $request      = $event->getRequest();
+        $request = $event->getRequest();
         $enabledSites = array();
 
         foreach ($this->getSites($request) as $site) {

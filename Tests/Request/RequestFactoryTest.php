@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -15,9 +15,6 @@ use Sonata\PageBundle\Request\RequestFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Kernel;
 
-/**
- *
- */
 class RequestFactoryTest extends \PHPUnit_Framework_TestCase
 {
     protected $hasFactory = false;

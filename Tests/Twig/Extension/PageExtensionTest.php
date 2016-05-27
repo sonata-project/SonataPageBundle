@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -13,9 +13,6 @@ namespace Sonata\PageBundle\Tests\Twig\Extension;
 
 use Sonata\PageBundle\Twig\Extension\PageExtension;
 
-/**
- *
- */
 class PageExtensionTest extends \PHPUnit_Framework_TestCase
 {
     public function testAjaxUrl()

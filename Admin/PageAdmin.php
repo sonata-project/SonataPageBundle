@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -53,7 +53,7 @@ class PageAdmin extends Admin
      * {@inheritdoc}
      */
     protected $accessMapping = array(
-        'tree'    => 'LIST',
+        'tree' => 'LIST',
         'compose' => 'EDIT',
     );
 
@@ -70,6 +70,151 @@ class PageAdmin extends Admin
         ));
 
         $collection->add('tree', 'tree');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function preUpdate($object)
+    {
+        $object->setEdited(true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function postUpdate($object)
+    {
+        if ($this->cacheManager) {
+            $this->cacheManager->invalidate(array(
+                'page_id' => $object->getId(),
+            ));
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function prePersist($object)
+    {
+        $object->setEdited(true);
+    }
+
+    /**
+     * @param PageManagerInterface $pageManager
+     */
+    public function setPageManager(PageManagerInterface $pageManager)
+    {
+        $this->pageManager = $pageManager;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getNewInstance()
+    {
+        $instance = parent::getNewInstance();
+
+        if (!$this->hasRequest()) {
+            return $instance;
+        }
+
+        if ($site = $this->getSite()) {
+            $instance->setSite($site);
+        }
+
+        if ($site && $this->getRequest()->get('url')) {
+            $slugs = explode('/', $this->getRequest()->get('url'));
+            $slug = array_pop($slugs);
+
+            try {
+                $parent = $this->pageManager->getPageByUrl($site, implode('/', $slugs));
+            } catch (PageNotFoundException $e) {
+                try {
+                    $parent = $this->pageManager->getPageByUrl($site, '/');
+                } catch (PageNotFoundException $e) {
+                    throw new InternalErrorException('Unable to find the root url, please create a route with url = /');
+                }
+            }
+
+            $instance->setSlug(urldecode($slug));
+            $instance->setParent($parent ?: null);
+            $instance->setName(urldecode($slug));
+        }
+
+        return $instance;
+    }
+
+    /**
+     * @return SiteInterface|bool
+     *
+     * @throws \RuntimeException
+     */
+    public function getSite()
+    {
+        if (!$this->hasRequest()) {
+            return false;
+        }
+
+        $siteId = null;
+
+        if ($this->getRequest()->getMethod() == 'POST') {
+            $values = $this->getRequest()->get($this->getUniqid());
+            $siteId = isset($values['site']) ? $values['site'] : null;
+        }
+
+        $siteId = (null !== $siteId) ? $siteId : $this->getRequest()->get('siteId');
+
+        if ($siteId) {
+            $site = $this->siteManager->findOneBy(array('id' => $siteId));
+
+            if (!$site) {
+                throw new \RuntimeException('Unable to find the site with id='.$this->getRequest()->get('siteId'));
+            }
+
+            return $site;
+        }
+
+        return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBatchActions()
+    {
+        $actions = parent::getBatchActions();
+
+        $actions['snapshot'] = array(
+            'label' => $this->trans('create_snapshot'),
+            'ask_confirmation' => true,
+        );
+
+        return $actions;
+    }
+
+    /**
+     * @param SiteManagerInterface $siteManager
+     */
+    public function setSiteManager(SiteManagerInterface $siteManager)
+    {
+        $this->siteManager = $siteManager;
+    }
+
+    /**
+     * @return SiteInterface[]
+     */
+    public function getSites()
+    {
+        return $this->siteManager->findBy(array());
+    }
+
+    /**
+     * @param CacheManagerInterface $cacheManager
+     */
+    public function setCacheManager(CacheManagerInterface $cacheManager)
+    {
+        $this->cacheManager = $cacheManager;
     }
 
     /**
@@ -131,9 +276,9 @@ class PageAdmin extends Admin
                 },
                 'field_options' => array(
                     'required' => false,
-                    'choices'  => array(
-                        'hybrid'  => $this->trans('hybrid'),
-                        'cms'     => $this->trans('cms'),
+                    'choices' => array(
+                        'hybrid' => $this->trans('hybrid'),
+                        'cms' => $this->trans('cms'),
                     ),
                 ),
                 'field_type' => 'choice',
@@ -196,14 +341,14 @@ class PageAdmin extends Admin
             $formMapper
                 ->with('form_page.group_main_label')
                     ->add('parent', 'sonata_page_selector', array(
-                        'page'          => $this->getSubject() ?: null,
-                        'site'          => $this->getSubject() ? $this->getSubject()->getSite() : null,
+                        'page' => $this->getSubject() ?: null,
+                        'site' => $this->getSubject() ? $this->getSubject()->getSite() : null,
                         'model_manager' => $this->getModelManager(),
-                        'class'         => $this->getClass(),
-                        'required'      => false,
+                        'class' => $this->getClass(),
+                        'required' => false,
                         'filter_choice' => array('hierarchy' => 'root'),
                     ), array(
-                        'admin_code'      => $this->getCode(),
+                        'admin_code' => $this->getCode(),
                         'link_parameters' => array(
                             'siteId' => $this->getSubject() ? $this->getSubject()->getSite()->getId() : null,
                         ),
@@ -217,14 +362,14 @@ class PageAdmin extends Admin
                 ->with('form_page.group_main_label')
                     ->add('pageAlias', null, array('required' => false))
                     ->add('target', 'sonata_page_selector', array(
-                        'page'          => $this->getSubject() ?: null,
-                        'site'          => $this->getSubject() ? $this->getSubject()->getSite() : null,
+                        'page' => $this->getSubject() ?: null,
+                        'site' => $this->getSubject() ? $this->getSubject()->getSite() : null,
                         'model_manager' => $this->getModelManager(),
-                        'class'         => $this->getClass(),
+                        'class' => $this->getClass(),
                         'filter_choice' => array('request_method' => 'all'),
-                        'required'      => false,
+                        'required' => false,
                     ), array(
-                        'admin_code'      => $this->getCode(),
+                        'admin_code' => $this->getCode(),
                         'link_parameters' => array(
                             'siteId' => $this->getSubject() ? $this->getSubject()->getSite()->getId() : null,
                         ),
@@ -236,7 +381,7 @@ class PageAdmin extends Admin
         if (!$this->getSubject() || !$this->getSubject()->isHybrid()) {
             $formMapper
                 ->with('form_page.group_seo_label')
-                    ->add('slug', 'text',  array('required' => false))
+                    ->add('slug', 'text', array('required' => false))
                     ->add('customUrl', 'text', array('required' => false))
                 ->end()
             ;
@@ -253,14 +398,14 @@ class PageAdmin extends Admin
         if ($this->hasSubject() && !$this->getSubject()->isCms()) {
             $formMapper
                 ->with('form_page.group_advanced_label', array('collapsed' => true))
-                    ->add('decorate', null,  array('required' => false))
+                    ->add('decorate', null, array('required' => false))
                 ->end()
             ;
         }
 
         $formMapper
             ->with('form_page.group_advanced_label', array('collapsed' => true))
-                ->add('javascript', null,  array('required' => false))
+                ->add('javascript', null, array('required' => false))
                 ->add('stylesheet', null, array('required' => false))
                 ->add('rawHeaders', null, array('required' => false))
             ->end()
@@ -315,150 +460,5 @@ class PageAdmin extends Admin
 //                throw $e;
             }
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function preUpdate($object)
-    {
-        $object->setEdited(true);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function postUpdate($object)
-    {
-        if ($this->cacheManager) {
-            $this->cacheManager->invalidate(array(
-                'page_id' => $object->getId(),
-            ));
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function prePersist($object)
-    {
-        $object->setEdited(true);
-    }
-
-    /**
-     * @param PageManagerInterface $pageManager
-     */
-    public function setPageManager(PageManagerInterface $pageManager)
-    {
-        $this->pageManager = $pageManager;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getNewInstance()
-    {
-        $instance = parent::getNewInstance();
-
-        if (!$this->hasRequest()) {
-            return $instance;
-        }
-
-        if ($site = $this->getSite()) {
-            $instance->setSite($site);
-        }
-
-        if ($site && $this->getRequest()->get('url')) {
-            $slugs = explode('/', $this->getRequest()->get('url'));
-            $slug  = array_pop($slugs);
-
-            try {
-                $parent = $this->pageManager->getPageByUrl($site, implode('/', $slugs));
-            } catch (PageNotFoundException $e) {
-                try {
-                    $parent = $this->pageManager->getPageByUrl($site, '/');
-                } catch (PageNotFoundException $e) {
-                    throw new InternalErrorException('Unable to find the root url, please create a route with url = /');
-                }
-            }
-
-            $instance->setSlug(urldecode($slug));
-            $instance->setParent($parent ?: null);
-            $instance->setName(urldecode($slug));
-        }
-
-        return $instance;
-    }
-
-    /**
-     * @return SiteInterface|bool
-     *
-     * @throws \RuntimeException
-     */
-    public function getSite()
-    {
-        if (!$this->hasRequest()) {
-            return false;
-        }
-
-        $siteId = null;
-
-        if ($this->getRequest()->getMethod() == 'POST') {
-            $values = $this->getRequest()->get($this->getUniqid());
-            $siteId = isset($values['site']) ? $values['site'] : null;
-        }
-
-        $siteId = (null !== $siteId) ? $siteId : $this->getRequest()->get('siteId');
-
-        if ($siteId) {
-            $site = $this->siteManager->findOneBy(array('id' => $siteId));
-
-            if (!$site) {
-                throw new \RuntimeException('Unable to find the site with id='.$this->getRequest()->get('siteId'));
-            }
-
-            return $site;
-        }
-
-        return false;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBatchActions()
-    {
-        $actions = parent::getBatchActions();
-
-        $actions['snapshot'] = array(
-            'label'            => $this->trans('create_snapshot'),
-            'ask_confirmation' => true,
-        );
-
-        return $actions;
-    }
-
-    /**
-     * @param SiteManagerInterface $siteManager
-     */
-    public function setSiteManager(SiteManagerInterface $siteManager)
-    {
-        $this->siteManager = $siteManager;
-    }
-
-    /**
-     * @return SiteInterface[]
-     */
-    public function getSites()
-    {
-        return $this->siteManager->findBy(array());
-    }
-
-    /**
-     * @param CacheManagerInterface $cacheManager
-     */
-    public function setCacheManager(CacheManagerInterface $cacheManager)
-    {
-        $this->cacheManager = $cacheManager;
     }
 }

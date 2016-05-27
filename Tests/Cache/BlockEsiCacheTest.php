@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -13,9 +13,6 @@ namespace Sonata\PageBundle\Tests\Page;
 
 use Sonata\PageBundle\Cache\BlockEsiCache;
 
-/**
- *
- */
 class BlockEsiCacheTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -39,11 +36,11 @@ class BlockEsiCacheTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(array()),
-            array(array('block_id'   => 7)),
-            array(array('block_id'   => 7, 'page_id' => 8)),
-            array(array('block_id'   => 7, 'manager' => 8)),
-            array(array('manager'    => 7, 'page_id' => 8)),
-            array(array('manager'    => 7, 'page_id' => 8)),
+            array(array('block_id' => 7)),
+            array(array('block_id' => 7, 'page_id' => 8)),
+            array(array('block_id' => 7, 'manager' => 8)),
+            array(array('manager' => 7, 'page_id' => 8)),
+            array(array('manager' => 7, 'page_id' => 8)),
             array(array('updated_at' => 'foo')),
         );
     }
@@ -62,10 +59,10 @@ class BlockEsiCacheTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($cache->flushAll());
 
         $keys = array(
-            'block_id'   => 4,
-            'page_id'    => 5,
+            'block_id' => 4,
+            'page_id' => 5,
             'updated_at' => 'as',
-            'manager'    => 'page',
+            'manager' => 'page',
         );
 
         $cacheElement = $cache->set($keys, 'data');

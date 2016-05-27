@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -48,16 +48,16 @@ class PageSelectorType extends AbstractType
         $that = $this;
 
         $resolver->setDefaults(array(
-            'page'              => null,
-            'site'              => null,
-            'choice_list'       => function (Options $opts, $previousValue) use ($that) {
+            'page' => null,
+            'site' => null,
+            'choice_list' => function (Options $opts, $previousValue) use ($that) {
                 return new SimpleChoiceList($that->getChoices($opts));
             },
-            'filter_choice'     => array(
-                'current_page'     => false,
-                'request_method'   => 'GET',
-                'dynamic'          => true,
-                'hierarchy'        => 'all',
+            'filter_choice' => array(
+                'current_page' => false,
+                'request_method' => 'GET',
+                'dynamic' => true,
+                'hierarchy' => 'all',
             ),
         ));
     }
@@ -82,10 +82,10 @@ class PageSelectorType extends AbstractType
         }
 
         $filter_choice = array_merge(array(
-            'current_page'     => false,
-            'request_method'   => 'GET',
-            'dynamic'          => true,
-            'hierarchy'        => 'all',
+            'current_page' => false,
+            'request_method' => 'GET',
+            'dynamic' => true,
+            'hierarchy' => 'all',
         ), $options['filter_choice']);
 
         $pages = $this->manager->loadPages($options['site']);
@@ -132,29 +132,6 @@ class PageSelectorType extends AbstractType
     }
 
     /**
-     * @param PageInterface $page
-     * @param PageInterface $currentPage
-     * @param array         $choices
-     * @param int           $level
-     */
-    private function childWalker(PageInterface $page, PageInterface $currentPage = null, &$choices, $level = 1)
-    {
-        foreach ($page->getChildren() as $child) {
-            if ($currentPage && $currentPage->getId() == $child->getId()) {
-                continue;
-            }
-
-            if ($child->isDynamic()) {
-                continue;
-            }
-
-            $choices[$child->getId()] = $child;
-
-            $this->childWalker($child, $currentPage, $choices, $level + 1);
-        }
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function getParent()
@@ -176,5 +153,28 @@ class PageSelectorType extends AbstractType
     public function getName()
     {
         return $this->getBlockPrefix();
+    }
+
+    /**
+     * @param PageInterface $page
+     * @param PageInterface $currentPage
+     * @param array         $choices
+     * @param int           $level
+     */
+    private function childWalker(PageInterface $page, PageInterface $currentPage = null, &$choices, $level = 1)
+    {
+        foreach ($page->getChildren() as $child) {
+            if ($currentPage && $currentPage->getId() == $child->getId()) {
+                continue;
+            }
+
+            if ($child->isDynamic()) {
+                continue;
+            }
+
+            $choices[$child->getId()] = $child;
+
+            $this->childWalker($child, $currentPage, $choices, $level + 1);
+        }
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -40,13 +40,13 @@ class BlockContextManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Sonata\BlockBundle\Block\BlockContextInterface', $blockContext);
 
         $this->assertEquals(array(
-            'manager'          => false,
-            'page_id'          => false,
-            'use_cache'        => true,
+            'manager' => false,
+            'page_id' => false,
+            'use_cache' => true,
             'extra_cache_keys' => array(),
-            'attr'             => array(),
-            'template'         => false,
-            'ttl'              => 0,
+            'attr' => array(),
+            'template' => false,
+            'ttl' => 0,
         ), $blockContext->getSettings());
     }
 }

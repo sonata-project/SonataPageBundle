@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -43,7 +43,7 @@ class CmsPageManagerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->blockInteractor = $this->getMockBlockInteractor();
-        $this->pageManager  = $this->getMock('Sonata\PageBundle\Model\PageManagerInterface');
+        $this->pageManager = $this->getMock('Sonata\PageBundle\Model\PageManagerInterface');
         $this->manager = new CmsPageManager($this->pageManager, $this->blockInteractor);
     }
 

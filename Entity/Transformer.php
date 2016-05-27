@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -56,9 +56,9 @@ class Transformer implements TransformerInterface
     public function __construct(SnapshotManagerInterface $snapshotManager, PageManagerInterface $pageManager, BlockManagerInterface $blockManager, RegistryInterface $registry)
     {
         $this->snapshotManager = $snapshotManager;
-        $this->pageManager     = $pageManager;
-        $this->blockManager    = $blockManager;
-        $this->registry        = $registry;
+        $this->pageManager = $pageManager;
+        $this->blockManager = $blockManager;
+        $this->registry = $registry;
     }
 
     /**
@@ -92,22 +92,22 @@ class Transformer implements TransformerInterface
             $snapshot->setTargetId($page->getTarget()->getId());
         }
 
-        $content                     = array();
-        $content['id']               = $page->getId();
-        $content['name']             = $page->getName();
-        $content['javascript']       = $page->getJavascript();
-        $content['stylesheet']       = $page->getStylesheet();
-        $content['raw_headers']      = $page->getRawHeaders();
-        $content['title']            = $page->getTitle();
+        $content = array();
+        $content['id'] = $page->getId();
+        $content['name'] = $page->getName();
+        $content['javascript'] = $page->getJavascript();
+        $content['stylesheet'] = $page->getStylesheet();
+        $content['raw_headers'] = $page->getRawHeaders();
+        $content['title'] = $page->getTitle();
         $content['meta_description'] = $page->getMetaDescription();
-        $content['meta_keyword']     = $page->getMetaKeyword();
-        $content['template_code']    = $page->getTemplateCode();
-        $content['request_method']   = $page->getRequestMethod();
-        $content['created_at']       = $page->getCreatedAt()->format('U');
-        $content['updated_at']       = $page->getUpdatedAt()->format('U');
-        $content['slug']             = $page->getSlug();
-        $content['parent_id']        = $page->getParent() ? $page->getParent()->getId() : null;
-        $content['target_id']        = $page->getTarget() ? $page->getTarget()->getId() : null;
+        $content['meta_keyword'] = $page->getMetaKeyword();
+        $content['template_code'] = $page->getTemplateCode();
+        $content['request_method'] = $page->getRequestMethod();
+        $content['created_at'] = $page->getCreatedAt()->format('U');
+        $content['updated_at'] = $page->getUpdatedAt()->format('U');
+        $content['slug'] = $page->getSlug();
+        $content['parent_id'] = $page->getParent() ? $page->getParent()->getId() : null;
+        $content['target_id'] = $page->getTarget() ? $page->getTarget()->getId() : null;
 
         $content['blocks'] = array();
         foreach ($page->getBlocks() as $block) {
@@ -166,34 +166,6 @@ class Transformer implements TransformerInterface
     }
 
     /**
-     * @param array $content
-     *
-     * @return array
-     */
-    protected function fixPageContent(array $content)
-    {
-        if (!array_key_exists('title', $content)) {
-            $content['title'] = null;
-        }
-
-        return $content;
-    }
-
-    /**
-     * @param array $content
-     *
-     * @return array
-     */
-    protected function fixBlockContent(array $content)
-    {
-        if (!array_key_exists('name', $content)) {
-            $content['name'] = null;
-        }
-
-        return $content;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function loadBlock(array $content, PageInterface $page)
@@ -226,41 +198,16 @@ class Transformer implements TransformerInterface
     }
 
     /**
-     * @param BlockInterface $block
-     *
-     * @return array
-     */
-    protected function createBlocks(BlockInterface $block)
-    {
-        $content               = array();
-        $content['id']         = $block->getId();
-        $content['name']       = $block->getName();
-        $content['enabled']    = $block->getEnabled();
-        $content['position']   = $block->getPosition();
-        $content['settings']   = $block->getSettings();
-        $content['type']       = $block->getType();
-        $content['created_at'] = $block->getCreatedAt()->format('U');
-        $content['updated_at'] = $block->getUpdatedAt()->format('U');
-        $content['blocks']     = array();
-
-        foreach ($block->getChildren() as $child) {
-            $content['blocks'][] = $this->createBlocks($child);
-        }
-
-        return $content;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function getChildren(PageInterface $parent)
     {
         if (!isset($this->children[$parent->getId()])) {
-            $date       = new \Datetime();
+            $date = new \Datetime();
             $parameters = array(
                 'publicationDateStart' => $date,
-                'publicationDateEnd'   => $date,
-                'parentId'             => $parent->getId(),
+                'publicationDateEnd' => $date,
+                'parentId' => $parent->getId(),
             );
 
             $manager = $this->registry->getManagerForClass($this->snapshotManager->getClass());
@@ -282,7 +229,7 @@ class Transformer implements TransformerInterface
             $pages = array();
 
             foreach ($snapshots as $snapshot) {
-                $page                  = new SnapshotPageProxy($this->snapshotManager, $this, $snapshot);
+                $page = new SnapshotPageProxy($this->snapshotManager, $this, $snapshot);
                 $pages[$page->getId()] = $page;
             }
 
@@ -290,5 +237,58 @@ class Transformer implements TransformerInterface
         }
 
         return $this->children[$parent->getId()];
+    }
+
+    /**
+     * @param array $content
+     *
+     * @return array
+     */
+    protected function fixPageContent(array $content)
+    {
+        if (!array_key_exists('title', $content)) {
+            $content['title'] = null;
+        }
+
+        return $content;
+    }
+
+    /**
+     * @param array $content
+     *
+     * @return array
+     */
+    protected function fixBlockContent(array $content)
+    {
+        if (!array_key_exists('name', $content)) {
+            $content['name'] = null;
+        }
+
+        return $content;
+    }
+
+    /**
+     * @param BlockInterface $block
+     *
+     * @return array
+     */
+    protected function createBlocks(BlockInterface $block)
+    {
+        $content = array();
+        $content['id'] = $block->getId();
+        $content['name'] = $block->getName();
+        $content['enabled'] = $block->getEnabled();
+        $content['position'] = $block->getPosition();
+        $content['settings'] = $block->getSettings();
+        $content['type'] = $block->getType();
+        $content['created_at'] = $block->getCreatedAt()->format('U');
+        $content['updated_at'] = $block->getUpdatedAt()->format('U');
+        $content['blocks'] = array();
+
+        foreach ($block->getChildren() as $child) {
+            $content['blocks'][] = $this->createBlocks($child);
+        }
+
+        return $content;
     }
 }

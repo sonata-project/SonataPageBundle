@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -34,21 +34,21 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $node = $treeBuilder->root('sonata_page')->children();
 
-        $ignoreRoutePatternsInfo = <<<EOF
+        $ignoreRoutePatternsInfo = <<<'EOF'
 (.*)admin(.*)       ignore admin route, i.e. route containing 'admin'
 ^_(.*)              ignore Symfony routes
 EOF;
 
-        $ignoreUriPatternsInfo = <<<EOF
+        $ignoreUriPatternsInfo = <<<'EOF'
 admin(.*)           ignore admin route, i.e. route containing 'admin'
 EOF;
 
-        $pageDefaultsInfo = <<<EOF
+        $pageDefaultsInfo = <<<'EOF'
 Example:
 homepage: { decorate: false }       disable decoration for 'homepage', key is a page route
 EOF;
 
-        $catchExceptionsInfo = <<<EOF
+        $catchExceptionsInfo = <<<'EOF'
 Manage the HTTP errors
 
 Examples:
@@ -56,7 +56,7 @@ not_found: [404]    render 404 page with "not_found" key (name generated: _page_
 fatal:     [500]    render 500 page with "fatal" key (name generated: _page_internal_error_fatal)
 EOF;
 
-        $directPublicationInfo = <<<EOF
+        $directPublicationInfo = <<<'EOF'
 Generates a snapshot when a page is saved from the admin.
 
 You can use %kernel.debug%, if you want to publish in dev mode, but not in prod.

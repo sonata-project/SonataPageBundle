@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -91,17 +91,25 @@ abstract class Site implements SiteInterface
     /**
      * {@inheritdoc}
      */
-    public function setId($id)
+    public function __construct()
     {
-        $this->id = $id;
+        $this->enabled = false;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function __construct()
+    public function __toString()
     {
-        $this->enabled = false;
+        return $this->getName() ?: 'n/a';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
     }
 
     /**
@@ -188,14 +196,6 @@ abstract class Site implements SiteInterface
     public function getUpdatedAt()
     {
         return $this->updatedAt;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function __toString()
-    {
-        return $this->getName() ?: 'n/a';
     }
 
     /**

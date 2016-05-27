@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -48,8 +48,8 @@ class CmsSnapshotManagerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->blockInteractor = $this->getMockBlockInteractor();
-        $this->snapshotManager  = $this->getMock('Sonata\PageBundle\Model\SnapshotManagerInterface');
-        $this->transformer  = $this->getMock('Sonata\PageBundle\Model\TransformerInterface');
+        $this->snapshotManager = $this->getMock('Sonata\PageBundle\Model\SnapshotManagerInterface');
+        $this->transformer = $this->getMock('Sonata\PageBundle\Model\TransformerInterface');
         $this->manager = new CmsSnapshotManager($this->snapshotManager, $this->transformer);
     }
 

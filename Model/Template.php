@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -18,6 +18,9 @@ namespace Sonata\PageBundle\Model;
  */
 class Template
 {
+    const TYPE_STATIC = 1;
+
+    const TYPE_DYNAMIC = 2;
     /**
      * @var string
      */
@@ -33,10 +36,6 @@ class Template
      */
     protected $containers;
 
-    const TYPE_STATIC = 1;
-
-    const TYPE_DYNAMIC = 2;
-
     /**
      * @param string $name
      * @param string $path
@@ -44,8 +43,8 @@ class Template
      */
     public function __construct($name, $path, array $containers = array())
     {
-        $this->name       = $name;
-        $this->path       = $path;
+        $this->name = $name;
+        $this->path = $path;
         $this->containers = $containers;
 
         // force normalization of containers
@@ -89,22 +88,6 @@ class Template
     }
 
     /**
-     * @param array $meta
-     *
-     * @return array
-     */
-    protected function normalize(array $meta)
-    {
-        return array(
-            'name'      => isset($meta['name'])      ? $meta['name']      : 'n/a',
-            'type'      => isset($meta['type'])      ? $meta['type']      : self::TYPE_STATIC,
-            'blocks'    => isset($meta['blocks'])    ? $meta['blocks']    : array(),            // default block to be created
-            'placement' => isset($meta['placement']) ? $meta['placement'] : array(),
-            'shared'    => isset($meta['shared'])    ? $meta['shared']    : false,
-        );
-    }
-
-    /**
      * @return string
      */
     public function getName()
@@ -118,5 +101,21 @@ class Template
     public function getPath()
     {
         return $this->path;
+    }
+
+    /**
+     * @param array $meta
+     *
+     * @return array
+     */
+    protected function normalize(array $meta)
+    {
+        return array(
+            'name' => isset($meta['name'])      ? $meta['name']      : 'n/a',
+            'type' => isset($meta['type'])      ? $meta['type']      : self::TYPE_STATIC,
+            'blocks' => isset($meta['blocks'])    ? $meta['blocks']    : array(),            // default block to be created
+            'placement' => isset($meta['placement']) ? $meta['placement'] : array(),
+            'shared' => isset($meta['shared'])    ? $meta['shared']    : false,
+        );
     }
 }

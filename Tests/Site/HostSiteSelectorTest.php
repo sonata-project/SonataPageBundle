@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -21,40 +21,6 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
  */
 class HostSiteSelectorTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * Perform the actual handleKernelRequest method test.
-     */
-    protected function performHandleKernelRequestTest($url)
-    {
-        $kernel = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface');
-        $request = Request::create($url);
-
-        // Ensure request locale is null
-        $this->assertNull($request->attributes->get('_locale'));
-
-        $event = new GetResponseEvent($kernel, $request, 'master');
-
-        $siteManager = $this->getMock('Sonata\PageBundle\Model\SiteManagerInterface');
-        $decoratorStrategy = $this->getMock('Sonata\PageBundle\CmsManager\DecoratorStrategyInterface');
-        $seoPage = $this->getMock('Sonata\SeoBundle\Seo\SeoPageInterface');
-
-        $siteSelector = new HostSiteSelector($siteManager, $decoratorStrategy, $seoPage);
-
-        // Look for the first site matched that is enabled, has started, and has not expired.
-        // localhost is a possible match, but only if no other sites match.
-        $siteSelector->handleKernelRequest($event);
-
-        $site = $siteSelector->retrieve();
-
-        // Ensure request locale matches site locale
-        $this->assertEquals($site->getLocale(), $request->attributes->get('_locale'));
-
-        return array(
-            $site,
-            $event,
-        );
-    }
-
     /**
      * Site Test #1 - Should match "Site 0".
      */
@@ -150,6 +116,40 @@ class HostSiteSelectorTest extends \PHPUnit_Framework_TestCase
         // Ensure we retrieved the "Site 0" site.
         $this->assertEquals('Site 0', $site->getName());
     }
+
+    /**
+     * Perform the actual handleKernelRequest method test.
+     */
+    protected function performHandleKernelRequestTest($url)
+    {
+        $kernel = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface');
+        $request = Request::create($url);
+
+        // Ensure request locale is null
+        $this->assertNull($request->attributes->get('_locale'));
+
+        $event = new GetResponseEvent($kernel, $request, 'master');
+
+        $siteManager = $this->getMock('Sonata\PageBundle\Model\SiteManagerInterface');
+        $decoratorStrategy = $this->getMock('Sonata\PageBundle\CmsManager\DecoratorStrategyInterface');
+        $seoPage = $this->getMock('Sonata\SeoBundle\Seo\SeoPageInterface');
+
+        $siteSelector = new HostSiteSelector($siteManager, $decoratorStrategy, $seoPage);
+
+        // Look for the first site matched that is enabled, has started, and has not expired.
+        // localhost is a possible match, but only if no other sites match.
+        $siteSelector->handleKernelRequest($event);
+
+        $site = $siteSelector->retrieve();
+
+        // Ensure request locale matches site locale
+        $this->assertEquals($site->getLocale(), $request->attributes->get('_locale'));
+
+        return array(
+            $site,
+            $event,
+        );
+    }
 }
 
 class HostSite extends BaseSite
@@ -173,13 +173,29 @@ class HostSite extends BaseSite
 class HostSiteSelector extends BaseSiteSelector
 {
     /**
+     * Camelize a string.
+     *
+     * @static
+     *
+     * @param string $property
+     *
+     * @return string
+     */
+    public static function _camelize($property)
+    {
+        return preg_replace_callback('/(^|[_. ])+(.)/', function ($match) {
+            return ('.' === $match[1] ? '_' : '').strtoupper($match[2]);
+        }, $property);
+    }
+
+    /**
      * @return array
      */
     protected function getSites(Request $request)
     {
         return $this->_findSites(
             array(
-                'host'    => array($request->getHost(), 'localhost'),
+                'host' => array($request->getHost(), 'localhost'),
                 'enabled' => true,
             )
         );
@@ -343,21 +359,5 @@ class HostSiteSelector extends BaseSiteSelector
         }
 
         throw new NoValueException(sprintf('Unable to retrieve the value of `%s`', $this->getName()));
-    }
-
-    /**
-     * Camelize a string.
-     *
-     * @static
-     *
-     * @param string $property
-     *
-     * @return string
-     */
-    public static function _camelize($property)
-    {
-        return preg_replace_callback('/(^|[_. ])+(.)/', function ($match) {
-            return ('.' === $match[1] ? '_' : '').strtoupper($match[2]);
-        }, $property);
     }
 }

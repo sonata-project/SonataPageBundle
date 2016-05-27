@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -36,6 +36,15 @@ class BlockAdmin extends BaseBlockAdmin
     protected $blocks;
 
     /**
+     * {@inheritdoc}
+     */
+    protected $accessMapping = array(
+        'savePosition' => 'EDIT',
+        'switchParent' => 'EDIT',
+        'composePreview' => 'EDIT',
+    );
+
+    /**
      * BlockAdmin constructor.
      *
      * @param string $code
@@ -53,11 +62,16 @@ class BlockAdmin extends BaseBlockAdmin
     /**
      * {@inheritdoc}
      */
-    protected $accessMapping = array(
-        'savePosition'   => 'EDIT',
-        'switchParent'   => 'EDIT',
-        'composePreview' => 'EDIT',
-    );
+    public function getPersistentParameters()
+    {
+        $parameters = parent::getPersistentParameters();
+
+        if ($composer = $this->getRequest()->get('composer')) {
+            $parameters['composer'] = $composer;
+        }
+
+        return $parameters;
+    }
 
     /**
      * {@inheritdoc}
@@ -105,7 +119,7 @@ class BlockAdmin extends BaseBlockAdmin
         $generalGroupOptions = $optionsGroupOptions = array();
         if ($isComposer) {
             $generalGroupOptions['class'] = 'hidden';
-            $optionsGroupOptions['name']  = '';
+            $optionsGroupOptions['name'] = '';
         }
 
         $formMapper->with('form.field_group_general', $generalGroupOptions);
@@ -131,12 +145,12 @@ class BlockAdmin extends BaseBlockAdmin
             // need to investigate on this case where $page == null ... this should not be possible
             if ($isStandardBlock && $page && !empty($containerBlockTypes)) {
                 $formMapper->add('parent', 'entity', array(
-                        'class'         => $this->getClass(),
+                        'class' => $this->getClass(),
                         'query_builder' => function (EntityRepository $repository) use ($page, $containerBlockTypes) {
                             return $repository->createQueryBuilder('a')
                                 ->andWhere('a.page = :page AND a.type IN (:types)')
                                 ->setParameters(array(
-                                        'page'  => $page,
+                                        'page' => $page,
                                         'types' => $containerBlockTypes,
                                     ));
                         },
@@ -215,19 +229,5 @@ class BlockAdmin extends BaseBlockAdmin
         }
 
         return;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getPersistentParameters()
-    {
-        $parameters = parent::getPersistentParameters();
-
-        if ($composer = $this->getRequest()->get('composer')) {
-            $parameters['composer'] = $composer;
-        }
-
-        return $parameters;
     }
 }

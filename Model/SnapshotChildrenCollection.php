@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -40,17 +40,7 @@ class SnapshotChildrenCollection implements \Countable, \IteratorAggregate, \Arr
     public function __construct(TransformerInterface $transformer, PageInterface $page)
     {
         $this->transformer = $transformer;
-        $this->page        = $page;
-    }
-
-    /**
-     * load the children collection.
-     */
-    private function load()
-    {
-        if ($this->collection == null) {
-            $this->collection = $this->transformer->getChildren($this->page);
-        }
+        $this->page = $page;
     }
 
     /**
@@ -111,5 +101,15 @@ class SnapshotChildrenCollection implements \Countable, \IteratorAggregate, \Arr
         $this->load();
 
         return $this->collection->count();
+    }
+
+    /**
+     * load the children collection.
+     */
+    private function load()
+    {
+        if ($this->collection == null) {
+            $this->collection = $this->transformer->getChildren($this->page);
+        }
     }
 }

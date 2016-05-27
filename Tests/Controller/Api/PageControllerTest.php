@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -54,7 +54,7 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPageBlocksAction()
     {
-        $page  = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
         $block = $this->getMock('Sonata\PageBundle\Model\PageBlockInterface');
 
         $page->expects($this->once())->method('getBlocks')->will($this->returnValue(array($block)));

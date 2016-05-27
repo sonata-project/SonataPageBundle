@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -13,9 +13,6 @@ namespace Sonata\PageBundle\Tests\Route;
 
 use Sonata\PageBundle\Template\Matrix\Parser;
 
-/**
- *
- */
 class ParserTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -55,27 +52,27 @@ class ParserTest extends \PHPUnit_Framework_TestCase
 
         $expected = array(
             'top' => array(
-                'x'      => 0,
-                'y'      => 0,
-                'width'  => 100,
+                'x' => 0,
+                'y' => 0,
+                'width' => 100,
                 'height' => 50.0,
-                'right'  => 0,
+                'right' => 0,
                 'bottom' => 50.0,
             ),
             'left' => array(
-                'x'      => 0,
-                'y'      => 50.0,
-                'width'  => 50.0,
+                'x' => 0,
+                'y' => 50.0,
+                'width' => 50.0,
                 'height' => 50.0,
-                'right'  => 50.0,
+                'right' => 50.0,
                 'bottom' => 0.0,
             ),
             'right' => array(
-                'x'      => 50.0,
-                'y'      => 50.0,
-                'width'  => 50.0,
+                'x' => 50.0,
+                'y' => 50.0,
+                'width' => 50.0,
                 'height' => 50.0,
-                'right'  => 0.0,
+                'right' => 0.0,
                 'bottom' => 0.0,
             ),
         );

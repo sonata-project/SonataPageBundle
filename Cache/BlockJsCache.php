@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -63,9 +63,9 @@ class BlockJsCache implements CacheAdapterInterface
      */
     public function __construct(RouterInterface $router, CmsManagerSelectorInterface $cmsSelector, BlockRendererInterface $blockRenderer, BlockContextManagerInterface $contextManager, $sync = false)
     {
-        $this->router        = $router;
-        $this->sync          = $sync;
-        $this->cmsSelector   = $cmsSelector;
+        $this->router = $router;
+        $this->sync = $sync;
+        $this->cmsSelector = $cmsSelector;
         $this->blockRenderer = $blockRenderer;
         $this->contextManager = $contextManager;
     }
@@ -102,84 +102,6 @@ class BlockJsCache implements CacheAdapterInterface
         $this->validateKeys($keys);
 
         return new CacheElement($keys, new Response($this->sync ? $this->getSync($keys) : $this->getAsync($keys)));
-    }
-
-    /**
-     * @throws \RuntimeException
-     *
-     * @param array $keys
-     */
-    private function validateKeys(array $keys)
-    {
-        foreach (array('block_id', 'page_id', 'manager', 'updated_at') as $key) {
-            if (!isset($keys[$key])) {
-                throw new \RuntimeException(sprintf('Please define a `%s` key, provided: %s', $key, json_encode(array_keys($keys))));
-            }
-        }
-    }
-
-    /**
-     * @param array $keys
-     *
-     * @return string
-     */
-    protected function getSync(array $keys)
-    {
-        return sprintf(
-'<div id="block-cms-%s" >
-    <script>
-        /*<![CDATA[*/
-            (function () {
-                var block, xhr;
-                block = document.getElementById("block-cms-%s");
-                if (window.XMLHttpRequest) {
-                    xhr = new XMLHttpRequest();
-                } else {
-                    xhr = new ActiveXObject("Microsoft.XMLHTTP");
-                }
-
-                xhr.open("GET", "%s", false);
-                xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-                xhr.send("");
-
-                // create an empty element
-                var div = document.createElement("div");
-                div.innerHTML = xhr.responseText;
-
-                for (var node in div.childNodes) {
-                    if (div.childNodes[node] && div.childNodes[node].nodeType == 1) {
-                        block.parentNode.replaceChild(div.childNodes[node], block);
-                    }
-                }
-            })();
-        /*]]>*/
-    </script>
-</div>', $keys['block_id'], $keys['block_id'], $this->router->generate('sonata_page_js_sync_cache', $keys, UrlGeneratorInterface::ABSOLUTE_URL));
-    }
-
-    /**
-     * @param array $keys
-     *
-     * @return string
-     */
-    protected function getAsync(array $keys)
-    {
-        return sprintf(
-'<div id="block-cms-%s" >
-    <script>
-        /*<![CDATA[*/
-            (function() {
-                var b = document.createElement("script");
-                b.type = "text/javascript";
-                b.async = true;
-                b.src = "%s";
-                var s = document.getElementsByTagName("script")[0];
-                s.parentNode.insertBefore(b, s);
-            })();
-
-        /*]]>*/
-    </script>
-</div>', $keys['block_id'], $this->router->generate('sonata_page_js_async_cache', $keys, UrlGeneratorInterface::ABSOLUTE_URL));
     }
 
     /**
@@ -250,5 +172,83 @@ class BlockJsCache implements CacheAdapterInterface
     public function isContextual()
     {
         return false;
+    }
+
+    /**
+     * @param array $keys
+     *
+     * @return string
+     */
+    protected function getSync(array $keys)
+    {
+        return sprintf(
+'<div id="block-cms-%s" >
+    <script>
+        /*<![CDATA[*/
+            (function () {
+                var block, xhr;
+                block = document.getElementById("block-cms-%s");
+                if (window.XMLHttpRequest) {
+                    xhr = new XMLHttpRequest();
+                } else {
+                    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+
+                xhr.open("GET", "%s", false);
+                xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+                xhr.send("");
+
+                // create an empty element
+                var div = document.createElement("div");
+                div.innerHTML = xhr.responseText;
+
+                for (var node in div.childNodes) {
+                    if (div.childNodes[node] && div.childNodes[node].nodeType == 1) {
+                        block.parentNode.replaceChild(div.childNodes[node], block);
+                    }
+                }
+            })();
+        /*]]>*/
+    </script>
+</div>', $keys['block_id'], $keys['block_id'], $this->router->generate('sonata_page_js_sync_cache', $keys, UrlGeneratorInterface::ABSOLUTE_URL));
+    }
+
+    /**
+     * @param array $keys
+     *
+     * @return string
+     */
+    protected function getAsync(array $keys)
+    {
+        return sprintf(
+'<div id="block-cms-%s" >
+    <script>
+        /*<![CDATA[*/
+            (function() {
+                var b = document.createElement("script");
+                b.type = "text/javascript";
+                b.async = true;
+                b.src = "%s";
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(b, s);
+            })();
+
+        /*]]>*/
+    </script>
+</div>', $keys['block_id'], $this->router->generate('sonata_page_js_async_cache', $keys, UrlGeneratorInterface::ABSOLUTE_URL));
+    }
+
+    /**
+     * @throws \RuntimeException
+     *
+     * @param array $keys
+     */
+    private function validateKeys(array $keys)
+    {
+        foreach (array('block_id', 'page_id', 'manager', 'updated_at') as $key) {
+            if (!isset($keys[$key])) {
+                throw new \RuntimeException(sprintf('Please define a `%s` key, provided: %s', $key, json_encode(array_keys($keys))));
+            }
+        }
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -47,7 +47,7 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
     {
         parent::__construct($class, $registry);
 
-        $this->defaults     = $defaults;
+        $this->defaults = $defaults;
         $this->pageDefaults = $pageDefaults;
     }
 
@@ -57,7 +57,7 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
     public function getPageByUrl(SiteInterface $site, $url)
     {
         return $this->findOneBy(array(
-            'url'  => $url,
+            'url' => $url,
             'site' => $site->getId(),
         ));
     }
@@ -244,7 +244,7 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
             ->where('p.routeName <> :routeName and p.site = :site')
             ->setParameters(array(
                 'routeName' => PageInterface::PAGE_ROUTE_CMS_NAME,
-                'site'      => $site->getId(),
+                'site' => $site->getId(),
             ))
             ->getQuery()
             ->execute();

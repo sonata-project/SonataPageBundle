@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -78,8 +78,8 @@ class SharedBlockBlockService extends BaseBlockService
         $sharedBlock = $block->getSetting('blockId');
 
         return $this->renderResponse($blockContext->getTemplate(), array(
-                'block'       => $blockContext->getBlock(),
-                'settings'    => $blockContext->getSettings(),
+                'block' => $blockContext->getBlock(),
+                'settings' => $blockContext->getSettings(),
                 'sharedBlock' => $sharedBlock,
             ), $response);
     }
@@ -109,46 +109,6 @@ class SharedBlockBlockService extends BaseBlockService
                 array($this->getBlockBuilder($formMapper), null, array()),
             ),
         ));
-    }
-
-    /**
-     * @return SharedBlockAdmin
-     */
-    protected function getSharedBlockAdmin()
-    {
-        if (!$this->sharedBlockAdmin) {
-            $this->sharedBlockAdmin = $this->container->get('sonata.page.admin.shared_block');
-        }
-
-        return $this->sharedBlockAdmin;
-    }
-
-    /**
-     * @param FormMapper $formMapper
-     *
-     * @return FormBuilder
-     */
-    protected function getBlockBuilder(FormMapper $formMapper)
-    {
-        // simulate an association ...
-        $fieldDescription = $this->getSharedBlockAdmin()->getModelManager()->getNewFieldDescriptionInstance($this->sharedBlockAdmin->getClass(), 'block', array(
-            'translation_domain' => 'SonataPageBundle',
-        ));
-        $fieldDescription->setAssociationAdmin($this->getSharedBlockAdmin());
-        $fieldDescription->setAdmin($formMapper->getAdmin());
-        $fieldDescription->setOption('edit', 'list');
-        $fieldDescription->setAssociationMapping(array(
-                'fieldName' => 'block',
-                'type'      => \Doctrine\ORM\Mapping\ClassMetadataInfo::MANY_TO_ONE,
-            ));
-
-        return $formMapper->create('blockId', 'sonata_type_model_list', array(
-                'sonata_field_description' => $fieldDescription,
-                'class'                    => $this->getSharedBlockAdmin()->getClass(),
-                'model_manager'            => $this->getSharedBlockAdmin()->getModelManager(),
-                'label'                    => 'form.label_block',
-                'required'                 => false,
-            ));
     }
 
     /**
@@ -197,5 +157,45 @@ class SharedBlockBlockService extends BaseBlockService
     public function preUpdate(BlockInterface $block)
     {
         $block->setSetting('blockId', is_object($block->getSetting('blockId')) ? $block->getSetting('blockId')->getId() : null);
+    }
+
+    /**
+     * @return SharedBlockAdmin
+     */
+    protected function getSharedBlockAdmin()
+    {
+        if (!$this->sharedBlockAdmin) {
+            $this->sharedBlockAdmin = $this->container->get('sonata.page.admin.shared_block');
+        }
+
+        return $this->sharedBlockAdmin;
+    }
+
+    /**
+     * @param FormMapper $formMapper
+     *
+     * @return FormBuilder
+     */
+    protected function getBlockBuilder(FormMapper $formMapper)
+    {
+        // simulate an association ...
+        $fieldDescription = $this->getSharedBlockAdmin()->getModelManager()->getNewFieldDescriptionInstance($this->sharedBlockAdmin->getClass(), 'block', array(
+            'translation_domain' => 'SonataPageBundle',
+        ));
+        $fieldDescription->setAssociationAdmin($this->getSharedBlockAdmin());
+        $fieldDescription->setAdmin($formMapper->getAdmin());
+        $fieldDescription->setOption('edit', 'list');
+        $fieldDescription->setAssociationMapping(array(
+                'fieldName' => 'block',
+                'type' => \Doctrine\ORM\Mapping\ClassMetadataInfo::MANY_TO_ONE,
+            ));
+
+        return $formMapper->create('blockId', 'sonata_type_model_list', array(
+                'sonata_field_description' => $fieldDescription,
+                'class' => $this->getSharedBlockAdmin()->getClass(),
+                'model_manager' => $this->getSharedBlockAdmin()->getModelManager(),
+                'label' => 'form.label_block',
+                'required' => false,
+            ));
     }
 }

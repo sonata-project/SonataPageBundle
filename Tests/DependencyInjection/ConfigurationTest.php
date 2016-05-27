@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -14,9 +14,6 @@ namespace Sonata\PageBundle\Tests\DependencyInjection;
 use Sonata\PageBundle\DependencyInjection\Configuration;
 use Symfony\Component\Config\Definition\Processor;
 
-/**
- *
- */
 class ConfigurationTest extends \PHPUnit_Framework_TestCase
 {
     public function testPageWithMatrix()
@@ -24,37 +21,37 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $processor = new Processor();
 
         $config = $processor->processConfiguration(new Configuration(), array(array(
-            'multisite'        => 'host_with_path',
+            'multisite' => 'host_with_path',
             'default_template' => 'default',
-            'templates'        => array(
+            'templates' => array(
                 'default' => array(
-                    'path'       => 'ApplicationSonataPageBundle::demo_layout.html.twig',
-                    'name'       => 'default',
-                    'containers' => array('header' => array('name'                   => 'My Header')),
-                    'matrix'     => array('layout' => 'HHHH', 'mapping' => array('H' => 'header')),
+                    'path' => 'ApplicationSonataPageBundle::demo_layout.html.twig',
+                    'name' => 'default',
+                    'containers' => array('header' => array('name' => 'My Header')),
+                    'matrix' => array('layout' => 'HHHH', 'mapping' => array('H' => 'header')),
                 ),
             ),
         )));
 
         $expected = array(
-            'multisite'             => 'host_with_path',
-            'default_template'      => 'default',
-            'templates'             => array(
+            'multisite' => 'host_with_path',
+            'default_template' => 'default',
+            'templates' => array(
                 'default' => array(
-                    'path'       => 'ApplicationSonataPageBundle::demo_layout.html.twig',
-                    'name'       => 'default',
+                    'path' => 'ApplicationSonataPageBundle::demo_layout.html.twig',
+                    'name' => 'default',
                     'containers' => array(
                         'header' => array(
-                            'name'      => 'My Header',
-                            'type'      => 1,
-                            'shared'    => false,
-                            'blocks'    => array(),
+                            'name' => 'My Header',
+                            'type' => 1,
+                            'shared' => false,
+                            'blocks' => array(),
                             'placement' => array(
-                                'x'      => 0,
-                                'y'      => 0,
-                                'width'  => 100,
+                                'x' => 0,
+                                'y' => 0,
+                                'width' => 100,
                                 'height' => 100,
-                                'right'  => 0,
+                                'right' => 0,
                                 'bottom' => 0,
                             ),
                         ),
@@ -62,10 +59,10 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                 ),
             ),
             'templates_admin' => array(
-                'tree'                   => 'SonataPageBundle:PageAdmin:tree.html.twig',
-                'list'                   => 'SonataPageBundle:PageAdmin:list.html.twig',
-                'compose'                => 'SonataPageBundle:PageAdmin:compose.html.twig',
-                'select_site'            => 'SonataPageBundle:PageAdmin:select_site.html.twig',
+                'tree' => 'SonataPageBundle:PageAdmin:tree.html.twig',
+                'list' => 'SonataPageBundle:PageAdmin:list.html.twig',
+                'compose' => 'SonataPageBundle:PageAdmin:compose.html.twig',
+                'select_site' => 'SonataPageBundle:PageAdmin:select_site.html.twig',
                 'compose_container_show' => 'SonataPageBundle:PageAdmin:compose_container_show.html.twig',
             ),
             'assets' => array(
@@ -79,14 +76,14 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                     'bundles/sonatapage/sonata-page.front.js',
                 ),
             ),
-            'is_inline_edition_on'  => false,
-            'hide_disabled_blocks'  => false,
+            'is_inline_edition_on' => false,
+            'hide_disabled_blocks' => false,
             'use_streamed_response' => false,
             'ignore_route_patterns' => array(
                 0 => '/(.*)admin(.*)/',
                 1 => '/^_(.*)/',
             ),
-            'ignore_routes'         => array(
+            'ignore_routes' => array(
                 0 => 'sonata_page_cache_esi',
                 1 => 'sonata_page_cache_ssi',
                 2 => 'sonata_page_js_sync_cache',
@@ -100,21 +97,21 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                 0 => '/admin(.*)/',
             ),
             'cache_invalidation' => array(
-                'service'  => 'sonata.cache.invalidation.simple',
+                'service' => 'sonata.cache.invalidation.simple',
                 'recorder' => 'sonata.cache.recorder',
-                'classes'  => array(),
+                'classes' => array(),
             ),
-            'default_page_service'  => 'sonata.page.service.default',
-            'page_defaults'         => array(),
-            'catch_exceptions'      => array(),
-            'class'                 => array(
-                'page'     => 'Application\\Sonata\\PageBundle\\Entity\\Page',
+            'default_page_service' => 'sonata.page.service.default',
+            'page_defaults' => array(),
+            'catch_exceptions' => array(),
+            'class' => array(
+                'page' => 'Application\\Sonata\\PageBundle\\Entity\\Page',
                 'snapshot' => 'Application\\Sonata\\PageBundle\\Entity\\Snapshot',
-                'block'    => 'Application\\Sonata\\PageBundle\\Entity\\Block',
-                'site'     => 'Application\\Sonata\\PageBundle\\Entity\\Site',
+                'block' => 'Application\\Sonata\\PageBundle\\Entity\\Block',
+                'site' => 'Application\\Sonata\\PageBundle\\Entity\\Site',
             ),
 
-            'slugify_service'    => 'sonata.core.slugify.native',
+            'slugify_service' => 'sonata.core.slugify.native',
             'direct_publication' => false,
         );
 
@@ -126,9 +123,9 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $processor = new Processor();
 
         $config = $processor->processConfiguration(new Configuration(), array(array(
-            'multisite'        => 'host_with_path',
+            'multisite' => 'host_with_path',
             'default_template' => 'default',
-            'templates'        => array(
+            'templates' => array(
                 'default' => array(
                     'path' => 'ApplicationSonataPageBundle::demo_layout.html.twig',
                     'name' => 'default',
@@ -137,20 +134,20 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         )));
 
         $expected = array(
-            'multisite'             => 'host_with_path',
-            'default_template'      => 'default',
-            'templates'             => array(
+            'multisite' => 'host_with_path',
+            'default_template' => 'default',
+            'templates' => array(
                 'default' => array(
-                    'path'       => 'ApplicationSonataPageBundle::demo_layout.html.twig',
-                    'name'       => 'default',
+                    'path' => 'ApplicationSonataPageBundle::demo_layout.html.twig',
+                    'name' => 'default',
                     'containers' => array(),
                 ),
             ),
             'templates_admin' => array(
-                'tree'                   => 'SonataPageBundle:PageAdmin:tree.html.twig',
-                'list'                   => 'SonataPageBundle:PageAdmin:list.html.twig',
-                'compose'                => 'SonataPageBundle:PageAdmin:compose.html.twig',
-                'select_site'            => 'SonataPageBundle:PageAdmin:select_site.html.twig',
+                'tree' => 'SonataPageBundle:PageAdmin:tree.html.twig',
+                'list' => 'SonataPageBundle:PageAdmin:list.html.twig',
+                'compose' => 'SonataPageBundle:PageAdmin:compose.html.twig',
+                'select_site' => 'SonataPageBundle:PageAdmin:select_site.html.twig',
                 'compose_container_show' => 'SonataPageBundle:PageAdmin:compose_container_show.html.twig',
             ),
             'assets' => array(
@@ -164,14 +161,14 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                     'bundles/sonatapage/sonata-page.front.js',
                 ),
             ),
-            'is_inline_edition_on'  => false,
-            'hide_disabled_blocks'  => false,
+            'is_inline_edition_on' => false,
+            'hide_disabled_blocks' => false,
             'use_streamed_response' => false,
             'ignore_route_patterns' => array(
                 0 => '/(.*)admin(.*)/',
                 1 => '/^_(.*)/',
             ),
-            'ignore_routes'         => array(
+            'ignore_routes' => array(
                 0 => 'sonata_page_cache_esi',
                 1 => 'sonata_page_cache_ssi',
                 2 => 'sonata_page_js_sync_cache',
@@ -185,21 +182,21 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                 0 => '/admin(.*)/',
             ),
             'cache_invalidation' => array(
-                'service'  => 'sonata.cache.invalidation.simple',
+                'service' => 'sonata.cache.invalidation.simple',
                 'recorder' => 'sonata.cache.recorder',
-                'classes'  => array(),
+                'classes' => array(),
             ),
-            'default_page_service'  => 'sonata.page.service.default',
-            'page_defaults'         => array(),
-            'catch_exceptions'      => array(),
-            'class'                 => array(
-                'page'     => 'Application\\Sonata\\PageBundle\\Entity\\Page',
+            'default_page_service' => 'sonata.page.service.default',
+            'page_defaults' => array(),
+            'catch_exceptions' => array(),
+            'class' => array(
+                'page' => 'Application\\Sonata\\PageBundle\\Entity\\Page',
                 'snapshot' => 'Application\\Sonata\\PageBundle\\Entity\\Snapshot',
-                'block'    => 'Application\\Sonata\\PageBundle\\Entity\\Block',
-                'site'     => 'Application\\Sonata\\PageBundle\\Entity\\Site',
+                'block' => 'Application\\Sonata\\PageBundle\\Entity\\Block',
+                'site' => 'Application\\Sonata\\PageBundle\\Entity\\Site',
             ),
 
-            'slugify_service'    => 'sonata.core.slugify.native',
+            'slugify_service' => 'sonata.core.slugify.native',
             'direct_publication' => false,
         );
 

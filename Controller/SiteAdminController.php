@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -50,7 +50,7 @@ class SiteAdminController extends Controller
             $this->get('sonata.notification.backend')
                 ->createAndPublish('sonata.page.create_snapshots', array(
                     'siteId' => $object->getId(),
-                    'mode'   => 'async',
+                    'mode' => 'async',
                 ));
 
             $this->addFlash('sonata_flash_success', $this->admin->trans('flash_snapshots_created_success'));
@@ -59,8 +59,8 @@ class SiteAdminController extends Controller
         }
 
         return $this->render('SonataPageBundle:SiteAdmin:create_snapshots.html.twig', array(
-            'action'  => 'snapshots',
-            'object'  => $object,
+            'action' => 'snapshots',
+            'object' => $object,
         ));
     }
 }

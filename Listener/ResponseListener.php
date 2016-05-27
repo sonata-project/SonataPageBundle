@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -59,10 +59,10 @@ class ResponseListener
                                 DecoratorStrategyInterface $decoratorStrategy,
                                 EngineInterface $templating)
     {
-        $this->cmsSelector        = $cmsSelector;
+        $this->cmsSelector = $cmsSelector;
         $this->pageServiceManager = $pageServiceManager;
-        $this->decoratorStrategy  = $decoratorStrategy;
-        $this->templating         = $templating;
+        $this->decoratorStrategy = $decoratorStrategy;
+        $this->templating = $templating;
     }
 
     /**
@@ -77,7 +77,7 @@ class ResponseListener
         $cms = $this->cmsSelector->retrieve();
 
         $response = $event->getResponse();
-        $request  = $event->getRequest();
+        $request = $event->getRequest();
 
         if ($this->cmsSelector->isEditor()) {
             $response->setPrivate();
@@ -92,8 +92,8 @@ class ResponseListener
         // display a validation page before redirecting, so the editor can edit the current page
         if ($page && $response->isRedirection() && $this->cmsSelector->isEditor() && !$request->get('_sonata_page_skip')) {
             $response = new Response($this->templating->render('SonataPageBundle:Page:redirect.html.twig', array(
-                'response'   => $response,
-                'page'       => $page,
+                'response' => $response,
+                'page' => $page,
             )));
 
             $response->setPrivate();

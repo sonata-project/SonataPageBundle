@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -22,11 +22,26 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
 {
     /**
+     * {@inheritdoc}
+     */
+    protected function setUp()
+    {
+        $siteManager = $this->getMock('Sonata\PageBundle\Model\SiteManagerInterface');
+        $decoratorStrategy = $this->getMock('Sonata\PageBundle\CmsManager\DecoratorStrategyInterface');
+        $seoPage = $this->getMock('Sonata\SeoBundle\Seo\SeoPageInterface');
+
+        $this->siteSelector = $this->getMockBuilder('Sonata\PageBundle\Site\HostByLocaleSiteSelector')
+            ->setConstructorArgs(array($siteManager, $decoratorStrategy, $seoPage))
+            ->setMethods(array('getSites'))
+            ->getMock();
+    }
+
+    /**
      * Tests handleKernelRequest method selects the site /en.
      */
     public function testHandleKernelRequestSelectsEn()
     {
-        $kernel  = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface');
+        $kernel = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface');
         $request = SiteRequest::create('http://www.example.com');
 
         // Ensure request locale is null
@@ -56,7 +71,7 @@ class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
      */
     public function testHandleKernelRequestSelectsFr()
     {
-        $kernel  = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface');
+        $kernel = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface');
         $request = SiteRequest::create('http://www.example.com', 'GET', array(), array(), array(), array(
             'HTTP_ACCEPT_LANGUAGE' => 'fr-FR,fr;q=0.8,en-US;q=0.6,en;q=0.4',
         ));
@@ -81,20 +96,5 @@ class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
 
         // Ensure we retrieved the site "/fr"
         $this->assertEquals('/fr', $site->getRelativePath());
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function setUp()
-    {
-        $siteManager       = $this->getMock('Sonata\PageBundle\Model\SiteManagerInterface');
-        $decoratorStrategy = $this->getMock('Sonata\PageBundle\CmsManager\DecoratorStrategyInterface');
-        $seoPage           = $this->getMock('Sonata\SeoBundle\Seo\SeoPageInterface');
-
-        $this->siteSelector = $this->getMockBuilder('Sonata\PageBundle\Site\HostByLocaleSiteSelector')
-            ->setConstructorArgs(array($siteManager, $decoratorStrategy, $seoPage))
-            ->setMethods(array('getSites'))
-            ->getMock();
     }
 }

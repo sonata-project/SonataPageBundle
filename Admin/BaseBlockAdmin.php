@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -53,40 +53,6 @@ abstract class BaseBlockAdmin extends Admin
     /**
      * {@inheritdoc}
      */
-    protected function configureRoutes(RouteCollection $collection)
-    {
-        $collection->add('view', $this->getRouterIdParameter().'/view');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function configureListFields(ListMapper $listMapper)
-    {
-        $listMapper
-            ->addIdentifier('type')
-            ->add('name')
-            ->add('enabled', null, array('editable' => true))
-            ->add('updatedAt')
-            ->add('position')
-        ;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
-    {
-        $datagridMapper
-            ->add('name')
-            ->add('enabled')
-            ->add('type')
-        ;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getObject($id)
     {
         $subject = parent::getObject($id);
@@ -103,33 +69,10 @@ abstract class BaseBlockAdmin extends Admin
      */
     public function getNewInstance()
     {
-        $block =  parent::getNewInstance();
+        $block = parent::getNewInstance();
         $block->setType($this->getPersistentParameter('type'));
 
         return $this->loadBlockDefaults($block);
-    }
-
-    /**
-     * @param BlockInterface $block
-     *
-     * @return BlockInterface
-     */
-    private function loadBlockDefaults(BlockInterface $block)
-    {
-        $service = $this->blockManager->get($block);
-
-        $resolver = new OptionsResolver();
-        $service->setDefaultSettings($resolver);
-
-        try {
-            $block->setSettings($resolver->resolve($block->getSettings()));
-        } catch (InvalidOptionsException $e) {
-            // @TODO : add a logging error or a flash message
-        }
-
-        $service->load($block);
-
-        return $block;
     }
 
     /**
@@ -250,5 +193,62 @@ abstract class BaseBlockAdmin extends Admin
         return array(
             'type' => $this->getRequest()->get('type'),
         );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        $collection->add('view', $this->getRouterIdParameter().'/view');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function configureListFields(ListMapper $listMapper)
+    {
+        $listMapper
+            ->addIdentifier('type')
+            ->add('name')
+            ->add('enabled', null, array('editable' => true))
+            ->add('updatedAt')
+            ->add('position')
+        ;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    {
+        $datagridMapper
+            ->add('name')
+            ->add('enabled')
+            ->add('type')
+        ;
+    }
+
+    /**
+     * @param BlockInterface $block
+     *
+     * @return BlockInterface
+     */
+    private function loadBlockDefaults(BlockInterface $block)
+    {
+        $service = $this->blockManager->get($block);
+
+        $resolver = new OptionsResolver();
+        $service->setDefaultSettings($resolver);
+
+        try {
+            $block->setSettings($resolver->resolve($block->getSettings()));
+        } catch (InvalidOptionsException $e) {
+            // @TODO : add a logging error or a flash message
+        }
+
+        $service->load($block);
+
+        return $block;
     }
 }
