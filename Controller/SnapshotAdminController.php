@@ -37,7 +37,7 @@ class SnapshotAdminController extends Controller
         $snapshot = new $class();
 
         if ($request->getMethod() == 'GET' && $request->get('pageId')) {
-            $page = $pageManager->findOne(array('id' => $request->get('pageId')));
+            $page = $pageManager->findOneBy(array('id' => $request->get('pageId')));
         } elseif ($this->admin->isChild()) {
             $page = $this->admin->getParent()->getSubject();
         } else {
