@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -119,7 +119,7 @@ class PageServiceManagerTest extends \PHPUnit_Framework_TestCase
     public function testExecute()
     {
         // GIVEN
-        $request  = $this
+        $request = $this
             ->getMockBuilder('Symfony\Component\HttpFoundation\Request')
             ->disableOriginalClone()
             ->getMock();

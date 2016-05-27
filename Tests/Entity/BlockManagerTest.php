@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -18,6 +18,18 @@ use Sonata\PageBundle\Entity\BlockManager;
  */
 class BlockManagerTest extends \PHPUnit_Framework_TestCase
 {
+    public function testGetPager()
+    {
+        $self = $this;
+        $this
+            ->getBlockManager(function ($qb) use ($self) {
+                $qb->expects($self->never())->method('join');
+                $qb->expects($self->never())->method('andWhere');
+                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(array()));
+            })
+            ->getPager(array('root' => true), 1);
+    }
+
     protected function getBlockManager($qbCallback)
     {
         $query = $this->getMockForAbstractClass('Doctrine\ORM\AbstractQuery', array(), '', false, true, true, array('execute'));
@@ -42,17 +54,5 @@ class BlockManagerTest extends \PHPUnit_Framework_TestCase
         $registry->expects($this->any())->method('getManagerForClass')->will($this->returnValue($em));
 
         return new BlockManager('Sonata\PageBundle\Entity\BasePage', $registry);
-    }
-
-    public function testGetPager()
-    {
-        $self = $this;
-        $this
-            ->getBlockManager(function ($qb) use ($self) {
-                $qb->expects($self->never())->method('join');
-                $qb->expects($self->never())->method('andWhere');
-                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(array()));
-            })
-            ->getPager(array('root' => true), 1);
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -47,7 +47,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
     {
         parent::__construct($class, $registry);
 
-        $this->templates     = $templates;
+        $this->templates = $templates;
     }
 
     /**
@@ -73,7 +73,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
         $pageIds = $snapshotIds = array();
 
         foreach ($snapshots as $snapshot) {
-            $pageIds[]     = $snapshot->getPage()->getId();
+            $pageIds[] = $snapshot->getPage()->getId();
             $snapshotIds[] = $snapshot->getId();
 
             $snapshot->setPublicationDateStart($date);
@@ -102,7 +102,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
         $date = new \Datetime();
         $parameters = array(
             'publicationDateStart' => $date,
-            'publicationDateEnd'   => $date,
+            'publicationDateEnd' => $date,
         );
 
         $query = $this->getRepository()
@@ -209,7 +209,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
         }
 
         $tableName = $this->getTableName();
-        $platform  = $this->getConnection()->getDatabasePlatform()->getName();
+        $platform = $this->getConnection()->getDatabasePlatform()->getName();
 
         if ('mysql' === $platform) {
             return $this->getConnection()->exec(sprintf(

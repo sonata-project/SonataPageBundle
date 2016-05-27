@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -18,6 +18,11 @@ namespace Sonata\PageBundle\Model;
  */
 interface SiteInterface
 {
+    /**
+     * @return string
+     */
+    public function __toString();
+
     public function getId();
 
     /**
@@ -138,11 +143,6 @@ interface SiteInterface
      * @return \Datetime $updatedAt
      */
     public function getUpdatedAt();
-
-    /**
-     * @return string
-     */
-    public function __toString();
 
     /**
      * @return string

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -98,39 +98,6 @@ class PageManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($page->getDecorate());
     }
 
-    protected function getPageManager($qbCallback)
-    {
-        $query = $this->getMockForAbstractClass('Doctrine\ORM\AbstractQuery', array(), '', false, true, true, array('execute'));
-        $query->expects($this->any())->method('execute')->will($this->returnValue(true));
-
-        $qb = $this->getMock('Doctrine\ORM\QueryBuilder', array(), array(
-            $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock(),
-        ));
-
-        $qb->expects($this->any())->method('select')->will($this->returnValue($qb));
-        $qb->expects($this->any())->method('getQuery')->will($this->returnValue($query));
-
-        $qbCallback($qb);
-
-        $repository = $this->getMockBuilder('Doctrine\ORM\EntityRepository')->disableOriginalConstructor()->getMock();
-        $repository->expects($this->any())->method('createQueryBuilder')->will($this->returnValue($qb));
-
-        $metadata = $this->getMock('Doctrine\Common\Persistence\Mapping\ClassMetadata');
-        $metadata->expects($this->any())->method('getFieldNames')->will($this->returnValue(array(
-            'name',
-            'routeName',
-        )));
-
-        $em = $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock();
-        $em->expects($this->any())->method('getRepository')->will($this->returnValue($repository));
-        $em->expects($this->any())->method('getClassMetadata')->will($this->returnValue($metadata));
-
-        $registry = $this->getMock('Doctrine\Common\Persistence\ManagerRegistry');
-        $registry->expects($this->any())->method('getManagerForClass')->will($this->returnValue($em));
-
-        return new PageManager('Sonata\PageBundle\Entity\BasePage', $registry);
-    }
-
     public function testGetPager()
     {
         $self = $this;
@@ -177,8 +144,8 @@ class PageManagerTest extends \PHPUnit_Framework_TestCase
                 $qb->expects($self->once())->method('setParameters')->with($self->equalTo(array()));
             })
             ->getPager(array(), 1, 10, array(
-                'name'       => 'ASC',
-                'routeName'  => 'DESC',
+                'name' => 'ASC',
+                'routeName' => 'DESC',
             ));
     }
 
@@ -274,5 +241,38 @@ class PageManagerTest extends \PHPUnit_Framework_TestCase
                 $qb->expects($self->once())->method('setParameters')->with($self->equalTo(array('siteId' => 13)));
             })
             ->getPager(array('site' => 13), 1);
+    }
+
+    protected function getPageManager($qbCallback)
+    {
+        $query = $this->getMockForAbstractClass('Doctrine\ORM\AbstractQuery', array(), '', false, true, true, array('execute'));
+        $query->expects($this->any())->method('execute')->will($this->returnValue(true));
+
+        $qb = $this->getMock('Doctrine\ORM\QueryBuilder', array(), array(
+            $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock(),
+        ));
+
+        $qb->expects($this->any())->method('select')->will($this->returnValue($qb));
+        $qb->expects($this->any())->method('getQuery')->will($this->returnValue($query));
+
+        $qbCallback($qb);
+
+        $repository = $this->getMockBuilder('Doctrine\ORM\EntityRepository')->disableOriginalConstructor()->getMock();
+        $repository->expects($this->any())->method('createQueryBuilder')->will($this->returnValue($qb));
+
+        $metadata = $this->getMock('Doctrine\Common\Persistence\Mapping\ClassMetadata');
+        $metadata->expects($this->any())->method('getFieldNames')->will($this->returnValue(array(
+            'name',
+            'routeName',
+        )));
+
+        $em = $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock();
+        $em->expects($this->any())->method('getRepository')->will($this->returnValue($repository));
+        $em->expects($this->any())->method('getClassMetadata')->will($this->returnValue($metadata));
+
+        $registry = $this->getMock('Doctrine\Common\Persistence\ManagerRegistry');
+        $registry->expects($this->any())->method('getManagerForClass')->will($this->returnValue($em));
+
+        return new PageManager('Sonata\PageBundle\Entity\BasePage', $registry);
     }
 }

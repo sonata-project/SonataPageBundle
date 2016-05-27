@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -28,7 +28,7 @@ abstract class BasePage extends Page
         parent::__construct();
 
         $this->children = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->blocks   = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->blocks = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function prePersist()

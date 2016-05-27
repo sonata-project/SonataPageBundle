@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -76,8 +76,8 @@ class CleanupSnapshotsCommand extends BaseCommand
                 }
 
                 $this->getNotificationBackend($input->getOption('mode'))->createAndPublish('sonata.page.cleanup_snapshots', array(
-                    'siteId'        => $site->getId(),
-                    'mode'          => $input->getOption('mode'),
+                    'siteId' => $site->getId(),
+                    'mode' => $input->getOption('mode'),
                     'keepSnapshots' => $input->getOption('keep-snapshots'),
                 ));
 

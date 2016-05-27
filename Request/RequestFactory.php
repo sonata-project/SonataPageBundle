@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -17,10 +17,41 @@ use Symfony\Component\HttpKernel\Kernel;
 class RequestFactory
 {
     private static $types = array(
-        'host'                     => 'Symfony\Component\HttpFoundation\Request',
-        'host_with_path'           => 'Sonata\PageBundle\Request\SiteRequest',
+        'host' => 'Symfony\Component\HttpFoundation\Request',
+        'host_with_path' => 'Sonata\PageBundle\Request\SiteRequest',
         'host_with_path_by_locale' => 'Sonata\PageBundle\Request\SiteRequest',
     );
+
+    /**
+     * @param string $type
+     * @param string $uri
+     * @param string $method
+     * @param array  $parameters
+     * @param array  $cookies
+     * @param array  $files
+     * @param array  $server
+     * @param null   $content
+     *
+     * @return Request|SiteRequest
+     */
+    public static function create($type, $uri, $method = 'GET', $parameters = array(), $cookies = array(), $files = array(), $server = array(), $content = null)
+    {
+        self::configureFactory($type);
+
+        return call_user_func_array(array(self::getClass($type), 'create'), array($uri, $method, $parameters, $cookies, $files, $server, $content));
+    }
+
+    /**
+     * @param string $type
+     *
+     * @return Request|SiteRequest
+     */
+    public static function createFromGlobals($type)
+    {
+        self::configureFactory($type);
+
+        return call_user_func_array(array(self::getClass($type), 'createFromGlobals'), array());
+    }
 
     /**
      * @param string $type
@@ -61,36 +92,5 @@ class RequestFactory
         }
 
         return self::$types[$type];
-    }
-
-    /**
-     * @param string $type
-     * @param string $uri
-     * @param string $method
-     * @param array  $parameters
-     * @param array  $cookies
-     * @param array  $files
-     * @param array  $server
-     * @param null   $content
-     *
-     * @return Request|SiteRequest
-     */
-    public static function create($type, $uri, $method = 'GET', $parameters = array(), $cookies = array(), $files = array(), $server = array(), $content = null)
-    {
-        self::configureFactory($type);
-
-        return call_user_func_array(array(self::getClass($type), 'create'), array($uri, $method, $parameters, $cookies, $files, $server, $content));
-    }
-
-    /**
-     * @param string $type
-     *
-     * @return Request|SiteRequest
-     */
-    public static function createFromGlobals($type)
-    {
-        self::configureFactory($type);
-
-        return call_user_func_array(array(self::getClass($type), 'createFromGlobals'), array());
     }
 }

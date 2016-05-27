@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -49,14 +49,14 @@ class PageListBlockService extends BaseBlockService
         $formMapper->add('settings', 'sonata_type_immutable_array', array(
             'keys' => array(
                 array('title', 'text', array(
-                    'label'    => 'form.label_title',
+                    'label' => 'form.label_title',
                     'required' => false,
                 )),
                 array('mode', 'choice', array(
-                    'label'   => 'form.label_mode',
+                    'label' => 'form.label_mode',
                     'choices' => array(
                         'public' => 'form.choice_public',
-                        'admin'  => 'form.choice_admin',
+                        'admin' => 'form.choice_admin',
                     ),
                 )),
             ),
@@ -74,15 +74,15 @@ class PageListBlockService extends BaseBlockService
         ));
 
         $systemElements = $this->pageManager->findBy(array(
-            'url'    => null,
+            'url' => null,
             'parent' => null,
         ));
 
         return $this->renderResponse($blockContext->getTemplate(), array(
-            'context'        => $blockContext,
-            'block'          => $blockContext->getBlock(),
-            'settings'       => $blockContext->getSettings(),
-            'elements'       => $pageList,
+            'context' => $blockContext,
+            'block' => $blockContext->getBlock(),
+            'settings' => $blockContext->getSettings(),
+            'elements' => $pageList,
             'systemElements' => $systemElements,
         ), $response);
     }
@@ -93,8 +93,8 @@ class PageListBlockService extends BaseBlockService
     public function configureSettings(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'mode'     => 'public',
-            'title'    => 'List Pages',
+            'mode' => 'public',
+            'title' => 'List Pages',
             'template' => 'SonataPageBundle:Block:block_pagelist.html.twig',
         ));
     }

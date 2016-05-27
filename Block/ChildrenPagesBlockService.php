@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -49,7 +49,7 @@ class ChildrenPagesBlockService extends BaseBlockService
     {
         parent::__construct($name, $templating);
 
-        $this->siteSelector       = $siteSelector;
+        $this->siteSelector = $siteSelector;
         $this->cmsManagerSelector = $cmsManagerSelector;
     }
 
@@ -75,8 +75,8 @@ class ChildrenPagesBlockService extends BaseBlockService
         }
 
         return $this->renderResponse($blockContext->getTemplate(), array(
-            'page'     => $page,
-            'block'    => $blockContext->getBlock(),
+            'page' => $page,
+            'block' => $blockContext->getBlock(),
             'settings' => $settings,
         ), $response);
     }
@@ -90,22 +90,22 @@ class ChildrenPagesBlockService extends BaseBlockService
             'keys' => array(
                 array('title', 'text', array(
                   'required' => false,
-                    'label'  => 'form.label_title',
+                    'label' => 'form.label_title',
                 )),
                 array('current', 'checkbox', array(
                   'required' => false,
-                  'label'    => 'form.label_current',
+                  'label' => 'form.label_current',
                 )),
                 array('pageId', 'sonata_page_selector', array(
                     'model_manager' => $formMapper->getAdmin()->getModelManager(),
-                    'class'         => $formMapper->getAdmin()->getClass(),
-                    'site'          => $block->getPage()->getSite(),
-                    'required'      => false,
-                    'label'         => 'form.label_page',
+                    'class' => $formMapper->getAdmin()->getClass(),
+                    'site' => $block->getPage()->getSite(),
+                    'required' => false,
+                    'label' => 'form.label_page',
                 )),
                 array('class', 'text', array(
                   'required' => false,
-                  'label'    => 'form.label_class',
+                  'label' => 'form.label_class',
                 )),
             ),
             'translation_domain' => 'SonataPageBundle',
@@ -126,10 +126,10 @@ class ChildrenPagesBlockService extends BaseBlockService
     public function configureSettings(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'current'  => true,
-            'pageId'   => null,
-            'title'    => '',
-            'class'    => '',
+            'current' => true,
+            'pageId' => null,
+            'title' => '',
+            'class' => '',
             'template' => 'SonataPageBundle:Block:block_core_children_pages.html.twig',
         ));
     }
@@ -157,7 +157,7 @@ class ChildrenPagesBlockService extends BaseBlockService
     {
         if (is_numeric($block->getSetting('pageId', null))) {
             $cmsManager = $this->cmsManagerSelector->retrieve();
-            $site       = $block->getPage()->getSite();
+            $site = $block->getPage()->getSite();
 
             $block->setSetting('pageId', $cmsManager->getPage($site, $block->getSetting('pageId')));
         }

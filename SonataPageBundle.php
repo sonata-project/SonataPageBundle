@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -51,7 +51,7 @@ class SonataPageBundle extends Bundle
         $this->registerFormMapping();
 
         $container = $this->container;
-        $class     = $this->container->getParameter('sonata.page.page.class');
+        $class = $this->container->getParameter('sonata.page.page.class');
 
         if (!class_exists($class)) {
             // we only set the method if the class exist
@@ -77,14 +77,14 @@ class SonataPageBundle extends Bundle
     public function registerFormMapping()
     {
         FormHelper::registerFormTypeMapping(array(
-            'sonata_page_api_form_site'   => 'Sonata\PageBundle\Form\Type\ApiSiteType',
-            'sonata_page_api_form_page'   => 'Sonata\PageBundle\Form\Type\ApiPageType',
-            'sonata_page_api_form_block'  => 'Sonata\PageBundle\Form\Type\ApiBlockType',
-            'sonata_page_selector'        => 'Sonata\PageBundle\Form\Type\PageSelectorType',
+            'sonata_page_api_form_site' => 'Sonata\PageBundle\Form\Type\ApiSiteType',
+            'sonata_page_api_form_page' => 'Sonata\PageBundle\Form\Type\ApiPageType',
+            'sonata_page_api_form_block' => 'Sonata\PageBundle\Form\Type\ApiBlockType',
+            'sonata_page_selector' => 'Sonata\PageBundle\Form\Type\PageSelectorType',
             'sonata_page_create_snapshot' => 'Sonata\PageBundle\Form\Type\CreateSnapshotType',
-            'sonata_page_template'        => 'Sonata\PageBundle\Form\Type\TemplateChoiceType',
-            'sonata_page_type_choice'     => 'Sonata\PageBundle\Form\Type\PageTypeChoiceType',
-            'cmf_routing_route_type'      => 'Symfony\Cmf\Bundle\RoutingBundle\Form\Type\RouteTypeType',
+            'sonata_page_template' => 'Sonata\PageBundle\Form\Type\TemplateChoiceType',
+            'sonata_page_type_choice' => 'Sonata\PageBundle\Form\Type\PageTypeChoiceType',
+            'cmf_routing_route_type' => 'Symfony\Cmf\Bundle\RoutingBundle\Form\Type\RouteTypeType',
         ));
     }
 }

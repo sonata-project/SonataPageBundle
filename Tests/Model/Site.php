@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -11,9 +11,6 @@
 
 namespace Sonata\PageBundle\Tests\Model;
 
-/**
- *
- */
 class Site extends \Sonata\PageBundle\Model\Site
 {
     protected $id;

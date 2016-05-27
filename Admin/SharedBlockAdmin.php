@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -42,6 +42,20 @@ class SharedBlockAdmin extends BaseBlockAdmin
     public function getBaseRouteName()
     {
         return sprintf('%s/%s', parent::getBaseRouteName(), 'shared');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createQuery($context = 'list')
+    {
+        $query = parent::createQuery($context);
+
+        // Filter on blocks without page and parents
+        $query->andWhere($query->expr()->isNull($query->getRootAlias().'.page'));
+        $query->andWhere($query->expr()->isNull($query->getRootAlias().'.parent'));
+
+        return $query;
     }
 
     /**
@@ -88,19 +102,5 @@ class SharedBlockAdmin extends BaseBlockAdmin
         }
 
         $formMapper->end();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function createQuery($context = 'list')
-    {
-        $query = parent::createQuery($context);
-
-        // Filter on blocks without page and parents
-        $query->andWhere($query->expr()->isNull($query->getRootAlias().'.page'));
-        $query->andWhere($query->expr()->isNull($query->getRootAlias().'.parent'));
-
-        return $query;
     }
 }

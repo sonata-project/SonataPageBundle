@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -44,7 +44,7 @@ class CreateSiteCommand extends BaseCommand
 
         $this->setDescription('Create a site');
 
-        $this->setHelp(<<<EOT
+        $this->setHelp(<<<'EOT'
 The <info>sonata:page:create-site</info> command create a new site entity.
 
 EOT
@@ -59,14 +59,14 @@ EOT
         $dialog = $this->getHelperSet()->get('dialog');
 
         $values = array(
-            'name'         => null,
-            'host'         => null,
+            'name' => null,
+            'host' => null,
             'relativePath' => null,
-            'enabled'      => null,
-            'enabledFrom'  => null,
-            'enabledTo'    => null,
-            'default'      => null,
-            'locale'       => null,
+            'enabled' => null,
+            'enabledFrom' => null,
+            'enabledTo' => null,
+            'default' => null,
+            'locale' => null,
         );
 
         foreach ($values as $name => $value) {

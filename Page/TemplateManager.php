@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -63,7 +63,7 @@ class TemplateManager implements TemplateManagerInterface
      */
     public function __construct(EngineInterface $engine, array $defaultParameters = array())
     {
-        $this->engine            = $engine;
+        $this->engine = $engine;
         $this->defaultParameters = $defaultParameters;
     }
 

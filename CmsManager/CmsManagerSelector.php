@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -75,6 +75,27 @@ class CmsManagerSelector implements CmsManagerSelectorInterface, LogoutHandlerIn
     }
 
     /**
+     * @param InteractiveLoginEvent $event
+     */
+    public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
+    {
+        if ($this->getSecurityContext()->getToken() && $this->getSecurityContext()->isGranted('ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT')) {
+            $this->getSession()->set('sonata/page/isEditor', true);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function logout(Request $request, Response $response, TokenInterface $token)
+    {
+        $this->getSession()->set('sonata/page/isEditor', false);
+        if ($request->cookies->has('sonata_page_is_editor')) {
+            $response->headers->clearCookie('sonata_page_is_editor');
+        }
+    }
+
+    /**
      * @return SessionInterface
      */
     private function getSession()
@@ -104,26 +125,5 @@ class CmsManagerSelector implements CmsManagerSelectorInterface, LogoutHandlerIn
     private function getSecurityContext()
     {
         return $this->container->get('security.context');
-    }
-
-    /**
-     * @param InteractiveLoginEvent $event
-     */
-    public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
-    {
-        if ($this->getSecurityContext()->getToken() && $this->getSecurityContext()->isGranted('ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT')) {
-            $this->getSession()->set('sonata/page/isEditor', true);
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function logout(Request $request, Response $response, TokenInterface $token)
-    {
-        $this->getSession()->set('sonata/page/isEditor', false);
-        if ($request->cookies->has('sonata_page_is_editor')) {
-            $response->headers->clearCookie('sonata_page_is_editor');
-        }
     }
 }

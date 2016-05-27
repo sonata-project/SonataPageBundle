@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -24,6 +24,22 @@ abstract class BaseLocaleSiteSelectorTest extends \PHPUnit_Framework_TestCase
      * @var \Sonata\PageBundle\Site\SiteSelectorInterface
      */
     protected $siteSelector;
+
+    /**
+     * Initializes the site selector.
+     */
+    protected function setUp()
+    {
+        throw new \RuntimeException('You must define a setUp method to initialize the site selector.');
+    }
+
+    /**
+     * Cleanups the site selector.
+     */
+    protected function tearDown()
+    {
+        unset($this->siteSelector);
+    }
 
     /**
      * Gets fixtures of sites.
@@ -59,22 +75,6 @@ abstract class BaseLocaleSiteSelectorTest extends \PHPUnit_Framework_TestCase
     protected function getSite()
     {
         return $this->siteSelector->retrieve();
-    }
-
-    /**
-     * Cleanups the site selector.
-     */
-    protected function tearDown()
-    {
-        unset($this->siteSelector);
-    }
-
-    /**
-     * Initializes the site selector.
-     */
-    protected function setUp()
-    {
-        throw new \RuntimeException('You must define a setUp method to initialize the site selector.');
     }
 }
 

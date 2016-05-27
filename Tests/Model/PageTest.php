@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -13,9 +13,6 @@ namespace Sonata\PageBundle\Tests\Entity;
 
 use Sonata\PageBundle\Tests\Model\Page;
 
-/**
- *
- */
 class PageTest extends \PHPUnit_Framework_TestCase
 {
     public function testSlugify()
@@ -35,7 +32,7 @@ class PageTest extends \PHPUnit_Framework_TestCase
     {
         $expectedHeaders = array(
             'Location' => 'http://www.google.fr',
-            'Expires'  => '0',
+            'Expires' => '0',
         );
         $expectedStringHeaders = "Location: http://www.google.fr\r\nExpires: 0";
 

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -27,10 +27,10 @@ class ContainerBlockService extends BaseContainerBlockService
     public function configureSettings(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'code'        => '',
-            'layout'      => '{{ CONTENT }}',
-            'class'       => '',
-            'template'    => 'SonataPageBundle:Block:block_container.html.twig',
+            'code' => '',
+            'layout' => '{{ CONTENT }}',
+            'class' => '',
+            'template' => 'SonataPageBundle:Block:block_container.html.twig',
         ));
     }
 }

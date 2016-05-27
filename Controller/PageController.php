@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -71,6 +71,14 @@ class PageController extends Controller
     }
 
     /**
+     * @return ExceptionListener
+     */
+    public function getExceptionListener()
+    {
+        return $this->get('sonata.page.kernel.exception_listener');
+    }
+
+    /**
      * @return PageServiceManagerInterface
      */
     protected function getPageServiceManager()
@@ -92,13 +100,5 @@ class PageController extends Controller
     protected function getCmsManagerSelector()
     {
         return $this->get('sonata.page.cms_manager_selector');
-    }
-
-    /**
-     * @return ExceptionListener
-     */
-    public function getExceptionListener()
-    {
-        return $this->get('sonata.page.kernel.exception_listener');
     }
 }

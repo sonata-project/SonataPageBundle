@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -96,14 +96,14 @@ class ExceptionListener
                                 array $httpErrorCodes,
                                 LoggerInterface $logger = null)
     {
-        $this->siteSelector       = $siteSelector;
+        $this->siteSelector = $siteSelector;
         $this->cmsManagerSelector = $cmsManagerSelector;
-        $this->debug              = $debug;
-        $this->templating         = $templating;
+        $this->debug = $debug;
+        $this->templating = $templating;
         $this->pageServiceManager = $pageServiceManager;
-        $this->decoratorStrategy  = $decoratorStrategy;
-        $this->httpErrorCodes     = $httpErrorCodes;
-        $this->logger             = $logger;
+        $this->decoratorStrategy = $decoratorStrategy;
+        $this->httpErrorCodes = $httpErrorCodes;
+        $this->logger = $logger;
     }
 
     /**
@@ -144,7 +144,7 @@ class ExceptionListener
             throw new InternalErrorException(sprintf('There is not page configured to handle the status code %d', $statusCode));
         }
 
-        $cms  = $this->cmsManagerSelector->retrieve();
+        $cms = $this->cmsManagerSelector->retrieve();
         $site = $this->siteSelector->retrieve();
 
         if (!$site) {
@@ -171,9 +171,9 @@ class ExceptionListener
 
             if ($creatable) {
                 $response = new Response($this->templating->render('SonataPageBundle:Page:create.html.twig', array(
-                    'pathInfo'   => $pathInfo,
-                    'site'       => $this->siteSelector->retrieve(),
-                    'creatable'  => $creatable,
+                    'pathInfo' => $pathInfo,
+                    'site' => $this->siteSelector->retrieve(),
+                    'creatable' => $creatable,
                 )), 404);
 
                 $event->setResponse($response);
@@ -223,7 +223,7 @@ class ExceptionListener
 
         $this->status = true;
 
-        $exception  = $event->getException();
+        $exception = $event->getException();
         $statusCode = $exception instanceof HttpExceptionInterface ? $exception->getStatusCode() : 500;
 
         $cmsManager = $this->cmsManagerSelector->retrieve();

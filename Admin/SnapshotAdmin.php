@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -84,7 +84,7 @@ class SnapshotAdmin extends Admin
         $actions = parent::getBatchActions();
 
         $actions['toggle_enabled'] = array(
-            'label'            => $this->trans('toggle_enabled'),
+            'label' => $this->trans('toggle_enabled'),
             'ask_confirmation' => true,
         );
 
