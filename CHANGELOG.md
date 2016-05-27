@@ -7,6 +7,10 @@ A [BC BREAK] means the update will break the project for many reasons:
 * new dependencies
 * class refactoring
 
+### 2016-05-09
+
+* Add a ``create-block-container`` command. It creates a block container in all pages for specified template code.
+
 ### 2014-11-04
 
 * [BC BREAK] Move assets management (js, css) to gulp and move css to sass.
