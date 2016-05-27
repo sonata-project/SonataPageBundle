@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -31,7 +31,7 @@ class BlockContextManagerTest extends \PHPUnit_Framework_TestCase
         $serviceManager->expects($this->once())->method('get')->will($this->returnValue($service));
 
         $block = $this->getMock('Sonata\BlockBundle\Model\BlockInterface');
-        $block->expects($this->once())->method('getSettings')->will($this->returnValue(array()));
+        $block->expects($this->once())->method('getSettings')->will($this->returnValue([]));
 
         $manager = new BlockContextManager($blockLoader, $serviceManager);
 
@@ -39,14 +39,14 @@ class BlockContextManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('Sonata\BlockBundle\Block\BlockContextInterface', $blockContext);
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             'manager'          => false,
             'page_id'          => false,
             'use_cache'        => true,
-            'extra_cache_keys' => array(),
-            'attr'             => array(),
+            'extra_cache_keys' => [],
+            'attr'             => [],
             'template'         => false,
             'ttl'              => 0,
-        ), $blockContext->getSettings());
+        ], $blockContext->getSettings());
     }
 }

@@ -1,9 +1,9 @@
 <?php
 
 /*
- * This file is part of sonata-project.
+ * This file is part of the Sonata Project package.
  *
- * (c) 2010 Thomas Rabaix
+ * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -29,9 +29,9 @@ class UniqueUrlValidatorTest extends \PHPUnit_Framework_TestCase
 
         $manager = $this->getMock('Sonata\PageBundle\Model\PageManagerInterface');
         $manager->expects($this->once())->method('fixUrl');
-        $manager->expects($this->once())->method('findBy')->will($this->returnValue(array($page)));
+        $manager->expects($this->once())->method('findBy')->will($this->returnValue([$page]));
 
-        $context = $this->getMock('Symfony\Component\Validator\ExecutionContext', array(), array(), '', false);
+        $context = $this->getMock('Symfony\Component\Validator\ExecutionContext', [], [], '', false);
         $context->expects($this->never())->method('addViolation');
 
         $validator = new UniqueUrlValidator($manager);
@@ -54,9 +54,9 @@ class UniqueUrlValidatorTest extends \PHPUnit_Framework_TestCase
 
         $manager = $this->getMock('Sonata\PageBundle\Model\PageManagerInterface');
         $manager->expects($this->once())->method('fixUrl');
-        $manager->expects($this->once())->method('findBy')->will($this->returnValue(array($page, $pageFound)));
+        $manager->expects($this->once())->method('findBy')->will($this->returnValue([$page, $pageFound]));
 
-        $context = $this->getMock('Symfony\Component\Validator\ExecutionContext', array(), array(), '', false);
+        $context = $this->getMock('Symfony\Component\Validator\ExecutionContext', [], [], '', false);
         $context->expects($this->once())->method('addViolation');
 
         $validator = new UniqueUrlValidator($manager);

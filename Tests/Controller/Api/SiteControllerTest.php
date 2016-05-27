@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -25,13 +25,13 @@ class SiteControllerTest extends \PHPUnit_Framework_TestCase
     public function testGetSitesAction()
     {
         $siteManager = $this->getMock('Sonata\PageBundle\Model\SiteManagerInterface');
-        $siteManager->expects($this->once())->method('getPager')->will($this->returnValue(array()));
+        $siteManager->expects($this->once())->method('getPager')->will($this->returnValue([]));
 
         $paramFetcher = $this->getMock('FOS\RestBundle\Request\ParamFetcherInterface');
         $paramFetcher->expects($this->exactly(3))->method('get');
-        $paramFetcher->expects($this->once())->method('all')->will($this->returnValue(array()));
+        $paramFetcher->expects($this->once())->method('all')->will($this->returnValue([]));
 
-        $this->assertEquals(array(), $this->createSiteController(null, $siteManager)->getSitesAction($paramFetcher));
+        $this->assertEquals([], $this->createSiteController(null, $siteManager)->getSitesAction($paramFetcher));
     }
 
     public function testGetSiteAction()
@@ -137,7 +137,7 @@ class SiteControllerTest extends \PHPUnit_Framework_TestCase
 
         $view = $this->createSiteController($site, $siteManager)->deleteSiteAction(1);
 
-        $this->assertEquals(array('deleted' => true), $view);
+        $this->assertEquals(['deleted' => true], $view);
     }
 
     public function testDeleteSiteInvalidAction()

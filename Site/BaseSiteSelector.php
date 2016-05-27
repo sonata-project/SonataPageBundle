@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -53,9 +53,9 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
      */
     public function __construct(SiteManagerInterface $siteManager, DecoratorStrategyInterface $decoratorStrategy, SeoPageInterface $seoPage)
     {
-        $this->siteManager       = $siteManager;
+        $this->siteManager = $siteManager;
         $this->decoratorStrategy = $decoratorStrategy;
-        $this->seoPage           = $seoPage;
+        $this->seoPage = $seoPage;
     }
 
     /**
@@ -116,12 +116,12 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
     {
         // sort by isDefault DESC in order to have default site in first position
         // which will be used if no site found for the current request
-        return $this->siteManager->findBy(array(
-            'host'    => array($request->getHost(), 'localhost'),
+        return $this->siteManager->findBy([
+            'host'    => [$request->getHost(), 'localhost'],
             'enabled' => true,
-        ), array(
+        ], [
             'isDefault' => 'DESC',
-        ));
+        ]);
     }
 
     /**
@@ -134,7 +134,7 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
      */
     protected function matchRequest(SiteInterface $site, Request $request)
     {
-        $results = array();
+        $results = [];
 
         // we read the value from the attribute to handle fragment support
         $requestPathInfo = $request->get('pathInfo', $request->getPathInfo());
@@ -165,10 +165,10 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
         }, $sites);
 
         $language = $request->getPreferredLanguage($sitesLocales);
-        $host     = $request->getHost();
+        $host = $request->getHost();
 
         foreach ($sites as $site) {
-            if (in_array($site->getHost(), array('localhost', $host)) && $language === $site->getLocale()) {
+            if (in_array($site->getHost(), ['localhost', $host]) && $language === $site->getLocale()) {
                 return $site;
             }
         }

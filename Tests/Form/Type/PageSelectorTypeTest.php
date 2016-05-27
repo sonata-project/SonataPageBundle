@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -16,9 +16,6 @@ use Sonata\PageBundle\Tests\Model\Page;
 use Sonata\PageBundle\Tests\Model\Site;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- *
- */
 class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
 {
     protected $pages;
@@ -27,7 +24,7 @@ class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $pages = array();
+        $pages = [];
 
         $i = 1;
 
@@ -91,12 +88,12 @@ class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
 
         $pageSelector->setDefaultOptions($options = new OptionsResolver());
 
-        $options = $options->resolve(array('filter_choice' => array(
+        $options = $options->resolve(['filter_choice' => [
             'request_method' => 'all',
-        )));
+        ]]);
 
         $this->assertInstanceOf('Symfony\Component\Form\Extension\Core\ChoiceList\SimpleChoiceList', $options['choice_list']);
-        $this->assertEquals(array(), $options['choice_list']->getValues());
+        $this->assertEquals([], $options['choice_list']->getValues());
     }
 
     /**
@@ -108,9 +105,9 @@ class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
 
         $pageSelector->setDefaultOptions($options = new OptionsResolver());
 
-        $options = $options->resolve(array('site' => $this->site, 'filter_choice' => array(
+        $options = $options->resolve(['site' => $this->site, 'filter_choice' => [
             'request_method'                      => 'all',
-        )));
+        ]]);
 
         $this->assertInstanceOf('Symfony\Component\Form\Extension\Core\ChoiceList\SimpleChoiceList', $options['choice_list']);
         $this->assertCount(4, $options['choice_list']->getRemainingViews());
@@ -122,7 +119,7 @@ class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
 
         $pageSelector->setDefaultOptions($options = new OptionsResolver());
 
-        $options = $options->resolve(array('site' => $this->site));
+        $options = $options->resolve(['site' => $this->site]);
 
         $this->assertInstanceOf('Symfony\Component\Form\Extension\Core\ChoiceList\SimpleChoiceList', $options['choice_list']);
         $views = $options['choice_list']->getRemainingViews();
@@ -139,9 +136,9 @@ class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
 
         $pageSelector->setDefaultOptions($options = new OptionsResolver());
 
-        $options = $options->resolve(array('site' => $this->site, 'filter_choice' => array(
+        $options = $options->resolve(['site' => $this->site, 'filter_choice' => [
             'request_method'                      => 'post',
-        )));
+        ]]);
 
         $this->assertInstanceOf('Symfony\Component\Form\Extension\Core\ChoiceList\SimpleChoiceList', $options['choice_list']);
         $views = $options['choice_list']->getRemainingViews();
@@ -158,10 +155,10 @@ class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
 
         $pageSelector->setDefaultOptions($options = new OptionsResolver());
 
-        $options = $options->resolve(array('site' => $this->site, 'filter_choice' => array(
+        $options = $options->resolve(['site' => $this->site, 'filter_choice' => [
             'hierarchy'                           => 'root',
             'request_method'                      => 'all',
-        )));
+        ]]);
 
         $this->assertInstanceOf('Symfony\Component\Form\Extension\Core\ChoiceList\SimpleChoiceList', $options['choice_list']);
         $views = $options['choice_list']->getRemainingViews();
@@ -176,10 +173,10 @@ class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
 
         $pageSelector->setDefaultOptions($options = new OptionsResolver());
 
-        $options = $options->resolve(array('site' => $this->site, 'filter_choice' => array(
+        $options = $options->resolve(['site' => $this->site, 'filter_choice' => [
             'hierarchy'                           => 'children',
             'request_method'                      => 'all',
-        )));
+        ]]);
 
         $this->assertInstanceOf('Symfony\Component\Form\Extension\Core\ChoiceList\SimpleChoiceList', $options['choice_list']);
         $views = $options['choice_list']->getRemainingViews();
@@ -196,10 +193,10 @@ class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
 
         $pageSelector->setDefaultOptions($options = new OptionsResolver());
 
-        $options = $options->resolve(array('site' => $this->site, 'filter_choice' => array(
+        $options = $options->resolve(['site' => $this->site, 'filter_choice' => [
             'hierarchy'                           => 'children',
             'request_method'                      => 'POST',
-        )));
+        ]]);
 
         $this->assertInstanceOf('Symfony\Component\Form\Extension\Core\ChoiceList\SimpleChoiceList', $options['choice_list']);
         $views = $options['choice_list']->getRemainingViews();

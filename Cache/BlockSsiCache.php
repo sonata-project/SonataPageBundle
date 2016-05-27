@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -52,23 +52,23 @@ class BlockSsiCache extends SsiCache
      * @param BlockContextManagerInterface $contextManager Block Context manager
      * @param array                        $managers
      */
-    public function __construct($token, RouterInterface $router, BlockRendererInterface $blockRenderer, BlockContextManagerInterface $contextManager, array $managers = array())
+    public function __construct($token, RouterInterface $router, BlockRendererInterface $blockRenderer, BlockContextManagerInterface $contextManager, array $managers = [])
     {
         parent::__construct($token, $router, null);
 
-        $this->managers       = $managers;
-        $this->blockRenderer  = $blockRenderer;
+        $this->managers = $managers;
+        $this->blockRenderer = $blockRenderer;
         $this->contextManager = $contextManager;
     }
 
     /**
-     * @throws \RuntimeException
-     *
      * @param array $keys
+     *
+     * @throws \RuntimeException
      */
     private function validateKeys(array $keys)
     {
-        foreach (array('block_id', 'page_id', 'manager', 'updated_at') as $key) {
+        foreach (['block_id', 'page_id', 'manager', 'updated_at'] as $key) {
             if (!isset($keys[$key])) {
                 throw new \RuntimeException(sprintf('Please define a `%s` key', $key));
             }
@@ -92,7 +92,7 @@ class BlockSsiCache extends SsiCache
     /**
      * {@inheritdoc}
      */
-    public function set(array $keys, $data, $ttl = CacheElement::DAY, array $contextualKeys = array())
+    public function set(array $keys, $data, $ttl = CacheElement::DAY, array $contextualKeys = [])
     {
         $this->validateKeys($keys);
 
@@ -105,12 +105,12 @@ class BlockSsiCache extends SsiCache
     protected function computeHash(array $keys)
     {
         // values are casted into string for non numeric id
-        return hash('sha256', $this->token.serialize(array(
+        return hash('sha256', $this->token.serialize([
             'manager'    => (string) $keys['manager'],
             'page_id'    => (string) $keys['page_id'],
             'block_id'   => (string) $keys['block_id'],
             'updated_at' => (string) $keys['updated_at'],
-        )));
+        ]));
     }
 
     /**
@@ -144,9 +144,9 @@ class BlockSsiCache extends SsiCache
     }
 
     /**
-     * @throws NotFoundHttpException
-     *
      * @param Request $request
+     *
+     * @throws NotFoundHttpException
      *
      * @return CmsManagerInterface
      */

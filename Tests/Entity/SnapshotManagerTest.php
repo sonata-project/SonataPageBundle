@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -20,12 +20,12 @@ class SnapshotManagerTest extends \PHPUnit_Framework_TestCase
 {
     protected function getSnapshotManager($qbCallback)
     {
-        $query = $this->getMockForAbstractClass('Doctrine\ORM\AbstractQuery', array(), '', false, true, true, array('execute'));
+        $query = $this->getMockForAbstractClass('Doctrine\ORM\AbstractQuery', [], '', false, true, true, ['execute']);
         $query->expects($this->any())->method('execute')->will($this->returnValue(true));
 
-        $qb = $this->getMock('Doctrine\ORM\QueryBuilder', array(), array(
+        $qb = $this->getMock('Doctrine\ORM\QueryBuilder', [], [
             $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock(),
-        ));
+        ]);
 
         $qb->expects($this->any())->method('select')->will($this->returnValue($qb));
         $qb->expects($this->any())->method('getQuery')->will($this->returnValue($query));
@@ -50,9 +50,9 @@ class SnapshotManagerTest extends \PHPUnit_Framework_TestCase
         $this
             ->getSnapshotManager(function ($qb) use ($self) {
                 $qb->expects($self->never())->method('andWhere');
-                $qb->expects($self->once())->method('setParameters')->with(array());
+                $qb->expects($self->once())->method('setParameters')->with([]);
             })
-            ->getPager(array(), 1);
+            ->getPager([], 1);
     }
 
     public function testGetPagerWithEnabledSnapshots()
@@ -61,9 +61,9 @@ class SnapshotManagerTest extends \PHPUnit_Framework_TestCase
         $this
             ->getSnapshotManager(function ($qb) use ($self) {
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('s.enabled = :enabled'));
-                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(array('enabled' => true)));
+                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['enabled' => true]));
             })
-            ->getPager(array('enabled' => true), 1);
+            ->getPager(['enabled' => true], 1);
     }
 
     public function testGetPagerWithDisabledSnapshots()
@@ -72,9 +72,9 @@ class SnapshotManagerTest extends \PHPUnit_Framework_TestCase
         $this
             ->getSnapshotManager(function ($qb) use ($self) {
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('s.enabled = :enabled'));
-                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(array('enabled' => false)));
+                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['enabled' => false]));
             })
-            ->getPager(array('enabled' => false), 1);
+            ->getPager(['enabled' => false], 1);
     }
 
     public function testGetPagerWithRootSnapshots()
@@ -84,7 +84,7 @@ class SnapshotManagerTest extends \PHPUnit_Framework_TestCase
             ->getSnapshotManager(function ($qb) use ($self) {
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('s.parent IS NULL'));
             })
-            ->getPager(array('root' => true), 1);
+            ->getPager(['root' => true], 1);
     }
 
     public function testGetPagerWithNonRootSnapshots()
@@ -94,7 +94,7 @@ class SnapshotManagerTest extends \PHPUnit_Framework_TestCase
             ->getSnapshotManager(function ($qb) use ($self) {
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('s.parent IS NOT NULL'));
             })
-            ->getPager(array('root' => false), 1);
+            ->getPager(['root' => false], 1);
     }
 
     public function testGetPagerWithParentChildSnapshots()
@@ -107,9 +107,9 @@ class SnapshotManagerTest extends \PHPUnit_Framework_TestCase
                     $self->equalTo('pa')
                 );
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('pa.id = :parentId'));
-                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(array('parentId' => 13)));
+                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['parentId' => 13]));
             })
-            ->getPager(array('parent' => 13), 1);
+            ->getPager(['parent' => 13], 1);
     }
 
     public function testGetPagerWithSiteSnapshots()
@@ -122,9 +122,9 @@ class SnapshotManagerTest extends \PHPUnit_Framework_TestCase
                     $self->equalTo('si')
                 );
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('si.id = :siteId'));
-                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(array('siteId' => 13)));
+                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['siteId' => 13]));
             })
-            ->getPager(array('site' => 13), 1);
+            ->getPager(['site' => 13], 1);
     }
 
     /**
@@ -159,16 +159,16 @@ class SnapshotManagerTest extends \PHPUnit_Framework_TestCase
         $em->expects($this->once())->method('flush');
         $em->expects($this->once())->method('getConnection')->will($this->returnValue($connection));
 
-        $manager  = $this->getMockBuilder('Sonata\PageBundle\Entity\SnapshotManager')
+        $manager = $this->getMockBuilder('Sonata\PageBundle\Entity\SnapshotManager')
             ->disableOriginalConstructor()
-            ->setMethods(array('getEntityManager', 'getTableName'))
+            ->setMethods(['getEntityManager', 'getTableName'])
             ->getMock();
 
         $manager->expects($this->exactly(3))->method('getEntityManager')->will($this->returnValue($em));
         $manager->expects($this->once())->method('getTableName')->will($this->returnValue('page_snapshot'));
 
         // When calling method, expects calls
-        $manager->enableSnapshots(array($snapshot), $date);
+        $manager->enableSnapshots([$snapshot], $date);
     }
 
     /**
@@ -191,15 +191,15 @@ class SnapshotManagerTest extends \PHPUnit_Framework_TestCase
         $em->expects($this->never())->method('flush');
         $em->expects($this->never())->method('getConnection');
 
-        $manager  = $this->getMockBuilder('Sonata\PageBundle\Entity\SnapshotManager')
+        $manager = $this->getMockBuilder('Sonata\PageBundle\Entity\SnapshotManager')
             ->disableOriginalConstructor()
-            ->setMethods(array('getEntityManager', 'getTableName'))
+            ->setMethods(['getEntityManager', 'getTableName'])
             ->getMock();
 
         $manager->expects($this->never())->method('getEntityManager');
         $manager->expects($this->never())->method('getTableName');
 
         // When calling method, do not expects any calls
-        $manager->enableSnapshots(array());
+        $manager->enableSnapshots([]);
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -29,9 +29,9 @@ class BlockAdminController extends Controller
     /**
      * @param Request|null $request
      *
-     * @return Response
-     * 
      * @throws AccessDeniedException
+     *
+     * @return Response
      */
     public function savePositionAction(Request $request = null)
     {
@@ -53,23 +53,23 @@ class BlockAdminController extends Controller
             $pageAdmin->update($pageAdmin->getSubject());
         } catch (HttpException $e) {
             $status = $e->getStatusCode();
-            $result = array(
+            $result = [
                 'exception' => get_class($e),
                 'message'   => $e->getMessage(),
                 'code'      => $e->getCode(),
-            );
+            ];
         } catch (\Exception $e) {
             $status = 500;
-            $result = array(
+            $result = [
                 'exception' => get_class($e),
                 'message'   => $e->getMessage(),
                 'code'      => $e->getCode(),
-            );
+            ];
         }
 
         $result = ($result === true) ? 'ok' : $result;
 
-        return $this->renderJson(array('result' => $result), $status);
+        return $this->renderJson(['result' => $result], $status);
     }
 
     /**
@@ -87,12 +87,12 @@ class BlockAdminController extends Controller
         $parameters = $this->admin->getPersistentParameters();
 
         if (!$parameters['type']) {
-            return $this->render('SonataPageBundle:BlockAdmin:select_type.html.twig', array(
+            return $this->render('SonataPageBundle:BlockAdmin:select_type.html.twig', [
                 'services'      => $this->get('sonata.block.manager')->getServicesByContext('sonata_page_bundle'),
                 'base_template' => $this->getBaseTemplate(),
                 'admin'         => $this->admin,
                 'action'        => 'create',
-            ));
+            ]);
         }
 
         return parent::createAction();
@@ -107,7 +107,7 @@ class BlockAdminController extends Controller
     {
         $this->admin->checkAccess('switchParent');
 
-        $blockId  = $request->get('block_id');
+        $blockId = $request->get('block_id');
         $parentId = $request->get('parent_id');
         if ($blockId === null or $parentId === null) {
             throw new HttpException(400, 'wrong parameters');
@@ -126,16 +126,16 @@ class BlockAdminController extends Controller
         $parent->addChildren($block);
         $this->admin->update($parent);
 
-        return $this->renderJson(array('result' => 'ok'));
+        return $this->renderJson(['result' => 'ok']);
     }
 
     /**
      * @param Request|null $request
      *
-     * @return Response
-     *
      * @throws AccessDeniedException
      * @throws PageNotFoundException
+     *
+     * @return Response
      */
     public function composePreviewAction(Request $request = null)
     {
@@ -156,10 +156,10 @@ class BlockAdminController extends Controller
 
         $blockServices = $this->get('sonata.block.manager')->getServicesByContext('sonata_page_bundle', false);
 
-        return $this->render('SonataPageBundle:BlockAdmin:compose_preview.html.twig', array(
+        return $this->render('SonataPageBundle:BlockAdmin:compose_preview.html.twig', [
             'container'     => $container,
             'child'         => $block,
             'blockServices' => $blockServices,
-        ));
+        ]);
     }
 }

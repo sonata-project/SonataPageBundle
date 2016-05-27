@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -13,16 +13,13 @@ namespace Sonata\PageBundle\Tests\Entity;
 
 use Sonata\PageBundle\Model\SnapshotPageProxy;
 
-/**
- *
- */
 class SnapshotPageProxyTest extends \PHPUnit_Framework_TestCase
 {
     public function testInterface()
     {
         $snapshotManager = $this->getMock('Sonata\PageBundle\Model\SnapshotManagerInterface');
         $snapshot = $this->getMock('Sonata\PageBundle\Model\SnapshotInterface');
-        $transformer  = $this->getMock('Sonata\PageBundle\Model\TransformerInterface');
+        $transformer = $this->getMock('Sonata\PageBundle\Model\TransformerInterface');
 
         new SnapshotPageProxy($snapshotManager, $transformer, $snapshot);
     }

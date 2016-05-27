@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -45,7 +45,7 @@ class PageServiceCompilerPass implements CompilerPassInterface
 
         $taggedServices = $container->findTaggedServiceIds($this->tagName);
         foreach ($taggedServices as $id => $attributes) {
-            $definition->addMethodCall('add', array($id, new Reference($id)));
+            $definition->addMethodCall('add', [$id, new Reference($id)]);
         }
     }
 }

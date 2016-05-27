@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -373,7 +373,7 @@ interface PageInterface
     /**
      * @param array $headers
      */
-    public function setHeaders(array $headers = array());
+    public function setHeaders(array $headers = []);
 
     /**
      * @param string $name

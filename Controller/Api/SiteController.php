@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -75,14 +75,14 @@ class SiteController
      */
     public function getSitesAction(ParamFetcherInterface $paramFetcher)
     {
-        $supportedCriteria = array(
+        $supportedCriteria = [
             'enabled'    => '',
             'is_default' => '',
-        );
+        ];
 
-        $page    = $paramFetcher->get('page');
-        $limit   = $paramFetcher->get('count');
-        $sort    = $paramFetcher->get('orderBy');
+        $page = $paramFetcher->get('page');
+        $limit = $paramFetcher->get('count');
+        $sort = $paramFetcher->get('orderBy');
         $criteria = array_intersect_key($paramFetcher->all(), $supportedCriteria);
 
         foreach ($criteria as $key => $value) {
@@ -92,9 +92,9 @@ class SiteController
         }
 
         if (!$sort) {
-            $sort = array();
+            $sort = [];
         } elseif (!is_array($sort)) {
-            $sort = array($sort => 'asc');
+            $sort = [$sort => 'asc'];
         }
 
         $pager = $this->siteManager->getPager($criteria, $page, $limit, $sort);
@@ -142,9 +142,9 @@ class SiteController
      *
      * @param Request $request A Symfony request
      *
-     * @return SiteInterface
-     *
      * @throws NotFoundHttpException
+     *
+     * @return SiteInterface
      */
     public function postSiteAction(Request $request)
     {
@@ -170,9 +170,9 @@ class SiteController
      * @param int     $id      A Site identifier
      * @param Request $request A Symfony request
      *
-     * @return SiteInterface
-     *
      * @throws NotFoundHttpException
+     *
+     * @return SiteInterface
      */
     public function putSiteAction($id, Request $request)
     {
@@ -195,9 +195,9 @@ class SiteController
      *
      * @param int $id A Site identifier
      *
-     * @return \FOS\RestBundle\View\View
-     *
      * @throws NotFoundHttpException
+     *
+     * @return \FOS\RestBundle\View\View
      */
     public function deleteSiteAction($id)
     {
@@ -205,7 +205,7 @@ class SiteController
 
         $this->siteManager->delete($site);
 
-        return array('deleted' => true);
+        return ['deleted' => true];
     }
 
     /**
@@ -213,13 +213,13 @@ class SiteController
      *
      * @param $id
      *
-     * @return SiteInterface
-     *
      * @throws NotFoundHttpException
+     *
+     * @return SiteInterface
      */
     protected function getSite($id)
     {
-        $site = $this->siteManager->findOneBy(array('id' => $id));
+        $site = $this->siteManager->findOneBy(['id' => $id]);
 
         if (null === $site) {
             throw new NotFoundHttpException(sprintf('Site (%d) not found', $id));
@@ -240,9 +240,9 @@ class SiteController
     {
         $site = $id ? $this->getSite($id) : null;
 
-        $form = $this->formFactory->createNamed(null, 'sonata_page_api_form_site', $site, array(
+        $form = $this->formFactory->createNamed(null, 'sonata_page_api_form_site', $site, [
             'csrf_protection' => false,
-        ));
+        ]);
 
         $form->submit($request);
 
@@ -253,7 +253,7 @@ class SiteController
 
             $view = FOSRestView::create($site);
             $serializationContext = SerializationContext::create();
-            $serializationContext->setGroups(array('sonata_api_read'));
+            $serializationContext->setGroups(['sonata_api_read']);
             $serializationContext->enableMaxDepthChecks();
             $view->setSerializationContext($serializationContext);
 

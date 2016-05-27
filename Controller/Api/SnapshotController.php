@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -67,17 +67,17 @@ class SnapshotController
      */
     public function getSnapshotsAction(ParamFetcherInterface $paramFetcher)
     {
-        $supportedCriteria = array(
+        $supportedCriteria = [
             'enabled'   => '',
             'site'      => '',
             'page_id'   => '',
             'root'      => '',
             'parent'    => '',
-        );
+        ];
 
-        $page    = $paramFetcher->get('page');
-        $limit   = $paramFetcher->get('count');
-        $sort    = $paramFetcher->get('orderBy');
+        $page = $paramFetcher->get('page');
+        $limit = $paramFetcher->get('count');
+        $sort = $paramFetcher->get('orderBy');
         $criteria = array_intersect_key($paramFetcher->all(), $supportedCriteria);
 
         foreach ($criteria as $key => $value) {
@@ -87,9 +87,9 @@ class SnapshotController
         }
 
         if (!$sort) {
-            $sort = array();
+            $sort = [];
         } elseif (!is_array($sort)) {
-            $sort = array($sort => 'asc');
+            $sort = [$sort => 'asc'];
         }
 
         $pager = $this->snapshotManager->getPager($criteria, $page, $limit, $sort);
@@ -139,9 +139,9 @@ class SnapshotController
      *
      * @param int $id A Snapshot identifier
      *
-     * @return \FOS\RestBundle\View\View
-     *
      * @throws NotFoundHttpException
+     *
+     * @return \FOS\RestBundle\View\View
      */
     public function deleteSnapshotAction($id)
     {
@@ -149,7 +149,7 @@ class SnapshotController
 
         $this->snapshotManager->delete($snapshots);
 
-        return array('deleted' => true);
+        return ['deleted' => true];
     }
 
     /**
@@ -157,13 +157,13 @@ class SnapshotController
      *
      * @param $id
      *
-     * @return SnapshotInterface
-     *
      * @throws NotFoundHttpException
+     *
+     * @return SnapshotInterface
      */
     protected function getSnapshot($id)
     {
-        $snapshot = $this->snapshotManager->findOneBy(array('id' => $id));
+        $snapshot = $this->snapshotManager->findOneBy(['id' => $id]);
 
         if (null === $snapshot) {
             throw new NotFoundHttpException(sprintf('Snapshot (%d) not found', $id));

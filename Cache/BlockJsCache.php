@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -63,9 +63,9 @@ class BlockJsCache implements CacheAdapterInterface
      */
     public function __construct(RouterInterface $router, CmsManagerSelectorInterface $cmsSelector, BlockRendererInterface $blockRenderer, BlockContextManagerInterface $contextManager, $sync = false)
     {
-        $this->router        = $router;
-        $this->sync          = $sync;
-        $this->cmsSelector   = $cmsSelector;
+        $this->router = $router;
+        $this->sync = $sync;
+        $this->cmsSelector = $cmsSelector;
         $this->blockRenderer = $blockRenderer;
         $this->contextManager = $contextManager;
     }
@@ -81,7 +81,7 @@ class BlockJsCache implements CacheAdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function flush(array $keys = array())
+    public function flush(array $keys = [])
     {
         return true;
     }
@@ -105,13 +105,13 @@ class BlockJsCache implements CacheAdapterInterface
     }
 
     /**
-     * @throws \RuntimeException
-     *
      * @param array $keys
+     *
+     * @throws \RuntimeException
      */
     private function validateKeys(array $keys)
     {
-        foreach (array('block_id', 'page_id', 'manager', 'updated_at') as $key) {
+        foreach (['block_id', 'page_id', 'manager', 'updated_at'] as $key) {
             if (!isset($keys[$key])) {
                 throw new \RuntimeException(sprintf('Please define a `%s` key, provided: %s', $key, json_encode(array_keys($keys))));
             }
@@ -185,7 +185,7 @@ class BlockJsCache implements CacheAdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function set(array $keys, $data, $ttl = CacheElement::DAY, array $contextualKeys = array())
+    public function set(array $keys, $data, $ttl = CacheElement::DAY, array $contextualKeys = [])
     {
         $this->validateKeys($keys);
 
@@ -213,7 +213,7 @@ class BlockJsCache implements CacheAdapterInterface
             return new Response('', 404);
         }
 
-        $options = array();
+        $options = [];
 
         $blockContext = $this->contextManager->get($block, $options);
         $response = $this->blockRenderer->render($blockContext);

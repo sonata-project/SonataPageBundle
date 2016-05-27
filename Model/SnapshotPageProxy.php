@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Sonata Project package.
+ *
+ * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Sonata\PageBundle\Model;
 
 use Serializable;
@@ -45,7 +54,7 @@ class SnapshotPageProxy implements PageInterface, Serializable
      */
     public function __construct(SnapshotManagerInterface $manager, TransformerInterface $transformer, SnapshotInterface $snapshot)
     {
-        $this->manager  = $manager;
+        $this->manager = $manager;
         $this->snapshot = $snapshot;
         $this->transformer = $transformer;
     }
@@ -75,7 +84,7 @@ class SnapshotPageProxy implements PageInterface, Serializable
      */
     public function __call($method, $arguments)
     {
-        return call_user_func_array(array($this->getPage(), $method), $arguments);
+        return call_user_func_array([$this->getPage(), $method], $arguments);
     }
 
     /**
@@ -89,7 +98,7 @@ class SnapshotPageProxy implements PageInterface, Serializable
     /**
      * {@inheritdoc}
      */
-    public function setHeaders(array $headers = array())
+    public function setHeaders(array $headers = [])
     {
         $this->getPage()->setHeaders($headers);
     }
@@ -166,9 +175,9 @@ class SnapshotPageProxy implements PageInterface, Serializable
             $content = $this->snapshot->getContent();
 
             if (isset($content['target_id'])) {
-                $target = $this->manager->findEnableSnapshot(array(
+                $target = $this->manager->findEnableSnapshot([
                     'pageId' => $content['target_id'],
-                ));
+                ]);
 
                 if ($target) {
                     $this->setTarget(new self($this->manager, $this->transformer, $target));
@@ -209,7 +218,7 @@ class SnapshotPageProxy implements PageInterface, Serializable
     public function getParents()
     {
         if (!$this->parents) {
-            $parents = array();
+            $parents = [];
 
             $snapshot = $this->snapshot;
 
@@ -220,9 +229,9 @@ class SnapshotPageProxy implements PageInterface, Serializable
                     break;
                 }
 
-                $snapshot = $this->manager->findEnableSnapshot(array(
+                $snapshot = $this->manager->findEnableSnapshot([
                     'pageId' => $content['parent_id'],
-                ));
+                ]);
 
                 if (!$snapshot) {
                     break;
@@ -671,13 +680,13 @@ class SnapshotPageProxy implements PageInterface, Serializable
     public function serialize()
     {
         if ($this->manager) {
-            return serialize(array(
+            return serialize([
                 'pageId'     => $this->getPage()->getId(),
                 'snapshotId' => $this->snapshot->getId(),
-            ));
+            ]);
         }
 
-        return serialize(array());
+        return serialize([]);
     }
 
     /**

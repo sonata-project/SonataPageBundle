@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -13,9 +13,6 @@ namespace Sonata\PageBundle\Tests\Entity;
 
 use Sonata\PageBundle\Tests\Model\Page;
 
-/**
- *
- */
 class PageTest extends \PHPUnit_Framework_TestCase
 {
     public function testSlugify()
@@ -33,10 +30,10 @@ class PageTest extends \PHPUnit_Framework_TestCase
 
     public function testHeader()
     {
-        $expectedHeaders = array(
+        $expectedHeaders = [
             'Location' => 'http://www.google.fr',
             'Expires'  => '0',
-        );
+        ];
         $expectedStringHeaders = "Location: http://www.google.fr\r\nExpires: 0";
 
         $page = new Page();
@@ -44,28 +41,28 @@ class PageTest extends \PHPUnit_Framework_TestCase
 
         $method = $pageReflection->getMethod('getHeadersAsArray');
         $method->setAccessible(true);
-        foreach (array(
+        foreach ([
                 "Location: http://www.google.fr\r\nExpires: 0",
                 " Location: http://www.google.fr\r\nExpires: 0 ",
                 "Location:http://www.google.fr\r\nExpires:0",
                 "\r\nLocation: http://www.google.fr\r\nExpires: 0\r\nInvalid Header Line",
-            ) as $rawHeaders) {
-            $this->assertEquals($expectedHeaders, $method->invokeArgs($page, array($rawHeaders)), 'Page::getHeadersAsArray()');
+            ] as $rawHeaders) {
+            $this->assertEquals($expectedHeaders, $method->invokeArgs($page, [$rawHeaders]), 'Page::getHeadersAsArray()');
         }
 
         $method = $pageReflection->getMethod('getHeadersAsString');
         $method->setAccessible(true);
-        foreach (array(
-                array(
+        foreach ([
+                [
                     'Location' => 'http://www.google.fr',
                     'Expires' => '0',
-                ),
-                array(
+                ],
+                [
                     ' Location ' => ' http://www.google.fr ',
                     "\r\nExpires " => " 0\r\n",
-                ),
-            ) as $headers) {
-            $this->assertEquals($expectedStringHeaders, $method->invokeArgs($page, array($headers)), 'Page::getHeadersAsString()');
+                ],
+            ] as $headers) {
+            $this->assertEquals($expectedStringHeaders, $method->invokeArgs($page, [$headers]), 'Page::getHeadersAsString()');
         }
 
         $page = new Page();
@@ -73,13 +70,13 @@ class PageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($page->getRawHeaders(), $expectedStringHeaders);
         $this->assertEquals($page->getHeaders(), $expectedHeaders);
 
-        $page->setHeaders(array('Cache-Control' => 'no-cache'));
+        $page->setHeaders(['Cache-Control' => 'no-cache']);
         $this->assertEquals($page->getRawHeaders(), 'Cache-Control: no-cache');
-        $this->assertEquals($page->getHeaders(), array('Cache-Control' => 'no-cache'));
+        $this->assertEquals($page->getHeaders(), ['Cache-Control' => 'no-cache']);
 
-        $page->setHeaders(array());
+        $page->setHeaders([]);
         $this->assertEquals($page->getRawHeaders(), '');
-        $this->assertEquals($page->getHeaders(), array());
+        $this->assertEquals($page->getHeaders(), []);
 
         $page = new Page();
         $page->setRawHeaders($expectedStringHeaders);
@@ -88,16 +85,16 @@ class PageTest extends \PHPUnit_Framework_TestCase
 
         $page->setRawHeaders('Cache-Control: no-cache');
         $this->assertEquals($page->getRawHeaders(), 'Cache-Control: no-cache');
-        $this->assertEquals($page->getHeaders(), array('Cache-Control' => 'no-cache'));
+        $this->assertEquals($page->getHeaders(), ['Cache-Control' => 'no-cache']);
 
         $page->setRawHeaders('');
         $this->assertEquals($page->getRawHeaders(), '');
-        $this->assertEquals($page->getHeaders(), array());
+        $this->assertEquals($page->getHeaders(), []);
 
         $page = new Page();
         $page->addHeader('Cache-Control', 'no-cache');
         $this->assertEquals($page->getRawHeaders(), 'Cache-Control: no-cache');
-        $this->assertEquals($page->getHeaders(), array('Cache-Control' => 'no-cache'));
+        $this->assertEquals($page->getHeaders(), ['Cache-Control' => 'no-cache']);
 
         $page->setRawHeaders($expectedStringHeaders);
         $this->assertEquals($page->getRawHeaders(), $expectedStringHeaders);
@@ -105,7 +102,7 @@ class PageTest extends \PHPUnit_Framework_TestCase
 
         $page->addHeader('Cache-Control', 'no-cache, private');
         $this->assertEquals($page->getRawHeaders(), $expectedStringHeaders."\r\nCache-Control: no-cache, private");
-        $this->assertEquals($page->getHeaders(), array_merge($expectedHeaders, array('Cache-Control' => 'no-cache, private')));
+        $this->assertEquals($page->getHeaders(), array_merge($expectedHeaders, ['Cache-Control' => 'no-cache, private']));
 
         $page->setRawHeaders($expectedStringHeaders);
         $this->assertEquals($page->getRawHeaders(), $expectedStringHeaders);
@@ -160,17 +157,17 @@ class PageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($time, $page->getCreatedAt());
         $this->assertEquals($time, $page->getUpdatedAt());
 
-        $children = array(
+        $children = [
             new Page(),
             new Page(),
-        );
+        ];
 
         $page->setChildren($children);
         $this->assertEquals(2, count($page->getChildren()));
 
-        $snapshots = array(
+        $snapshots = [
             $this->getMock('Sonata\PageBundle\Model\SnapshotInterface'),
-        );
+        ];
 
         $page->setSnapshots($snapshots);
         $this->assertEquals(1, count($page->getSnapshots()));

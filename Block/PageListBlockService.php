@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -46,22 +46,22 @@ class PageListBlockService extends BaseBlockService
      */
     public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
     {
-        $formMapper->add('settings', 'sonata_type_immutable_array', array(
-            'keys' => array(
-                array('title', 'text', array(
+        $formMapper->add('settings', 'sonata_type_immutable_array', [
+            'keys' => [
+                ['title', 'text', [
                     'label'    => 'form.label_title',
                     'required' => false,
-                )),
-                array('mode', 'choice', array(
+                ]],
+                ['mode', 'choice', [
                     'label'   => 'form.label_mode',
-                    'choices' => array(
+                    'choices' => [
                         'public' => 'form.choice_public',
                         'admin'  => 'form.choice_admin',
-                    ),
-                )),
-            ),
+                    ],
+                ]],
+            ],
             'translation_domain' => 'SonataPageBundle',
-        ));
+        ]);
     }
 
     /**
@@ -69,22 +69,22 @@ class PageListBlockService extends BaseBlockService
      */
     public function execute(BlockContextInterface $blockContext, Response $response = null)
     {
-        $pageList = $this->pageManager->findBy(array(
+        $pageList = $this->pageManager->findBy([
             'routeName' => Page::PAGE_ROUTE_CMS_NAME,
-        ));
+        ]);
 
-        $systemElements = $this->pageManager->findBy(array(
+        $systemElements = $this->pageManager->findBy([
             'url'    => null,
             'parent' => null,
-        ));
+        ]);
 
-        return $this->renderResponse($blockContext->getTemplate(), array(
+        return $this->renderResponse($blockContext->getTemplate(), [
             'context'        => $blockContext,
             'block'          => $blockContext->getBlock(),
             'settings'       => $blockContext->getSettings(),
             'elements'       => $pageList,
             'systemElements' => $systemElements,
-        ), $response);
+        ], $response);
     }
 
     /**
@@ -92,11 +92,11 @@ class PageListBlockService extends BaseBlockService
      */
     public function configureSettings(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'mode'     => 'public',
             'title'    => 'List Pages',
             'template' => 'SonataPageBundle:Block:block_pagelist.html.twig',
-        ));
+        ]);
     }
 
     /**
@@ -104,8 +104,8 @@ class PageListBlockService extends BaseBlockService
      */
     public function getBlockMetadata($code = null)
     {
-        return new Metadata($this->getName(), (!is_null($code) ? $code : $this->getName()), false, 'SonataPageBundle', array(
+        return new Metadata($this->getName(), (!is_null($code) ? $code : $this->getName()), false, 'SonataPageBundle', [
             'class' => 'fa fa-home',
-        ));
+        ]);
     }
 }

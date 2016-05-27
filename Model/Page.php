@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -194,11 +194,11 @@ abstract class Page implements PageInterface
      */
     public function __construct()
     {
-        $this->blocks        = array();
-        $this->children      = array();
-        $this->routeName     = PageInterface::PAGE_ROUTE_CMS_NAME;
+        $this->blocks = [];
+        $this->children = [];
+        $this->routeName = PageInterface::PAGE_ROUTE_CMS_NAME;
         $this->requestMethod = 'GET|POST|HEAD|DELETE|PUT';
-        $this->edited        = true;
+        $this->edited = true;
     }
 
     /**
@@ -440,9 +440,9 @@ abstract class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function setHeaders(array $headers = array())
+    public function setHeaders(array $headers = [])
     {
-        $this->headers = array();
+        $this->headers = [];
         $this->rawHeaders = null;
         foreach ($headers as $name => $header) {
             $this->addHeader($name, $header);
@@ -632,11 +632,11 @@ abstract class Page implements PageInterface
     public function getParents()
     {
         if (!$this->parents) {
-            $page    = $this;
-            $parents = array();
+            $page = $this;
+            $parents = [];
 
             while ($page->getParent()) {
-                $page      = $page->getParent();
+                $page = $page->getParent();
                 $parents[] = $page;
             }
 
@@ -820,7 +820,7 @@ abstract class Page implements PageInterface
         $block = null;
 
         foreach ($this->getBlocks() as $blockTmp) {
-            if (in_array($blockTmp->getType(), array('sonata.page.block.container', 'sonata.block.service.container')) && $blockTmp->getSetting('code') == $code) {
+            if (in_array($blockTmp->getType(), ['sonata.page.block.container', 'sonata.block.service.container']) && $blockTmp->getSetting('code') == $code) {
                 $block = $blockTmp;
 
                 break;
@@ -839,7 +839,7 @@ abstract class Page implements PageInterface
      */
     public function getBlocksByType($type)
     {
-        $blocks = array();
+        $blocks = [];
 
         foreach ($this->getBlocks() as $block) {
             if ($type == $block->getType()) {
@@ -857,7 +857,7 @@ abstract class Page implements PageInterface
     {
         $method = strtoupper($method);
 
-        if (!in_array($method, array('PUT', 'POST', 'GET', 'DELETE', 'HEAD'))) {
+        if (!in_array($method, ['PUT', 'POST', 'GET', 'DELETE', 'HEAD'])) {
             return false;
         }
 
@@ -921,7 +921,7 @@ abstract class Page implements PageInterface
      */
     protected function getHeadersAsArray($rawHeaders)
     {
-        $headers = array();
+        $headers = [];
 
         foreach (explode("\r\n", $rawHeaders) as $header) {
             if (false != strpos($header, ':')) {
@@ -942,7 +942,7 @@ abstract class Page implements PageInterface
      */
     protected function getHeadersAsString(array $headers)
     {
-        $rawHeaders = array();
+        $rawHeaders = [];
 
         foreach ($headers as $name => $header) {
             $rawHeaders[] = sprintf('%s: %s', trim($name), trim($header));

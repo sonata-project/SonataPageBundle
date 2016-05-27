@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -77,11 +77,11 @@ class SharedBlockBlockService extends BaseBlockService
         /** @var Block $sharedBlock */
         $sharedBlock = $block->getSetting('blockId');
 
-        return $this->renderResponse($blockContext->getTemplate(), array(
+        return $this->renderResponse($blockContext->getTemplate(), [
                 'block'       => $blockContext->getBlock(),
                 'settings'    => $blockContext->getSettings(),
                 'sharedBlock' => $sharedBlock,
-            ), $response);
+            ], $response);
     }
 
     /**
@@ -104,11 +104,11 @@ class SharedBlockBlockService extends BaseBlockService
             $this->load($block);
         }
 
-        $formMapper->add('settings', 'sonata_type_immutable_array', array(
-            'keys' => array(
-                array($this->getBlockBuilder($formMapper), null, array()),
-            ),
-        ));
+        $formMapper->add('settings', 'sonata_type_immutable_array', [
+            'keys' => [
+                [$this->getBlockBuilder($formMapper), null, []],
+            ],
+        ]);
     }
 
     /**
@@ -131,24 +131,24 @@ class SharedBlockBlockService extends BaseBlockService
     protected function getBlockBuilder(FormMapper $formMapper)
     {
         // simulate an association ...
-        $fieldDescription = $this->getSharedBlockAdmin()->getModelManager()->getNewFieldDescriptionInstance($this->sharedBlockAdmin->getClass(), 'block', array(
+        $fieldDescription = $this->getSharedBlockAdmin()->getModelManager()->getNewFieldDescriptionInstance($this->sharedBlockAdmin->getClass(), 'block', [
             'translation_domain' => 'SonataPageBundle',
-        ));
+        ]);
         $fieldDescription->setAssociationAdmin($this->getSharedBlockAdmin());
         $fieldDescription->setAdmin($formMapper->getAdmin());
         $fieldDescription->setOption('edit', 'list');
-        $fieldDescription->setAssociationMapping(array(
+        $fieldDescription->setAssociationMapping([
                 'fieldName' => 'block',
                 'type'      => \Doctrine\ORM\Mapping\ClassMetadataInfo::MANY_TO_ONE,
-            ));
+            ]);
 
-        return $formMapper->create('blockId', 'sonata_type_model_list', array(
+        return $formMapper->create('blockId', 'sonata_type_model_list', [
                 'sonata_field_description' => $fieldDescription,
                 'class'                    => $this->getSharedBlockAdmin()->getClass(),
                 'model_manager'            => $this->getSharedBlockAdmin()->getModelManager(),
                 'label'                    => 'form.label_block',
                 'required'                 => false,
-            ));
+            ]);
     }
 
     /**
@@ -164,9 +164,9 @@ class SharedBlockBlockService extends BaseBlockService
      */
     public function configureSettings(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'template' => 'SonataPageBundle:Block:block_shared_block.html.twig',
-        ));
+        ]);
     }
 
     /**
@@ -177,7 +177,7 @@ class SharedBlockBlockService extends BaseBlockService
         $sharedBlock = $block->getSetting('blockId', null);
 
         if (is_int($sharedBlock)) {
-            $sharedBlock = $this->blockManager->findOneBy(array('id' => $sharedBlock));
+            $sharedBlock = $this->blockManager->findOneBy(['id' => $sharedBlock]);
         }
 
         $block->setSetting('blockId', $sharedBlock);

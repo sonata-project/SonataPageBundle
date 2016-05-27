@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -43,11 +43,11 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
      * @param array           $defaults
      * @param array           $pageDefaults
      */
-    public function __construct($class, ManagerRegistry $registry, array $defaults = array(), array $pageDefaults = array())
+    public function __construct($class, ManagerRegistry $registry, array $defaults = [], array $pageDefaults = [])
     {
         parent::__construct($class, $registry);
 
-        $this->defaults     = $defaults;
+        $this->defaults = $defaults;
         $this->pageDefaults = $pageDefaults;
     }
 
@@ -56,16 +56,16 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
      */
     public function getPageByUrl(SiteInterface $site, $url)
     {
-        return $this->findOneBy(array(
+        return $this->findOneBy([
             'url'  => $url,
             'site' => $site->getId(),
-        ));
+        ]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getPager(array $criteria, $page, $limit = 10, array $sort = array())
+    public function getPager(array $criteria, $page, $limit = 10, array $sort = [])
     {
         $query = $this->getRepository()
             ->createQueryBuilder('p')
@@ -79,13 +79,13 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
             }
         }
         if (count($sort) == 0) {
-            $sort = array('name' => 'ASC');
+            $sort = ['name' => 'ASC'];
         }
         foreach ($sort as $field => $direction) {
             $query->orderBy(sprintf('p.%s', $field), strtoupper($direction));
         }
 
-        $parameters = array();
+        $parameters = [];
 
         if (isset($criteria['enabled'])) {
             $query->andWhere('p.enabled = :enabled');
@@ -132,7 +132,7 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function create(array $defaults = array())
+    public function create(array $defaults = [])
     {
         // create a new page for this routing
         $class = $this->getClass();
@@ -242,10 +242,10 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
             ->select('p')
             ->from($this->class, 'p')
             ->where('p.routeName <> :routeName and p.site = :site')
-            ->setParameters(array(
+            ->setParameters([
                 'routeName' => PageInterface::PAGE_ROUTE_CMS_NAME,
                 'site'      => $site->getId(),
-            ))
+            ])
             ->getQuery()
             ->execute();
     }

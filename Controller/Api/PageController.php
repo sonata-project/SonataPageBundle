@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -73,11 +73,11 @@ class PageController
      */
     public function __construct(SiteManagerInterface $siteManager, PageManagerInterface $pageManager, BlockManagerInterface $blockManager, FormFactoryInterface $formFactory, BackendInterface $backend)
     {
-        $this->siteManager  = $siteManager;
-        $this->pageManager  = $pageManager;
+        $this->siteManager = $siteManager;
+        $this->pageManager = $pageManager;
         $this->blockManager = $blockManager;
-        $this->formFactory  = $formFactory;
-        $this->backend      = $backend;
+        $this->formFactory = $formFactory;
+        $this->backend = $backend;
     }
 
     /**
@@ -106,18 +106,18 @@ class PageController
      */
     public function getPagesAction(ParamFetcherInterface $paramFetcher)
     {
-        $supportedCriteria = array(
+        $supportedCriteria = [
             'enabled'  => '',
             'edited'   => '',
             'internal' => '',
             'root'     => '',
             'site'     => '',
             'parent'   => '',
-        );
+        ];
 
-        $page     = $paramFetcher->get('page');
-        $limit    = $paramFetcher->get('count');
-        $sort     = $paramFetcher->get('orderBy');
+        $page = $paramFetcher->get('page');
+        $limit = $paramFetcher->get('count');
+        $sort = $paramFetcher->get('orderBy');
         $criteria = array_intersect_key($paramFetcher->all(), $supportedCriteria);
 
         foreach ($criteria as $key => $value) {
@@ -127,9 +127,9 @@ class PageController
         }
 
         if (!$sort) {
-            $sort = array();
+            $sort = [];
         } elseif (!is_array($sort)) {
-            $sort = array($sort => 'asc');
+            $sort = [$sort => 'asc'];
         }
 
         $pager = $this->pageManager->getPager($criteria, $page, $limit, $sort);
@@ -233,17 +233,17 @@ class PageController
      * @param int     $id      A Page identifier
      * @param Request $request A Symfony request
      *
-     * @return BlockInterface
-     *
      * @throws NotFoundHttpException
+     *
+     * @return BlockInterface
      */
     public function postPageBlockAction($id, Request $request)
     {
         $page = $id ? $this->getPage($id) : null;
 
-        $form = $this->formFactory->createNamed(null, 'sonata_page_api_form_block', null, array(
+        $form = $this->formFactory->createNamed(null, 'sonata_page_api_form_block', null, [
             'csrf_protection' => false,
-        ));
+        ]);
 
         $form->submit($request);
 
@@ -255,7 +255,7 @@ class PageController
 
             $view = FOSRestView::create($block);
             $serializationContext = SerializationContext::create();
-            $serializationContext->setGroups(array('sonata_api_read'));
+            $serializationContext->setGroups(['sonata_api_read']);
             $serializationContext->enableMaxDepthChecks();
             $view->setSerializationContext($serializationContext);
 
@@ -280,9 +280,9 @@ class PageController
      *
      * @param Request $request A Symfony request
      *
-     * @return PageInterface
-     *
      * @throws NotFoundHttpException
+     *
+     * @return PageInterface
      */
     public function postPageAction(Request $request)
     {
@@ -308,9 +308,9 @@ class PageController
      * @param int     $id      A Page identifier
      * @param Request $request A Symfony request
      *
-     * @return PageInterface
-     *
      * @throws NotFoundHttpException
+     *
+     * @return PageInterface
      */
     public function putPageAction($id, Request $request)
     {
@@ -333,9 +333,9 @@ class PageController
      *
      * @param int $id A Page identifier
      *
-     * @return \FOS\RestBundle\View\View
-     *
      * @throws NotFoundHttpException
+     *
+     * @return \FOS\RestBundle\View\View
      */
     public function deletePageAction($id)
     {
@@ -343,7 +343,7 @@ class PageController
 
         $this->pageManager->delete($page);
 
-        return array('deleted' => true);
+        return ['deleted' => true];
     }
 
     /**
@@ -362,19 +362,19 @@ class PageController
      *
      * @param int $id A Page identifier
      *
-     * @return \FOS\RestBundle\View\View
-     *
      * @throws NotFoundHttpException
+     *
+     * @return \FOS\RestBundle\View\View
      */
     public function postPageSnapshotAction($id)
     {
         $page = $this->getPage($id);
 
-        $this->backend->createAndPublish('sonata.page.create_snapshot', array(
+        $this->backend->createAndPublish('sonata.page.create_snapshot', [
             'pageId' => $page->getId(),
-        ));
+        ]);
 
-        return array('queued' => true);
+        return ['queued' => true];
     }
 
     /**
@@ -387,21 +387,21 @@ class PageController
      *  }
      * )
      *
-     * @return \FOS\RestBundle\View\View
-     *
      * @throws NotFoundHttpException
+     *
+     * @return \FOS\RestBundle\View\View
      */
     public function postPagesSnapshotsAction()
     {
         $sites = $this->siteManager->findAll();
 
         foreach ($sites as $site) {
-            $this->backend->createAndPublish('sonata.page.create_snapshot', array(
+            $this->backend->createAndPublish('sonata.page.create_snapshot', [
                 'siteId' => $site->getId(),
-            ));
+            ]);
         }
 
-        return array('queued' => true);
+        return ['queued' => true];
     }
 
     /**
@@ -409,13 +409,13 @@ class PageController
      *
      * @param $id
      *
-     * @return PageInterface
-     *
      * @throws NotFoundHttpException
+     *
+     * @return PageInterface
      */
     protected function getPage($id)
     {
-        $page = $this->pageManager->findOneBy(array('id' => $id));
+        $page = $this->pageManager->findOneBy(['id' => $id]);
 
         if (null === $page) {
             throw new NotFoundHttpException(sprintf('Page (%d) not found', $id));
@@ -429,13 +429,13 @@ class PageController
      *
      * @param $id
      *
-     * @return BlockInterface
-     *
      * @throws NotFoundHttpException
+     *
+     * @return BlockInterface
      */
     protected function getBlock($id)
     {
-        $block = $this->blockManager->findOneBy(array('id' => $id));
+        $block = $this->blockManager->findOneBy(['id' => $id]);
 
         if (null === $block) {
             throw new NotFoundHttpException(sprintf('Block (%d) not found', $id));
@@ -456,9 +456,9 @@ class PageController
     {
         $page = $id ? $this->getPage($id) : null;
 
-        $form = $this->formFactory->createNamed(null, 'sonata_page_api_form_page', $page, array(
+        $form = $this->formFactory->createNamed(null, 'sonata_page_api_form_page', $page, [
             'csrf_protection' => false,
-        ));
+        ]);
 
         $form->submit($request);
 
@@ -468,7 +468,7 @@ class PageController
 
             $view = FOSRestView::create($page);
             $serializationContext = SerializationContext::create();
-            $serializationContext->setGroups(array('sonata_api_read'));
+            $serializationContext->setGroups(['sonata_api_read']);
             $serializationContext->enableMaxDepthChecks();
             $view->setSerializationContext($serializationContext);
 

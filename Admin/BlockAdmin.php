@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -43,7 +43,7 @@ class BlockAdmin extends BaseBlockAdmin
      * @param string $baseControllerName
      * @param array  $blocks
      */
-    public function __construct($code, $class, $baseControllerName, array $blocks = array())
+    public function __construct($code, $class, $baseControllerName, array $blocks = [])
     {
         parent::__construct($code, $class, $baseControllerName);
 
@@ -53,11 +53,11 @@ class BlockAdmin extends BaseBlockAdmin
     /**
      * {@inheritdoc}
      */
-    protected $accessMapping = array(
+    protected $accessMapping = [
         'savePosition'   => 'EDIT',
         'switchParent'   => 'EDIT',
         'composePreview' => 'EDIT',
-    );
+    ];
 
     /**
      * {@inheritdoc}
@@ -68,9 +68,9 @@ class BlockAdmin extends BaseBlockAdmin
 
         $collection->add('savePosition', 'save-position');
         $collection->add('switchParent', 'switch-parent');
-        $collection->add('composePreview', '{block_id}/compose_preview', array(
+        $collection->add('composePreview', '{block_id}/compose_preview', [
             'block_id' => null,
-        ));
+        ]);
     }
 
     /**
@@ -102,10 +102,10 @@ class BlockAdmin extends BaseBlockAdmin
         $blockType = $block->getType();
 
         $isComposer = $this->hasRequest() ? $this->getRequest()->get('composer', false) : false;
-        $generalGroupOptions = $optionsGroupOptions = array();
+        $generalGroupOptions = $optionsGroupOptions = [];
         if ($isComposer) {
             $generalGroupOptions['class'] = 'hidden';
-            $optionsGroupOptions['name']  = '';
+            $optionsGroupOptions['name'] = '';
         }
 
         $formMapper->with('form.field_group_general', $generalGroupOptions);
@@ -118,8 +118,8 @@ class BlockAdmin extends BaseBlockAdmin
 
         $formMapper->end();
 
-        $isContainerRoot = $block && in_array($blockType, array('sonata.page.block.container', 'sonata.block.service.container')) && !$this->hasParentFieldDescription();
-        $isStandardBlock = $block && !in_array($blockType, array('sonata.page.block.container', 'sonata.block.service.container')) && !$this->hasParentFieldDescription();
+        $isContainerRoot = $block && in_array($blockType, ['sonata.page.block.container', 'sonata.block.service.container']) && !$this->hasParentFieldDescription();
+        $isStandardBlock = $block && !in_array($blockType, ['sonata.page.block.container', 'sonata.block.service.container']) && !$this->hasParentFieldDescription();
 
         if ($isContainerRoot || $isStandardBlock) {
             $formMapper->with('form.field_group_general', $generalGroupOptions);
@@ -130,23 +130,23 @@ class BlockAdmin extends BaseBlockAdmin
 
             // need to investigate on this case where $page == null ... this should not be possible
             if ($isStandardBlock && $page && !empty($containerBlockTypes)) {
-                $formMapper->add('parent', 'entity', array(
+                $formMapper->add('parent', 'entity', [
                         'class'         => $this->getClass(),
                         'query_builder' => function (EntityRepository $repository) use ($page, $containerBlockTypes) {
                             return $repository->createQueryBuilder('a')
                                 ->andWhere('a.page = :page AND a.type IN (:types)')
-                                ->setParameters(array(
+                                ->setParameters([
                                         'page'  => $page,
                                         'types' => $containerBlockTypes,
-                                    ));
+                                    ]);
                         },
-                    ), array(
+                    ], [
                         'admin_code' => $this->getCode(),
-                    ));
+                    ]);
             }
 
             if ($isComposer) {
-                $formMapper->add('enabled', 'hidden', array('data' => true));
+                $formMapper->add('enabled', 'hidden', ['data' => true]);
             } else {
                 $formMapper->add('enabled');
             }
@@ -169,7 +169,7 @@ class BlockAdmin extends BaseBlockAdmin
                 $settingsField = $formMapper->get('settings');
 
                 if (!$settingsField->has('template')) {
-                    $choices = array();
+                    $choices = [];
 
                     if (null !== $defaultTemplate = $this->getDefaultTemplate($service)) {
                         $choices[$defaultTemplate] = 'default';
@@ -180,7 +180,7 @@ class BlockAdmin extends BaseBlockAdmin
                     }
 
                     if (count($choices) > 1) {
-                        $settingsField->add('template', 'choice', array('choices' => $choices));
+                        $settingsField->add('template', 'choice', ['choices' => $choices]);
                     }
                 }
             }
@@ -189,13 +189,12 @@ class BlockAdmin extends BaseBlockAdmin
         } else {
             $formMapper
                 ->with('form.field_group_options', $optionsGroupOptions)
-                ->add('type', 'sonata_block_service_choice', array(
+                ->add('type', 'sonata_block_service_choice', [
                         'context' => 'sonata_page_bundle',
-                    ))
+                    ])
                 ->add('enabled')
                 ->add('position', 'integer')
-                ->end()
-            ;
+                ->end();
         }
     }
 
@@ -213,8 +212,6 @@ class BlockAdmin extends BaseBlockAdmin
         if (isset($options['template'])) {
             return $options['template'];
         }
-
-        return;
     }
 
     /**

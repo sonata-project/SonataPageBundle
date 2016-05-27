@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -56,8 +56,8 @@ class RoutePageGenerator
      */
     public function __construct(RouterInterface $router, PageManagerInterface $pageManager, DecoratorStrategyInterface $decoratorStrategy, ExceptionListener $exceptionListener)
     {
-        $this->router            = $router;
-        $this->pageManager       = $pageManager;
+        $this->router = $router;
+        $this->pageManager = $pageManager;
         $this->decoratorStrategy = $decoratorStrategy;
         $this->exceptionListener = $exceptionListener;
     }
@@ -72,28 +72,28 @@ class RoutePageGenerator
     {
         $message = sprintf(' > <info>Updating core routes for site</info> : <comment>%s - %s</comment>', $site->getName(), $site->getUrl());
 
-        $this->writeln($output, array(
+        $this->writeln($output, [
             str_repeat('=', strlen($message)),
             '',
             $message,
             '',
             str_repeat('=', strlen($message)),
-        ));
+        ]);
 
-        $knowRoutes = array();
+        $knowRoutes = [];
 
         $root = $this->pageManager->getPageByUrl($site, '/');
 
         // no root url for the given website, create one
         if (!$root) {
-            $root = $this->pageManager->create(array(
+            $root = $this->pageManager->create([
                 'routeName'     => PageInterface::PAGE_ROUTE_CMS_NAME,
                 'name'          => 'Homepage',
                 'url'           => '/',
                 'site'          => $site,
                 'requestMethod' => isset($requirements['_method']) ? $requirements['_method'] : 'GET|POST|HEAD|DELETE|PUT',
                 'slug'          => '/',
-            ));
+            ]);
 
             $this->pageManager->save($root);
         }
@@ -104,10 +104,10 @@ class RoutePageGenerator
 
             $knowRoutes[] = $name;
 
-            $page = $this->pageManager->findOneBy(array(
+            $page = $this->pageManager->findOneBy([
                 'routeName' => $name,
                 'site'      => $site->getId(),
-            ));
+            ]);
 
             $routeHostRegex = $route->compile()->getHostRegex();
 
@@ -133,13 +133,13 @@ class RoutePageGenerator
 
                 $requirements = $route->getRequirements();
 
-                $page = $this->pageManager->create(array(
+                $page = $this->pageManager->create([
                     'routeName'     => $name,
                     'name'          => $name,
                     'url'           => $route->getPath(),
                     'site'          => $site,
                     'requestMethod' => isset($requirements['_method']) ? $requirements['_method'] : 'GET|POST|HEAD|DELETE|PUT',
-                ));
+                ]);
             }
 
             if (!$page->getParent() && $page->getId() != $root->getId()) {
@@ -161,18 +161,18 @@ class RoutePageGenerator
 
             $knowRoutes[] = $name;
 
-            $page = $this->pageManager->findOneBy(array(
+            $page = $this->pageManager->findOneBy([
                 'routeName' => $name,
                 'site'      => $site->getId(),
-            ));
+            ]);
 
             if (!$page) {
-                $params = array(
+                $params = [
                     'routeName' => $name,
                     'name'      => $name,
                     'decorate'  => false,
                     'site'      => $site,
-                );
+                ];
 
                 $page = $this->pageManager->create($params);
 
@@ -195,7 +195,7 @@ class RoutePageGenerator
                 if (!$has) {
                     $has = true;
 
-                    $this->writeln($output, array('', 'Some hybrid pages does not exist anymore', str_repeat('-', 80)));
+                    $this->writeln($output, ['', 'Some hybrid pages does not exist anymore', str_repeat('-', 80)]);
                 }
 
                 $this->writeln($output, sprintf('  <error>ERROR</error>   %s', $page->getRouteName()));
@@ -203,7 +203,7 @@ class RoutePageGenerator
         }
 
         if ($has) {
-            $this->writeln($output, <<<MSG
+            $this->writeln($output, <<<'MSG'
 <error>
   *WARNING* : Pages has been updated however some pages do not exist anymore.
               You must remove them manually.

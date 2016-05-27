@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -69,11 +69,11 @@ class DefaultPageServiceTest extends \PHPUnit_Framework_TestCase
         $this->seoPage->expects($this->once())
             ->method('setTitle')->with($this->equalTo('page title'));
 
-        $metaMapping = array(
-            array('name',       'description',  'page meta description', true),
-            array('name',       'keywords',     'page meta keywords',    true),
-            array('property',   'og:type',      'article',               true),
-        );
+        $metaMapping = [
+            ['name',       'description',  'page meta description', true],
+            ['name',       'keywords',     'page meta keywords',    true],
+            ['property',   'og:type',      'article',               true],
+        ];
 
         $this->seoPage->expects($this->exactly(3))->method('addMeta')->will($this->returnValueMap($metaMapping));
 

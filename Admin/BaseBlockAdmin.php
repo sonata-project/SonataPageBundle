@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -48,7 +48,7 @@ abstract class BaseBlockAdmin extends Admin
     /**
      * @var array
      */
-    protected $containerBlockTypes = array();
+    protected $containerBlockTypes = [];
 
     /**
      * {@inheritdoc}
@@ -66,10 +66,9 @@ abstract class BaseBlockAdmin extends Admin
         $listMapper
             ->addIdentifier('type')
             ->add('name')
-            ->add('enabled', null, array('editable' => true))
+            ->add('enabled', null, ['editable' => true])
             ->add('updatedAt')
-            ->add('position')
-        ;
+            ->add('position');
     }
 
     /**
@@ -80,8 +79,7 @@ abstract class BaseBlockAdmin extends Admin
         $datagridMapper
             ->add('name')
             ->add('enabled')
-            ->add('type')
-        ;
+            ->add('type');
     }
 
     /**
@@ -103,7 +101,7 @@ abstract class BaseBlockAdmin extends Admin
      */
     public function getNewInstance()
     {
-        $block =  parent::getNewInstance();
+        $block = parent::getNewInstance();
         $block->setType($this->getPersistentParameter('type'));
 
         return $this->loadBlockDefaults($block);
@@ -244,11 +242,11 @@ abstract class BaseBlockAdmin extends Admin
     public function getPersistentParameters()
     {
         if (!$this->hasRequest()) {
-            return array();
+            return [];
         }
 
-        return array(
+        return [
             'type' => $this->getRequest()->get('type'),
-        );
+        ];
     }
 }

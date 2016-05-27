@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -73,13 +73,13 @@ class BlockManager extends BaseEntityManager implements BlockManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function getPager(array $criteria, $page, $limit = 10, array $sort = array())
+    public function getPager(array $criteria, $page, $limit = 10, array $sort = [])
     {
         $query = $this->getRepository()
             ->createQueryBuilder('b')
             ->select('b');
 
-        $parameters = array();
+        $parameters = [];
 
         if (isset($criteria['enabled'])) {
             $query->andWhere('p.enabled = :enabled');

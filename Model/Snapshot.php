@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -81,7 +81,7 @@ abstract class Snapshot implements SnapshotInterface
     /**
      * @var array
      */
-    protected $content = array();
+    protected $content = [];
 
     /**
      * @var PageInterface
@@ -91,7 +91,7 @@ abstract class Snapshot implements SnapshotInterface
     /**
      * @var PageInterface[]
      */
-    protected $children = array();
+    protected $children = [];
 
     /**
      * @var PageInterface

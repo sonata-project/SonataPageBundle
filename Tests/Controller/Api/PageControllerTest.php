@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -31,7 +31,7 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase
 
         $paramFetcher = $this->getMock('FOS\RestBundle\Request\ParamFetcherInterface');
         $paramFetcher->expects($this->exactly(3))->method('get');
-        $paramFetcher->expects($this->once())->method('all')->will($this->returnValue(array()));
+        $paramFetcher->expects($this->once())->method('all')->will($this->returnValue([]));
 
         $this->assertSame($pager, $this->createPageController(null, null, $pageManager)->getPagesAction($paramFetcher));
     }
@@ -54,12 +54,12 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPageBlocksAction()
     {
-        $page  = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
         $block = $this->getMock('Sonata\PageBundle\Model\PageBlockInterface');
 
-        $page->expects($this->once())->method('getBlocks')->will($this->returnValue(array($block)));
+        $page->expects($this->once())->method('getBlocks')->will($this->returnValue([$block]));
 
-        $this->assertEquals(array($block), $this->createPageController($page)->getPageBlocksAction(1));
+        $this->assertEquals([$block], $this->createPageController($page)->getPageBlocksAction(1));
     }
 
     public function testPostPageAction()
@@ -149,7 +149,7 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase
 
         $view = $this->createPageController($page, null, $pageManager)->deletePageAction(1);
 
-        $this->assertEquals(array('deleted' => true), $view);
+        $this->assertEquals(['deleted' => true], $view);
     }
 
     public function testDeletePageInvalidAction()
@@ -219,7 +219,7 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase
 
         $view = $this->createPageController($page, null, null, null, null, $backend)->postPageSnapshotAction(1);
 
-        $this->assertEquals(array('queued' => true), $view);
+        $this->assertEquals(['queued' => true], $view);
     }
 
     public function testPostPagesSnapshotsAction()
@@ -227,14 +227,14 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase
         $site = $this->getMock('Sonata\PageBundle\Model\SiteInterface');
 
         $siteManager = $this->getMock('Sonata\PageBundle\Model\SiteManagerInterface');
-        $siteManager->expects($this->once())->method('findAll')->will($this->returnValue(array($site)));
+        $siteManager->expects($this->once())->method('findAll')->will($this->returnValue([$site]));
 
         $backend = $this->getMock('Sonata\NotificationBundle\Backend\BackendInterface');
         $backend->expects($this->once())->method('createAndPublish');
 
         $view = $this->createPageController(null, $siteManager, null, null, null, $backend)->postPagesSnapshotsAction();
 
-        $this->assertEquals(array('queued' => true), $view);
+        $this->assertEquals(['queued' => true], $view);
     }
 
     /**

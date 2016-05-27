@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -40,12 +40,12 @@ class CmsSnapshotManager extends BaseCmsPageManager
     /**
      * @var array
      */
-    protected $pageReferences = array();
+    protected $pageReferences = [];
 
     /**
      * @var PageInterface[]
      */
-    protected $pages = array();
+    protected $pages = [];
 
     /**
      * @param SnapshotManagerInterface $snapshotManager
@@ -128,7 +128,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
         }
 
         if (null === $id || !isset($this->pages[$id])) {
-            $parameters = array($fieldName => $value);
+            $parameters = [$fieldName => $value];
 
             if ($site) {
                 $parameters['site'] = $site->getId();
@@ -182,7 +182,5 @@ class CmsSnapshotManager extends BaseCmsPageManager
         if (isset($this->blocks[$id])) {
             return $this->blocks[$id];
         }
-
-        return;
     }
 }

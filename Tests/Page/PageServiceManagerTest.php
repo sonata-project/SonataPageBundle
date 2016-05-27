@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -90,7 +90,7 @@ class PageServiceManagerTest extends \PHPUnit_Framework_TestCase
         $services = $this->manager->getAll();
 
         // THEN
-        $this->assertEquals(array('service1' => $service1, 'service2' => $service2), $services, 'Should return all page services');
+        $this->assertEquals(['service1' => $service1, 'service2' => $service2], $services, 'Should return all page services');
     }
 
     /**
@@ -119,7 +119,7 @@ class PageServiceManagerTest extends \PHPUnit_Framework_TestCase
     public function testExecute()
     {
         // GIVEN
-        $request  = $this
+        $request = $this
             ->getMockBuilder('Symfony\Component\HttpFoundation\Request')
             ->disableOriginalClone()
             ->getMock();

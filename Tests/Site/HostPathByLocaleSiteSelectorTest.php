@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -26,7 +26,7 @@ class HostPathByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
      */
     public function testHandleKernelRequestRedirectsToEn()
     {
-        $kernel  = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface');
+        $kernel = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface');
         $request = SiteRequest::create('http://www.example.com');
 
         // Ensure request locale is null
@@ -65,10 +65,10 @@ class HostPathByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
      */
     public function testHandleKernelRequestRedirectsToFr()
     {
-        $kernel  = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface');
-        $request = SiteRequest::create('http://www.example.com', 'GET', array(), array(), array(), array(
+        $kernel = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface');
+        $request = SiteRequest::create('http://www.example.com', 'GET', [], [], [], [
             'HTTP_ACCEPT_LANGUAGE' => 'fr-FR,fr;q=0.8,en-US;q=0.6,en;q=0.4',
-        ));
+        ]);
 
         // Ensure request locale is null
         $this->assertNull($request->attributes->get('_locale'));
@@ -106,13 +106,13 @@ class HostPathByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
      */
     protected function setUp()
     {
-        $siteManager       = $this->getMock('Sonata\PageBundle\Model\SiteManagerInterface');
+        $siteManager = $this->getMock('Sonata\PageBundle\Model\SiteManagerInterface');
         $decoratorStrategy = $this->getMock('Sonata\PageBundle\CmsManager\DecoratorStrategyInterface');
-        $seoPage           = $this->getMock('Sonata\SeoBundle\Seo\SeoPageInterface');
+        $seoPage = $this->getMock('Sonata\SeoBundle\Seo\SeoPageInterface');
 
         $this->siteSelector = $this->getMockBuilder('Sonata\PageBundle\Site\HostPathByLocaleSiteSelector')
-            ->setConstructorArgs(array($siteManager, $decoratorStrategy, $seoPage))
-            ->setMethods(array('getSites'))
+            ->setConstructorArgs([$siteManager, $decoratorStrategy, $seoPage])
+            ->setMethods(['getSites'])
             ->getMock();
     }
 }

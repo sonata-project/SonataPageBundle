@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -25,10 +25,10 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class SiteAdminController extends Controller
 {
     /**
-     * @return RedirectResponse|Response
-     *
      * @throws NotFoundHttpException
      * @throws AccessDeniedException
+     *
+     * @return RedirectResponse|Response
      */
     public function snapshotsAction()
     {
@@ -48,19 +48,19 @@ class SiteAdminController extends Controller
 
         if ($this->get('request')->getMethod() == 'POST') {
             $this->get('sonata.notification.backend')
-                ->createAndPublish('sonata.page.create_snapshots', array(
+                ->createAndPublish('sonata.page.create_snapshots', [
                     'siteId' => $object->getId(),
                     'mode'   => 'async',
-                ));
+                ]);
 
             $this->addFlash('sonata_flash_success', $this->admin->trans('flash_snapshots_created_success'));
 
-            return new RedirectResponse($this->admin->generateUrl('edit', array('id' => $object->getId())));
+            return new RedirectResponse($this->admin->generateUrl('edit', ['id' => $object->getId()]));
         }
 
-        return $this->render('SonataPageBundle:SiteAdmin:create_snapshots.html.twig', array(
+        return $this->render('SonataPageBundle:SiteAdmin:create_snapshots.html.twig', [
             'action'  => 'snapshots',
             'object'  => $object,
-        ));
+        ]);
     }
 }

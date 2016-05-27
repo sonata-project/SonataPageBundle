@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -23,16 +23,16 @@ class Parser
      * @param string $matrix
      * @param array  $mapping
      *
-     * @return array
-     *
      * @throws \InvalidArgumentException
+     *
+     * @return array
      */
     public static function parse($matrix, array $mapping)
     {
         $matrix = trim($matrix);
-        $areas  = array();
+        $areas = [];
 
-        $rows     = preg_split("/\n/", $matrix);
+        $rows = preg_split("/\n/", $matrix);
         $rowCount = count($rows);
         if ($rowCount == 0 || strlen($rows[0]) == 0) {
             throw new \InvalidArgumentException('Invalid template matrix, a matrix should contain at least one row');
@@ -51,18 +51,18 @@ class Parser
                     throw new \InvalidArgumentException(sprintf('Invalid template matrix, no mapping found for symbol "%s"', $symbol));
                 }
                 if (!isset($areas[$symbol])) {
-                    $areas[$symbol] = array(
+                    $areas[$symbol] = [
                         'x'      => $x,
                         'y'      => $y,
                         'width'  => 1,
                         'height' => 1,
-                    );
+                    ];
                 } else {
                     // @todo handle non adjacent cells
                     if (false) {
                         //throw new \InvalidArgumentException(sprintf('Invalid template matrix, non adjacent symbol found "%s" at row "%s", col "%s"', $symbol, $y, $x));
                     }
-                    $areas[$symbol]['width']  = $x - $areas[$symbol]['x'] + 1;
+                    $areas[$symbol]['width'] = $x - $areas[$symbol]['x'] + 1;
                     $areas[$symbol]['height'] = $y - $areas[$symbol]['y'] + 1;
                 }
             }
@@ -72,14 +72,14 @@ class Parser
             $area['x'] = $area['x'] / $colCount * 100;
             $area['y'] = $area['y'] / $rowCount * 100;
 
-            $area['width']  = $area['width']  / $colCount * 100;
+            $area['width'] = $area['width']  / $colCount * 100;
             $area['height'] = $area['height'] / $rowCount * 100;
 
-            $area['right']  = 100 - ($area['width']  + $area['x']);
+            $area['right'] = 100 - ($area['width']  + $area['x']);
             $area['bottom'] = 100 - ($area['height'] + $area['y']);
         }
 
-        $containers = array();
+        $containers = [];
         foreach ($areas as $symbol => $config) {
             $containers[$mapping[$symbol]] = $config;
         }

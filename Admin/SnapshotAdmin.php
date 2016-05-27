@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -37,9 +37,9 @@ class SnapshotAdmin extends Admin
     /**
      * {@inheritdoc}
      */
-    protected $accessMapping = array(
+    protected $accessMapping = [
         'batchToggleEnabled' => 'EDIT',
-    );
+    ];
 
     /**
      * {@inheritdoc}
@@ -50,8 +50,7 @@ class SnapshotAdmin extends Admin
             ->addIdentifier('url')
             ->add('enabled')
             ->add('publicationDateStart')
-            ->add('publicationDateEnd')
-        ;
+            ->add('publicationDateEnd');
     }
 
     /**
@@ -69,11 +68,11 @@ class SnapshotAdmin extends Admin
     public function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('enabled', null, array('required' => false))
-            ->add('publicationDateStart', 'sonata_type_datetime_picker', array('dp_side_by_side' => true))
-            ->add('publicationDateEnd', 'sonata_type_datetime_picker', array('required' => false, 'dp_side_by_side' => true))
+            ->add('enabled', null, ['required' => false])
+            ->add('publicationDateStart', 'sonata_type_datetime_picker', ['dp_side_by_side' => true])
+            ->add('publicationDateEnd', 'sonata_type_datetime_picker', ['required' => false, 'dp_side_by_side' => true])
 //            ->add('content')
-        ;
+;
     }
 
     /**
@@ -83,10 +82,10 @@ class SnapshotAdmin extends Admin
     {
         $actions = parent::getBatchActions();
 
-        $actions['toggle_enabled'] = array(
+        $actions['toggle_enabled'] = [
             'label'            => $this->trans('toggle_enabled'),
             'ask_confirmation' => true,
-        );
+        ];
 
         return $actions;
     }
@@ -96,9 +95,9 @@ class SnapshotAdmin extends Admin
      */
     public function postUpdate($object)
     {
-        $this->cacheManager->invalidate(array(
+        $this->cacheManager->invalidate([
             'page_id' => $object->getPage()->getId(),
-        ));
+        ]);
     }
 
     /**
@@ -106,9 +105,9 @@ class SnapshotAdmin extends Admin
      */
     public function postPersist($object)
     {
-        $this->cacheManager->invalidate(array(
+        $this->cacheManager->invalidate([
             'page_id' => $object->getPage()->getId(),
-        ));
+        ]);
     }
 
     /**

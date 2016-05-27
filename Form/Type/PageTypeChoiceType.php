@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -41,9 +41,9 @@ class PageTypeChoiceType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'choices' => $this->getPageTypes(),
-        ));
+        ]);
     }
 
     /**
@@ -60,7 +60,7 @@ class PageTypeChoiceType extends AbstractType
     public function getPageTypes()
     {
         $services = $this->manager->getAll();
-        $types = array();
+        $types = [];
         foreach ($services as $id => $service) {
             $types[$id] = $service->getName();
         }

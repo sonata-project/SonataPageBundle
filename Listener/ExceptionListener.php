@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -96,14 +96,14 @@ class ExceptionListener
                                 array $httpErrorCodes,
                                 LoggerInterface $logger = null)
     {
-        $this->siteSelector       = $siteSelector;
+        $this->siteSelector = $siteSelector;
         $this->cmsManagerSelector = $cmsManagerSelector;
-        $this->debug              = $debug;
-        $this->templating         = $templating;
+        $this->debug = $debug;
+        $this->templating = $templating;
         $this->pageServiceManager = $pageServiceManager;
-        $this->decoratorStrategy  = $decoratorStrategy;
-        $this->httpErrorCodes     = $httpErrorCodes;
-        $this->logger             = $logger;
+        $this->decoratorStrategy = $decoratorStrategy;
+        $this->httpErrorCodes = $httpErrorCodes;
+        $this->logger = $logger;
     }
 
     /**
@@ -133,10 +133,10 @@ class ExceptionListener
      *
      * @param int $statusCode
      *
-     * @return \Sonata\PageBundle\Model\PageInterface
-     *
      * @throws \RuntimeException      When site is not found, check your state database
      * @throws InternalErrorException When you do not configure page for http error code
+     *
+     * @return \Sonata\PageBundle\Model\PageInterface
      */
     public function getErrorCodePage($statusCode)
     {
@@ -144,7 +144,7 @@ class ExceptionListener
             throw new InternalErrorException(sprintf('There is not page configured to handle the status code %d', $statusCode));
         }
 
-        $cms  = $this->cmsManagerSelector->retrieve();
+        $cms = $this->cmsManagerSelector->retrieve();
         $site = $this->siteSelector->retrieve();
 
         if (!$site) {
@@ -170,11 +170,11 @@ class ExceptionListener
             $creatable = !$event->getRequest()->get('_route') && $this->decoratorStrategy->isRouteUriDecorable($pathInfo);
 
             if ($creatable) {
-                $response = new Response($this->templating->render('SonataPageBundle:Page:create.html.twig', array(
+                $response = new Response($this->templating->render('SonataPageBundle:Page:create.html.twig', [
                     'pathInfo'   => $pathInfo,
                     'site'       => $this->siteSelector->retrieve(),
                     'creatable'  => $creatable,
-                )), 404);
+                ]), 404);
 
                 $event->setResponse($response);
                 $event->stopPropagation();
@@ -197,9 +197,9 @@ class ExceptionListener
      */
     private function handleInternalError(GetResponseForExceptionEvent $event)
     {
-        $content = $this->templating->render('SonataPageBundle::internal_error.html.twig', array(
+        $content = $this->templating->render('SonataPageBundle::internal_error.html.twig', [
             'exception' => $event->getException(),
-        ));
+        ]);
 
         $event->setResponse(new Response($content, 500));
     }
@@ -223,7 +223,7 @@ class ExceptionListener
 
         $this->status = true;
 
-        $exception  = $event->getException();
+        $exception = $event->getException();
         $statusCode = $exception instanceof HttpExceptionInterface ? $exception->getStatusCode() : 500;
 
         $cmsManager = $this->cmsManagerSelector->retrieve();
@@ -258,7 +258,7 @@ class ExceptionListener
                 $event->getRequest()->setLocale($page->getSite()->getLocale());
             }
 
-            $response = $this->pageServiceManager->execute($page, $event->getRequest(), array(), new Response('', $statusCode));
+            $response = $this->pageServiceManager->execute($page, $event->getRequest(), [], new Response('', $statusCode));
         } catch (\Exception $e) {
             $this->logException($exception, $e);
 
@@ -286,9 +286,9 @@ class ExceptionListener
 
         if (null !== $this->logger) {
             if (!$originalException instanceof HttpExceptionInterface || $originalException->getStatusCode() >= 500) {
-                $this->logger->crit($message, array('exception' => $originalException));
+                $this->logger->crit($message, ['exception' => $originalException]);
             } else {
-                $this->logger->err($message, array('exception' => $originalException));
+                $this->logger->err($message, ['exception' => $originalException]);
             }
         } else {
             error_log($message);

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -45,9 +45,9 @@ class DecoratorStrategy implements DecoratorStrategyInterface
      */
     public function __construct(array $ignoreRoutes, array $ignoreRoutePatterns, array $ignoreUriPatterns)
     {
-        $this->ignoreRoutes        = $ignoreRoutes;
+        $this->ignoreRoutes = $ignoreRoutes;
         $this->ignoreRoutePatterns = $ignoreRoutePatterns;
-        $this->ignoreUriPatterns   = $ignoreUriPatterns;
+        $this->ignoreUriPatterns = $ignoreUriPatterns;
     }
 
     /**

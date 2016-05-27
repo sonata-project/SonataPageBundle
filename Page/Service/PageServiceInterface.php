@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -48,5 +48,5 @@ interface PageServiceInterface
      *
      * @return Response
      */
-    public function execute(PageInterface $page, Request $request, array $parameters = array(), Response $response = null);
+    public function execute(PageInterface $page, Request $request, array $parameters = [], Response $response = null);
 }

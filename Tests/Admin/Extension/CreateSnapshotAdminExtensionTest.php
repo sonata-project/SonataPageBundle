@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -25,7 +25,7 @@ class CreateSnapshotAdminExtensionTest extends \PHPUnit_Framework_TestCase
         $backend = $this->getMock('Sonata\NotificationBundle\Backend\BackendInterface');
         $backend->expects($this->once())->method('createAndPublish')->with(
             'sonata.page.create_snapshot',
-            array('pageId' => 42)
+            ['pageId' => 42]
         );
 
         $extension = new CreateSnapshotAdminExtension($backend);
@@ -42,7 +42,7 @@ class CreateSnapshotAdminExtensionTest extends \PHPUnit_Framework_TestCase
         $backend = $this->getMock('Sonata\NotificationBundle\Backend\BackendInterface');
         $backend->expects($this->once())->method('createAndPublish')->with(
             'sonata.page.create_snapshot',
-            array('pageId' => 42)
+            ['pageId' => 42]
         );
 
         $extension = new CreateSnapshotAdminExtension($backend);
@@ -62,7 +62,7 @@ class CreateSnapshotAdminExtensionTest extends \PHPUnit_Framework_TestCase
         $backend = $this->getMock('Sonata\NotificationBundle\Backend\BackendInterface');
         $backend->expects($this->once())->method('createAndPublish')->with(
             'sonata.page.create_snapshot',
-            array('pageId' => 42)
+            ['pageId' => 42]
         );
 
         $extension = new CreateSnapshotAdminExtension($backend);
@@ -82,7 +82,7 @@ class CreateSnapshotAdminExtensionTest extends \PHPUnit_Framework_TestCase
         $backend = $this->getMock('Sonata\NotificationBundle\Backend\BackendInterface');
         $backend->expects($this->once())->method('createAndPublish')->with(
             'sonata.page.create_snapshot',
-            array('pageId' => 42)
+            ['pageId' => 42]
         );
 
         $extension = new CreateSnapshotAdminExtension($backend);

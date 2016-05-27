@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -55,7 +55,7 @@ interface BlockInteractorInterface
      *
      * @return bool
      */
-    public function saveBlocksPosition(array $data = array(), $partial = true);
+    public function saveBlocksPosition(array $data = [], $partial = true);
 
     /**
      * @param array    $values An array of values for container creation
@@ -63,5 +63,5 @@ interface BlockInteractorInterface
      *
      * @return BlockInterface
      */
-    public function createNewContainer(array $values = array(), \Closure $alter = null);
+    public function createNewContainer(array $values = [], \Closure $alter = null);
 }

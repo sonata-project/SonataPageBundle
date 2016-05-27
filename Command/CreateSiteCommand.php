@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -44,7 +44,7 @@ class CreateSiteCommand extends BaseCommand
 
         $this->setDescription('Create a site');
 
-        $this->setHelp(<<<EOT
+        $this->setHelp(<<<'EOT'
 The <info>sonata:page:create-site</info> command create a new site entity.
 
 EOT
@@ -58,7 +58,7 @@ EOT
     {
         $dialog = $this->getHelperSet()->get('dialog');
 
-        $values = array(
+        $values = [
             'name'         => null,
             'host'         => null,
             'relativePath' => null,
@@ -67,7 +67,7 @@ EOT
             'enabledTo'    => null,
             'default'      => null,
             'locale'       => null,
-        );
+        ];
 
         foreach ($values as $name => $value) {
             $values[$name] = $input->getOption($name);
@@ -87,9 +87,9 @@ EOT
         $site->setHost($values['host']);
         $site->setEnabledFrom($values['enabledFrom'] == '-' ? null : new \DateTime($values['enabledFrom']));
         $site->setEnabledTo($values['enabledTo'] == '-' ? null : new \DateTime($values['enabledTo']));
-        $site->setIsDefault(in_array($values['default'], array('true', 1, '1')));
+        $site->setIsDefault(in_array($values['default'], ['true', 1, '1']));
         $site->setLocale($values['locale'] == '-' ? null : $values['locale']);
-        $site->setEnabled(in_array($values['enabled'], array('true', 1, '1')));
+        $site->setEnabled(in_array($values['enabled'], ['true', 1, '1']));
 
         $info_enabledFrom = $site->getEnabledFrom() instanceof \DateTime ? $site->getEnabledFrom()->format('r') : 'ALWAYS';
         $info_enabledTo = $site->getEnabledTo() instanceof \DateTime ? $site->getEnabledTo()->format('r') : 'ALWAYS';
@@ -107,14 +107,14 @@ INFO
         if ($input->getOption('no-confirmation') || $dialog->askConfirmation($output, 'Confirm site creation ?', false)) {
             $this->getSiteManager()->save($site);
 
-            $output->writeln(array(
+            $output->writeln([
                 '',
                 '<info>Site created !</info>',
                 '',
                 'You can now create the related pages and snapshots by running the followings commands:',
                 sprintf('  php app/console sonata:page:update-core-routes --site=%s', $site->getId()),
                 sprintf('  php app/console sonata:page:create-snapshots --site=%s', $site->getId()),
-            ));
+            ]);
         } else {
             $output->writeln('<error>Site creation cancelled !</error>');
         }
