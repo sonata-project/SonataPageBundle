@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -51,7 +51,7 @@ class CmsPageManager extends BaseCmsPageManager
      */
     public function __construct(PageManagerInterface $pageManager, BlockInteractorInterface $blockInteractor)
     {
-        $this->pageManager     = $pageManager;
+        $this->pageManager = $pageManager;
         $this->blockInteractor = $blockInteractor;
     }
 
@@ -92,10 +92,10 @@ class CmsPageManager extends BaseCmsPageManager
             $page = $this->getPageByRouteName($site, $routeName);
         } catch (PageNotFoundException $e) {
             $page = $this->pageManager->create(array(
-                'url'       => null,
+                'url' => null,
                 'routeName' => $routeName,
-                'name'      => sprintf(sprintf('Internal Page : %s', $pageName)),
-                'decorate'  => false,
+                'name' => sprintf(sprintf('Internal Page : %s', $pageName)),
+                'decorate' => false,
             ));
 
             $page->setSite($site);
@@ -131,15 +131,27 @@ class CmsPageManager extends BaseCmsPageManager
 
         if (!$container) {
             $container = $this->blockInteractor->createNewContainer(array(
-                'enabled'  => true,
-                'page'     => $page,
-                'code'     => $code,
+                'enabled' => true,
+                'page' => $page,
+                'code' => $code,
                 'position' => 1,
-                'parent'   => $parentContainer,
+                'parent' => $parentContainer,
             ));
         }
 
         return $container;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlock($id)
+    {
+        if (!isset($this->blocks[$id])) {
+            $this->blocks[$id] = $this->blockInteractor->getBlock($id);
+        }
+
+        return $this->blocks[$id];
     }
 
     /**
@@ -183,18 +195,6 @@ class CmsPageManager extends BaseCmsPageManager
         }
 
         return $this->pages[$id];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlock($id)
-    {
-        if (!isset($this->blocks[$id])) {
-            $this->blocks[$id] = $this->blockInteractor->getBlock($id);
-        }
-
-        return $this->blocks[$id];
     }
 
     /**

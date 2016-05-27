@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -77,7 +77,7 @@ class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
             }
 
             $menu->addChild($parent->getName(), array(
-                'route'           => 'page_slug',
+                'route' => 'page_slug',
                 'routeParameters' => array(
                     'path' => $parent->getUrl(),
                 ),
@@ -86,7 +86,7 @@ class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
 
         if (!$page->isError()) {
             $menu->addChild($page->getName(), array(
-                'route'           => 'page_slug',
+                'route' => 'page_slug',
                 'routeParameters' => array(
                     'path' => $page->getUrl(),
                 ),
@@ -103,7 +103,7 @@ class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
      */
     protected function getCurrentPage()
     {
-        $cms  = $this->cmsSelector->retrieve();
+        $cms = $this->cmsSelector->retrieve();
 
         return $cms->getCurrentPage();
     }

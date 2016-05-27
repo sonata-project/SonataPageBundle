@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -18,32 +18,6 @@ use Sonata\PageBundle\Entity\SnapshotManager;
  */
 class SnapshotManagerTest extends \PHPUnit_Framework_TestCase
 {
-    protected function getSnapshotManager($qbCallback)
-    {
-        $query = $this->getMockForAbstractClass('Doctrine\ORM\AbstractQuery', array(), '', false, true, true, array('execute'));
-        $query->expects($this->any())->method('execute')->will($this->returnValue(true));
-
-        $qb = $this->getMock('Doctrine\ORM\QueryBuilder', array(), array(
-            $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock(),
-        ));
-
-        $qb->expects($this->any())->method('select')->will($this->returnValue($qb));
-        $qb->expects($this->any())->method('getQuery')->will($this->returnValue($query));
-
-        $qbCallback($qb);
-
-        $repository = $this->getMockBuilder('Doctrine\ORM\EntityRepository')->disableOriginalConstructor()->getMock();
-        $repository->expects($this->any())->method('createQueryBuilder')->will($this->returnValue($qb));
-
-        $em = $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock();
-        $em->expects($this->any())->method('getRepository')->will($this->returnValue($repository));
-
-        $registry = $this->getMock('Doctrine\Common\Persistence\ManagerRegistry');
-        $registry->expects($this->any())->method('getManagerForClass')->will($this->returnValue($em));
-
-        return new SnapshotManager('Sonata\PageBundle\Entity\BaseSnapshot', $registry);
-    }
-
     public function testGetPager()
     {
         $self = $this;
@@ -159,7 +133,7 @@ class SnapshotManagerTest extends \PHPUnit_Framework_TestCase
         $em->expects($this->once())->method('flush');
         $em->expects($this->once())->method('getConnection')->will($this->returnValue($connection));
 
-        $manager  = $this->getMockBuilder('Sonata\PageBundle\Entity\SnapshotManager')
+        $manager = $this->getMockBuilder('Sonata\PageBundle\Entity\SnapshotManager')
             ->disableOriginalConstructor()
             ->setMethods(array('getEntityManager', 'getTableName'))
             ->getMock();
@@ -191,7 +165,7 @@ class SnapshotManagerTest extends \PHPUnit_Framework_TestCase
         $em->expects($this->never())->method('flush');
         $em->expects($this->never())->method('getConnection');
 
-        $manager  = $this->getMockBuilder('Sonata\PageBundle\Entity\SnapshotManager')
+        $manager = $this->getMockBuilder('Sonata\PageBundle\Entity\SnapshotManager')
             ->disableOriginalConstructor()
             ->setMethods(array('getEntityManager', 'getTableName'))
             ->getMock();
@@ -201,5 +175,31 @@ class SnapshotManagerTest extends \PHPUnit_Framework_TestCase
 
         // When calling method, do not expects any calls
         $manager->enableSnapshots(array());
+    }
+
+    protected function getSnapshotManager($qbCallback)
+    {
+        $query = $this->getMockForAbstractClass('Doctrine\ORM\AbstractQuery', array(), '', false, true, true, array('execute'));
+        $query->expects($this->any())->method('execute')->will($this->returnValue(true));
+
+        $qb = $this->getMock('Doctrine\ORM\QueryBuilder', array(), array(
+            $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock(),
+        ));
+
+        $qb->expects($this->any())->method('select')->will($this->returnValue($qb));
+        $qb->expects($this->any())->method('getQuery')->will($this->returnValue($query));
+
+        $qbCallback($qb);
+
+        $repository = $this->getMockBuilder('Doctrine\ORM\EntityRepository')->disableOriginalConstructor()->getMock();
+        $repository->expects($this->any())->method('createQueryBuilder')->will($this->returnValue($qb));
+
+        $em = $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock();
+        $em->expects($this->any())->method('getRepository')->will($this->returnValue($repository));
+
+        $registry = $this->getMock('Doctrine\Common\Persistence\ManagerRegistry');
+        $registry->expects($this->any())->method('getManagerForClass')->will($this->returnValue($em));
+
+        return new SnapshotManager('Sonata\PageBundle\Entity\BaseSnapshot', $registry);
     }
 }

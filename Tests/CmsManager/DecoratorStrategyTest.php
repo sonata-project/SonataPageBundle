@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -17,15 +17,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-/**
- *
- */
 class DecoratorStrategyTest extends \PHPUnit_Framework_TestCase
 {
     public function testIsDecorable()
     {
         $response = new Response('dummy');
-        $request  = Request::create('/myurl');
+        $request = Request::create('/myurl');
 
         $strategy = new DecoratorStrategy(array(), array(), array());
 

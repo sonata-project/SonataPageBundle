@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -47,8 +47,8 @@ class CreateSnapshotConsumer implements ConsumerInterface
     public function __construct(SnapshotManagerInterface $snapshotManager, PageManagerInterface $pageManager, TransformerInterface $transformer)
     {
         $this->snapshotManager = $snapshotManager;
-        $this->pageManager     = $pageManager;
-        $this->transformer     = $transformer;
+        $this->pageManager = $pageManager;
+        $this->transformer = $transformer;
     }
 
     /**

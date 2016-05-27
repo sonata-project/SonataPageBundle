@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -55,9 +55,9 @@ class CmsPageRouter implements ChainedRouterInterface
      */
     public function __construct(CmsManagerSelectorInterface $cmsSelector, SiteSelectorInterface $siteSelector, RouterInterface $router)
     {
-        $this->cmsSelector  = $cmsSelector;
+        $this->cmsSelector = $cmsSelector;
         $this->siteSelector = $siteSelector;
-        $this->router       = $router;
+        $this->router = $router;
     }
 
     /**
@@ -176,10 +176,10 @@ class CmsPageRouter implements ChainedRouterInterface
 
         return array(
             '_controller' => 'sonata.page.page_service_manager:execute',
-            '_route'      => PageInterface::PAGE_ROUTE_CMS_NAME,
-            'page'        => $page,
-            'path'        => $pathinfo,
-            'params'      => array(),
+            '_route' => PageInterface::PAGE_ROUTE_CMS_NAME,
+            'page' => $page,
+            'path' => $pathinfo,
+            'params' => array(),
         );
     }
 
@@ -274,6 +274,7 @@ class CmsPageRouter implements ChainedRouterInterface
 
         return $url;
     }
+
     /**
      * Returns the target path as relative reference from the base path.
      *

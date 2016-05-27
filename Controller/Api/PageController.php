@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -73,11 +73,11 @@ class PageController
      */
     public function __construct(SiteManagerInterface $siteManager, PageManagerInterface $pageManager, BlockManagerInterface $blockManager, FormFactoryInterface $formFactory, BackendInterface $backend)
     {
-        $this->siteManager  = $siteManager;
-        $this->pageManager  = $pageManager;
+        $this->siteManager = $siteManager;
+        $this->pageManager = $pageManager;
         $this->blockManager = $blockManager;
-        $this->formFactory  = $formFactory;
-        $this->backend      = $backend;
+        $this->formFactory = $formFactory;
+        $this->backend = $backend;
     }
 
     /**
@@ -107,17 +107,17 @@ class PageController
     public function getPagesAction(ParamFetcherInterface $paramFetcher)
     {
         $supportedCriteria = array(
-            'enabled'  => '',
-            'edited'   => '',
+            'enabled' => '',
+            'edited' => '',
             'internal' => '',
-            'root'     => '',
-            'site'     => '',
-            'parent'   => '',
+            'root' => '',
+            'site' => '',
+            'parent' => '',
         );
 
-        $page     = $paramFetcher->get('page');
-        $limit    = $paramFetcher->get('count');
-        $sort     = $paramFetcher->get('orderBy');
+        $page = $paramFetcher->get('page');
+        $limit = $paramFetcher->get('count');
+        $sort = $paramFetcher->get('orderBy');
         $criteria = array_intersect_key($paramFetcher->all(), $supportedCriteria);
 
         foreach ($criteria as $key => $value) {

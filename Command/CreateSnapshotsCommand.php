@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -64,7 +64,7 @@ class CreateSnapshotsCommand extends BaseCommand
 
                 $this->getNotificationBackend($input->getOption('mode'))->createAndPublish('sonata.page.create_snapshots', array(
                     'siteId' => $site->getId(),
-                    'mode'   => $input->getOption('mode'),
+                    'mode' => $input->getOption('mode'),
                 ));
 
                 $output->writeln(' done!');

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Sonata Project package.
+ *
+ * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Sonata\PageBundle\Tests\Block;
 
 use Sonata\BlockBundle\Block\BlockContext;
@@ -22,7 +31,7 @@ class PageListBlockServiceTest extends AbstractBlockServiceTest
         parent::setUp();
 
         $this->pageManager = $this->getMock('Sonata\PageBundle\Model\PageManagerInterface');
-        $this->templating      = new FakeTemplating();
+        $this->templating = new FakeTemplating();
     }
 
     public function testDefaultSettings()
@@ -31,8 +40,8 @@ class PageListBlockServiceTest extends AbstractBlockServiceTest
         $blockContext = $this->getBlockContext($blockService);
 
         $this->assertSettings(array(
-            'mode'     => 'public',
-            'title'    => 'List Pages',
+            'mode' => 'public',
+            'title' => 'List Pages',
             'template' => 'SonataPageBundle:Block:block_pagelist.html.twig',
         ), $blockContext);
     }
@@ -50,7 +59,7 @@ class PageListBlockServiceTest extends AbstractBlockServiceTest
             ->will($this->returnValue(array($page1, $page2)));
         $this->pageManager->expects($this->at(1))->method('findBy')
             ->with($this->equalTo(array(
-                'url'    => null,
+                'url' => null,
                 'parent' => null,
             )))
             ->will($this->returnValue(array($systemPage)));
@@ -58,8 +67,8 @@ class PageListBlockServiceTest extends AbstractBlockServiceTest
         $block = new Block();
 
         $blockContext = new BlockContext($block, array(
-            'mode'     => 'public',
-            'title'    => 'List Pages',
+            'mode' => 'public',
+            'title' => 'List Pages',
             'template' => 'SonataPageBundle:Block:block_pagelist.html.twig',
         ));
 

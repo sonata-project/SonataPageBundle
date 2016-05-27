@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -33,6 +33,22 @@ class CreateSnapshotAdminExtension extends AdminExtension
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function postUpdate(AdminInterface $admin, $object)
+    {
+        $this->sendMessage($object);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function postPersist(AdminInterface $admin, $object)
+    {
+        $this->sendMessage($object);
+    }
+
+    /**
      * @param PageInterface $object
      */
     protected function sendMessage($object)
@@ -48,21 +64,5 @@ class CreateSnapshotAdminExtension extends AdminExtension
         $this->backend->createAndPublish('sonata.page.create_snapshot', array(
             'pageId' => $pageId,
         ));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function postUpdate(AdminInterface $admin, $object)
-    {
-        $this->sendMessage($object);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function postPersist(AdminInterface $admin, $object)
-    {
-        $this->sendMessage($object);
     }
 }

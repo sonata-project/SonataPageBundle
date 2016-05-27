@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -45,9 +45,9 @@ class CleanupSnapshotsConsumer implements ConsumerInterface
      */
     public function __construct(BackendInterface $asyncBackend, BackendInterface $runtimeBackend, PageManagerInterface $pageManager)
     {
-        $this->asyncBackend   = $asyncBackend;
+        $this->asyncBackend = $asyncBackend;
         $this->runtimeBackend = $runtimeBackend;
-        $this->pageManager    = $pageManager;
+        $this->pageManager = $pageManager;
     }
 
     /**
@@ -64,7 +64,7 @@ class CleanupSnapshotsConsumer implements ConsumerInterface
 
         foreach ($pages as $page) {
             $backend->createAndPublish('sonata.page.cleanup_snapshot', array(
-                'pageId'        => $page->getId(),
+                'pageId' => $page->getId(),
                 'keepSnapshots' => $keepSnapshots,
             ));
         }

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -44,6 +44,14 @@ class SiteAdmin extends Admin
         $this->routePageGenerator = $routePageGenerator;
 
         parent::__construct($code, $class, $baseControllerName);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function postPersist($object)
+    {
+        $this->routePageGenerator->update($object);
     }
 
     /**
@@ -111,7 +119,7 @@ class SiteAdmin extends Admin
                 ->add('relativePath', null, array('required' => false))
                 ->add('enabledFrom', 'sonata_type_datetime_picker', array('dp_side_by_side' => true))
                 ->add('enabledTo', 'sonata_type_datetime_picker', array(
-                    'required'        => false,
+                    'required' => false,
                     'dp_side_by_side' => true,
                 ))
             ->end()
@@ -129,13 +137,5 @@ class SiteAdmin extends Admin
     protected function configureRoutes(RouteCollection $collection)
     {
         $collection->add('snapshots', $this->getRouterIdParameter().'/snapshots');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function postPersist($object)
-    {
-        $this->routePageGenerator->update($object);
     }
 }

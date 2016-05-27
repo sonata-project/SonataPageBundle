@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -116,6 +116,14 @@ abstract class Snapshot implements SnapshotInterface
      * @var SiteInterface
      */
     protected $site;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __toString()
+    {
+        return $this->getName() ?: '-';
+    }
 
     /**
      * {@inheritdoc}
@@ -283,14 +291,6 @@ abstract class Snapshot implements SnapshotInterface
     public function isHybrid()
     {
         return $this->getRouteName() != self::PAGE_ROUTE_CMS_NAME;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function __toString()
-    {
-        return $this->getName() ?: '-';
     }
 
     /**

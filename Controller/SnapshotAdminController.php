@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -73,8 +73,8 @@ class SnapshotAdminController extends Controller
         }
 
         return $this->render('SonataPageBundle:SnapshotAdmin:create.html.twig', array(
-            'action'  => 'create',
-            'form'    => $form->createView(),
+            'action' => 'create',
+            'form' => $form->createView(),
         ));
     }
 

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -30,7 +30,7 @@ class BlockAdminController extends Controller
      * @param Request|null $request
      *
      * @return Response
-     * 
+     *
      * @throws AccessDeniedException
      */
     public function savePositionAction(Request $request = null)
@@ -55,15 +55,15 @@ class BlockAdminController extends Controller
             $status = $e->getStatusCode();
             $result = array(
                 'exception' => get_class($e),
-                'message'   => $e->getMessage(),
-                'code'      => $e->getCode(),
+                'message' => $e->getMessage(),
+                'code' => $e->getCode(),
             );
         } catch (\Exception $e) {
             $status = 500;
             $result = array(
                 'exception' => get_class($e),
-                'message'   => $e->getMessage(),
-                'code'      => $e->getCode(),
+                'message' => $e->getMessage(),
+                'code' => $e->getCode(),
             );
         }
 
@@ -88,10 +88,10 @@ class BlockAdminController extends Controller
 
         if (!$parameters['type']) {
             return $this->render('SonataPageBundle:BlockAdmin:select_type.html.twig', array(
-                'services'      => $this->get('sonata.block.manager')->getServicesByContext('sonata_page_bundle'),
+                'services' => $this->get('sonata.block.manager')->getServicesByContext('sonata_page_bundle'),
                 'base_template' => $this->getBaseTemplate(),
-                'admin'         => $this->admin,
-                'action'        => 'create',
+                'admin' => $this->admin,
+                'action' => 'create',
             ));
         }
 
@@ -107,7 +107,7 @@ class BlockAdminController extends Controller
     {
         $this->admin->checkAccess('switchParent');
 
-        $blockId  = $request->get('block_id');
+        $blockId = $request->get('block_id');
         $parentId = $request->get('parent_id');
         if ($blockId === null or $parentId === null) {
             throw new HttpException(400, 'wrong parameters');
@@ -157,8 +157,8 @@ class BlockAdminController extends Controller
         $blockServices = $this->get('sonata.block.manager')->getServicesByContext('sonata_page_bundle', false);
 
         return $this->render('SonataPageBundle:BlockAdmin:compose_preview.html.twig', array(
-            'container'     => $container,
-            'child'         => $block,
+            'container' => $container,
+            'child' => $block,
             'blockServices' => $blockServices,
         ));
     }

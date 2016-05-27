@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -48,8 +48,8 @@ class AjaxController
     public function __construct(CmsManagerSelectorInterface $cmsManagerSelector, BlockRendererInterface $blockRenderer, BlockContextManagerInterface $contextManager)
     {
         $this->cmsManagerSelector = $cmsManagerSelector;
-        $this->blockRenderer      = $blockRenderer;
-        $this->contextManager     = $contextManager;
+        $this->blockRenderer = $blockRenderer;
+        $this->contextManager = $contextManager;
     }
 
     /**
@@ -65,7 +65,7 @@ class AjaxController
     {
         $cmsManager = $this->cmsManagerSelector->retrieve();
 
-        $page  = $cmsManager->getPageById($pageId);
+        $page = $cmsManager->getPageById($pageId);
         $block = $cmsManager->getBlock($blockId);
 
         if (!$block instanceof BlockInterface) {

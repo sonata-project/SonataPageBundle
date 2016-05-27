@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Sonata Project package.
+ *
+ * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Sonata\PageBundle\Model;
 
 use Serializable;
@@ -45,9 +54,27 @@ class SnapshotPageProxy implements PageInterface, Serializable
      */
     public function __construct(SnapshotManagerInterface $manager, TransformerInterface $transformer, SnapshotInterface $snapshot)
     {
-        $this->manager  = $manager;
+        $this->manager = $manager;
         $this->snapshot = $snapshot;
         $this->transformer = $transformer;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __call($method, $arguments)
+    {
+        return call_user_func_array(array($this->getPage(), $method), $arguments);
+    }
+
+    /**
+     * Returns a string representation.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getPage()->__toString();
     }
 
     /**
@@ -58,24 +85,6 @@ class SnapshotPageProxy implements PageInterface, Serializable
         $this->load();
 
         return $this->page;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    private function load()
-    {
-        if (!$this->page && $this->transformer) {
-            $this->page = $this->transformer->load($this->snapshot);
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function __call($method, $arguments)
-    {
-        return call_user_func_array(array($this->getPage(), $method), $arguments);
     }
 
     /**
@@ -654,16 +663,6 @@ class SnapshotPageProxy implements PageInterface, Serializable
     }
 
     /**
-     * Returns a string representation.
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->getPage()->__toString();
-    }
-
-    /**
      * Serialize a snapshot page proxy.
      *
      * @return string
@@ -672,7 +671,7 @@ class SnapshotPageProxy implements PageInterface, Serializable
     {
         if ($this->manager) {
             return serialize(array(
-                'pageId'     => $this->getPage()->getId(),
+                'pageId' => $this->getPage()->getId(),
                 'snapshotId' => $this->snapshot->getId(),
             ));
         }
@@ -690,5 +689,15 @@ class SnapshotPageProxy implements PageInterface, Serializable
     public function unserialize($serialized)
     {
         // TODO: Implement unserialize() method.
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    private function load()
+    {
+        if (!$this->page && $this->transformer) {
+            $this->page = $this->transformer->load($this->snapshot);
+        }
     }
 }

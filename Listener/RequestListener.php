@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -52,8 +52,8 @@ class RequestListener
      */
     public function __construct(CmsManagerSelectorInterface $cmsSelector, SiteSelectorInterface $siteSelector, DecoratorStrategyInterface $decoratorStrategy)
     {
-        $this->cmsSelector       = $cmsSelector;
-        $this->siteSelector      = $siteSelector;
+        $this->cmsSelector = $cmsSelector;
+        $this->siteSelector = $siteSelector;
         $this->decoratorStrategy = $decoratorStrategy;
     }
 

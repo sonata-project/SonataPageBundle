@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -174,6 +174,26 @@ abstract class Page implements PageInterface
     protected static $slugifyMethod;
 
     /**
+     * {@inheritdoc}
+     */
+    public function __construct()
+    {
+        $this->blocks = array();
+        $this->children = array();
+        $this->routeName = PageInterface::PAGE_ROUTE_CMS_NAME;
+        $this->requestMethod = 'GET|POST|HEAD|DELETE|PUT';
+        $this->edited = true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __toString()
+    {
+        return $this->getName() ?: '-';
+    }
+
+    /**
      * @return mixed
      */
     public static function getSlugifyMethod()
@@ -187,18 +207,6 @@ abstract class Page implements PageInterface
     public static function setSlugifyMethod(\Closure $slugifyMethod)
     {
         self::$slugifyMethod = $slugifyMethod;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function __construct()
-    {
-        $this->blocks        = array();
-        $this->children      = array();
-        $this->routeName     = PageInterface::PAGE_ROUTE_CMS_NAME;
-        $this->requestMethod = 'GET|POST|HEAD|DELETE|PUT';
-        $this->edited        = true;
     }
 
     /**
@@ -632,11 +640,11 @@ abstract class Page implements PageInterface
     public function getParents()
     {
         if (!$this->parents) {
-            $page    = $this;
+            $page = $this;
             $parents = array();
 
             while ($page->getParent()) {
-                $page      = $page->getParent();
+                $page = $page->getParent();
                 $parents[] = $page;
             }
 
@@ -730,14 +738,6 @@ abstract class Page implements PageInterface
     public function isError()
     {
         return substr($this->getRouteName(), 0, 21) == '_page_internal_error_';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function __toString()
-    {
-        return $this->getName() ?: '-';
     }
 
     /**

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -17,9 +17,6 @@ use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RequestContext;
 
-/**
- *
- */
 class CmsPageRouterTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -47,8 +44,8 @@ class CmsPageRouterTest extends \PHPUnit_Framework_TestCase
      */
     public function setup()
     {
-        $this->cmsSelector   = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
-        $this->siteSelector  = $this->getMock('Sonata\PageBundle\Site\SiteSelectorInterface');
+        $this->cmsSelector = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
+        $this->siteSelector = $this->getMock('Sonata\PageBundle\Site\SiteSelectorInterface');
         $this->defaultRouter = $this->getMockBuilder('Symfony\Component\Routing\Router')->disableOriginalConstructor()->getMock();
 
         $this->router = new CmsPageRouter($this->cmsSelector, $this->siteSelector, $this->defaultRouter);

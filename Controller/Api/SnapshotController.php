@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -68,16 +68,16 @@ class SnapshotController
     public function getSnapshotsAction(ParamFetcherInterface $paramFetcher)
     {
         $supportedCriteria = array(
-            'enabled'   => '',
-            'site'      => '',
-            'page_id'   => '',
-            'root'      => '',
-            'parent'    => '',
+            'enabled' => '',
+            'site' => '',
+            'page_id' => '',
+            'root' => '',
+            'parent' => '',
         );
 
-        $page    = $paramFetcher->get('page');
-        $limit   = $paramFetcher->get('count');
-        $sort    = $paramFetcher->get('orderBy');
+        $page = $paramFetcher->get('page');
+        $limit = $paramFetcher->get('count');
+        $sort = $paramFetcher->get('orderBy');
         $criteria = array_intersect_key($paramFetcher->all(), $supportedCriteria);
 
         foreach ($criteria as $key => $value) {

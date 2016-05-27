@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -116,6 +116,18 @@ class CmsSnapshotManager extends BaseCmsPageManager
     /**
      * {@inheritdoc}
      */
+    public function getBlock($id)
+    {
+        if (isset($this->blocks[$id])) {
+            return $this->blocks[$id];
+        }
+
+        return;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function getPageBy(SiteInterface $site = null, $fieldName, $value)
     {
         if ('id' == $fieldName) {
@@ -172,17 +184,5 @@ class CmsSnapshotManager extends BaseCmsPageManager
         foreach ($i as $block) {
             $this->blocks[$block->getId()] = $block;
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlock($id)
-    {
-        if (isset($this->blocks[$id])) {
-            return $this->blocks[$id];
-        }
-
-        return;
     }
 }

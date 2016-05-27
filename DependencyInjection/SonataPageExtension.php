@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -97,14 +97,14 @@ class SonataPageExtension extends Extension
     public function configurePageDefaults(ContainerBuilder $container, array $config)
     {
         $defaults = array(
-            'templateCode'  => $config['default_template'],
-            'enabled'       => true,
-            'routeName'     => null,
-            'name'          => null,
-            'slug'          => null,
-            'url'           => null,
+            'templateCode' => $config['default_template'],
+            'enabled' => true,
+            'routeName' => null,
+            'name' => null,
+            'slug' => null,
+            'url' => null,
             'requestMethod' => null,
-            'decorate'      => true,
+            'decorate' => true,
         );
 
         $container->getDefinition('sonata.page.manager.page')
@@ -151,177 +151,177 @@ class SonataPageExtension extends Extension
         $collector = DoctrineCollector::getInstance();
 
         $collector->addAssociation($config['class']['page'], 'mapOneToMany', array(
-            'fieldName'     => 'children',
-            'targetEntity'  => $config['class']['page'],
-            'cascade'       => array(
+            'fieldName' => 'children',
+            'targetEntity' => $config['class']['page'],
+            'cascade' => array(
                 'persist',
              ),
-            'mappedBy'      => 'parent',
+            'mappedBy' => 'parent',
             'orphanRemoval' => false,
-            'orderBy'       => array(
-                'position'  => 'ASC',
+            'orderBy' => array(
+                'position' => 'ASC',
             ),
         ));
 
         $collector->addAssociation($config['class']['page'], 'mapOneToMany', array(
-            'fieldName'     => 'blocks',
-            'targetEntity'  => $config['class']['block'],
-            'cascade'       => array(
+            'fieldName' => 'blocks',
+            'targetEntity' => $config['class']['block'],
+            'cascade' => array(
                 'remove',
                 'persist',
                 'refresh',
                 'merge',
                 'detach',
             ),
-            'mappedBy'      => 'page',
+            'mappedBy' => 'page',
             'orphanRemoval' => false,
-            'orderBy'       => array(
-                'position'  => 'ASC',
+            'orderBy' => array(
+                'position' => 'ASC',
             ),
         ));
 
         $collector->addAssociation($config['class']['page'], 'mapManyToOne', array(
-            'fieldName'     => 'site',
-            'targetEntity'  => $config['class']['site'],
-            'cascade'       => array(
+            'fieldName' => 'site',
+            'targetEntity' => $config['class']['site'],
+            'cascade' => array(
                 'persist',
             ),
-            'mappedBy'      => null,
-            'inversedBy'    => null,
-            'joinColumns'   => array(
+            'mappedBy' => null,
+            'inversedBy' => null,
+            'joinColumns' => array(
                 array(
-                    'name'                 => 'site_id',
+                    'name' => 'site_id',
                     'referencedColumnName' => 'id',
-                    'onDelete'             => 'CASCADE',
+                    'onDelete' => 'CASCADE',
                 ),
             ),
             'orphanRemoval' => false,
         ));
 
         $collector->addAssociation($config['class']['page'], 'mapManyToOne', array(
-            'fieldName'     => 'parent',
-            'targetEntity'  => $config['class']['page'],
-            'cascade'       => array(
+            'fieldName' => 'parent',
+            'targetEntity' => $config['class']['page'],
+            'cascade' => array(
                  'persist',
             ),
-            'mappedBy'      => null,
-            'inversedBy'    => 'children',
-            'joinColumns'   => array(
+            'mappedBy' => null,
+            'inversedBy' => 'children',
+            'joinColumns' => array(
                 array(
-                    'name'                 => 'parent_id',
+                    'name' => 'parent_id',
                     'referencedColumnName' => 'id',
-                    'onDelete'             => 'CASCADE',
+                    'onDelete' => 'CASCADE',
                 ),
             ),
             'orphanRemoval' => false,
         ));
 
         $collector->addAssociation($config['class']['page'], 'mapOneToMany', array(
-             'fieldName'     => 'sources',
-             'targetEntity'  => $config['class']['page'],
-             'cascade'       => array(),
-             'mappedBy'      => 'target',
+             'fieldName' => 'sources',
+             'targetEntity' => $config['class']['page'],
+             'cascade' => array(),
+             'mappedBy' => 'target',
              'orphanRemoval' => false,
         ));
 
         $collector->addAssociation($config['class']['page'], 'mapManyToOne', array(
-            'fieldName'    => 'target',
+            'fieldName' => 'target',
             'targetEntity' => $config['class']['page'],
-            'cascade'      => array(
+            'cascade' => array(
                 'persist',
             ),
-            'mappedBy'    => null,
-            'inversedBy'  => 'sources',
+            'mappedBy' => null,
+            'inversedBy' => 'sources',
             'joinColumns' => array(
                 array(
-                    'name'                 => 'target_id',
+                    'name' => 'target_id',
                     'referencedColumnName' => 'id',
-                    'onDelete'             => 'CASCADE',
+                    'onDelete' => 'CASCADE',
                 ),
             ),
             'orphanRemoval' => false,
         ));
 
         $collector->addAssociation($config['class']['block'], 'mapOneToMany', array(
-            'fieldName'    => 'children',
+            'fieldName' => 'children',
             'targetEntity' => $config['class']['block'],
-            'cascade'      => array(
+            'cascade' => array(
                 'remove',
                 'persist',
             ),
-            'mappedBy'      => 'parent',
+            'mappedBy' => 'parent',
             'orphanRemoval' => true,
-            'orderBy'       => array(
+            'orderBy' => array(
                 'position' => 'ASC',
             ),
         ));
 
         $collector->addAssociation($config['class']['block'], 'mapManyToOne', array(
-            'fieldName'    => 'parent',
+            'fieldName' => 'parent',
             'targetEntity' => $config['class']['block'],
-            'cascade'      => array(
+            'cascade' => array(
             ),
-            'mappedBy'    => null,
-            'inversedBy'  => 'children',
+            'mappedBy' => null,
+            'inversedBy' => 'children',
             'joinColumns' => array(
                 array(
-                    'name'                 => 'parent_id',
+                    'name' => 'parent_id',
                     'referencedColumnName' => 'id',
-                    'onDelete'             => 'CASCADE',
+                    'onDelete' => 'CASCADE',
                 ),
             ),
             'orphanRemoval' => false,
         ));
 
         $collector->addAssociation($config['class']['block'], 'mapManyToOne', array(
-            'fieldName'    => 'page',
+            'fieldName' => 'page',
             'targetEntity' => $config['class']['page'],
-            'cascade'      => array(
+            'cascade' => array(
                 'persist',
             ),
-            'mappedBy'    => null,
-            'inversedBy'  => 'blocks',
+            'mappedBy' => null,
+            'inversedBy' => 'blocks',
             'joinColumns' => array(
                 array(
-                    'name'                 => 'page_id',
+                    'name' => 'page_id',
                     'referencedColumnName' => 'id',
-                    'onDelete'             => 'CASCADE',
+                    'onDelete' => 'CASCADE',
                 ),
             ),
             'orphanRemoval' => false,
         ));
 
         $collector->addAssociation($config['class']['snapshot'], 'mapManyToOne', array(
-            'fieldName'     => 'site',
-            'targetEntity'  => $config['class']['site'],
-            'cascade'       => array(
+            'fieldName' => 'site',
+            'targetEntity' => $config['class']['site'],
+            'cascade' => array(
                 'persist',
             ),
-            'mappedBy'      => null,
-            'inversedBy'    => null,
-            'joinColumns'   => array(
+            'mappedBy' => null,
+            'inversedBy' => null,
+            'joinColumns' => array(
                 array(
-                    'name'                 => 'site_id',
+                    'name' => 'site_id',
                     'referencedColumnName' => 'id',
-                    'onDelete'             => 'CASCADE',
+                    'onDelete' => 'CASCADE',
                 ),
             ),
             'orphanRemoval' => false,
         ));
 
         $collector->addAssociation($config['class']['snapshot'], 'mapManyToOne', array(
-            'fieldName'     => 'page',
-            'targetEntity'  => $config['class']['page'],
-            'cascade'       => array(
+            'fieldName' => 'page',
+            'targetEntity' => $config['class']['page'],
+            'cascade' => array(
                 'persist',
             ),
-            'mappedBy'      => null,
-            'inversedBy'    => null,
-            'joinColumns'   => array(
+            'mappedBy' => null,
+            'inversedBy' => null,
+            'joinColumns' => array(
                 array(
-                    'name'                 => 'page_id',
+                    'name' => 'page_id',
                     'referencedColumnName' => 'id',
-                    'onDelete'             => 'CASCADE',
+                    'onDelete' => 'CASCADE',
                 ),
             ),
             'orphanRemoval' => false,
