@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -76,10 +76,10 @@ class ExceptionListenerTest extends \PHPUnit_Framework_TestCase
         $this->cmsSelector = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
         $this->logger = $this->getMock('Symfony\Component\HttpKernel\Log\LoggerInterface');
 
-        $errors = array(
+        $errors = [
             '404' => 'route_404',
             '403' => 'route_403',
-        );
+        ];
 
         $this->listener = new ExceptionListener($this->siteSelector, $this->cmsSelector, false, $this->templating, $this->pageServiceManager, $this->decoratorStrategy, $errors, $this->logger);
     }

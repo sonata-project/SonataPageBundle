@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -40,9 +40,9 @@ class GlobalVariables
      */
     public function getSiteAvailables()
     {
-        return $this->container->get('sonata.page.manager.site')->findBy(array(
+        return $this->container->get('sonata.page.manager.site')->findBy([
             'enabled' => true,
-        ));
+        ]);
     }
 
     /**

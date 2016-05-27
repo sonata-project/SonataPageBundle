@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -52,9 +52,8 @@ class SharedBlockAdmin extends BaseBlockAdmin
         $listMapper
             ->addIdentifier('name')
             ->add('type')
-            ->add('enabled', null, array('editable' => true))
-            ->add('updatedAt')
-        ;
+            ->add('enabled', null, ['editable' => true])
+            ->add('updatedAt');
     }
 
     /**
@@ -72,7 +71,7 @@ class SharedBlockAdmin extends BaseBlockAdmin
 
         $formMapper
             ->with('form.field_group_general')
-                ->add('name', null, array('required' => true))
+                ->add('name', null, ['required' => true])
                 ->add('enabled')
             ->end();
 

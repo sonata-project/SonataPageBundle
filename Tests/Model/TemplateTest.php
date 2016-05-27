@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -13,54 +13,51 @@ namespace Sonata\PageBundle\Tests\Entity;
 
 use Sonata\PageBundle\Model\Template;
 
-/**
- *
- */
 class TemplateTest extends \PHPUnit_Framework_TestCase
 {
     public function testArea()
     {
         $template = new Template('page', 'template.twig');
 
-        $template->addContainer('zone_A', array());
-        $expected = array(
-            'zone_A' => array(
+        $template->addContainer('zone_A', []);
+        $expected = [
+            'zone_A' => [
                 'name'      => 'n/a',
                 'type'      => Template::TYPE_STATIC,
-                'blocks'    => array(),
-                'placement' => array(),
+                'blocks'    => [],
+                'placement' => [],
                 'shared'    => false,
-            ),
-        );
+            ],
+        ];
         $this->assertEquals($template->getContainers(), $expected);
 
-        $template->addContainer('zone_B', array(
+        $template->addContainer('zone_B', [
             'shared' => true,
-        ));
-        $expected['zone_B'] = array(
+        ]);
+        $expected['zone_B'] = [
             'name'      => 'n/a',
             'type'      => Template::TYPE_STATIC,
-            'blocks'    => array(),
-            'placement' => array(),
+            'blocks'    => [],
+            'placement' => [],
             'shared'    => true,
-        );
+        ];
         $this->assertEquals($template->getContainers(), $expected);
     }
 
     public function testGetContainer()
     {
-        $template = new Template('page', 'template.twig', array('header' => array(
+        $template = new Template('page', 'template.twig', ['header' => [
             'name'  => 'Header',
-            'block' => array('text.block'),
-        )));
+            'block' => ['text.block'],
+        ]]);
 
-        $expected = array(
+        $expected = [
             'name'      => 'Header',
             'type'      => Template::TYPE_STATIC,
-            'blocks'    => array(),
-            'placement' => array(),
+            'blocks'    => [],
+            'placement' => [],
             'shared'    => false,
-        );
+        ];
 
         $this->assertEquals($expected, $template->getContainer('header'));
     }

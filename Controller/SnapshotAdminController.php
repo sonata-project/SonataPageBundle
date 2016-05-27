@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -37,7 +37,7 @@ class SnapshotAdminController extends Controller
         $snapshot = new $class();
 
         if ($request->getMethod() == 'GET' && $request->get('pageId')) {
-            $page = $pageManager->findOne(array('id' => $request->get('pageId')));
+            $page = $pageManager->findOne(['id' => $request->get('pageId')]);
         } elseif ($this->admin->isChild()) {
             $page = $this->admin->getParent()->getSubject();
         } else {
@@ -64,26 +64,26 @@ class SnapshotAdminController extends Controller
 
                 $pageManager->save($page);
 
-                $snapshotManager->enableSnapshots(array($snapshot));
+                $snapshotManager->enableSnapshots([$snapshot]);
             }
 
-            return $this->redirect($this->admin->generateUrl('edit', array(
+            return $this->redirect($this->admin->generateUrl('edit', [
                 'id' => $snapshot->getId(),
-            )));
+            ]));
         }
 
-        return $this->render('SonataPageBundle:SnapshotAdmin:create.html.twig', array(
+        return $this->render('SonataPageBundle:SnapshotAdmin:create.html.twig', [
             'action'  => 'create',
             'form'    => $form->createView(),
-        ));
+        ]);
     }
 
     /**
      * @param mixed $query
      *
-     * @return RedirectResponse
-     *
      * @throws AccessDeniedException
+     *
+     * @return RedirectResponse
      */
     public function batchActionToggleEnabled($query)
     {

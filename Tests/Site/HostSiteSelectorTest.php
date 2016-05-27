@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -49,10 +49,10 @@ class HostSiteSelectorTest extends \PHPUnit_Framework_TestCase
         // Ensure request locale matches site locale
         $this->assertEquals($site->getLocale(), $request->attributes->get('_locale'));
 
-        return array(
+        return [
             $site,
             $event,
-        );
+        ];
     }
 
     /**
@@ -178,10 +178,10 @@ class HostSiteSelector extends BaseSiteSelector
     protected function getSites(Request $request)
     {
         return $this->_findSites(
-            array(
-                'host'    => array($request->getHost(), 'localhost'),
+            [
+                'host'    => [$request->getHost(), 'localhost'],
                 'enabled' => true,
-            )
+            ]
         );
     }
 
@@ -194,7 +194,7 @@ class HostSiteSelector extends BaseSiteSelector
     {
         $all_sites = $this->_getAllSites();
 
-        $matched_sites = array();
+        $matched_sites = [];
 
         foreach ($all_sites as $site) {
             $valid_site = true;
@@ -232,7 +232,7 @@ class HostSiteSelector extends BaseSiteSelector
         $one_hour_from_now = new \DateTime('+1 hour');
 
         /* Create an array to hold enabled sites */
-        $sites = array();
+        $sites = [];
 
         /* Site 0 - Always valid */
         $sites[0] = new HostSite();
@@ -327,14 +327,14 @@ class HostSiteSelector extends BaseSiteSelector
     {
         $camelizedFieldName = self::_camelize($fieldName);
 
-        $getters = array();
+        $getters = [];
 
         $getters[] = 'get'.$camelizedFieldName;
         $getters[] = 'is'.$camelizedFieldName;
 
         foreach ($getters as $getter) {
             if (method_exists($object, $getter)) {
-                return call_user_func(array($object, $getter));
+                return call_user_func([$object, $getter]);
             }
         }
 

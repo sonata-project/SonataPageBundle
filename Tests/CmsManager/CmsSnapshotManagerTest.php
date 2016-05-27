@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -48,8 +48,8 @@ class CmsSnapshotManagerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->blockInteractor = $this->getMockBlockInteractor();
-        $this->snapshotManager  = $this->getMock('Sonata\PageBundle\Model\SnapshotManagerInterface');
-        $this->transformer  = $this->getMock('Sonata\PageBundle\Model\TransformerInterface');
+        $this->snapshotManager = $this->getMock('Sonata\PageBundle\Model\SnapshotManagerInterface');
+        $this->transformer = $this->getMock('Sonata\PageBundle\Model\TransformerInterface');
         $this->manager = new CmsSnapshotManager($this->snapshotManager, $this->transformer);
     }
 
@@ -59,7 +59,7 @@ class CmsSnapshotManagerTest extends \PHPUnit_Framework_TestCase
     public function testFindExistingContainer()
     {
         $block = new SnapshotBlock();
-        $block->setSettings(array('code' => 'findme'));
+        $block->setSettings(['code' => 'findme']);
 
         $page = new Page();
         $page->addBlocks($block);
@@ -102,7 +102,7 @@ class CmsSnapshotManagerTest extends \PHPUnit_Framework_TestCase
         $cBlock->expects($this->any())->method('getId')->will($this->returnValue(2));
 
         $pBlock = $this->getMock('Sonata\BlockBundle\Model\BlockInterface');
-        $pBlock->expects($this->any())->method('getChildren')->will($this->returnValue(array($cBlock)));
+        $pBlock->expects($this->any())->method('getChildren')->will($this->returnValue([$cBlock]));
         $pBlock->expects($this->any())->method('hasChildren')->will($this->returnValue(true));
         $pBlock->expects($this->any())->method('getId')->will($this->returnValue(1));
 
@@ -113,17 +113,17 @@ class CmsSnapshotManagerTest extends \PHPUnit_Framework_TestCase
             ++$count;
 
             if ($count == 1) {
-                return array();
+                return [];
             }
 
-            return array($pBlock);
+            return [$pBlock];
         }));
 
         $snapshot = $this->getMock('Sonata\PageBundle\Model\SnapshotInterface');
-        $snapshot->expects($this->once())->method('getContent')->will($this->returnValue(array(
+        $snapshot->expects($this->once())->method('getContent')->will($this->returnValue([
             // we don't care here about real values, the mock transformer will return the valid $pBlock instance
-            'blocks' => array(),
-        )));
+            'blocks' => [],
+        ]));
 
         $this->snapshotManager->expects($this->once())->method('findEnableSnapshot')->will($this->returnValue($snapshot));
         $this->transformer->expects($this->once())->method('load')->will($this->returnValue($page));

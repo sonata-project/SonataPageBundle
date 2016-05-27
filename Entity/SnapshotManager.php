@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -29,12 +29,12 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
     /**
      * @var array
      */
-    protected $children = array();
+    protected $children = [];
 
     /**
      * @var array
      */
-    protected $templates = array();
+    protected $templates = [];
 
     /**
      * Constructor.
@@ -43,11 +43,11 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
      * @param ManagerRegistry $registry  An entity manager instance
      * @param array           $templates An array of templates
      */
-    public function __construct($class, ManagerRegistry $registry, $templates = array())
+    public function __construct($class, ManagerRegistry $registry, $templates = [])
     {
         parent::__construct($class, $registry);
 
-        $this->templates     = $templates;
+        $this->templates = $templates;
     }
 
     /**
@@ -70,10 +70,10 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
         }
 
         $date = $date ?: new \DateTime();
-        $pageIds = $snapshotIds = array();
+        $pageIds = $snapshotIds = [];
 
         foreach ($snapshots as $snapshot) {
-            $pageIds[]     = $snapshot->getPage()->getId();
+            $pageIds[] = $snapshot->getPage()->getId();
             $snapshotIds[] = $snapshot->getId();
 
             $snapshot->setPublicationDateStart($date);
@@ -100,10 +100,10 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
     public function findEnableSnapshot(array $criteria)
     {
         $date = new \Datetime();
-        $parameters = array(
+        $parameters = [
             'publicationDateStart' => $date,
             'publicationDateEnd'   => $date,
-        );
+        ];
 
         $query = $this->getRepository()
             ->createQueryBuilder('s')
@@ -152,9 +152,9 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
             ->select('s')
             ->from($this->class, 's')
             ->where('s.routeName = :routeName')
-            ->setParameters(array(
+            ->setParameters([
                 'routeName' => $routeName,
-            ))
+            ])
             ->getQuery()
             ->execute();
 
@@ -186,9 +186,9 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
     /**
      * @param string $code
      *
-     * @return mixed
-     *
      * @throws \RunTimeException
+     *
+     * @return mixed
      */
     public function getTemplate($code)
     {
@@ -209,7 +209,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
         }
 
         $tableName = $this->getTableName();
-        $platform  = $this->getConnection()->getDatabasePlatform()->getName();
+        $platform = $this->getConnection()->getDatabasePlatform()->getName();
 
         if ('mysql' === $platform) {
             return $this->getConnection()->exec(sprintf(
@@ -267,13 +267,13 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
     /**
      * {@inheritdoc}
      */
-    public function getPager(array $criteria, $page, $limit = 10, array $sort = array())
+    public function getPager(array $criteria, $page, $limit = 10, array $sort = [])
     {
         $query = $this->getRepository()
             ->createQueryBuilder('s')
             ->select('s');
 
-        $parameters = array();
+        $parameters = [];
 
         if (isset($criteria['enabled'])) {
             $query->andWhere('s.enabled = :enabled');

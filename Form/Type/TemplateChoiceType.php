@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -41,9 +41,9 @@ class TemplateChoiceType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'choices' => $this->getTemplates(),
-        ));
+        ]);
     }
 
     /**
@@ -59,7 +59,7 @@ class TemplateChoiceType extends AbstractType
      */
     public function getTemplates()
     {
-        $templates = array();
+        $templates = [];
         foreach ($this->manager->getAll() as $code => $template) {
             $templates[$code] = $template->getName();
         }

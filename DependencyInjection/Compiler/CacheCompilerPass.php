@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -27,7 +27,7 @@ class CacheCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $services = array();
+        $services = [];
 
         foreach ($container->findTaggedServiceIds('sonata.page.manager') as $id => $attributes) {
             if (!$container->hasDefinition($id)) {

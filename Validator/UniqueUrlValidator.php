@@ -1,9 +1,9 @@
 <?php
 
 /*
- * This file is part of sonata-project.
+ * This file is part of the Sonata Project package.
  *
- * (c) 2010 Thomas Rabaix
+ * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -56,10 +56,10 @@ class UniqueUrlValidator extends ConstraintValidator
 
         $this->manager->fixUrl($value);
 
-        $pages = $this->manager->findBy(array(
+        $pages = $this->manager->findBy([
             'site' => $value->getSite(),
             'url'  => $value->getUrl(),
-        ));
+        ]);
 
         foreach ($pages as $page) {
             if ($page->isError() || $page->isInternal()) {
@@ -67,7 +67,7 @@ class UniqueUrlValidator extends ConstraintValidator
             }
 
             if ($page->getUrl() == $value->getUrl() && $page != $value) {
-                $this->context->addViolation('error.uniq_url', array('%url%' => $value->getUrl()));
+                $this->context->addViolation('error.uniq_url', ['%url%' => $value->getUrl()]);
             }
         }
     }

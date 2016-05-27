@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -127,8 +127,8 @@ class ResponseListenerTest extends \PHPUnit_Framework_TestCase
         // a mock page service manager that decorates a response
         $this->pageServiceManager->expects($this->once())
             ->method('execute')
-            ->with($this->equalTo($page), $this->anything(), array('content' => $content))
-            ->will($this->returnCallback(function (PageInterface $page, Request $request, array $params = array(), Response $response) {
+            ->with($this->equalTo($page), $this->anything(), ['content' => $content])
+            ->will($this->returnCallback(function (PageInterface $page, Request $request, array $params, Response $response) {
                 $response->setContent(sprintf('outer "%s" outer', $params['content']));
 
                 return $response;

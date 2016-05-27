@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -45,15 +45,15 @@ class DefaultPageService extends BasePageService
      */
     public function __construct($name, TemplateManagerInterface $templateManager, SeoPageInterface $seoPage = null)
     {
-        $this->name            = $name;
+        $this->name = $name;
         $this->templateManager = $templateManager;
-        $this->seoPage         = $seoPage;
+        $this->seoPage = $seoPage;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function execute(PageInterface $page, Request $request, array $parameters = array(), Response $response = null)
+    public function execute(PageInterface $page, Request $request, array $parameters = [], Response $response = null)
     {
         $this->updateSeoPage($page);
 

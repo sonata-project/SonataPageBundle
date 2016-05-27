@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -35,10 +35,10 @@ class BlockInteractorTest extends \PHPUnit_Framework_TestCase
 
         $blockInteractor = new BlockInteractor($registry, $blockManager);
 
-        $container = $blockInteractor->createNewContainer(array(
+        $container = $blockInteractor->createNewContainer([
             'enabled' => true,
             'code'    => 'my-code',
-        ), function ($container) {
+        ], function ($container) {
             $container->setSetting('layout', '<div class="custom-layout">{{ CONTENT }}</div>');
         });
 

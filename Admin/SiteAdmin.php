@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -62,8 +62,7 @@ class SiteAdmin extends Admin
             ->add('enabledTo')
             ->add('title')
             ->add('metaDescription')
-            ->add('metaKeywords')
-        ;
+            ->add('metaKeywords');
     }
 
     /**
@@ -74,14 +73,13 @@ class SiteAdmin extends Admin
         $listMapper
             ->addIdentifier('name')
             ->add('isDefault')
-            ->add('enabled', null, array('editable' => true))
+            ->add('enabled', null, ['editable' => true])
             ->add('host')
             ->add('relativePath')
             ->add('locale')
             ->add('enabledFrom')
             ->add('enabledTo')
-            ->add('create_snapshots', 'string', array('template' => 'SonataPageBundle:SiteAdmin:list_create_snapshots.html.twig'))
-        ;
+            ->add('create_snapshots', 'string', ['template' => 'SonataPageBundle:SiteAdmin:list_create_snapshots.html.twig']);
     }
 
     /**
@@ -90,8 +88,7 @@ class SiteAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('name')
-        ;
+            ->add('name');
     }
 
     /**
@@ -100,27 +97,26 @@ class SiteAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->with('form_site.label_general', array('class' => 'col-md-6'))
+            ->with('form_site.label_general', ['class' => 'col-md-6'])
                 ->add('name')
-                ->add('isDefault', null, array('required' => false))
-                ->add('enabled', null, array('required' => false))
+                ->add('isDefault', null, ['required' => false])
+                ->add('enabled', null, ['required' => false])
                 ->add('host')
-                ->add('locale', 'locale', array(
+                ->add('locale', 'locale', [
                     'required' => false,
-                ))
-                ->add('relativePath', null, array('required' => false))
-                ->add('enabledFrom', 'sonata_type_datetime_picker', array('dp_side_by_side' => true))
-                ->add('enabledTo', 'sonata_type_datetime_picker', array(
+                ])
+                ->add('relativePath', null, ['required' => false])
+                ->add('enabledFrom', 'sonata_type_datetime_picker', ['dp_side_by_side' => true])
+                ->add('enabledTo', 'sonata_type_datetime_picker', [
                     'required'        => false,
                     'dp_side_by_side' => true,
-                ))
+                ])
             ->end()
-            ->with('form_site.label_seo', array('class' => 'col-md-6'))
-                ->add('title', null, array('required' => false))
-                ->add('metaDescription', 'textarea', array('required' => false))
-                ->add('metaKeywords', 'textarea', array('required' => false))
-            ->end()
-        ;
+            ->with('form_site.label_seo', ['class' => 'col-md-6'])
+                ->add('title', null, ['required' => false])
+                ->add('metaDescription', 'textarea', ['required' => false])
+                ->add('metaKeywords', 'textarea', ['required' => false])
+            ->end();
     }
 
     /**

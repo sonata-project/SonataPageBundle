@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -32,7 +32,7 @@ abstract class BaseLocaleSiteSelectorTest extends \PHPUnit_Framework_TestCase
      */
     protected function getSites()
     {
-        $sites = array();
+        $sites = [];
 
         $sites[0] = new Site();
         $sites[0]->setEnabled(true);

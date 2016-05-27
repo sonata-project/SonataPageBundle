@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -13,9 +13,6 @@ namespace Sonata\PageBundle\Tests\Twig\Extension;
 
 use Sonata\PageBundle\Twig\Extension\PageExtension;
 
-/**
- *
- */
 class PageExtensionTest extends \PHPUnit_Framework_TestCase
 {
     public function testAjaxUrl()
@@ -26,13 +23,11 @@ class PageExtensionTest extends \PHPUnit_Framework_TestCase
         $router->expects($this->once())->method('generate')->will($this->returnValue('/foo/bar'));
         $blockHelper = $this->getMockBuilder('Sonata\BlockBundle\Templating\Helper\BlockHelper')
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
 
         $HttpKernelExtension = $this->getMockBuilder('Symfony\Bridge\Twig\Extension\HttpKernelExtension')
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
 
         $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
         $block = $this->getMock('Sonata\PageBundle\Model\PageBlockInterface');

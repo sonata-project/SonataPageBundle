@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -26,21 +26,21 @@ class ContainerBlockServiceTest extends \PHPUnit_Framework_TestCase
     public function testExecute()
     {
         $templating = new FakeTemplating();
-        $service    = new ContainerBlockService('core.container', $templating);
+        $service = new ContainerBlockService('core.container', $templating);
 
         $block = new Block();
         $block->setName('block.name');
         $block->setType('core.container');
-        $block->setSettings(array(
+        $block->setSettings([
             'code' => 'block.code',
-        ));
+        ]);
 
-        $blockContext = new BlockContext($block, array(
+        $blockContext = new BlockContext($block, [
             'code'        => '',
             'layout'      => '{{ CONTENT }}',
             'class'       => '',
             'template'    => 'SonataPageBundle:Block:block_container.html.twig',
-        ));
+        ]);
 
         $service->execute($blockContext);
 
@@ -56,19 +56,19 @@ class ContainerBlockServiceTest extends \PHPUnit_Framework_TestCase
     public function testLayout()
     {
         $templating = new FakeTemplating();
-        $service    = new ContainerBlockService('core.container', $templating);
+        $service = new ContainerBlockService('core.container', $templating);
 
         $block = new Block();
         $block->setName('block.name');
         $block->setType('core.container');
 
         // we manually perform the settings merge
-        $blockContext = new BlockContext($block, array(
+        $blockContext = new BlockContext($block, [
              'code'        => 'block.code',
              'layout'      => 'before{{ CONTENT }}after',
              'class'       => '',
              'template'    => 'SonataPageBundle:Block:block_container.html.twig',
-         ));
+         ]);
 
         $service->execute($blockContext);
 
@@ -85,16 +85,16 @@ class ContainerBlockServiceTest extends \PHPUnit_Framework_TestCase
     public function testFormBuilder()
     {
         $templating = new FakeTemplating();
-        $service    = new ContainerBlockService('core.container', $templating);
+        $service = new ContainerBlockService('core.container', $templating);
 
         $block = new Block();
         $block->setName('block.name');
         $block->setType('core.container');
-        $block->setSettings(array(
+        $block->setSettings([
             'name' => 'block.code',
-        ));
+        ]);
 
-        $formMapper = $this->getMock('Sonata\\AdminBundle\\Form\\FormMapper', array(), array(), '', false);
+        $formMapper = $this->getMock('Sonata\\AdminBundle\\Form\\FormMapper', [], [], '', false);
         $formMapper->expects($this->exactly(6))->method('add');
 
         $service->buildCreateForm($formMapper, $block);

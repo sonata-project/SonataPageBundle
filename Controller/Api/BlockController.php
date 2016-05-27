@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -47,7 +47,7 @@ class BlockController
     public function __construct(BlockManagerInterface $blockManager, FormFactoryInterface $formFactory)
     {
         $this->blockManager = $blockManager;
-        $this->formFactory  = $formFactory;
+        $this->formFactory = $formFactory;
     }
 
     /**
@@ -95,17 +95,17 @@ class BlockController
      * @param int     $id      A Block identifier
      * @param Request $request A Symfony request
      *
-     * @return BlockInterface
-     *
      * @throws NotFoundHttpException
+     *
+     * @return BlockInterface
      */
     public function putBlockAction($id, Request $request)
     {
         $block = $id ? $this->getBlock($id) : null;
 
-        $form = $this->formFactory->createNamed(null, 'sonata_page_api_form_block', $block, array(
+        $form = $this->formFactory->createNamed(null, 'sonata_page_api_form_block', $block, [
             'csrf_protection' => false,
-        ));
+        ]);
 
         $form->submit($request);
 
@@ -116,7 +116,7 @@ class BlockController
 
             $view = FOSRestView::create($block);
             $serializationContext = SerializationContext::create();
-            $serializationContext->setGroups(array('sonata_api_read'));
+            $serializationContext->setGroups(['sonata_api_read']);
             $serializationContext->enableMaxDepthChecks();
             $view->setSerializationContext($serializationContext);
 
@@ -142,9 +142,9 @@ class BlockController
      *
      * @param int $id A Block identifier
      *
-     * @return \FOS\RestBundle\View\View
-     *
      * @throws NotFoundHttpException
+     *
+     * @return \FOS\RestBundle\View\View
      */
     public function deleteBlockAction($id)
     {
@@ -152,7 +152,7 @@ class BlockController
 
         $this->blockManager->delete($block);
 
-        return array('deleted' => true);
+        return ['deleted' => true];
     }
 
     /**
@@ -160,13 +160,13 @@ class BlockController
      *
      * @param $id
      *
-     * @return BlockInterface
-     *
      * @throws NotFoundHttpException
+     *
+     * @return BlockInterface
      */
     protected function getBlock($id)
     {
-        $block = $this->blockManager->findOneBy(array('id' => $id));
+        $block = $this->blockManager->findOneBy(['id' => $id]);
 
         if (null === $block) {
             throw new NotFoundHttpException(sprintf('Block (%d) not found', $id));

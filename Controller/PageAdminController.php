@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -28,9 +28,9 @@ class PageAdminController extends Controller
     /**
      * @param mixed $query
      *
-     * @return RedirectResponse
-     *
      * @throws AccessDeniedException
+     *
+     * @return RedirectResponse
      */
     public function batchActionSnapshot($query)
     {
@@ -40,9 +40,9 @@ class PageAdminController extends Controller
 
         foreach ($query->execute() as $page) {
             $this->get('sonata.notification.backend')
-                ->createAndPublish('sonata.page.create_snapshot', array(
+                ->createAndPublish('sonata.page.create_snapshot', [
                     'pageId' => $page->getId(),
-                ));
+                ]);
         }
 
         return new RedirectResponse($this->admin->generateUrl('list', $this->admin->getFilterParameters()));
@@ -69,7 +69,7 @@ class PageAdminController extends Controller
     {
         $this->admin->checkAccess('tree');
 
-        $sites = $this->get('sonata.page.manager.site')->findBy(array());
+        $sites = $this->get('sonata.page.manager.site')->findBy([]);
         $pageManager = $this->get('sonata.page.manager.page');
 
         $currentSite = null;
@@ -88,7 +88,7 @@ class PageAdminController extends Controller
         if ($currentSite) {
             $pages = $pageManager->loadPages($currentSite);
         } else {
-            $pages = array();
+            $pages = [];
         }
 
         $datagrid = $this->admin->getDatagrid();
@@ -96,14 +96,14 @@ class PageAdminController extends Controller
 
         $this->get('twig')->getExtension('form')->renderer->setTheme($formView, $this->admin->getFilterTheme());
 
-        return $this->render($this->admin->getTemplate('tree'), array(
+        return $this->render($this->admin->getTemplate('tree'), [
             'action'      => 'tree',
             'sites'       => $sites,
             'currentSite' => $currentSite,
             'pages'       => $pages,
             'form'        => $formView,
             'csrf_token'  => $this->getCsrfToken('sonata.batch'),
-        ));
+        ]);
     }
 
     /**
@@ -114,13 +114,13 @@ class PageAdminController extends Controller
         $this->admin->checkAccess('create');
 
         if ($request->getMethod() == 'GET' && !$this->getRequest()->get('siteId')) {
-            $sites = $this->get('sonata.page.manager.site')->findBy(array());
+            $sites = $this->get('sonata.page.manager.site')->findBy([]);
 
             if (count($sites) == 1) {
-                return $this->redirect($this->admin->generateUrl('create', array(
+                return $this->redirect($this->admin->generateUrl('create', [
                     'siteId' => $sites[0]->getId(),
                     'uniqid' => $this->admin->getUniqid(),
-                )));
+                ]));
             }
 
             try {
@@ -129,10 +129,10 @@ class PageAdminController extends Controller
                 $current = false;
             }
 
-            return $this->render($this->admin->getTemplate('select_site'), array(
+            return $this->render($this->admin->getTemplate('select_site'), [
                 'sites'   => $sites,
                 'current' => $current,
-            ));
+            ]);
         }
 
         return parent::createAction();
@@ -141,10 +141,10 @@ class PageAdminController extends Controller
     /**
      * @param Request|null $request
      *
-     * @return Response
-     *
      * @throws AccessDeniedException
      * @throws NotFoundHttpException
+     *
+     * @return Response
      */
     public function composeAction(Request $request = null)
     {
@@ -153,25 +153,25 @@ class PageAdminController extends Controller
             throw new AccessDeniedException();
         }
 
-        $id   = $request->get($this->admin->getIdParameter());
+        $id = $request->get($this->admin->getIdParameter());
         $page = $this->admin->getObject($id);
         if (!$page) {
             throw new NotFoundHttpException(sprintf('unable to find the page with id : %s', $id));
         }
 
-        $containers       = array();
-        $orphanContainers = array();
-        $children         = array();
+        $containers = [];
+        $orphanContainers = [];
+        $children = [];
 
-        $templateManager    = $this->get('sonata.page.template_manager');
-        $template           = $templateManager->get($page->getTemplateCode());
+        $templateManager = $this->get('sonata.page.template_manager');
+        $template = $templateManager->get($page->getTemplateCode());
         $templateContainers = $template->getContainers();
 
         foreach ($templateContainers as $id => $container) {
-            $containers[$id] = array(
+            $containers[$id] = [
                 'area'  => $container,
                 'block' => false,
-            );
+            ];
         }
 
         // 'attach' containers to corresponding template area, otherwise add it to orphans
@@ -193,11 +193,11 @@ class PageAdminController extends Controller
 
         foreach ($containers as $id => $container) {
             if ($container['block'] === false && $templateContainers[$id]['shared'] === false) {
-                $blockContainer = $blockInteractor->createNewContainer(array(
+                $blockContainer = $blockInteractor->createNewContainer([
                     'page' => $page,
                     'name' => $templateContainers[$id]['name'],
                     'code' => $id,
-                ));
+                ]);
 
                 $containers[$id]['block'] = $blockContainer;
             }
@@ -205,26 +205,26 @@ class PageAdminController extends Controller
 
         $csrfProvider = $this->get('form.csrf_provider');
 
-        return $this->render($this->admin->getTemplate('compose'), array(
+        return $this->render($this->admin->getTemplate('compose'), [
             'object'           => $page,
             'action'           => 'edit',
             'template'         => $template,
             'page'             => $page,
             'containers'       => $containers,
             'orphanContainers' => $orphanContainers,
-            'csrfTokens'       => array(
+            'csrfTokens'       => [
                 'remove' => $csrfProvider->generateCsrfToken('sonata.delete'),
-            ),
-        ));
+            ],
+        ]);
     }
 
     /**
      * @param Request|null $request
      *
-     * @return Response
-     *
      * @throws AccessDeniedException
      * @throws NotFoundHttpException
+     *
+     * @return Response
      */
     public function composeContainerShowAction(Request $request = null)
     {
@@ -232,7 +232,7 @@ class PageAdminController extends Controller
             throw new AccessDeniedException();
         }
 
-        $id    = $request->get($this->admin->getIdParameter());
+        $id = $request->get($this->admin->getIdParameter());
         $block = $this->get('sonata.page.admin.block')->getObject($id);
         if (!$block) {
             throw new NotFoundHttpException(sprintf('unable to find the block with id : %s', $id));
@@ -257,10 +257,10 @@ class PageAdminController extends Controller
             }
         }
 
-        return $this->render($this->admin->getTemplate('compose_container_show'), array(
+        return $this->render($this->admin->getTemplate('compose_container_show'), [
             'blockServices' => $blockServices,
             'container'     => $block,
             'page'          => $block->getPage(),
-        ));
+        ]);
     }
 }

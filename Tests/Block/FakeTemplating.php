@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -27,18 +27,18 @@ class FakeTemplating implements EngineInterface
     /**
      * {@inheritdoc}
      */
-    public function render($name, array $parameters = array())
+    public function render($name, array $parameters = [])
     {
-        $this->name  = $name;
+        $this->name = $name;
         $this->parameters = $parameters;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function renderResponse($view, array $parameters = array(), Response $response = null)
+    public function renderResponse($view, array $parameters = [], Response $response = null)
     {
-        $this->view   = $view;
+        $this->view = $view;
         $this->parameters = $parameters;
 
         if ($response) {

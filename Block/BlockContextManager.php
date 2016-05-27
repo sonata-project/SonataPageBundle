@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -24,27 +24,26 @@ class BlockContextManager extends BaseBlockContextManager
     {
         parent::configureSettings($optionsResolver, $block);
 
-        $optionsResolver->setDefaults(array(
+        $optionsResolver->setDefaults([
             'manager' => false,
             'page_id' => false,
-        ));
+        ]);
 
         // TODO: Remove it when bumping requirements to SF 2.6+
         if (method_exists($optionsResolver, 'setDefined')) {
             $optionsResolver
-                ->addAllowedTypes('manager', array('string', 'bool'))
-                ->addAllowedTypes('page_id', array('int', 'string', 'bool'))
-            ;
+                ->addAllowedTypes('manager', ['string', 'bool'])
+                ->addAllowedTypes('page_id', ['int', 'string', 'bool']);
         } else {
-            $optionsResolver->addAllowedTypes(array(
-                'manager' => array('string', 'bool'),
-                'page_id' => array('int', 'string', 'bool'),
-            ));
+            $optionsResolver->addAllowedTypes([
+                'manager' => ['string', 'bool'],
+                'page_id' => ['int', 'string', 'bool'],
+            ]);
         }
 
-        $optionsResolver->setRequired(array(
+        $optionsResolver->setRequired([
             'manager',
             'page_id',
-        ));
+        ]);
     }
 }

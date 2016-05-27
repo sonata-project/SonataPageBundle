@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -103,7 +103,7 @@ abstract class BaseCommand extends ContainerAwareCommand
      */
     protected function getSites(InputInterface $input)
     {
-        $parameters = array();
+        $parameters = [];
         $identifiers = $input->getOption('site');
 
         if ('all' != current($identifiers)) {

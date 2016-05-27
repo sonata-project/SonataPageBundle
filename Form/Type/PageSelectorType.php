@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -47,19 +47,19 @@ class PageSelectorType extends AbstractType
     {
         $that = $this;
 
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'page'              => null,
             'site'              => null,
             'choice_list'       => function (Options $opts, $previousValue) use ($that) {
                 return new SimpleChoiceList($that->getChoices($opts));
             },
-            'filter_choice'     => array(
+            'filter_choice'     => [
                 'current_page'     => false,
                 'request_method'   => 'GET',
                 'dynamic'          => true,
                 'hierarchy'        => 'all',
-            ),
-        ));
+            ],
+        ]);
     }
 
     /**
@@ -78,19 +78,19 @@ class PageSelectorType extends AbstractType
     public function getChoices(Options $options)
     {
         if (!$options['site'] instanceof SiteInterface) {
-            return array();
+            return [];
         }
 
-        $filter_choice = array_merge(array(
+        $filter_choice = array_merge([
             'current_page'     => false,
             'request_method'   => 'GET',
             'dynamic'          => true,
             'hierarchy'        => 'all',
-        ), $options['filter_choice']);
+        ], $options['filter_choice']);
 
         $pages = $this->manager->loadPages($options['site']);
 
-        $choices = array();
+        $choices = [];
 
         foreach ($pages as $page) {
             // internal cannot be selected

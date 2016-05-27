@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -24,13 +24,13 @@ class SnapshotControllerTest extends \PHPUnit_Framework_TestCase
     public function testGetSnapshotsAction()
     {
         $snapshotManager = $this->getMock('Sonata\PageBundle\Model\SnapshotManagerInterface');
-        $snapshotManager->expects($this->once())->method('getPager')->will($this->returnValue(array()));
+        $snapshotManager->expects($this->once())->method('getPager')->will($this->returnValue([]));
 
         $paramFetcher = $this->getMock('FOS\RestBundle\Request\ParamFetcherInterface');
         $paramFetcher->expects($this->exactly(3))->method('get');
-        $paramFetcher->expects($this->once())->method('all')->will($this->returnValue(array()));
+        $paramFetcher->expects($this->once())->method('all')->will($this->returnValue([]));
 
-        $this->assertEquals(array(), $this->createSnapshotController(null, $snapshotManager)->getSnapshotsAction($paramFetcher));
+        $this->assertEquals([], $this->createSnapshotController(null, $snapshotManager)->getSnapshotsAction($paramFetcher));
     }
 
     public function testGetSnapshotAction()
@@ -58,7 +58,7 @@ class SnapshotControllerTest extends \PHPUnit_Framework_TestCase
 
         $view = $this->createSnapshotController($snapshot, $snapshotManager)->deleteSnapshotAction(1);
 
-        $this->assertEquals(array('deleted' => true), $view);
+        $this->assertEquals(['deleted' => true], $view);
     }
 
     public function testDeletePageInvalidAction()

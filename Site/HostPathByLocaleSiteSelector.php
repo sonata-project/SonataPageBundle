@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -33,8 +33,8 @@ class HostPathByLocaleSiteSelector extends HostPathSiteSelector
             throw new \RuntimeException('You must change the main Request object in the front controller (app.php) in order to use the `host_with_path_by_locale` strategy');
         }
 
-        $enabledSites = array();
-        $pathInfo     = null;
+        $enabledSites = [];
+        $pathInfo = null;
 
         foreach ($this->getSites($request) as $site) {
             if (!$site->isEnabled()) {
@@ -50,7 +50,7 @@ class HostPathByLocaleSiteSelector extends HostPathSiteSelector
             }
 
             $this->site = $site;
-            $pathInfo   = $match;
+            $pathInfo = $match;
 
             if (!$this->site->isLocalhost()) {
                 break;
