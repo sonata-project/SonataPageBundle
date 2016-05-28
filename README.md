@@ -10,7 +10,7 @@ This bundle provides a Site and Page management through container and block serv
 [![Monthly Downloads](https://poser.pugx.org/sonata-project/page-bundle/d/monthly)](https://packagist.org/packages/sonata-project/page-bundle)
 [![Daily Downloads](https://poser.pugx.org/sonata-project/page-bundle/d/daily)](https://packagist.org/packages/sonata-project/page-bundle)
 
-master status: [![Build Status](https://travis-ci.org/sonata-project/SonataPageBundle.svg?branch=master)](https://travis-ci.org/sonata-project/SonataPageBundle)
+3.x status: [![Build Status](https://travis-ci.org/sonata-project/SonataPageBundle.svg?branch=3.x)](https://travis-ci.org/sonata-project/SonataPageBundle)
 
 master status: [![Build Status](https://travis-ci.org/sonata-project/SonataPageBundle.svg?branch=master)](https://travis-ci.org/sonata-project/SonataPageBundle)
 
