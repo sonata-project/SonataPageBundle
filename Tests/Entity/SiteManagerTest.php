@@ -41,7 +41,8 @@ class SiteManagerTest extends \PHPUnit_Framework_TestCase
     {
         $self = $this;
         $this
-            ->getSiteManager(function ($qb) use ($self) { })
+            ->getSiteManager(function ($qb) use ($self) {
+            })
             ->getPager(array(), 1, 10, array('invalid' => 'ASC'));
     }
 
