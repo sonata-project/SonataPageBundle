@@ -133,6 +133,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
             throw new \RuntimeException('please provide a `pageId`, `url`, `routeName` or `name` as criteria key');
         }
 
+        $query->orderBy('s.publicationDateStart', 'DESC');
         $query->setMaxResults(1);
         $query->setParameters($parameters);
 
