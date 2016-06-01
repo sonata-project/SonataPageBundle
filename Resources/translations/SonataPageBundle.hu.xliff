@@ -902,6 +902,14 @@
                 <source>form.label_menu_template</source>
                 <target>form.label_menu_template</target>
             </trans-unit>
+            <trans-unit id="226" resname="pages.label_no_sites">
+                <source>pages.label_no_sites</source>
+                <target>pages.label_no_sites</target>
+            </trans-unit>
+            <trans-unit id="227" resname="pages.label_no_site_selected">
+                <source>pages.label_no_site_selected</source>
+                <target>pages.label_no_site_selected</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

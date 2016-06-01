@@ -906,6 +906,14 @@
           <source>form.label_menu_template</source>
           <target>Menü Template</target>
       </trans-unit>
+      <trans-unit id="226" resname="pages.label_no_sites">
+          <source>pages.label_no_sites</source>
+          <target>Keine Seiten konfiguriert</target>
+      </trans-unit>
+      <trans-unit id="227" resname="pages.label_no_site_selected">
+          <source>pages.label_no_site_selected</source>
+          <target>Keine Seiten ausgewählt</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
