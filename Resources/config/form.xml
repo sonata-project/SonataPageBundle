@@ -1,30 +1,20 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-
-<container xmlns="http://symfony.com/schema/dic/services"
-           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
-
         <service id="sonata.page.form.type.page_selector" class="Sonata\PageBundle\Form\Type\PageSelectorType">
-            <tag name="form.type" alias="sonata_page_selector" />
-            <argument type="service" id="sonata.page.manager.page" />
+            <tag name="form.type" alias="sonata_page_selector"/>
+            <argument type="service" id="sonata.page.manager.page"/>
         </service>
-
         <service id="sonata.page.form.create_snapshot" class="Sonata\PageBundle\Form\Type\CreateSnapshotType">
-            <tag name="form.type" alias="sonata_page_create_snapshot" />
+            <tag name="form.type" alias="sonata_page_create_snapshot"/>
         </service>
-
         <service id="sonata.page.form.template_choice" class="Sonata\PageBundle\Form\Type\TemplateChoiceType">
-            <tag name="form.type" alias="sonata_page_template" />
-            <argument type="service" id="sonata.page.template_manager" />
+            <tag name="form.type" alias="sonata_page_template"/>
+            <argument type="service" id="sonata.page.template_manager"/>
         </service>
-
         <service id="sonata.page.form.page_type_choice" class="Sonata\PageBundle\Form\Type\PageTypeChoiceType">
-            <tag name="form.type" alias="sonata_page_type_choice" />
-            <argument type="service" id="sonata.page.page_service_manager" />
+            <tag name="form.type" alias="sonata_page_type_choice"/>
+            <argument type="service" id="sonata.page.page_service_manager"/>
         </service>
-
     </services>
-
 </container>

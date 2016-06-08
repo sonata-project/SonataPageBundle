@@ -1,39 +1,30 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xsi="http://www.w3.org/2001/XMLSchema-instance" schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
     <mapped-superclass name="Sonata\PageBundle\Entity\BasePage">
-        <field name="routeName"         type="string"       column="route_name" length="255"/>
-        <field name="pageAlias"        type="string"        column="page_alias" nullable="true" length="255" />
-        <field name="type"              type="string"       column="type"       nullable="true" length="255" />
-
-        <field name="position"          type="integer"      column="position"        default="1"/>
-
-        <field name="enabled"           type="boolean"      column="enabled"         default="false" />
-        <field name="decorate"          type="boolean"      column="decorate"        default="false" />
-        <field name="edited"            type="boolean"      column="edited"          default="false" />
-
-        <field name="name"              type="string"       column="name"           length="255"/>
-
-        <field name="slug"              type="text"         column="slug"           nullable="true"/>
-        <field name="url"               type="text"         column="url"            nullable="true"/>
-        <field name="customUrl"         type="text"         column="custom_url"     nullable="true"/>
-
-        <field name="requestMethod"     type="string"       column="request_method"     length="255" nullable="true" />
-
-        <field name="title"             type="string"       column="title"              nullable="true" length="255"/>
-        <field name="metaKeyword"       type="string"       column="meta_keyword"       nullable="true" length="255"/>
-        <field name="metaDescription"   type="string"       column="meta_description"   nullable="true" length="255"/>
-
-        <field name="javascript"        type="text"         column="javascript"         nullable="true"/>
-        <field name="stylesheet"        type="text"         column="stylesheet"         nullable="true"/>
-        <field name="rawHeaders"        type="text"         column="raw_headers"        nullable="true"/>
-
-        <field name="templateCode"          type="string"       column="template"           nullable="false" />
-        <field name="createdAt"    type="datetime"   column="created_at" />
-        <field name="updatedAt"    type="datetime"   column="updated_at" />
-
+        <field name="routeName" type="string" column="route_name" length="255"/>
+        <field name="pageAlias" type="string" column="page_alias" nullable="true" length="255"/>
+        <field name="type" type="string" column="type" nullable="true" length="255"/>
+        <field name="position" type="integer" column="position" default="1"/>
+        <field name="enabled" type="boolean" column="enabled" default="false"/>
+        <field name="decorate" type="boolean" column="decorate" default="false"/>
+        <field name="edited" type="boolean" column="edited" default="false"/>
+        <field name="name" type="string" column="name" length="255"/>
+        <field name="slug" type="text" column="slug" nullable="true"/>
+        <field name="url" type="text" column="url" nullable="true"/>
+        <field name="customUrl" type="text" column="custom_url" nullable="true"/>
+        <field name="requestMethod" type="string" column="request_method" length="255" nullable="true"/>
+        <field name="title" type="string" column="title" nullable="true" length="255"/>
+        <field name="metaKeyword" type="string" column="meta_keyword" nullable="true" length="255"/>
+        <field name="metaDescription" type="string" column="meta_description" nullable="true" length="255"/>
+        <field name="javascript" type="text" column="javascript" nullable="true"/>
+        <field name="stylesheet" type="text" column="stylesheet" nullable="true"/>
+        <field name="rawHeaders" type="text" column="raw_headers" nullable="true"/>
+        <field name="templateCode" type="string" column="template" nullable="false"/>
+        <field name="createdAt" type="datetime" column="created_at"/>
+        <field name="updatedAt" type="datetime" column="updated_at"/>
         <lifecycle-callbacks>
-            <lifecycle-callback type="prePersist" method="prePersist" />
-            <lifecycle-callback type="preUpdate" method="preUpdate" />
+            <lifecycle-callback type="prePersist" method="prePersist"/>
+            <lifecycle-callback type="preUpdate" method="preUpdate"/>
         </lifecycle-callbacks>
     </mapped-superclass>
 </doctrine-mapping>

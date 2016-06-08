@@ -1,39 +1,28 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-
-<container xmlns="http://symfony.com/schema/dic/services"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
-        <service id="sonata.page.notification.create_snapshots" class="Sonata\PageBundle\Consumer\CreateSnapshotsConsumer" >
-            <tag name="sonata.notification.consumer" type="sonata.page.create_snapshots" />
-
-            <argument type="service" id="sonata.notification.backend" />
-            <argument type="service" id="sonata.notification.backend.runtime" />
-            <argument type="service" id="sonata.page.manager.page" />
+        <service id="sonata.page.notification.create_snapshots" class="Sonata\PageBundle\Consumer\CreateSnapshotsConsumer">
+            <tag name="sonata.notification.consumer" type="sonata.page.create_snapshots"/>
+            <argument type="service" id="sonata.notification.backend"/>
+            <argument type="service" id="sonata.notification.backend.runtime"/>
+            <argument type="service" id="sonata.page.manager.page"/>
         </service>
-
-        <service id="sonata.page.notification.create_snapshot" class="Sonata\PageBundle\Consumer\CreateSnapshotConsumer" >
-            <tag name="sonata.notification.consumer" type="sonata.page.create_snapshot" />
-
-            <argument type="service" id="sonata.page.manager.snapshot" />
-            <argument type="service" id="sonata.page.manager.page" />
-            <argument type="service" id="sonata.page.transformer" />
+        <service id="sonata.page.notification.create_snapshot" class="Sonata\PageBundle\Consumer\CreateSnapshotConsumer">
+            <tag name="sonata.notification.consumer" type="sonata.page.create_snapshot"/>
+            <argument type="service" id="sonata.page.manager.snapshot"/>
+            <argument type="service" id="sonata.page.manager.page"/>
+            <argument type="service" id="sonata.page.transformer"/>
         </service>
-
-        <service id="sonata.page.notification.cleanup_snapshots" class="Sonata\PageBundle\Consumer\CleanupSnapshotsConsumer" >
-            <tag name="sonata.notification.consumer" type="sonata.page.cleanup_snapshots" />
-
-            <argument type="service" id="sonata.notification.backend" />
-            <argument type="service" id="sonata.notification.backend.runtime" />
-            <argument type="service" id="sonata.page.manager.page" />
+        <service id="sonata.page.notification.cleanup_snapshots" class="Sonata\PageBundle\Consumer\CleanupSnapshotsConsumer">
+            <tag name="sonata.notification.consumer" type="sonata.page.cleanup_snapshots"/>
+            <argument type="service" id="sonata.notification.backend"/>
+            <argument type="service" id="sonata.notification.backend.runtime"/>
+            <argument type="service" id="sonata.page.manager.page"/>
         </service>
-
-        <service id="sonata.page.notification.cleanup_snapshot" class="Sonata\PageBundle\Consumer\CleanupSnapshotConsumer" >
-            <tag name="sonata.notification.consumer" type="sonata.page.cleanup_snapshot" />
-
-            <argument type="service" id="sonata.page.manager.snapshot" />
-            <argument type="service" id="sonata.page.manager.page" />
+        <service id="sonata.page.notification.cleanup_snapshot" class="Sonata\PageBundle\Consumer\CleanupSnapshotConsumer">
+            <tag name="sonata.notification.consumer" type="sonata.page.cleanup_snapshot"/>
+            <argument type="service" id="sonata.page.manager.snapshot"/>
+            <argument type="service" id="sonata.page.manager.page"/>
         </service>
     </services>
 </container>
