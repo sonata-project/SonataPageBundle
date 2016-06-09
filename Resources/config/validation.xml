@@ -1,53 +1,32 @@
-<?xml version="1.0" ?>
-<constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping
-        http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping         http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
     <class name="Sonata\BlockBundle\Model\BaseBlock">
         <constraint name="Sonata\CoreBundle\Validator\Constraints\InlineConstraint">
             <option name="service">sonata.block.manager</option>
             <option name="method">validate</option>
         </constraint>
     </class>
-
     <class name="Sonata\PageBundle\Model\Page">
-        <constraint name="Sonata\PageBundle\Validator\Constraints\UniqueUrl" />
-
+        <constraint name="Sonata\PageBundle\Validator\Constraints\UniqueUrl"/>
         <property name="name">
-           <constraint name="NotNull" >
-               <option name="groups" >
+            <constraint name="NotNull">
+                <option name="groups">
                     <value>action_route</value>
                     <value>cms_route</value>
                     <value>Default</value>
-               </option>
-           </constraint>
+                </option>
+            </constraint>
         </property>
-
         <property name="position">
-            <constraint name="NotNull" />
+            <constraint name="NotNull"/>
         </property>
         <property name="templateCode">
-            <constraint name="NotNull" />
+            <constraint name="NotNull"/>
         </property>
     </class>
-
     <class name="Sonata\PageBundle\Model\Site">
         <property name="name">
-           <constraint name="NotNull" />
+            <constraint name="NotNull"/>
         </property>
     </class>
 </constraint-mapping>
-
-
-
-
-
-
-
-
-
-
-
-
-

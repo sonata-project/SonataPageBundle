@@ -1,21 +1,14 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-
-<routes xmlns="http://symfony.com/schema/routing"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<routes xmlns="http://symfony.com/schema/routing" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
     <route id="sonata_page_cache_esi" path="/sonata/page/cache/esi/{_token}/{manager}/{page_id}/{block_id}">
         <default key="_controller">sonata.page.cache.esi:cacheAction</default>
     </route>
-
     <route id="sonata_page_cache_ssi" path="/sonata/page/cache/ssi/{_token}/{manager}/{page_id}/{block_id}">
         <default key="_controller">sonata.page.cache.ssi:cacheAction</default>
     </route>
-
     <route id="sonata_page_js_async_cache" path="/sonata/page/cache/js-async">
         <default key="_controller">sonata.page.cache.js_async:cacheAction</default>
     </route>
-
     <route id="sonata_page_js_sync_cache" path="/sonata/page/cache/js-sync">
         <default key="_controller">sonata.page.cache.js_sync:cacheAction</default>
     </route>

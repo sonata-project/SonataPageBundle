@@ -1,30 +1,23 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-
-<container xmlns="http://symfony.com/schema/dic/services"
-           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
         <service id="sonata.page.controller.api.block" class="Sonata\PageBundle\Controller\Api\BlockController">
-            <argument type="service" id="sonata.page.manager.block" />
-            <argument type="service" id="form.factory" />
+            <argument type="service" id="sonata.page.manager.block"/>
+            <argument type="service" id="form.factory"/>
         </service>
-
         <service id="sonata.page.controller.api.page" class="Sonata\PageBundle\Controller\Api\PageController">
-            <argument type="service" id="sonata.page.manager.site" />
-            <argument type="service" id="sonata.page.manager.page" />
-            <argument type="service" id="sonata.page.manager.block" />
-            <argument type="service" id="form.factory" />
-            <argument type="service" id="sonata.notification.backend" />
+            <argument type="service" id="sonata.page.manager.site"/>
+            <argument type="service" id="sonata.page.manager.page"/>
+            <argument type="service" id="sonata.page.manager.block"/>
+            <argument type="service" id="form.factory"/>
+            <argument type="service" id="sonata.notification.backend"/>
         </service>
-
         <service id="sonata.page.controller.api.site" class="Sonata\PageBundle\Controller\Api\SiteController">
-            <argument type="service" id="sonata.page.manager.site" />
-            <argument type="service" id="form.factory" />
+            <argument type="service" id="sonata.page.manager.site"/>
+            <argument type="service" id="form.factory"/>
         </service>
-
         <service id="sonata.page.controller.api.snapshot" class="Sonata\PageBundle\Controller\Api\SnapshotController">
-            <argument type="service" id="sonata.page.manager.snapshot" />
+            <argument type="service" id="sonata.page.manager.snapshot"/>
         </service>
     </services>
 </container>
