@@ -18,6 +18,77 @@ use Sonata\PageBundle\Entity\SnapshotManager;
  */
 class SnapshotManagerTest extends \PHPUnit_Framework_TestCase
 {
+    public function testSetTemplates()
+    {
+        $manager = $this->getMockBuilder('Sonata\PageBundle\Entity\SnapshotManager')
+            // we need to set at least one method, which does not need to exist!
+            // otherwise all methods will be mocked and could not be used!
+            // we need the real 'setTemplates' method here!
+            ->setMethods(array(
+                'fooBar',
+            ))
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $this->assertEquals(array(), $manager->getTemplates());
+
+        $manager->setTemplates(array('foo' => 'bar'));
+
+        $this->assertEquals(array('foo' => 'bar'), $manager->getTemplates());
+    }
+
+    public function testGetTemplates()
+    {
+        $manager = $this->getMockBuilder('Sonata\PageBundle\Entity\SnapshotManager')
+            ->setMethods(array(
+                'setTemplates',
+            ))
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $managerReflection = new \ReflectionClass($manager);
+        $templates = $managerReflection->getProperty('templates');
+        $templates->setAccessible(true);
+        $templates->setValue($manager, array('foo' => 'bar'));
+
+        $this->assertEquals(array('foo' => 'bar'), $manager->getTemplates());
+    }
+
+    public function testGetTemplate()
+    {
+        $manager = $this->getMockBuilder('Sonata\PageBundle\Entity\SnapshotManager')
+            ->setMethods(array(
+                'setTemplates',
+            ))
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $managerReflection = new \ReflectionClass($manager);
+        $templates = $managerReflection->getProperty('templates');
+        $templates->setAccessible(true);
+        $templates->setValue($manager, array('foo' => 'bar'));
+
+        $this->assertEquals('bar', $manager->getTemplate('foo'));
+    }
+
+    public function testGetTemplatesException()
+    {
+        $manager = $this->getMockBuilder('Sonata\PageBundle\Entity\SnapshotManager')
+            ->setMethods(array(
+                'setTemplates',
+            ))
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $this->setExpectedException('RuntimeException', 'No template references with the code : foo');
+
+        $manager->getTemplate('foo');
+    }
+
     public function testGetPager()
     {
         $self = $this;

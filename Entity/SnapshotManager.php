@@ -188,12 +188,12 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
      *
      * @return mixed
      *
-     * @throws \RunTimeException
+     * @throws \RuntimeException
      */
     public function getTemplate($code)
     {
         if (!isset($this->templates[$code])) {
-            throw new \RunTimeException(sprintf('No template references with the code : %s', $code));
+            throw new \RuntimeException(sprintf('No template references with the code : %s', $code));
         }
 
         return $this->templates[$code];
