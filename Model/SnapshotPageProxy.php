@@ -46,6 +46,11 @@ class SnapshotPageProxy implements PageInterface, Serializable
     private $parents;
 
     /**
+     * @var TransformerInterface
+     */
+    private $transformer;
+
+    /**
      * Constructor.
      *
      * @param SnapshotManagerInterface $manager     Snapshot manager
