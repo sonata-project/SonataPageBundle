@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Sonata\PageBundle\Tests\Entity;
+namespace Sonata\PageBundle\Tests\Model;
 
 use Sonata\PageBundle\Model\SnapshotPageProxy;
 
