@@ -55,7 +55,7 @@ interface CmsManagerInterface
     public function getPageByRouteName(SiteInterface $site, $routeName);
 
     /**
-     * Returns a fully loaded page ( + blocks ) from a route name.
+     * Returns a fully loaded page ( + blocks ) from a page alias.
      *
      * @param SiteInterface $site
      * @param string        $pageAlias
@@ -65,7 +65,7 @@ interface CmsManagerInterface
     public function getPageByPageAlias(SiteInterface $site, $pageAlias);
 
     /**
-     * Returns a fully loaded page ( + blocks ) from an internal page name.
+     * Returns a fully loaded page ( + blocks ) from an internal route name.
      *
      * @param SiteInterface $site
      * @param string        $routeName
@@ -75,7 +75,7 @@ interface CmsManagerInterface
     public function getInternalRoute(SiteInterface $site, $routeName);
 
     /**
-     * Returns a fully loaded page ( + blocks ) from a name.
+     * Returns a fully loaded page ( + blocks ) from a page name.
      *
      * @param SiteInterface $site
      * @param string        $name
