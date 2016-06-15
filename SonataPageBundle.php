@@ -59,10 +59,18 @@ class SonataPageBundle extends Bundle
         }
 
         call_user_func(array($class, 'setSlugifyMethod'), function ($text) use ($container) {
+            // NEXT_MAJOR: remove this check
             if ($container->hasParameter('sonata.page.slugify_service')) {
                 $id = $container->getParameter('sonata.page.slugify_service');
             } else {
-                $id = 'sonata.core.slugify.native'; // default BC value, you should use sonata.core.slugify.cocur
+                @trigger_error(
+                    'The "sonata.core.slugify.native" service is deprecated since 2.3.9, to be removed in 4.0. '.
+                    'Use "sonata.core.slugify.cocur" service through config instead.',
+                    E_USER_DEPRECATED
+                );
+
+                // default BC value, you should use sonata.core.slugify.cocur
+                $id = 'sonata.core.slugify.native';
             }
 
             $service = $container->get($id);
