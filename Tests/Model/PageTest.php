@@ -9,9 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Sonata\PageBundle\Tests\Entity;
-
-use Sonata\PageBundle\Tests\Model\Page;
+namespace Sonata\PageBundle\Tests\Model;
 
 class PageTest extends \PHPUnit_Framework_TestCase
 {
