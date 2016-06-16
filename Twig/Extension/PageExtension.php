@@ -278,7 +278,7 @@ class PageExtension extends \Twig_Extension implements \Twig_Extension_InitRunti
         $globals = $this->environment->getGlobals();
 
         if (!isset($attributes['pathInfo'])) {
-            $sitePath = $this->siteSelector->retrieve()->getRelativePath();
+            $sitePath = (null !== $site = $this->siteSelector->retrieve()) ? $site->getRelativePath() : '';
             $currentPathInfo = $globals['app']->getRequest()->getPathInfo();
 
             $attributes['pathInfo'] = $sitePath.$currentPathInfo;
