@@ -46,7 +46,6 @@ class PageExtensionTest extends \PHPUnit_Framework_TestCase
         $site->method('getRelativePath')->willReturn('/foo/bar');
         $siteSelector = $this->getMock('Sonata\PageBundle\Site\SiteSelectorInterface');
         $siteSelector->method('retrieve')->willReturn($site);
-        
         $router = $this->getMock('Symfony\Component\Routing\RouterInterface');
         $blockHelper = $this->getMockBuilder('Sonata\BlockBundle\Templating\Helper\BlockHelper')
             ->disableOriginalConstructor()
@@ -60,17 +59,19 @@ class PageExtensionTest extends \PHPUnit_Framework_TestCase
         ;
         $globals->method('getRequest')->willReturn($request);
         $env = $this->getMock('Twig_Environment');
-        $env->method('getGlobals')->willReturn(array('app' => $globals));
-
+        $env->method('getGlobals')->willReturn(['app' => $globals]);
         $HttpKernelExtension = $this->getMockBuilder('Symfony\Bridge\Twig\Extension\HttpKernelExtension')
             ->disableOriginalConstructor()
             ->getMock()
         ;
-
         $extension = new PageExtension($cmsManager, $siteSelector, $router, $blockHelper, $HttpKernelExtension);
         $extension->initRuntime($env);
-        
-        $HttpKernelExtension->expects($this->once())->method('controller')->with('foo', array('pathInfo' => '/foo/bar/'), array());
+        $HttpKernelExtension->expects($this->once())->method('controller')->with(
+            'foo',
+            ['pathInfo' => '/foo/bar/'],
+            []
+        )
+        ;
         $extension->controller('foo');
     }
 
@@ -91,17 +92,14 @@ class PageExtensionTest extends \PHPUnit_Framework_TestCase
         ;
         $globals->method('getRequest')->willReturn($request);
         $env = $this->getMock('Twig_Environment');
-        $env->method('getGlobals')->willReturn(array('app' => $globals));
-
+        $env->method('getGlobals')->willReturn(['app' => $globals]);
         $HttpKernelExtension = $this->getMockBuilder('Symfony\Bridge\Twig\Extension\HttpKernelExtension')
             ->disableOriginalConstructor()
             ->getMock()
         ;
-
         $extension = new PageExtension($cmsManager, $siteSelector, $router, $blockHelper, $HttpKernelExtension);
         $extension->initRuntime($env);
-        
-        $HttpKernelExtension->expects($this->once())->method('controller')->with('bar', array(), array());
+        $HttpKernelExtension->expects($this->once())->method('controller')->with('bar', [], []);
         $extension->controller('bar');
     }
 }
