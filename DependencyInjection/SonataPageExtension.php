@@ -54,6 +54,8 @@ class SonataPageExtension extends Extension
             if (!$config['direct_publication']) {
                 $container->removeDefinition('sonata.page.admin.extension.snapshot');
             }
+
+            $this->configureTemplatesAdmin($container, $config);
         }
 
         $loader->load('block.xml');
@@ -68,7 +70,6 @@ class SonataPageExtension extends Extension
         $this->configureMultisite($container, $config);
         $this->configureCache($container, $config);
         $this->configureTemplates($container, $config);
-        $this->configureTemplatesAdmin($container, $config);
         $this->configureExceptions($container, $config);
         $this->configurePageDefaults($container, $config);
         $this->configurePageServices($container, $config);
