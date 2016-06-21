@@ -71,8 +71,11 @@ must always return a ``Response`` object.
 
 By default the ``SonataPageBundle`` is shipped with core block services:
 
- - sonata.page.block.container      : Block container
+ - sonata.page.block.container      : Render a block container
  - sonata.page.block.children_pages : Render a navigation panel
+ - sonata.page.block.breadcrumb     : Render a breadcrumb
+ - sonata.page.block.shared_block   : Render a shared block
+ - sonata.page.block.pagelist       : Render a page list
 
 A Snapshot
 ----------
