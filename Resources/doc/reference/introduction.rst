@@ -64,15 +64,18 @@ A block is a small unit, it contains the following information:
  - position
  - settings used by the service
 
-Each block service must implement the ``Sonata\PageBundle\Block\BlockServiceInterface``
+Each block service must implement the ``Sonata\BlockBundle\Block\BlockServiceInterface``
 which defines a set of functions to create so the service can be integrated
 nicely with editing workflow. The important information is that a block service
 must always return a ``Response`` object.
 
 By default the ``SonataPageBundle`` is shipped with core block services:
 
- - sonata.page.block.container      : Block container
+ - sonata.page.block.container      : Render a block container
  - sonata.page.block.children_pages : Render a navigation panel
+ - sonata.page.block.breadcrumb     : Render a breadcrumb
+ - sonata.page.block.shared_block   : Render a shared block
+ - sonata.page.block.pagelist       : Render a page list
 
 A Snapshot
 ----------
