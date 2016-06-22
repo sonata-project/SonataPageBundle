@@ -38,7 +38,7 @@ class PageExtensionTest extends \PHPUnit_Framework_TestCase
         $extension = new PageExtension($cmsManager, $siteSelector, $router, $blockHelper, $HttpKernelExtension);
         $this->assertEquals('/foo/bar', $extension->ajaxUrl($block));
     }
-    
+
     public function testController()
     {
         $cmsManager = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
