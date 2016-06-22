@@ -59,7 +59,7 @@ class PageExtensionTest extends \PHPUnit_Framework_TestCase
         ;
         $globals->method('getRequest')->willReturn($request);
         $env = $this->getMock('Twig_Environment');
-        $env->method('getGlobals')->willReturn(['app' => $globals]);
+        $env->method('getGlobals')->willReturn(array('app' => $globals));
         $HttpKernelExtension = $this->getMockBuilder('Symfony\Bridge\Twig\Extension\HttpKernelExtension')
             ->disableOriginalConstructor()
             ->getMock()
@@ -68,8 +68,8 @@ class PageExtensionTest extends \PHPUnit_Framework_TestCase
         $extension->initRuntime($env);
         $HttpKernelExtension->expects($this->once())->method('controller')->with(
             'foo',
-            ['pathInfo' => '/foo/bar/'],
-            []
+            array('pathInfo' => '/foo/bar/'),
+            array()
         )
         ;
         $extension->controller('foo');
@@ -92,14 +92,14 @@ class PageExtensionTest extends \PHPUnit_Framework_TestCase
         ;
         $globals->method('getRequest')->willReturn($request);
         $env = $this->getMock('Twig_Environment');
-        $env->method('getGlobals')->willReturn(['app' => $globals]);
+        $env->method('getGlobals')->willReturn(array('app' => $globals));
         $HttpKernelExtension = $this->getMockBuilder('Symfony\Bridge\Twig\Extension\HttpKernelExtension')
             ->disableOriginalConstructor()
             ->getMock()
         ;
         $extension = new PageExtension($cmsManager, $siteSelector, $router, $blockHelper, $HttpKernelExtension);
         $extension->initRuntime($env);
-        $HttpKernelExtension->expects($this->once())->method('controller')->with('bar', [], []);
+        $HttpKernelExtension->expects($this->once())->method('controller')->with('bar', array(), array());
         $extension->controller('bar');
     }
 }
