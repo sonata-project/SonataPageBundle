@@ -275,13 +275,15 @@ class PageExtension extends \Twig_Extension implements \Twig_Extension_InitRunti
      */
     public function controller($controller, $attributes = array(), $query = array())
     {
-        $globals = $this->environment->getGlobals();
-
         if (!isset($attributes['pathInfo'])) {
-            $sitePath = $this->siteSelector->retrieve()->getRelativePath();
-            $currentPathInfo = $globals['app']->getRequest()->getPathInfo();
+            $site = $this->siteSelector->retrieve();
+            if ($site) {
+                $sitePath = $site->getRelativePath();
+                $globals = $this->environment->getGlobals();
+                $currentPathInfo = $globals['app']->getRequest()->getPathInfo();
 
-            $attributes['pathInfo'] = $sitePath.$currentPathInfo;
+                $attributes['pathInfo'] = $sitePath.$currentPathInfo;
+            }
         }
 
         return $this->httpKernelExtension->controller($controller, $attributes, $query);
