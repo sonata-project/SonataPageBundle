@@ -53,7 +53,7 @@ class PageAdminController extends Controller
      */
     public function listAction(Request $request = null)
     {
-        if (!$request->get('filter')) {
+        if ($request->get('filter')) {
             return new RedirectResponse($this->admin->generateUrl('tree'));
         }
 
