@@ -260,7 +260,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function preBatchAction($actionName, ProxyQueryInterface $query, array &$idx, $allElements)
     {
