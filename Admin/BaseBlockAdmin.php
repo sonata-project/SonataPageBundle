@@ -146,6 +146,10 @@ abstract class BaseBlockAdmin extends AbstractAdmin
     public function preRemove($object)
     {
         $this->blockManager->get($object)->preRemove($object);
+
+        if ($object->getPage() instanceof PageInterface) {
+            $object->getPage()->setEdited(true);
+        }
     }
 
     /**
