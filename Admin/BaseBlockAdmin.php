@@ -22,6 +22,7 @@ use Sonata\PageBundle\Entity\BaseBlock;
 use Sonata\PageBundle\Model\PageInterface;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 
 /**
  * Abstract admin class for the Block model.
@@ -256,5 +257,22 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         $service->load($block);
 
         return $block;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function preBatchAction($actionName, ProxyQueryInterface $query, array &$idx, $allElements)
+    {
+        $parent = $this->getParent();
+
+        if (in_array($actionName, ['delete']) && $parent) {
+            $subject = $parent->getSubject();
+            if ($subject instanceof PageInterface) {
+                $subject->setEdited(true);
+            }
+        }
+
+        parent::preBatchAction($actionName, $query, $idx, $allElements);
     }
 }
