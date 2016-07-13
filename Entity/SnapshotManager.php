@@ -107,7 +107,9 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
 
         $query = $this->getRepository()
             ->createQueryBuilder('s')
-            ->andWhere('s.publicationDateStart <= :publicationDateStart AND ( s.publicationDateEnd IS NULL OR s.publicationDateEnd >= :publicationDateEnd )');
+            ->andWhere('s.publicationDateStart <= :publicationDateStart AND ( s.publicationDateEnd IS NULL OR s.publicationDateEnd >= :publicationDateEnd )')
+            ->andWhere('s.enabled = 1')
+        ;
 
         if (isset($criteria['site'])) {
             $query->andWhere('s.site = :site');
