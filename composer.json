@@ -32,7 +32,7 @@
         "symfony/templating": "^2.3",
         "symfony/validator": "^2.3",
         "sonata-project/admin-bundle": "^3.0",
-        "sonata-project/block-bundle": "^3.0",
+        "sonata-project/block-bundle": "^3.1.1",
         "sonata-project/seo-bundle": "^2.0",
         "sonata-project/doctrine-extensions" : "^1.0",
         "sonata-project/cache-bundle": "^2.1.7",
