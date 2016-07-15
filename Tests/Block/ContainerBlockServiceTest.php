@@ -13,20 +13,20 @@ namespace Sonata\PageBundle\Tests\Block;
 
 use Sonata\BlockBundle\Block\BlockContext;
 use Sonata\BlockBundle\Model\Block;
+use Sonata\BlockBundle\Test\AbstractBlockServiceTestCase;
 use Sonata\PageBundle\Block\ContainerBlockService;
 
 /**
  * Test Container Block service.
  */
-class ContainerBlockServiceTest extends \PHPUnit_Framework_TestCase
+class ContainerBlockServiceTest extends AbstractBlockServiceTestCase
 {
     /**
      * test the block execute() method.
      */
     public function testExecute()
     {
-        $templating = new FakeTemplating();
-        $service = new ContainerBlockService('core.container', $templating);
+        $service = new ContainerBlockService('core.container', $this->templating);
 
         $block = new Block();
         $block->setName('block.name');
@@ -44,10 +44,10 @@ class ContainerBlockServiceTest extends \PHPUnit_Framework_TestCase
 
         $service->execute($blockContext);
 
-        $this->assertEquals('SonataPageBundle:Block:block_container.html.twig', $templating->view);
-        $this->assertEquals('block.code', $templating->parameters['block']->getSetting('code'));
-        $this->assertEquals('block.name', $templating->parameters['block']->getName());
-        $this->assertInstanceOf('Sonata\BlockBundle\Model\Block', $templating->parameters['block']);
+        $this->assertEquals('SonataPageBundle:Block:block_container.html.twig', $this->templating->view);
+        $this->assertEquals('block.code', $this->templating->parameters['block']->getSetting('code'));
+        $this->assertEquals('block.name', $this->templating->parameters['block']->getName());
+        $this->assertInstanceOf('Sonata\BlockBundle\Model\Block', $this->templating->parameters['block']);
     }
 
     /**
@@ -55,8 +55,7 @@ class ContainerBlockServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testLayout()
     {
-        $templating = new FakeTemplating();
-        $service = new ContainerBlockService('core.container', $templating);
+        $service = new ContainerBlockService('core.container', $this->templating);
 
         $block = new Block();
         $block->setName('block.name');
@@ -72,11 +71,11 @@ class ContainerBlockServiceTest extends \PHPUnit_Framework_TestCase
 
         $service->execute($blockContext);
 
-        $this->assertInternalType('array', $templating->parameters['decorator']);
-        $this->assertArrayHasKey('pre', $templating->parameters['decorator']);
-        $this->assertArrayHasKey('post', $templating->parameters['decorator']);
-        $this->assertEquals('before', $templating->parameters['decorator']['pre']);
-        $this->assertEquals('after', $templating->parameters['decorator']['post']);
+        $this->assertInternalType('array', $this->templating->parameters['decorator']);
+        $this->assertArrayHasKey('pre', $this->templating->parameters['decorator']);
+        $this->assertArrayHasKey('post', $this->templating->parameters['decorator']);
+        $this->assertEquals('before', $this->templating->parameters['decorator']['pre']);
+        $this->assertEquals('after', $this->templating->parameters['decorator']['post']);
     }
 
     /**
@@ -84,8 +83,7 @@ class ContainerBlockServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testFormBuilder()
     {
-        $templating = new FakeTemplating();
-        $service = new ContainerBlockService('core.container', $templating);
+        $service = new ContainerBlockService('core.container', $this->templating);
 
         $block = new Block();
         $block->setName('block.name');

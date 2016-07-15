@@ -13,13 +13,12 @@ namespace Sonata\PageBundle\Tests\Block;
 
 use Sonata\BlockBundle\Block\BlockContext;
 use Sonata\BlockBundle\Model\Block;
-use Sonata\BlockBundle\Tests\Block\AbstractBlockServiceTest;
-use Sonata\BlockBundle\Tests\Block\Service\FakeTemplating;
+use Sonata\BlockBundle\Test\AbstractBlockServiceTestCase;
 use Sonata\PageBundle\Block\PageListBlockService;
 use Sonata\PageBundle\Model\Page;
 use Sonata\PageBundle\Model\PageManagerInterface;
 
-class PageListBlockServiceTest extends AbstractBlockServiceTest
+class PageListBlockServiceTest extends AbstractBlockServiceTestCase
 {
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|PageManagerInterface
@@ -31,7 +30,6 @@ class PageListBlockServiceTest extends AbstractBlockServiceTest
         parent::setUp();
 
         $this->pageManager = $this->getMock('Sonata\PageBundle\Model\PageManagerInterface');
-        $this->templating = new FakeTemplating();
     }
 
     public function testDefaultSettings()
