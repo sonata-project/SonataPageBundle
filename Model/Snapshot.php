@@ -104,7 +104,7 @@ abstract class Snapshot implements SnapshotInterface
     protected $parentId;
 
     /**
-     * @deprecated since version 2.4 and will be removed in 3.0.
+     * @deprecated since version 2.4 and will be removed in 3.0
      */
     protected $sources;
 
@@ -390,7 +390,7 @@ abstract class Snapshot implements SnapshotInterface
     }
 
     /**
-     * @deprecated since version 2.4 and will be removed in 3.0.
+     * @deprecated since version 2.4 and will be removed in 3.0
      */
     public function setSources($sources)
     {
@@ -400,7 +400,7 @@ abstract class Snapshot implements SnapshotInterface
     }
 
     /**
-     * @deprecated since version 2.4 and will be removed in 3.0.
+     * @deprecated since version 2.4 and will be removed in 3.0
      */
     public function getSource()
     {
