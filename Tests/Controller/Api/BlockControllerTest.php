@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Sonata\Test\PageBundle\Controller\Api;
+namespace Sonata\PageBundle\Tests\Controller\Api;
 
 use Sonata\PageBundle\Controller\Api\BlockController;
 use Symfony\Component\HttpFoundation\Request;
