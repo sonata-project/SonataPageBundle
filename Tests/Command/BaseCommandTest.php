@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Sonata\Test\PageBundle\Command;
+namespace Sonata\PageBundle\Tests\Command;
 
 use Sonata\PageBundle\Command\BaseCommand;
 
