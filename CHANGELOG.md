@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.1.0](https://github.com/sonata-project/SonataPageBundle/compare/3.0.2...3.1.0) - 2016-08-01
+### Fixed
+- Warmup the cache from the CLI brings an error in HTTP
+- Fixed PHP Fatal error:  Call to a member function getRelativePath() on null
+
+### Removed
+- Internal test classes are now excluded from the autoloader
+
 ## [3.0.2](https://github.com/sonata-project/SonataPageBundle/compare/3.0.1...3.0.2) - 2016-06-21
 ### Added
 - Support version 2.x for `cocur/slugify` dependency
