@@ -90,7 +90,10 @@ EOF;
                 ->prototype('scalar')->end()
             ->end()
             ->scalarNode('slugify_service')
+                // NEXT_MAJOR: reword this info message
                 ->info('You should use: sonata.core.slugify.cocur, but for BC we keep \'sonata.core.slugify.native\' as default')
+
+                // NEXT_MAJOR: use "sonata.core.slugify.cocur" instead of "sonata.core.slugify.native" as default value
                 ->defaultValue('sonata.core.slugify.native')
             ->end()
             ->arrayNode('ignore_routes')
