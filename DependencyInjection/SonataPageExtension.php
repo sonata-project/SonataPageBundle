@@ -261,7 +261,7 @@ class SonataPageExtension extends Extension
             'fieldName' => 'parent',
             'targetEntity' => $config['class']['block'],
             'cascade' => array(
-                'persist'
+                'persist',
             ),
             'mappedBy' => null,
             'inversedBy' => 'children',
