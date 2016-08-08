@@ -43,6 +43,7 @@ class TemplateChoiceType extends AbstractType
     {
         $resolver->setDefaults(array(
             'choices' => $this->getTemplates(),
+            'choice_translation_domain' => false,
         ));
     }
 

@@ -53,6 +53,7 @@ class PageSelectorType extends AbstractType
             'choice_list' => function (Options $opts, $previousValue) use ($that) {
                 return new SimpleChoiceList($that->getChoices($opts));
             },
+            'choice_translation_domain' => false,
             'filter_choice' => array(
                 'current_page' => false,
                 'request_method' => 'GET',
