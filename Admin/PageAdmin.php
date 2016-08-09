@@ -280,6 +280,7 @@ class PageAdmin extends Admin
                         'hybrid' => $this->trans('hybrid'),
                         'cms' => $this->trans('cms'),
                     ),
+                    'choice_translation_domain' => false,
                 ),
                 'field_type' => 'choice',
             ))
@@ -412,7 +413,7 @@ class PageAdmin extends Admin
         ;
 
         $formMapper->setHelps(array(
-            'name' => $this->trans('help_page_name'),
+            'name' => 'help_page_name',
         ));
     }
 

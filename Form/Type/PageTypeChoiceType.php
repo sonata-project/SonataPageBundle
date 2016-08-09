@@ -43,6 +43,7 @@ class PageTypeChoiceType extends AbstractType
     {
         $resolver->setDefaults(array(
             'choices' => $this->getPageTypes(),
+            'choice_translation_domain' => false,
         ));
     }
 
