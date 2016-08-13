@@ -11,7 +11,7 @@
 
 namespace Sonata\PageBundle\Admin;
 
-use Sonata\AdminBundle\Admin\Admin;
+use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
@@ -28,7 +28,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-abstract class BaseBlockAdmin extends Admin
+abstract class BaseBlockAdmin extends AbstractAdmin
 {
     /**
      * @var BlockServiceManagerInterface
