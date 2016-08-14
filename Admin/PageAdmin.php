@@ -186,7 +186,8 @@ class PageAdmin extends Admin
         $actions = parent::getBatchActions();
 
         $actions['snapshot'] = array(
-            'label' => $this->trans('create_snapshot'),
+            'label' => 'create_snapshot',
+            'translation_domain' => $this->getTranslationDomain(),
             'ask_confirmation' => true,
         );
 
@@ -430,30 +431,25 @@ class PageAdmin extends Admin
 
         $id = $admin->getRequest()->get('id');
 
-        $menu->addChild(
-            $this->trans('sidemenu.link_edit_page'),
+        $menu->addChild('sidemenu.link_edit_page',
             array('uri' => $admin->generateUrl('edit', array('id' => $id)))
         );
 
-        $menu->addChild(
-            $this->trans('sidemenu.link_compose_page'),
+        $menu->addChild('sidemenu.link_compose_page',
             array('uri' => $admin->generateUrl('compose', array('id' => $id)))
         );
 
-        $menu->addChild(
-            $this->trans('sidemenu.link_list_blocks'),
+        $menu->addChild('sidemenu.link_list_blocks',
             array('uri' => $admin->generateUrl('sonata.page.admin.page|sonata.page.admin.block.list', array('id' => $id)))
         );
 
-        $menu->addChild(
-            $this->trans('sidemenu.link_list_snapshots'),
+        $menu->addChild('sidemenu.link_list_snapshots',
             array('uri' => $admin->generateUrl('sonata.page.admin.page|sonata.page.admin.snapshot.list', array('id' => $id)))
         );
 
         if (!$this->getSubject()->isHybrid() && !$this->getSubject()->isInternal()) {
             try {
-                $menu->addChild(
-                    $this->trans('view_page'),
+                $menu->addChild('view_page',
                     array('uri' => $this->getRouteGenerator()->generate('page_slug', array('path' => $this->getSubject()->getUrl())))
                 );
             } catch (\Exception $e) {
