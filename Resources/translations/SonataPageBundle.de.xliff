@@ -556,11 +556,11 @@
             </trans-unit>
             <trans-unit id="139" resname="filter.label_edited">
                 <source>filter.label_edited</source>
-                <target>bearbeitet</target>
+                <target>Bearbeitet</target>
             </trans-unit>
             <trans-unit id="140" resname="list.label_edited">
                 <source>list.label_edited</source>
-                <target>bearbeitet</target>
+                <target>Bearbeitet</target>
             </trans-unit>
             <trans-unit id="141" resname="show.label_site">
                 <source>show.label_site</source>
