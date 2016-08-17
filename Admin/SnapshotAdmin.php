@@ -11,7 +11,7 @@
 
 namespace Sonata\PageBundle\Admin;
 
-use Sonata\AdminBundle\Admin\Admin;
+use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -22,7 +22,7 @@ use Sonata\Cache\CacheManagerInterface;
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class SnapshotAdmin extends Admin
+class SnapshotAdmin extends AbstractAdmin
 {
     /**
      * @var CacheManagerInterface

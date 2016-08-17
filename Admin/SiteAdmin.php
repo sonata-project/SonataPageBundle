@@ -11,7 +11,7 @@
 
 namespace Sonata\PageBundle\Admin;
 
-use Sonata\AdminBundle\Admin\Admin;
+use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -24,7 +24,7 @@ use Sonata\PageBundle\Route\RoutePageGenerator;
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class SiteAdmin extends Admin
+class SiteAdmin extends AbstractAdmin
 {
     /**
      * @var RoutePageGenerator

@@ -11,13 +11,13 @@
 
 namespace Sonata\PageBundle\Admin\Extension;
 
-use Sonata\AdminBundle\Admin\AdminExtension;
+use Sonata\AdminBundle\Admin\AbstractAdminExtension;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\NotificationBundle\Backend\BackendInterface;
 use Sonata\PageBundle\Model\PageInterface;
 
-class CreateSnapshotAdminExtension extends AdminExtension
+class CreateSnapshotAdminExtension extends AbstractAdminExtension
 {
     /**
      * @var BackendInterface
