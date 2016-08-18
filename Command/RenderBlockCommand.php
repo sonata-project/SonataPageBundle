@@ -83,5 +83,7 @@ Available manager:
         $this->getContainer()->set('request', $request, 'request');
 
         $output->writeln($this->getContainer()->get('sonata.block.renderer')->render($context));
+
+        $this->getContainer()->leaveScope('request');
     }
 }
