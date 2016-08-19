@@ -94,6 +94,10 @@ class BlockAdmin extends BaseBlockAdmin
     {
         $block = $this->getSubject();
 
+        if (!$block) { // require to have a proper running test suite at the sandbox level
+            return;
+        }
+
         $page = false;
 
         if ($this->getParent()) {
