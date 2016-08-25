@@ -49,8 +49,8 @@ class UniqueUrlValidator extends ConstraintValidator
             return;
         }
 
-        // do not validated error page
-        if ($value->isError()) {
+        // do not validate error or dynamic pages
+        if ($value->isError() || $value->isDynamic()) {
             return;
         }
 
