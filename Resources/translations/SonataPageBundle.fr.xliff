@@ -638,7 +638,7 @@
             </trans-unit>
             <trans-unit id="158" resname="sidemenu.link_compose_page">
                 <source>sidemenu.link_compose_page</source>
-                <target>Organiser (beta)</target>
+                <target>Organiser</target>
             </trans-unit>
             <trans-unit id="159" resname="sidemenu.link_list_pages">
                 <source>sidemenu.link_list_pages</source>
