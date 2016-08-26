@@ -64,4 +64,25 @@ class UniqueUrlValidatorTest extends \PHPUnit_Framework_TestCase
 
         $validator->validate($page, new UniqueUrl());
     }
+
+    public function testValidateWithPageDynamic()
+    {
+        $site = $this->getMock('Sonata\PageBundle\Model\SiteInterface');
+
+        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+        $page->expects($this->once())->method('getSite')->will($this->returnValue($site));
+        $page->expects($this->once())->method('isError')->will($this->returnValue(false));
+        $page->expects($this->once())->method('isDynamic')->will($this->returnValue(true));
+        $page->expects($this->any())->method('getUrl')->will($this->returnValue('/salut'));
+
+        $manager = $this->getMock('Sonata\PageBundle\Model\PageManagerInterface');
+
+        $context = $this->getMock('Symfony\Component\Validator\ExecutionContext', array(), array(), '', false);
+        $context->expects($this->never())->method('addViolation');
+
+        $validator = new UniqueUrlValidator($manager);
+        $validator->initialize($context);
+
+        $validator->validate($page, new UniqueUrl());
+    }
 }
