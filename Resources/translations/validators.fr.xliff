@@ -3,9 +3,14 @@
     <file source-language="en" target-language="fr" datatype="plaintext" original="file.ext">
         <header/>
         <body>
-            <trans-unit id="26" resname="error.uniq_url">
+            <trans-unit id="error.uniq_url" resname="error.uniq_url">
                 <source>error.uniq_url</source>
-                <target>L'URL '%url%' est déjà associée à une autre page</target>
+                <target>L'URL '%url%' est déjà associée à une autre page.</target>
+            </trans-unit>
+            <trans-unit id="error.uniq_url.parent_unselect" resname="error.uniq_url.parent_unselect">
+                <source>error.uniq_url.parent_unselect</source>
+                <target>L'URL racine '/' est déjà associée à une autre page de ce site, veuillez sélectionner
+                un parent.</target>
             </trans-unit>
         </body>
     </file>

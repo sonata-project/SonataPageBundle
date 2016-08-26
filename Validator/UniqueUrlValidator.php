@@ -35,39 +35,52 @@ class UniqueUrlValidator extends ConstraintValidator
     /**
      * {@inheritdoc}
      */
-    public function validate($value, Constraint $constraint)
+    public function validate($currentPage, Constraint $constraint)
     {
-        if (!$value instanceof PageInterface) {
+        if (!$currentPage instanceof PageInterface) {
             $this->context->addViolation('The page is not valid, expected a PageInterface');
 
             return;
         }
 
-        if (!$value->getSite() instanceof SiteInterface) {
+        if (!$currentPage->getSite() instanceof SiteInterface) {
             $this->context->addViolation('The page is not linked to a Site');
 
             return;
         }
 
         // do not validate error or dynamic pages
-        if ($value->isError() || $value->isDynamic()) {
+        if ($currentPage->isError() || $currentPage->isDynamic()) {
             return;
         }
 
-        $this->manager->fixUrl($value);
+        $this->manager->fixUrl($currentPage);
 
-        $pages = $this->manager->findBy(array(
-            'site' => $value->getSite(),
-            'url' => $value->getUrl(),
+        $similarPages = $this->manager->findBy(array(
+            'site' => $currentPage->getSite(),
+            'url' => $currentPage->getUrl(),
         ));
 
-        foreach ($pages as $page) {
-            if ($page->isError() || $page->isInternal()) {
+        foreach ($similarPages as $similarPage) {
+            if ($similarPage->isError() || $similarPage->isInternal() || $similarPage == $currentPage) {
                 continue;
             }
 
-            if ($page->getUrl() == $value->getUrl() && $page != $value) {
-                $this->context->addViolation('error.uniq_url', array('%url%' => $value->getUrl()));
+            if ($similarPage->getUrl() != $currentPage->getUrl()) {
+                continue;
+            }
+
+            if ($currentPage->getUrl() == '/' && !$currentPage->getParent()) {
+                $this->context->addViolationAt(
+                    'parent',
+                    'error.uniq_url.parent_unselect'
+                );
+            } else {
+                $this->context->addViolationAt(
+                    'url',
+                    'error.uniq_url',
+                    array('%url%' => $currentPage->getUrl())
+                );
             }
         }
     }
