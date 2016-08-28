@@ -16,8 +16,13 @@ use Sonata\CoreBundle\Model\BaseEntityManager;
 use Sonata\DatagridBundle\Pager\Doctrine\Pager;
 use Sonata\DatagridBundle\ProxyQuery\Doctrine\ProxyQuery;
 use Sonata\PageBundle\Model\PageInterface;
+use Sonata\PageBundle\Model\SnapshotInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\SnapshotPageProxy;
+use Sonata\PageBundle\Model\SnapshotPageProxyFactory;
+use Sonata\PageBundle\Model\SnapshotPageProxyFactoryInterface;
+use Sonata\PageBundle\Model\SnapshotPageProxyInterface;
+use Sonata\PageBundle\Model\TransformerInterface;
 
 /**
  * This class manages SnapshotInterface persistency with the Doctrine ORM.
@@ -37,17 +42,33 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
     protected $templates = array();
 
     /**
+     * @var SnapshotPageProxyFactoryInterface
+     */
+    protected $snapshotPageProxyFactory;
+
+    /**
      * Constructor.
      *
-     * @param string          $class     Namespace of entity class
-     * @param ManagerRegistry $registry  An entity manager instance
-     * @param array           $templates An array of templates
+     * @param string                            $class                    Namespace of entity class
+     * @param ManagerRegistry                   $registry                 An entity manager instance
+     * @param array                             $templates                An array of templates
+     * @param SnapshotPageProxyFactoryInterface $snapshotPageProxyFactory
      */
-    public function __construct($class, ManagerRegistry $registry, $templates = array())
+    public function __construct($class, ManagerRegistry $registry, $templates = array(), SnapshotPageProxyFactoryInterface $snapshotPageProxyFactory = null)
     {
         parent::__construct($class, $registry);
 
+        // NEXT_MAJOR: make $snapshotPageProxyFactory parameter required
+        if (null === $snapshotPageProxyFactory) {
+            @trigger_error(
+                'The $snapshotPageProxyFactory parameter is required with the next major release.',
+                E_USER_DEPRECATED
+            );
+            $snapshotPageProxyFactory = new SnapshotPageProxyFactory('Sonata\PageBundle\Model\SnapshotPageProxy');
+        }
+
         $this->templates = $templates;
+        $this->snapshotPageProxyFactory = $snapshotPageProxyFactory;
     }
 
     /**
@@ -147,6 +168,8 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
      * @param string $routeName
      *
      * @return PageInterface|false
+     *
+     * @deprecated since 3.x, to be removed in 4.0
      */
     public function getPageByName($routeName)
     {
@@ -318,5 +341,20 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
         $pager->init();
 
         return $pager;
+    }
+
+    /**
+     * Create a snapShotPageProxy instance.
+     *
+     * @param TransformerInterface $transformer
+     * @param SnapshotInterface    $snapshot
+     *
+     * @return SnapshotPageProxyInterface
+     */
+    final public function createSnapshotPageProxy(TransformerInterface $transformer, SnapshotInterface $snapshot)
+    {
+        return $this->snapshotPageProxyFactory
+            ->create($this, $transformer, $snapshot)
+        ;
     }
 }

@@ -134,7 +134,7 @@ class CmsSnapshotManagerTest extends \PHPUnit_Framework_TestCase
 
         $page = $snapshotManager->getPage($site, 1);
 
-        $this->assertInstanceOf('Sonata\PageBundle\Model\SnapshotPageProxy', $page);
+        $this->assertInstanceOf('Sonata\PageBundle\Model\SnapshotPageProxyInterface', $page);
 
         $this->assertInstanceOf('Sonata\BlockBundle\Model\BlockInterface', $snapshotManager->getBlock(1));
         $this->assertInstanceOf('Sonata\BlockBundle\Model\BlockInterface', $snapshotManager->getBlock(2));
