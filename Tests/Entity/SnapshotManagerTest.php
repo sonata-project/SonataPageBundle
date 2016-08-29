@@ -216,6 +216,25 @@ class SnapshotManagerTest extends \PHPUnit_Framework_TestCase
         $manager->enableSnapshots(array($snapshot), $date);
     }
 
+    public function testCreateSnapshotPageProxy()
+    {
+        $proxyInterface = $this->getMock('Sonata\PageBundle\Model\SnapshotPageProxyInterface');
+
+        $snapshotProxyFactory = $this->getMock('Sonata\PageBundle\Model\SnapshotPageProxyFactoryInterface');
+
+        $registry = $this->getMock('Doctrine\Common\Persistence\ManagerRegistry');
+        $manager = new SnapshotManager('Sonata\PageBundle\Entity\BaseSnapshot', $registry, array(), $snapshotProxyFactory);
+
+        $transformer = $this->getMock('Sonata\PageBundle\Model\TransformerInterface');
+        $snapshot = $this->getMock('Sonata\PageBundle\Model\SnapshotInterface');
+
+        $snapshotProxyFactory->expects($this->once())->method('create')
+            ->with($manager, $transformer, $snapshot)
+            ->will($this->returnValue($proxyInterface));
+
+        $this->assertEquals($proxyInterface, $manager->createSnapshotPageProxy($transformer, $snapshot));
+    }
+
     /**
      * Tests the enableSnapshots() method to ensure execute queries are not executed when no snapshots are given.
      */
@@ -271,6 +290,8 @@ class SnapshotManagerTest extends \PHPUnit_Framework_TestCase
         $registry = $this->getMock('Doctrine\Common\Persistence\ManagerRegistry');
         $registry->expects($this->any())->method('getManagerForClass')->will($this->returnValue($em));
 
-        return new SnapshotManager('Sonata\PageBundle\Entity\BaseSnapshot', $registry);
+        $snapshotProxyFactory = $this->getMock('Sonata\PageBundle\Model\SnapshotPageProxyFactoryInterface');
+
+        return new SnapshotManager('Sonata\PageBundle\Entity\BaseSnapshot', $registry, array(), $snapshotProxyFactory);
     }
 }

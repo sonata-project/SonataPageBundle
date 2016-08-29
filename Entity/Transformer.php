@@ -48,6 +48,11 @@ class Transformer implements TransformerInterface
     protected $children = array();
 
     /**
+     * @var RegistryInterface
+     */
+    protected $registry;
+
+    /**
      * @param SnapshotManagerInterface $snapshotManager
      * @param PageManagerInterface     $pageManager
      * @param BlockManagerInterface    $blockManager
@@ -229,7 +234,11 @@ class Transformer implements TransformerInterface
             $pages = array();
 
             foreach ($snapshots as $snapshot) {
-                $page = new SnapshotPageProxy($this->snapshotManager, $this, $snapshot);
+                if (method_exists($this->snapshotManager, 'createSnapshotPageProxy')) {
+                    $page = $this->snapshotManager->createSnapshotPageProxy($this, $snapshot);
+                } else {
+                    $page = new SnapshotPageProxy($this->snapshotManager, $this, $snapshot);
+                }
                 $pages[$page->getId()] = $page;
             }
 
