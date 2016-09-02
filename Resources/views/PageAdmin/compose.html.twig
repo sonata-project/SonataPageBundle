@@ -11,6 +11,14 @@ file that was distributed with this source code.
 
 {% extends 'SonataAdminBundle:CRUD:action.html.twig' %}
 
+{% block title %}
+    {{ "title_edit"|trans({'%name%': admin.toString(object)|truncate(15) }, 'SonataAdminBundle') }}
+{% endblock %}
+
+{% block navbar_title %}
+    {{ block('title') }}
+{% endblock %}
+
 {% block body_attributes %}class="sonata-bc skin-black fixed page-composer-page sonata-ba-no-side-menu"{% endblock %}
 
 {% block content %}
