@@ -32,7 +32,7 @@ class UniqueUrlValidatorTest extends \PHPUnit_Framework_TestCase
         $manager->expects($this->once())->method('findBy')->will($this->returnValue(array($page)));
 
         $context = $this->getMock('Symfony\Component\Validator\ExecutionContext', array(), array(), '', false);
-        $context->expects($this->never())->method('addViolation');
+        $context->expects($this->never())->method('addViolationAt');
 
         $validator = new UniqueUrlValidator($manager);
         $validator->initialize($context);
@@ -57,7 +57,39 @@ class UniqueUrlValidatorTest extends \PHPUnit_Framework_TestCase
         $manager->expects($this->once())->method('findBy')->will($this->returnValue(array($page, $pageFound)));
 
         $context = $this->getMock('Symfony\Component\Validator\ExecutionContext', array(), array(), '', false);
-        $context->expects($this->once())->method('addViolation');
+        $context
+            ->expects($this->once())
+            ->method('addViolationAt')
+            ->with($this->equalTo('url'), $this->equalTo('error.uniq_url'));
+
+        $validator = new UniqueUrlValidator($manager);
+        $validator->initialize($context);
+
+        $validator->validate($page, new UniqueUrl());
+    }
+
+    public function testValidateWithRootUrlAndNoParent()
+    {
+        $site = $this->getMock('Sonata\PageBundle\Model\SiteInterface');
+
+        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+        $page->expects($this->exactly(2))->method('getSite')->will($this->returnValue($site));
+        $page->expects($this->exactly(2))->method('isError')->will($this->returnValue(false));
+        $page->expects($this->exactly(1))->method('getParent')->will($this->returnValue(null));
+        $page->expects($this->any())->method('getUrl')->will($this->returnValue('/'));
+
+        $pageFound = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+        $pageFound->expects($this->any())->method('getUrl')->will($this->returnValue('/'));
+
+        $manager = $this->getMock('Sonata\PageBundle\Model\PageManagerInterface');
+        $manager->expects($this->once())->method('fixUrl');
+        $manager->expects($this->once())->method('findBy')->will($this->returnValue(array($page, $pageFound)));
+
+        $context = $this->getMock('Symfony\Component\Validator\ExecutionContext', array(), array(), '', false);
+        $context
+            ->expects($this->once())
+            ->method('addViolationAt')
+            ->with($this->equalTo('parent'), $this->equalTo('error.uniq_url.parent_unselect'));
 
         $validator = new UniqueUrlValidator($manager);
         $validator->initialize($context);
@@ -78,7 +110,7 @@ class UniqueUrlValidatorTest extends \PHPUnit_Framework_TestCase
         $manager = $this->getMock('Sonata\PageBundle\Model\PageManagerInterface');
 
         $context = $this->getMock('Symfony\Component\Validator\ExecutionContext', array(), array(), '', false);
-        $context->expects($this->never())->method('addViolation');
+        $context->expects($this->never())->method('addViolationAt');
 
         $validator = new UniqueUrlValidator($manager);
         $validator->initialize($context);
