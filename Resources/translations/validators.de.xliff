@@ -10,7 +10,7 @@
             <trans-unit id="error.uniq_url.parent_unselect" resname="error.uniq_url.parent_unselect">
                 <source>error.uniq_url.parent_unselect</source>
                 <target>Die Basis-URL '/' ist bereits mit einer anderen Seite verknüpft.
-                Bitte wählen Sie eine übergeordnet Seite.
+                Bitte wählen Sie eine übergeordnete Seite.
                 </target>
             </trans-unit>
         </body>
