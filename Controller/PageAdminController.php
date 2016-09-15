@@ -117,12 +117,14 @@ class PageAdminController extends Controller
             $sites = $this->get('sonata.page.manager.site')->findBy(array());
 
             if (count($sites) == 1) {
-                return $this->redirect($this->admin->generateUrl('create', array(
+                $options = array_merge(array(
                     'siteId' => $sites[0]->getId(),
                     'uniqid' => $this->admin->getUniqid(),
-                )));
-            }
+                ), $request->query->all());
 
+                return $this->redirect($this->admin->generateUrl('create', $options));
+            }
+            
             try {
                 $current = $this->get('sonata.page.site.selector')->retrieve();
             } catch (\RuntimeException $e) {
