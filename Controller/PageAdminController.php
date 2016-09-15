@@ -124,7 +124,7 @@ class PageAdminController extends Controller
 
                 return $this->redirect($this->admin->generateUrl('create', $options));
             }
-            
+
             try {
                 $current = $this->get('sonata.page.site.selector')->retrieve();
             } catch (\RuntimeException $e) {
