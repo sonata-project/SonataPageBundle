@@ -120,7 +120,7 @@ class PageAdminController extends Controller
                 return $this->redirect($this->admin->generateUrl('create', array(
                     'siteId' => $sites[0]->getId(),
                     'uniqid' => $this->admin->getUniqid(),
-                )));
+                ) + $request->query->all()));
             }
 
             try {

@@ -152,7 +152,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
                 throw new PageNotFoundException();
             }
 
-            // NEXT_MJAOR: Remove this check
+            // NEXT_MAJOR: Remove this check
             if (method_exists($this->snapshotManager, 'createSnapshotPageProxy')) {
                 $page = $this->snapshotManager->createSnapshotPageProxy($this->transformer, $snapshot);
             } else {
