@@ -72,10 +72,10 @@ class Parser
             $area['x'] = $area['x'] / $colCount * 100;
             $area['y'] = $area['y'] / $rowCount * 100;
 
-            $area['width'] = $area['width']  / $colCount * 100;
+            $area['width'] = $area['width'] / $colCount * 100;
             $area['height'] = $area['height'] / $rowCount * 100;
 
-            $area['right'] = 100 - ($area['width']  + $area['x']);
+            $area['right'] = 100 - ($area['width'] + $area['x']);
             $area['bottom'] = 100 - ($area['height'] + $area['y']);
         }
 
