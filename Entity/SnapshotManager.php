@@ -169,12 +169,12 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
      *
      * @return PageInterface|false
      *
-     * @deprecated since 3.x, to be removed in 4.0
+     * @deprecated since 3.2, to be removed in 4.0
      */
     public function getPageByName($routeName)
     {
         @trigger_error(
-            'The '.__METHOD__.' method is deprecated since version 3.x and will be removed in 4.0.',
+            'The '.__METHOD__.' method is deprecated since version 3.2 and will be removed in 4.0.',
             E_USER_DEPRECATED
         );
 
