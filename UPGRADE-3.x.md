@@ -1,6 +1,9 @@
 UPGRADE 3.x
 ===========
 
+UPGRADE FROM 3.1 to 3.2
+=======================
+
 ### Tests
 
 All files under the ``Tests`` directory are now correctly handled as internal test classes. 
