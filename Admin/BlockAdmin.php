@@ -70,6 +70,14 @@ class BlockAdmin extends BaseBlockAdmin
             $parameters['composer'] = $composer;
         }
 
+        $subject = $this->getSubject();
+
+        if ($subject && $subject->getId()) {
+            if (array_key_exists('type', $parameters)) {
+                $parameters['type'] = null;
+            }
+        }
+
         return $parameters;
     }
 
