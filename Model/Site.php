@@ -161,14 +161,11 @@ abstract class Site implements SiteInterface
             return $this->getRelativePath();
         }
 
-        return sprintf($protcol. '://%s%s', $this->getHost(), $this->getRelativePath());
+        return sprintf($protcol.'://%s%s', $this->getHost(), $this->getRelativePath());
     }
 
     /**
-     * Is secure site request?
-     *
-     * @access  private
-     * @return  bool
+     * {@inheritdoc}
      */
     private function isSecureRequest()
     {
