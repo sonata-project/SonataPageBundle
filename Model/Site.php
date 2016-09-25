@@ -151,11 +151,30 @@ abstract class Site implements SiteInterface
      */
     public function getUrl()
     {
+        if ($this->isSecureRequest()) {
+            $protcol = 'https';
+        } else {
+            $protcol = 'http';
+        }
+
         if ($this->isLocalhost()) {
             return $this->getRelativePath();
         }
 
-        return sprintf('http://%s%s', $this->getHost(), $this->getRelativePath());
+        return sprintf($protcol. '://%s%s', $this->getHost(), $this->getRelativePath());
+    }
+
+    /**
+     * Is secure site request?
+     *
+     * @access  private
+     * @return  bool
+     */
+    private function isSecureRequest()
+    {
+        return
+            (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+            || $_SERVER['SERVER_PORT'] == 443;
     }
 
     /**
