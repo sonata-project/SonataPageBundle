@@ -169,7 +169,7 @@ abstract class Site implements SiteInterface
      */
      private function isSecureRequest()
      {
-         return (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
+         return !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
      }
 
     /**
