@@ -167,12 +167,10 @@ abstract class Site implements SiteInterface
     /**
      * {@inheritdoc}
      */
-    private function isSecureRequest()
-    {
-        return
-            (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
-            || $_SERVER['SERVER_PORT'] == 443;
-    }
+     private function isSecureRequest()
+     {
+         return (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
+     }
 
     /**
      * @return bool
