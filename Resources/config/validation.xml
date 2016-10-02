@@ -17,6 +17,9 @@
                 </option>
             </constraint>
         </property>
+        <property name="host">
+            <constraint name="NotNull"/>
+        </property>
         <property name="position">
             <constraint name="NotNull"/>
         </property>
