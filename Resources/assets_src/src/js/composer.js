@@ -570,11 +570,11 @@
                     type: 'POST',
                     data: {
                         '_sonata_csrf_token': self.csrfTokens.switchEnabled,
-                        'enabled': !enabled
+                        'value': !enabled
                     },
                     success: function (resp) {
                         if (resp.status && resp.status === 'OK') {
-                            $childBlock.attr('data-parent-block-enabled', !enabled);
+                            $childBlock.attr('data-block-enabled', enabled ? "0" : "1");
                             enabled = !enabled;
                             $switchButton.toggleClass('bg-yellow bg-green');
                             $switchBtnIcon.toggleClass('fa-toggle-off fa-toggle-on');
