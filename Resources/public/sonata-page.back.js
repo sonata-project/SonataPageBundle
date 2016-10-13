@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * generated on: Tue Feb 02 2016 11:02:24 GMT+0100 (CET)
- * revision:     ae10d632dc748e26844312e5a075ba3b9c46e4f4
+ * generated on: Wed Oct 12 2016 17:28:00 GMT+0200 (CEST)
+ * revision:     09e51c0741011f3b8781ed98fff650de16aea225
  *
  */
 /**
@@ -583,11 +583,11 @@
                     type: 'POST',
                     data: {
                         '_sonata_csrf_token': self.csrfTokens.switchEnabled,
-                        'enabled': !enabled
+                        'value': !enabled
                     },
                     success: function (resp) {
                         if (resp.status && resp.status === 'OK') {
-                            $childBlock.attr('data-parent-block-enabled', !enabled);
+                            $childBlock.attr('data-block-enabled', enabled ? "0" : "1");
                             enabled = !enabled;
                             $switchButton.toggleClass('bg-yellow bg-green');
                             $switchBtnIcon.toggleClass('fa-toggle-off fa-toggle-on');
