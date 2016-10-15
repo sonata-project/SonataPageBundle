@@ -33,6 +33,10 @@ Page commands
 
     $ php app/console sonata:page:create-block-container --templateCode=default --blockCode=content_bottom --blockName="Left Content"
 
+- Clone site with pages::
+
+    $ php app/console sonata:page:clone-site --source-id=1 --dest-id=2 --prefix=Foo
+
 Please note that you can also give multiple website identifiers to some commands, this way::
 
     $ php app/console sonata:page:update-core-routes --site=1 --site=2 --site=...
