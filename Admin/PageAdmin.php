@@ -454,7 +454,7 @@ class PageAdmin extends AbstractAdmin
                 if (!empty($siteRelativePath)) {
                     $path = $siteRelativePath.$path;
                 }
-                
+
                 $menu->addChild(
                     'view_page',
                     array('uri' => $this->getRouteGenerator()->generate('page_slug', array('path' => $path)))
