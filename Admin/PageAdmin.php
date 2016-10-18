@@ -449,8 +449,15 @@ class PageAdmin extends AbstractAdmin
 
         if (!$this->getSubject()->isHybrid() && !$this->getSubject()->isInternal()) {
             try {
-                $menu->addChild('view_page',
-                    array('uri' => $this->getRouteGenerator()->generate('page_slug', array('path' => $this->getSubject()->getUrl())))
+                $url = $this->getSubject()->getUrl();
+                $relativePath = $page->getSite()->getRelativePath();
+                if (!empty($relativePath)) {
+                    $url = $relativePath.$url;
+                }
+                
+                $menu->addChild(
+                    'view_page',
+                    array('uri' => $this->getRouteGenerator()->generate('page_slug', array('path' => $url)))
                 );
             } catch (\Exception $e) {
                 // avoid crashing the admin if the route is not setup correctly
