@@ -17,9 +17,6 @@
                 </option>
             </constraint>
         </property>
-        <property name="host">
-            <constraint name="NotNull"/>
-        </property>
         <property name="position">
             <constraint name="NotNull"/>
         </property>
@@ -29,6 +26,9 @@
     </class>
     <class name="Sonata\PageBundle\Model\Site">
         <property name="name">
+            <constraint name="NotNull"/>
+        </property>
+        <property name="host">
             <constraint name="NotNull"/>
         </property>
     </class>
