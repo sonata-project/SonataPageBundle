@@ -26,7 +26,7 @@ class SnapshotAdminController extends Controller
     /**
      * {@inheritdoc}
      */
-    public function createAction(Request $request = null)
+    public function createAction(Request $request)
     {
         $this->admin->checkAccess('create');
 

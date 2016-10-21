@@ -100,11 +100,12 @@ class PageController
      *
      * @View(serializerGroups="sonata_api_read", serializerEnableMaxDepthChecks=true)
      *
+     * @param Request               $request
      * @param ParamFetcherInterface $paramFetcher
      *
      * @return PagerInterface
      */
-    public function getPagesAction(ParamFetcherInterface $paramFetcher)
+    public function getPagesAction(Request $request, ParamFetcherInterface $paramFetcher)
     {
         $supportedCriteria = array(
             'enabled' => '',
@@ -153,11 +154,12 @@ class PageController
      *
      * @View(serializerGroups="sonata_api_read", serializerEnableMaxDepthChecks=true)
      *
-     * @param $id
+     * @param Request $request
+     * @param int     $id
      *
      * @return PageInterface
      */
-    public function getPageAction($id)
+    public function getPageAction(Request $request, $id)
     {
         return $this->getPage($id);
     }
@@ -178,11 +180,12 @@ class PageController
      *
      * @View(serializerGroups="sonata_api_read", serializerEnableMaxDepthChecks=true)
      *
-     * @param $id
+     * @param Request $request
+     * @param int     $id
      *
      * @return BlockInterface[]
      */
-    public function getPageBlocksAction($id)
+    public function getPageBlocksAction(Request $request, $id)
     {
         return $this->getPage($id)->getBlocks();
     }
@@ -203,11 +206,12 @@ class PageController
      *
      * @View(serializerGroups="sonata_api_read", serializerEnableMaxDepthChecks=true)
      *
-     * @param $id
+     * @param Request $request
+     * @param int     $id
      *
      * @return PageInterface[]
      */
-    public function getPagePagesAction($id)
+    public function getPagePagesAction(Request $request, $id)
     {
         $page = $this->getPage($id);
 
@@ -230,14 +234,14 @@ class PageController
      *  }
      * )
      *
-     * @param int     $id      A Page identifier
      * @param Request $request A Symfony request
+     * @param int     $id      A Page identifier
      *
      * @return BlockInterface
      *
      * @throws NotFoundHttpException
      */
-    public function postPageBlockAction($id, Request $request)
+    public function postPageBlockAction(Request $request, $id)
     {
         $page = $id ? $this->getPage($id) : null;
 
@@ -305,14 +309,14 @@ class PageController
      *  }
      * )
      *
-     * @param int     $id      A Page identifier
      * @param Request $request A Symfony request
+     * @param int     $id      A Page identifier
      *
      * @return PageInterface
      *
      * @throws NotFoundHttpException
      */
-    public function putPageAction($id, Request $request)
+    public function putPageAction(Request $request, $id)
     {
         return $this->handleWritePage($request, $id);
     }
@@ -331,13 +335,12 @@ class PageController
      *  }
      * )
      *
-     * @param int $id A Page identifier
+     * @param Request $request
+     * @param int     $id A Page identifier
      *
-     * @return \FOS\RestBundle\View\View
-     *
-     * @throws NotFoundHttpException
+     * @return FOSRestView
      */
-    public function deletePageAction($id)
+    public function deletePageAction(Request $request, $id)
     {
         $page = $this->getPage($id);
 
@@ -360,13 +363,12 @@ class PageController
      *  }
      * )
      *
-     * @param int $id A Page identifier
+     * @param Request $request
+     * @param int     $id A Page identifier
      *
-     * @return \FOS\RestBundle\View\View
-     *
-     * @throws NotFoundHttpException
+     * @return FOSRestView
      */
-    public function postPageSnapshotAction($id)
+    public function postPageSnapshotAction(Request $request, $id)
     {
         $page = $this->getPage($id);
 
@@ -387,11 +389,11 @@ class PageController
      *  }
      * )
      *
-     * @return \FOS\RestBundle\View\View
+     * @param Request $request
      *
-     * @throws NotFoundHttpException
+     * @return FOSRestView
      */
-    public function postPagesSnapshotsAction()
+    public function postPagesSnapshotsAction(Request $request)
     {
         $sites = $this->siteManager->findAll();
 

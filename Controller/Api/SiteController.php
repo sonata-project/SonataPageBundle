@@ -69,11 +69,12 @@ class SiteController
      *
      * @View(serializerGroups="sonata_api_read", serializerEnableMaxDepthChecks=true)
      *
+     * @param Request               $request
      * @param ParamFetcherInterface $paramFetcher
      *
      * @return PagerInterface
      */
-    public function getSitesAction(ParamFetcherInterface $paramFetcher)
+    public function getSitesAction(Request $request, ParamFetcherInterface $paramFetcher)
     {
         $supportedCriteria = array(
             'enabled' => '',
@@ -119,11 +120,12 @@ class SiteController
      *
      * @View(serializerGroups="sonata_api_read", serializerEnableMaxDepthChecks=true)
      *
-     * @param $id
+     * @param Request $request
+     * @param         $id
      *
      * @return SiteInterface
      */
-    public function getSiteAction($id)
+    public function getSiteAction(Request $request, $id)
     {
         return $this->getSite($id);
     }
@@ -167,14 +169,14 @@ class SiteController
      *  }
      * )
      *
-     * @param int     $id      A Site identifier
      * @param Request $request A Symfony request
+     * @param int     $id      A Site identifier
      *
      * @return SiteInterface
      *
      * @throws NotFoundHttpException
      */
-    public function putSiteAction($id, Request $request)
+    public function putSiteAction(Request $request, $id)
     {
         return $this->handleWriteSite($request, $id);
     }
@@ -193,13 +195,12 @@ class SiteController
      *  }
      * )
      *
-     * @param int $id A Site identifier
+     * @param Request $request
+     * @param int     $id A Site identifier
      *
-     * @return \FOS\RestBundle\View\View
-     *
-     * @throws NotFoundHttpException
+     * @return FOSRestView
      */
-    public function deleteSiteAction($id)
+    public function deleteSiteAction(Request $request, $id)
     {
         $site = $this->getSite($id);
 
@@ -210,8 +211,6 @@ class SiteController
 
     /**
      * Retrieves Site with id $id or throws an exception if it doesn't exist.
-     *
-     * @param $id
      *
      * @return SiteInterface
      *

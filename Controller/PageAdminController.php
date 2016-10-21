@@ -51,7 +51,7 @@ class PageAdminController extends Controller
     /**
      * {@inheritdoc}
      */
-    public function listAction(Request $request = null)
+    public function listAction(Request $request)
     {
         if (!$request->get('filter')) {
             return new RedirectResponse($this->admin->generateUrl('tree'));
@@ -65,7 +65,7 @@ class PageAdminController extends Controller
      *
      * @return Response
      */
-    public function treeAction(Request $request = null)
+    public function treeAction(Request $request)
     {
         $this->admin->checkAccess('tree');
 
@@ -109,7 +109,7 @@ class PageAdminController extends Controller
     /**
      * {@inheritdoc}
      */
-    public function createAction(Request $request = null)
+    public function createAction(Request $request)
     {
         $this->admin->checkAccess('create');
 
@@ -146,7 +146,7 @@ class PageAdminController extends Controller
      * @throws AccessDeniedException
      * @throws NotFoundHttpException
      */
-    public function composeAction(Request $request = null)
+    public function composeAction(Request $request)
     {
         $this->admin->checkAccess('compose');
         if (false === $this->get('sonata.page.admin.block')->isGranted('LIST')) {
@@ -226,7 +226,7 @@ class PageAdminController extends Controller
      * @throws AccessDeniedException
      * @throws NotFoundHttpException
      */
-    public function composeContainerShowAction(Request $request = null)
+    public function composeContainerShowAction(Request $request)
     {
         if (false === $this->get('sonata.page.admin.block')->isGranted('LIST')) {
             throw new AccessDeniedException();
