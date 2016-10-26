@@ -1,12 +1,4 @@
-.idea
-.DS_Store
-build
-phpunit.xml
-Resources/doc/_build/*
-nbproject
-coverage
-composer.lock
-vendor
-node_modules
-.sass-cache
+/vendor
 .php_cs.cache
+composer.lock
+phpunit.xml
