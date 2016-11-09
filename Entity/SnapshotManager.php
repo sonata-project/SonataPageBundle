@@ -54,19 +54,10 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
      * @param array                             $templates                An array of templates
      * @param SnapshotPageProxyFactoryInterface $snapshotPageProxyFactory
      */
-    public function __construct($class, ManagerRegistry $registry, $templates = array(), SnapshotPageProxyFactoryInterface $snapshotPageProxyFactory = null)
+    public function __construct($class, ManagerRegistry $registry, $templates = array(), SnapshotPageProxyFactoryInterface $snapshotPageProxyFactory)
     {
         parent::__construct($class, $registry);
-
-        // NEXT_MAJOR: make $snapshotPageProxyFactory parameter required
-        if (null === $snapshotPageProxyFactory) {
-            @trigger_error(
-                'The $snapshotPageProxyFactory parameter is required with the next major release.',
-                E_USER_DEPRECATED
-            );
-            $snapshotPageProxyFactory = new SnapshotPageProxyFactory('Sonata\PageBundle\Model\SnapshotPageProxy');
-        }
-
+        
         $this->templates = $templates;
         $this->snapshotPageProxyFactory = $snapshotPageProxyFactory;
     }

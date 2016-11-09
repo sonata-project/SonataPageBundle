@@ -13,11 +13,6 @@ namespace Sonata\PageBundle\Tests\Model;
 
 class PageTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * NEXT_MAJOR: remove the legacy group from this test.
-     *
-     * @group legacy
-     */
     public function testSlugify()
     {
         setlocale(LC_ALL, 'en_US.utf8');

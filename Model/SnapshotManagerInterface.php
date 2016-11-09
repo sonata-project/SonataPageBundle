@@ -44,7 +44,6 @@ interface SnapshotManagerInterface extends ManagerInterface, PageableManagerInte
      */
     public function cleanup(PageInterface $page, $keep);
 
-    // NEXT_MAJOR: Uncomment this method
     /*
      * Create snapShotPageProxy instance.
      *
@@ -53,5 +52,5 @@ interface SnapshotManagerInterface extends ManagerInterface, PageableManagerInte
      *
      * @return SnapshotPageProxyInterface
      */
-    // public function createSnapshotPageProxy(TransformerInterface $transformer, SnapshotInterface $snapshot);
+     public function createSnapshotPageProxy(TransformerInterface $transformer, SnapshotInterface $snapshot);
 }
