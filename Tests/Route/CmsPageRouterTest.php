@@ -12,6 +12,7 @@
 namespace Sonata\PageBundle\Tests\Route;
 
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
+use Sonata\PageBundle\Request\SiteRequestContext;
 use Sonata\PageBundle\Route\CmsPageRouter;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -164,6 +165,7 @@ class CmsPageRouterTest extends \PHPUnit_Framework_TestCase
     public function testGenerateWithPage()
     {
         $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+
         $page->expects($this->exactly(5))->method('isHybrid')->will($this->returnValue(false));
         $page->expects($this->exactly(5))->method('getUrl')->will($this->returnValue('/test/path'));
 
@@ -340,4 +342,34 @@ class CmsPageRouterTest extends \PHPUnit_Framework_TestCase
         $url = $this->router->generate('_page_alias_homepage', array('key' => 'value'), UrlGeneratorInterface::NETWORK_PATH);
         $this->assertEquals('//localhost/test/key/value', $url);
     }
+
+
+    public function testGenerateWithPageAndNewSiteContext()
+    {
+        $site1 = $this->getMock('Sonata\PageBundle\Model\SiteInterface');
+        $site1->expects($this->exactly(1))->method('getRelativePath')->will($this->returnValue('/site1'));
+        $site2 = $this->getMock('Sonata\PageBundle\Model\SiteInterface');
+        $site2->expects($this->exactly(1))->method('getRelativePath')->will($this->returnValue('/site2'));
+
+        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+
+        $page->expects($this->exactly(2))->method('isHybrid')->will($this->returnValue(false));
+        $page->expects($this->exactly(2))->method('getUrl')->will($this->returnValue('/test/path'));
+
+        $page2 = clone $page;
+        $page2->expects($this->exactly(1))->method('getSite')->will($this->returnValue($site2));
+        $page->expects($this->exactly(1))->method('getSite')->will($this->returnValue($site1));
+
+        $siteSelector = $this->getMock('Sonata\PageBundle\Site\SiteSelectorInterface');
+        $siteSelector->expects($this->exactly(1))->method('retrieve')->will($this->returnValue($site1));
+
+        $this->router->setContext(new SiteRequestContext($siteSelector));
+
+        $url = $this->router->generate($page, array('key' => 'value'));
+        $this->assertEquals('/site1/test/path?key=value', $url);
+
+        $url = $this->router->generate($page2, array('key' => 'value'));
+        $this->assertEquals('/site2/test/path?key=value', $url);
+    }
+
 }
