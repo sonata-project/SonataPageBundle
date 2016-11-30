@@ -343,7 +343,6 @@ class CmsPageRouterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('//localhost/test/key/value', $url);
     }
 
-
     public function testGenerateWithPageAndNewSiteContext()
     {
         $site1 = $this->getMock('Sonata\PageBundle\Model\SiteInterface');
@@ -371,5 +370,4 @@ class CmsPageRouterTest extends \PHPUnit_Framework_TestCase
         $url = $this->router->generate($page2, array('key' => 'value'));
         $this->assertEquals('/site2/test/path?key=value', $url);
     }
-
 }
