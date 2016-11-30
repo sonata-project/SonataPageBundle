@@ -16,6 +16,7 @@ use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SiteInterface;
+use Sonata\PageBundle\Request\SiteRequestContext;
 use Sonata\PageBundle\Request\SiteRequestContextInterface;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Symfony\Cmf\Component\Routing\ChainedRouterInterface;
@@ -209,7 +210,12 @@ class CmsPageRouter implements ChainedRouterInterface
             throw new \RuntimeException(sprintf('Page "%d" has no url or customUrl.', $page->getId()));
         }
 
-        if (!$this->context instanceof SiteRequestContextInterface) {
+        @trigger_error(
+            'The context should implement SiteRequestContextInterface on the next release',
+            E_USER_DEPRECATED
+        );
+
+        if (!$this->context instanceof SiteRequestContext) {
             return $this->decorateUrl($url, $parameters, $referenceType);
         }
 

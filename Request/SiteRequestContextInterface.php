@@ -16,7 +16,7 @@ use Sonata\PageBundle\Model\SiteInterface;
 /**
  * SiteRequestContext.
  *
- * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Joeri Timmermans <info@pix-art.be>
  */
 interface SiteRequestContextInterface
 {
