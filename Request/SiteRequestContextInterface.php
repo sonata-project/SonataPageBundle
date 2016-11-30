@@ -21,16 +21,12 @@ use Sonata\PageBundle\Model\SiteInterface;
 interface SiteRequestContextInterface
 {
     /**
-     * {@inheritdoc}
+     * @param SiteInterface $site
      */
-    public function getHost();
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBaseUrl();
-
     public function setSite(SiteInterface $site);
 
+    /**
+     * @return SiteInterface|null
+     */
     public function getSite();
 }

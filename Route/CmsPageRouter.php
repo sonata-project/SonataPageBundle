@@ -210,12 +210,12 @@ class CmsPageRouter implements ChainedRouterInterface
             throw new \RuntimeException(sprintf('Page "%d" has no url or customUrl.', $page->getId()));
         }
 
-        @trigger_error(
-            'The context should implement SiteRequestContextInterface on the next release',
-            E_USER_DEPRECATED
-        );
-
         if (!$this->context instanceof SiteRequestContext) {
+            @trigger_error(
+                'The context should implement SiteRequestContextInterface on the next release',
+                E_USER_DEPRECATED
+            );
+
             return $this->decorateUrl($url, $parameters, $referenceType);
         }
 

@@ -19,7 +19,7 @@ use Symfony\Component\Routing\RequestContext;
  * SiteRequestContext.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- * @TODO: This should implement SiteRequestContextInterface on the next release
+ * NEXT_MAJOR: This should implement SiteRequestContextInterface on the next release
  */
 class SiteRequestContext extends RequestContext
 {
@@ -31,7 +31,7 @@ class SiteRequestContext extends RequestContext
     /**
      * @var SiteInterface
      */
-    protected $site;
+    private $site;
 
     /**
      * @param SiteSelectorInterface $selector
