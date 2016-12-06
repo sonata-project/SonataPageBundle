@@ -18,8 +18,8 @@ use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\SeoBundle\Block\Breadcrumb\BaseBreadcrumbMenuBlockService;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * BlockService for homepage breadcrumb.
@@ -128,23 +128,24 @@ class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
      *
      * @return string
      */
-    protected function getLocale(){
+    protected function getLocale()
+    {
         $locale = $this->requestStack->getRequest()->getLocale();
-        if($locale == null){
-            $locale = $this->getContainer()->getParameter('locale');
-        }
+            if($locale == null){
+                $locale = $this->getContainer()->getParameter('locale');
+            }
         return $locale;
-        
     }
 
     /**
-     * Return the Page Url with locale set
+     * Return the Page Url with locale set.
      *
      * @return string
      */
-    protected function getLocatedUrl(PageInterface $page){
+    protected function getLocatedUrl(PageInterface $page)
+    {
         $url = $page->getUrl();
-        $locale =  $this->getLocale();
+        $locale = $this->getLocale();
         if (strpos($url, "{_locale}") AND $locale != null) {
             $url = str_replace("{_locale}",$locale, $url);
         }
@@ -152,11 +153,12 @@ class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
     }
 
     /**
-     * Return the Container
+     * Return the Container.
      *
      * @return ContainerInterface
      */
-    protected function getContainer(){
+    protected function getContainer()
+    {
         return $this->container;
     }
 }
