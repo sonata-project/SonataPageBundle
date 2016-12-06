@@ -131,7 +131,7 @@ class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
     protected function getLocale()
     {
         $locale = $this->requestStack->getRequest()->getLocale();
-        if($locale == null) {
+        if ($locale == null) {
             $locale = $this->getContainer()->getParameter('locale');
         }
         return $locale;
@@ -147,7 +147,7 @@ class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
         $url = $page->getUrl();
         $locale = $this->getLocale();
         if (strpos($url, '{_locale}') AND $locale != null) {
-            $url = str_replace('{_locale}',$locale, $url);
+            $url = str_replace('{_locale}', $locale, $url);
         }
         return $url;
     }
