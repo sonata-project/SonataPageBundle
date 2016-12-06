@@ -38,7 +38,7 @@ class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
     protected $requestStack;
 
     /**
-     * @var ContainerInterface
+     * @var string
      */
     protected $defaultLocale;
 
