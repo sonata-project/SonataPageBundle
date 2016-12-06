@@ -41,7 +41,7 @@ class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
     /**
      * @var ContainerInterface
      */
-    protected $container;
+    protected $defaultLocale;
 
     /**
      * @param string                      $context
@@ -51,11 +51,11 @@ class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
      * @param FactoryInterface            $factory
      * @param CmsManagerSelectorInterface $cmsSelector
      */
-    public function __construct($context, $name, EngineInterface $templating, MenuProviderInterface $menuProvider, FactoryInterface $factory, CmsManagerSelectorInterface $cmsSelector, RequestStack $requestStack, ContainerInterface $container)
+    public function __construct($context, $name, EngineInterface $templating, MenuProviderInterface $menuProvider, FactoryInterface $factory, CmsManagerSelectorInterface $cmsSelector, RequestStack $requestStack, $defaultLocale)
     {
         $this->cmsSelector = $cmsSelector;
         $this->requestStack = $requestStack;
-        $this->container = $container;
+        $this->defaultLocale = $defaultLocale;
 
         parent::__construct($context, $name, $templating, $menuProvider, $factory);
     }
@@ -149,7 +149,7 @@ class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
         if (strpos($url, '{_locale}') and $locale != null) {
             $url = str_replace('{_locale}', $locale, $url);
         }
-        
+
         return $url;
     }
 
