@@ -43,7 +43,6 @@ class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
      */
     protected $container;
 
-
     /**
      * @param string                      $context
      * @param string                      $name
@@ -134,6 +133,7 @@ class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
         if ($locale == null) {
             $locale = $this->getContainer()->getParameter('locale');
         }
+
         return $locale;
     }
 
@@ -149,6 +149,7 @@ class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
         if (strpos($url, '{_locale}') and $locale != null) {
             $url = str_replace('{_locale}', $locale, $url);
         }
+        
         return $url;
     }
 
