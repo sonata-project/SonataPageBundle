@@ -18,7 +18,6 @@ use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\SeoBundle\Block\Breadcrumb\BaseBreadcrumbMenuBlockService;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -131,7 +130,7 @@ class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
     {
         $locale = $this->requestStack->getRequest()->getLocale();
         if ($locale == null) {
-            $locale = $this->getContainer()->getParameter('locale');
+            $locale = $this->defaultLocale;
         }
 
         return $locale;
@@ -153,13 +152,4 @@ class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
         return $url;
     }
 
-    /**
-     * Return the Container.
-     *
-     * @return ContainerInterface
-     */
-    protected function getContainer()
-    {
-        return $this->container;
-    }
 }

@@ -40,7 +40,7 @@
             <argument type="service" id="knp_menu.factory"/>
             <argument type="service" id="sonata.page.cms_manager_selector"/>
             <argument type="service" id="request_stack"/>
-            <argument type="service" id="service_container"/>
+            <argument>locale</argument>
         </service>
         <service id="sonata.page.block.shared_block" class="%sonata.page.block.shared_block.class%">
             <tag name="sonata.block"/>
