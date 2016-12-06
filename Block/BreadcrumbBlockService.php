@@ -18,6 +18,8 @@ use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\SeoBundle\Block\Breadcrumb\BaseBreadcrumbMenuBlockService;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * BlockService for homepage breadcrumb.
@@ -32,6 +34,17 @@ class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
     protected $cmsSelector;
 
     /**
+     * @var RequestStack
+     */
+    protected $requestStack;
+
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
+
+
+    /**
      * @param string                      $context
      * @param string                      $name
      * @param EngineInterface             $templating
@@ -39,9 +52,11 @@ class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
      * @param FactoryInterface            $factory
      * @param CmsManagerSelectorInterface $cmsSelector
      */
-    public function __construct($context, $name, EngineInterface $templating, MenuProviderInterface $menuProvider, FactoryInterface $factory, CmsManagerSelectorInterface $cmsSelector)
+    public function __construct($context, $name, EngineInterface $templating, MenuProviderInterface $menuProvider, FactoryInterface $factory, CmsManagerSelectorInterface $cmsSelector, RequestStack $requestStack, ContainerInterface $container)
     {
         $this->cmsSelector = $cmsSelector;
+        $this->requestStack = $requestStack;
+        $this->container = $container;
 
         parent::__construct($context, $name, $templating, $menuProvider, $factory);
     }
@@ -79,7 +94,7 @@ class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
             $menu->addChild($parent->getName(), array(
                 'route' => 'page_slug',
                 'routeParameters' => array(
-                    'path' => $parent->getUrl(),
+                    'path' => $this->getLocatedUrl($parent),
                 ),
             ));
         }
@@ -88,7 +103,7 @@ class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
             $menu->addChild($page->getName(), array(
                 'route' => 'page_slug',
                 'routeParameters' => array(
-                    'path' => $page->getUrl(),
+                    'path' => $this->getLocatedUrl($page),
                 ),
             ));
         }
@@ -106,5 +121,42 @@ class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
         $cms = $this->cmsSelector->retrieve();
 
         return $cms->getCurrentPage();
+    }
+
+    /**
+     * Return the current Locale.
+     *
+     * @return string
+     */
+    protected function getLocale(){
+        $locale = $this->requestStack->getRequest()->getLocale();
+        if($locale == null){
+            $locale = $this->getContainer()->getParameter('locale');
+        }
+        return $locale;
+        
+    }
+
+    /**
+     * Return the Page Url with locale set
+     *
+     * @return string
+     */
+    protected function getLocatedUrl(PageInterface $page){
+        $url = $page->getUrl();
+        $locale =  $this->getLocale();
+        if (strpos($url, "{_locale}") AND $locale != null) {
+            $url = str_replace("{_locale}",$locale, $url);
+        }
+        return $url
+    }
+
+    /**
+     * Return the Container
+     *
+     * @return ContainerInterface
+     */
+    protected function getContainer(){
+        return $this->container;
     }
 }
