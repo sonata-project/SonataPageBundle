@@ -148,7 +148,7 @@ class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
         if (strpos($url, "{_locale}") AND $locale != null) {
             $url = str_replace("{_locale}",$locale, $url);
         }
-        return $url
+        return $url;
     }
 
     /**
