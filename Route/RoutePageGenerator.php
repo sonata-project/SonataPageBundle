@@ -99,9 +99,18 @@ class RoutePageGenerator
         }
 
         // Iterate over declared routes from the routing mechanism
+        $routesDedupInfos = array();
+        // We first de-duplicate routes by path; the first declaration win !
         foreach ($this->router->getRouteCollection()->all() as $name => $route) {
-            $name = trim($name);
-
+            $routePath = $route->getPath();
+            if (!array_key_exists($routePath, $routesDedupInfos)) {
+                $routesDedupInfos[$routePath] = array(trim($name), $route);
+            } else {
+                $this->writeln($output, sprintf('  <info>IGNORE</info> route %s is ignored because it uses the same path as %s (path=%s)', $name, $routesDedupInfos[$routePath][0], $routePath));
+            }
+        }
+        foreach ($routesDedupInfos as $routeInfo) {
+        	list($name, $route) = $routeInfo;
             $knowRoutes[] = $name;
 
             $page = $this->pageManager->findOneBy(array(
