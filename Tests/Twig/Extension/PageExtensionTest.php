@@ -66,12 +66,14 @@ class PageExtensionTest extends \PHPUnit_Framework_TestCase
         ;
         $extension = new PageExtension($cmsManager, $siteSelector, $router, $blockHelper, $HttpKernelExtension);
         $extension->initRuntime($env);
-        $HttpKernelExtension->expects($this->once())->method('controller')->with(
-            'foo',
-            array('pathInfo' => '/foo/bar/'),
-            array()
-        )
-        ;
+        if (!method_exists('Symfony\Bridge\Twig\AppVariable', 'getToken')) {
+            $HttpKernelExtension->expects($this->once())->method('controller')->with(
+                'foo',
+                array('pathInfo' => '/foo/bar/'),
+                array()
+            )
+            ;
+        }
         $extension->controller('foo');
     }
 
@@ -99,7 +101,9 @@ class PageExtensionTest extends \PHPUnit_Framework_TestCase
         ;
         $extension = new PageExtension($cmsManager, $siteSelector, $router, $blockHelper, $HttpKernelExtension);
         $extension->initRuntime($env);
-        $HttpKernelExtension->expects($this->once())->method('controller')->with('bar', array(), array());
+        if (!method_exists('Symfony\Bridge\Twig\AppVariable', 'getToken')) {
+            $HttpKernelExtension->expects($this->once())->method('controller')->with('bar', array(), array());
+        }
         $extension->controller('bar');
     }
 }
