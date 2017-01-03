@@ -293,7 +293,6 @@ class PageAdmin extends AbstractAdmin
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
-
         // define group zoning
         $formMapper
              ->with('form_page.group_main_label', array('class' => 'col-md-6'))->end()
