@@ -23,13 +23,11 @@ class PageExtensionTest extends \PHPUnit_Framework_TestCase
         $router->expects($this->once())->method('generate')->will($this->returnValue('/foo/bar'));
         $blockHelper = $this->getMockBuilder('Sonata\BlockBundle\Templating\Helper\BlockHelper')
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
 
         $httpKernelExtension = $this->getMockBuilder('Symfony\Bridge\Twig\Extension\HttpKernelExtension')
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
 
         $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
         $block = $this->getMock('Sonata\PageBundle\Model\PageBlockInterface');
@@ -49,21 +47,18 @@ class PageExtensionTest extends \PHPUnit_Framework_TestCase
         $router = $this->getMock('Symfony\Component\Routing\RouterInterface');
         $blockHelper = $this->getMockBuilder('Sonata\BlockBundle\Templating\Helper\BlockHelper')
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
         $request = $this->getMock('Symfony\Component\HttpFoundation\Request');
         $request->method('getPathInfo')->willReturn('/');
         $globals = $this->getMockBuilder('Symfony\Bundle\FrameworkBundle\Templating\GlobalVariables')
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
         $globals->method('getRequest')->willReturn($request);
         $env = $this->getMock('Twig_Environment');
         $env->method('getGlobals')->willReturn(array('app' => $globals));
         $httpKernelExtension = $this->getMockBuilder('Symfony\Bridge\Twig\Extension\HttpKernelExtension')
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
         $extension = new PageExtension($cmsManager, $siteSelector, $router, $blockHelper, $httpKernelExtension);
         $extension->initRuntime($env);
         if (!method_exists('Symfony\Bridge\Twig\AppVariable', 'getToken')) {
@@ -71,8 +66,7 @@ class PageExtensionTest extends \PHPUnit_Framework_TestCase
                 'foo',
                 array('pathInfo' => '/foo/bar/'),
                 array()
-            )
-            ;
+            );
         }
         $extension->controller('foo');
     }
@@ -84,21 +78,18 @@ class PageExtensionTest extends \PHPUnit_Framework_TestCase
         $router = $this->getMock('Symfony\Component\Routing\RouterInterface');
         $blockHelper = $this->getMockBuilder('Sonata\BlockBundle\Templating\Helper\BlockHelper')
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
         $request = $this->getMock('Symfony\Component\HttpFoundation\Request');
         $request->method('getPathInfo')->willReturn('/');
         $globals = $this->getMockBuilder('Symfony\Bundle\FrameworkBundle\Templating\GlobalVariables')
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
         $globals->method('getRequest')->willReturn($request);
         $env = $this->getMock('Twig_Environment');
         $env->method('getGlobals')->willReturn(array('app' => $globals));
         $httpKernelExtension = $this->getMockBuilder('Symfony\Bridge\Twig\Extension\HttpKernelExtension')
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
         $extension = new PageExtension($cmsManager, $siteSelector, $router, $blockHelper, $httpKernelExtension);
         $extension->initRuntime($env);
         if (!method_exists('Symfony\Bridge\Twig\AppVariable', 'getToken')) {
