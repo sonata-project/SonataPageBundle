@@ -26,7 +26,7 @@ class PageExtensionTest extends \PHPUnit_Framework_TestCase
             ->getMock()
         ;
 
-        $HttpKernelExtension = $this->getMockBuilder('Symfony\Bridge\Twig\Extension\HttpKernelExtension')
+        $httpKernelExtension = $this->getMockBuilder('Symfony\Bridge\Twig\Extension\HttpKernelExtension')
             ->disableOriginalConstructor()
             ->getMock()
         ;
@@ -35,7 +35,7 @@ class PageExtensionTest extends \PHPUnit_Framework_TestCase
         $block = $this->getMock('Sonata\PageBundle\Model\PageBlockInterface');
         $block->expects($this->exactly(2))->method('getPage')->will($this->returnValue($page));
 
-        $extension = new PageExtension($cmsManager, $siteSelector, $router, $blockHelper, $HttpKernelExtension);
+        $extension = new PageExtension($cmsManager, $siteSelector, $router, $blockHelper, $httpKernelExtension);
         $this->assertEquals('/foo/bar', $extension->ajaxUrl($block));
     }
 
@@ -60,14 +60,14 @@ class PageExtensionTest extends \PHPUnit_Framework_TestCase
         $globals->method('getRequest')->willReturn($request);
         $env = $this->getMock('Twig_Environment');
         $env->method('getGlobals')->willReturn(array('app' => $globals));
-        $HttpKernelExtension = $this->getMockBuilder('Symfony\Bridge\Twig\Extension\HttpKernelExtension')
+        $httpKernelExtension = $this->getMockBuilder('Symfony\Bridge\Twig\Extension\HttpKernelExtension')
             ->disableOriginalConstructor()
             ->getMock()
         ;
-        $extension = new PageExtension($cmsManager, $siteSelector, $router, $blockHelper, $HttpKernelExtension);
+        $extension = new PageExtension($cmsManager, $siteSelector, $router, $blockHelper, $httpKernelExtension);
         $extension->initRuntime($env);
         if (!method_exists('Symfony\Bridge\Twig\AppVariable', 'getToken')) {
-            $HttpKernelExtension->expects($this->once())->method('controller')->with(
+            $httpKernelExtension->expects($this->once())->method('controller')->with(
                 'foo',
                 array('pathInfo' => '/foo/bar/'),
                 array()
@@ -95,14 +95,14 @@ class PageExtensionTest extends \PHPUnit_Framework_TestCase
         $globals->method('getRequest')->willReturn($request);
         $env = $this->getMock('Twig_Environment');
         $env->method('getGlobals')->willReturn(array('app' => $globals));
-        $HttpKernelExtension = $this->getMockBuilder('Symfony\Bridge\Twig\Extension\HttpKernelExtension')
+        $httpKernelExtension = $this->getMockBuilder('Symfony\Bridge\Twig\Extension\HttpKernelExtension')
             ->disableOriginalConstructor()
             ->getMock()
         ;
-        $extension = new PageExtension($cmsManager, $siteSelector, $router, $blockHelper, $HttpKernelExtension);
+        $extension = new PageExtension($cmsManager, $siteSelector, $router, $blockHelper, $httpKernelExtension);
         $extension->initRuntime($env);
         if (!method_exists('Symfony\Bridge\Twig\AppVariable', 'getToken')) {
-            $HttpKernelExtension->expects($this->once())->method('controller')->with('bar', array(), array());
+            $httpKernelExtension->expects($this->once())->method('controller')->with('bar', array(), array());
         }
         $extension->controller('bar');
     }
