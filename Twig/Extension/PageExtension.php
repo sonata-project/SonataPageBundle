@@ -286,6 +286,11 @@ class PageExtension extends \Twig_Extension implements \Twig_Extension_InitRunti
             }
         }
 
+        // Simplify this when dropping twig-bridge < 3.2 support
+        if (method_exists('Symfony\Bridge\Twig\AppVariable', 'getToken')) {
+            return HttpKernelExtension::controller($controller, $attributes, $query);
+        }
+
         return $this->httpKernelExtension->controller($controller, $attributes, $query);
     }
 
