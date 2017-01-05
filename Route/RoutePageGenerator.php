@@ -70,7 +70,11 @@ class RoutePageGenerator
      */
     public function update(SiteInterface $site, OutputInterface $output = null)
     {
-        $message = sprintf(' > <info>Updating core routes for site</info> : <comment>%s - %s</comment>', $site->getName(), $site->getUrl());
+        $message = sprintf(
+            ' > <info>Updating core routes for site</info> : <comment>%s - %s</comment>',
+            $site->getName(),
+            $site->getUrl()
+        );
 
         $this->writeln($output, array(
             str_repeat('=', strlen($message)),
@@ -91,7 +95,9 @@ class RoutePageGenerator
                 'name' => 'Homepage',
                 'url' => '/',
                 'site' => $site,
-                'requestMethod' => isset($requirements['_method']) ? $requirements['_method'] : 'GET|POST|HEAD|DELETE|PUT',
+                'requestMethod' => isset($requirements['_method']) ?
+                    $requirements['_method'] :
+                    'GET|POST|HEAD|DELETE|PUT',
                 'slug' => '/',
             ));
 
@@ -120,7 +126,11 @@ class RoutePageGenerator
                 if ($page) {
                     $page->setEnabled(false);
 
-                    $this->writeln($output, sprintf('  <error>DISABLE</error> <error>% -50s</error> %s', $name, $route->getPath()));
+                    $this->writeln($output, sprintf(
+                        '  <error>DISABLE</error> <error>% -50s</error> %s',
+                        $name,
+                        $route->getPath()
+                    ));
                 } else {
                     continue;
                 }
@@ -138,7 +148,9 @@ class RoutePageGenerator
                     'name' => $name,
                     'url' => $route->getPath(),
                     'site' => $site,
-                    'requestMethod' => isset($requirements['_method']) ? $requirements['_method'] : 'GET|POST|HEAD|DELETE|PUT',
+                    'requestMethod' => isset($requirements['_method']) ?
+                        $requirements['_method'] :
+                        'GET|POST|HEAD|DELETE|PUT',
                 ));
             }
 
@@ -148,11 +160,18 @@ class RoutePageGenerator
 
             $page->setSlug($route->getPath());
             $page->setUrl($route->getPath());
-            $page->setRequestMethod(isset($requirements['_method']) ? $requirements['_method'] : 'GET|POST|HEAD|DELETE|PUT');
+            $page->setRequestMethod(isset($requirements['_method']) ?
+                $requirements['_method'] :
+                'GET|POST|HEAD|DELETE|PUT');
 
             $this->pageManager->save($page);
 
-            $this->writeln($output, sprintf('  <info>%s</info> % -50s %s', $update ? 'UPDATE ' : 'CREATE ', $name, $route->getPath()));
+            $this->writeln($output, sprintf(
+                '  <info>%s</info> % -50s %s',
+                $update ? 'UPDATE ' : 'CREATE ',
+                $name,
+                $route->getPath()
+            ));
         }
 
         // Iterate over error pages
