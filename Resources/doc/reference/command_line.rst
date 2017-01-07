@@ -21,7 +21,7 @@ Page commands
 
     $ php app/console sonata:page:update-core-routes --site=all
 
-    You could also remove orphaned pages with the ``--clean`` option.
+    You could also remove orphan pages with the ``--clean`` option.
 
     $ php app/console sonata:page:update-core-routes --site=all --clean
 
