@@ -71,6 +71,38 @@ class RoutePageGeneratorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests site update route method with.
+     */
+    public function testUpdateRoutesClean()
+    {
+        $site = $this->getSiteMock();
+
+        $tmpFile = tmpfile();
+
+        $this->routePageGenerator->update($site, new StreamOutput($tmpFile), true);
+
+        fseek($tmpFile, 0);
+
+        $output = '';
+
+        while (!feof($tmpFile)) {
+            $output = fread($tmpFile, 4096);
+        }
+
+        $this->assertRegExp('#CREATE(.*)route1(.*)/first_custom_route#', $output);
+        $this->assertRegExp('#CREATE(.*)route1(.*)/first_custom_route#', $output);
+        $this->assertRegExp('#CREATE(.*)test_hybrid_page_with_good_host(.*)/third_custom_route#', $output);
+        $this->assertRegExp('#CREATE(.*)404#', $output);
+        $this->assertRegExp('#CREATE(.*)500#', $output);
+
+        $this->assertRegExp('#DISABLE(.*)test_hybrid_page_with_bad_host(.*)/fourth_custom_route#', $output);
+
+        $this->assertRegExp('#UPDATE(.*)test_hybrid_page_with_bad_host(.*)/fourth_custom_route#', $output);
+
+        $this->assertRegExp('#REMOVED(.*)test_hybrid_page_not_exists#', $output);
+    }
+
+    /**
      * Returns a mock of a site model.
      *
      * @return \Sonata\PageBundle\Model\SiteInterface

@@ -32,6 +32,7 @@ class UpdateCoreRoutesCommand extends BaseCommand
         $this->setName('sonata:page:update-core-routes');
         $this->setDescription('Update core routes, from routing files to page manager');
         $this->addOption('all', null, InputOption::VALUE_NONE, 'Create snapshots for all sites');
+        $this->addOption('clean', null, InputOption::VALUE_NONE, 'Removes all unused routes');
         $this->addOption('site', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Site id', null);
         $this->addOption('base-command', null, InputOption::VALUE_OPTIONAL, 'Site id', 'php app/console');
     }
@@ -56,10 +57,10 @@ class UpdateCoreRoutesCommand extends BaseCommand
 
         foreach ($this->getSites($input) as $site) {
             if ($input->getOption('site') != 'all') {
-                $this->getRoutePageGenerator()->update($site, $output);
+                $this->getRoutePageGenerator()->update($site, $output, $input->getOption('clean'));
                 $output->writeln('');
             } else {
-                $p = new Process(sprintf('%s sonata:page:update-core-routes --env=%s --site=%s %s', $input->getOption('base-command'), $input->getOption('env'), $site->getId(), $input->getOption('no-debug') ? '--no-debug' : ''));
+                $p = new Process(sprintf('%s sonata:page:update-core-routes --env=%s --site=%s %s %s', $input->getOption('base-command'), $input->getOption('env'), $site->getId(), $input->getOption('no-debug') ? '--no-debug' : '', $input->getOption('clean') ? '--clean' : ''));
 
                 $p->run(function ($type, $data) use ($output) {
                     $output->write($data);

@@ -65,8 +65,9 @@ class RoutePageGenerator
      *
      * @param SiteInterface   $site   A page bundle site instance
      * @param OutputInterface $output A Symfony console output
+     * @param bool            $clean  clean orphaned pages
      */
-    public function update(SiteInterface $site, OutputInterface $output = null)
+    public function update(SiteInterface $site, OutputInterface $output = null, $clean = false)
     {
         $message = sprintf(
             ' > <info>Updating core routes for site</info> : <comment>%s - %s</comment>',
@@ -215,11 +216,17 @@ class RoutePageGenerator
                     $this->writeln($output, array('', 'Some hybrid pages does not exist anymore', str_repeat('-', 80)));
                 }
 
-                $this->writeln($output, sprintf('  <error>ERROR</error>   %s', $page->getRouteName()));
+                if ($clean) {
+                    $this->pageManager->delete($page);
+
+                    $this->writeln($output, sprintf('  <error>REMOVED</error>   %s', $page->getRouteName()));
+                } else {
+                    $this->writeln($output, sprintf('  <error>ERROR</error>   %s', $page->getRouteName()));
+                }
             }
         }
 
-        if ($has) {
+        if ($has && !$clean) {
             $this->writeln($output, <<<'MSG'
 <error>
   *WARNING* : Pages has been updated however some pages do not exist anymore.
