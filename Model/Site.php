@@ -155,7 +155,7 @@ abstract class Site implements SiteInterface
             return $this->getRelativePath();
         }
 
-        return sprintf('http://%s%s', $this->getHost(), $this->getRelativePath());
+        return sprintf('//%s%s', $this->getHost(), $this->getRelativePath());
     }
 
     /**
