@@ -19,7 +19,6 @@ use Symfony\Component\Routing\RequestContext;
  * SiteRequestContext.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- * NEXT_MAJOR: This should implement SiteRequestContextInterface on the next release
  */
 class SiteRequestContext extends RequestContext implements SiteRequestContextInterface
 {
@@ -77,12 +76,12 @@ class SiteRequestContext extends RequestContext implements SiteRequestContextInt
         return parent::getBaseUrl();
     }
 
-    public function setSite(SiteInterface $site)
+    final public function setSite(SiteInterface $site)
     {
         $this->site = $site;
     }
 
-    public function getSite()
+    final public function getSite()
     {
         if (!$this->site instanceof SiteInterface) {
             $this->site = $this->selector->retrieve();
