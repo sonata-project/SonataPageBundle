@@ -21,7 +21,7 @@ use Symfony\Component\Routing\RequestContext;
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  * NEXT_MAJOR: This should implement SiteRequestContextInterface on the next release
  */
-class SiteRequestContext extends RequestContext
+class SiteRequestContext extends RequestContext implements SiteRequestContextInterface
 {
     /**
      * @var SiteSelectorInterface
