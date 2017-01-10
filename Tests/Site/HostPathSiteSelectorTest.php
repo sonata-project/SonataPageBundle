@@ -130,7 +130,7 @@ class HostPathSiteSelectorTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\RedirectResponse', $response);
 
         // Ensure the redirect url is for "Site 2"
-        $this->assertEquals('http://www.example.com/test2', $response->getTargetUrl());
+        $this->assertEquals('//www.example.com/test2', $response->getTargetUrl());
 
         // Ensure request path info is /test5
         $this->assertEquals('/test5', $event->getRequest()->getPathInfo());
@@ -157,7 +157,7 @@ class HostPathSiteSelectorTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\RedirectResponse', $response);
 
         // Ensure the redirect url is for "Site 2"
-        $this->assertEquals('http://www.example.com/test2', $response->getTargetUrl());
+        $this->assertEquals('//www.example.com/test2', $response->getTargetUrl());
 
         // Ensure request path info is /test6
         $this->assertEquals('/test6', $event->getRequest()->getPathInfo());
@@ -184,7 +184,7 @@ class HostPathSiteSelectorTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\RedirectResponse', $response);
 
         // Ensure the redirect url is for "Site 2"
-        $this->assertEquals('http://www.example.com/test2', $response->getTargetUrl());
+        $this->assertEquals('//www.example.com/test2', $response->getTargetUrl());
 
         // Ensure request path info is /test7
         $this->assertEquals('/test7', $event->getRequest()->getPathInfo());
@@ -211,7 +211,7 @@ class HostPathSiteSelectorTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\RedirectResponse', $response);
 
         // Ensure the redirect url is for "Site 2"
-        $this->assertEquals('http://www.example.com/test2', $response->getTargetUrl());
+        $this->assertEquals('//www.example.com/test2', $response->getTargetUrl());
 
         // Ensure request path info is /
         $this->assertEquals('/', $event->getRequest()->getPathInfo());
