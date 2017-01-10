@@ -213,15 +213,29 @@ EOF;
                                 continue;
                             }
 
+                            if (isset($template['inherits_containers'])) {
+                                $inherits = $template['inherits_containers'];
+                                if (!isset($templates[$inherits])) {
+                                    throw new InvalidConfigurationException(
+                                        sprintf('Template "%s" cannot inherit containers from undefined template "%s"', $id, $inherits)
+                                    );
+                                }
+                                $template['containers'] = array_merge($templates[$inherits]['containers'], $template['containers']);
+                            }
+
                             foreach ($template['containers'] as $containerKey => $container) {
                                 if (!isset($template['matrix'][$containerKey])) {
-                                    throw new InvalidConfigurationException(sprintf('No area defined in matrix for template container "%s"', $containerKey));
+                                    throw new InvalidConfigurationException(
+                                        sprintf('No area defined in matrix for template container "%s"', $containerKey)
+                                    );
                                 }
                             }
 
                             foreach ($template['matrix'] as $containerKey => $config) {
                                 if (!isset($template['containers'][$containerKey])) {
-                                    throw new InvalidConfigurationException(sprintf('No container defined for matrix area "%s"', $containerKey));
+                                    throw new InvalidConfigurationException(
+                                        sprintf('No container defined for matrix area "%s"', $containerKey)
+                                    );
                                 }
                                 $template['containers'][$containerKey]['placement'] = $config;
                             }
