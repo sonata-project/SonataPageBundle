@@ -16,6 +16,7 @@ use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SiteInterface;
+use Sonata\PageBundle\Request\SiteRequestContextInterface;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Symfony\Cmf\Component\Routing\ChainedRouterInterface;
 use Symfony\Cmf\Component\Routing\VersatileGeneratorInterface;
@@ -185,6 +186,7 @@ class CmsPageRouter implements ChainedRouterInterface
 
     /**
      * Generates an URL from a Page object.
+     * We swap site context to make sure the right context is used when generating the url.
      *
      * @param PageInterface $page          Page object
      * @param array         $parameters    An array of parameters
@@ -207,7 +209,26 @@ class CmsPageRouter implements ChainedRouterInterface
             throw new \RuntimeException(sprintf('Page "%d" has no url or customUrl.', $page->getId()));
         }
 
-        return $this->decorateUrl($url, $parameters, $referenceType);
+        // NEXT_MAJOR: remove this if block
+        if (!$this->context instanceof SiteRequestContextInterface) {
+            @trigger_error(
+                sprintf('Since, 3.x when calling %s, %s::$context should implement SiteRequestContextInterface. This will become mandatory in 4.0.', __METHOD__, __CLASS__),
+                E_USER_DEPRECATED
+            );
+
+            return $this->decorateUrl($url, $parameters, $referenceType);
+        }
+
+        // Get current site
+        $currentSite = $this->context->getSite();
+        // Change to new site
+        $this->context->setSite($page->getSite());
+        // Fetch Url
+        $decoratedUrl = $this->decorateUrl($url, $parameters, $referenceType);
+        // Swap back to original site
+        $this->context->setSite($currentSite);
+
+        return $decoratedUrl;
     }
 
     /**

@@ -11,6 +11,7 @@
 
 namespace Sonata\PageBundle\Request;
 
+use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Symfony\Component\Routing\RequestContext;
 
@@ -19,12 +20,17 @@ use Symfony\Component\Routing\RequestContext;
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class SiteRequestContext extends RequestContext
+class SiteRequestContext extends RequestContext implements SiteRequestContextInterface
 {
     /**
      * @var SiteSelectorInterface
      */
     protected $selector;
+
+    /**
+     * @var SiteInterface
+     */
+    private $site;
 
     /**
      * @param SiteSelectorInterface $selector
@@ -47,7 +53,7 @@ class SiteRequestContext extends RequestContext
      */
     public function getHost()
     {
-        $site = $this->selector->retrieve();
+        $site = $this->getSite();
 
         if ($site && !$site->isLocalhost()) {
             return $site->getHost();
@@ -61,12 +67,26 @@ class SiteRequestContext extends RequestContext
      */
     public function getBaseUrl()
     {
-        $site = $this->selector->retrieve();
+        $site = $this->getSite();
 
         if ($site) {
             return parent::getBaseUrl().$site->getRelativePath();
         }
 
         return parent::getBaseUrl();
+    }
+
+    final public function setSite(SiteInterface $site)
+    {
+        $this->site = $site;
+    }
+
+    final public function getSite()
+    {
+        if (!$this->site instanceof SiteInterface) {
+            $this->site = $this->selector->retrieve();
+        }
+
+        return $this->site;
     }
 }

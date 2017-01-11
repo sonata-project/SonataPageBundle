@@ -52,6 +52,10 @@ Configure
                        - sonata.media.block.media
                        - sonata.media.block.gallery
                        - sonata.media.block.feature_media
+               content:
+                   name: Main content
+                   blocks:
+                       - sonata.media.block.media
                right_col:
                    name: Right column
                    blocks:
@@ -78,6 +82,61 @@ Configure
                   C: content
                   B: content_bottom
                   F: footer
+
+       3columns:
+           path: 'ApplicationSonataPageBundle::demo_3columns_layout.html.twig'
+           name: '3 columns layout'
+           containers:
+               left_col:
+                   name: Left column
+                   blocks:
+                       - sonata.media.block.media
+                       - sonata.media.block.gallery
+                       - sonata.media.block.feature_media
+               mid_col:
+                   name: Left column
+                   blocks:
+                       - sonata.media.block.media
+                       - sonata.media.block.gallery
+                       - sonata.media.block.feature_media
+               right_col:
+                   name: Right column
+                   blocks:
+                       - sonata.news.block.recent_posts
+                       - sonata.order.block.recent_orders
+                       - sonata.product.block.recent_products
+           matrix:
+               layout: |
+                   LLLMMMMRRR
+                   LLLMMMMRRR
+                   LLLMMMMRRR
+                   LLLMMMMRRR
+                   LLLMMMMRRR
+
+               mapping:
+                  L: left_col
+                  R: right_col
+                  M: mid_col
+
+
+Template inheritance
+^^^^^^^^^^^^^^^^^^^^
+
+If you want your template to extend from another template so you don't
+have to redeclare all your containers you can use the ``inherits_containers`` option.
+This is also shown in the example above.
+
+.. code-block:: yaml
+
+   templates:
+       2columns:
+           inherits_containers: default
+           containers:
+               content:
+                   name: Main content
+                   blocks:
+                       - sonata.media.block.media
+
 
 Template chooser
 ^^^^^^^^^^^^^^^^

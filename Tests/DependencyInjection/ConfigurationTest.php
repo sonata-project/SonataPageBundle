@@ -30,6 +30,15 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                     'containers' => array('header' => array('name' => 'My Header')),
                     'matrix' => array('layout' => 'HHHH', 'mapping' => array('H' => 'header')),
                 ),
+                '2columns' => array(
+                    'path' => 'ApplicationSonataPageBundle::demo_2columns_layout.html.twig',
+                    'name' => '2 columns layout',
+                    'inherits_containers' => 'default',
+                    'containers' => array(
+                        'left_col' => array('name' => 'Left column'),
+                    ),
+                    'matrix' => array('layout' => 'HHHHLLLL', 'mapping' => array('H' => 'header', 'L' => 'left_col')),
+                ),
             ),
         )));
 
@@ -52,6 +61,40 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                                 'width' => 100,
                                 'height' => 100,
                                 'right' => 0,
+                                'bottom' => 0,
+                            ),
+                        ),
+                    ),
+                ),
+                '2columns' => array(
+                    'path' => 'ApplicationSonataPageBundle::demo_2columns_layout.html.twig',
+                    'name' => '2 columns layout',
+                    'containers' => array(
+                        'left_col' => array(
+                            'name' => 'Left column',
+                            'blocks' => array(),
+                            'shared' => false,
+                            'type' => 1,
+                            'placement' => array(
+                                'x' => 50.0,
+                                'y' => 0,
+                                'width' => 50.0,
+                                'height' => 100,
+                                'right' => 0,
+                                'bottom' => 0,
+                            ),
+                        ),
+                        'header' => array(
+                            'name' => 'My Header',
+                            'type' => 1,
+                            'shared' => false,
+                            'blocks' => array(),
+                            'placement' => array(
+                                'x' => 0,
+                                'y' => 0,
+                                'width' => 50.0,
+                                'height' => 100,
+                                'right' => 50.0,
                                 'bottom' => 0,
                             ),
                         ),
