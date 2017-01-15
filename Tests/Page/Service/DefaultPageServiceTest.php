@@ -60,7 +60,8 @@ class DefaultPageServiceTest extends \PHPUnit_Framework_TestCase
 
         // mock a page instance
         $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
-        $page->expects($this->exactly(2))->method('getTitle')->will($this->returnValue('page title'));
+        $this->seoPage->expects($this->once())->method('getTitle')->will($this->returnValue(null));
+        $page->expects($this->once())->method('getTitle')->will($this->returnValue('page title'));
         $page->expects($this->atLeastOnce())->method('getMetaDescription')->will($this->returnValue('page meta description'));
         $page->expects($this->atLeastOnce())->method('getMetaKeyword')->will($this->returnValue('page meta keywords'));
         $page->expects($this->once())->method('getTemplateCode')->will($this->returnValue('template code'));
