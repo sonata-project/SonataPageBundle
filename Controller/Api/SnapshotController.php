@@ -21,8 +21,6 @@ use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Class SnapshotController.
- *
  * @author Benoit de Jacobet <benoit.de-jacobet@ekino.com>
  */
 class SnapshotController
@@ -33,8 +31,6 @@ class SnapshotController
     protected $snapshotManager;
 
     /**
-     * Constructor.
-     *
      * @param SnapshotManagerInterface $snapshotManager
      */
     public function __construct(SnapshotManagerInterface $snapshotManager)

@@ -37,8 +37,6 @@ class DefaultPageService extends BasePageService
     protected $seoPage;
 
     /**
-     * Constructor.
-     *
      * @param string                   $name            Page service name
      * @param TemplateManagerInterface $templateManager Template manager
      * @param SeoPageInterface         $seoPage         SEO page object

@@ -76,8 +76,6 @@ class ExceptionListener
     protected $status;
 
     /**
-     * Constructor.
-     *
      * @param SiteSelectorInterface       $siteSelector       Site selector
      * @param CmsManagerSelectorInterface $cmsManagerSelector CMS Manager selector
      * @param bool                        $debug              Debug mode

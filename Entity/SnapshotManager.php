@@ -47,8 +47,6 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
     protected $snapshotPageProxyFactory;
 
     /**
-     * Constructor.
-     *
      * @param string                            $class                    Namespace of entity class
      * @param ManagerRegistry                   $registry                 An entity manager instance
      * @param array                             $templates                An array of templates

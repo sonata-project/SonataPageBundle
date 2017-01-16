@@ -13,9 +13,6 @@ namespace Sonata\PageBundle\Tests\Entity;
 
 use Sonata\PageBundle\Entity\SiteManager;
 
-/**
- * Class SiteManagerTest.
- */
 class SiteManagerTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetPager()

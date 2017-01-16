@@ -14,8 +14,6 @@ namespace Sonata\PageBundle\Tests\Command;
 use Sonata\PageBundle\Command\BaseCommand;
 
 /**
- * Class BaseCommandTest.
- *
  * @author Vincent Composieux <vincent.composieux@gmail.com>
  */
 class BaseCommandTest extends \PHPUnit_Framework_TestCase

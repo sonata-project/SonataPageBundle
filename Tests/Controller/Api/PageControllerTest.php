@@ -15,9 +15,6 @@ use Sonata\PageBundle\Controller\Api\PageController;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class PageControllerTest.
- *
- *
  * @author Hugo Briand <briand@ekino.com>
  */
 class PageControllerTest extends \PHPUnit_Framework_TestCase

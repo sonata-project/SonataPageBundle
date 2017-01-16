@@ -72,8 +72,6 @@ class PageExtension extends \Twig_Extension implements \Twig_Extension_InitRunti
     private $hideDisabledBlocks;
 
     /**
-     * Constructor.
-     *
      * @param CmsManagerSelectorInterface $cmsManagerSelector  A CMS manager selector
      * @param SiteSelectorInterface       $siteSelector        A site selector
      * @param RouterInterface             $router              The Router

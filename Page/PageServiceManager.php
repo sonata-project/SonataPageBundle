@@ -43,8 +43,6 @@ class PageServiceManager implements PageServiceManagerInterface
     protected $router;
 
     /**
-     * Constructor.
-     *
      * @param RouterInterface $router Router
      */
     public function __construct(RouterInterface $router)

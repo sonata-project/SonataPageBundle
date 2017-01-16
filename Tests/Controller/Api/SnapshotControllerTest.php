@@ -14,9 +14,6 @@ namespace Sonata\PageBundle\Tests\Controller\Api;
 use Sonata\PageBundle\Controller\Api\SnapshotController;
 
 /**
- * Class SnapshotControllerTest.
- *
- *
  * @author Benoit de Jacobet <benoit.de-jacobet@ekino.com>
  */
 class SnapshotControllerTest extends \PHPUnit_Framework_TestCase

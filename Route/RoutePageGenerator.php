@@ -47,8 +47,6 @@ class RoutePageGenerator
     protected $exceptionListener;
 
     /**
-     * Constructor.
-     *
      * @param RouterInterface            $router            A Symfony router service
      * @param PageManagerInterface       $pageManager       A Sonata Page manager
      * @param DecoratorStrategyInterface $decoratorStrategy A Sonata page decorator strategy service

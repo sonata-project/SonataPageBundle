@@ -49,8 +49,6 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     private $transformer;
 
     /**
-     * Constructor.
-     *
      * @param SnapshotManagerInterface $manager     Snapshot manager
      * @param TransformerInterface     $transformer The transformer object
      * @param SnapshotInterface        $snapshot    Snapshot object
