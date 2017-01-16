@@ -32,8 +32,6 @@ class CleanupSnapshotConsumer implements ConsumerInterface
     protected $pageManager;
 
     /**
-     * Constructor.
-     *
      * @param SnapshotManagerInterface $snapshotManager A snapshot manager instance
      * @param PageManagerInterface     $pageManager     A page manager instance
      */

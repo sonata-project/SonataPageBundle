@@ -40,8 +40,6 @@ class BlockInteractor implements BlockInteractorInterface
     protected $blockManager;
 
     /**
-     * Constructor.
-     *
      * @param RegistryInterface     $registry     Doctrine registry
      * @param BlockManagerInterface $blockManager Block manager
      */

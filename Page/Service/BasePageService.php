@@ -26,8 +26,6 @@ abstract class BasePageService implements PageServiceInterface
     protected $name;
 
     /**
-     * Constructor.
-     *
      * @param string $name Page service name
      */
     public function __construct($name)

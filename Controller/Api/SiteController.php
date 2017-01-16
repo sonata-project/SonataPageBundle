@@ -25,8 +25,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Class SiteController.
- *
  * @author Raphaël Benitte <benitteraphael@gmail.com>
  */
 class SiteController
@@ -42,8 +40,6 @@ class SiteController
     protected $formFactory;
 
     /**
-     * Constructor.
-     *
      * @param SiteManagerInterface $siteManager
      * @param FormFactoryInterface $formFactory
      */

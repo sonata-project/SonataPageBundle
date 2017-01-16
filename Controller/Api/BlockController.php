@@ -22,8 +22,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Class BlockController.
- *
  * @author Vincent Composieux <vincent.composieux@gmail.com>
  */
 class BlockController
@@ -39,8 +37,6 @@ class BlockController
     protected $formFactory;
 
     /**
-     * Constructor.
-     *
      * @param BlockManagerInterface $blockManager
      * @param FormFactoryInterface  $formFactory
      */
