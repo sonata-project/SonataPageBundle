@@ -87,14 +87,7 @@ class ExceptionListener
      * @param array                       $httpErrorCodes     An array of http error codes' routes
      * @param LoggerInterface|null        $logger             Logger instance
      */
-    public function __construct(SiteSelectorInterface $siteSelector,
-                                CmsManagerSelectorInterface $cmsManagerSelector,
-                                $debug,
-                                EngineInterface $templating,
-                                PageServiceManagerInterface $pageServiceManager,
-                                DecoratorStrategyInterface $decoratorStrategy,
-                                array $httpErrorCodes,
-                                LoggerInterface $logger = null)
+    public function __construct(SiteSelectorInterface $siteSelector, CmsManagerSelectorInterface $cmsManagerSelector, $debug, EngineInterface $templating, PageServiceManagerInterface $pageServiceManager, DecoratorStrategyInterface $decoratorStrategy, array $httpErrorCodes, LoggerInterface $logger = null)
     {
         $this->siteSelector = $siteSelector;
         $this->cmsManagerSelector = $cmsManagerSelector;
