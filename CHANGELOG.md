@@ -2,6 +2,24 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.3.0](https://github.com/sonata-project/SonataPageBundle/compare/3.2.0...3.3.0) - 2017-01-17
+### Added
+- Added new `sonata:page:clone` command
+- Added `SiteRequestContextInterface` to check the current context type in get SiteRequestContext
+- Added `SiteRequestContext::setSite()` to change the site context
+- Added `SiteRequestContext::getSite()` to get the site context
+
+### Changed
+- Changed `CmsPageRouter::generateFromPage` to change the site context when generating the url for the given page
+
+### Fixed
+- Failed to create object: AppBundle\Entity\Site
+- NotNull constraint on `Page` instead of `Site`
+- Fixed `inherits_containers` feature Subject
+- Missing `blockId` setting SharedBlockBlockService
+- Use the correct protocol for urls
+- The page title won't get overwritten anymore
+
 ## [3.2.0](https://github.com/sonata-project/SonataPageBundle/compare/3.1.0...3.2.0) - 2016-09-20
 ### Added
 - Added new command to create block container for all pages
