@@ -37,8 +37,6 @@ class DefaultPageService extends BasePageService
     protected $seoPage;
 
     /**
-     * Constructor.
-     *
      * @param string                   $name            Page service name
      * @param TemplateManagerInterface $templateManager Template manager
      * @param SeoPageInterface         $seoPage         SEO page object
@@ -73,7 +71,9 @@ class DefaultPageService extends BasePageService
             return;
         }
 
-        $this->seoPage->setTitle($page->getTitle() ?: $page->getName());
+        if (!$this->seoPage->getTitle()) {
+            $this->seoPage->setTitle($page->getTitle() ?: $page->getName());
+        }
 
         if ($page->getMetaDescription()) {
             $this->seoPage->addMeta('name', 'description', $page->getMetaDescription());

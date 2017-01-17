@@ -13,9 +13,6 @@ namespace Sonata\PageBundle\Tests\Entity;
 
 use Sonata\PageBundle\Entity\BlockManager;
 
-/**
- * Class BlockManagerTest.
- */
 class BlockManagerTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetPager()

@@ -15,9 +15,6 @@ use Sonata\PageBundle\Controller\Api\BlockController;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class BlockControllerTest.
- *
- *
  * @author Vincent Composieux <vincent.composieux@gmail.com>
  */
 class BlockControllerTest extends \PHPUnit_Framework_TestCase

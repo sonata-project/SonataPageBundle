@@ -16,9 +16,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class BlockControllerTest.
- *
- *
  * @author Vincent Composieux <vincent.composieux@gmail.com>
  */
 class AjaxControllerTest extends \PHPUnit_Framework_TestCase

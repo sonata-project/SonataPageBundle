@@ -52,8 +52,6 @@ class BlockEsiCache extends VarnishCache
     protected $recorder;
 
     /**
-     * Constructor.
-     *
      * @param string                       $token            A token
      * @param array                        $servers          An array of servers
      * @param RouterInterface              $router           A router instance

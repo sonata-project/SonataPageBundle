@@ -30,9 +30,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Class PageController.
- *
- *
  * @author Hugo Briand <briand@ekino.com>
  */
 class PageController
@@ -63,8 +60,6 @@ class PageController
     protected $backend;
 
     /**
-     * Constructor.
-     *
      * @param SiteManagerInterface  $siteManager
      * @param PageManagerInterface  $pageManager
      * @param BlockManagerInterface $blockManager

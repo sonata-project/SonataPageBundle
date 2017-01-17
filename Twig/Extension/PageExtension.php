@@ -72,8 +72,6 @@ class PageExtension extends \Twig_Extension implements \Twig_Extension_InitRunti
     private $hideDisabledBlocks;
 
     /**
-     * Constructor.
-     *
      * @param CmsManagerSelectorInterface $cmsManagerSelector  A CMS manager selector
      * @param SiteSelectorInterface       $siteSelector        A site selector
      * @param RouterInterface             $router              The Router
@@ -81,14 +79,8 @@ class PageExtension extends \Twig_Extension implements \Twig_Extension_InitRunti
      * @param HttpKernelExtension         $httpKernelExtension
      * @param bool                        $hideDisabledBlocks
      */
-    public function __construct(
-        CmsManagerSelectorInterface $cmsManagerSelector,
-        SiteSelectorInterface $siteSelector,
-        RouterInterface $router,
-        BlockHelper $blockHelper,
-        HttpKernelExtension $httpKernelExtension,
-        $hideDisabledBlocks = false
-    ) {
+    public function __construct(CmsManagerSelectorInterface $cmsManagerSelector, SiteSelectorInterface $siteSelector, RouterInterface $router, BlockHelper $blockHelper, HttpKernelExtension $httpKernelExtension, $hideDisabledBlocks = false)
+    {
         $this->cmsManagerSelector = $cmsManagerSelector;
         $this->siteSelector = $siteSelector;
         $this->router = $router;

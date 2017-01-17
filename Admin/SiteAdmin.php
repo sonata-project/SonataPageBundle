@@ -32,8 +32,6 @@ class SiteAdmin extends AbstractAdmin
     protected $routePageGenerator;
 
     /**
-     * Constructor.
-     *
      * @param string             $code               A Sonata admin code
      * @param string             $class              A Sonata admin class name
      * @param string             $baseControllerName A Sonata admin base controller name

@@ -37,8 +37,6 @@ class CleanupSnapshotsConsumer implements ConsumerInterface
     protected $pageManager;
 
     /**
-     * Constructor.
-     *
      * @param BackendInterface     $asyncBackend   An asynchronous backend instance
      * @param BackendInterface     $runtimeBackend A runtime backend instance
      * @param PageManagerInterface $pageManager    A page manager instance

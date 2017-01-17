@@ -56,8 +56,6 @@ class TemplateManager implements TemplateManagerInterface
     protected $defaultTemplatePath = 'SonataPageBundle::layout.html.twig';
 
     /**
-     * Constructor.
-     *
      * @param EngineInterface $engine            Templating engine
      * @param array           $defaultParameters An array of default view parameters
      */

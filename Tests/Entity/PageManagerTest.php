@@ -14,9 +14,6 @@ namespace Sonata\PageBundle\Tests\Entity;
 use Sonata\PageBundle\Entity\PageManager;
 use Sonata\PageBundle\Tests\Model\Page;
 
-/**
- * Class PageManagerTest.
- */
 class PageManagerTest extends \PHPUnit_Framework_TestCase
 {
     public function testFixUrl()

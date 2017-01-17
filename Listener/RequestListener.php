@@ -44,8 +44,6 @@ class RequestListener
     protected $decoratorStrategy;
 
     /**
-     * Constructor.
-     *
      * @param CmsManagerSelectorInterface $cmsSelector       Cms manager selector
      * @param SiteSelectorInterface       $siteSelector      Site selector
      * @param DecoratorStrategyInterface  $decoratorStrategy Decorator strategy
