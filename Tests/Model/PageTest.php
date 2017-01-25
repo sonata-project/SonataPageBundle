@@ -13,24 +13,6 @@ namespace Sonata\PageBundle\Tests\Model;
 
 class PageTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * NEXT_MAJOR: remove the legacy group from this test.
-     *
-     * @group legacy
-     */
-    public function testSlugify()
-    {
-        setlocale(LC_ALL, 'en_US.utf8');
-        setlocale(LC_CTYPE, 'en_US.utf8');
-
-        $this->assertEquals(Page::slugify('test'), 'test');
-        $this->assertEquals(Page::slugify('S§!@@#$#$alut'), 's-alut');
-        $this->assertEquals(Page::slugify('Symfony2'), 'symfony2');
-        $this->assertEquals(Page::slugify('test'), 'test');
-        $this->assertEquals(Page::slugify('c\'est bientôt l\'été'), 'c-est-bientot-l-ete');
-        $this->assertEquals(Page::slugify(urldecode('%2Fc\'est+bientôt+l\'été')), 'c-est-bientot-l-ete');
-    }
-
     public function testHeader()
     {
         $expectedHeaders = array(
