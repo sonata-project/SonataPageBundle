@@ -79,7 +79,8 @@ class CmsManagerSelector implements CmsManagerSelectorInterface, LogoutHandlerIn
      */
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
     {
-        if ($this->getSecurityContext()->getToken() && $this->getSecurityContext()->isGranted('ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT')) {
+        if ($this->getSecurityContext()->getToken() &&
+            $this->container->get('sonata.page.admin.page')->isGranted('EDIT')) {
             $this->getSession()->set('sonata/page/isEditor', true);
         }
     }
