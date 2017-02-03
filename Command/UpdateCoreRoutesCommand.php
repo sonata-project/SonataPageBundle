@@ -31,6 +31,7 @@ class UpdateCoreRoutesCommand extends BaseCommand
     {
         $this->setName('sonata:page:update-core-routes');
         $this->setDescription('Update core routes, from routing files to page manager');
+        // NEXT_MAJOR: Remove the "all" option.
         $this->addOption('all', null, InputOption::VALUE_NONE, 'Create snapshots for all sites');
         $this->addOption('clean', null, InputOption::VALUE_NONE, 'Removes all unused routes');
         $this->addOption('site', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Site id', null);
@@ -42,7 +43,14 @@ class UpdateCoreRoutesCommand extends BaseCommand
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        if (!$input->getOption('site') && !$input->getOption('all')) {
+        if ($input->getOption('all')) {
+            @trigger_error(
+                'Using the "all" option is deprecated since 3.x and will be removed in 4.0.',
+                E_USER_DEPRECATED
+            );
+        }
+
+        if (!$input->getOption('site')) {
             $output->writeln('Please provide an <info>--site=SITE_ID</info> option or the <info>--site=all</info> directive');
             $output->writeln('');
 
