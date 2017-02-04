@@ -27,13 +27,13 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class BlockAdminController extends Controller
 {
     /**
-     * @param Request|null $request
+     * @param Request $request
      *
      * @return Response
      *
      * @throws AccessDeniedException
      */
-    public function savePositionAction(Request $request = null)
+    public function savePositionAction(Request $request)
     {
         $this->admin->checkAccess('savePosition');
 
@@ -75,7 +75,7 @@ class BlockAdminController extends Controller
     /**
      * {@inheritdoc}
      */
-    public function createAction(Request $request = null)
+    public function createAction(Request $request)
     {
         $this->admin->checkAccess('create');
 
@@ -99,11 +99,11 @@ class BlockAdminController extends Controller
     }
 
     /**
-     * @param Request|null $request
+     * @param Request $request
      *
      * @return Response
      */
-    public function switchParentAction(Request $request = null)
+    public function switchParentAction(Request $request)
     {
         $this->admin->checkAccess('switchParent');
 
@@ -130,14 +130,14 @@ class BlockAdminController extends Controller
     }
 
     /**
-     * @param Request|null $request
+     * @param Request $request
      *
      * @return Response
      *
      * @throws AccessDeniedException
      * @throws PageNotFoundException
      */
-    public function composePreviewAction(Request $request = null)
+    public function composePreviewAction(Request $request)
     {
         $this->admin->checkAccess('composePreview');
 

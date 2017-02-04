@@ -63,11 +63,12 @@ class BlockController
      *
      * @View(serializerGroups="sonata_api_read", serializerEnableMaxDepthChecks=true)
      *
-     * @param $id
+     * @param Request $request
+     * @param int     $id
      *
      * @return BlockInterface
      */
-    public function getBlockAction($id)
+    public function getBlockAction(Request $request, $id)
     {
         return $this->getBlock($id);
     }
@@ -88,14 +89,14 @@ class BlockController
      *  }
      * )
      *
-     * @param int     $id      A Block identifier
      * @param Request $request A Symfony request
+     * @param int     $id      A Block identifier
      *
      * @return BlockInterface
      *
      * @throws NotFoundHttpException
      */
-    public function putBlockAction($id, Request $request)
+    public function putBlockAction(Request $request, $id)
     {
         $block = $id ? $this->getBlock($id) : null;
 
@@ -136,13 +137,12 @@ class BlockController
      *  }
      * )
      *
-     * @param int $id A Block identifier
+     * @param Request $request
+     * @param int     $id A Block identifier
      *
-     * @return \FOS\RestBundle\View\View
-     *
-     * @throws NotFoundHttpException
+     * @return FOSRestView
      */
-    public function deleteBlockAction($id)
+    public function deleteBlockAction(Request $request, $id)
     {
         $block = $this->getBlock($id);
 

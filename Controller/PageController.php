@@ -18,6 +18,7 @@ use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Listener\ExceptionListener;
 use Sonata\PageBundle\Page\PageServiceManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
@@ -29,11 +30,11 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class PageController extends Controller
 {
     /**
-     * @throws AccessDeniedException
+     * @param Request $request
      *
      * @return Response
      */
-    public function exceptionsListAction()
+    public function exceptionsListAction(Request $request)
     {
         if (!$this->getCmsManagerSelector()->isEditor()) {
             throw new AccessDeniedException();
@@ -45,13 +46,12 @@ class PageController extends Controller
     }
 
     /**
-     * @throws InternalErrorException|AccessDeniedException
-     *
-     * @param string $code
+     * @param Request $request
+     * @param string  $code
      *
      * @return Response
      */
-    public function exceptionEditAction($code)
+    public function exceptionEditAction(Request $request, $code)
     {
         $cms = $this->getCmsManager();
 

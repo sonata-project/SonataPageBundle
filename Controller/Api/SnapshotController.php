@@ -18,6 +18,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sonata\DatagridBundle\Pager\PagerInterface;
 use Sonata\PageBundle\Model\SnapshotInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -57,11 +58,12 @@ class SnapshotController
      *
      * @View(serializerGroups="sonata_api_read", serializerEnableMaxDepthChecks=true)
      *
+     * @param Request               $request
      * @param ParamFetcherInterface $paramFetcher
      *
      * @return PagerInterface
      */
-    public function getSnapshotsAction(ParamFetcherInterface $paramFetcher)
+    public function getSnapshotsAction(Request $request, ParamFetcherInterface $paramFetcher)
     {
         $supportedCriteria = array(
             'enabled' => '',
@@ -110,11 +112,12 @@ class SnapshotController
      *
      * @View(serializerGroups="sonata_api_read", serializerEnableMaxDepthChecks=true)
      *
-     * @param $id
+     * @param Request $request
+     * @param         $id
      *
      * @return SnapshotInterface
      */
-    public function getSnapshotAction($id)
+    public function getSnapshotAction(Request $request, $id)
     {
         return $this->getSnapshot($id);
     }
@@ -133,13 +136,12 @@ class SnapshotController
      *  }
      * )
      *
-     * @param int $id A Snapshot identifier
+     * @param Request $request
+     * @param int     $id A Snapshot identifier
      *
      * @return \FOS\RestBundle\View\View
-     *
-     * @throws NotFoundHttpException
      */
-    public function deleteSnapshotAction($id)
+    public function deleteSnapshotAction(Request $request, $id)
     {
         $snapshots = $this->getSnapshot($id);
 
