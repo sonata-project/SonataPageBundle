@@ -11,7 +11,7 @@
         <field name="isDefault"         type="boolean"      column="is_default"         default="false"/>
         <field name="createdAt"         type="datetime"     column="created_at"/>
         <field name="updatedAt"         type="datetime"     column="updated_at"/>
-        <field name="locale"            type="string"       column="locale"             nullable="true"   length="6"/>
+        <field name="locale"            type="string"       column="locale"             nullable="true"   length="7"/>
 
         <field name="title"             type="string"       column="title"              nullable="true"   length="64"/>
         <field name="metaKeywords"      type="string"       column="meta_keywords"      nullable="true"   length="255"/>
