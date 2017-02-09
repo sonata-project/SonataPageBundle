@@ -221,6 +221,25 @@ class PageAdmin extends AbstractAdmin
     /**
      * {@inheritdoc}
      */
+    public function getPersistentParameters()
+    {
+        $parameters = parent::getPersistentParameters();
+        $key = sprintf('%s.current_site', $this->getCode());
+
+        if ($site = $this->request->get('site', null)) {
+            $this->request->getSession()->set($key, $site);
+        }
+
+        if ($site = $this->request->getSession()->get($key, null)) {
+            $parameters['site'] = $site;
+        }
+
+        return $parameters;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
