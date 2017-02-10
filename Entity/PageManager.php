@@ -183,8 +183,8 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
                 $page->setUrl($base.$page->getSlug());
             } else {
                 // a parent page does not have any slug - can have a custom url ...
-                $page->setSlug(null);
                 $page->setUrl('/'.$page->getSlug());
+                $page->setSlug(null);
             }
         }
 
