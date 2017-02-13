@@ -121,6 +121,7 @@ class SiteManagerTest extends \PHPUnit_Framework_TestCase
             $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock(),
         ));
 
+        $qb->expects($this->any())->method('getRootAliases')->will($this->returnValue(array()));
         $qb->expects($this->any())->method('select')->will($this->returnValue($qb));
         $qb->expects($this->any())->method('getQuery')->will($this->returnValue($query));
 
