@@ -23,12 +23,16 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase
     {
         $pager = $this->getMockBuilder('Sonata\AdminBundle\Datagrid\Pager')->disableOriginalConstructor()->getMock();
 
-        $pageManager = $this->getMock('Sonata\PageBundle\Model\PageManagerInterface');
-        $pageManager->expects($this->once())->method('getPager')->will($this->returnValue($pager));
+        $paramFetcher = $this->getMockBuilder('FOS\RestBundle\Request\ParamFetcherInterface')
+            ->setMethods(array('addParam', 'setController', 'get', 'all'))
+            ->getMock();
 
-        $paramFetcher = $this->getMock('FOS\RestBundle\Request\ParamFetcherInterface');
+        $paramFetcher->expects($this->once())->method('addParam');
         $paramFetcher->expects($this->exactly(3))->method('get');
         $paramFetcher->expects($this->once())->method('all')->will($this->returnValue(array()));
+
+        $pageManager = $this->getMockBuilder('Sonata\PageBundle\Model\PageManagerInterface')->getMock();
+        $pageManager->expects($this->once())->method('getPager')->will($this->returnValue($pager));
 
         $this->assertSame($pager, $this->createPageController(null, null, $pageManager)->getPagesAction($paramFetcher));
     }

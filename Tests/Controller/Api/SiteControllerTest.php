@@ -21,10 +21,14 @@ class SiteControllerTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetSitesAction()
     {
-        $siteManager = $this->getMock('Sonata\PageBundle\Model\SiteManagerInterface');
+        $siteManager = $this->getMockBuilder('Sonata\PageBundle\Model\SiteManagerInterface')->getMock();
         $siteManager->expects($this->once())->method('getPager')->will($this->returnValue(array()));
 
-        $paramFetcher = $this->getMock('FOS\RestBundle\Request\ParamFetcherInterface');
+        $paramFetcher = $this->getMockBuilder('FOS\RestBundle\Request\ParamFetcherInterface')
+            ->setMethods(array('addParam', 'setController', 'get', 'all'))
+            ->getMock();
+
+        $paramFetcher->expects($this->once())->method('addParam');
         $paramFetcher->expects($this->exactly(3))->method('get');
         $paramFetcher->expects($this->once())->method('all')->will($this->returnValue(array()));
 
