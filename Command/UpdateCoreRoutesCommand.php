@@ -15,7 +15,7 @@ use Sonata\PageBundle\Route\RoutePageGenerator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\Process;
+use Symfony\Component\Process\ProcessBuilder;
 
 /**
  * Update core routes by reading routing information.
@@ -31,7 +31,9 @@ class UpdateCoreRoutesCommand extends BaseCommand
     {
         $this->setName('sonata:page:update-core-routes');
         $this->setDescription('Update core routes, from routing files to page manager');
+        // NEXT_MAJOR: Remove the "all" option.
         $this->addOption('all', null, InputOption::VALUE_NONE, 'Create snapshots for all sites');
+        $this->addOption('clean', null, InputOption::VALUE_NONE, 'Removes all unused routes');
         $this->addOption('site', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Site id', null);
         $this->addOption('base-command', null, InputOption::VALUE_OPTIONAL, 'Site id', 'php app/console');
     }
@@ -41,7 +43,14 @@ class UpdateCoreRoutesCommand extends BaseCommand
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        if (!$input->getOption('site') && !$input->getOption('all')) {
+        if ($input->getOption('all')) {
+            @trigger_error(
+                'Using the "all" option is deprecated since 3.x and will be removed in 4.0.',
+                E_USER_DEPRECATED
+            );
+        }
+
+        if (!$input->getOption('site')) {
             $output->writeln('Please provide an <info>--site=SITE_ID</info> option or the <info>--site=all</info> directive');
             $output->writeln('');
 
@@ -56,12 +65,25 @@ class UpdateCoreRoutesCommand extends BaseCommand
 
         foreach ($this->getSites($input) as $site) {
             if ($input->getOption('site') != 'all') {
-                $this->getRoutePageGenerator()->update($site, $output);
+                $this->getRoutePageGenerator()->update($site, $output, $input->getOption('clean'));
                 $output->writeln('');
             } else {
-                $p = new Process(sprintf('%s sonata:page:update-core-routes --env=%s --site=%s %s', $input->getOption('base-command'), $input->getOption('env'), $site->getId(), $input->getOption('no-debug') ? '--no-debug' : ''));
+                $builder = ProcessBuilder::create($input->getOption('base-command'))
+                    ->add('sonata:page:update-core-routes')
+                    ->setOption('env', $input->getOption('env'))
+                    ->setOption('site', $site->getId());
 
-                $p->run(function ($type, $data) use ($output) {
+                if ($input->getOption('no-debug')) {
+                    $builder->add('--no-debug');
+                }
+
+                if ($input->getOption('clean')) {
+                    $builder->add('--clean');
+                }
+
+                $process = $builder->getProcess();
+
+                $process->run(function ($type, $data) use ($output) {
                     $output->write($data);
                 });
             }
