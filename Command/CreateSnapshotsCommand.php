@@ -31,7 +31,8 @@ class CreateSnapshotsCommand extends BaseCommand
         $this->setName('sonata:page:create-snapshots');
         $this->setDescription('Create a snapshots of all pages available');
         $this->addOption('site', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Site id', null);
-        $this->addOption('base-console', null, InputOption::VALUE_OPTIONAL, 'Base symfony console command', 'php app/console');
+        $this->addOption('base-console', null, InputOption::VALUE_OPTIONAL, 'Base symfony console command (deprecated, use base-command instead)', 'php app/console');
+        $this->addOption('base-command', null, InputOption::VALUE_OPTIONAL, 'Base symfony console command', 'php app/console');
 
         $this->addOption('mode', null, InputOption::VALUE_OPTIONAL, 'Run the command asynchronously', 'sync');
     }
@@ -69,7 +70,9 @@ class CreateSnapshotsCommand extends BaseCommand
 
                 $output->writeln(' done!');
             } else {
-                $p = new Process(sprintf('%s sonata:page:create-snapshots --env=%s --site=%s --mode=%s %s ', $input->getOption('base-console'), $input->getOption('env'), $site->getId(), $input->getOption('mode'), $input->getOption('no-debug') ? '--no-debug' : ''));
+                $baseCommand = 'php app/console' != $input->getOption('base-console') ? $input->getOption('base-console') : $input->getOption('base-command');
+
+                $p = new Process(sprintf('%s sonata:page:create-snapshots --env=%s --site=%s --mode=%s %s ', $baseCommand, $input->getOption('env'), $site->getId(), $input->getOption('mode'), $input->getOption('no-debug') ? '--no-debug' : ''));
                 $p->setTimeout(0);
                 $p->run(function ($type, $data) use ($output) {
                     $output->write($data, OutputInterface::OUTPUT_RAW);

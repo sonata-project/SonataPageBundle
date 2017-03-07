@@ -30,7 +30,8 @@ class CleanupSnapshotsCommand extends BaseCommand
         $this->setDescription('Cleanups the deprecated snapshots by a given site');
 
         $this->addOption('site', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Site id', null);
-        $this->addOption('base-console', null, InputOption::VALUE_OPTIONAL, 'Base Symfony console command', 'app/console');
+        $this->addOption('base-console', null, InputOption::VALUE_OPTIONAL, 'Base Symfony console command (deprecated, use base-command instead)', 'app/console');
+        $this->addOption('base-command', null, InputOption::VALUE_OPTIONAL, 'Base Symfony console command', 'app/console');
         $this->addOption('mode', null, InputOption::VALUE_OPTIONAL, 'Run the command asynchronously', 'sync');
         $this->addOption('keep-snapshots', null, InputOption::VALUE_OPTIONAL, 'Keep a given count of snapshots per page', 5);
     }
@@ -83,8 +84,10 @@ class CleanupSnapshotsCommand extends BaseCommand
 
                 $output->writeln(' done!');
             } else {
+                $baseCommand = 'app/console' != $input->getOption('base-console') ? $input->getOption('base-console') : $input->getOption('base-command');
+
                 $p = new Process(sprintf('%s sonata:page:cleanup-snapshots --env=%s --site=%s --mode=%s --keep-snapshots=%s %s',
-                    $input->getOption('base-console'),
+                    $baseCommand,
                     $input->getOption('env'),
                     $site->getId(),
                     $input->getOption('mode'),
