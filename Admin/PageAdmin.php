@@ -465,11 +465,19 @@ class PageAdmin extends AbstractAdmin
             $admin->generateMenuUrl('sonata.page.admin.snapshot.list', array('id' => $id))
         );
 
-        if (!$this->getSubject()->isHybrid() && !$this->getSubject()->isInternal()) {
+        $page = $this->getSubject();
+        if (!$page->isHybrid() && !$page->isInternal()) {
             try {
-                $menu->addChild('view_page',
-                    array('uri' => $this->getRouteGenerator()->generate('page_slug', array('path' => $this->getSubject()->getUrl())))
-                );
+                $path = $page->getUrl();
+                $siteRelativePath = $page->getSite()->getRelativePath();
+                if (!empty($siteRelativePath)) {
+                    $path = $siteRelativePath.$path;
+                }
+                $menu->addChild('view_page', array(
+                    'uri' => $this->getRouteGenerator()->generate('page_slug', array(
+                        'path' => $path,
+                    )),
+                ));
             } catch (\Exception $e) {
                 // avoid crashing the admin if the route is not setup correctly
                 // throw $e;
