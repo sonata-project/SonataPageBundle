@@ -45,7 +45,7 @@ class UpdateCoreRoutesCommand extends BaseCommand
     {
         if ($input->getOption('all')) {
             @trigger_error(
-                'Using the "all" option is deprecated since 3.x and will be removed in 4.0.',
+                'Using the "all" option is deprecated since 3.4 and will be removed in 4.0.',
                 E_USER_DEPRECATED
             );
         }
