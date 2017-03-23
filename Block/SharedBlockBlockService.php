@@ -12,13 +12,12 @@
 namespace Sonata\PageBundle\Block;
 
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\BlockBundle\Block\BaseBlockService;
 use Sonata\BlockBundle\Block\BlockContextInterface;
+use Sonata\BlockBundle\Block\Service\AbstractAdminBlockService;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\BlockBundle\Model\BlockManagerInterface;
 use Sonata\CoreBundle\Validator\ErrorElement;
 use Sonata\PageBundle\Admin\SharedBlockAdmin;
-use Sonata\PageBundle\Entity\BlockManager;
 use Sonata\PageBundle\Model\Block;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\FormBuilder;
@@ -32,7 +31,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  *
  * @author Romain Mouillard <romain.mouillard@gmail.com>
  */
-class SharedBlockBlockService extends BaseBlockService
+class SharedBlockBlockService extends AbstractAdminBlockService
 {
     /**
      * @var SharedBlockAdmin
