@@ -20,7 +20,7 @@ use JMS\Serializer\SerializationContext;
 /**
  * @author Duchkina Anastasiya <duchkina.nast@gmail.com>
  */
-class FOSRestController
+abstract class FOSRestController
 {
     /**
      * @param ParamFetcherInterface $paramFetcher
