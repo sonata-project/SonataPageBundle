@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.4.1](https://github.com/sonata-project/SonataPageBundle/compare/3.4.0...3.4.1) - 2017-04-04
+### Deprecated
+ - Removed block service deprecation
+
+### Fixed
+- use `is not null` instead of `is defined` in `Block/block_base.html.twig`
+
 ## [3.4.0](https://github.com/sonata-project/SonataPageBundle/compare/3.3.0...3.4.0) - 2017-03-16
 ### Added
 - Added --clean option to `sonata:page:update-core-routes` command to remove orphaned pages
