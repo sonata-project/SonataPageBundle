@@ -210,10 +210,19 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function loadPages(SiteInterface $site)
+    public function loadPages(SiteInterface $site, array $criteria = array())
     {
+        $andWhere = "";
+        $params   = array();
+
+        foreach ($criteria as $field => $value) {
+            $andWhere .= sprintf("AND p.%s = :val_%s ", $field, $field);
+            $params['val_'.$field] = $value;
+        }
+
         $pages = $this->getEntityManager()
-            ->createQuery(sprintf('SELECT p FROM %s p INDEX BY p.id WHERE p.site = %d ORDER BY p.position ASC', $this->class, $site->getId()))
+            ->createQuery(sprintf('SELECT p FROM %s p INDEX BY p.id WHERE p.site = %d %s ORDER BY p.position ASC', $this->class, $site->getId(), $andWhere))
+            ->setParameters($params)
             ->execute();
 
         foreach ($pages as $page) {

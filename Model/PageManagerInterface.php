@@ -35,10 +35,11 @@ interface PageManagerInterface extends ManagerInterface, PageableManagerInterfac
      * Returns an array of Pages Entity where the id is the key.
      *
      * @param SiteInterface $site
+     * @param array         $criteria
      *
      * @return array
      */
-    public function loadPages(SiteInterface $site);
+    public function loadPages(SiteInterface $site, array $criteria = array());
 
     /**
      * @param PageInterface $page

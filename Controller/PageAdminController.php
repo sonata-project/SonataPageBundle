@@ -86,7 +86,7 @@ class PageAdminController extends Controller
         }
 
         if ($currentSite) {
-            $pages = $pageManager->loadPages($currentSite);
+            $pages = $pageManager->loadPages($currentSite, array('routeName' => 'page_slug'));
         } else {
             $pages = array();
         }
