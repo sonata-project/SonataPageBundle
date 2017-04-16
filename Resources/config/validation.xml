@@ -31,5 +31,9 @@
         <property name="host">
             <constraint name="NotNull"/>
         </property>
+
+        <property name="host">
+            <constraint name="NotNull" />
+        </property>
     </class>
 </constraint-mapping>
