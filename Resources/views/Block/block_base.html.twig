@@ -12,7 +12,7 @@ file that was distributed with this source code.
 {% if sonata_page.isInlineEditionOn %}
     <div id="cms-block-{{ block.id }}"
          class="cms-block{% if block.hasParent() %} cms-block-element{% endif %}{% block block_class %}{% endblock %}"
-        {% if sonata_page.isEditor and block.page is not null %}
+        {% if sonata_page.isEditor and block.page is defined and block.page is not null %}
             data-id="{{ block.id }}"
             data-name="{{ block.name }}"
             data-role="{% block block_role %}block{% endblock %}"
