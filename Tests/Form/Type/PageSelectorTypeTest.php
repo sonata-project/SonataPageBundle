@@ -87,7 +87,7 @@ class PageSelectorTypeTest extends PHPUnit_Framework_TestCase
     {
         $pageSelector = new PageSelectorType($this->getPageManager());
 
-        $pageSelector->setDefaultOptions($options = new OptionsResolver());
+        $pageSelector->configureOptions($options = new OptionsResolver());
 
         $options = $options->resolve(array('filter_choice' => array(
             'request_method' => 'all',
@@ -104,7 +104,7 @@ class PageSelectorTypeTest extends PHPUnit_Framework_TestCase
     {
         $pageSelector = new PageSelectorType($this->getPageManager());
 
-        $pageSelector->setDefaultOptions($options = new OptionsResolver());
+        $pageSelector->configureOptions($options = new OptionsResolver());
 
         $options = $options->resolve(array('site' => $this->site, 'filter_choice' => array(
             'request_method' => 'all',
@@ -118,7 +118,7 @@ class PageSelectorTypeTest extends PHPUnit_Framework_TestCase
     {
         $pageSelector = new PageSelectorType($this->getPageManager());
 
-        $pageSelector->setDefaultOptions($options = new OptionsResolver());
+        $pageSelector->configureOptions($options = new OptionsResolver());
 
         $options = $options->resolve(array('site' => $this->site));
 
@@ -135,7 +135,7 @@ class PageSelectorTypeTest extends PHPUnit_Framework_TestCase
     {
         $pageSelector = new PageSelectorType($this->getPageManager());
 
-        $pageSelector->setDefaultOptions($options = new OptionsResolver());
+        $pageSelector->configureOptions($options = new OptionsResolver());
 
         $options = $options->resolve(array('site' => $this->site, 'filter_choice' => array(
             'request_method' => 'post',
@@ -154,7 +154,7 @@ class PageSelectorTypeTest extends PHPUnit_Framework_TestCase
     {
         $pageSelector = new PageSelectorType($this->getPageManager());
 
-        $pageSelector->setDefaultOptions($options = new OptionsResolver());
+        $pageSelector->configureOptions($options = new OptionsResolver());
 
         $options = $options->resolve(array('site' => $this->site, 'filter_choice' => array(
             'hierarchy' => 'root',
@@ -172,7 +172,7 @@ class PageSelectorTypeTest extends PHPUnit_Framework_TestCase
     {
         $pageSelector = new PageSelectorType($this->getPageManager());
 
-        $pageSelector->setDefaultOptions($options = new OptionsResolver());
+        $pageSelector->configureOptions($options = new OptionsResolver());
 
         $options = $options->resolve(array('site' => $this->site, 'filter_choice' => array(
             'hierarchy' => 'children',
@@ -192,7 +192,7 @@ class PageSelectorTypeTest extends PHPUnit_Framework_TestCase
     {
         $pageSelector = new PageSelectorType($this->getPageManager());
 
-        $pageSelector->setDefaultOptions($options = new OptionsResolver());
+        $pageSelector->configureOptions($options = new OptionsResolver());
 
         $options = $options->resolve(array('site' => $this->site, 'filter_choice' => array(
             'hierarchy' => 'children',

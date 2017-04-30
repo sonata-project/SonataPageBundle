@@ -52,7 +52,7 @@ class TemplateChoiceTypeTest extends PHPUnit_Framework_TestCase
         )));
 
         // WHEN
-        $this->type->setDefaultOptions(new OptionsResolver());
+        $this->type->configureOptions(new OptionsResolver());
 
         // THEN
         $this->type->getTemplates();
