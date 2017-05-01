@@ -32,10 +32,7 @@ class UniqueUrlValidatorTest extends PHPUnit_Framework_TestCase
         $manager->expects($this->once())->method('fixUrl');
         $manager->expects($this->once())->method('findBy')->will($this->returnValue(array($page)));
 
-        $context = $this->getMockBuilder('Symfony\Component\Validator\ExecutionContext')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $context->expects($this->never())->method('addViolationAt');
+        $context = $this->getContext();
 
         $validator = new UniqueUrlValidator($manager);
         $validator->initialize($context);
@@ -59,9 +56,7 @@ class UniqueUrlValidatorTest extends PHPUnit_Framework_TestCase
         $manager->expects($this->once())->method('fixUrl');
         $manager->expects($this->once())->method('findBy')->will($this->returnValue(array($page, $pageFound)));
 
-        $context = $this->getMockBuilder('Symfony\Component\Validator\ExecutionContext')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $context = $this->getContext();
 
         $validator = new UniqueUrlValidator($manager);
         $validator->initialize($context);
@@ -86,9 +81,7 @@ class UniqueUrlValidatorTest extends PHPUnit_Framework_TestCase
         $manager->expects($this->once())->method('fixUrl');
         $manager->expects($this->once())->method('findBy')->will($this->returnValue(array($page, $pageFound)));
 
-        $context = $this->getMockBuilder('Symfony\Component\Validator\ExecutionContext')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $context = $this->getContext();
 
         $validator = new UniqueUrlValidator($manager);
         $validator->initialize($context);
@@ -108,13 +101,20 @@ class UniqueUrlValidatorTest extends PHPUnit_Framework_TestCase
 
         $manager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
 
-        $context = $this->getMockBuilder('Symfony\Component\Validator\ExecutionContext')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $context = $this->getContext();
 
         $validator = new UniqueUrlValidator($manager);
         $validator->initialize($context);
 
         $validator->validate($page, new UniqueUrl());
+    }
+
+    private function getContext()
+    {
+        return $this->createMock(
+            class_exists('Symfony\Component\Validator\Context\ExecutionContextInterface') ?
+            'Symfony\Component\Validator\Context\ExecutionContextInterface' :
+            'Symfony\Component\Validator\ExecutionContextInterface'
+        );
     }
 }
