@@ -28,7 +28,13 @@ class SonataPageExtensionTest extends \PHPUnit_Framework_TestCase
         $extension = new SonataPageExtension();
         $extension->configureClassesToCompile();
 
-        $this->assertNotContains('Sonata\\PageBundle\\Request\\SiteRequest', $extension->getClassesToCompile());
-        $this->assertNotContains('Sonata\\PageBundle\\Request\\SiteRequestInterface', $extension->getClassesToCompile());
+        $this->assertNotContains(
+            'Sonata\\PageBundle\\Request\\SiteRequest',
+            $extension->getClassesToCompile()
+        );
+        $this->assertNotContains(
+            'Sonata\\PageBundle\\Request\\SiteRequestInterface',
+            $extension->getClassesToCompile()
+        );
     }
 }
