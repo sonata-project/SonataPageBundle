@@ -11,6 +11,7 @@
 
 namespace Sonata\PageBundle\Tests\DependencyInjection;
 
+use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use Sonata\PageBundle\DependencyInjection\SonataPageExtension;
 
 /**
@@ -18,7 +19,7 @@ use Sonata\PageBundle\DependencyInjection\SonataPageExtension;
  *
  * @author Rémi Marseille <marseille@ekino.com>
  */
-class SonataPageExtensionTest extends \PHPUnit_Framework_TestCase
+class SonataPageExtensionTest extends AbstractExtensionTestCase
 {
     /**
      * Tests the configureClassesToCompile method.
@@ -28,7 +29,53 @@ class SonataPageExtensionTest extends \PHPUnit_Framework_TestCase
         $extension = new SonataPageExtension();
         $extension->configureClassesToCompile();
 
-        $this->assertNotContains('Sonata\\PageBundle\\Request\\SiteRequest', $extension->getClassesToCompile());
-        $this->assertNotContains('Sonata\\PageBundle\\Request\\SiteRequestInterface', $extension->getClassesToCompile());
+        $this->assertNotContains(
+            'Sonata\\PageBundle\\Request\\SiteRequest',
+            $extension->getClassesToCompile()
+        );
+        $this->assertNotContains(
+            'Sonata\\PageBundle\\Request\\SiteRequestInterface',
+            $extension->getClassesToCompile()
+        );
+    }
+
+    public function testRequestContextServiceIsDefined()
+    {
+        $this->container->setParameter('kernel.bundles', array());
+        $this->load();
+        $this->assertContainerBuilderHasService('sonata.page.router.request_context');
+    }
+
+    public function testApiServicesAreDefinedWhenSpecificBundlesArePresent()
+    {
+        $this->container->setParameter('kernel.bundles', array(
+            'FOSRestBundle' => 42,
+            'NelmioApiDocBundle' => 42,
+        ));
+        $this->load();
+        $this->assertContainerBuilderHasService('sonata.page.serializer.handler.page');
+    }
+
+    public function testAdminServicesAreDefinedWhenAdminBundlesIsPresent()
+    {
+        $this->container->setParameter('kernel.bundles', array(
+            'SonataAdminBundle' => 42,
+        ));
+        $this->load();
+        $this->assertContainerBuilderHasService('sonata.page.admin.page');
+    }
+
+    protected function getContainerExtensions()
+    {
+        return array(new SonataPageExtension());
+    }
+
+    protected function getMinimalConfiguration()
+    {
+        return array(
+            'multisite' => 'host',
+            'default_template' => null,
+            'templates' => null,
+        );
     }
 }
