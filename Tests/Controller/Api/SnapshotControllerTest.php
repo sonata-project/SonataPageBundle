@@ -20,10 +20,14 @@ class SnapshotControllerTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetSnapshotsAction()
     {
-        $snapshotManager = $this->getMock('Sonata\PageBundle\Model\SnapshotManagerInterface');
+        $snapshotManager = $this->getMockBuilder('Sonata\PageBundle\Model\SnapshotManagerInterface')->getMock();
         $snapshotManager->expects($this->once())->method('getPager')->will($this->returnValue(array()));
 
-        $paramFetcher = $this->getMock('FOS\RestBundle\Request\ParamFetcherInterface');
+        $paramFetcher = $this->getMockBuilder('FOS\RestBundle\Request\ParamFetcherInterface')
+            ->setMethods(array('addParam', 'setController', 'get', 'all'))
+            ->getMock();
+
+        $paramFetcher->expects($this->once())->method('addParam');
         $paramFetcher->expects($this->exactly(3))->method('get');
         $paramFetcher->expects($this->once())->method('all')->will($this->returnValue(array()));
 

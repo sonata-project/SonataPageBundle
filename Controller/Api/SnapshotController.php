@@ -23,7 +23,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * @author Benoit de Jacobet <benoit.de-jacobet@ekino.com>
  */
-class SnapshotController
+class SnapshotController extends FOSRestController
 {
     /**
      * @var SnapshotManagerInterface
@@ -53,9 +53,9 @@ class SnapshotController
      * @QueryParam(name="root", requirements="0|1", nullable=true, strict=true, description="Filter snapshots having no parent id")
      * @QueryParam(name="parent", requirements="\d+", nullable=true, strict=true, description="Get snapshots being child of given snapshots id")
      * @QueryParam(name="enabled", requirements="0|1", nullable=true, strict=true, description="Enabled/Disabled snapshots filter")
-     * @QueryParam(name="orderBy", requirements="ASC|DESC", array=true, nullable=true, strict=true, description="Order by array (key is field, value is direction)")
+     * @QueryParam(name="orderBy", requirements="ASC|DESC", nullable=true, strict=true, description="Order by array (key is field, value is direction)")
      *
-     * @View(serializerGroups="sonata_api_read", serializerEnableMaxDepthChecks=true)
+     * @View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
      *
      * @param ParamFetcherInterface $paramFetcher
      *
@@ -63,6 +63,8 @@ class SnapshotController
      */
     public function getSnapshotsAction(ParamFetcherInterface $paramFetcher)
     {
+        $this->setMapForOrderByParam($paramFetcher);
+
         $supportedCriteria = array(
             'enabled' => '',
             'site' => '',
@@ -108,7 +110,7 @@ class SnapshotController
      *  }
      * )
      *
-     * @View(serializerGroups="sonata_api_read", serializerEnableMaxDepthChecks=true)
+     * @View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
      *
      * @param $id
      *
