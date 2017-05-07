@@ -11,7 +11,9 @@
 
 namespace Sonata\PageBundle\Tests\Model;
 
-class PageTest extends \PHPUnit_Framework_TestCase
+use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
+
+class PageTest extends PHPUnit_Framework_TestCase
 {
     /**
      * NEXT_MAJOR: remove the legacy group from this test.
@@ -169,17 +171,17 @@ class PageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(2, count($page->getChildren()));
 
         $snapshots = array(
-            $this->getMock('Sonata\PageBundle\Model\SnapshotInterface'),
+            $this->createMock('Sonata\PageBundle\Model\SnapshotInterface'),
         );
 
         $page->setSnapshots($snapshots);
         $this->assertEquals(1, count($page->getSnapshots()));
-        $page->addSnapshot($this->getMock('Sonata\PageBundle\Model\SnapshotInterface'));
+        $page->addSnapshot($this->createMock('Sonata\PageBundle\Model\SnapshotInterface'));
         $this->assertEquals(2, count($page->getSnapshots()));
 
         $this->assertInstanceOf('Sonata\PageBundle\Model\SnapshotInterface', $page->getSnapshot());
 
-        $page->setTarget($this->getMock('Sonata\PageBundle\Model\PageInterface'));
+        $page->setTarget($this->createMock('Sonata\PageBundle\Model\PageInterface'));
         $this->assertInstanceOf('Sonata\PageBundle\Model\PageInterface', $page->getTarget());
         $page->setTarget(null);
         $this->assertNull($page->getTarget());

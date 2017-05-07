@@ -12,13 +12,16 @@
 namespace Sonata\PageBundle\Tests\Entity;
 
 use Sonata\PageBundle\Entity\PageManager;
+use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 use Sonata\PageBundle\Tests\Model\Page;
 
-class PageManagerTest extends \PHPUnit_Framework_TestCase
+class PageManagerTest extends PHPUnit_Framework_TestCase
 {
     public function testFixUrl()
     {
-        $entityManager = $this->getMock('Doctrine\Common\Persistence\ManagerRegistry', array(), array(), '', false);
+        $entityManager = $this->getMockBuilder('Doctrine\Common\Persistence\ManagerRegistry')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $manager = new PageManager('Foo\Bar', $entityManager, array());
 
@@ -60,7 +63,9 @@ class PageManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testWithSlashAtTheEnd()
     {
-        $entityManager = $this->getMock('Doctrine\Common\Persistence\ManagerRegistry', array(), array(), '', false);
+        $entityManager = $this->getMockBuilder('Doctrine\Common\Persistence\ManagerRegistry')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $manager = new PageManager('Foo\Bar', $entityManager, array());
 
@@ -85,7 +90,9 @@ class PageManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateWithGlobalDefaults()
     {
-        $entityManager = $this->getMock('Doctrine\Common\Persistence\ManagerRegistry', array(), array(), '', false);
+        $entityManager = $this->getMockBuilder('Doctrine\Common\Persistence\ManagerRegistry')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $manager = new PageManager('Sonata\PageBundle\Tests\Model\Page', $entityManager, array(), array('my_route' => array('decorate' => false, 'name' => 'Salut!')));
 
@@ -246,9 +253,13 @@ class PageManagerTest extends \PHPUnit_Framework_TestCase
         $query = $this->getMockForAbstractClass('Doctrine\ORM\AbstractQuery', array(), '', false, true, true, array('execute'));
         $query->expects($this->any())->method('execute')->will($this->returnValue(true));
 
-        $qb = $this->getMock('Doctrine\ORM\QueryBuilder', array(), array(
-            $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock(),
-        ));
+        $qb = $this->getMockBuilder('Doctrine\ORM\QueryBuilder')
+            ->setConstructorArgs(array(
+                $this->getMockBuilder('Doctrine\ORM\EntityManager')
+                    ->disableOriginalConstructor()
+                    ->getMock(),
+            ))
+            ->getMock();
 
         $qb->expects($this->any())->method('getRootAliases')->will($this->returnValue(array()));
         $qb->expects($this->any())->method('select')->will($this->returnValue($qb));
@@ -259,7 +270,7 @@ class PageManagerTest extends \PHPUnit_Framework_TestCase
         $repository = $this->getMockBuilder('Doctrine\ORM\EntityRepository')->disableOriginalConstructor()->getMock();
         $repository->expects($this->any())->method('createQueryBuilder')->will($this->returnValue($qb));
 
-        $metadata = $this->getMock('Doctrine\Common\Persistence\Mapping\ClassMetadata');
+        $metadata = $this->createMock('Doctrine\Common\Persistence\Mapping\ClassMetadata');
         $metadata->expects($this->any())->method('getFieldNames')->will($this->returnValue(array(
             'name',
             'routeName',
@@ -269,7 +280,7 @@ class PageManagerTest extends \PHPUnit_Framework_TestCase
         $em->expects($this->any())->method('getRepository')->will($this->returnValue($repository));
         $em->expects($this->any())->method('getClassMetadata')->will($this->returnValue($metadata));
 
-        $registry = $this->getMock('Doctrine\Common\Persistence\ManagerRegistry');
+        $registry = $this->createMock('Doctrine\Common\Persistence\ManagerRegistry');
         $registry->expects($this->any())->method('getManagerForClass')->will($this->returnValue($em));
 
         return new PageManager('Sonata\PageBundle\Entity\BasePage', $registry);

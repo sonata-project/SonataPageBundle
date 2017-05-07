@@ -20,7 +20,7 @@
         "php": "^5.3 || ^7.0",
         "cocur/slugify": "^1.0 || ^2.0",
         "sonata-project/admin-bundle": "^3.4",
-        "sonata-project/block-bundle": "^3.2",
+        "sonata-project/block-bundle": "^3.3.1",
         "sonata-project/cache": "^1.0.2",
         "sonata-project/cache-bundle": "^2.1.7",
         "sonata-project/core-bundle": "^3.0",

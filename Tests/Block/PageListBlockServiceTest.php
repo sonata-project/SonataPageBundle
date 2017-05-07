@@ -29,7 +29,7 @@ class PageListBlockServiceTest extends AbstractBlockServiceTestCase
     {
         parent::setUp();
 
-        $this->pageManager = $this->getMock('Sonata\PageBundle\Model\PageManagerInterface');
+        $this->pageManager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
     }
 
     public function testDefaultSettings()
@@ -46,9 +46,9 @@ class PageListBlockServiceTest extends AbstractBlockServiceTestCase
 
     public function testExecute()
     {
-        $page1 = $this->getMock('Sonata\PageBundle\Model\PageInterface');
-        $page2 = $this->getMock('Sonata\PageBundle\Model\PageInterface');
-        $systemPage = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+        $page1 = $this->createMock('Sonata\PageBundle\Model\PageInterface');
+        $page2 = $this->createMock('Sonata\PageBundle\Model\PageInterface');
+        $systemPage = $this->createMock('Sonata\PageBundle\Model\PageInterface');
 
         $this->pageManager->expects($this->at(0))->method('findBy')
             ->with($this->equalTo(array(

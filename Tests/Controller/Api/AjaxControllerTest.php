@@ -12,27 +12,28 @@
 namespace Sonata\PageBundle\Tests\Controller\Api;
 
 use Sonata\PageBundle\Controller\AjaxController;
+use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Vincent Composieux <vincent.composieux@gmail.com>
  */
-class AjaxControllerTest extends \PHPUnit_Framework_TestCase
+class AjaxControllerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @expectedException \Sonata\BlockBundle\Exception\BlockNotFoundException
      */
     public function testWithInvalidBlock()
     {
-        $cmsManager = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerInterface');
+        $cmsManager = $this->createMock('Sonata\PageBundle\CmsManager\CmsManagerInterface');
 
-        $selector = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
+        $selector = $this->createMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
         $selector->expects($this->once())->method('retrieve')->will($this->returnValue($cmsManager));
 
-        $renderer = $this->getMock('Sonata\BlockBundle\Block\BlockRendererInterface');
+        $renderer = $this->createMock('Sonata\BlockBundle\Block\BlockRendererInterface');
 
-        $contextManager = $this->getMock('\Sonata\BlockBundle\Block\BlockContextManagerInterface');
+        $contextManager = $this->createMock('\Sonata\BlockBundle\Block\BlockContextManagerInterface');
 
         $controller = new AjaxController($selector, $renderer, $contextManager);
 
@@ -43,20 +44,20 @@ class AjaxControllerTest extends \PHPUnit_Framework_TestCase
 
     public function testRenderer()
     {
-        $block = $this->getMock('Sonata\BlockBundle\Model\BlockInterface');
+        $block = $this->createMock('Sonata\BlockBundle\Model\BlockInterface');
 
-        $cmsManager = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerInterface');
+        $cmsManager = $this->createMock('Sonata\PageBundle\CmsManager\CmsManagerInterface');
         $cmsManager->expects($this->once())->method('getBlock')->will($this->returnValue($block));
 
-        $selector = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
+        $selector = $this->createMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
         $selector->expects($this->once())->method('retrieve')->will($this->returnValue($cmsManager));
 
-        $renderer = $this->getMock('Sonata\BlockBundle\Block\BlockRendererInterface');
+        $renderer = $this->createMock('Sonata\BlockBundle\Block\BlockRendererInterface');
         $renderer->expects($this->once())->method('render')->will($this->returnValue(new Response()));
 
-        $blockContext = $this->getMock('Sonata\BlockBundle\Block\BlockContextInterface');
+        $blockContext = $this->createMock('Sonata\BlockBundle\Block\BlockContextInterface');
 
-        $contextManager = $this->getMock('\Sonata\BlockBundle\Block\BlockContextManagerInterface');
+        $contextManager = $this->createMock('\Sonata\BlockBundle\Block\BlockContextManagerInterface');
         $contextManager->expects($this->once())->method('get')->will($this->returnValue($blockContext));
 
         $controller = new AjaxController($selector, $renderer, $contextManager);

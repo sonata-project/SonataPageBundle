@@ -12,36 +12,37 @@
 namespace Sonata\PageBundle\Tests\Listener;
 
 use Sonata\PageBundle\Listener\RequestListener;
+use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 /**
  * Test the page bundle request listener.
  */
-class RequestListenerTest extends \PHPUnit_Framework_TestCase
+class RequestListenerTest extends PHPUnit_Framework_TestCase
 {
     public function testValidSite()
     {
-        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+        $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
         $page->expects($this->once())->method('getEnabled')->will($this->returnValue(true));
 
-        $seoPage = $this->getMock('Sonata\SeoBundle\Seo\SeoPageInterface');
+        $seoPage = $this->createMock('Sonata\SeoBundle\Seo\SeoPageInterface');
 
-        $decoratorStrategy = $this->getMock('Sonata\PageBundle\CmsManager\DecoratorStrategyInterface');
+        $decoratorStrategy = $this->createMock('Sonata\PageBundle\CmsManager\DecoratorStrategyInterface');
         $decoratorStrategy->expects($this->once())->method('isRequestDecorable')->will($this->returnValue(true));
 
-        $cmsManager = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerInterface');
+        $cmsManager = $this->createMock('Sonata\PageBundle\CmsManager\CmsManagerInterface');
         $cmsManager->expects($this->once())->method('getPageByRouteName')->will($this->returnValue($page));
 
-        $cmsSelector = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
+        $cmsSelector = $this->createMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
         $cmsSelector->expects($this->once())->method('retrieve')->will($this->returnValue($cmsManager));
 
-        $site = $this->getMock('Sonata\PageBundle\Model\SiteInterface');
+        $site = $this->createMock('Sonata\PageBundle\Model\SiteInterface');
 
-        $siteSelector = $this->getMock('Sonata\PageBundle\Site\SiteSelectorInterface');
+        $siteSelector = $this->createMock('Sonata\PageBundle\Site\SiteSelectorInterface');
         $siteSelector->expects($this->once())->method('retrieve')->will($this->returnValue($site));
 
-        $kernel = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface');
+        $kernel = $this->createMock('Symfony\Component\HttpKernel\HttpKernelInterface');
         $request = new Request();
 
         $event = new GetResponseEvent($kernel, $request, 'master');
@@ -55,20 +56,20 @@ class RequestListenerTest extends \PHPUnit_Framework_TestCase
      */
     public function testNoSite()
     {
-        $cmsManager = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerInterface');
+        $cmsManager = $this->createMock('Sonata\PageBundle\CmsManager\CmsManagerInterface');
 
-        $seoPage = $this->getMock('Sonata\SeoBundle\Seo\SeoPageInterface');
+        $seoPage = $this->createMock('Sonata\SeoBundle\Seo\SeoPageInterface');
 
-        $decoratorStrategy = $this->getMock('Sonata\PageBundle\CmsManager\DecoratorStrategyInterface');
+        $decoratorStrategy = $this->createMock('Sonata\PageBundle\CmsManager\DecoratorStrategyInterface');
         $decoratorStrategy->expects($this->once())->method('isRequestDecorable')->will($this->returnValue(true));
 
-        $cmsSelector = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
+        $cmsSelector = $this->createMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
         $cmsSelector->expects($this->once())->method('retrieve')->will($this->returnValue($cmsManager));
 
-        $siteSelector = $this->getMock('Sonata\PageBundle\Site\SiteSelectorInterface');
+        $siteSelector = $this->createMock('Sonata\PageBundle\Site\SiteSelectorInterface');
         $siteSelector->expects($this->once())->method('retrieve')->will($this->returnValue(false));
 
-        $kernel = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface');
+        $kernel = $this->createMock('Symfony\Component\HttpKernel\HttpKernelInterface');
         $request = new Request();
 
         $event = new GetResponseEvent($kernel, $request, 'master');

@@ -12,8 +12,9 @@
 namespace Sonata\PageBundle\Tests\Page;
 
 use Sonata\PageBundle\Cache\BlockEsiCache;
+use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 
-class BlockEsiCacheTest extends \PHPUnit_Framework_TestCase
+class BlockEsiCacheTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @expectedException \RuntimeException
@@ -21,11 +22,11 @@ class BlockEsiCacheTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptions($keys)
     {
-        $router = $this->getMock('Symfony\Component\Routing\RouterInterface');
+        $router = $this->createMock('Symfony\Component\Routing\RouterInterface');
 
-        $blockRenderer = $this->getMock('Sonata\BlockBundle\Block\BlockRendererInterface');
+        $blockRenderer = $this->createMock('Sonata\BlockBundle\Block\BlockRendererInterface');
 
-        $contextManager = $this->getMock('Sonata\BlockBundle\Block\BlockContextManagerInterface');
+        $contextManager = $this->createMock('Sonata\BlockBundle\Block\BlockContextManagerInterface');
 
         $cache = new BlockEsiCache('My Token', array(), $router, 'ban', $blockRenderer, $contextManager);
 
@@ -47,11 +48,11 @@ class BlockEsiCacheTest extends \PHPUnit_Framework_TestCase
 
     public function testInitCache()
     {
-        $router = $this->getMock('Symfony\Component\Routing\RouterInterface');
+        $router = $this->createMock('Symfony\Component\Routing\RouterInterface');
         $router->expects($this->any())->method('generate')->will($this->returnValue('https://sonata-project.org/cache/XXX/page/esi/page/5/4?updated_at=as'));
 
-        $blockRenderer = $this->getMock('Sonata\BlockBundle\Block\BlockRendererInterface');
-        $contextManager = $this->getMock('Sonata\BlockBundle\Block\BlockContextManagerInterface');
+        $blockRenderer = $this->createMock('Sonata\BlockBundle\Block\BlockRendererInterface');
+        $contextManager = $this->createMock('Sonata\BlockBundle\Block\BlockContextManagerInterface');
 
         $cache = new BlockEsiCache('My Token', array(), $router, 'ban', $blockRenderer, $contextManager);
 

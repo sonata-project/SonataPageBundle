@@ -12,13 +12,14 @@
 namespace Sonata\PageBundle\Tests\Site;
 
 use Sonata\PageBundle\Entity\BaseSite;
+use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 
 /**
  * Base test class of the locale selector services.
  *
  * @author Rémi Marseille <marseille@ekino.com>
  */
-abstract class BaseLocaleSiteSelectorTest extends \PHPUnit_Framework_TestCase
+abstract class BaseLocaleSiteSelectorTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var \Sonata\PageBundle\Site\SiteSelectorInterface

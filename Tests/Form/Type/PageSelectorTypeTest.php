@@ -12,11 +12,12 @@
 namespace Sonata\PageBundle\Tests\Form\Type;
 
 use Sonata\PageBundle\Form\Type\PageSelectorType;
+use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 use Sonata\PageBundle\Tests\Model\Page;
 use Sonata\PageBundle\Tests\Model\Site;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
+class PageSelectorTypeTest extends PHPUnit_Framework_TestCase
 {
     protected $pages;
 
@@ -70,7 +71,7 @@ class PageSelectorTypeTest extends \PHPUnit_Framework_TestCase
 
     public function getPageManager()
     {
-        $manager = $this->getMock('Sonata\PageBundle\Model\PageManagerInterface');
+        $manager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
 
         $manager->expects($this->any())
             ->method('loadPages')

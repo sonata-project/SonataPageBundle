@@ -13,6 +13,7 @@ namespace Sonata\PageBundle\Tests\Route;
 
 use Sonata\PageBundle\CmsManager\DecoratorStrategy;
 use Sonata\PageBundle\Route\RoutePageGenerator;
+use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 use Sonata\PageBundle\Tests\Model\Page;
 use Symfony\Component\Console\Output\StreamOutput;
 use Symfony\Component\Routing\Route;
@@ -23,7 +24,7 @@ use Symfony\Component\Routing\RouteCollection;
  *
  * @author Vincent Composieux <vincent.composieux@gmail.com>
  */
-class RoutePageGeneratorTest extends \PHPUnit_Framework_TestCase
+class RoutePageGeneratorTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var RoutePageGenerator
@@ -109,7 +110,7 @@ class RoutePageGeneratorTest extends \PHPUnit_Framework_TestCase
      */
     protected function getSiteMock()
     {
-        $site = $this->getMock('Sonata\PageBundle\Model\SiteInterface');
+        $site = $this->createMock('Sonata\PageBundle\Model\SiteInterface');
         $site->expects($this->any())->method('getHost')->will($this->returnValue('sonata-project.org'));
         $site->expects($this->any())->method('getId')->will($this->returnValue(1));
 
