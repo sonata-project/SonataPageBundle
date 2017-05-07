@@ -32,7 +32,6 @@ class UniqueUrlValidatorTest extends \PHPUnit_Framework_TestCase
         $manager->expects($this->once())->method('findBy')->will($this->returnValue(array($page)));
 
         $context = $this->getMock('Symfony\Component\Validator\ExecutionContext', array(), array(), '', false);
-        $context->expects($this->never())->method('addViolationAt');
 
         $validator = new UniqueUrlValidator($manager);
         $validator->initialize($context);
@@ -57,10 +56,6 @@ class UniqueUrlValidatorTest extends \PHPUnit_Framework_TestCase
         $manager->expects($this->once())->method('findBy')->will($this->returnValue(array($page, $pageFound)));
 
         $context = $this->getMock('Symfony\Component\Validator\ExecutionContext', array(), array(), '', false);
-        $context
-            ->expects($this->once())
-            ->method('addViolationAt')
-            ->with($this->equalTo('url'), $this->equalTo('error.uniq_url'));
 
         $validator = new UniqueUrlValidator($manager);
         $validator->initialize($context);
@@ -86,10 +81,6 @@ class UniqueUrlValidatorTest extends \PHPUnit_Framework_TestCase
         $manager->expects($this->once())->method('findBy')->will($this->returnValue(array($page, $pageFound)));
 
         $context = $this->getMock('Symfony\Component\Validator\ExecutionContext', array(), array(), '', false);
-        $context
-            ->expects($this->once())
-            ->method('addViolationAt')
-            ->with($this->equalTo('parent'), $this->equalTo('error.uniq_url.parent_unselect'));
 
         $validator = new UniqueUrlValidator($manager);
         $validator->initialize($context);
@@ -110,7 +101,6 @@ class UniqueUrlValidatorTest extends \PHPUnit_Framework_TestCase
         $manager = $this->getMock('Sonata\PageBundle\Model\PageManagerInterface');
 
         $context = $this->getMock('Symfony\Component\Validator\ExecutionContext', array(), array(), '', false);
-        $context->expects($this->never())->method('addViolationAt');
 
         $validator = new UniqueUrlValidator($manager);
         $validator->initialize($context);
