@@ -46,14 +46,14 @@
             <argument type="service" id="sonata.page.decorator_strategy"/>
             <argument type="service" id="sonata.seo.page"/>
         </service>
-        <service id="sonata.page.response_listener" class="%sonata.page.response_listener.class%" scope="request">
+        <service id="sonata.page.response_listener" class="%sonata.page.response_listener.class%">
             <tag name="kernel.event_listener" event="kernel.response" method="onCoreResponse" priority="-1"/>
             <argument type="service" id="sonata.page.cms_manager_selector"/>
             <argument type="service" id="sonata.page.page_service_manager"/>
             <argument type="service" id="sonata.page.decorator_strategy"/>
             <argument type="service" id="templating"/>
         </service>
-        <service id="sonata.page.request_listener" class="%sonata.page.request_listener.class%" scope="request">
+        <service id="sonata.page.request_listener" class="%sonata.page.request_listener.class%">
             <tag name="kernel.event_listener" event="kernel.request" method="onCoreRequest" priority="30"/>
             <argument type="service" id="sonata.page.cms_manager_selector"/>
             <argument type="service" id="sonata.page.site.selector"/>
