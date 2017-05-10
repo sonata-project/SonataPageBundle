@@ -13,6 +13,7 @@ namespace Sonata\PageBundle\Tests\Page;
 
 use Sonata\PageBundle\CmsManager\CmsSnapshotManager;
 use Sonata\PageBundle\Model\Block;
+use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 use Sonata\PageBundle\Tests\Model\Page;
 
 class SnapshotBlock extends Block
@@ -29,7 +30,7 @@ class SnapshotBlock extends Block
 /**
  * Test CmsSnapshotManager.
  */
-class CmsSnapshotManagerTest extends \PHPUnit_Framework_TestCase
+class CmsSnapshotManagerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var \Sonata\PageBundle\CmsManager\CmsSnapshotManager
@@ -48,8 +49,8 @@ class CmsSnapshotManagerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->blockInteractor = $this->getMockBlockInteractor();
-        $this->snapshotManager = $this->getMock('Sonata\PageBundle\Model\SnapshotManagerInterface');
-        $this->transformer = $this->getMock('Sonata\PageBundle\Model\TransformerInterface');
+        $this->snapshotManager = $this->createMock('Sonata\PageBundle\Model\SnapshotManagerInterface');
+        $this->transformer = $this->createMock('Sonata\PageBundle\Model\TransformerInterface');
         $this->manager = new CmsSnapshotManager($this->snapshotManager, $this->transformer);
     }
 
@@ -88,7 +89,7 @@ class CmsSnapshotManagerTest extends \PHPUnit_Framework_TestCase
     {
         $this->snapshotManager->expects($this->once())->method('findEnableSnapshot')->will($this->returnValue(null));
 
-        $site = $this->getMock('Sonata\PageBundle\Model\SiteInterface');
+        $site = $this->createMock('Sonata\PageBundle\Model\SiteInterface');
 
         $snapshotManager = new CmsSnapshotManager($this->snapshotManager, $this->transformer);
 
@@ -97,16 +98,16 @@ class CmsSnapshotManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPageWithId()
     {
-        $cBlock = $this->getMock('Sonata\BlockBundle\Model\BlockInterface');
+        $cBlock = $this->createMock('Sonata\BlockBundle\Model\BlockInterface');
         $cBlock->expects($this->any())->method('hasChildren')->will($this->returnValue(false));
         $cBlock->expects($this->any())->method('getId')->will($this->returnValue(2));
 
-        $pBlock = $this->getMock('Sonata\BlockBundle\Model\BlockInterface');
+        $pBlock = $this->createMock('Sonata\BlockBundle\Model\BlockInterface');
         $pBlock->expects($this->any())->method('getChildren')->will($this->returnValue(array($cBlock)));
         $pBlock->expects($this->any())->method('hasChildren')->will($this->returnValue(true));
         $pBlock->expects($this->any())->method('getId')->will($this->returnValue(1));
 
-        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+        $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
         $page->expects($this->any())->method('getBlocks')->will($this->returnCallback(function () use ($pBlock) {
             static $count;
 
@@ -119,7 +120,7 @@ class CmsSnapshotManagerTest extends \PHPUnit_Framework_TestCase
             return array($pBlock);
         }));
 
-        $snapshot = $this->getMock('Sonata\PageBundle\Model\SnapshotInterface');
+        $snapshot = $this->createMock('Sonata\PageBundle\Model\SnapshotInterface');
         $snapshot->expects($this->once())->method('getContent')->will($this->returnValue(array(
             // we don't care here about real values, the mock transformer will return the valid $pBlock instance
             'blocks' => array(),
@@ -128,7 +129,7 @@ class CmsSnapshotManagerTest extends \PHPUnit_Framework_TestCase
         $this->snapshotManager->expects($this->once())->method('findEnableSnapshot')->will($this->returnValue($snapshot));
         $this->transformer->expects($this->once())->method('load')->will($this->returnValue($page));
 
-        $site = $this->getMock('Sonata\PageBundle\Model\SiteInterface');
+        $site = $this->createMock('Sonata\PageBundle\Model\SiteInterface');
 
         $snapshotManager = new CmsSnapshotManager($this->snapshotManager, $this->transformer);
 
@@ -154,7 +155,7 @@ class CmsSnapshotManagerTest extends \PHPUnit_Framework_TestCase
             return $block;
         };
 
-        $mock = $this->getMock('Sonata\PageBundle\Model\BlockInteractorInterface');
+        $mock = $this->createMock('Sonata\PageBundle\Model\BlockInteractorInterface');
         $mock->expects($this->any())->method('createNewContainer')->will($this->returnCallback($callback));
 
         return $mock;

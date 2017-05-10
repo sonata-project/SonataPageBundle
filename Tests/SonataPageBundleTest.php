@@ -13,6 +13,7 @@ namespace Sonata\PageBundle\Tests;
 
 use Cocur\Slugify\Slugify;
 use Sonata\PageBundle\SonataPageBundle;
+use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 
 class Page extends \Sonata\PageBundle\Model\Page
 {
@@ -27,7 +28,7 @@ class Page extends \Sonata\PageBundle\Model\Page
     }
 }
 
-class SonataPageBundleTest extends \PHPUnit_Framework_TestCase
+class SonataPageBundleTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider getSlug
@@ -35,7 +36,7 @@ class SonataPageBundleTest extends \PHPUnit_Framework_TestCase
     public function testBoot($text, $expected)
     {
         $bundle = new SonataPageBundle();
-        $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $container = $this->createMock('Symfony\Component\DependencyInjection\ContainerInterface');
         $container->expects($this->exactly(1))->method('hasParameter')->will($this->returnValue(true));
         $container->expects($this->exactly(2))->method('getParameter')->will($this->returnCallback(function ($value) {
             if ($value == 'sonata.page.page.class') {

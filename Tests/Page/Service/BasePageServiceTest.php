@@ -13,13 +13,14 @@ namespace Sonata\PageBundle\Tests\Page\Service;
 
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Page\Service\BasePageService;
+use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Test the abstract base page service.
  */
-class BasePageServiceTest extends \PHPUnit_Framework_TestCase
+class BasePageServiceTest extends PHPUnit_Framework_TestCase
 {
     /**
      * test the service name.
@@ -43,8 +44,8 @@ class BasePageServiceTest extends \PHPUnit_Framework_TestCase
     {
         // GIVEN
         $service = new ConcretePageService('my name');
-        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
-        $request = $this->getMock('Symfony\Component\HttpFoundation\Request');
+        $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
+        $request = $this->createMock('Symfony\Component\HttpFoundation\Request');
 
         // WHEN
         $response = $service->execute($page, $request);

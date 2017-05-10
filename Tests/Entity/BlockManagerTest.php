@@ -12,8 +12,9 @@
 namespace Sonata\PageBundle\Tests\Entity;
 
 use Sonata\PageBundle\Entity\BlockManager;
+use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 
-class BlockManagerTest extends \PHPUnit_Framework_TestCase
+class BlockManagerTest extends PHPUnit_Framework_TestCase
 {
     public function testGetPager()
     {
@@ -32,9 +33,13 @@ class BlockManagerTest extends \PHPUnit_Framework_TestCase
         $query = $this->getMockForAbstractClass('Doctrine\ORM\AbstractQuery', array(), '', false, true, true, array('execute'));
         $query->expects($this->any())->method('execute')->will($this->returnValue(true));
 
-        $qb = $this->getMock('Doctrine\ORM\QueryBuilder', array(), array(
-            $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock(),
-        ));
+        $qb = $this->getMockBuilder('Doctrine\ORM\QueryBuilder')
+            ->setConstructorArgs(array(
+                $this->getMockBuilder('Doctrine\ORM\EntityManager')
+                    ->disableOriginalConstructor()
+                    ->getMock(),
+            ))
+            ->getMock();
 
         $qb->expects($this->any())->method('getRootAliases')->will($this->returnValue(array()));
         $qb->expects($this->any())->method('select')->will($this->returnValue($qb));
@@ -48,7 +53,7 @@ class BlockManagerTest extends \PHPUnit_Framework_TestCase
         $em = $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock();
         $em->expects($this->any())->method('getRepository')->will($this->returnValue($repository));
 
-        $registry = $this->getMock('Doctrine\Common\Persistence\ManagerRegistry');
+        $registry = $this->createMock('Doctrine\Common\Persistence\ManagerRegistry');
         $registry->expects($this->any())->method('getManagerForClass')->will($this->returnValue($em));
 
         return new BlockManager('Sonata\PageBundle\Entity\BasePage', $registry);

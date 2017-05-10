@@ -12,8 +12,9 @@
 namespace Sonata\PageBundle\Tests\Page;
 
 use Sonata\PageBundle\Cache\BlockSsiCache;
+use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 
-class BlockSsiCacheTest extends \PHPUnit_Framework_TestCase
+class BlockSsiCacheTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @expectedException \RuntimeException
@@ -21,10 +22,10 @@ class BlockSsiCacheTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptions($keys)
     {
-        $router = $this->getMock('Symfony\Component\Routing\RouterInterface');
+        $router = $this->createMock('Symfony\Component\Routing\RouterInterface');
 
-        $blockRenderer = $this->getMock('Sonata\BlockBundle\Block\BlockRendererInterface');
-        $contextManager = $this->getMock('Sonata\BlockBundle\Block\BlockContextManagerInterface');
+        $blockRenderer = $this->createMock('Sonata\BlockBundle\Block\BlockRendererInterface');
+        $contextManager = $this->createMock('Sonata\BlockBundle\Block\BlockContextManagerInterface');
 
         $cache = new BlockSsiCache('', $router, $blockRenderer, $contextManager);
 
@@ -46,11 +47,11 @@ class BlockSsiCacheTest extends \PHPUnit_Framework_TestCase
 
     public function testInitCache()
     {
-        $router = $this->getMock('Symfony\Component\Routing\RouterInterface');
+        $router = $this->createMock('Symfony\Component\Routing\RouterInterface');
         $router->expects($this->any())->method('generate')->will($this->returnValue('/cache/page/esi/XXXXX/page/5/4?updated_at=as'));
 
-        $blockRenderer = $this->getMock('Sonata\BlockBundle\Block\BlockRendererInterface');
-        $contextManager = $this->getMock('Sonata\BlockBundle\Block\BlockContextManagerInterface');
+        $blockRenderer = $this->createMock('Sonata\BlockBundle\Block\BlockRendererInterface');
+        $contextManager = $this->createMock('Sonata\BlockBundle\Block\BlockContextManagerInterface');
 
         $cache = new BlockSsiCache('', $router, $blockRenderer, $contextManager);
 

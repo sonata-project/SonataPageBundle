@@ -12,23 +12,24 @@
 namespace Sonata\PageBundle\Tests\Block;
 
 use Sonata\PageBundle\Block\BlockContextManager;
+use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 
 /**
  * @author Sullivan Senechal <soullivaneuh@gmail.com>
  */
-class BlockContextManagerTest extends \PHPUnit_Framework_TestCase
+class BlockContextManagerTest extends PHPUnit_Framework_TestCase
 {
     public function testGetWithValidData()
     {
-        $service = $this->getMock('Sonata\BlockBundle\Block\BlockServiceInterface');
+        $service = $this->createMock('Sonata\BlockBundle\Block\BlockServiceInterface');
         $service->expects($this->once())->method('setDefaultSettings');
 
-        $blockLoader = $this->getMock('Sonata\BlockBundle\Block\BlockLoaderInterface');
+        $blockLoader = $this->createMock('Sonata\BlockBundle\Block\BlockLoaderInterface');
 
-        $serviceManager = $this->getMock('Sonata\BlockBundle\Block\BlockServiceManagerInterface');
+        $serviceManager = $this->createMock('Sonata\BlockBundle\Block\BlockServiceManagerInterface');
         $serviceManager->expects($this->once())->method('get')->will($this->returnValue($service));
 
-        $block = $this->getMock('Sonata\BlockBundle\Model\BlockInterface');
+        $block = $this->createMock('Sonata\BlockBundle\Model\BlockInterface');
         $block->expects($this->once())->method('getSettings')->will($this->returnValue(array()));
 
         $manager = new BlockContextManager($blockLoader, $serviceManager);

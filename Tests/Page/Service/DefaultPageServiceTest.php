@@ -12,11 +12,12 @@
 namespace Sonata\PageBundle\Tests\Page\Service;
 
 use Sonata\PageBundle\Page\Service\DefaultPageService;
+use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 
 /**
  * Test the default page service.
  */
-class DefaultPageServiceTest extends \PHPUnit_Framework_TestCase
+class DefaultPageServiceTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var DefaultPageService
@@ -39,8 +40,8 @@ class DefaultPageServiceTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $name = 'my name';
-        $this->templateManager = $this->getMock('Sonata\PageBundle\Page\TemplateManagerInterface');
-        $this->seoPage = $this->getMock('Sonata\SeoBundle\Seo\SeoPageInterface');
+        $this->templateManager = $this->createMock('Sonata\PageBundle\Page\TemplateManagerInterface');
+        $this->seoPage = $this->createMock('Sonata\SeoBundle\Seo\SeoPageInterface');
 
         $this->service = new DefaultPageService($name, $this->templateManager, $this->seoPage);
     }
@@ -53,13 +54,13 @@ class DefaultPageServiceTest extends \PHPUnit_Framework_TestCase
         // GIVEN
 
         // mock a http request
-        $request = $this->getMock('Symfony\Component\HttpFoundation\Request');
+        $request = $this->createMock('Symfony\Component\HttpFoundation\Request');
 
         // mock http response
-        $response = $this->getMock('Symfony\Component\HttpFoundation\Response');
+        $response = $this->createMock('Symfony\Component\HttpFoundation\Response');
 
         // mock a page instance
-        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+        $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
         $this->seoPage->expects($this->once())->method('getTitle')->will($this->returnValue(null));
         $page->expects($this->once())->method('getTitle')->will($this->returnValue('page title'));
         $page->expects($this->atLeastOnce())->method('getMetaDescription')->will($this->returnValue('page meta description'));

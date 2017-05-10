@@ -12,8 +12,9 @@
 namespace Sonata\PageBundle\Tests\Entity;
 
 use Sonata\PageBundle\Entity\SnapshotManager;
+use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 
-class SnapshotManagerTest extends \PHPUnit_Framework_TestCase
+class SnapshotManagerTest extends PHPUnit_Framework_TestCase
 {
     public function testSetTemplates()
     {
@@ -175,10 +176,10 @@ class SnapshotManagerTest extends \PHPUnit_Framework_TestCase
     public function testEnableSnapshots()
     {
         // Given
-        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+        $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
         $page->expects($this->once())->method('getId')->will($this->returnValue(456));
 
-        $snapshot = $this->getMock('Sonata\PageBundle\Tests\Entity\Snapshot');
+        $snapshot = $this->createMock('Sonata\PageBundle\Tests\Entity\Snapshot');
         $snapshot->expects($this->once())->method('getId')->will($this->returnValue(123));
         $snapshot->expects($this->once())->method('getPage')->will($this->returnValue($page));
 
@@ -215,15 +216,15 @@ class SnapshotManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateSnapshotPageProxy()
     {
-        $proxyInterface = $this->getMock('Sonata\PageBundle\Model\SnapshotPageProxyInterface');
+        $proxyInterface = $this->createMock('Sonata\PageBundle\Model\SnapshotPageProxyInterface');
 
-        $snapshotProxyFactory = $this->getMock('Sonata\PageBundle\Model\SnapshotPageProxyFactoryInterface');
+        $snapshotProxyFactory = $this->createMock('Sonata\PageBundle\Model\SnapshotPageProxyFactoryInterface');
 
-        $registry = $this->getMock('Doctrine\Common\Persistence\ManagerRegistry');
+        $registry = $this->createMock('Doctrine\Common\Persistence\ManagerRegistry');
         $manager = new SnapshotManager('Sonata\PageBundle\Entity\BaseSnapshot', $registry, array(), $snapshotProxyFactory);
 
-        $transformer = $this->getMock('Sonata\PageBundle\Model\TransformerInterface');
-        $snapshot = $this->getMock('Sonata\PageBundle\Model\SnapshotInterface');
+        $transformer = $this->createMock('Sonata\PageBundle\Model\TransformerInterface');
+        $snapshot = $this->createMock('Sonata\PageBundle\Model\SnapshotInterface');
 
         $snapshotProxyFactory->expects($this->once())->method('create')
             ->with($manager, $transformer, $snapshot)
@@ -269,9 +270,13 @@ class SnapshotManagerTest extends \PHPUnit_Framework_TestCase
         $query = $this->getMockForAbstractClass('Doctrine\ORM\AbstractQuery', array(), '', false, true, true, array('execute'));
         $query->expects($this->any())->method('execute')->will($this->returnValue(true));
 
-        $qb = $this->getMock('Doctrine\ORM\QueryBuilder', array(), array(
-            $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock(),
-        ));
+        $qb = $this->getMockBuilder('Doctrine\ORM\QueryBuilder')
+            ->setConstructorArgs(array(
+                $this->getMockBuilder('Doctrine\ORM\EntityManager')
+                    ->disableOriginalConstructor()
+                    ->getMock(),
+            ))
+            ->getMock();
 
         $qb->expects($this->any())->method('getRootAliases')->will($this->returnValue(array()));
         $qb->expects($this->any())->method('select')->will($this->returnValue($qb));
@@ -285,10 +290,10 @@ class SnapshotManagerTest extends \PHPUnit_Framework_TestCase
         $em = $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock();
         $em->expects($this->any())->method('getRepository')->will($this->returnValue($repository));
 
-        $registry = $this->getMock('Doctrine\Common\Persistence\ManagerRegistry');
+        $registry = $this->createMock('Doctrine\Common\Persistence\ManagerRegistry');
         $registry->expects($this->any())->method('getManagerForClass')->will($this->returnValue($em));
 
-        $snapshotProxyFactory = $this->getMock('Sonata\PageBundle\Model\SnapshotPageProxyFactoryInterface');
+        $snapshotProxyFactory = $this->createMock('Sonata\PageBundle\Model\SnapshotPageProxyFactoryInterface');
 
         return new SnapshotManager('Sonata\PageBundle\Entity\BaseSnapshot', $registry, array(), $snapshotProxyFactory);
     }
