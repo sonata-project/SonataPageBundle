@@ -35,18 +35,16 @@ class BaseBlockAdminTest extends PHPUnit_Framework_TestCase
 
     public function testSettingAsEditedOnPreRemove()
     {
-        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+        $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
         $page->expects($this->once())->method('setEdited')->with(true);
 
-        $block = $this->getMock('Sonata\PageBundle\Model\PageBlockInterface');
+        $block = $this->createMock('Sonata\PageBundle\Model\PageBlockInterface');
         $block->expects($this->once())->method('getPage')->will($this->returnValue($page));
 
-        $blockService = $this->getMockBuilder('Sonata\BlockBundle\Block\Service\AbstractAdminBlockService')
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
+        $blockService = $this->createMock('Sonata\BlockBundle\Block\Service\AbstractAdminBlockService');
         $blockService->expects($this->any())->method('preRemove')->with($block);
 
-        $blockServiceManager = $this->getMock('Sonata\BlockBundle\Block\BlockServiceManagerInterface');
+        $blockServiceManager = $this->createMock('Sonata\BlockBundle\Block\BlockServiceManagerInterface');
         $blockServiceManager->expects($this->once())->method('get')->with($block)->will($this->returnValue($blockService));
 
         $blockAdmin = $this->getMockBuilder('Sonata\PageBundle\Admin\BaseBlockAdmin')
