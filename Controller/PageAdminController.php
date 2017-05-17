@@ -203,8 +203,6 @@ class PageAdminController extends Controller
             }
         }
 
-        $csrfProvider = $this->get('form.csrf_provider');
-
         return $this->render($this->admin->getTemplate('compose'), array(
             'object' => $page,
             'action' => 'edit',
@@ -213,7 +211,7 @@ class PageAdminController extends Controller
             'containers' => $containers,
             'orphanContainers' => $orphanContainers,
             'csrfTokens' => array(
-                'remove' => $csrfProvider->generateCsrfToken('sonata.delete'),
+                'remove' => $this->getCsrfToken('sonata.delete'),
             ),
         ));
     }
