@@ -48,7 +48,7 @@ class CreateSiteCommand extends BaseCommand
 The <info>sonata:page:create-site</info> command create a new site entity.
 
 EOT
-);
+        );
     }
 
     /**
@@ -56,7 +56,14 @@ EOT
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getHelperSet()->get('dialog');
+        /*
+         * NEXT_MAJOR: remove if statement and use the question helper only (true value of if) when dropping sf < 2.5
+         */
+        if ($this->getHelperSet()->has('question')) {
+            $helper = $this->getHelperSet()->get('question');
+        } else {
+            $helper = $this->getHelperSet()->get('dialog');
+        }
 
         $values = array(
             'name' => null,
@@ -73,7 +80,7 @@ EOT
             $values[$name] = $input->getOption($name);
 
             while ($values[$name] == null) {
-                $values[$name] = $dialog->ask($output, sprintf('Please define a value for <info>Site.%s</info> : ', $name));
+                $values[$name] = $helper->ask($output, sprintf('Please define a value for <info>Site.%s</info> : ', $name));
             }
         }
 
@@ -102,9 +109,26 @@ Creating website with the following information :
   <info>enabled</info> :  <info>from</info> {$info_enabledFrom} => <info>to</info> {$info_enabledTo}
 
 INFO
-);
+        );
 
-        if ($input->getOption('no-confirmation') || $dialog->askConfirmation($output, 'Confirm site creation ?', false)) {
+        /*
+         * NEXT_MAJOR: remove if statement and use the question helper only (true value of if) when dropping sf < 2.5
+         */
+        if ($this->getHelperSet()->has('question')) {
+            $question = new \Symfony\Component\Console\Question\ConfirmationQuestion(
+                'Confirm site creation (Y/N)',
+                false,
+                '/^(y)/i'
+            );
+            $confirmation = $helper->ask($input, $output, $question);
+        } else {
+            $confirmation = $input->getOption('no-confirmation') || $helper->askConfirmation(
+                $output,
+                'Confirm site creation?',
+                false
+            );
+        }
+        if ($confirmation) {
             $this->getSiteManager()->save($site);
 
             $output->writeln(array(
