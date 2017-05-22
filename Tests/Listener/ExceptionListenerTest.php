@@ -75,7 +75,7 @@ class ExceptionListenerTest extends PHPUnit_Framework_TestCase
         $this->decoratorStrategy = $this->createMock('Sonata\PageBundle\CmsManager\DecoratorStrategyInterface');
         $this->pageServiceManager = $this->createMock('Sonata\PageBundle\Page\PageServiceManagerInterface');
         $this->cmsSelector = $this->createMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
-        $this->logger = $this->createMock('Symfony\Component\HttpKernel\Log\LoggerInterface');
+        $this->logger = $this->createMock('Psr\Log\LoggerInterface');
 
         $errors = array(
             '404' => 'route_404',
