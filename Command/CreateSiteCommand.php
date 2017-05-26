@@ -14,6 +14,8 @@ namespace Sonata\PageBundle\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Console\Question\Question;
 
 /**
  * Create a site.
@@ -80,7 +82,24 @@ EOT
             $values[$name] = $input->getOption($name);
 
             while ($values[$name] == null) {
-                $values[$name] = $helper->ask($output, sprintf('Please define a value for <info>Site.%s</info> : ', $name));
+                /*
+                 * NEXT_MAJOR: remove if statement and use the question helper only (true value of if) when dropping sf < 2.5
+                 */
+                if ($this->getHelperSet()->has('question')) {
+                    $question = new Question(
+                        sprintf('Please define a value for <info>Site.%s</info> : ', $name)
+                    );
+                    $values[$name] = $helper->ask(
+                        $input,
+                        $output,
+                        $question
+                    );
+                } else {
+                    $values[$name] = $helper->ask(
+                        $output,
+                        sprintf('Please define a value for <info>Site.%s</info> : ', $name)
+                    );
+                }
             }
         }
 
@@ -115,7 +134,7 @@ INFO
          * NEXT_MAJOR: remove if statement and use the question helper only (true value of if) when dropping sf < 2.5
          */
         if ($this->getHelperSet()->has('question')) {
-            $question = new \Symfony\Component\Console\Question\ConfirmationQuestion(
+            $question = new ConfirmationQuestion(
                 'Confirm site creation (Y/N)',
                 false,
                 '/^(y)/i'
