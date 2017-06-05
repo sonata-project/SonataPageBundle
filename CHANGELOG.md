@@ -4,7 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [3.4.1](https://github.com/sonata-project/SonataPageBundle/compare/3.4.0...3.4.1) - 2017-04-04
 ### Deprecated
- - Removed block service deprecation
+- Removed block service deprecation
 
 ### Fixed
 - use `is not null` instead of `is defined` in `Block/block_base.html.twig`
