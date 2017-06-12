@@ -280,10 +280,17 @@ class PageAdmin extends AbstractAdmin
      */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
+        /*
+         * NEXT_MAJOR: remove type and uncomment the second type when dropping sf < 2.8
+         */
         $datagridMapper
             ->add('site')
             ->add('name')
-            ->add('type', null, array('field_type' => 'sonata_page_type_choice'))
+            ->add('type', null, array('field_type' => method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
+                    'Sonata\PageBundle\Form\Type\PageTypeChoiceType' :
+                    'sonata_page_type_choice',
+            ))
+//            ->add('type', null, array('field_type' => 'Sonata\PageBundle\Form\Type\PageTypeChoiceType'))
             ->add('pageAlias')
             ->add('parent')
             ->add('edited')
