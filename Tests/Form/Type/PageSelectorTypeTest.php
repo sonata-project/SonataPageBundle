@@ -94,13 +94,7 @@ class PageSelectorTypeTest extends PHPUnit_Framework_TestCase
             'request_method' => 'all',
         )));
 
-        $this->assertInstanceOf(
-            class_exists('Symfony\Component\Form\ChoiceList\ArrayChoiceList') ? // NEXT_MAJOR: remove condition
-                'Symfony\Component\Form\ChoiceList\ArrayChoiceList' :
-                'Symfony\Component\Form\Extension\Core\ChoiceList\SimpleChoiceList',
-            $options['choice_list']
-        );
-        $this->assertEquals(array(), $options['choice_list']->getValues());
+        $this->assertEquals(array(), $options['choices']);
     }
 
     /**
@@ -116,13 +110,7 @@ class PageSelectorTypeTest extends PHPUnit_Framework_TestCase
             'request_method' => 'all',
         )));
 
-        $this->assertInstanceOf(
-            class_exists('Symfony\Component\Form\ChoiceList\ArrayChoiceList') ? // NEXT_MAJOR: remove condition
-                'Symfony\Component\Form\ChoiceList\ArrayChoiceList' :
-                'Symfony\Component\Form\Extension\Core\ChoiceList\SimpleChoiceList',
-            $options['choice_list']
-        );
-        $this->assertCount(4, $options['choice_list']->getChoices());
+        $this->assertCount(4, $options['choices']);
     }
 
     public function testGetRequestMethodChoices()
@@ -133,25 +121,12 @@ class PageSelectorTypeTest extends PHPUnit_Framework_TestCase
 
         $options = $options->resolve(array('site' => $this->site));
 
-        // NEXT_MAJOR: remove else clause
-        if (class_exists('Symfony\Component\Form\ChoiceList\ArrayChoiceList')) {
-            $this->assertInstanceOf(
-                'Symfony\Component\Form\ChoiceList\ArrayChoiceList',
-                $options['choice_list']
-            );
-            $views = $options['choice_list']->getChoices();
-        } else {
-            $this->assertInstanceOf(
-                'Symfony\Component\Form\Extension\Core\ChoiceList\SimpleChoiceList',
-                $options['choice_list']
-            );
-            $views = $options['choice_list']->getRemainingViews();
-        }
+        $views = $options['choices'];
 
         $this->assertCount(3, $views);
-        $this->assertRouteNameEquals('all', $views[0]);
-        $this->assertRouteNameEquals('get', $views[1]);
-        $this->assertRouteNameEquals('get-post', $views[2]);
+        $this->assertRouteNameEquals('all', $views[1]);
+        $this->assertRouteNameEquals('get', $views[3]);
+        $this->assertRouteNameEquals('get-post', $views[4]);
     }
 
     public function testPostRequestMethodChoices()
@@ -164,25 +139,12 @@ class PageSelectorTypeTest extends PHPUnit_Framework_TestCase
             'request_method' => 'post',
         )));
 
-        // NEXT_MAJOR: remove else clause
-        if (class_exists('Symfony\Component\Form\ChoiceList\ArrayChoiceList')) {
-            $this->assertInstanceOf(
-                'Symfony\Component\Form\ChoiceList\ArrayChoiceList',
-                $options['choice_list']
-            );
-            $views = $options['choice_list']->getChoices();
-        } else {
-            $this->assertInstanceOf(
-                'Symfony\Component\Form\Extension\Core\ChoiceList\SimpleChoiceList',
-                $options['choice_list']
-            );
-            $views = $options['choice_list']->getRemainingViews();
-        }
+        $views = $options['choices'];
 
         $this->assertCount(3, $views);
-        $this->assertRouteNameEquals('all', $views[0]);
-        $this->assertRouteNameEquals('post', $views[1]);
-        $this->assertRouteNameEquals('get-post', $views[2]);
+        $this->assertRouteNameEquals('all', $views[1]);
+        $this->assertRouteNameEquals('post', $views[2]);
+        $this->assertRouteNameEquals('get-post', $views[4]);
     }
 
     public function testRootHierarchyChoices()
@@ -196,23 +158,10 @@ class PageSelectorTypeTest extends PHPUnit_Framework_TestCase
             'request_method' => 'all',
         )));
 
-        // NEXT_MAJOR: remove else clause
-        if (class_exists('Symfony\Component\Form\ChoiceList\ArrayChoiceList')) {
-            $this->assertInstanceOf(
-                'Symfony\Component\Form\ChoiceList\ArrayChoiceList',
-                $options['choice_list']
-            );
-            $views = $options['choice_list']->getChoices();
-        } else {
-            $this->assertInstanceOf(
-                'Symfony\Component\Form\Extension\Core\ChoiceList\SimpleChoiceList',
-                $options['choice_list']
-            );
-            $views = $options['choice_list']->getRemainingViews();
-        }
+        $views = $options['choices'];
 
         $this->assertCount(1, $views);
-        $this->assertRouteNameEquals('all', $views[0]);
+        $this->assertRouteNameEquals('all', $views[1]);
     }
 
     public function testChildrenHierarchyChoices()
@@ -226,25 +175,12 @@ class PageSelectorTypeTest extends PHPUnit_Framework_TestCase
             'request_method' => 'all',
         )));
 
-        // NEXT_MAJOR: remove else clause
-        if (class_exists('Symfony\Component\Form\ChoiceList\ArrayChoiceList')) {
-            $this->assertInstanceOf(
-                'Symfony\Component\Form\ChoiceList\ArrayChoiceList',
-                $options['choice_list']
-            );
-            $views = $options['choice_list']->getChoices();
-        } else {
-            $this->assertInstanceOf(
-                'Symfony\Component\Form\Extension\Core\ChoiceList\SimpleChoiceList',
-                $options['choice_list']
-            );
-            $views = $options['choice_list']->getRemainingViews();
-        }
+        $views = $options['choices'];
 
         $this->assertCount(3, $views);
-        $this->assertRouteNameEquals('post', $views[0]);
-        $this->assertRouteNameEquals('get', $views[1]);
-        $this->assertRouteNameEquals('get-post', $views[2]);
+        $this->assertRouteNameEquals('post', $views[2]);
+        $this->assertRouteNameEquals('get', $views[3]);
+        $this->assertRouteNameEquals('get-post', $views[4]);
     }
 
     public function testComplexHierarchyChoices()
@@ -258,24 +194,11 @@ class PageSelectorTypeTest extends PHPUnit_Framework_TestCase
             'request_method' => 'POST',
         )));
 
-        // NEXT_MAJOR: remove else clause
-        if (class_exists('Symfony\Component\Form\ChoiceList\ArrayChoiceList')) {
-            $this->assertInstanceOf(
-                'Symfony\Component\Form\ChoiceList\ArrayChoiceList',
-                $options['choice_list']
-            );
-            $views = $options['choice_list']->getChoices();
-        } else {
-            $this->assertInstanceOf(
-                'Symfony\Component\Form\Extension\Core\ChoiceList\SimpleChoiceList',
-                $options['choice_list']
-            );
-            $views = $options['choice_list']->getRemainingViews();
-        }
+        $views = $options['choices'];
 
         $this->assertCount(2, $views);
-        $this->assertRouteNameEquals('post', $views[0]);
-        $this->assertRouteNameEquals('get-post', $views[1]);
+        $this->assertRouteNameEquals('post', $views[2]);
+        $this->assertRouteNameEquals('get-post', $views[4]);
     }
 
     private function assertRouteNameEquals($expected, $choiceView)
