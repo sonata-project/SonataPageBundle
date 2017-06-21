@@ -34,7 +34,7 @@ final class CloneSiteCommand extends BaseCommand
         $this
             ->setName('sonata:page:clone-site')
             ->setDescription('Clone a complete site including all their pages')
-            ->addOption('source-id', 's', InputOption::VALUE_REQUIRED, 'Source site id', null)
+            ->addOption('source-id', 'so', InputOption::VALUE_REQUIRED, 'Source site id', null)
             ->addOption('dest-id', 'd', InputOption::VALUE_REQUIRED, 'Destination site id', null)
             ->addOption('prefix', 'p', InputOption::VALUE_REQUIRED, 'Title prefix', null)
             ->addOption('only-hybrid', 'oh', InputOption::VALUE_OPTIONAL, 'only clone hybrid pages', false);
