@@ -290,6 +290,7 @@ class PageAdmin extends AbstractAdmin
                     'Sonata\PageBundle\Form\Type\PageTypeChoiceType' :
                     'sonata_page_type_choice',
             ))
+//            ->add('type', null, array('field_type' => 'Sonata\PageBundle\Form\Type\PageTypeChoiceType'))
             ->add('pageAlias')
             ->add('parent')
             ->add('edited')
