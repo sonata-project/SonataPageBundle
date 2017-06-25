@@ -354,7 +354,8 @@ class PageAdmin extends AbstractAdmin
             $formMapper
                 ->with('form_page.group_main_label')
 //                    ->add('type', 'sonata_page_type_choice', array('required' => false))
-                    ->add('type',
+                    ->add(
+                        'type',
                         method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
                             'Sonata\PageBundle\Form\Type\PageTypeChoiceType' :
                             'sonata_page_type_choice',
@@ -366,7 +367,8 @@ class PageAdmin extends AbstractAdmin
         $formMapper
             ->with('form_page.group_main_label')
 //                ->add('templateCode', 'sonata_page_template', array('required' => true))
-                ->add('templateCode',
+                ->add(
+                    'templateCode',
                     method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
                         'Sonata\PageBundle\Form\Type\TemplateChoiceType' :
                         'sonata_page_template',
@@ -378,7 +380,8 @@ class PageAdmin extends AbstractAdmin
             $formMapper
                 ->with('form_page.group_main_label')
 //                    ->add('parent', 'sonata_page_selector', array(
-                    ->add('parent',
+                    ->add(
+                        'parent',
                         method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
                             'Sonata\PageBundle\Form\Type\PageSelectorType' :
                             'sonata_page_selector',
@@ -404,7 +407,8 @@ class PageAdmin extends AbstractAdmin
                 ->with('form_page.group_main_label')
                     ->add('pageAlias', null, array('required' => false))
 //                    ->add('target', 'sonata_page_selector', array(
-                    ->add('parent',
+                    ->add(
+                        'parent',
                         method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
                             'Sonata\PageBundle\Form\Type\PageSelectorType' :
                             'sonata_page_selector',
