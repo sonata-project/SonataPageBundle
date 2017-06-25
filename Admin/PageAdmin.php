@@ -355,7 +355,7 @@ class PageAdmin extends AbstractAdmin
                 ->with('form_page.group_main_label')
 //                    ->add('type', 'sonata_page_type_choice', array('required' => false))
                     ->add('type',
-                        method_exists('Symfony\Component\Form\AbstractType','getBlockPrefix') ?
+                        method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
                             'Sonata\PageBundle\Form\Type\PageTypeChoiceType' :
                             'sonata_page_type_choice',
                         array('required' => false))
