@@ -329,7 +329,7 @@ class PageAdmin extends AbstractAdmin
         if (!$this->getSubject() || (!$this->getSubject()->isInternal() && !$this->getSubject()->isError())) {
             $formMapper
                 ->with('form_page.group_main_label')
-                    ->add('url', 'text', array('attr' => array('readonly' => 'readonly')))
+                    ->add('site', null, array('attr' => array('required' => 'required', 'readonly' => 'readonly')))
                 ->end()
             ;
         }
