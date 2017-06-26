@@ -290,7 +290,7 @@ class PageAdmin extends AbstractAdmin
                     'Sonata\PageBundle\Form\Type\PageTypeChoiceType' :
                     'sonata_page_type_choice',
             ))
-/**
+/*
  * NEXT_MAJOR
  *          ->add('type', null, array('field_type' => 'Sonata\PageBundle\Form\Type\PageTypeChoiceType'))
  */
@@ -361,7 +361,7 @@ class PageAdmin extends AbstractAdmin
                         method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
                             'Sonata\PageBundle\Form\Type\PageTypeChoiceType' :
                             'sonata_page_type_choice',
-/**
+/*
  * NEXT_MAJOR
  *                      'Sonata\PageBundle\Form\Type\PageTypeChoiceType',
  */
@@ -377,7 +377,7 @@ class PageAdmin extends AbstractAdmin
                     method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
                         'Sonata\PageBundle\Form\Type\TemplateChoiceType' :
                         'sonata_page_template',
-/**
+/*
  * NEXT_MAJOR
  *                  'Sonata\PageBundle\Form\Type\TemplateChoiceType',
  */
@@ -393,7 +393,7 @@ class PageAdmin extends AbstractAdmin
                         method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
                             'Sonata\PageBundle\Form\Type\PageSelectorType' :
                             'sonata_page_selector',
-/**
+/*
  * NEXT_MAJOR
  *                      'Sonata\PageBundle\Form\Type\PageSelectorType',
  */
@@ -423,7 +423,7 @@ class PageAdmin extends AbstractAdmin
                         method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
                             'Sonata\PageBundle\Form\Type\PageSelectorType' :
                             'sonata_page_selector',
-/**
+/*
  * NEXT_MAJOR
  *                      'Sonata\PageBundle\Form\Type\PageSelectorType',
  */
