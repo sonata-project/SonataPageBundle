@@ -280,16 +280,15 @@ class PageAdmin extends AbstractAdmin
      */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
-        /*
-         * NEXT_MAJOR: remove type and uncomment the second type when dropping sf < 2.8
-         */
         $datagridMapper
             ->add('site')
             ->add('name')
+            // NEXT_MAJOR: remove these five lines and uncomment the one following.
             ->add('type', null, array('field_type' => method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
                     'Sonata\PageBundle\Form\Type\PageTypeChoiceType' :
                     'sonata_page_type_choice',
-            ))
+                )
+            )
 //            ->add('type', null, array('field_type' => 'Sonata\PageBundle\Form\Type\PageTypeChoiceType'))
             ->add('pageAlias')
             ->add('parent')
@@ -351,13 +350,11 @@ class PageAdmin extends AbstractAdmin
         ;
 
         if ($this->hasSubject() && !$this->getSubject()->isInternal()) {
-            /*
-             * NEXT_MAJOR: remove method_exists and uncomment the second type when dropping sf < 2.8
-             */
             $formMapper
                 ->with('form_page.group_main_label')
                     ->add(
                         'type',
+                        // NEXT_MAJOR: remove these three lines and uncomment the one following
                         method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
                             'Sonata\PageBundle\Form\Type\PageTypeChoiceType' :
                             'sonata_page_type_choice',
@@ -368,13 +365,11 @@ class PageAdmin extends AbstractAdmin
             ;
         }
 
-        /*
-         * NEXT_MAJOR: remove method_exists and uncomment the second type when dropping sf < 2.8
-         */
         $formMapper
             ->with('form_page.group_main_label')
                 ->add(
                     'templateCode',
+                    // NEXT_MAJOR: remove these three lines and uncomment the one following
                     method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
                         'Sonata\PageBundle\Form\Type\TemplateChoiceType' :
                         'sonata_page_template',
@@ -385,13 +380,11 @@ class PageAdmin extends AbstractAdmin
         ;
 
         if (!$this->getSubject() || ($this->getSubject() && $this->getSubject()->getParent()) || ($this->getSubject() && !$this->getSubject()->getId())) {
-            /*
-             * NEXT_MAJOR: remove method_exists and uncomment the second type when dropping sf < 2.8
-             */
             $formMapper
                 ->with('form_page.group_main_label')
                     ->add(
                         'parent',
+                        // NEXT_MAJOR: remove these three lines and uncomment the one following
                         method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
                             'Sonata\PageBundle\Form\Type\PageSelectorType' :
                             'sonata_page_selector',
@@ -415,14 +408,12 @@ class PageAdmin extends AbstractAdmin
         }
 
         if (!$this->getSubject() || !$this->getSubject()->isDynamic()) {
-            /*
-             * NEXT_MAJOR: remove method_exists and uncomment the second type when dropping sf < 2.8
-             */
             $formMapper
                 ->with('form_page.group_main_label')
                     ->add('pageAlias', null, array('required' => false))
                     ->add(
                         'parent',
+                        // NEXT_MAJOR: remove these three lines and uncomment the one following
                         method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
                             'Sonata\PageBundle\Form\Type\PageSelectorType' :
                             'sonata_page_selector',
