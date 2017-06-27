@@ -362,7 +362,8 @@ class PageAdmin extends AbstractAdmin
                             'Sonata\PageBundle\Form\Type\PageTypeChoiceType' :
                             'sonata_page_type_choice',
 //                        'Sonata\PageBundle\Form\Type\PageTypeChoiceType',
-                        array('required' => false))
+                        array('required' => false)
+                    )
                 ->end()
             ;
         }
@@ -378,7 +379,8 @@ class PageAdmin extends AbstractAdmin
                         'Sonata\PageBundle\Form\Type\TemplateChoiceType' :
                         'sonata_page_template',
 //                    'Sonata\PageBundle\Form\Type\TemplateChoiceType',
-                    array('required' => true))
+                    array('required' => true)
+                )
             ->end()
         ;
 
@@ -406,7 +408,8 @@ class PageAdmin extends AbstractAdmin
                             'link_parameters' => array(
                                 'siteId' => $this->getSubject() ? $this->getSubject()->getSite()->getId() : null,
                             ),
-                        ))
+                        )
+                    )
                 ->end()
             ;
         }
@@ -436,7 +439,8 @@ class PageAdmin extends AbstractAdmin
                             'link_parameters' => array(
                                 'siteId' => $this->getSubject() ? $this->getSubject()->getSite()->getId() : null,
                             ),
-                        ))
+                        )
+                    )
                 ->end()
             ;
         }
