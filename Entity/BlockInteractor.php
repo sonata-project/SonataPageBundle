@@ -160,7 +160,7 @@ class BlockInteractor implements BlockInteractorInterface
         $page->disableBlockLazyLoading();
 
         foreach ($blocks as $block) {
-            if (!$block->getEnabled()) { 
+            if (!$block->getEnabled()) {
                 continue; 
             }
             $parent = $block->getParent();
