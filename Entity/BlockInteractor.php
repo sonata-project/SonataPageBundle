@@ -161,7 +161,7 @@ class BlockInteractor implements BlockInteractorInterface
 
         foreach ($blocks as $block) {
             if (!$block->getEnabled()) {
-                continue; 
+                continue;
             }
             $parent = $block->getParent();
 
