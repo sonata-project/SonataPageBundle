@@ -196,6 +196,9 @@ class Transformer implements TransformerInterface
         $block->setUpdatedAt($updatedAt);
 
         foreach ($content['blocks'] as $child) {
+            if (!$child['enabled']) {
+                continue;
+            }
             $block->addChildren($this->loadBlock($child, $page));
         }
 
