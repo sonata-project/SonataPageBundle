@@ -239,7 +239,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         $service = $this->blockManager->get($block);
 
         $resolver = new OptionsResolver();
-        $service->setDefaultSettings($resolver);
+        $service->configureSettings($resolver);
 
         try {
             $block->setSettings($resolver->resolve($block->getSettings()));
