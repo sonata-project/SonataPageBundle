@@ -9,7 +9,7 @@
         <label>{{ 'composer.block.add.type'|trans({}, 'SonataPageBundle') }}</label>
         <select class="page-composer__block-type-selector__select" style="width: auto">
             {% for blockServiceId, blockService in blockServices %}
-                <option value="{{ blockServiceId }}">{{ blockService.blockMetadata.title|trans({}, blockService.blockMetadata.domain|default('SonataPageBundle')) }}</option>
+                <option value="{{ blockServiceId }}">{{ blockService.blockMetadata.title|trans({}, blockService.blockMetadata.domain|default('SonataBlockBundle')) }}</option>
             {% endfor %}
         </select>
         <a class="btn btn-action btn-small page-composer__block-type-selector__confirm"

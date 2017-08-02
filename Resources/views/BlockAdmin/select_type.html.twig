@@ -27,7 +27,7 @@ file that was distributed with this source code.
                         class="btn btn-app btn-block sonata-block-type"
                         data-toggle="tooltip"
                         data-placement="top"
-                        title="{{ service.blockMetadata.description|trans({}, service.blockMetadata.domain|default('SonataPageBundle')) }}"
+                        title="{{ service.blockMetadata.description|trans({}, service.blockMetadata.domain|default('SonataBlockBundle')) }}"
                             >
                         {% if not service.blockMetadata.image %}
                             <i class="{{ service.blockMetadata.option('class') }}" ></i>
@@ -35,7 +35,7 @@ file that was distributed with this source code.
                             <img src="{{ asset(service.blockMetadata.image) }}" style="max-height: 20px; max-width: 100px;"/>
                             <br />
                         {% endif %}
-                        <span>{{ service.blockMetadata.title|trans({}, service.blockMetadata.domain|default('SonataPageBundle')) }}</span>
+                        <span>{{ service.blockMetadata.title|trans({}, service.blockMetadata.domain|default('SonataBlockBundle')) }}</span>
                     </a>
                 </div>
             {% else %}
