@@ -695,6 +695,22 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     /**
      * {@inheritdoc}
      */
+    public function getTargetRedirectType()
+    {
+        return $this->getPage()->getTargetRedirectType();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setTargetRedirectType($statusCode = 302)
+    {
+        return $this->getPage()->setTargetRedirectType($statusCode);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     private function load()
     {
         if (!$this->page && $this->transformer) {
