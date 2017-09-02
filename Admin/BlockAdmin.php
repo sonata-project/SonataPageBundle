@@ -225,7 +225,13 @@ class BlockAdmin extends BaseBlockAdmin
     private function getDefaultTemplate(BlockServiceInterface $blockService)
     {
         $resolver = new OptionsResolver();
-        $blockService->setDefaultSettings($resolver);
+        // use new interface method whenever possible
+        // NEXT_MAJOR: Remove this check and legacy setDefaultSettings method call
+        if (method_exists($blockService, 'configureSettings')) {
+            $blockService->configureSettings($resolver);
+        } else {
+            $blockService->setDefaultSettings($resolver);
+        }
         $options = $resolver->resolve();
 
         if (isset($options['template'])) {

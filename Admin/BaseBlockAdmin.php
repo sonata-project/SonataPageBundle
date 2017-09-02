@@ -239,7 +239,13 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         $service = $this->blockManager->get($block);
 
         $resolver = new OptionsResolver();
-        $service->setDefaultSettings($resolver);
+        // use new interface method whenever possible
+        // NEXT_MAJOR: Remove this check and legacy setDefaultSettings method call
+        if (method_exists($service, 'configureSettings')) {
+            $service->configureSettings($resolver);
+        } else {
+            $service->setDefaultSettings($resolver);
+        }
 
         try {
             $block->setSettings($resolver->resolve($block->getSettings()));
