@@ -26,6 +26,10 @@ class SonataPageExtensionTest extends AbstractExtensionTestCase
      */
     public function testConfigureClassesToCompile()
     {
+        if (PHP_VERSION_ID >= 70000) {
+            $this->markTestSkipped('ClassesToCompile is deprecated in symfony 3.3 and php >= 7.0');
+        }
+
         $extension = new SonataPageExtension();
         $extension->configureClassesToCompile();
 
