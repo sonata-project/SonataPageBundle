@@ -83,7 +83,10 @@ class SonataPageExtension extends Extension
         $this->configureExceptions($container, $config);
         $this->configurePageDefaults($container, $config);
         $this->configurePageServices($container, $config);
-        $this->configureClassesToCompile();
+
+        if (PHP_VERSION_ID < 70000) {
+            $this->configureClassesToCompile();
+        }
 
         $container->setParameter('sonata.page.assets', $config['assets']);
         $container->setParameter('sonata.page.slugify_service', $config['slugify_service']);
