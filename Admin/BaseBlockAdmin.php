@@ -203,7 +203,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
     {
         $parent = $this->getParent();
 
-        if ($parent && in_array($actionName, array('delete'))) {
+        if ($parent && $actionName === 'delete') {
             $subject = $parent->getSubject();
 
             if ($subject instanceof PageInterface) {
