@@ -2,6 +2,19 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.5.2](https://github.com/sonata-project/SonataPageBundle/compare/3.5.1...3.5.2) - 2017-09-14
+### Changed
+- Changed fallback translation domain to `SonataBlockBundle` in page composer
+
+### Fixed
+- Batch blocks removing doesn't mark page as edited
+- Composer (JS): Relying of custom status-property; instead rely on Response Status Code
+- use `configureSettings` instead of deprecated `setDefaultSettings`
+- compatibility with Twig 2.0 was improved
+- ``_self`` returns the template path instead of the template object
+- Twig runtime error on Symfony < 3.2 and Twig 2.x
+- Don't call Extension::addClassesToCompile() on php versions greater than 7
+
 ## [3.5.1](https://github.com/sonata-project/SonataPageBundle/compare/3.5.0...3.5.1) - 2017-07-05
 ### Fixed
 - use FQCN for Symfony 3 for `type` in `PageAdmin`
