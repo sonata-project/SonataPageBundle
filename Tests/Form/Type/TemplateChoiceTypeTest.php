@@ -12,12 +12,13 @@
 namespace Sonata\PageBundle\Tests\Form\Type;
 
 use Sonata\PageBundle\Form\Type\TemplateChoiceType;
+use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Test the template choice form type.
  */
-class TemplateChoiceTypeTest extends \PHPUnit_Framework_TestCase
+class TemplateChoiceTypeTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -34,7 +35,7 @@ class TemplateChoiceTypeTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->manager = $this->getMock('Sonata\PageBundle\Page\TemplateManagerInterface');
+        $this->manager = $this->createMock('Sonata\PageBundle\Page\TemplateManagerInterface');
         $this->type = new TemplateChoiceType($this->manager);
     }
 
@@ -51,7 +52,7 @@ class TemplateChoiceTypeTest extends \PHPUnit_Framework_TestCase
         )));
 
         // WHEN
-        $this->type->setDefaultOptions(new OptionsResolver());
+        $this->type->configureOptions(new OptionsResolver());
 
         // THEN
         $this->type->getTemplates();

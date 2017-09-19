@@ -212,7 +212,7 @@ class CmsPageRouter implements ChainedRouterInterface
         // NEXT_MAJOR: remove this if block
         if (!$this->context instanceof SiteRequestContextInterface) {
             @trigger_error(
-                sprintf('Since, 3.x when calling %s, %s::$context should implement SiteRequestContextInterface. This will become mandatory in 4.0.', __METHOD__, __CLASS__),
+                sprintf('Since, 3.3 when calling %s, %s::$context should implement SiteRequestContextInterface. This will become mandatory in 4.0.', __METHOD__, __CLASS__),
                 E_USER_DEPRECATED
             );
 

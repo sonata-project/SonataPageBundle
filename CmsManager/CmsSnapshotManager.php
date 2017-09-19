@@ -105,6 +105,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
             foreach ($page->getBlocks() as $block) {
                 if ($block->getSetting('code') == $code) {
                     $container = $block;
+
                     break;
                 }
             }

@@ -12,6 +12,7 @@
 namespace Sonata\PageBundle\Tests\Listener;
 
 use Sonata\PageBundle\Listener\ExceptionListener;
+use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
@@ -20,7 +21,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * Test the page bundle exception listener.
  */
-class ExceptionListenerTest extends \PHPUnit_Framework_TestCase
+class ExceptionListenerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -68,13 +69,13 @@ class ExceptionListenerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         // mock dependencies
-        $this->siteSelector = $this->getMock('Sonata\PageBundle\Site\SiteSelectorInterface');
-        $this->cmsSelector = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
-        $this->templating = $this->getMock('Symfony\Component\Templating\EngineInterface');
-        $this->decoratorStrategy = $this->getMock('Sonata\PageBundle\CmsManager\DecoratorStrategyInterface');
-        $this->pageServiceManager = $this->getMock('Sonata\PageBundle\Page\PageServiceManagerInterface');
-        $this->cmsSelector = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
-        $this->logger = $this->getMock('Symfony\Component\HttpKernel\Log\LoggerInterface');
+        $this->siteSelector = $this->createMock('Sonata\PageBundle\Site\SiteSelectorInterface');
+        $this->cmsSelector = $this->createMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
+        $this->templating = $this->createMock('Symfony\Component\Templating\EngineInterface');
+        $this->decoratorStrategy = $this->createMock('Sonata\PageBundle\CmsManager\DecoratorStrategyInterface');
+        $this->pageServiceManager = $this->createMock('Sonata\PageBundle\Page\PageServiceManagerInterface');
+        $this->cmsSelector = $this->createMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
+        $this->logger = $this->createMock('Psr\Log\LoggerInterface');
 
         $errors = array(
             '404' => 'route_404',
@@ -91,7 +92,7 @@ class ExceptionListenerTest extends \PHPUnit_Framework_TestCase
     {
         // GIVEN
         // mock exception
-        $exception = $this->getMock('Sonata\PageBundle\Exception\InternalErrorException');
+        $exception = $this->createMock('Sonata\PageBundle\Exception\InternalErrorException');
         $event = $this->getMockEvent($exception);
 
         // mock templating to expect a twig rendering
@@ -141,35 +142,35 @@ class ExceptionListenerTest extends \PHPUnit_Framework_TestCase
     {
         // GIVEN
         // mock exception
-        $exception = $this->getMock('\Symfony\Component\HttpKernel\Exception\NotFoundHttpException');
+        $exception = $this->createMock('\Symfony\Component\HttpKernel\Exception\NotFoundHttpException');
         $exception->expects($this->any())->method('getStatusCode')->will($this->returnValue(404));
         $event = $this->getMockEvent($exception);
 
         $this->assertEquals('en', $event->getRequest()->getLocale());
 
         // mock a site
-        $site = $this->getMock('Sonata\PageBundle\Model\SiteInterface');
+        $site = $this->createMock('Sonata\PageBundle\Model\SiteInterface');
         $site->expects($this->exactly(2))->method('getLocale')->will($this->returnValue('fr'));
 
         // mock an error page
-        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+        $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
         $page->expects($this->exactly(2))->method('getSite')->will($this->returnValue($site));
 
         // mock cms manager to return the mock error page and set it as current page
-        $this->cmsManager = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerInterface');
+        $this->cmsManager = $this->createMock('Sonata\PageBundle\CmsManager\CmsManagerInterface');
         $this->cmsManager->expects($this->once())->method('getPageByRouteName')->with($this->anything(), $this->equalTo('route_404'))->will($this->returnValue($page));
         $this->cmsManager->expects($this->once())->method('setCurrentPage')->with($this->equalTo($page));
         $this->cmsSelector->expects($this->any())->method('retrieve')->will($this->returnValue($this->cmsManager));
 
         // mocked site selector should return a site
-        $this->siteSelector->expects($this->any())->method('retrieve')->will($this->returnValue($this->getMock('Sonata\PageBundle\Model\SiteInterface')));
+        $this->siteSelector->expects($this->any())->method('retrieve')->will($this->returnValue($this->createMock('Sonata\PageBundle\Model\SiteInterface')));
 
         // mocked decorator strategy should allow decorate
         $this->decoratorStrategy->expects($this->any())->method('isRouteNameDecorable')->will($this->returnValue(true));
         $this->decoratorStrategy->expects($this->any())->method('isRouteUriDecorable')->will($this->returnValue(true));
 
         // mocked page service manager should execute the page and return a response
-        $response = $this->getMock('Symfony\Component\HttpFoundation\Response');
+        $response = $this->createMock('Symfony\Component\HttpFoundation\Response');
         $this->pageServiceManager->expects($this->once())->method('execute')->with($this->equalTo($page))->will($this->returnValue($response));
 
         // WHEN
@@ -189,7 +190,7 @@ class ExceptionListenerTest extends \PHPUnit_Framework_TestCase
      */
     protected function getMockEvent($exception)
     {
-        $kernel = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface');
+        $kernel = $this->createMock('Symfony\Component\HttpKernel\HttpKernelInterface');
         $request = new Request();
 
         return new GetResponseForExceptionEvent($kernel, $request, 'master', $exception);

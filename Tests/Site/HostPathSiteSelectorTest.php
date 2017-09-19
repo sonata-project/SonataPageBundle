@@ -14,13 +14,14 @@ namespace Sonata\PageBundle\Tests\Site;
 use Sonata\PageBundle\Entity\BaseSite;
 use Sonata\PageBundle\Request\SiteRequest;
 use Sonata\PageBundle\Site\HostPathSiteSelector as BaseSiteSelector;
+use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 /**
  * @author Stephen Leavitt <stephen.leavitt@sonyatv.com>
  */
-class HostPathSiteSelectorTest extends \PHPUnit_Framework_TestCase
+class HostPathSiteSelectorTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Site Test #1 - Should match "Site 0".
@@ -279,7 +280,7 @@ class HostPathSiteSelectorTest extends \PHPUnit_Framework_TestCase
      */
     protected function performHandleKernelRequestTest($url)
     {
-        $kernel = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface');
+        $kernel = $this->createMock('Symfony\Component\HttpKernel\HttpKernelInterface');
         $request = SiteRequest::create($url);
 
         // Ensure request locale is null
@@ -287,9 +288,9 @@ class HostPathSiteSelectorTest extends \PHPUnit_Framework_TestCase
 
         $event = new GetResponseEvent($kernel, $request, 'master');
 
-        $siteManager = $this->getMock('Sonata\PageBundle\Model\SiteManagerInterface');
-        $decoratorStrategy = $this->getMock('Sonata\PageBundle\CmsManager\DecoratorStrategyInterface');
-        $seoPage = $this->getMock('Sonata\SeoBundle\Seo\SeoPageInterface');
+        $siteManager = $this->createMock('Sonata\PageBundle\Model\SiteManagerInterface');
+        $decoratorStrategy = $this->createMock('Sonata\PageBundle\CmsManager\DecoratorStrategyInterface');
+        $seoPage = $this->createMock('Sonata\SeoBundle\Seo\SeoPageInterface');
 
         $siteSelector = new HostPathSiteSelector($siteManager, $decoratorStrategy, $seoPage);
 

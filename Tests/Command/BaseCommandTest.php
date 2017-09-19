@@ -12,11 +12,12 @@
 namespace Sonata\PageBundle\Tests\Command;
 
 use Sonata\PageBundle\Command\BaseCommand;
+use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 
 /**
  * @author Vincent Composieux <vincent.composieux@gmail.com>
  */
-class BaseCommandTest extends \PHPUnit_Framework_TestCase
+class BaseCommandTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var BaseCommand
@@ -43,7 +44,7 @@ class BaseCommandTest extends \PHPUnit_Framework_TestCase
         $method = new \ReflectionMethod($this->command, 'getSites');
         $method->setAccessible(true);
 
-        $input = $this->getMock('Symfony\Component\Console\Input\InputInterface');
+        $input = $this->createMock('Symfony\Component\Console\Input\InputInterface');
 
         $siteManager = $this->getMockBuilder('Sonata\PageBundle\Entity\SiteManager')
             ->disableOriginalConstructor()

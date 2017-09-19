@@ -12,11 +12,12 @@
 namespace Sonata\PageBundle\Tests\Page;
 
 use Sonata\PageBundle\Page\PageServiceManager;
+use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 
 /**
  * Test the page service manager.
  */
-class PageServiceManagerTest extends \PHPUnit_Framework_TestCase
+class PageServiceManagerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -33,7 +34,7 @@ class PageServiceManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->router = $this->getMock('Symfony\Component\Routing\RouterInterface');
+        $this->router = $this->createMock('Symfony\Component\Routing\RouterInterface');
         $this->manager = new PageServiceManager($this->router);
     }
 
@@ -43,7 +44,7 @@ class PageServiceManagerTest extends \PHPUnit_Framework_TestCase
     public function testAdd()
     {
         // GIVEN
-        $service = $this->getMock('Sonata\PageBundle\Page\Service\PageServiceInterface');
+        $service = $this->createMock('Sonata\PageBundle\Page\Service\PageServiceInterface');
 
         // WHEN
         $this->manager->add('default', $service);
@@ -60,10 +61,10 @@ class PageServiceManagerTest extends \PHPUnit_Framework_TestCase
     public function testGetByPage()
     {
         // GIVEN
-        $service = $this->getMock('Sonata\PageBundle\Page\Service\PageServiceInterface');
+        $service = $this->createMock('Sonata\PageBundle\Page\Service\PageServiceInterface');
         $this->manager->add('my-type', $service);
 
-        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+        $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
         $page->expects($this->once())->method('getType')->will($this->returnValue('my-type'));
 
         // WHEN
@@ -81,8 +82,8 @@ class PageServiceManagerTest extends \PHPUnit_Framework_TestCase
     public function testGetAll()
     {
         // GIVEN
-        $service1 = $this->getMock('Sonata\PageBundle\Page\Service\PageServiceInterface');
-        $service2 = $this->getMock('Sonata\PageBundle\Page\Service\PageServiceInterface');
+        $service1 = $this->createMock('Sonata\PageBundle\Page\Service\PageServiceInterface');
+        $service2 = $this->createMock('Sonata\PageBundle\Page\Service\PageServiceInterface');
         $this->manager->add('service1', $service1);
         $this->manager->add('service2', $service2);
 
@@ -101,7 +102,7 @@ class PageServiceManagerTest extends \PHPUnit_Framework_TestCase
     public function testDefault()
     {
         // GIVEN
-        $default = $this->getMock('Sonata\PageBundle\Page\Service\PageServiceInterface');
+        $default = $this->createMock('Sonata\PageBundle\Page\Service\PageServiceInterface');
         $this->manager->setDefault($default);
 
         // WHEN
@@ -123,12 +124,12 @@ class PageServiceManagerTest extends \PHPUnit_Framework_TestCase
             ->getMockBuilder('Symfony\Component\HttpFoundation\Request')
             ->disableOriginalClone()
             ->getMock();
-        $response = $this->getMock('Symfony\Component\HttpFoundation\Response');
+        $response = $this->createMock('Symfony\Component\HttpFoundation\Response');
 
-        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+        $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
         $page->expects($this->once())->method('getType')->will($this->returnValue('my-type'));
 
-        $service = $this->getMock('Sonata\PageBundle\Page\Service\PageServiceInterface');
+        $service = $this->createMock('Sonata\PageBundle\Page\Service\PageServiceInterface');
         $service->expects($this->once())
             ->method('execute')
             ->with($this->equalTo($page), $this->equalTo($request))

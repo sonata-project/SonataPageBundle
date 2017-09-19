@@ -12,13 +12,14 @@
 namespace Sonata\PageBundle\Tests\Page;
 
 use Sonata\PageBundle\Page\TemplateManager;
+use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\Templating\StreamingEngineInterface;
 
 /**
  * Test the template manager.
  */
-class TemplateManagerTest extends \PHPUnit_Framework_TestCase
+class TemplateManagerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test adding a new template.
@@ -27,7 +28,7 @@ class TemplateManagerTest extends \PHPUnit_Framework_TestCase
     {
         // GIVEN
         $template = $this->getMockTemplate('template');
-        $templating = $this->getMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
+        $templating = $this->createMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
         $manager = new TemplateManager($templating);
 
         // WHEN
@@ -43,7 +44,7 @@ class TemplateManagerTest extends \PHPUnit_Framework_TestCase
     public function testSetAllTemplates()
     {
         // GIVEN
-        $templating = $this->getMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
+        $templating = $this->createMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
         $manager = new TemplateManager($templating);
 
         $templates = array(
@@ -66,7 +67,7 @@ class TemplateManagerTest extends \PHPUnit_Framework_TestCase
     public function testSetDefaultTemplateCode()
     {
         // GIVEN
-        $templating = $this->getMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
+        $templating = $this->createMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
         $manager = new TemplateManager($templating);
 
         // WHEN
@@ -84,8 +85,8 @@ class TemplateManagerTest extends \PHPUnit_Framework_TestCase
         // GIVEN
         $template = $this->getMockTemplate('template', 'path/to/template');
 
-        $response = $this->getMock('Symfony\Component\HttpFoundation\Response');
-        $templating = $this->getMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
+        $response = $this->createMock('Symfony\Component\HttpFoundation\Response');
+        $templating = $this->createMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
         $templating->expects($this->once())->method('renderResponse')->with($this->equalTo('path/to/template'))->will($this->returnValue($response));
 
         $manager = new TemplateManager($templating);
@@ -104,7 +105,7 @@ class TemplateManagerTest extends \PHPUnit_Framework_TestCase
     public function testRenderResponseWithNonExistingCode()
     {
         // GIVEN
-        $templating = $this->getMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
+        $templating = $this->createMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
         $templating->expects($this->once())->method('renderResponse')->with($this->equalTo('SonataPageBundle::layout.html.twig'));
         $manager = new TemplateManager($templating);
 
@@ -121,8 +122,8 @@ class TemplateManagerTest extends \PHPUnit_Framework_TestCase
     public function testRenderResponseWithoutCode()
     {
         // GIVEN
-        $response = $this->getMock('Symfony\Component\HttpFoundation\Response');
-        $templating = $this->getMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
+        $response = $this->createMock('Symfony\Component\HttpFoundation\Response');
+        $templating = $this->createMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
         $templating->expects($this->once())->method('renderResponse')->with($this->equalTo('path/to/default'))->will($this->returnValue($response));
 
         $template = $this->getMockTemplate('template', 'path/to/default');
@@ -145,8 +146,8 @@ class TemplateManagerTest extends \PHPUnit_Framework_TestCase
         // GIVEN
         $template = $this->getMockTemplate('template', 'path/to/template');
 
-        $response = $this->getMock('Symfony\Component\HttpFoundation\Response');
-        $templating = $this->getMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
+        $response = $this->createMock('Symfony\Component\HttpFoundation\Response');
+        $templating = $this->createMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
         $templating->expects($this->once())->method('renderResponse')
             ->with(
                 $this->equalTo('path/to/template'),

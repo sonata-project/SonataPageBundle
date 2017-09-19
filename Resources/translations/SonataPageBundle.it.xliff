@@ -1,0 +1,921 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+    <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="0" resname="block">
+                <source>block</source>
+                <target>Blocchi</target>
+            </trans-unit>
+            <trans-unit id="1" resname="breadcrumb.link_block_batch">
+                <source>breadcrumb.link_block_batch</source>
+                <target>Batch</target>
+            </trans-unit>
+            <trans-unit id="2" resname="breadcrumb.link_block_create">
+                <source>breadcrumb.link_block_create</source>
+                <target>Crea</target>
+            </trans-unit>
+            <trans-unit id="3" resname="breadcrumb.link_block_delete">
+                <source>breadcrumb.link_block_delete</source>
+                <target>Elimina</target>
+            </trans-unit>
+            <trans-unit id="4" resname="breadcrumb.link_block_edit">
+                <source>breadcrumb.link_block_edit</source>
+                <target>Modifica</target>
+            </trans-unit>
+            <trans-unit id="5" resname="breadcrumb.link_block_list">
+                <source>breadcrumb.link_block_list</source>
+                <target>Blocchi</target>
+            </trans-unit>
+            <trans-unit id="6" resname="breadcrumb.link_block_update">
+                <source>breadcrumb.link_block_update</source>
+                <target>Aggiorna</target>
+            </trans-unit>
+            <trans-unit id="7" resname="breadcrumb.link_dashboard">
+                <source>breadcrumb.link_dashboard</source>
+                <target>Dashboard</target>
+            </trans-unit>
+            <trans-unit id="8" resname="breadcrumb.link_page_batch">
+                <source>breadcrumb.link_page_batch</source>
+                <target>Batch</target>
+            </trans-unit>
+            <trans-unit id="9" resname="breadcrumb.link_page_create">
+                <source>breadcrumb.link_page_create</source>
+                <target>Crea</target>
+            </trans-unit>
+            <trans-unit id="10" resname="breadcrumb.link_page_delete">
+                <source>breadcrumb.link_page_delete</source>
+                <target>Elimina</target>
+            </trans-unit>
+            <trans-unit id="11" resname="breadcrumb.link_page_edit">
+                <source>breadcrumb.link_page_edit</source>
+                <target>Modifica</target>
+            </trans-unit>
+            <trans-unit id="12" resname="breadcrumb.link_page_list">
+                <source>breadcrumb.link_page_list</source>
+                <target>Elenco pagine</target>
+            </trans-unit>
+            <trans-unit id="13" resname="breadcrumb.link_page_update">
+                <source>breadcrumb.link_page_update</source>
+                <target>Aggiorna</target>
+            </trans-unit>
+            <trans-unit id="14" resname="breadcrumb.link_snapshot_batch">
+                <source>breadcrumb.link_snapshot_batch</source>
+                <target>Batch</target>
+            </trans-unit>
+            <trans-unit id="15" resname="breadcrumb.link_snapshot_create">
+                <source>breadcrumb.link_snapshot_create</source>
+                <target>Crea</target>
+            </trans-unit>
+            <trans-unit id="16" resname="breadcrumb.link_snapshot_delete">
+                <source>breadcrumb.link_snapshot_delete</source>
+                <target>Elimina</target>
+            </trans-unit>
+            <trans-unit id="17" resname="breadcrumb.link_snapshot_edit">
+                <source>breadcrumb.link_snapshot_edit</source>
+                <target>Modifica</target>
+            </trans-unit>
+            <trans-unit id="18" resname="breadcrumb.link_snapshot_list">
+                <source>breadcrumb.link_snapshot_list</source>
+                <target>Lista</target>
+            </trans-unit>
+            <trans-unit id="19" resname="breadcrumb.link_snapshot_update">
+                <source>breadcrumb.link_snapshot_update</source>
+                <target>Aggiorna</target>
+            </trans-unit>
+            <trans-unit id="20" resname="btn_save_position">
+                <source>btn_save_position</source>
+                <target>Salva posizione</target>
+            </trans-unit>
+            <trans-unit id="21" resname="button_create_snapshot">
+                <source>button_create_snapshot</source>
+                <target>Crea pubblicazione</target>
+            </trans-unit>
+            <trans-unit id="22" resname="cms">
+                <source>cms</source>
+                <target>CMS</target>
+            </trans-unit>
+            <trans-unit id="23" resname="create_page">
+                <source>create_page</source>
+                <target>Crea pagina</target>
+            </trans-unit>
+            <trans-unit id="24" resname="create_snapshot">
+                <source>create_snapshot</source>
+                <target>Crea pubblicazione</target>
+            </trans-unit>
+            <trans-unit id="25" resname="error.404">
+                <source>error.404</source>
+                <target>Errore 404</target>
+            </trans-unit>
+            <trans-unit id="27" resname="filter.label_enabled">
+                <source>filter.label_enabled</source>
+                <target>Abilitazione</target>
+            </trans-unit>
+            <trans-unit id="28" resname="filter.label_hybrid">
+                <source>filter.label_hybrid</source>
+                <target>Tipo pagina</target>
+            </trans-unit>
+            <trans-unit id="29" resname="filter.label_name">
+                <source>filter.label_name</source>
+                <target>Nome</target>
+            </trans-unit>
+            <trans-unit id="30" resname="filter.label_page">
+                <source>filter.label_page</source>
+                <target>Pagina</target>
+            </trans-unit>
+            <trans-unit id="31" resname="filter.label_route_name">
+                <source>filter.label_route_name</source>
+                <target>Nome rotta</target>
+            </trans-unit>
+            <trans-unit id="32" resname="filter.label_type">
+                <source>filter.label_type</source>
+                <target>Tipo</target>
+            </trans-unit>
+            <trans-unit id="33" resname="form.group_advanced_label">
+                <source>form.group_advanced_label</source>
+                <target>Avanzate</target>
+            </trans-unit>
+            <trans-unit id="34" resname="form.group_main_label">
+                <source>form.group_main_label</source>
+                <target>Generali</target>
+            </trans-unit>
+            <trans-unit id="35" resname="form.group_seo_label">
+                <source>form.group_seo_label</source>
+                <target>SEO</target>
+            </trans-unit>
+            <trans-unit id="36" resname="form.label_children">
+                <source>form.label_children</source>
+                <target>Figli</target>
+            </trans-unit>
+            <trans-unit id="37" resname="form.label_custom_url">
+                <source>form.label_custom_url</source>
+                <target>URL personalizzato</target>
+            </trans-unit>
+            <trans-unit id="38" resname="form.label_decorate">
+                <source>form.label_decorate</source>
+                <target>Decorazione</target>
+            </trans-unit>
+            <trans-unit id="39" resname="form.label_enabled">
+                <source>form.label_enabled</source>
+                <target>Abilitazione</target>
+            </trans-unit>
+            <trans-unit id="40" resname="form.label_javascript">
+                <source>form.label_javascript</source>
+                <target>Javascript</target>
+            </trans-unit>
+            <trans-unit id="41" resname="form.label_meta_description">
+                <source>form.label_meta_description</source>
+                <target>Meta Description</target>
+            </trans-unit>
+            <trans-unit id="42" resname="form.label_meta_keyword">
+                <source>form.label_meta_keyword</source>
+                <target>Meta Keyword</target>
+            </trans-unit>
+            <trans-unit id="43" resname="form.label_name">
+                <source>form.label_name</source>
+                <target>Nome</target>
+            </trans-unit>
+            <trans-unit id="44" resname="form.label_parent">
+                <source>form.label_parent</source>
+                <target>Genitore</target>
+            </trans-unit>
+            <trans-unit id="45" resname="form.label_position">
+                <source>form.label_position</source>
+                <target>Posizione</target>
+            </trans-unit>
+            <trans-unit id="46" resname="form.label_publication_date_end">
+                <source>form.label_publication_date_end</source>
+                <target>Fine pubblicazione il</target>
+            </trans-unit>
+            <trans-unit id="47" resname="form.label_publication_date_start">
+                <source>form.label_publication_date_start</source>
+                <target>Inizio pubblicazione il</target>
+            </trans-unit>
+            <trans-unit id="48" resname="form.label_raw_headers">
+                <source>form.label_raw_headers</source>
+                <target>Raw Headers</target>
+            </trans-unit>
+            <trans-unit id="49" resname="form.label_settings">
+                <source>form.label_settings</source>
+                <target>Impostazioni</target>
+            </trans-unit>
+            <trans-unit id="50" resname="form.label_slug">
+                <source>form.label_slug</source>
+                <target>Slug</target>
+            </trans-unit>
+            <trans-unit id="51" resname="form.label_stylesheet">
+                <source>form.label_stylesheet</source>
+                <target>Stile CSS</target>
+            </trans-unit>
+            <trans-unit id="52" resname="form.label_target">
+                <source>form.label_target</source>
+                <target>Destinazione</target>
+            </trans-unit>
+            <trans-unit id="53" resname="form.label_template_code">
+                <source>form.label_template_code</source>
+                <target>Template</target>
+            </trans-unit>
+            <trans-unit id="54" resname="form.label_type">
+                <source>form.label_type</source>
+                <target>Tipo</target>
+            </trans-unit>
+            <trans-unit id="55" resname="form.label_url">
+                <source>form.label_url</source>
+                <target>URL</target>
+            </trans-unit>
+            <trans-unit id="56" resname="form_page.group_advanced_label">
+                <source>form_page.group_advanced_label</source>
+                <target>Avanzate</target>
+            </trans-unit>
+            <trans-unit id="57" resname="form_page.group_main_label">
+                <source>form_page.group_main_label</source>
+                <target>Principale</target>
+            </trans-unit>
+            <trans-unit id="58" resname="form_page.group_seo_label">
+                <source>form_page.group_seo_label</source>
+                <target>SEO</target>
+            </trans-unit>
+            <trans-unit id="59" resname="header.create_snapshot">
+                <source>header.create_snapshot</source>
+                <target>Crea pubblicazione</target>
+            </trans-unit>
+            <trans-unit id="60" resname="header.edit_page">
+                <source>header.edit_page</source>
+                <target>Modifica pagina</target>
+            </trans-unit>
+            <trans-unit id="61" resname="header.page_is_disabled">
+                <source>header.page_is_disabled</source>
+                <target>Disabilitata</target>
+            </trans-unit>
+            <trans-unit id="62" resname="header.show_zone">
+                <source>header.show_zone</source>
+                <target>Mostra zona</target>
+            </trans-unit>
+            <trans-unit id="63" resname="header.view_all_exceptions">
+                <source>header.view_all_exceptions</source>
+                <target>Visualizza tutti gli errori</target>
+            </trans-unit>
+            <trans-unit id="64" resname="header.view_all_pages">
+                <source>header.view_all_pages</source>
+                <target>Visualizza tutte le pagine</target>
+            </trans-unit>
+            <trans-unit id="65" resname="help_page_name">
+                <source>help_page_name</source>
+                <target>Nome della pagina (usato come titolo)</target>
+            </trans-unit>
+            <trans-unit id="66" resname="hybrid">
+                <source>hybrid</source>
+                <target>Ibrida</target>
+            </trans-unit>
+            <trans-unit id="67" resname="list.label_decorate">
+                <source>list.label_decorate</source>
+                <target>Decorazione</target>
+            </trans-unit>
+            <trans-unit id="68" resname="list.label_enabled">
+                <source>list.label_enabled</source>
+                <target>Abilitazione</target>
+            </trans-unit>
+            <trans-unit id="69" resname="list.label_hybrid">
+                <source>list.label_hybrid</source>
+                <target>Tipo pagina</target>
+            </trans-unit>
+            <trans-unit id="70" resname="list.label_name">
+                <source>list.label_name</source>
+                <target>Nome</target>
+            </trans-unit>
+            <trans-unit id="71" resname="list.label_position">
+                <source>list.label_position</source>
+                <target>Posizione</target>
+            </trans-unit>
+            <trans-unit id="72" resname="list.label_publication_date_end">
+                <source>list.label_publication_date_end</source>
+                <target>Fine pubblicazione il</target>
+            </trans-unit>
+            <trans-unit id="73" resname="list.label_publication_date_start">
+                <source>list.label_publication_date_start</source>
+                <target>Inizio pubblicazione il</target>
+            </trans-unit>
+            <trans-unit id="74" resname="list.label_type">
+                <source>list.label_type</source>
+                <target>Tipo</target>
+            </trans-unit>
+            <trans-unit id="75" resname="list.label_updated_at">
+                <source>list.label_updated_at</source>
+                <target>Aggiornato il</target>
+            </trans-unit>
+            <trans-unit id="76" resname="list.label_url">
+                <source>list.label_url</source>
+                <target>URL</target>
+            </trans-unit>
+            <trans-unit id="77" resname="manage_exception">
+                <source>manage_exception</source>
+                <target>La pagina %code%</target>
+            </trans-unit>
+            <trans-unit id="78" resname="message_create_snapshot">
+                <source>message_create_snapshot</source>
+                <target>Crea pubblicazione pagina</target>
+            </trans-unit>
+            <trans-unit id="79" resname="or_list">
+                <source>or_list</source>
+                <target>oppure</target>
+            </trans-unit>
+            <trans-unit id="80" resname="page">
+                <source>page</source>
+                <target>Pagine</target>
+            </trans-unit>
+            <trans-unit id="81" resname="show.label_custom_url">
+                <source>show.label_custom_url</source>
+                <target>URL personalizzato</target>
+            </trans-unit>
+            <trans-unit id="82" resname="show.label_decorate">
+                <source>show.label_decorate</source>
+                <target>Decorato</target>
+            </trans-unit>
+            <trans-unit id="83" resname="show.label_enabled">
+                <source>show.label_enabled</source>
+                <target>Abilitato</target>
+            </trans-unit>
+            <trans-unit id="84" resname="show.label_name">
+                <source>show.label_name</source>
+                <target>Nome</target>
+            </trans-unit>
+            <trans-unit id="85" resname="show.label_route_name">
+                <source>show.label_route_name</source>
+                <target>Nome rotta</target>
+            </trans-unit>
+            <trans-unit id="86" resname="show.label_slug">
+                <source>show.label_slug</source>
+                <target>Slug</target>
+            </trans-unit>
+            <trans-unit id="87" resname="sidemenu.link_edit_page">
+                <source>sidemenu.link_edit_page</source>
+                <target>Modifica</target>
+            </trans-unit>
+            <trans-unit id="88" resname="sidemenu.link_list_blocks">
+                <source>sidemenu.link_list_blocks</source>
+                <target>Blocchi</target>
+            </trans-unit>
+            <trans-unit id="89" resname="sidemenu.link_list_snapshots">
+                <source>sidemenu.link_list_snapshots</source>
+                <target>Pubblicazioni</target>
+            </trans-unit>
+            <trans-unit id="90" resname="snapshot">
+                <source>snapshot</source>
+                <target>Pubblicazioni</target>
+            </trans-unit>
+            <trans-unit id="91" resname="sonata_page">
+                <source>sonata_page</source>
+                <target>Pagine</target>
+            </trans-unit>
+            <trans-unit id="92" resname="title_create_snapshot">
+                <source>title_create_snapshot</source>
+                <target>Crea una pubblicazione</target>
+            </trans-unit>
+            <trans-unit id="93" resname="title_list_exceptions">
+                <source>title_list_exceptions</source>
+                <target>Pagine di errore gestibili:</target>
+            </trans-unit>
+            <trans-unit id="94" resname="title_page_not_found">
+                <source>title_page_not_found</source>
+                <target>La pagina non esiste</target>
+            </trans-unit>
+            <trans-unit id="95" resname="toggle_enabled">
+                <source>toggle_enabled</source>
+                <target>Inverti A/D</target>
+            </trans-unit>
+            <trans-unit id="96" resname="view_page">
+                <source>view_page</source>
+                <target>Visualizza</target>
+            </trans-unit>
+            <trans-unit id="97" resname="header.switch_user_exit">
+                <source>header.switch_user_exit</source>
+                <target>Esci da modalità impersonifica</target>
+            </trans-unit>
+            <trans-unit id="98" resname="header.switch_user">
+                <source>header.switch_user</source>
+                <target>Impersonifica utente</target>
+            </trans-unit>
+            <trans-unit id="99" resname="header.sonata_admin_dashboard">
+                <source>header.sonata_admin_dashboard</source>
+                <target>Dashboard</target>
+            </trans-unit>
+            <trans-unit id="100" resname="list.label_is_default">
+                <source>list.label_is_default</source>
+                <target>Predefinito</target>
+            </trans-unit>
+            <trans-unit id="101" resname="list.label_host">
+                <source>list.label_host</source>
+                <target>Host</target>
+            </trans-unit>
+            <trans-unit id="102" resname="list.label_relative_path">
+                <source>list.label_relative_path</source>
+                <target>Percorso relativo</target>
+            </trans-unit>
+            <trans-unit id="103" resname="list.label_enabled_to">
+                <source>list.label_enabled_to</source>
+                <target>Abilitato fino al</target>
+            </trans-unit>
+            <trans-unit id="104" resname="list.label_enabled_from">
+                <source>list.label_enabled_from</source>
+                <target>Abilitato dal</target>
+            </trans-unit>
+            <trans-unit id="105" resname="form.label_is_default">
+                <source>form.label_is_default</source>
+                <target>Predefinito</target>
+            </trans-unit>
+            <trans-unit id="106" resname="form.label_host">
+                <source>form.label_host</source>
+                <target>Host</target>
+            </trans-unit>
+            <trans-unit id="107" resname="form.label_relative_path">
+                <source>form.label_relative_path</source>
+                <target>Percorso relativo</target>
+            </trans-unit>
+            <trans-unit id="108" resname="form.label_enabled_to">
+                <source>form.label_enabled_to</source>
+                <target>Abilitato fino al</target>
+            </trans-unit>
+            <trans-unit id="109" resname="form.label_enabled_from">
+                <source>form.label_enabled_from</source>
+                <target>Abilitato dal</target>
+            </trans-unit>
+            <trans-unit id="110" resname="breadcrumb.link_site_list">
+                <source>breadcrumb.link_site_list</source>
+                <target>Elenco siti</target>
+            </trans-unit>
+            <trans-unit id="111" resname="breadcrumb.link_site_show">
+                <source>breadcrumb.link_site_show</source>
+                <target>Mostra</target>
+            </trans-unit>
+            <trans-unit id="112" resname="breadcrumb.link_site_create">
+                <source>breadcrumb.link_site_create</source>
+                <target>Crea</target>
+            </trans-unit>
+            <trans-unit id="113" resname="breadcrumb.link_site_edit">
+                <source>breadcrumb.link_site_edit</source>
+                <target>Modifica</target>
+            </trans-unit>
+            <trans-unit id="114" resname="list.label_create_snapshots">
+                <source>list.label_create_snapshots</source>
+                <target>Pubblicazioni</target>
+            </trans-unit>
+            <trans-unit id="115" resname="link_create_snapshots">
+                <source>link_create_snapshots</source>
+                <target>Crea pubblicazioni</target>
+            </trans-unit>
+            <trans-unit id="116" resname="title_create_snapshots">
+                <source>title_create_snapshots</source>
+                <target>Crea pubblicazioni</target>
+            </trans-unit>
+            <trans-unit id="117" resname="message_create_snapshots">
+                <source>message_create_snapshots</source>
+                <target>Click sul pulsante crea pubblicazione per crearne una nuova per il sito : %site%</target>
+            </trans-unit>
+            <trans-unit id="118" resname="button_create_snapshots">
+                <source>button_create_snapshots</source>
+                <target>Crea</target>
+            </trans-unit>
+            <trans-unit id="119" resname="breadcrumb.link_site_history">
+                <source>breadcrumb.link_site_history</source>
+                <target>Storico</target>
+            </trans-unit>
+            <trans-unit id="120" resname="form.label_site">
+                <source>form.label_site</source>
+                <target>Sito</target>
+            </trans-unit>
+            <trans-unit id="121" resname="list.label_site">
+                <source>list.label_site</source>
+                <target>Sito</target>
+            </trans-unit>
+            <trans-unit id="122" resname="site">
+                <source>site</source>
+                <target>Siti</target>
+            </trans-unit>
+            <trans-unit id="123" resname="show.label_is_default">
+                <source>show.label_is_default</source>
+                <target>Predefinito</target>
+            </trans-unit>
+            <trans-unit id="124" resname="show.label_host">
+                <source>show.label_host</source>
+                <target>Host</target>
+            </trans-unit>
+            <trans-unit id="125" resname="show.label_relative_path">
+                <source>show.label_relative_path</source>
+                <target>Percorso relativo</target>
+            </trans-unit>
+            <trans-unit id="126" resname="show.label_enabled_from">
+                <source>show.label_enabled_from</source>
+                <target>Abilitato dal</target>
+            </trans-unit>
+            <trans-unit id="127" resname="show.label_enabled_to">
+                <source>show.label_enabled_to</source>
+                <target>Abilitato fino al</target>
+            </trans-unit>
+            <trans-unit id="128" resname="list.label_locale">
+                <source>list.label_locale</source>
+                <target>Lingua</target>
+            </trans-unit>
+            <trans-unit id="129" resname="show.label_locale">
+                <source>show.label_locale</source>
+                <target>Lingua</target>
+            </trans-unit>
+            <trans-unit id="130" resname="form.label_locale">
+                <source>form.label_locale</source>
+                <target>Lingua</target>
+            </trans-unit>
+            <trans-unit id="131" resname="form_site.label_seo">
+                <source>form_site.label_seo</source>
+                <target>SEO</target>
+            </trans-unit>
+            <trans-unit id="132" resname="form.label_title">
+                <source>form.label_title</source>
+                <target>Titolo</target>
+            </trans-unit>
+            <trans-unit id="133" resname="form.label_meta_keywords">
+                <source>form.label_meta_keywords</source>
+                <target>Meta Keywords</target>
+            </trans-unit>
+            <trans-unit id="134" resname="show.label_title">
+                <source>show.label_title</source>
+                <target>Titolo</target>
+            </trans-unit>
+            <trans-unit id="135" resname="show.label_meta_description">
+                <source>show.label_meta_description</source>
+                <target>Meta Description</target>
+            </trans-unit>
+            <trans-unit id="136" resname="show.label_meta_keywords">
+                <source>show.label_meta_keywords</source>
+                <target>Meta Keywords</target>
+            </trans-unit>
+            <trans-unit id="137" resname="form_site.label_general">
+                <source>form_site.label_general</source>
+                <target>Generale</target>
+            </trans-unit>
+            <trans-unit id="138" resname="filter.label_site">
+                <source>filter.label_site</source>
+                <target>Sito</target>
+            </trans-unit>
+            <trans-unit id="139" resname="filter.label_edited">
+                <source>filter.label_edited</source>
+                <target>Modifica</target>
+            </trans-unit>
+            <trans-unit id="140" resname="list.label_edited">
+                <source>list.label_edited</source>
+                <target>Modifica</target>
+            </trans-unit>
+            <trans-unit id="141" resname="show.label_site">
+                <source>show.label_site</source>
+                <target>Sito</target>
+            </trans-unit>
+            <trans-unit id="142" resname="show.label_edited">
+                <source>show.label_edited</source>
+                <target>Modificata</target>
+            </trans-unit>
+            <trans-unit id="143" resname="breadcrumb.link_page_show">
+                <source>breadcrumb.link_page_show</source>
+                <target>Pagina</target>
+            </trans-unit>
+            <trans-unit id="144" resname="sonata_page">
+                <source>sonata_page</source>
+                <target>Pagine</target>
+            </trans-unit>
+            <trans-unit id="145" resname="form.label_page_alias">
+                <source>form.label_page_alias</source>
+                <target>Alias tecnico</target>
+            </trans-unit>
+            <trans-unit id="146" resname="show.label_page_alias">
+                <source>show.label_page_alias</source>
+                <target>Alias tecnico</target>
+            </trans-unit>
+            <trans-unit id="147" resname="list.label_page_alias">
+                <source>list.label_page_alias</source>
+                <target>Alias tecnico</target>
+            </trans-unit>
+            <trans-unit id="148" resname="filter.label_page_alias">
+                <source>filter.label_page_alias</source>
+                <target>Alias tecnico</target>
+            </trans-unit>
+            <trans-unit id="149" resname="title_page_redirected">
+                <source>title_page_redirected</source>
+                <target>Redirect interno di pagina</target>
+            </trans-unit>
+            <trans-unit id="150" resname="message_page_redirected">
+                <source>message_page_redirected</source>
+                <target><![CDATA[
+             Questa pagina è configurata come redirect per l'utente finale. Affinchè
+             possa essere configurata, la redirezione è stata bloccata solo per gli
+             editori.<br />
+             <br />
+             Clicca qui per proseguire con la redirezione: <a href="%url%">%url%</a>.
+          ]]></target>
+            </trans-unit>
+            <trans-unit id="151" resname="filter.label_parent">
+                <source>filter.label_parent</source>
+                <target>Genitore</target>
+            </trans-unit>
+            <trans-unit id="152" resname="title_select_block_type">
+                <source>title_select_block_type</source>
+                <target>Selezionare il tipo di blocco</target>
+            </trans-unit>
+            <trans-unit id="153" resname="form.field_group_general">
+                <source>form.field_group_general</source>
+                <target>Generali</target>
+            </trans-unit>
+            <trans-unit id="154" resname="form.field_group_options">
+                <source>form.field_group_options</source>
+                <target>Opzioni</target>
+            </trans-unit>
+            <trans-unit id="155" resname="flash_snapshots_created_success">
+                <source>flash_snapshots_created_success</source>
+                <target>Le pubblicazioni sono state create con successo.</target>
+            </trans-unit>
+            <trans-unit id="156" resname="title_message_create_page">
+                <source>title_message_create_page</source>
+                <target>Selezionare il sito</target>
+            </trans-unit>
+            <trans-unit id="157" resname="message_create_page">
+                <source>message_create_page</source>
+                <target>Prima di creare la pagina è necessario selezionare il sito che la ospiterà.</target>
+            </trans-unit>
+            <trans-unit id="158" resname="sidemenu.link_compose_page">
+                <source>sidemenu.link_compose_page</source>
+                <target>Compositore</target>
+            </trans-unit>
+            <trans-unit id="159" resname="sidemenu.link_list_pages">
+                <source>sidemenu.link_list_pages</source>
+                <target>Lista pagine</target>
+            </trans-unit>
+            <trans-unit id="160" resname="sidemenu.link_pages_tree">
+                <source>sidemenu.link_pages_tree</source>
+                <target>Vista albero</target>
+            </trans-unit>
+            <trans-unit id="161" resname="breadcrumb.link_page_tree">
+                <source>breadcrumb.link_page_tree</source>
+                <target>Albero</target>
+            </trans-unit>
+            <trans-unit id="162" resname="pages.tree_site_label">
+                <source>pages.tree_site_label</source>
+                <target>Pagine per il sito</target>
+            </trans-unit>
+            <trans-unit id="163" resname="pages.tree_mode">
+                <source>pages.tree_mode</source>
+                <target>Vista albero</target>
+            </trans-unit>
+            <trans-unit id="164" resname="pages.list_mode">
+                <source>pages.list_mode</source>
+                <target>Vista lista</target>
+            </trans-unit>
+            <trans-unit id="165" resname="header.compose_page">
+                <source>header.compose_page</source>
+                <target>Componi</target>
+            </trans-unit>
+            <trans-unit id="166" resname="no_type_available">
+                <source>no_type_available</source>
+                <target>Nessun tipo disponibile</target>
+            </trans-unit>
+            <trans-unit id="167" resname="page.compose_page">
+                <source>page.compose_page</source>
+                <target>Composizione pagina</target>
+            </trans-unit>
+            <trans-unit id="168" resname="page.orphan_containers">
+                <source>page.orphan_containers</source>
+                <target>Contenitori orfani</target>
+            </trans-unit>
+            <trans-unit id="169" resname="composer.remove">
+                <source>composer.remove</source>
+                <target>Elimina</target>
+            </trans-unit>
+            <trans-unit id="170" resname="composer.remove.confirm">
+                <source>composer.remove.confirm</source>
+                <target>Conferma eliminazione ?</target>
+            </trans-unit>
+            <trans-unit id="171" resname="yes">
+                <source>yes</source>
+                <target>Si</target>
+            </trans-unit>
+            <trans-unit id="172" resname="cancel">
+                <source>cancel</source>
+                <target>Annulla</target>
+            </trans-unit>
+            <trans-unit id="173" resname="loading">
+                <source>loading</source>
+                <target>Caricamento</target>
+            </trans-unit>
+            <trans-unit id="174" resname="composer.block.add.type">
+                <source>composer.block.add.type</source>
+                <target>Aggiungi blocco di tipo</target>
+            </trans-unit>
+            <trans-unit id="175" resname="notice">
+                <source>notice</source>
+                <target>avviso</target>
+            </trans-unit>
+            <trans-unit id="176" resname="blocks">
+                <source>blocks</source>
+                <target>blocchi</target>
+            </trans-unit>
+            <trans-unit id="177" resname="composer.disable">
+                <source>composer.disable</source>
+                <target>Disabilita</target>
+            </trans-unit>
+            <trans-unit id="178" resname="composer.enable">
+                <source>composer.enable</source>
+                <target>Abilita</target>
+            </trans-unit>
+            <trans-unit id="179" resname="shared_block">
+                <source>shared_block</source>
+                <target>Blocchi condivisi</target>
+            </trans-unit>
+            <trans-unit id="180" resname="breadcrumb.link_shared_block_batch">
+                <source>breadcrumb.link_shared_block_batch</source>
+                <target>Batch</target>
+            </trans-unit>
+            <trans-unit id="181" resname="breadcrumb.link_shared_block_create">
+                <source>breadcrumb.link_shared_block_create</source>
+                <target>Crea</target>
+            </trans-unit>
+            <trans-unit id="182" resname="breadcrumb.link_shared_block_delete">
+                <source>breadcrumb.link_shared_block_delete</source>
+                <target>Elimina</target>
+            </trans-unit>
+            <trans-unit id="183" resname="breadcrumb.link_shared_block_edit">
+                <source>breadcrumb.link_shared_block_edit</source>
+                <target>Modifica</target>
+            </trans-unit>
+            <trans-unit id="184" resname="breadcrumb.link_shared_block_list">
+                <source>breadcrumb.link_shared_block_list</source>
+                <target>Blocchi condivisi</target>
+            </trans-unit>
+            <trans-unit id="185" resname="breadcrumb.link_shared_block_update">
+                <source>breadcrumb.link_shared_block_update</source>
+                <target>Aggiorna</target>
+            </trans-unit>
+            <trans-unit id="186" resname="sidemenu.link_list_shared_blocks">
+                <source>sidemenu.link_list_shared_blocks</source>
+                <target>Blocchi condivisi</target>
+            </trans-unit>
+            <trans-unit id="187" resname="title_select_shared_block_type">
+                <source>title_select_shared_block_type</source>
+                <target>Selezionare il tipo di blocco</target>
+            </trans-unit>
+            <trans-unit id="188" resname="composer.shared_block.add.type">
+                <source>composer.shared_block.add.type</source>
+                <target>Aggiungi blocco di tipo</target>
+            </trans-unit>
+            <trans-unit id="189" resname="pages.compose_label">
+                <source>pages.compose_label</source>
+                <target>Componi</target>
+            </trans-unit>
+            <trans-unit id="190" resname="pages.edited_label">
+                <source>pages.edited_label</source>
+                <target>Modificata</target>
+            </trans-unit>
+            <trans-unit id="191" resname="page.compose_template_label">
+                <source>page.compose_template_label</source>
+                <target>template</target>
+            </trans-unit>
+            <trans-unit id="192" resname="page.compose_blocks_label">
+                <source>page.compose_blocks_label</source>
+                <target>{0} blocchi|{1} blocco|[2,Inf] blocchi</target>
+            </trans-unit>
+            <trans-unit id="193" resname="page.composer_preview_error">
+                <source>page.composer_preview_error</source>
+                <target>Si è verificato un errore durante il caricamento dei blocchi.</target>
+            </trans-unit>
+            <trans-unit id="194" resname="page.composer_update_saving">
+                <source>page.composer_update_saving</source>
+                <target>Salvataggio delle posizioni dei blocchi…</target>
+            </trans-unit>
+            <trans-unit id="195" resname="page.composer_update_saved">
+                <source>page.composer_update_saved</source>
+                <target>Posizioni dei blocchi salvate</target>
+            </trans-unit>
+            <trans-unit id="196" resname="page.composer_update_error">
+                <source>page.composer_update_error</source>
+                <target>Si è verificato un errore durante il salvataggio delle posizioni dei blocchi.</target>
+            </trans-unit>
+            <trans-unit id="197" resname="page.composer_status_error">
+                <source>page.composer_status_error</source>
+                <target>Si è verificato un errore durante il salvataggio dello stato di abilitazione del blocco.</target>
+            </trans-unit>
+            <trans-unit id="198" resname="message_page_does_not_exist">
+                <source>message_page_does_not_exist</source>
+                <target>Questa pagina non esiste.</target>
+            </trans-unit>
+            <trans-unit id="199" resname="title_content_pages">
+                <source>title_content_pages</source>
+                <target>Pagina contenuto</target>
+            </trans-unit>
+            <trans-unit id="200" resname="label_page_enabled">
+                <source>label_page_enabled</source>
+                <target>abilitato</target>
+            </trans-unit>
+            <trans-unit id="201" resname="label_page_disabled">
+                <source>label_page_disabled</source>
+                <target>disabilitato</target>
+            </trans-unit>
+            <trans-unit id="202" resname="title_system_pages">
+                <source>title_system_pages</source>
+                <target>Pagine di sistema</target>
+            </trans-unit>
+            <trans-unit id="203" resname="no_pages_found">
+                <source>no_pages_found</source>
+                <target>Pagina non trovata.</target>
+            </trans-unit>
+            <trans-unit id="204" resname="view_all_pages">
+                <source>view_all_pages</source>
+                <target>Visualizza tutte le pagine</target>
+            </trans-unit>
+            <trans-unit id="205" resname="form.label_mode">
+                <source>form.label_mode</source>
+                <target>Modalità</target>
+            </trans-unit>
+            <trans-unit id="206" resname="form.label_mode_public">
+                <source>form.label_mode_public</source>
+                <target>Pubblico</target>
+            </trans-unit>
+            <trans-unit id="207" resname="form.label_mode_admin">
+                <source>form.label_mode_admin</source>
+                <target>Amministratori</target>
+            </trans-unit>
+            <trans-unit id="208" resname="sonata.page.block.pagelist">
+                <source>sonata.page.block.pagelist</source>
+                <target>Lista pagine</target>
+            </trans-unit>
+            <trans-unit id="209" resname="form.label_block">
+                <source>form.label_block</source>
+                <target>Blocco</target>
+            </trans-unit>
+            <trans-unit id="210" resname="form.label_title">
+                <source>form.label_title</source>
+                <target>Titolo</target>
+            </trans-unit>
+            <trans-unit id="211" resname="form.label_current">
+                <source>form.label_current</source>
+                <target>Pagina corrente</target>
+            </trans-unit>
+            <trans-unit id="212" resname="form.label_page">
+                <source>form.label_page</source>
+                <target>Pagina</target>
+            </trans-unit>
+            <trans-unit id="213" resname="form.label_class">
+                <source>form.label_class</source>
+                <target>Classe CSS</target>
+            </trans-unit>
+            <trans-unit id="214" resname="form.label_text">
+                <source>form.label_text</source>
+                <target>Testo</target>
+            </trans-unit>
+            <trans-unit id="215" resname="form.label_cache_policy">
+                <source>form.label_cache_policy</source>
+                <target>Policy di cache</target>
+            </trans-unit>
+            <trans-unit id="216" resname="form.label_cache_policy_public">
+                <source>form.label_cache_policy_public</source>
+                <target>pubblico</target>
+            </trans-unit>
+            <trans-unit id="217" resname="form.label_cache_policy_private">
+                <source>form.label_cache_policy_private</source>
+                <target>privato</target>
+            </trans-unit>
+            <trans-unit id="218" resname="form.label_menu_name">
+                <source>form.label_menu_name</source>
+                <target>Menu</target>
+            </trans-unit>
+            <trans-unit id="219" resname="form.label_safe_labels">
+                <source>form.label_safe_labels</source>
+                <target>Etichette sicure</target>
+            </trans-unit>
+            <trans-unit id="220" resname="form.label_current_class">
+                <source>form.label_current_class</source>
+                <target>Classe CSS corrente</target>
+            </trans-unit>
+            <trans-unit id="221" resname="form.label_first_class">
+                <source>form.label_first_class</source>
+                <target>Classe CSS primo</target>
+            </trans-unit>
+            <trans-unit id="222" resname="form.label_last_class">
+                <source>form.label_last_class</source>
+                <target>Classe CSS ultimo</target>
+            </trans-unit>
+            <trans-unit id="223" resname="form.label_menu_class">
+                <source>form.label_menu_class</source>
+                <target>Classe CSS menu</target>
+            </trans-unit>
+            <trans-unit id="224" resname="form.label_children_class">
+                <source>form.label_children_class</source>
+                <target>Classe CSS figli</target>
+            </trans-unit>
+            <trans-unit id="225" resname="form.label_menu_template">
+                <source>form.label_menu_template</source>
+                <target>Menu template</target>
+            </trans-unit>
+            <trans-unit id="226" resname="pages.label_no_sites">
+                <source>pages.label_no_sites</source>
+                <target>Nessun sito configurato</target>
+            </trans-unit>
+            <trans-unit id="227" resname="pages.label_no_site_selected">
+                <source>pages.label_no_site_selected</source>
+                <target>Nessun sito selezionato</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

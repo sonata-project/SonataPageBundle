@@ -12,14 +12,15 @@
 namespace Sonata\PageBundle\Tests\Model;
 
 use Sonata\PageBundle\Model\SnapshotPageProxy;
+use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 
-class SnapshotPageProxyTest extends \PHPUnit_Framework_TestCase
+class SnapshotPageProxyTest extends PHPUnit_Framework_TestCase
 {
     public function testInterface()
     {
-        $snapshotManager = $this->getMock('Sonata\PageBundle\Model\SnapshotManagerInterface');
-        $snapshot = $this->getMock('Sonata\PageBundle\Model\SnapshotInterface');
-        $transformer = $this->getMock('Sonata\PageBundle\Model\TransformerInterface');
+        $snapshotManager = $this->createMock('Sonata\PageBundle\Model\SnapshotManagerInterface');
+        $snapshot = $this->createMock('Sonata\PageBundle\Model\SnapshotInterface');
+        $transformer = $this->createMock('Sonata\PageBundle\Model\TransformerInterface');
 
         new SnapshotPageProxy($snapshotManager, $transformer, $snapshot);
     }

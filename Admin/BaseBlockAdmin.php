@@ -14,6 +14,7 @@ namespace Sonata\PageBundle\Admin;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
@@ -198,6 +199,24 @@ abstract class BaseBlockAdmin extends AbstractAdmin
     /**
      * {@inheritdoc}
      */
+    public function preBatchAction($actionName, ProxyQueryInterface $query, array &$idx, $allElements)
+    {
+        $parent = $this->getParent();
+
+        if ($parent && $actionName === 'delete') {
+            $subject = $parent->getSubject();
+
+            if ($subject instanceof PageInterface) {
+                $subject->setEdited(true);
+            }
+        }
+
+        parent::preBatchAction($actionName, $query, $idx, $allElements);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function configureRoutes(RouteCollection $collection)
     {
         $collection->add('view', $this->getRouterIdParameter().'/view');
@@ -239,7 +258,13 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         $service = $this->blockManager->get($block);
 
         $resolver = new OptionsResolver();
-        $service->setDefaultSettings($resolver);
+        // use new interface method whenever possible
+        // NEXT_MAJOR: Remove this check and legacy setDefaultSettings method call
+        if (method_exists($service, 'configureSettings')) {
+            $service->configureSettings($resolver);
+        } else {
+            $service->setDefaultSettings($resolver);
+        }
 
         try {
             $block->setSettings($resolver->resolve($block->getSettings()));
