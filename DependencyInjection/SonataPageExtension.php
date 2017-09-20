@@ -39,6 +39,18 @@ class SonataPageExtension extends Extension
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('page.xml');
 
+        // NEXT_MAJOR: remove this code block
+        $definition = $container->getDefinition('sonata.page.router.request_context');
+        if (method_exists($definition, 'setFactory')) {
+            $definition->setFactory(array(
+                new Reference('sonata.page.site.selector'),
+                'getRequestContext',
+            ));
+        } else {
+            $definition->setFactoryService('sonata.page.site.selector');
+            $definition->setFactoryMethod('getRequestContext');
+        }
+
         if (isset($bundles['FOSRestBundle']) && isset($bundles['NelmioApiDocBundle'])) {
             $loader->load('serializer.xml');
 
@@ -71,7 +83,10 @@ class SonataPageExtension extends Extension
         $this->configureExceptions($container, $config);
         $this->configurePageDefaults($container, $config);
         $this->configurePageServices($container, $config);
-        $this->configureClassesToCompile();
+
+        if (PHP_VERSION_ID < 70000) {
+            $this->configureClassesToCompile();
+        }
 
         $container->setParameter('sonata.page.assets', $config['assets']);
         $container->setParameter('sonata.page.slugify_service', $config['slugify_service']);

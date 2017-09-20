@@ -24,8 +24,9 @@ file that was distributed with this source code.
                     <a class="label label-default pull-right" href="{{ admin.generateObjectUrl('compose', page) }}">{{ 'pages.compose_label'|trans({}, 'SonataPageBundle') }} <i class="fa fa-magic"></i></a>
                     {% if page.edited %}<span class="label label-warning pull-right">{{ 'pages.edited_label'|trans({}, 'SonataPageBundle') }}</span>{% endif %}
                 </div>
+                {% import _self as macro %}
                 {% if page.children|length %}
-                    {{ _self.pages(page.children, admin, false) }}
+                    {{ macro.pages(page.children, admin, false) }}
                 {% endif %}
             </li>
         {% endfor %}

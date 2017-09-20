@@ -12,8 +12,9 @@
 namespace Sonata\PageBundle\Tests\Page;
 
 use Sonata\PageBundle\Cache\BlockJsCache;
+use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 
-class BlockJsCacheTest extends \PHPUnit_Framework_TestCase
+class BlockJsCacheTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @expectedException \RuntimeException
@@ -21,11 +22,11 @@ class BlockJsCacheTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptions($keys)
     {
-        $router = $this->getMock('Symfony\Component\Routing\RouterInterface');
+        $router = $this->createMock('Symfony\Component\Routing\RouterInterface');
 
-        $cmsManager = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
-        $blockRenderer = $this->getMock('Sonata\BlockBundle\Block\BlockRendererInterface');
-        $contextManager = $this->getMock('Sonata\BlockBundle\Block\BlockContextManagerInterface');
+        $cmsManager = $this->createMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
+        $blockRenderer = $this->createMock('Sonata\BlockBundle\Block\BlockRendererInterface');
+        $contextManager = $this->createMock('Sonata\BlockBundle\Block\BlockContextManagerInterface');
 
         $cache = new BlockJsCache($router, $cmsManager, $blockRenderer, $contextManager);
 
@@ -47,12 +48,12 @@ class BlockJsCacheTest extends \PHPUnit_Framework_TestCase
 
     public function testInitCache()
     {
-        $router = $this->getMock('Symfony\Component\Routing\RouterInterface');
+        $router = $this->createMock('Symfony\Component\Routing\RouterInterface');
         $router->expects($this->once())->method('generate')->will($this->returnValue('https://sonata-project.org/page/cache/js/block.js'));
 
-        $cmsSelectorManager = $this->getMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
-        $blockRenderer = $this->getMock('Sonata\BlockBundle\Block\BlockRendererInterface');
-        $contextManager = $this->getMock('Sonata\BlockBundle\Block\BlockContextManagerInterface');
+        $cmsSelectorManager = $this->createMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
+        $blockRenderer = $this->createMock('Sonata\BlockBundle\Block\BlockRendererInterface');
+        $contextManager = $this->createMock('Sonata\BlockBundle\Block\BlockContextManagerInterface');
 
         $cache = new BlockJsCache($router, $cmsSelectorManager, $blockRenderer, $contextManager);
 

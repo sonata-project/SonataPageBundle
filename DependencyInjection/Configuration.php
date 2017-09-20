@@ -84,8 +84,8 @@ EOF;
             ->arrayNode('ignore_route_patterns')
                 ->info($ignoreRoutePatternsInfo)
                 ->defaultValue(array(
-                    '/(.*)admin(.*)/',
-                    '/^_(.*)/',
+                    '(.*)admin(.*)',
+                    '^_(.*)',
                 ))
                 ->prototype('scalar')->end()
             ->end()
@@ -113,7 +113,7 @@ EOF;
             ->arrayNode('ignore_uri_patterns')
                 ->info($ignoreUriPatternsInfo)
                 ->defaultValue(array(
-                    '/admin(.*)/',
+                    'admin(.*)',
                 ))
                 ->prototype('scalar')->end()
             ->end()

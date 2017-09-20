@@ -123,8 +123,8 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
             'hide_disabled_blocks' => false,
             'use_streamed_response' => false,
             'ignore_route_patterns' => array(
-                0 => '/(.*)admin(.*)/',
-                1 => '/^_(.*)/',
+                0 => '(.*)admin(.*)',
+                1 => '^_(.*)',
             ),
             'ignore_routes' => array(
                 0 => 'sonata_page_cache_esi',
@@ -137,7 +137,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                 7 => 'sonata_cache_apc',
             ),
             'ignore_uri_patterns' => array(
-                0 => '/admin(.*)/',
+                0 => 'admin(.*)',
             ),
             'cache_invalidation' => array(
                 'service' => 'sonata.cache.invalidation.simple',
@@ -208,8 +208,8 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
             'hide_disabled_blocks' => false,
             'use_streamed_response' => false,
             'ignore_route_patterns' => array(
-                0 => '/(.*)admin(.*)/',
-                1 => '/^_(.*)/',
+                0 => '(.*)admin(.*)',
+                1 => '^_(.*)',
             ),
             'ignore_routes' => array(
                 0 => 'sonata_page_cache_esi',
@@ -222,7 +222,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                 7 => 'sonata_cache_apc',
             ),
             'ignore_uri_patterns' => array(
-                0 => '/admin(.*)/',
+                0 => 'admin(.*)',
             ),
             'cache_invalidation' => array(
                 'service' => 'sonata.cache.invalidation.simple',

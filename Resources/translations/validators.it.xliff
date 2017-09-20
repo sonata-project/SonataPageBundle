@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+    <file source-language="en" target-language="it" datatype="plaintext" original="file.ext">
+        <header/>
+        <body>
+            <trans-unit id="error.uniq_url" resname="error.uniq_url">
+                <source>error.uniq_url</source>
+                <target>L'URL '%url%' è già associato ad un'altra pagina.</target>
+            </trans-unit>
+            <trans-unit id="error.uniq_url.parent_unselect" resname="error.uniq_url.parent_unselect">
+                <source>error.uniq_url.parent_unselect</source>
+                <target>L'URL radice '/' è già associato ad un'altra pagina di questo sito, selezionare un genitore.
+                </target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

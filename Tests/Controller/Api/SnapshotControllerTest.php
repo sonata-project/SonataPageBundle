@@ -12,18 +12,23 @@
 namespace Sonata\PageBundle\Tests\Controller\Api;
 
 use Sonata\PageBundle\Controller\Api\SnapshotController;
+use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 
 /**
  * @author Benoit de Jacobet <benoit.de-jacobet@ekino.com>
  */
-class SnapshotControllerTest extends \PHPUnit_Framework_TestCase
+class SnapshotControllerTest extends PHPUnit_Framework_TestCase
 {
     public function testGetSnapshotsAction()
     {
-        $snapshotManager = $this->getMock('Sonata\PageBundle\Model\SnapshotManagerInterface');
+        $snapshotManager = $this->getMockBuilder('Sonata\PageBundle\Model\SnapshotManagerInterface')->getMock();
         $snapshotManager->expects($this->once())->method('getPager')->will($this->returnValue(array()));
 
-        $paramFetcher = $this->getMock('FOS\RestBundle\Request\ParamFetcherInterface');
+        $paramFetcher = $this->getMockBuilder('FOS\RestBundle\Request\ParamFetcherInterface')
+            ->setMethods(array('addParam', 'setController', 'get', 'all'))
+            ->getMock();
+
+        $paramFetcher->expects($this->once())->method('addParam');
         $paramFetcher->expects($this->exactly(3))->method('get');
         $paramFetcher->expects($this->once())->method('all')->will($this->returnValue(array()));
 
@@ -32,7 +37,7 @@ class SnapshotControllerTest extends \PHPUnit_Framework_TestCase
 
     public function testGetSnapshotAction()
     {
-        $snapshot = $this->getMock('Sonata\PageBundle\Model\SnapshotInterface');
+        $snapshot = $this->createMock('Sonata\PageBundle\Model\SnapshotInterface');
 
         $this->assertEquals($snapshot, $this->createSnapshotController($snapshot)->getSnapshotAction(1));
     }
@@ -48,9 +53,9 @@ class SnapshotControllerTest extends \PHPUnit_Framework_TestCase
 
     public function testDeleteSnapshotAction()
     {
-        $snapshot = $this->getMock('Sonata\PageBundle\Model\SnapshotInterface');
+        $snapshot = $this->createMock('Sonata\PageBundle\Model\SnapshotInterface');
 
-        $snapshotManager = $this->getMock('Sonata\PageBundle\Model\SnapshotManagerInterface');
+        $snapshotManager = $this->createMock('Sonata\PageBundle\Model\SnapshotManagerInterface');
         $snapshotManager->expects($this->once())->method('delete');
 
         $view = $this->createSnapshotController($snapshot, $snapshotManager)->deleteSnapshotAction(1);
@@ -62,7 +67,7 @@ class SnapshotControllerTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('Symfony\Component\HttpKernel\Exception\NotFoundHttpException');
 
-        $snapshotManager = $this->getMock('Sonata\PageBundle\Model\SnapshotManagerInterface');
+        $snapshotManager = $this->createMock('Sonata\PageBundle\Model\SnapshotManagerInterface');
         $snapshotManager->expects($this->never())->method('delete');
 
         $this->createSnapshotController(null, $snapshotManager)->deleteSnapshotAction(1);
@@ -77,7 +82,7 @@ class SnapshotControllerTest extends \PHPUnit_Framework_TestCase
     public function createSnapshotController($snapshot = null, $snapshotManager = null)
     {
         if (null === $snapshotManager) {
-            $snapshotManager = $this->getMock('Sonata\PageBundle\Model\SnapshotManagerInterface');
+            $snapshotManager = $this->createMock('Sonata\PageBundle\Model\SnapshotManagerInterface');
         }
         if (null !== $snapshot) {
             $snapshotManager->expects($this->once())->method('findOneBy')->will($this->returnValue($snapshot));

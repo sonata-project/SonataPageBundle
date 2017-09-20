@@ -12,8 +12,8 @@
 namespace Sonata\PageBundle\Block;
 
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\BlockBundle\Block\BaseBlockService;
 use Sonata\BlockBundle\Block\BlockContextInterface;
+use Sonata\BlockBundle\Block\Service\AbstractAdminBlockService;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Exception\PageNotFoundException;
@@ -27,7 +27,7 @@ use Symfony\Component\Templating\EngineInterface;
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class ChildrenPagesBlockService extends BaseBlockService
+class ChildrenPagesBlockService extends AbstractAdminBlockService
 {
     /**
      * @var SiteSelectorInterface

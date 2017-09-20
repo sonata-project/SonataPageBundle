@@ -12,8 +12,6 @@
 namespace Sonata\PageBundle\Controller\Api;
 
 use FOS\RestBundle\Controller\Annotations\View;
-use FOS\RestBundle\View\View as FOSRestView;
-use JMS\Serializer\SerializationContext;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\BlockBundle\Model\BlockManagerInterface;
@@ -24,7 +22,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * @author Vincent Composieux <vincent.composieux@gmail.com>
  */
-class BlockController
+class BlockController extends FOSRestController
 {
     /**
      * @var BlockManagerInterface
@@ -61,7 +59,7 @@ class BlockController
      *  }
      * )
      *
-     * @View(serializerGroups="sonata_api_read", serializerEnableMaxDepthChecks=true)
+     * @View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
      *
      * @param $id
      *
@@ -110,13 +108,7 @@ class BlockController
 
             $this->blockManager->save($block);
 
-            $view = FOSRestView::create($block);
-            $serializationContext = SerializationContext::create();
-            $serializationContext->setGroups(array('sonata_api_read'));
-            $serializationContext->enableMaxDepthChecks();
-            $view->setSerializationContext($serializationContext);
-
-            return $view;
+            return $this->serializeContext($block, array('sonata_api_read'));
         }
 
         return $form;

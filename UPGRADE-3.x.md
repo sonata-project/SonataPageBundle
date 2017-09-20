@@ -1,6 +1,13 @@
 UPGRADE 3.x
 ===========
 
+UPGRADE FROM 3.3 to 3.4
+=======================
+
+### Unused command option
+
+The `--all` option of `sonata:page:update-core-routes` command is not used and is now deprecated.
+
 UPGRADE FROM 3.1 to 3.2
 =======================
 

@@ -12,17 +12,18 @@
 namespace Sonata\PageBundle\Tests\Admin\Extension;
 
 use Sonata\PageBundle\Admin\Extension\CreateSnapshotAdminExtension;
+use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 
-class CreateSnapshotAdminExtensionTest extends \PHPUnit_Framework_TestCase
+class CreateSnapshotAdminExtensionTest extends PHPUnit_Framework_TestCase
 {
     public function testPostUpdateOnPage()
     {
-        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+        $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
         $page->expects($this->once())->method('getId')->will($this->returnValue(42));
 
-        $admin = $this->getMock('Sonata\AdminBundle\Admin\AdminInterface');
+        $admin = $this->createMock('Sonata\AdminBundle\Admin\AdminInterface');
 
-        $backend = $this->getMock('Sonata\NotificationBundle\Backend\BackendInterface');
+        $backend = $this->createMock('Sonata\NotificationBundle\Backend\BackendInterface');
         $backend->expects($this->once())->method('createAndPublish')->with(
             'sonata.page.create_snapshot',
             array('pageId' => 42)
@@ -34,12 +35,12 @@ class CreateSnapshotAdminExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function testPostPersistOnPage()
     {
-        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+        $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
         $page->expects($this->once())->method('getId')->will($this->returnValue(42));
 
-        $admin = $this->getMock('Sonata\AdminBundle\Admin\AdminInterface');
+        $admin = $this->createMock('Sonata\AdminBundle\Admin\AdminInterface');
 
-        $backend = $this->getMock('Sonata\NotificationBundle\Backend\BackendInterface');
+        $backend = $this->createMock('Sonata\NotificationBundle\Backend\BackendInterface');
         $backend->expects($this->once())->method('createAndPublish')->with(
             'sonata.page.create_snapshot',
             array('pageId' => 42)
@@ -51,15 +52,15 @@ class CreateSnapshotAdminExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function testPostUpdateOnBlock()
     {
-        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+        $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
         $page->expects($this->once())->method('getId')->will($this->returnValue(42));
 
-        $block = $this->getMock('Sonata\PageBundle\Model\PageBlockInterface');
+        $block = $this->createMock('Sonata\PageBundle\Model\PageBlockInterface');
         $block->expects($this->once())->method('getPage')->will($this->returnValue($page));
 
-        $admin = $this->getMock('Sonata\AdminBundle\Admin\AdminInterface');
+        $admin = $this->createMock('Sonata\AdminBundle\Admin\AdminInterface');
 
-        $backend = $this->getMock('Sonata\NotificationBundle\Backend\BackendInterface');
+        $backend = $this->createMock('Sonata\NotificationBundle\Backend\BackendInterface');
         $backend->expects($this->once())->method('createAndPublish')->with(
             'sonata.page.create_snapshot',
             array('pageId' => 42)
@@ -71,15 +72,15 @@ class CreateSnapshotAdminExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function testPostPersistOnBlock()
     {
-        $page = $this->getMock('Sonata\PageBundle\Model\PageInterface');
+        $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
         $page->expects($this->once())->method('getId')->will($this->returnValue(42));
 
-        $block = $this->getMock('Sonata\PageBundle\Model\PageBlockInterface');
+        $block = $this->createMock('Sonata\PageBundle\Model\PageBlockInterface');
         $block->expects($this->once())->method('getPage')->will($this->returnValue($page));
 
-        $admin = $this->getMock('Sonata\AdminBundle\Admin\AdminInterface');
+        $admin = $this->createMock('Sonata\AdminBundle\Admin\AdminInterface');
 
-        $backend = $this->getMock('Sonata\NotificationBundle\Backend\BackendInterface');
+        $backend = $this->createMock('Sonata\NotificationBundle\Backend\BackendInterface');
         $backend->expects($this->once())->method('createAndPublish')->with(
             'sonata.page.create_snapshot',
             array('pageId' => 42)

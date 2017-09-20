@@ -1,25 +1,10 @@
-/**
- *
- * This file is part of the Sonata package.
- *
- * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * generated on: Fri Nov 06 2015 13:04:38 GMT+0100 (CET)
- * revision:     31405246909db315cb388c5dc2e7640388b49bc5
- *
- */
-/**
- *
- * This file is part of the Sonata package.
+/*
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
  */
 
 /**

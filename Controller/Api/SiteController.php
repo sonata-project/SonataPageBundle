@@ -15,7 +15,6 @@ use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\View\View as FOSRestView;
-use JMS\Serializer\SerializationContext;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
@@ -27,7 +26,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * @author Raphaël Benitte <benitteraphael@gmail.com>
  */
-class SiteController
+class SiteController extends FOSRestController
 {
     /**
      * @var SiteManagerInterface
@@ -61,9 +60,9 @@ class SiteController
      * @QueryParam(name="count", requirements="\d+", default="10", description="Maximum number of sites per page")
      * @QueryParam(name="enabled", requirements="0|1", nullable=true, strict=true, description="Enabled/Disabled sites filter")
      * @QueryParam(name="is_default", requirements="0|1", nullable=true, strict=true, description="Default sites filter")
-     * @QueryParam(name="orderBy", requirements="ASC|DESC", array=true, nullable=true, strict=true, description="Order by array (key is field, value is direction)")
+     * @QueryParam(name="orderBy", requirements="ASC|DESC", nullable=true, strict=true, description="Order by array (key is field, value is direction)")
      *
-     * @View(serializerGroups="sonata_api_read", serializerEnableMaxDepthChecks=true)
+     * @View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
      *
      * @param ParamFetcherInterface $paramFetcher
      *
@@ -71,6 +70,8 @@ class SiteController
      */
     public function getSitesAction(ParamFetcherInterface $paramFetcher)
     {
+        $this->setMapForOrderByParam($paramFetcher);
+
         $supportedCriteria = array(
             'enabled' => '',
             'is_default' => '',
@@ -113,7 +114,7 @@ class SiteController
      *  }
      * )
      *
-     * @View(serializerGroups="sonata_api_read", serializerEnableMaxDepthChecks=true)
+     * @View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
      *
      * @param $id
      *
@@ -247,13 +248,7 @@ class SiteController
 
             $this->siteManager->save($site);
 
-            $view = FOSRestView::create($site);
-            $serializationContext = SerializationContext::create();
-            $serializationContext->setGroups(array('sonata_api_read'));
-            $serializationContext->enableMaxDepthChecks();
-            $view->setSerializationContext($serializationContext);
-
-            return $view;
+            return $this->serializeContext($site, array('sonata_api_read'));
         }
 
         return $form;

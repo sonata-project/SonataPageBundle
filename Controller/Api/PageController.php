@@ -14,8 +14,6 @@ namespace Sonata\PageBundle\Controller\Api;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Request\ParamFetcherInterface;
-use FOS\RestBundle\View\View as FOSRestView;
-use JMS\Serializer\SerializationContext;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\BlockBundle\Model\BlockManagerInterface;
@@ -32,7 +30,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * @author Hugo Briand <briand@ekino.com>
  */
-class PageController
+class PageController extends FOSRestController
 {
     /**
      * @var SiteManagerInterface
@@ -91,9 +89,9 @@ class PageController
      * @QueryParam(name="root", requirements="0|1", nullable=true, strict=true, description="Filter pages having no parent id")
      * @QueryParam(name="site", requirements="\d+", nullable=true, strict=true, description="Filter pages for a specific site's id")
      * @QueryParam(name="parent", requirements="\d+", nullable=true, strict=true, description="Get pages being child of given page id")
-     * @QueryParam(name="orderBy", requirements="ASC|DESC", array=true, nullable=true, strict=true, description="Order by array (key is field, value is direction)")
+     * @QueryParam(name="orderBy", requirements="ASC|DESC", nullable=true, strict=true, description="Order by array (key is field, value is direction)")
      *
-     * @View(serializerGroups="sonata_api_read", serializerEnableMaxDepthChecks=true)
+     * @View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
      *
      * @param ParamFetcherInterface $paramFetcher
      *
@@ -101,6 +99,8 @@ class PageController
      */
     public function getPagesAction(ParamFetcherInterface $paramFetcher)
     {
+        $this->setMapForOrderByParam($paramFetcher);
+
         $supportedCriteria = array(
             'enabled' => '',
             'edited' => '',
@@ -146,7 +146,7 @@ class PageController
      *  }
      * )
      *
-     * @View(serializerGroups="sonata_api_read", serializerEnableMaxDepthChecks=true)
+     * @View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
      *
      * @param $id
      *
@@ -171,7 +171,7 @@ class PageController
      *  }
      * )
      *
-     * @View(serializerGroups="sonata_api_read", serializerEnableMaxDepthChecks=true)
+     * @View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
      *
      * @param $id
      *
@@ -196,7 +196,7 @@ class PageController
      *  }
      * )
      *
-     * @View(serializerGroups="sonata_api_read", serializerEnableMaxDepthChecks=true)
+     * @View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
      *
      * @param $id
      *
@@ -248,13 +248,7 @@ class PageController
 
             $this->blockManager->save($block);
 
-            $view = FOSRestView::create($block);
-            $serializationContext = SerializationContext::create();
-            $serializationContext->setGroups(array('sonata_api_read'));
-            $serializationContext->enableMaxDepthChecks();
-            $view->setSerializationContext($serializationContext);
-
-            return $view;
+            return $this->serializeContext($block, array('sonata_api_read'));
         }
 
         return $form;
@@ -461,13 +455,7 @@ class PageController
             $page = $form->getData();
             $this->pageManager->save($page);
 
-            $view = FOSRestView::create($page);
-            $serializationContext = SerializationContext::create();
-            $serializationContext->setGroups(array('sonata_api_read'));
-            $serializationContext->enableMaxDepthChecks();
-            $view->setSerializationContext($serializationContext);
-
-            return $view;
+            return $this->serializeContext($page, array('sonata_api_read'));
         }
 
         return $form;

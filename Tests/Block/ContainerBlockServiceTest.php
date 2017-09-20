@@ -92,7 +92,10 @@ class ContainerBlockServiceTest extends AbstractBlockServiceTestCase
             'name' => 'block.code',
         ));
 
-        $formMapper = $this->getMock('Sonata\\AdminBundle\\Form\\FormMapper', array(), array(), '', false);
+        $formMapper = $this->getMockBuilder('Sonata\\AdminBundle\\Form\\FormMapper')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $formMapper->expects($this->exactly(6))->method('add');
 
         $service->buildCreateForm($formMapper, $block);

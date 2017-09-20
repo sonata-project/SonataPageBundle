@@ -13,6 +13,7 @@ namespace Sonata\PageBundle\Tests\Model;
 
 use Sonata\BlockBundle\Model\Block;
 use Sonata\PageBundle\Entity\BlockInteractor;
+use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 
 /**
  * BlockInteractorTest class.
@@ -21,7 +22,7 @@ use Sonata\PageBundle\Entity\BlockInteractor;
  *
  * @author Vincent Composieux <composieux@ekino.com>
  */
-class BlockInteractorTest extends \PHPUnit_Framework_TestCase
+class BlockInteractorTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test createNewContainer() method with some values.
@@ -30,7 +31,7 @@ class BlockInteractorTest extends \PHPUnit_Framework_TestCase
     {
         $registry = $this->getMockBuilder('Symfony\Bridge\Doctrine\RegistryInterface')->disableOriginalConstructor()->getMock();
 
-        $blockManager = $this->getMock('Sonata\BlockBundle\Model\BlockManagerInterface');
+        $blockManager = $this->createMock('Sonata\BlockBundle\Model\BlockManagerInterface');
         $blockManager->expects($this->any())->method('create')->will($this->returnValue(new Block()));
 
         $blockInteractor = new BlockInteractor($registry, $blockManager);
