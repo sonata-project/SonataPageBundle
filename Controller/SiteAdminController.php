@@ -32,11 +32,12 @@ class SiteAdminController extends Controller
      */
     public function snapshotsAction()
     {
+        $request = $this->getRequest();
         if (false === $this->get('sonata.page.admin.snapshot')->isGranted('CREATE')) {
             throw new AccessDeniedException();
         }
 
-        $id = $this->get('request')->get($this->admin->getIdParameter());
+        $id = $request->get($this->admin->getIdParameter());
 
         $object = $this->admin->getObject($id);
 
@@ -46,7 +47,7 @@ class SiteAdminController extends Controller
 
         $this->admin->setSubject($object);
 
-        if ($this->get('request')->getMethod() == 'POST') {
+        if ($request->getMethod() == 'POST') {
             $this->get('sonata.notification.backend')
                 ->createAndPublish('sonata.page.create_snapshots', array(
                     'siteId' => $object->getId(),
