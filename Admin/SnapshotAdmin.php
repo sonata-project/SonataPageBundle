@@ -82,7 +82,6 @@ class SnapshotAdmin extends AbstractAdmin
                     'Sonata\CoreBundle\Form\Type\DateTimePickerType' :
                     'sonata_type_datetime_picker',
                 array('required' => false, 'dp_side_by_side' => true))
-//            ->add('content')
         ;
     }
 
