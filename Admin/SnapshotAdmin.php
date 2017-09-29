@@ -77,7 +77,6 @@ class SnapshotAdmin extends AbstractAdmin
                 'required' => false,
                 'dp_side_by_side' => true,
             ))
-//            ->add('content')
         ;
     }
 
