@@ -136,7 +136,7 @@ class PageSelectorType extends AbstractType
      */
     public function getParent()
     {
-        return 'sonata_type_model';
+        return 'Sonata\AdminBundle\Form\Type\ModelType';
     }
 
     /**
