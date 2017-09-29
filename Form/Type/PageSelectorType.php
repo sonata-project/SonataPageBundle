@@ -136,7 +136,10 @@ class PageSelectorType extends AbstractType
      */
     public function getParent()
     {
-        return 'sonata_type_model';
+        // NEXT_MAJOR: Remove ternary (when requirement of Symfony is >= 2.8)
+        return method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix')
+            ? 'Sonata\AdminBundle\Form\Type\ModelType'
+            : 'sonata_type_model';
     }
 
     /**

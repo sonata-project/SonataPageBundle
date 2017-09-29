@@ -111,20 +111,42 @@ class SiteAdmin extends AbstractAdmin
                 ->add('isDefault', null, array('required' => false))
                 ->add('enabled', null, array('required' => false))
                 ->add('host')
-                ->add('locale', 'locale', array(
-                    'required' => false,
-                ))
+                ->add('locale',
+                    // NEXT_MAJOR: remove these three lines and uncomment the one following
+                    method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
+                        'Symfony\Component\Form\Extension\Core\Type\LocaleType' :
+                        'locale',
+                    array('required' => false)
+                )
                 ->add('relativePath', null, array('required' => false))
-                ->add('enabledFrom', 'sonata_type_datetime_picker', array('dp_side_by_side' => true))
-                ->add('enabledTo', 'sonata_type_datetime_picker', array(
-                    'required' => false,
-                    'dp_side_by_side' => true,
-                ))
+                ->add('enabledFrom',
+                    // NEXT_MAJOR: remove these three lines and uncomment the one following
+                    method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
+                        'Sonata\CoreBundle\Form\Type\DateTimePickerType' :
+                        'sonata_type_datetime_picker',
+                    array('dp_side_by_side' => true))
+                ->add('enabledTo',
+                    // NEXT_MAJOR: remove these three lines and uncomment the one following
+                    method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
+                        'Sonata\CoreBundle\Form\Type\DateTimePickerType' :
+                        'sonata_type_datetime_picker',
+                    array('required' => false, 'dp_side_by_side' => true)
+                )
             ->end()
             ->with('form_site.label_seo', array('class' => 'col-md-6'))
                 ->add('title', null, array('required' => false))
-                ->add('metaDescription', 'textarea', array('required' => false))
-                ->add('metaKeywords', 'textarea', array('required' => false))
+                ->add('metaDescription',
+                    // NEXT_MAJOR: remove these three lines and uncomment the one following
+                    method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
+                        'Symfony\Component\Form\Extension\Core\Type\TextareaType' :
+                        'textarea',
+                    array('required' => false))
+                ->add('metaKeywords',
+                    // NEXT_MAJOR: remove these three lines and uncomment the one following
+                    method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
+                        'Symfony\Component\Form\Extension\Core\Type\TextareaType' :
+                        'textarea',
+                    array('required' => false))
             ->end()
         ;
     }
