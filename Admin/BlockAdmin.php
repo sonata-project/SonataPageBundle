@@ -131,7 +131,7 @@ class BlockAdmin extends BaseBlockAdmin
         if (!$isComposer) {
             $formMapper->add('name');
         } else {
-            $formMapper->add('name', 'hidden');
+            $formMapper->add('name', 'Symfony\Component\Form\Extension\Core\Type\HiddenType');
         }
 
         $formMapper->end();
@@ -148,29 +148,31 @@ class BlockAdmin extends BaseBlockAdmin
 
             // need to investigate on this case where $page == null ... this should not be possible
             if ($isStandardBlock && $page && !empty($containerBlockTypes)) {
-                $formMapper->add('parent', 'entity', array(
-                        'class' => $this->getClass(),
-                        'query_builder' => function (EntityRepository $repository) use ($page, $containerBlockTypes) {
-                            return $repository->createQueryBuilder('a')
-                                ->andWhere('a.page = :page AND a.type IN (:types)')
-                                ->setParameters(array(
-                                        'page' => $page,
-                                        'types' => $containerBlockTypes,
-                                    ));
-                        },
-                    ), array(
-                        'admin_code' => $this->getCode(),
-                    ));
+                $formMapper->add('parent', 'Symfony\Bridge\Doctrine\Form\Type\EntityType', array(
+                    'class' => $this->getClass(),
+                    'query_builder' => function (EntityRepository $repository) use ($page, $containerBlockTypes) {
+                        return $repository->createQueryBuilder('a')
+                            ->andWhere('a.page = :page AND a.type IN (:types)')
+                            ->setParameters(array(
+                                    'page' => $page,
+                                    'types' => $containerBlockTypes,
+                                ));
+                    },
+                ), array(
+                    'admin_code' => $this->getCode(),
+                ));
             }
 
             if ($isComposer) {
-                $formMapper->add('enabled', 'hidden', array('data' => true));
+                $formMapper->add('enabled', 'Symfony\Component\Form\Extension\Core\Type\HiddenType', array(
+                    'data' => true,
+                ));
             } else {
                 $formMapper->add('enabled');
             }
 
             if ($isStandardBlock) {
-                $formMapper->add('position', 'integer');
+                $formMapper->add('position', 'Symfony\Component\Form\Extension\Core\Type\IntegerType');
             }
 
             $formMapper->end();
@@ -207,11 +209,11 @@ class BlockAdmin extends BaseBlockAdmin
         } else {
             $formMapper
                 ->with('form.field_group_options', $optionsGroupOptions)
-                ->add('type', 'sonata_block_service_choice', array(
-                        'context' => 'sonata_page_bundle',
-                    ))
+                ->add('type', 'Sonata\BlockBundle\Form\Type\ServiceListType', array(
+                    'context' => 'sonata_page_bundle',
+                ))
                 ->add('enabled')
-                ->add('position', 'integer')
+                ->add('position', 'Symfony\Component\Form\Extension\Core\Type\IntegerType')
                 ->end()
             ;
         }

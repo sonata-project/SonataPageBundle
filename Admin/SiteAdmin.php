@@ -111,20 +111,27 @@ class SiteAdmin extends AbstractAdmin
                 ->add('isDefault', null, array('required' => false))
                 ->add('enabled', null, array('required' => false))
                 ->add('host')
-                ->add('locale', 'locale', array(
+                ->add('locale', 'Symfony\Component\Form\Extension\Core\Type\LocaleType', array(
                     'required' => false,
                 ))
                 ->add('relativePath', null, array('required' => false))
-                ->add('enabledFrom', 'sonata_type_datetime_picker', array('dp_side_by_side' => true))
-                ->add('enabledTo', 'sonata_type_datetime_picker', array(
-                    'required' => false,
+                ->add('enabledFrom', 'Sonata\CoreBundle\Form\Type\DateTimePickerType', array(
                     'dp_side_by_side' => true,
                 ))
+                ->add('enabledTo', 'Sonata\CoreBundle\Form\Type\DateTimePickerType', array(
+                    'required' => false,
+                    'dp_side_by_side' => true,
+                    )
+                )
             ->end()
             ->with('form_site.label_seo', array('class' => 'col-md-6'))
                 ->add('title', null, array('required' => false))
-                ->add('metaDescription', 'textarea', array('required' => false))
-                ->add('metaKeywords', 'textarea', array('required' => false))
+                ->add('metaDescription', 'Symfony\Component\Form\Extension\Core\Type\TextareaType', array(
+                    'required' => false,
+                ))
+                ->add('metaKeywords', 'Symfony\Component\Form\Extension\Core\Type\TextareaType', array(
+                    'required' => false,
+                ))
             ->end()
         ;
     }
