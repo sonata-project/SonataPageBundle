@@ -20,7 +20,7 @@ file that was distributed with this source code.
             {% block sonata_page_breadcrumb %}
                 <div class="row">
                     {% if sonata_seo_context is not defined %}
-                        {% set sonata_seo_context = 'homepage' %}
+                        {% set sonata_seo_context = 'page' %}
                     {% endif %}
                     {{ sonata_block_render_event('breadcrumb', { 'context': sonata_seo_context, 'current_uri': app.request.requestUri }) }}
                 </div>
