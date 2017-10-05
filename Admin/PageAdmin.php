@@ -328,7 +328,12 @@ class PageAdmin extends AbstractAdmin
         if (!$this->getSubject() || (!$this->getSubject()->isInternal() && !$this->getSubject()->isError())) {
             $formMapper
                 ->with('form_page.group_main_label')
-                    ->add('url', 'text', array('attr' => array('readonly' => 'readonly')))
+                    ->add('url',
+                        // NEXT_MAJOR: remove these three lines and uncomment the one following
+                        method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
+                            'Symfony\Component\Form\Extension\Core\Type\TextType' :
+                            'text',
+                        array('attr' => array('readonly' => 'readonly')))
                 ->end()
             ;
         }
@@ -439,8 +444,18 @@ class PageAdmin extends AbstractAdmin
         if (!$this->getSubject() || !$this->getSubject()->isHybrid()) {
             $formMapper
                 ->with('form_page.group_seo_label')
-                    ->add('slug', 'text', array('required' => false))
-                    ->add('customUrl', 'text', array('required' => false))
+                    ->add('slug',
+                        // NEXT_MAJOR: remove these three lines and uncomment the one following
+                        method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
+                            'Symfony\Component\Form\Extension\Core\Type\TextType' :
+                            'text',
+                        array('required' => false))
+                    ->add('customUrl',
+                        // NEXT_MAJOR: remove these three lines and uncomment the one following
+                        method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
+                            'Symfony\Component\Form\Extension\Core\Type\TextType' :
+                            'text',
+                        array('required' => false))
                 ->end()
             ;
         }
@@ -448,8 +463,18 @@ class PageAdmin extends AbstractAdmin
         $formMapper
             ->with('form_page.group_seo_label', array('collapsed' => true))
                 ->add('title', null, array('required' => false))
-                ->add('metaKeyword', 'textarea', array('required' => false))
-                ->add('metaDescription', 'textarea', array('required' => false))
+                ->add('metaKeyword',
+                    // NEXT_MAJOR: remove these three lines and uncomment the one following
+                    method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
+                        'Symfony\Component\Form\Extension\Core\Type\TextareaType' :
+                        'textarea',
+                    array('required' => false))
+                ->add('metaDescription',
+                    // NEXT_MAJOR: remove these three lines and uncomment the one following
+                    method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
+                        'Symfony\Component\Form\Extension\Core\Type\TextareaType' :
+                        'textarea',
+                    array('required' => false))
             ->end()
         ;
 
