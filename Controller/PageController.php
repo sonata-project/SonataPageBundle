@@ -18,6 +18,7 @@ use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Listener\ExceptionListener;
 use Sonata\PageBundle\Page\PageServiceManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
@@ -67,6 +68,7 @@ class PageController extends Controller
 
         $cms->setCurrentPage($page);
 
+        // NEXT_MAJOR: remove the usage of $this->getRequest() by injecting the request action method (sf 2.4+)
         return $this->getPageServiceManager()->execute($page, $this->getRequest());
     }
 
@@ -100,5 +102,17 @@ class PageController extends Controller
     protected function getCmsManagerSelector()
     {
         return $this->get('sonata.page.cms_manager_selector');
+    }
+
+    /**
+     * @return Request
+     */
+    private function getRequest()
+    {
+        if ($this->container->has('request_stack')) {
+            return $this->container->get('request_stack')->getCurrentRequest();
+        }
+
+        return $this->container->get('request');
     }
 }
