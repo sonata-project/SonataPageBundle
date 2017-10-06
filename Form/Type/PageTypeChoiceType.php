@@ -78,7 +78,7 @@ class PageTypeChoiceType extends AbstractType
     {
         // NEXT_MAJOR: Remove ternary (when requirement of Symfony is >= 2.8)
         return method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix')
-            ? 'Symfony\Component\Form\Extension\Core\Type'
+            ? 'Symfony\Component\Form\Extension\Core\Type\ChoiceType'
             : 'choice';
     }
 
