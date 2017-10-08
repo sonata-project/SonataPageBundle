@@ -29,7 +29,7 @@ class BaseBlockAdminTest extends PHPUnit_Framework_TestCase
         $blockAdmin->setParent($parent);
 
         $query = $this->createMock('Sonata\AdminBundle\Datagrid\ProxyQueryInterface');
-        $idx = array();
+        $idx = [];
         $blockAdmin->preBatchAction('delete', $query, $idx, true);
     }
 }

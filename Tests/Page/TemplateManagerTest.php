@@ -47,10 +47,10 @@ class TemplateManagerTest extends PHPUnit_Framework_TestCase
         $templating = $this->createMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
         $manager = new TemplateManager($templating);
 
-        $templates = array(
+        $templates = [
             'test1' => $this->getMockTemplate('template'),
             'test2' => $this->getMockTemplate('template'),
-        );
+        ];
 
         // WHEN
         $manager->setAll($templates);
@@ -151,17 +151,17 @@ class TemplateManagerTest extends PHPUnit_Framework_TestCase
         $templating->expects($this->once())->method('renderResponse')
             ->with(
                 $this->equalTo('path/to/template'),
-                $this->equalTo(array('parameter1' => 'value', 'parameter2' => 'value'))
+                $this->equalTo(['parameter1' => 'value', 'parameter2' => 'value'])
             )
             ->will($this->returnValue($response));
 
-        $defaultParameters = array('parameter1' => 'value');
+        $defaultParameters = ['parameter1' => 'value'];
 
         $manager = new TemplateManager($templating, $defaultParameters);
         $manager->add('test', $template);
 
         // WHEN
-        $result = $manager->renderResponse('test', array('parameter2' => 'value'));
+        $result = $manager->renderResponse('test', ['parameter2' => 'value']);
 
         // THEN
         $this->assertEquals($response, $result, 'should return the mocked response');

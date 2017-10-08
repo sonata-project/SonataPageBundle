@@ -49,19 +49,19 @@ class SiteAdminController extends Controller
 
         if ($request->getMethod() == 'POST') {
             $this->get('sonata.notification.backend')
-                ->createAndPublish('sonata.page.create_snapshots', array(
+                ->createAndPublish('sonata.page.create_snapshots', [
                     'siteId' => $object->getId(),
                     'mode' => 'async',
-                ));
+                ]);
 
             $this->addFlash('sonata_flash_success', $this->admin->trans('flash_snapshots_created_success'));
 
-            return new RedirectResponse($this->admin->generateUrl('edit', array('id' => $object->getId())));
+            return new RedirectResponse($this->admin->generateUrl('edit', ['id' => $object->getId()]));
         }
 
-        return $this->render('SonataPageBundle:SiteAdmin:create_snapshots.html.twig', array(
+        return $this->render('SonataPageBundle:SiteAdmin:create_snapshots.html.twig', [
             'action' => 'snapshots',
             'object' => $object,
-        ));
+        ]);
     }
 }

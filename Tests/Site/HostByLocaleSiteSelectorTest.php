@@ -31,8 +31,8 @@ class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
         $seoPage = $this->createMock('Sonata\SeoBundle\Seo\SeoPageInterface');
 
         $this->siteSelector = $this->getMockBuilder('Sonata\PageBundle\Site\HostByLocaleSiteSelector')
-            ->setConstructorArgs(array($siteManager, $decoratorStrategy, $seoPage))
-            ->setMethods(array('getSites'))
+            ->setConstructorArgs([$siteManager, $decoratorStrategy, $seoPage])
+            ->setMethods(['getSites'])
             ->getMock();
     }
 
@@ -72,9 +72,9 @@ class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
     public function testHandleKernelRequestSelectsFr()
     {
         $kernel = $this->createMock('Symfony\Component\HttpKernel\HttpKernelInterface');
-        $request = SiteRequest::create('http://www.example.com', 'GET', array(), array(), array(), array(
+        $request = SiteRequest::create('http://www.example.com', 'GET', [], [], [], [
             'HTTP_ACCEPT_LANGUAGE' => 'fr-FR,fr;q=0.8,en-US;q=0.6,en;q=0.4',
-        ));
+        ]);
 
         // Ensure request locale is null
         $this->assertNull($request->attributes->get('_locale'));

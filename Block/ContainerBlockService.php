@@ -26,11 +26,11 @@ class ContainerBlockService extends BaseContainerBlockService
      */
     public function configureSettings(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'code' => '',
             'layout' => '{{ CONTENT }}',
             'class' => '',
             'template' => 'SonataPageBundle:Block:block_container.html.twig',
-        ));
+        ]);
     }
 }

@@ -59,7 +59,7 @@ class TemplateManager implements TemplateManagerInterface
      * @param EngineInterface $engine            Templating engine
      * @param array           $defaultParameters An array of default view parameters
      */
-    public function __construct(EngineInterface $engine, array $defaultParameters = array())
+    public function __construct(EngineInterface $engine, array $defaultParameters = [])
     {
         $this->engine = $engine;
         $this->defaultParameters = $defaultParameters;
@@ -120,7 +120,7 @@ class TemplateManager implements TemplateManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function renderResponse($code, array $parameters = array(), Response $response = null)
+    public function renderResponse($code, array $parameters = [], Response $response = null)
     {
         return $this->engine->renderResponse(
             $this->getTemplatePath($code),

@@ -80,14 +80,14 @@ final class CloneSiteCommand extends BaseCommand
         /** @var SiteInterface $destSite */
         $destSite = $this->getSiteManager()->find($input->getOption('dest-id'));
 
-        $pageClones = array();
-        $blockClones = array();
+        $pageClones = [];
+        $blockClones = [];
 
         $output->writeln('Cloning pages');
         /** @var PageInterface[] $pages */
-        $pages = $this->getPageManager()->findBy(array(
+        $pages = $this->getPageManager()->findBy([
             'site' => $sourceSite,
-        ));
+        ]);
         foreach ($pages as $page) {
             if ($hybridOnly && !$page->isHybrid()) {
                 continue;
@@ -113,9 +113,9 @@ final class CloneSiteCommand extends BaseCommand
 
             // Clone page blocks
             /** @var BlockInterface[] $blocks */
-            $blocks = $this->getBlockManager()->findBy(array(
+            $blocks = $this->getBlockManager()->findBy([
                 'page' => $page,
-            ));
+            ]);
             foreach ($blocks as $block) {
                 $output->writeln(sprintf(' cloning block % 4s ', $block->getId()));
                 $newBlock = clone $block;
@@ -163,9 +163,9 @@ final class CloneSiteCommand extends BaseCommand
 
         $output->writeln('Fixing block parents');
         foreach ($pageClones as $page) {
-            $blocks = $this->getBlockManager()->findBy(array(
+            $blocks = $this->getBlockManager()->findBy([
                 'page' => $page,
-            ));
+            ]);
             foreach ($blocks as $block) {
                 if ($block->getParent()) {
                     $output->writeln(sprintf(

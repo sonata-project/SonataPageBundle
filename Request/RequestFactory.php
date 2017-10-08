@@ -16,11 +16,11 @@ use Symfony\Component\HttpKernel\Kernel;
 
 class RequestFactory
 {
-    private static $types = array(
+    private static $types = [
         'host' => 'Symfony\Component\HttpFoundation\Request',
         'host_with_path' => 'Sonata\PageBundle\Request\SiteRequest',
         'host_with_path_by_locale' => 'Sonata\PageBundle\Request\SiteRequest',
-    );
+    ];
 
     /**
      * @param string $type
@@ -34,11 +34,11 @@ class RequestFactory
      *
      * @return Request|SiteRequest
      */
-    public static function create($type, $uri, $method = 'GET', $parameters = array(), $cookies = array(), $files = array(), $server = array(), $content = null)
+    public static function create($type, $uri, $method = 'GET', $parameters = [], $cookies = [], $files = [], $server = [], $content = null)
     {
         self::configureFactory($type);
 
-        return call_user_func_array(array(self::getClass($type), 'create'), array($uri, $method, $parameters, $cookies, $files, $server, $content));
+        return call_user_func_array([self::getClass($type), 'create'], [$uri, $method, $parameters, $cookies, $files, $server, $content]);
     }
 
     /**
@@ -50,7 +50,7 @@ class RequestFactory
     {
         self::configureFactory($type);
 
-        return call_user_func_array(array(self::getClass($type), 'createFromGlobals'), array());
+        return call_user_func_array([self::getClass($type), 'createFromGlobals'], []);
     }
 
     /**
@@ -63,17 +63,17 @@ class RequestFactory
             return;
         }
 
-        if (!in_array($type, array('host_with_path', 'host_with_path_by_locale'))) {
+        if (!in_array($type, ['host_with_path', 'host_with_path_by_locale'])) {
             return;
         }
 
         Request::setFactory(function (
-            array $query = array(),
-            array $request = array(),
-            array $attributes = array(),
-            array $cookies = array(),
-            array $files = array(),
-            array $server = array(),
+            array $query = [],
+            array $request = [],
+            array $attributes = [],
+            array $cookies = [],
+            array $files = [],
+            array $server = [],
             $content = null
         ) {
             return new SiteRequest($query, $request, $attributes, $cookies, $files, $server, $content);

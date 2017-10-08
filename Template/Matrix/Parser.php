@@ -30,7 +30,7 @@ class Parser
     public static function parse($matrix, array $mapping)
     {
         $matrix = trim($matrix);
-        $areas = array();
+        $areas = [];
 
         $rows = preg_split("/\n/", $matrix);
         $rowCount = count($rows);
@@ -51,12 +51,12 @@ class Parser
                     throw new \InvalidArgumentException(sprintf('Invalid template matrix, no mapping found for symbol "%s"', $symbol));
                 }
                 if (!isset($areas[$symbol])) {
-                    $areas[$symbol] = array(
+                    $areas[$symbol] = [
                         'x' => $x,
                         'y' => $y,
                         'width' => 1,
                         'height' => 1,
-                    );
+                    ];
                 } else {
                     // @todo handle non adjacent cells
                     if (false) {
@@ -79,7 +79,7 @@ class Parser
             $area['bottom'] = 100 - ($area['height'] + $area['y']);
         }
 
-        $containers = array();
+        $containers = [];
         foreach ($areas as $symbol => $config) {
             $containers[$mapping[$symbol]] = $config;
         }

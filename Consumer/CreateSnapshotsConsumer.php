@@ -55,16 +55,16 @@ class CreateSnapshotsConsumer implements ConsumerInterface
      */
     public function process(ConsumerEvent $event)
     {
-        $pages = $this->pageManager->findBy(array(
+        $pages = $this->pageManager->findBy([
             'site' => $event->getMessage()->getValue('siteId'),
-        ));
+        ]);
 
         $backend = $event->getMessage()->getValue('mode') == 'async' ? $this->asyncBackend : $this->runtimeBackend;
 
         foreach ($pages as $page) {
-            $backend->createAndPublish('sonata.page.create_snapshot', array(
+            $backend->createAndPublish('sonata.page.create_snapshot', [
                 'pageId' => $page->getId(),
-            ));
+            ]);
         }
     }
 }

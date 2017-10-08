@@ -58,7 +58,7 @@ class SonataPageBundle extends Bundle
             return;
         }
 
-        call_user_func(array($class, 'setSlugifyMethod'), function ($text) use ($container) {
+        call_user_func([$class, 'setSlugifyMethod'], function ($text) use ($container) {
             // NEXT_MAJOR: remove this check
             if ($container->hasParameter('sonata.page.slugify_service')) {
                 $id = $container->getParameter('sonata.page.slugify_service');
@@ -84,7 +84,7 @@ class SonataPageBundle extends Bundle
      */
     public function registerFormMapping()
     {
-        FormHelper::registerFormTypeMapping(array(
+        FormHelper::registerFormTypeMapping([
             'sonata_page_api_form_site' => 'Sonata\PageBundle\Form\Type\ApiSiteType',
             'sonata_page_api_form_page' => 'Sonata\PageBundle\Form\Type\ApiPageType',
             'sonata_page_api_form_block' => 'Sonata\PageBundle\Form\Type\ApiBlockType',
@@ -93,6 +93,6 @@ class SonataPageBundle extends Bundle
             'sonata_page_template' => 'Sonata\PageBundle\Form\Type\TemplateChoiceType',
             'sonata_page_type_choice' => 'Sonata\PageBundle\Form\Type\PageTypeChoiceType',
             'cmf_routing_route_type' => 'Symfony\Cmf\Bundle\RoutingBundle\Form\Type\RouteTypeType',
-        ));
+        ]);
     }
 }

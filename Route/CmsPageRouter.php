@@ -104,7 +104,7 @@ class CmsPageRouter implements ChainedRouterInterface
     /**
      * {@inheritdoc}
      */
-    public function generate($name, $parameters = array(), $referenceType = self::ABSOLUTE_PATH)
+    public function generate($name, $parameters = [], $referenceType = self::ABSOLUTE_PATH)
     {
         try {
             $url = false;
@@ -134,7 +134,7 @@ class CmsPageRouter implements ChainedRouterInterface
     /**
      * {@inheritdoc}
      */
-    public function getRouteDebugMessage($name, array $parameters = array())
+    public function getRouteDebugMessage($name, array $parameters = [])
     {
         if ($this->router instanceof VersatileGeneratorInterface) {
             return $this->router->getRouteDebugMessage($name, $parameters);
@@ -175,13 +175,13 @@ class CmsPageRouter implements ChainedRouterInterface
 
         $cms->setCurrentPage($page);
 
-        return array(
+        return [
             '_controller' => 'sonata.page.page_service_manager:execute',
             '_route' => PageInterface::PAGE_ROUTE_CMS_NAME,
             'page' => $page,
             'path' => $pathinfo,
-            'params' => array(),
-        );
+            'params' => [],
+        ];
     }
 
     /**
@@ -196,7 +196,7 @@ class CmsPageRouter implements ChainedRouterInterface
      *
      * @throws \RuntimeException
      */
-    protected function generateFromPage(PageInterface $page, array $parameters = array(), $referenceType = self::ABSOLUTE_PATH)
+    protected function generateFromPage(PageInterface $page, array $parameters = [], $referenceType = self::ABSOLUTE_PATH)
     {
         // hybrid pages use, by definition, the default routing mechanism
         if ($page->isHybrid()) {
@@ -241,7 +241,7 @@ class CmsPageRouter implements ChainedRouterInterface
      *
      * @throws \RuntimeException
      */
-    protected function generateFromPageSlug(array $parameters = array(), $referenceType = self::ABSOLUTE_PATH)
+    protected function generateFromPageSlug(array $parameters = [], $referenceType = self::ABSOLUTE_PATH)
     {
         if (!isset($parameters['path'])) {
             throw new \RuntimeException('Please provide a `path` parameters');
@@ -264,7 +264,7 @@ class CmsPageRouter implements ChainedRouterInterface
      *
      * @throws \RuntimeException
      */
-    protected function decorateUrl($url, array $parameters = array(), $referenceType = self::ABSOLUTE_PATH)
+    protected function decorateUrl($url, array $parameters = [], $referenceType = self::ABSOLUTE_PATH)
     {
         if (!$this->context) {
             throw new \RuntimeException('No context associated to the CmsPageRouter');

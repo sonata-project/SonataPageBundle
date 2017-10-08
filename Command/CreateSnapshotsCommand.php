@@ -47,7 +47,7 @@ class CreateSnapshotsCommand extends BaseCommand
 
             $output->writeln(sprintf(' % 5s - % -30s - %s', 'ID', 'Name', 'Url'));
 
-            foreach ($this->getSiteManager()->findBy(array()) as $site) {
+            foreach ($this->getSiteManager()->findBy([]) as $site) {
                 $output->writeln(sprintf(' % 5s - % -30s - %s', $site->getId(), $site->getName(), $site->getUrl()));
             }
 
@@ -62,10 +62,10 @@ class CreateSnapshotsCommand extends BaseCommand
                     $output->write(sprintf('<info>%s</info> - Generating snapshots ...', $site->getName()));
                 }
 
-                $this->getNotificationBackend($input->getOption('mode'))->createAndPublish('sonata.page.create_snapshots', array(
+                $this->getNotificationBackend($input->getOption('mode'))->createAndPublish('sonata.page.create_snapshots', [
                     'siteId' => $site->getId(),
                     'mode' => $input->getOption('mode'),
-                ));
+                ]);
 
                 $output->writeln(' done!');
             } else {

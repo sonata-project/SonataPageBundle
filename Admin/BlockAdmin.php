@@ -38,11 +38,11 @@ class BlockAdmin extends BaseBlockAdmin
     /**
      * {@inheritdoc}
      */
-    protected $accessMapping = array(
+    protected $accessMapping = [
         'savePosition' => 'EDIT',
         'switchParent' => 'EDIT',
         'composePreview' => 'EDIT',
-    );
+    ];
 
     /**
      * BlockAdmin constructor.
@@ -52,7 +52,7 @@ class BlockAdmin extends BaseBlockAdmin
      * @param string $baseControllerName
      * @param array  $blocks
      */
-    public function __construct($code, $class, $baseControllerName, array $blocks = array())
+    public function __construct($code, $class, $baseControllerName, array $blocks = [])
     {
         parent::__construct($code, $class, $baseControllerName);
 
@@ -82,9 +82,9 @@ class BlockAdmin extends BaseBlockAdmin
 
         $collection->add('savePosition', 'save-position');
         $collection->add('switchParent', 'switch-parent');
-        $collection->add('composePreview', '{block_id}/compose_preview', array(
+        $collection->add('composePreview', '{block_id}/compose_preview', [
             'block_id' => null,
-        ));
+        ]);
     }
 
     /**
@@ -120,7 +120,7 @@ class BlockAdmin extends BaseBlockAdmin
         $blockType = $block->getType();
 
         $isComposer = $this->hasRequest() ? $this->getRequest()->get('composer', false) : false;
-        $generalGroupOptions = $optionsGroupOptions = array();
+        $generalGroupOptions = $optionsGroupOptions = [];
         if ($isComposer) {
             $generalGroupOptions['class'] = 'hidden';
             $optionsGroupOptions['name'] = '';
@@ -141,8 +141,8 @@ class BlockAdmin extends BaseBlockAdmin
 
         $formMapper->end();
 
-        $isContainerRoot = $block && in_array($blockType, array('sonata.page.block.container', 'sonata.block.service.container')) && !$this->hasParentFieldDescription();
-        $isStandardBlock = $block && !in_array($blockType, array('sonata.page.block.container', 'sonata.block.service.container')) && !$this->hasParentFieldDescription();
+        $isContainerRoot = $block && in_array($blockType, ['sonata.page.block.container', 'sonata.block.service.container']) && !$this->hasParentFieldDescription();
+        $isStandardBlock = $block && !in_array($blockType, ['sonata.page.block.container', 'sonata.block.service.container']) && !$this->hasParentFieldDescription();
 
         if ($isContainerRoot || $isStandardBlock) {
             $formMapper->with('form.field_group_general', $generalGroupOptions);
@@ -158,19 +158,19 @@ class BlockAdmin extends BaseBlockAdmin
                     method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
                         'Symfony\Bridge\Doctrine\Form\Type\EntityType' :
                         'entity',
-                    array(
+                    [
                         'class' => $this->getClass(),
                         'query_builder' => function (EntityRepository $repository) use ($page, $containerBlockTypes) {
                             return $repository->createQueryBuilder('a')
                                 ->andWhere('a.page = :page AND a.type IN (:types)')
-                                ->setParameters(array(
+                                ->setParameters([
                                         'page' => $page,
                                         'types' => $containerBlockTypes,
-                                    ));
+                                    ]);
                         },
-                    ), array(
+                    ], [
                         'admin_code' => $this->getCode(),
-                    ));
+                    ]);
             }
 
             if ($isComposer) {
@@ -179,7 +179,7 @@ class BlockAdmin extends BaseBlockAdmin
                     method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
                         'Symfony\Component\Form\Extension\Core\Type\HiddenType' :
                         'hidden',
-                    array('data' => true));
+                    ['data' => true]);
             } else {
                 $formMapper->add('enabled');
             }
@@ -206,7 +206,7 @@ class BlockAdmin extends BaseBlockAdmin
                 $settingsField = $formMapper->get('settings');
 
                 if (!$settingsField->has('template')) {
-                    $choices = array();
+                    $choices = [];
 
                     if (null !== $defaultTemplate = $this->getDefaultTemplate($service)) {
                         $choices[$defaultTemplate] = 'default';
@@ -217,7 +217,7 @@ class BlockAdmin extends BaseBlockAdmin
                     }
 
                     if (count($choices) > 1) {
-                        $settingsField->add('template', 'choice', array('choices' => $choices));
+                        $settingsField->add('template', 'choice', ['choices' => $choices]);
                     }
                 }
             }
@@ -231,9 +231,9 @@ class BlockAdmin extends BaseBlockAdmin
                     method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
                         'Sonata\BlockBundle\Form\Type\ServiceListType' :
                         'sonata_block_service_choice',
-                    array(
+                    [
                         'context' => 'sonata_page_bundle',
-                    ))
+                    ])
                 ->add('enabled')
                 ->add('position',
                     // NEXT_MAJOR: remove these three lines and uncomment the one following

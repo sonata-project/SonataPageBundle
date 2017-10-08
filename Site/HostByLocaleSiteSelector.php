@@ -26,7 +26,7 @@ class HostByLocaleSiteSelector extends BaseSiteSelector
     public function handleKernelRequest(GetResponseEvent $event)
     {
         $request = $event->getRequest();
-        $enabledSites = array();
+        $enabledSites = [];
 
         foreach ($this->getSites($request) as $site) {
             if (!$site->isEnabled()) {

@@ -65,7 +65,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
      */
     public function __call($method, $arguments)
     {
-        return call_user_func_array(array($this->getPage(), $method), $arguments);
+        return call_user_func_array([$this->getPage(), $method], $arguments);
     }
 
     /**
@@ -99,7 +99,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function setHeaders(array $headers = array())
+    public function setHeaders(array $headers = [])
     {
         $this->getPage()->setHeaders($headers);
     }
@@ -176,9 +176,9 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
             $content = $this->snapshot->getContent();
 
             if (isset($content['target_id'])) {
-                $target = $this->manager->findEnableSnapshot(array(
+                $target = $this->manager->findEnableSnapshot([
                     'pageId' => $content['target_id'],
-                ));
+                ]);
 
                 if ($target) {
                     $this->setTarget(new self($this->manager, $this->transformer, $target));
@@ -219,7 +219,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     public function getParents()
     {
         if (!$this->parents) {
-            $parents = array();
+            $parents = [];
 
             $snapshot = $this->snapshot;
 
@@ -230,9 +230,9 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
                     break;
                 }
 
-                $snapshot = $this->manager->findEnableSnapshot(array(
+                $snapshot = $this->manager->findEnableSnapshot([
                     'pageId' => $content['parent_id'],
-                ));
+                ]);
 
                 if (!$snapshot) {
                     break;
@@ -671,13 +671,13 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     public function serialize()
     {
         if ($this->manager) {
-            return serialize(array(
+            return serialize([
                 'pageId' => $this->getPage()->getId(),
                 'snapshotId' => $this->snapshot->getId(),
-            ));
+            ]);
         }
 
-        return serialize(array());
+        return serialize([]);
     }
 
     /**

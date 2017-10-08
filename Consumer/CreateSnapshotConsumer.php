@@ -58,7 +58,7 @@ class CreateSnapshotConsumer implements ConsumerInterface
     {
         $pageId = $event->getMessage()->getValue('pageId');
 
-        $page = $this->pageManager->findOneBy(array('id' => $pageId));
+        $page = $this->pageManager->findOneBy(['id' => $pageId]);
 
         if (!$page) {
             return;
@@ -76,7 +76,7 @@ class CreateSnapshotConsumer implements ConsumerInterface
 
         // save the snapshot
         $this->snapshotManager->save($snapshot);
-        $this->snapshotManager->enableSnapshots(array($snapshot));
+        $this->snapshotManager->enableSnapshots([$snapshot]);
 
         // commit the changes
         $this->snapshotManager->getConnection()->commit();

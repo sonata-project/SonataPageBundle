@@ -72,10 +72,10 @@ class SiteController extends FOSRestController
     {
         $this->setMapForOrderByParam($paramFetcher);
 
-        $supportedCriteria = array(
+        $supportedCriteria = [
             'enabled' => '',
             'is_default' => '',
-        );
+        ];
 
         $page = $paramFetcher->get('page');
         $limit = $paramFetcher->get('count');
@@ -89,9 +89,9 @@ class SiteController extends FOSRestController
         }
 
         if (!$sort) {
-            $sort = array();
+            $sort = [];
         } elseif (!is_array($sort)) {
-            $sort = array($sort => 'asc');
+            $sort = [$sort => 'asc'];
         }
 
         $pager = $this->siteManager->getPager($criteria, $page, $limit, $sort);
@@ -202,7 +202,7 @@ class SiteController extends FOSRestController
 
         $this->siteManager->delete($site);
 
-        return array('deleted' => true);
+        return ['deleted' => true];
     }
 
     /**
@@ -216,7 +216,7 @@ class SiteController extends FOSRestController
      */
     protected function getSite($id)
     {
-        $site = $this->siteManager->findOneBy(array('id' => $id));
+        $site = $this->siteManager->findOneBy(['id' => $id]);
 
         if (null === $site) {
             throw new NotFoundHttpException(sprintf('Site (%d) not found', $id));
@@ -237,9 +237,9 @@ class SiteController extends FOSRestController
     {
         $site = $id ? $this->getSite($id) : null;
 
-        $form = $this->formFactory->createNamed(null, 'sonata_page_api_form_site', $site, array(
+        $form = $this->formFactory->createNamed(null, 'sonata_page_api_form_site', $site, [
             'csrf_protection' => false,
-        ));
+        ]);
 
         $form->submit($request);
 
@@ -248,7 +248,7 @@ class SiteController extends FOSRestController
 
             $this->siteManager->save($site);
 
-            return $this->serializeContext($site, array('sonata_api_read'));
+            return $this->serializeContext($site, ['sonata_api_read']);
         }
 
         return $form;

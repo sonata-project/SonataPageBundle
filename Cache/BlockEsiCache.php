@@ -61,7 +61,7 @@ class BlockEsiCache extends VarnishCache
      * @param array                        $managers         An array of managers
      * @param Recorder                     $recorder         The cache recorder to build the contextual key
      */
-    public function __construct($token, array $servers, RouterInterface $router, $purgeInstruction, BlockRendererInterface $blockRenderer, BlockContextManagerInterface $contextManager, array $managers = array(), Recorder $recorder = null)
+    public function __construct($token, array $servers, RouterInterface $router, $purgeInstruction, BlockRendererInterface $blockRenderer, BlockContextManagerInterface $contextManager, array $managers = [], Recorder $recorder = null)
     {
         parent::__construct($token, $servers, $router, $purgeInstruction, null);
 
@@ -88,7 +88,7 @@ class BlockEsiCache extends VarnishCache
     /**
      * {@inheritdoc}
      */
-    public function set(array $keys, $data, $ttl = CacheElement::DAY, array $contextualKeys = array())
+    public function set(array $keys, $data, $ttl = CacheElement::DAY, array $contextualKeys = [])
     {
         $this->validateKeys($keys);
 
@@ -146,12 +146,12 @@ class BlockEsiCache extends VarnishCache
     protected function computeHash(array $keys)
     {
         // values are casted into string for non numeric id
-        return hash('sha256', $this->token.serialize(array(
+        return hash('sha256', $this->token.serialize([
             'manager' => (string) $keys['manager'],
             'page_id' => (string) $keys['page_id'],
             'block_id' => (string) $keys['block_id'],
             'updated_at' => (string) $keys['updated_at'],
-        )));
+        ]));
     }
 
     /**
@@ -161,7 +161,7 @@ class BlockEsiCache extends VarnishCache
      */
     private function validateKeys(array $keys)
     {
-        foreach (array('block_id', 'page_id', 'manager', 'updated_at') as $key) {
+        foreach (['block_id', 'page_id', 'manager', 'updated_at'] as $key) {
             if (!isset($keys[$key])) {
                 throw new \RuntimeException(sprintf('Please define a `%s` key', $key));
             }

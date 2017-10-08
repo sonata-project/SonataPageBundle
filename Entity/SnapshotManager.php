@@ -34,12 +34,12 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
     /**
      * @var array
      */
-    protected $children = array();
+    protected $children = [];
 
     /**
      * @var array
      */
-    protected $templates = array();
+    protected $templates = [];
 
     /**
      * @var SnapshotPageProxyFactoryInterface
@@ -52,7 +52,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
      * @param array                             $templates                An array of templates
      * @param SnapshotPageProxyFactoryInterface $snapshotPageProxyFactory
      */
-    public function __construct($class, ManagerRegistry $registry, $templates = array(), SnapshotPageProxyFactoryInterface $snapshotPageProxyFactory = null)
+    public function __construct($class, ManagerRegistry $registry, $templates = [], SnapshotPageProxyFactoryInterface $snapshotPageProxyFactory = null)
     {
         parent::__construct($class, $registry);
 
@@ -89,7 +89,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
         }
 
         $date = $date ?: new \DateTime();
-        $pageIds = $snapshotIds = array();
+        $pageIds = $snapshotIds = [];
 
         foreach ($snapshots as $snapshot) {
             $pageIds[] = $snapshot->getPage()->getId();
@@ -119,10 +119,10 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
     public function findEnableSnapshot(array $criteria)
     {
         $date = new \Datetime();
-        $parameters = array(
+        $parameters = [
             'publicationDateStart' => $date,
             'publicationDateEnd' => $date,
-        );
+        ];
 
         $query = $this->getRepository()
             ->createQueryBuilder('s')
@@ -180,9 +180,9 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
             ->select('s')
             ->from($this->class, 's')
             ->where('s.routeName = :routeName')
-            ->setParameters(array(
+            ->setParameters([
                 'routeName' => $routeName,
-            ))
+            ])
             ->getQuery()
             ->execute();
 
@@ -295,13 +295,13 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
     /**
      * {@inheritdoc}
      */
-    public function getPager(array $criteria, $page, $limit = 10, array $sort = array())
+    public function getPager(array $criteria, $page, $limit = 10, array $sort = [])
     {
         $query = $this->getRepository()
             ->createQueryBuilder('s')
             ->select('s');
 
-        $parameters = array();
+        $parameters = [];
 
         if (isset($criteria['enabled'])) {
             $query->andWhere('s.enabled = :enabled');

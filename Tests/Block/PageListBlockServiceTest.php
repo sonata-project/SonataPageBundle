@@ -37,11 +37,11 @@ class PageListBlockServiceTest extends AbstractBlockServiceTestCase
         $blockService = new PageListBlockService('block.service', $this->templating, $this->pageManager);
         $blockContext = $this->getBlockContext($blockService);
 
-        $this->assertSettings(array(
+        $this->assertSettings([
             'mode' => 'public',
             'title' => 'List Pages',
             'template' => 'SonataPageBundle:Block:block_pagelist.html.twig',
-        ), $blockContext);
+        ], $blockContext);
     }
 
     public function testExecute()
@@ -51,24 +51,24 @@ class PageListBlockServiceTest extends AbstractBlockServiceTestCase
         $systemPage = $this->createMock('Sonata\PageBundle\Model\PageInterface');
 
         $this->pageManager->expects($this->at(0))->method('findBy')
-            ->with($this->equalTo(array(
+            ->with($this->equalTo([
                 'routeName' => Page::PAGE_ROUTE_CMS_NAME,
-            )))
-            ->will($this->returnValue(array($page1, $page2)));
+            ]))
+            ->will($this->returnValue([$page1, $page2]));
         $this->pageManager->expects($this->at(1))->method('findBy')
-            ->with($this->equalTo(array(
+            ->with($this->equalTo([
                 'url' => null,
                 'parent' => null,
-            )))
-            ->will($this->returnValue(array($systemPage)));
+            ]))
+            ->will($this->returnValue([$systemPage]));
 
         $block = new Block();
 
-        $blockContext = new BlockContext($block, array(
+        $blockContext = new BlockContext($block, [
             'mode' => 'public',
             'title' => 'List Pages',
             'template' => 'SonataPageBundle:Block:block_pagelist.html.twig',
-        ));
+        ]);
 
         $blockService = new PageListBlockService('block.service', $this->templating, $this->pageManager);
         $blockService->execute($blockContext);

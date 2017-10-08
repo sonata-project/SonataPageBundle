@@ -129,16 +129,16 @@ class RoutePageGeneratorTest extends PHPUnit_Framework_TestCase
         $collection->add('route2', new Route('second_custom_route'));
         $collection->add('test_hybrid_page_with_good_host', new Route(
             'third_custom_route',
-            array(),
-            array('tld' => 'fr|org'),
-            array(),
+            [],
+            ['tld' => 'fr|org'],
+            [],
             'sonata-project.{tld}'
         ));
         $collection->add('test_hybrid_page_with_bad_host', new Route(
             'fourth_custom_route',
-            array(),
-            array(),
-            array(),
+            [],
+            [],
+            [],
             'sonata-project.com'
         ));
 
@@ -177,20 +177,20 @@ class RoutePageGeneratorTest extends PHPUnit_Framework_TestCase
 
         $pageManager->expects($this->at(12))
             ->method('findOneBy')
-            ->with($this->equalTo(array('routeName' => 'test_hybrid_page_with_bad_host', 'site' => 1)))
+            ->with($this->equalTo(['routeName' => 'test_hybrid_page_with_bad_host', 'site' => 1]))
             ->will($this->returnValue($hybridPageWithBadHost));
 
         $pageManager->expects($this->any())
             ->method('getHybridPages')
-            ->will($this->returnValue(array($hybridPageNotExists, $hybridPageWithGoodHost, $hybridPageWithBadHost)));
+            ->will($this->returnValue([$hybridPageNotExists, $hybridPageWithGoodHost, $hybridPageWithBadHost]));
 
-        $decoratorStrategy = new DecoratorStrategy(array(), array(), array());
+        $decoratorStrategy = new DecoratorStrategy([], [], []);
 
         $exceptionListener = $this->getMockBuilder('Sonata\PageBundle\Listener\ExceptionListener')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $exceptionListener->expects($this->any())->method('getHttpErrorCodes')->will($this->returnValue(array(404, 500)));
+        $exceptionListener->expects($this->any())->method('getHttpErrorCodes')->will($this->returnValue([404, 500]));
 
         return new RoutePageGenerator($router, $pageManager, $decoratorStrategy, $exceptionListener);
     }
