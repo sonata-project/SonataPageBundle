@@ -89,13 +89,13 @@ class CloneSiteCommandTest extends \PHPUnit_Framework_TestCase
         $page3->getId()->willReturn(3);
         $page3->isHybrid()->willReturn(false);
 
-        $this->pageManager->findBy(array(
+        $this->pageManager->findBy([
             'site' => $sourceSite,
-        ))->willReturn(array(
+        ])->willReturn([
             $page1->reveal(),
             $page2->reveal(),
             $page3->reveal(),
-        ));
+        ]);
 
         // Replace this with new mock, when cloing is supported in prophecies
         $newPage1 = $page1;
@@ -119,15 +119,15 @@ class CloneSiteCommandTest extends \PHPUnit_Framework_TestCase
         $block->getId()->willReturn(4711);
         $block->getParent()->willReturn(null);
 
-        $this->blockManager->findBy(array(
+        $this->blockManager->findBy([
            'page' => $page1,
-        ))->willReturn(array());
+        ])->willReturn([]);
 
-        $this->blockManager->findBy(array(
+        $this->blockManager->findBy([
            'page' => $page2,
-        ))->willReturn(array(
+        ])->willReturn([
             $block->reveal(),
-        ));
+        ]);
 
         // Replace this with new mock, when cloing is supported in prophecies
         $newBlock = $block;
@@ -137,13 +137,13 @@ class CloneSiteCommandTest extends \PHPUnit_Framework_TestCase
 
         $command = $this->application->find('sonata:page:clone-site');
         $commandTester = new CommandTester($command);
-        $commandTester->execute(array(
+        $commandTester->execute([
             'command' => $command->getName(),
             '--source-id' => 23,
             '--dest-id' => 42,
             '--prefix' => 'Copy of ',
             '--only-hybrid' => true,
-        ));
+        ]);
 
         $this->assertRegExp('@done!@', $commandTester->getDisplay());
     }
@@ -152,15 +152,15 @@ class CloneSiteCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('\InvalidArgumentException', 'Please provide a "--source-id=SITE_ID" option.');
 
-        $this->siteManager->findAll()->willReturn(array());
+        $this->siteManager->findAll()->willReturn([]);
 
         $command = $this->application->find('sonata:page:clone-site');
         $commandTester = new CommandTester($command);
-        $commandTester->execute(array(
+        $commandTester->execute([
             'command' => $command->getName(),
             '--dest-id' => 42,
             '--prefix' => 'Copy of ',
-        ));
+        ]);
 
         $this->assertRegExp('@Writing cache file ...\s+done!@', $commandTester->getDisplay());
     }
@@ -169,15 +169,15 @@ class CloneSiteCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('\InvalidArgumentException', 'Please provide a "--dest-id=SITE_ID" option.');
 
-        $this->siteManager->findAll()->willReturn(array());
+        $this->siteManager->findAll()->willReturn([]);
 
         $command = $this->application->find('sonata:page:clone-site');
         $commandTester = new CommandTester($command);
-        $commandTester->execute(array(
+        $commandTester->execute([
             'command' => $command->getName(),
             '--source-id' => 23,
             '--prefix' => 'Copy of ',
-        ));
+        ]);
 
         $this->assertRegExp('@Writing cache file ...\s+done!@', $commandTester->getDisplay());
     }
@@ -186,14 +186,14 @@ class CloneSiteCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('\InvalidArgumentException', 'Please provide a "--prefix=PREFIX" option.');
 
-        $this->siteManager->findAll()->willReturn(array());
+        $this->siteManager->findAll()->willReturn([]);
 
         $command = $this->application->find('sonata:page:clone-site');
         $commandTester = new CommandTester($command);
-        $commandTester->execute(array(
+        $commandTester->execute([
             'command' => $command->getName(),
             '--source-id' => 23,
             '--dest-id' => 42,
-        ));
+        ]);
     }
 }

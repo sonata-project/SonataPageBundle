@@ -54,7 +54,7 @@ class CmsPageManagerTest extends PHPUnit_Framework_TestCase
     public function testFindExistingContainer()
     {
         $block = new CmsBlock();
-        $block->setSettings(array('code' => 'findme'));
+        $block->setSettings(['code' => 'findme']);
 
         $page = new Page();
         $page->addBlocks($block);
@@ -86,7 +86,7 @@ class CmsPageManagerTest extends PHPUnit_Framework_TestCase
         $pageManager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
 
         $pageManager->expects($this->any())->method('findOneBy')->will($this->returnValue(new Page()));
-        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->will($this->returnValue(array()));
+        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->will($this->returnValue([]));
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
@@ -106,7 +106,7 @@ class CmsPageManagerTest extends PHPUnit_Framework_TestCase
     {
         $pageManager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
 
-        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->will($this->returnValue(array()));
+        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->will($this->returnValue([]));
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
@@ -127,7 +127,7 @@ class CmsPageManagerTest extends PHPUnit_Framework_TestCase
         $pageManager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
 
         $pageManager->expects($this->any())->method('findOneBy')->will($this->returnValue(new Page()));
-        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->will($this->returnValue(array()));
+        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->will($this->returnValue([]));
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
@@ -147,7 +147,7 @@ class CmsPageManagerTest extends PHPUnit_Framework_TestCase
     {
         $pageManager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
 
-        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->will($this->returnValue(array()));
+        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->will($this->returnValue([]));
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
@@ -168,7 +168,7 @@ class CmsPageManagerTest extends PHPUnit_Framework_TestCase
         $pageManager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
 
         $pageManager->expects($this->any())->method('findOneBy')->will($this->returnValue(new Page()));
-        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->will($this->returnValue(array()));
+        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->will($this->returnValue([]));
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
@@ -188,7 +188,7 @@ class CmsPageManagerTest extends PHPUnit_Framework_TestCase
     {
         $pageManager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
 
-        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->will($this->returnValue(array()));
+        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->will($this->returnValue([]));
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
@@ -209,7 +209,7 @@ class CmsPageManagerTest extends PHPUnit_Framework_TestCase
         $pageManager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
 
         $pageManager->expects($this->any())->method('findOneBy')->will($this->returnValue(new Page()));
-        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->will($this->returnValue(array()));
+        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->will($this->returnValue([]));
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
         $manager->setCurrentPage(new Page());
@@ -229,7 +229,7 @@ class CmsPageManagerTest extends PHPUnit_Framework_TestCase
     {
         $pageManager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
 
-        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->will($this->returnValue(array()));
+        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->will($this->returnValue([]));
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 

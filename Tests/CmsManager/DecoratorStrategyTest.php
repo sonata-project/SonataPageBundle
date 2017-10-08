@@ -24,7 +24,7 @@ class DecoratorStrategyTest extends \PHPUnit_Framework_TestCase
         $response = new Response('dummy');
         $request = Request::create('/myurl');
 
-        $strategy = new DecoratorStrategy(array(), array(), array());
+        $strategy = new DecoratorStrategy([], [], []);
 
         //
         $this->assertFalse($strategy->isDecorable($request, HttpKernelInterface::SUB_REQUEST, $response));
@@ -60,28 +60,28 @@ class DecoratorStrategyTest extends \PHPUnit_Framework_TestCase
 
     public function testIgnoreRouteNameMatch()
     {
-        $strategy = new DecoratorStrategy(array('test'), array(), array());
+        $strategy = new DecoratorStrategy(['test'], [], []);
 
         $this->assertFalse($strategy->isRouteNameDecorable('test'));
     }
 
     public function testIgnoreRouteNamePatternsMatch()
     {
-        $strategy = new DecoratorStrategy(array(), array('test[0-2]{1}'), array());
+        $strategy = new DecoratorStrategy([], ['test[0-2]{1}'], []);
 
         $this->assertFalse($strategy->isRouteNameDecorable('test2'));
     }
 
     public function testIgnoreUriPatternsMatch()
     {
-        $strategy = new DecoratorStrategy(array(), array(), array('(.*)'));
+        $strategy = new DecoratorStrategy([], [], ['(.*)']);
 
         $this->assertFalse($strategy->isRouteUriDecorable('ok'));
     }
 
     public function testIgnoreUriPatternsNotMatch()
     {
-        $strategy = new DecoratorStrategy(array(), array(), array('ok'));
+        $strategy = new DecoratorStrategy([], [], ['ok']);
 
         $this->assertFalse($strategy->isRouteUriDecorable('ok'));
     }

@@ -22,13 +22,13 @@ class SiteManagerTest extends PHPUnit_Framework_TestCase
         $this
             ->getSiteManager(function ($qb) use ($self) {
                 $qb->expects($self->never())->method('andWhere');
-                $qb->expects($self->once())->method('setParameters')->with(array());
+                $qb->expects($self->once())->method('setParameters')->with([]);
                 $qb->expects($self->once())->method('orderBy')->with(
                     $self->equalTo('s.name'),
                     $self->equalTo('ASC')
                 );
             })
-            ->getPager(array(), 1);
+            ->getPager([], 1);
     }
 
     /**
@@ -41,7 +41,7 @@ class SiteManagerTest extends PHPUnit_Framework_TestCase
         $this
             ->getSiteManager(function ($qb) use ($self) {
             })
-            ->getPager(array(), 1, 10, array('invalid' => 'ASC'));
+            ->getPager([], 1, 10, ['invalid' => 'ASC']);
     }
 
     public function testGetPagerWithMultipleSort()
@@ -50,7 +50,7 @@ class SiteManagerTest extends PHPUnit_Framework_TestCase
         $this
             ->getSiteManager(function ($qb) use ($self) {
                 $qb->expects($self->never())->method('andWhere');
-                $qb->expects($self->once())->method('setParameters')->with(array());
+                $qb->expects($self->once())->method('setParameters')->with([]);
                 $qb->expects($self->exactly(2))->method('orderBy')->with(
                     $self->logicalOr(
                         $self->equalTo('s.name'),
@@ -61,12 +61,12 @@ class SiteManagerTest extends PHPUnit_Framework_TestCase
                         $self->equalTo('DESC')
                     )
                 );
-                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(array()));
+                $qb->expects($self->once())->method('setParameters')->with($self->equalTo([]));
             })
-            ->getPager(array(), 1, 10, array(
+            ->getPager([], 1, 10, [
                 'name' => 'ASC',
                 'host' => 'DESC',
-            ));
+            ]);
     }
 
     public function testGetPagerWithEnabledSites()
@@ -75,9 +75,9 @@ class SiteManagerTest extends PHPUnit_Framework_TestCase
         $this
             ->getSiteManager(function ($qb) use ($self) {
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('s.enabled = :enabled'));
-                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(array('enabled' => true)));
+                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['enabled' => true]));
             })
-            ->getPager(array('enabled' => true), 1);
+            ->getPager(['enabled' => true], 1);
     }
 
     public function testGetPagerWithDisabledSites()
@@ -86,9 +86,9 @@ class SiteManagerTest extends PHPUnit_Framework_TestCase
         $this
             ->getSiteManager(function ($qb) use ($self) {
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('s.enabled = :enabled'));
-                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(array('enabled' => false)));
+                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['enabled' => false]));
             })
-            ->getPager(array('enabled' => false), 1);
+            ->getPager(['enabled' => false], 1);
     }
 
     public function testGetPagerWithDefaultSites()
@@ -97,9 +97,9 @@ class SiteManagerTest extends PHPUnit_Framework_TestCase
         $this
             ->getSiteManager(function ($qb) use ($self) {
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('s.isDefault = :isDefault'));
-                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(array('isDefault' => true)));
+                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['isDefault' => true]));
             })
-            ->getPager(array('is_default' => true), 1);
+            ->getPager(['is_default' => true], 1);
     }
 
     public function testGetPagerWithNonDefaultSites()
@@ -108,25 +108,25 @@ class SiteManagerTest extends PHPUnit_Framework_TestCase
         $this
             ->getSiteManager(function ($qb) use ($self) {
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('s.isDefault = :isDefault'));
-                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(array('isDefault' => false)));
+                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['isDefault' => false]));
             })
-            ->getPager(array('is_default' => false), 1);
+            ->getPager(['is_default' => false], 1);
     }
 
     protected function getSiteManager($qbCallback)
     {
-        $query = $this->getMockForAbstractClass('Doctrine\ORM\AbstractQuery', array(), '', false, true, true, array('execute'));
+        $query = $this->getMockForAbstractClass('Doctrine\ORM\AbstractQuery', [], '', false, true, true, ['execute']);
         $query->expects($this->any())->method('execute')->will($this->returnValue(true));
 
         $qb = $this->getMockBuilder('Doctrine\ORM\QueryBuilder')
-            ->setConstructorArgs(array(
+            ->setConstructorArgs([
                 $this->getMockBuilder('Doctrine\ORM\EntityManager')
                     ->disableOriginalConstructor()
                     ->getMock(),
-            ))
+            ])
             ->getMock();
 
-        $qb->expects($this->any())->method('getRootAliases')->will($this->returnValue(array()));
+        $qb->expects($this->any())->method('getRootAliases')->will($this->returnValue([]));
         $qb->expects($this->any())->method('select')->will($this->returnValue($qb));
         $qb->expects($this->any())->method('getQuery')->will($this->returnValue($query));
 
@@ -136,10 +136,10 @@ class SiteManagerTest extends PHPUnit_Framework_TestCase
         $repository->expects($this->any())->method('createQueryBuilder')->will($this->returnValue($qb));
 
         $metadata = $this->createMock('Doctrine\Common\Persistence\Mapping\ClassMetadata');
-        $metadata->expects($this->any())->method('getFieldNames')->will($this->returnValue(array(
+        $metadata->expects($this->any())->method('getFieldNames')->will($this->returnValue([
             'name',
             'host',
-        )));
+        ]));
 
         $em = $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock();
         $em->expects($this->any())->method('getRepository')->will($this->returnValue($repository));

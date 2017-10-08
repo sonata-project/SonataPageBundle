@@ -101,14 +101,14 @@ class PageController extends FOSRestController
     {
         $this->setMapForOrderByParam($paramFetcher);
 
-        $supportedCriteria = array(
+        $supportedCriteria = [
             'enabled' => '',
             'edited' => '',
             'internal' => '',
             'root' => '',
             'site' => '',
             'parent' => '',
-        );
+        ];
 
         $page = $paramFetcher->get('page');
         $limit = $paramFetcher->get('count');
@@ -122,9 +122,9 @@ class PageController extends FOSRestController
         }
 
         if (!$sort) {
-            $sort = array();
+            $sort = [];
         } elseif (!is_array($sort)) {
-            $sort = array($sort => 'asc');
+            $sort = [$sort => 'asc'];
         }
 
         $pager = $this->pageManager->getPager($criteria, $page, $limit, $sort);
@@ -236,9 +236,9 @@ class PageController extends FOSRestController
     {
         $page = $id ? $this->getPage($id) : null;
 
-        $form = $this->formFactory->createNamed(null, 'sonata_page_api_form_block', null, array(
+        $form = $this->formFactory->createNamed(null, 'sonata_page_api_form_block', null, [
             'csrf_protection' => false,
-        ));
+        ]);
 
         $form->submit($request);
 
@@ -248,7 +248,7 @@ class PageController extends FOSRestController
 
             $this->blockManager->save($block);
 
-            return $this->serializeContext($block, array('sonata_api_read'));
+            return $this->serializeContext($block, ['sonata_api_read']);
         }
 
         return $form;
@@ -332,7 +332,7 @@ class PageController extends FOSRestController
 
         $this->pageManager->delete($page);
 
-        return array('deleted' => true);
+        return ['deleted' => true];
     }
 
     /**
@@ -359,11 +359,11 @@ class PageController extends FOSRestController
     {
         $page = $this->getPage($id);
 
-        $this->backend->createAndPublish('sonata.page.create_snapshot', array(
+        $this->backend->createAndPublish('sonata.page.create_snapshot', [
             'pageId' => $page->getId(),
-        ));
+        ]);
 
-        return array('queued' => true);
+        return ['queued' => true];
     }
 
     /**
@@ -385,12 +385,12 @@ class PageController extends FOSRestController
         $sites = $this->siteManager->findAll();
 
         foreach ($sites as $site) {
-            $this->backend->createAndPublish('sonata.page.create_snapshot', array(
+            $this->backend->createAndPublish('sonata.page.create_snapshot', [
                 'siteId' => $site->getId(),
-            ));
+            ]);
         }
 
-        return array('queued' => true);
+        return ['queued' => true];
     }
 
     /**
@@ -404,7 +404,7 @@ class PageController extends FOSRestController
      */
     protected function getPage($id)
     {
-        $page = $this->pageManager->findOneBy(array('id' => $id));
+        $page = $this->pageManager->findOneBy(['id' => $id]);
 
         if (null === $page) {
             throw new NotFoundHttpException(sprintf('Page (%d) not found', $id));
@@ -424,7 +424,7 @@ class PageController extends FOSRestController
      */
     protected function getBlock($id)
     {
-        $block = $this->blockManager->findOneBy(array('id' => $id));
+        $block = $this->blockManager->findOneBy(['id' => $id]);
 
         if (null === $block) {
             throw new NotFoundHttpException(sprintf('Block (%d) not found', $id));
@@ -445,9 +445,9 @@ class PageController extends FOSRestController
     {
         $page = $id ? $this->getPage($id) : null;
 
-        $form = $this->formFactory->createNamed(null, 'sonata_page_api_form_page', $page, array(
+        $form = $this->formFactory->createNamed(null, 'sonata_page_api_form_page', $page, [
             'csrf_protection' => false,
-        ));
+        ]);
 
         $form->submit($request);
 
@@ -455,7 +455,7 @@ class PageController extends FOSRestController
             $page = $form->getData();
             $this->pageManager->save($page);
 
-            return $this->serializeContext($page, array('sonata_api_read'));
+            return $this->serializeContext($page, ['sonata_api_read']);
         }
 
         return $form;

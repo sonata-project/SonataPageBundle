@@ -373,7 +373,7 @@ interface PageInterface
     /**
      * @param array $headers
      */
-    public function setHeaders(array $headers = array());
+    public function setHeaders(array $headers = []);
 
     /**
      * @param string $name

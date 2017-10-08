@@ -46,9 +46,9 @@ class CleanupSnapshotConsumer implements ConsumerInterface
      */
     public function process(ConsumerEvent $event)
     {
-        $page = $this->pageManager->findOneBy(array(
+        $page = $this->pageManager->findOneBy([
             'id' => $event->getMessage()->getValue('pageId'),
-        ));
+        ]);
 
         if (!$page) {
             return;

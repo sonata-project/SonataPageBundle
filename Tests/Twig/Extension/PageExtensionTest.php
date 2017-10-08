@@ -57,7 +57,7 @@ class PageExtensionTest extends PHPUnit_Framework_TestCase
             ->getMock();
         $globals->method('getRequest')->willReturn($request);
         $env = $this->createMock('Twig_Environment');
-        $env->method('getGlobals')->willReturn(array('app' => $globals));
+        $env->method('getGlobals')->willReturn(['app' => $globals]);
         $httpKernelExtension = $this->getMockBuilder('Symfony\Bridge\Twig\Extension\HttpKernelExtension')
             ->disableOriginalConstructor()
             ->getMock();
@@ -66,8 +66,8 @@ class PageExtensionTest extends PHPUnit_Framework_TestCase
         if (!method_exists('Symfony\Bridge\Twig\AppVariable', 'getToken')) {
             $httpKernelExtension->expects($this->once())->method('controller')->with(
                 'foo',
-                array('pathInfo' => '/foo/bar/'),
-                array()
+                ['pathInfo' => '/foo/bar/'],
+                []
             );
         }
         $extension->controller('foo');
@@ -89,14 +89,14 @@ class PageExtensionTest extends PHPUnit_Framework_TestCase
             ->getMock();
         $globals->method('getRequest')->willReturn($request);
         $env = $this->createMock('Twig_Environment');
-        $env->method('getGlobals')->willReturn(array('app' => $globals));
+        $env->method('getGlobals')->willReturn(['app' => $globals]);
         $httpKernelExtension = $this->getMockBuilder('Symfony\Bridge\Twig\Extension\HttpKernelExtension')
             ->disableOriginalConstructor()
             ->getMock();
         $extension = new PageExtension($cmsManager, $siteSelector, $router, $blockHelper, $httpKernelExtension);
         $extension->initRuntime($env);
         if (!method_exists('Symfony\Bridge\Twig\AppVariable', 'getToken')) {
-            $httpKernelExtension->expects($this->once())->method('controller')->with('bar', array(), array());
+            $httpKernelExtension->expects($this->once())->method('controller')->with('bar', [], []);
         }
         $extension->controller('bar');
     }

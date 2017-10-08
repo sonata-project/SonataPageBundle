@@ -45,41 +45,41 @@ class SonataPageExtensionTest extends AbstractExtensionTestCase
 
     public function testRequestContextServiceIsDefined()
     {
-        $this->container->setParameter('kernel.bundles', array());
+        $this->container->setParameter('kernel.bundles', []);
         $this->load();
         $this->assertContainerBuilderHasService('sonata.page.router.request_context');
     }
 
     public function testApiServicesAreDefinedWhenSpecificBundlesArePresent()
     {
-        $this->container->setParameter('kernel.bundles', array(
+        $this->container->setParameter('kernel.bundles', [
             'FOSRestBundle' => 42,
             'NelmioApiDocBundle' => 42,
-        ));
+        ]);
         $this->load();
         $this->assertContainerBuilderHasService('sonata.page.serializer.handler.page');
     }
 
     public function testAdminServicesAreDefinedWhenAdminBundlesIsPresent()
     {
-        $this->container->setParameter('kernel.bundles', array(
+        $this->container->setParameter('kernel.bundles', [
             'SonataAdminBundle' => 42,
-        ));
+        ]);
         $this->load();
         $this->assertContainerBuilderHasService('sonata.page.admin.page');
     }
 
     protected function getContainerExtensions()
     {
-        return array(new SonataPageExtension());
+        return [new SonataPageExtension()];
     }
 
     protected function getMinimalConfiguration()
     {
-        return array(
+        return [
             'multisite' => 'host',
             'default_template' => null,
             'templates' => null,
-        );
+        ];
     }
 }

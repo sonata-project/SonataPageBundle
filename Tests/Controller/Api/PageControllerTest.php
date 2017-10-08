@@ -25,12 +25,12 @@ class PageControllerTest extends PHPUnit_Framework_TestCase
         $pager = $this->getMockBuilder('Sonata\AdminBundle\Datagrid\Pager')->disableOriginalConstructor()->getMock();
 
         $paramFetcher = $this->getMockBuilder('FOS\RestBundle\Request\ParamFetcherInterface')
-            ->setMethods(array('addParam', 'setController', 'get', 'all'))
+            ->setMethods(['addParam', 'setController', 'get', 'all'])
             ->getMock();
 
         $paramFetcher->expects($this->once())->method('addParam');
         $paramFetcher->expects($this->exactly(3))->method('get');
-        $paramFetcher->expects($this->once())->method('all')->will($this->returnValue(array()));
+        $paramFetcher->expects($this->once())->method('all')->will($this->returnValue([]));
 
         $pageManager = $this->getMockBuilder('Sonata\PageBundle\Model\PageManagerInterface')->getMock();
         $pageManager->expects($this->once())->method('getPager')->will($this->returnValue($pager));
@@ -59,9 +59,9 @@ class PageControllerTest extends PHPUnit_Framework_TestCase
         $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
         $block = $this->createMock('Sonata\PageBundle\Model\PageBlockInterface');
 
-        $page->expects($this->once())->method('getBlocks')->will($this->returnValue(array($block)));
+        $page->expects($this->once())->method('getBlocks')->will($this->returnValue([$block]));
 
-        $this->assertEquals(array($block), $this->createPageController($page)->getPageBlocksAction(1));
+        $this->assertEquals([$block], $this->createPageController($page)->getPageBlocksAction(1));
     }
 
     public function testPostPageAction()
@@ -151,7 +151,7 @@ class PageControllerTest extends PHPUnit_Framework_TestCase
 
         $view = $this->createPageController($page, null, $pageManager)->deletePageAction(1);
 
-        $this->assertEquals(array('deleted' => true), $view);
+        $this->assertEquals(['deleted' => true], $view);
     }
 
     public function testDeletePageInvalidAction()
@@ -221,7 +221,7 @@ class PageControllerTest extends PHPUnit_Framework_TestCase
 
         $view = $this->createPageController($page, null, null, null, null, $backend)->postPageSnapshotAction(1);
 
-        $this->assertEquals(array('queued' => true), $view);
+        $this->assertEquals(['queued' => true], $view);
     }
 
     public function testPostPagesSnapshotsAction()
@@ -229,14 +229,14 @@ class PageControllerTest extends PHPUnit_Framework_TestCase
         $site = $this->createMock('Sonata\PageBundle\Model\SiteInterface');
 
         $siteManager = $this->createMock('Sonata\PageBundle\Model\SiteManagerInterface');
-        $siteManager->expects($this->once())->method('findAll')->will($this->returnValue(array($site)));
+        $siteManager->expects($this->once())->method('findAll')->will($this->returnValue([$site]));
 
         $backend = $this->createMock('Sonata\NotificationBundle\Backend\BackendInterface');
         $backend->expects($this->once())->method('createAndPublish');
 
         $view = $this->createPageController(null, $siteManager, null, null, null, $backend)->postPagesSnapshotsAction();
 
-        $this->assertEquals(array('queued' => true), $view);
+        $this->assertEquals(['queued' => true], $view);
     }
 
     /**

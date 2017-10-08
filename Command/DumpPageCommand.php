@@ -58,7 +58,7 @@ You can use the --extended option to dump block configuration
 
         $page = $manager->getPageById($input->getArgument('page_id'));
 
-        $output->writeln(array(
+        $output->writeln([
             '<info>Page:</info>',
             sprintf(' > Id: %s - %s - type: %s', $page->getId(), $page->getEnabled() ? 'enabled' : 'disabled', $page->getType()),
             sprintf(' > Name: %s', $page->getName()),
@@ -70,7 +70,7 @@ You can use the --extended option to dump block configuration
             sprintf(' > Class: %s ', get_class($page)),
             '',
             '<info>Blocks:</info>',
-        ));
+        ]);
 
         foreach ($page->getBlocks() as $block) {
             $this->renderBlock($block, $output, $input->getOption('extended'));

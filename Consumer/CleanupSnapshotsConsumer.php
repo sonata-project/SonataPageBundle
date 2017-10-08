@@ -53,18 +53,18 @@ class CleanupSnapshotsConsumer implements ConsumerInterface
      */
     public function process(ConsumerEvent $event)
     {
-        $pages = $this->pageManager->findBy(array(
+        $pages = $this->pageManager->findBy([
             'site' => $event->getMessage()->getValue('siteId'),
-        ));
+        ]);
 
         $backend = $event->getMessage()->getValue('mode') === 'async' ? $this->asyncBackend : $this->runtimeBackend;
         $keepSnapshots = $event->getMessage()->getValue('keepSnapshots');
 
         foreach ($pages as $page) {
-            $backend->createAndPublish('sonata.page.cleanup_snapshot', array(
+            $backend->createAndPublish('sonata.page.cleanup_snapshot', [
                 'pageId' => $page->getId(),
                 'keepSnapshots' => $keepSnapshots,
-            ));
+            ]);
         }
     }
 }

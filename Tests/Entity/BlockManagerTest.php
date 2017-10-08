@@ -23,25 +23,25 @@ class BlockManagerTest extends PHPUnit_Framework_TestCase
             ->getBlockManager(function ($qb) use ($self) {
                 $qb->expects($self->never())->method('join');
                 $qb->expects($self->never())->method('andWhere');
-                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(array()));
+                $qb->expects($self->once())->method('setParameters')->with($self->equalTo([]));
             })
-            ->getPager(array('root' => true), 1);
+            ->getPager(['root' => true], 1);
     }
 
     protected function getBlockManager($qbCallback)
     {
-        $query = $this->getMockForAbstractClass('Doctrine\ORM\AbstractQuery', array(), '', false, true, true, array('execute'));
+        $query = $this->getMockForAbstractClass('Doctrine\ORM\AbstractQuery', [], '', false, true, true, ['execute']);
         $query->expects($this->any())->method('execute')->will($this->returnValue(true));
 
         $qb = $this->getMockBuilder('Doctrine\ORM\QueryBuilder')
-            ->setConstructorArgs(array(
+            ->setConstructorArgs([
                 $this->getMockBuilder('Doctrine\ORM\EntityManager')
                     ->disableOriginalConstructor()
                     ->getMock(),
-            ))
+            ])
             ->getMock();
 
-        $qb->expects($this->any())->method('getRootAliases')->will($this->returnValue(array()));
+        $qb->expects($this->any())->method('getRootAliases')->will($this->returnValue([]));
         $qb->expects($this->any())->method('select')->will($this->returnValue($qb));
         $qb->expects($this->any())->method('getQuery')->will($this->returnValue($query));
 

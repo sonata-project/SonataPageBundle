@@ -46,14 +46,14 @@ class CleanupSnapshotsCommand extends BaseCommand
 
             $output->writeln(sprintf(' % 5s - % -30s - %s', 'ID', 'Name', 'Url'));
 
-            foreach ($this->getSiteManager()->findBy(array()) as $site) {
+            foreach ($this->getSiteManager()->findBy([]) as $site) {
                 $output->writeln(sprintf(' % 5s - % -30s - %s', $site->getId(), $site->getName(), $site->getUrl()));
             }
 
             return;
         }
 
-        if (!in_array($input->getOption('mode'), array('async', 'sync'))) {
+        if (!in_array($input->getOption('mode'), ['async', 'sync'])) {
             throw new \InvalidArgumentException('Option "mode" is not valid (async|sync).');
         }
 
@@ -75,11 +75,11 @@ class CleanupSnapshotsCommand extends BaseCommand
                     $output->write(sprintf('<info>%s</info> - Cleaning up snapshots ...', $site->getName()));
                 }
 
-                $this->getNotificationBackend($input->getOption('mode'))->createAndPublish('sonata.page.cleanup_snapshots', array(
+                $this->getNotificationBackend($input->getOption('mode'))->createAndPublish('sonata.page.cleanup_snapshots', [
                     'siteId' => $site->getId(),
                     'mode' => $input->getOption('mode'),
                     'keepSnapshots' => $input->getOption('keep-snapshots'),
-                ));
+                ]);
 
                 $output->writeln(' done!');
             } else {

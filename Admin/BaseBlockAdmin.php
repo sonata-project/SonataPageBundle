@@ -49,7 +49,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
     /**
      * @var array
      */
-    protected $containerBlockTypes = array();
+    protected $containerBlockTypes = [];
 
     /**
      * {@inheritdoc}
@@ -188,12 +188,12 @@ abstract class BaseBlockAdmin extends AbstractAdmin
     public function getPersistentParameters()
     {
         if (!$this->hasRequest()) {
-            return array();
+            return [];
         }
 
-        return array(
+        return [
             'type' => $this->getRequest()->get('type'),
-        );
+        ];
     }
 
     /**
@@ -230,7 +230,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         $listMapper
             ->addIdentifier('type')
             ->add('name')
-            ->add('enabled', null, array('editable' => true))
+            ->add('enabled', null, ['editable' => true])
             ->add('updatedAt')
             ->add('position')
         ;

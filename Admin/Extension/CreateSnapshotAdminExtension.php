@@ -61,8 +61,8 @@ class CreateSnapshotAdminExtension extends AbstractAdminExtension
             return;
         }
 
-        $this->backend->createAndPublish('sonata.page.create_snapshot', array(
+        $this->backend->createAndPublish('sonata.page.create_snapshot', [
             'pageId' => $pageId,
-        ));
+        ]);
     }
 }

@@ -84,7 +84,7 @@ class BlockControllerTest extends PHPUnit_Framework_TestCase
 
         $view = $this->createBlockController($block, $blockManager)->deleteBlockAction(1);
 
-        $this->assertEquals(array('deleted' => true), $view);
+        $this->assertEquals(['deleted' => true], $view);
     }
 
     public function testDeleteBlockInvalidAction()
