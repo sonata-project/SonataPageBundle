@@ -53,23 +53,23 @@ class BlockAdminController extends Controller
             $pageAdmin->update($pageAdmin->getSubject());
         } catch (HttpException $e) {
             $status = $e->getStatusCode();
-            $result = array(
+            $result = [
                 'exception' => get_class($e),
                 'message' => $e->getMessage(),
                 'code' => $e->getCode(),
-            );
+            ];
         } catch (\Exception $e) {
             $status = 500;
-            $result = array(
+            $result = [
                 'exception' => get_class($e),
                 'message' => $e->getMessage(),
                 'code' => $e->getCode(),
-            );
+            ];
         }
 
         $result = ($result === true) ? 'ok' : $result;
 
-        return $this->renderJson(array('result' => $result), $status);
+        return $this->renderJson(['result' => $result], $status);
     }
 
     /**
@@ -87,12 +87,12 @@ class BlockAdminController extends Controller
         $parameters = $this->admin->getPersistentParameters();
 
         if (!$parameters['type']) {
-            return $this->render('SonataPageBundle:BlockAdmin:select_type.html.twig', array(
+            return $this->render('SonataPageBundle:BlockAdmin:select_type.html.twig', [
                 'services' => $this->get('sonata.block.manager')->getServicesByContext('sonata_page_bundle'),
                 'base_template' => $this->getBaseTemplate(),
                 'admin' => $this->admin,
                 'action' => 'create',
-            ));
+            ]);
         }
 
         return parent::createAction();
@@ -126,7 +126,7 @@ class BlockAdminController extends Controller
         $parent->addChildren($block);
         $this->admin->update($parent);
 
-        return $this->renderJson(array('result' => 'ok'));
+        return $this->renderJson(['result' => 'ok']);
     }
 
     /**
@@ -156,10 +156,10 @@ class BlockAdminController extends Controller
 
         $blockServices = $this->get('sonata.block.manager')->getServicesByContext('sonata_page_bundle', false);
 
-        return $this->render('SonataPageBundle:BlockAdmin:compose_preview.html.twig', array(
+        return $this->render('SonataPageBundle:BlockAdmin:compose_preview.html.twig', [
             'container' => $container,
             'child' => $block,
             'blockServices' => $blockServices,
-        ));
+        ]);
     }
 }

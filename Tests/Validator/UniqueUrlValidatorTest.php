@@ -31,7 +31,7 @@ class UniqueUrlValidatorTest extends PHPUnit_Framework_TestCase
 
         $manager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
         $manager->expects($this->once())->method('fixUrl');
-        $manager->expects($this->once())->method('findBy')->will($this->returnValue(array($page)));
+        $manager->expects($this->once())->method('findBy')->will($this->returnValue([$page]));
 
         $context = $this->getContext();
 
@@ -56,7 +56,7 @@ class UniqueUrlValidatorTest extends PHPUnit_Framework_TestCase
 
         $manager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
         $manager->expects($this->once())->method('fixUrl');
-        $manager->expects($this->once())->method('findBy')->will($this->returnValue(array($page, $pageFound)));
+        $manager->expects($this->once())->method('findBy')->will($this->returnValue([$page, $pageFound]));
 
         $context = $this->getContext();
 
@@ -82,7 +82,7 @@ class UniqueUrlValidatorTest extends PHPUnit_Framework_TestCase
 
         $manager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
         $manager->expects($this->once())->method('fixUrl');
-        $manager->expects($this->once())->method('findBy')->will($this->returnValue(array($page, $pageFound)));
+        $manager->expects($this->once())->method('findBy')->will($this->returnValue([$page, $pageFound]));
 
         $context = $this->getContext();
 

@@ -80,13 +80,13 @@ class SiteAdmin extends AbstractAdmin
         $listMapper
             ->addIdentifier('name')
             ->add('isDefault')
-            ->add('enabled', null, array('editable' => true))
+            ->add('enabled', null, ['editable' => true])
             ->add('host')
             ->add('relativePath')
             ->add('locale')
             ->add('enabledFrom')
             ->add('enabledTo')
-            ->add('create_snapshots', 'string', array('template' => 'SonataPageBundle:SiteAdmin:list_create_snapshots.html.twig'))
+            ->add('create_snapshots', 'string', ['template' => 'SonataPageBundle:SiteAdmin:list_create_snapshots.html.twig'])
         ;
     }
 
@@ -106,47 +106,47 @@ class SiteAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->with('form_site.label_general', array('class' => 'col-md-6'))
+            ->with('form_site.label_general', ['class' => 'col-md-6'])
                 ->add('name')
-                ->add('isDefault', null, array('required' => false))
-                ->add('enabled', null, array('required' => false))
+                ->add('isDefault', null, ['required' => false])
+                ->add('enabled', null, ['required' => false])
                 ->add('host')
                 ->add('locale',
                     // NEXT_MAJOR: remove these three lines and uncomment the one following
                     method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
                         'Symfony\Component\Form\Extension\Core\Type\LocaleType' :
                         'locale',
-                    array('required' => false)
+                    ['required' => false]
                 )
-                ->add('relativePath', null, array('required' => false))
+                ->add('relativePath', null, ['required' => false])
                 ->add('enabledFrom',
                     // NEXT_MAJOR: remove these three lines and uncomment the one following
                     method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
                         'Sonata\CoreBundle\Form\Type\DateTimePickerType' :
                         'sonata_type_datetime_picker',
-                    array('dp_side_by_side' => true))
+                    ['dp_side_by_side' => true])
                 ->add('enabledTo',
                     // NEXT_MAJOR: remove these three lines and uncomment the one following
                     method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
                         'Sonata\CoreBundle\Form\Type\DateTimePickerType' :
                         'sonata_type_datetime_picker',
-                    array('required' => false, 'dp_side_by_side' => true)
+                    ['required' => false, 'dp_side_by_side' => true]
                 )
             ->end()
-            ->with('form_site.label_seo', array('class' => 'col-md-6'))
-                ->add('title', null, array('required' => false))
+            ->with('form_site.label_seo', ['class' => 'col-md-6'])
+                ->add('title', null, ['required' => false])
                 ->add('metaDescription',
                     // NEXT_MAJOR: remove these three lines and uncomment the one following
                     method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
                         'Symfony\Component\Form\Extension\Core\Type\TextareaType' :
                         'textarea',
-                    array('required' => false))
+                    ['required' => false])
                 ->add('metaKeywords',
                     // NEXT_MAJOR: remove these three lines and uncomment the one following
                     method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
                         'Symfony\Component\Form\Extension\Core\Type\TextareaType' :
                         'textarea',
-                    array('required' => false))
+                    ['required' => false])
             ->end()
         ;
     }

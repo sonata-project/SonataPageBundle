@@ -59,9 +59,9 @@ class SonataPageBundleTest extends PHPUnit_Framework_TestCase
 
     public function getSlug()
     {
-        return array(
-            array('Salut comment ca va ?',  'salut-comment-ca-va'),
-            array('òüì',  'ouei'),
-        );
+        return [
+            ['Salut comment ca va ?',  'salut-comment-ca-va'],
+            ['òüì',  'ouei'],
+        ];
     }
 }

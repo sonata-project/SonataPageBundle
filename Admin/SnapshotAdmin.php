@@ -37,9 +37,9 @@ class SnapshotAdmin extends AbstractAdmin
     /**
      * {@inheritdoc}
      */
-    protected $accessMapping = array(
+    protected $accessMapping = [
         'batchToggleEnabled' => 'EDIT',
-    );
+    ];
 
     /**
      * {@inheritdoc}
@@ -69,19 +69,19 @@ class SnapshotAdmin extends AbstractAdmin
     public function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('enabled', null, array('required' => false))
+            ->add('enabled', null, ['required' => false])
             ->add('publicationDateStart',
                 // NEXT_MAJOR: remove these three lines and uncomment the one following
                 method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
                     'Sonata\CoreBundle\Form\Type\DateTimePickerType' :
                     'sonata_type_datetime_picker',
-                array('dp_side_by_side' => true))
+                ['dp_side_by_side' => true])
             ->add('publicationDateEnd',
                 // NEXT_MAJOR: remove these three lines and uncomment the one following
                 method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
                     'Sonata\CoreBundle\Form\Type\DateTimePickerType' :
                     'sonata_type_datetime_picker',
-                array('required' => false, 'dp_side_by_side' => true))
+                ['required' => false, 'dp_side_by_side' => true])
         ;
     }
 
@@ -92,10 +92,10 @@ class SnapshotAdmin extends AbstractAdmin
     {
         $actions = parent::getBatchActions();
 
-        $actions['toggle_enabled'] = array(
+        $actions['toggle_enabled'] = [
             'label' => $this->trans('toggle_enabled'),
             'ask_confirmation' => true,
-        );
+        ];
 
         return $actions;
     }
@@ -105,9 +105,9 @@ class SnapshotAdmin extends AbstractAdmin
      */
     public function postUpdate($object)
     {
-        $this->cacheManager->invalidate(array(
+        $this->cacheManager->invalidate([
             'page_id' => $object->getPage()->getId(),
-        ));
+        ]);
     }
 
     /**
@@ -115,9 +115,9 @@ class SnapshotAdmin extends AbstractAdmin
      */
     public function postPersist($object)
     {
-        $this->cacheManager->invalidate(array(
+        $this->cacheManager->invalidate([
             'page_id' => $object->getPage()->getId(),
-        ));
+        ]);
     }
 
     /**

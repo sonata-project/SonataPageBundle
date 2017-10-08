@@ -94,13 +94,13 @@ class PageExtension extends \Twig_Extension implements \Twig_Extension_InitRunti
      */
     public function getFunctions()
     {
-        return array(
-            new \Twig_SimpleFunction('sonata_page_ajax_url', array($this, 'ajaxUrl')),
-            new \Twig_SimpleFunction('sonata_page_breadcrumb', array($this, 'breadcrumb'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('sonata_page_render_container', array($this, 'renderContainer'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('sonata_page_render_block', array($this, 'renderBlock'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('controller', array($this, 'controller')),
-        );
+        return [
+            new \Twig_SimpleFunction('sonata_page_ajax_url', [$this, 'ajaxUrl']),
+            new \Twig_SimpleFunction('sonata_page_breadcrumb', [$this, 'breadcrumb'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('sonata_page_render_container', [$this, 'renderContainer'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('sonata_page_render_block', [$this, 'renderBlock'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('controller', [$this, 'controller']),
+        ];
     }
 
     /**
@@ -125,23 +125,23 @@ class PageExtension extends \Twig_Extension implements \Twig_Extension_InitRunti
      *
      * @return string
      */
-    public function breadcrumb(PageInterface $page = null, array $options = array())
+    public function breadcrumb(PageInterface $page = null, array $options = [])
     {
         if (!$page) {
             $page = $this->cmsManagerSelector->retrieve()->getCurrentPage();
         }
 
-        $options = array_merge(array(
+        $options = array_merge([
             'separator' => '',
             'current_class' => '',
             'last_separator' => '',
             'force_view_home_page' => true,
-            'container_attr' => array('class' => 'sonata-page-breadcrumbs'),
-            'elements_attr' => array(),
+            'container_attr' => ['class' => 'sonata-page-breadcrumbs'],
+            'elements_attr' => [],
             'template' => 'SonataPageBundle:Page:breadcrumb.html.twig',
-        ), $options);
+        ], $options);
 
-        $breadcrumbs = array();
+        $breadcrumbs = [];
 
         if ($page) {
             $breadcrumbs = $page->getParents();
@@ -159,11 +159,11 @@ class PageExtension extends \Twig_Extension implements \Twig_Extension_InitRunti
             }
         }
 
-        return $this->render($options['template'], array(
+        return $this->render($options['template'], [
             'page' => $page,
             'breadcrumbs' => $breadcrumbs,
             'options' => $options,
-        ));
+        ]);
     }
 
     /**
@@ -175,7 +175,7 @@ class PageExtension extends \Twig_Extension implements \Twig_Extension_InitRunti
      *
      * @return string
      */
-    public function ajaxUrl(PageBlockInterface $block, $parameters = array(), $absolute = UrlGeneratorInterface::ABSOLUTE_PATH)
+    public function ajaxUrl(PageBlockInterface $block, $parameters = [], $absolute = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
         $parameters['blockId'] = $block->getId();
 
@@ -193,7 +193,7 @@ class PageExtension extends \Twig_Extension implements \Twig_Extension_InitRunti
      *
      * @return Response
      */
-    public function renderContainer($name, $page = null, array $options = array())
+    public function renderContainer($name, $page = null, array $options = [])
     {
         $cms = $this->cmsManagerSelector->retrieve();
         $site = $this->siteSelector->retrieve();
@@ -231,23 +231,23 @@ class PageExtension extends \Twig_Extension implements \Twig_Extension_InitRunti
      *
      * @return string
      */
-    public function renderBlock(PageBlockInterface $block, array $options = array())
+    public function renderBlock(PageBlockInterface $block, array $options = [])
     {
         if ($block->getEnabled() === false && !$this->cmsManagerSelector->isEditor() && $this->hideDisabledBlocks) {
             return '';
         }
 
         // defined extra default key for the cache
-        $pageCacheKeys = array(
+        $pageCacheKeys = [
             'manager' => $block->getPage() instanceof SnapshotPageProxy ? 'snapshot' : 'page',
             'page_id' => $block->getPage()->getId(),
-        );
+        ];
 
         // build the parameters array
-        $options = array_merge(array(
+        $options = array_merge([
             'use_cache' => isset($options['use_cache']) ? $options['use_cache'] : true,
-            'extra_cache_keys' => array(),
-        ), $pageCacheKeys, $options);
+            'extra_cache_keys' => [],
+        ], $pageCacheKeys, $options);
 
         // make sure the parameters array contains all valid keys
         $options['extra_cache_keys'] = array_merge($options['extra_cache_keys'], $pageCacheKeys);
@@ -265,7 +265,7 @@ class PageExtension extends \Twig_Extension implements \Twig_Extension_InitRunti
      *
      * @return ControllerReference
      */
-    public function controller($controller, $attributes = array(), $query = array())
+    public function controller($controller, $attributes = [], $query = [])
     {
         if (!isset($attributes['pathInfo'])) {
             $site = $this->siteSelector->retrieve();
@@ -292,7 +292,7 @@ class PageExtension extends \Twig_Extension implements \Twig_Extension_InitRunti
      *
      * @return string
      */
-    private function render($template, array $parameters = array())
+    private function render($template, array $parameters = [])
     {
         if (!isset($this->resources[$template])) {
             $this->resources[$template] = $this->environment->loadTemplate($template);

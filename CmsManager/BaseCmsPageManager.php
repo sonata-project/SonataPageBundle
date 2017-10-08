@@ -30,7 +30,7 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     /**
      * @var BlockInterface[]
      */
-    protected $blocks = array();
+    protected $blocks = [];
 
     /**
      * {@inheritdoc}

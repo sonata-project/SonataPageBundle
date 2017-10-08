@@ -76,21 +76,21 @@ class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
                 continue;
             }
 
-            $menu->addChild($parent->getName(), array(
+            $menu->addChild($parent->getName(), [
                 'route' => 'page_slug',
-                'routeParameters' => array(
+                'routeParameters' => [
                     'path' => $parent->getUrl(),
-                ),
-            ));
+                ],
+            ]);
         }
 
         if (!$page->isError()) {
-            $menu->addChild($page->getName(), array(
+            $menu->addChild($page->getName(), [
                 'route' => 'page_slug',
-                'routeParameters' => array(
+                'routeParameters' => [
                     'path' => $page->getUrl(),
-                ),
-            ));
+                ],
+            ]);
         }
 
         return $menu;

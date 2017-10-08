@@ -36,10 +36,10 @@ class BlockInteractorTest extends PHPUnit_Framework_TestCase
 
         $blockInteractor = new BlockInteractor($registry, $blockManager);
 
-        $container = $blockInteractor->createNewContainer(array(
+        $container = $blockInteractor->createNewContainer([
             'enabled' => true,
             'code' => 'my-code',
-        ), function ($container) {
+        ], function ($container) {
             $container->setSetting('layout', '<div class="custom-layout">{{ CONTENT }}</div>');
         });
 

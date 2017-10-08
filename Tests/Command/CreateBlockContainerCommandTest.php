@@ -65,7 +65,7 @@ class CreateBlockContainerCommandTest extends \PHPUnit_Framework_TestCase
         $this->blockInteractor->createNewContainer(Argument::any())->willReturn($block->reveal());
 
         $page = new Page();
-        $this->pageManager->findBy(array('templateCode' => 'foo'))->willReturn(array($page));
+        $this->pageManager->findBy(['templateCode' => 'foo'])->willReturn([$page]);
         $this->pageManager->save($page)->willReturn($page);
 
         $command = new CreateBlockContainerCommand();
@@ -82,6 +82,6 @@ class CreateBlockContainerCommandTest extends \PHPUnit_Framework_TestCase
         $method->setAccessible(true);
         $method->invoke($command, $input->reveal(), $output->reveal());
 
-        $this->assertEquals($page->getBlocks(), array($block->reveal()));
+        $this->assertEquals($page->getBlocks(), [$block->reveal()]);
     }
 }

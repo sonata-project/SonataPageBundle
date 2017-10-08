@@ -81,7 +81,7 @@ class BlockJsCache implements CacheAdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function flush(array $keys = array())
+    public function flush(array $keys = [])
     {
         return true;
     }
@@ -107,7 +107,7 @@ class BlockJsCache implements CacheAdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function set(array $keys, $data, $ttl = CacheElement::DAY, array $contextualKeys = array())
+    public function set(array $keys, $data, $ttl = CacheElement::DAY, array $contextualKeys = [])
     {
         $this->validateKeys($keys);
 
@@ -135,7 +135,7 @@ class BlockJsCache implements CacheAdapterInterface
             return new Response('', 404);
         }
 
-        $options = array();
+        $options = [];
 
         $blockContext = $this->contextManager->get($block, $options);
         $response = $this->blockRenderer->render($blockContext);
@@ -245,7 +245,7 @@ class BlockJsCache implements CacheAdapterInterface
      */
     private function validateKeys(array $keys)
     {
-        foreach (array('block_id', 'page_id', 'manager', 'updated_at') as $key) {
+        foreach (['block_id', 'page_id', 'manager', 'updated_at'] as $key) {
             if (!isset($keys[$key])) {
                 throw new \RuntimeException(sprintf('Please define a `%s` key, provided: %s', $key, json_encode(array_keys($keys))));
             }

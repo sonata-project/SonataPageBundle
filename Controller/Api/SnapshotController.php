@@ -65,13 +65,13 @@ class SnapshotController extends FOSRestController
     {
         $this->setMapForOrderByParam($paramFetcher);
 
-        $supportedCriteria = array(
+        $supportedCriteria = [
             'enabled' => '',
             'site' => '',
             'page_id' => '',
             'root' => '',
             'parent' => '',
-        );
+        ];
 
         $page = $paramFetcher->get('page');
         $limit = $paramFetcher->get('count');
@@ -85,9 +85,9 @@ class SnapshotController extends FOSRestController
         }
 
         if (!$sort) {
-            $sort = array();
+            $sort = [];
         } elseif (!is_array($sort)) {
-            $sort = array($sort => 'asc');
+            $sort = [$sort => 'asc'];
         }
 
         $pager = $this->snapshotManager->getPager($criteria, $page, $limit, $sort);
@@ -147,7 +147,7 @@ class SnapshotController extends FOSRestController
 
         $this->snapshotManager->delete($snapshots);
 
-        return array('deleted' => true);
+        return ['deleted' => true];
     }
 
     /**
@@ -161,7 +161,7 @@ class SnapshotController extends FOSRestController
      */
     protected function getSnapshot($id)
     {
-        $snapshot = $this->snapshotManager->findOneBy(array('id' => $id));
+        $snapshot = $this->snapshotManager->findOneBy(['id' => $id]);
 
         if (null === $snapshot) {
             throw new NotFoundHttpException(sprintf('Snapshot (%d) not found', $id));

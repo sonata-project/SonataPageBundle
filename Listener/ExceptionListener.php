@@ -161,11 +161,11 @@ class ExceptionListener
             $creatable = !$event->getRequest()->get('_route') && $this->decoratorStrategy->isRouteUriDecorable($pathInfo);
 
             if ($creatable) {
-                $response = new Response($this->templating->render('SonataPageBundle:Page:create.html.twig', array(
+                $response = new Response($this->templating->render('SonataPageBundle:Page:create.html.twig', [
                     'pathInfo' => $pathInfo,
                     'site' => $this->siteSelector->retrieve(),
                     'creatable' => $creatable,
-                )), 404);
+                ]), 404);
 
                 $event->setResponse($response);
                 $event->stopPropagation();
@@ -188,9 +188,9 @@ class ExceptionListener
      */
     private function handleInternalError(GetResponseForExceptionEvent $event)
     {
-        $content = $this->templating->render('SonataPageBundle::internal_error.html.twig', array(
+        $content = $this->templating->render('SonataPageBundle::internal_error.html.twig', [
             'exception' => $event->getException(),
-        ));
+        ]);
 
         $event->setResponse(new Response($content, 500));
     }
@@ -249,7 +249,7 @@ class ExceptionListener
                 $event->getRequest()->setLocale($page->getSite()->getLocale());
             }
 
-            $response = $this->pageServiceManager->execute($page, $event->getRequest(), array(), new Response('', $statusCode));
+            $response = $this->pageServiceManager->execute($page, $event->getRequest(), [], new Response('', $statusCode));
         } catch (\Exception $e) {
             $this->logException($exception, $e);
 
@@ -277,9 +277,9 @@ class ExceptionListener
 
         if (null !== $this->logger) {
             if (!$originalException instanceof HttpExceptionInterface || $originalException->getStatusCode() >= 500) {
-                $this->logger->critical($message, array('exception' => $originalException));
+                $this->logger->critical($message, ['exception' => $originalException]);
             } else {
-                $this->logger->error($message, array('exception' => $originalException));
+                $this->logger->error($message, ['exception' => $originalException]);
             }
         } else {
             error_log($message);

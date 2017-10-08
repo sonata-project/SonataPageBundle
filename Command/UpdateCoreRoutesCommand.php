@@ -56,7 +56,7 @@ class UpdateCoreRoutesCommand extends BaseCommand
 
             $output->writeln(sprintf(' % 5s - % -30s - %s', 'ID', 'Name', 'Url'));
 
-            foreach ($this->getSiteManager()->findBy(array()) as $site) {
+            foreach ($this->getSiteManager()->findBy([]) as $site) {
                 $output->writeln(sprintf(' % 5s - % -30s - %s', $site->getId(), $site->getName(), $site->getUrl()));
             }
 

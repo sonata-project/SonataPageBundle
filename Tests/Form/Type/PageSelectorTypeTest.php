@@ -26,7 +26,7 @@ class PageSelectorTypeTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $pages = array();
+        $pages = [];
 
         $i = 1;
 
@@ -90,11 +90,11 @@ class PageSelectorTypeTest extends PHPUnit_Framework_TestCase
 
         $pageSelector->configureOptions($options = new OptionsResolver());
 
-        $options = $options->resolve(array('filter_choice' => array(
+        $options = $options->resolve(['filter_choice' => [
             'request_method' => 'all',
-        )));
+        ]]);
 
-        $this->assertEquals(array(), $options['choices']);
+        $this->assertEquals([], $options['choices']);
     }
 
     /**
@@ -106,9 +106,9 @@ class PageSelectorTypeTest extends PHPUnit_Framework_TestCase
 
         $pageSelector->configureOptions($options = new OptionsResolver());
 
-        $options = $options->resolve(array('site' => $this->site, 'filter_choice' => array(
+        $options = $options->resolve(['site' => $this->site, 'filter_choice' => [
             'request_method' => 'all',
-        )));
+        ]]);
 
         $this->assertCount(4, $options['choices']);
     }
@@ -119,7 +119,7 @@ class PageSelectorTypeTest extends PHPUnit_Framework_TestCase
 
         $pageSelector->configureOptions($options = new OptionsResolver());
 
-        $options = $options->resolve(array('site' => $this->site));
+        $options = $options->resolve(['site' => $this->site]);
 
         $views = $options['choices'];
 
@@ -135,9 +135,9 @@ class PageSelectorTypeTest extends PHPUnit_Framework_TestCase
 
         $pageSelector->configureOptions($options = new OptionsResolver());
 
-        $options = $options->resolve(array('site' => $this->site, 'filter_choice' => array(
+        $options = $options->resolve(['site' => $this->site, 'filter_choice' => [
             'request_method' => 'post',
-        )));
+        ]]);
 
         $views = $options['choices'];
 
@@ -153,10 +153,10 @@ class PageSelectorTypeTest extends PHPUnit_Framework_TestCase
 
         $pageSelector->configureOptions($options = new OptionsResolver());
 
-        $options = $options->resolve(array('site' => $this->site, 'filter_choice' => array(
+        $options = $options->resolve(['site' => $this->site, 'filter_choice' => [
             'hierarchy' => 'root',
             'request_method' => 'all',
-        )));
+        ]]);
 
         $views = $options['choices'];
 
@@ -170,10 +170,10 @@ class PageSelectorTypeTest extends PHPUnit_Framework_TestCase
 
         $pageSelector->configureOptions($options = new OptionsResolver());
 
-        $options = $options->resolve(array('site' => $this->site, 'filter_choice' => array(
+        $options = $options->resolve(['site' => $this->site, 'filter_choice' => [
             'hierarchy' => 'children',
             'request_method' => 'all',
-        )));
+        ]]);
 
         $views = $options['choices'];
 
@@ -189,10 +189,10 @@ class PageSelectorTypeTest extends PHPUnit_Framework_TestCase
 
         $pageSelector->configureOptions($options = new OptionsResolver());
 
-        $options = $options->resolve(array('site' => $this->site, 'filter_choice' => array(
+        $options = $options->resolve(['site' => $this->site, 'filter_choice' => [
             'hierarchy' => 'children',
             'request_method' => 'POST',
-        )));
+        ]]);
 
         $views = $options['choices'];
 

@@ -34,15 +34,15 @@ class BlockSsiCacheTest extends PHPUnit_Framework_TestCase
 
     public static function getExceptionCacheKeys()
     {
-        return array(
-            array(array()),
-            array(array('block_id' => 7)),
-            array(array('block_id' => 7, 'page_id' => 8)),
-            array(array('block_id' => 7, 'manager' => 8)),
-            array(array('manager' => 7, 'page_id' => 8)),
-            array(array('manager' => 7, 'page_id' => 8)),
-            array(array('updated_at' => 'foo')),
-        );
+        return [
+            [[]],
+            [['block_id' => 7]],
+            [['block_id' => 7, 'page_id' => 8]],
+            [['block_id' => 7, 'manager' => 8]],
+            [['manager' => 7, 'page_id' => 8]],
+            [['manager' => 7, 'page_id' => 8]],
+            [['updated_at' => 'foo']],
+        ];
     }
 
     public function testInitCache()
@@ -55,21 +55,21 @@ class BlockSsiCacheTest extends PHPUnit_Framework_TestCase
 
         $cache = new BlockSsiCache('', $router, $blockRenderer, $contextManager);
 
-        $this->assertTrue($cache->flush(array()));
+        $this->assertTrue($cache->flush([]));
         $this->assertTrue($cache->flushAll());
 
-        $keys = array(
+        $keys = [
             'block_id' => 4,
             'page_id' => 5,
             'updated_at' => 'as',
             'manager' => 'page',
-        );
+        ];
 
         $cacheElement = $cache->set($keys, 'data');
 
         $this->assertInstanceOf('Sonata\Cache\CacheElement', $cacheElement);
 
-        $this->assertTrue($cache->has(array('id' => 7)));
+        $this->assertTrue($cache->has(['id' => 7]));
 
         $cacheElement = $cache->get($keys);
 

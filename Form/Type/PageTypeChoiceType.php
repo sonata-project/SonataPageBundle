@@ -41,10 +41,10 @@ class PageTypeChoiceType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'choices' => $this->getPageTypes(),
             'choice_translation_domain' => false,
-        ));
+        ]);
     }
 
     /**
@@ -61,7 +61,7 @@ class PageTypeChoiceType extends AbstractType
     public function getPageTypes()
     {
         $services = $this->manager->getAll();
-        $types = array();
+        $types = [];
         foreach ($services as $id => $service) {
             $types[$id] = $service->getName();
         }

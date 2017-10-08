@@ -38,12 +38,12 @@ class CmsPageManager extends BaseCmsPageManager
     /**
      * @var array
      */
-    protected $pageReferences = array();
+    protected $pageReferences = [];
 
     /**
      * @var PageInterface[]
      */
-    protected $pages = array();
+    protected $pages = [];
 
     /**
      * @param PageManagerInterface     $pageManager
@@ -91,12 +91,12 @@ class CmsPageManager extends BaseCmsPageManager
         try {
             $page = $this->getPageByRouteName($site, $routeName);
         } catch (PageNotFoundException $e) {
-            $page = $this->pageManager->create(array(
+            $page = $this->pageManager->create([
                 'url' => null,
                 'routeName' => $routeName,
                 'name' => sprintf(sprintf('Internal Page : %s', $pageName)),
                 'decorate' => false,
-            ));
+            ]);
 
             $page->setSite($site);
 
@@ -131,13 +131,13 @@ class CmsPageManager extends BaseCmsPageManager
         }
 
         if (!$container) {
-            $container = $this->blockInteractor->createNewContainer(array(
+            $container = $this->blockInteractor->createNewContainer([
                 'enabled' => true,
                 'page' => $page,
                 'code' => $code,
                 'position' => 1,
                 'parent' => $parentContainer,
-            ));
+            ]);
         }
 
         return $container;
@@ -171,9 +171,9 @@ class CmsPageManager extends BaseCmsPageManager
         if (null === $id || !isset($this->pages[$id])) {
             $this->pages[$id] = false;
 
-            $parameters = array(
+            $parameters = [
                 $fieldName => $value,
-            );
+            ];
 
             if ($site) {
                 $parameters['site'] = $site->getId();

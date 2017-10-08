@@ -30,7 +30,7 @@ interface TemplateManagerInterface
      *
      * @return Response
      */
-    public function renderResponse($code, array $parameters = array(), Response $response = null);
+    public function renderResponse($code, array $parameters = [], Response $response = null);
 
     /**
      * Adds a template.

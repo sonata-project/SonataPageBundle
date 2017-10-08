@@ -300,10 +300,10 @@ class HostPathSiteSelectorTest extends PHPUnit_Framework_TestCase
 
         $site = $siteSelector->retrieve();
 
-        return array(
+        return [
             $site,
             $event,
-        );
+        ];
     }
 }
 
@@ -348,10 +348,10 @@ class HostPathSiteSelector extends BaseSiteSelector
      */
     protected function getSites(Request $request)
     {
-        return $this->_findSites(array(
-            'host' => array($request->getHost(), 'localhost'),
+        return $this->_findSites([
+            'host' => [$request->getHost(), 'localhost'],
             'enabled' => true,
-        ));
+        ]);
     }
 
     /**
@@ -363,7 +363,7 @@ class HostPathSiteSelector extends BaseSiteSelector
     {
         $all_sites = $this->_getAllSites();
 
-        $matched_sites = array();
+        $matched_sites = [];
 
         foreach ($all_sites as $site) {
             $valid_site = true;
@@ -401,7 +401,7 @@ class HostPathSiteSelector extends BaseSiteSelector
         $one_hour_from_now = new \DateTime('+1 hour');
 
         /* Create an array to hold enabled sites */
-        $sites = array();
+        $sites = [];
 
         /* Site 0 - Always valid */
         $sites[0] = new HostPathSite();
@@ -525,14 +525,14 @@ class HostPathSiteSelector extends BaseSiteSelector
     {
         $camelizedFieldName = self::_camelize($fieldName);
 
-        $getters = array();
+        $getters = [];
 
         $getters[] = 'get'.$camelizedFieldName;
         $getters[] = 'is'.$camelizedFieldName;
 
         foreach ($getters as $getter) {
             if (method_exists($object, $getter)) {
-                return call_user_func(array($object, $getter));
+                return call_user_func([$object, $getter]);
             }
         }
 

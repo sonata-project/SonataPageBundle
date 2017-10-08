@@ -75,21 +75,21 @@ class RoutePageGenerator
             $site->getUrl()
         );
 
-        $this->writeln($output, array(
+        $this->writeln($output, [
             str_repeat('=', strlen($message)),
             '',
             $message,
             '',
             str_repeat('=', strlen($message)),
-        ));
+        ]);
 
-        $knowRoutes = array();
+        $knowRoutes = [];
 
         $root = $this->pageManager->getPageByUrl($site, '/');
 
         // no root url for the given website, create one
         if (!$root) {
-            $root = $this->pageManager->create(array(
+            $root = $this->pageManager->create([
                 'routeName' => PageInterface::PAGE_ROUTE_CMS_NAME,
                 'name' => 'Homepage',
                 'url' => '/',
@@ -98,7 +98,7 @@ class RoutePageGenerator
                     $requirements['_method'] :
                     'GET|POST|HEAD|DELETE|PUT',
                 'slug' => '/',
-            ));
+            ]);
 
             $this->pageManager->save($root);
         }
@@ -109,10 +109,10 @@ class RoutePageGenerator
 
             $knowRoutes[] = $name;
 
-            $page = $this->pageManager->findOneBy(array(
+            $page = $this->pageManager->findOneBy([
                 'routeName' => $name,
                 'site' => $site->getId(),
-            ));
+            ]);
 
             $routeHostRegex = $route->compile()->getHostRegex();
 
@@ -142,7 +142,7 @@ class RoutePageGenerator
 
                 $requirements = $route->getRequirements();
 
-                $page = $this->pageManager->create(array(
+                $page = $this->pageManager->create([
                     'routeName' => $name,
                     'name' => $name,
                     'url' => $route->getPath(),
@@ -150,7 +150,7 @@ class RoutePageGenerator
                     'requestMethod' => isset($requirements['_method']) ?
                         $requirements['_method'] :
                         'GET|POST|HEAD|DELETE|PUT',
-                ));
+                ]);
             }
 
             if (!$page->getParent() && $page->getId() != $root->getId()) {
@@ -179,18 +179,18 @@ class RoutePageGenerator
 
             $knowRoutes[] = $name;
 
-            $page = $this->pageManager->findOneBy(array(
+            $page = $this->pageManager->findOneBy([
                 'routeName' => $name,
                 'site' => $site->getId(),
-            ));
+            ]);
 
             if (!$page) {
-                $params = array(
+                $params = [
                     'routeName' => $name,
                     'name' => $name,
                     'decorate' => false,
                     'site' => $site,
-                );
+                ];
 
                 $page = $this->pageManager->create($params);
 
@@ -213,7 +213,7 @@ class RoutePageGenerator
                 if (!$has) {
                     $has = true;
 
-                    $this->writeln($output, array('', 'Some hybrid pages does not exist anymore', str_repeat('-', 80)));
+                    $this->writeln($output, ['', 'Some hybrid pages does not exist anymore', str_repeat('-', 80)]);
                 }
 
                 if ($clean) {

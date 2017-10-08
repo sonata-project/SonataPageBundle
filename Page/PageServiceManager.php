@@ -30,7 +30,7 @@ class PageServiceManager implements PageServiceManagerInterface
     /**
      * @var PageServiceInterface[]
      */
-    protected $services = array();
+    protected $services = [];
 
     /**
      * @var PageServiceInterface|null
@@ -97,7 +97,7 @@ class PageServiceManager implements PageServiceManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function execute(PageInterface $page, Request $request, array $parameters = array(), Response $response = null)
+    public function execute(PageInterface $page, Request $request, array $parameters = [], Response $response = null)
     {
         $service = $this->get($page);
 
@@ -126,9 +126,9 @@ class PageServiceManager implements PageServiceManagerInterface
     {
         if ($page->getTarget()) {
             $page->addHeader('Location', $this->router->generate($page->getTarget()));
-            $response = new Response('', 302, $page->getHeaders() ?: array());
+            $response = new Response('', 302, $page->getHeaders() ?: []);
         } else {
-            $response = new Response('', 200, $page->getHeaders() ?: array());
+            $response = new Response('', 200, $page->getHeaders() ?: []);
         }
 
         return $response;

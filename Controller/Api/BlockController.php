@@ -97,9 +97,9 @@ class BlockController extends FOSRestController
     {
         $block = $id ? $this->getBlock($id) : null;
 
-        $form = $this->formFactory->createNamed(null, 'sonata_page_api_form_block', $block, array(
+        $form = $this->formFactory->createNamed(null, 'sonata_page_api_form_block', $block, [
             'csrf_protection' => false,
-        ));
+        ]);
 
         $form->submit($request);
 
@@ -108,7 +108,7 @@ class BlockController extends FOSRestController
 
             $this->blockManager->save($block);
 
-            return $this->serializeContext($block, array('sonata_api_read'));
+            return $this->serializeContext($block, ['sonata_api_read']);
         }
 
         return $form;
@@ -140,7 +140,7 @@ class BlockController extends FOSRestController
 
         $this->blockManager->delete($block);
 
-        return array('deleted' => true);
+        return ['deleted' => true];
     }
 
     /**
@@ -154,7 +154,7 @@ class BlockController extends FOSRestController
      */
     protected function getBlock($id)
     {
-        $block = $this->blockManager->findOneBy(array('id' => $id));
+        $block = $this->blockManager->findOneBy(['id' => $id]);
 
         if (null === $block) {
             throw new NotFoundHttpException(sprintf('Block (%d) not found', $id));

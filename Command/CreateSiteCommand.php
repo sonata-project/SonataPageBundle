@@ -67,7 +67,7 @@ EOT
             $helper = $this->getHelperSet()->get('dialog');
         }
 
-        $values = array(
+        $values = [
             'name' => null,
             'host' => null,
             'relativePath' => null,
@@ -76,7 +76,7 @@ EOT
             'enabledTo' => null,
             'default' => null,
             'locale' => null,
-        );
+        ];
 
         foreach ($values as $name => $value) {
             $values[$name] = $input->getOption($name);
@@ -113,9 +113,9 @@ EOT
         $site->setHost($values['host']);
         $site->setEnabledFrom($values['enabledFrom'] == '-' ? null : new \DateTime($values['enabledFrom']));
         $site->setEnabledTo($values['enabledTo'] == '-' ? null : new \DateTime($values['enabledTo']));
-        $site->setIsDefault(in_array($values['default'], array('true', 1, '1')));
+        $site->setIsDefault(in_array($values['default'], ['true', 1, '1']));
         $site->setLocale($values['locale'] == '-' ? null : $values['locale']);
-        $site->setEnabled(in_array($values['enabled'], array('true', 1, '1')));
+        $site->setEnabled(in_array($values['enabled'], ['true', 1, '1']));
 
         $info_enabledFrom = $site->getEnabledFrom() instanceof \DateTime ? $site->getEnabledFrom()->format('r') : 'ALWAYS';
         $info_enabledTo = $site->getEnabledTo() instanceof \DateTime ? $site->getEnabledTo()->format('r') : 'ALWAYS';
@@ -150,14 +150,14 @@ INFO
         if ($confirmation) {
             $this->getSiteManager()->save($site);
 
-            $output->writeln(array(
+            $output->writeln([
                 '',
                 '<info>Site created !</info>',
                 '',
                 'You can now create the related pages and snapshots by running the followings commands:',
                 sprintf('  php app/console sonata:page:update-core-routes --site=%s', $site->getId()),
                 sprintf('  php app/console sonata:page:create-snapshots --site=%s', $site->getId()),
-            ));
+            ]);
         } else {
             $output->writeln('<error>Site creation cancelled !</error>');
         }
