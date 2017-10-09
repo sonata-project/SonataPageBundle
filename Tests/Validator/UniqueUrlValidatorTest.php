@@ -22,7 +22,6 @@ class UniqueUrlValidatorTest extends PHPUnit_Framework_TestCase
      */
     public function testValidateWithNoPageFound()
     {
-        $this->skipInPHP55();
         $site = $this->createMock('Sonata\PageBundle\Model\SiteInterface');
 
         $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
@@ -43,7 +42,6 @@ class UniqueUrlValidatorTest extends PHPUnit_Framework_TestCase
 
     public function testValidateWithPageFound()
     {
-        $this->skipInPHP55();
         $site = $this->createMock('Sonata\PageBundle\Model\SiteInterface');
 
         $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
@@ -68,7 +66,6 @@ class UniqueUrlValidatorTest extends PHPUnit_Framework_TestCase
 
     public function testValidateWithRootUrlAndNoParent()
     {
-        $this->skipInPHP55();
         $site = $this->createMock('Sonata\PageBundle\Model\SiteInterface');
 
         $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
@@ -94,7 +91,6 @@ class UniqueUrlValidatorTest extends PHPUnit_Framework_TestCase
 
     public function testValidateWithPageDynamic()
     {
-        $this->skipInPHP55();
         $site = $this->createMock('Sonata\PageBundle\Model\SiteInterface');
 
         $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
@@ -120,14 +116,5 @@ class UniqueUrlValidatorTest extends PHPUnit_Framework_TestCase
             'Symfony\Component\Validator\Context\ExecutionContextInterface' :
             'Symfony\Component\Validator\ExecutionContextInterface'
         );
-    }
-
-    private function skipInPHP55()
-    {
-        if (version_compare(PHP_VERSION, '5.5.0', '>=') && version_compare(PHP_VERSION, '5.6.0', '<=')) {
-            $this->markTestSkipped(
-                'This test should be skipped in php 5.5 due to an issue with phpunit.'
-            );
-        }
     }
 }
