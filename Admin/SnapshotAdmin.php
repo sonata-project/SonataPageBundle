@@ -16,6 +16,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\Cache\CacheManagerInterface;
+use Sonata\CoreBundle\Form\Type\DateTimePickerType;
 
 /**
  * Admin definition for the Snapshot class.
@@ -70,18 +71,8 @@ class SnapshotAdmin extends AbstractAdmin
     {
         $formMapper
             ->add('enabled', null, ['required' => false])
-            ->add('publicationDateStart',
-                // NEXT_MAJOR: remove these three lines and uncomment the one following
-                method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
-                    'Sonata\CoreBundle\Form\Type\DateTimePickerType' :
-                    'sonata_type_datetime_picker',
-                ['dp_side_by_side' => true])
-            ->add('publicationDateEnd',
-                // NEXT_MAJOR: remove these three lines and uncomment the one following
-                method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
-                    'Sonata\CoreBundle\Form\Type\DateTimePickerType' :
-                    'sonata_type_datetime_picker',
-                ['required' => false, 'dp_side_by_side' => true])
+            ->add('publicationDateStart', DateTimePickerType::class, ['dp_side_by_side' => true])
+            ->add('publicationDateEnd', DateTimePickerType::class, ['required' => false, 'dp_side_by_side' => true])
         ;
     }
 
