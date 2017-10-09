@@ -11,6 +11,7 @@
 
 namespace Sonata\PageBundle\Form\Type;
 
+use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteInterface;
@@ -136,10 +137,7 @@ class PageSelectorType extends AbstractType
      */
     public function getParent()
     {
-        // NEXT_MAJOR: Remove ternary (when requirement of Symfony is >= 2.8)
-        return method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix')
-            ? 'Sonata\AdminBundle\Form\Type\ModelType'
-            : 'sonata_type_model';
+        return ModelType::class;
     }
 
     /**

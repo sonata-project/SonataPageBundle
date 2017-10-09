@@ -13,6 +13,7 @@ namespace Sonata\PageBundle\Form\Type;
 
 use Sonata\PageBundle\Page\PageServiceManagerInterface;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -76,10 +77,7 @@ class PageTypeChoiceType extends AbstractType
      */
     public function getParent()
     {
-        // NEXT_MAJOR: Remove ternary (when requirement of Symfony is >= 2.8)
-        return method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix')
-            ? 'Symfony\Component\Form\Extension\Core\Type\ChoiceType'
-            : 'choice';
+        return ChoiceType::class;
     }
 
     /**
