@@ -41,10 +41,17 @@ class TemplateChoiceType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
+        $defaults = [
             'choices' => $this->getTemplates(),
             'choice_translation_domain' => false,
-        ]);
+        ];
+
+        // NEXT_MAJOR: Remove (when requirement of Symfony is >= 3.0)
+        if (method_exists('Symfony\Component\Form\FormTypeInterface', 'setDefaultOptions')) {
+            $defaults['choices_as_values'] = true;
+        }
+
+        $resolver->setDefaults($defaults);
     }
 
     /**
@@ -62,7 +69,7 @@ class TemplateChoiceType extends AbstractType
     {
         $templates = [];
         foreach ($this->manager->getAll() as $code => $template) {
-            $templates[$code] = $template->getName();
+            $templates[$template->getName()] = $code;
         }
 
         return $templates;

@@ -41,10 +41,17 @@ class PageTypeChoiceType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
+        $defaults = [
             'choices' => $this->getPageTypes(),
             'choice_translation_domain' => false,
-        ]);
+        ];
+
+        // NEXT_MAJOR: Remove (when requirement of Symfony is >= 3.0)
+        if (method_exists('Symfony\Component\Form\FormTypeInterface', 'setDefaultOptions')) {
+            $defaults['choices_as_values'] = true;
+        }
+
+        $resolver->setDefaults($defaults);
     }
 
     /**
@@ -63,10 +70,10 @@ class PageTypeChoiceType extends AbstractType
         $services = $this->manager->getAll();
         $types = [];
         foreach ($services as $id => $service) {
-            $types[$id] = $service->getName();
+            $types[$service->getName()] = $id;
         }
 
-        asort($types);
+        ksort($types);
 
         return $types;
     }
