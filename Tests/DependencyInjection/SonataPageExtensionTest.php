@@ -21,28 +21,6 @@ use Sonata\PageBundle\DependencyInjection\SonataPageExtension;
  */
 class SonataPageExtensionTest extends AbstractExtensionTestCase
 {
-    /**
-     * Tests the configureClassesToCompile method.
-     */
-    public function testConfigureClassesToCompile()
-    {
-        if (PHP_VERSION_ID >= 70000) {
-            $this->markTestSkipped('ClassesToCompile is deprecated in symfony 3.3 and php >= 7.0');
-        }
-
-        $extension = new SonataPageExtension();
-        $extension->configureClassesToCompile();
-
-        $this->assertNotContains(
-            'Sonata\\PageBundle\\Request\\SiteRequest',
-            $extension->getClassesToCompile()
-        );
-        $this->assertNotContains(
-            'Sonata\\PageBundle\\Request\\SiteRequestInterface',
-            $extension->getClassesToCompile()
-        );
-    }
-
     public function testRequestContextServiceIsDefined()
     {
         $this->container->setParameter('kernel.bundles', []);

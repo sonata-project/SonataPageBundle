@@ -84,10 +84,6 @@ class SonataPageExtension extends Extension
         $this->configurePageDefaults($container, $config);
         $this->configurePageServices($container, $config);
 
-        if (PHP_VERSION_ID < 70000) {
-            $this->configureClassesToCompile();
-        }
-
         $container->setParameter('sonata.page.assets', $config['assets']);
         $container->setParameter('sonata.page.slugify_service', $config['slugify_service']);
 
@@ -498,74 +494,5 @@ class SonataPageExtension extends Extension
         // set the default page service to use when no page type has been set. (backward compatibility)
         $definition = $container->getDefinition('sonata.page.page_service_manager');
         $definition->addMethodCall('setDefault', [new Reference($config['default_page_service'])]);
-    }
-
-    /**
-     * Add class to compile.
-     */
-    public function configureClassesToCompile()
-    {
-        $this->addClassesToCompile([
-            'Sonata\\PageBundle\\Block\\ChildrenPagesBlockService',
-            'Sonata\\PageBundle\\Block\\ContainerBlockService',
-            'Sonata\\PageBundle\\Cache\\BlockEsiCache',
-            'Sonata\\PageBundle\\Cache\\BlockJsCache',
-            'Sonata\\PageBundle\\Cache\\BlockSsiCache',
-            'Sonata\\PageBundle\\CmsManager\\BaseCmsPageManager',
-            'Sonata\\PageBundle\\CmsManager\\CmsManagerInterface',
-            'Sonata\\PageBundle\\CmsManager\\CmsManagerSelector',
-            'Sonata\\PageBundle\\CmsManager\\CmsManagerSelectorInterface',
-            'Sonata\\PageBundle\\CmsManager\\CmsPageManager',
-            'Sonata\\PageBundle\\CmsManager\\CmsSnapshotManager',
-            'Sonata\\PageBundle\\CmsManager\\DecoratorStrategy',
-            'Sonata\\PageBundle\\CmsManager\\DecoratorStrategyInterface',
-            'Sonata\\PageBundle\\Entity\\BaseBlock',
-            'Sonata\\PageBundle\\Entity\\BasePage',
-            'Sonata\\PageBundle\\Entity\\BaseSite',
-            'Sonata\\PageBundle\\Entity\\BaseSnapshot',
-            'Sonata\\PageBundle\\Entity\\BlockInteractor',
-            'Sonata\\PageBundle\\Entity\\BlockManager',
-            'Sonata\\PageBundle\\Entity\\PageManager',
-            'Sonata\\PageBundle\\Entity\\SiteManager',
-            'Sonata\\PageBundle\\Entity\\SnapshotManager',
-            'Sonata\\PageBundle\\Entity\\Transformer',
-            'Sonata\\PageBundle\\Generator\\Mustache',
-            'Sonata\\PageBundle\\Listener\\ExceptionListener',
-            'Sonata\\PageBundle\\Listener\\RequestListener',
-            'Sonata\\PageBundle\\Listener\\ResponseListener',
-            'Sonata\\PageBundle\\Model\\Block',
-            'Sonata\\PageBundle\\Model\\BlockInteractorInterface',
-            'Sonata\\PageBundle\\Model\\Page',
-            'Sonata\\PageBundle\\Model\\PageBlockInterface',
-            'Sonata\\PageBundle\\Model\\PageInterface',
-            'Sonata\\PageBundle\\Model\\PageManagerInterface',
-            'Sonata\\PageBundle\\Model\\Site',
-            'Sonata\\PageBundle\\Model\\SiteInterface',
-            'Sonata\\PageBundle\\Model\\SiteManagerInterface',
-            'Sonata\\PageBundle\\Model\\Snapshot',
-            'Sonata\\PageBundle\\Model\\SnapshotChildrenCollection',
-            'Sonata\\PageBundle\\Model\\SnapshotInterface',
-            'Sonata\\PageBundle\\Model\\SnapshotManagerInterface',
-            'Sonata\\PageBundle\\Model\\SnapshotPageProxy',
-            'Sonata\\PageBundle\\Model\\SnapshotPageProxyFactory',
-            'Sonata\\PageBundle\\Model\\SnapshotPageProxyFactoryInterface',
-            'Sonata\\PageBundle\\Model\\SnapshotPageProxyInterface',
-            'Sonata\\PageBundle\\Model\\Template',
-            'Sonata\\PageBundle\\Page\\PageServiceManager',
-            'Sonata\\PageBundle\\Page\\PageServiceManagerInterface',
-            'Sonata\\PageBundle\\Page\\Service\\BasePageService',
-            'Sonata\\PageBundle\\Page\\Service\\DefaultPageService',
-            'Sonata\\PageBundle\\Page\\Service\\PageServiceInterface',
-            'Sonata\\PageBundle\\Page\\TemplateManager',
-            'Sonata\\PageBundle\\Page\\TemplateManagerInterface',
-            'Sonata\\PageBundle\\Request\\SiteRequestContext',
-            'Sonata\\PageBundle\\Route\\CmsPageRouter',
-            'Sonata\\PageBundle\\Site\\BaseSiteSelector',
-            'Sonata\\PageBundle\\Site\\HostPathSiteSelector',
-            'Sonata\\PageBundle\\Site\\HostSiteSelector',
-            'Sonata\\PageBundle\\Site\\SiteSelectorInterface',
-            'Sonata\\PageBundle\\Twig\\Extension\\PageExtension',
-            'Sonata\\PageBundle\\Twig\\GlobalVariables',
-        ]);
     }
 }
