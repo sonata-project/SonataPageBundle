@@ -56,7 +56,7 @@ class TemplateChoiceTypeTest extends PHPUnit_Framework_TestCase
 
         // THEN
         $this->type->getTemplates();
-        $this->assertEquals(['my_template' => 'Template 1'], $this->type->getTemplates(),
+        $this->assertEquals(['Template 1' => 'my_template'], $this->type->getTemplates(),
             'Should return an array of templates provided by the template manager');
     }
 
