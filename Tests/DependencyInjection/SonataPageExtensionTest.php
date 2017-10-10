@@ -21,65 +21,43 @@ use Sonata\PageBundle\DependencyInjection\SonataPageExtension;
  */
 class SonataPageExtensionTest extends AbstractExtensionTestCase
 {
-    /**
-     * Tests the configureClassesToCompile method.
-     */
-    public function testConfigureClassesToCompile()
-    {
-        if (PHP_VERSION_ID >= 70000) {
-            $this->markTestSkipped('ClassesToCompile is deprecated in symfony 3.3 and php >= 7.0');
-        }
-
-        $extension = new SonataPageExtension();
-        $extension->configureClassesToCompile();
-
-        $this->assertNotContains(
-            'Sonata\\PageBundle\\Request\\SiteRequest',
-            $extension->getClassesToCompile()
-        );
-        $this->assertNotContains(
-            'Sonata\\PageBundle\\Request\\SiteRequestInterface',
-            $extension->getClassesToCompile()
-        );
-    }
-
     public function testRequestContextServiceIsDefined()
     {
-        $this->container->setParameter('kernel.bundles', array());
+        $this->container->setParameter('kernel.bundles', []);
         $this->load();
         $this->assertContainerBuilderHasService('sonata.page.router.request_context');
     }
 
     public function testApiServicesAreDefinedWhenSpecificBundlesArePresent()
     {
-        $this->container->setParameter('kernel.bundles', array(
+        $this->container->setParameter('kernel.bundles', [
             'FOSRestBundle' => 42,
             'NelmioApiDocBundle' => 42,
-        ));
+        ]);
         $this->load();
         $this->assertContainerBuilderHasService('sonata.page.serializer.handler.page');
     }
 
     public function testAdminServicesAreDefinedWhenAdminBundlesIsPresent()
     {
-        $this->container->setParameter('kernel.bundles', array(
+        $this->container->setParameter('kernel.bundles', [
             'SonataAdminBundle' => 42,
-        ));
+        ]);
         $this->load();
         $this->assertContainerBuilderHasService('sonata.page.admin.page');
     }
 
     protected function getContainerExtensions()
     {
-        return array(new SonataPageExtension());
+        return [new SonataPageExtension()];
     }
 
     protected function getMinimalConfiguration()
     {
-        return array(
+        return [
             'multisite' => 'host',
             'default_template' => null,
             'templates' => null,
-        );
+        ];
     }
 }

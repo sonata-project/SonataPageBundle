@@ -15,7 +15,11 @@ use Doctrine\ORM\EntityRepository;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\BlockBundle\Block\BlockServiceInterface;
+use Sonata\BlockBundle\Form\Type\ServiceListType;
 use Sonata\PageBundle\Model\PageInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -38,11 +42,11 @@ class BlockAdmin extends BaseBlockAdmin
     /**
      * {@inheritdoc}
      */
-    protected $accessMapping = array(
+    protected $accessMapping = [
         'savePosition' => 'EDIT',
         'switchParent' => 'EDIT',
         'composePreview' => 'EDIT',
-    );
+    ];
 
     /**
      * BlockAdmin constructor.
@@ -52,7 +56,7 @@ class BlockAdmin extends BaseBlockAdmin
      * @param string $baseControllerName
      * @param array  $blocks
      */
-    public function __construct($code, $class, $baseControllerName, array $blocks = array())
+    public function __construct($code, $class, $baseControllerName, array $blocks = [])
     {
         parent::__construct($code, $class, $baseControllerName);
 
@@ -82,9 +86,9 @@ class BlockAdmin extends BaseBlockAdmin
 
         $collection->add('savePosition', 'save-position');
         $collection->add('switchParent', 'switch-parent');
-        $collection->add('composePreview', '{block_id}/compose_preview', array(
+        $collection->add('composePreview', '{block_id}/compose_preview', [
             'block_id' => null,
-        ));
+        ]);
     }
 
     /**
@@ -120,7 +124,7 @@ class BlockAdmin extends BaseBlockAdmin
         $blockType = $block->getType();
 
         $isComposer = $this->hasRequest() ? $this->getRequest()->get('composer', false) : false;
-        $generalGroupOptions = $optionsGroupOptions = array();
+        $generalGroupOptions = $optionsGroupOptions = [];
         if ($isComposer) {
             $generalGroupOptions['class'] = 'hidden';
             $optionsGroupOptions['name'] = '';
@@ -131,18 +135,13 @@ class BlockAdmin extends BaseBlockAdmin
         if (!$isComposer) {
             $formMapper->add('name');
         } else {
-            $formMapper->add('name',
-                // NEXT_MAJOR: remove these three lines and uncomment the one following
-                method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
-                    'Symfony\Component\Form\Extension\Core\Type\HiddenType' :
-                    'hidden'
-            );
+            $formMapper->add('name', HiddenType::class);
         }
 
         $formMapper->end();
 
-        $isContainerRoot = $block && in_array($blockType, array('sonata.page.block.container', 'sonata.block.service.container')) && !$this->hasParentFieldDescription();
-        $isStandardBlock = $block && !in_array($blockType, array('sonata.page.block.container', 'sonata.block.service.container')) && !$this->hasParentFieldDescription();
+        $isContainerRoot = $block && in_array($blockType, ['sonata.page.block.container', 'sonata.block.service.container']) && !$this->hasParentFieldDescription();
+        $isStandardBlock = $block && !in_array($blockType, ['sonata.page.block.container', 'sonata.block.service.container']) && !$this->hasParentFieldDescription();
 
         if ($isContainerRoot || $isStandardBlock) {
             $formMapper->with('form.field_group_general', $generalGroupOptions);
@@ -153,43 +152,29 @@ class BlockAdmin extends BaseBlockAdmin
 
             // need to investigate on this case where $page == null ... this should not be possible
             if ($isStandardBlock && $page && !empty($containerBlockTypes)) {
-                $formMapper->add('parent',
-                    // NEXT_MAJOR: remove these three lines and uncomment the one following
-                    method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
-                        'Symfony\Bridge\Doctrine\Form\Type\EntityType' :
-                        'entity',
-                    array(
-                        'class' => $this->getClass(),
-                        'query_builder' => function (EntityRepository $repository) use ($page, $containerBlockTypes) {
-                            return $repository->createQueryBuilder('a')
-                                ->andWhere('a.page = :page AND a.type IN (:types)')
-                                ->setParameters(array(
-                                        'page' => $page,
-                                        'types' => $containerBlockTypes,
-                                    ));
-                        },
-                    ), array(
-                        'admin_code' => $this->getCode(),
-                    ));
+                $formMapper->add('parent', EntityType::class, [
+                    'class' => $this->getClass(),
+                    'query_builder' => function (EntityRepository $repository) use ($page, $containerBlockTypes) {
+                        return $repository->createQueryBuilder('a')
+                            ->andWhere('a.page = :page AND a.type IN (:types)')
+                            ->setParameters([
+                                    'page' => $page,
+                                    'types' => $containerBlockTypes,
+                                ]);
+                    },
+                ], [
+                    'admin_code' => $this->getCode(),
+                ]);
             }
 
             if ($isComposer) {
-                $formMapper->add('enabled',
-                    // NEXT_MAJOR: remove these three lines and uncomment the one following
-                    method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
-                        'Symfony\Component\Form\Extension\Core\Type\HiddenType' :
-                        'hidden',
-                    array('data' => true));
+                $formMapper->add('enabled', HiddenType::class, ['data' => true]);
             } else {
                 $formMapper->add('enabled');
             }
 
             if ($isStandardBlock) {
-                $formMapper->add('position',
-                    // NEXT_MAJOR: remove these three lines and uncomment the one following
-                    method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
-                    'Symfony\Component\Form\Extension\Core\Type\IntegerType' :
-                    'integer');
+                $formMapper->add('position', IntegerType::class);
             }
 
             $formMapper->end();
@@ -206,7 +191,7 @@ class BlockAdmin extends BaseBlockAdmin
                 $settingsField = $formMapper->get('settings');
 
                 if (!$settingsField->has('template')) {
-                    $choices = array();
+                    $choices = [];
 
                     if (null !== $defaultTemplate = $this->getDefaultTemplate($service)) {
                         $choices[$defaultTemplate] = 'default';
@@ -217,7 +202,7 @@ class BlockAdmin extends BaseBlockAdmin
                     }
 
                     if (count($choices) > 1) {
-                        $settingsField->add('template', 'choice', array('choices' => $choices));
+                        $settingsField->add('template', 'choice', ['choices' => $choices]);
                     }
                 }
             }
@@ -226,21 +211,9 @@ class BlockAdmin extends BaseBlockAdmin
         } else {
             $formMapper
                 ->with('form.field_group_options', $optionsGroupOptions)
-                ->add('type',
-                    // NEXT_MAJOR: remove these three lines and uncomment the one following
-                    method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
-                        'Sonata\BlockBundle\Form\Type\ServiceListType' :
-                        'sonata_block_service_choice',
-                    array(
-                        'context' => 'sonata_page_bundle',
-                    ))
+                ->add('type', ServiceListType::class, ['context' => 'sonata_page_bundle'])
                 ->add('enabled')
-                ->add('position',
-                    // NEXT_MAJOR: remove these three lines and uncomment the one following
-                    method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
-                        'Symfony\Component\Form\Extension\Core\Type\IntegerType' :
-                        'integer'
-                )
+                ->add('position', IntegerType::class)
                 ->end()
             ;
         }

@@ -91,10 +91,10 @@ class ResponseListener
 
         // display a validation page before redirecting, so the editor can edit the current page
         if ($page && $response->isRedirection() && $this->cmsSelector->isEditor() && !$request->get('_sonata_page_skip')) {
-            $response = new Response($this->templating->render('SonataPageBundle:Page:redirect.html.twig', array(
+            $response = new Response($this->templating->render('SonataPageBundle:Page:redirect.html.twig', [
                 'response' => $response,
                 'page' => $page,
-            )));
+            ]));
 
             $response->setPrivate();
 
@@ -120,9 +120,9 @@ class ResponseListener
             return;
         }
 
-        $parameters = array(
+        $parameters = [
             'content' => $response->getContent(),
-        );
+        ];
 
         $response = $this->pageServiceManager->execute($page, $request, $parameters, $response);
 

@@ -23,17 +23,17 @@ class SiteControllerTest extends PHPUnit_Framework_TestCase
     public function testGetSitesAction()
     {
         $siteManager = $this->getMockBuilder('Sonata\PageBundle\Model\SiteManagerInterface')->getMock();
-        $siteManager->expects($this->once())->method('getPager')->will($this->returnValue(array()));
+        $siteManager->expects($this->once())->method('getPager')->will($this->returnValue([]));
 
         $paramFetcher = $this->getMockBuilder('FOS\RestBundle\Request\ParamFetcherInterface')
-            ->setMethods(array('addParam', 'setController', 'get', 'all'))
+            ->setMethods(['addParam', 'setController', 'get', 'all'])
             ->getMock();
 
         $paramFetcher->expects($this->once())->method('addParam');
         $paramFetcher->expects($this->exactly(3))->method('get');
-        $paramFetcher->expects($this->once())->method('all')->will($this->returnValue(array()));
+        $paramFetcher->expects($this->once())->method('all')->will($this->returnValue([]));
 
-        $this->assertEquals(array(), $this->createSiteController(null, $siteManager)->getSitesAction($paramFetcher));
+        $this->assertEquals([], $this->createSiteController(null, $siteManager)->getSitesAction($paramFetcher));
     }
 
     public function testGetSiteAction()
@@ -139,7 +139,7 @@ class SiteControllerTest extends PHPUnit_Framework_TestCase
 
         $view = $this->createSiteController($site, $siteManager)->deleteSiteAction(1);
 
-        $this->assertEquals(array('deleted' => true), $view);
+        $this->assertEquals(['deleted' => true], $view);
     }
 
     public function testDeleteSiteInvalidAction()

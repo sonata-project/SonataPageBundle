@@ -13,6 +13,7 @@ namespace Sonata\PageBundle\Form\Type;
 
 use Sonata\PageBundle\Page\TemplateManagerInterface;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -41,10 +42,17 @@ class TemplateChoiceType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $defaults = [
             'choices' => $this->getTemplates(),
             'choice_translation_domain' => false,
-        ));
+        ];
+
+        // NEXT_MAJOR: Remove (when requirement of Symfony is >= 3.0)
+        if (method_exists('Symfony\Component\Form\FormTypeInterface', 'setDefaultOptions')) {
+            $defaults['choices_as_values'] = true;
+        }
+
+        $resolver->setDefaults($defaults);
     }
 
     /**
@@ -60,9 +68,9 @@ class TemplateChoiceType extends AbstractType
      */
     public function getTemplates()
     {
-        $templates = array();
+        $templates = [];
         foreach ($this->manager->getAll() as $code => $template) {
-            $templates[$code] = $template->getName();
+            $templates[$template->getName()] = $code;
         }
 
         return $templates;
@@ -73,10 +81,7 @@ class TemplateChoiceType extends AbstractType
      */
     public function getParent()
     {
-        // NEXT_MAJOR: Remove ternary (when requirement of Symfony is >= 2.8)
-        return method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix')
-            ? 'Symfony\Component\Form\Extension\Core\Type\ChoiceType'
-            : 'choice';
+        return ChoiceType::class;
     }
 
     /**

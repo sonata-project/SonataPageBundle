@@ -41,7 +41,7 @@ class Template
      * @param string $path
      * @param array  $containers
      */
-    public function __construct($name, $path, array $containers = array())
+    public function __construct($name, $path, array $containers = [])
     {
         $this->name = $name;
         $this->path = $path;
@@ -84,7 +84,7 @@ class Template
             return $this->containers[$code];
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -110,12 +110,12 @@ class Template
      */
     protected function normalize(array $meta)
     {
-        return array(
+        return [
             'name' => isset($meta['name']) ? $meta['name'] : 'n/a',
             'type' => isset($meta['type']) ? $meta['type'] : self::TYPE_STATIC,
-            'blocks' => isset($meta['blocks']) ? $meta['blocks'] : array(),            // default block to be created
-            'placement' => isset($meta['placement']) ? $meta['placement'] : array(),
+            'blocks' => isset($meta['blocks']) ? $meta['blocks'] : [],            // default block to be created
+            'placement' => isset($meta['placement']) ? $meta['placement'] : [],
             'shared' => isset($meta['shared']) ? $meta['shared'] : false,
-        );
+        ];
     }
 }

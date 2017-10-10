@@ -27,7 +27,7 @@ class CacheCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $services = array();
+        $services = [];
 
         foreach ($container->findTaggedServiceIds('sonata.page.manager') as $id => $attributes) {
             if (!$container->hasDefinition($id)) {

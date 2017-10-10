@@ -106,7 +106,7 @@ abstract class BaseCommand extends ContainerAwareCommand
      */
     protected function getSites(InputInterface $input)
     {
-        $parameters = array();
+        $parameters = [];
         $identifiers = $input->getOption('site');
 
         if ('all' != current($identifiers)) {

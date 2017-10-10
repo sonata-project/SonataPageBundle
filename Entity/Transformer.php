@@ -45,7 +45,7 @@ class Transformer implements TransformerInterface
     /**
      * @var BlockInterface[]
      */
-    protected $children = array();
+    protected $children = [];
 
     /**
      * @var RegistryInterface
@@ -97,7 +97,7 @@ class Transformer implements TransformerInterface
             $snapshot->setTargetId($page->getTarget()->getId());
         }
 
-        $content = array();
+        $content = [];
         $content['id'] = $page->getId();
         $content['name'] = $page->getName();
         $content['javascript'] = $page->getJavascript();
@@ -114,7 +114,7 @@ class Transformer implements TransformerInterface
         $content['parent_id'] = $page->getParent() ? $page->getParent()->getId() : null;
         $content['target_id'] = $page->getTarget() ? $page->getTarget()->getId() : null;
 
-        $content['blocks'] = array();
+        $content['blocks'] = [];
         foreach ($page->getBlocks() as $block) {
             if ($block->getParent()) { // ignore block with a parent => must be a child of a main
                 continue;
@@ -209,11 +209,11 @@ class Transformer implements TransformerInterface
     {
         if (!isset($this->children[$parent->getId()])) {
             $date = new \Datetime();
-            $parameters = array(
+            $parameters = [
                 'publicationDateStart' => $date,
                 'publicationDateEnd' => $date,
                 'parentId' => $parent->getId(),
-            );
+            ];
 
             $manager = $this->registry->getManagerForClass($this->snapshotManager->getClass());
 
@@ -231,7 +231,7 @@ class Transformer implements TransformerInterface
                 ->getQuery()
                 ->execute();
 
-            $pages = array();
+            $pages = [];
 
             foreach ($snapshots as $snapshot) {
                 if (method_exists($this->snapshotManager, 'createSnapshotPageProxy')) {
@@ -283,7 +283,7 @@ class Transformer implements TransformerInterface
      */
     protected function createBlocks(BlockInterface $block)
     {
-        $content = array();
+        $content = [];
         $content['id'] = $block->getId();
         $content['name'] = $block->getName();
         $content['enabled'] = $block->getEnabled();
@@ -292,7 +292,7 @@ class Transformer implements TransformerInterface
         $content['type'] = $block->getType();
         $content['created_at'] = $block->getCreatedAt()->format('U');
         $content['updated_at'] = $block->getUpdatedAt()->format('U');
-        $content['blocks'] = array();
+        $content['blocks'] = [];
 
         foreach ($block->getChildren() as $child) {
             $content['blocks'][] = $this->createBlocks($child);

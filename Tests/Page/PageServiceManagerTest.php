@@ -91,7 +91,7 @@ class PageServiceManagerTest extends PHPUnit_Framework_TestCase
         $services = $this->manager->getAll();
 
         // THEN
-        $this->assertEquals(array('service1' => $service1, 'service2' => $service2), $services, 'Should return all page services');
+        $this->assertEquals(['service1' => $service1, 'service2' => $service2], $services, 'Should return all page services');
     }
 
     /**

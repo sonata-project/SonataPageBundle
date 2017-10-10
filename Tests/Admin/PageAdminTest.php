@@ -22,7 +22,7 @@ class PageAdminTest extends \PHPUnit_Framework_TestCase
 {
     public function testTabMenuHasLinksWithSubSite()
     {
-        $request = new Request(array('id' => 42));
+        $request = new Request(['id' => 42]);
         $admin = new PageAdmin(
             'admin.page',
             'Sonata\PageBundle\Model\Page',
@@ -46,17 +46,17 @@ class PageAdminTest extends \PHPUnit_Framework_TestCase
         $routeGenerator->generateMenuUrl(
             $admin,
             Argument::any(),
-            array('id' => 42),
+            ['id' => 42],
             UrlGeneratorInterface::ABSOLUTE_PATH
-        )->willReturn(array(
+        )->willReturn([
             'route' => 'page_edit',
-            'routeParameters' => array('id' => 42),
+            'routeParameters' => ['id' => 42],
             'routeAbsolute' => true,
-        ));
+        ]);
 
         $routeGenerator->generate(
             'page_slug',
-            array('path' => '/my-subsite/my-page')
+            ['path' => '/my-subsite/my-page']
         )->shouldBeCalled();
 
         $admin->setRouteGenerator($routeGenerator->reveal());

@@ -66,7 +66,7 @@ abstract class Site implements SiteInterface
     /**
      * @var array
      */
-    protected $formats = array();
+    protected $formats = [];
 
     /**
      * @var string

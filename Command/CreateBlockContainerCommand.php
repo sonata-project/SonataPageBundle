@@ -48,20 +48,20 @@ final class CreateBlockContainerCommand extends BaseCommand
         $pageManager = $this->getPageManager();
         $blockInteractor = $this->getBlockInteractor();
 
-        $pages = $pageManager->findBy(array(
+        $pages = $pageManager->findBy([
             'templateCode' => $input->getArgument('templateCode'),
-        ));
+        ]);
 
         /** @var PageInterface $page */
         foreach ($pages as $page) {
             $output->writeln(sprintf('Adding to page <info>%s</info>', $page->getName()));
 
-            $block = $blockInteractor->createNewContainer(array(
+            $block = $blockInteractor->createNewContainer([
                 'name' => $input->getArgument('blockName'),
                 'enabled' => true,
                 'page' => $page,
                 'code' => $blockCode,
-            ));
+            ]);
 
             $page->addBlocks($block);
 

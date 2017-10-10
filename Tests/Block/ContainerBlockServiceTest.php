@@ -31,16 +31,16 @@ class ContainerBlockServiceTest extends AbstractBlockServiceTestCase
         $block = new Block();
         $block->setName('block.name');
         $block->setType('core.container');
-        $block->setSettings(array(
+        $block->setSettings([
             'code' => 'block.code',
-        ));
+        ]);
 
-        $blockContext = new BlockContext($block, array(
+        $blockContext = new BlockContext($block, [
             'code' => '',
             'layout' => '{{ CONTENT }}',
             'class' => '',
             'template' => 'SonataPageBundle:Block:block_container.html.twig',
-        ));
+        ]);
 
         $service->execute($blockContext);
 
@@ -62,12 +62,12 @@ class ContainerBlockServiceTest extends AbstractBlockServiceTestCase
         $block->setType('core.container');
 
         // we manually perform the settings merge
-        $blockContext = new BlockContext($block, array(
+        $blockContext = new BlockContext($block, [
              'code' => 'block.code',
              'layout' => 'before{{ CONTENT }}after',
              'class' => '',
              'template' => 'SonataPageBundle:Block:block_container.html.twig',
-         ));
+         ]);
 
         $service->execute($blockContext);
 
@@ -88,9 +88,9 @@ class ContainerBlockServiceTest extends AbstractBlockServiceTestCase
         $block = new Block();
         $block->setName('block.name');
         $block->setType('core.container');
-        $block->setSettings(array(
+        $block->setSettings([
             'name' => 'block.code',
-        ));
+        ]);
 
         $formMapper = $this->getMockBuilder('Sonata\\AdminBundle\\Form\\FormMapper')
             ->disableOriginalConstructor()

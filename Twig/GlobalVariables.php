@@ -40,9 +40,9 @@ class GlobalVariables
      */
     public function getSiteAvailables()
     {
-        return $this->container->get('sonata.page.manager.site')->findBy(array(
+        return $this->container->get('sonata.page.manager.site')->findBy([
             'enabled' => true,
-        ));
+        ]);
     }
 
     /**

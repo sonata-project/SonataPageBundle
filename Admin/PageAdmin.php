@@ -22,10 +22,15 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\Cache\CacheManagerInterface;
 use Sonata\PageBundle\Exception\InternalErrorException;
 use Sonata\PageBundle\Exception\PageNotFoundException;
+use Sonata\PageBundle\Form\Type\PageSelectorType;
+use Sonata\PageBundle\Form\Type\PageTypeChoiceType;
+use Sonata\PageBundle\Form\Type\TemplateChoiceType;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
  * Admin definition for the Page class.
@@ -52,22 +57,22 @@ class PageAdmin extends AbstractAdmin
     /**
      * {@inheritdoc}
      */
-    protected $accessMapping = array(
+    protected $accessMapping = [
         'tree' => 'LIST',
         'compose' => 'EDIT',
-    );
+    ];
 
     /**
      * {@inheritdoc}
      */
     public function configureRoutes(RouteCollection $collection)
     {
-        $collection->add('compose', '{id}/compose', array(
+        $collection->add('compose', '{id}/compose', [
             'id' => null,
-        ));
-        $collection->add('compose_container_show', 'compose/container/{id}', array(
+        ]);
+        $collection->add('compose_container_show', 'compose/container/{id}', [
             'id' => null,
-        ));
+        ]);
 
         $collection->add('tree', 'tree');
     }
@@ -86,9 +91,9 @@ class PageAdmin extends AbstractAdmin
     public function postUpdate($object)
     {
         if ($this->cacheManager) {
-            $this->cacheManager->invalidate(array(
+            $this->cacheManager->invalidate([
                 'page_id' => $object->getId(),
-            ));
+            ]);
         }
     }
 
@@ -166,7 +171,7 @@ class PageAdmin extends AbstractAdmin
         $siteId = (null !== $siteId) ? $siteId : $this->getRequest()->get('siteId');
 
         if ($siteId) {
-            $site = $this->siteManager->findOneBy(array('id' => $siteId));
+            $site = $this->siteManager->findOneBy(['id' => $siteId]);
 
             if (!$site) {
                 throw new \RuntimeException('Unable to find the site with id='.$this->getRequest()->get('siteId'));
@@ -185,11 +190,11 @@ class PageAdmin extends AbstractAdmin
     {
         $actions = parent::getBatchActions();
 
-        $actions['snapshot'] = array(
+        $actions['snapshot'] = [
             'label' => 'create_snapshot',
             'translation_domain' => $this->getTranslationDomain(),
             'ask_confirmation' => true,
-        );
+        ];
 
         return $actions;
     }
@@ -207,7 +212,7 @@ class PageAdmin extends AbstractAdmin
      */
     public function getSites()
     {
-        return $this->siteManager->findBy(array());
+        return $this->siteManager->findBy([]);
     }
 
     /**
@@ -262,16 +267,16 @@ class PageAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('hybrid', 'text', array('template' => 'SonataPageBundle:PageAdmin:field_hybrid.html.twig'))
+            ->add('hybrid', 'text', ['template' => 'SonataPageBundle:PageAdmin:field_hybrid.html.twig'])
             ->addIdentifier('name')
             ->add('type')
             ->add('pageAlias')
-            ->add('site', null, array(
+            ->add('site', null, [
                 'sortable' => 'site.name',
-            ))
-            ->add('decorate', null, array('editable' => true))
-            ->add('enabled', null, array('editable' => true))
-            ->add('edited', null, array('editable' => true))
+            ])
+            ->add('decorate', null, ['editable' => true])
+            ->add('enabled', null, ['editable' => true])
+            ->add('edited', null, ['editable' => true])
         ;
     }
 
@@ -283,33 +288,27 @@ class PageAdmin extends AbstractAdmin
         $datagridMapper
             ->add('site')
             ->add('name')
-            // NEXT_MAJOR: remove these five lines and uncomment the one following.
-            ->add('type', null, array('field_type' => method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
-                    'Sonata\PageBundle\Form\Type\PageTypeChoiceType' :
-                    'sonata_page_type_choice',
-                )
-            )
-//            ->add('type', null, array('field_type' => 'Sonata\PageBundle\Form\Type\PageTypeChoiceType'))
+            ->add('type', null, ['field_type' => PageTypeChoiceType::class])
             ->add('pageAlias')
             ->add('parent')
             ->add('edited')
-            ->add('hybrid', 'doctrine_orm_callback', array(
+            ->add('hybrid', 'doctrine_orm_callback', [
                 'callback' => function ($queryBuilder, $alias, $field, $data) {
-                    if (in_array($data['value'], array('hybrid', 'cms'))) {
+                    if (in_array($data['value'], ['hybrid', 'cms'])) {
                         $queryBuilder->andWhere(sprintf('%s.routeName %s :routeName', $alias, $data['value'] == 'cms' ? '=' : '!='));
                         $queryBuilder->setParameter('routeName', PageInterface::PAGE_ROUTE_CMS_NAME);
                     }
                 },
-                'field_options' => array(
+                'field_options' => [
                     'required' => false,
-                    'choices' => array(
+                    'choices' => [
                         'hybrid' => $this->trans('hybrid'),
                         'cms' => $this->trans('cms'),
-                    ),
+                    ],
                     'choice_translation_domain' => false,
-                ),
+                ],
                 'field_type' => 'choice',
-            ))
+            ])
         ;
     }
 
@@ -320,20 +319,15 @@ class PageAdmin extends AbstractAdmin
     {
         // define group zoning
         $formMapper
-             ->with('form_page.group_main_label', array('class' => 'col-md-6'))->end()
-             ->with('form_page.group_seo_label', array('class' => 'col-md-6'))->end()
-             ->with('form_page.group_advanced_label', array('class' => 'col-md-6'))->end()
+             ->with('form_page.group_main_label', ['class' => 'col-md-6'])->end()
+             ->with('form_page.group_seo_label', ['class' => 'col-md-6'])->end()
+             ->with('form_page.group_advanced_label', ['class' => 'col-md-6'])->end()
         ;
 
         if (!$this->getSubject() || (!$this->getSubject()->isInternal() && !$this->getSubject()->isError())) {
             $formMapper
                 ->with('form_page.group_main_label')
-                    ->add('url',
-                        // NEXT_MAJOR: remove these three lines and uncomment the one following
-                        method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
-                            'Symfony\Component\Form\Extension\Core\Type\TextType' :
-                            'text',
-                        array('attr' => array('readonly' => 'readonly')))
+                    ->add('url', TextType::class, ['attr' => ['readonly' => true]])
                 ->end()
             ;
         }
@@ -341,7 +335,7 @@ class PageAdmin extends AbstractAdmin
         if ($this->hasSubject() && !$this->getSubject()->getId()) {
             $formMapper
                 ->with('form_page.group_main_label')
-                    ->add('site', null, array('required' => true, 'read_only' => true))
+                    ->add('site', null, ['required' => true, 'attr' => ['readonly' => true]])
                 ->end()
             ;
         }
@@ -349,7 +343,7 @@ class PageAdmin extends AbstractAdmin
         $formMapper
             ->with('form_page.group_main_label')
                 ->add('name')
-                ->add('enabled', null, array('required' => false))
+                ->add('enabled', null, ['required' => false])
                 ->add('position')
             ->end()
         ;
@@ -357,57 +351,33 @@ class PageAdmin extends AbstractAdmin
         if ($this->hasSubject() && !$this->getSubject()->isInternal()) {
             $formMapper
                 ->with('form_page.group_main_label')
-                    ->add(
-                        'type',
-                        // NEXT_MAJOR: remove these three lines and uncomment the one following
-                        method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
-                            'Sonata\PageBundle\Form\Type\PageTypeChoiceType' :
-                            'sonata_page_type_choice',
-//                        'Sonata\PageBundle\Form\Type\PageTypeChoiceType',
-                        array('required' => false)
-                    )
+                    ->add('type', PageTypeChoiceType::class, ['required' => false])
                 ->end()
             ;
         }
 
         $formMapper
             ->with('form_page.group_main_label')
-                ->add(
-                    'templateCode',
-                    // NEXT_MAJOR: remove these three lines and uncomment the one following
-                    method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
-                        'Sonata\PageBundle\Form\Type\TemplateChoiceType' :
-                        'sonata_page_template',
-//                    'Sonata\PageBundle\Form\Type\TemplateChoiceType',
-                    array('required' => true)
-                )
+                ->add('templateCode', TemplateChoiceType::class, ['required' => true])
             ->end()
         ;
 
         if (!$this->getSubject() || ($this->getSubject() && $this->getSubject()->getParent()) || ($this->getSubject() && !$this->getSubject()->getId())) {
             $formMapper
                 ->with('form_page.group_main_label')
-                    ->add(
-                        'parent',
-                        // NEXT_MAJOR: remove these three lines and uncomment the one following
-                        method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
-                            'Sonata\PageBundle\Form\Type\PageSelectorType' :
-                            'sonata_page_selector',
-//                        'Sonata\PageBundle\Form\Type\PageSelectorType',
-                        array(
-                            'page' => $this->getSubject() ?: null,
-                            'site' => $this->getSubject() ? $this->getSubject()->getSite() : null,
-                            'model_manager' => $this->getModelManager(),
-                            'class' => $this->getClass(),
-                            'required' => false,
-                            'filter_choice' => array('hierarchy' => 'root'),
-                        ), array(
-                            'admin_code' => $this->getCode(),
-                            'link_parameters' => array(
-                                'siteId' => $this->getSubject() ? $this->getSubject()->getSite()->getId() : null,
-                            ),
-                        )
-                    )
+                    ->add('parent', PageSelectorType::class, [
+                        'page' => $this->getSubject() ?: null,
+                        'site' => $this->getSubject() ? $this->getSubject()->getSite() : null,
+                        'model_manager' => $this->getModelManager(),
+                        'class' => $this->getClass(),
+                        'required' => false,
+                        'filter_choice' => ['hierarchy' => 'root'],
+                    ], [
+                        'admin_code' => $this->getCode(),
+                        'link_parameters' => [
+                            'siteId' => $this->getSubject() ? $this->getSubject()->getSite()->getId() : null,
+                        ],
+                    ])
                 ->end()
             ;
         }
@@ -415,28 +385,20 @@ class PageAdmin extends AbstractAdmin
         if (!$this->getSubject() || !$this->getSubject()->isDynamic()) {
             $formMapper
                 ->with('form_page.group_main_label')
-                    ->add('pageAlias', null, array('required' => false))
-                    ->add(
-                        'parent',
-                        // NEXT_MAJOR: remove these three lines and uncomment the one following
-                        method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
-                            'Sonata\PageBundle\Form\Type\PageSelectorType' :
-                            'sonata_page_selector',
-//                        'Sonata\PageBundle\Form\Type\PageSelectorType',
-                        array(
-                            'page' => $this->getSubject() ?: null,
-                            'site' => $this->getSubject() ? $this->getSubject()->getSite() : null,
-                            'model_manager' => $this->getModelManager(),
-                            'class' => $this->getClass(),
-                            'filter_choice' => array('request_method' => 'all'),
-                            'required' => false,
-                        ), array(
-                            'admin_code' => $this->getCode(),
-                            'link_parameters' => array(
-                                'siteId' => $this->getSubject() ? $this->getSubject()->getSite()->getId() : null,
-                            ),
-                        )
-                    )
+                    ->add('pageAlias', null, ['required' => false])
+                    ->add('parent', PageSelectorType::class, [
+                        'page' => $this->getSubject() ?: null,
+                        'site' => $this->getSubject() ? $this->getSubject()->getSite() : null,
+                        'model_manager' => $this->getModelManager(),
+                        'class' => $this->getClass(),
+                        'filter_choice' => ['request_method' => 'all'],
+                        'required' => false,
+                    ], [
+                        'admin_code' => $this->getCode(),
+                        'link_parameters' => [
+                            'siteId' => $this->getSubject() ? $this->getSubject()->getSite()->getId() : null,
+                        ],
+                    ])
                 ->end()
             ;
         }
@@ -444,59 +406,39 @@ class PageAdmin extends AbstractAdmin
         if (!$this->getSubject() || !$this->getSubject()->isHybrid()) {
             $formMapper
                 ->with('form_page.group_seo_label')
-                    ->add('slug',
-                        // NEXT_MAJOR: remove these three lines and uncomment the one following
-                        method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
-                            'Symfony\Component\Form\Extension\Core\Type\TextType' :
-                            'text',
-                        array('required' => false))
-                    ->add('customUrl',
-                        // NEXT_MAJOR: remove these three lines and uncomment the one following
-                        method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
-                            'Symfony\Component\Form\Extension\Core\Type\TextType' :
-                            'text',
-                        array('required' => false))
+                    ->add('slug', TextType::class, ['required' => false])
+                    ->add('customUrl', TextType::class, ['required' => false])
                 ->end()
             ;
         }
 
         $formMapper
-            ->with('form_page.group_seo_label', array('collapsed' => true))
-                ->add('title', null, array('required' => false))
-                ->add('metaKeyword',
-                    // NEXT_MAJOR: remove these three lines and uncomment the one following
-                    method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
-                        'Symfony\Component\Form\Extension\Core\Type\TextareaType' :
-                        'textarea',
-                    array('required' => false))
-                ->add('metaDescription',
-                    // NEXT_MAJOR: remove these three lines and uncomment the one following
-                    method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
-                        'Symfony\Component\Form\Extension\Core\Type\TextareaType' :
-                        'textarea',
-                    array('required' => false))
+            ->with('form_page.group_seo_label', ['collapsed' => true])
+                ->add('title', null, ['required' => false])
+                ->add('metaKeyword', TextareaType::class, ['required' => false])
+                ->add('metaDescription', TextareaType::class, ['required' => false])
             ->end()
         ;
 
         if ($this->hasSubject() && !$this->getSubject()->isCms()) {
             $formMapper
-                ->with('form_page.group_advanced_label', array('collapsed' => true))
-                    ->add('decorate', null, array('required' => false))
+                ->with('form_page.group_advanced_label', ['collapsed' => true])
+                    ->add('decorate', null, ['required' => false])
                 ->end()
             ;
         }
 
         $formMapper
-            ->with('form_page.group_advanced_label', array('collapsed' => true))
-                ->add('javascript', null, array('required' => false))
-                ->add('stylesheet', null, array('required' => false))
-                ->add('rawHeaders', null, array('required' => false))
+            ->with('form_page.group_advanced_label', ['collapsed' => true])
+                ->add('javascript', null, ['required' => false])
+                ->add('stylesheet', null, ['required' => false])
+                ->add('rawHeaders', null, ['required' => false])
             ->end()
         ;
 
-        $formMapper->setHelps(array(
+        $formMapper->setHelps([
             'name' => 'help_page_name',
-        ));
+        ]);
     }
 
     /**
@@ -504,7 +446,7 @@ class PageAdmin extends AbstractAdmin
      */
     protected function configureTabMenu(MenuItemInterface $menu, $action, AdminInterface $childAdmin = null)
     {
-        if (!$childAdmin && !in_array($action, array('edit'))) {
+        if (!$childAdmin && !in_array($action, ['edit'])) {
             return;
         }
 
@@ -513,19 +455,19 @@ class PageAdmin extends AbstractAdmin
         $id = $admin->getRequest()->get('id');
 
         $menu->addChild('sidemenu.link_edit_page',
-            $admin->generateMenuUrl('edit', array('id' => $id))
+            $admin->generateMenuUrl('edit', ['id' => $id])
         );
 
         $menu->addChild('sidemenu.link_compose_page',
-            $admin->generateMenuUrl('compose', array('id' => $id))
+            $admin->generateMenuUrl('compose', ['id' => $id])
         );
 
         $menu->addChild('sidemenu.link_list_blocks',
-            $admin->generateMenuUrl('sonata.page.admin.block.list', array('id' => $id))
+            $admin->generateMenuUrl('sonata.page.admin.block.list', ['id' => $id])
         );
 
         $menu->addChild('sidemenu.link_list_snapshots',
-            $admin->generateMenuUrl('sonata.page.admin.snapshot.list', array('id' => $id))
+            $admin->generateMenuUrl('sonata.page.admin.snapshot.list', ['id' => $id])
         );
 
         $page = $this->getSubject();
@@ -536,11 +478,11 @@ class PageAdmin extends AbstractAdmin
                 if (!empty($siteRelativePath)) {
                     $path = $siteRelativePath.$path;
                 }
-                $menu->addChild('view_page', array(
-                    'uri' => $this->getRouteGenerator()->generate('page_slug', array(
+                $menu->addChild('view_page', [
+                    'uri' => $this->getRouteGenerator()->generate('page_slug', [
                         'path' => $path,
-                    )),
-                ));
+                    ]),
+                ]);
             } catch (\Exception $e) {
                 // avoid crashing the admin if the route is not setup correctly
                 // throw $e;

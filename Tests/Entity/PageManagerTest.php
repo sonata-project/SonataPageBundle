@@ -23,7 +23,7 @@ class PageManagerTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $manager = new PageManager('Foo\Bar', $entityManager, array());
+        $manager = new PageManager('Foo\Bar', $entityManager, []);
 
         $page1 = new Page();
         $page1->setName('Salut comment ca va ?');
@@ -67,7 +67,7 @@ class PageManagerTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $manager = new PageManager('Foo\Bar', $entityManager, array());
+        $manager = new PageManager('Foo\Bar', $entityManager, []);
 
         $homepage = new Page();
         $homepage->setUrl('/');
@@ -94,9 +94,9 @@ class PageManagerTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $manager = new PageManager('Sonata\PageBundle\Tests\Model\Page', $entityManager, array(), array('my_route' => array('decorate' => false, 'name' => 'Salut!')));
+        $manager = new PageManager('Sonata\PageBundle\Tests\Model\Page', $entityManager, [], ['my_route' => ['decorate' => false, 'name' => 'Salut!']]);
 
-        $page = $manager->create(array('name' => 'My Name', 'routeName' => 'my_route'));
+        $page = $manager->create(['name' => 'My Name', 'routeName' => 'my_route']);
 
         $this->assertEquals('My Name', $page->getName());
         $this->assertFalse($page->getDecorate());
@@ -112,9 +112,9 @@ class PageManagerTest extends PHPUnit_Framework_TestCase
                     $self->equalTo('p.name'),
                     $self->equalTo('ASC')
                 );
-                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(array()));
+                $qb->expects($self->once())->method('setParameters')->with($self->equalTo([]));
             })
-            ->getPager(array(), 1);
+            ->getPager([], 1);
     }
 
     /**
@@ -127,7 +127,7 @@ class PageManagerTest extends PHPUnit_Framework_TestCase
         $this
             ->getPageManager(function ($qb) use ($self) {
             })
-            ->getPager(array(), 1, 10, array('invalid' => 'ASC'));
+            ->getPager([], 1, 10, ['invalid' => 'ASC']);
     }
 
     public function testGetPagerWithMultipleSort()
@@ -146,12 +146,12 @@ class PageManagerTest extends PHPUnit_Framework_TestCase
                         $self->equalTo('DESC')
                     )
                 );
-                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(array()));
+                $qb->expects($self->once())->method('setParameters')->with($self->equalTo([]));
             })
-            ->getPager(array(), 1, 10, array(
+            ->getPager([], 1, 10, [
                 'name' => 'ASC',
                 'routeName' => 'DESC',
-            ));
+            ]);
     }
 
     public function testGetPagerWithRootPages()
@@ -161,7 +161,7 @@ class PageManagerTest extends PHPUnit_Framework_TestCase
             ->getPageManager(function ($qb) use ($self) {
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('p.parent IS NULL'));
             })
-            ->getPager(array('root' => true), 1);
+            ->getPager(['root' => true], 1);
     }
 
     public function testGetPagerWithNonRootPages()
@@ -171,7 +171,7 @@ class PageManagerTest extends PHPUnit_Framework_TestCase
             ->getPageManager(function ($qb) use ($self) {
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('p.parent IS NOT NULL'));
             })
-            ->getPager(array('root' => false), 1);
+            ->getPager(['root' => false], 1);
     }
 
     public function testGetPagerWithEnabledPages()
@@ -180,9 +180,9 @@ class PageManagerTest extends PHPUnit_Framework_TestCase
         $this
             ->getPageManager(function ($qb) use ($self) {
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('p.enabled = :enabled'));
-                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(array('enabled' => true)));
+                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['enabled' => true]));
             })
-            ->getPager(array('enabled' => true), 1);
+            ->getPager(['enabled' => true], 1);
     }
 
     public function testGetPagerWithDisabledPages()
@@ -191,9 +191,9 @@ class PageManagerTest extends PHPUnit_Framework_TestCase
         $this
             ->getPageManager(function ($qb) use ($self) {
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('p.enabled = :enabled'));
-                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(array('enabled' => false)));
+                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['enabled' => false]));
             })
-            ->getPager(array('enabled' => false), 1);
+            ->getPager(['enabled' => false], 1);
     }
 
     public function testGetPagerWithEditedPages()
@@ -202,9 +202,9 @@ class PageManagerTest extends PHPUnit_Framework_TestCase
         $this
             ->getPageManager(function ($qb) use ($self) {
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('p.edited = :edited'));
-                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(array('edited' => true)));
+                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['edited' => true]));
             })
-            ->getPager(array('edited' => true), 1);
+            ->getPager(['edited' => true], 1);
     }
 
     public function testGetPagerWithNonEditedPages()
@@ -213,9 +213,9 @@ class PageManagerTest extends PHPUnit_Framework_TestCase
         $this
             ->getPageManager(function ($qb) use ($self) {
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('p.edited = :edited'));
-                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(array('edited' => false)));
+                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['edited' => false]));
             })
-            ->getPager(array('edited' => false), 1);
+            ->getPager(['edited' => false], 1);
     }
 
     public function testGetPagerWithParentChildPages()
@@ -228,9 +228,9 @@ class PageManagerTest extends PHPUnit_Framework_TestCase
                     $self->equalTo('pa')
                 );
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('pa.id = :parentId'));
-                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(array('parentId' => 13)));
+                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['parentId' => 13]));
             })
-            ->getPager(array('parent' => 13), 1);
+            ->getPager(['parent' => 13], 1);
     }
 
     public function testGetPagerWithSitePages()
@@ -243,25 +243,25 @@ class PageManagerTest extends PHPUnit_Framework_TestCase
                     $self->equalTo('s')
                 );
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('s.id = :siteId'));
-                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(array('siteId' => 13)));
+                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['siteId' => 13]));
             })
-            ->getPager(array('site' => 13), 1);
+            ->getPager(['site' => 13], 1);
     }
 
     protected function getPageManager($qbCallback)
     {
-        $query = $this->getMockForAbstractClass('Doctrine\ORM\AbstractQuery', array(), '', false, true, true, array('execute'));
+        $query = $this->getMockForAbstractClass('Doctrine\ORM\AbstractQuery', [], '', false, true, true, ['execute']);
         $query->expects($this->any())->method('execute')->will($this->returnValue(true));
 
         $qb = $this->getMockBuilder('Doctrine\ORM\QueryBuilder')
-            ->setConstructorArgs(array(
+            ->setConstructorArgs([
                 $this->getMockBuilder('Doctrine\ORM\EntityManager')
                     ->disableOriginalConstructor()
                     ->getMock(),
-            ))
+            ])
             ->getMock();
 
-        $qb->expects($this->any())->method('getRootAliases')->will($this->returnValue(array()));
+        $qb->expects($this->any())->method('getRootAliases')->will($this->returnValue([]));
         $qb->expects($this->any())->method('select')->will($this->returnValue($qb));
         $qb->expects($this->any())->method('getQuery')->will($this->returnValue($query));
 
@@ -271,10 +271,10 @@ class PageManagerTest extends PHPUnit_Framework_TestCase
         $repository->expects($this->any())->method('createQueryBuilder')->will($this->returnValue($qb));
 
         $metadata = $this->createMock('Doctrine\Common\Persistence\Mapping\ClassMetadata');
-        $metadata->expects($this->any())->method('getFieldNames')->will($this->returnValue(array(
+        $metadata->expects($this->any())->method('getFieldNames')->will($this->returnValue([
             'name',
             'routeName',
-        )));
+        ]));
 
         $em = $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock();
         $em->expects($this->any())->method('getRepository')->will($this->returnValue($repository));

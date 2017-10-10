@@ -33,7 +33,7 @@ class HostPathByLocaleSiteSelector extends HostPathSiteSelector
             throw new \RuntimeException('You must change the main Request object in the front controller (app.php) in order to use the `host_with_path_by_locale` strategy');
         }
 
-        $enabledSites = array();
+        $enabledSites = [];
         $pathInfo = null;
 
         foreach ($this->getSites($request) as $site) {

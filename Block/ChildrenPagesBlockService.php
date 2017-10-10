@@ -74,11 +74,11 @@ class ChildrenPagesBlockService extends AbstractAdminBlockService
             }
         }
 
-        return $this->renderResponse($blockContext->getTemplate(), array(
+        return $this->renderResponse($blockContext->getTemplate(), [
             'page' => $page,
             'block' => $blockContext->getBlock(),
             'settings' => $settings,
-        ), $response);
+        ], $response);
     }
 
     /**
@@ -86,30 +86,30 @@ class ChildrenPagesBlockService extends AbstractAdminBlockService
      */
     public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
     {
-        $formMapper->add('settings', 'sonata_type_immutable_array', array(
-            'keys' => array(
-                array('title', 'text', array(
+        $formMapper->add('settings', 'sonata_type_immutable_array', [
+            'keys' => [
+                ['title', 'text', [
                   'required' => false,
                     'label' => 'form.label_title',
-                )),
-                array('current', 'checkbox', array(
+                ]],
+                ['current', 'checkbox', [
                   'required' => false,
                   'label' => 'form.label_current',
-                )),
-                array('pageId', 'sonata_page_selector', array(
+                ]],
+                ['pageId', 'sonata_page_selector', [
                     'model_manager' => $formMapper->getAdmin()->getModelManager(),
                     'class' => $formMapper->getAdmin()->getClass(),
                     'site' => $block->getPage()->getSite(),
                     'required' => false,
                     'label' => 'form.label_page',
-                )),
-                array('class', 'text', array(
+                ]],
+                ['class', 'text', [
                   'required' => false,
                   'label' => 'form.label_class',
-                )),
-            ),
+                ]],
+            ],
             'translation_domain' => 'SonataPageBundle',
-        ));
+        ]);
     }
 
     /**
@@ -125,13 +125,13 @@ class ChildrenPagesBlockService extends AbstractAdminBlockService
      */
     public function configureSettings(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'current' => true,
             'pageId' => null,
             'title' => '',
             'class' => '',
             'template' => 'SonataPageBundle:Block:block_core_children_pages.html.twig',
-        ));
+        ]);
     }
 
     /**

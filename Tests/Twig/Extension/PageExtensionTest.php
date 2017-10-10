@@ -40,7 +40,6 @@ class PageExtensionTest extends PHPUnit_Framework_TestCase
 
     public function testController()
     {
-        $this->skipInPHP55();
         $cmsManager = $this->createMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
         $site = $this->createMock('Sonata\PageBundle\Model\SiteInterface');
         $site->method('getRelativePath')->willReturn('/foo/bar');
@@ -57,7 +56,7 @@ class PageExtensionTest extends PHPUnit_Framework_TestCase
             ->getMock();
         $globals->method('getRequest')->willReturn($request);
         $env = $this->createMock('Twig_Environment');
-        $env->method('getGlobals')->willReturn(array('app' => $globals));
+        $env->method('getGlobals')->willReturn(['app' => $globals]);
         $httpKernelExtension = $this->getMockBuilder('Symfony\Bridge\Twig\Extension\HttpKernelExtension')
             ->disableOriginalConstructor()
             ->getMock();
@@ -66,8 +65,8 @@ class PageExtensionTest extends PHPUnit_Framework_TestCase
         if (!method_exists('Symfony\Bridge\Twig\AppVariable', 'getToken')) {
             $httpKernelExtension->expects($this->once())->method('controller')->with(
                 'foo',
-                array('pathInfo' => '/foo/bar/'),
-                array()
+                ['pathInfo' => '/foo/bar/'],
+                []
             );
         }
         $extension->controller('foo');
@@ -75,7 +74,6 @@ class PageExtensionTest extends PHPUnit_Framework_TestCase
 
     public function testControllerWithoutSite()
     {
-        $this->skipInPHP55();
         $cmsManager = $this->createMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
         $siteSelector = $this->createMock('Sonata\PageBundle\Site\SiteSelectorInterface');
         $router = $this->createMock('Symfony\Component\Routing\RouterInterface');
@@ -89,24 +87,15 @@ class PageExtensionTest extends PHPUnit_Framework_TestCase
             ->getMock();
         $globals->method('getRequest')->willReturn($request);
         $env = $this->createMock('Twig_Environment');
-        $env->method('getGlobals')->willReturn(array('app' => $globals));
+        $env->method('getGlobals')->willReturn(['app' => $globals]);
         $httpKernelExtension = $this->getMockBuilder('Symfony\Bridge\Twig\Extension\HttpKernelExtension')
             ->disableOriginalConstructor()
             ->getMock();
         $extension = new PageExtension($cmsManager, $siteSelector, $router, $blockHelper, $httpKernelExtension);
         $extension->initRuntime($env);
         if (!method_exists('Symfony\Bridge\Twig\AppVariable', 'getToken')) {
-            $httpKernelExtension->expects($this->once())->method('controller')->with('bar', array(), array());
+            $httpKernelExtension->expects($this->once())->method('controller')->with('bar', [], []);
         }
         $extension->controller('bar');
-    }
-
-    private function skipInPHP55()
-    {
-        if (version_compare(PHP_VERSION, '5.5.0', '>=') && version_compare(PHP_VERSION, '5.6.0', '<=')) {
-            $this->markTestSkipped(
-                'This test should be skipped in php 5.5 due to an issue with phpunit.'
-            );
-        }
     }
 }

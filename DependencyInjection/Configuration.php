@@ -77,16 +77,16 @@ EOF;
                 ->info('For more information, see https://sonata-project.org/bundles/page/master/doc/reference/multisite.html')
                 ->isRequired()
                 ->validate()
-                    ->ifNotInArray(array('host', 'host_by_locale', 'host_with_path', 'host_with_path_by_locale'))
+                    ->ifNotInArray(['host', 'host_by_locale', 'host_with_path', 'host_with_path_by_locale'])
                     ->thenInvalid('Invalid multisite configuration %s. For more information, see https://sonata-project.org/bundles/page/master/doc/reference/multisite.html')
                 ->end()
             ->end()
             ->arrayNode('ignore_route_patterns')
                 ->info($ignoreRoutePatternsInfo)
-                ->defaultValue(array(
+                ->defaultValue([
                     '(.*)admin(.*)',
                     '^_(.*)',
-                ))
+                ])
                 ->prototype('scalar')->end()
             ->end()
             ->scalarNode('slugify_service')
@@ -97,7 +97,7 @@ EOF;
                 ->defaultValue('sonata.core.slugify.native')
             ->end()
             ->arrayNode('ignore_routes')
-                ->defaultValue(array(
+                ->defaultValue([
                     'sonata_page_cache_esi',
                     'sonata_page_cache_ssi',
                     'sonata_page_js_sync_cache',
@@ -106,15 +106,15 @@ EOF;
                     'sonata_cache_js_async',
                     'sonata_cache_js_sync',
                     'sonata_cache_apc',
-                ))
+                ])
                 ->prototype('scalar')->end()
             ->end()
 
             ->arrayNode('ignore_uri_patterns')
                 ->info($ignoreUriPatternsInfo)
-                ->defaultValue(array(
+                ->defaultValue([
                     'admin(.*)',
-                ))
+                ])
                 ->prototype('scalar')->end()
             ->end()
 
@@ -142,18 +142,18 @@ EOF;
                 ->addDefaultsIfNotSet()
                 ->children()
                     ->arrayNode('stylesheets')
-                        ->defaultValue(array(
+                        ->defaultValue([
                                 'bundles/sonatacore/vendor/bootstrap/dist/css/bootstrap.min.css',
                                 'bundles/sonatapage/sonata-page.front.css',
-                            ))
+                            ])
                         ->prototype('scalar')->end()
                     ->end()
                     ->arrayNode('javascripts')
-                        ->defaultValue(array(
+                        ->defaultValue([
                                 'bundles/sonatacore/vendor/jquery/dist/jquery.min.js',
                                 'bundles/sonatacore/vendor/bootstrap/dist/js/bootstrap.min.js',
                                 'bundles/sonatapage/sonata-page.front.js',
-                            ))
+                            ])
                         ->prototype('scalar')->end()
                     ->end()
                 ->end()

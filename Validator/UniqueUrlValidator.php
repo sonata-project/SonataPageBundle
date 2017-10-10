@@ -56,10 +56,10 @@ class UniqueUrlValidator extends ConstraintValidator
 
         $this->manager->fixUrl($currentPage);
 
-        $similarPages = $this->manager->findBy(array(
+        $similarPages = $this->manager->findBy([
             'site' => $currentPage->getSite(),
             'url' => $currentPage->getUrl(),
-        ));
+        ]);
 
         foreach ($similarPages as $similarPage) {
             if ($similarPage->isError() || $similarPage->isInternal() || $similarPage == $currentPage) {
@@ -91,12 +91,12 @@ class UniqueUrlValidator extends ConstraintValidator
                 $this->context->addViolationAt(
                     'url',
                     'error.uniq_url',
-                    array('%url%' => $currentPage->getUrl())
+                    ['%url%' => $currentPage->getUrl()]
                 );
 
                 return;
             }
-            $this->context->buildViolation('error.uniq_url', array('%url%' => $currentPage->getUrl()))
+            $this->context->buildViolation('error.uniq_url', ['%url%' => $currentPage->getUrl()])
                 ->atPath('url')
                 ->addViolation();
         }

@@ -40,12 +40,12 @@ class CmsSnapshotManager extends BaseCmsPageManager
     /**
      * @var array
      */
-    protected $pageReferences = array();
+    protected $pageReferences = [];
 
     /**
      * @var PageInterface[]
      */
-    protected $pages = array();
+    protected $pages = [];
 
     /**
      * @param SnapshotManagerInterface $snapshotManager
@@ -141,7 +141,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
         }
 
         if (null === $id || !isset($this->pages[$id])) {
-            $parameters = array($fieldName => $value);
+            $parameters = [$fieldName => $value];
 
             if ($site) {
                 $parameters['site'] = $site->getId();

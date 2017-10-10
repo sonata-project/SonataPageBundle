@@ -11,6 +11,7 @@
 
 namespace Sonata\PageBundle\Form\Type;
 
+use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteInterface;
@@ -46,20 +47,20 @@ class PageSelectorType extends AbstractType
     {
         $that = $this;
 
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'page' => null,
             'site' => null,
             'choices' => function (Options $opts, $previousValue) use ($that) {
                 return $that->getChoices($opts);
             },
             'choice_translation_domain' => false,
-            'filter_choice' => array(
+            'filter_choice' => [
                 'current_page' => false,
                 'request_method' => 'GET',
                 'dynamic' => true,
                 'hierarchy' => 'all',
-            ),
-        ));
+            ],
+        ]);
     }
 
     /**
@@ -78,19 +79,19 @@ class PageSelectorType extends AbstractType
     public function getChoices(Options $options)
     {
         if (!$options['site'] instanceof SiteInterface) {
-            return array();
+            return [];
         }
 
-        $filter_choice = array_merge(array(
+        $filter_choice = array_merge([
             'current_page' => false,
             'request_method' => 'GET',
             'dynamic' => true,
             'hierarchy' => 'all',
-        ), $options['filter_choice']);
+        ], $options['filter_choice']);
 
         $pages = $this->manager->loadPages($options['site']);
 
-        $choices = array();
+        $choices = [];
 
         foreach ($pages as $page) {
             // internal cannot be selected
@@ -136,10 +137,7 @@ class PageSelectorType extends AbstractType
      */
     public function getParent()
     {
-        // NEXT_MAJOR: Remove ternary (when requirement of Symfony is >= 2.8)
-        return method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix')
-            ? 'Sonata\AdminBundle\Form\Type\ModelType'
-            : 'sonata_type_model';
+        return ModelType::class;
     }
 
     /**

@@ -77,10 +77,10 @@ class ExceptionListenerTest extends PHPUnit_Framework_TestCase
         $this->cmsSelector = $this->createMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
         $this->logger = $this->createMock('Psr\Log\LoggerInterface');
 
-        $errors = array(
+        $errors = [
             '404' => 'route_404',
             '403' => 'route_403',
-        );
+        ];
 
         $this->listener = new ExceptionListener($this->siteSelector, $this->cmsSelector, false, $this->templating, $this->pageServiceManager, $this->decoratorStrategy, $errors, $this->logger);
     }

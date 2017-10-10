@@ -16,6 +16,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\Cache\CacheManagerInterface;
+use Sonata\CoreBundle\Form\Type\DateTimePickerType;
 
 /**
  * Admin definition for the Snapshot class.
@@ -37,9 +38,9 @@ class SnapshotAdmin extends AbstractAdmin
     /**
      * {@inheritdoc}
      */
-    protected $accessMapping = array(
+    protected $accessMapping = [
         'batchToggleEnabled' => 'EDIT',
-    );
+    ];
 
     /**
      * {@inheritdoc}
@@ -69,19 +70,9 @@ class SnapshotAdmin extends AbstractAdmin
     public function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('enabled', null, array('required' => false))
-            ->add('publicationDateStart',
-                // NEXT_MAJOR: remove these three lines and uncomment the one following
-                method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
-                    'Sonata\CoreBundle\Form\Type\DateTimePickerType' :
-                    'sonata_type_datetime_picker',
-                array('dp_side_by_side' => true))
-            ->add('publicationDateEnd',
-                // NEXT_MAJOR: remove these three lines and uncomment the one following
-                method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
-                    'Sonata\CoreBundle\Form\Type\DateTimePickerType' :
-                    'sonata_type_datetime_picker',
-                array('required' => false, 'dp_side_by_side' => true))
+            ->add('enabled', null, ['required' => false])
+            ->add('publicationDateStart', DateTimePickerType::class, ['dp_side_by_side' => true])
+            ->add('publicationDateEnd', DateTimePickerType::class, ['required' => false, 'dp_side_by_side' => true])
         ;
     }
 
@@ -92,10 +83,10 @@ class SnapshotAdmin extends AbstractAdmin
     {
         $actions = parent::getBatchActions();
 
-        $actions['toggle_enabled'] = array(
+        $actions['toggle_enabled'] = [
             'label' => $this->trans('toggle_enabled'),
             'ask_confirmation' => true,
-        );
+        ];
 
         return $actions;
     }
@@ -105,9 +96,9 @@ class SnapshotAdmin extends AbstractAdmin
      */
     public function postUpdate($object)
     {
-        $this->cacheManager->invalidate(array(
+        $this->cacheManager->invalidate([
             'page_id' => $object->getPage()->getId(),
-        ));
+        ]);
     }
 
     /**
@@ -115,9 +106,9 @@ class SnapshotAdmin extends AbstractAdmin
      */
     public function postPersist($object)
     {
-        $this->cacheManager->invalidate(array(
+        $this->cacheManager->invalidate([
             'page_id' => $object->getPage()->getId(),
-        ));
+        ]);
     }
 
     /**

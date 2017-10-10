@@ -42,10 +42,10 @@ class SonataPageExtension extends Extension
         // NEXT_MAJOR: remove this code block
         $definition = $container->getDefinition('sonata.page.router.request_context');
         if (method_exists($definition, 'setFactory')) {
-            $definition->setFactory(array(
+            $definition->setFactory([
                 new Reference('sonata.page.site.selector'),
                 'getRequestContext',
-            ));
+            ]);
         } else {
             $definition->setFactoryService('sonata.page.site.selector');
             $definition->setFactoryMethod('getRequestContext');
@@ -84,10 +84,6 @@ class SonataPageExtension extends Extension
         $this->configurePageDefaults($container, $config);
         $this->configurePageServices($container, $config);
 
-        if (PHP_VERSION_ID < 70000) {
-            $this->configureClassesToCompile();
-        }
-
         $container->setParameter('sonata.page.assets', $config['assets']);
         $container->setParameter('sonata.page.slugify_service', $config['slugify_service']);
 
@@ -110,7 +106,7 @@ class SonataPageExtension extends Extension
      */
     public function configurePageDefaults(ContainerBuilder $container, array $config)
     {
-        $defaults = array(
+        $defaults = [
             'templateCode' => $config['default_template'],
             'enabled' => true,
             'routeName' => null,
@@ -119,7 +115,7 @@ class SonataPageExtension extends Extension
             'url' => null,
             'requestMethod' => null,
             'decorate' => true,
-        );
+        ];
 
         $container->getDefinition('sonata.page.manager.page')
             ->replaceArgument(2, $defaults);
@@ -164,188 +160,188 @@ class SonataPageExtension extends Extension
 
         $collector = DoctrineCollector::getInstance();
 
-        $collector->addAssociation($config['class']['page'], 'mapOneToMany', array(
+        $collector->addAssociation($config['class']['page'], 'mapOneToMany', [
             'fieldName' => 'children',
             'targetEntity' => $config['class']['page'],
-            'cascade' => array(
+            'cascade' => [
                 'persist',
-             ),
+             ],
             'mappedBy' => 'parent',
             'orphanRemoval' => false,
-            'orderBy' => array(
+            'orderBy' => [
                 'position' => 'ASC',
-            ),
-        ));
+            ],
+        ]);
 
-        $collector->addAssociation($config['class']['page'], 'mapOneToMany', array(
+        $collector->addAssociation($config['class']['page'], 'mapOneToMany', [
             'fieldName' => 'blocks',
             'targetEntity' => $config['class']['block'],
-            'cascade' => array(
+            'cascade' => [
                 'remove',
                 'persist',
                 'refresh',
                 'merge',
                 'detach',
-            ),
+            ],
             'mappedBy' => 'page',
             'orphanRemoval' => false,
-            'orderBy' => array(
+            'orderBy' => [
                 'position' => 'ASC',
-            ),
-        ));
+            ],
+        ]);
 
-        $collector->addAssociation($config['class']['page'], 'mapManyToOne', array(
+        $collector->addAssociation($config['class']['page'], 'mapManyToOne', [
             'fieldName' => 'site',
             'targetEntity' => $config['class']['site'],
-            'cascade' => array(
+            'cascade' => [
                 'persist',
-            ),
+            ],
             'mappedBy' => null,
             'inversedBy' => null,
-            'joinColumns' => array(
-                array(
+            'joinColumns' => [
+                [
                     'name' => 'site_id',
                     'referencedColumnName' => 'id',
                     'onDelete' => 'CASCADE',
-                ),
-            ),
+                ],
+            ],
             'orphanRemoval' => false,
-        ));
+        ]);
 
-        $collector->addAssociation($config['class']['page'], 'mapManyToOne', array(
+        $collector->addAssociation($config['class']['page'], 'mapManyToOne', [
             'fieldName' => 'parent',
             'targetEntity' => $config['class']['page'],
-            'cascade' => array(
+            'cascade' => [
                  'persist',
-            ),
+            ],
             'mappedBy' => null,
             'inversedBy' => 'children',
-            'joinColumns' => array(
-                array(
+            'joinColumns' => [
+                [
                     'name' => 'parent_id',
                     'referencedColumnName' => 'id',
                     'onDelete' => 'CASCADE',
-                ),
-            ),
+                ],
+            ],
             'orphanRemoval' => false,
-        ));
+        ]);
 
-        $collector->addAssociation($config['class']['page'], 'mapOneToMany', array(
+        $collector->addAssociation($config['class']['page'], 'mapOneToMany', [
              'fieldName' => 'sources',
              'targetEntity' => $config['class']['page'],
-             'cascade' => array(),
+             'cascade' => [],
              'mappedBy' => 'target',
              'orphanRemoval' => false,
-        ));
+        ]);
 
-        $collector->addAssociation($config['class']['page'], 'mapManyToOne', array(
+        $collector->addAssociation($config['class']['page'], 'mapManyToOne', [
             'fieldName' => 'target',
             'targetEntity' => $config['class']['page'],
-            'cascade' => array(
+            'cascade' => [
                 'persist',
-            ),
+            ],
             'mappedBy' => null,
             'inversedBy' => 'sources',
-            'joinColumns' => array(
-                array(
+            'joinColumns' => [
+                [
                     'name' => 'target_id',
                     'referencedColumnName' => 'id',
                     'onDelete' => 'CASCADE',
-                ),
-            ),
+                ],
+            ],
             'orphanRemoval' => false,
-        ));
+        ]);
 
-        $collector->addAssociation($config['class']['block'], 'mapOneToMany', array(
+        $collector->addAssociation($config['class']['block'], 'mapOneToMany', [
             'fieldName' => 'children',
             'targetEntity' => $config['class']['block'],
-            'cascade' => array(
+            'cascade' => [
                 'remove',
                 'persist',
-            ),
+            ],
             'mappedBy' => 'parent',
             'orphanRemoval' => true,
-            'orderBy' => array(
+            'orderBy' => [
                 'position' => 'ASC',
-            ),
-        ));
+            ],
+        ]);
 
-        $collector->addAssociation($config['class']['block'], 'mapManyToOne', array(
+        $collector->addAssociation($config['class']['block'], 'mapManyToOne', [
             'fieldName' => 'parent',
             'targetEntity' => $config['class']['block'],
-            'cascade' => array(
-            ),
+            'cascade' => [
+            ],
             'mappedBy' => null,
             'inversedBy' => 'children',
-            'joinColumns' => array(
-                array(
+            'joinColumns' => [
+                [
                     'name' => 'parent_id',
                     'referencedColumnName' => 'id',
                     'onDelete' => 'CASCADE',
-                ),
-            ),
+                ],
+            ],
             'orphanRemoval' => false,
-        ));
+        ]);
 
-        $collector->addAssociation($config['class']['block'], 'mapManyToOne', array(
+        $collector->addAssociation($config['class']['block'], 'mapManyToOne', [
             'fieldName' => 'page',
             'targetEntity' => $config['class']['page'],
-            'cascade' => array(
+            'cascade' => [
                 'persist',
-            ),
+            ],
             'mappedBy' => null,
             'inversedBy' => 'blocks',
-            'joinColumns' => array(
-                array(
+            'joinColumns' => [
+                [
                     'name' => 'page_id',
                     'referencedColumnName' => 'id',
                     'onDelete' => 'CASCADE',
-                ),
-            ),
+                ],
+            ],
             'orphanRemoval' => false,
-        ));
+        ]);
 
-        $collector->addAssociation($config['class']['snapshot'], 'mapManyToOne', array(
+        $collector->addAssociation($config['class']['snapshot'], 'mapManyToOne', [
             'fieldName' => 'site',
             'targetEntity' => $config['class']['site'],
-            'cascade' => array(
+            'cascade' => [
                 'persist',
-            ),
+            ],
             'mappedBy' => null,
             'inversedBy' => null,
-            'joinColumns' => array(
-                array(
+            'joinColumns' => [
+                [
                     'name' => 'site_id',
                     'referencedColumnName' => 'id',
                     'onDelete' => 'CASCADE',
-                ),
-            ),
+                ],
+            ],
             'orphanRemoval' => false,
-        ));
+        ]);
 
-        $collector->addAssociation($config['class']['snapshot'], 'mapManyToOne', array(
+        $collector->addAssociation($config['class']['snapshot'], 'mapManyToOne', [
             'fieldName' => 'page',
             'targetEntity' => $config['class']['page'],
-            'cascade' => array(
+            'cascade' => [
                 'persist',
-            ),
+            ],
             'mappedBy' => null,
             'inversedBy' => null,
-            'joinColumns' => array(
-                array(
+            'joinColumns' => [
+                [
                     'name' => 'page_id',
                     'referencedColumnName' => 'id',
                     'onDelete' => 'CASCADE',
-                ),
-            ),
+                ],
+            ],
             'orphanRemoval' => false,
-        ));
+        ]);
 
-        $collector->addIndex($config['class']['snapshot'], 'idx_snapshot_dates_enabled', array(
+        $collector->addIndex($config['class']['snapshot'], 'idx_snapshot_dates_enabled', [
             'publication_date_start',
             'publication_date_end',
             'enabled',
-        ));
+        ]);
     }
 
     /**
@@ -403,22 +399,22 @@ class SonataPageExtension extends Extension
         $templateManager = $container->getDefinition('sonata.page.template_manager');
 
         // add all templates to manager
-        $definitions = array();
+        $definitions = [];
         foreach ($config['templates'] as $code => $info) {
-            $definition = new Definition('Sonata\PageBundle\Model\Template', array(
+            $definition = new Definition('Sonata\PageBundle\Model\Template', [
                 $info['name'],
                 $info['path'],
                 $info['containers'],
-            ));
+            ]);
 
             $definition->setPublic(false);
             $definitions[$code] = $definition;
         }
 
-        $templateManager->addMethodCall('setAll', array($definitions));
+        $templateManager->addMethodCall('setAll', [$definitions]);
 
         // set default template
-        $templateManager->addMethodCall('setDefaultTemplateCode', array($config['default_template']));
+        $templateManager->addMethodCall('setDefaultTemplateCode', [$config['default_template']]);
     }
 
     /**
@@ -433,7 +429,7 @@ class SonataPageExtension extends Extension
 
         $definitions = $config['templates_admin'];
 
-        $templateManager->addMethodCall('setTemplates', array($definitions));
+        $templateManager->addMethodCall('setTemplates', [$definitions]);
     }
 
     /**
@@ -471,7 +467,7 @@ class SonataPageExtension extends Extension
      */
     public function configureExceptions(ContainerBuilder $container, array $config)
     {
-        $exceptions = array();
+        $exceptions = [];
         foreach ($config['catch_exceptions'] as $keyWord => $codes) {
             foreach ($codes as $code) {
                 $exceptions[$code] = sprintf('_page_internal_error_%s', $keyWord);
@@ -484,7 +480,7 @@ class SonataPageExtension extends Extension
 
         // add exception pages as default rendering parameters in page templates
         $container->getDefinition('sonata.page.template_manager')
-            ->replaceArgument(1, array('error_codes' => $exceptions));
+            ->replaceArgument(1, ['error_codes' => $exceptions]);
     }
 
     /**
@@ -497,75 +493,6 @@ class SonataPageExtension extends Extension
     {
         // set the default page service to use when no page type has been set. (backward compatibility)
         $definition = $container->getDefinition('sonata.page.page_service_manager');
-        $definition->addMethodCall('setDefault', array(new Reference($config['default_page_service'])));
-    }
-
-    /**
-     * Add class to compile.
-     */
-    public function configureClassesToCompile()
-    {
-        $this->addClassesToCompile(array(
-            'Sonata\\PageBundle\\Block\\ChildrenPagesBlockService',
-            'Sonata\\PageBundle\\Block\\ContainerBlockService',
-            'Sonata\\PageBundle\\Cache\\BlockEsiCache',
-            'Sonata\\PageBundle\\Cache\\BlockJsCache',
-            'Sonata\\PageBundle\\Cache\\BlockSsiCache',
-            'Sonata\\PageBundle\\CmsManager\\BaseCmsPageManager',
-            'Sonata\\PageBundle\\CmsManager\\CmsManagerInterface',
-            'Sonata\\PageBundle\\CmsManager\\CmsManagerSelector',
-            'Sonata\\PageBundle\\CmsManager\\CmsManagerSelectorInterface',
-            'Sonata\\PageBundle\\CmsManager\\CmsPageManager',
-            'Sonata\\PageBundle\\CmsManager\\CmsSnapshotManager',
-            'Sonata\\PageBundle\\CmsManager\\DecoratorStrategy',
-            'Sonata\\PageBundle\\CmsManager\\DecoratorStrategyInterface',
-            'Sonata\\PageBundle\\Entity\\BaseBlock',
-            'Sonata\\PageBundle\\Entity\\BasePage',
-            'Sonata\\PageBundle\\Entity\\BaseSite',
-            'Sonata\\PageBundle\\Entity\\BaseSnapshot',
-            'Sonata\\PageBundle\\Entity\\BlockInteractor',
-            'Sonata\\PageBundle\\Entity\\BlockManager',
-            'Sonata\\PageBundle\\Entity\\PageManager',
-            'Sonata\\PageBundle\\Entity\\SiteManager',
-            'Sonata\\PageBundle\\Entity\\SnapshotManager',
-            'Sonata\\PageBundle\\Entity\\Transformer',
-            'Sonata\\PageBundle\\Generator\\Mustache',
-            'Sonata\\PageBundle\\Listener\\ExceptionListener',
-            'Sonata\\PageBundle\\Listener\\RequestListener',
-            'Sonata\\PageBundle\\Listener\\ResponseListener',
-            'Sonata\\PageBundle\\Model\\Block',
-            'Sonata\\PageBundle\\Model\\BlockInteractorInterface',
-            'Sonata\\PageBundle\\Model\\Page',
-            'Sonata\\PageBundle\\Model\\PageBlockInterface',
-            'Sonata\\PageBundle\\Model\\PageInterface',
-            'Sonata\\PageBundle\\Model\\PageManagerInterface',
-            'Sonata\\PageBundle\\Model\\Site',
-            'Sonata\\PageBundle\\Model\\SiteInterface',
-            'Sonata\\PageBundle\\Model\\SiteManagerInterface',
-            'Sonata\\PageBundle\\Model\\Snapshot',
-            'Sonata\\PageBundle\\Model\\SnapshotChildrenCollection',
-            'Sonata\\PageBundle\\Model\\SnapshotInterface',
-            'Sonata\\PageBundle\\Model\\SnapshotManagerInterface',
-            'Sonata\\PageBundle\\Model\\SnapshotPageProxy',
-            'Sonata\\PageBundle\\Model\\SnapshotPageProxyFactory',
-            'Sonata\\PageBundle\\Model\\SnapshotPageProxyFactoryInterface',
-            'Sonata\\PageBundle\\Model\\SnapshotPageProxyInterface',
-            'Sonata\\PageBundle\\Model\\Template',
-            'Sonata\\PageBundle\\Page\\PageServiceManager',
-            'Sonata\\PageBundle\\Page\\PageServiceManagerInterface',
-            'Sonata\\PageBundle\\Page\\Service\\BasePageService',
-            'Sonata\\PageBundle\\Page\\Service\\DefaultPageService',
-            'Sonata\\PageBundle\\Page\\Service\\PageServiceInterface',
-            'Sonata\\PageBundle\\Page\\TemplateManager',
-            'Sonata\\PageBundle\\Page\\TemplateManagerInterface',
-            'Sonata\\PageBundle\\Request\\SiteRequestContext',
-            'Sonata\\PageBundle\\Route\\CmsPageRouter',
-            'Sonata\\PageBundle\\Site\\BaseSiteSelector',
-            'Sonata\\PageBundle\\Site\\HostPathSiteSelector',
-            'Sonata\\PageBundle\\Site\\HostSiteSelector',
-            'Sonata\\PageBundle\\Site\\SiteSelectorInterface',
-            'Sonata\\PageBundle\\Twig\\Extension\\PageExtension',
-            'Sonata\\PageBundle\\Twig\\GlobalVariables',
-        ));
+        $definition->addMethodCall('setDefault', [new Reference($config['default_page_service'])]);
     }
 }

@@ -13,6 +13,7 @@ namespace Sonata\PageBundle\Form\Type;
 
 use Sonata\PageBundle\Page\PageServiceManagerInterface;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -41,10 +42,17 @@ class PageTypeChoiceType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $defaults = [
             'choices' => $this->getPageTypes(),
             'choice_translation_domain' => false,
-        ));
+        ];
+
+        // NEXT_MAJOR: Remove (when requirement of Symfony is >= 3.0)
+        if (method_exists('Symfony\Component\Form\FormTypeInterface', 'setDefaultOptions')) {
+            $defaults['choices_as_values'] = true;
+        }
+
+        $resolver->setDefaults($defaults);
     }
 
     /**
@@ -61,12 +69,12 @@ class PageTypeChoiceType extends AbstractType
     public function getPageTypes()
     {
         $services = $this->manager->getAll();
-        $types = array();
+        $types = [];
         foreach ($services as $id => $service) {
-            $types[$id] = $service->getName();
+            $types[$service->getName()] = $id;
         }
 
-        asort($types);
+        ksort($types);
 
         return $types;
     }
@@ -76,10 +84,7 @@ class PageTypeChoiceType extends AbstractType
      */
     public function getParent()
     {
-        // NEXT_MAJOR: Remove ternary (when requirement of Symfony is >= 2.8)
-        return method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix')
-            ? 'Symfony\Component\Form\Extension\Core\Type\ChoiceType'
-            : 'choice';
+        return ChoiceType::class;
     }
 
     /**

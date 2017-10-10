@@ -21,7 +21,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testParserWithInvalidTemplateMatrix()
     {
-        Parser::parse('', array());
+        Parser::parse('', []);
     }
 
     /**
@@ -30,7 +30,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testParserWithInvalidRowLength()
     {
-        Parser::parse("YYYY\nNNNNNN", array('Y' => 'top'));
+        Parser::parse("YYYY\nNNNNNN", ['Y' => 'top']);
     }
 
     /**
@@ -39,43 +39,43 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testParserWithInvalidMapping()
     {
-        Parser::parse("YYYY\nNNNNNN", array());
+        Parser::parse("YYYY\nNNNNNN", []);
     }
 
     public function testValidMapping()
     {
-        $result = Parser::parse("TTTT\nLLRR", array(
+        $result = Parser::parse("TTTT\nLLRR", [
             'T' => 'top',
             'L' => 'left',
             'R' => 'right',
-        ));
+        ]);
 
-        $expected = array(
-            'top' => array(
+        $expected = [
+            'top' => [
                 'x' => 0,
                 'y' => 0,
                 'width' => 100,
                 'height' => 50.0,
                 'right' => 0,
                 'bottom' => 50.0,
-            ),
-            'left' => array(
+            ],
+            'left' => [
                 'x' => 0,
                 'y' => 50.0,
                 'width' => 50.0,
                 'height' => 50.0,
                 'right' => 50.0,
                 'bottom' => 0.0,
-            ),
-            'right' => array(
+            ],
+            'right' => [
                 'x' => 50.0,
                 'y' => 50.0,
                 'width' => 50.0,
                 'height' => 50.0,
                 'right' => 0.0,
                 'bottom' => 0.0,
-            ),
-        );
+            ],
+        ];
 
         $this->assertEquals($expected, $result);
     }
