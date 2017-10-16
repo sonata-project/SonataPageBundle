@@ -11,13 +11,13 @@
 
 namespace Sonata\PageBundle\Tests\Controller\Api;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Controller\Api\SnapshotController;
-use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 
 /**
  * @author Benoit de Jacobet <benoit.de-jacobet@ekino.com>
  */
-class SnapshotControllerTest extends PHPUnit_Framework_TestCase
+class SnapshotControllerTest extends TestCase
 {
     public function testGetSnapshotsAction()
     {

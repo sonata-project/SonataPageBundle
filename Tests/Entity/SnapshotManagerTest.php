@@ -11,10 +11,10 @@
 
 namespace Sonata\PageBundle\Tests\Entity;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Entity\SnapshotManager;
-use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 
-class SnapshotManagerTest extends PHPUnit_Framework_TestCase
+class SnapshotManagerTest extends TestCase
 {
     public function testSetTemplates()
     {

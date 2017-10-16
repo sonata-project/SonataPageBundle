@@ -11,10 +11,10 @@
 
 namespace Sonata\PageBundle\Tests\Admin\Extension;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Admin\Extension\CreateSnapshotAdminExtension;
-use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 
-class CreateSnapshotAdminExtensionTest extends PHPUnit_Framework_TestCase
+class CreateSnapshotAdminExtensionTest extends TestCase
 {
     public function testPostUpdateOnPage()
     {

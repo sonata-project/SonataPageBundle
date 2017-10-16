@@ -11,8 +11,8 @@
 
 namespace Sonata\PageBundle\Tests\Listener;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Listener\ExceptionListener;
-use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
@@ -21,7 +21,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * Test the page bundle exception listener.
  */
-class ExceptionListenerTest extends PHPUnit_Framework_TestCase
+class ExceptionListenerTest extends TestCase
 {
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject

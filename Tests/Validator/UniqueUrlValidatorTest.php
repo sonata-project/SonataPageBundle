@@ -11,11 +11,11 @@
 
 namespace Sonata\PageBundle\Tests\Validator;
 
-use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Validator\Constraints\UniqueUrl;
 use Sonata\PageBundle\Validator\UniqueUrlValidator;
 
-class UniqueUrlValidatorTest extends PHPUnit_Framework_TestCase
+class UniqueUrlValidatorTest extends TestCase
 {
     /**
      * @group legacy

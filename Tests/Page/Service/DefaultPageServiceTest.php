@@ -11,13 +11,13 @@
 
 namespace Sonata\PageBundle\Tests\Page\Service;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Page\Service\DefaultPageService;
-use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 
 /**
  * Test the default page service.
  */
-class DefaultPageServiceTest extends PHPUnit_Framework_TestCase
+class DefaultPageServiceTest extends TestCase
 {
     /**
      * @var DefaultPageService

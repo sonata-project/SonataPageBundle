@@ -11,6 +11,7 @@
 
 namespace Sonata\Test\PageBundle\Command;
 
+use PHPUnit\Framework\TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
 use Sonata\BlockBundle\Model\BlockManagerInterface;
 use Sonata\PageBundle\Command\CloneSiteCommand;
@@ -22,7 +23,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 /**
  * @author Christian Gripp <mail@core23.de>
  */
-class CloneSiteCommandTest extends \PHPUnit_Framework_TestCase
+class CloneSiteCommandTest extends TestCase
 {
     /**
      * @var Application|ObjectProphecy

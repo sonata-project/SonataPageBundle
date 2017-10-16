@@ -11,16 +11,16 @@
 
 namespace Sonata\PageBundle\Tests\Page\Service;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Page\Service\BasePageService;
-use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Test the abstract base page service.
  */
-class BasePageServiceTest extends PHPUnit_Framework_TestCase
+class BasePageServiceTest extends TestCase
 {
     /**
      * test the service name.

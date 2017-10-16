@@ -11,6 +11,7 @@
 
 namespace Sonata\Tests\PageBundle\Command;
 
+use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Sonata\PageBundle\Command\CreateBlockContainerCommand;
@@ -20,7 +21,7 @@ use Sonata\PageBundle\Entity\PageManager;
 use Sonata\PageBundle\Tests\Model\Page;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class CreateBlockContainerCommandTest extends \PHPUnit_Framework_TestCase
+class CreateBlockContainerCommandTest extends TestCase
 {
     /**
      * @var ObjectProphecy|BlockInteractor

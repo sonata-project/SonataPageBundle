@@ -11,9 +11,10 @@
 
 namespace Sonata\PageBundle\Tests\Route;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Template\Matrix\Parser;
 
-class ParserTest extends \PHPUnit_Framework_TestCase
+class ParserTest extends TestCase
 {
     /**
      * @expectedException \InvalidArgumentException

@@ -12,8 +12,8 @@
 namespace Sonata\PageBundle\Tests;
 
 use Cocur\Slugify\Slugify;
+use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\SonataPageBundle;
-use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 
 class Page extends \Sonata\PageBundle\Model\Page
 {
@@ -28,7 +28,7 @@ class Page extends \Sonata\PageBundle\Model\Page
     }
 }
 
-class SonataPageBundleTest extends PHPUnit_Framework_TestCase
+class SonataPageBundleTest extends TestCase
 {
     /**
      * @dataProvider getSlug

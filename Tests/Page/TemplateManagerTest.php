@@ -11,15 +11,15 @@
 
 namespace Sonata\PageBundle\Tests\Page;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Page\TemplateManager;
-use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\Templating\StreamingEngineInterface;
 
 /**
  * Test the template manager.
  */
-class TemplateManagerTest extends PHPUnit_Framework_TestCase
+class TemplateManagerTest extends TestCase
 {
     /**
      * Test adding a new template.

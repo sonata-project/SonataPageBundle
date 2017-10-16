@@ -11,11 +11,11 @@
 
 namespace Sonata\PageBundle\Tests\Entity;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Entity\PageManager;
-use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 use Sonata\PageBundle\Tests\Model\Page;
 
-class PageManagerTest extends PHPUnit_Framework_TestCase
+class PageManagerTest extends TestCase
 {
     public function testFixUrl()
     {
