@@ -11,15 +11,15 @@
 
 namespace Sonata\PageBundle\Tests\Controller\Api;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Controller\AjaxController;
-use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Vincent Composieux <vincent.composieux@gmail.com>
  */
-class AjaxControllerTest extends PHPUnit_Framework_TestCase
+class AjaxControllerTest extends TestCase
 {
     /**
      * @expectedException \Sonata\BlockBundle\Exception\BlockNotFoundException

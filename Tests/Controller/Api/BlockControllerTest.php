@@ -11,14 +11,14 @@
 
 namespace Sonata\PageBundle\Tests\Controller\Api;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Controller\Api\BlockController;
-use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @author Vincent Composieux <vincent.composieux@gmail.com>
  */
-class BlockControllerTest extends PHPUnit_Framework_TestCase
+class BlockControllerTest extends TestCase
 {
     public function testGetBlockAction()
     {

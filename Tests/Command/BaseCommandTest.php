@@ -11,13 +11,13 @@
 
 namespace Sonata\PageBundle\Tests\Command;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Command\BaseCommand;
-use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 
 /**
  * @author Vincent Composieux <vincent.composieux@gmail.com>
  */
-class BaseCommandTest extends PHPUnit_Framework_TestCase
+class BaseCommandTest extends TestCase
 {
     /**
      * @var BaseCommand

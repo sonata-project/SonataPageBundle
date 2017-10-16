@@ -11,15 +11,15 @@
 
 namespace Sonata\PageBundle\Tests\Route;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Request\SiteRequestContext;
 use Sonata\PageBundle\Route\CmsPageRouter;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
-use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RequestContext;
 
-class CmsPageRouterTest extends PHPUnit_Framework_TestCase
+class CmsPageRouterTest extends TestCase
 {
     /**
      * @var CmsManagerSelectorInterface

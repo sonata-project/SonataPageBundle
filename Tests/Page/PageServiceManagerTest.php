@@ -11,13 +11,13 @@
 
 namespace Sonata\PageBundle\Tests\Page;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Page\PageServiceManager;
-use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 
 /**
  * Test the page service manager.
  */
-class PageServiceManagerTest extends PHPUnit_Framework_TestCase
+class PageServiceManagerTest extends TestCase
 {
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject

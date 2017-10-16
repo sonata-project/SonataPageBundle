@@ -11,14 +11,14 @@
 
 namespace Sonata\PageBundle\Tests\Form\Type;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Form\Type\PageSelectorType;
-use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 use Sonata\PageBundle\Tests\Model\Page;
 use Sonata\PageBundle\Tests\Model\Site;
 use Symfony\Component\Form\Extension\Core\View\ChoiceView as LegacyChoiceView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PageSelectorTypeTest extends PHPUnit_Framework_TestCase
+class PageSelectorTypeTest extends TestCase
 {
     protected $pages;
 

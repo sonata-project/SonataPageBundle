@@ -11,14 +11,14 @@
 
 namespace Sonata\PageBundle\Tests\Controller\Api;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Controller\Api\SiteController;
-use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @author Benoit de Jacobet <benoit.de-jacobet@ekino.com>
  */
-class SiteControllerTest extends PHPUnit_Framework_TestCase
+class SiteControllerTest extends TestCase
 {
     public function testGetSitesAction()
     {

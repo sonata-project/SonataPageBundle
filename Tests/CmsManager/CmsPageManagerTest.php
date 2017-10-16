@@ -11,9 +11,9 @@
 
 namespace Sonata\PageBundle\Tests\Page;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\CmsManager\CmsPageManager;
 use Sonata\PageBundle\Model\Block as AbstractBlock;
-use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 use Sonata\PageBundle\Tests\Model\Page;
 use Sonata\PageBundle\Tests\Model\Site;
 
@@ -31,7 +31,7 @@ class CmsBlock extends AbstractBlock
 /**
  * Test CmsPageManager.
  */
-class CmsPageManagerTest extends PHPUnit_Framework_TestCase
+class CmsPageManagerTest extends TestCase
 {
     /**
      * @var \Sonata\PageBundle\CmsManager\CmsPageManager

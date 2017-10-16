@@ -11,9 +11,9 @@
 
 namespace Sonata\PageBundle\Tests\Listener;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Listener\ResponseListener;
 use Sonata\PageBundle\Model\PageInterface;
-use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
@@ -21,7 +21,7 @@ use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 /**
  * Test the page bundle response listener.
  */
-class ResponseListenerTest extends PHPUnit_Framework_TestCase
+class ResponseListenerTest extends TestCase
 {
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject

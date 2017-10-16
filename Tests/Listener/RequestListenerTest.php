@@ -11,15 +11,15 @@
 
 namespace Sonata\PageBundle\Tests\Listener;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Listener\RequestListener;
-use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 /**
  * Test the page bundle request listener.
  */
-class RequestListenerTest extends PHPUnit_Framework_TestCase
+class RequestListenerTest extends TestCase
 {
     public function testValidSite()
     {

@@ -11,9 +11,9 @@
 
 namespace Sonata\PageBundle\Tests\Admin;
 
-use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class BaseBlockAdminTest extends PHPUnit_Framework_TestCase
+class BaseBlockAdminTest extends TestCase
 {
     public function testSettingAsEditedOnPreBatchDeleteAction()
     {

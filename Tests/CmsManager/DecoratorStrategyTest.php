@@ -11,13 +11,14 @@
 
 namespace Sonata\PageBundle\Tests\Page;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\CmsManager\DecoratorStrategy;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-class DecoratorStrategyTest extends \PHPUnit_Framework_TestCase
+class DecoratorStrategyTest extends TestCase
 {
     public function testIsDecorable()
     {

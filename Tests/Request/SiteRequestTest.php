@@ -11,9 +11,10 @@
 
 namespace Sonata\PageBundle\Tests\Request;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Request\SiteRequest;
 
-class SiteRequestTest extends \PHPUnit_Framework_TestCase
+class SiteRequestTest extends TestCase
 {
     public function testSiteRequest()
     {

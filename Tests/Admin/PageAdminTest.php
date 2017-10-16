@@ -12,13 +12,14 @@
 namespace Sonata\PageBundle\Tests\Admin;
 
 use Knp\Menu\MenuFactory;
+use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Sonata\PageBundle\Admin\PageAdmin;
 use Sonata\PageBundle\Tests\Model\Page;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class PageAdminTest extends \PHPUnit_Framework_TestCase
+class PageAdminTest extends TestCase
 {
     public function testTabMenuHasLinksWithSubSite()
     {

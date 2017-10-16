@@ -11,16 +11,16 @@
 
 namespace Sonata\PageBundle\Tests\Site;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Entity\BaseSite;
 use Sonata\PageBundle\Site\HostSiteSelector as BaseSiteSelector;
-use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 /**
  * @author Stephen Leavitt <stephen.leavitt@sonyatv.com>
  */
-class HostSiteSelectorTest extends PHPUnit_Framework_TestCase
+class HostSiteSelectorTest extends TestCase
 {
     /**
      * Site Test #1 - Should match "Site 0".

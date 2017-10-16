@@ -11,10 +11,10 @@
 
 namespace Sonata\PageBundle\Tests\Twig\Extension;
 
-use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Twig\Extension\PageExtension;
 
-class PageExtensionTest extends PHPUnit_Framework_TestCase
+class PageExtensionTest extends TestCase
 {
     public function testAjaxUrl()
     {
