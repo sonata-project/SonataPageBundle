@@ -11,11 +11,12 @@
 
 namespace Sonata\PageBundle\Tests\Request;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Request\RequestFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Kernel;
 
-class RequestFactoryTest extends \PHPUnit_Framework_TestCase
+class RequestFactoryTest extends TestCase
 {
     protected $hasFactory = false;
 

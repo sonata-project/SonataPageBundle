@@ -11,9 +11,9 @@
 
 namespace Sonata\PageBundle\Tests\Model;
 
-use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class PageTest extends PHPUnit_Framework_TestCase
+class PageTest extends TestCase
 {
     /**
      * NEXT_MAJOR: remove the legacy group from this test.

@@ -11,9 +11,9 @@
 
 namespace Sonata\PageBundle\Tests\Model;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\BlockBundle\Model\Block;
 use Sonata\PageBundle\Entity\BlockInteractor;
-use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 
 /**
  * BlockInteractorTest class.
@@ -22,7 +22,7 @@ use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
  *
  * @author Vincent Composieux <composieux@ekino.com>
  */
-class BlockInteractorTest extends PHPUnit_Framework_TestCase
+class BlockInteractorTest extends TestCase
 {
     /**
      * Test createNewContainer() method with some values.

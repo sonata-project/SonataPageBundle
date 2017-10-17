@@ -11,10 +11,10 @@
 
 namespace Sonata\PageBundle\Tests\Page;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Cache\BlockJsCache;
-use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 
-class BlockJsCacheTest extends PHPUnit_Framework_TestCase
+class BlockJsCacheTest extends TestCase
 {
     /**
      * @expectedException \RuntimeException

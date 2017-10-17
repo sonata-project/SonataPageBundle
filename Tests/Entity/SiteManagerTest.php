@@ -11,10 +11,10 @@
 
 namespace Sonata\PageBundle\Tests\Entity;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Entity\SiteManager;
-use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 
-class SiteManagerTest extends PHPUnit_Framework_TestCase
+class SiteManagerTest extends TestCase
 {
     public function testGetPager()
     {

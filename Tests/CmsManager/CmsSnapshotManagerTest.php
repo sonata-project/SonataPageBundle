@@ -11,9 +11,9 @@
 
 namespace Sonata\PageBundle\Tests\Page;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\CmsManager\CmsSnapshotManager;
 use Sonata\PageBundle\Model\Block;
-use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 use Sonata\PageBundle\Tests\Model\Page;
 
 class SnapshotBlock extends Block
@@ -30,7 +30,7 @@ class SnapshotBlock extends Block
 /**
  * Test CmsSnapshotManager.
  */
-class CmsSnapshotManagerTest extends PHPUnit_Framework_TestCase
+class CmsSnapshotManagerTest extends TestCase
 {
     /**
      * @var \Sonata\PageBundle\CmsManager\CmsSnapshotManager

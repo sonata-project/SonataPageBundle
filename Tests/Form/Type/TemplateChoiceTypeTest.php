@@ -11,14 +11,14 @@
 
 namespace Sonata\PageBundle\Tests\Form\Type;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Form\Type\TemplateChoiceType;
-use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Test the template choice form type.
  */
-class TemplateChoiceTypeTest extends PHPUnit_Framework_TestCase
+class TemplateChoiceTypeTest extends TestCase
 {
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject

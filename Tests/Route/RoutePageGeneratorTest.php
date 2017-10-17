@@ -11,9 +11,9 @@
 
 namespace Sonata\PageBundle\Tests\Route;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\CmsManager\DecoratorStrategy;
 use Sonata\PageBundle\Route\RoutePageGenerator;
-use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 use Sonata\PageBundle\Tests\Model\Page;
 use Symfony\Component\Console\Output\StreamOutput;
 use Symfony\Component\Routing\Route;
@@ -24,7 +24,7 @@ use Symfony\Component\Routing\RouteCollection;
  *
  * @author Vincent Composieux <vincent.composieux@gmail.com>
  */
-class RoutePageGeneratorTest extends PHPUnit_Framework_TestCase
+class RoutePageGeneratorTest extends TestCase
 {
     /**
      * @var RoutePageGenerator

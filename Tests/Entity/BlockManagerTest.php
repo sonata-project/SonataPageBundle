@@ -11,10 +11,10 @@
 
 namespace Sonata\PageBundle\Tests\Entity;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Entity\BlockManager;
-use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 
-class BlockManagerTest extends PHPUnit_Framework_TestCase
+class BlockManagerTest extends TestCase
 {
     public function testGetPager()
     {

@@ -11,10 +11,10 @@
 
 namespace Sonata\PageBundle\Tests\Model;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Model\SnapshotPageProxy;
-use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 
-class SnapshotPageProxyTest extends PHPUnit_Framework_TestCase
+class SnapshotPageProxyTest extends TestCase
 {
     public function testInterface()
     {

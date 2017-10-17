@@ -11,13 +11,13 @@
 
 namespace Sonata\PageBundle\Tests\Block;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Block\BlockContextManager;
-use Sonata\PageBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 
 /**
  * @author Sullivan Senechal <soullivaneuh@gmail.com>
  */
-class BlockContextManagerTest extends PHPUnit_Framework_TestCase
+class BlockContextManagerTest extends TestCase
 {
     public function testGetWithValidData()
     {
