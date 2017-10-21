@@ -71,31 +71,13 @@ class UniqueUrlValidator extends ConstraintValidator
             }
 
             if ('/' == $currentPage->getUrl() && !$currentPage->getParent()) {
-                // NEXT_MAJOR: remove the if block below
-                if (!method_exists($this->context, 'buildViolation')) {
-                    $this->context->addViolationAt(
-                        'parent',
-                        'error.uniq_url.parent_unselect'
-                    );
-
-                    return;
-                }
                 $this->context->buildViolation('error.uniq_url.parent_unselect')
                     ->atPath('parent')
                     ->addViolation();
 
                 return;
             }
-            // NEXT_MAJOR: remove the if block below
-            if (!method_exists($this->context, 'buildViolation')) {
-                $this->context->addViolationAt(
-                    'url',
-                    'error.uniq_url',
-                    ['%url%' => $currentPage->getUrl()]
-                );
 
-                return;
-            }
             $this->context->buildViolation('error.uniq_url', ['%url%' => $currentPage->getUrl()])
                 ->atPath('url')
                 ->addViolation();

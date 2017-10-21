@@ -14,6 +14,7 @@ namespace Sonata\PageBundle\Tests\Validator;
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Validator\Constraints\UniqueUrl;
 use Sonata\PageBundle\Validator\UniqueUrlValidator;
+use Symfony\Component\Validator\Context\ExecutionContext;
 
 class UniqueUrlValidatorTest extends TestCase
 {
@@ -111,10 +112,20 @@ class UniqueUrlValidatorTest extends TestCase
 
     private function getContext()
     {
-        return $this->createMock(
-            class_exists('Symfony\Component\Validator\Context\ExecutionContextInterface') ?
-            'Symfony\Component\Validator\Context\ExecutionContextInterface' :
-            'Symfony\Component\Validator\ExecutionContextInterface'
-        );
+        $translator = $this->createMock('Symfony\Component\Translation\TranslatorInterface');
+        $validator = $this->createMock('Symfony\Component\Validator\Validator\ValidatorInterface');
+        $contextualValidator = $this->createMock('Symfony\Component\Validator\Validator\ContextualValidatorInterface');
+
+        $context = new ExecutionContext($validator, 'root', $translator);
+
+        $context->setGroup('MyGroup');
+        $context->setNode('InvalidValue', null, null, 'property.path');
+        $context->setConstraint(new UniqueUrl());
+        $validator->expects($this->any())
+            ->method('inContext')
+            ->with($context)
+            ->will($this->returnValue($contextualValidator));
+
+        return $context;
     }
 }

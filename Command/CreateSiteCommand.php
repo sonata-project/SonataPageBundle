@@ -58,14 +58,7 @@ EOT
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        /*
-         * NEXT_MAJOR: remove if statement and use the question helper only (true value of if) when dropping sf < 2.5
-         */
-        if ($this->getHelperSet()->has('question')) {
-            $helper = $this->getHelperSet()->get('question');
-        } else {
-            $helper = $this->getHelperSet()->get('dialog');
-        }
+        $helper = $this->getHelper('question');
 
         $values = [
             'name' => null,
@@ -82,24 +75,8 @@ EOT
             $values[$name] = $input->getOption($name);
 
             while (null == $values[$name]) {
-                /*
-                 * NEXT_MAJOR: remove if statement and use the question helper only (true value of if) when dropping sf < 2.5
-                 */
-                if ($this->getHelperSet()->has('question')) {
-                    $question = new Question(
-                        sprintf('Please define a value for <info>Site.%s</info> : ', $name)
-                    );
-                    $values[$name] = $helper->ask(
-                        $input,
-                        $output,
-                        $question
-                    );
-                } else {
-                    $values[$name] = $helper->ask(
-                        $output,
-                        sprintf('Please define a value for <info>Site.%s</info> : ', $name)
-                    );
-                }
+                $question = new Question(sprintf('Please define a value for <info>Site.%s</info> : ', $name));
+                $values[$name] = $helper->ask($input, $output, $question);
             }
         }
 
@@ -130,23 +107,8 @@ Creating website with the following information :
 INFO
         );
 
-        /*
-         * NEXT_MAJOR: remove if statement and use the question helper only (true value of if) when dropping sf < 2.5
-         */
-        if ($this->getHelperSet()->has('question')) {
-            $question = new ConfirmationQuestion(
-                'Confirm site creation (Y/N)',
-                false,
-                '/^(y)/i'
-            );
-            $confirmation = $helper->ask($input, $output, $question);
-        } else {
-            $confirmation = $input->getOption('no-confirmation') || $helper->askConfirmation(
-                $output,
-                'Confirm site creation?',
-                false
-            );
-        }
+        $question = new ConfirmationQuestion('Confirm site creation (Y/N)', false, '/^(y)/i');
+        $confirmation = $helper->ask($input, $output, $question);
         if ($confirmation) {
             $this->getSiteManager()->save($site);
 
