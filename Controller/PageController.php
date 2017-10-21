@@ -68,7 +68,7 @@ class PageController extends Controller
 
         $cms->setCurrentPage($page);
 
-        // NEXT_MAJOR: remove the usage of $this->getRequest() by injecting the request action method (sf 2.4+)
+        // NEXT_MAJOR: remove the usage of $this->getRequest() by injecting the request action method in 4.0 (BC break)
         return $this->getPageServiceManager()->execute($page, $this->getRequest());
     }
 
@@ -109,10 +109,6 @@ class PageController extends Controller
      */
     private function getRequest()
     {
-        if ($this->container->has('request_stack')) {
-            return $this->container->get('request_stack')->getCurrentRequest();
-        }
-
-        return $this->container->get('request');
+        return $this->container->get('request_stack')->getCurrentRequest();
     }
 }
