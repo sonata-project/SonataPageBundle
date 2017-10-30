@@ -108,7 +108,7 @@ class SnapshotChildrenCollection implements \Countable, \IteratorAggregate, \Arr
      */
     private function load()
     {
-        if ($this->collection == null) {
+        if (null == $this->collection) {
             $this->collection = $this->transformer->getChildren($this->page);
         }
     }

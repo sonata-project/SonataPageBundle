@@ -209,7 +209,7 @@ EOF;
                 ->always()
                     ->then(function ($templates) {
                         foreach ($templates as $id => &$template) {
-                            if (count($template['containers']) == 0) {
+                            if (0 == count($template['containers'])) {
                                 continue;
                             }
 

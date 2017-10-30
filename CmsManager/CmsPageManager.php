@@ -60,7 +60,7 @@ class CmsPageManager extends BaseCmsPageManager
      */
     public function getPage(SiteInterface $site, $page)
     {
-        if (is_string($page) && substr($page, 0, 1) == '/') {
+        if (is_string($page) && '/' == substr($page, 0, 1)) {
             $page = $this->getPageByUrl($site, $page);
         } elseif (is_string($page)) { // page is a slug, load the related page
             $page = $this->getPageByRouteName($site, $page);
@@ -82,7 +82,7 @@ class CmsPageManager extends BaseCmsPageManager
      */
     public function getInternalRoute(SiteInterface $site, $pageName)
     {
-        if (substr($pageName, 0, 5) == 'error') {
+        if ('error' == substr($pageName, 0, 5)) {
             throw new \RuntimeException(sprintf('Illegal internal route name : %s, an internal page cannot start with `error`', $pageName));
         }
 
@@ -188,7 +188,7 @@ class CmsPageManager extends BaseCmsPageManager
             $this->loadBlocks($page);
             $id = $page->getId();
 
-            if ($fieldName != 'id') {
+            if ('id' != $fieldName) {
                 $this->pageReferences[$fieldName][$value] = $id;
             }
 

@@ -67,7 +67,7 @@ class BlockAdminController extends Controller
             ];
         }
 
-        $result = ($result === true) ? 'ok' : $result;
+        $result = (true === $result) ? 'ok' : $result;
 
         return $this->renderJson(['result' => $result], $status);
     }
@@ -109,7 +109,7 @@ class BlockAdminController extends Controller
 
         $blockId = $request->get('block_id');
         $parentId = $request->get('parent_id');
-        if ($blockId === null or $parentId === null) {
+        if (null === $blockId or null === $parentId) {
             throw new HttpException(400, 'wrong parameters');
         }
 

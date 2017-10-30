@@ -57,7 +57,7 @@ class CleanupSnapshotsConsumer implements ConsumerInterface
             'site' => $event->getMessage()->getValue('siteId'),
         ]);
 
-        $backend = $event->getMessage()->getValue('mode') === 'async' ? $this->asyncBackend : $this->runtimeBackend;
+        $backend = 'async' === $event->getMessage()->getValue('mode') ? $this->asyncBackend : $this->runtimeBackend;
         $keepSnapshots = $event->getMessage()->getValue('keepSnapshots');
 
         foreach ($pages as $page) {

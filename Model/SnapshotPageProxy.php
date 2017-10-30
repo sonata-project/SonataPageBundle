@@ -172,7 +172,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
      */
     public function getTarget()
     {
-        if ($this->target === null) {
+        if (null === $this->target) {
             $content = $this->snapshot->getContent();
 
             if (isset($content['target_id'])) {
