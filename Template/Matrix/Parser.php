@@ -34,7 +34,7 @@ class Parser
 
         $rows = preg_split("/\n/", $matrix);
         $rowCount = count($rows);
-        if ($rowCount == 0 || strlen($rows[0]) == 0) {
+        if (0 == $rowCount || 0 == strlen($rows[0])) {
             throw new \InvalidArgumentException('Invalid template matrix, a matrix should contain at least one row');
         }
 

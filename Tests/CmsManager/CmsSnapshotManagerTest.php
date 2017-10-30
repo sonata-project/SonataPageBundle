@@ -113,7 +113,7 @@ class CmsSnapshotManagerTest extends TestCase
 
             ++$count;
 
-            if ($count == 1) {
+            if (1 == $count) {
                 return [];
             }
 

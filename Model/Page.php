@@ -238,7 +238,7 @@ abstract class Page implements PageInterface
      */
     public function setPageAlias($pageAlias)
     {
-        if (substr($pageAlias, 0, 12) != '_page_alias_') {
+        if ('_page_alias_' != substr($pageAlias, 0, 12)) {
             $pageAlias = '_page_alias_'.$pageAlias;
         }
 
@@ -705,7 +705,7 @@ abstract class Page implements PageInterface
      */
     public function isHybrid()
     {
-        return $this->getRouteName() != self::PAGE_ROUTE_CMS_NAME && !$this->isInternal();
+        return self::PAGE_ROUTE_CMS_NAME != $this->getRouteName() && !$this->isInternal();
     }
 
     /**
@@ -713,7 +713,7 @@ abstract class Page implements PageInterface
      */
     public function isCms()
     {
-        return $this->getRouteName() == self::PAGE_ROUTE_CMS_NAME && !$this->isInternal();
+        return self::PAGE_ROUTE_CMS_NAME == $this->getRouteName() && !$this->isInternal();
     }
 
     /**
@@ -721,7 +721,7 @@ abstract class Page implements PageInterface
      */
     public function isInternal()
     {
-        return substr($this->getRouteName(), 0, 15) == '_page_internal_';
+        return '_page_internal_' == substr($this->getRouteName(), 0, 15);
     }
 
     /**
@@ -729,7 +729,7 @@ abstract class Page implements PageInterface
      */
     public function isDynamic()
     {
-        return $this->isHybrid() && strpos($this->getUrl(), '{') !== false;
+        return $this->isHybrid() && false !== strpos($this->getUrl(), '{');
     }
 
     /**
@@ -737,7 +737,7 @@ abstract class Page implements PageInterface
      */
     public function isError()
     {
-        return substr($this->getRouteName(), 0, 21) == '_page_internal_error_';
+        return '_page_internal_error_' == substr($this->getRouteName(), 0, 21);
     }
 
     /**

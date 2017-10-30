@@ -102,7 +102,7 @@ final class CloneSiteCommand extends BaseCommand
 
             $newPage = clone $page;
 
-            if ($newPage->getTitle() != '') {
+            if ('' != $newPage->getTitle()) {
                 $newPage->setTitle($input->getOption('prefix').$newPage->getTitle());
             }
 

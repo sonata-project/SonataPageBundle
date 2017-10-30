@@ -81,7 +81,7 @@ class PageAdminController extends Controller
                 $currentSite = $site;
             }
         }
-        if (!$currentSite && count($sites) == 1) {
+        if (!$currentSite && 1 == count($sites)) {
             $currentSite = $sites[0];
         }
 
@@ -121,10 +121,10 @@ class PageAdminController extends Controller
     {
         $this->admin->checkAccess('create');
 
-        if ($request->getMethod() == 'GET' && !$this->getRequest()->get('siteId')) {
+        if ('GET' == $request->getMethod() && !$this->getRequest()->get('siteId')) {
             $sites = $this->get('sonata.page.manager.site')->findBy([]);
 
-            if (count($sites) == 1) {
+            if (1 == count($sites)) {
                 return $this->redirect($this->admin->generateUrl('create', [
                     'siteId' => $sites[0]->getId(),
                     'uniqid' => $this->admin->getUniqid(),
@@ -185,7 +185,7 @@ class PageAdminController extends Controller
         // 'attach' containers to corresponding template area, otherwise add it to orphans
         foreach ($page->getBlocks() as $block) {
             $blockCode = $block->getSetting('code');
-            if ($block->getParent() === null) {
+            if (null === $block->getParent()) {
                 if (isset($containers[$blockCode])) {
                     $containers[$blockCode]['block'] = $block;
                 } else {
@@ -200,7 +200,7 @@ class PageAdminController extends Controller
         $blockInteractor = $this->get('sonata.page.block_interactor');
 
         foreach ($containers as $id => $container) {
-            if ($container['block'] === false && $templateContainers[$id]['shared'] === false) {
+            if (false === $container['block'] && $templateContainers[$id]['shared'] === false) {
                 $blockContainer = $blockInteractor->createNewContainer([
                     'page' => $page,
                     'name' => $templateContainers[$id]['name'],

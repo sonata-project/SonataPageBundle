@@ -55,28 +55,28 @@ class DecoratorStrategy implements DecoratorStrategyInterface
      */
     public function isDecorable(Request $request, $requestType, Response $response)
     {
-        if ($requestType != HttpKernelInterface::MASTER_REQUEST) {
+        if (HttpKernelInterface::MASTER_REQUEST != $requestType) {
             return false;
         }
 
-        if ((substr($response->headers->get('Content-Type') ?: 'text/html', 0, 9)) != 'text/html') {
+        if ('text/html' != (substr($response->headers->get('Content-Type') ?: 'text/html', 0, 9))) {
             return false;
         }
 
-        if ($response->headers->get('x-sonata-page-not-decorable', false) === true) {
+        if (true === $response->headers->get('x-sonata-page-not-decorable', false)) {
             return false;
         }
 
         // the main controller explicitly force the the page to be decorate
-        if ($response->headers->get('x-sonata-page-decorable', false) === true) {
+        if (true === $response->headers->get('x-sonata-page-decorable', false)) {
             return true;
         }
 
-        if ($response->getStatusCode() != 200) {
+        if (200 != $response->getStatusCode()) {
             return false;
         }
 
-        if ($request->headers->get('x-requested-with') == 'XMLHttpRequest') {
+        if ('XMLHttpRequest' == $request->headers->get('x-requested-with')) {
             return false;
         }
 

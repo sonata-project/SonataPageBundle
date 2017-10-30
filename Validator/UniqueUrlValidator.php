@@ -70,7 +70,7 @@ class UniqueUrlValidator extends ConstraintValidator
                 continue;
             }
 
-            if ($currentPage->getUrl() == '/' && !$currentPage->getParent()) {
+            if ('/' == $currentPage->getUrl() && !$currentPage->getParent()) {
                 // NEXT_MAJOR: remove the if block below
                 if (!method_exists($this->context, 'buildViolation')) {
                     $this->context->addViolationAt(
