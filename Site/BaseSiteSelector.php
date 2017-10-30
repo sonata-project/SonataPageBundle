@@ -156,7 +156,7 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
      */
     protected function getPreferredSite(array $sites, Request $request)
     {
-        if (count($sites) === 0) {
+        if (0 === count($sites)) {
             return;
         }
 

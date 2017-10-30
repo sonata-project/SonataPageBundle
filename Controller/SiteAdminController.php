@@ -47,7 +47,7 @@ class SiteAdminController extends Controller
 
         $this->admin->setSubject($object);
 
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $this->get('sonata.notification.backend')
                 ->createAndPublish('sonata.page.create_snapshots', [
                     'siteId' => $object->getId(),

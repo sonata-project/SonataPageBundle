@@ -121,7 +121,7 @@ class CmsPageRouter implements ChainedRouterInterface
                 $url = $this->generateFromPageSlug($parameters, $referenceType);
             }
 
-            if ($url === false) {
+            if (false === $url) {
                 throw new RouteNotFoundException('The Sonata CmsPageRouter cannot find url');
             }
         } catch (PageNotFoundException $exception) {
@@ -205,7 +205,7 @@ class CmsPageRouter implements ChainedRouterInterface
 
         $url = $this->getUrlFromPage($page);
 
-        if ($url === false) {
+        if (false === $url) {
             throw new \RuntimeException(sprintf('Page "%d" has no url or customUrl.', $page->getId()));
         }
 
@@ -347,7 +347,7 @@ class CmsPageRouter implements ChainedRouterInterface
      */
     protected function isPageAlias($name)
     {
-        return is_string($name) && substr($name, 0, 12) === '_page_alias_';
+        return is_string($name) && '_page_alias_' === substr($name, 0, 12);
     }
 
     /**
@@ -359,6 +359,6 @@ class CmsPageRouter implements ChainedRouterInterface
      */
     protected function isPageSlug($name)
     {
-        return is_string($name) && $name == PageInterface::PAGE_ROUTE_CMS_NAME;
+        return is_string($name) && PageInterface::PAGE_ROUTE_CMS_NAME == $name;
     }
 }

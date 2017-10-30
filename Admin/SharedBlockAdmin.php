@@ -81,7 +81,7 @@ class SharedBlockAdmin extends BaseBlockAdmin
         $block = $this->getSubject();
 
         // New block
-        if ($block->getId() === null) {
+        if (null === $block->getId()) {
             $block->setType($this->request->get('type'));
         }
 
