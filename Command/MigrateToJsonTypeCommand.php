@@ -39,7 +39,7 @@ class MigrateToJsonTypeCommand extends BaseCommand
 
         foreach ($blocks as $block) {
             // if the row need to migrate
-            if (0 !== strpos($block['settings'], '{') && $block['settings'] !== '[]') {
+            if (0 !== strpos($block['settings'], '{') && '[]' !== $block['settings']) {
                 $block['settings'] = json_encode(unserialize($block['settings']));
                 $connection->update($table, ['settings' => $block['settings']], ['id' => $block['id']]);
                 ++$count;

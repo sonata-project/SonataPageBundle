@@ -146,7 +146,7 @@ class PageExtension extends \Twig_Extension implements \Twig_Extension_InitRunti
         if ($page) {
             $breadcrumbs = $page->getParents();
 
-            if ($options['force_view_home_page'] && (!isset($breadcrumbs[0]) || $breadcrumbs[0]->getRouteName() != 'homepage')) {
+            if ($options['force_view_home_page'] && (!isset($breadcrumbs[0]) || 'homepage' != $breadcrumbs[0]->getRouteName())) {
                 try {
                     $homePage = $this->cmsManagerSelector->retrieve()->getPageByRouteName($this->siteSelector->retrieve(), 'homepage');
                 } catch (PageNotFoundException $e) {
@@ -200,7 +200,7 @@ class PageExtension extends \Twig_Extension implements \Twig_Extension_InitRunti
         $targetPage = false;
 
         try {
-            if ($page === null) {
+            if (null === $page) {
                 $targetPage = $cms->getCurrentPage();
             } elseif (!$page instanceof PageInterface && is_string($page)) {
                 $targetPage = $cms->getInternalRoute($site, $page);
@@ -233,7 +233,7 @@ class PageExtension extends \Twig_Extension implements \Twig_Extension_InitRunti
      */
     public function renderBlock(PageBlockInterface $block, array $options = [])
     {
-        if ($block->getEnabled() === false && !$this->cmsManagerSelector->isEditor() && $this->hideDisabledBlocks) {
+        if (false === $block->getEnabled() && !$this->cmsManagerSelector->isEditor() && $this->hideDisabledBlocks) {
             return '';
         }
 

@@ -78,7 +78,7 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
                 throw new \RuntimeException(sprintf("Invalid sort field '%s' in '%s' class", $field, $this->class));
             }
         }
-        if (count($sort) == 0) {
+        if (0 == count($sort)) {
             $sort = ['name' => 'ASC'];
         }
         foreach ($sort as $field => $direction) {
@@ -172,9 +172,9 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
                     $page->setSlug(Page::slugify($page->getName()));
                 }
 
-                if ($page->getParent()->getUrl() == '/') {
+                if ('/' == $page->getParent()->getUrl()) {
                     $base = '/';
-                } elseif (substr($page->getParent()->getUrl(), -1) != '/') {
+                } elseif ('/' != substr($page->getParent()->getUrl(), -1)) {
                     $base = $page->getParent()->getUrl().'/';
                 } else {
                     $base = $page->getParent()->getUrl();

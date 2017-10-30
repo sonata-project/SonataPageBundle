@@ -163,7 +163,7 @@ class PageAdmin extends AbstractAdmin
 
         $siteId = null;
 
-        if ($this->getRequest()->getMethod() == 'POST') {
+        if ('POST' == $this->getRequest()->getMethod()) {
             $values = $this->getRequest()->get($this->getUniqid());
             $siteId = isset($values['site']) ? $values['site'] : null;
         }
@@ -295,7 +295,7 @@ class PageAdmin extends AbstractAdmin
             ->add('hybrid', 'doctrine_orm_callback', [
                 'callback' => function ($queryBuilder, $alias, $field, $data) {
                     if (in_array($data['value'], ['hybrid', 'cms'])) {
-                        $queryBuilder->andWhere(sprintf('%s.routeName %s :routeName', $alias, $data['value'] == 'cms' ? '=' : '!='));
+                        $queryBuilder->andWhere(sprintf('%s.routeName %s :routeName', $alias, 'cms' == $data['value'] ? '=' : '!='));
                         $queryBuilder->setParameter('routeName', PageInterface::PAGE_ROUTE_CMS_NAME);
                     }
                 },

@@ -81,7 +81,7 @@ EOT
         foreach ($values as $name => $value) {
             $values[$name] = $input->getOption($name);
 
-            while ($values[$name] == null) {
+            while (null == $values[$name]) {
                 /*
                  * NEXT_MAJOR: remove if statement and use the question helper only (true value of if) when dropping sf < 2.5
                  */
@@ -108,13 +108,13 @@ EOT
 
         $site->setName($values['name']);
 
-        $site->setRelativePath($values['relativePath'] == '/' ? '' : $values['relativePath']);
+        $site->setRelativePath('/' == $values['relativePath'] ? '' : $values['relativePath']);
 
         $site->setHost($values['host']);
-        $site->setEnabledFrom($values['enabledFrom'] == '-' ? null : new \DateTime($values['enabledFrom']));
-        $site->setEnabledTo($values['enabledTo'] == '-' ? null : new \DateTime($values['enabledTo']));
+        $site->setEnabledFrom('-' == $values['enabledFrom'] ? null : new \DateTime($values['enabledFrom']));
+        $site->setEnabledTo('-' == $values['enabledTo'] ? null : new \DateTime($values['enabledTo']));
         $site->setIsDefault(in_array($values['default'], ['true', 1, '1']));
-        $site->setLocale($values['locale'] == '-' ? null : $values['locale']);
+        $site->setLocale('-' == $values['locale'] ? null : $values['locale']);
         $site->setEnabled(in_array($values['enabled'], ['true', 1, '1']));
 
         $info_enabledFrom = $site->getEnabledFrom() instanceof \DateTime ? $site->getEnabledFrom()->format('r') : 'ALWAYS';

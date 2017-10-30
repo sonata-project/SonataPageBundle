@@ -64,7 +64,7 @@ class UpdateCoreRoutesCommand extends BaseCommand
         }
 
         foreach ($this->getSites($input) as $site) {
-            if ($input->getOption('site') != 'all') {
+            if ('all' != $input->getOption('site')) {
                 $this->getRoutePageGenerator()->update($site, $output, $input->getOption('clean'));
                 $output->writeln('');
             } else {

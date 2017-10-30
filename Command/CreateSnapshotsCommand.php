@@ -55,8 +55,8 @@ class CreateSnapshotsCommand extends BaseCommand
         }
 
         foreach ($this->getSites($input) as $site) {
-            if ($input->getOption('site') != 'all') {
-                if ($input->getOption('mode') == 'async') {
+            if ('all' != $input->getOption('site')) {
+                if ('async' == $input->getOption('mode')) {
                     $output->write(sprintf('<info>%s</info> - Publish a notification command ...', $site->getName()));
                 } else {
                     $output->write(sprintf('<info>%s</info> - Generating snapshots ...', $site->getName()));

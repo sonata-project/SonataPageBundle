@@ -164,7 +164,7 @@ class ResponseListenerTest extends TestCase
         $cookies = $event->getResponse()->headers->getCookies();
         $foundCookie = false;
         foreach ($cookies as $cookie) {
-            if ($cookie->getName() == 'sonata_page_is_editor') {
+            if ('sonata_page_is_editor' == $cookie->getName()) {
                 $this->assertEquals(1, $cookie->getValue());
                 $foundCookie = true;
             }
