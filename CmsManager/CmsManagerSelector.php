@@ -15,7 +15,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Security\Http\Logout\LogoutHandlerInterface;
@@ -79,7 +78,7 @@ class CmsManagerSelector implements CmsManagerSelectorInterface, LogoutHandlerIn
      */
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
     {
-        if ($this->getSecurityContext()->getToken() &&
+        if ($this->container->get('security.token_storage')->getToken() &&
             $this->container->get('sonata.page.admin.page')->isGranted('EDIT')) {
             $this->getSession()->set('sonata/page/isEditor', true);
         }
@@ -118,18 +117,5 @@ class CmsManagerSelector implements CmsManagerSelectorInterface, LogoutHandlerIn
         }
 
         return;
-    }
-
-    /**
-     * @return TokenStorageInterface
-     */
-    private function getSecurityContext()
-    {
-        // NEXT_MAJOR: Remove hack when bumping requirements to SF 2.6+
-        if (interface_exists('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface')) {
-            return $this->container->get('security.token_storage');
-        }
-
-        return $this->container->get('security.context');
     }
 }

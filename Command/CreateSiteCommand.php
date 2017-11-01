@@ -58,14 +58,7 @@ EOT
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        /*
-         * NEXT_MAJOR: remove if statement and use the question helper only (true value of if) when dropping sf < 2.5
-         */
-        if ($this->getHelperSet()->has('question')) {
-            $helper = $this->getHelperSet()->get('question');
-        } else {
-            $helper = $this->getHelperSet()->get('dialog');
-        }
+        $helper = $this->getHelper('question');
 
         $values = [
             'name' => null,
@@ -81,25 +74,9 @@ EOT
         foreach ($values as $name => $value) {
             $values[$name] = $input->getOption($name);
 
-            while ($values[$name] == null) {
-                /*
-                 * NEXT_MAJOR: remove if statement and use the question helper only (true value of if) when dropping sf < 2.5
-                 */
-                if ($this->getHelperSet()->has('question')) {
-                    $question = new Question(
-                        sprintf('Please define a value for <info>Site.%s</info> : ', $name)
-                    );
-                    $values[$name] = $helper->ask(
-                        $input,
-                        $output,
-                        $question
-                    );
-                } else {
-                    $values[$name] = $helper->ask(
-                        $output,
-                        sprintf('Please define a value for <info>Site.%s</info> : ', $name)
-                    );
-                }
+            while (null == $values[$name]) {
+                $question = new Question(sprintf('Please define a value for <info>Site.%s</info> : ', $name));
+                $values[$name] = $helper->ask($input, $output, $question);
             }
         }
 
@@ -108,13 +85,13 @@ EOT
 
         $site->setName($values['name']);
 
-        $site->setRelativePath($values['relativePath'] == '/' ? '' : $values['relativePath']);
+        $site->setRelativePath('/' == $values['relativePath'] ? '' : $values['relativePath']);
 
         $site->setHost($values['host']);
-        $site->setEnabledFrom($values['enabledFrom'] == '-' ? null : new \DateTime($values['enabledFrom']));
-        $site->setEnabledTo($values['enabledTo'] == '-' ? null : new \DateTime($values['enabledTo']));
+        $site->setEnabledFrom('-' == $values['enabledFrom'] ? null : new \DateTime($values['enabledFrom']));
+        $site->setEnabledTo('-' == $values['enabledTo'] ? null : new \DateTime($values['enabledTo']));
         $site->setIsDefault(in_array($values['default'], ['true', 1, '1']));
-        $site->setLocale($values['locale'] == '-' ? null : $values['locale']);
+        $site->setLocale('-' == $values['locale'] ? null : $values['locale']);
         $site->setEnabled(in_array($values['enabled'], ['true', 1, '1']));
 
         $info_enabledFrom = $site->getEnabledFrom() instanceof \DateTime ? $site->getEnabledFrom()->format('r') : 'ALWAYS';
@@ -130,23 +107,8 @@ Creating website with the following information :
 INFO
         );
 
-        /*
-         * NEXT_MAJOR: remove if statement and use the question helper only (true value of if) when dropping sf < 2.5
-         */
-        if ($this->getHelperSet()->has('question')) {
-            $question = new ConfirmationQuestion(
-                'Confirm site creation (Y/N)',
-                false,
-                '/^(y)/i'
-            );
-            $confirmation = $helper->ask($input, $output, $question);
-        } else {
-            $confirmation = $input->getOption('no-confirmation') || $helper->askConfirmation(
-                $output,
-                'Confirm site creation?',
-                false
-            );
-        }
+        $question = new ConfirmationQuestion('Confirm site creation (Y/N)', false, '/^(y)/i');
+        $confirmation = $helper->ask($input, $output, $question);
         if ($confirmation) {
             $this->getSiteManager()->save($site);
 

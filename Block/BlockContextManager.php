@@ -29,18 +29,10 @@ class BlockContextManager extends BaseBlockContextManager
             'page_id' => false,
         ]);
 
-        // TODO: Remove it when bumping requirements to SF 2.6+
-        if (method_exists($optionsResolver, 'setDefined')) {
-            $optionsResolver
-                ->addAllowedTypes('manager', ['string', 'bool'])
-                ->addAllowedTypes('page_id', ['int', 'string', 'bool'])
-            ;
-        } else {
-            $optionsResolver->addAllowedTypes([
-                'manager' => ['string', 'bool'],
-                'page_id' => ['int', 'string', 'bool'],
-            ]);
-        }
+        $optionsResolver
+            ->addAllowedTypes('manager', ['string', 'bool'])
+            ->addAllowedTypes('page_id', ['int', 'string', 'bool'])
+        ;
 
         $optionsResolver->setRequired([
             'manager',

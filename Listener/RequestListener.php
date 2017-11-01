@@ -73,7 +73,7 @@ class RequestListener
         }
 
         // true cms page
-        if ($request->get('_route') == PageInterface::PAGE_ROUTE_CMS_NAME) {
+        if (PageInterface::PAGE_ROUTE_CMS_NAME == $request->get('_route')) {
             return;
         }
 

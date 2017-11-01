@@ -39,11 +39,11 @@ class SonataPageBundleTest extends TestCase
         $container = $this->createMock('Symfony\Component\DependencyInjection\ContainerInterface');
         $container->expects($this->exactly(1))->method('hasParameter')->will($this->returnValue(true));
         $container->expects($this->exactly(2))->method('getParameter')->will($this->returnCallback(function ($value) {
-            if ($value == 'sonata.page.page.class') {
+            if ('sonata.page.page.class' == $value) {
                 return 'Sonata\PageBundle\Tests\Page';
             }
 
-            if ($value == 'sonata.page.slugify_service') {
+            if ('sonata.page.slugify_service' == $value) {
                 return 'slug_service';
             }
         }));

@@ -41,15 +41,10 @@ class SonataPageExtension extends Extension
 
         // NEXT_MAJOR: remove this code block
         $definition = $container->getDefinition('sonata.page.router.request_context');
-        if (method_exists($definition, 'setFactory')) {
-            $definition->setFactory([
-                new Reference('sonata.page.site.selector'),
-                'getRequestContext',
-            ]);
-        } else {
-            $definition->setFactoryService('sonata.page.site.selector');
-            $definition->setFactoryMethod('getRequestContext');
-        }
+        $definition->setFactory([
+            new Reference('sonata.page.site.selector'),
+            'getRequestContext',
+        ]);
 
         if (isset($bundles['FOSRestBundle']) && isset($bundles['NelmioApiDocBundle'])) {
             $loader->load('serializer.xml');

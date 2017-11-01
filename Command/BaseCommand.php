@@ -92,7 +92,7 @@ abstract class BaseCommand extends ContainerAwareCommand
      */
     public function getNotificationBackend($mode)
     {
-        if ($mode == 'async') {
+        if ('async' == $mode) {
             return $this->getContainer()->get('sonata.notification.backend');
         }
 

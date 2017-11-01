@@ -66,7 +66,7 @@ class MigrateBlockNameSettingCommand extends BaseCommand
                 $block->setSettings($settings);
 
                 // update name from code if option is set
-                if ($input->getOption('update-name') == true) {
+                if (true == $input->getOption('update-name')) {
                     $block->setName($block->getSetting('code'));
                 }
 

@@ -62,7 +62,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
      */
     public function getPage(SiteInterface $site, $page)
     {
-        if (is_string($page) && substr($page, 0, 1) == '/') {
+        if (is_string($page) && '/' == substr($page, 0, 1)) {
             $page = $this->getPageByUrl($site, $page);
         } elseif (is_string($page)) { // page is a slug, load the related page
             $page = $this->getPageByRouteName($site, $page);
@@ -167,7 +167,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
 
                 $id = $page->getId();
 
-                if ($fieldName != 'id') {
+                if ('id' != $fieldName) {
                     $this->pageReferences[$fieldName][$value] = $id;
                 }
 
