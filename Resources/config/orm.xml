@@ -23,6 +23,7 @@
         <service id="sonata.page.manager.snapshot" class="%sonata.page.manager.snapshot.class%">
             <argument>%sonata.page.snapshot.class%</argument>
             <argument type="service" id="doctrine"/>
+            <argument/>
             <argument type="service" id="sonata.page.proxy.snapshot.factory"/>
         </service>
         <service id="sonata.page.manager.block" class="%sonata.page.manager.block.class%">
