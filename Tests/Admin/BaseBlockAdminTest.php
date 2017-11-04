@@ -32,4 +32,25 @@ class BaseBlockAdminTest extends TestCase
         $idx = [];
         $blockAdmin->preBatchAction('delete', $query, $idx, true);
     }
+
+    public function testSettingAsEditedOnPreRemove()
+    {
+        $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
+        $page->expects($this->once())->method('setEdited')->with(true);
+
+        $block = $this->createMock('Sonata\PageBundle\Model\PageBlockInterface');
+        $block->expects($this->once())->method('getPage')->will($this->returnValue($page));
+
+        $blockService = $this->createMock('Sonata\BlockBundle\Block\Service\AbstractAdminBlockService');
+        $blockService->expects($this->any())->method('preRemove')->with($block);
+
+        $blockServiceManager = $this->createMock('Sonata\BlockBundle\Block\BlockServiceManagerInterface');
+        $blockServiceManager->expects($this->once())->method('get')->with($block)->will($this->returnValue($blockService));
+
+        $blockAdmin = $this->getMockBuilder('Sonata\PageBundle\Admin\BaseBlockAdmin')
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $blockAdmin->setBlockManager($blockServiceManager);
+        $blockAdmin->preRemove($block);
+    }
 }
