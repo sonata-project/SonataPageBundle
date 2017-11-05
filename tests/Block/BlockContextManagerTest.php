@@ -12,6 +12,7 @@
 namespace Sonata\PageBundle\Tests\Block;
 
 use PHPUnit\Framework\TestCase;
+use Sonata\BlockBundle\Block\Service\AbstractBlockService;
 use Sonata\PageBundle\Block\BlockContextManager;
 
 /**
@@ -21,8 +22,7 @@ class BlockContextManagerTest extends TestCase
 {
     public function testGetWithValidData()
     {
-        $service = $this->createMock('Sonata\BlockBundle\Block\BlockServiceInterface');
-        $service->expects($this->once())->method('setDefaultSettings');
+        $service = $this->getMockForAbstractClass(AbstractBlockService::class);
 
         $blockLoader = $this->createMock('Sonata\BlockBundle\Block\BlockLoaderInterface');
 
