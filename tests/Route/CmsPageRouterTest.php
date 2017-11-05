@@ -163,6 +163,9 @@ class CmsPageRouterTest extends TestCase
         $this->assertEquals('//localhost/my/path?foo=bar', $url);
     }
 
+    /**
+     * @group legacy
+     */
     public function testGenerateWithPage()
     {
         $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
@@ -188,6 +191,9 @@ class CmsPageRouterTest extends TestCase
         $this->assertEquals('//localhost/test/path?key=value', $url);
     }
 
+    /**
+     * @group legacy
+     */
     public function testGenerateWithPageCustomUrl()
     {
         $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
@@ -212,6 +218,9 @@ class CmsPageRouterTest extends TestCase
         $this->assertEquals('//localhost/test/path?key=value', $url);
     }
 
+    /**
+     * @group legacy
+     */
     public function testGenerateWithHybridPage()
     {
         $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
@@ -259,6 +268,9 @@ class CmsPageRouterTest extends TestCase
         $this->assertEquals('//localhost/test/path?key=value', $url);
     }
 
+    /**
+     * @group legacy
+     */
     public function testGenerateWithPageAlias()
     {
         $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
