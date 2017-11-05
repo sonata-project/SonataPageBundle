@@ -61,13 +61,10 @@
         "sonata-project/doctrine-orm-admin-bundle": "^2.2"
     },
     "autoload": {
-        "psr-4": { "Sonata\\PageBundle\\": "" },
-        "exclude-from-classmap": [
-            "Tests/"
-        ]
+        "psr-4": { "Sonata\\PageBundle\\": "src/" }
     },
     "autoload-dev": {
-        "psr-4": { "Sonata\\PageBundle\\Tests\\": "Tests/" }
+        "psr-4": { "Sonata\\PageBundle\\Tests\\": "tests/" }
     },
     "config": {
         "sort-packages": true
