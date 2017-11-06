@@ -241,7 +241,7 @@ interface PageInterface
      *
      * @param PageInterface $children
      */
-    public function addChildren(PageInterface $children);
+    public function addChildren(self $children);
 
     /**
      * Get children.
@@ -267,7 +267,7 @@ interface PageInterface
     /**
      * @param PageInterface $target
      */
-    public function setTarget(PageInterface $target = null);
+    public function setTarget(self $target = null);
 
     /**
      * Get target.
@@ -281,7 +281,7 @@ interface PageInterface
      *
      * @param PageInterface $parent
      */
-    public function setParent(PageInterface $parent = null);
+    public function setParent(self $parent = null);
 
     /**
      * Get parent.
