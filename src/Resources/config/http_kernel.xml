@@ -13,5 +13,19 @@
             <argument/>
             <argument type="service" id="logger" on-invalid="null"/>
         </service>
+
+        <!-- Overrides Symfony's security.exception_listener -->
+        <service id="security.exception_listener" class="Sonata\PageBundle\Listener\SecurityExceptionListener" abstract="true">
+            <tag name="monolog.logger" channel="security" />
+            <argument type="service" id="security.token_storage" />
+            <argument type="service" id="security.authentication.trust_resolver" />
+            <argument type="service" id="security.http_utils" />
+            <argument />
+            <argument type="service" id="security.authentication.entry_point" on-invalid="null" />
+            <argument>%security.access.denied_url%</argument>
+            <argument type="service" id="security.access.denied_handler" on-invalid="null" />
+            <argument type="service" id="logger" on-invalid="null" />
+            <argument>false</argument> <!-- Stateless -->
+        </service>
     </services>
 </container>
