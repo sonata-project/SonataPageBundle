@@ -107,8 +107,13 @@ Creating website with the following information :
 INFO
         );
 
-        $question = new ConfirmationQuestion('Confirm site creation (Y/N)', false, '/^(y)/i');
-        $confirmation = $helper->ask($input, $output, $question);
+        $confirmation = true;
+
+        if (!$input->getOption('no-confirmation')) {
+            $question = new ConfirmationQuestion('Confirm site creation (Y/N)', false, '/^(y)/i');
+            $confirmation = $helper->ask($input, $output, $question);
+        }
+
         if ($confirmation) {
             $this->getSiteManager()->save($site);
 
