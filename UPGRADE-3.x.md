@@ -1,6 +1,10 @@
 UPGRADE 3.x
 ===========
 
+### Deprecated
+
+Initializing `Sonata\PageBundle\Block\BreadcrumbBlockService` class without the `menuRegistry` parameter is deprecated, Use `Sonata\BlockBundle\Menu\MenuRegistryInterface` as last argument.
+
 UPGRADE FROM 3.3 to 3.4
 =======================
 
