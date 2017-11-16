@@ -2,6 +2,20 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.6.0](https://github.com/sonata-project/SonataPageBundle/compare/3.5.2...3.6.0) - 2017-11-14
+### Fixed
+- use new sf3 choices structure
+- Pass form data instead of request object to form::submit
+- Not working SEO page title
+- read_only error for site selection in page admin
+- Renamed internal method to fix sf2.8 incompatibility
+- Fixed passing snapshot factory as wrong argument to `Sonata\PageBundle\Entity\SnapshotManager`
+- Unused `no-confirmation` option for site create command
+
+### Removed
+- support for old versions of php and Symfony
+- Removed php5 version checks
+
 ## [3.5.2](https://github.com/sonata-project/SonataPageBundle/compare/3.5.1...3.5.2) - 2017-09-14
 ### Changed
 - Changed fallback translation domain to `SonataBlockBundle` in page composer
