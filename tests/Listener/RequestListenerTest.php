@@ -15,6 +15,7 @@ use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Listener\RequestListener;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
  * Test the page bundle request listener.
@@ -45,7 +46,7 @@ class RequestListenerTest extends TestCase
         $kernel = $this->createMock('Symfony\Component\HttpKernel\HttpKernelInterface');
         $request = new Request();
 
-        $event = new GetResponseEvent($kernel, $request, 'master');
+        $event = new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
 
         $listener = new RequestListener($cmsSelector, $siteSelector, $decoratorStrategy, $seoPage);
         $listener->onCoreRequest($event);
@@ -72,7 +73,7 @@ class RequestListenerTest extends TestCase
         $kernel = $this->createMock('Symfony\Component\HttpKernel\HttpKernelInterface');
         $request = new Request();
 
-        $event = new GetResponseEvent($kernel, $request, 'master');
+        $event = new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
 
         $listener = new RequestListener($cmsSelector, $siteSelector, $decoratorStrategy, $seoPage);
         $listener->onCoreRequest($event);
