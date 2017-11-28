@@ -14,6 +14,7 @@ namespace Sonata\PageBundle\Block;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\Provider\MenuProviderInterface;
 use Sonata\BlockBundle\Block\BlockContextInterface;
+use Sonata\BlockBundle\Menu\MenuRegistryInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\SeoBundle\Block\Breadcrumb\BaseBreadcrumbMenuBlockService;
@@ -38,12 +39,32 @@ class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
      * @param MenuProviderInterface       $menuProvider
      * @param FactoryInterface            $factory
      * @param CmsManagerSelectorInterface $cmsSelector
+     * @param MenuRegistryInterface|array $menuRegistry
+     *
+     * NEXT_MAJOR: Use MenuRegistryInterface as a type of $menuRegistry argument
      */
-    public function __construct($context, $name, EngineInterface $templating, MenuProviderInterface $menuProvider, FactoryInterface $factory, CmsManagerSelectorInterface $cmsSelector)
+    public function __construct($context, $name, EngineInterface $templating, MenuProviderInterface $menuProvider, FactoryInterface $factory, CmsManagerSelectorInterface $cmsSelector, $menuRegistry = [])
     {
         $this->cmsSelector = $cmsSelector;
 
-        parent::__construct($context, $name, $templating, $menuProvider, $factory);
+        /*
+         * NEXT_MAJOR: Remove if statements
+         */
+        if (!$menuRegistry instanceof MenuRegistryInterface && !is_array($menuRegistry)) {
+            throw new \InvalidArgumentException(sprintf(
+                'MenuRegistry must be either type of array or instance of %s',
+                MenuRegistryInterface::class
+            ));
+        } elseif (is_array($menuRegistry)) {
+            @trigger_error(sprintf(
+                'Initializing %s without menuRegistry parameter is deprecated since 3.x and will'.
+                ' be removed in 4.0. Use an instance of %s as last argument.',
+                __CLASS__,
+                MenuRegistryInterface::class
+            ), E_USER_DEPRECATED);
+        }
+
+        parent::__construct($context, $name, $templating, $menuProvider, $factory, $menuRegistry);
     }
 
     /**
