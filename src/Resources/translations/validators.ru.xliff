@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+    <file source-language="en" target-language="ru" datatype="plaintext" original="file.ext">
+        <header/>
+        <body>
+            <trans-unit id="error.uniq_url" resname="error.uniq_url">
+                <source>error.uniq_url</source>
+                <target>URL-адрес '%url%' уже связан с другой страницей.</target>
+            </trans-unit>
+            <trans-unit id="error.uniq_url.parent_unselect" resname="error.uniq_url.parent_unselect">
+                <source>error.uniq_url.parent_unselect</source>
+                <target>Корневой URL '/' уже связан с другой страницей этого сайта, пожалуйста, выберите родителя.</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
