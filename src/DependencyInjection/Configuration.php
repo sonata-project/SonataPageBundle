@@ -77,9 +77,6 @@ EOF;
                 ->info('To skip asking Editor to redirect')
                 ->defaultFalse()
             ->end()
-            ->scalarNode('is_inline_edition_on')
-                ->defaultFalse()
-            ->end()
             ->scalarNode('hide_disabled_blocks')
                 ->defaultFalse()
             ->end()
@@ -178,7 +175,6 @@ EOF;
                         ->defaultValue([
                                 'bundles/sonatacore/vendor/jquery/dist/jquery.min.js',
                                 'bundles/sonatacore/vendor/bootstrap/dist/js/bootstrap.min.js',
-                                'bundles/sonatapage/sonata-page.front.js',
                             ])
                         ->prototype('scalar')->end()
                     ->end()

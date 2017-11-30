@@ -98,7 +98,6 @@ class SonataPageExtension extends Extension implements PrependExtensionInterface
         $container->setParameter('sonata.page.slugify_service', $config['slugify_service']);
 
         $container->setParameter('sonata.page.skip_redirection', $config['skip_redirection']);
-        $container->setParameter('sonata.page.is_inline_edition_on', $config['is_inline_edition_on']);
         $container->setParameter('sonata.page.hide_disabled_blocks', $config['hide_disabled_blocks']);
         $container->getDefinition('sonata.page.decorator_strategy')
             ->replaceArgument(0, $config['ignore_routes'])

@@ -119,10 +119,8 @@ class ConfigurationTest extends TestCase
                 'javascripts' => [
                     'bundles/sonatacore/vendor/jquery/dist/jquery.min.js',
                     'bundles/sonatacore/vendor/bootstrap/dist/js/bootstrap.min.js',
-                    'bundles/sonatapage/sonata-page.front.js',
                 ],
             ],
-            'is_inline_edition_on' => false,
             'hide_disabled_blocks' => false,
             'use_streamed_response' => false,
             'ignore_route_patterns' => [
@@ -209,10 +207,8 @@ class ConfigurationTest extends TestCase
                 'javascripts' => [
                     'bundles/sonatacore/vendor/jquery/dist/jquery.min.js',
                     'bundles/sonatacore/vendor/bootstrap/dist/js/bootstrap.min.js',
-                    'bundles/sonatapage/sonata-page.front.js',
                 ],
             ],
-            'is_inline_edition_on' => false,
             'hide_disabled_blocks' => false,
             'use_streamed_response' => false,
             'ignore_route_patterns' => [
