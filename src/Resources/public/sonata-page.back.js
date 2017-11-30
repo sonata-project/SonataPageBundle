@@ -1,10 +1,25 @@
-/*
- * This file is part of the Sonata Project package.
+/**
+ *
+ * This file is part of the Sonata package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * generated on: Fri Dec 01 2017 00:48:06 GMT+0100 (CET)
+ * revision:     4e8bf4373af18c69b99332d84f3cff6894faa869
+ *
+ */
+/**
+ *
+ * This file is part of the Sonata package.
+ *
+ * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
  */
 /**
  * PageComposer plugin.
@@ -573,32 +588,36 @@
                         'value': !enabled
                     },
                     success: function (resp) {
-                        $childBlock.attr('data-block-enabled', enabled ? "0" : "1");
-                        enabled = !enabled;
-                        $switchButton.toggleClass('bg-yellow bg-green');
-                        $switchBtnIcon.toggleClass('fa-toggle-off fa-toggle-on');
+                        if (resp.status && resp.status === 'OK') {
+                            $childBlock.attr('data-block-enabled', enabled ? "0" : "1");
+                            enabled = !enabled;
+                            $switchButton.toggleClass('bg-yellow bg-green');
+                            $switchBtnIcon.toggleClass('fa-toggle-off fa-toggle-on');
 
-                        if (enabled) {
-                            $switchButton.html($switchLblDsbl);
+                            if (enabled) {
+                                $switchButton.html($switchLblDsbl);
+                            } else {
+                                $switchButton.html($switchLblEnbl);
+                            }
+
+                            $switchLblSm.toggleClass('bg-yellow bg-green');
+                            $switchLblIcon.toggleClass('fa-times fa-check');
+
+                            if ($childBlock.has('form')) {
+                                var $form   = $childBlock.find('form'),
+                                    $inputs = $form.find('input');
+
+                                $inputs.each(function () {
+                                    var $formControl    = $(this),
+                                        formControlName = $formControl.attr('name');
+
+                                    if (self.isFormControlTypeByName(formControlName, 'enabled')) {
+                                        $formControl.val(parseInt(!enabled));
+                                    }
+                                });
+                            }
                         } else {
-                            $switchButton.html($switchLblEnbl);
-                        }
-
-                        $switchLblSm.toggleClass('bg-yellow bg-green');
-                        $switchLblIcon.toggleClass('fa-times fa-check');
-
-                        if ($childBlock.has('form')) {
-                            var $form   = $childBlock.find('form'),
-                                $inputs = $form.find('input');
-
-                            $inputs.each(function () {
-                                var $formControl    = $(this),
-                                    formControlName = $formControl.attr('name');
-
-                                if (self.isFormControlTypeByName(formControlName, 'enabled')) {
-                                    $formControl.val(parseInt(!enabled));
-                                }
-                            });
+                            self.containerNotification('composer_status_error', 'error', true);
                         }
                     },
                     error: function () {

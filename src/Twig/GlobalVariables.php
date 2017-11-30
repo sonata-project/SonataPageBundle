@@ -88,12 +88,4 @@ class GlobalVariables
     {
         return $this->container->getParameter('sonata.page.assets');
     }
-
-    /**
-     * @return bool
-     */
-    public function isInlineEditionOn()
-    {
-        return $this->container->getParameter('sonata.page.is_inline_edition_on');
-    }
 }

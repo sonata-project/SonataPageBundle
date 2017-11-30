@@ -27,7 +27,6 @@ Full configuration options:
         # Default configuration for extension with alias: "sonata_page"
         sonata_page:
             skip_redirection: false # Skip asking Editor to redirect
-            is_inline_edition_on:  false
             use_streamed_response:  false
             multisite:            ~ # Required
             ignore_route_patterns:
@@ -71,7 +70,6 @@ Full configuration options:
                     # Defaults:
                     - bundles/sonatacore/vendor/jquery/dist/jquery.min.js
                     - bundles/sonatacore/vendor/bootstrap/dist/js/bootstrap.min.js
-                    - bundles/sonatapage/sonata-page.front.js
             templates:            # Required
 
                 # Prototype
