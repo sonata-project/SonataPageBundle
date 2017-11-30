@@ -49,7 +49,7 @@
             {% endif %}
 
             {% if settings.mode == 'admin' and sonata_admin is defined %}
-                <a href="{{ sonata_admin.url('sonata.page.admin.page', 'compose', {filter:{hybrid:{value:'cms' }}}) }}" class="btn btn-primary btn-block">
+                <a href="{{ sonata_admin.url('sonata.page.admin.page', 'list', {filter:{hybrid:{value:'cms' }}}) }}" class="btn btn-primary btn-block">
                     <i class="fa fa-list"></i> {{ 'view_all_pages'|trans({}, 'SonataPageBundle') }}
                 </a>
             {% endif %}
