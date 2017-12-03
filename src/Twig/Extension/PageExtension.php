@@ -19,12 +19,12 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SnapshotPageProxy;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Symfony\Bridge\Twig\Extension\HttpKernelExtension;
-use Symfony\Component\Form\AbstractExtension;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment;
+use Twig\Extension\AbstractExtension;
 use Twig\Extension\InitRuntimeInterface;
 use Twig\TwigFunction;
 
