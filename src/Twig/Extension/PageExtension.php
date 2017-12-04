@@ -23,13 +23,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
+use Twig\Environment;
+use Twig\Extension\AbstractExtension;
+use Twig\Extension\InitRuntimeInterface;
+use Twig\TwigFunction;
 
 /**
  * PageExtension.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class PageExtension extends \Twig_Extension implements \Twig_Extension_InitRuntimeInterface
+class PageExtension extends AbstractExtension implements InitRuntimeInterface
 {
     /**
      * @var CmsManagerSelectorInterface
@@ -95,18 +99,18 @@ class PageExtension extends \Twig_Extension implements \Twig_Extension_InitRunti
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('sonata_page_ajax_url', [$this, 'ajaxUrl']),
-            new \Twig_SimpleFunction('sonata_page_breadcrumb', [$this, 'breadcrumb'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('sonata_page_render_container', [$this, 'renderContainer'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('sonata_page_render_block', [$this, 'renderBlock'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('controller', [$this, 'controller']),
+            new TwigFunction('sonata_page_ajax_url', [$this, 'ajaxUrl']),
+            new TwigFunction('sonata_page_breadcrumb', [$this, 'breadcrumb'], ['is_safe' => ['html']]),
+            new TwigFunction('sonata_page_render_container', [$this, 'renderContainer'], ['is_safe' => ['html']]),
+            new TwigFunction('sonata_page_render_block', [$this, 'renderBlock'], ['is_safe' => ['html']]),
+            new TwigFunction('controller', [$this, 'controller']),
         ];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function initRuntime(\Twig_Environment $environment)
+    public function initRuntime(Environment $environment)
     {
         $this->environment = $environment;
     }
