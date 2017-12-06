@@ -17,11 +17,12 @@ use Sonata\PageBundle\Cache\BlockSsiCache;
 class BlockSsiCacheTest extends TestCase
 {
     /**
-     * @expectedException \RuntimeException
      * @dataProvider      getExceptionCacheKeys
      */
     public function testExceptions($keys)
     {
+        $this->expectException(\RuntimeException::class);
+
         $router = $this->createMock('Symfony\Component\Routing\RouterInterface');
 
         $blockRenderer = $this->createMock('Sonata\BlockBundle\Block\BlockRendererInterface');

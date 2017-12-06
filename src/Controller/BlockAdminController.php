@@ -29,9 +29,9 @@ class BlockAdminController extends Controller
     /**
      * @param Request|null $request
      *
-     * @return Response
-     *
      * @throws AccessDeniedException
+     *
+     * @return Response
      */
     public function savePositionAction(Request $request = null)
     {
@@ -132,10 +132,10 @@ class BlockAdminController extends Controller
     /**
      * @param Request|null $request
      *
-     * @return Response
-     *
      * @throws AccessDeniedException
      * @throws PageNotFoundException
+     *
+     * @return Response
      */
     public function composePreviewAction(Request $request = null)
     {

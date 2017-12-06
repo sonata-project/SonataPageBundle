@@ -192,9 +192,9 @@ class CmsPageRouter implements ChainedRouterInterface
      * @param array         $parameters    An array of parameters
      * @param bool|string   $referenceType The type of reference to be generated (one of the constants)
      *
-     * @return string
-     *
      * @throws \RuntimeException
+     *
+     * @return string
      */
     protected function generateFromPage(PageInterface $page, array $parameters = [], $referenceType = self::ABSOLUTE_PATH)
     {
@@ -237,9 +237,9 @@ class CmsPageRouter implements ChainedRouterInterface
      * @param array       $parameters    An array of parameters
      * @param bool|string $referenceType The type of reference to be generated (one of the constants)
      *
-     * @return string
-     *
      * @throws \RuntimeException
+     *
+     * @return string
      */
     protected function generateFromPageSlug(array $parameters = [], $referenceType = self::ABSOLUTE_PATH)
     {
@@ -260,9 +260,9 @@ class CmsPageRouter implements ChainedRouterInterface
      * @param array       $parameters    An array of parameters
      * @param bool|string $referenceType The type of reference to be generated (one of the constants)
      *
-     * @return string
-     *
      * @throws \RuntimeException
+     *
+     * @return string
      */
     protected function decorateUrl($url, array $parameters = [], $referenceType = self::ABSOLUTE_PATH)
     {
@@ -314,9 +314,9 @@ class CmsPageRouter implements ChainedRouterInterface
      *
      * @param string $alias
      *
-     * @return \Sonata\PageBundle\Model\PageInterface|null
-     *
      * @throws PageNotFoundException
+     *
+     * @return \Sonata\PageBundle\Model\PageInterface|null
      */
     protected function getPageByPageAlias($alias)
     {

@@ -98,12 +98,12 @@ class CmsPageManagerTest extends TestCase
 
     /**
      * Test get Page method with url throw Exception.
-     *
-     * @expectedException        \Sonata\PageBundle\Exception\PageNotFoundException
-     * @expectedExceptionMessage Unable to find the page : url = /test
      */
     public function testGetPageWithUrlException()
     {
+        $this->expectException(\Sonata\PageBundle\Exception\PageNotFoundException::class);
+        $this->expectExceptionMessage('Unable to find the page : url = /test');
+
         $pageManager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
 
         $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->will($this->returnValue([]));
@@ -139,12 +139,12 @@ class CmsPageManagerTest extends TestCase
 
     /**
      * Test get Page method with url throw Exception.
-     *
-     * @expectedException        \Sonata\PageBundle\Exception\PageNotFoundException
-     * @expectedExceptionMessage Unable to find the page : url = /test
      */
     public function testGetPageWithRouteNameException()
     {
+        $this->expectException(\Sonata\PageBundle\Exception\PageNotFoundException::class);
+        $this->expectExceptionMessage('Unable to find the page : url = /test');
+
         $pageManager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
 
         $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->will($this->returnValue([]));
@@ -180,12 +180,12 @@ class CmsPageManagerTest extends TestCase
 
     /**
      * Test get Page method with url throw Exception.
-     *
-     * @expectedException        \Sonata\PageBundle\Exception\PageNotFoundException
-     * @expectedExceptionMessage Unable to find the page : id = 1
      */
     public function testGetPageWithIdException()
     {
+        $this->expectException(\Sonata\PageBundle\Exception\PageNotFoundException::class);
+        $this->expectExceptionMessage('Unable to find the page : id = 1');
+
         $pageManager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
 
         $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->will($this->returnValue([]));
@@ -221,12 +221,12 @@ class CmsPageManagerTest extends TestCase
 
     /**
      * Test get Page method with url throw Exception.
-     *
-     * @expectedException        \Sonata\PageBundle\Exception\PageNotFoundException
-     * @expectedExceptionMessage Unable to retrieve the page
      */
     public function testGetPageWithoutParamException()
     {
+        $this->expectException(\Sonata\PageBundle\Exception\PageNotFoundException::class);
+        $this->expectExceptionMessage('Unable to retrieve the page');
+
         $pageManager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
 
         $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->will($this->returnValue([]));

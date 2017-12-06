@@ -139,7 +139,7 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
 
         $page = new $class();
 
-        if (isset($defaults['routeName']) && isset($this->pageDefaults[$defaults['routeName']])) {
+        if (isset($defaults['routeName'], $this->pageDefaults[$defaults['routeName']])) {
             $defaults = array_merge($this->pageDefaults[$defaults['routeName']], $defaults);
         } else {
             $defaults = array_merge($this->defaults, $defaults);

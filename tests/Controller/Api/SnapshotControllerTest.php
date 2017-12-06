@@ -42,12 +42,11 @@ class SnapshotControllerTest extends TestCase
         $this->assertEquals($snapshot, $this->createSnapshotController($snapshot)->getSnapshotAction(1));
     }
 
-    /**
-     * @expectedException        \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     * @expectedExceptionMessage Snapshot (1) not found
-     */
     public function testGetSnapshotActionNotFoundException()
     {
+        $this->expectException(\Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class);
+        $this->expectExceptionMessage('Snapshot (1) not found');
+
         $this->createSnapshotController()->getSnapshotAction(1);
     }
 
@@ -65,7 +64,7 @@ class SnapshotControllerTest extends TestCase
 
     public function testDeletePageInvalidAction()
     {
-        $this->setExpectedException('Symfony\Component\HttpKernel\Exception\NotFoundHttpException');
+        $this->expectException('Symfony\Component\HttpKernel\Exception\NotFoundHttpException');
 
         $snapshotManager = $this->createMock('Sonata\PageBundle\Model\SnapshotManagerInterface');
         $snapshotManager->expects($this->never())->method('delete');
