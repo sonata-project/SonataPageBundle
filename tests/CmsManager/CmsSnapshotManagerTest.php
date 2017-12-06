@@ -82,11 +82,10 @@ class CmsSnapshotManagerTest extends TestCase
         $this->assertNull($container, 'should not create a new container block');
     }
 
-    /**
-     * @expectedException \Sonata\PageBundle\Exception\PageNotFoundException
-     */
     public function testGetPageWithUnknownPage()
     {
+        $this->expectException(\Sonata\PageBundle\Exception\PageNotFoundException::class);
+
         $this->snapshotManager->expects($this->once())->method('findEnableSnapshot')->will($this->returnValue(null));
 
         $site = $this->createMock('Sonata\PageBundle\Model\SiteInterface');

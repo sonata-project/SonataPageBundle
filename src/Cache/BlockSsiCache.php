@@ -130,9 +130,9 @@ class BlockSsiCache extends SsiCache
     }
 
     /**
-     * @throws \RuntimeException
-     *
      * @param array $keys
+     *
+     * @throws \RuntimeException
      */
     private function validateKeys(array $keys)
     {
@@ -144,9 +144,9 @@ class BlockSsiCache extends SsiCache
     }
 
     /**
-     * @throws NotFoundHttpException
-     *
      * @param Request $request
+     *
+     * @throws NotFoundHttpException
      *
      * @return CmsManagerInterface
      */

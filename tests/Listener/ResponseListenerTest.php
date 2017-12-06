@@ -65,11 +65,11 @@ class ResponseListenerTest extends TestCase
 
     /**
      * Test the listener without a page.
-     *
-     * @expectedException \Sonata\PageBundle\Exception\InternalErrorException
      */
     public function testWithoutPage()
     {
+        $this->expectException(\Sonata\PageBundle\Exception\InternalErrorException::class);
+
         // GIVEN
 
         // mocked decorator strategy should accept to decorate

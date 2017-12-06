@@ -53,11 +53,10 @@ class CmsPageRouterTest extends TestCase
         $this->router = new CmsPageRouter($this->cmsSelector, $this->siteSelector, $this->defaultRouter);
     }
 
-    /**
-     * @expectedException \Symfony\Component\Routing\Exception\ResourceNotFoundException
-     */
     public function testMatchToPageFound()
     {
+        $this->expectException(\Symfony\Component\Routing\Exception\ResourceNotFoundException::class);
+
         $cms = $this->createMock('Sonata\PageBundle\CmsManager\CmsManagerInterface');
         $this->cmsSelector->expects($this->any())->method('retrieve')->will($this->returnValue($cms));
 
@@ -67,11 +66,10 @@ class CmsPageRouterTest extends TestCase
         $this->router->match('/');
     }
 
-    /**
-     * @expectedException \Symfony\Component\Routing\Exception\ResourceNotFoundException
-     */
     public function testMatchOnlyCmsPage()
     {
+        $this->expectException(\Symfony\Component\Routing\Exception\ResourceNotFoundException::class);
+
         $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
         $page->expects($this->any())->method('isCms')->will($this->returnValue(false));
 
@@ -107,19 +105,17 @@ class CmsPageRouterTest extends TestCase
         $this->assertEquals('page_slug', $route['_route']);
     }
 
-    /**
-     * @expectedException \Symfony\Component\Routing\Exception\RouteNotFoundException
-     */
     public function testGenerateInvalidPage()
     {
+        $this->expectException(\Symfony\Component\Routing\Exception\RouteNotFoundException::class);
+
         $this->router->generate('foobar');
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function testGenerateWithPageSlugInvalidParameterException()
     {
+        $this->expectException(\RuntimeException::class);
+
         $this->router->generate('page_slug', []);
     }
 
@@ -132,11 +128,10 @@ class CmsPageRouterTest extends TestCase
         $this->assertTrue($this->router->supports($this->createMock('Sonata\PageBundle\Model\PageInterface')));
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function testGenerateWithPageSlugInvalidContext()
     {
+        $this->expectException(\RuntimeException::class);
+
         $this->router->generate('page_slug', ['path' => '/path/to/page']);
     }
 

@@ -31,12 +31,11 @@ class SiteManagerTest extends TestCase
             ->getPager([], 1);
     }
 
-    /**
-     * @expectedException        \RuntimeException
-     * @expectedExceptionMessage Invalid sort field 'invalid' in 'Sonata\PageBundle\Entity\BaseSite' class
-     */
     public function testGetPagerWithInvalidSort()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Invalid sort field \'invalid\' in \'Sonata\\PageBundle\\Entity\\BaseSite\' class');
+
         $self = $this;
         $this
             ->getSiteManager(function ($qb) use ($self) {

@@ -151,7 +151,8 @@ class CloneSiteCommandTest extends TestCase
 
     public function testExecuteNoSourceId()
     {
-        $this->setExpectedException('\InvalidArgumentException', 'Please provide a "--source-id=SITE_ID" option.');
+        $this->expectException('\InvalidArgumentException');
+        $this->expectExceptionMessage('Please provide a "--source-id=SITE_ID" option.');
 
         $this->siteManager->findAll()->willReturn([]);
 
@@ -168,7 +169,8 @@ class CloneSiteCommandTest extends TestCase
 
     public function testExecuteNoDestId()
     {
-        $this->setExpectedException('\InvalidArgumentException', 'Please provide a "--dest-id=SITE_ID" option.');
+        $this->expectException('\InvalidArgumentException');
+        $this->expectExceptionMessage('Please provide a "--dest-id=SITE_ID" option.');
 
         $this->siteManager->findAll()->willReturn([]);
 
@@ -185,7 +187,8 @@ class CloneSiteCommandTest extends TestCase
 
     public function testExecuteNoPrefix()
     {
-        $this->setExpectedException('\InvalidArgumentException', 'Please provide a "--prefix=PREFIX" option.');
+        $this->expectException('\InvalidArgumentException');
+        $this->expectExceptionMessage('Please provide a "--prefix=PREFIX" option.');
 
         $this->siteManager->findAll()->willReturn([]);
 

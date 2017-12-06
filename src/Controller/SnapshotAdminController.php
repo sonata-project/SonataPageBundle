@@ -82,9 +82,9 @@ class SnapshotAdminController extends Controller
     /**
      * @param mixed $query
      *
-     * @return RedirectResponse
-     *
      * @throws AccessDeniedException
+     *
+     * @return RedirectResponse
      */
     public function batchActionToggleEnabled($query)
     {

@@ -139,9 +139,9 @@ class SiteController extends FOSRestController
      *
      * @param Request $request A Symfony request
      *
-     * @return SiteInterface
-     *
      * @throws NotFoundHttpException
+     *
+     * @return SiteInterface
      */
     public function postSiteAction(Request $request)
     {
@@ -167,9 +167,9 @@ class SiteController extends FOSRestController
      * @param int     $id      A Site identifier
      * @param Request $request A Symfony request
      *
-     * @return SiteInterface
-     *
      * @throws NotFoundHttpException
+     *
+     * @return SiteInterface
      */
     public function putSiteAction($id, Request $request)
     {
@@ -192,9 +192,9 @@ class SiteController extends FOSRestController
      *
      * @param int $id A Site identifier
      *
-     * @return \FOS\RestBundle\View\View
-     *
      * @throws NotFoundHttpException
+     *
+     * @return \FOS\RestBundle\View\View
      */
     public function deleteSiteAction($id)
     {
@@ -210,9 +210,9 @@ class SiteController extends FOSRestController
      *
      * @param $id
      *
-     * @return SiteInterface
-     *
      * @throws NotFoundHttpException
+     *
+     * @return SiteInterface
      */
     protected function getSite($id)
     {

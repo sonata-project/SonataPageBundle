@@ -228,9 +228,9 @@ class PageController extends FOSRestController
      * @param int     $id      A Page identifier
      * @param Request $request A Symfony request
      *
-     * @return BlockInterface
-     *
      * @throws NotFoundHttpException
+     *
+     * @return BlockInterface
      */
     public function postPageBlockAction($id, Request $request)
     {
@@ -269,9 +269,9 @@ class PageController extends FOSRestController
      *
      * @param Request $request A Symfony request
      *
-     * @return PageInterface
-     *
      * @throws NotFoundHttpException
+     *
+     * @return PageInterface
      */
     public function postPageAction(Request $request)
     {
@@ -297,9 +297,9 @@ class PageController extends FOSRestController
      * @param int     $id      A Page identifier
      * @param Request $request A Symfony request
      *
-     * @return PageInterface
-     *
      * @throws NotFoundHttpException
+     *
+     * @return PageInterface
      */
     public function putPageAction($id, Request $request)
     {
@@ -322,9 +322,9 @@ class PageController extends FOSRestController
      *
      * @param int $id A Page identifier
      *
-     * @return \FOS\RestBundle\View\View
-     *
      * @throws NotFoundHttpException
+     *
+     * @return \FOS\RestBundle\View\View
      */
     public function deletePageAction($id)
     {
@@ -351,9 +351,9 @@ class PageController extends FOSRestController
      *
      * @param int $id A Page identifier
      *
-     * @return \FOS\RestBundle\View\View
-     *
      * @throws NotFoundHttpException
+     *
+     * @return \FOS\RestBundle\View\View
      */
     public function postPageSnapshotAction($id)
     {
@@ -376,9 +376,9 @@ class PageController extends FOSRestController
      *  }
      * )
      *
-     * @return \FOS\RestBundle\View\View
-     *
      * @throws NotFoundHttpException
+     *
+     * @return \FOS\RestBundle\View\View
      */
     public function postPagesSnapshotsAction()
     {
@@ -398,9 +398,9 @@ class PageController extends FOSRestController
      *
      * @param $id
      *
-     * @return PageInterface
-     *
      * @throws NotFoundHttpException
+     *
+     * @return PageInterface
      */
     protected function getPage($id)
     {
@@ -418,9 +418,9 @@ class PageController extends FOSRestController
      *
      * @param $id
      *
-     * @return BlockInterface
-     *
      * @throws NotFoundHttpException
+     *
+     * @return BlockInterface
      */
     protected function getBlock($id)
     {

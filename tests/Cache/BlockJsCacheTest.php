@@ -17,11 +17,12 @@ use Sonata\PageBundle\Cache\BlockJsCache;
 class BlockJsCacheTest extends TestCase
 {
     /**
-     * @expectedException \RuntimeException
      * @dataProvider getExceptionCacheKeys
      */
     public function testExceptions($keys)
     {
+        $this->expectException(\RuntimeException::class);
+
         $router = $this->createMock('Symfony\Component\Routing\RouterInterface');
 
         $cmsManager = $this->createMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');

@@ -45,12 +45,11 @@ class PageControllerTest extends TestCase
         $this->assertEquals($page, $this->createPageController($page)->getPageAction(1));
     }
 
-    /**
-     * @expectedException        \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     * @expectedExceptionMessage Page (42) not found
-     */
     public function testGetPageActionNotFoundException()
     {
+        $this->expectException(\Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class);
+        $this->expectExceptionMessage('Page (42) not found');
+
         $this->createPageController()->getPageAction(42);
     }
 
@@ -156,7 +155,7 @@ class PageControllerTest extends TestCase
 
     public function testDeletePageInvalidAction()
     {
-        $this->setExpectedException('Symfony\Component\HttpKernel\Exception\NotFoundHttpException');
+        $this->expectException('Symfony\Component\HttpKernel\Exception\NotFoundHttpException');
 
         $pageManager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
         $pageManager->expects($this->never())->method('delete');

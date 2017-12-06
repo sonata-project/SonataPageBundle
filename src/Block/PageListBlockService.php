@@ -104,7 +104,7 @@ class PageListBlockService extends AbstractAdminBlockService
      */
     public function getBlockMetadata($code = null)
     {
-        return new Metadata($this->getName(), (!is_null($code) ? $code : $this->getName()), false, 'SonataPageBundle', [
+        return new Metadata($this->getName(), (null !== $code ? $code : $this->getName()), false, 'SonataPageBundle', [
             'class' => 'fa fa-home',
         ]);
     }

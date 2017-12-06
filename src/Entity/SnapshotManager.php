@@ -214,9 +214,9 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
     /**
      * @param string $code
      *
-     * @return mixed
-     *
      * @throws \RuntimeException
+     *
+     * @return mixed
      */
     public function getTemplate($code)
     {

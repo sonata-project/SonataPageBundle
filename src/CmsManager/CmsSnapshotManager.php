@@ -122,8 +122,6 @@ class CmsSnapshotManager extends BaseCmsPageManager
         if (isset($this->blocks[$id])) {
             return $this->blocks[$id];
         }
-
-        return;
     }
 
     /**

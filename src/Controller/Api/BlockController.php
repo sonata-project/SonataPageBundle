@@ -89,9 +89,9 @@ class BlockController extends FOSRestController
      * @param int     $id      A Block identifier
      * @param Request $request A Symfony request
      *
-     * @return BlockInterface
-     *
      * @throws NotFoundHttpException
+     *
+     * @return BlockInterface
      */
     public function putBlockAction($id, Request $request)
     {
@@ -130,9 +130,9 @@ class BlockController extends FOSRestController
      *
      * @param int $id A Block identifier
      *
-     * @return \FOS\RestBundle\View\View
-     *
      * @throws NotFoundHttpException
+     *
+     * @return \FOS\RestBundle\View\View
      */
     public function deleteBlockAction($id)
     {
@@ -148,9 +148,9 @@ class BlockController extends FOSRestController
      *
      * @param $id
      *
-     * @return BlockInterface
-     *
      * @throws NotFoundHttpException
+     *
+     * @return BlockInterface
      */
     protected function getBlock($id)
     {

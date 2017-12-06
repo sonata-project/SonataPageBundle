@@ -35,7 +35,7 @@ class PageManagerTest extends TestCase
 
         $manager->fixUrl($page1);
 
-        $this->assertEquals(null, $page1->getSlug());
+        $this->assertEquals('', $page1->getSlug());
         $this->assertEquals('/', $page1->getUrl());
 
         // if a parent page becomes a child page, then the slug and the url must be updated
@@ -44,7 +44,7 @@ class PageManagerTest extends TestCase
 
         $manager->fixUrl($parent);
 
-        $this->assertEquals(null, $parent->getSlug());
+        $this->assertEquals('', $parent->getSlug());
         $this->assertEquals('/', $parent->getUrl());
 
         $this->assertEquals('salut-comment-ca-va', $page1->getSlug());
@@ -57,7 +57,7 @@ class PageManagerTest extends TestCase
         $page1->setParent(null);
         $manager->fixUrl($parent);
 
-        $this->assertEquals(null, $page1->getSlug());
+        $this->assertEquals('', $page1->getSlug());
         $this->assertEquals('/', $page1->getUrl());
     }
 
@@ -117,12 +117,11 @@ class PageManagerTest extends TestCase
             ->getPager([], 1);
     }
 
-    /**
-     * @expectedException        \RuntimeException
-     * @expectedExceptionMessage Invalid sort field 'invalid' in 'Sonata\PageBundle\Entity\BasePage' class
-     */
     public function testGetPagerWithInvalidSort()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Invalid sort field \'invalid\' in \'Sonata\\PageBundle\\Entity\\BasePage\' class');
+
         $self = $this;
         $this
             ->getPageManager(function ($qb) use ($self) {

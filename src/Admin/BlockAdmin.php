@@ -239,7 +239,5 @@ class BlockAdmin extends BaseBlockAdmin
         if (isset($options['template'])) {
             return $options['template'];
         }
-
-        return;
     }
 }
