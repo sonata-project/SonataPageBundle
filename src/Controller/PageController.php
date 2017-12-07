@@ -46,9 +46,9 @@ class PageController extends Controller
     }
 
     /**
-     * @throws InternalErrorException|AccessDeniedException
-     *
      * @param string $code
+     *
+     * @throws InternalErrorException|AccessDeniedException
      *
      * @return Response
      */

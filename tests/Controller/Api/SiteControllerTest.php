@@ -43,12 +43,11 @@ class SiteControllerTest extends TestCase
         $this->assertEquals($site, $this->createSiteController($site)->getSiteAction(1));
     }
 
-    /**
-     * @expectedException        \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     * @expectedExceptionMessage Site (1) not found
-     */
     public function testGetSiteActionNotFoundException()
     {
+        $this->expectException(\Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class);
+        $this->expectExceptionMessage('Site (1) not found');
+
         $this->createSiteController()->getSiteAction(1);
     }
 
@@ -144,7 +143,7 @@ class SiteControllerTest extends TestCase
 
     public function testDeleteSiteInvalidAction()
     {
-        $this->setExpectedException('Symfony\Component\HttpKernel\Exception\NotFoundHttpException');
+        $this->expectException('Symfony\Component\HttpKernel\Exception\NotFoundHttpException');
 
         $siteManager = $this->createMock('Sonata\PageBundle\Model\SiteManagerInterface');
         $siteManager->expects($this->never())->method('delete');

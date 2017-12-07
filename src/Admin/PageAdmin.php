@@ -151,9 +151,9 @@ class PageAdmin extends AbstractAdmin
     }
 
     /**
-     * @return SiteInterface|bool
-     *
      * @throws \RuntimeException
+     *
+     * @return SiteInterface|bool
      */
     public function getSite()
     {

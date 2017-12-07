@@ -82,7 +82,8 @@ class SnapshotManagerTest extends TestCase
             ->getMock()
         ;
 
-        $this->setExpectedException('RuntimeException', 'No template references with the code : foo');
+        $this->expectException('RuntimeException');
+        $this->expectExceptionMessage('No template references with the code : foo');
 
         $manager->getTemplate('foo');
     }

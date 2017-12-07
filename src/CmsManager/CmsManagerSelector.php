@@ -115,7 +115,5 @@ class CmsManagerSelector implements CmsManagerSelectorInterface, LogoutHandlerIn
         if ($this->container->isScopeActive('request')) {
             return $this->container->get('request');
         }
-
-        return;
     }
 }

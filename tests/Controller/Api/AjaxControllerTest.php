@@ -21,11 +21,10 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class AjaxControllerTest extends TestCase
 {
-    /**
-     * @expectedException \Sonata\BlockBundle\Exception\BlockNotFoundException
-     */
     public function testWithInvalidBlock()
     {
+        $this->expectException(\Sonata\BlockBundle\Exception\BlockNotFoundException::class);
+
         $cmsManager = $this->createMock('Sonata\PageBundle\CmsManager\CmsManagerInterface');
 
         $selector = $this->createMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');

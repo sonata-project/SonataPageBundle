@@ -25,10 +25,10 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class SiteAdminController extends Controller
 {
     /**
-     * @return RedirectResponse|Response
-     *
      * @throws NotFoundHttpException
      * @throws AccessDeniedException
+     *
+     * @return RedirectResponse|Response
      */
     public function snapshotsAction()
     {

@@ -28,9 +28,9 @@ class PageAdminController extends Controller
     /**
      * @param mixed $query
      *
-     * @return RedirectResponse
-     *
      * @throws AccessDeniedException
+     *
+     * @return RedirectResponse
      */
     public function batchActionSnapshot($query)
     {
@@ -149,10 +149,10 @@ class PageAdminController extends Controller
     /**
      * @param Request|null $request
      *
-     * @return Response
-     *
      * @throws AccessDeniedException
      * @throws NotFoundHttpException
+     *
+     * @return Response
      */
     public function composeAction(Request $request = null)
     {
@@ -227,10 +227,10 @@ class PageAdminController extends Controller
     /**
      * @param Request|null $request
      *
-     * @return Response
-     *
      * @throws AccessDeniedException
      * @throws NotFoundHttpException
+     *
+     * @return Response
      */
     public function composeContainerShowAction(Request $request = null)
     {

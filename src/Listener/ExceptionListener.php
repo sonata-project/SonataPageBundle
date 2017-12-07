@@ -124,10 +124,10 @@ class ExceptionListener
      *
      * @param int $statusCode
      *
-     * @return \Sonata\PageBundle\Model\PageInterface
-     *
      * @throws \RuntimeException      When site is not found, check your state database
      * @throws InternalErrorException When you do not configure page for http error code
+     *
+     * @return \Sonata\PageBundle\Model\PageInterface
      */
     public function getErrorCodePage($statusCode)
     {

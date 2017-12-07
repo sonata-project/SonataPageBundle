@@ -27,33 +27,27 @@ class DecoratorStrategyTest extends TestCase
 
         $strategy = new DecoratorStrategy([], [], []);
 
-        //
         $this->assertFalse($strategy->isDecorable($request, HttpKernelInterface::SUB_REQUEST, $response));
 
-        //
         $response->headers = new ParameterBag();
         $response->headers->set('Content-Type', 'foo/test');
 
         $this->assertFalse($strategy->isDecorable($request, HttpKernelInterface::MASTER_REQUEST, $response));
 
-        //
         $response->headers->set('Content-Type', 'text/html');
         $response->setStatusCode(404);
         $this->assertFalse($strategy->isDecorable($request, HttpKernelInterface::MASTER_REQUEST, $response));
 
-        //
         $response->setStatusCode(200);
 
         $request->headers->set('x-requested-with', 'XMLHttpRequest');
         $this->assertFalse($strategy->isDecorable($request, HttpKernelInterface::MASTER_REQUEST, $response));
 
-        //
         $request->headers->set('x-requested-with', null);
 
         $response->headers->set('x-sonata-page-decorable', false);
         $this->assertFalse($strategy->isDecorable($request, HttpKernelInterface::MASTER_REQUEST, $response));
 
-        //
         $request->headers->set('x-requested-with', 'XMLHttpRequest');
         $response->headers->set('x-sonata-page-decorable', true);
         $this->assertTrue($strategy->isDecorable($request, HttpKernelInterface::MASTER_REQUEST, $response));

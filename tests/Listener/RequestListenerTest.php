@@ -51,11 +51,10 @@ class RequestListenerTest extends TestCase
         $listener->onCoreRequest($event);
     }
 
-    /**
-     * @expectedException \Sonata\PageBundle\Exception\InternalErrorException
-     */
     public function testNoSite()
     {
+        $this->expectException(\Sonata\PageBundle\Exception\InternalErrorException::class);
+
         $cmsManager = $this->createMock('Sonata\PageBundle\CmsManager\CmsManagerInterface');
 
         $seoPage = $this->createMock('Sonata\SeoBundle\Seo\SeoPageInterface');

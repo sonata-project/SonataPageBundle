@@ -66,11 +66,10 @@ class RequestFactoryTest extends TestCase
         }
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function testInvalidType()
     {
+        $this->expectException(\RuntimeException::class);
+
         RequestFactory::createFromGlobals('boom');
     }
 }

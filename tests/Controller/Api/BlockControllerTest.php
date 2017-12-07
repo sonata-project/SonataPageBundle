@@ -27,12 +27,11 @@ class BlockControllerTest extends TestCase
         $this->assertEquals($block, $this->createBlockController($block)->getBlockAction(1));
     }
 
-    /**
-     * @expectedException        \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     * @expectedExceptionMessage Block (42) not found
-     */
     public function testGetBlockActionNotFoundException()
     {
+        $this->expectException(\Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class);
+        $this->expectExceptionMessage('Block (42) not found');
+
         $this->createBlockController()->getBlockAction(42);
     }
 
@@ -89,7 +88,7 @@ class BlockControllerTest extends TestCase
 
     public function testDeleteBlockInvalidAction()
     {
-        $this->setExpectedException('Symfony\Component\HttpKernel\Exception\NotFoundHttpException');
+        $this->expectException('Symfony\Component\HttpKernel\Exception\NotFoundHttpException');
 
         $blockManager = $this->createMock('Sonata\BlockBundle\Model\BlockManagerInterface');
         $blockManager->expects($this->never())->method('delete');

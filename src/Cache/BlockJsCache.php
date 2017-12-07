@@ -239,9 +239,9 @@ class BlockJsCache implements CacheAdapterInterface
     }
 
     /**
-     * @throws \RuntimeException
-     *
      * @param array $keys
+     *
+     * @throws \RuntimeException
      */
     private function validateKeys(array $keys)
     {

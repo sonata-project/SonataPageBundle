@@ -137,9 +137,9 @@ class SnapshotController extends FOSRestController
      *
      * @param int $id A Snapshot identifier
      *
-     * @return \FOS\RestBundle\View\View
-     *
      * @throws NotFoundHttpException
+     *
+     * @return \FOS\RestBundle\View\View
      */
     public function deleteSnapshotAction($id)
     {
@@ -155,9 +155,9 @@ class SnapshotController extends FOSRestController
      *
      * @param $id
      *
-     * @return SnapshotInterface
-     *
      * @throws NotFoundHttpException
+     *
+     * @return SnapshotInterface
      */
     protected function getSnapshot($id)
     {
