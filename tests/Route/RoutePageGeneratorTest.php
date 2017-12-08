@@ -192,7 +192,7 @@ class RoutePageGeneratorTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $exceptionListener->expects($this->any())->method('getHttpErrorCodes')->will($this->returnValue([404, 500]));
+        $exceptionListener->expects($this->any())->method('getHttpErrorCodes')->will($this->returnValue(['404', '500']));
 
         return new RoutePageGenerator($router, $pageManager, $decoratorStrategy, $exceptionListener);
     }
