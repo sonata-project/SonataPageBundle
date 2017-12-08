@@ -101,7 +101,11 @@ class PageAdminController extends Controller
         if (!method_exists('Symfony\Bridge\Twig\AppVariable', 'getToken')) {
             $twig->getExtension('Symfony\Bridge\Twig\Extension\FormExtension')->renderer->setTheme($formView, $theme);
         } else {
-            $twig->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->setTheme($formView, $theme);
+            // BC for Symfony < 3.4 which deprecated this runtime in favor of FormRenderer
+            if (!method_exists('Symfony\Bridge\Twig\Command\DebugCommand', 'getLoaderPaths')) {
+                $twig->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->setTheme($formView, $theme);
+            }
+            $twig->getRuntime('Symfony\Component\Form\FormRenderer')->setTheme($formView, $theme);
         }
 
         return $this->render($this->admin->getTemplate('tree'), [
