@@ -17,6 +17,7 @@ use Sonata\PageBundle\Request\SiteRequest;
 use Sonata\PageBundle\Site\HostPathSiteSelector as BaseSiteSelector;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
  * @author Stephen Leavitt <stephen.leavitt@sonyatv.com>
@@ -286,7 +287,7 @@ class HostPathSiteSelectorTest extends TestCase
         // Ensure request locale is null
         $this->assertNull($request->attributes->get('_locale'));
 
-        $event = new GetResponseEvent($kernel, $request, 'master');
+        $event = new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
 
         $siteManager = $this->createMock('Sonata\PageBundle\Model\SiteManagerInterface');
         $decoratorStrategy = $this->createMock('Sonata\PageBundle\CmsManager\DecoratorStrategyInterface');
