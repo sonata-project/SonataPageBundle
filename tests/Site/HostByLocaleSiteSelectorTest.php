@@ -15,6 +15,7 @@ namespace Sonata\PageBundle\Tests\Site;
 
 use Sonata\PageBundle\Request\SiteRequest;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
  * Tests the HostByLocaleSiteSelector service.
@@ -49,7 +50,7 @@ class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
         // Ensure request locale is null
         $this->assertNull($request->attributes->get('_locale'));
 
-        $event = new GetResponseEvent($kernel, $request, 'master');
+        $event = new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
 
         $this->siteSelector
             ->expects($this->once())
@@ -81,7 +82,7 @@ class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
         // Ensure request locale is null
         $this->assertNull($request->attributes->get('_locale'));
 
-        $event = new GetResponseEvent($kernel, $request, 'master');
+        $event = new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
 
         $this->siteSelector
             ->expects($this->once())
