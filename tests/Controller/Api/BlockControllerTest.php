@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -20,14 +22,14 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class BlockControllerTest extends TestCase
 {
-    public function testGetBlockAction()
+    public function testGetBlockAction(): void
     {
         $block = $this->createMock('Sonata\BlockBundle\Model\BlockInterface');
 
         $this->assertEquals($block, $this->createBlockController($block)->getBlockAction(1));
     }
 
-    public function testGetBlockActionNotFoundException()
+    public function testGetBlockActionNotFoundException(): void
     {
         $this->expectException(\Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class);
         $this->expectExceptionMessage('Block (42) not found');
@@ -35,7 +37,7 @@ class BlockControllerTest extends TestCase
         $this->createBlockController()->getBlockAction(42);
     }
 
-    public function testPutBlockAction()
+    public function testPutBlockAction(): void
     {
         $block = $this->createMock('Sonata\BlockBundle\Model\BlockInterface');
 
@@ -55,7 +57,7 @@ class BlockControllerTest extends TestCase
         $this->assertInstanceOf('FOS\RestBundle\View\View', $view);
     }
 
-    public function testPutBlockInvalidAction()
+    public function testPutBlockInvalidAction(): void
     {
         $block = $this->createMock('Sonata\BlockBundle\Model\BlockInterface');
 
@@ -74,7 +76,7 @@ class BlockControllerTest extends TestCase
         $this->assertInstanceOf('Symfony\Component\Form\FormInterface', $view);
     }
 
-    public function testDeleteBlockAction()
+    public function testDeleteBlockAction(): void
     {
         $block = $this->createMock('Sonata\BlockBundle\Model\BlockInterface');
 
@@ -86,7 +88,7 @@ class BlockControllerTest extends TestCase
         $this->assertEquals(['deleted' => true], $view);
     }
 
-    public function testDeleteBlockInvalidAction()
+    public function testDeleteBlockInvalidAction(): void
     {
         $this->expectException('Symfony\Component\HttpKernel\Exception\NotFoundHttpException');
 

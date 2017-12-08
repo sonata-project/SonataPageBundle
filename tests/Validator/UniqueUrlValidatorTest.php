@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -21,7 +23,7 @@ class UniqueUrlValidatorTest extends TestCase
     /**
      * @group legacy
      */
-    public function testValidateWithNoPageFound()
+    public function testValidateWithNoPageFound(): void
     {
         $site = $this->createMock('Sonata\PageBundle\Model\SiteInterface');
 
@@ -41,7 +43,7 @@ class UniqueUrlValidatorTest extends TestCase
         $validator->validate($page, new UniqueUrl());
     }
 
-    public function testValidateWithPageFound()
+    public function testValidateWithPageFound(): void
     {
         $site = $this->createMock('Sonata\PageBundle\Model\SiteInterface');
 
@@ -65,7 +67,7 @@ class UniqueUrlValidatorTest extends TestCase
         $validator->validate($page, new UniqueUrl());
     }
 
-    public function testValidateWithRootUrlAndNoParent()
+    public function testValidateWithRootUrlAndNoParent(): void
     {
         $site = $this->createMock('Sonata\PageBundle\Model\SiteInterface');
 
@@ -90,7 +92,7 @@ class UniqueUrlValidatorTest extends TestCase
         $validator->validate($page, new UniqueUrl());
     }
 
-    public function testValidateWithPageDynamic()
+    public function testValidateWithPageDynamic(): void
     {
         $site = $this->createMock('Sonata\PageBundle\Model\SiteInterface');
 

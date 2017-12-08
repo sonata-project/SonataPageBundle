@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -27,7 +29,7 @@ final class CreateBlockContainerCommand extends BaseCommand
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('sonata:page:create-block-container');
 
@@ -41,7 +43,7 @@ final class CreateBlockContainerCommand extends BaseCommand
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $blockCode = $input->getArgument('blockCode');
 

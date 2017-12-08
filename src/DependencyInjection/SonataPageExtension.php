@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -28,7 +30,7 @@ class SonataPageExtension extends Extension
     /**
      * {@inheritdoc}
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $processor = new Processor();
         $configuration = new Configuration();
@@ -99,7 +101,7 @@ class SonataPageExtension extends Extension
      * @param ContainerBuilder $container Container builder
      * @param array            $config    Array of configuration
      */
-    public function configurePageDefaults(ContainerBuilder $container, array $config)
+    public function configurePageDefaults(ContainerBuilder $container, array $config): void
     {
         $defaults = [
             'templateCode' => $config['default_template'],
@@ -129,7 +131,7 @@ class SonataPageExtension extends Extension
      * @param ContainerBuilder $container Container builder
      * @param array            $config    Array of configuration
      */
-    public function registerParameters(ContainerBuilder $container, array $config)
+    public function registerParameters(ContainerBuilder $container, array $config): void
     {
         $container->setParameter('sonata.page.site.class', $config['class']['site']);
         $container->setParameter('sonata.page.block.class', $config['class']['block']);
@@ -147,7 +149,7 @@ class SonataPageExtension extends Extension
      *
      * @param array $config
      */
-    public function registerDoctrineMapping(array $config)
+    public function registerDoctrineMapping(array $config): void
     {
         if (!class_exists($config['class']['page'])) {
             return;
@@ -345,7 +347,7 @@ class SonataPageExtension extends Extension
      * @param ContainerBuilder $container Container builder
      * @param array            $config    Array of configuration
      */
-    public function configureMultisite(ContainerBuilder $container, array $config)
+    public function configureMultisite(ContainerBuilder $container, array $config): void
     {
         $multisite = $config['multisite'];
 
@@ -389,7 +391,7 @@ class SonataPageExtension extends Extension
      * @param ContainerBuilder $container Container builder
      * @param array            $config    Array of configuration
      */
-    public function configureTemplates(ContainerBuilder $container, array $config)
+    public function configureTemplates(ContainerBuilder $container, array $config): void
     {
         $templateManager = $container->getDefinition('sonata.page.template_manager');
 
@@ -418,7 +420,7 @@ class SonataPageExtension extends Extension
      * @param ContainerBuilder $container Container builder
      * @param array            $config    Array of configuration
      */
-    public function configureTemplatesAdmin(ContainerBuilder $container, array $config)
+    public function configureTemplatesAdmin(ContainerBuilder $container, array $config): void
     {
         $templateManager = $container->getDefinition('sonata.page.admin.page');
 
@@ -433,7 +435,7 @@ class SonataPageExtension extends Extension
      * @param ContainerBuilder $container Container builder
      * @param array            $config    Array of configuration
      */
-    public function configureCache(ContainerBuilder $container, array $config)
+    public function configureCache(ContainerBuilder $container, array $config): void
     {
         if (isset($config['caches']['esi'])) {
             $container
@@ -460,7 +462,7 @@ class SonataPageExtension extends Extension
      * @param ContainerBuilder $container Container builder
      * @param array            $config    An array of bundle configuration
      */
-    public function configureExceptions(ContainerBuilder $container, array $config)
+    public function configureExceptions(ContainerBuilder $container, array $config): void
     {
         $exceptions = [];
         foreach ($config['catch_exceptions'] as $keyWord => $codes) {
@@ -484,7 +486,7 @@ class SonataPageExtension extends Extension
      * @param ContainerBuilder $container Container builder
      * @param array            $config    An array of bundle configuration
      */
-    public function configurePageServices(ContainerBuilder $container, array $config)
+    public function configurePageServices(ContainerBuilder $container, array $config): void
     {
         // set the default page service to use when no page type has been set. (backward compatibility)
         $definition = $container->getDefinition('sonata.page.page_service_manager');

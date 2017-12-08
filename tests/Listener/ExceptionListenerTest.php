@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -66,7 +68,7 @@ class ExceptionListenerTest extends TestCase
     /**
      * setup unit test.
      */
-    public function setUp()
+    public function setUp(): void
     {
         // mock dependencies
         $this->siteSelector = $this->createMock('Sonata\PageBundle\Site\SiteSelectorInterface');
@@ -88,7 +90,7 @@ class ExceptionListenerTest extends TestCase
     /**
      * Test an internal exception.
      */
-    public function testInternalException()
+    public function testInternalException(): void
     {
         // GIVEN
         // mock exception
@@ -110,7 +112,7 @@ class ExceptionListenerTest extends TestCase
     /**
      * Test the not found exception in editor mode.
      */
-    public function testNotFoundExceptionInEditorMode()
+    public function testNotFoundExceptionInEditorMode(): void
     {
         // GIVEN
         // mock exception
@@ -138,7 +140,7 @@ class ExceptionListenerTest extends TestCase
     /**
      * Test the not found exception rendering.
      */
-    public function testNotFoundException()
+    public function testNotFoundException(): void
     {
         // GIVEN
         // mock exception

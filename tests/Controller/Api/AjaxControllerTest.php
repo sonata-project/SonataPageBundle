@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -21,7 +23,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class AjaxControllerTest extends TestCase
 {
-    public function testWithInvalidBlock()
+    public function testWithInvalidBlock(): void
     {
         $this->expectException(\Sonata\BlockBundle\Exception\BlockNotFoundException::class);
 
@@ -41,7 +43,7 @@ class AjaxControllerTest extends TestCase
         $controller->execute($request, 10, 12);
     }
 
-    public function testRenderer()
+    public function testRenderer(): void
     {
         $block = $this->createMock('Sonata\BlockBundle\Model\BlockInterface');
 

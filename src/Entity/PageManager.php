@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -156,7 +158,7 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function fixUrl(PageInterface $page)
+    public function fixUrl(PageInterface $page): void
     {
         if ($page->isInternal()) {
             $page->setUrl(null); // internal routes do not have any url ...

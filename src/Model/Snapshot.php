@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -128,7 +130,7 @@ abstract class Snapshot implements SnapshotInterface
     /**
      * {@inheritdoc}
      */
-    public function setRouteName($routeName)
+    public function setRouteName($routeName): void
     {
         $this->routeName = $routeName;
     }
@@ -144,7 +146,7 @@ abstract class Snapshot implements SnapshotInterface
     /**
      * {@inheritdoc}
      */
-    public function setPageAlias($pageAlias)
+    public function setPageAlias($pageAlias): void
     {
         $this->pageAlias = $pageAlias;
     }
@@ -160,7 +162,7 @@ abstract class Snapshot implements SnapshotInterface
     /**
      * {@inheritdoc}
      */
-    public function setType($type)
+    public function setType($type): void
     {
         $this->type = $type;
     }
@@ -176,7 +178,7 @@ abstract class Snapshot implements SnapshotInterface
     /**
      * {@inheritdoc}
      */
-    public function setEnabled($enabled)
+    public function setEnabled($enabled): void
     {
         $this->enabled = $enabled;
     }
@@ -192,7 +194,7 @@ abstract class Snapshot implements SnapshotInterface
     /**
      * {@inheritdoc}
      */
-    public function setName($name)
+    public function setName($name): void
     {
         $this->name = $name;
     }
@@ -208,7 +210,7 @@ abstract class Snapshot implements SnapshotInterface
     /**
      * {@inheritdoc}
      */
-    public function setPublicationDateStart(\DateTime $publicationDateStart = null)
+    public function setPublicationDateStart(\DateTime $publicationDateStart = null): void
     {
         $this->publicationDateStart = $publicationDateStart;
     }
@@ -224,7 +226,7 @@ abstract class Snapshot implements SnapshotInterface
     /**
      * {@inheritdoc}
      */
-    public function setPublicationDateEnd(\DateTime $publicationDateEnd = null)
+    public function setPublicationDateEnd(\DateTime $publicationDateEnd = null): void
     {
         $this->publicationDateEnd = $publicationDateEnd;
     }
@@ -240,7 +242,7 @@ abstract class Snapshot implements SnapshotInterface
     /**
      * {@inheritdoc}
      */
-    public function setCreatedAt(\DateTime $createdAt = null)
+    public function setCreatedAt(\DateTime $createdAt = null): void
     {
         $this->createdAt = $createdAt;
     }
@@ -256,7 +258,7 @@ abstract class Snapshot implements SnapshotInterface
     /**
      * {@inheritdoc}
      */
-    public function setUpdatedAt(\DateTime $updatedAt = null)
+    public function setUpdatedAt(\DateTime $updatedAt = null): void
     {
         $this->updatedAt = $updatedAt;
     }
@@ -272,7 +274,7 @@ abstract class Snapshot implements SnapshotInterface
     /**
      * {@inheritdoc}
      */
-    public function setDecorate($decorate)
+    public function setDecorate($decorate): void
     {
         $this->decorate = $decorate;
     }
@@ -296,7 +298,7 @@ abstract class Snapshot implements SnapshotInterface
     /**
      * {@inheritdoc}
      */
-    public function setPosition($position)
+    public function setPosition($position): void
     {
         $this->position = $position;
     }
@@ -312,7 +314,7 @@ abstract class Snapshot implements SnapshotInterface
     /**
      * {@inheritdoc}
      */
-    public function setContent($content)
+    public function setContent($content): void
     {
         $this->content = $content;
     }
@@ -328,7 +330,7 @@ abstract class Snapshot implements SnapshotInterface
     /**
      * {@inheritdoc}
      */
-    public function setPage(PageInterface $page = null)
+    public function setPage(PageInterface $page = null): void
     {
         $this->page = $page;
     }
@@ -344,7 +346,7 @@ abstract class Snapshot implements SnapshotInterface
     /**
      * {@inheritdoc}
      */
-    public function setChildren($children)
+    public function setChildren($children): void
     {
         $this->children = $children;
     }
@@ -360,7 +362,7 @@ abstract class Snapshot implements SnapshotInterface
     /**
      * {@inheritdoc}
      */
-    public function setParent($parent)
+    public function setParent($parent): void
     {
         $this->parent = $parent;
     }
@@ -376,7 +378,7 @@ abstract class Snapshot implements SnapshotInterface
     /**
      * {@inheritdoc}
      */
-    public function setParentId($parentId)
+    public function setParentId($parentId): void
     {
         $this->parentId = $parentId;
     }
@@ -392,7 +394,7 @@ abstract class Snapshot implements SnapshotInterface
     /**
      * @deprecated since version 2.4 and will be removed in 3.0
      */
-    public function setSources($sources)
+    public function setSources($sources): void
     {
         @trigger_error('The '.__METHOD__.' method is deprecated since version 2.4 and will be removed in 3.0.', E_USER_DEPRECATED);
 
@@ -412,7 +414,7 @@ abstract class Snapshot implements SnapshotInterface
     /**
      * {@inheritdoc}
      */
-    public function setTarget($target)
+    public function setTarget($target): void
     {
         $this->target = $target;
     }
@@ -428,7 +430,7 @@ abstract class Snapshot implements SnapshotInterface
     /**
      * {@inheritdoc}
      */
-    public function setTargetId($targetId)
+    public function setTargetId($targetId): void
     {
         $this->targetId = $targetId;
     }
@@ -444,7 +446,7 @@ abstract class Snapshot implements SnapshotInterface
     /**
      * {@inheritdoc}
      */
-    public function setUrl($url)
+    public function setUrl($url): void
     {
         $this->url = $url;
     }
@@ -460,7 +462,7 @@ abstract class Snapshot implements SnapshotInterface
     /**
      * {@inheritdoc}
      */
-    public function setSite(SiteInterface $site)
+    public function setSite(SiteInterface $site): void
     {
         $this->site = $site;
     }

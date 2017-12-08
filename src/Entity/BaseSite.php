@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -20,13 +22,13 @@ use Sonata\PageBundle\Model\Site;
  */
 abstract class BaseSite extends Site
 {
-    public function prePersist()
+    public function prePersist(): void
     {
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
     }
 
-    public function preUpdate()
+    public function preUpdate(): void
     {
         $this->updatedAt = new \DateTime();
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -26,7 +28,7 @@ class HostPathSiteSelector extends BaseSiteSelector
     /**
      * {@inheritdoc}
      */
-    public function handleKernelRequest(GetResponseEvent $event)
+    public function handleKernelRequest(GetResponseEvent $event): void
     {
         $request = $event->getRequest();
 
@@ -75,7 +77,7 @@ class HostPathSiteSelector extends BaseSiteSelector
     /**
      * {@inheritdoc}
      */
-    public function onKernelRequestRedirect(GetResponseEvent $event)
+    public function onKernelRequestRedirect(GetResponseEvent $event): void
     {
         $request = $event->getRequest();
 

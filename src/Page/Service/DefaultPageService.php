@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -65,7 +67,7 @@ class DefaultPageService extends BasePageService
      *
      * @param PageInterface $page
      */
-    protected function updateSeoPage(PageInterface $page)
+    protected function updateSeoPage(PageInterface $page): void
     {
         if (!$this->seoPage) {
             return;

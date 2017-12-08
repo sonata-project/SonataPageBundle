@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -19,11 +21,11 @@ use Sonata\PageBundle\Tests\Model\Site;
 
 class CmsBlock extends AbstractBlock
 {
-    public function setId($id)
+    public function setId($id): void
     {
     }
 
-    public function getId()
+    public function getId(): void
     {
     }
 }
@@ -41,7 +43,7 @@ class CmsPageManagerTest extends TestCase
     /**
      * Setup manager object to test.
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->blockInteractor = $this->getMockBlockInteractor();
         $this->pageManager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
@@ -51,7 +53,7 @@ class CmsPageManagerTest extends TestCase
     /**
      * Test finding an existing container in a page.
      */
-    public function testFindExistingContainer()
+    public function testFindExistingContainer(): void
     {
         $block = new CmsBlock();
         $block->setSettings(['code' => 'findme']);
@@ -68,7 +70,7 @@ class CmsPageManagerTest extends TestCase
     /**
      * Test finding an non-existing container in a page does create a new block.
      */
-    public function testFindNonExistingContainerCreatesNewBlock()
+    public function testFindNonExistingContainerCreatesNewBlock(): void
     {
         $page = new Page();
 
@@ -81,7 +83,7 @@ class CmsPageManagerTest extends TestCase
     /**
      * Test get Page method with url return Page.
      */
-    public function testGetPageWithUrl()
+    public function testGetPageWithUrl(): void
     {
         $pageManager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
 
@@ -99,7 +101,7 @@ class CmsPageManagerTest extends TestCase
     /**
      * Test get Page method with url throw Exception.
      */
-    public function testGetPageWithUrlException()
+    public function testGetPageWithUrlException(): void
     {
         $this->expectException(\Sonata\PageBundle\Exception\PageNotFoundException::class);
         $this->expectExceptionMessage('Unable to find the page : url = /test');
@@ -122,7 +124,7 @@ class CmsPageManagerTest extends TestCase
     /**
      * Test get Page method with url return Page.
      */
-    public function testGetPageWithRouteName()
+    public function testGetPageWithRouteName(): void
     {
         $pageManager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
 
@@ -140,7 +142,7 @@ class CmsPageManagerTest extends TestCase
     /**
      * Test get Page method with url throw Exception.
      */
-    public function testGetPageWithRouteNameException()
+    public function testGetPageWithRouteNameException(): void
     {
         $this->expectException(\Sonata\PageBundle\Exception\PageNotFoundException::class);
         $this->expectExceptionMessage('Unable to find the page : url = /test');
@@ -163,7 +165,7 @@ class CmsPageManagerTest extends TestCase
     /**
      * Test get Page method with url return Page.
      */
-    public function testGetPageWithId()
+    public function testGetPageWithId(): void
     {
         $pageManager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
 
@@ -181,7 +183,7 @@ class CmsPageManagerTest extends TestCase
     /**
      * Test get Page method with url throw Exception.
      */
-    public function testGetPageWithIdException()
+    public function testGetPageWithIdException(): void
     {
         $this->expectException(\Sonata\PageBundle\Exception\PageNotFoundException::class);
         $this->expectExceptionMessage('Unable to find the page : id = 1');
@@ -204,7 +206,7 @@ class CmsPageManagerTest extends TestCase
     /**
      * Test get Page method with url return Page.
      */
-    public function testGetPageWithoutParam()
+    public function testGetPageWithoutParam(): void
     {
         $pageManager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
 
@@ -222,7 +224,7 @@ class CmsPageManagerTest extends TestCase
     /**
      * Test get Page method with url throw Exception.
      */
-    public function testGetPageWithoutParamException()
+    public function testGetPageWithoutParamException(): void
     {
         $this->expectException(\Sonata\PageBundle\Exception\PageNotFoundException::class);
         $this->expectExceptionMessage('Unable to retrieve the page');

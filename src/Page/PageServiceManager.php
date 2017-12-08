@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -53,7 +55,7 @@ class PageServiceManager implements PageServiceManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function add($type, PageServiceInterface $service)
+    public function add($type, PageServiceInterface $service): void
     {
         $this->services[$type] = $service;
     }
@@ -89,7 +91,7 @@ class PageServiceManager implements PageServiceManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function setDefault(PageServiceInterface $service)
+    public function setDefault(PageServiceInterface $service): void
     {
         $this->default = $service;
     }

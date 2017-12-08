@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -31,13 +33,13 @@ abstract class BasePage extends Page
         $this->blocks = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    public function prePersist()
+    public function prePersist(): void
     {
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
     }
 
-    public function preUpdate()
+    public function preUpdate(): void
     {
         $this->updatedAt = new \DateTime();
     }

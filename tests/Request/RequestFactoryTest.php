@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -20,7 +22,7 @@ class RequestFactoryTest extends TestCase
 {
     protected $hasFactory = false;
 
-    public function setup()
+    public function setup(): void
     {
         $this->hasFactory = version_compare(Kernel::VERSION, '2.5', '>=');
 
@@ -29,26 +31,26 @@ class RequestFactoryTest extends TestCase
         }
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         if ($this->hasFactory) {
             Request::setFactory(null);
         }
     }
 
-    public function testHostAndCreate()
+    public function testHostAndCreate(): void
     {
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\Request', RequestFactory::create('host', '/'));
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\Request', Request::create('/'));
     }
 
-    public function testHostAndCreateFromGlobals()
+    public function testHostAndCreateFromGlobals(): void
     {
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\Request', RequestFactory::createFromGlobals('host'));
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\Request', Request::create('/'));
     }
 
-    public function testHostWithPathAndCreate()
+    public function testHostWithPathAndCreate(): void
     {
         $this->assertInstanceOf('Sonata\PageBundle\Request\SiteRequest', RequestFactory::create('host_with_path', '/'));
 
@@ -57,7 +59,7 @@ class RequestFactoryTest extends TestCase
         }
     }
 
-    public function testHostWithPathAndCreateFromGlobals()
+    public function testHostWithPathAndCreateFromGlobals(): void
     {
         $this->assertInstanceOf('Sonata\PageBundle\Request\SiteRequest', RequestFactory::createFromGlobals('host_with_path'));
 
@@ -66,7 +68,7 @@ class RequestFactoryTest extends TestCase
         }
     }
 
-    public function testInvalidType()
+    public function testInvalidType(): void
     {
         $this->expectException(\RuntimeException::class);
 

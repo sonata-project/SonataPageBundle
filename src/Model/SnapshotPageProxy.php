@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -91,7 +93,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function addChildren(PageInterface $children)
+    public function addChildren(PageInterface $children): void
     {
         $this->getPage()->addChildren($children);
     }
@@ -99,7 +101,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function setHeaders(array $headers = [])
+    public function setHeaders(array $headers = []): void
     {
         $this->getPage()->setHeaders($headers);
     }
@@ -107,7 +109,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function addHeader($name, $value)
+    public function addHeader($name, $value): void
     {
         $this->getPage()->addHeader($name, $value);
     }
@@ -135,7 +137,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function addBlocks(PageBlockInterface $block)
+    public function addBlocks(PageBlockInterface $block): void
     {
         $this->getPage()->addBlocks($block);
     }
@@ -162,7 +164,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function setTarget(PageInterface $target = null)
+    public function setTarget(PageInterface $target = null): void
     {
         $this->target = $target;
     }
@@ -202,13 +204,13 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
             $level = count($parents) + $level;
         }
 
-        return isset($parents[$level]) ? $parents[$level] : null;
+        return $parents[$level] ?? null;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setParents(array $parents)
+    public function setParents(array $parents): void
     {
         $this->parents = $parents;
     }
@@ -250,7 +252,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function setParent(PageInterface $parent = null)
+    public function setParent(PageInterface $parent = null): void
     {
         $this->getPage()->setParent($parent);
     }
@@ -258,7 +260,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function setTemplateCode($templateCode)
+    public function setTemplateCode($templateCode): void
     {
         $this->getPage()->setTemplateCode($templateCode);
     }
@@ -274,7 +276,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function setDecorate($decorate)
+    public function setDecorate($decorate): void
     {
         $this->getPage()->setDecorate($decorate);
     }
@@ -298,7 +300,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function setPosition($position)
+    public function setPosition($position): void
     {
         $this->getPage()->setPosition($position);
     }
@@ -314,7 +316,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function setRequestMethod($method)
+    public function setRequestMethod($method): void
     {
         $this->getPage()->setRequestMethod($method);
     }
@@ -338,7 +340,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function setId($id)
+    public function setId($id): void
     {
         $this->getPage()->setId($id);
     }
@@ -354,7 +356,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function setRouteName($routeName)
+    public function setRouteName($routeName): void
     {
         $this->getPage()->setRouteName($routeName);
     }
@@ -362,7 +364,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function setEnabled($enabled)
+    public function setEnabled($enabled): void
     {
         $this->getPage()->setEnabled($enabled);
     }
@@ -378,7 +380,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function setName($name)
+    public function setName($name): void
     {
         $this->getPage()->setName($name);
     }
@@ -394,7 +396,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function setSlug($slug)
+    public function setSlug($slug): void
     {
         $this->getPage()->setSlug($slug);
     }
@@ -410,7 +412,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function setUrl($url)
+    public function setUrl($url): void
     {
         $this->getPage()->setUrl($url);
     }
@@ -426,7 +428,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function setCustomUrl($customUrl)
+    public function setCustomUrl($customUrl): void
     {
         $this->getPage()->setCustomUrl($customUrl);
     }
@@ -442,7 +444,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function setMetaKeyword($metaKeyword)
+    public function setMetaKeyword($metaKeyword): void
     {
         $this->getPage()->setMetaKeyword($metaKeyword);
     }
@@ -458,7 +460,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function setMetaDescription($metaDescription)
+    public function setMetaDescription($metaDescription): void
     {
         $this->getPage()->setMetaDescription($metaDescription);
     }
@@ -474,7 +476,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function setJavascript($javascript)
+    public function setJavascript($javascript): void
     {
         $this->getPage()->setJavascript($javascript);
     }
@@ -490,7 +492,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function setStylesheet($stylesheet)
+    public function setStylesheet($stylesheet): void
     {
         $this->getPage()->setStylesheet($stylesheet);
     }
@@ -522,7 +524,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function setCreatedAt(\DateTime $createdAt = null)
+    public function setCreatedAt(\DateTime $createdAt = null): void
     {
         $this->getPage()->setCreatedAt($createdAt);
     }
@@ -538,7 +540,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function setUpdatedAt(\DateTime $updatedAt = null)
+    public function setUpdatedAt(\DateTime $updatedAt = null): void
     {
         $this->getPage()->setUpdatedAt($updatedAt);
     }
@@ -586,7 +588,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function setSite(SiteInterface $site)
+    public function setSite(SiteInterface $site): void
     {
         $this->getPage()->setSite($site);
     }
@@ -602,7 +604,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function setRawHeaders($headers)
+    public function setRawHeaders($headers): void
     {
         $this->getPage()->setRawHeaders($headers);
     }
@@ -618,7 +620,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function setEdited($edited)
+    public function setEdited($edited): void
     {
         $this->getPage()->setEdited($edited);
     }
@@ -642,7 +644,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function setTitle($title)
+    public function setTitle($title): void
     {
         $this->getPage()->setTitle($title);
     }
@@ -650,7 +652,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function setType($type)
+    public function setType($type): void
     {
         $this->getPage()->setType($type);
     }
@@ -695,7 +697,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     /**
      * {@inheritdoc}
      */
-    private function load()
+    private function load(): void
     {
         if (!$this->page && $this->transformer) {
             $this->page = $this->transformer->load($this->snapshot);

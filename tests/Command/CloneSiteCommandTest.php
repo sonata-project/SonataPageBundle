@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -45,7 +47,7 @@ class CloneSiteCommandTest extends TestCase
      */
     private $blockManager;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->siteManager = $this->prophesize('Sonata\PageBundle\Model\SiteManagerInterface');
         $this->pageManager = $this->prophesize('Sonata\PageBundle\Model\PageManagerInterface');
@@ -63,7 +65,7 @@ class CloneSiteCommandTest extends TestCase
         $this->application->add($command);
     }
 
-    public function testExecute()
+    public function testExecute(): void
     {
         $sourceSite = $this->prophesize('Sonata\PageBundle\Model\SiteInterface');
         $destSite = $this->prophesize('Sonata\PageBundle\Model\SiteInterface');
@@ -149,7 +151,7 @@ class CloneSiteCommandTest extends TestCase
         $this->assertRegExp('@done!@', $commandTester->getDisplay());
     }
 
-    public function testExecuteNoSourceId()
+    public function testExecuteNoSourceId(): void
     {
         $this->expectException('\InvalidArgumentException');
         $this->expectExceptionMessage('Please provide a "--source-id=SITE_ID" option.');
@@ -167,7 +169,7 @@ class CloneSiteCommandTest extends TestCase
         $this->assertRegExp('@Writing cache file ...\s+done!@', $commandTester->getDisplay());
     }
 
-    public function testExecuteNoDestId()
+    public function testExecuteNoDestId(): void
     {
         $this->expectException('\InvalidArgumentException');
         $this->expectExceptionMessage('Please provide a "--dest-id=SITE_ID" option.');
@@ -185,7 +187,7 @@ class CloneSiteCommandTest extends TestCase
         $this->assertRegExp('@Writing cache file ...\s+done!@', $commandTester->getDisplay());
     }
 
-    public function testExecuteNoPrefix()
+    public function testExecuteNoPrefix(): void
     {
         $this->expectException('\InvalidArgumentException');
         $this->expectExceptionMessage('Please provide a "--prefix=PREFIX" option.');

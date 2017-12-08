@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -84,7 +86,7 @@ class ChildrenPagesBlockService extends AbstractAdminBlockService
     /**
      * {@inheritdoc}
      */
-    public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
+    public function buildEditForm(FormMapper $formMapper, BlockInterface $block): void
     {
         $formMapper->add('settings', 'sonata_type_immutable_array', [
             'keys' => [
@@ -123,7 +125,7 @@ class ChildrenPagesBlockService extends AbstractAdminBlockService
     /**
      * {@inheritdoc}
      */
-    public function configureSettings(OptionsResolver $resolver)
+    public function configureSettings(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'current' => true,
@@ -137,7 +139,7 @@ class ChildrenPagesBlockService extends AbstractAdminBlockService
     /**
      * {@inheritdoc}
      */
-    public function prePersist(BlockInterface $block)
+    public function prePersist(BlockInterface $block): void
     {
         $block->setSetting('pageId', is_object($block->getSetting('pageId')) ? $block->getSetting('pageId')->getId() : null);
     }
@@ -145,7 +147,7 @@ class ChildrenPagesBlockService extends AbstractAdminBlockService
     /**
      * {@inheritdoc}
      */
-    public function preUpdate(BlockInterface $block)
+    public function preUpdate(BlockInterface $block): void
     {
         $block->setSetting('pageId', is_object($block->getSetting('pageId')) ? $block->getSetting('pageId')->getId() : null);
     }
@@ -153,7 +155,7 @@ class ChildrenPagesBlockService extends AbstractAdminBlockService
     /**
      * {@inheritdoc}
      */
-    public function load(BlockInterface $block)
+    public function load(BlockInterface $block): void
     {
         if (is_numeric($block->getSetting('pageId', null))) {
             $cmsManager = $this->cmsManagerSelector->retrieve();

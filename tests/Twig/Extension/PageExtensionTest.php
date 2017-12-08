@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -16,7 +18,7 @@ use Sonata\PageBundle\Twig\Extension\PageExtension;
 
 class PageExtensionTest extends TestCase
 {
-    public function testAjaxUrl()
+    public function testAjaxUrl(): void
     {
         $cmsManager = $this->createMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
         $siteSelector = $this->createMock('Sonata\PageBundle\Site\SiteSelectorInterface');
@@ -38,7 +40,7 @@ class PageExtensionTest extends TestCase
         $this->assertEquals('/foo/bar', $extension->ajaxUrl($block));
     }
 
-    public function testController()
+    public function testController(): void
     {
         $cmsManager = $this->createMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
         $site = $this->createMock('Sonata\PageBundle\Model\SiteInterface');
@@ -72,7 +74,7 @@ class PageExtensionTest extends TestCase
         $extension->controller('foo');
     }
 
-    public function testControllerWithoutSite()
+    public function testControllerWithoutSite(): void
     {
         $cmsManager = $this->createMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
         $siteSelector = $this->createMock('Sonata\PageBundle\Site\SiteSelectorInterface');

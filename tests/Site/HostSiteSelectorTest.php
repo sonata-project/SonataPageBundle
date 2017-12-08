@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -25,7 +27,7 @@ class HostSiteSelectorTest extends TestCase
     /**
      * Site Test #1 - Should match "Site 0".
      */
-    public function testSite1()
+    public function testSite1(): void
     {
         // Retrieve the site that would be matched from the request
         list($site, $event) = $this->performHandleKernelRequestTest('http://localhost');
@@ -37,7 +39,7 @@ class HostSiteSelectorTest extends TestCase
     /**
      * Site Test #2 - Should match "Site 1".
      */
-    public function testSite2()
+    public function testSite2(): void
     {
         // Retrieve the site that would be matched from the request
         list($site, $event) = $this->performHandleKernelRequestTest('http://www.example1.com');
@@ -49,7 +51,7 @@ class HostSiteSelectorTest extends TestCase
     /**
      * Site Test #3 - Should match "Site 2".
      */
-    public function testSite3()
+    public function testSite3(): void
     {
         // Retrieve the site that would be matched from the request
         list($site, $event) = $this->performHandleKernelRequestTest('http://www.example2.com');
@@ -61,7 +63,7 @@ class HostSiteSelectorTest extends TestCase
     /**
      * Site Test #4 - Should match "Site 3".
      */
-    public function testSite4()
+    public function testSite4(): void
     {
         // Retrieve the site that would be matched from the request
         list($site, $event) = $this->performHandleKernelRequestTest('http://www.example3.com');
@@ -73,7 +75,7 @@ class HostSiteSelectorTest extends TestCase
     /**
      * Site Test #5 - Should match "Site 4".
      */
-    public function testSite5()
+    public function testSite5(): void
     {
         // Retrieve the site that would be matched from the request
         list($site, $event) = $this->performHandleKernelRequestTest('http://www.example4.com');
@@ -85,7 +87,7 @@ class HostSiteSelectorTest extends TestCase
     /**
      * Site Test #6 - Should match "Site 0".
      */
-    public function testSite6()
+    public function testSite6(): void
     {
         // Retrieve the site that would be matched from the request
         list($site, $event) = $this->performHandleKernelRequestTest('http://www.example5.com');
@@ -97,7 +99,7 @@ class HostSiteSelectorTest extends TestCase
     /**
      * Site Test #7 - Should match "Site 0".
      */
-    public function testSite7()
+    public function testSite7(): void
     {
         // Retrieve the site that would be matched from the request
         list($site, $event) = $this->performHandleKernelRequestTest('http://www.example6.com');
@@ -109,7 +111,7 @@ class HostSiteSelectorTest extends TestCase
     /**
      * Site Test #8 - Should match "Site 0".
      */
-    public function testSite8()
+    public function testSite8(): void
     {
         // Retrieve the site that would be matched from the request
         list($site, $event) = $this->performHandleKernelRequestTest('http://www.example7.com');

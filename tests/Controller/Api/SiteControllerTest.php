@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -20,7 +22,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class SiteControllerTest extends TestCase
 {
-    public function testGetSitesAction()
+    public function testGetSitesAction(): void
     {
         $siteManager = $this->getMockBuilder('Sonata\PageBundle\Model\SiteManagerInterface')->getMock();
         $siteManager->expects($this->once())->method('getPager')->will($this->returnValue([]));
@@ -36,14 +38,14 @@ class SiteControllerTest extends TestCase
         $this->assertEquals([], $this->createSiteController(null, $siteManager)->getSitesAction($paramFetcher));
     }
 
-    public function testGetSiteAction()
+    public function testGetSiteAction(): void
     {
         $site = $this->createMock('Sonata\PageBundle\Model\SiteInterface');
 
         $this->assertEquals($site, $this->createSiteController($site)->getSiteAction(1));
     }
 
-    public function testGetSiteActionNotFoundException()
+    public function testGetSiteActionNotFoundException(): void
     {
         $this->expectException(\Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class);
         $this->expectExceptionMessage('Site (1) not found');
@@ -51,7 +53,7 @@ class SiteControllerTest extends TestCase
         $this->createSiteController()->getSiteAction(1);
     }
 
-    public function testPostSiteAction()
+    public function testPostSiteAction(): void
     {
         $site = $this->createMock('Sonata\PageBundle\Model\SiteInterface');
 
@@ -71,7 +73,7 @@ class SiteControllerTest extends TestCase
         $this->assertInstanceOf('FOS\RestBundle\View\View', $view);
     }
 
-    public function testPostSiteInvalidAction()
+    public function testPostSiteInvalidAction(): void
     {
         $site = $this->createMock('Sonata\PageBundle\Model\SiteInterface');
 
@@ -90,7 +92,7 @@ class SiteControllerTest extends TestCase
         $this->assertInstanceOf('Symfony\Component\Form\FormInterface', $view);
     }
 
-    public function testPutSiteAction()
+    public function testPutSiteAction(): void
     {
         $site = $this->createMock('Sonata\PageBundle\Model\SiteInterface');
 
@@ -110,7 +112,7 @@ class SiteControllerTest extends TestCase
         $this->assertInstanceOf('FOS\RestBundle\View\View', $view);
     }
 
-    public function testPutSiteInvalidAction()
+    public function testPutSiteInvalidAction(): void
     {
         $site = $this->createMock('Sonata\PageBundle\Model\SiteInterface');
 
@@ -129,7 +131,7 @@ class SiteControllerTest extends TestCase
         $this->assertInstanceOf('Symfony\Component\Form\FormInterface', $view);
     }
 
-    public function testDeleteSiteAction()
+    public function testDeleteSiteAction(): void
     {
         $site = $this->createMock('Sonata\PageBundle\Model\SiteInterface');
 
@@ -141,7 +143,7 @@ class SiteControllerTest extends TestCase
         $this->assertEquals(['deleted' => true], $view);
     }
 
-    public function testDeleteSiteInvalidAction()
+    public function testDeleteSiteInvalidAction(): void
     {
         $this->expectException('Symfony\Component\HttpKernel\Exception\NotFoundHttpException');
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -35,7 +37,7 @@ class CreateSnapshotAdminExtension extends AbstractAdminExtension
     /**
      * {@inheritdoc}
      */
-    public function postUpdate(AdminInterface $admin, $object)
+    public function postUpdate(AdminInterface $admin, $object): void
     {
         $this->sendMessage($object);
     }
@@ -43,7 +45,7 @@ class CreateSnapshotAdminExtension extends AbstractAdminExtension
     /**
      * {@inheritdoc}
      */
-    public function postPersist(AdminInterface $admin, $object)
+    public function postPersist(AdminInterface $admin, $object): void
     {
         $this->sendMessage($object);
     }
@@ -51,7 +53,7 @@ class CreateSnapshotAdminExtension extends AbstractAdminExtension
     /**
      * @param PageInterface $object
      */
-    protected function sendMessage($object)
+    protected function sendMessage($object): void
     {
         if ($object instanceof BlockInterface && method_exists($object, 'getPage')) {
             $pageId = $object->getPage()->getId();

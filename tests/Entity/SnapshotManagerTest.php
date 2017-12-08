@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -16,7 +18,7 @@ use Sonata\PageBundle\Entity\SnapshotManager;
 
 class SnapshotManagerTest extends TestCase
 {
-    public function testSetTemplates()
+    public function testSetTemplates(): void
     {
         $manager = $this->getMockBuilder('Sonata\PageBundle\Entity\SnapshotManager')
             // we need to set at least one method, which does not need to exist!
@@ -36,7 +38,7 @@ class SnapshotManagerTest extends TestCase
         $this->assertEquals(['foo' => 'bar'], $manager->getTemplates());
     }
 
-    public function testGetTemplates()
+    public function testGetTemplates(): void
     {
         $manager = $this->getMockBuilder('Sonata\PageBundle\Entity\SnapshotManager')
             ->setMethods([
@@ -54,7 +56,7 @@ class SnapshotManagerTest extends TestCase
         $this->assertEquals(['foo' => 'bar'], $manager->getTemplates());
     }
 
-    public function testGetTemplate()
+    public function testGetTemplate(): void
     {
         $manager = $this->getMockBuilder('Sonata\PageBundle\Entity\SnapshotManager')
             ->setMethods([
@@ -72,7 +74,7 @@ class SnapshotManagerTest extends TestCase
         $this->assertEquals('bar', $manager->getTemplate('foo'));
     }
 
-    public function testGetTemplatesException()
+    public function testGetTemplatesException(): void
     {
         $manager = $this->getMockBuilder('Sonata\PageBundle\Entity\SnapshotManager')
             ->setMethods([
@@ -88,64 +90,64 @@ class SnapshotManagerTest extends TestCase
         $manager->getTemplate('foo');
     }
 
-    public function testGetPager()
+    public function testGetPager(): void
     {
         $self = $this;
         $this
-            ->getSnapshotManager(function ($qb) use ($self) {
+            ->getSnapshotManager(function ($qb) use ($self): void {
                 $qb->expects($self->never())->method('andWhere');
                 $qb->expects($self->once())->method('setParameters')->with([]);
             })
             ->getPager([], 1);
     }
 
-    public function testGetPagerWithEnabledSnapshots()
+    public function testGetPagerWithEnabledSnapshots(): void
     {
         $self = $this;
         $this
-            ->getSnapshotManager(function ($qb) use ($self) {
+            ->getSnapshotManager(function ($qb) use ($self): void {
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('s.enabled = :enabled'));
                 $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['enabled' => true]));
             })
             ->getPager(['enabled' => true], 1);
     }
 
-    public function testGetPagerWithDisabledSnapshots()
+    public function testGetPagerWithDisabledSnapshots(): void
     {
         $self = $this;
         $this
-            ->getSnapshotManager(function ($qb) use ($self) {
+            ->getSnapshotManager(function ($qb) use ($self): void {
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('s.enabled = :enabled'));
                 $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['enabled' => false]));
             })
             ->getPager(['enabled' => false], 1);
     }
 
-    public function testGetPagerWithRootSnapshots()
+    public function testGetPagerWithRootSnapshots(): void
     {
         $self = $this;
         $this
-            ->getSnapshotManager(function ($qb) use ($self) {
+            ->getSnapshotManager(function ($qb) use ($self): void {
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('s.parent IS NULL'));
             })
             ->getPager(['root' => true], 1);
     }
 
-    public function testGetPagerWithNonRootSnapshots()
+    public function testGetPagerWithNonRootSnapshots(): void
     {
         $self = $this;
         $this
-            ->getSnapshotManager(function ($qb) use ($self) {
+            ->getSnapshotManager(function ($qb) use ($self): void {
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('s.parent IS NOT NULL'));
             })
             ->getPager(['root' => false], 1);
     }
 
-    public function testGetPagerWithParentChildSnapshots()
+    public function testGetPagerWithParentChildSnapshots(): void
     {
         $self = $this;
         $this
-            ->getSnapshotManager(function ($qb) use ($self) {
+            ->getSnapshotManager(function ($qb) use ($self): void {
                 $qb->expects($self->once())->method('join')->with(
                     $self->equalTo('s.parent'),
                     $self->equalTo('pa')
@@ -156,11 +158,11 @@ class SnapshotManagerTest extends TestCase
             ->getPager(['parent' => 13], 1);
     }
 
-    public function testGetPagerWithSiteSnapshots()
+    public function testGetPagerWithSiteSnapshots(): void
     {
         $self = $this;
         $this
-            ->getSnapshotManager(function ($qb) use ($self) {
+            ->getSnapshotManager(function ($qb) use ($self): void {
                 $qb->expects($self->once())->method('join')->with(
                     $self->equalTo('s.site'),
                     $self->equalTo('si')
@@ -174,7 +176,7 @@ class SnapshotManagerTest extends TestCase
     /**
      * Tests the enableSnapshots() method to ensure execute queries are correct.
      */
-    public function testEnableSnapshots()
+    public function testEnableSnapshots(): void
     {
         // Given
         $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
@@ -215,7 +217,7 @@ class SnapshotManagerTest extends TestCase
         $manager->enableSnapshots([$snapshot], $date);
     }
 
-    public function testCreateSnapshotPageProxy()
+    public function testCreateSnapshotPageProxy(): void
     {
         $proxyInterface = $this->createMock('Sonata\PageBundle\Model\SnapshotPageProxyInterface');
 
@@ -237,7 +239,7 @@ class SnapshotManagerTest extends TestCase
     /**
      * Tests the enableSnapshots() method to ensure execute queries are not executed when no snapshots are given.
      */
-    public function testEnableSnapshotsWhenNoSnapshots()
+    public function testEnableSnapshotsWhenNoSnapshots(): void
     {
         // Given
         $connection = $this->getMockBuilder('Doctrine\DBAL\Connection')

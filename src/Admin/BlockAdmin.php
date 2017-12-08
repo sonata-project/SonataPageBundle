@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -80,7 +82,7 @@ class BlockAdmin extends BaseBlockAdmin
     /**
      * {@inheritdoc}
      */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollection $collection): void
     {
         parent::configureRoutes($collection);
 
@@ -94,7 +96,7 @@ class BlockAdmin extends BaseBlockAdmin
     /**
      * {@inheritdoc}
      */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $block = $this->getSubject();
 

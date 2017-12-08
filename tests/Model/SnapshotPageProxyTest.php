@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -16,7 +18,7 @@ use Sonata\PageBundle\Model\SnapshotPageProxy;
 
 class SnapshotPageProxyTest extends TestCase
 {
-    public function testInterface()
+    public function testInterface(): void
     {
         $snapshotManager = $this->createMock('Sonata\PageBundle\Model\SnapshotManagerInterface');
         $snapshot = $this->createMock('Sonata\PageBundle\Model\SnapshotInterface');
