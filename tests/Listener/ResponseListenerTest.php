@@ -19,6 +19,7 @@ use Sonata\PageBundle\Model\PageInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
  * Test the page bundle response listener.
@@ -188,6 +189,6 @@ class ResponseListenerTest extends TestCase
         $request = new Request();
         $response = new Response($content);
 
-        return new FilterResponseEvent($kernel, $request, 'master', $response);
+        return new FilterResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST, $response);
     }
 }
