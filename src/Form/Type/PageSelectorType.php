@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -43,7 +45,7 @@ class PageSelectorType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $that = $this;
 
@@ -66,7 +68,7 @@ class PageSelectorType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function setDefaultOptions(OptionsResolverInterface $resolver): void
     {
         $this->configureOptions($resolver);
     }
@@ -162,7 +164,7 @@ class PageSelectorType extends AbstractType
      * @param array         $choices
      * @param int           $level
      */
-    private function childWalker(PageInterface $page, PageInterface $currentPage = null, &$choices, $level = 1)
+    private function childWalker(PageInterface $page, PageInterface $currentPage = null, &$choices, $level = 1): void
     {
         foreach ($page->getChildren() as $child) {
             if ($currentPage && $currentPage->getId() == $child->getId()) {

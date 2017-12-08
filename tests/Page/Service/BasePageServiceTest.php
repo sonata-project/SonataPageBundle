@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -25,7 +27,7 @@ class BasePageServiceTest extends TestCase
     /**
      * test the service name.
      */
-    public function testName()
+    public function testName(): void
     {
         // GIVEN
         $service = new ConcretePageService('my name');
@@ -40,7 +42,7 @@ class BasePageServiceTest extends TestCase
     /**
      * Test the service execution.
      */
-    public function testExecution()
+    public function testExecution(): void
     {
         // GIVEN
         $service = new ConcretePageService('my name');

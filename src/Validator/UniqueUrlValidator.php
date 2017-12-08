@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -35,7 +37,7 @@ class UniqueUrlValidator extends ConstraintValidator
     /**
      * {@inheritdoc}
      */
-    public function validate($currentPage, Constraint $constraint)
+    public function validate($currentPage, Constraint $constraint): void
     {
         if (!$currentPage instanceof PageInterface) {
             $this->context->addViolation('The page is not valid, expected a PageInterface');

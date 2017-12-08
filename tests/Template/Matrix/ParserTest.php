@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -16,7 +18,7 @@ use Sonata\PageBundle\Template\Matrix\Parser;
 
 class ParserTest extends TestCase
 {
-    public function testParserWithInvalidTemplateMatrix()
+    public function testParserWithInvalidTemplateMatrix(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid template matrix, a matrix should contain at least one row');
@@ -24,7 +26,7 @@ class ParserTest extends TestCase
         Parser::parse('', []);
     }
 
-    public function testParserWithInvalidRowLength()
+    public function testParserWithInvalidRowLength(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid template matrix, inconsistent row length, row "1" should have a length of "4"');
@@ -32,7 +34,7 @@ class ParserTest extends TestCase
         Parser::parse("YYYY\nNNNNNN", ['Y' => 'top']);
     }
 
-    public function testParserWithInvalidMapping()
+    public function testParserWithInvalidMapping(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid template matrix, no mapping found for symbol "Y"');
@@ -40,7 +42,7 @@ class ParserTest extends TestCase
         Parser::parse("YYYY\nNNNNNN", []);
     }
 
-    public function testValidMapping()
+    public function testValidMapping(): void
     {
         $result = Parser::parse("TTTT\nLLRR", [
             'T' => 'top',

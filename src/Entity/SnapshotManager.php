@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -82,7 +84,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
     /**
      * {@inheritdoc}
      */
-    public function enableSnapshots(array $snapshots, \DateTime $date = null)
+    public function enableSnapshots(array $snapshots, \DateTime $date = null): void
     {
         if (0 == count($snapshots)) {
             return;
@@ -198,7 +200,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
     /**
      * @param array $templates
      */
-    public function setTemplates($templates)
+    public function setTemplates($templates): void
     {
         $this->templates = $templates;
     }

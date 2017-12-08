@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -16,11 +18,11 @@ use Sonata\PageBundle\Entity\SiteManager;
 
 class SiteManagerTest extends TestCase
 {
-    public function testGetPager()
+    public function testGetPager(): void
     {
         $self = $this;
         $this
-            ->getSiteManager(function ($qb) use ($self) {
+            ->getSiteManager(function ($qb) use ($self): void {
                 $qb->expects($self->never())->method('andWhere');
                 $qb->expects($self->once())->method('setParameters')->with([]);
                 $qb->expects($self->once())->method('orderBy')->with(
@@ -31,23 +33,23 @@ class SiteManagerTest extends TestCase
             ->getPager([], 1);
     }
 
-    public function testGetPagerWithInvalidSort()
+    public function testGetPagerWithInvalidSort(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Invalid sort field \'invalid\' in \'Sonata\\PageBundle\\Entity\\BaseSite\' class');
 
         $self = $this;
         $this
-            ->getSiteManager(function ($qb) use ($self) {
+            ->getSiteManager(function ($qb) use ($self): void {
             })
             ->getPager([], 1, 10, ['invalid' => 'ASC']);
     }
 
-    public function testGetPagerWithMultipleSort()
+    public function testGetPagerWithMultipleSort(): void
     {
         $self = $this;
         $this
-            ->getSiteManager(function ($qb) use ($self) {
+            ->getSiteManager(function ($qb) use ($self): void {
                 $qb->expects($self->never())->method('andWhere');
                 $qb->expects($self->once())->method('setParameters')->with([]);
                 $qb->expects($self->exactly(2))->method('orderBy')->with(
@@ -68,44 +70,44 @@ class SiteManagerTest extends TestCase
             ]);
     }
 
-    public function testGetPagerWithEnabledSites()
+    public function testGetPagerWithEnabledSites(): void
     {
         $self = $this;
         $this
-            ->getSiteManager(function ($qb) use ($self) {
+            ->getSiteManager(function ($qb) use ($self): void {
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('s.enabled = :enabled'));
                 $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['enabled' => true]));
             })
             ->getPager(['enabled' => true], 1);
     }
 
-    public function testGetPagerWithDisabledSites()
+    public function testGetPagerWithDisabledSites(): void
     {
         $self = $this;
         $this
-            ->getSiteManager(function ($qb) use ($self) {
+            ->getSiteManager(function ($qb) use ($self): void {
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('s.enabled = :enabled'));
                 $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['enabled' => false]));
             })
             ->getPager(['enabled' => false], 1);
     }
 
-    public function testGetPagerWithDefaultSites()
+    public function testGetPagerWithDefaultSites(): void
     {
         $self = $this;
         $this
-            ->getSiteManager(function ($qb) use ($self) {
+            ->getSiteManager(function ($qb) use ($self): void {
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('s.isDefault = :isDefault'));
                 $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['isDefault' => true]));
             })
             ->getPager(['is_default' => true], 1);
     }
 
-    public function testGetPagerWithNonDefaultSites()
+    public function testGetPagerWithNonDefaultSites(): void
     {
         $self = $this;
         $this
-            ->getSiteManager(function ($qb) use ($self) {
+            ->getSiteManager(function ($qb) use ($self): void {
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('s.isDefault = :isDefault'));
                 $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['isDefault' => false]));
             })

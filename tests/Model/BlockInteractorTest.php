@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -27,7 +29,7 @@ class BlockInteractorTest extends TestCase
     /**
      * Test createNewContainer() method with some values.
      */
-    public function testCreateNewContainer()
+    public function testCreateNewContainer(): void
     {
         $registry = $this->getMockBuilder('Symfony\Bridge\Doctrine\RegistryInterface')->disableOriginalConstructor()->getMock();
 
@@ -39,7 +41,7 @@ class BlockInteractorTest extends TestCase
         $container = $blockInteractor->createNewContainer([
             'enabled' => true,
             'code' => 'my-code',
-        ], function ($container) {
+        ], function ($container): void {
             $container->setSetting('layout', '<div class="custom-layout">{{ CONTENT }}</div>');
         });
 

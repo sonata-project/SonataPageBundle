@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -34,7 +36,7 @@ abstract class BaseBlock extends Block
     /**
      * {@inheritdoc}
      */
-    public function setId($id)
+    public function setId($id): void
     {
         $this->id = $id;
     }
@@ -42,7 +44,7 @@ abstract class BaseBlock extends Block
     /**
      * Updates dates before creating/updating entity.
      */
-    public function prePersist()
+    public function prePersist(): void
     {
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
@@ -51,7 +53,7 @@ abstract class BaseBlock extends Block
     /**
      * Updates dates before updating entity.
      */
-    public function preUpdate()
+    public function preUpdate(): void
     {
         $this->updatedAt = new \DateTime();
     }
@@ -59,7 +61,7 @@ abstract class BaseBlock extends Block
     /**
      * {@inheritdoc}
      */
-    public function setChildren($children)
+    public function setChildren($children): void
     {
         $this->children = new ArrayCollection();
 

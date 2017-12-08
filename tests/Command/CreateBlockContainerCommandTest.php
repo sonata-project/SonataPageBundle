@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -43,7 +45,7 @@ class CreateBlockContainerCommandTest extends TestCase
      */
     protected $container;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->blockInteractor = $this->prophesize('Sonata\PageBundle\Entity\BlockInteractor');
 
@@ -60,7 +62,7 @@ class CreateBlockContainerCommandTest extends TestCase
     /**
      * Tests that Block is added into Page's blocks field.
      */
-    public function testCreateBlock()
+    public function testCreateBlock(): void
     {
         $block = $this->prophesize('Sonata\PageBundle\Model\PageBlockInterface');
         $this->blockInteractor->createNewContainer(Argument::any())->willReturn($block->reveal());

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -18,9 +20,9 @@ namespace Sonata\PageBundle\Model;
  */
 class Template
 {
-    const TYPE_STATIC = 1;
+    public const TYPE_STATIC = 1;
 
-    const TYPE_DYNAMIC = 2;
+    public const TYPE_DYNAMIC = 2;
     /**
      * @var string
      */
@@ -68,7 +70,7 @@ class Template
      * @param string $code
      * @param array  $meta
      */
-    public function addContainer($code, $meta)
+    public function addContainer($code, $meta): void
     {
         $this->containers[$code] = $this->normalize($meta);
     }
@@ -111,11 +113,11 @@ class Template
     protected function normalize(array $meta)
     {
         return [
-            'name' => isset($meta['name']) ? $meta['name'] : 'n/a',
-            'type' => isset($meta['type']) ? $meta['type'] : self::TYPE_STATIC,
-            'blocks' => isset($meta['blocks']) ? $meta['blocks'] : [],            // default block to be created
-            'placement' => isset($meta['placement']) ? $meta['placement'] : [],
-            'shared' => isset($meta['shared']) ? $meta['shared'] : false,
+            'name' => $meta['name'] ?? 'n/a',
+            'type' => $meta['type'] ?? self::TYPE_STATIC,
+            'blocks' => $meta['blocks'] ?? [],            // default block to be created
+            'placement' => $meta['placement'] ?? [],
+            'shared' => $meta['shared'] ?? false,
         ];
     }
 }

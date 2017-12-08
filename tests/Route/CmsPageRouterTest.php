@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -44,7 +46,7 @@ class CmsPageRouterTest extends TestCase
     /**
      * Setup test object with its dependencies.
      */
-    public function setup()
+    public function setup(): void
     {
         $this->cmsSelector = $this->createMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
         $this->siteSelector = $this->createMock('Sonata\PageBundle\Site\SiteSelectorInterface');
@@ -53,7 +55,7 @@ class CmsPageRouterTest extends TestCase
         $this->router = new CmsPageRouter($this->cmsSelector, $this->siteSelector, $this->defaultRouter);
     }
 
-    public function testMatchToPageFound()
+    public function testMatchToPageFound(): void
     {
         $this->expectException(\Symfony\Component\Routing\Exception\ResourceNotFoundException::class);
 
@@ -66,7 +68,7 @@ class CmsPageRouterTest extends TestCase
         $this->router->match('/');
     }
 
-    public function testMatchOnlyCmsPage()
+    public function testMatchOnlyCmsPage(): void
     {
         $this->expectException(\Symfony\Component\Routing\Exception\ResourceNotFoundException::class);
 
@@ -84,7 +86,7 @@ class CmsPageRouterTest extends TestCase
         $this->router->match('/');
     }
 
-    public function testMatch()
+    public function testMatch(): void
     {
         $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
         $page->expects($this->any())->method('isCms')->will($this->returnValue(true));
@@ -105,21 +107,21 @@ class CmsPageRouterTest extends TestCase
         $this->assertEquals('page_slug', $route['_route']);
     }
 
-    public function testGenerateInvalidPage()
+    public function testGenerateInvalidPage(): void
     {
         $this->expectException(\Symfony\Component\Routing\Exception\RouteNotFoundException::class);
 
         $this->router->generate('foobar');
     }
 
-    public function testGenerateWithPageSlugInvalidParameterException()
+    public function testGenerateWithPageSlugInvalidParameterException(): void
     {
         $this->expectException(\RuntimeException::class);
 
         $this->router->generate('page_slug', []);
     }
 
-    public function testSupports()
+    public function testSupports(): void
     {
         $this->assertTrue($this->router->supports('page_slug'));
         $this->assertTrue($this->router->supports('_page_alias_homepage'));
@@ -128,14 +130,14 @@ class CmsPageRouterTest extends TestCase
         $this->assertTrue($this->router->supports($this->createMock('Sonata\PageBundle\Model\PageInterface')));
     }
 
-    public function testGenerateWithPageSlugInvalidContext()
+    public function testGenerateWithPageSlugInvalidContext(): void
     {
         $this->expectException(\RuntimeException::class);
 
         $this->router->generate('page_slug', ['path' => '/path/to/page']);
     }
 
-    public function testGenerateWithPageSlugValid()
+    public function testGenerateWithPageSlugValid(): void
     {
         $this->router->setContext(new RequestContext());
 
@@ -161,7 +163,7 @@ class CmsPageRouterTest extends TestCase
     /**
      * @group legacy
      */
-    public function testGenerateWithPage()
+    public function testGenerateWithPage(): void
     {
         $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
 
@@ -189,7 +191,7 @@ class CmsPageRouterTest extends TestCase
     /**
      * @group legacy
      */
-    public function testGenerateWithPageCustomUrl()
+    public function testGenerateWithPageCustomUrl(): void
     {
         $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
         $page->expects($this->exactly(5))->method('isHybrid')->will($this->returnValue(false));
@@ -216,7 +218,7 @@ class CmsPageRouterTest extends TestCase
     /**
      * @group legacy
      */
-    public function testGenerateWithHybridPage()
+    public function testGenerateWithHybridPage(): void
     {
         $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
         $page->expects($this->exactly(5))->method('isHybrid')->will($this->returnValue(true));
@@ -266,7 +268,7 @@ class CmsPageRouterTest extends TestCase
     /**
      * @group legacy
      */
-    public function testGenerateWithPageAlias()
+    public function testGenerateWithPageAlias(): void
     {
         $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
         $page->expects($this->exactly(5))->method('isHybrid')->will($this->returnValue(false));
@@ -297,7 +299,7 @@ class CmsPageRouterTest extends TestCase
         $this->assertEquals('//localhost/test/path?key=value', $url);
     }
 
-    public function testGenerateWithPageAliasFromHybridPage()
+    public function testGenerateWithPageAliasFromHybridPage(): void
     {
         $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
         $page->expects($this->exactly(5))->method('isHybrid')->will($this->returnValue(true));
@@ -351,7 +353,7 @@ class CmsPageRouterTest extends TestCase
         $this->assertEquals('//localhost/test/key/value', $url);
     }
 
-    public function testGenerateWithPageAndNewSiteContext()
+    public function testGenerateWithPageAndNewSiteContext(): void
     {
         $site1 = $this->createMock('Sonata\PageBundle\Model\SiteInterface');
         $site1->expects($this->exactly(1))->method('getRelativePath')->will($this->returnValue('/site1'));

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -23,7 +25,7 @@ class HostSiteSelector extends BaseSiteSelector
     /**
      * {@inheritdoc}
      */
-    public function handleKernelRequest(GetResponseEvent $event)
+    public function handleKernelRequest(GetResponseEvent $event): void
     {
         foreach ($this->getSites($event->getRequest()) as $site) {
             if (!$site->isEnabled()) {

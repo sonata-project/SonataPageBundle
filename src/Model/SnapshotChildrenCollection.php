@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -106,7 +108,7 @@ class SnapshotChildrenCollection implements \Countable, \IteratorAggregate, \Arr
     /**
      * load the children collection.
      */
-    private function load()
+    private function load(): void
     {
         if (null == $this->collection) {
             $this->collection = $this->transformer->getChildren($this->page);

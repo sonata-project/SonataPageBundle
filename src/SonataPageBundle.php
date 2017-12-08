@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -28,7 +30,7 @@ class SonataPageBundle extends Bundle
     /**
      * {@inheritdoc}
      */
-    public function init()
+    public function init(): void
     {
         $this->registerFormMapping();
     }
@@ -36,7 +38,7 @@ class SonataPageBundle extends Bundle
     /**
      * {@inheritdoc}
      */
-    public function build(ContainerBuilder $container)
+    public function build(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new CacheCompilerPass());
         $container->addCompilerPass(new GlobalVariablesCompilerPass());
@@ -46,7 +48,7 @@ class SonataPageBundle extends Bundle
     /**
      * {@inheritdoc}
      */
-    public function boot()
+    public function boot(): void
     {
         $this->registerFormMapping();
 
@@ -82,7 +84,7 @@ class SonataPageBundle extends Bundle
     /**
      * Register form mapping information.
      */
-    public function registerFormMapping()
+    public function registerFormMapping(): void
     {
         FormHelper::registerFormTypeMapping([
             'sonata_page_api_form_site' => 'Sonata\PageBundle\Form\Type\ApiSiteType',

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -29,7 +31,7 @@ final class CloneSiteCommand extends BaseCommand
     /**
      * {@inheritdoc}
      */
-    public function configure()
+    public function configure(): void
     {
         $this
             ->setName('sonata:page:clone-site')
@@ -43,7 +45,7 @@ final class CloneSiteCommand extends BaseCommand
     /**
      * {@inheritdoc}
      */
-    protected function initialize(InputInterface $input, OutputInterface $output)
+    protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         if (!$input->getOption('source-id')) {
             $this->listAllSites($output);
@@ -65,7 +67,7 @@ final class CloneSiteCommand extends BaseCommand
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         if ($input->getOption('only-hybrid')) {
             $output->writeln('Cloning hybrid pages only.');
@@ -193,7 +195,7 @@ final class CloneSiteCommand extends BaseCommand
      *
      * @param OutputInterface $output
      */
-    private function listAllSites(OutputInterface $output)
+    private function listAllSites(OutputInterface $output): void
     {
         $output->writeln(sprintf(' % 5s - % -30s - %s', 'ID', 'Name', 'Url'));
 

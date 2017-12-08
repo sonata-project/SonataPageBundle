@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -56,7 +58,7 @@ class RequestFactory
     /**
      * @param string $type
      */
-    private static function configureFactory($type)
+    private static function configureFactory($type): void
     {
         if (version_compare(Kernel::VERSION, '2.5', '<')) {
             // nothing to configure as Request::setFactory require SF > 2.5

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -23,7 +25,7 @@ class SiteRequest extends BaseRequest implements SiteRequestInterface
     /**
      * {@inheritdoc}
      */
-    public function setPathInfo($pathInfo)
+    public function setPathInfo($pathInfo): void
     {
         $this->pathInfo = $pathInfo;
     }
@@ -31,7 +33,7 @@ class SiteRequest extends BaseRequest implements SiteRequestInterface
     /**
      * {@inheritdoc}
      */
-    public function setBaseUrl($baseUrl)
+    public function setBaseUrl($baseUrl): void
     {
         $this->baseUrl = $baseUrl;
     }

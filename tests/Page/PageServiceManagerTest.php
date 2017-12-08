@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -32,7 +34,7 @@ class PageServiceManagerTest extends TestCase
     /**
      * setup each test.
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->router = $this->createMock('Symfony\Component\Routing\RouterInterface');
         $this->manager = new PageServiceManager($this->router);
@@ -41,7 +43,7 @@ class PageServiceManagerTest extends TestCase
     /**
      * Test adding a new page service.
      */
-    public function testAdd()
+    public function testAdd(): void
     {
         // GIVEN
         $service = $this->createMock('Sonata\PageBundle\Page\Service\PageServiceInterface');
@@ -58,7 +60,7 @@ class PageServiceManagerTest extends TestCase
      *
      * @depends testAdd
      */
-    public function testGetByPage()
+    public function testGetByPage(): void
     {
         // GIVEN
         $service = $this->createMock('Sonata\PageBundle\Page\Service\PageServiceInterface');
@@ -79,7 +81,7 @@ class PageServiceManagerTest extends TestCase
      *
      * @depends testAdd
      */
-    public function testGetAll()
+    public function testGetAll(): void
     {
         // GIVEN
         $service1 = $this->createMock('Sonata\PageBundle\Page\Service\PageServiceInterface');
@@ -99,7 +101,7 @@ class PageServiceManagerTest extends TestCase
      *
      * @depends testAdd
      */
-    public function testDefault()
+    public function testDefault(): void
     {
         // GIVEN
         $default = $this->createMock('Sonata\PageBundle\Page\Service\PageServiceInterface');
@@ -117,7 +119,7 @@ class PageServiceManagerTest extends TestCase
      *
      * @depends testDefault
      */
-    public function testExecute()
+    public function testExecute(): void
     {
         // GIVEN
         $request = $this

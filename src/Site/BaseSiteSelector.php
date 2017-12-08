@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -77,14 +79,14 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
     /**
      * {@inheritdoc}
      */
-    public function onKernelRequestRedirect(GetResponseEvent $event)
+    public function onKernelRequestRedirect(GetResponseEvent $event): void
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    final public function onKernelRequest(GetResponseEvent $event)
+    final public function onKernelRequest(GetResponseEvent $event): void
     {
         if (!$this->decoratorStrategy->isRouteUriDecorable($event->getRequest()->getPathInfo())) {
             return;

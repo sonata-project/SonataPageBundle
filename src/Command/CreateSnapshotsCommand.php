@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -26,7 +28,7 @@ class CreateSnapshotsCommand extends BaseCommand
     /**
      * {@inheritdoc}
      */
-    public function configure()
+    public function configure(): void
     {
         $this->setName('sonata:page:create-snapshots');
         $this->setDescription('Create a snapshots of all pages available');
@@ -39,7 +41,7 @@ class CreateSnapshotsCommand extends BaseCommand
     /**
      * {@inheritdoc}
      */
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): void
     {
         if (!$input->getOption('site')) {
             $output->writeln('Please provide an <info>--site=SITE_ID</info> option or the <info>--site=all</info> directive');
@@ -71,7 +73,7 @@ class CreateSnapshotsCommand extends BaseCommand
             } else {
                 $p = new Process(sprintf('%s sonata:page:create-snapshots --env=%s --site=%s --mode=%s %s ', $input->getOption('base-console'), $input->getOption('env'), $site->getId(), $input->getOption('mode'), $input->getOption('no-debug') ? '--no-debug' : ''));
                 $p->setTimeout(0);
-                $p->run(function ($type, $data) use ($output) {
+                $p->run(function ($type, $data) use ($output): void {
                     $output->write($data, OutputInterface::OUTPUT_RAW);
                 });
             }

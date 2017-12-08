@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -29,7 +31,7 @@ abstract class BaseLocaleSiteSelectorTest extends TestCase
     /**
      * Initializes the site selector.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         throw new \RuntimeException('You must define a setUp method to initialize the site selector.');
     }
@@ -37,7 +39,7 @@ abstract class BaseLocaleSiteSelectorTest extends TestCase
     /**
      * Cleanups the site selector.
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         unset($this->siteSelector);
     }

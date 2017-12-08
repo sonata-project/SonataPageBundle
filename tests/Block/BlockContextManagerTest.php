@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -20,7 +22,7 @@ use Sonata\PageBundle\Block\BlockContextManager;
  */
 class BlockContextManagerTest extends TestCase
 {
-    public function testGetWithValidData()
+    public function testGetWithValidData(): void
     {
         $service = $this->getMockForAbstractClass(AbstractBlockService::class);
 

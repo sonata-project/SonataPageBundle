@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -45,7 +47,7 @@ class SnapshotAdmin extends AbstractAdmin
     /**
      * {@inheritdoc}
      */
-    public function configureListFields(ListMapper $listMapper)
+    public function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->addIdentifier('url')
@@ -58,7 +60,7 @@ class SnapshotAdmin extends AbstractAdmin
     /**
      * {@inheritdoc}
      */
-    public function configureDatagridFilters(DatagridMapper $datagridMapper)
+    public function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('routeName');
@@ -67,7 +69,7 @@ class SnapshotAdmin extends AbstractAdmin
     /**
      * {@inheritdoc}
      */
-    public function configureFormFields(FormMapper $formMapper)
+    public function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->add('enabled', null, ['required' => false])
@@ -94,7 +96,7 @@ class SnapshotAdmin extends AbstractAdmin
     /**
      * {@inheritdoc}
      */
-    public function postUpdate($object)
+    public function postUpdate($object): void
     {
         $this->cacheManager->invalidate([
             'page_id' => $object->getPage()->getId(),
@@ -104,7 +106,7 @@ class SnapshotAdmin extends AbstractAdmin
     /**
      * {@inheritdoc}
      */
-    public function postPersist($object)
+    public function postPersist($object): void
     {
         $this->cacheManager->invalidate([
             'page_id' => $object->getPage()->getId(),
@@ -114,7 +116,7 @@ class SnapshotAdmin extends AbstractAdmin
     /**
      * @param CacheManagerInterface $cacheManager
      */
-    public function setCacheManager(CacheManagerInterface $cacheManager)
+    public function setCacheManager(CacheManagerInterface $cacheManager): void
     {
         $this->cacheManager = $cacheManager;
     }

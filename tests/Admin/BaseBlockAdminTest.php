@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -20,7 +22,7 @@ use Sonata\PageBundle\Model\PageInterface;
 
 class BaseBlockAdminTest extends TestCase
 {
-    public function testSettingAsEditedOnPreBatchDeleteAction()
+    public function testSettingAsEditedOnPreBatchDeleteAction(): void
     {
         $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
         $page->expects($this->once())->method('setEdited')->with(true);
@@ -38,7 +40,7 @@ class BaseBlockAdminTest extends TestCase
         $blockAdmin->preBatchAction('delete', $query, $idx, true);
     }
 
-    public function testSettingAsEditedOnPreRemove()
+    public function testSettingAsEditedOnPreRemove(): void
     {
         $page = $this->createMock(PageInterface::class);
         $page->expects($this->once())->method('setEdited')->with(true);

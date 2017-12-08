@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -26,7 +28,7 @@ class DumpPageCommand extends BaseCommand
     /**
      * {@inheritdoc}
      */
-    public function configure()
+    public function configure(): void
     {
         $this->setName('sonata:page:dump-page');
         $this->setDescription('Dump page information');
@@ -48,7 +50,7 @@ You can use the --extended option to dump block configuration
     /**
      * {@inheritdoc}
      */
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): void
     {
         $manager = $this->getContainer()->get($input->getArgument('manager'));
 
@@ -83,7 +85,7 @@ You can use the --extended option to dump block configuration
      * @param bool            $extended
      * @param int             $space
      */
-    public function renderBlock(BlockInterface $block, OutputInterface $output, $extended, $space = 0)
+    public function renderBlock(BlockInterface $block, OutputInterface $output, $extended, $space = 0): void
     {
         $output->writeln(sprintf('%s <comment>> Id: %d - type: %s - name: %s</comment>',
             str_repeat('  ', $space),

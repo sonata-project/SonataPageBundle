@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -68,7 +70,7 @@ class TemplateManager implements TemplateManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function add($code, Template $template)
+    public function add($code, Template $template): void
     {
         $this->templates[$code] = $template;
     }
@@ -88,7 +90,7 @@ class TemplateManager implements TemplateManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function setDefaultTemplateCode($code)
+    public function setDefaultTemplateCode($code): void
     {
         $this->defaultTemplateCode = $code;
     }
@@ -104,7 +106,7 @@ class TemplateManager implements TemplateManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function setAll($templates)
+    public function setAll($templates): void
     {
         $this->templates = $templates;
     }

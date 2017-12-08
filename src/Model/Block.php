@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -29,7 +31,7 @@ abstract class Block extends BaseBlock implements PageBlockInterface
     /**
      * {@inheritdoc}
      */
-    public function addChildren(BlockInterface $child)
+    public function addChildren(BlockInterface $child): void
     {
         $this->children[] = $child;
 
@@ -43,7 +45,7 @@ abstract class Block extends BaseBlock implements PageBlockInterface
     /**
      * {@inheritdoc}
      */
-    public function setPage(PageInterface $page = null)
+    public function setPage(PageInterface $page = null): void
     {
         $this->page = $page;
     }
@@ -59,7 +61,7 @@ abstract class Block extends BaseBlock implements PageBlockInterface
     /**
      * Disables children lazy loading.
      */
-    public function disableChildrenLazyLoading()
+    public function disableChildrenLazyLoading(): void
     {
         if (is_object($this->children)) {
             $this->children->setInitialized(true);
