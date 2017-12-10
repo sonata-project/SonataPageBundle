@@ -29,6 +29,7 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
@@ -307,7 +308,7 @@ class PageAdmin extends AbstractAdmin
                     ],
                     'choice_translation_domain' => false,
                 ],
-                'field_type' => 'choice',
+                'field_type' => ChoiceType::class,
             ])
         ;
     }
