@@ -20,6 +20,7 @@ use Sonata\BlockBundle\Block\BlockServiceInterface;
 use Sonata\BlockBundle\Form\Type\ServiceListType;
 use Sonata\PageBundle\Model\PageInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -204,7 +205,7 @@ class BlockAdmin extends BaseBlockAdmin
                     }
 
                     if (count($choices) > 1) {
-                        $settingsField->add('template', 'choice', ['choices' => $choices]);
+                        $settingsField->add('template', ChoiceType::class, ['choices' => $choices]);
                     }
                 }
             }

@@ -21,6 +21,8 @@ use Sonata\CoreBundle\Model\Metadata;
 use Sonata\PageBundle\Model\Page;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -50,11 +52,11 @@ class PageListBlockService extends AbstractAdminBlockService
     {
         $formMapper->add('settings', 'sonata_type_immutable_array', [
             'keys' => [
-                ['title', 'text', [
+                ['title', TextType::class, [
                     'label' => 'form.label_title',
                     'required' => false,
                 ]],
-                ['mode', 'choice', [
+                ['mode', ChoiceType::class, [
                     'label' => 'form.label_mode',
                     'choices' => [
                         'public' => 'form.choice_public',

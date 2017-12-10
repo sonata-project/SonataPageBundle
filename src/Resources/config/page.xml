@@ -68,7 +68,7 @@
             <argument type="service" id="sonata.page.manager.page"/>
             <argument type="service" id="sonata.page.block_interactor"/>
         </service>
-        <service id="sonata.page.cms.snapshot" class="%sonata.page.cms_manager.snapshot.class%">
+        <service id="sonata.page.cms.snapshot" class="%sonata.page.cms_manager.snapshot.class%" public="true">
             <tag name="sonata.page.manager" type="snapshot"/>
             <argument type="service" id="sonata.page.manager.snapshot"/>
             <argument type="service" id="sonata.page.transformer"/>
