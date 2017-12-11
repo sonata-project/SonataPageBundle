@@ -63,6 +63,10 @@ You can use %kernel.debug%, if you want to publish in dev mode, but not in prod.
 EOF;
 
         $node
+            ->scalarNode('skip_redirection')
+                ->info('To skip asking Editor to redirect')
+                ->defaultFalse()
+            ->end()
             ->scalarNode('is_inline_edition_on')
                 ->defaultFalse()
             ->end()

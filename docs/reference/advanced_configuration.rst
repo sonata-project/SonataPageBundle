@@ -26,6 +26,7 @@ Full configuration options:
 
         # Default configuration for extension with alias: "sonata_page"
         sonata_page:
+            skip_redirection: false # Skip asking Editor to redirect
             is_inline_edition_on:  false
             use_streamed_response:  false
             multisite:            ~ # Required
