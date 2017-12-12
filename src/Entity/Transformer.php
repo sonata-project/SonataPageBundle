@@ -162,11 +162,11 @@ class Transformer implements TransformerInterface
         $page->setRequestMethod($content['request_method']);
 
         $createdAt = new \DateTime();
-        $createdAt->setTimestamp($content['created_at']);
+        $createdAt->setTimestamp((int) $content['created_at']);
         $page->setCreatedAt($createdAt);
 
         $updatedAt = new \DateTime();
-        $updatedAt->setTimestamp($content['updated_at']);
+        $updatedAt->setTimestamp((int) $content['updated_at']);
         $page->setUpdatedAt($updatedAt);
 
         return $page;
@@ -190,11 +190,11 @@ class Transformer implements TransformerInterface
         $block->setType($content['type']);
 
         $createdAt = new \DateTime();
-        $createdAt->setTimestamp($content['created_at']);
+        $createdAt->setTimestamp((int) $content['created_at']);
         $block->setCreatedAt($createdAt);
 
         $updatedAt = new \DateTime();
-        $updatedAt->setTimestamp($content['updated_at']);
+        $updatedAt->setTimestamp((int) $content['updated_at']);
         $block->setUpdatedAt($updatedAt);
 
         foreach ($content['blocks'] as $child) {
