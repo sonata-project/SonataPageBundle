@@ -93,21 +93,9 @@ class PageAdminController extends Controller
 
         $datagrid = $this->admin->getDatagrid();
         $formView = $datagrid->getForm()->createView();
-
-        // NEXT_MAJOR: remove bc check
-        // BC for Symfony < 3.2 where this runtime does not exist
-        $twig = $this->get('twig');
         $theme = $this->admin->getFilterTheme();
-        if (!method_exists('Symfony\Bridge\Twig\AppVariable', 'getToken')) {
-            $twig->getExtension('Symfony\Bridge\Twig\Extension\FormExtension')->renderer->setTheme($formView, $theme);
-        } else {
-            // BC for Symfony < 3.4 which deprecated this runtime in favor of FormRenderer
-            if (!method_exists('Symfony\Bridge\Twig\Command\DebugCommand', 'getLoaderPaths')) {
-                $twig->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->setTheme($formView, $theme);
-            }
-            $twig->getRuntime('Symfony\Component\Form\FormRenderer')->setTheme($formView, $theme);
-        }
-
+        $this->setFormTheme($formView, $theme);
+        
         return $this->render($this->admin->getTemplate('tree'), [
             'action' => 'tree',
             'sites' => $sites,
