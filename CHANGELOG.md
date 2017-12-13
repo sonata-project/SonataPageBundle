@@ -2,6 +2,22 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.7.0](https://github.com/sonata-project/SonataPageBundle/compare/3.6.0...3.7.0) - 2017-12-12
+### Added
+- Added Russian translations
+- Add Symfony 4 compatibility
+- Added new configuration `skip_redirection` to skip asking Editor to redirect
+
+### Changed
+- make services explicit public
+
+### Fixed
+- compatibility with Twig 2.0 was improved
+- Fixed wrong route in pagelist block
+
+### Removed
+- Removed old form alias usage
+
 ## [3.6.0](https://github.com/sonata-project/SonataPageBundle/compare/3.5.2...3.6.0) - 2017-11-14
 ### Fixed
 - use new sf3 choices structure

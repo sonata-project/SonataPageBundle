@@ -159,6 +159,7 @@ class ConfigurationTest extends TestCase
 
             'slugify_service' => 'sonata.core.slugify.native',
             'direct_publication' => false,
+            'skip_redirection' => false,
         ];
 
         $this->assertEquals($expected, $config);
@@ -244,6 +245,7 @@ class ConfigurationTest extends TestCase
 
             'slugify_service' => 'sonata.core.slugify.native',
             'direct_publication' => false,
+            'skip_redirection' => false,
         ];
 
         $this->assertEquals($expected, $config);
