@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Form\FormView;
 
 /**
  * Page Admin Controller.
@@ -105,7 +106,31 @@ class PageAdminController extends Controller
             'csrf_token' => $this->getCsrfToken('sonata.batch'),
         ]);
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    private function setFormTheme(FormView $formView, $theme)
+    {
+        $twig = $this->get('twig');
 
+        // BC for Symfony < 3.2 where this runtime does not exists
+        if (!method_exists(AppVariable::class, 'getToken')) {
+            $twig->getExtension(FormExtension::class)->renderer->setTheme($formView, $theme);
+
+            return;
+        }
+
+        // BC for Symfony < 3.4 where runtime should be TwigRenderer
+        if (!method_exists(DebugCommand::class, 'getLoaderPaths')) {
+            $twig->getRuntime(TwigRenderer::class)->setTheme($formView, $theme);
+
+            return;
+        }
+
+        $twig->getRuntime(FormRenderer::class)->setTheme($formView, $theme);
+    }
+    
     /**
      * {@inheritdoc}
      */
