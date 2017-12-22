@@ -73,8 +73,12 @@ class DefaultPageService extends BasePageService
             return;
         }
 
-        if ($page->getTitle() || $page->getName()) {
-            $this->seoPage->setTitle($page->getTitle() ?: $page->getName());
+        /*
+         * Always prefer the page title, if set.
+         * Do not use the (internal) page name as a fallback
+         */
+        if ($page->getTitle()) {
+            $this->seoPage->setTitle($page->getTitle());
         }
 
         if ($page->getMetaDescription()) {
