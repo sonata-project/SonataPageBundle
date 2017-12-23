@@ -11,6 +11,7 @@
 
 namespace Sonata\PageBundle\Block;
 
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Block\Service\AbstractAdminBlockService;
@@ -187,7 +188,7 @@ class SharedBlockBlockService extends AbstractAdminBlockService
         $fieldDescription->setOption('edit', 'list');
         $fieldDescription->setAssociationMapping([
                 'fieldName' => 'block',
-                'type' => \Doctrine\ORM\Mapping\ClassMetadataInfo::MANY_TO_ONE,
+                'type' => ClassMetadataInfo::MANY_TO_ONE,
             ]);
 
         return $formMapper->create('blockId', 'sonata_type_model_list', [

@@ -13,8 +13,12 @@ namespace Sonata\PageBundle\Tests\Route;
 
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\CmsManager\DecoratorStrategy;
+use Sonata\PageBundle\Entity\PageManager;
+use Sonata\PageBundle\Listener\ExceptionListener;
+use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Route\RoutePageGenerator;
 use Sonata\PageBundle\Tests\Model\Page;
+use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\Console\Output\StreamOutput;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
@@ -106,11 +110,11 @@ class RoutePageGeneratorTest extends TestCase
     /**
      * Returns a mock of a site model.
      *
-     * @return \Sonata\PageBundle\Model\SiteInterface
+     * @return SiteInterface
      */
     protected function getSiteMock()
     {
-        $site = $this->createMock('Sonata\PageBundle\Model\SiteInterface');
+        $site = $this->createMock(SiteInterface::class);
         $site->expects($this->any())->method('getHost')->will($this->returnValue('sonata-project.org'));
         $site->expects($this->any())->method('getId')->will($this->returnValue(1));
 
@@ -120,7 +124,7 @@ class RoutePageGeneratorTest extends TestCase
     /**
      * Returns a mock of Symfony router.
      *
-     * @return \Symfony\Component\Routing\Router
+     * @return Router
      */
     protected function getRouterMock()
     {
@@ -142,7 +146,7 @@ class RoutePageGeneratorTest extends TestCase
             'sonata-project.com'
         ));
 
-        $router = $this->getMockBuilder('Symfony\Component\Routing\Router')
+        $router = $this->getMockBuilder(Router::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -160,7 +164,7 @@ class RoutePageGeneratorTest extends TestCase
     {
         $router = $this->getRouterMock();
 
-        $pageManager = $this->getMockBuilder('Sonata\PageBundle\Entity\PageManager')
+        $pageManager = $this->getMockBuilder(PageManager::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -186,7 +190,7 @@ class RoutePageGeneratorTest extends TestCase
 
         $decoratorStrategy = new DecoratorStrategy([], [], []);
 
-        $exceptionListener = $this->getMockBuilder('Sonata\PageBundle\Listener\ExceptionListener')
+        $exceptionListener = $this->getMockBuilder(ExceptionListener::class)
             ->disableOriginalConstructor()
             ->getMock();
 

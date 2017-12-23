@@ -17,9 +17,9 @@ use Symfony\Component\HttpKernel\Kernel;
 class RequestFactory
 {
     private static $types = [
-        'host' => 'Symfony\Component\HttpFoundation\Request',
-        'host_with_path' => 'Sonata\PageBundle\Request\SiteRequest',
-        'host_with_path_by_locale' => 'Sonata\PageBundle\Request\SiteRequest',
+        'host' => Request::class,
+        'host_with_path' => SiteRequest::class,
+        'host_with_path_by_locale' => SiteRequest::class,
     ];
 
     /**

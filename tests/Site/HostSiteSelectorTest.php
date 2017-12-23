@@ -12,8 +12,12 @@
 namespace Sonata\PageBundle\Tests\Site;
 
 use PHPUnit\Framework\TestCase;
+use Sonata\AdminBundle\Exception\NoValueException;
+use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 use Sonata\PageBundle\Entity\BaseSite;
+use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Site\HostSiteSelector as BaseSiteSelector;
+use Sonata\SeoBundle\Seo\SeoPageInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -124,7 +128,7 @@ class HostSiteSelectorTest extends TestCase
      */
     protected function performHandleKernelRequestTest($url)
     {
-        $kernel = $this->createMock('Symfony\Component\HttpKernel\HttpKernelInterface');
+        $kernel = $this->createMock(HttpKernelInterface::class);
         $request = Request::create($url);
 
         // Ensure request locale is null
@@ -132,9 +136,9 @@ class HostSiteSelectorTest extends TestCase
 
         $event = new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
 
-        $siteManager = $this->createMock('Sonata\PageBundle\Model\SiteManagerInterface');
-        $decoratorStrategy = $this->createMock('Sonata\PageBundle\CmsManager\DecoratorStrategyInterface');
-        $seoPage = $this->createMock('Sonata\SeoBundle\Seo\SeoPageInterface');
+        $siteManager = $this->createMock(SiteManagerInterface::class);
+        $decoratorStrategy = $this->createMock(DecoratorStrategyInterface::class);
+        $seoPage = $this->createMock(SeoPageInterface::class);
 
         $siteSelector = new HostSiteSelector($siteManager, $decoratorStrategy, $seoPage);
 

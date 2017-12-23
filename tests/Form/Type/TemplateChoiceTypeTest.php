@@ -13,6 +13,8 @@ namespace Sonata\PageBundle\Tests\Form\Type;
 
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Form\Type\TemplateChoiceType;
+use Sonata\PageBundle\Model\Template;
+use Sonata\PageBundle\Page\TemplateManagerInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -35,7 +37,7 @@ class TemplateChoiceTypeTest extends TestCase
      */
     public function setUp()
     {
-        $this->manager = $this->createMock('Sonata\PageBundle\Page\TemplateManagerInterface');
+        $this->manager = $this->createMock(TemplateManagerInterface::class);
         $this->type = new TemplateChoiceType($this->manager);
     }
 
@@ -70,7 +72,7 @@ class TemplateChoiceTypeTest extends TestCase
      */
     protected function getMockTemplate($name, $path = 'path/to/file')
     {
-        $template = $this->getMockbuilder('Sonata\PageBundle\Model\Template')->disableOriginalConstructor()->getMock();
+        $template = $this->getMockbuilder(Template::class)->disableOriginalConstructor()->getMock();
         $template->expects($this->any())->method('getName')->will($this->returnValue($name));
         $template->expects($this->any())->method('getPath')->will($this->returnValue($path));
 
