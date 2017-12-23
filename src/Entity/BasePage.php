@@ -11,6 +11,7 @@
 
 namespace Sonata\PageBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Sonata\PageBundle\Model\Page;
 
 /**
@@ -27,8 +28,8 @@ abstract class BasePage extends Page
     {
         parent::__construct();
 
-        $this->children = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->blocks = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->children = new ArrayCollection();
+        $this->blocks = new ArrayCollection();
     }
 
     public function prePersist()

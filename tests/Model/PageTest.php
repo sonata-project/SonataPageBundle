@@ -12,6 +12,9 @@
 namespace Sonata\PageBundle\Tests\Model;
 
 use PHPUnit\Framework\TestCase;
+use Sonata\PageBundle\Model\Block;
+use Sonata\PageBundle\Model\PageInterface;
+use Sonata\PageBundle\Model\SnapshotInterface;
 
 class PageTest extends TestCase
 {
@@ -171,18 +174,18 @@ class PageTest extends TestCase
         $this->assertEquals(2, count($page->getChildren()));
 
         $snapshots = [
-            $this->createMock('Sonata\PageBundle\Model\SnapshotInterface'),
+            $this->createMock(SnapshotInterface::class),
         ];
 
         $page->setSnapshots($snapshots);
         $this->assertEquals(1, count($page->getSnapshots()));
-        $page->addSnapshot($this->createMock('Sonata\PageBundle\Model\SnapshotInterface'));
+        $page->addSnapshot($this->createMock(SnapshotInterface::class));
         $this->assertEquals(2, count($page->getSnapshots()));
 
-        $this->assertInstanceOf('Sonata\PageBundle\Model\SnapshotInterface', $page->getSnapshot());
+        $this->assertInstanceOf(SnapshotInterface::class, $page->getSnapshot());
 
-        $page->setTarget($this->createMock('Sonata\PageBundle\Model\PageInterface'));
-        $this->assertInstanceOf('Sonata\PageBundle\Model\PageInterface', $page->getTarget());
+        $page->setTarget($this->createMock(PageInterface::class));
+        $this->assertInstanceOf(PageInterface::class, $page->getTarget());
         $page->setTarget(null);
         $this->assertNull($page->getTarget());
 
@@ -294,14 +297,14 @@ class PageTest extends TestCase
     {
         $page = new Page();
 
-        $block1 = $this->getMockBuilder('Sonata\PageBundle\Model\Block')->getMock();
+        $block1 = $this->getMockBuilder(Block::class)->getMock();
         $block1->expects($this->any())->method('getType')->will($this->returnValue('sonata.page.block.action'));
 
-        $block2 = $this->getMockBuilder('Sonata\PageBundle\Model\Block')->getMock();
+        $block2 = $this->getMockBuilder(Block::class)->getMock();
         $block2->expects($this->any())->method('getType')->will($this->returnValue('sonata.page.block.container'));
         $block2->expects($this->once())->method('getSetting')->will($this->returnValue('bar'));
 
-        $block3 = $this->getMockBuilder('Sonata\PageBundle\Model\Block')->getMock();
+        $block3 = $this->getMockBuilder(Block::class)->getMock();
         $block3->expects($this->any())->method('getType')->will($this->returnValue('sonata.page.block.container'));
         $block3->expects($this->once())->method('getSetting')->will($this->returnValue('gotcha'));
 
@@ -316,13 +319,13 @@ class PageTest extends TestCase
     {
         $page = new Page();
 
-        $block1 = $this->getMockBuilder('Sonata\PageBundle\Model\Block')->getMock();
+        $block1 = $this->getMockBuilder(Block::class)->getMock();
         $block1->expects($this->once())->method('getType')->will($this->returnValue('sonata.page.block.action'));
 
-        $block2 = $this->getMockBuilder('Sonata\PageBundle\Model\Block')->getMock();
+        $block2 = $this->getMockBuilder(Block::class)->getMock();
         $block2->expects($this->once())->method('getType')->will($this->returnValue('sonata.page.block.container'));
 
-        $block3 = $this->getMockBuilder('Sonata\PageBundle\Model\Block')->getMock();
+        $block3 = $this->getMockBuilder(Block::class)->getMock();
         $block3->expects($this->once())->method('getType')->will($this->returnValue('sonata.page.block.action'));
 
         $page->addBlocks($block1);

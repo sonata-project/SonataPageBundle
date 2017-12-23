@@ -11,7 +11,14 @@
 
 namespace Sonata\PageBundle\Tests\Entity;
 
+use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Common\Persistence\Mapping\ClassMetadata;
+use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use PHPUnit\Framework\TestCase;
+use Sonata\PageBundle\Entity\BasePage;
 use Sonata\PageBundle\Entity\PageManager;
 use Sonata\PageBundle\Tests\Model\Page;
 
@@ -19,7 +26,7 @@ class PageManagerTest extends TestCase
 {
     public function testFixUrl()
     {
-        $entityManager = $this->getMockBuilder('Doctrine\Common\Persistence\ManagerRegistry')
+        $entityManager = $this->getMockBuilder(ManagerRegistry::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -63,7 +70,7 @@ class PageManagerTest extends TestCase
 
     public function testWithSlashAtTheEnd()
     {
-        $entityManager = $this->getMockBuilder('Doctrine\Common\Persistence\ManagerRegistry')
+        $entityManager = $this->getMockBuilder(ManagerRegistry::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -90,11 +97,11 @@ class PageManagerTest extends TestCase
 
     public function testCreateWithGlobalDefaults()
     {
-        $entityManager = $this->getMockBuilder('Doctrine\Common\Persistence\ManagerRegistry')
+        $entityManager = $this->getMockBuilder(ManagerRegistry::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $manager = new PageManager('Sonata\PageBundle\Tests\Model\Page', $entityManager, [], ['my_route' => ['decorate' => false, 'name' => 'Salut!']]);
+        $manager = new PageManager(Page::class, $entityManager, [], ['my_route' => ['decorate' => false, 'name' => 'Salut!']]);
 
         $page = $manager->create(['name' => 'My Name', 'routeName' => 'my_route']);
 
@@ -249,12 +256,12 @@ class PageManagerTest extends TestCase
 
     protected function getPageManager($qbCallback)
     {
-        $query = $this->getMockForAbstractClass('Doctrine\ORM\AbstractQuery', [], '', false, true, true, ['execute']);
+        $query = $this->getMockForAbstractClass(AbstractQuery::class, [], '', false, true, true, ['execute']);
         $query->expects($this->any())->method('execute')->will($this->returnValue(true));
 
-        $qb = $this->getMockBuilder('Doctrine\ORM\QueryBuilder')
+        $qb = $this->getMockBuilder(QueryBuilder::class)
             ->setConstructorArgs([
-                $this->getMockBuilder('Doctrine\ORM\EntityManager')
+                $this->getMockBuilder(EntityManager::class)
                     ->disableOriginalConstructor()
                     ->getMock(),
             ])
@@ -266,22 +273,22 @@ class PageManagerTest extends TestCase
 
         $qbCallback($qb);
 
-        $repository = $this->getMockBuilder('Doctrine\ORM\EntityRepository')->disableOriginalConstructor()->getMock();
+        $repository = $this->getMockBuilder(EntityRepository::class)->disableOriginalConstructor()->getMock();
         $repository->expects($this->any())->method('createQueryBuilder')->will($this->returnValue($qb));
 
-        $metadata = $this->createMock('Doctrine\Common\Persistence\Mapping\ClassMetadata');
+        $metadata = $this->createMock(ClassMetadata::class);
         $metadata->expects($this->any())->method('getFieldNames')->will($this->returnValue([
             'name',
             'routeName',
         ]));
 
-        $em = $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock();
+        $em = $this->getMockBuilder(EntityManager::class)->disableOriginalConstructor()->getMock();
         $em->expects($this->any())->method('getRepository')->will($this->returnValue($repository));
         $em->expects($this->any())->method('getClassMetadata')->will($this->returnValue($metadata));
 
-        $registry = $this->createMock('Doctrine\Common\Persistence\ManagerRegistry');
+        $registry = $this->createMock(ManagerRegistry::class);
         $registry->expects($this->any())->method('getManagerForClass')->will($this->returnValue($em));
 
-        return new PageManager('Sonata\PageBundle\Entity\BasePage', $registry);
+        return new PageManager(BasePage::class, $registry);
     }
 }

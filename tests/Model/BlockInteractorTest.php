@@ -13,7 +13,10 @@ namespace Sonata\PageBundle\Tests\Model;
 
 use PHPUnit\Framework\TestCase;
 use Sonata\BlockBundle\Model\Block;
+use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\BlockBundle\Model\BlockManagerInterface;
 use Sonata\PageBundle\Entity\BlockInteractor;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * BlockInteractorTest class.
@@ -29,9 +32,9 @@ class BlockInteractorTest extends TestCase
      */
     public function testCreateNewContainer()
     {
-        $registry = $this->getMockBuilder('Symfony\Bridge\Doctrine\RegistryInterface')->disableOriginalConstructor()->getMock();
+        $registry = $this->getMockBuilder(RegistryInterface::class)->disableOriginalConstructor()->getMock();
 
-        $blockManager = $this->createMock('Sonata\BlockBundle\Model\BlockManagerInterface');
+        $blockManager = $this->createMock(BlockManagerInterface::class);
         $blockManager->expects($this->any())->method('create')->will($this->returnValue(new Block()));
 
         $blockInteractor = new BlockInteractor($registry, $blockManager);
@@ -43,7 +46,7 @@ class BlockInteractorTest extends TestCase
             $container->setSetting('layout', '<div class="custom-layout">{{ CONTENT }}</div>');
         });
 
-        $this->assertInstanceOf('\Sonata\BlockBundle\Model\BlockInterface', $container);
+        $this->assertInstanceOf(BlockInterface::class, $container);
 
         $settings = $container->getSettings();
 

@@ -11,9 +11,16 @@
 
 namespace Sonata\PageBundle\Tests\Controller\Api;
 
+use FOS\RestBundle\View\View;
 use PHPUnit\Framework\TestCase;
+use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\BlockBundle\Model\BlockManagerInterface;
 use Sonata\PageBundle\Controller\Api\BlockController;
+use Symfony\Component\Form\Form;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @author Vincent Composieux <vincent.composieux@gmail.com>
@@ -22,14 +29,14 @@ class BlockControllerTest extends TestCase
 {
     public function testGetBlockAction()
     {
-        $block = $this->createMock('Sonata\BlockBundle\Model\BlockInterface');
+        $block = $this->createMock(BlockInterface::class);
 
         $this->assertEquals($block, $this->createBlockController($block)->getBlockAction(1));
     }
 
     public function testGetBlockActionNotFoundException()
     {
-        $this->expectException(\Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class);
+        $this->expectException(NotFoundHttpException::class);
         $this->expectExceptionMessage('Block (42) not found');
 
         $this->createBlockController()->getBlockAction(42);
@@ -37,48 +44,48 @@ class BlockControllerTest extends TestCase
 
     public function testPutBlockAction()
     {
-        $block = $this->createMock('Sonata\BlockBundle\Model\BlockInterface');
+        $block = $this->createMock(BlockInterface::class);
 
-        $blockManager = $this->createMock('Sonata\BlockBundle\Model\BlockManagerInterface');
+        $blockManager = $this->createMock(BlockManagerInterface::class);
         $blockManager->expects($this->once())->method('save')->will($this->returnValue($block));
 
-        $form = $this->getMockBuilder('Symfony\Component\Form\Form')->disableOriginalConstructor()->getMock();
+        $form = $this->getMockBuilder(Form::class)->disableOriginalConstructor()->getMock();
         $form->expects($this->once())->method('submit');
         $form->expects($this->once())->method('isValid')->will($this->returnValue(true));
         $form->expects($this->once())->method('getData')->will($this->returnValue($block));
 
-        $formFactory = $this->createMock('Symfony\Component\Form\FormFactoryInterface');
+        $formFactory = $this->createMock(FormFactoryInterface::class);
         $formFactory->expects($this->once())->method('createNamed')->will($this->returnValue($form));
 
         $view = $this->createBlockController($block, $blockManager, $formFactory)->putBlockAction(1, new Request());
 
-        $this->assertInstanceOf('FOS\RestBundle\View\View', $view);
+        $this->assertInstanceOf(View::class, $view);
     }
 
     public function testPutBlockInvalidAction()
     {
-        $block = $this->createMock('Sonata\BlockBundle\Model\BlockInterface');
+        $block = $this->createMock(BlockInterface::class);
 
-        $blockManager = $this->createMock('Sonata\BlockBundle\Model\BlockManagerInterface');
+        $blockManager = $this->createMock(BlockManagerInterface::class);
         $blockManager->expects($this->never())->method('save')->will($this->returnValue($block));
 
-        $form = $this->getMockBuilder('Symfony\Component\Form\Form')->disableOriginalConstructor()->getMock();
+        $form = $this->getMockBuilder(Form::class)->disableOriginalConstructor()->getMock();
         $form->expects($this->once())->method('submit');
         $form->expects($this->once())->method('isValid')->will($this->returnValue(false));
 
-        $formFactory = $this->createMock('Symfony\Component\Form\FormFactoryInterface');
+        $formFactory = $this->createMock(FormFactoryInterface::class);
         $formFactory->expects($this->once())->method('createNamed')->will($this->returnValue($form));
 
         $view = $this->createBlockController($block, $blockManager, $formFactory)->putBlockAction(1, new Request());
 
-        $this->assertInstanceOf('Symfony\Component\Form\FormInterface', $view);
+        $this->assertInstanceOf(FormInterface::class, $view);
     }
 
     public function testDeleteBlockAction()
     {
-        $block = $this->createMock('Sonata\BlockBundle\Model\BlockInterface');
+        $block = $this->createMock(BlockInterface::class);
 
-        $blockManager = $this->createMock('Sonata\BlockBundle\Model\BlockManagerInterface');
+        $blockManager = $this->createMock(BlockManagerInterface::class);
         $blockManager->expects($this->once())->method('delete');
 
         $view = $this->createBlockController($block, $blockManager)->deleteBlockAction(1);
@@ -88,9 +95,9 @@ class BlockControllerTest extends TestCase
 
     public function testDeleteBlockInvalidAction()
     {
-        $this->expectException('Symfony\Component\HttpKernel\Exception\NotFoundHttpException');
+        $this->expectException(NotFoundHttpException::class);
 
-        $blockManager = $this->createMock('Sonata\BlockBundle\Model\BlockManagerInterface');
+        $blockManager = $this->createMock(BlockManagerInterface::class);
         $blockManager->expects($this->never())->method('delete');
 
         $this->createBlockController(null, $blockManager)->deleteBlockAction(1);
@@ -106,13 +113,13 @@ class BlockControllerTest extends TestCase
     public function createBlockController($block = null, $blockManager = null, $formFactory = null)
     {
         if (null === $blockManager) {
-            $blockManager = $this->createMock('Sonata\BlockBundle\Model\BlockManagerInterface');
+            $blockManager = $this->createMock(BlockManagerInterface::class);
         }
         if (null !== $block) {
             $blockManager->expects($this->once())->method('findOneBy')->will($this->returnValue($block));
         }
         if (null === $formFactory) {
-            $formFactory = $this->createMock('Symfony\Component\Form\FormFactoryInterface');
+            $formFactory = $this->createMock(FormFactoryInterface::class);
         }
 
         return new BlockController($blockManager, $formFactory);

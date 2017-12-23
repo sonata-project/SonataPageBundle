@@ -15,10 +15,14 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
 use Sonata\BlockBundle\Model\BlockManagerInterface;
 use Sonata\PageBundle\Command\CloneSiteCommand;
+use Sonata\PageBundle\Model\PageBlockInterface;
+use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
+use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @author Christian Gripp <mail@core23.de>
@@ -47,11 +51,11 @@ class CloneSiteCommandTest extends TestCase
 
     protected function setUp()
     {
-        $this->siteManager = $this->prophesize('Sonata\PageBundle\Model\SiteManagerInterface');
-        $this->pageManager = $this->prophesize('Sonata\PageBundle\Model\PageManagerInterface');
-        $this->blockManager = $this->prophesize('Sonata\BlockBundle\Model\BlockManagerInterface');
+        $this->siteManager = $this->prophesize(SiteManagerInterface::class);
+        $this->pageManager = $this->prophesize(PageManagerInterface::class);
+        $this->blockManager = $this->prophesize(BlockManagerInterface::class);
 
-        $container = $this->prophesize('Symfony\Component\DependencyInjection\ContainerInterface');
+        $container = $this->prophesize(ContainerInterface::class);
         $container->get('sonata.page.manager.site')->willReturn($this->siteManager->reveal());
         $container->get('sonata.page.manager.page')->willReturn($this->pageManager->reveal());
         $container->get('sonata.page.manager.block')->willReturn($this->blockManager->reveal());
@@ -65,19 +69,19 @@ class CloneSiteCommandTest extends TestCase
 
     public function testExecute()
     {
-        $sourceSite = $this->prophesize('Sonata\PageBundle\Model\SiteInterface');
-        $destSite = $this->prophesize('Sonata\PageBundle\Model\SiteInterface');
+        $sourceSite = $this->prophesize(SiteInterface::class);
+        $destSite = $this->prophesize(SiteInterface::class);
 
         $this->siteManager->find(23)->willReturn($sourceSite->reveal());
         $this->siteManager->find(42)->willReturn($destSite->reveal());
 
-        $page1 = $this->prophesize('Sonata\PageBundle\Model\PageInterface');
+        $page1 = $this->prophesize(PageInterface::class);
         $page1->getId()->willReturn(1);
         $page1->getTitle()->willReturn('Page 1');
         $page1->getParent()->willReturn(null);
         $page1->isHybrid()->willReturn(true);
 
-        $page2 = $this->prophesize('Sonata\PageBundle\Model\PageInterface');
+        $page2 = $this->prophesize(PageInterface::class);
         $page2->getId()->willReturn(2);
         $page2->getTitle()->willReturn('Page 2');
         $page2->getParent()->willReturn($page1->reveal());
@@ -86,7 +90,7 @@ class CloneSiteCommandTest extends TestCase
 
         $page1->getTarget()->willReturn($page2->reveal());
 
-        $page3 = $this->prophesize('Sonata\PageBundle\Model\PageInterface');
+        $page3 = $this->prophesize(PageInterface::class);
         $page3->getId()->willReturn(3);
         $page3->isHybrid()->willReturn(false);
 
@@ -116,7 +120,7 @@ class CloneSiteCommandTest extends TestCase
         $this->pageManager->save($newPage2)->shouldBeCalled();
         $this->pageManager->save($newPage2, true)->shouldBeCalled();
 
-        $block = $this->prophesize('Sonata\PageBundle\Model\PageBlockInterface');
+        $block = $this->prophesize(PageBlockInterface::class);
         $block->getId()->willReturn(4711);
         $block->getParent()->willReturn(null);
 
@@ -151,7 +155,7 @@ class CloneSiteCommandTest extends TestCase
 
     public function testExecuteNoSourceId()
     {
-        $this->expectException('\InvalidArgumentException');
+        $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Please provide a "--source-id=SITE_ID" option.');
 
         $this->siteManager->findAll()->willReturn([]);
@@ -169,7 +173,7 @@ class CloneSiteCommandTest extends TestCase
 
     public function testExecuteNoDestId()
     {
-        $this->expectException('\InvalidArgumentException');
+        $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Please provide a "--dest-id=SITE_ID" option.');
 
         $this->siteManager->findAll()->willReturn([]);
@@ -187,7 +191,7 @@ class CloneSiteCommandTest extends TestCase
 
     public function testExecuteNoPrefix()
     {
-        $this->expectException('\InvalidArgumentException');
+        $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Please provide a "--prefix=PREFIX" option.');
 
         $this->siteManager->findAll()->willReturn([]);

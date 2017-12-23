@@ -12,6 +12,9 @@
 namespace Sonata\PageBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
+use Symfony\Bridge\Twig\AppVariable;
+use Symfony\Bridge\Twig\Extension\FormExtension;
+use Symfony\Bridge\Twig\Form\TwigRenderer;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -98,10 +101,10 @@ class PageAdminController extends Controller
         // BC for Symfony < 3.2 where this runtime does not exist
         $twig = $this->get('twig');
         $theme = $this->admin->getFilterTheme();
-        if (!method_exists('Symfony\Bridge\Twig\AppVariable', 'getToken')) {
-            $twig->getExtension('Symfony\Bridge\Twig\Extension\FormExtension')->renderer->setTheme($formView, $theme);
+        if (!method_exists(AppVariable::class, 'getToken')) {
+            $twig->getExtension(FormExtension::class)->renderer->setTheme($formView, $theme);
         } else {
-            $twig->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->setTheme($formView, $theme);
+            $twig->getRuntime(TwigRenderer::class)->setTheme($formView, $theme);
         }
 
         return $this->render($this->admin->getTemplate('tree'), [
