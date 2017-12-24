@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Block;
 
+use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\BlockBundle\Block\BlockContext;
 use Sonata\BlockBundle\Model\Block;
 use Sonata\BlockBundle\Test\AbstractBlockServiceTestCase;
@@ -49,7 +50,7 @@ class ContainerBlockServiceTest extends AbstractBlockServiceTestCase
         $this->assertEquals('SonataPageBundle:Block:block_container.html.twig', $this->templating->view);
         $this->assertEquals('block.code', $this->templating->parameters['block']->getSetting('code'));
         $this->assertEquals('block.name', $this->templating->parameters['block']->getName());
-        $this->assertInstanceOf('Sonata\BlockBundle\Model\Block', $this->templating->parameters['block']);
+        $this->assertInstanceOf(Block::class, $this->templating->parameters['block']);
     }
 
     /**
@@ -94,7 +95,7 @@ class ContainerBlockServiceTest extends AbstractBlockServiceTestCase
             'name' => 'block.code',
         ]);
 
-        $formMapper = $this->getMockBuilder('Sonata\\AdminBundle\\Form\\FormMapper')
+        $formMapper = $this->getMockBuilder(FormMapper::class)
             ->disableOriginalConstructor()
             ->getMock();
 

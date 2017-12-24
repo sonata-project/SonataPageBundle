@@ -20,6 +20,7 @@ use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SnapshotPageProxy;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
+use Symfony\Bridge\Twig\AppVariable;
 use Symfony\Bridge\Twig\Extension\HttpKernelExtension;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
@@ -285,7 +286,7 @@ class PageExtension extends AbstractExtension implements InitRuntimeInterface
         }
 
         // Simplify this when dropping twig-bridge < 3.2 support
-        if (method_exists('Symfony\Bridge\Twig\AppVariable', 'getToken')) {
+        if (method_exists(AppVariable::class, 'getToken')) {
             return HttpKernelExtension::controller($controller, $attributes, $query);
         }
 

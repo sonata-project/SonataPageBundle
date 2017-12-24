@@ -16,6 +16,7 @@ namespace Sonata\PageBundle\Form\Type;
 use Sonata\PageBundle\Page\PageServiceManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -50,7 +51,7 @@ class PageTypeChoiceType extends AbstractType
         ];
 
         // NEXT_MAJOR: Remove (when requirement of Symfony is >= 3.0)
-        if (method_exists('Symfony\Component\Form\FormTypeInterface', 'setDefaultOptions')) {
+        if (method_exists(FormTypeInterface::class, 'setDefaultOptions')) {
             $defaults['choices_as_values'] = true;
         }
 

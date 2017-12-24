@@ -14,9 +14,15 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Validator;
 
 use PHPUnit\Framework\TestCase;
+use Sonata\PageBundle\Model\PageInterface;
+use Sonata\PageBundle\Model\PageManagerInterface;
+use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Validator\Constraints\UniqueUrl;
 use Sonata\PageBundle\Validator\UniqueUrlValidator;
+use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Context\ExecutionContext;
+use Symfony\Component\Validator\Validator\ContextualValidatorInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class UniqueUrlValidatorTest extends TestCase
 {
@@ -25,13 +31,13 @@ class UniqueUrlValidatorTest extends TestCase
      */
     public function testValidateWithNoPageFound(): void
     {
-        $site = $this->createMock('Sonata\PageBundle\Model\SiteInterface');
+        $site = $this->createMock(SiteInterface::class);
 
-        $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
+        $page = $this->createMock(PageInterface::class);
         $page->expects($this->exactly(2))->method('getSite')->will($this->returnValue($site));
         $page->expects($this->exactly(2))->method('isError')->will($this->returnValue(false));
 
-        $manager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
+        $manager = $this->createMock(PageManagerInterface::class);
         $manager->expects($this->once())->method('fixUrl');
         $manager->expects($this->once())->method('findBy')->will($this->returnValue([$page]));
 
@@ -45,17 +51,17 @@ class UniqueUrlValidatorTest extends TestCase
 
     public function testValidateWithPageFound(): void
     {
-        $site = $this->createMock('Sonata\PageBundle\Model\SiteInterface');
+        $site = $this->createMock(SiteInterface::class);
 
-        $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
+        $page = $this->createMock(PageInterface::class);
         $page->expects($this->exactly(2))->method('getSite')->will($this->returnValue($site));
         $page->expects($this->exactly(2))->method('isError')->will($this->returnValue(false));
         $page->expects($this->any())->method('getUrl')->will($this->returnValue('/salut'));
 
-        $pageFound = $this->createMock('Sonata\PageBundle\Model\PageInterface');
+        $pageFound = $this->createMock(PageInterface::class);
         $pageFound->expects($this->any())->method('getUrl')->will($this->returnValue('/salut'));
 
-        $manager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
+        $manager = $this->createMock(PageManagerInterface::class);
         $manager->expects($this->once())->method('fixUrl');
         $manager->expects($this->once())->method('findBy')->will($this->returnValue([$page, $pageFound]));
 
@@ -69,18 +75,18 @@ class UniqueUrlValidatorTest extends TestCase
 
     public function testValidateWithRootUrlAndNoParent(): void
     {
-        $site = $this->createMock('Sonata\PageBundle\Model\SiteInterface');
+        $site = $this->createMock(SiteInterface::class);
 
-        $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
+        $page = $this->createMock(PageInterface::class);
         $page->expects($this->exactly(2))->method('getSite')->will($this->returnValue($site));
         $page->expects($this->exactly(2))->method('isError')->will($this->returnValue(false));
         $page->expects($this->exactly(1))->method('getParent')->will($this->returnValue(null));
         $page->expects($this->any())->method('getUrl')->will($this->returnValue('/'));
 
-        $pageFound = $this->createMock('Sonata\PageBundle\Model\PageInterface');
+        $pageFound = $this->createMock(PageInterface::class);
         $pageFound->expects($this->any())->method('getUrl')->will($this->returnValue('/'));
 
-        $manager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
+        $manager = $this->createMock(PageManagerInterface::class);
         $manager->expects($this->once())->method('fixUrl');
         $manager->expects($this->once())->method('findBy')->will($this->returnValue([$page, $pageFound]));
 
@@ -94,15 +100,15 @@ class UniqueUrlValidatorTest extends TestCase
 
     public function testValidateWithPageDynamic(): void
     {
-        $site = $this->createMock('Sonata\PageBundle\Model\SiteInterface');
+        $site = $this->createMock(SiteInterface::class);
 
-        $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
+        $page = $this->createMock(PageInterface::class);
         $page->expects($this->once())->method('getSite')->will($this->returnValue($site));
         $page->expects($this->once())->method('isError')->will($this->returnValue(false));
         $page->expects($this->once())->method('isDynamic')->will($this->returnValue(true));
         $page->expects($this->any())->method('getUrl')->will($this->returnValue('/salut'));
 
-        $manager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
+        $manager = $this->createMock(PageManagerInterface::class);
 
         $context = $this->getContext();
 
@@ -114,9 +120,9 @@ class UniqueUrlValidatorTest extends TestCase
 
     private function getContext()
     {
-        $translator = $this->createMock('Symfony\Component\Translation\TranslatorInterface');
-        $validator = $this->createMock('Symfony\Component\Validator\Validator\ValidatorInterface');
-        $contextualValidator = $this->createMock('Symfony\Component\Validator\Validator\ContextualValidatorInterface');
+        $translator = $this->createMock(TranslatorInterface::class);
+        $validator = $this->createMock(ValidatorInterface::class);
+        $contextualValidator = $this->createMock(ContextualValidatorInterface::class);
 
         $context = new ExecutionContext($validator, 'root', $translator);
 

@@ -14,8 +14,14 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Listener;
 
 use PHPUnit\Framework\TestCase;
+use Sonata\PageBundle\CmsManager\CmsManagerInterface;
+use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
+use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
+use Sonata\PageBundle\Exception\InternalErrorException;
 use Sonata\PageBundle\Listener\ResponseListener;
 use Sonata\PageBundle\Model\PageInterface;
+use Sonata\PageBundle\Page\PageServiceManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
@@ -56,12 +62,12 @@ class ResponseListenerTest extends TestCase
      */
     public function setUp(): void
     {
-        $this->decoratorStrategy = $this->createMock('Sonata\PageBundle\CmsManager\DecoratorStrategyInterface');
-        $this->pageServiceManager = $this->createMock('Sonata\PageBundle\Page\PageServiceManagerInterface');
-        $this->cmsManager = $this->createMock('Sonata\PageBundle\CmsManager\CmsManagerInterface');
-        $this->cmsSelector = $this->createMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
+        $this->decoratorStrategy = $this->createMock(DecoratorStrategyInterface::class);
+        $this->pageServiceManager = $this->createMock(PageServiceManagerInterface::class);
+        $this->cmsManager = $this->createMock(CmsManagerInterface::class);
+        $this->cmsSelector = $this->createMock(CmsManagerSelectorInterface::class);
         $this->cmsSelector->expects($this->once())->method('retrieve')->will($this->returnValue($this->cmsManager));
-        $this->templating = $this->createMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
+        $this->templating = $this->createMock(EngineInterface::class);
 
         $this->listener = new ResponseListener($this->cmsSelector, $this->pageServiceManager, $this->decoratorStrategy, $this->templating);
     }
@@ -71,7 +77,7 @@ class ResponseListenerTest extends TestCase
      */
     public function testWithoutPage(): void
     {
-        $this->expectException(\Sonata\PageBundle\Exception\InternalErrorException::class);
+        $this->expectException(InternalErrorException::class);
 
         // GIVEN
 
@@ -118,7 +124,7 @@ class ResponseListenerTest extends TestCase
         $content = 'inner';
 
         // a mock page entity that accepts to be decorated
-        $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
+        $page = $this->createMock(PageInterface::class);
         $page->expects($this->once())->method('isHybrid')->will($this->returnValue(true));
         $page->expects($this->once())->method('getDecorate')->will($this->returnValue(true));
 
@@ -181,11 +187,11 @@ class ResponseListenerTest extends TestCase
      *
      * @param string $content
      *
-     * @return \Symfony\Component\HttpKernel\Event\FilterResponseEvent
+     * @return FilterResponseEvent
      */
     protected function getMockEvent($content)
     {
-        $kernel = $this->createMock('Symfony\Component\HttpKernel\HttpKernelInterface');
+        $kernel = $this->createMock(HttpKernelInterface::class);
         $request = new Request();
         $response = new Response($content);
 

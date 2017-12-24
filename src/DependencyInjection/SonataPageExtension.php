@@ -399,7 +399,7 @@ class SonataPageExtension extends Extension
         // add all templates to manager
         $definitions = [];
         foreach ($config['templates'] as $code => $info) {
-            $definition = new Definition('Sonata\PageBundle\Model\Template', [
+            $definition = new Definition(Template::class, [
                 $info['name'],
                 $info['path'],
                 $info['containers'],

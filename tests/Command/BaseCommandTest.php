@@ -15,6 +15,8 @@ namespace Sonata\PageBundle\Tests\Command;
 
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Command\BaseCommand;
+use Sonata\PageBundle\Entity\SiteManager;
+use Symfony\Component\Console\Input\InputInterface;
 
 /**
  * @author Vincent Composieux <vincent.composieux@gmail.com>
@@ -31,7 +33,7 @@ class BaseCommandTest extends TestCase
      */
     public function setUp(): void
     {
-        $this->command = $this->getMockBuilder('Sonata\PageBundle\Command\BaseCommand')
+        $this->command = $this->getMockBuilder(BaseCommand::class)
             ->disableOriginalConstructor()
             ->setMethods(['getSiteManager'])
             ->getMock();
@@ -46,9 +48,9 @@ class BaseCommandTest extends TestCase
         $method = new \ReflectionMethod($this->command, 'getSites');
         $method->setAccessible(true);
 
-        $input = $this->createMock('Symfony\Component\Console\Input\InputInterface');
+        $input = $this->createMock(InputInterface::class);
 
-        $siteManager = $this->getMockBuilder('Sonata\PageBundle\Entity\SiteManager')
+        $siteManager = $this->getMockBuilder(SiteManager::class)
             ->disableOriginalConstructor()
             ->getMock();
 

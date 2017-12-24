@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\BlockBundle\Model\BlockManagerInterface;
@@ -244,7 +245,7 @@ class Transformer implements TransformerInterface
                 $pages[$page->getId()] = $page;
             }
 
-            $this->children[$parent->getId()] = new \Doctrine\Common\Collections\ArrayCollection($pages);
+            $this->children[$parent->getId()] = new ArrayCollection($pages);
         }
 
         return $this->children[$parent->getId()];
