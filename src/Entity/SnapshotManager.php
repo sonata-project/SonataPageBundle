@@ -62,7 +62,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
                 'The $snapshotPageProxyFactory parameter is required with the next major release.',
                 E_USER_DEPRECATED
             );
-            $snapshotPageProxyFactory = new SnapshotPageProxyFactory('Sonata\PageBundle\Model\SnapshotPageProxy');
+            $snapshotPageProxyFactory = new SnapshotPageProxyFactory(SnapshotPageProxy::class);
         }
 
         $this->templates = $templates;

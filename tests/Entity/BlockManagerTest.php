@@ -11,7 +11,13 @@
 
 namespace Sonata\PageBundle\Tests\Entity;
 
+use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use PHPUnit\Framework\TestCase;
+use Sonata\PageBundle\Entity\BasePage;
 use Sonata\PageBundle\Entity\BlockManager;
 
 class BlockManagerTest extends TestCase
@@ -30,12 +36,12 @@ class BlockManagerTest extends TestCase
 
     protected function getBlockManager($qbCallback)
     {
-        $query = $this->getMockForAbstractClass('Doctrine\ORM\AbstractQuery', [], '', false, true, true, ['execute']);
+        $query = $this->getMockForAbstractClass(AbstractQuery::class, [], '', false, true, true, ['execute']);
         $query->expects($this->any())->method('execute')->will($this->returnValue(true));
 
-        $qb = $this->getMockBuilder('Doctrine\ORM\QueryBuilder')
+        $qb = $this->getMockBuilder(QueryBuilder::class)
             ->setConstructorArgs([
-                $this->getMockBuilder('Doctrine\ORM\EntityManager')
+                $this->getMockBuilder(EntityManager::class)
                     ->disableOriginalConstructor()
                     ->getMock(),
             ])
@@ -47,15 +53,15 @@ class BlockManagerTest extends TestCase
 
         $qbCallback($qb);
 
-        $repository = $this->getMockBuilder('Doctrine\ORM\EntityRepository')->disableOriginalConstructor()->getMock();
+        $repository = $this->getMockBuilder(EntityRepository::class)->disableOriginalConstructor()->getMock();
         $repository->expects($this->any())->method('createQueryBuilder')->will($this->returnValue($qb));
 
-        $em = $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock();
+        $em = $this->getMockBuilder(EntityManager::class)->disableOriginalConstructor()->getMock();
         $em->expects($this->any())->method('getRepository')->will($this->returnValue($repository));
 
-        $registry = $this->createMock('Doctrine\Common\Persistence\ManagerRegistry');
+        $registry = $this->createMock(ManagerRegistry::class);
         $registry->expects($this->any())->method('getManagerForClass')->will($this->returnValue($em));
 
-        return new BlockManager('Sonata\PageBundle\Entity\BasePage', $registry);
+        return new BlockManager(BasePage::class, $registry);
     }
 }

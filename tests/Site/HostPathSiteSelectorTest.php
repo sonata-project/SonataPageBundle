@@ -12,11 +12,17 @@
 namespace Sonata\PageBundle\Tests\Site;
 
 use PHPUnit\Framework\TestCase;
+use Sonata\AdminBundle\Exception\NoValueException;
+use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 use Sonata\PageBundle\Entity\BaseSite;
+use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Request\SiteRequest;
 use Sonata\PageBundle\Site\HostPathSiteSelector as BaseSiteSelector;
+use Sonata\SeoBundle\Seo\SeoPageInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
  * @author Stephen Leavitt <stephen.leavitt@sonyatv.com>
@@ -128,7 +134,7 @@ class HostPathSiteSelectorTest extends TestCase
         $response = $event->getResponse();
 
         // Ensure the response was a redirect to the default site
-        $this->assertInstanceOf('Symfony\Component\HttpFoundation\RedirectResponse', $response);
+        $this->assertInstanceOf(RedirectResponse::class, $response);
 
         // Ensure the redirect url is for "Site 2"
         $this->assertEquals('//www.example.com/test2', $response->getTargetUrl());
@@ -155,7 +161,7 @@ class HostPathSiteSelectorTest extends TestCase
         $response = $event->getResponse();
 
         // Ensure the response was a redirect to the default site
-        $this->assertInstanceOf('Symfony\Component\HttpFoundation\RedirectResponse', $response);
+        $this->assertInstanceOf(RedirectResponse::class, $response);
 
         // Ensure the redirect url is for "Site 2"
         $this->assertEquals('//www.example.com/test2', $response->getTargetUrl());
@@ -182,7 +188,7 @@ class HostPathSiteSelectorTest extends TestCase
         $response = $event->getResponse();
 
         // Ensure the response was a redirect to the default site
-        $this->assertInstanceOf('Symfony\Component\HttpFoundation\RedirectResponse', $response);
+        $this->assertInstanceOf(RedirectResponse::class, $response);
 
         // Ensure the redirect url is for "Site 2"
         $this->assertEquals('//www.example.com/test2', $response->getTargetUrl());
@@ -209,7 +215,7 @@ class HostPathSiteSelectorTest extends TestCase
         $response = $event->getResponse();
 
         // Ensure the response was a redirect to the default site
-        $this->assertInstanceOf('Symfony\Component\HttpFoundation\RedirectResponse', $response);
+        $this->assertInstanceOf(RedirectResponse::class, $response);
 
         // Ensure the redirect url is for "Site 2"
         $this->assertEquals('//www.example.com/test2', $response->getTargetUrl());
@@ -280,17 +286,17 @@ class HostPathSiteSelectorTest extends TestCase
      */
     protected function performHandleKernelRequestTest($url)
     {
-        $kernel = $this->createMock('Symfony\Component\HttpKernel\HttpKernelInterface');
+        $kernel = $this->createMock(HttpKernelInterface::class);
         $request = SiteRequest::create($url);
 
         // Ensure request locale is null
         $this->assertNull($request->attributes->get('_locale'));
 
-        $event = new GetResponseEvent($kernel, $request, 'master');
+        $event = new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
 
-        $siteManager = $this->createMock('Sonata\PageBundle\Model\SiteManagerInterface');
-        $decoratorStrategy = $this->createMock('Sonata\PageBundle\CmsManager\DecoratorStrategyInterface');
-        $seoPage = $this->createMock('Sonata\SeoBundle\Seo\SeoPageInterface');
+        $siteManager = $this->createMock(SiteManagerInterface::class);
+        $decoratorStrategy = $this->createMock(DecoratorStrategyInterface::class);
+        $seoPage = $this->createMock(SeoPageInterface::class);
 
         $siteSelector = new HostPathSiteSelector($siteManager, $decoratorStrategy, $seoPage);
 

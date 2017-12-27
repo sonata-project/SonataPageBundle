@@ -23,7 +23,7 @@
         <parameter key="sonata.page.admin.snapshot.translation_domain">%sonata.page.admin.page.translation_domain%</parameter>
     </parameters>
     <services>
-        <service id="sonata.page.admin.page" class="%sonata.page.admin.page.class%">
+        <service id="sonata.page.admin.page" class="%sonata.page.admin.page.class%" public="true">
             <tag name="sonata.admin" manager_type="orm" group="sonata_page" label_catalogue="%sonata.page.admin.page.translation_domain%" label="page" label_translator_strategy="sonata.admin.label.strategy.underscore"/>
             <argument/>
             <argument>%sonata.page.admin.page.entity%</argument>
@@ -47,7 +47,7 @@
                 <argument>%sonata.page.admin.page.translation_domain%</argument>
             </call>
         </service>
-        <service id="sonata.page.admin.block" class="%sonata.page.admin.block.class%">
+        <service id="sonata.page.admin.block" class="%sonata.page.admin.block.class%" public="true">
             <tag name="sonata.admin" manager_type="orm" show_in_dashboard="false" group="sonata_page" label_catalogue="%sonata.page.admin.page.translation_domain%" label="block" label_translator_strategy="sonata.admin.label.strategy.underscore"/>
             <argument/>
             <argument>%sonata.page.admin.block.entity%</argument>
@@ -72,7 +72,7 @@
                 </argument>
             </call>
         </service>
-        <service id="sonata.page.admin.shared_block" class="%sonata.page.admin.shared_block.class%">
+        <service id="sonata.page.admin.shared_block" class="%sonata.page.admin.shared_block.class%" public="true">
             <tag name="sonata.admin" manager_type="orm" show_in_dashboard="true" group="sonata_page" label_catalogue="%sonata.page.admin.page.translation_domain%" label="shared_block" label_translator_strategy="sonata.admin.label.strategy.underscore"/>
             <argument/>
             <argument>%sonata.page.admin.block.entity%</argument>
@@ -96,7 +96,7 @@
                 </argument>
             </call>
         </service>
-        <service id="sonata.page.admin.snapshot" class="%sonata.page.admin.snapshot.class%">
+        <service id="sonata.page.admin.snapshot" class="%sonata.page.admin.snapshot.class%" public="true">
             <tag name="sonata.admin" manager_type="orm" group="sonata_page" label_catalogue="%sonata.page.admin.snapshot.translation_domain%" label="snapshot" show_in_dashboard="false" label_translator_strategy="sonata.admin.label.strategy.underscore"/>
             <argument/>
             <argument>%sonata.page.admin.snapshot.entity%</argument>
@@ -108,7 +108,7 @@
                 <argument>%sonata.page.admin.snapshot.translation_domain%</argument>
             </call>
         </service>
-        <service id="sonata.page.admin.site" class="%sonata.page.admin.site.class%">
+        <service id="sonata.page.admin.site" class="%sonata.page.admin.site.class%" public="true">
             <tag name="sonata.admin" manager_type="orm" group="sonata_page" label_catalogue="%sonata.page.admin.site.translation_domain%" label="site" label_translator_strategy="sonata.admin.label.strategy.underscore"/>
             <argument/>
             <argument>%sonata.page.admin.site.entity%</argument>

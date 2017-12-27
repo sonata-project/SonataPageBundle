@@ -12,11 +12,22 @@
 namespace Sonata\PageBundle\Tests\Listener;
 
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
+use Sonata\PageBundle\CmsManager\CmsManagerInterface;
+use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
+use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
+use Sonata\PageBundle\Exception\InternalErrorException;
 use Sonata\PageBundle\Listener\ExceptionListener;
+use Sonata\PageBundle\Model\PageInterface;
+use Sonata\PageBundle\Model\SiteInterface;
+use Sonata\PageBundle\Page\PageServiceManagerInterface;
+use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\Templating\EngineInterface;
 
 /**
  * Test the page bundle exception listener.
@@ -69,13 +80,13 @@ class ExceptionListenerTest extends TestCase
     public function setUp()
     {
         // mock dependencies
-        $this->siteSelector = $this->createMock('Sonata\PageBundle\Site\SiteSelectorInterface');
-        $this->cmsSelector = $this->createMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
-        $this->templating = $this->createMock('Symfony\Component\Templating\EngineInterface');
-        $this->decoratorStrategy = $this->createMock('Sonata\PageBundle\CmsManager\DecoratorStrategyInterface');
-        $this->pageServiceManager = $this->createMock('Sonata\PageBundle\Page\PageServiceManagerInterface');
-        $this->cmsSelector = $this->createMock('Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface');
-        $this->logger = $this->createMock('Psr\Log\LoggerInterface');
+        $this->siteSelector = $this->createMock(SiteSelectorInterface::class);
+        $this->cmsSelector = $this->createMock(CmsManagerSelectorInterface::class);
+        $this->templating = $this->createMock(EngineInterface::class);
+        $this->decoratorStrategy = $this->createMock(DecoratorStrategyInterface::class);
+        $this->pageServiceManager = $this->createMock(PageServiceManagerInterface::class);
+        $this->cmsSelector = $this->createMock(CmsManagerSelectorInterface::class);
+        $this->logger = $this->createMock(LoggerInterface::class);
 
         $errors = [
             '404' => 'route_404',
@@ -92,7 +103,7 @@ class ExceptionListenerTest extends TestCase
     {
         // GIVEN
         // mock exception
-        $exception = $this->createMock('Sonata\PageBundle\Exception\InternalErrorException');
+        $exception = $this->createMock(InternalErrorException::class);
         $event = $this->getMockEvent($exception);
 
         // mock templating to expect a twig rendering
@@ -103,7 +114,7 @@ class ExceptionListenerTest extends TestCase
         $this->listener->onKernelException($event);
 
         // THEN
-        $this->assertInstanceOf('Symfony\Component\HttpFoundation\Response', $event->getResponse(), 'Should return a response in event');
+        $this->assertInstanceOf(Response::class, $event->getResponse(), 'Should return a response in event');
         $this->assertEquals(500, $event->getResponse()->getStatusCode(), 'Should return 500 status code');
     }
 
@@ -131,7 +142,7 @@ class ExceptionListenerTest extends TestCase
         $this->listener->onKernelException($event);
 
         // THEN
-        $this->assertInstanceOf('Symfony\Component\HttpFoundation\Response', $event->getResponse(), 'Should return a response in event');
+        $this->assertInstanceOf(Response::class, $event->getResponse(), 'Should return a response in event');
         $this->assertEquals(404, $event->getResponse()->getStatusCode(), 'Should return 404 status code');
     }
 
@@ -142,35 +153,35 @@ class ExceptionListenerTest extends TestCase
     {
         // GIVEN
         // mock exception
-        $exception = $this->createMock('\Symfony\Component\HttpKernel\Exception\NotFoundHttpException');
+        $exception = $this->createMock(NotFoundHttpException::class);
         $exception->expects($this->any())->method('getStatusCode')->will($this->returnValue(404));
         $event = $this->getMockEvent($exception);
 
         $this->assertEquals('en', $event->getRequest()->getLocale());
 
         // mock a site
-        $site = $this->createMock('Sonata\PageBundle\Model\SiteInterface');
+        $site = $this->createMock(SiteInterface::class);
         $site->expects($this->exactly(2))->method('getLocale')->will($this->returnValue('fr'));
 
         // mock an error page
-        $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
+        $page = $this->createMock(PageInterface::class);
         $page->expects($this->exactly(2))->method('getSite')->will($this->returnValue($site));
 
         // mock cms manager to return the mock error page and set it as current page
-        $this->cmsManager = $this->createMock('Sonata\PageBundle\CmsManager\CmsManagerInterface');
+        $this->cmsManager = $this->createMock(CmsManagerInterface::class);
         $this->cmsManager->expects($this->once())->method('getPageByRouteName')->with($this->anything(), $this->equalTo('route_404'))->will($this->returnValue($page));
         $this->cmsManager->expects($this->once())->method('setCurrentPage')->with($this->equalTo($page));
         $this->cmsSelector->expects($this->any())->method('retrieve')->will($this->returnValue($this->cmsManager));
 
         // mocked site selector should return a site
-        $this->siteSelector->expects($this->any())->method('retrieve')->will($this->returnValue($this->createMock('Sonata\PageBundle\Model\SiteInterface')));
+        $this->siteSelector->expects($this->any())->method('retrieve')->will($this->returnValue($this->createMock(SiteInterface::class)));
 
         // mocked decorator strategy should allow decorate
         $this->decoratorStrategy->expects($this->any())->method('isRouteNameDecorable')->will($this->returnValue(true));
         $this->decoratorStrategy->expects($this->any())->method('isRouteUriDecorable')->will($this->returnValue(true));
 
         // mocked page service manager should execute the page and return a response
-        $response = $this->createMock('Symfony\Component\HttpFoundation\Response');
+        $response = $this->createMock(Response::class);
         $this->pageServiceManager->expects($this->once())->method('execute')->with($this->equalTo($page))->will($this->returnValue($response));
 
         // WHEN
@@ -186,13 +197,13 @@ class ExceptionListenerTest extends TestCase
      *
      * @param \Exception $exception
      *
-     * @return \Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent
+     * @return GetResponseForExceptionEvent
      */
     protected function getMockEvent($exception)
     {
-        $kernel = $this->createMock('Symfony\Component\HttpKernel\HttpKernelInterface');
+        $kernel = $this->createMock(HttpKernelInterface::class);
         $request = new Request();
 
-        return new GetResponseForExceptionEvent($kernel, $request, 'master', $exception);
+        return new GetResponseForExceptionEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST, $exception);
     }
 }

@@ -12,6 +12,9 @@
 namespace Sonata\PageBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
+use Symfony\Bridge\Twig\AppVariable;
+use Symfony\Bridge\Twig\Extension\FormExtension;
+use Symfony\Bridge\Twig\Form\TwigRenderer;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -94,8 +97,9 @@ class PageAdminController extends Controller
         $datagrid = $this->admin->getDatagrid();
         $formView = $datagrid->getForm()->createView();
         $theme = $this->admin->getFilterTheme();
+      
         $this->setFormTheme($formView, $theme);
-        
+
         return $this->render($this->admin->getTemplate('tree'), [
             'action' => 'tree',
             'sites' => $sites,

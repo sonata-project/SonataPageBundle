@@ -12,6 +12,8 @@
 namespace Sonata\PageBundle\Tests\Admin;
 
 use PHPUnit\Framework\TestCase;
+use Sonata\AdminBundle\Admin\AdminInterface;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
 use Sonata\BlockBundle\Block\Service\AbstractAdminBlockService;
 use Sonata\PageBundle\Admin\BaseBlockAdmin;
@@ -22,18 +24,18 @@ class BaseBlockAdminTest extends TestCase
 {
     public function testSettingAsEditedOnPreBatchDeleteAction()
     {
-        $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
+        $page = $this->createMock(PageInterface::class);
         $page->expects($this->once())->method('setEdited')->with(true);
 
-        $parent = $this->createMock('Sonata\AdminBundle\Admin\AdminInterface');
+        $parent = $this->createMock(AdminInterface::class);
         $parent->expects($this->once())->method('getSubject')->will($this->returnValue($page));
 
-        $blockAdmin = $this->getMockBuilder('Sonata\PageBundle\Admin\BaseBlockAdmin')
+        $blockAdmin = $this->getMockBuilder(BaseBlockAdmin::class)
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
         $blockAdmin->setParent($parent);
 
-        $query = $this->createMock('Sonata\AdminBundle\Datagrid\ProxyQueryInterface');
+        $query = $this->createMock(ProxyQueryInterface::class);
         $idx = [];
         $blockAdmin->preBatchAction('delete', $query, $idx, true);
     }

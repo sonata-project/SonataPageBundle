@@ -18,7 +18,10 @@ use Sonata\PageBundle\Command\CreateBlockContainerCommand;
 use Sonata\PageBundle\Entity\BlockInteractor;
 use Sonata\PageBundle\Entity\BlockManager;
 use Sonata\PageBundle\Entity\PageManager;
+use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Tests\Model\Page;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class CreateBlockContainerCommandTest extends TestCase
@@ -45,13 +48,13 @@ class CreateBlockContainerCommandTest extends TestCase
 
     public function setUp()
     {
-        $this->blockInteractor = $this->prophesize('Sonata\PageBundle\Entity\BlockInteractor');
+        $this->blockInteractor = $this->prophesize(BlockInteractor::class);
 
-        $this->pageManager = $this->prophesize('Sonata\PageBundle\Entity\PageManager');
+        $this->pageManager = $this->prophesize(PageManager::class);
 
-        $this->blockManager = $this->prophesize('Sonata\PageBundle\Entity\BlockManager');
+        $this->blockManager = $this->prophesize(BlockManager::class);
 
-        $this->container = $this->prophesize('Symfony\Component\DependencyInjection\ContainerInterface');
+        $this->container = $this->prophesize(ContainerInterface::class);
         $this->container->get('sonata.page.block_interactor')->willReturn($this->blockInteractor);
         $this->container->get('sonata.page.manager.page')->willReturn($this->pageManager);
         $this->container->get('sonata.page.manager.block')->willReturn($this->blockManager);
@@ -62,7 +65,7 @@ class CreateBlockContainerCommandTest extends TestCase
      */
     public function testCreateBlock()
     {
-        $block = $this->prophesize('Sonata\PageBundle\Model\PageBlockInterface');
+        $block = $this->prophesize(PageBlockInterface::class);
         $this->blockInteractor->createNewContainer(Argument::any())->willReturn($block->reveal());
 
         $page = new Page();
@@ -72,12 +75,12 @@ class CreateBlockContainerCommandTest extends TestCase
         $command = new CreateBlockContainerCommand();
         $command->setContainer($this->container->reveal());
 
-        $input = $this->prophesize('Symfony\Component\Console\Input\InputInterface');
+        $input = $this->prophesize(InputInterface::class);
         $input->getArgument('templateCode')->willReturn('foo');
         $input->getArgument('blockCode')->willReturn('content_bar');
         $input->getArgument('blockName')->willReturn('Baz!');
 
-        $output = $this->prophesize('Symfony\Component\Console\Output\OutputInterface');
+        $output = $this->prophesize(OutputInterface::class);
 
         $method = new \ReflectionMethod($command, 'execute');
         $method->setAccessible(true);

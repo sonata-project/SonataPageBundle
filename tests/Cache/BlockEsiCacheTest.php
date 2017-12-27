@@ -12,7 +12,11 @@
 namespace Sonata\PageBundle\Tests\Page;
 
 use PHPUnit\Framework\TestCase;
+use Sonata\BlockBundle\Block\BlockContextManagerInterface;
+use Sonata\BlockBundle\Block\BlockRendererInterface;
+use Sonata\Cache\CacheElement;
 use Sonata\PageBundle\Cache\BlockEsiCache;
+use Symfony\Component\Routing\RouterInterface;
 
 class BlockEsiCacheTest extends TestCase
 {
@@ -23,11 +27,11 @@ class BlockEsiCacheTest extends TestCase
     {
         $this->expectException(\RuntimeException::class);
 
-        $router = $this->createMock('Symfony\Component\Routing\RouterInterface');
+        $router = $this->createMock(RouterInterface::class);
 
-        $blockRenderer = $this->createMock('Sonata\BlockBundle\Block\BlockRendererInterface');
+        $blockRenderer = $this->createMock(BlockRendererInterface::class);
 
-        $contextManager = $this->createMock('Sonata\BlockBundle\Block\BlockContextManagerInterface');
+        $contextManager = $this->createMock(BlockContextManagerInterface::class);
 
         $cache = new BlockEsiCache('My Token', [], $router, 'ban', $blockRenderer, $contextManager);
 
@@ -49,11 +53,11 @@ class BlockEsiCacheTest extends TestCase
 
     public function testInitCache()
     {
-        $router = $this->createMock('Symfony\Component\Routing\RouterInterface');
+        $router = $this->createMock(RouterInterface::class);
         $router->expects($this->any())->method('generate')->will($this->returnValue('https://sonata-project.org/cache/XXX/page/esi/page/5/4?updated_at=as'));
 
-        $blockRenderer = $this->createMock('Sonata\BlockBundle\Block\BlockRendererInterface');
-        $contextManager = $this->createMock('Sonata\BlockBundle\Block\BlockContextManagerInterface');
+        $blockRenderer = $this->createMock(BlockRendererInterface::class);
+        $contextManager = $this->createMock(BlockContextManagerInterface::class);
 
         $cache = new BlockEsiCache('My Token', [], $router, 'ban', $blockRenderer, $contextManager);
 
@@ -69,13 +73,13 @@ class BlockEsiCacheTest extends TestCase
 
         $cacheElement = $cache->set($keys, 'data');
 
-        $this->assertInstanceOf('Sonata\Cache\CacheElement', $cacheElement);
+        $this->assertInstanceOf(CacheElement::class, $cacheElement);
 
         $this->assertTrue($cache->has(['id' => 7]));
 
         $cacheElement = $cache->get($keys);
 
-        $this->assertInstanceOf('Sonata\Cache\CacheElement', $cacheElement);
+        $this->assertInstanceOf(CacheElement::class, $cacheElement);
 
         $this->assertEquals('<esi:include src="https://sonata-project.org/cache/XXX/page/esi/page/5/4?updated_at=as" />', $cacheElement->getData()->getContent());
     }

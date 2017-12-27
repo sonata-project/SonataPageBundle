@@ -12,7 +12,12 @@
 namespace Sonata\PageBundle\Tests\Page\Service;
 
 use PHPUnit\Framework\TestCase;
+use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Page\Service\DefaultPageService;
+use Sonata\PageBundle\Page\TemplateManagerInterface;
+use Sonata\SeoBundle\Seo\SeoPageInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Test the default page service.
@@ -40,8 +45,8 @@ class DefaultPageServiceTest extends TestCase
     public function setUp()
     {
         $name = 'my name';
-        $this->templateManager = $this->createMock('Sonata\PageBundle\Page\TemplateManagerInterface');
-        $this->seoPage = $this->createMock('Sonata\SeoBundle\Seo\SeoPageInterface');
+        $this->templateManager = $this->createMock(TemplateManagerInterface::class);
+        $this->seoPage = $this->createMock(SeoPageInterface::class);
 
         $this->service = new DefaultPageService($name, $this->templateManager, $this->seoPage);
     }
@@ -54,14 +59,14 @@ class DefaultPageServiceTest extends TestCase
         // GIVEN
 
         // mock a http request
-        $request = $this->createMock('Symfony\Component\HttpFoundation\Request');
+        $request = $this->createMock(Request::class);
 
         // mock http response
-        $response = $this->createMock('Symfony\Component\HttpFoundation\Response');
+        $response = $this->createMock(Response::class);
 
         // mock a page instance
-        $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
-        $page->expects($this->exactly(2))->method('getTitle')->will($this->returnValue('page title'));
+        $page = $this->createMock(PageInterface::class);
+        $page->expects($this->any())->method('getTitle')->will($this->returnValue('page title'));
         $page->expects($this->atLeastOnce())->method('getMetaDescription')->will($this->returnValue('page meta description'));
         $page->expects($this->atLeastOnce())->method('getMetaKeyword')->will($this->returnValue('page meta keywords'));
         $page->expects($this->once())->method('getTemplateCode')->will($this->returnValue('template code'));
