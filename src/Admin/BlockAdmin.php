@@ -195,15 +195,23 @@ class BlockAdmin extends BaseBlockAdmin
                     $choices = [];
 
                     if (null !== $defaultTemplate = $this->getDefaultTemplate($service)) {
-                        $choices[$defaultTemplate] = 'default';
+                        $choices['default'] = $defaultTemplate;
                     }
 
                     foreach ($this->blocks[$blockType]['templates'] as $item) {
-                        $choices[$item['template']] = $item['name'];
+                        $choices[$item['name']] = $item['template'];
                     }
 
                     if (count($choices) > 1) {
-                        $settingsField->add('template', ChoiceType::class, ['choices' => $choices]);
+                        $templateOptions = [
+                            'choices' => $choices,
+                        ];
+
+                        if ($settingsField->hasOption('choices_as_values')) {
+                            $templateOptions['choices_as_values'] = true;
+                        }
+
+                        $settingsField->add('template', ChoiceType::class, $templateOptions);
                     }
                 }
             }
