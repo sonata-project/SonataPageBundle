@@ -153,11 +153,6 @@ configuration file.
             page_defaults:
                 homepage: {decorate: false} # disable decoration for homepage, key - is a page route
 
-            default_template: default # template key from templates section, used as default for pages
-            templates:
-                default:  { path: 'SonataPageBundle::layout.html.twig',          name: 'default' }
-                2columns: { path: 'SonataPageBundle::2columns_layout.html.twig', name: '2 columns layout' }
-
             # manage the http errors
             catch_exceptions:
                 not_found: [404]    # render 404 page with "not_found" key (name generated: _page_internal_error_{key})
