@@ -172,7 +172,7 @@ configuration file.
                     - bundles/sonatapage/sonata-page.back.min.js
                 extra_stylesheets:
                     - bundles/sonatapage/sonata-page.back.min.css
-            
+
 Add block context manager:
 
 .. configuration-block::
