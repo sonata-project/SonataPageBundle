@@ -99,7 +99,7 @@ class PageAdminController extends Controller
 
         $datagrid = $this->admin->getDatagrid();
         $formView = $datagrid->getForm()->createView();
-        $theme = $this->admin->getFilterTheme();      
+        $theme = $this->admin->getFilterTheme();
         $this->setFormTheme($formView, $theme);
 
         return $this->render($this->admin->getTemplate('tree'), [
@@ -111,7 +111,7 @@ class PageAdminController extends Controller
             'csrf_token' => $this->getCsrfToken('sonata.batch'),
         ]);
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -267,7 +267,7 @@ class PageAdminController extends Controller
             'page' => $block->getPage(),
         ]);
     }
-    
+
     /**
      * Sets the admin form theme to form view. Used for compatibility between Symfony versions.
      */
