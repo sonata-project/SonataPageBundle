@@ -13,6 +13,7 @@ namespace Sonata\PageBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Symfony\Bridge\Twig\AppVariable;
+use Symfony\Bridge\Twig\Command\DebugCommand;
 use Symfony\Bridge\Twig\Extension\FormExtension;
 use Symfony\Bridge\Twig\Form\TwigRenderer;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -20,6 +21,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\FormRenderer;
 
 /**
  * Page Admin Controller.
