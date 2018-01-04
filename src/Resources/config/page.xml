@@ -55,7 +55,7 @@
             <argument>%sonata.page.skip_redirection%</argument>
         </service>
         <service id="sonata.page.request_listener" class="%sonata.page.request_listener.class%">
-            <tag name="kernel.event_listener" event="kernel.request" method="onCoreRequest" priority="30"/>
+            <tag name="kernel.event_listener" event="kernel.request" method="onCoreRequest" priority="4"/>
             <argument type="service" id="sonata.page.cms_manager_selector"/>
             <argument type="service" id="sonata.page.site.selector"/>
             <argument type="service" id="sonata.page.decorator_strategy"/>
