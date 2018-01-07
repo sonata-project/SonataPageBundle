@@ -13,8 +13,11 @@ namespace Sonata\PageBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Symfony\Bridge\Twig\AppVariable;
+use Symfony\Bridge\Twig\Command\DebugCommand;
 use Symfony\Bridge\Twig\Extension\FormExtension;
 use Symfony\Bridge\Twig\Form\TwigRenderer;
+use Symfony\Component\Form\FormRenderer;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -96,16 +99,8 @@ class PageAdminController extends Controller
 
         $datagrid = $this->admin->getDatagrid();
         $formView = $datagrid->getForm()->createView();
-
-        // NEXT_MAJOR: remove bc check
-        // BC for Symfony < 3.2 where this runtime does not exist
-        $twig = $this->get('twig');
         $theme = $this->admin->getFilterTheme();
-        if (!method_exists(AppVariable::class, 'getToken')) {
-            $twig->getExtension(FormExtension::class)->renderer->setTheme($formView, $theme);
-        } else {
-            $twig->getRuntime(TwigRenderer::class)->setTheme($formView, $theme);
-        }
+        $this->setFormTheme($formView, $theme);
 
         return $this->render($this->admin->getTemplate('tree'), [
             'action' => 'tree',
@@ -271,5 +266,29 @@ class PageAdminController extends Controller
             'container' => $block,
             'page' => $block->getPage(),
         ]);
+    }
+
+    /**
+     * Sets the admin form theme to form view. Used for compatibility between Symfony versions.
+     */
+    private function setFormTheme(FormView $formView, $theme)
+    {
+        $twig = $this->get('twig');
+
+        // BC for Symfony < 3.2 where this runtime does not exists
+        if (!method_exists(AppVariable::class, 'getToken')) {
+            $twig->getExtension(FormExtension::class)->renderer->setTheme($formView, $theme);
+
+            return;
+        }
+
+        // BC for Symfony < 3.4 where runtime should be TwigRenderer
+        if (!method_exists(DebugCommand::class, 'getLoaderPaths')) {
+            $twig->getRuntime(TwigRenderer::class)->setTheme($formView, $theme);
+
+            return;
+        }
+
+        $twig->getRuntime(FormRenderer::class)->setTheme($formView, $theme);
     }
 }
