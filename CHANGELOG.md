@@ -2,6 +2,17 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.7.1](https://github.com/sonata-project/SonataPageBundle/compare/3.7.0...3.7.1) - 2018-01-07
+### Changed
+- The internal page name is not used as a seo title fallback anymore
+- make services explicit public
+ 
+### Fixed
+- Fix for getRuntime on Symfony older than 3.4
+- Fixed missing import
+- Lowered page request listener to make sure it's triggered behind the firewall listener
+- Fixed template choices in BlockAdmin
+
 ## [3.7.0](https://github.com/sonata-project/SonataPageBundle/compare/3.6.0...3.7.0) - 2017-12-12
 ### Added
 - Added Russian translations
