@@ -13,10 +13,12 @@ namespace Sonata\PageBundle\Block;
 
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Block\Service\AbstractAdminBlockService;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\BlockBundle\Model\BlockManagerInterface;
+use Sonata\CoreBundle\Form\Type\ImmutableArrayType;
 use Sonata\CoreBundle\Validator\ErrorElement;
 use Sonata\PageBundle\Admin\SharedBlockAdmin;
 use Sonata\PageBundle\Model\Block;
@@ -104,7 +106,7 @@ class SharedBlockBlockService extends AbstractAdminBlockService
             $this->load($block);
         }
 
-        $formMapper->add('settings', 'sonata_type_immutable_array', [
+        $formMapper->add('settings', ImmutableArrayType::class, [
             'keys' => [
                 [$this->getBlockBuilder($formMapper), null, []],
             ],
@@ -191,7 +193,7 @@ class SharedBlockBlockService extends AbstractAdminBlockService
                 'type' => ClassMetadataInfo::MANY_TO_ONE,
             ]);
 
-        return $formMapper->create('blockId', 'sonata_type_model_list', [
+        return $formMapper->create('blockId', ModelListType::class, [
                 'sonata_field_description' => $fieldDescription,
                 'class' => $this->getSharedBlockAdmin()->getClass(),
                 'model_manager' => $this->getSharedBlockAdmin()->getModelManager(),
