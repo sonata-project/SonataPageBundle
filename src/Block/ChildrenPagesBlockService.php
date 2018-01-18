@@ -134,7 +134,7 @@ class ChildrenPagesBlockService extends AbstractAdminBlockService
             'pageId' => null,
             'title' => '',
             'class' => '',
-            'template' => 'SonataPageBundle:Block:block_core_children_pages.html.twig',
+            'template' => '@SonataPage/Block/block_core_children_pages.html.twig',
         ]);
     }
 

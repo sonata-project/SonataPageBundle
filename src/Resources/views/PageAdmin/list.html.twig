@@ -9,10 +9,10 @@ file that was distributed with this source code.
 
 #}
 
-{% extends 'SonataAdminBundle:CRUD:base_list.html.twig' %}
+{% extends '@SonataAdmin/CRUD/base_list.html.twig' %}
 
 {% block tab_menu %}
-    {% include 'SonataPageBundle:PageAdmin:list_tab_menu.html.twig' with {
+    {% include '@SonataPage/PageAdmin/list_tab_menu.html.twig' with {
         'mode':   'list',
         'action': action,
         'admin':  admin

@@ -53,7 +53,7 @@ class TemplateManager implements TemplateManagerInterface
      *
      * @var string
      */
-    protected $defaultTemplatePath = 'SonataPageBundle::layout.html.twig';
+    protected $defaultTemplatePath = '@SonataPage/layout.html.twig';
 
     /**
      * @param EngineInterface $engine            Templating engine

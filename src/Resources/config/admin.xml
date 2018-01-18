@@ -67,8 +67,8 @@
             </call>
             <call method="setFormTheme">
                 <argument type="collection">
-                    <argument>SonataPageBundle:Form:form_admin_fields.html.twig</argument>
-                    <argument>SonataDoctrineORMAdminBundle:Form:form_admin_fields.html.twig</argument>
+                    <argument>@SonataPage/Form/form_admin_fields.html.twig</argument>
+                    <argument>@SonataDoctrineORMAdmin/Form/form_admin_fields.html.twig</argument>
                 </argument>
             </call>
         </service>
@@ -91,8 +91,8 @@
             </call>
             <call method="setFormTheme">
                 <argument type="collection">
-                    <argument>SonataPageBundle:Form:form_admin_fields.html.twig</argument>
-                    <argument>SonataDoctrineORMAdminBundle:Form:form_admin_fields.html.twig</argument>
+                    <argument>@SonataPage/Form/form_admin_fields.html.twig</argument>
+                    <argument>@SonataDoctrineORMAdmin/Form/form_admin_fields.html.twig</argument>
                 </argument>
             </call>
         </service>

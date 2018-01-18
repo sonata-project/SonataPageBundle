@@ -81,8 +81,8 @@ Before we can go on with generating our Application files trough the `EasyExtend
             multisite:        host
             default_template: default # template key from templates section, used as default for new pages
             templates:
-                default:  { path: 'SonataPageBundle::layout.html.twig',          name: 'default' }
-                2columns: { path: 'SonataPageBundle::2columns_layout.html.twig', name: '2 columns layout' }
+                default:  { path: '@SonataPage/layout.html.twig',          name: 'default' }
+                2columns: { path: '@SonataPage/2columns_layout.html.twig', name: '2 columns layout' }
 
             # Generates a snapshot when a page is saved (from the admin)
             direct_publication: false # or %kernel.debug% if you want to publish in dev mode (but not in prod)
@@ -155,8 +155,8 @@ configuration file.
 
             default_template: default # template key from templates section, used as default for pages
             templates:
-                default:  { path: 'SonataPageBundle::layout.html.twig',          name: 'default' }
-                2columns: { path: 'SonataPageBundle::2columns_layout.html.twig', name: '2 columns layout' }
+                default:  { path: '@SonataPage/layout.html.twig',          name: 'default' }
+                2columns: { path: '@SonataPage/2columns_layout.html.twig', name: '2 columns layout' }
 
             # manage the http errors
             catch_exceptions:
