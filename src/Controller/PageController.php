@@ -40,7 +40,7 @@ class PageController extends Controller
             throw new AccessDeniedException();
         }
 
-        return $this->render('SonataPageBundle:Exceptions:list.html.twig', [
+        return $this->render('@SonataPage/Exceptions/list.html.twig', [
             'httpErrorCodes' => $this->getExceptionListener()->getHttpErrorCodes(),
         ]);
     }

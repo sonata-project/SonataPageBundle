@@ -108,7 +108,7 @@ class ExceptionListenerTest extends TestCase
 
         // mock templating to expect a twig rendering
         $this->templating->expects($this->once())->method('render')
-             ->with($this->equalTo('SonataPageBundle::internal_error.html.twig'));
+             ->with($this->equalTo('@SonataPage/internal_error.html.twig'));
 
         // WHEN
         $this->listener->onKernelException($event);
@@ -136,7 +136,7 @@ class ExceptionListenerTest extends TestCase
 
         // mock templating to expect a twig rendering
         $this->templating->expects($this->once())->method('render')
-             ->with($this->equalTo('SonataPageBundle:Page:create.html.twig'));
+             ->with($this->equalTo('@SonataPage/Page/create.html.twig'));
 
         // WHEN
         $this->listener->onKernelException($event);

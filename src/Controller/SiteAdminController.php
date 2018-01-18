@@ -59,7 +59,7 @@ class SiteAdminController extends Controller
             return new RedirectResponse($this->admin->generateUrl('edit', ['id' => $object->getId()]));
         }
 
-        return $this->render('SonataPageBundle:SiteAdmin:create_snapshots.html.twig', [
+        return $this->render('@SonataPage/SiteAdmin/create_snapshots.html.twig', [
             'action' => 'snapshots',
             'object' => $object,
         ]);

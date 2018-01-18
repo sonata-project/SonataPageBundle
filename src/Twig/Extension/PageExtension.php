@@ -143,7 +143,7 @@ class PageExtension extends AbstractExtension implements InitRuntimeInterface
             'force_view_home_page' => true,
             'container_attr' => ['class' => 'sonata-page-breadcrumbs'],
             'elements_attr' => [],
-            'template' => 'SonataPageBundle:Page:breadcrumb.html.twig',
+            'template' => '@SonataPage/Page/breadcrumb.html.twig',
         ], $options);
 
         $breadcrumbs = [];

@@ -9,7 +9,7 @@ file that was distributed with this source code.
 
 #}
 
-{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+{% extends '@SonataAdmin/CRUD/base_list_field.html.twig' %}
 
 {% block field %}
     <a href="{{ admin.generateObjectUrl('snapshots', object) }}">{{ "link_create_snapshots"|trans({}, "SonataPageBundle")}}</a>

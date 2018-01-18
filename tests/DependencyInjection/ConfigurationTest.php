@@ -26,13 +26,13 @@ class ConfigurationTest extends TestCase
             'default_template' => 'default',
             'templates' => [
                 'default' => [
-                    'path' => 'ApplicationSonataPageBundle::demo_layout.html.twig',
+                    'path' => '@ApplicationSonataPage/demo_layout.html.twig',
                     'name' => 'default',
                     'containers' => ['header' => ['name' => 'My Header']],
                     'matrix' => ['layout' => 'HHHH', 'mapping' => ['H' => 'header']],
                 ],
                 '2columns' => [
-                    'path' => 'ApplicationSonataPageBundle::demo_2columns_layout.html.twig',
+                    'path' => '@ApplicationSonataPage/demo_2columns_layout.html.twig',
                     'name' => '2 columns layout',
                     'inherits_containers' => 'default',
                     'containers' => [
@@ -48,7 +48,7 @@ class ConfigurationTest extends TestCase
             'default_template' => 'default',
             'templates' => [
                 'default' => [
-                    'path' => 'ApplicationSonataPageBundle::demo_layout.html.twig',
+                    'path' => '@ApplicationSonataPage/demo_layout.html.twig',
                     'name' => 'default',
                     'containers' => [
                         'header' => [
@@ -68,7 +68,7 @@ class ConfigurationTest extends TestCase
                     ],
                 ],
                 '2columns' => [
-                    'path' => 'ApplicationSonataPageBundle::demo_2columns_layout.html.twig',
+                    'path' => '@ApplicationSonataPage/demo_2columns_layout.html.twig',
                     'name' => '2 columns layout',
                     'containers' => [
                         'left_col' => [
@@ -103,11 +103,11 @@ class ConfigurationTest extends TestCase
                 ],
             ],
             'templates_admin' => [
-                'tree' => 'SonataPageBundle:PageAdmin:tree.html.twig',
-                'list' => 'SonataPageBundle:PageAdmin:list.html.twig',
-                'compose' => 'SonataPageBundle:PageAdmin:compose.html.twig',
-                'select_site' => 'SonataPageBundle:PageAdmin:select_site.html.twig',
-                'compose_container_show' => 'SonataPageBundle:PageAdmin:compose_container_show.html.twig',
+                'tree' => '@SonataPage/PageAdmin/tree.html.twig',
+                'list' => '@SonataPage/PageAdmin/list.html.twig',
+                'compose' => '@SonataPage/PageAdmin/compose.html.twig',
+                'select_site' => '@SonataPage/PageAdmin/select_site.html.twig',
+                'compose_container_show' => '@SonataPage/PageAdmin/compose_container_show.html.twig',
             ],
             'assets' => [
                 'stylesheets' => [
@@ -172,7 +172,7 @@ class ConfigurationTest extends TestCase
             'default_template' => 'default',
             'templates' => [
                 'default' => [
-                    'path' => 'ApplicationSonataPageBundle::demo_layout.html.twig',
+                    'path' => '@ApplicationSonataPage/demo_layout.html.twig',
                     'name' => 'default',
                 ],
             ],
@@ -183,17 +183,17 @@ class ConfigurationTest extends TestCase
             'default_template' => 'default',
             'templates' => [
                 'default' => [
-                    'path' => 'ApplicationSonataPageBundle::demo_layout.html.twig',
+                    'path' => '@ApplicationSonataPage/demo_layout.html.twig',
                     'name' => 'default',
                     'containers' => [],
                 ],
             ],
             'templates_admin' => [
-                'tree' => 'SonataPageBundle:PageAdmin:tree.html.twig',
-                'list' => 'SonataPageBundle:PageAdmin:list.html.twig',
-                'compose' => 'SonataPageBundle:PageAdmin:compose.html.twig',
-                'select_site' => 'SonataPageBundle:PageAdmin:select_site.html.twig',
-                'compose_container_show' => 'SonataPageBundle:PageAdmin:compose_container_show.html.twig',
+                'tree' => '@SonataPage/PageAdmin/tree.html.twig',
+                'list' => '@SonataPage/PageAdmin/list.html.twig',
+                'compose' => '@SonataPage/PageAdmin/compose.html.twig',
+                'select_site' => '@SonataPage/PageAdmin/select_site.html.twig',
+                'compose_container_show' => '@SonataPage/PageAdmin/compose_container_show.html.twig',
             ],
             'assets' => [
                 'stylesheets' => [

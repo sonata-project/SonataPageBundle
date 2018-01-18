@@ -73,7 +73,7 @@ class SnapshotAdminController extends Controller
             ]));
         }
 
-        return $this->render('SonataPageBundle:SnapshotAdmin:create.html.twig', [
+        return $this->render('@SonataPage/SnapshotAdmin/create.html.twig', [
             'action' => 'create',
             'form' => $form->createView(),
         ]);

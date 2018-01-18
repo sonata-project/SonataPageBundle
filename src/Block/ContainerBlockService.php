@@ -30,7 +30,7 @@ class ContainerBlockService extends BaseContainerBlockService
             'code' => '',
             'layout' => '{{ CONTENT }}',
             'class' => '',
-            'template' => 'SonataPageBundle:Block:block_container.html.twig',
+            'template' => '@SonataPage/Block/block_container.html.twig',
         ]);
     }
 }
