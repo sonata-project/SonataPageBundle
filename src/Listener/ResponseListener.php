@@ -109,7 +109,7 @@ class ResponseListener
             !$request->get('_sonata_page_skip') &&
             !$this->skipRedirection
         ) {
-            $response = new Response($this->templating->render('SonataPageBundle:Page:redirect.html.twig', [
+            $response = new Response($this->templating->render('@SonataPage/Page/redirect.html.twig', [
                 'response' => $response,
                 'page' => $page,
             ]));

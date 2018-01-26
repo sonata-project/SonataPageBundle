@@ -42,12 +42,12 @@ class ContainerBlockServiceTest extends AbstractBlockServiceTestCase
             'code' => '',
             'layout' => '{{ CONTENT }}',
             'class' => '',
-            'template' => 'SonataPageBundle:Block:block_container.html.twig',
+            'template' => '@SonataPage/Block/block_container.html.twig',
         ]);
 
         $service->execute($blockContext);
 
-        $this->assertEquals('SonataPageBundle:Block:block_container.html.twig', $this->templating->view);
+        $this->assertEquals('@SonataPage/Block/block_container.html.twig', $this->templating->view);
         $this->assertEquals('block.code', $this->templating->parameters['block']->getSetting('code'));
         $this->assertEquals('block.name', $this->templating->parameters['block']->getName());
         $this->assertInstanceOf(Block::class, $this->templating->parameters['block']);
@@ -69,7 +69,7 @@ class ContainerBlockServiceTest extends AbstractBlockServiceTestCase
              'code' => 'block.code',
              'layout' => 'before{{ CONTENT }}after',
              'class' => '',
-             'template' => 'SonataPageBundle:Block:block_container.html.twig',
+             'template' => '@SonataPage/Block/block_container.html.twig',
          ]);
 
         $service->execute($blockContext);

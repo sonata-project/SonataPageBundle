@@ -172,7 +172,7 @@ Add or Edit a Block
 -------------------
 
 Before adding a new block, please look to the default layout
-``SonataPageBundle::layout.html.twig``, it contains different method calls.
+``@SonataPage/layout.html.twig``, it contains different method calls.
 
 * ``sonata_page_render_container('content', page)`` : render the container
   ``content`` of the current page

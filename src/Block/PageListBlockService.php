@@ -100,7 +100,7 @@ class PageListBlockService extends AbstractAdminBlockService
         $resolver->setDefaults([
             'mode' => 'public',
             'title' => 'List Pages',
-            'template' => 'SonataPageBundle:Block:block_pagelist.html.twig',
+            'template' => '@SonataPage/Block/block_pagelist.html.twig',
         ]);
     }
 

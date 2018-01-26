@@ -44,7 +44,7 @@ class PageListBlockServiceTest extends AbstractBlockServiceTestCase
         $this->assertSettings([
             'mode' => 'public',
             'title' => 'List Pages',
-            'template' => 'SonataPageBundle:Block:block_pagelist.html.twig',
+            'template' => '@SonataPage/Block/block_pagelist.html.twig',
         ], $blockContext);
     }
 
@@ -71,13 +71,13 @@ class PageListBlockServiceTest extends AbstractBlockServiceTestCase
         $blockContext = new BlockContext($block, [
             'mode' => 'public',
             'title' => 'List Pages',
-            'template' => 'SonataPageBundle:Block:block_pagelist.html.twig',
+            'template' => '@SonataPage/Block/block_pagelist.html.twig',
         ]);
 
         $blockService = new PageListBlockService('block.service', $this->templating, $this->pageManager);
         $blockService->execute($blockContext);
 
-        $this->assertSame('SonataPageBundle:Block:block_pagelist.html.twig', $this->templating->view);
+        $this->assertSame('@SonataPage/Block/block_pagelist.html.twig', $this->templating->view);
 
         $this->assertSame($blockContext, $this->templating->parameters['context']);
         $this->assertInternalType('array', $this->templating->parameters['settings']);

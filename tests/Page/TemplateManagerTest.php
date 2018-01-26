@@ -110,7 +110,7 @@ class TemplateManagerTest extends TestCase
     {
         // GIVEN
         $templating = $this->createMock(EngineInterface::class);
-        $templating->expects($this->once())->method('renderResponse')->with($this->equalTo('SonataPageBundle::layout.html.twig'));
+        $templating->expects($this->once())->method('renderResponse')->with($this->equalTo('@SonataPage/layout.html.twig'));
         $manager = new TemplateManager($templating);
 
         // WHEN
