@@ -13,7 +13,18 @@ file that was distributed with this source code.
 
 {% block block %}
     <div class="sonata-page-menu-container {{ settings.class }}">
-        {% if settings.title %}<h3>{{ settings.title }}</h3>{% endif %}
+        {% if settings.title is not empty %}
+            <h4>
+                {% if settings.icon %}
+                    <i class="{{ settings.icon }}" aria-hidden="true"></i>
+                {% endif %}
+                {% if settings.translation_domain %}
+                    {{ settings.title|trans({}, settings.translation_domain) }}
+                {% else %}
+                    {{ settings.title }}
+                {% endif %}
+            </h4>
+        {% endif %}
 
         <ul class="sonata-page-menu-chilren-list">
             {% if page %}
