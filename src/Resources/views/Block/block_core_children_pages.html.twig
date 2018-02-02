@@ -12,7 +12,7 @@ file that was distributed with this source code.
 {% extends sonata_block.templates.block_base %}
 
 {% block block %}
-    <div class="sonata-page-menu-container {{ settings.class }}">
+    <div class="{{ settings.class }}">
         {% if settings.title is not empty %}
             <h4>
                 {% if settings.icon %}
@@ -26,10 +26,10 @@ file that was distributed with this source code.
             </h4>
         {% endif %}
 
-        <ul class="sonata-page-menu-chilren-list">
+        <ul>
             {% if page %}
                 {% for child in page.children %}
-                    <li class="sonata-page-menu-children-element"><a href="{{ path(child) }}" title="{{ child.name|escape }}">{{ child.name }}</a></li>
+                    <li><a href="{{ path(child) }}" title="{{ child.name|escape }}">{{ child.name }}</a></li>
                 {% endfor %}
             {% endif %}
         </ul>
