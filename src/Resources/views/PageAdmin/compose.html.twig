@@ -9,24 +9,22 @@ file that was distributed with this source code.
 
 #}
 
-{% extends '@SonataAdmin/CRUD/action.html.twig' %}
+{% extends 'SonataAdminBundle:CRUD:action.html.twig' %}
 
 {% block title %}
     {{ "title_edit"|trans({'%name%': admin.toString(object)|truncate(15) }, 'SonataAdminBundle') }}
 {% endblock %}
 
 {% block navbar_title %}
-    {{ block('title') }}
+    {{ 'page.compose_page'|trans({}, 'SonataPageBundle') }} "{{ page.name }}" <small>[{{ 'page.compose_template_label'|trans({}, 'SonataPageBundle') }}: <b>{{ template.name }}</b>]</small>
 {% endblock %}
 
 {% block body_attributes %}class="sonata-bc skin-black fixed page-composer-page sonata-ba-no-side-menu"{% endblock %}
 
 {% block content %}
     <div class="page-composer">
-        <h2>{{ 'page.compose_page'|trans({}, 'SonataPageBundle') }} "{{ page.name }}" <small>[{{ 'page.compose_template_label'|trans({}, 'SonataPageBundle') }}: <b>{{ template.name }}</b>]</small></h2>
-
         {% if containers|length == 0 %}
-            {% include '@SonataPage/PageAdmin/compose_hint.html.twig' %}
+            {% include 'SonataPageBundle:PageAdmin:compose_hint.html.twig' %}
         {% else %}
             <div class="row row-fluid">
                 <div class="col-md-4 span4">
