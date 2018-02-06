@@ -41,7 +41,10 @@ class PageListBlockServiceTest extends AbstractBlockServiceTestCase
 
         $this->assertSettings([
             'mode' => 'public',
-            'title' => 'List Pages',
+            'title' => null,
+            'translation_domain' => null,
+            'icon' => 'fa fa-globe',
+            'class' => null,
             'template' => '@SonataPage/Block/block_pagelist.html.twig',
         ], $blockContext);
     }
