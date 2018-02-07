@@ -98,6 +98,14 @@ class ChildrenPagesBlockService extends AbstractAdminBlockService
                   'required' => false,
                     'label' => 'form.label_title',
                 ]],
+                ['translation_domain', TextType::class, [
+                    'label' => 'form.label_translation_domain',
+                    'required' => false,
+                ]],
+                ['icon', TextType::class, [
+                    'label' => 'form.label_icon',
+                    'required' => false,
+                ]],
                 ['current', CheckboxType::class, [
                   'required' => false,
                   'label' => 'form.label_current',
@@ -134,8 +142,10 @@ class ChildrenPagesBlockService extends AbstractAdminBlockService
         $resolver->setDefaults([
             'current' => true,
             'pageId' => null,
-            'title' => '',
-            'class' => '',
+            'title' => null,
+            'translation_domain' => null,
+            'icon' => null,
+            'class' => null,
             'template' => '@SonataPage/Block/block_core_children_pages.html.twig',
         ]);
     }

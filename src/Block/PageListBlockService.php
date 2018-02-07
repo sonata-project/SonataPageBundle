@@ -57,6 +57,18 @@ class PageListBlockService extends AbstractAdminBlockService
                     'label' => 'form.label_title',
                     'required' => false,
                 ]],
+                ['translation_domain', TextType::class, [
+                    'label' => 'form.label_translation_domain',
+                    'required' => false,
+                ]],
+                ['icon', TextType::class, [
+                    'label' => 'form.label_icon',
+                    'required' => false,
+                ]],
+                ['class', TextType::class, [
+                    'label' => 'form.label_class',
+                    'required' => false,
+                ]],
                 ['mode', ChoiceType::class, [
                     'label' => 'form.label_mode',
                     'choices' => [
@@ -99,7 +111,10 @@ class PageListBlockService extends AbstractAdminBlockService
     {
         $resolver->setDefaults([
             'mode' => 'public',
-            'title' => 'List Pages',
+            'title' => null,
+            'translation_domain' => null,
+            'icon' => 'fa fa-globe',
+            'class' => null,
             'template' => '@SonataPage/Block/block_pagelist.html.twig',
         ]);
     }
