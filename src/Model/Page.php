@@ -240,7 +240,8 @@ abstract class Page implements PageInterface
      */
     public function setPageAlias($pageAlias): void
     {
-        if ($pageAlias !== null && '_page_alias_' != substr($pageAlias, 0, 12)) {
+        $pageAlias = (string) $pageAlias;
+        if ('_page_alias_' !== substr($pageAlias, 0, 12)) {
             $pageAlias = '_page_alias_'.$pageAlias;
         }
 
@@ -308,12 +309,7 @@ abstract class Page implements PageInterface
      */
     public function setSlug($slug): void
     {
-        if ($slug === null) {
-            $this->slug = null;
-            return;
-        }
-        
-        $this->slug = self::slugify(trim($slug));
+        $this->slug = self::slugify(trim((string) $slug));
     }
 
     /**
