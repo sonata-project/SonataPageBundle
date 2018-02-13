@@ -74,6 +74,7 @@ class SonataPageExtension extends Extension
         $loader->load('http_kernel.xml');
         $loader->load('consumer.xml');
         $loader->load('validators.xml');
+        $loader->load('command.xml');
 
         $this->configureMultisite($container, $config);
         $this->configureCache($container, $config);
