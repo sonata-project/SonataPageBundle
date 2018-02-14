@@ -29,10 +29,9 @@ class SnapshotControllerTest extends TestCase
         $snapshotManager->expects($this->once())->method('getPager')->will($this->returnValue([]));
 
         $paramFetcher = $this->getMockBuilder(ParamFetcherInterface::class)
-            ->setMethods(['addParam', 'setController', 'get', 'all'])
+            ->setMethods(['setController', 'get', 'all'])
             ->getMock();
 
-        $paramFetcher->expects($this->once())->method('addParam');
         $paramFetcher->expects($this->exactly(3))->method('get');
         $paramFetcher->expects($this->once())->method('all')->will($this->returnValue([]));
 

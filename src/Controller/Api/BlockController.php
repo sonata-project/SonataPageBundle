@@ -52,7 +52,7 @@ class BlockController extends FOSRestController
      *  requirements={
      *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="block id"}
      *  },
-     *  output={"class"="Sonata\PageBundle\Model\BlockInterface", "groups"="sonata_api_read"},
+     *  output={"class"="Sonata\PageBundle\Model\BlockInterface", "groups"={"sonata_api_read"}},
      *  statusCodes={
      *      200="Returned when successful",
      *      404="Returned when page is not found"
@@ -86,6 +86,8 @@ class BlockController extends FOSRestController
      *  }
      * )
      *
+     * @View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
+     *
      * @param int     $id      A Block identifier
      * @param Request $request A Symfony request
      *
@@ -101,14 +103,14 @@ class BlockController extends FOSRestController
             'csrf_protection' => false,
         ]);
 
-        $form->submit($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $block = $form->getData();
 
             $this->blockManager->save($block);
 
-            return $this->serializeContext($block, ['sonata_api_read']);
+            return $block;
         }
 
         return $form;
