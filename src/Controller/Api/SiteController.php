@@ -53,14 +53,14 @@ class SiteController extends FOSRestController
      *
      * @ApiDoc(
      *  resource=true,
-     *  output={"class"="Sonata\DatagridBundle\Pager\PagerInterface", "groups"="sonata_api_read"}
+     *  output={"class"="Sonata\DatagridBundle\Pager\PagerInterface", "groups"={"sonata_api_read"}}
      * )
      *
      * @QueryParam(name="page", requirements="\d+", default="1", description="Page for site list pagination")
      * @QueryParam(name="count", requirements="\d+", default="10", description="Maximum number of sites per page")
      * @QueryParam(name="enabled", requirements="0|1", nullable=true, strict=true, description="Enabled/Disabled sites filter")
      * @QueryParam(name="is_default", requirements="0|1", nullable=true, strict=true, description="Default sites filter")
-     * @QueryParam(name="orderBy", requirements="ASC|DESC", nullable=true, strict=true, description="Order by array (key is field, value is direction)")
+     * @QueryParam(name="orderBy", map=true, requirements="ASC|DESC", nullable=true, strict=true, description="Order by array (key is field, value is direction)")
      *
      * @View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
      *
@@ -70,8 +70,6 @@ class SiteController extends FOSRestController
      */
     public function getSitesAction(ParamFetcherInterface $paramFetcher)
     {
-        $this->setMapForOrderByParam($paramFetcher);
-
         $supportedCriteria = [
             'enabled' => '',
             'is_default' => '',
@@ -107,7 +105,7 @@ class SiteController extends FOSRestController
      *  requirements={
      *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="site id"}
      *  },
-     *  output={"class"="Sonata\PageBundle\Model\SiteInterface", "groups"="sonata_api_read"},
+     *  output={"class"="Sonata\PageBundle\Model\SiteInterface", "groups"={"sonata_api_read"}},
      *  statusCodes={
      *      200="Returned when successful",
      *      404="Returned when page is not found"
@@ -241,7 +239,7 @@ class SiteController extends FOSRestController
             'csrf_protection' => false,
         ]);
 
-        $form->submit($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $site = $form->getData();

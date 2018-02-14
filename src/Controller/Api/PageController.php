@@ -78,7 +78,7 @@ class PageController extends FOSRestController
      *
      * @ApiDoc(
      *  resource=true,
-     *  output={"class"="Sonata\DatagridBundle\Pager\PagerInterface", "groups"="sonata_api_read"}
+     *  output={"class"="Sonata\DatagridBundle\Pager\PagerInterface", "groups"={"sonata_api_read"}}
      * )
      *
      * @QueryParam(name="page", requirements="\d+", default="1", description="Page for 'page' list pagination")
@@ -89,7 +89,7 @@ class PageController extends FOSRestController
      * @QueryParam(name="root", requirements="0|1", nullable=true, strict=true, description="Filter pages having no parent id")
      * @QueryParam(name="site", requirements="\d+", nullable=true, strict=true, description="Filter pages for a specific site's id")
      * @QueryParam(name="parent", requirements="\d+", nullable=true, strict=true, description="Get pages being child of given page id")
-     * @QueryParam(name="orderBy", requirements="ASC|DESC", nullable=true, strict=true, description="Order by array (key is field, value is direction)")
+     * @QueryParam(name="orderBy", map=true, requirements="ASC|DESC", nullable=true, strict=true, description="Order by array (key is field, value is direction)")
      *
      * @View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
      *
@@ -99,8 +99,6 @@ class PageController extends FOSRestController
      */
     public function getPagesAction(ParamFetcherInterface $paramFetcher)
     {
-        $this->setMapForOrderByParam($paramFetcher);
-
         $supportedCriteria = [
             'enabled' => '',
             'edited' => '',
@@ -139,7 +137,7 @@ class PageController extends FOSRestController
      *  requirements={
      *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="page id"}
      *  },
-     *  output={"class"="Sonata\PageBundle\Model\PageInterface", "groups"="sonata_api_read"},
+     *  output={"class"="Sonata\PageBundle\Model\PageInterface", "groups"={"sonata_api_read"}},
      *  statusCodes={
      *      200="Returned when successful",
      *      404="Returned when page is not found"
@@ -164,7 +162,7 @@ class PageController extends FOSRestController
      *  requirements={
      *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="page id"}
      *  },
-     *  output={"class"="Sonata\BlockBundle\Model\BlockInterface", "groups"="sonata_api_read"},
+     *  output={"class"="Sonata\BlockBundle\Model\BlockInterface", "groups"={"sonata_api_read"}},
      *  statusCodes={
      *      200="Returned when successful",
      *      404="Returned when page is not found"
@@ -189,7 +187,7 @@ class PageController extends FOSRestController
      *  requirements={
      *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="page id"}
      *  },
-     *  output={"class"="Sonata\BlockBundle\Model\BlockInterface", "groups"="sonata_api_read"},
+     *  output={"class"="Sonata\BlockBundle\Model\BlockInterface", "groups"={"sonata_api_read"}},
      *  statusCodes={
      *      200="Returned when successful",
      *      404="Returned when page is not found"
@@ -225,6 +223,8 @@ class PageController extends FOSRestController
      *  }
      * )
      *
+     * @View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
+     *
      * @param int     $id      A Page identifier
      * @param Request $request A Symfony request
      *
@@ -240,7 +240,7 @@ class PageController extends FOSRestController
             'csrf_protection' => false,
         ]);
 
-        $form->submit($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $block = $form->getData();
@@ -248,7 +248,7 @@ class PageController extends FOSRestController
 
             $this->blockManager->save($block);
 
-            return $this->serializeContext($block, ['sonata_api_read']);
+            return $block;
         }
 
         return $form;
@@ -449,7 +449,7 @@ class PageController extends FOSRestController
             'csrf_protection' => false,
         ]);
 
-        $form->submit($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $page = $form->getData();
