@@ -47,6 +47,21 @@ class SonataPageExtensionTest extends AbstractExtensionTestCase
         $this->assertContainerBuilderHasService('sonata.page.admin.page');
     }
 
+    public function testRouterAutoRegister()
+    {
+        $this->container->setParameter('kernel.bundles', [
+            'CmfRouterBundle' => 42,
+        ]);
+        $this->load([
+            'router_auto_register' => [
+                'enabled' => true,
+                'priority' => 84,
+            ],
+        ]);
+        $this->assertContainerBuilderHasParameter('sonata.page.router_auto_register.enabled', true);
+        $this->assertContainerBuilderHasParameter('sonata.page.router_auto_register.priority', 84);
+    }
+
     protected function getContainerExtensions()
     {
         return [new SonataPageExtension()];
