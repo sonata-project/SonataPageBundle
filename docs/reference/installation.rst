@@ -99,6 +99,10 @@ Add these bundles in the config mapping definition (or enable `auto_mapping`_):
 CMF Routing Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
+``sonata.page.router`` service must be added to the index of ``cmf_routing.router`` chain router.
+
+Configure ``symfony-cmf/routing-bundle``:
+
 .. code-block:: yaml
 
     # config/packages/cmf_routing_bundle.yaml
@@ -111,6 +115,17 @@ CMF Routing Configuration
                 # enable the symfony default router with a lower priority
                 sonata.page.router: 150
                 router.default: 100
+
+Or register ``sonata.page.router`` automatically:
+
+.. code-block:: yaml
+
+    # config/packages/sonata_page.yaml
+
+    sonata_page:
+        router_auto_register:
+            enabled: true
+            priority: 150
 
 SonataPageBundle Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
