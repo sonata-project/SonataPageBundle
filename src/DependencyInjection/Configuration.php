@@ -34,6 +34,14 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $node = $treeBuilder->root('sonata_page')->children();
 
+        $routerAutoRegisterInfo = <<<'EOF'
+Automatically add 'sonata.page.router' service to the index of 'cmf_routing.router' chain router
+
+Examples:
+enabled:  true      Enable auto-registration
+priority: 150       The priority
+EOF;
+
         $ignoreRoutePatternsInfo = <<<'EOF'
 (.*)admin(.*)       ignore admin route, i.e. route containing 'admin'
 ^_(.*)              ignore Symfony routes
@@ -86,6 +94,7 @@ EOF;
                 ->end()
             ->end()
             ->arrayNode('router_auto_register')
+                ->info($routerAutoRegisterInfo)
                 ->addDefaultsIfNotSet()
                 ->children()
                     ->booleanNode('enabled')

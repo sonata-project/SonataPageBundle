@@ -38,12 +38,11 @@ class CmfRouterAutoRegisterTest extends AbstractCompilerPassTestCase
             }
             list($reference, $weight) = $arguments;
             if ($reference instanceof Reference && 'sonata.page.router' === $reference->__toString()) {
-                if (!$enabled) {
-                    $this->fail('`sonata.page.router` service should not be auto registered');
-                } else {
-                    $this->assertEquals($priority, $weight);
+                if ($enabled) {
+                    $this->assertSame($priority, $weight);
                     break;
                 }
+                $this->fail('"sonata.page.router" service should not be auto registered');
             }
         }
     }
@@ -51,8 +50,8 @@ class CmfRouterAutoRegisterTest extends AbstractCompilerPassTestCase
     public function providerRoutedAutoRegister()
     {
         return [
-            [true, 42],
-            [false, 84],
+            'enabled router' => [true, 42],
+            'disabled router' => [false, 84],
         ];
     }
 
