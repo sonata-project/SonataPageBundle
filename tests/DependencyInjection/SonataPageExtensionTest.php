@@ -49,7 +49,7 @@ class SonataPageExtensionTest extends AbstractExtensionTestCase
         $this->assertContainerBuilderHasService('sonata.page.admin.page');
     }
 
-    public function testRouterAutoRegister()
+    public function testRouterAutoRegister(): void
     {
         $this->container->setParameter('kernel.bundles', [
             'CmfRouterBundle' => 42,
