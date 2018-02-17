@@ -36,6 +36,14 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $node = $treeBuilder->root('sonata_page')->children();
 
+        $routerAutoRegisterInfo = <<<'EOF'
+Automatically add 'sonata.page.router' service to the index of 'cmf_routing.router' chain router
+
+Examples:
+enabled:  true      Enable auto-registration
+priority: 150       The priority
+EOF;
+
         $ignoreRoutePatternsInfo = <<<'EOF'
 (.*)admin(.*)       ignore admin route, i.e. route containing 'admin'
 ^_(.*)              ignore Symfony routes
@@ -85,6 +93,18 @@ EOF;
                 ->validate()
                     ->ifNotInArray(['host', 'host_by_locale', 'host_with_path', 'host_with_path_by_locale'])
                     ->thenInvalid('Invalid multisite configuration %s. For more information, see https://sonata-project.org/bundles/page/master/doc/reference/multisite.html')
+                ->end()
+            ->end()
+            ->arrayNode('router_auto_register')
+                ->info($routerAutoRegisterInfo)
+                ->addDefaultsIfNotSet()
+                ->children()
+                    ->booleanNode('enabled')
+                        ->defaultValue(false)
+                    ->end()
+                    ->integerNode('priority')
+                        ->defaultValue(150)
+                    ->end()
                 ->end()
             ->end()
             ->arrayNode('ignore_route_patterns')

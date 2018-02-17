@@ -145,6 +145,9 @@ class SonataPageExtension extends Extension
         $container->setParameter('sonata.page.admin.block.entity', $config['class']['block']);
         $container->setParameter('sonata.page.admin.snapshot.entity', $config['class']['snapshot']);
         $container->setParameter('sonata.page.admin.page.entity', $config['class']['page']);
+
+        $container->setParameter('sonata.page.router_auto_register.enabled', $config['router_auto_register']['enabled']);
+        $container->setParameter('sonata.page.router_auto_register.priority', $config['router_auto_register']['priority']);
     }
 
     /**
