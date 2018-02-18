@@ -42,10 +42,9 @@ class PageControllerTest extends TestCase
         $pager = $this->getMockBuilder(Pager::class)->disableOriginalConstructor()->getMock();
 
         $paramFetcher = $this->getMockBuilder(ParamFetcherInterface::class)
-            ->setMethods(['addParam', 'setController', 'get', 'all'])
+            ->setMethods(['setController', 'get', 'all'])
             ->getMock();
 
-        $paramFetcher->expects($this->once())->method('addParam');
         $paramFetcher->expects($this->exactly(3))->method('get');
         $paramFetcher->expects($this->once())->method('all')->will($this->returnValue([]));
 
@@ -88,7 +87,7 @@ class PageControllerTest extends TestCase
         $pageManager->expects($this->once())->method('save')->will($this->returnValue($page));
 
         $form = $this->getMockBuilder(Form::class)->disableOriginalConstructor()->getMock();
-        $form->expects($this->once())->method('submit');
+        $form->expects($this->once())->method('handleRequest');
         $form->expects($this->once())->method('isValid')->will($this->returnValue(true));
         $form->expects($this->once())->method('getData')->will($this->returnValue($page));
 
@@ -108,7 +107,7 @@ class PageControllerTest extends TestCase
         $pageManager->expects($this->never())->method('save')->will($this->returnValue($page));
 
         $form = $this->getMockBuilder(Form::class)->disableOriginalConstructor()->getMock();
-        $form->expects($this->once())->method('submit');
+        $form->expects($this->once())->method('handleRequest');
         $form->expects($this->once())->method('isValid')->will($this->returnValue(false));
 
         $formFactory = $this->createMock(FormFactoryInterface::class);
@@ -127,7 +126,7 @@ class PageControllerTest extends TestCase
         $pageManager->expects($this->once())->method('save')->will($this->returnValue($page));
 
         $form = $this->getMockBuilder(Form::class)->disableOriginalConstructor()->getMock();
-        $form->expects($this->once())->method('submit');
+        $form->expects($this->once())->method('handleRequest');
         $form->expects($this->once())->method('isValid')->will($this->returnValue(true));
         $form->expects($this->once())->method('getData')->will($this->returnValue($page));
 
@@ -147,7 +146,7 @@ class PageControllerTest extends TestCase
         $pageManager->expects($this->never())->method('save')->will($this->returnValue($page));
 
         $form = $this->getMockBuilder(Form::class)->disableOriginalConstructor()->getMock();
-        $form->expects($this->once())->method('submit');
+        $form->expects($this->once())->method('handleRequest');
         $form->expects($this->once())->method('isValid')->will($this->returnValue(false));
 
         $formFactory = $this->createMock(FormFactoryInterface::class);
@@ -193,16 +192,18 @@ class PageControllerTest extends TestCase
         $blockManager->expects($this->once())->method('save')->will($this->returnValue($block));
 
         $form = $this->getMockBuilder(Form::class)->disableOriginalConstructor()->getMock();
-        $form->expects($this->once())->method('submit');
+        $form->expects($this->once())->method('handleRequest');
         $form->expects($this->once())->method('isValid')->will($this->returnValue(true));
         $form->expects($this->once())->method('getData')->will($this->returnValue($block));
 
         $formFactory = $this->createMock(FormFactoryInterface::class);
         $formFactory->expects($this->once())->method('createNamed')->will($this->returnValue($form));
 
-        $view = $this->createPageController($page, null, $pageManager, $blockManager, $formFactory)->postPageBlockAction(1, new Request());
+        $pageController = $this->createPageController($page, null, $pageManager, $blockManager, $formFactory);
 
-        $this->assertInstanceOf(View::class, $view);
+        $block = $pageController->postPageBlockAction(1, new Request());
+
+        $this->assertInstanceOf(Block::class, $block);
     }
 
     public function testPostPageBlockInvalidAction(): void
@@ -217,7 +218,7 @@ class PageControllerTest extends TestCase
         $blockManager->expects($this->never())->method('save')->will($this->returnValue($block));
 
         $form = $this->getMockBuilder(Form::class)->disableOriginalConstructor()->getMock();
-        $form->expects($this->once())->method('submit');
+        $form->expects($this->once())->method('handleRequest');
         $form->expects($this->once())->method('isValid')->will($this->returnValue(false));
 
         $formFactory = $this->createMock(FormFactoryInterface::class);
