@@ -308,7 +308,7 @@ abstract class Page implements PageInterface
     {
         $this->slug = self::slugify(trim($slug));
     }
-
+/** PLACEHOLDER "Type error: trim() expects parameter 1 to be string, null given" **/
     /**
      * {@inheritdoc}
      */
