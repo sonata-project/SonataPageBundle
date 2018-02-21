@@ -389,6 +389,10 @@ class SonataPageExtension extends Extension
                 $container->removeDefinition('sonata.page.site.selector.host_by_locale');
             }
         }
+
+        if ($container->hasAlias('sonata.page.site.selector')) {
+            $container->getAlias('sonata.page.site.selector')->setPublic(true);
+        }
     }
 
     /**
