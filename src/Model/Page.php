@@ -306,7 +306,7 @@ abstract class Page implements PageInterface
      */
     public function setSlug($slug)
     {
-        $this->slug = self::slugify(trim((string) $slug));
+        $this->slug = self::slugify(trim($slug));
     }
 
     /**
