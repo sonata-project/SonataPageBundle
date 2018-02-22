@@ -7,7 +7,7 @@
             <argument type="service" id="sonata.page.site.selector"/>
             <argument type="service" id="sonata.page.cms_manager_selector"/>
             <argument>%kernel.debug%</argument>
-            <argument type="service" id="templating"/>
+            <argument type="service" id="sonata.templating"/>
             <argument type="service" id="sonata.page.page_service_manager"/>
             <argument type="service" id="sonata.page.decorator_strategy"/>
             <argument/>

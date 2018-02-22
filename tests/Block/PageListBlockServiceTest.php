@@ -15,9 +15,11 @@ namespace Sonata\PageBundle\Tests\Block;
 
 use Sonata\BlockBundle\Block\BlockContext;
 use Sonata\BlockBundle\Model\Block;
+use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\BlockBundle\Test\AbstractBlockServiceTestCase;
 use Sonata\PageBundle\Block\PageListBlockService;
 use Sonata\PageBundle\Model\Page;
+use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 
 class PageListBlockServiceTest extends AbstractBlockServiceTestCase
@@ -31,7 +33,7 @@ class PageListBlockServiceTest extends AbstractBlockServiceTestCase
     {
         parent::setUp();
 
-        $this->pageManager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
+        $this->pageManager = $this->createMock(PageManagerInterface::class);
     }
 
     public function testDefaultSettings(): void
@@ -41,16 +43,19 @@ class PageListBlockServiceTest extends AbstractBlockServiceTestCase
 
         $this->assertSettings([
             'mode' => 'public',
-            'title' => 'List Pages',
-            'template' => 'SonataPageBundle:Block:block_pagelist.html.twig',
+            'title' => null,
+            'translation_domain' => null,
+            'icon' => 'fa fa-globe',
+            'class' => null,
+            'template' => '@SonataPage/Block/block_pagelist.html.twig',
         ], $blockContext);
     }
 
     public function testExecute(): void
     {
-        $page1 = $this->createMock('Sonata\PageBundle\Model\PageInterface');
-        $page2 = $this->createMock('Sonata\PageBundle\Model\PageInterface');
-        $systemPage = $this->createMock('Sonata\PageBundle\Model\PageInterface');
+        $page1 = $this->createMock(PageInterface::class);
+        $page2 = $this->createMock(PageInterface::class);
+        $systemPage = $this->createMock(PageInterface::class);
 
         $this->pageManager->expects($this->at(0))->method('findBy')
             ->with($this->equalTo([
@@ -69,17 +74,17 @@ class PageListBlockServiceTest extends AbstractBlockServiceTestCase
         $blockContext = new BlockContext($block, [
             'mode' => 'public',
             'title' => 'List Pages',
-            'template' => 'SonataPageBundle:Block:block_pagelist.html.twig',
+            'template' => '@SonataPage/Block/block_pagelist.html.twig',
         ]);
 
         $blockService = new PageListBlockService('block.service', $this->templating, $this->pageManager);
         $blockService->execute($blockContext);
 
-        $this->assertSame('SonataPageBundle:Block:block_pagelist.html.twig', $this->templating->view);
+        $this->assertSame('@SonataPage/Block/block_pagelist.html.twig', $this->templating->view);
 
         $this->assertSame($blockContext, $this->templating->parameters['context']);
         $this->assertInternalType('array', $this->templating->parameters['settings']);
-        $this->assertInstanceOf('Sonata\BlockBundle\Model\BlockInterface', $this->templating->parameters['block']);
+        $this->assertInstanceOf(BlockInterface::class, $this->templating->parameters['block']);
         $this->assertCount(2, $this->templating->parameters['elements']);
         $this->assertContains($page1, $this->templating->parameters['elements']);
         $this->assertContains($page2, $this->templating->parameters['elements']);

@@ -46,14 +46,14 @@ class BasePageServiceTest extends TestCase
     {
         // GIVEN
         $service = new ConcretePageService('my name');
-        $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
-        $request = $this->createMock('Symfony\Component\HttpFoundation\Request');
+        $page = $this->createMock(PageInterface::class);
+        $request = $this->createMock(Request::class);
 
         // WHEN
         $response = $service->execute($page, $request);
 
         // THEN
-        $this->assertInstanceOf('Symfony\Component\HttpFoundation\Response', $response, 'Should return a Response object');
+        $this->assertInstanceOf(Response::class, $response, 'Should return a Response object');
     }
 }
 

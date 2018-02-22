@@ -26,6 +26,7 @@ Full configuration options:
 
         # Default configuration for extension with alias: "sonata_page"
         sonata_page:
+            skip_redirection: false # Skip asking Editor to redirect
             is_inline_edition_on:  false
             use_streamed_response:  false
             multisite:            ~ # Required
@@ -90,11 +91,11 @@ Full configuration options:
                         layout:               ~ # Required
                         mapping:              [] # Required
             templates_admin:
-                list:                       SonataPageBundle:PageAdmin:list.html.twig
-                tree:                       SonataPageBundle:PageAdmin:tree.html.twig
-                compose:                    SonataPageBundle:PageAdmin:compose.html.twig
-                compose_container_show:     SonataPageBundle:PageAdmin:compose_container_show.html.twig
-                select_site:                SonataPageBundle:PageAdmin:select_site.html.twig
+                list:                       "@SonataPage/PageAdmin/list.html.twig"
+                tree:                       "@SonataPage/PageAdmin/tree.html.twig"
+                compose:                    "@SonataPage/PageAdmin/compose.html.twig"
+                compose_container_show:     "@SonataPage/PageAdmin/compose_container_show.html.twig"
+                select_site:                "@SonataPage/PageAdmin/select_site.html.twig"
             page_defaults:
 
                 # Prototype

@@ -16,6 +16,7 @@ namespace Sonata\PageBundle\Tests;
 use Cocur\Slugify\Slugify;
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\SonataPageBundle;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Page extends \Sonata\PageBundle\Model\Page
 {
@@ -38,11 +39,11 @@ class SonataPageBundleTest extends TestCase
     public function testBoot($text, $expected): void
     {
         $bundle = new SonataPageBundle();
-        $container = $this->createMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects($this->exactly(1))->method('hasParameter')->will($this->returnValue(true));
         $container->expects($this->exactly(2))->method('getParameter')->will($this->returnCallback(function ($value) {
             if ('sonata.page.page.class' == $value) {
-                return 'Sonata\PageBundle\Tests\Page';
+                return Page::class;
             }
 
             if ('sonata.page.slugify_service' == $value) {

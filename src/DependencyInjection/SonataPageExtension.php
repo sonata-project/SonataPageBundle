@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\DependencyInjection;
 
 use Sonata\EasyExtendsBundle\Mapper\DoctrineCollector;
+use Sonata\PageBundle\Model\Template;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -73,6 +74,7 @@ class SonataPageExtension extends Extension
         $loader->load('http_kernel.xml');
         $loader->load('consumer.xml');
         $loader->load('validators.xml');
+        $loader->load('command.xml');
 
         $this->configureMultisite($container, $config);
         $this->configureCache($container, $config);
@@ -84,6 +86,7 @@ class SonataPageExtension extends Extension
         $container->setParameter('sonata.page.assets', $config['assets']);
         $container->setParameter('sonata.page.slugify_service', $config['slugify_service']);
 
+        $container->setParameter('sonata.page.skip_redirection', $config['skip_redirection']);
         $container->setParameter('sonata.page.is_inline_edition_on', $config['is_inline_edition_on']);
         $container->setParameter('sonata.page.hide_disabled_blocks', $config['hide_disabled_blocks']);
         $container->getDefinition('sonata.page.decorator_strategy')
@@ -142,6 +145,9 @@ class SonataPageExtension extends Extension
         $container->setParameter('sonata.page.admin.block.entity', $config['class']['block']);
         $container->setParameter('sonata.page.admin.snapshot.entity', $config['class']['snapshot']);
         $container->setParameter('sonata.page.admin.page.entity', $config['class']['page']);
+
+        $container->setParameter('sonata.page.router_auto_register.enabled', $config['router_auto_register']['enabled']);
+        $container->setParameter('sonata.page.router_auto_register.priority', $config['router_auto_register']['priority']);
     }
 
     /**
@@ -383,6 +389,10 @@ class SonataPageExtension extends Extension
                 $container->removeDefinition('sonata.page.site.selector.host_by_locale');
             }
         }
+
+        if ($container->hasAlias('sonata.page.site.selector')) {
+            $container->getAlias('sonata.page.site.selector')->setPublic(true);
+        }
     }
 
     /**
@@ -398,7 +408,7 @@ class SonataPageExtension extends Extension
         // add all templates to manager
         $definitions = [];
         foreach ($config['templates'] as $code => $info) {
-            $definition = new Definition('Sonata\PageBundle\Model\Template', [
+            $definition = new Definition(Template::class, [
                 $info['name'],
                 $info['path'],
                 $info['containers'],

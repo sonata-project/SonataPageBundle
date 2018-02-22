@@ -15,7 +15,12 @@ namespace Sonata\PageBundle\Tests\Page;
 
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\CmsManager\CmsPageManager;
+use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Model\Block as AbstractBlock;
+use Sonata\PageBundle\Model\BlockInteractorInterface;
+use Sonata\PageBundle\Model\PageBlockInterface;
+use Sonata\PageBundle\Model\PageInterface;
+use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Tests\Model\Page;
 use Sonata\PageBundle\Tests\Model\Site;
 
@@ -46,7 +51,7 @@ class CmsPageManagerTest extends TestCase
     public function setUp(): void
     {
         $this->blockInteractor = $this->getMockBlockInteractor();
-        $this->pageManager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
+        $this->pageManager = $this->createMock(PageManagerInterface::class);
         $this->manager = new CmsPageManager($this->pageManager, $this->blockInteractor);
     }
 
@@ -76,7 +81,7 @@ class CmsPageManagerTest extends TestCase
 
         $container = $this->manager->findContainer('newcontainer', $page);
 
-        $this->assertInstanceOf('Sonata\PageBundle\Model\PageBlockInterface', $container, 'should be a block');
+        $this->assertInstanceOf(PageBlockInterface::class, $container, 'should be a block');
         $this->assertEquals('newcontainer', $container->getSetting('code'));
     }
 
@@ -85,7 +90,7 @@ class CmsPageManagerTest extends TestCase
      */
     public function testGetPageWithUrl(): void
     {
-        $pageManager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
+        $pageManager = $this->createMock(PageManagerInterface::class);
 
         $pageManager->expects($this->any())->method('findOneBy')->will($this->returnValue(new Page()));
         $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->will($this->returnValue([]));
@@ -95,7 +100,7 @@ class CmsPageManagerTest extends TestCase
         $page = '/test';
         $site = new Site();
 
-        $this->assertInstanceOf('Sonata\PageBundle\Model\PageInterface', $manager->getPage($site, $page));
+        $this->assertInstanceOf(PageInterface::class, $manager->getPage($site, $page));
     }
 
     /**
@@ -103,10 +108,10 @@ class CmsPageManagerTest extends TestCase
      */
     public function testGetPageWithUrlException(): void
     {
-        $this->expectException(\Sonata\PageBundle\Exception\PageNotFoundException::class);
+        $this->expectException(PageNotFoundException::class);
         $this->expectExceptionMessage('Unable to find the page : url = /test');
 
-        $pageManager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
+        $pageManager = $this->createMock(PageManagerInterface::class);
 
         $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->will($this->returnValue([]));
 
@@ -126,7 +131,7 @@ class CmsPageManagerTest extends TestCase
      */
     public function testGetPageWithRouteName(): void
     {
-        $pageManager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
+        $pageManager = $this->createMock(PageManagerInterface::class);
 
         $pageManager->expects($this->any())->method('findOneBy')->will($this->returnValue(new Page()));
         $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->will($this->returnValue([]));
@@ -136,7 +141,7 @@ class CmsPageManagerTest extends TestCase
         $page = 'test';
         $site = new Site();
 
-        $this->assertInstanceOf('Sonata\PageBundle\Model\PageInterface', $manager->getPage($site, $page));
+        $this->assertInstanceOf(PageInterface::class, $manager->getPage($site, $page));
     }
 
     /**
@@ -144,10 +149,10 @@ class CmsPageManagerTest extends TestCase
      */
     public function testGetPageWithRouteNameException(): void
     {
-        $this->expectException(\Sonata\PageBundle\Exception\PageNotFoundException::class);
+        $this->expectException(PageNotFoundException::class);
         $this->expectExceptionMessage('Unable to find the page : url = /test');
 
-        $pageManager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
+        $pageManager = $this->createMock(PageManagerInterface::class);
 
         $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->will($this->returnValue([]));
 
@@ -167,7 +172,7 @@ class CmsPageManagerTest extends TestCase
      */
     public function testGetPageWithId(): void
     {
-        $pageManager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
+        $pageManager = $this->createMock(PageManagerInterface::class);
 
         $pageManager->expects($this->any())->method('findOneBy')->will($this->returnValue(new Page()));
         $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->will($this->returnValue([]));
@@ -177,7 +182,7 @@ class CmsPageManagerTest extends TestCase
         $page = 1;
         $site = new Site();
 
-        $this->assertInstanceOf('Sonata\PageBundle\Model\PageInterface', $manager->getPage($site, $page));
+        $this->assertInstanceOf(PageInterface::class, $manager->getPage($site, $page));
     }
 
     /**
@@ -185,10 +190,10 @@ class CmsPageManagerTest extends TestCase
      */
     public function testGetPageWithIdException(): void
     {
-        $this->expectException(\Sonata\PageBundle\Exception\PageNotFoundException::class);
+        $this->expectException(PageNotFoundException::class);
         $this->expectExceptionMessage('Unable to find the page : id = 1');
 
-        $pageManager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
+        $pageManager = $this->createMock(PageManagerInterface::class);
 
         $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->will($this->returnValue([]));
 
@@ -208,7 +213,7 @@ class CmsPageManagerTest extends TestCase
      */
     public function testGetPageWithoutParam(): void
     {
-        $pageManager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
+        $pageManager = $this->createMock(PageManagerInterface::class);
 
         $pageManager->expects($this->any())->method('findOneBy')->will($this->returnValue(new Page()));
         $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->will($this->returnValue([]));
@@ -218,7 +223,7 @@ class CmsPageManagerTest extends TestCase
         $page = null;
         $site = new Site();
 
-        $this->assertInstanceOf('Sonata\PageBundle\Model\PageInterface', $manager->getPage($site, $page));
+        $this->assertInstanceOf(PageInterface::class, $manager->getPage($site, $page));
     }
 
     /**
@@ -226,10 +231,10 @@ class CmsPageManagerTest extends TestCase
      */
     public function testGetPageWithoutParamException(): void
     {
-        $this->expectException(\Sonata\PageBundle\Exception\PageNotFoundException::class);
+        $this->expectException(PageNotFoundException::class);
         $this->expectExceptionMessage('Unable to retrieve the page');
 
-        $pageManager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
+        $pageManager = $this->createMock(PageManagerInterface::class);
 
         $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->will($this->returnValue([]));
 
@@ -258,7 +263,7 @@ class CmsPageManagerTest extends TestCase
             return $block;
         };
 
-        $mock = $this->createMock('Sonata\PageBundle\Model\BlockInteractorInterface');
+        $mock = $this->createMock(BlockInteractorInterface::class);
         $mock->expects($this->any())->method('createNewContainer')->will($this->returnCallback($callback));
 
         return $mock;

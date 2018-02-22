@@ -14,8 +14,10 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Page;
 
 use PHPUnit\Framework\TestCase;
+use Sonata\PageBundle\Model\Template;
 use Sonata\PageBundle\Page\TemplateManager;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Templating\StreamingEngineInterface;
 
 /**
@@ -30,7 +32,7 @@ class TemplateManagerTest extends TestCase
     {
         // GIVEN
         $template = $this->getMockTemplate('template');
-        $templating = $this->createMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
+        $templating = $this->createMock(EngineInterface::class);
         $manager = new TemplateManager($templating);
 
         // WHEN
@@ -46,7 +48,7 @@ class TemplateManagerTest extends TestCase
     public function testSetAllTemplates(): void
     {
         // GIVEN
-        $templating = $this->createMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
+        $templating = $this->createMock(EngineInterface::class);
         $manager = new TemplateManager($templating);
 
         $templates = [
@@ -69,7 +71,7 @@ class TemplateManagerTest extends TestCase
     public function testSetDefaultTemplateCode(): void
     {
         // GIVEN
-        $templating = $this->createMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
+        $templating = $this->createMock(EngineInterface::class);
         $manager = new TemplateManager($templating);
 
         // WHEN
@@ -87,8 +89,8 @@ class TemplateManagerTest extends TestCase
         // GIVEN
         $template = $this->getMockTemplate('template', 'path/to/template');
 
-        $response = $this->createMock('Symfony\Component\HttpFoundation\Response');
-        $templating = $this->createMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
+        $response = $this->createMock(Response::class);
+        $templating = $this->createMock(EngineInterface::class);
         $templating->expects($this->once())->method('renderResponse')->with($this->equalTo('path/to/template'))->will($this->returnValue($response));
 
         $manager = new TemplateManager($templating);
@@ -107,8 +109,8 @@ class TemplateManagerTest extends TestCase
     public function testRenderResponseWithNonExistingCode(): void
     {
         // GIVEN
-        $templating = $this->createMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
-        $templating->expects($this->once())->method('renderResponse')->with($this->equalTo('SonataPageBundle::layout.html.twig'));
+        $templating = $this->createMock(EngineInterface::class);
+        $templating->expects($this->once())->method('renderResponse')->with($this->equalTo('@SonataPage/layout.html.twig'));
         $manager = new TemplateManager($templating);
 
         // WHEN
@@ -124,8 +126,8 @@ class TemplateManagerTest extends TestCase
     public function testRenderResponseWithoutCode(): void
     {
         // GIVEN
-        $response = $this->createMock('Symfony\Component\HttpFoundation\Response');
-        $templating = $this->createMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
+        $response = $this->createMock(Response::class);
+        $templating = $this->createMock(EngineInterface::class);
         $templating->expects($this->once())->method('renderResponse')->with($this->equalTo('path/to/default'))->will($this->returnValue($response));
 
         $template = $this->getMockTemplate('template', 'path/to/default');
@@ -148,8 +150,8 @@ class TemplateManagerTest extends TestCase
         // GIVEN
         $template = $this->getMockTemplate('template', 'path/to/template');
 
-        $response = $this->createMock('Symfony\Component\HttpFoundation\Response');
-        $templating = $this->createMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
+        $response = $this->createMock(Response::class);
+        $templating = $this->createMock(EngineInterface::class);
         $templating->expects($this->once())->method('renderResponse')
             ->with(
                 $this->equalTo('path/to/template'),
@@ -179,7 +181,7 @@ class TemplateManagerTest extends TestCase
      */
     protected function getMockTemplate($name, $path = 'path/to/file')
     {
-        $template = $this->getMockbuilder('Sonata\PageBundle\Model\Template')->disableOriginalConstructor()->getMock();
+        $template = $this->getMockbuilder(Template::class)->disableOriginalConstructor()->getMock();
         $template->expects($this->any())->method('getName')->will($this->returnValue($name));
         $template->expects($this->any())->method('getPath')->will($this->returnValue($path));
 

@@ -13,7 +13,12 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Site;
 
+use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
+use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Request\SiteRequest;
+use Sonata\PageBundle\Site\HostPathByLocaleSiteSelector;
+use Sonata\SeoBundle\Seo\SeoPageInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
@@ -29,11 +34,11 @@ class HostPathByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
      */
     protected function setUp(): void
     {
-        $siteManager = $this->createMock('Sonata\PageBundle\Model\SiteManagerInterface');
-        $decoratorStrategy = $this->createMock('Sonata\PageBundle\CmsManager\DecoratorStrategyInterface');
-        $seoPage = $this->createMock('Sonata\SeoBundle\Seo\SeoPageInterface');
+        $siteManager = $this->createMock(SiteManagerInterface::class);
+        $decoratorStrategy = $this->createMock(DecoratorStrategyInterface::class);
+        $seoPage = $this->createMock(SeoPageInterface::class);
 
-        $this->siteSelector = $this->getMockBuilder('Sonata\PageBundle\Site\HostPathByLocaleSiteSelector')
+        $this->siteSelector = $this->getMockBuilder(HostPathByLocaleSiteSelector::class)
             ->setConstructorArgs([$siteManager, $decoratorStrategy, $seoPage])
             ->setMethods(['getSites'])
             ->getMock();
@@ -44,7 +49,7 @@ class HostPathByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
      */
     public function testHandleKernelRequestRedirectsToEn(): void
     {
-        $kernel = $this->createMock('Symfony\Component\HttpKernel\HttpKernelInterface');
+        $kernel = $this->createMock(HttpKernelInterface::class);
         $request = SiteRequest::create('http://www.example.com');
 
         // Ensure request locale is null
@@ -72,7 +77,7 @@ class HostPathByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
         $response = $event->getResponse();
 
         // Ensure the response was a redirect to the default site
-        $this->assertInstanceOf('Symfony\Component\HttpFoundation\RedirectResponse', $response);
+        $this->assertInstanceOf(RedirectResponse::class, $response);
 
         // Ensure the redirect url is for "/en"
         $this->assertEquals('/en', $response->getTargetUrl());
@@ -83,7 +88,7 @@ class HostPathByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
      */
     public function testHandleKernelRequestRedirectsToFr(): void
     {
-        $kernel = $this->createMock('Symfony\Component\HttpKernel\HttpKernelInterface');
+        $kernel = $this->createMock(HttpKernelInterface::class);
         $request = SiteRequest::create('http://www.example.com', 'GET', [], [], [], [
             'HTTP_ACCEPT_LANGUAGE' => 'fr-FR,fr;q=0.8,en-US;q=0.6,en;q=0.4',
         ]);
@@ -113,7 +118,7 @@ class HostPathByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
         $response = $event->getResponse();
 
         // Ensure the response was a redirect to the default site
-        $this->assertInstanceOf('Symfony\Component\HttpFoundation\RedirectResponse', $response);
+        $this->assertInstanceOf(RedirectResponse::class, $response);
 
         // Ensure the redirect url is for "/fr"
         $this->assertEquals('/fr', $response->getTargetUrl());

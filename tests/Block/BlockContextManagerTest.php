@@ -14,7 +14,11 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Block;
 
 use PHPUnit\Framework\TestCase;
+use Sonata\BlockBundle\Block\BlockContextInterface;
+use Sonata\BlockBundle\Block\BlockLoaderInterface;
+use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
 use Sonata\BlockBundle\Block\Service\AbstractBlockService;
+use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\PageBundle\Block\BlockContextManager;
 
 /**
@@ -26,19 +30,19 @@ class BlockContextManagerTest extends TestCase
     {
         $service = $this->getMockForAbstractClass(AbstractBlockService::class);
 
-        $blockLoader = $this->createMock('Sonata\BlockBundle\Block\BlockLoaderInterface');
+        $blockLoader = $this->createMock(BlockLoaderInterface::class);
 
-        $serviceManager = $this->createMock('Sonata\BlockBundle\Block\BlockServiceManagerInterface');
+        $serviceManager = $this->createMock(BlockServiceManagerInterface::class);
         $serviceManager->expects($this->once())->method('get')->will($this->returnValue($service));
 
-        $block = $this->createMock('Sonata\BlockBundle\Model\BlockInterface');
+        $block = $this->createMock(BlockInterface::class);
         $block->expects($this->once())->method('getSettings')->will($this->returnValue([]));
 
         $manager = new BlockContextManager($blockLoader, $serviceManager);
 
         $blockContext = $manager->get($block);
 
-        $this->assertInstanceOf('Sonata\BlockBundle\Block\BlockContextInterface', $blockContext);
+        $this->assertInstanceOf(BlockContextInterface::class, $blockContext);
 
         $this->assertEquals([
             'manager' => false,

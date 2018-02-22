@@ -45,7 +45,7 @@ class SnapshotController extends FOSRestController
      *
      * @ApiDoc(
      *  resource=true,
-     *  output={"class"="Sonata\DatagridBundle\Pager\PagerInterface", "groups"="sonata_api_read"}
+     *  output={"class"="Sonata\DatagridBundle\Pager\PagerInterface", "groups"={"sonata_api_read"}}
      * )
      *
      * @QueryParam(name="page", requirements="\d+", default="1", description="Page for snapshots list pagination")
@@ -55,7 +55,7 @@ class SnapshotController extends FOSRestController
      * @QueryParam(name="root", requirements="0|1", nullable=true, strict=true, description="Filter snapshots having no parent id")
      * @QueryParam(name="parent", requirements="\d+", nullable=true, strict=true, description="Get snapshots being child of given snapshots id")
      * @QueryParam(name="enabled", requirements="0|1", nullable=true, strict=true, description="Enabled/Disabled snapshots filter")
-     * @QueryParam(name="orderBy", requirements="ASC|DESC", nullable=true, strict=true, description="Order by array (key is field, value is direction)")
+     * @QueryParam(name="orderBy", map=true, requirements="ASC|DESC", nullable=true, strict=true, description="Order by array (key is field, value is direction)")
      *
      * @View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
      *
@@ -65,8 +65,6 @@ class SnapshotController extends FOSRestController
      */
     public function getSnapshotsAction(ParamFetcherInterface $paramFetcher)
     {
-        $this->setMapForOrderByParam($paramFetcher);
-
         $supportedCriteria = [
             'enabled' => '',
             'site' => '',
@@ -105,7 +103,7 @@ class SnapshotController extends FOSRestController
      *  requirements={
      *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="snapshot id"}
      *  },
-     *  output={"class"="Sonata\PageBundle\Model\SnapshotInterface", "groups"="sonata_api_read"},
+     *  output={"class"="Sonata\PageBundle\Model\SnapshotInterface", "groups"={"sonata_api_read"}},
      *  statusCodes={
      *      200="Returned when successful",
      *      404="Returned when snapshots is not found"

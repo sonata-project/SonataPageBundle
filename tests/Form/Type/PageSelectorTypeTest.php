@@ -15,6 +15,7 @@ namespace Sonata\PageBundle\Tests\Form\Type;
 
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Form\Type\PageSelectorType;
+use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Tests\Model\Page;
 use Sonata\PageBundle\Tests\Model\Site;
 use Symfony\Component\Form\Extension\Core\View\ChoiceView as LegacyChoiceView;
@@ -74,7 +75,7 @@ class PageSelectorTypeTest extends TestCase
 
     public function getPageManager()
     {
-        $manager = $this->createMock('Sonata\PageBundle\Model\PageManagerInterface');
+        $manager = $this->createMock(PageManagerInterface::class);
 
         $manager->expects($this->any())
             ->method('loadPages')

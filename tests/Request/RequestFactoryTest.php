@@ -15,6 +15,7 @@ namespace Sonata\PageBundle\Tests\Request;
 
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Request\RequestFactory;
+use Sonata\PageBundle\Request\SiteRequest;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Kernel;
 
@@ -40,31 +41,31 @@ class RequestFactoryTest extends TestCase
 
     public function testHostAndCreate(): void
     {
-        $this->assertInstanceOf('Symfony\Component\HttpFoundation\Request', RequestFactory::create('host', '/'));
-        $this->assertInstanceOf('Symfony\Component\HttpFoundation\Request', Request::create('/'));
+        $this->assertInstanceOf(Request::class, RequestFactory::create('host', '/'));
+        $this->assertInstanceOf(Request::class, Request::create('/'));
     }
 
     public function testHostAndCreateFromGlobals(): void
     {
-        $this->assertInstanceOf('Symfony\Component\HttpFoundation\Request', RequestFactory::createFromGlobals('host'));
-        $this->assertInstanceOf('Symfony\Component\HttpFoundation\Request', Request::create('/'));
+        $this->assertInstanceOf(Request::class, RequestFactory::createFromGlobals('host'));
+        $this->assertInstanceOf(Request::class, Request::create('/'));
     }
 
     public function testHostWithPathAndCreate(): void
     {
-        $this->assertInstanceOf('Sonata\PageBundle\Request\SiteRequest', RequestFactory::create('host_with_path', '/'));
+        $this->assertInstanceOf(SiteRequest::class, RequestFactory::create('host_with_path', '/'));
 
         if ($this->hasFactory) {
-            $this->assertInstanceOf('Sonata\PageBundle\Request\SiteRequest', Request::create('/'));
+            $this->assertInstanceOf(SiteRequest::class, Request::create('/'));
         }
     }
 
     public function testHostWithPathAndCreateFromGlobals(): void
     {
-        $this->assertInstanceOf('Sonata\PageBundle\Request\SiteRequest', RequestFactory::createFromGlobals('host_with_path'));
+        $this->assertInstanceOf(SiteRequest::class, RequestFactory::createFromGlobals('host_with_path'));
 
         if ($this->hasFactory) {
-            $this->assertInstanceOf('Sonata\PageBundle\Request\SiteRequest', Request::create('/'));
+            $this->assertInstanceOf(SiteRequest::class, Request::create('/'));
         }
     }
 

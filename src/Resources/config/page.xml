@@ -51,19 +51,20 @@
             <argument type="service" id="sonata.page.cms_manager_selector"/>
             <argument type="service" id="sonata.page.page_service_manager"/>
             <argument type="service" id="sonata.page.decorator_strategy"/>
-            <argument type="service" id="templating"/>
+            <argument type="service" id="sonata.templating"/>
+            <argument>%sonata.page.skip_redirection%</argument>
         </service>
         <service id="sonata.page.request_listener" class="%sonata.page.request_listener.class%">
-            <tag name="kernel.event_listener" event="kernel.request" method="onCoreRequest" priority="30"/>
+            <tag name="kernel.event_listener" event="kernel.request" method="onCoreRequest" priority="4"/>
             <argument type="service" id="sonata.page.cms_manager_selector"/>
             <argument type="service" id="sonata.page.site.selector"/>
             <argument type="service" id="sonata.page.decorator_strategy"/>
         </service>
-        <service id="sonata.page.cms_manager_selector" class="%sonata.page.cms_manager_selector.class%">
+        <service id="sonata.page.cms_manager_selector" class="%sonata.page.cms_manager_selector.class%" public="true">
             <tag name="kernel.event_listener" event="security.interactive_login" method="onSecurityInteractiveLogin"/>
             <argument type="service" id="service_container"/>
         </service>
-        <service id="sonata.page.cms.page" class="%sonata.page.cms_manager.page.class%">
+        <service id="sonata.page.cms.page" class="%sonata.page.cms_manager.page.class%" public="true">
             <tag name="sonata.page.manager" type="page"/>
             <argument type="service" id="sonata.page.manager.page"/>
             <argument type="service" id="sonata.page.block_interactor"/>
@@ -85,25 +86,25 @@
             />
             -->
         </service>
-        <service id="sonata.page.router" class="%sonata.page.router.class%">
+        <service id="sonata.page.router" class="%sonata.page.router.class%" public="true">
             <argument type="service" id="sonata.page.cms_manager_selector"/>
             <argument type="service" id="sonata.page.site.selector"/>
             <argument type="service" id="router.default"/>
         </service>
-        <service id="sonata.page.route.page.generator" class="%sonata.page.route.page.generator.class%">
+        <service id="sonata.page.route.page.generator" class="%sonata.page.route.page.generator.class%" public="true">
             <argument type="service" id="router.default"/>
             <argument type="service" id="sonata.page.manager.page"/>
             <argument type="service" id="sonata.page.decorator_strategy"/>
             <argument type="service" id="sonata.page.kernel.exception_listener"/>
         </service>
-        <service id="sonata.page.template_manager" class="%sonata.page.template.manager.class%">
-            <argument type="service" id="templating"/>
+        <service id="sonata.page.template_manager" class="%sonata.page.template.manager.class%" public="true">
+            <argument type="service" id="sonata.templating"/>
             <argument type="collection"/>
         </service>
-        <service id="sonata.page.page_service_manager" class="%sonata.page.service.manager.class%">
+        <service id="sonata.page.page_service_manager" class="%sonata.page.service.manager.class%" public="true">
             <argument type="service" id="router"/>
         </service>
-        <service id="sonata.page.service.default" class="%sonata.page.service.default.class%">
+        <service id="sonata.page.service.default" class="%sonata.page.service.default.class%" public="true">
             <tag name="sonata.page"/>
             <argument>Default</argument>
             <argument type="service" id="sonata.page.template_manager"/>

@@ -13,14 +13,26 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Entity;
 
+use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\DBAL\Connection;
+use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use PHPUnit\Framework\TestCase;
+use Sonata\PageBundle\Entity\BaseSnapshot;
 use Sonata\PageBundle\Entity\SnapshotManager;
+use Sonata\PageBundle\Model\PageInterface;
+use Sonata\PageBundle\Model\SnapshotInterface;
+use Sonata\PageBundle\Model\SnapshotPageProxyFactoryInterface;
+use Sonata\PageBundle\Model\SnapshotPageProxyInterface;
+use Sonata\PageBundle\Model\TransformerInterface;
 
 class SnapshotManagerTest extends TestCase
 {
     public function testSetTemplates(): void
     {
-        $manager = $this->getMockBuilder('Sonata\PageBundle\Entity\SnapshotManager')
+        $manager = $this->getMockBuilder(SnapshotManager::class)
             // we need to set at least one method, which does not need to exist!
             // otherwise all methods will be mocked and could not be used!
             // we need the real 'setTemplates' method here!
@@ -40,7 +52,7 @@ class SnapshotManagerTest extends TestCase
 
     public function testGetTemplates(): void
     {
-        $manager = $this->getMockBuilder('Sonata\PageBundle\Entity\SnapshotManager')
+        $manager = $this->getMockBuilder(SnapshotManager::class)
             ->setMethods([
                 'setTemplates',
             ])
@@ -58,7 +70,7 @@ class SnapshotManagerTest extends TestCase
 
     public function testGetTemplate(): void
     {
-        $manager = $this->getMockBuilder('Sonata\PageBundle\Entity\SnapshotManager')
+        $manager = $this->getMockBuilder(SnapshotManager::class)
             ->setMethods([
                 'setTemplates',
             ])
@@ -76,7 +88,7 @@ class SnapshotManagerTest extends TestCase
 
     public function testGetTemplatesException(): void
     {
-        $manager = $this->getMockBuilder('Sonata\PageBundle\Entity\SnapshotManager')
+        $manager = $this->getMockBuilder(SnapshotManager::class)
             ->setMethods([
                 'setTemplates',
             ])
@@ -179,14 +191,14 @@ class SnapshotManagerTest extends TestCase
     public function testEnableSnapshots(): void
     {
         // Given
-        $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
+        $page = $this->createMock(PageInterface::class);
         $page->expects($this->once())->method('getId')->will($this->returnValue(456));
 
-        $snapshot = $this->createMock('Sonata\PageBundle\Tests\Entity\Snapshot');
+        $snapshot = $this->createMock(Snapshot::class);
         $snapshot->expects($this->once())->method('getId')->will($this->returnValue(123));
         $snapshot->expects($this->once())->method('getPage')->will($this->returnValue($page));
 
-        $connection = $this->getMockBuilder('Doctrine\DBAL\Connection')
+        $connection = $this->getMockBuilder(Connection::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -197,7 +209,7 @@ class SnapshotManagerTest extends TestCase
             ->method('query')
             ->with(sprintf("UPDATE page_snapshot SET publication_date_end = '%s' WHERE id NOT IN(123) AND page_id IN (456)", $date->format('Y-m-d H:i:s')));
 
-        $em = $this->getMockBuilder('Doctrine\ORM\EntityManager')
+        $em = $this->getMockBuilder(EntityManager::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -205,7 +217,7 @@ class SnapshotManagerTest extends TestCase
         $em->expects($this->once())->method('flush');
         $em->expects($this->once())->method('getConnection')->will($this->returnValue($connection));
 
-        $manager = $this->getMockBuilder('Sonata\PageBundle\Entity\SnapshotManager')
+        $manager = $this->getMockBuilder(SnapshotManager::class)
             ->disableOriginalConstructor()
             ->setMethods(['getEntityManager', 'getTableName'])
             ->getMock();
@@ -219,15 +231,15 @@ class SnapshotManagerTest extends TestCase
 
     public function testCreateSnapshotPageProxy(): void
     {
-        $proxyInterface = $this->createMock('Sonata\PageBundle\Model\SnapshotPageProxyInterface');
+        $proxyInterface = $this->createMock(SnapshotPageProxyInterface::class);
 
-        $snapshotProxyFactory = $this->createMock('Sonata\PageBundle\Model\SnapshotPageProxyFactoryInterface');
+        $snapshotProxyFactory = $this->createMock(SnapshotPageProxyFactoryInterface::class);
 
-        $registry = $this->createMock('Doctrine\Common\Persistence\ManagerRegistry');
-        $manager = new SnapshotManager('Sonata\PageBundle\Entity\BaseSnapshot', $registry, [], $snapshotProxyFactory);
+        $registry = $this->createMock(ManagerRegistry::class);
+        $manager = new SnapshotManager(BaseSnapshot::class, $registry, [], $snapshotProxyFactory);
 
-        $transformer = $this->createMock('Sonata\PageBundle\Model\TransformerInterface');
-        $snapshot = $this->createMock('Sonata\PageBundle\Model\SnapshotInterface');
+        $transformer = $this->createMock(TransformerInterface::class);
+        $snapshot = $this->createMock(SnapshotInterface::class);
 
         $snapshotProxyFactory->expects($this->once())->method('create')
             ->with($manager, $transformer, $snapshot)
@@ -242,13 +254,13 @@ class SnapshotManagerTest extends TestCase
     public function testEnableSnapshotsWhenNoSnapshots(): void
     {
         // Given
-        $connection = $this->getMockBuilder('Doctrine\DBAL\Connection')
+        $connection = $this->getMockBuilder(Connection::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $connection->expects($this->never())->method('query');
 
-        $em = $this->getMockBuilder('Doctrine\ORM\EntityManager')
+        $em = $this->getMockBuilder(EntityManager::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -256,7 +268,7 @@ class SnapshotManagerTest extends TestCase
         $em->expects($this->never())->method('flush');
         $em->expects($this->never())->method('getConnection');
 
-        $manager = $this->getMockBuilder('Sonata\PageBundle\Entity\SnapshotManager')
+        $manager = $this->getMockBuilder(SnapshotManager::class)
             ->disableOriginalConstructor()
             ->setMethods(['getEntityManager', 'getTableName'])
             ->getMock();
@@ -270,12 +282,12 @@ class SnapshotManagerTest extends TestCase
 
     protected function getSnapshotManager($qbCallback)
     {
-        $query = $this->getMockForAbstractClass('Doctrine\ORM\AbstractQuery', [], '', false, true, true, ['execute']);
+        $query = $this->getMockForAbstractClass(AbstractQuery::class, [], '', false, true, true, ['execute']);
         $query->expects($this->any())->method('execute')->will($this->returnValue(true));
 
-        $qb = $this->getMockBuilder('Doctrine\ORM\QueryBuilder')
+        $qb = $this->getMockBuilder(QueryBuilder::class)
             ->setConstructorArgs([
-                $this->getMockBuilder('Doctrine\ORM\EntityManager')
+                $this->getMockBuilder(EntityManager::class)
                     ->disableOriginalConstructor()
                     ->getMock(),
             ])
@@ -287,17 +299,17 @@ class SnapshotManagerTest extends TestCase
 
         $qbCallback($qb);
 
-        $repository = $this->getMockBuilder('Doctrine\ORM\EntityRepository')->disableOriginalConstructor()->getMock();
+        $repository = $this->getMockBuilder(EntityRepository::class)->disableOriginalConstructor()->getMock();
         $repository->expects($this->any())->method('createQueryBuilder')->will($this->returnValue($qb));
 
-        $em = $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock();
+        $em = $this->getMockBuilder(EntityManager::class)->disableOriginalConstructor()->getMock();
         $em->expects($this->any())->method('getRepository')->will($this->returnValue($repository));
 
-        $registry = $this->createMock('Doctrine\Common\Persistence\ManagerRegistry');
+        $registry = $this->createMock(ManagerRegistry::class);
         $registry->expects($this->any())->method('getManagerForClass')->will($this->returnValue($em));
 
-        $snapshotProxyFactory = $this->createMock('Sonata\PageBundle\Model\SnapshotPageProxyFactoryInterface');
+        $snapshotProxyFactory = $this->createMock(SnapshotPageProxyFactoryInterface::class);
 
-        return new SnapshotManager('Sonata\PageBundle\Entity\BaseSnapshot', $registry, [], $snapshotProxyFactory);
+        return new SnapshotManager(BaseSnapshot::class, $registry, [], $snapshotProxyFactory);
     }
 }

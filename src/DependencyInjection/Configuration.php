@@ -36,6 +36,14 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $node = $treeBuilder->root('sonata_page')->children();
 
+        $routerAutoRegisterInfo = <<<'EOF'
+Automatically add 'sonata.page.router' service to the index of 'cmf_routing.router' chain router
+
+Examples:
+enabled:  true      Enable auto-registration
+priority: 150       The priority
+EOF;
+
         $ignoreRoutePatternsInfo = <<<'EOF'
 (.*)admin(.*)       ignore admin route, i.e. route containing 'admin'
 ^_(.*)              ignore Symfony routes
@@ -65,6 +73,10 @@ You can use %kernel.debug%, if you want to publish in dev mode, but not in prod.
 EOF;
 
         $node
+            ->scalarNode('skip_redirection')
+                ->info('To skip asking Editor to redirect')
+                ->defaultFalse()
+            ->end()
             ->scalarNode('is_inline_edition_on')
                 ->defaultFalse()
             ->end()
@@ -81,6 +93,18 @@ EOF;
                 ->validate()
                     ->ifNotInArray(['host', 'host_by_locale', 'host_with_path', 'host_with_path_by_locale'])
                     ->thenInvalid('Invalid multisite configuration %s. For more information, see https://sonata-project.org/bundles/page/master/doc/reference/multisite.html')
+                ->end()
+            ->end()
+            ->arrayNode('router_auto_register')
+                ->info($routerAutoRegisterInfo)
+                ->addDefaultsIfNotSet()
+                ->children()
+                    ->booleanNode('enabled')
+                        ->defaultValue(false)
+                    ->end()
+                    ->integerNode('priority')
+                        ->defaultValue(150)
+                    ->end()
                 ->end()
             ->end()
             ->arrayNode('ignore_route_patterns')
@@ -253,23 +277,23 @@ EOF;
                 ->addDefaultsIfNotSet()
                 ->children()
                     ->scalarNode('list')
-                        ->defaultValue('SonataPageBundle:PageAdmin:list.html.twig')
+                        ->defaultValue('@SonataPage/PageAdmin/list.html.twig')
                         ->cannotBeEmpty()
                     ->end()
                     ->scalarNode('tree')
-                        ->defaultValue('SonataPageBundle:PageAdmin:tree.html.twig')
+                        ->defaultValue('@SonataPage/PageAdmin/tree.html.twig')
                         ->cannotBeEmpty()
                     ->end()
                     ->scalarNode('compose')
-                        ->defaultValue('SonataPageBundle:PageAdmin:compose.html.twig')
+                        ->defaultValue('@SonataPage/PageAdmin/compose.html.twig')
                         ->cannotBeEmpty()
                     ->end()
                     ->scalarNode('compose_container_show')
-                        ->defaultValue('SonataPageBundle:PageAdmin:compose_container_show.html.twig')
+                        ->defaultValue('@SonataPage/PageAdmin/compose_container_show.html.twig')
                         ->cannotBeEmpty()
                     ->end()
                     ->scalarNode('select_site')
-                        ->defaultValue('SonataPageBundle:PageAdmin:select_site.html.twig')
+                        ->defaultValue('@SonataPage/PageAdmin/select_site.html.twig')
                         ->cannotBeEmpty()
                     ->end()
                 ->end()

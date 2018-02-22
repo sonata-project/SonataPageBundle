@@ -9,7 +9,7 @@ file that was distributed with this source code.
 
 #}
 
-{% extends 'SonataAdminBundle:CRUD:action.html.twig' %}
+{% extends '@SonataAdmin/CRUD/action.html.twig' %}
 
 {% block title %}
     {{ "title_edit"|trans({'%name%': admin.toString(object)|truncate(15) }, 'SonataAdminBundle') }}
@@ -26,7 +26,7 @@ file that was distributed with this source code.
         <h2>{{ 'page.compose_page'|trans({}, 'SonataPageBundle') }} "{{ page.name }}" <small>[{{ 'page.compose_template_label'|trans({}, 'SonataPageBundle') }}: <b>{{ template.name }}</b>]</small></h2>
 
         {% if containers|length == 0 %}
-            {% include 'SonataPageBundle:PageAdmin:compose_hint.html.twig' %}
+            {% include '@SonataPage/PageAdmin/compose_hint.html.twig' %}
         {% else %}
             <div class="row row-fluid">
                 <div class="col-md-4 span4">

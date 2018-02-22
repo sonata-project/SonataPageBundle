@@ -51,20 +51,31 @@ class ResponseListener
     protected $templating;
 
     /**
+     * @var bool
+     */
+    private $skipRedirection;
+
+    /**
      * @param CmsManagerSelectorInterface $cmsSelector        CMS manager selector
      * @param PageServiceManagerInterface $pageServiceManager Page service manager
      * @param DecoratorStrategyInterface  $decoratorStrategy  Decorator strategy
      * @param EngineInterface             $templating         The template engine
+     * @param bool                        $skipRedirection    To skip the redirection by configuration
+     *
+     * NEXT_MAJOR: Remove default value for $skipRedirection
      */
-    public function __construct(CmsManagerSelectorInterface $cmsSelector,
-                                PageServiceManagerInterface $pageServiceManager,
-                                DecoratorStrategyInterface $decoratorStrategy,
-                                EngineInterface $templating)
-    {
+    public function __construct(
+        CmsManagerSelectorInterface $cmsSelector,
+        PageServiceManagerInterface $pageServiceManager,
+        DecoratorStrategyInterface $decoratorStrategy,
+        EngineInterface $templating,
+        $skipRedirection = false
+    ) {
         $this->cmsSelector = $cmsSelector;
         $this->pageServiceManager = $pageServiceManager;
         $this->decoratorStrategy = $decoratorStrategy;
         $this->templating = $templating;
+        $this->skipRedirection = $skipRedirection;
     }
 
     /**
@@ -92,8 +103,13 @@ class ResponseListener
         $page = $cms->getCurrentPage();
 
         // display a validation page before redirecting, so the editor can edit the current page
-        if ($page && $response->isRedirection() && $this->cmsSelector->isEditor() && !$request->get('_sonata_page_skip')) {
-            $response = new Response($this->templating->render('SonataPageBundle:Page:redirect.html.twig', [
+        if (
+            $page && $response->isRedirection() &&
+            $this->cmsSelector->isEditor() &&
+            !$request->get('_sonata_page_skip') &&
+            !$this->skipRedirection
+        ) {
+            $response = new Response($this->templating->render('@SonataPage/Page/redirect.html.twig', [
                 'response' => $response,
                 'page' => $page,
             ]));

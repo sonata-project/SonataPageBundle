@@ -17,6 +17,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Block\Service\AbstractAdminBlockService;
 use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\CoreBundle\Form\Type\ImmutableArrayType;
 use Sonata\CoreBundle\Model\Metadata;
 use Sonata\PageBundle\Model\Page;
 use Sonata\PageBundle\Model\PageManagerInterface;
@@ -50,10 +51,22 @@ class PageListBlockService extends AbstractAdminBlockService
      */
     public function buildEditForm(FormMapper $formMapper, BlockInterface $block): void
     {
-        $formMapper->add('settings', 'sonata_type_immutable_array', [
+        $formMapper->add('settings', ImmutableArrayType::class, [
             'keys' => [
                 ['title', TextType::class, [
                     'label' => 'form.label_title',
+                    'required' => false,
+                ]],
+                ['translation_domain', TextType::class, [
+                    'label' => 'form.label_translation_domain',
+                    'required' => false,
+                ]],
+                ['icon', TextType::class, [
+                    'label' => 'form.label_icon',
+                    'required' => false,
+                ]],
+                ['class', TextType::class, [
+                    'label' => 'form.label_class',
                     'required' => false,
                 ]],
                 ['mode', ChoiceType::class, [
@@ -98,8 +111,11 @@ class PageListBlockService extends AbstractAdminBlockService
     {
         $resolver->setDefaults([
             'mode' => 'public',
-            'title' => 'List Pages',
-            'template' => 'SonataPageBundle:Block:block_pagelist.html.twig',
+            'title' => null,
+            'translation_domain' => null,
+            'icon' => 'fa fa-globe',
+            'class' => null,
+            'template' => '@SonataPage/Block/block_pagelist.html.twig',
         ]);
     }
 

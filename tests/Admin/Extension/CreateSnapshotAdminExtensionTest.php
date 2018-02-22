@@ -14,18 +14,22 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Admin\Extension;
 
 use PHPUnit\Framework\TestCase;
+use Sonata\AdminBundle\Admin\AdminInterface;
+use Sonata\NotificationBundle\Backend\BackendInterface;
 use Sonata\PageBundle\Admin\Extension\CreateSnapshotAdminExtension;
+use Sonata\PageBundle\Model\PageBlockInterface;
+use Sonata\PageBundle\Model\PageInterface;
 
 class CreateSnapshotAdminExtensionTest extends TestCase
 {
     public function testPostUpdateOnPage(): void
     {
-        $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
+        $page = $this->createMock(PageInterface::class);
         $page->expects($this->once())->method('getId')->will($this->returnValue(42));
 
-        $admin = $this->createMock('Sonata\AdminBundle\Admin\AdminInterface');
+        $admin = $this->createMock(AdminInterface::class);
 
-        $backend = $this->createMock('Sonata\NotificationBundle\Backend\BackendInterface');
+        $backend = $this->createMock(BackendInterface::class);
         $backend->expects($this->once())->method('createAndPublish')->with(
             'sonata.page.create_snapshot',
             ['pageId' => 42]
@@ -37,12 +41,12 @@ class CreateSnapshotAdminExtensionTest extends TestCase
 
     public function testPostPersistOnPage(): void
     {
-        $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
+        $page = $this->createMock(PageInterface::class);
         $page->expects($this->once())->method('getId')->will($this->returnValue(42));
 
-        $admin = $this->createMock('Sonata\AdminBundle\Admin\AdminInterface');
+        $admin = $this->createMock(AdminInterface::class);
 
-        $backend = $this->createMock('Sonata\NotificationBundle\Backend\BackendInterface');
+        $backend = $this->createMock(BackendInterface::class);
         $backend->expects($this->once())->method('createAndPublish')->with(
             'sonata.page.create_snapshot',
             ['pageId' => 42]
@@ -54,15 +58,15 @@ class CreateSnapshotAdminExtensionTest extends TestCase
 
     public function testPostUpdateOnBlock(): void
     {
-        $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
+        $page = $this->createMock(PageInterface::class);
         $page->expects($this->once())->method('getId')->will($this->returnValue(42));
 
-        $block = $this->createMock('Sonata\PageBundle\Model\PageBlockInterface');
+        $block = $this->createMock(PageBlockInterface::class);
         $block->expects($this->once())->method('getPage')->will($this->returnValue($page));
 
-        $admin = $this->createMock('Sonata\AdminBundle\Admin\AdminInterface');
+        $admin = $this->createMock(AdminInterface::class);
 
-        $backend = $this->createMock('Sonata\NotificationBundle\Backend\BackendInterface');
+        $backend = $this->createMock(BackendInterface::class);
         $backend->expects($this->once())->method('createAndPublish')->with(
             'sonata.page.create_snapshot',
             ['pageId' => 42]
@@ -74,15 +78,15 @@ class CreateSnapshotAdminExtensionTest extends TestCase
 
     public function testPostPersistOnBlock(): void
     {
-        $page = $this->createMock('Sonata\PageBundle\Model\PageInterface');
+        $page = $this->createMock(PageInterface::class);
         $page->expects($this->once())->method('getId')->will($this->returnValue(42));
 
-        $block = $this->createMock('Sonata\PageBundle\Model\PageBlockInterface');
+        $block = $this->createMock(PageBlockInterface::class);
         $block->expects($this->once())->method('getPage')->will($this->returnValue($page));
 
-        $admin = $this->createMock('Sonata\AdminBundle\Admin\AdminInterface');
+        $admin = $this->createMock(AdminInterface::class);
 
-        $backend = $this->createMock('Sonata\NotificationBundle\Backend\BackendInterface');
+        $backend = $this->createMock(BackendInterface::class);
         $backend->expects($this->once())->method('createAndPublish')->with(
             'sonata.page.create_snapshot',
             ['pageId' => 42]

@@ -17,9 +17,13 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Block\Service\AbstractAdminBlockService;
 use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\CoreBundle\Form\Type\ImmutableArrayType;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Exception\PageNotFoundException;
+use Sonata\PageBundle\Form\Type\PageSelectorType;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Templating\EngineInterface;
@@ -88,24 +92,32 @@ class ChildrenPagesBlockService extends AbstractAdminBlockService
      */
     public function buildEditForm(FormMapper $formMapper, BlockInterface $block): void
     {
-        $formMapper->add('settings', 'sonata_type_immutable_array', [
+        $formMapper->add('settings', ImmutableArrayType::class, [
             'keys' => [
-                ['title', 'text', [
+                ['title', TextType::class, [
                   'required' => false,
                     'label' => 'form.label_title',
                 ]],
-                ['current', 'checkbox', [
+                ['translation_domain', TextType::class, [
+                    'label' => 'form.label_translation_domain',
+                    'required' => false,
+                ]],
+                ['icon', TextType::class, [
+                    'label' => 'form.label_icon',
+                    'required' => false,
+                ]],
+                ['current', CheckboxType::class, [
                   'required' => false,
                   'label' => 'form.label_current',
                 ]],
-                ['pageId', 'sonata_page_selector', [
+                ['pageId', PageSelectorType::class, [
                     'model_manager' => $formMapper->getAdmin()->getModelManager(),
                     'class' => $formMapper->getAdmin()->getClass(),
                     'site' => $block->getPage()->getSite(),
                     'required' => false,
                     'label' => 'form.label_page',
                 ]],
-                ['class', 'text', [
+                ['class', TextType::class, [
                   'required' => false,
                   'label' => 'form.label_class',
                 ]],
@@ -130,9 +142,11 @@ class ChildrenPagesBlockService extends AbstractAdminBlockService
         $resolver->setDefaults([
             'current' => true,
             'pageId' => null,
-            'title' => '',
-            'class' => '',
-            'template' => 'SonataPageBundle:Block:block_core_children_pages.html.twig',
+            'title' => null,
+            'translation_domain' => null,
+            'icon' => null,
+            'class' => null,
+            'template' => '@SonataPage/Block/block_core_children_pages.html.twig',
         ]);
     }
 

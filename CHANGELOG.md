@@ -2,6 +2,33 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.7.1](https://github.com/sonata-project/SonataPageBundle/compare/3.7.0...3.7.1) - 2018-01-07
+### Changed
+- The internal page name is not used as a seo title fallback anymore
+- make services explicit public
+ 
+### Fixed
+- Fix for getRuntime on Symfony older than 3.4
+- Fixed missing import
+- Lowered page request listener to make sure it's triggered behind the firewall listener
+- Fixed template choices in BlockAdmin
+
+## [3.7.0](https://github.com/sonata-project/SonataPageBundle/compare/3.6.0...3.7.0) - 2017-12-12
+### Added
+- Added Russian translations
+- Add Symfony 4 compatibility
+- Added new configuration `skip_redirection` to skip asking Editor to redirect
+
+### Changed
+- make services explicit public
+
+### Fixed
+- compatibility with Twig 2.0 was improved
+- Fixed wrong route in pagelist block
+
+### Removed
+- Removed old form alias usage
+
 ## [3.6.0](https://github.com/sonata-project/SonataPageBundle/compare/3.5.2...3.6.0) - 2017-11-14
 ### Fixed
 - use new sf3 choices structure

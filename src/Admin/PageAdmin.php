@@ -270,7 +270,7 @@ class PageAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
-            ->add('hybrid', 'text', ['template' => 'SonataPageBundle:PageAdmin:field_hybrid.html.twig'])
+            ->add('hybrid', 'text', ['template' => '@SonataPage/PageAdmin/field_hybrid.html.twig'])
             ->addIdentifier('name')
             ->add('type')
             ->add('pageAlias')

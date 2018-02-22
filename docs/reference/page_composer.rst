@@ -9,7 +9,7 @@ Configure
    default_template: default
    templates:
        default:
-           path: 'ApplicationSonataPageBundle::demo_layout.html.twig'
+           path: '@ApplicationSonataPage/demo_layout.html.twig'
            name: 'default'
            containers:
                header:
@@ -42,7 +42,7 @@ Configure
                  F: footer
 
        2columns:
-           path: 'ApplicationSonataPageBundle::demo_2columns_layout.html.twig'
+           path: '@ApplicationSonataPage/demo_2columns_layout.html.twig'
            name: '2 columns layout'
            inherits_containers: default
            containers:
@@ -84,7 +84,7 @@ Configure
                   F: footer
 
        3columns:
-           path: 'ApplicationSonataPageBundle::demo_3columns_layout.html.twig'
+           path: '@ApplicationSonataPage/demo_3columns_layout.html.twig'
            name: '3 columns layout'
            containers:
                left_col:
@@ -148,8 +148,8 @@ If you have added some custom templates to a block for the ``SonataBlockBundle``
    sonata_block:
           acme.demo.block.demo:
               templates:
-                 - { name: 'Simple', template: 'AcmeDemoBundle:Block:demo_simple.html.twig' }
-                 - { name: 'Big',    template: 'AcmeDemoBundle:Block:demo_big.html.twig' }
+                 - { name: 'Simple', template: '@AcmeDemo/Block/demo_simple.html.twig' }
+                 - { name: 'Big',    template: '@AcmeDemo/Block/demo_big.html.twig' }
 
 Javascript
 ----------

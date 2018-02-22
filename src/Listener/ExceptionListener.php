@@ -163,7 +163,7 @@ class ExceptionListener
             $creatable = !$event->getRequest()->get('_route') && $this->decoratorStrategy->isRouteUriDecorable($pathInfo);
 
             if ($creatable) {
-                $response = new Response($this->templating->render('SonataPageBundle:Page:create.html.twig', [
+                $response = new Response($this->templating->render('@SonataPage/Page/create.html.twig', [
                     'pathInfo' => $pathInfo,
                     'site' => $this->siteSelector->retrieve(),
                     'creatable' => $creatable,
@@ -190,7 +190,7 @@ class ExceptionListener
      */
     private function handleInternalError(GetResponseForExceptionEvent $event): void
     {
-        $content = $this->templating->render('SonataPageBundle::internal_error.html.twig', [
+        $content = $this->templating->render('@SonataPage/internal_error.html.twig', [
             'exception' => $event->getException(),
         ]);
 
