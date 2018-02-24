@@ -2,6 +2,32 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.8.0](https://github.com/sonata-project/SonataPageBundle/compare/3.7.1...3.8.0) - 2018-02-23
+### Added
+- added block title translation domain option
+- added block icon option
+- added block class option
+- Added auto-registration sonata.page.router to cmf_routing.router service
+
+### Changed
+- Switch all templates references to Twig namespaced syntax
+- Switch from templating service to sonata.templating
+- Remove default template from exception list
+- Use default template in page create template
+- Added styling to page create button
+- Allow Slugify ^3.0
+
+### Fixed
+- Replaced service names for field types by classnames.
+- Commands not working on symfony4
+- sonata.page.site.selector is public
+- forward-compatibility with strict mode
+
+### Removed
+- Removed default title from blocks
+- Removed old `sonata-` classes from templates
+- Removed compatibility with older versions of FOSRestBundle (<2.1)
+
 ## [3.7.1](https://github.com/sonata-project/SonataPageBundle/compare/3.7.0...3.7.1) - 2018-01-07
 ### Changed
 - The internal page name is not used as a seo title fallback anymore
