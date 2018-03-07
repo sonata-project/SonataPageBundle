@@ -1,14 +1,6 @@
 /**
- *
- * This file is part of the Sonata package.
- *
- * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
+ * PageComposer plugin.
  */
-
 (function ($, global) {
 
     /**
@@ -573,36 +565,32 @@
                         'value': !enabled
                     },
                     success: function (resp) {
-                        if (resp.status && resp.status === 'OK') {
-                            $childBlock.attr('data-block-enabled', enabled ? "0" : "1");
-                            enabled = !enabled;
-                            $switchButton.toggleClass('bg-yellow bg-green');
-                            $switchBtnIcon.toggleClass('fa-toggle-off fa-toggle-on');
+                        $childBlock.attr('data-block-enabled', enabled ? "0" : "1");
+                        enabled = !enabled;
+                        $switchButton.toggleClass('bg-yellow bg-green');
+                        $switchBtnIcon.toggleClass('fa-toggle-off fa-toggle-on');
 
-                            if (enabled) {
-                                $switchButton.html($switchLblDsbl);
-                            } else {
-                                $switchButton.html($switchLblEnbl);
-                            }
-
-                            $switchLblSm.toggleClass('bg-yellow bg-green');
-                            $switchLblIcon.toggleClass('fa-times fa-check');
-
-                            if ($childBlock.has('form')) {
-                                var $form   = $childBlock.find('form'),
-                                    $inputs = $form.find('input');
-
-                                $inputs.each(function () {
-                                    var $formControl    = $(this),
-                                        formControlName = $formControl.attr('name');
-
-                                    if (self.isFormControlTypeByName(formControlName, 'enabled')) {
-                                        $formControl.val(parseInt(!enabled));
-                                    }
-                                });
-                            }
+                        if (enabled) {
+                            $switchButton.html($switchLblDsbl);
                         } else {
-                            self.containerNotification('composer_status_error', 'error', true);
+                            $switchButton.html($switchLblEnbl);
+                        }
+
+                        $switchLblSm.toggleClass('bg-yellow bg-green');
+                        $switchLblIcon.toggleClass('fa-times fa-check');
+
+                        if ($childBlock.has('form')) {
+                            var $form   = $childBlock.find('form'),
+                                $inputs = $form.find('input');
+
+                            $inputs.each(function () {
+                                var $formControl    = $(this),
+                                    formControlName = $formControl.attr('name');
+
+                                if (self.isFormControlTypeByName(formControlName, 'enabled')) {
+                                    $formControl.val(parseInt(!enabled));
+                                }
+                            });
                         }
                     },
                     error: function () {
