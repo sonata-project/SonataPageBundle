@@ -17,7 +17,10 @@ file that was distributed with this source code.
         <h2>{{ "title_page_redirected"|trans({}, 'SonataPageBundle') }}</h2>
 
         <p>
-            {{ "message_page_redirected"|trans({'%url%': response.headers.get('Location')}, 'SonataPageBundle')|raw }}
+            {{ "message_page_redirected"|trans({
+                '%url%': response.headers.get('Location'),
+                '%statusCode%': response.statusCode
+            }, 'SonataPageBundle')|raw }}
         </p>
     </div>
 {% endblock%}

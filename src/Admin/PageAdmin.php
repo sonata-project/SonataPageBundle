@@ -400,6 +400,13 @@ class PageAdmin extends AbstractAdmin
                             'siteId' => $this->getSubject() ? $this->getSubject()->getSite()->getId() : null,
                         ],
                     ])
+                ->add('targetRedirectType', method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix')
+                    ? 'Symfony\Component\Form\Extension\Core\Type\ChoiceType' : 'choice', [
+                        'choices' => [
+                            '301' => 'Permanent (301)',
+                            '302' => 'Temporary (302)',
+                        ],
+                    ])
                 ->end()
             ;
         }

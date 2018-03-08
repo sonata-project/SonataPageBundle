@@ -277,6 +277,20 @@ interface PageInterface
     public function getTarget();
 
     /**
+     * Set HTTP Status Code for Redirect.
+     *
+     * @param int|null $statusCode
+     */
+    public function setTargetRedirectType($statusCode = 302);
+
+    /**
+     * Get HTTP Status Code for the Redirect.
+     *
+     * @return int
+     */
+    public function getTargetRedirectType();
+
+    /**
      * Set parent.
      *
      * @param PageInterface $parent

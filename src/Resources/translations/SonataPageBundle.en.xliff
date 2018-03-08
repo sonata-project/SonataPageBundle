@@ -604,7 +604,8 @@
              This page is configured to redirect the end user to another page. In order
              to configure it, the redirect has been blocked for editor only. <br />
              <br />
-             Please click here to follow the redirection: <a href="%url%">%url%</a>.
+             Please click here to follow the redirection: <a href="%url%">%url%</a>.<br />
+             Status Code: %statusCode%
           ]]></target>
             </trans-unit>
             <trans-unit id="151" resname="filter.label_parent">
@@ -922,6 +923,14 @@
             <trans-unit id="form.label_icon">
                 <source>form.label_icon</source>
                 <target>Icon</target>
+            </trans-unit>
+            <trans-unit id="228" resname="filter.label_is_redirect">
+                <source>filter.label_is_redirect</source>
+                <target>Is Redirect</target>
+            </trans-unit>
+            <trans-unit id="229" resname="form.label_target_redirect_type">
+                <source>form.label_target_redirect_type</source>
+                <target>Redirect Type</target>
             </trans-unit>
         </body>
     </file>

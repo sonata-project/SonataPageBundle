@@ -174,6 +174,11 @@ abstract class Page implements PageInterface
     protected static $slugifyMethod;
 
     /**
+     * @var int
+     */
+    protected $targetRedirectType = 302;
+
+    /**
      * {@inheritdoc}
      */
     public function __construct()
@@ -563,6 +568,14 @@ abstract class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
+    public function getTargetRedirectType()
+    {
+        return $this->targetRedirectType;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function addSnapshot(SnapshotInterface $snapshot)
     {
         $this->snapshots[] = $snapshot;
@@ -571,13 +584,19 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Set target.
-     *
-     * @param PageInterface $target
+     * {@inheritdoc}
      */
     public function setTarget(PageInterface $target = null)
     {
         $this->target = $target;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setTargetRedirectType($statusCode = 302)
+    {
+        $this->targetRedirectType = $statusCode;
     }
 
     /**
