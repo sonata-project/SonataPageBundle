@@ -374,40 +374,32 @@
 
             // hook into the form submit event.
             $form.on('submit', function (e) {
-                e.preventDefault();
-
                 var blockName = $nameFormControl.val();
                 if (blockName === '') {
                     blockName = event.blockType;
                 }
+                $form.attr('action', formAction + '&' + $.param({'composer': 1}));
 
-                $.ajax({
-                    url:  formAction + '&' + $.param({'composer': 1}),
-                    data: $form.serialize(),
-                    type: formMethod,
-                    success: function (resp) {
-                        if (resp.result && resp.result === 'ok' && resp.objectId) {
-                            var createdEvent = $.Event('blockcreated');
-                            createdEvent.$childBlock = $childBlock;
-                            createdEvent.parentId    = event.containerId;
-                            createdEvent.blockId     = resp.objectId;
-                            createdEvent.blockName   = blockName;
-                            createdEvent.blockType   = event.blockType;
-                            $(self).trigger(createdEvent);
-                        } else {
-                            var loadedEvent = $.Event('blockcreateformloaded');
-                            loadedEvent.response    = resp;
-                            loadedEvent.containerId = event.containerId;
-                            loadedEvent.blockType   = event.blockType;
-                            loadedEvent.container   = $childBlock;
-                            $(self).trigger(loadedEvent);
+                return self.retargetAjaxForm($form, function(resp) {
+                    if (resp.result && resp.result === 'ok' && resp.objectId) {
+                        var createdEvent = $.Event('blockcreated');
+                        createdEvent.$childBlock = $childBlock;
+                        createdEvent.parentId    = event.containerId;
+                        createdEvent.blockId     = resp.objectId;
+                        createdEvent.blockName   = blockName;
+                        createdEvent.blockType   = event.blockType;
+                        $(self).trigger(createdEvent);
+                    } else {
+                        var loadedEvent = $.Event('blockcreateformloaded');
+                        loadedEvent.response    = resp;
+                        loadedEvent.containerId = event.containerId;
+                        loadedEvent.blockType   = event.blockType;
+                        loadedEvent.container   = $childBlock;
+                        $(self).trigger(loadedEvent);
 
-                            applyAdmin($childContent);
-                        }
+                        applyAdmin($childContent);
                     }
                 });
-
-                return false;
             });
         },
 
@@ -472,35 +464,26 @@
             });
 
             $form.on('submit', function (e) {
-                e.preventDefault();
-
                 $loader.show();
 
-                $.ajax({
-                    url:     url,
-                    data:    $form.serialize(),
-                    type:    method,
-                    success: function (resp) {
-                        $loader.hide();
-                        if (resp.result && resp.result === 'ok') {
-                            if (typeof $nameFormControl != 'undefined') {
-                                $title.text($nameFormControl.val() !== '' ? $nameFormControl.val() : blockType);
-                            }
-                            event.$block.removeClass('page-composer__container__child--expanded');
-                            $container.empty();
-                        } else {
-                            $container.html(resp);
-
-                            var editFormEvent = $.Event('blockeditformloaded');
-                            editFormEvent.$block = event.$block;
-                            $(self).trigger(editFormEvent);
-
-                            applyAdmin($container);
+                return self.retargetAjaxForm($form, function(resp) {
+                    $loader.hide();
+                    if (resp.result && resp.result === 'ok') {
+                        if (typeof $nameFormControl != 'undefined') {
+                            $title.text($nameFormControl.val() !== '' ? $nameFormControl.val() : blockType);
                         }
+                        event.$block.removeClass('page-composer__container__child--expanded');
+                        $container.empty();
+                    } else {
+                        $container.html(resp);
+
+                        var editFormEvent = $.Event('blockeditformloaded');
+                        editFormEvent.$block = event.$block;
+                        $(self).trigger(editFormEvent);
+
+                        applyAdmin($container);
                     }
                 });
-
-                return false;
             });
         },
 
@@ -885,6 +868,38 @@
                     $(self).trigger(event);
                 }
             });
+        },
+
+        /**
+         * Post form with iframe for file uploads. Should be used inside onsubmit event handler.
+         *
+         * @param $form
+         * @param callback
+         *
+         * @returns {boolean}
+         * @inner
+         */
+        retargetAjaxForm: function($form, callback) {
+            var $frame = $('<iframe style="display:none;"></iframe>')
+                .attr('name', 'retarget__' + Math.floor(Math.random() * 999999))
+                .appendTo($('body'))
+                .load(function () {
+                    var resp, contents = $frame[0].contentDocument.documentElement;
+                    try {
+                        resp = $.parseJSON(contents.innerText);
+                    } catch (e) {
+                        resp = contents.outerHTML;
+                    }
+
+                    callback(resp);
+                    $frame.remove();
+                });
+
+            $form
+                .append('<input type="hidden" name="_xml_http_request" value="1"/>')
+                .attr('target', $frame.attr('name'));
+
+            return true;
         }
     };
 
