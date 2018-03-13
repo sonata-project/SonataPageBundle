@@ -128,11 +128,10 @@ class PageServiceManager implements PageServiceManagerInterface
     {
         if ($page->getTarget()) {
             $page->addHeader('Location', $this->router->generate($page->getTarget()));
-            $response = new Response('', 302, $page->getHeaders() ?: []);
-        } else {
-            $response = new Response('', 200, $page->getHeaders() ?: []);
+
+            return new Response('', $page->getTargetRedirectType() ?? Response::HTTP_FOUND, $page->getHeaders() ?? []);
         }
 
-        return $response;
+        return new Response('', Response::HTTP_OK, $page->getHeaders() ?? []);
     }
 }

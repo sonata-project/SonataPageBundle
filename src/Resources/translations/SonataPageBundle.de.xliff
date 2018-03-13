@@ -603,7 +603,8 @@
                 <target><![CDATA[
              Diese Seite ist als Weiterleitung konfiguriert. Um sie zu konfigurieren
              wurde die Weiterleitung verhindert.<br />
-             Um der Weiterleitung zu folgen klicken Sie bitte hier: <a href="%url%">%url%</a>
+             Um der Weiterleitung zu folgen klicken Sie bitte hier: <a href="%url%">%url%</a><br />
+             Status Code: %statusCode%
           ]]></target>
             </trans-unit>
             <trans-unit id="151" resname="filter.label_parent">
@@ -921,6 +922,22 @@
             <trans-unit id="form.label_icon">
                 <source>form.label_icon</source>
                 <target>Icon</target>
+            </trans-unit>
+            <trans-unit id="228" resname="filter.label_is_redirect">
+                <source>filter.label_is_redirect</source>
+                <target>Ist Weiterleitung</target>
+            </trans-unit>
+            <trans-unit id="229" resname="form.label_target_redirect_type">
+                <source>form.label_target_redirect_type</source>
+                <target>Status-Code für Weiterleitung</target>
+            </trans-unit>
+            <trans-unit id="230" resname="choice.redirect_permanent">
+                <source>choice.redirect_permanent</source>
+                <target>Permanent (301)</target>
+            </trans-unit>
+            <trans-unit id="231" resname="choice.redirect_temporary">
+                <source>choice.redirect_temporary</source>
+                <target>Temporär (302)</target>
             </trans-unit>
         </body>
     </file>

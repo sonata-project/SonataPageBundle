@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Model;
 
+use Symfony\Component\HttpFoundation\Response;
+
 /**
  * Page.
  *
@@ -174,6 +176,11 @@ abstract class Page implements PageInterface
      * @var \Closure
      */
     protected static $slugifyMethod;
+
+    /**
+     * @var int
+     */
+    protected $targetRedirectType = Response::HTTP_FOUND;
 
     /**
      * {@inheritdoc}
@@ -580,6 +587,22 @@ abstract class Page implements PageInterface
     public function setTarget(PageInterface $target = null): void
     {
         $this->target = $target;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTargetRedirectType(): int
+    {
+        return $this->targetRedirectType;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setTargetRedirectType(int $statusCode = Response::HTTP_FOUND): void
+    {
+        $this->targetRedirectType = $statusCode;
     }
 
     /**

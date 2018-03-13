@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Model;
 
+use Symfony\Component\HttpFoundation\Response;
+
 /**
  * SnapshotPageProxy.
  *
@@ -692,6 +694,22 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     public function unserialize($serialized)
     {
         // TODO: Implement unserialize() method.
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTargetRedirectType(): int
+    {
+        return $this->getPage()->getTargetRedirectType();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setTargetRedirectType(int $statusCode = Response::HTTP_FOUND): void
+    {
+        $this->getPage()->setTargetRedirectType($statusCode);
     }
 
     /**

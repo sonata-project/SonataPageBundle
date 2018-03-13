@@ -34,6 +34,7 @@ use Sonata\PageBundle\Model\SiteManagerInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Admin definition for the Page class.
@@ -403,6 +404,13 @@ class PageAdmin extends AbstractAdmin
                         'link_parameters' => [
                             'siteId' => $this->getSubject() ? $this->getSubject()->getSite()->getId() : null,
                         ],
+                    ])
+                ->add('targetRedirectType', ChoiceType::class, [
+                        'choices' => [
+                            Response::HTTP_MOVED_PERMANENTLY => 'choice.redirect_permanent',
+                            Response::HTTP_FOUND => 'choice.redirect_temporary',
+                        ],
+                        'catalogue' => $this->translationDomain,
                     ])
                 ->end()
             ;

@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * PageInterface.
@@ -277,6 +278,16 @@ interface PageInterface
      * @return PageInterface
      */
     public function getTarget();
+
+    /**
+     * Set HTTP Status Code for Redirect.
+     */
+    public function setTargetRedirectType(int $statusCode = Response::HTTP_FOUND): void;
+
+    /**
+     * Get HTTP Status Code for the Redirect.
+     */
+    public function getTargetRedirectType(): int;
 
     /**
      * Set parent.
