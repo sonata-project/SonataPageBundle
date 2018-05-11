@@ -30,9 +30,11 @@
             <argument>%sonata.page.admin.page.controller%</argument>
             <call method="addChild">
                 <argument type="service" id="sonata.page.admin.block"/>
+                <argument>page</argument>
             </call>
             <call method="addChild">
                 <argument type="service" id="sonata.page.admin.snapshot"/>
+                <argument>page</argument>
             </call>
             <call method="setPageManager">
                 <argument type="service" id="sonata.page.manager.page"/>
