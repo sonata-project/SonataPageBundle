@@ -33,11 +33,6 @@ class SnapshotAdmin extends AbstractAdmin
     /**
      * {@inheritdoc}
      */
-    protected $parentAssociationMapping = 'page';
-
-    /**
-     * {@inheritdoc}
-     */
     protected $accessMapping = [
         'batchToggleEnabled' => 'EDIT',
     ];
