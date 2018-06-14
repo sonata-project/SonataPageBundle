@@ -40,6 +40,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
  */
 class PageAdmin extends AbstractAdmin
 {
+    protected $classnameLabel = 'Page';
+
     /**
      * @var PageManagerInterface
      */

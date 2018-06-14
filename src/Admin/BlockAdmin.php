@@ -35,6 +35,8 @@ class BlockAdmin extends BaseBlockAdmin
      */
     protected $blocks;
 
+    protected $classnameLabel = 'Block';
+
     /**
      * {@inheritdoc}
      */
