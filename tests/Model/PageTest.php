@@ -171,16 +171,16 @@ class PageTest extends TestCase
         ];
 
         $page->setChildren($children);
-        $this->assertEquals(2, count($page->getChildren()));
+        $this->assertCount(2, $page->getChildren());
 
         $snapshots = [
             $this->createMock(SnapshotInterface::class),
         ];
 
         $page->setSnapshots($snapshots);
-        $this->assertEquals(1, count($page->getSnapshots()));
+        $this->assertCount(1, $page->getSnapshots());
         $page->addSnapshot($this->createMock(SnapshotInterface::class));
-        $this->assertEquals(2, count($page->getSnapshots()));
+        $this->assertCount(2, $page->getSnapshots());
 
         $this->assertInstanceOf(SnapshotInterface::class, $page->getSnapshot());
 
@@ -333,6 +333,6 @@ class PageTest extends TestCase
         $page->addBlocks($block3);
 
         $types = $page->getBlocksByType('sonata.page.block.action');
-        $this->assertEquals(2, count($types));
+        $this->assertCount(2, $types);
     }
 }

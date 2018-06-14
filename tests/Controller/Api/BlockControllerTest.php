@@ -11,7 +11,6 @@
 
 namespace Sonata\PageBundle\Tests\Controller\Api;
 
-use FOS\RestBundle\View\View;
 use PHPUnit\Framework\TestCase;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\BlockBundle\Model\BlockManagerInterface;
