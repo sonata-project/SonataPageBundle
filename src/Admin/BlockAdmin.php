@@ -33,14 +33,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class BlockAdmin extends BaseBlockAdmin
 {
     /**
-     * {@inheritdoc}
-     */
-    protected $parentAssociationMapping = 'page';
-
-    /**
      * @var array
      */
     protected $blocks;
+
+    protected $classnameLabel = 'Block';
 
     /**
      * {@inheritdoc}

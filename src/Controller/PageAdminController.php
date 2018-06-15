@@ -200,7 +200,7 @@ class PageAdminController extends Controller
         $blockInteractor = $this->get('sonata.page.block_interactor');
 
         foreach ($containers as $id => $container) {
-            if (false === $container['block'] && $templateContainers[$id]['shared'] === false) {
+            if (false === $container['block'] && false === $templateContainers[$id]['shared']) {
                 $blockContainer = $blockInteractor->createNewContainer([
                     'page' => $page,
                     'name' => $templateContainers[$id]['name'],

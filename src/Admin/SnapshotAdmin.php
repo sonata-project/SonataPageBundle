@@ -27,15 +27,12 @@ use Sonata\CoreBundle\Form\Type\DateTimePickerType;
  */
 class SnapshotAdmin extends AbstractAdmin
 {
+    protected $classnameLabel = 'Snapshot';
+
     /**
      * @var CacheManagerInterface
      */
     protected $cacheManager;
-
-    /**
-     * {@inheritdoc}
-     */
-    protected $parentAssociationMapping = 'page';
 
     /**
      * {@inheritdoc}

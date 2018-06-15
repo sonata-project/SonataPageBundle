@@ -31,6 +31,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
  */
 class SiteAdmin extends AbstractAdmin
 {
+    protected $classnameLabel = 'Site';
+
     /**
      * @var RoutePageGenerator
      */
