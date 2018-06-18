@@ -13,6 +13,7 @@ namespace Sonata\PageBundle\Tests\DependencyInjection;
 
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use Sonata\PageBundle\DependencyInjection\SonataPageExtension;
+use Symfony\Bundle\TwigBundle\DependencyInjection\TwigExtension;
 
 /**
  * Tests the SonataPageExtension.
@@ -60,6 +61,21 @@ class SonataPageExtensionTest extends AbstractExtensionTestCase
         ]);
         $this->assertContainerBuilderHasParameter('sonata.page.router_auto_register.enabled', true);
         $this->assertContainerBuilderHasParameter('sonata.page.router_auto_register.priority', 84);
+    }
+
+    public function testDatePickerFormTheme()
+    {
+        $this->container->setParameter('kernel.bundles', []);
+        $this->container->setParameter('kernel.bundles_metadata', []);
+        $this->container->setParameter('kernel.project_dir', __DIR__);
+        $this->container->setParameter('kernel.root_dir', __DIR__);
+        $this->container->registerExtension(new TwigExtension());
+
+        $this->container->compile();
+        $this->assertTrue(in_array(
+            '@SonataCore/Form/datepicker.html.twig',
+            $this->container->getParameter('twig.form.resources')
+        ));
     }
 
     protected function getContainerExtensions()
