@@ -65,7 +65,7 @@ class SonataPageExtensionTest extends AbstractExtensionTestCase
         $this->assertContainerBuilderHasParameter('sonata.page.router_auto_register.priority', 84);
     }
 
-    public function testDatePickerFormTheme()
+    public function testDatePickerFormTheme(): void
     {
         $this->container->setParameter('kernel.bundles', []);
         $this->container->setParameter('kernel.bundles_metadata', []);
