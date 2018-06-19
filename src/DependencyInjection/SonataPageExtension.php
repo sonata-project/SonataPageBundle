@@ -19,6 +19,7 @@ use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -26,8 +27,18 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class SonataPageExtension extends Extension
+class SonataPageExtension extends Extension implements PrependExtensionInterface
 {
+    public function prepend(ContainerBuilder $container)
+    {
+        if ($container->hasExtension('twig')) {
+            // add custom form widgets
+            $container->prependExtensionConfig('twig', [
+                'form_themes' => ['@SonataCore/Form/datepicker.html.twig'],
+            ]);
+        }
+    }
+
     /**
      * {@inheritdoc}
      */

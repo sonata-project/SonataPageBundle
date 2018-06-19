@@ -2,6 +2,19 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.9.0](https://github.com/sonata-project/SonataPageBundle/compare/3.8.0...3.9.0) - 2018-06-18
+### Changed
+- Auto-register datepicker form theme
+- Force use breadcrumb translation strings for page admins
+
+### Fixed
+- Removed default value for parent association mappings
+- `addChild` deprecations
+- Only blocks with getBlockMetadata method will be shown in "add block of type" menu of Page Composer
+
+### Added
+- Added support for latest `sonata-project/cache`
+
 ## [3.8.0](https://github.com/sonata-project/SonataPageBundle/compare/3.7.1...3.8.0) - 2018-02-23
 ### Added
 - added block title translation domain option
