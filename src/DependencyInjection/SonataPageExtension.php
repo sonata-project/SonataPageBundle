@@ -29,7 +29,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
  */
 class SonataPageExtension extends Extension implements PrependExtensionInterface
 {
-    public function prepend(ContainerBuilder $container)
+    public function prepend(ContainerBuilder $container): void
     {
         if ($container->hasExtension('twig')) {
             // add custom form widgets
