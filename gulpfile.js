@@ -23,4 +23,4 @@ var banner = [
 
 console.log(banner);
 
-require('./gulp');
+require('./assets/gulp');

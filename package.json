@@ -1,6 +1,6 @@
 {
-  "name": "SonataPageBundle",
-  "version": "0.0.1",
+  "name": "sonata-page-bundle",
+  "version": "1.0.0",
   "description": "SonataPageBundle assets",
   "main": "gulpfile.js",
   "devDependencies": {
@@ -14,5 +14,8 @@
     "gulp-cssmin": "^0.1.6",
     "gulp-util": "^3.0.1",
     "lodash": "~2.4.1"
+  },
+  "scripts": {
+    "build": "gulp"
   }
 }

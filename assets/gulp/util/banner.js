@@ -1,5 +1,5 @@
 var header = require('gulp-header');
-var pkg    = require('../../package.json');
+var pkg    = require('../../../package.json');
 var sh     = require('shelljs');
 
 var banner = [
