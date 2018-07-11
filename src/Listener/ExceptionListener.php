@@ -189,6 +189,10 @@ class ExceptionListener
     private function handleInternalError(GetResponseForExceptionEvent $event)
     {
         if (false === $this->debug) {
+            $this->logger->error($event->getException()->getMessage(), [
+                'exception' => $event->getException(),
+            ]);
+
             return;
         }
 
