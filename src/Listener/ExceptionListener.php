@@ -188,6 +188,14 @@ class ExceptionListener
      */
     private function handleInternalError(GetResponseForExceptionEvent $event)
     {
+        if (false === $this->debug) {
+            $this->logger->error($event->getException()->getMessage(), [
+                'exception' => $event->getException(),
+            ]);
+
+            return;
+        }
+
         $content = $this->templating->render('@SonataPage/internal_error.html.twig', [
             'exception' => $event->getException(),
         ]);
