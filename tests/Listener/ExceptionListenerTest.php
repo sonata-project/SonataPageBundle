@@ -108,16 +108,11 @@ class ExceptionListenerTest extends TestCase
         $exception = $this->createMock(InternalErrorException::class);
         $event = $this->getMockEvent($exception);
 
-        // mock templating to expect a twig rendering
-        $this->templating->expects($this->once())->method('render')
-             ->with($this->equalTo('@SonataPage/internal_error.html.twig'));
+        $this->logger->expects($this->once())
+            ->method('error');
 
         // WHEN
         $this->listener->onKernelException($event);
-
-        // THEN
-        $this->assertInstanceOf(Response::class, $event->getResponse(), 'Should return a response in event');
-        $this->assertEquals(500, $event->getResponse()->getStatusCode(), 'Should return 500 status code');
     }
 
     /**
