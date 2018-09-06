@@ -224,8 +224,8 @@ class HostSiteSelector extends BaseSiteSelector
             foreach ($params as $param_name => $param_value) {
                 $value = $this->_getFieldValue($site, $param_name);
 
-                if (is_array($param_value)) {
-                    if (!in_array($value, $param_value)) {
+                if (\is_array($param_value)) {
+                    if (!\in_array($value, $param_value)) {
                         $valid_site = false;
                     }
                 } else {
@@ -356,7 +356,7 @@ class HostSiteSelector extends BaseSiteSelector
 
         foreach ($getters as $getter) {
             if (method_exists($object, $getter)) {
-                return call_user_func([$object, $getter]);
+                return \call_user_func([$object, $getter]);
             }
         }
 

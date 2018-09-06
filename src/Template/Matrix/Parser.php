@@ -33,15 +33,15 @@ class Parser
         $areas = [];
 
         $rows = preg_split("/\n/", $matrix);
-        $rowCount = count($rows);
-        if (0 == $rowCount || 0 == strlen($rows[0])) {
+        $rowCount = \count($rows);
+        if (0 == $rowCount || 0 == \strlen($rows[0])) {
             throw new \InvalidArgumentException('Invalid template matrix, a matrix should contain at least one row');
         }
 
-        $colCount = strlen($rows[0]);
+        $colCount = \strlen($rows[0]);
 
         foreach ($rows as $y => $row) {
-            if (strlen($row) !== $colCount && $y > 0) {
+            if (\strlen($row) !== $colCount && $y > 0) {
                 throw new \InvalidArgumentException(sprintf('Invalid template matrix, inconsistent row length, row "%d" should have a length of "%d"', $y, $colCount));
             }
 

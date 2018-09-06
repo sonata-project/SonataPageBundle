@@ -139,7 +139,7 @@ class SharedBlockBlockService extends AbstractAdminBlockService
     {
         $sharedBlock = $block->getSetting('blockId', null);
 
-        if (is_int($sharedBlock)) {
+        if (\is_int($sharedBlock)) {
             $sharedBlock = $this->blockManager->findOneBy(['id' => $sharedBlock]);
         }
 
@@ -151,7 +151,7 @@ class SharedBlockBlockService extends AbstractAdminBlockService
      */
     public function prePersist(BlockInterface $block)
     {
-        $block->setSetting('blockId', is_object($block->getSetting('blockId')) ? $block->getSetting('blockId')->getId() : null);
+        $block->setSetting('blockId', \is_object($block->getSetting('blockId')) ? $block->getSetting('blockId')->getId() : null);
     }
 
     /**
@@ -159,7 +159,7 @@ class SharedBlockBlockService extends AbstractAdminBlockService
      */
     public function preUpdate(BlockInterface $block)
     {
-        $block->setSetting('blockId', is_object($block->getSetting('blockId')) ? $block->getSetting('blockId')->getId() : null);
+        $block->setSetting('blockId', \is_object($block->getSetting('blockId')) ? $block->getSetting('blockId')->getId() : null);
     }
 
     /**

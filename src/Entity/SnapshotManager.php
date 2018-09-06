@@ -84,7 +84,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
      */
     public function enableSnapshots(array $snapshots, \DateTime $date = null)
     {
-        if (0 == count($snapshots)) {
+        if (0 == \count($snapshots)) {
             return;
         }
 
@@ -186,7 +186,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
             ->getQuery()
             ->execute();
 
-        $snapshot = count($snapshots) > 0 ? $snapshots[0] : false;
+        $snapshot = \count($snapshots) > 0 ? $snapshots[0] : false;
 
         if ($snapshot) {
             return new SnapshotPageProxy($this, $snapshot);
@@ -233,7 +233,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
     public function cleanup(PageInterface $page, $keep)
     {
         if (!is_numeric($keep)) {
-            throw new \RuntimeException(sprintf('Please provide an integer value, %s given', gettype($keep)));
+            throw new \RuntimeException(sprintf('Please provide an integer value, %s given', \gettype($keep)));
         }
 
         $tableName = $this->getTableName();
