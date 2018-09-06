@@ -153,7 +153,7 @@ class ChildrenPagesBlockService extends AbstractAdminBlockService
      */
     public function prePersist(BlockInterface $block)
     {
-        $block->setSetting('pageId', is_object($block->getSetting('pageId')) ? $block->getSetting('pageId')->getId() : null);
+        $block->setSetting('pageId', \is_object($block->getSetting('pageId')) ? $block->getSetting('pageId')->getId() : null);
     }
 
     /**
@@ -161,7 +161,7 @@ class ChildrenPagesBlockService extends AbstractAdminBlockService
      */
     public function preUpdate(BlockInterface $block)
     {
-        $block->setSetting('pageId', is_object($block->getSetting('pageId')) ? $block->getSetting('pageId')->getId() : null);
+        $block->setSetting('pageId', \is_object($block->getSetting('pageId')) ? $block->getSetting('pageId')->getId() : null);
     }
 
     /**

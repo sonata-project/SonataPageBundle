@@ -65,7 +65,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
      */
     public function __call($method, $arguments)
     {
-        return call_user_func_array([$this->getPage(), $method], $arguments);
+        return \call_user_func_array([$this->getPage(), $method], $arguments);
     }
 
     /**
@@ -145,7 +145,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
      */
     public function getBlocks()
     {
-        if (!count($this->getPage()->getBlocks())) {
+        if (!\count($this->getPage()->getBlocks())) {
             $content = $this->snapshot->getContent();
 
             foreach ($content['blocks'] as $block) {
@@ -199,7 +199,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
         $parents = $this->getParents();
 
         if ($level < 0) {
-            $level = count($parents) + $level;
+            $level = \count($parents) + $level;
         }
 
         return isset($parents[$level]) ? $parents[$level] : null;

@@ -233,7 +233,7 @@ EOF;
                 ->always()
                     ->then(function ($templates) {
                         foreach ($templates as $id => &$template) {
-                            if (0 == count($template['containers'])) {
+                            if (0 == \count($template['containers'])) {
                                 continue;
                             }
 
