@@ -53,7 +53,7 @@ class CleanupSnapshotsCommand extends BaseCommand
             return;
         }
 
-        if (!in_array($input->getOption('mode'), ['async', 'sync'])) {
+        if (!\in_array($input->getOption('mode'), ['async', 'sync'])) {
             throw new \InvalidArgumentException('Option "mode" is not valid (async|sync).');
         }
 

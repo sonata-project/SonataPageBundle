@@ -207,7 +207,7 @@ class PageExtension extends AbstractExtension implements InitRuntimeInterface
         try {
             if (null === $page) {
                 $targetPage = $cms->getCurrentPage();
-            } elseif (!$page instanceof PageInterface && is_string($page)) {
+            } elseif (!$page instanceof PageInterface && \is_string($page)) {
                 $targetPage = $cms->getInternalRoute($site, $page);
             } elseif ($page instanceof PageInterface) {
                 $targetPage = $page;

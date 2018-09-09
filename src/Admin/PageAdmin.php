@@ -297,7 +297,7 @@ class PageAdmin extends AbstractAdmin
             ->add('edited')
             ->add('hybrid', 'doctrine_orm_callback', [
                 'callback' => function ($queryBuilder, $alias, $field, $data) {
-                    if (in_array($data['value'], ['hybrid', 'cms'])) {
+                    if (\in_array($data['value'], ['hybrid', 'cms'])) {
                         $queryBuilder->andWhere(sprintf('%s.routeName %s :routeName', $alias, 'cms' == $data['value'] ? '=' : '!='));
                         $queryBuilder->setParameter('routeName', PageInterface::PAGE_ROUTE_CMS_NAME);
                     }
@@ -449,7 +449,7 @@ class PageAdmin extends AbstractAdmin
      */
     protected function configureTabMenu(MenuItemInterface $menu, $action, AdminInterface $childAdmin = null)
     {
-        if (!$childAdmin && !in_array($action, ['edit'])) {
+        if (!$childAdmin && !\in_array($action, ['edit'])) {
             return;
         }
 
