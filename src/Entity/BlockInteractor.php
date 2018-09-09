@@ -64,7 +64,7 @@ class BlockInteractor implements BlockInteractorInterface
             ->getQuery()
             ->execute();
 
-        return count($blocks) > 0 ? $blocks[0] : false;
+        return \count($blocks) > 0 ? $blocks[0] : false;
     }
 
     /**

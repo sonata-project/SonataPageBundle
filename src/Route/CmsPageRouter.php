@@ -90,11 +90,11 @@ class CmsPageRouter implements ChainedRouterInterface
      */
     public function supports($name)
     {
-        if (is_string($name) && !$this->isPageAlias($name) && !$this->isPageSlug($name)) {
+        if (\is_string($name) && !$this->isPageAlias($name) && !$this->isPageSlug($name)) {
             return false;
         }
 
-        if (is_object($name) && !($name instanceof PageInterface)) {
+        if (\is_object($name) && !($name instanceof PageInterface)) {
             return false;
         }
 
@@ -289,7 +289,7 @@ class CmsPageRouter implements ChainedRouterInterface
             $url = sprintf('%s%s%s', $schemeAuthority, $this->context->getBaseUrl(), $url);
         }
 
-        if (count($parameters) > 0) {
+        if (\count($parameters) > 0) {
             return sprintf('%s?%s', $url, http_build_query($parameters, '', '&'));
         }
 
@@ -347,7 +347,7 @@ class CmsPageRouter implements ChainedRouterInterface
      */
     protected function isPageAlias($name)
     {
-        return is_string($name) && '_page_alias_' === substr($name, 0, 12);
+        return \is_string($name) && '_page_alias_' === substr($name, 0, 12);
     }
 
     /**
@@ -359,6 +359,6 @@ class CmsPageRouter implements ChainedRouterInterface
      */
     protected function isPageSlug($name)
     {
-        return is_string($name) && PageInterface::PAGE_ROUTE_CMS_NAME == $name;
+        return \is_string($name) && PageInterface::PAGE_ROUTE_CMS_NAME == $name;
     }
 }
