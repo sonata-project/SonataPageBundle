@@ -89,7 +89,7 @@ class PageAdminController extends Controller
                 $currentSite = $site;
             }
         }
-        if (!$currentSite && 1 == count($sites)) {
+        if (!$currentSite && 1 == \count($sites)) {
             $currentSite = $sites[0];
         }
 
@@ -124,7 +124,7 @@ class PageAdminController extends Controller
         if ('GET' == $request->getMethod() && !$this->getRequest()->get('siteId')) {
             $sites = $this->get('sonata.page.manager.site')->findBy([]);
 
-            if (1 == count($sites)) {
+            if (1 == \count($sites)) {
                 return $this->redirect($this->admin->generateUrl('create', [
                     'siteId' => $sites[0]->getId(),
                     'uniqid' => $this->admin->getUniqid(),
@@ -252,9 +252,9 @@ class PageAdminController extends Controller
 
             $container = $template->getContainer($block->getSetting('code'));
 
-            if (isset($container['blocks']) && count($container['blocks']) > 0) {
+            if (isset($container['blocks']) && \count($container['blocks']) > 0) {
                 foreach ($blockServices as $code => $service) {
-                    if (in_array($code, $container['blocks'])) {
+                    if (\in_array($code, $container['blocks'])) {
                         continue;
                     }
 

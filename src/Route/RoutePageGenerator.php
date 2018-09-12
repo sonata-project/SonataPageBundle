@@ -78,11 +78,11 @@ class RoutePageGenerator
         );
 
         $this->writeln($output, [
-            str_repeat('=', strlen($message)),
+            str_repeat('=', \strlen($message)),
             '',
             $message,
             '',
-            str_repeat('=', strlen($message)),
+            str_repeat('=', \strlen($message)),
         ]);
 
         $knowRoutes = [];
@@ -208,7 +208,7 @@ class RoutePageGenerator
                 continue;
             }
 
-            if (!in_array($page->getRouteName(), $knowRoutes)) {
+            if (!\in_array($page->getRouteName(), $knowRoutes)) {
                 if (!$has) {
                     $has = true;
 

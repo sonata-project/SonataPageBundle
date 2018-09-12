@@ -140,8 +140,8 @@ class BlockAdmin extends BaseBlockAdmin
 
         $formMapper->end();
 
-        $isContainerRoot = $block && in_array($blockType, ['sonata.page.block.container', 'sonata.block.service.container']) && !$this->hasParentFieldDescription();
-        $isStandardBlock = $block && !in_array($blockType, ['sonata.page.block.container', 'sonata.block.service.container']) && !$this->hasParentFieldDescription();
+        $isContainerRoot = $block && \in_array($blockType, ['sonata.page.block.container', 'sonata.block.service.container']) && !$this->hasParentFieldDescription();
+        $isStandardBlock = $block && !\in_array($blockType, ['sonata.page.block.container', 'sonata.block.service.container']) && !$this->hasParentFieldDescription();
 
         if ($isContainerRoot || $isStandardBlock) {
             $formMapper->with('form.field_group_general', $generalGroupOptions);
@@ -201,7 +201,7 @@ class BlockAdmin extends BaseBlockAdmin
                         $choices[$item['name']] = $item['template'];
                     }
 
-                    if (count($choices) > 1) {
+                    if (\count($choices) > 1) {
                         $templateOptions = [
                             'choices' => $choices,
                         ];

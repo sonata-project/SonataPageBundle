@@ -158,7 +158,7 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
      */
     protected function getPreferredSite(array $sites, Request $request)
     {
-        if (0 === count($sites)) {
+        if (0 === \count($sites)) {
             return;
         }
 
@@ -170,7 +170,7 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
         $host = $request->getHost();
 
         foreach ($sites as $site) {
-            if (in_array($site->getHost(), ['localhost', $host]) && $language === $site->getLocale()) {
+            if (\in_array($site->getHost(), ['localhost', $host]) && $language === $site->getLocale()) {
                 return $site;
             }
         }

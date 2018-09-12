@@ -40,7 +40,7 @@ class RequestFactory
     {
         self::configureFactory($type);
 
-        return call_user_func_array([self::getClass($type), 'create'], [$uri, $method, $parameters, $cookies, $files, $server, $content]);
+        return \call_user_func_array([self::getClass($type), 'create'], [$uri, $method, $parameters, $cookies, $files, $server, $content]);
     }
 
     /**
@@ -52,7 +52,7 @@ class RequestFactory
     {
         self::configureFactory($type);
 
-        return call_user_func_array([self::getClass($type), 'createFromGlobals'], []);
+        return \call_user_func_array([self::getClass($type), 'createFromGlobals'], []);
     }
 
     /**
@@ -65,7 +65,7 @@ class RequestFactory
             return;
         }
 
-        if (!in_array($type, ['host_with_path', 'host_with_path_by_locale'])) {
+        if (!\in_array($type, ['host_with_path', 'host_with_path_by_locale'])) {
             return;
         }
 

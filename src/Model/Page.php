@@ -622,7 +622,7 @@ abstract class Page implements PageInterface
         $parents = $this->getParents();
 
         if ($level < 0) {
-            $level = count($parents) + $level;
+            $level = \count($parents) + $level;
         }
 
         return $parents[$level] ?? null;
@@ -674,14 +674,14 @@ abstract class Page implements PageInterface
 
     public function disableBlockLazyLoading(): void
     {
-        if (is_object($this->blocks)) {
+        if (\is_object($this->blocks)) {
             $this->blocks->setInitialized(true);
         }
     }
 
     public function disableChildrenLazyLoading(): void
     {
-        if (is_object($this->children)) {
+        if (\is_object($this->children)) {
             $this->children->setInitialized(true);
         }
     }
@@ -794,7 +794,7 @@ abstract class Page implements PageInterface
             $text = trim($text, '-');
 
             // transliterate
-            if (function_exists('iconv')) {
+            if (\function_exists('iconv')) {
                 $text = iconv('UTF-8', 'ASCII//TRANSLIT', $text);
             }
 
@@ -807,7 +807,7 @@ abstract class Page implements PageInterface
             return $text;
         }
 
-        return call_user_func(self::$slugifyMethod, $text);
+        return \call_user_func(self::$slugifyMethod, $text);
     }
 
     /**
@@ -822,7 +822,7 @@ abstract class Page implements PageInterface
         $block = null;
 
         foreach ($this->getBlocks() as $blockTmp) {
-            if (in_array($blockTmp->getType(), ['sonata.page.block.container', 'sonata.block.service.container']) && $blockTmp->getSetting('code') == $code) {
+            if (\in_array($blockTmp->getType(), ['sonata.page.block.container', 'sonata.block.service.container']) && $blockTmp->getSetting('code') == $code) {
                 $block = $blockTmp;
 
                 break;
@@ -859,7 +859,7 @@ abstract class Page implements PageInterface
     {
         $method = strtoupper($method);
 
-        if (!in_array($method, ['PUT', 'POST', 'GET', 'DELETE', 'HEAD'])) {
+        if (!\in_array($method, ['PUT', 'POST', 'GET', 'DELETE', 'HEAD'])) {
             return false;
         }
 

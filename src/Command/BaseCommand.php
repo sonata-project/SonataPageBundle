@@ -112,7 +112,7 @@ abstract class BaseCommand extends ContainerAwareCommand
         $identifiers = $input->getOption('site');
 
         if ('all' != current($identifiers)) {
-            $parameters['id'] = 1 === count($identifiers) ? current($identifiers) : $identifiers;
+            $parameters['id'] = 1 === \count($identifiers) ? current($identifiers) : $identifiers;
         }
 
         return $this->getSiteManager()->findBy($parameters);

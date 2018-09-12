@@ -92,9 +92,9 @@ EOT
         $site->setHost($values['host']);
         $site->setEnabledFrom('-' == $values['enabledFrom'] ? null : new \DateTime($values['enabledFrom']));
         $site->setEnabledTo('-' == $values['enabledTo'] ? null : new \DateTime($values['enabledTo']));
-        $site->setIsDefault(in_array($values['default'], ['true', 1, '1']));
+        $site->setIsDefault(\in_array($values['default'], ['true', 1, '1']));
         $site->setLocale('-' == $values['locale'] ? null : $values['locale']);
-        $site->setEnabled(in_array($values['enabled'], ['true', 1, '1']));
+        $site->setEnabled(\in_array($values['enabled'], ['true', 1, '1']));
 
         $info_enabledFrom = $site->getEnabledFrom() instanceof \DateTime ? $site->getEnabledFrom()->format('r') : 'ALWAYS';
         $info_enabledTo = $site->getEnabledTo() instanceof \DateTime ? $site->getEnabledTo()->format('r') : 'ALWAYS';

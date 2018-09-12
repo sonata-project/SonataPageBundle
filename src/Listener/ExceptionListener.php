@@ -241,7 +241,7 @@ class ExceptionListener
             return;
         }
 
-        $message = sprintf('%s: %s (uncaught exception) at %s line %s', get_class($exception), $exception->getMessage(), $exception->getFile(), $exception->getLine());
+        $message = sprintf('%s: %s (uncaught exception) at %s line %s', \get_class($exception), $exception->getMessage(), $exception->getFile(), $exception->getLine());
 
         $this->logException($exception, $exception, $message);
 
@@ -282,7 +282,7 @@ class ExceptionListener
     private function logException(\Exception $originalException, \Exception $generatedException, $message = null): void
     {
         if (!$message) {
-            $message = sprintf('Exception thrown when handling an exception (%s: %s)', get_class($generatedException), $generatedException->getMessage());
+            $message = sprintf('Exception thrown when handling an exception (%s: %s)', \get_class($generatedException), $generatedException->getMessage());
         }
 
         if (null !== $this->logger) {

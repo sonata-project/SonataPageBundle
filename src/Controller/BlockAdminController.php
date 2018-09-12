@@ -42,7 +42,7 @@ class BlockAdminController extends Controller
         try {
             $params = $request->get('disposition');
 
-            if (!is_array($params)) {
+            if (!\is_array($params)) {
                 throw new HttpException(400, 'wrong parameters');
             }
 
@@ -56,14 +56,14 @@ class BlockAdminController extends Controller
         } catch (HttpException $e) {
             $status = $e->getStatusCode();
             $result = [
-                'exception' => get_class($e),
+                'exception' => \get_class($e),
                 'message' => $e->getMessage(),
                 'code' => $e->getCode(),
             ];
         } catch (\Exception $e) {
             $status = 500;
             $result = [
-                'exception' => get_class($e),
+                'exception' => \get_class($e),
                 'message' => $e->getMessage(),
                 'code' => $e->getCode(),
             ];
@@ -82,7 +82,7 @@ class BlockAdminController extends Controller
         $this->admin->checkAccess('create');
 
         $sharedBlockAdminClass = $this->container->getParameter('sonata.page.admin.shared_block.class');
-        if (!$this->admin->getParent() && get_class($this->admin) !== $sharedBlockAdminClass) {
+        if (!$this->admin->getParent() && \get_class($this->admin) !== $sharedBlockAdminClass) {
             throw new PageNotFoundException('You cannot create a block without a page');
         }
 
