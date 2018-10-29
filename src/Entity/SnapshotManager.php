@@ -288,6 +288,30 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
                 $keep
             ));
         }
+        
+        if ('mssql' === $platform) {
+            return $this->getConnection()->exec(sprintf(
+                'DELETE FROM %s
+                WHERE
+                    page_id = %d
+                    AND id NOT IN (
+                        SELECT id
+                        FROM (
+                            SELECT TOP %d id, publication_date_end
+                            FROM %s
+                            WHERE
+                                page_id = %d
+                            ORDER BY
+                                publication_date_end DESC
+                        ) AS table_alias
+                )',
+                $tableName,
+                $page->getId(),
+                $keep,
+                $tableName,
+                $page->getId()
+            ));
+        }
 
         throw new \RuntimeException(sprintf('The %s database platform has not been tested yet. Please report us if it works and feel free to create a pull request to handle it ;-)', $platform));
     }
