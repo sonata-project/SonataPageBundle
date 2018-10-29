@@ -288,7 +288,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
                 $keep
             ));
         }
-        
+
         if ('mssql' === $platform) {
             return $this->getConnection()->exec(sprintf(
                 'DELETE FROM %s
