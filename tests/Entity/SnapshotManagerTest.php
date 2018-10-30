@@ -100,6 +100,29 @@ class SnapshotManagerTest extends TestCase
         $manager->getTemplate('foo');
     }
 
+    public function testCleanup()
+    {
+        $page = $this->createMock(PageInterface::class);
+
+        $self = $this;
+        $this
+            ->getSnapshotManager(function ($qb) use ($self, $page) {
+                $qb->expects($self->once())->method('select')->with('s.id')->willReturn($qb);
+                $qb->expects($self->exactly(2))->method('from')->with(BaseSnapshot::class, 's')->willReturn($qb);
+                $qb->expects($self->exactly(2))->method('where')->with('s.page = :page')->willReturn($qb);
+                $qb->expects($self->once())->method('orderBy')->with('s.publicationDateEnd', 'DESC')->willReturn($qb);
+                $qb->expects($self->exactly(3))->method('setParameter')->withConsecutive(
+                    [$self->equalTo('page'), $self->equalTo($page)],
+                    [$self->equalTo('page'), $self->equalTo($page)],
+                    [$self->equalTo('pageId'), $self->equalTo([789])]
+                )->willReturn($qb);
+                $qb->expects($self->once())->method('setMaxResults')->with(1)->willReturn($qb);
+                $qb->expects($self->once())->method('delete')->willReturn($qb);
+                $qb->expects($self->once())->method('andWhere')->willReturn($qb);
+            }, [['id' => 789]])
+            ->cleanup($page, 1);
+    }
+
     public function testGetPager()
     {
         $self = $this;
@@ -278,10 +301,10 @@ class SnapshotManagerTest extends TestCase
         $manager->enableSnapshots([]);
     }
 
-    protected function getSnapshotManager($qbCallback)
+    protected function getSnapshotManager($qbCallback, $queryResult = true)
     {
         $query = $this->getMockForAbstractClass(AbstractQuery::class, [], '', false, true, true, ['execute']);
-        $query->expects($this->any())->method('execute')->will($this->returnValue(true));
+        $query->expects($this->any())->method('execute')->will($this->returnValue($queryResult));
 
         $qb = $this->getMockBuilder(QueryBuilder::class)
             ->setConstructorArgs([
@@ -302,6 +325,7 @@ class SnapshotManagerTest extends TestCase
 
         $em = $this->getMockBuilder(EntityManager::class)->disableOriginalConstructor()->getMock();
         $em->expects($this->any())->method('getRepository')->will($this->returnValue($repository));
+        $em->expects($this->any())->method('createQueryBuilder')->will($this->returnValue($qb));
 
         $registry = $this->createMock(ManagerRegistry::class);
         $registry->expects($this->any())->method('getManagerForClass')->will($this->returnValue($em));
