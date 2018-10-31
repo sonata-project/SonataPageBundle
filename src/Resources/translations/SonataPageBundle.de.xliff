@@ -720,7 +720,7 @@
             </trans-unit>
             <trans-unit id="179" resname="shared_block">
                 <source>shared_block</source>
-                <target>shared_block</target>
+                <target>Gemeinsame Blöcke</target>
             </trans-unit>
             <trans-unit id="180" resname="breadcrumb.link_shared_block_batch">
                 <source>breadcrumb.link_shared_block_batch</source>
