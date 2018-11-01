@@ -248,7 +248,7 @@ class ExceptionListener
 
             $cmsManager->setCurrentPage($page);
 
-            if ($page->getSite()->getLocale() !== $event->getRequest()->getLocale()) {
+            if (null !== $page->getSite()->getLocale() && $page->getSite()->getLocale() !== $event->getRequest()->getLocale()) {
                 // Compare locales because Request returns the default one if null.
 
                 // If 404, LocaleListener from HttpKernel component of Symfony is not called.
