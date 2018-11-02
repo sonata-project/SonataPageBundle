@@ -158,11 +158,11 @@ class ExceptionListenerTest extends TestCase
 
         // mock a site
         $site = $this->createMock(SiteInterface::class);
-        $site->expects($this->exactly(2))->method('getLocale')->will($this->returnValue('fr'));
+        $site->expects($this->exactly(3))->method('getLocale')->will($this->returnValue('fr'));
 
         // mock an error page
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->exactly(2))->method('getSite')->will($this->returnValue($site));
+        $page->expects($this->exactly(3))->method('getSite')->will($this->returnValue($site));
 
         // mock cms manager to return the mock error page and set it as current page
         $this->cmsManager = $this->createMock(CmsManagerInterface::class);
