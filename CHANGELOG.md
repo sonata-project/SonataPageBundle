@@ -2,6 +2,18 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.9.1](https://github.com/sonata-project/SonataPageBundle/compare/3.9.0...3.9.1) - 2018-11-04
+
+### Added
+- Added group icon to admin pages
+
+### Fixed
+- Catch empty locale in exception listener
+- Make `sonata.page.kernel.exception_listener` service public
+
+### Security
+- Hide debug information in prod environment
+
 ## [3.9.0](https://github.com/sonata-project/SonataPageBundle/compare/3.8.0...3.9.0) - 2018-06-18
 ### Changed
 - Auto-register datepicker form theme
