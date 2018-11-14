@@ -2,7 +2,11 @@
   "name": "@sonata-project/page-bundle",
   "version": "1.0.0",
   "homepage": "https://sonata-project.org/bundles/page",
-  "description": "Sonata Page Bundle assets",
+  "description": "SonataPageBundle assets",
+  "dependencies": {
+    "bootstrap": "^3.3",
+    "jquery": "^3.0"
+  },
   "devDependencies": {
     "gulp": "^3.8.8",
     "gulp-concat": "^2.4.1",
@@ -19,4 +23,3 @@
     "build": "gulp"
   }
 }
-
