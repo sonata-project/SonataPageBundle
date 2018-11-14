@@ -1,8 +1,8 @@
 {
-  "name": "sonata-page-bundle",
+  "name": "@sonata-project/page-bundle",
   "version": "1.0.0",
-  "description": "SonataPageBundle assets",
-  "main": "gulpfile.js",
+  "homepage": "https://sonata-project.org/bundles/page",
+  "description": "Sonata Page Bundle assets",
   "devDependencies": {
     "gulp": "^3.8.8",
     "gulp-concat": "^2.4.1",
@@ -19,3 +19,4 @@
     "build": "gulp"
   }
 }
+
