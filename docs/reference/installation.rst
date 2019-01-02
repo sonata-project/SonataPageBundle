@@ -22,6 +22,7 @@ also some Sonata dependencies that need to be installed and configured beforehan
 
 Enable the Bundle
 -----------------
+
 Add the dependant bundles to the vendor/bundles directory:
 
 .. code-block:: bash
@@ -34,11 +35,7 @@ Add the dependant bundles to the vendor/bundles directory:
     $ composer update
 
 Next, be sure to enable the bundles in your ``bundles.php`` file if they
-are not already enabled:
-
-::
-
-    <?php
+are not already enabled::
 
     // config/bundles.php
 
@@ -49,15 +46,15 @@ are not already enabled:
     ];
 
 .. note::
+
     If you are not using Symfony Flex, you should enable bundles in your
     ``AppKernel.php``.
 
-::
+.. code-block:: php
 
-    <?php
     // app/AppKernel.php
 
-    public function registerbundles()
+    public function registerBundles()
     {
         return array(
             // ...
@@ -71,18 +68,19 @@ Configuration
 -------------
 
 .. note::
+
     If you are not using Symfony Flex, all configuration in this section should
     be added to ``app/config/config.yml``.
 
 
 Doctrine Configuration
 ~~~~~~~~~~~~~~~~~~~~~~
+
 Add these bundles in the config mapping definition (or enable `auto_mapping`_):
 
 .. code-block:: yaml
 
     # config/packages/doctrine.yaml
-
 
     doctrine:
         orm:
@@ -173,6 +171,7 @@ SonataPageBundle Configuration
 
 SonataAdminBundle Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 .. code-block:: yaml
 
     # config/packages/sonata_admin.yaml
@@ -195,11 +194,14 @@ SonataBlockBundle Configuration
         context_manager: sonata.page.block.context_manager
 
 .. note::
+
     Please you need to use the context ``sonata_page_bundle`` in the SonataBlockBundle to add block into a Page.
 
 Security Configuration
 ~~~~~~~~~~~~~~~~~~~~~~
+
 .. note::
+
     If you are not using Symfony Flex, this configuration should be added
     to ``app/config/security.yml``.
 
@@ -232,6 +234,7 @@ this logout handler:
 
 Routing Configuration
 ~~~~~~~~~~~~~~~~~~~~~
+
 .. code-block:: yaml
 
     # config/routes.yaml
@@ -245,6 +248,7 @@ Routing Configuration
         prefix: /
 
 .. note::
+
     If you are not using Symfony Flex, routes should be added to ``app/config/routing.yml``.
 
 Extend the Bundle
@@ -258,6 +262,7 @@ generate the correct entities for the page:
     $ bin/console sonata:easy-extends:generate SonataPageBundle --dest=src --namespace_prefix=App
 
 .. note::
+
     If you are not using Symfony Flex, use command without ``--namespace_prefix=App``.
 
 With provided parameters, the files are generated in ``src/Application/Sonata/PageBundle``.
@@ -271,13 +276,10 @@ With provided parameters, the files are generated in ``src/Application/Sonata/Pa
     ``App\Application\Sonata\PageBundle\Entity\Page``.
 
 .. note::
+
     If you are not using Symfony Flex, the namespace will be ``Application\Sonata\PageBundle\Entity\Page``.
 
-Now, add the new ``Application`` Bundle into the ``bundles.php``:
-
-::
-
-    <?php
+Now, add the new ``Application`` Bundle into the ``bundles.php``::
 
     // config/bundles.php
 
@@ -287,13 +289,12 @@ Now, add the new ``Application`` Bundle into the ``bundles.php``:
     ];
 
 .. note::
+
     If you are not using Symfony Flex, add the new ``Application`` Bundle into your
     ``AppKernel.php``.
 
+.. code-block:: php
 
-::
-
-    <?php
     // app/AppKernel.php
 
     public function registerBundles()
@@ -311,6 +312,7 @@ Now, add the new ``Application`` Bundle into the ``bundles.php``:
 Configure SonataPageBundle to use the newly generated classes:
 
 .. note::
+
     If you are not using Symfony Flex, add classes without the ``App\``
     part.
 
@@ -319,7 +321,6 @@ Configure SonataPageBundle to use the newly generated classes:
     # config/packages/sonata_page.yaml
 
     sonata_page:
-        #...
         class:
             page: App\Application\Sonata\PageBundle\Entity\Page # This is an optional value
             snapshot: App\Application\Sonata\PageBundle\Entity\Snapshot
@@ -327,6 +328,7 @@ Configure SonataPageBundle to use the newly generated classes:
             site: App\Application\Sonata\PageBundle\Entity\Site
 
 .. note::
+
     If you are not using Symfony Flex, this configuration should be added
     to ``app/config/config.yml``.
 
@@ -334,7 +336,7 @@ The only thing left is to update your schema:
 
 .. code-block:: bash
 
-    php bin/console doctrine:schema:update --force
+    bin/console doctrine:schema:update --force
 
 .. _SonataAdminBundle: https://sonata-project.org/bundles/admin
 .. _SonataDoctrineORMAdminBundle: https://sonata-project.org/bundles/doctrine-orm-admin

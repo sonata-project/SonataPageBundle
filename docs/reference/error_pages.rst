@@ -5,15 +5,17 @@ The ``PageBundle`` can catch errors to render different error pages. For
 instance, the page not found exception can be administrated and rendered like 
 any other pages.
 
-The following configuration will create two pages when you execute::
+The following configuration will create two pages when you execute:
 
-    $ app/console sonata:page:update-core-routes
+.. code-block:: bash
+
+    bin/console sonata:page:update-core-routes
 
 .. configuration-block::
 
     .. code-block:: yaml
 
-        # app/config/config.yml
+        # config/packages/sonata_page.yaml
 
         sonata_page:
             catch_exceptions:
