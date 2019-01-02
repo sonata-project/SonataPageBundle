@@ -19,7 +19,7 @@ Key                             Description
 
     .. code-block:: yaml
 
-        # app/config/config.yml
+        # config/packages/sonata_page.yaml
 
         sonata_page:
             ignore_route_patterns:
@@ -45,6 +45,8 @@ core routes):
 
     .. code-block:: yaml
 
+        # config/packages/sonata_page.yaml
+
         sonata_page:
             page_defaults:
-                homepage: {decorate: false} # disable decoration for route 'homepage'
+                homepage: { decorate: false } # disable decoration for route 'homepage'

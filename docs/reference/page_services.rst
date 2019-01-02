@@ -21,10 +21,9 @@ template. This can be easily achieved by using the template manager service.
 
 .. code-block:: php
 
-    <?php
-    // src/AppBundle/Service/CustomPageService.php
+    // src/App/Service/CustomPageService.php
 
-    namespace AppBundle\Service;
+    namespace App\Service;
 
     use Symfony\Component\HttpFoundation\Response;
     use Symfony\Component\HttpFoundation\Request;
@@ -57,7 +56,7 @@ it as being a page service:
 
 .. code-block:: xml
 
-    <service id="app.custom_page_service" class="AppBundle\Service\CustomPageService">
+    <service id="app.custom_page_service" class="App\Service\CustomPageService">
         <tag name="sonata.page"/>
         <argument>Custom page service</argument>
         <argument type="service" id="sonata.page.template_manager" />

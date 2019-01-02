@@ -22,36 +22,32 @@ With this strategy it is possible to handle sites like :
 * http://sonata-project.com
 * http://sonata-project.net
 
-Just configure the ``sonata_page`` section as:
+Configure the ``sonata_page`` section as:
 
 .. configuration-block::
 
     .. code-block:: yaml
 
-        # app/config/config.yml
+        # config/packages/sonata_page.yaml
 
         sonata_page:
             multisite: host
-
-And that's it!
 
 Host By Locale Strategy
 -----------------------
 
 This strategy handles the same sites than previous one.
 
-Just configure the ``sonata_page`` section as:
+Configure the ``sonata_page`` section as:
 
 .. configuration-block::
 
     .. code-block:: yaml
 
-        # app/config/config.yml
+        # config/packages/sonata_page.yaml
 
         sonata_page:
             multisite: host_by_locale
-
-And that's it!
 
 Host and Path Strategy
 ----------------------
@@ -67,11 +63,8 @@ This strategy requires a dedicated ``RequestFactory`` object. So you need to alt
 front controller to use the one provided by the ``PageBundle``. To do so, open
 files: ``app.php`` and ``app_dev.php`` and change the following parts.
 
-Working file examples:
+Working file examples::
 
-.. code-block:: php
-
-    <?php
     // web/app.php
 
     use Sonata\PageBundle\Request\RequestFactory; // before: use Symfony\Component\HttpFoundation\Request;
@@ -90,7 +83,6 @@ Working file examples:
 
 .. code-block:: php
 
-    <?php
     // web/app_dev.php
 
     use Sonata\PageBundle\Request\RequestFactory; // before: use Symfony\Component\HttpFoundation\Request;
@@ -132,12 +124,10 @@ The last action is to configure the ``sonata_page`` section as:
 
     .. code-block:: yaml
 
-        # app/config/config.yml
+        # config/packages/sonata_page.yaml
 
         sonata_page:
             multisite: host_with_path
-
-And that's it!
 
 Host and Path By Locale Strategy
 --------------------------------
@@ -146,11 +136,8 @@ This strategy requires a dedicated ``RequestFactory`` object. So you need to alt
 front controller to use the one provided by the ``PageBundle``. To do so, open
 files: ``app.php`` and ``app_dev.php`` and change the following parts.
 
-Working file examples:
+Working file examples::
 
-.. code-block:: php
-
-    <?php
     // web/app.php
 
     use Sonata\PageBundle\Request\RequestFactory; // before: use Symfony\Component\HttpFoundation\Request;
@@ -169,7 +156,6 @@ Working file examples:
 
 .. code-block:: php
 
-    <?php
     // web/app_dev.php
 
     use Sonata\PageBundle\Request\RequestFactory; // before: use Symfony\Component\HttpFoundation\Request;
@@ -211,12 +197,10 @@ The last action is to configure the ``sonata_page`` section as:
 
     .. code-block:: yaml
 
-        # app/config/config.yml
+        # config/packages/sonata_page.yaml
 
         sonata_page:
             multisite: host_with_path_by_locale
-
-And that's it!
 
 .. note::
 
