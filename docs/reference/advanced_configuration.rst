@@ -9,20 +9,20 @@ Full configuration options:
 
     .. code-block:: yaml
 
-        # app/config/config.yml
+        # config/packages/cmf_routing.yaml
 
-        symfony_cmf_routing_extra:
+        cmf_routing:
             chain:
                 routers_by_id:
                     # enable the DynamicRouter with high priority to allow overwriting configured routes with content
-                    #symfony_cmf_routing_extra.dynamic_router: 200
+                    #cmf_routing.dynamic_router: 200
                     # enable the symfony default router with a lower priority
                     sonata.page.router: 150
                     router.default: 100
 
     .. code-block:: yaml
 
-        # app/config/config.yml
+        # config/packages/sonata_page.yaml
 
         # Default configuration for extension with alias: "sonata_page"
         sonata_page:
@@ -120,7 +120,7 @@ Full configuration options:
 
     .. code-block:: yaml
 
-        # app/config/config.yml
+        # config/packages/doctrine.yaml
 
         # Enable Doctrine to map the provided entities
         doctrine:

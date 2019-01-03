@@ -55,7 +55,7 @@ In order to activate the API's, you'll also need to add this to your routing:
 
     .. code-block:: yaml
 
-        # app/config/routing.yml
+        # config/routes.yaml
 
         NelmioApiDocBundle:
             resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
