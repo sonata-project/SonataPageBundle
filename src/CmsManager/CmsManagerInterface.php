@@ -28,9 +28,9 @@ interface CmsManagerInterface
     /**
      * @param string              $name
      * @param PageInterface       $page
-     * @param null|BlockInterface $parentContainer
+     * @param BlockInterface|null $parentContainer
      *
-     * @return bool|null|BlockInterface
+     * @return BlockInterface|bool|null
      */
     public function findContainer($name, PageInterface $page, BlockInterface $parentContainer = null);
 
