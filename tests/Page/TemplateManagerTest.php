@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -26,7 +28,7 @@ class TemplateManagerTest extends TestCase
     /**
      * Test adding a new template.
      */
-    public function testAddSingleTemplate()
+    public function testAddSingleTemplate(): void
     {
         // GIVEN
         $template = $this->getMockTemplate('template');
@@ -43,7 +45,7 @@ class TemplateManagerTest extends TestCase
     /**
      * Test setting all templates.
      */
-    public function testSetAllTemplates()
+    public function testSetAllTemplates(): void
     {
         // GIVEN
         $templating = $this->createMock(EngineInterface::class);
@@ -66,7 +68,7 @@ class TemplateManagerTest extends TestCase
     /**
      * Test setting the default template code.
      */
-    public function testSetDefaultTemplateCode()
+    public function testSetDefaultTemplateCode(): void
     {
         // GIVEN
         $templating = $this->createMock(EngineInterface::class);
@@ -82,7 +84,7 @@ class TemplateManagerTest extends TestCase
     /**
      * test the rendering of a response.
      */
-    public function testRenderResponse()
+    public function testRenderResponse(): void
     {
         // GIVEN
         $template = $this->getMockTemplate('template', 'path/to/template');
@@ -104,7 +106,7 @@ class TemplateManagerTest extends TestCase
     /**
      * test the rendering of a response with a non existing template code.
      */
-    public function testRenderResponseWithNonExistingCode()
+    public function testRenderResponseWithNonExistingCode(): void
     {
         // GIVEN
         $templating = $this->createMock(EngineInterface::class);
@@ -121,7 +123,7 @@ class TemplateManagerTest extends TestCase
     /**
      * test the rendering of a response with no template code.
      */
-    public function testRenderResponseWithoutCode()
+    public function testRenderResponseWithoutCode(): void
     {
         // GIVEN
         $response = $this->createMock(Response::class);
@@ -143,7 +145,7 @@ class TemplateManagerTest extends TestCase
     /**
      * test the rendering of a response with default parameters.
      */
-    public function testRenderResponseWithDefaultParameters()
+    public function testRenderResponseWithDefaultParameters(): void
     {
         // GIVEN
         $template = $this->getMockTemplate('template', 'path/to/template');

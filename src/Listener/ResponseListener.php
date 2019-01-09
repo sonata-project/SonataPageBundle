@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -83,7 +85,7 @@ class ResponseListener
      *
      * @throws InternalErrorException
      */
-    public function onCoreResponse(FilterResponseEvent $event)
+    public function onCoreResponse(FilterResponseEvent $event): void
     {
         $cms = $this->cmsSelector->retrieve();
 

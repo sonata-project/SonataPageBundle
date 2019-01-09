@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -29,7 +31,7 @@ class Mustache
     public static function replace($string, array $parameters)
     {
         $replacer = function ($match) use ($parameters) {
-            return isset($parameters[$match[1]]) ? $parameters[$match[1]] : $match[0];
+            return $parameters[$match[1]] ?? $match[0];
         };
 
         return preg_replace_callback('/{{\s*(.+?)\s*}}/', $replacer, $string);

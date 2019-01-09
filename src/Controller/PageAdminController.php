@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -271,7 +273,7 @@ class PageAdminController extends Controller
     /**
      * Sets the admin form theme to form view. Used for compatibility between Symfony versions.
      */
-    private function setFormTheme(FormView $formView, $theme)
+    private function setFormTheme(FormView $formView, $theme): void
     {
         $twig = $this->get('twig');
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -22,7 +24,7 @@ class CmfRouterAutoRegisterTest extends AbstractCompilerPassTestCase
     /**
      * @dataProvider providerRoutedAutoRegister
      */
-    public function testRouterAutoRegister($enabled, $priority)
+    public function testRouterAutoRegister($enabled, $priority): void
     {
         $this->container->setParameter('sonata.page.router_auto_register.enabled', $enabled);
         $this->container->setParameter('sonata.page.router_auto_register.priority', $priority);
@@ -55,7 +57,7 @@ class CmfRouterAutoRegisterTest extends AbstractCompilerPassTestCase
         ];
     }
 
-    protected function registerCompilerPass(ContainerBuilder $container)
+    protected function registerCompilerPass(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new CmfRouterCompilerPass());
     }

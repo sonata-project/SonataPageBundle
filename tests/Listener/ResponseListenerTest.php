@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -58,7 +60,7 @@ class ResponseListenerTest extends TestCase
     /**
      * setup unit test.
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->decoratorStrategy = $this->createMock(DecoratorStrategyInterface::class);
         $this->pageServiceManager = $this->createMock(PageServiceManagerInterface::class);
@@ -73,7 +75,7 @@ class ResponseListenerTest extends TestCase
     /**
      * Test the listener without a page.
      */
-    public function testWithoutPage()
+    public function testWithoutPage(): void
     {
         $this->expectException(InternalErrorException::class);
 
@@ -97,7 +99,7 @@ class ResponseListenerTest extends TestCase
     /**
      * Test that the  listener does not mess up with response when a page is non decorable.
      */
-    public function testPageIsNonDecorable()
+    public function testPageIsNonDecorable(): void
     {
         // GIVEN
         $this->decoratorStrategy->expects($this->once())->method('isDecorable')->will($this->returnValue(false));
@@ -114,7 +116,7 @@ class ResponseListenerTest extends TestCase
     /**
      * Test that the listener correctly decorates the response content when a page is decorable.
      */
-    public function testPageIsDecorable()
+    public function testPageIsDecorable(): void
     {
         // GIVEN
 
@@ -155,7 +157,7 @@ class ResponseListenerTest extends TestCase
     /**
      * Test that the listener correctly alters the http headers when the editor is enabled.
      */
-    public function testPageIsEditor()
+    public function testPageIsEditor(): void
     {
         // GIVEN
         $this->cmsSelector->expects($this->once())->method('isEditor')->will($this->returnValue(true));

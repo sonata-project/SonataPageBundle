@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -63,7 +65,7 @@ class RequestListener
      * @throws InternalErrorException
      * @throws PageNotFoundException
      */
-    public function onCoreRequest(GetResponseEvent $event)
+    public function onCoreRequest(GetResponseEvent $event): void
     {
         $request = $event->getRequest();
 

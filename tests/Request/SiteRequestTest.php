@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -16,7 +18,7 @@ use Sonata\PageBundle\Request\SiteRequest;
 
 class SiteRequestTest extends TestCase
 {
-    public function testSiteRequest()
+    public function testSiteRequest(): void
     {
         $request = new SiteRequest();
         $request->setBaseUrl('folder/app_dev.php');

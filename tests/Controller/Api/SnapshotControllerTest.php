@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -23,7 +25,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class SnapshotControllerTest extends TestCase
 {
-    public function testGetSnapshotsAction()
+    public function testGetSnapshotsAction(): void
     {
         $snapshotManager = $this->getMockBuilder(SnapshotManagerInterface::class)->getMock();
         $snapshotManager->expects($this->once())->method('getPager')->will($this->returnValue([]));
@@ -38,14 +40,14 @@ class SnapshotControllerTest extends TestCase
         $this->assertEquals([], $this->createSnapshotController(null, $snapshotManager)->getSnapshotsAction($paramFetcher));
     }
 
-    public function testGetSnapshotAction()
+    public function testGetSnapshotAction(): void
     {
         $snapshot = $this->createMock(SnapshotInterface::class);
 
         $this->assertEquals($snapshot, $this->createSnapshotController($snapshot)->getSnapshotAction(1));
     }
 
-    public function testGetSnapshotActionNotFoundException()
+    public function testGetSnapshotActionNotFoundException(): void
     {
         $this->expectException(NotFoundHttpException::class);
         $this->expectExceptionMessage('Snapshot (1) not found');
@@ -53,7 +55,7 @@ class SnapshotControllerTest extends TestCase
         $this->createSnapshotController()->getSnapshotAction(1);
     }
 
-    public function testDeleteSnapshotAction()
+    public function testDeleteSnapshotAction(): void
     {
         $snapshot = $this->createMock(SnapshotInterface::class);
 
@@ -65,7 +67,7 @@ class SnapshotControllerTest extends TestCase
         $this->assertEquals(['deleted' => true], $view);
     }
 
-    public function testDeletePageInvalidAction()
+    public function testDeletePageInvalidAction(): void
     {
         $this->expectException(NotFoundHttpException::class);
 

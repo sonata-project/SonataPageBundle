@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -76,7 +78,7 @@ class SiteRequestContext extends RequestContext implements SiteRequestContextInt
         return parent::getBaseUrl();
     }
 
-    final public function setSite(SiteInterface $site)
+    final public function setSite(SiteInterface $site): void
     {
         $this->site = $site;
     }

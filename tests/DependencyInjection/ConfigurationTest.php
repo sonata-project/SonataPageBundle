@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -17,7 +19,7 @@ use Symfony\Component\Config\Definition\Processor;
 
 class ConfigurationTest extends TestCase
 {
-    public function testPageWithMatrix()
+    public function testPageWithMatrix(): void
     {
         $processor = new Processor();
 
@@ -167,7 +169,7 @@ class ConfigurationTest extends TestCase
         $this->assertEquals($expected, $config);
     }
 
-    public function testPageWithoutMatrix()
+    public function testPageWithoutMatrix(): void
     {
         $processor = new Processor();
 

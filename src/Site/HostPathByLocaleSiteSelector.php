@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -25,7 +27,7 @@ class HostPathByLocaleSiteSelector extends HostPathSiteSelector
     /**
      * {@inheritdoc}
      */
-    public function handleKernelRequest(GetResponseEvent $event)
+    public function handleKernelRequest(GetResponseEvent $event): void
     {
         $request = $event->getRequest();
 

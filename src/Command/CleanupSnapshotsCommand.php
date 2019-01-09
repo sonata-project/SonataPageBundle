@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -24,7 +26,7 @@ class CleanupSnapshotsCommand extends BaseCommand
     /**
      * {@inheritdoc}
      */
-    public function configure()
+    public function configure(): void
     {
         $this->setName('sonata:page:cleanup-snapshots');
         $this->setDescription('Cleanups the deprecated snapshots by a given site');
@@ -38,7 +40,7 @@ class CleanupSnapshotsCommand extends BaseCommand
     /**
      * {@inheritdoc}
      */
-    protected function initialize(InputInterface $input, OutputInterface $output)
+    protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         if (!$input->getOption('site')) {
             $output->writeln('Please provide an <info>--site=SITE_ID</info> option or the <info>--site=all</info> directive');
@@ -65,7 +67,7 @@ class CleanupSnapshotsCommand extends BaseCommand
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         foreach ($this->getSites($input) as $site) {
             if ('all' != $input->getOption('site')) {
@@ -92,7 +94,7 @@ class CleanupSnapshotsCommand extends BaseCommand
                     $input->getOption('no-debug') ? '--no-debug' : ''
                 ));
 
-                $p->run(function ($type, $data) use ($output) {
+                $p->run(function ($type, $data) use ($output): void {
                     $output->write($data, OutputInterface::OUTPUT_RAW);
                 });
             }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -152,7 +154,7 @@ class ExceptionListener
      *
      * @throws \Exception
      */
-    public function onKernelException(GetResponseForExceptionEvent $event)
+    public function onKernelException(GetResponseForExceptionEvent $event): void
     {
         if ($event->getException() instanceof NotFoundHttpException && $this->cmsManagerSelector->isEditor()) {
             $pathInfo = $event->getRequest()->getPathInfo();
@@ -186,7 +188,7 @@ class ExceptionListener
      *
      * @param GetResponseForExceptionEvent $event
      */
-    private function handleInternalError(GetResponseForExceptionEvent $event)
+    private function handleInternalError(GetResponseForExceptionEvent $event): void
     {
         if (false === $this->debug) {
             $this->logger->error($event->getException()->getMessage(), [
@@ -210,7 +212,7 @@ class ExceptionListener
      *
      * @throws mixed
      */
-    private function handleNativeError(GetResponseForExceptionEvent $event)
+    private function handleNativeError(GetResponseForExceptionEvent $event): void
     {
         if (true === $this->debug) {
             return;
@@ -277,7 +279,7 @@ class ExceptionListener
      * @param \Exception  $generatedException Generated exception
      * @param string|null $message            Message to log
      */
-    private function logException(\Exception $originalException, \Exception $generatedException, $message = null)
+    private function logException(\Exception $originalException, \Exception $generatedException, $message = null): void
     {
         if (!$message) {
             $message = sprintf('Exception thrown when handling an exception (%s: %s)', \get_class($generatedException), $generatedException->getMessage());

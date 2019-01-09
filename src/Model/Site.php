@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -107,7 +109,7 @@ abstract class Site implements SiteInterface
     /**
      * {@inheritdoc}
      */
-    public function setId($id)
+    public function setId($id): void
     {
         $this->id = $id;
     }
@@ -115,7 +117,7 @@ abstract class Site implements SiteInterface
     /**
      * {@inheritdoc}
      */
-    public function setEnabled($enabled)
+    public function setEnabled($enabled): void
     {
         $this->enabled = $enabled;
     }
@@ -169,7 +171,7 @@ abstract class Site implements SiteInterface
     /**
      * {@inheritdoc}
      */
-    public function setCreatedAt(\DateTime $createdAt = null)
+    public function setCreatedAt(\DateTime $createdAt = null): void
     {
         $this->createdAt = $createdAt;
     }
@@ -185,7 +187,7 @@ abstract class Site implements SiteInterface
     /**
      * {@inheritdoc}
      */
-    public function setUpdatedAt(\DateTime $updatedAt = null)
+    public function setUpdatedAt(\DateTime $updatedAt = null): void
     {
         $this->updatedAt = $updatedAt;
     }
@@ -201,7 +203,7 @@ abstract class Site implements SiteInterface
     /**
      * {@inheritdoc}
      */
-    public function setHost($host)
+    public function setHost($host): void
     {
         $this->host = $host;
     }
@@ -217,7 +219,7 @@ abstract class Site implements SiteInterface
     /**
      * {@inheritdoc}
      */
-    public function setFormats($formats)
+    public function setFormats($formats): void
     {
         $this->formats = $formats;
     }
@@ -233,7 +235,7 @@ abstract class Site implements SiteInterface
     /**
      * {@inheritdoc}
      */
-    public function setName($name)
+    public function setName($name): void
     {
         $this->name = $name;
     }
@@ -249,7 +251,7 @@ abstract class Site implements SiteInterface
     /**
      * {@inheritdoc}
      */
-    public function setRelativePath($relativePath)
+    public function setRelativePath($relativePath): void
     {
         $this->relativePath = $relativePath;
     }
@@ -265,7 +267,7 @@ abstract class Site implements SiteInterface
     /**
      * {@inheritdoc}
      */
-    public function setIsDefault($default)
+    public function setIsDefault($default): void
     {
         $this->isDefault = $default;
     }
@@ -281,7 +283,7 @@ abstract class Site implements SiteInterface
     /**
      * {@inheritdoc}
      */
-    public function setEnabledFrom(\DateTime $enabledFrom = null)
+    public function setEnabledFrom(\DateTime $enabledFrom = null): void
     {
         $this->enabledFrom = $enabledFrom;
     }
@@ -297,7 +299,7 @@ abstract class Site implements SiteInterface
     /**
      * {@inheritdoc}
      */
-    public function setEnabledTo(\DateTime $enabledTo = null)
+    public function setEnabledTo(\DateTime $enabledTo = null): void
     {
         $this->enabledTo = $enabledTo;
     }
@@ -313,7 +315,7 @@ abstract class Site implements SiteInterface
     /**
      * {@inheritdoc}
      */
-    public function setLocale($locale)
+    public function setLocale($locale): void
     {
         $this->locale = $locale;
     }
@@ -329,7 +331,7 @@ abstract class Site implements SiteInterface
     /**
      * {@inheritdoc}
      */
-    public function setMetaDescription($metaDescription)
+    public function setMetaDescription($metaDescription): void
     {
         $this->metaDescription = $metaDescription;
     }
@@ -345,7 +347,7 @@ abstract class Site implements SiteInterface
     /**
      * {@inheritdoc}
      */
-    public function setMetaKeywords($metaKeywords)
+    public function setMetaKeywords($metaKeywords): void
     {
         $this->metaKeywords = $metaKeywords;
     }
@@ -361,7 +363,7 @@ abstract class Site implements SiteInterface
     /**
      * {@inheritdoc}
      */
-    public function setTitle($title)
+    public function setTitle($title): void
     {
         $this->title = $title;
     }

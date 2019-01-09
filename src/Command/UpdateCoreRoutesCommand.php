@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -27,7 +29,7 @@ class UpdateCoreRoutesCommand extends BaseCommand
     /**
      * {@inheritdoc}
      */
-    public function configure()
+    public function configure(): void
     {
         $this->setName('sonata:page:update-core-routes');
         $this->setDescription('Update core routes, from routing files to page manager');
@@ -41,7 +43,7 @@ class UpdateCoreRoutesCommand extends BaseCommand
     /**
      * {@inheritdoc}
      */
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): void
     {
         if ($input->getOption('all')) {
             @trigger_error(
@@ -83,7 +85,7 @@ class UpdateCoreRoutesCommand extends BaseCommand
 
                 $process = $builder->getProcess();
 
-                $process->run(function ($type, $data) use ($output) {
+                $process->run(function ($type, $data) use ($output): void {
                     $output->write($data);
                 });
             }

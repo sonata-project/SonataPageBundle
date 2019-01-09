@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -29,7 +31,7 @@ class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $siteManager = $this->createMock(SiteManagerInterface::class);
         $decoratorStrategy = $this->createMock(DecoratorStrategyInterface::class);
@@ -44,7 +46,7 @@ class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
     /**
      * Tests handleKernelRequest method selects the site /en.
      */
-    public function testHandleKernelRequestSelectsEn()
+    public function testHandleKernelRequestSelectsEn(): void
     {
         $kernel = $this->createMock(HttpKernelInterface::class);
         $request = SiteRequest::create('http://www.example.com');
@@ -74,7 +76,7 @@ class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
     /**
      * Tests handleKernelRequest method selects the site /fr.
      */
-    public function testHandleKernelRequestSelectsFr()
+    public function testHandleKernelRequestSelectsFr(): void
     {
         $kernel = $this->createMock(HttpKernelInterface::class);
         $request = SiteRequest::create('http://www.example.com', 'GET', [], [], [], [

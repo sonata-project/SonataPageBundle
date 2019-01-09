@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -42,7 +44,7 @@ class DefaultPageServiceTest extends TestCase
     /**
      * setup unit tests.
      */
-    public function setUp()
+    public function setUp(): void
     {
         $name = 'my name';
         $this->templateManager = $this->createMock(TemplateManagerInterface::class);
@@ -54,7 +56,7 @@ class DefaultPageServiceTest extends TestCase
     /**
      * Test the default page service execution.
      */
-    public function testExecute()
+    public function testExecute(): void
     {
         // GIVEN
 

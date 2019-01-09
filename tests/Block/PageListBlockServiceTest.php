@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -27,14 +29,14 @@ class PageListBlockServiceTest extends AbstractBlockServiceTestCase
      */
     protected $pageManager;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->pageManager = $this->createMock(PageManagerInterface::class);
     }
 
-    public function testDefaultSettings()
+    public function testDefaultSettings(): void
     {
         $blockService = new PageListBlockService('block.service', $this->templating, $this->pageManager);
         $blockContext = $this->getBlockContext($blockService);
@@ -49,7 +51,7 @@ class PageListBlockServiceTest extends AbstractBlockServiceTestCase
         ], $blockContext);
     }
 
-    public function testExecute()
+    public function testExecute(): void
     {
         $page1 = $this->createMock(PageInterface::class);
         $page2 = $this->createMock(PageInterface::class);

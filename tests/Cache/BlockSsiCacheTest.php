@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -23,7 +25,7 @@ class BlockSsiCacheTest extends TestCase
     /**
      * @dataProvider      getExceptionCacheKeys
      */
-    public function testExceptions($keys)
+    public function testExceptions($keys): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -50,7 +52,7 @@ class BlockSsiCacheTest extends TestCase
         ];
     }
 
-    public function testInitCache()
+    public function testInitCache(): void
     {
         $router = $this->createMock(RouterInterface::class);
         $router->expects($this->any())->method('generate')->will($this->returnValue('/cache/page/esi/XXXXX/page/5/4?updated_at=as'));

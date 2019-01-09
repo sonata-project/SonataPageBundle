@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -68,7 +70,7 @@ class PageAdmin extends AbstractAdmin
     /**
      * {@inheritdoc}
      */
-    public function configureRoutes(RouteCollection $collection)
+    public function configureRoutes(RouteCollection $collection): void
     {
         $collection->add('compose', '{id}/compose', [
             'id' => null,
@@ -83,7 +85,7 @@ class PageAdmin extends AbstractAdmin
     /**
      * {@inheritdoc}
      */
-    public function preUpdate($object)
+    public function preUpdate($object): void
     {
         $object->setEdited(true);
     }
@@ -91,7 +93,7 @@ class PageAdmin extends AbstractAdmin
     /**
      * {@inheritdoc}
      */
-    public function postUpdate($object)
+    public function postUpdate($object): void
     {
         if ($this->cacheManager) {
             $this->cacheManager->invalidate([
@@ -103,7 +105,7 @@ class PageAdmin extends AbstractAdmin
     /**
      * {@inheritdoc}
      */
-    public function prePersist($object)
+    public function prePersist($object): void
     {
         $object->setEdited(true);
     }
@@ -111,7 +113,7 @@ class PageAdmin extends AbstractAdmin
     /**
      * @param PageManagerInterface $pageManager
      */
-    public function setPageManager(PageManagerInterface $pageManager)
+    public function setPageManager(PageManagerInterface $pageManager): void
     {
         $this->pageManager = $pageManager;
     }
@@ -168,7 +170,7 @@ class PageAdmin extends AbstractAdmin
 
         if ('POST' == $this->getRequest()->getMethod()) {
             $values = $this->getRequest()->get($this->getUniqid());
-            $siteId = isset($values['site']) ? $values['site'] : null;
+            $siteId = $values['site'] ?? null;
         }
 
         $siteId = (null !== $siteId) ? $siteId : $this->getRequest()->get('siteId');
@@ -205,7 +207,7 @@ class PageAdmin extends AbstractAdmin
     /**
      * @param SiteManagerInterface $siteManager
      */
-    public function setSiteManager(SiteManagerInterface $siteManager)
+    public function setSiteManager(SiteManagerInterface $siteManager): void
     {
         $this->siteManager = $siteManager;
     }
@@ -221,7 +223,7 @@ class PageAdmin extends AbstractAdmin
     /**
      * @param CacheManagerInterface $cacheManager
      */
-    public function setCacheManager(CacheManagerInterface $cacheManager)
+    public function setCacheManager(CacheManagerInterface $cacheManager): void
     {
         $this->cacheManager = $cacheManager;
     }
@@ -248,7 +250,7 @@ class PageAdmin extends AbstractAdmin
     /**
      * {@inheritdoc}
      */
-    protected function configureShowFields(ShowMapper $showMapper)
+    protected function configureShowFields(ShowMapper $showMapper): void
     {
         $showMapper
             ->add('site')
@@ -267,7 +269,7 @@ class PageAdmin extends AbstractAdmin
     /**
      * {@inheritdoc}
      */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add('hybrid', 'text', ['template' => '@SonataPage/PageAdmin/field_hybrid.html.twig'])
@@ -286,7 +288,7 @@ class PageAdmin extends AbstractAdmin
     /**
      * {@inheritdoc}
      */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('site')
@@ -296,7 +298,7 @@ class PageAdmin extends AbstractAdmin
             ->add('parent')
             ->add('edited')
             ->add('hybrid', 'doctrine_orm_callback', [
-                'callback' => function ($queryBuilder, $alias, $field, $data) {
+                'callback' => function ($queryBuilder, $alias, $field, $data): void {
                     if (\in_array($data['value'], ['hybrid', 'cms'])) {
                         $queryBuilder->andWhere(sprintf('%s.routeName %s :routeName', $alias, 'cms' == $data['value'] ? '=' : '!='));
                         $queryBuilder->setParameter('routeName', PageInterface::PAGE_ROUTE_CMS_NAME);
@@ -318,7 +320,7 @@ class PageAdmin extends AbstractAdmin
     /**
      * {@inheritdoc}
      */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         // define group zoning
         $formMapper
@@ -447,7 +449,7 @@ class PageAdmin extends AbstractAdmin
     /**
      * {@inheritdoc}
      */
-    protected function configureTabMenu(MenuItemInterface $menu, $action, AdminInterface $childAdmin = null)
+    protected function configureTabMenu(MenuItemInterface $menu, $action, AdminInterface $childAdmin = null): void
     {
         if (!$childAdmin && !\in_array($action, ['edit'])) {
             return;

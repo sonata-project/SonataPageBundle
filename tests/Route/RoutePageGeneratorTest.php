@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -38,7 +40,7 @@ class RoutePageGeneratorTest extends TestCase
     /**
      * Set up dependencies.
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->routePageGenerator = $this->getRoutePageGenerator();
     }
@@ -46,7 +48,7 @@ class RoutePageGeneratorTest extends TestCase
     /**
      * Tests site update route method with.
      */
-    public function testUpdateRoutes()
+    public function testUpdateRoutes(): void
     {
         $site = $this->getSiteMock();
 
@@ -78,7 +80,7 @@ class RoutePageGeneratorTest extends TestCase
     /**
      * Tests site update route method with.
      */
-    public function testUpdateRoutesClean()
+    public function testUpdateRoutesClean(): void
     {
         $site = $this->getSiteMock();
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -23,7 +25,7 @@ class PageTest extends TestCase
      *
      * @group legacy
      */
-    public function testSlugify()
+    public function testSlugify(): void
     {
         setlocale(LC_ALL, 'en_US.utf8');
         setlocale(LC_CTYPE, 'en_US.utf8');
@@ -36,7 +38,7 @@ class PageTest extends TestCase
         $this->assertEquals(Page::slugify(urldecode('%2Fc\'est+bientôt+l\'été')), 'c-est-bientot-l-ete');
     }
 
-    public function testHeader()
+    public function testHeader(): void
     {
         $expectedHeaders = [
             'Location' => 'http://www.google.fr',
@@ -121,7 +123,7 @@ class PageTest extends TestCase
         $this->assertEquals($page->getHeaders(), $expectedHeaders);
     }
 
-    public function testHasRequestMethod()
+    public function testHasRequestMethod(): void
     {
         $page = new Page();
         $page->setRequestMethod('POST');
@@ -138,7 +140,7 @@ class PageTest extends TestCase
         $this->assertEquals($page->hasRequestMethod('biloute'), false);
     }
 
-    public function testGetterSetter()
+    public function testGetterSetter(): void
     {
         $page = new Page();
         $page->setEnabled(true);
@@ -204,7 +206,7 @@ class PageTest extends TestCase
         $this->assertEquals('Salut', (string) $page);
     }
 
-    public function testParents()
+    public function testParents(): void
     {
         $root = new Page();
         $root->setName('root');
@@ -230,7 +232,7 @@ class PageTest extends TestCase
         $this->assertEquals('level 1', $parent->getName());
     }
 
-    public function testPageTypeCMS()
+    public function testPageTypeCMS(): void
     {
         $page = new Page();
         $page->setRouteName(Page::PAGE_ROUTE_CMS_NAME);
@@ -242,7 +244,7 @@ class PageTest extends TestCase
         $this->assertFalse($page->isError(), 'isError');
     }
 
-    public function testPageTypeHybrid()
+    public function testPageTypeHybrid(): void
     {
         $page = new Page();
         $page->setRouteName('foo_bar');
@@ -255,7 +257,7 @@ class PageTest extends TestCase
         $this->assertFalse($page->isError(), 'isError');
     }
 
-    public function testPageTypeInternal()
+    public function testPageTypeInternal(): void
     {
         $page = new Page();
         $page->setName('global');
@@ -268,7 +270,7 @@ class PageTest extends TestCase
         $this->assertFalse($page->isError(), 'isError');
     }
 
-    public function testPageTypeError()
+    public function testPageTypeError(): void
     {
         $page = new Page();
         $page->setName('global');
@@ -281,7 +283,7 @@ class PageTest extends TestCase
         $this->assertTrue($page->isError(), 'isError');
     }
 
-    public function testPageTypeDynamic()
+    public function testPageTypeDynamic(): void
     {
         $page = new Page();
         $page->setRouteName('foo_bar');
@@ -293,7 +295,7 @@ class PageTest extends TestCase
         $this->assertFalse($page->isInternal(), 'isInternal');
     }
 
-    public function testGetContainer()
+    public function testGetContainer(): void
     {
         $page = new Page();
 
@@ -315,7 +317,7 @@ class PageTest extends TestCase
         $this->assertEquals($block3, $page->getContainerByCode('gotcha'));
     }
 
-    public function testGetBlockByType()
+    public function testGetBlockByType(): void
     {
         $page = new Page();
 

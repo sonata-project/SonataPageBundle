@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -134,7 +136,7 @@ class BlockSsiCache extends SsiCache
      *
      * @throws \RuntimeException
      */
-    private function validateKeys(array $keys)
+    private function validateKeys(array $keys): void
     {
         foreach (['block_id', 'page_id', 'manager', 'updated_at'] as $key) {
             if (!isset($keys[$key])) {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -203,7 +205,7 @@ class CmsPageManager extends BaseCmsPageManager
      *
      * @param PageInterface $page
      */
-    private function loadBlocks(PageInterface $page)
+    private function loadBlocks(PageInterface $page): void
     {
         $blocks = $this->blockInteractor->loadPageBlocks($page);
 

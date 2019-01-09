@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -81,7 +83,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
      *
      * @param BaseBlock $object
      */
-    public function preUpdate($object)
+    public function preUpdate($object): void
     {
         $this->blockManager->get($object)->preUpdate($object);
 
@@ -98,7 +100,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
      *
      * @param BaseBlock $object
      */
-    public function postUpdate($object)
+    public function postUpdate($object): void
     {
         $this->blockManager->get($object)->postUpdate($object);
 
@@ -112,7 +114,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
      *
      * @param BaseBlock $object
      */
-    public function prePersist($object)
+    public function prePersist($object): void
     {
         $this->blockManager->get($object)->prePersist($object);
 
@@ -129,7 +131,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
      *
      * @param BaseBlock $object
      */
-    public function postPersist($object)
+    public function postPersist($object): void
     {
         $this->blockManager->get($object)->postPersist($object);
 
@@ -143,7 +145,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
      *
      * @param BaseBlock $object
      */
-    public function preRemove($object)
+    public function preRemove($object): void
     {
         $this->blockManager->get($object)->preRemove($object);
 
@@ -159,7 +161,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
      *
      * @param BaseBlock $object
      */
-    public function postRemove($object)
+    public function postRemove($object): void
     {
         $this->blockManager->get($object)->postRemove($object);
     }
@@ -167,7 +169,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
     /**
      * @param BlockServiceManagerInterface $blockManager
      */
-    public function setBlockManager(BlockServiceManagerInterface $blockManager)
+    public function setBlockManager(BlockServiceManagerInterface $blockManager): void
     {
         $this->blockManager = $blockManager;
     }
@@ -175,7 +177,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
     /**
      * @param CacheManagerInterface $cacheManager
      */
-    public function setCacheManager(CacheManagerInterface $cacheManager)
+    public function setCacheManager(CacheManagerInterface $cacheManager): void
     {
         $this->cacheManager = $cacheManager;
     }
@@ -183,7 +185,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
     /**
      * @param array $containerBlockTypes
      */
-    public function setContainerBlockTypes(array $containerBlockTypes)
+    public function setContainerBlockTypes(array $containerBlockTypes): void
     {
         $this->containerBlockTypes = $containerBlockTypes;
     }
@@ -205,7 +207,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
     /**
      * {@inheritdoc}
      */
-    public function preBatchAction($actionName, ProxyQueryInterface $query, array &$idx, $allElements)
+    public function preBatchAction($actionName, ProxyQueryInterface $query, array &$idx, $allElements): void
     {
         $parent = $this->getParent();
 
@@ -223,7 +225,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
     /**
      * {@inheritdoc}
      */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollection $collection): void
     {
         $collection->add('view', $this->getRouterIdParameter().'/view');
     }
@@ -231,7 +233,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
     /**
      * {@inheritdoc}
      */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->addIdentifier('type')
@@ -245,7 +247,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
     /**
      * {@inheritdoc}
      */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('name')

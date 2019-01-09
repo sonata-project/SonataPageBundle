@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -17,7 +19,7 @@ use Symfony\Component\DependencyInjection\Reference;
 
 final class CmfRouterCompilerPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $enabled = 'sonata.page.router_auto_register.enabled';
         if ($container->hasParameter($enabled) && $container->getParameter($enabled)) {

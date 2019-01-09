@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -34,7 +36,7 @@ class SonataPageBundleTest extends TestCase
     /**
      * @dataProvider getSlug
      */
-    public function testBoot($text, $expected)
+    public function testBoot($text, $expected): void
     {
         $bundle = new SonataPageBundle();
         $container = $this->createMock(ContainerInterface::class);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -24,7 +26,7 @@ class BlockJsCacheTest extends TestCase
     /**
      * @dataProvider getExceptionCacheKeys
      */
-    public function testExceptions($keys)
+    public function testExceptions($keys): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -52,7 +54,7 @@ class BlockJsCacheTest extends TestCase
         ];
     }
 
-    public function testInitCache()
+    public function testInitCache(): void
     {
         $router = $this->createMock(RouterInterface::class);
         $router->expects($this->once())->method('generate')->will($this->returnValue('https://sonata-project.org/page/cache/js/block.js'));

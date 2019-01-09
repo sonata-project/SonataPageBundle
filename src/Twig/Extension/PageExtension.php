@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -111,7 +113,7 @@ class PageExtension extends AbstractExtension implements InitRuntimeInterface
     /**
      * {@inheritdoc}
      */
-    public function initRuntime(Environment $environment)
+    public function initRuntime(Environment $environment): void
     {
         $this->environment = $environment;
     }
@@ -250,7 +252,7 @@ class PageExtension extends AbstractExtension implements InitRuntimeInterface
 
         // build the parameters array
         $options = array_merge([
-            'use_cache' => isset($options['use_cache']) ? $options['use_cache'] : true,
+            'use_cache' => $options['use_cache'] ?? true,
             'extra_cache_keys' => [],
         ], $pageCacheKeys, $options);
 

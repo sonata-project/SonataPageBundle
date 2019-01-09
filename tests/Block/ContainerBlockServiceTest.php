@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -25,7 +27,7 @@ class ContainerBlockServiceTest extends AbstractBlockServiceTestCase
     /**
      * test the block execute() method.
      */
-    public function testExecute()
+    public function testExecute(): void
     {
         $service = new ContainerBlockService('core.container', $this->templating);
 
@@ -54,7 +56,7 @@ class ContainerBlockServiceTest extends AbstractBlockServiceTestCase
     /**
      * test the container layout.
      */
-    public function testLayout()
+    public function testLayout(): void
     {
         $service = new ContainerBlockService('core.container', $this->templating);
 
@@ -82,7 +84,7 @@ class ContainerBlockServiceTest extends AbstractBlockServiceTestCase
     /**
      * test the block's form builders.
      */
-    public function testFormBuilder()
+    public function testFormBuilder(): void
     {
         $service = new ContainerBlockService('core.container', $this->templating);
 

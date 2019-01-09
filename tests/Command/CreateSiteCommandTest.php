@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -38,7 +40,7 @@ class CreateSiteCommandTest extends TestCase
      */
     private $siteManager;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->siteManager = $this->prophesize(SiteManagerInterface::class);
 
@@ -52,7 +54,7 @@ class CreateSiteCommandTest extends TestCase
         $this->application->add($command);
     }
 
-    public function testExecuteWithNoConfirmation()
+    public function testExecuteWithNoConfirmation(): void
     {
         $site = new Site();
 
@@ -77,7 +79,7 @@ class CreateSiteCommandTest extends TestCase
         $this->assertRegExp('@Site created !@', $commandTester->getDisplay());
     }
 
-    public function testExecuteWithoutNoConfirmation()
+    public function testExecuteWithoutNoConfirmation(): void
     {
         $site = new Site();
 

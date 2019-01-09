@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -35,7 +37,7 @@ class TemplateChoiceTypeTest extends TestCase
     /**
      * setup each unit test.
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->manager = $this->createMock(TemplateManagerInterface::class);
         $this->type = new TemplateChoiceType($this->manager);
@@ -44,7 +46,7 @@ class TemplateChoiceTypeTest extends TestCase
     /**
      * Test getting options.
      */
-    public function testGetOptions()
+    public function testGetOptions(): void
     {
         // GIVEN
         $template = $this->getMockTemplate('Template 1');

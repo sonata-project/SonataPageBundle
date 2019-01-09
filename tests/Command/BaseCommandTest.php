@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -29,7 +31,7 @@ class BaseCommandTest extends TestCase
     /**
      * Sets up a new BaseCommand instance.
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->command = $this->getMockBuilder(BaseCommand::class)
             ->disableOriginalConstructor()
@@ -40,7 +42,7 @@ class BaseCommandTest extends TestCase
     /**
      * Tests the getSites() method with different parameters.
      */
-    public function testGetSites()
+    public function testGetSites(): void
     {
         // Given
         $method = new \ReflectionMethod($this->command, 'getSites');

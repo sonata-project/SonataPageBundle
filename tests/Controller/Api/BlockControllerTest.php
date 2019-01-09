@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -26,14 +28,14 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class BlockControllerTest extends TestCase
 {
-    public function testGetBlockAction()
+    public function testGetBlockAction(): void
     {
         $block = $this->createMock(BlockInterface::class);
 
         $this->assertEquals($block, $this->createBlockController($block)->getBlockAction(1));
     }
 
-    public function testGetBlockActionNotFoundException()
+    public function testGetBlockActionNotFoundException(): void
     {
         $this->expectException(NotFoundHttpException::class);
         $this->expectExceptionMessage('Block (42) not found');
@@ -41,7 +43,7 @@ class BlockControllerTest extends TestCase
         $this->createBlockController()->getBlockAction(42);
     }
 
-    public function testPutBlockAction()
+    public function testPutBlockAction(): void
     {
         $block = $this->createMock(BlockInterface::class);
 
@@ -61,7 +63,7 @@ class BlockControllerTest extends TestCase
         $this->assertInstanceOf(BlockInterface::class, $block);
     }
 
-    public function testPutBlockInvalidAction()
+    public function testPutBlockInvalidAction(): void
     {
         $block = $this->createMock(BlockInterface::class);
 
@@ -80,7 +82,7 @@ class BlockControllerTest extends TestCase
         $this->assertInstanceOf(FormInterface::class, $view);
     }
 
-    public function testDeleteBlockAction()
+    public function testDeleteBlockAction(): void
     {
         $block = $this->createMock(BlockInterface::class);
 
@@ -92,7 +94,7 @@ class BlockControllerTest extends TestCase
         $this->assertEquals(['deleted' => true], $view);
     }
 
-    public function testDeleteBlockInvalidAction()
+    public function testDeleteBlockInvalidAction(): void
     {
         $this->expectException(NotFoundHttpException::class);
 

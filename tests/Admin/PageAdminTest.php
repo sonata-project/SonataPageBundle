@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -24,7 +26,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class PageAdminTest extends TestCase
 {
-    public function testTabMenuHasLinksWithSubSite()
+    public function testTabMenuHasLinksWithSubSite(): void
     {
         $request = new Request(['id' => 42]);
         $admin = new PageAdmin(

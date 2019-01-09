@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -27,11 +29,11 @@ use Sonata\PageBundle\Tests\Model\Page;
 
 class SnapshotBlock extends Block
 {
-    public function setId($id)
+    public function setId($id): void
     {
     }
 
-    public function getId()
+    public function getId(): void
     {
     }
 }
@@ -55,7 +57,7 @@ class CmsSnapshotManagerTest extends TestCase
     /**
      * Setup manager object to test.
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->blockInteractor = $this->getMockBlockInteractor();
         $this->snapshotManager = $this->createMock(SnapshotManagerInterface::class);
@@ -66,7 +68,7 @@ class CmsSnapshotManagerTest extends TestCase
     /**
      * Test finding an existing container in a page.
      */
-    public function testFindExistingContainer()
+    public function testFindExistingContainer(): void
     {
         $block = new SnapshotBlock();
         $block->setSettings(['code' => 'findme']);
@@ -82,7 +84,7 @@ class CmsSnapshotManagerTest extends TestCase
     /**
      * Test finding an non-existing container in a page does NOT create a new block.
      */
-    public function testFindNonExistingContainerCreatesNoNewBlock()
+    public function testFindNonExistingContainerCreatesNoNewBlock(): void
     {
         $page = new Page();
 
@@ -91,7 +93,7 @@ class CmsSnapshotManagerTest extends TestCase
         $this->assertNull($container, 'should not create a new container block');
     }
 
-    public function testGetPageWithUnknownPage()
+    public function testGetPageWithUnknownPage(): void
     {
         $this->expectException(PageNotFoundException::class);
 
@@ -104,7 +106,7 @@ class CmsSnapshotManagerTest extends TestCase
         $snapshotManager->getPage($site, 1);
     }
 
-    public function testGetPageWithId()
+    public function testGetPageWithId(): void
     {
         $cBlock = $this->createMock(BlockInterface::class);
         $cBlock->expects($this->any())->method('hasChildren')->will($this->returnValue(false));

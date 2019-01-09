@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -35,7 +37,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class PageControllerTest extends TestCase
 {
-    public function testGetPagesAction()
+    public function testGetPagesAction(): void
     {
         $pager = $this->getMockBuilder(Pager::class)->disableOriginalConstructor()->getMock();
 
@@ -52,14 +54,14 @@ class PageControllerTest extends TestCase
         $this->assertSame($pager, $this->createPageController(null, null, $pageManager)->getPagesAction($paramFetcher));
     }
 
-    public function testGetPageAction()
+    public function testGetPageAction(): void
     {
         $page = $this->createMock(PageInterface::class);
 
         $this->assertEquals($page, $this->createPageController($page)->getPageAction(1));
     }
 
-    public function testGetPageActionNotFoundException()
+    public function testGetPageActionNotFoundException(): void
     {
         $this->expectException(NotFoundHttpException::class);
         $this->expectExceptionMessage('Page (42) not found');
@@ -67,7 +69,7 @@ class PageControllerTest extends TestCase
         $this->createPageController()->getPageAction(42);
     }
 
-    public function testGetPageBlocksAction()
+    public function testGetPageBlocksAction(): void
     {
         $page = $this->createMock(PageInterface::class);
         $block = $this->createMock(PageBlockInterface::class);
@@ -77,7 +79,7 @@ class PageControllerTest extends TestCase
         $this->assertEquals([$block], $this->createPageController($page)->getPageBlocksAction(1));
     }
 
-    public function testPostPageAction()
+    public function testPostPageAction(): void
     {
         $page = $this->createMock(PageInterface::class);
 
@@ -97,7 +99,7 @@ class PageControllerTest extends TestCase
         $this->assertInstanceOf(View::class, $view);
     }
 
-    public function testPostPageInvalidAction()
+    public function testPostPageInvalidAction(): void
     {
         $page = $this->createMock(PageInterface::class);
 
@@ -116,7 +118,7 @@ class PageControllerTest extends TestCase
         $this->assertInstanceOf(FormInterface::class, $view);
     }
 
-    public function testPutPageAction()
+    public function testPutPageAction(): void
     {
         $page = $this->createMock(PageInterface::class);
 
@@ -136,7 +138,7 @@ class PageControllerTest extends TestCase
         $this->assertInstanceOf(View::class, $view);
     }
 
-    public function testPutPageInvalidAction()
+    public function testPutPageInvalidAction(): void
     {
         $page = $this->createMock(PageInterface::class);
 
@@ -155,7 +157,7 @@ class PageControllerTest extends TestCase
         $this->assertInstanceOf(FormInterface::class, $view);
     }
 
-    public function testDeletePageAction()
+    public function testDeletePageAction(): void
     {
         $page = $this->createMock(PageInterface::class);
 
@@ -167,7 +169,7 @@ class PageControllerTest extends TestCase
         $this->assertEquals(['deleted' => true], $view);
     }
 
-    public function testDeletePageInvalidAction()
+    public function testDeletePageInvalidAction(): void
     {
         $this->expectException(NotFoundHttpException::class);
 
@@ -177,7 +179,7 @@ class PageControllerTest extends TestCase
         $this->createPageController(null, null, $pageManager)->deletePageAction(1);
     }
 
-    public function testPostPageBlockAction()
+    public function testPostPageBlockAction(): void
     {
         $block = $this->createMock(Block::class);
         $block->expects($this->once())->method('setPage');
@@ -204,7 +206,7 @@ class PageControllerTest extends TestCase
         $this->assertInstanceOf(Block::class, $block);
     }
 
-    public function testPostPageBlockInvalidAction()
+    public function testPostPageBlockInvalidAction(): void
     {
         $block = $this->createMock(Block::class);
 
@@ -227,7 +229,7 @@ class PageControllerTest extends TestCase
         $this->assertInstanceOf(FormInterface::class, $view);
     }
 
-    public function testPostPageSnapshotAction()
+    public function testPostPageSnapshotAction(): void
     {
         $page = $this->createMock(PageInterface::class);
 
@@ -239,7 +241,7 @@ class PageControllerTest extends TestCase
         $this->assertEquals(['queued' => true], $view);
     }
 
-    public function testPostPagesSnapshotsAction()
+    public function testPostPagesSnapshotsAction(): void
     {
         $site = $this->createMock(SiteInterface::class);
 

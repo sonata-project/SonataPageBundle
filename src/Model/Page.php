@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -204,7 +206,7 @@ abstract class Page implements PageInterface
     /**
      * @param mixed $slugifyMethod
      */
-    public static function setSlugifyMethod(\Closure $slugifyMethod)
+    public static function setSlugifyMethod(\Closure $slugifyMethod): void
     {
         self::$slugifyMethod = $slugifyMethod;
     }
@@ -212,7 +214,7 @@ abstract class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function setId($id)
+    public function setId($id): void
     {
         $this->id = $id;
     }
@@ -220,7 +222,7 @@ abstract class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function setRouteName($routeName)
+    public function setRouteName($routeName): void
     {
         $this->routeName = $routeName;
     }
@@ -236,7 +238,7 @@ abstract class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function setPageAlias($pageAlias)
+    public function setPageAlias($pageAlias): void
     {
         if ('_page_alias_' !== substr((string) $pageAlias, 0, 12)) {
             $pageAlias = '_page_alias_'.$pageAlias;
@@ -256,7 +258,7 @@ abstract class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function setType($type)
+    public function setType($type): void
     {
         $this->type = $type;
     }
@@ -272,7 +274,7 @@ abstract class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function setEnabled($enabled)
+    public function setEnabled($enabled): void
     {
         $this->enabled = $enabled;
     }
@@ -288,7 +290,7 @@ abstract class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function setName($name)
+    public function setName($name): void
     {
         $this->name = $name;
     }
@@ -304,7 +306,7 @@ abstract class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function setSlug($slug)
+    public function setSlug($slug): void
     {
         $this->slug = self::slugify(trim((string) $slug));
     }
@@ -320,7 +322,7 @@ abstract class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function setCustomUrl($customUrl)
+    public function setCustomUrl($customUrl): void
     {
         $this->customUrl = $customUrl;
     }
@@ -336,7 +338,7 @@ abstract class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function setRequestMethod($requestMethod)
+    public function setRequestMethod($requestMethod): void
     {
         $this->requestMethod = $requestMethod;
     }
@@ -352,7 +354,7 @@ abstract class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function setMetaKeyword($metaKeyword)
+    public function setMetaKeyword($metaKeyword): void
     {
         $this->metaKeyword = $metaKeyword;
     }
@@ -368,7 +370,7 @@ abstract class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function setMetaDescription($metaDescription)
+    public function setMetaDescription($metaDescription): void
     {
         $this->metaDescription = $metaDescription;
     }
@@ -384,7 +386,7 @@ abstract class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function setJavascript($javascript)
+    public function setJavascript($javascript): void
     {
         $this->javascript = $javascript;
     }
@@ -400,7 +402,7 @@ abstract class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function setStylesheet($stylesheet)
+    public function setStylesheet($stylesheet): void
     {
         $this->stylesheet = $stylesheet;
     }
@@ -416,7 +418,7 @@ abstract class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function setRawHeaders($rawHeaders)
+    public function setRawHeaders($rawHeaders): void
     {
         $headers = $this->getHeadersAsArray($rawHeaders);
 
@@ -434,7 +436,7 @@ abstract class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function addHeader($name, $header)
+    public function addHeader($name, $header): void
     {
         $headers = $this->getHeaders();
 
@@ -448,7 +450,7 @@ abstract class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function setHeaders(array $headers = [])
+    public function setHeaders(array $headers = []): void
     {
         $this->headers = [];
         $this->rawHeaders = null;
@@ -473,7 +475,7 @@ abstract class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function setCreatedAt(\DateTime $createdAt = null)
+    public function setCreatedAt(\DateTime $createdAt = null): void
     {
         $this->createdAt = $createdAt;
     }
@@ -489,7 +491,7 @@ abstract class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function setUpdatedAt(\DateTime $updatedAt = null)
+    public function setUpdatedAt(\DateTime $updatedAt = null): void
     {
         $this->updatedAt = $updatedAt;
     }
@@ -505,7 +507,7 @@ abstract class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function addChildren(PageInterface $children)
+    public function addChildren(PageInterface $children): void
     {
         $this->children[] = $children;
 
@@ -523,7 +525,7 @@ abstract class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function setChildren($children)
+    public function setChildren($children): void
     {
         $this->children = $children;
     }
@@ -547,7 +549,7 @@ abstract class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function setSnapshots($snapshots)
+    public function setSnapshots($snapshots): void
     {
         $this->snapshots = $snapshots;
     }
@@ -563,7 +565,7 @@ abstract class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function addSnapshot(SnapshotInterface $snapshot)
+    public function addSnapshot(SnapshotInterface $snapshot): void
     {
         $this->snapshots[] = $snapshot;
 
@@ -575,7 +577,7 @@ abstract class Page implements PageInterface
      *
      * @param PageInterface $target
      */
-    public function setTarget(PageInterface $target = null)
+    public function setTarget(PageInterface $target = null): void
     {
         $this->target = $target;
     }
@@ -585,7 +587,7 @@ abstract class Page implements PageInterface
      *
      * @param PageBlockInterface $blocks
      */
-    public function addBlocks(PageBlockInterface $blocks)
+    public function addBlocks(PageBlockInterface $blocks): void
     {
         $blocks->setPage($this);
 
@@ -603,7 +605,7 @@ abstract class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function setParent(PageInterface $parent = null)
+    public function setParent(PageInterface $parent = null): void
     {
         $this->parent = $parent;
     }
@@ -623,13 +625,13 @@ abstract class Page implements PageInterface
             $level = \count($parents) + $level;
         }
 
-        return isset($parents[$level]) ? $parents[$level] : null;
+        return $parents[$level] ?? null;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setParents(array $parents)
+    public function setParents(array $parents): void
     {
         $this->parents = $parents;
     }
@@ -657,7 +659,7 @@ abstract class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function setTemplateCode($templateCode)
+    public function setTemplateCode($templateCode): void
     {
         $this->templateCode = $templateCode;
     }
@@ -670,14 +672,14 @@ abstract class Page implements PageInterface
         return $this->templateCode;
     }
 
-    public function disableBlockLazyLoading()
+    public function disableBlockLazyLoading(): void
     {
         if (\is_object($this->blocks)) {
             $this->blocks->setInitialized(true);
         }
     }
 
-    public function disableChildrenLazyLoading()
+    public function disableChildrenLazyLoading(): void
     {
         if (\is_object($this->children)) {
             $this->children->setInitialized(true);
@@ -687,7 +689,7 @@ abstract class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function setDecorate($decorate)
+    public function setDecorate($decorate): void
     {
         $this->decorate = $decorate;
     }
@@ -743,7 +745,7 @@ abstract class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function setPosition($position)
+    public function setPosition($position): void
     {
         $this->position = $position;
     }
@@ -759,7 +761,7 @@ abstract class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function setUrl($url)
+    public function setUrl($url): void
     {
         $this->url = $url;
     }
@@ -867,7 +869,7 @@ abstract class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function setSite(SiteInterface $site)
+    public function setSite(SiteInterface $site): void
     {
         $this->site = $site;
     }
@@ -883,7 +885,7 @@ abstract class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function setEdited($edited)
+    public function setEdited($edited): void
     {
         $this->edited = $edited;
     }
@@ -899,7 +901,7 @@ abstract class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function setTitle($title)
+    public function setTitle($title): void
     {
         $this->title = $title;
     }

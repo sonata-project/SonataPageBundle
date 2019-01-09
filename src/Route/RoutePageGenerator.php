@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -67,7 +69,7 @@ class RoutePageGenerator
      * @param OutputInterface $output A Symfony console output
      * @param bool            $clean  clean orphaned pages
      */
-    public function update(SiteInterface $site, OutputInterface $output = null, $clean = false)
+    public function update(SiteInterface $site, OutputInterface $output = null, $clean = false): void
     {
         $message = sprintf(
             ' > <info>Updating core routes for site</info> : <comment>%s - %s</comment>',
@@ -94,8 +96,7 @@ class RoutePageGenerator
                 'name' => 'Homepage',
                 'url' => '/',
                 'site' => $site,
-                'requestMethod' => isset($requirements['_method']) ?
-                    $requirements['_method'] :
+                'requestMethod' => $requirements['_method'] ??
                     'GET|POST|HEAD|DELETE|PUT',
                 'slug' => '/',
             ]);
@@ -147,8 +148,7 @@ class RoutePageGenerator
                     'name' => $name,
                     'url' => $route->getPath(),
                     'site' => $site,
-                    'requestMethod' => isset($requirements['_method']) ?
-                        $requirements['_method'] :
+                    'requestMethod' => $requirements['_method'] ??
                         'GET|POST|HEAD|DELETE|PUT',
                 ]);
             }
@@ -159,8 +159,7 @@ class RoutePageGenerator
 
             $page->setSlug($route->getPath());
             $page->setUrl($route->getPath());
-            $page->setRequestMethod(isset($requirements['_method']) ?
-                $requirements['_method'] :
+            $page->setRequestMethod($requirements['_method'] ??
                 'GET|POST|HEAD|DELETE|PUT');
 
             $this->pageManager->save($page);
@@ -243,7 +242,7 @@ MSG
      * @param OutputInterface $output  A Symfony console output instance
      * @param string          $message A string message to output
      */
-    protected function writeln(OutputInterface $output = null, $message)
+    protected function writeln(OutputInterface $output = null, $message): void
     {
         if ($output instanceof OutputInterface) {
             $output->writeln($message);

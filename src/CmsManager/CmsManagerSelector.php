@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -76,7 +78,7 @@ class CmsManagerSelector implements CmsManagerSelectorInterface, LogoutHandlerIn
     /**
      * @param InteractiveLoginEvent $event
      */
-    public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
+    public function onSecurityInteractiveLogin(InteractiveLoginEvent $event): void
     {
         if ($this->container->get('security.token_storage')->getToken() &&
             $this->container->get('sonata.page.admin.page')->isGranted('EDIT')) {
@@ -87,7 +89,7 @@ class CmsManagerSelector implements CmsManagerSelectorInterface, LogoutHandlerIn
     /**
      * {@inheritdoc}
      */
-    public function logout(Request $request, Response $response, TokenInterface $token)
+    public function logout(Request $request, Response $response, TokenInterface $token): void
     {
         $this->getSession()->set('sonata/page/isEditor', false);
         if ($request->cookies->has('sonata_page_is_editor')) {

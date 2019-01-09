@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -27,7 +29,7 @@ use Symfony\Component\Routing\RouterInterface;
 
 class PageExtensionTest extends TestCase
 {
-    public function testAjaxUrl()
+    public function testAjaxUrl(): void
     {
         $cmsManager = $this->createMock(CmsManagerSelectorInterface::class);
         $siteSelector = $this->createMock(SiteSelectorInterface::class);
@@ -49,7 +51,7 @@ class PageExtensionTest extends TestCase
         $this->assertEquals('/foo/bar', $extension->ajaxUrl($block));
     }
 
-    public function testController()
+    public function testController(): void
     {
         $cmsManager = $this->createMock(CmsManagerSelectorInterface::class);
         $site = $this->createMock(SiteInterface::class);
@@ -83,7 +85,7 @@ class PageExtensionTest extends TestCase
         $extension->controller('foo');
     }
 
-    public function testControllerWithoutSite()
+    public function testControllerWithoutSite(): void
     {
         $cmsManager = $this->createMock(CmsManagerSelectorInterface::class);
         $siteSelector = $this->createMock(SiteSelectorInterface::class);

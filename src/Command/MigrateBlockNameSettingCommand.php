@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -22,12 +24,12 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class MigrateBlockNameSettingCommand extends BaseCommand
 {
-    const CONTAINER_TYPE = 'sonata.page.block.container';
+    public const CONTAINER_TYPE = 'sonata.page.block.container';
 
     /**
      * {@inheritdoc}
      */
-    public function configure()
+    public function configure(): void
     {
         $this->setName('sonata:page:migrate-block-setting');
         $this->addOption('class', null, InputOption::VALUE_OPTIONAL, 'Block entity class',
@@ -40,7 +42,7 @@ class MigrateBlockNameSettingCommand extends BaseCommand
     /**
      * {@inheritdoc}
      */
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): void
     {
         $count = 0;
         $repository = $this->getRepository($input->getOption('class'));

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -30,7 +32,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
  */
 class RequestListenerTest extends TestCase
 {
-    public function testValidSite()
+    public function testValidSite(): void
     {
         $page = $this->createMock(PageInterface::class);
         $page->expects($this->once())->method('getEnabled')->will($this->returnValue(true));
@@ -60,7 +62,7 @@ class RequestListenerTest extends TestCase
         $listener->onCoreRequest($event);
     }
 
-    public function testNoSite()
+    public function testNoSite(): void
     {
         $this->expectException(InternalErrorException::class);
 
