@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -94,8 +96,7 @@ class RoutePageGenerator
                 'name' => 'Homepage',
                 'url' => '/',
                 'site' => $site,
-                'requestMethod' => isset($requirements['_method']) ?
-                    $requirements['_method'] :
+                'requestMethod' => $requirements['_method'] ??
                     'GET|POST|HEAD|DELETE|PUT',
                 'slug' => '/',
             ]);
@@ -147,8 +148,7 @@ class RoutePageGenerator
                     'name' => $name,
                     'url' => $route->getPath(),
                     'site' => $site,
-                    'requestMethod' => isset($requirements['_method']) ?
-                        $requirements['_method'] :
+                    'requestMethod' => $requirements['_method'] ??
                         'GET|POST|HEAD|DELETE|PUT',
                 ]);
             }
@@ -159,8 +159,7 @@ class RoutePageGenerator
 
             $page->setSlug($route->getPath());
             $page->setUrl($route->getPath());
-            $page->setRequestMethod(isset($requirements['_method']) ?
-                $requirements['_method'] :
+            $page->setRequestMethod($requirements['_method'] ??
                 'GET|POST|HEAD|DELETE|PUT');
 
             $this->pageManager->save($page);
