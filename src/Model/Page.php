@@ -925,7 +925,7 @@ abstract class Page implements PageInterface
     {
         $headers = [];
 
-        foreach (explode("\r\n", $rawHeaders) as $header) {
+        foreach (explode("\r\n", (string) $rawHeaders) as $header) {
             if (false != strpos($header, ':')) {
                 list($name, $headerStr) = explode(':', $header, 2);
                 $headers[trim($name)] = trim($headerStr);
