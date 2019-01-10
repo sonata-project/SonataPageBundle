@@ -174,7 +174,7 @@ class RoutePageGenerator
 
         // Iterate over error pages
         foreach ($this->exceptionListener->getHttpErrorCodes() as $name) {
-            $name = trim($name);
+            $name = trim((string) $name);
 
             $knowRoutes[] = $name;
 
