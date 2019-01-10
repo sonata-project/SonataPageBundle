@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -20,7 +22,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 interface PageInterface
 {
-    const PAGE_ROUTE_CMS_NAME = 'page_slug';
+    public const PAGE_ROUTE_CMS_NAME = 'page_slug';
 
     /**
      * Returns the id.
