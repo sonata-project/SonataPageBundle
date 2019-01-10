@@ -51,6 +51,9 @@ class PageExtensionTest extends TestCase
         $this->assertEquals('/foo/bar', $extension->ajaxUrl($block));
     }
 
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testController()
     {
         $cmsManager = $this->createMock(CmsManagerSelectorInterface::class);
@@ -85,6 +88,9 @@ class PageExtensionTest extends TestCase
         $extension->controller('foo');
     }
 
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testControllerWithoutSite()
     {
         $cmsManager = $this->createMock(CmsManagerSelectorInterface::class);
