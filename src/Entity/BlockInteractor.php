@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -116,7 +118,7 @@ class BlockInteractor implements BlockInteractorInterface
     public function createNewContainer(array $values = [], \Closure $alter = null)
     {
         $container = $this->blockManager->create();
-        $container->setEnabled(isset($values['enabled']) ? $values['enabled'] : true);
+        $container->setEnabled($values['enabled'] ?? true);
         $container->setCreatedAt(new \DateTime());
         $container->setUpdatedAt(new \DateTime());
         $container->setType('sonata.page.block.container');
@@ -128,11 +130,11 @@ class BlockInteractor implements BlockInteractorInterface
         if (isset($values['name'])) {
             $container->setName($values['name']);
         } else {
-            $container->setName(isset($values['code']) ? $values['code'] : 'No name defined');
+            $container->setName($values['code'] ?? 'No name defined');
         }
 
-        $container->setSettings(['code' => isset($values['code']) ? $values['code'] : 'no code defined']);
-        $container->setPosition(isset($values['position']) ? $values['position'] : 1);
+        $container->setSettings(['code' => $values['code'] ?? 'no code defined']);
+        $container->setPosition($values['position'] ?? 1);
 
         if (isset($values['parent'])) {
             $container->setParent($values['parent']);

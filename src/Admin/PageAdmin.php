@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -168,7 +170,7 @@ class PageAdmin extends AbstractAdmin
 
         if ('POST' == $this->getRequest()->getMethod()) {
             $values = $this->getRequest()->get($this->getUniqid());
-            $siteId = isset($values['site']) ? $values['site'] : null;
+            $siteId = $values['site'] ?? null;
         }
 
         $siteId = (null !== $siteId) ? $siteId : $this->getRequest()->get('siteId');
