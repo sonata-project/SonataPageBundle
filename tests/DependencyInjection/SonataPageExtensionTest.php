@@ -18,8 +18,6 @@ use Sonata\PageBundle\DependencyInjection\SonataPageExtension;
 use Symfony\Bundle\TwigBundle\DependencyInjection\TwigExtension;
 
 /**
- * Tests the SonataPageExtension.
- *
  * @author Rémi Marseille <marseille@ekino.com>
  */
 class SonataPageExtensionTest extends AbstractExtensionTestCase
