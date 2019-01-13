@@ -60,63 +60,37 @@ With this strategy it is possible to handle sites like :
 * http://sonata-project.net
 
 This strategy requires a dedicated ``RequestFactory`` object. So you need to alter the
-front controller to use the one provided by the ``PageBundle``. To do so, open
-files: ``app.php`` and ``app_dev.php`` and change the following parts.
+front controller to use the one provided by the ``PageBundle``.
 
-Working file examples::
+To do so, open ``index.php`` file and change the following parts::
 
-    // web/app.php
+    // public/index.php
 
-    use Sonata\PageBundle\Request\RequestFactory; // before: use Symfony\Component\HttpFoundation\Request;
-
-    $loader = require_once __DIR__.'/../app/bootstrap.php.cache';
-
-    require_once __DIR__.'/../app/AppKernel.php';
-
-    $kernel = new AppKernel('prod', false);
-    $kernel->loadClassCache();
-
-    $request = RequestFactory::createFromGlobals('host_with_path'); // before: $request = Request::createFromGlobals();
-    $response = $kernel->handle($request);
-    $response->send();
-    $kernel->terminate($request, $response);
-
-.. code-block:: php
-
-    // web/app_dev.php
-
-    use Sonata\PageBundle\Request\RequestFactory; // before: use Symfony\Component\HttpFoundation\Request;
+    use App\Kernel;
     use Symfony\Component\Debug\Debug;
+    use Sonata\PageBundle\Request\RequestFactory; // before: use Symfony\Component\HttpFoundation\Request;
 
-    // If you don't want to setup permissions the proper way, just uncomment the following PHP line
-    // read http://symfony.com/doc/current/book/installation.html#configuration-and-setup for more information
-    //umask(0000);
+    require dirname(__DIR__).'/config/bootstrap.php';
 
-    // This check prevents access to debug front controllers that are deployed by accident to production servers.
-    // Feel free to remove this, extend it, or make something more sophisticated.
-    if (isset($_SERVER['HTTP_CLIENT_IP'])
-        || isset($_SERVER['HTTP_X_FORWARDED_FOR'])
-        || !(in_array(@$_SERVER['REMOTE_ADDR'], array('127.0.0.1', 'fe80::1', '::1')) || php_sapi_name() === 'cli-server')
-    ) {
-        header('HTTP/1.0 403 Forbidden');
-        exit('You are not allowed to access this file. Check '.basename(__FILE__).' for more information.');
+    if ($_SERVER['APP_DEBUG']) {
+        umask(0000);
+
+        Debug::enable();
     }
 
-    $loader = require_once __DIR__.'/../app/bootstrap.php.cache';
-    Debug::enable();
+    if ($trustedProxies = $_SERVER['TRUSTED_PROXIES'] ?? $_ENV['TRUSTED_PROXIES'] ?? false) {
+        Request::setTrustedProxies(explode(',', $trustedProxies), Request::HEADER_X_FORWARDED_ALL ^ Request::HEADER_X_FORWARDED_HOST);
+    }
 
-    require_once __DIR__.'/../app/AppKernel.php';
+    if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? $_ENV['TRUSTED_HOSTS'] ?? false) {
+        Request::setTrustedHosts([$trustedHosts]);
+    }
 
-    $kernel = new AppKernel('dev', true);
-    $kernel->loadClassCache();
+    $kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
     $request = RequestFactory::createFromGlobals('host_with_path'); // before: $request = Request::createFromGlobals();
     $response = $kernel->handle($request);
     $response->send();
     $kernel->terminate($request, $response);
-
-.. note::
-
-    If you use ``app_test.php`` and/or ``app_*.php`` don't forget to modify these files, too!
 
 The last action is to configure the ``sonata_page`` section as:
 
@@ -133,63 +107,37 @@ Host and Path By Locale Strategy
 --------------------------------
 
 This strategy requires a dedicated ``RequestFactory`` object. So you need to alter the
-front controller to use the one provided by the ``PageBundle``. To do so, open
-files: ``app.php`` and ``app_dev.php`` and change the following parts.
+front controller to use the one provided by the ``PageBundle``.
 
-Working file examples::
+To do so, open ``index.php`` file and change the following parts::
 
-    // web/app.php
+    // public/index.php
 
-    use Sonata\PageBundle\Request\RequestFactory; // before: use Symfony\Component\HttpFoundation\Request;
-
-    $loader = require_once __DIR__.'/../app/bootstrap.php.cache';
-
-    require_once __DIR__.'/../app/AppKernel.php';
-
-    $kernel = new AppKernel('prod', false);
-    $kernel->loadClassCache();
-
-    $request = RequestFactory::createFromGlobals('host_with_path_by_locale'); // before: $request = Request::createFromGlobals();
-    $response = $kernel->handle($request);
-    $response->send();
-    $kernel->terminate($request, $response);
-
-.. code-block:: php
-
-    // web/app_dev.php
-
-    use Sonata\PageBundle\Request\RequestFactory; // before: use Symfony\Component\HttpFoundation\Request;
+    use App\Kernel;
     use Symfony\Component\Debug\Debug;
+    use Sonata\PageBundle\Request\RequestFactory; // before: use Symfony\Component\HttpFoundation\Request;
 
-    // If you don't want to setup permissions the proper way, just uncomment the following PHP line
-    // read http://symfony.com/doc/current/book/installation.html#configuration-and-setup for more information
-    //umask(0000);
+    require dirname(__DIR__).'/config/bootstrap.php';
 
-    // This check prevents access to debug front controllers that are deployed by accident to production servers.
-    // Feel free to remove this, extend it, or make something more sophisticated.
-    if (isset($_SERVER['HTTP_CLIENT_IP'])
-        || isset($_SERVER['HTTP_X_FORWARDED_FOR'])
-        || !(in_array(@$_SERVER['REMOTE_ADDR'], array('127.0.0.1', 'fe80::1', '::1')) || php_sapi_name() === 'cli-server')
-    ) {
-        header('HTTP/1.0 403 Forbidden');
-        exit('You are not allowed to access this file. Check '.basename(__FILE__).' for more information.');
+    if ($_SERVER['APP_DEBUG']) {
+        umask(0000);
+
+        Debug::enable();
     }
 
-    $loader = require_once __DIR__.'/../app/bootstrap.php.cache';
-    Debug::enable();
+    if ($trustedProxies = $_SERVER['TRUSTED_PROXIES'] ?? $_ENV['TRUSTED_PROXIES'] ?? false) {
+        Request::setTrustedProxies(explode(',', $trustedProxies), Request::HEADER_X_FORWARDED_ALL ^ Request::HEADER_X_FORWARDED_HOST);
+    }
 
-    require_once __DIR__.'/../app/AppKernel.php';
+    if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? $_ENV['TRUSTED_HOSTS'] ?? false) {
+        Request::setTrustedHosts([$trustedHosts]);
+    }
 
-    $kernel = new AppKernel('dev', true);
-    $kernel->loadClassCache();
+    $kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
     $request = RequestFactory::createFromGlobals('host_with_path_by_locale'); // before: $request = Request::createFromGlobals();
     $response = $kernel->handle($request);
     $response->send();
     $kernel->terminate($request, $response);
-
-.. note::
-
-    If you use ``app_test.php`` and/or ``app_*.php`` don't forget to modify these files, too!
 
 The last action is to configure the ``sonata_page`` section as:
 

@@ -6,59 +6,76 @@ Flush commands
 
 - Flush cache elements matching the key ``block_id = 5``::
 
-    $ php app/console sonata:cache:flush --keys='{"block_id":5}'
+    bin/console sonata:cache:flush --keys='{"block_id":5}'
 
 - Flush all cache elements::
 
-    $ php app/console sonata:cache:flush-all
+    bin/console sonata:cache:flush-all
 
 For more information about this, please have a look at the `SonataCacheBundle documentation`_.
 
 Page commands
 -------------
 
-- Update core routes, from routing files to page manager::
+- Update core routes, from routing files to page manager
 
-    $ php app/console sonata:page:update-core-routes --site=all
+.. code-block:: bash
 
-    You could also remove orphan pages with the ``--clean`` option.
+    bin/console sonata:page:update-core-routes --site=all
 
-    $ php app/console sonata:page:update-core-routes --site=all --clean
+You could also remove orphan pages with the ``--clean`` option.
 
-- Create snapshots from defined pages::
+.. code-block:: bash
 
-    $ php app/console sonata:page:create-snapshots --site=all
+    bin/console sonata:page:update-core-routes --site=all --clean
 
-- Cleanup snapshots::
+- Create snapshots from defined pages
 
-    $ php app/console sonata:page:cleanup-snapshots --site=all --keep-snapshots=5
+.. code-block:: bash
 
-- Create blocks::
+    bin/console sonata:page:create-snapshots --site=all
 
-    $ php app/console sonata:page:create-block-container --templateCode=default --blockCode=content_bottom --blockName="Left Content"
+- Cleanup snapshots
 
-- Clone site with pages::
+.. code-block:: bash
 
-    $ php app/console sonata:page:clone-site --source-id=1 --dest-id=2 --prefix=Foo
+    bin/console sonata:page:cleanup-snapshots --site=all --keep-snapshots=5
 
-Please note that you can also give multiple website identifiers to some commands, this way::
+- Create blocks
 
-    $ php app/console sonata:page:update-core-routes --site=1 --site=2 --site=...
-    $ php app/console sonata:page:create-snapshots --site=1 --site=2 --site=...
-    $ php app/console sonata:page:cleanup-snapshots --site=1 --site=2 --site=...
+.. code-block:: bash
+
+    bin/console sonata:page:create-block-container --templateCode=default --blockCode=content_bottom --blockName="Left Content"
+
+- Clone site with pages
+
+.. code-block:: bash
+
+    bin/console sonata:page:clone-site --source-id=1 --dest-id=2 --prefix=Foo
+
+Please note that you can also give multiple website identifiers to some commands, this way
+
+.. code-block:: bash
+
+    bin/console sonata:page:update-core-routes --site=1 --site=2 --site=...
+    bin/console sonata:page:create-snapshots --site=1 --site=2 --site=...
+    bin/console sonata:page:cleanup-snapshots --site=1 --site=2 --site=...
 
 Debug Commands
 --------------
 
-- Print page composition::
+- Print page composition
 
-    $ php app/console sonata:page:dump-page sonata.page.cms.snapshot PAGE_ID
-    $ php app/console sonata:page:dump-page sonata.page.cms.snapshot PAGE_ID --extended
+.. code-block:: bash
 
+    bin/console sonata:page:dump-page sonata.page.cms.snapshot PAGE_ID
+    bin/console sonata:page:dump-page sonata.page.cms.snapshot PAGE_ID --extended
 
-- Render a block::
+- Render a block
 
-    $ php app/console sonata:page:render-block sonata.page.cms.snapshot PAGE_ID BLOCK_ID
-    $ php app/console sonata:page:render-block sonata.page.cms.page PAGE_ID BLOCK_ID
+.. code-block:: bash
+
+    bin/console sonata:page:render-block sonata.page.cms.snapshot PAGE_ID BLOCK_ID
+    bin/console sonata:page:render-block sonata.page.cms.page PAGE_ID BLOCK_ID
 
 .. _`SonataCacheBundle documentation`: https://sonata-project.org/bundles/cache/master/doc/index.html

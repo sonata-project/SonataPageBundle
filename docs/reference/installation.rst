@@ -4,7 +4,7 @@ Installation
 Prerequisites
 -------------
 
-PHP 5.6 and Symfony 2.8, >=3.3 or 4 are needed to make this bundle work, there are
+PHP 7.1 and Symfony 2.8, >=3.3 or 4 are needed to make this bundle work, there are
 also some Sonata dependencies that need to be installed and configured beforehand:
 
     - SonataAdminBundle_
@@ -27,12 +27,17 @@ Add the dependant bundles to the vendor/bundles directory:
 
 .. code-block:: bash
 
-    $ composer require sonata-project/page-bundle --no-update
-    $ composer require sonata-project/datagrid-bundle 2.2.*@dev --no-update #for SonataPageBundle > 2.3.6
-    $ composer require sonata-project/doctrine-orm-admin-bundle --no-update
-    $ composer require friendsofsymfony/rest-bundle  --no-update # optional when using api
-    $ composer require nelmio/api-doc-bundle  --no-update # optional when using api
-    $ composer update
+    composer require sonata-project/page-bundle --no-update
+
+    # for SonataPageBundle > 2.3.6
+    composer require sonata-project/datagrid-bundle --no-update
+    composer require sonata-project/doctrine-orm-admin-bundle --no-update
+
+    # optional when using API
+    composer require friendsofsymfony/rest-bundle  --no-update
+    composer require nelmio/api-doc-bundle  --no-update
+
+    composer update
 
 Next, be sure to enable the bundles in your ``bundles.php`` file if they
 are not already enabled::
@@ -40,38 +45,13 @@ are not already enabled::
     // config/bundles.php
 
     return [
-        //...
+        // ...
         Sonata\PageBundle\SonataPageBundle::class => ['all' => true],
         Sonata\EasyExtendsBundle\SonataEasyExtendsBundle::class => ['all' => true],
     ];
 
-.. note::
-
-    If you are not using Symfony Flex, you should enable bundles in your
-    ``AppKernel.php``.
-
-.. code-block:: php
-
-    // app/AppKernel.php
-
-    public function registerBundles()
-    {
-        return array(
-            // ...
-            new Sonata\PageBundle\SonataPageBundle(),
-            new Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),
-            // ...
-        );
-    }
-
 Configuration
 -------------
-
-.. note::
-
-    If you are not using Symfony Flex, all configuration in this section should
-    be added to ``app/config/config.yml``.
-
 
 Doctrine Configuration
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -200,11 +180,6 @@ SonataBlockBundle Configuration
 Security Configuration
 ~~~~~~~~~~~~~~~~~~~~~~
 
-.. note::
-
-    If you are not using Symfony Flex, this configuration should be added
-    to ``app/config/security.yml``.
-
 .. code-block:: yaml
 
     # config/packages/security.yaml
@@ -247,10 +222,6 @@ Routing Configuration
         resource: '@SonataPageBundle/Resources/config/routing/cache.xml'
         prefix: /
 
-.. note::
-
-    If you are not using Symfony Flex, routes should be added to ``app/config/routing.yml``.
-
 Extend the Bundle
 -----------------
 
@@ -259,11 +230,7 @@ generate the correct entities for the page:
 
 .. code-block:: bash
 
-    $ bin/console sonata:easy-extends:generate SonataPageBundle --dest=src --namespace_prefix=App
-
-.. note::
-
-    If you are not using Symfony Flex, use command without ``--namespace_prefix=App``.
+    bin/console sonata:easy-extends:generate SonataPageBundle --dest=src --namespace_prefix=App
 
 With provided parameters, the files are generated in ``src/Application/Sonata/PageBundle``.
 
@@ -275,46 +242,16 @@ With provided parameters, the files are generated in ``src/Application/Sonata/Pa
     point to a global namespace. For instance the page will be
     ``App\Application\Sonata\PageBundle\Entity\Page``.
 
-.. note::
-
-    If you are not using Symfony Flex, the namespace will be ``Application\Sonata\PageBundle\Entity\Page``.
-
 Now, add the new ``Application`` Bundle into the ``bundles.php``::
 
     // config/bundles.php
 
     return [
-        //...
+        // ...
         App\Application\Sonata\PageBundle\ApplicationSonataPageBundle::class => ['all' => true],
     ];
 
-.. note::
-
-    If you are not using Symfony Flex, add the new ``Application`` Bundle into your
-    ``AppKernel.php``.
-
-.. code-block:: php
-
-    // app/AppKernel.php
-
-    public function registerBundles()
-    {
-        return array(
-            // ...
-
-            // Application Bundles
-            new Application\Sonata\PageBundle\ApplicationSonataPageBundle(),
-
-            // ...
-        );
-    }
-
 Configure SonataPageBundle to use the newly generated classes:
-
-.. note::
-
-    If you are not using Symfony Flex, add classes without the ``App\``
-    part.
 
 .. code-block:: yaml
 
@@ -326,11 +263,6 @@ Configure SonataPageBundle to use the newly generated classes:
             snapshot: App\Application\Sonata\PageBundle\Entity\Snapshot
             block: App\Application\Sonata\PageBundle\Entity\Block
             site: App\Application\Sonata\PageBundle\Entity\Site
-
-.. note::
-
-    If you are not using Symfony Flex, this configuration should be added
-    to ``app/config/config.yml``.
 
 The only thing left is to update your schema:
 
