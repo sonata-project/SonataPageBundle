@@ -26,4 +26,4 @@ You can clean up old snapshots by running the command:
 
 .. code-block:: bash
 
-    $ php app/console sonata:page:cleanup-snapshots --site=all --keep-snapshots=5
+    bin/console sonata:page:cleanup-snapshots --site=all --keep-snapshots=5

@@ -16,13 +16,13 @@ First, you need to create a dedicated site, let's create a `localhost` site:
 
 .. code-block:: bash
 
-    $ php app/console sonata:page:create-site
+    bin/console sonata:page:create-site
 
 or:
 
 .. code-block:: bash
 
-    $ php app/console  sonata:page:create-site --enabled=true --name=localhost --locale=- --host=localhost --relativePath=/ --enabledFrom=now --enabledTo="+10 years" --default=true
+    bin/console  sonata:page:create-site --enabled=true --name=localhost --locale=- --host=localhost --relativePath=/ --enabledFrom=now --enabledTo="+10 years" --default=true
 
 The output might look like this::
 
@@ -45,8 +45,8 @@ The output might look like this::
     Site created !
 
     You can now create the related pages and snapshots by running the followings commands:
-      php app/console sonata:page:update-core-routes --site=42
-      php app/console sonata:page:create-snapshots --site=42
+      bin/console sonata:page:update-core-routes --site=42
+      bin/console sonata:page:create-snapshots --site=42
 
 .. note::
 
@@ -86,7 +86,7 @@ As the Page bundle can handle symfony actions, actions need to be registered, ju
 
 .. code-block:: bash
 
-    $ php app/console sonata:page:update-core-routes --site=all
+    bin/console sonata:page:update-core-routes --site=all
 
 The output might look like this::
 
@@ -142,7 +142,7 @@ following command need to be run:
 
 .. code-block:: bash
 
-    $ php app/console sonata:page:create-snapshots --site=all
+    bin/console sonata:page:create-snapshots --site=all
 
 The output might look like this::
 
