@@ -14,9 +14,9 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Entity;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Sonata\CoreBundle\Model\BaseEntityManager;
 use Sonata\DatagridBundle\Pager\Doctrine\Pager;
 use Sonata\DatagridBundle\ProxyQuery\Doctrine\ProxyQuery;
+use Sonata\Doctrine\Entity\BaseEntityManager;
 use Sonata\PageBundle\Model\Page;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;

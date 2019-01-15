@@ -17,7 +17,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Block\Service\AbstractAdminBlockService;
 use Sonata\BlockBundle\Model\BlockInterface;
-use Sonata\CoreBundle\Form\Type\ImmutableArrayType;
+use Sonata\Form\Type\ImmutableArrayType;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Form\Type\PageSelectorType;

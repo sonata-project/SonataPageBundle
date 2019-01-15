@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Model;
 
-use Sonata\CoreBundle\Model\ManagerInterface;
-use Sonata\CoreBundle\Model\PageableManagerInterface;
+use Sonata\Doctrine\Model\ManagerInterface;
+use Sonata\Doctrine\Model\PageableManagerInterface;
 
 /**
  * Defines methods to interact with the persistency layer of a PageInterface.
