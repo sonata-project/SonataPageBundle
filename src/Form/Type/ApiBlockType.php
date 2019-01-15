@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Form\Type;
 
-use Sonata\CoreBundle\Form\Type\BaseDoctrineORMSerializationType;
+use Sonata\Form\Type\BaseDoctrineORMSerializationType;
 
 class ApiBlockType extends BaseDoctrineORMSerializationType
 {
