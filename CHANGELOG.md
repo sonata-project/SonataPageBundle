@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.10.0](https://github.com/sonata-project/SonataPageBundle/compare/3.9.1...3.10.0) - 2018-10-18
+
+### Removed
+- Removed CoreBundle deprecations
+- support for php 5 and php 7.0
+
 ## [3.9.1](https://github.com/sonata-project/SonataPageBundle/compare/3.9.0...3.9.1) - 2018-11-04
 
 ### Added
