@@ -106,7 +106,7 @@ class CmsManagerSelector implements CmsManagerSelectorInterface, LogoutHandlerIn
     }
 
     /**
-     * @return null|Request
+     * @return Request|null
      */
     private function getRequest()
     {

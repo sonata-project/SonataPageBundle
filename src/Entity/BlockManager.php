@@ -14,9 +14,9 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Entity;
 
 use Sonata\BlockBundle\Model\BlockManagerInterface;
-use Sonata\CoreBundle\Model\BaseEntityManager;
 use Sonata\DatagridBundle\Pager\Doctrine\Pager;
 use Sonata\DatagridBundle\ProxyQuery\Doctrine\ProxyQuery;
+use Sonata\Doctrine\Entity\BaseEntityManager;
 
 /**
  * This class manages BlockInterface persistency with the Doctrine ORM.

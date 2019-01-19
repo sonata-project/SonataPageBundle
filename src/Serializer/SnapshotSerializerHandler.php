@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Serializer;
 
-use Sonata\CoreBundle\Serializer\BaseSerializerHandler;
+use Sonata\Serializer\BaseSerializerHandler;
 
 /**
  * @author Benoit de JAcobet <benoit.de-jacobet@ekino.com>

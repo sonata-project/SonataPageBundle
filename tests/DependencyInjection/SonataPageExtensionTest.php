@@ -18,8 +18,6 @@ use Sonata\PageBundle\DependencyInjection\SonataPageExtension;
 use Symfony\Bundle\TwigBundle\DependencyInjection\TwigExtension;
 
 /**
- * Tests the SonataPageExtension.
- *
  * @author Rémi Marseille <marseille@ekino.com>
  */
 class SonataPageExtensionTest extends AbstractExtensionTestCase
@@ -71,6 +69,7 @@ class SonataPageExtensionTest extends AbstractExtensionTestCase
         $this->container->setParameter('kernel.bundles_metadata', []);
         $this->container->setParameter('kernel.project_dir', __DIR__);
         $this->container->setParameter('kernel.root_dir', __DIR__);
+        $this->container->setParameter('kernel.debug', false);
         $this->container->registerExtension(new TwigExtension());
 
         $this->container->compile();

@@ -354,7 +354,7 @@
                     $parentFormControl.parent().parent().hide();
                 } else if (self.isFormControlTypeByName(formControlName, 'position')) {
                     $positionFormControl = $formControl;
-                    $positionFormControl.val($containerChildren.find('> *').length);
+                    $positionFormControl.val($containerChildren.find('> *').length - 1);
                     $positionFormControl.closest('.form-group').hide();
                 }
             });
