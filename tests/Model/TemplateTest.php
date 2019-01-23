@@ -32,7 +32,7 @@ class TemplateTest extends TestCase
                 'shared' => false,
             ],
         ];
-        $this->assertEquals($template->getContainers(), $expected);
+        $this->assertSame($template->getContainers(), $expected);
 
         $template->addContainer('zone_B', [
             'shared' => true,
@@ -44,7 +44,7 @@ class TemplateTest extends TestCase
             'placement' => [],
             'shared' => true,
         ];
-        $this->assertEquals($template->getContainers(), $expected);
+        $this->assertSame($template->getContainers(), $expected);
     }
 
     public function testGetContainer()
@@ -62,6 +62,6 @@ class TemplateTest extends TestCase
             'shared' => false,
         ];
 
-        $this->assertEquals($expected, $template->getContainer('header'));
+        $this->assertSame($expected, $template->getContainer('header'));
     }
 }

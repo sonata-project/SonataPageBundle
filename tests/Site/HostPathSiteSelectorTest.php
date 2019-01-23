@@ -40,13 +40,13 @@ class HostPathSiteSelectorTest extends TestCase
         list($site, $event) = $this->performHandleKernelRequestTest('http://www.example.com/test0');
 
         // Ensure we retrieved the "Site 0" site.
-        $this->assertEquals('Site 0', $site->getName());
+        $this->assertSame('Site 0', $site->getName());
 
         // Ensure request path info is /
-        $this->assertEquals('/', $event->getRequest()->getPathInfo());
+        $this->assertSame('/', $event->getRequest()->getPathInfo());
 
         // Ensure request locale matches site locale
-        $this->assertEquals($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
+        $this->assertSame($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
     }
 
     /**
@@ -58,13 +58,13 @@ class HostPathSiteSelectorTest extends TestCase
         list($site, $event) = $this->performHandleKernelRequestTest('http://www.example.com/test1');
 
         // Ensure we retrieved the "Site 1" site.
-        $this->assertEquals('Site 1', $site->getName());
+        $this->assertSame('Site 1', $site->getName());
 
         // Ensure request path info is /
-        $this->assertEquals('/', $event->getRequest()->getPathInfo());
+        $this->assertSame('/', $event->getRequest()->getPathInfo());
 
         // Ensure request locale matches site locale
-        $this->assertEquals($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
+        $this->assertSame($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
     }
 
     /**
@@ -76,13 +76,13 @@ class HostPathSiteSelectorTest extends TestCase
         list($site, $event) = $this->performHandleKernelRequestTest('http://www.example.com/test2');
 
         // Ensure we retrieved the "Site 1" site.
-        $this->assertEquals('Site 2', $site->getName());
+        $this->assertSame('Site 2', $site->getName());
 
         // Ensure request path info is /
-        $this->assertEquals('/', $event->getRequest()->getPathInfo());
+        $this->assertSame('/', $event->getRequest()->getPathInfo());
 
         // Ensure request locale matches site locale
-        $this->assertEquals($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
+        $this->assertSame($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
     }
 
     /**
@@ -94,13 +94,13 @@ class HostPathSiteSelectorTest extends TestCase
         list($site, $event) = $this->performHandleKernelRequestTest('http://www.example.com/test3');
 
         // Ensure we retrieved the "Site 1" site.
-        $this->assertEquals('Site 3', $site->getName());
+        $this->assertSame('Site 3', $site->getName());
 
         // Ensure request path info is /
-        $this->assertEquals('/', $event->getRequest()->getPathInfo());
+        $this->assertSame('/', $event->getRequest()->getPathInfo());
 
         // Ensure request locale matches site locale
-        $this->assertEquals($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
+        $this->assertSame($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
     }
 
     /**
@@ -112,13 +112,13 @@ class HostPathSiteSelectorTest extends TestCase
         list($site, $event) = $this->performHandleKernelRequestTest('http://www.example.com/test4');
 
         // Ensure we retrieved the "Site 1" site.
-        $this->assertEquals('Site 4', $site->getName());
+        $this->assertSame('Site 4', $site->getName());
 
         // Ensure request path info is /
-        $this->assertEquals('/', $event->getRequest()->getPathInfo());
+        $this->assertSame('/', $event->getRequest()->getPathInfo());
 
         // Ensure request locale matches site locale
-        $this->assertEquals($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
+        $this->assertSame($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
     }
 
     /**
@@ -139,10 +139,10 @@ class HostPathSiteSelectorTest extends TestCase
         $this->assertInstanceOf(RedirectResponse::class, $response);
 
         // Ensure the redirect url is for "Site 2"
-        $this->assertEquals('//www.example.com/test2', $response->getTargetUrl());
+        $this->assertSame('//www.example.com/test2', $response->getTargetUrl());
 
         // Ensure request path info is /test5
-        $this->assertEquals('/test5', $event->getRequest()->getPathInfo());
+        $this->assertSame('/test5', $event->getRequest()->getPathInfo());
 
         // Ensure request locale is null
         $this->assertNull($event->getRequest()->attributes->get('_locale'));
@@ -166,10 +166,10 @@ class HostPathSiteSelectorTest extends TestCase
         $this->assertInstanceOf(RedirectResponse::class, $response);
 
         // Ensure the redirect url is for "Site 2"
-        $this->assertEquals('//www.example.com/test2', $response->getTargetUrl());
+        $this->assertSame('//www.example.com/test2', $response->getTargetUrl());
 
         // Ensure request path info is /test6
-        $this->assertEquals('/test6', $event->getRequest()->getPathInfo());
+        $this->assertSame('/test6', $event->getRequest()->getPathInfo());
 
         // Ensure request locale is null
         $this->assertNull($event->getRequest()->attributes->get('_locale'));
@@ -193,10 +193,10 @@ class HostPathSiteSelectorTest extends TestCase
         $this->assertInstanceOf(RedirectResponse::class, $response);
 
         // Ensure the redirect url is for "Site 2"
-        $this->assertEquals('//www.example.com/test2', $response->getTargetUrl());
+        $this->assertSame('//www.example.com/test2', $response->getTargetUrl());
 
         // Ensure request path info is /test7
-        $this->assertEquals('/test7', $event->getRequest()->getPathInfo());
+        $this->assertSame('/test7', $event->getRequest()->getPathInfo());
 
         // Ensure request locale is null
         $this->assertNull($event->getRequest()->attributes->get('_locale'));
@@ -220,10 +220,10 @@ class HostPathSiteSelectorTest extends TestCase
         $this->assertInstanceOf(RedirectResponse::class, $response);
 
         // Ensure the redirect url is for "Site 2"
-        $this->assertEquals('//www.example.com/test2', $response->getTargetUrl());
+        $this->assertSame('//www.example.com/test2', $response->getTargetUrl());
 
         // Ensure request path info is /
-        $this->assertEquals('/', $event->getRequest()->getPathInfo());
+        $this->assertSame('/', $event->getRequest()->getPathInfo());
 
         // Ensure request locale is null
         $this->assertNull($event->getRequest()->attributes->get('_locale'));
@@ -238,13 +238,13 @@ class HostPathSiteSelectorTest extends TestCase
         list($site, $event) = $this->performHandleKernelRequestTest('http://www.example.com/test');
 
         // Ensure we retrieved the correct site.
-        $this->assertEquals('Site 8', $site->getName());
+        $this->assertSame('Site 8', $site->getName());
 
         // Ensure request path info is /
-        $this->assertEquals('/', $event->getRequest()->getPathInfo());
+        $this->assertSame('/', $event->getRequest()->getPathInfo());
 
         // Ensure request locale matches site locale
-        $this->assertEquals($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
+        $this->assertSame($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
     }
 
     /**
@@ -256,13 +256,13 @@ class HostPathSiteSelectorTest extends TestCase
         list($site, $event) = $this->performHandleKernelRequestTest('http://www.example.com/test/abc');
 
         // Ensure we retrieved the correct site.
-        $this->assertEquals('Site 8', $site->getName());
+        $this->assertSame('Site 8', $site->getName());
 
         // Ensure request path info is /abc
-        $this->assertEquals('/abc', $event->getRequest()->getPathInfo());
+        $this->assertSame('/abc', $event->getRequest()->getPathInfo());
 
         // Ensure request locale matches site locale
-        $this->assertEquals($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
+        $this->assertSame($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
     }
 
     /**
@@ -274,13 +274,13 @@ class HostPathSiteSelectorTest extends TestCase
         list($site, $event) = $this->performHandleKernelRequestTest('http://www.example.org/abc');
 
         // Ensure we retrieved the correct site.
-        $this->assertEquals('Site 9', $site->getName());
+        $this->assertSame('Site 9', $site->getName());
 
         // Ensure request path info is /abc
-        $this->assertEquals('/abc', $event->getRequest()->getPathInfo());
+        $this->assertSame('/abc', $event->getRequest()->getPathInfo());
 
         // Ensure request locale matches site locale
-        $this->assertEquals($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
+        $this->assertSame($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
     }
 
     /**
@@ -380,7 +380,7 @@ class HostPathSiteSelector extends BaseSiteSelector
                 $value = $this->_getFieldValue($site, $param_name);
 
                 if (\is_array($param_value)) {
-                    if (!\in_array($value, $param_value)) {
+                    if (!\in_array($value, $param_value, true)) {
                         $valid_site = false;
                     }
                 } else {

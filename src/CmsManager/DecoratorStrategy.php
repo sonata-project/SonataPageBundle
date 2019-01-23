@@ -57,11 +57,11 @@ class DecoratorStrategy implements DecoratorStrategyInterface
      */
     public function isDecorable(Request $request, $requestType, Response $response)
     {
-        if (HttpKernelInterface::MASTER_REQUEST != $requestType) {
+        if (HttpKernelInterface::MASTER_REQUEST !== $requestType) {
             return false;
         }
 
-        if ('text/html' != (substr($response->headers->get('Content-Type') ?: 'text/html', 0, 9))) {
+        if ('text/html' !== (substr($response->headers->get('Content-Type') ?: 'text/html', 0, 9))) {
             return false;
         }
 
@@ -74,11 +74,11 @@ class DecoratorStrategy implements DecoratorStrategyInterface
             return true;
         }
 
-        if (200 != $response->getStatusCode()) {
+        if (200 !== $response->getStatusCode()) {
             return false;
         }
 
-        if ('XMLHttpRequest' == $request->headers->get('x-requested-with')) {
+        if ('XMLHttpRequest' === $request->headers->get('x-requested-with')) {
             return false;
         }
 
@@ -103,7 +103,7 @@ class DecoratorStrategy implements DecoratorStrategyInterface
         }
 
         foreach ($this->ignoreRoutes as $route) {
-            if ($routeName == $route) {
+            if ($routeName === $route) {
                 return false;
             }
         }

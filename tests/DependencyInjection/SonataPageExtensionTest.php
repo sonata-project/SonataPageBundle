@@ -75,7 +75,7 @@ class SonataPageExtensionTest extends AbstractExtensionTestCase
         $this->container->compile();
         $this->assertTrue(\in_array(
             '@SonataCore/Form/datepicker.html.twig',
-            $this->container->getParameter('twig.form.resources')
+            $this->container->getParameter('twig.form.resources'), true
         ));
     }
 

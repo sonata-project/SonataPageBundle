@@ -153,7 +153,7 @@ class PageExtension extends AbstractExtension implements InitRuntimeInterface
         if ($page) {
             $breadcrumbs = $page->getParents();
 
-            if ($options['force_view_home_page'] && (!isset($breadcrumbs[0]) || 'homepage' != $breadcrumbs[0]->getRouteName())) {
+            if ($options['force_view_home_page'] && (!isset($breadcrumbs[0]) || 'homepage' !== $breadcrumbs[0]->getRouteName())) {
                 try {
                     $homePage = $this->cmsManagerSelector->retrieve()->getPageByRouteName($this->siteSelector->retrieve(), 'homepage');
                 } catch (PageNotFoundException $e) {

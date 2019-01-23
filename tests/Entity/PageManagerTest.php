@@ -44,8 +44,8 @@ class PageManagerTest extends TestCase
 
         $manager->fixUrl($page1);
 
-        $this->assertEquals('', $page1->getSlug());
-        $this->assertEquals('/', $page1->getUrl());
+        $this->assertSame('', $page1->getSlug());
+        $this->assertSame('/', $page1->getUrl());
 
         // if a parent page becomes a child page, then the slug and the url must be updated
         $parent = new Page();
@@ -53,21 +53,21 @@ class PageManagerTest extends TestCase
 
         $manager->fixUrl($parent);
 
-        $this->assertEquals('', $parent->getSlug());
-        $this->assertEquals('/', $parent->getUrl());
+        $this->assertSame('', $parent->getSlug());
+        $this->assertSame('/', $parent->getUrl());
 
-        $this->assertEquals('salut-comment-ca-va', $page1->getSlug());
-        $this->assertEquals('/salut-comment-ca-va', $page1->getUrl());
+        $this->assertSame('salut-comment-ca-va', $page1->getSlug());
+        $this->assertSame('/salut-comment-ca-va', $page1->getUrl());
 
-        $this->assertEquals('super-et-toi', $page2->getSlug());
-        $this->assertEquals('/salut-comment-ca-va/super-et-toi', $page2->getUrl());
+        $this->assertSame('super-et-toi', $page2->getSlug());
+        $this->assertSame('/salut-comment-ca-va/super-et-toi', $page2->getUrl());
 
         // check to remove the parent, so $page1 becomes a parent
         $page1->setParent(null);
         $manager->fixUrl($parent);
 
-        $this->assertEquals('', $page1->getSlug());
-        $this->assertEquals('/', $page1->getUrl());
+        $this->assertSame('', $page1->getSlug());
+        $this->assertSame('/', $page1->getUrl());
     }
 
     public function testWithSlashAtTheEnd()
@@ -94,7 +94,7 @@ class PageManagerTest extends TestCase
 
         $manager->fixUrl($child);
 
-        $this->assertEquals('/bundles/foobar', $child->getUrl());
+        $this->assertSame('/bundles/foobar', $child->getUrl());
     }
 
     public function testCreateWithGlobalDefaults()
@@ -107,7 +107,7 @@ class PageManagerTest extends TestCase
 
         $page = $manager->create(['name' => 'My Name', 'routeName' => 'my_route']);
 
-        $this->assertEquals('My Name', $page->getName());
+        $this->assertSame('My Name', $page->getName());
         $this->assertFalse($page->getDecorate());
     }
 

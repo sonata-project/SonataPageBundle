@@ -110,7 +110,7 @@ class ResponseListenerTest extends TestCase
         $this->listener->onCoreResponse($event);
 
         // THEN
-        $this->assertEquals('content', $event->getResponse()->getContent(), 'response should not be altered when non-decorable');
+        $this->assertSame('content', $event->getResponse()->getContent(), 'response should not be altered when non-decorable');
     }
 
     /**
@@ -151,7 +151,7 @@ class ResponseListenerTest extends TestCase
         $this->listener->onCoreResponse($event);
 
         // THEN
-        $this->assertEquals('outer "inner" outer', $event->getResponse()->getContent());
+        $this->assertSame('outer "inner" outer', $event->getResponse()->getContent());
     }
 
     /**
@@ -173,8 +173,8 @@ class ResponseListenerTest extends TestCase
         $cookies = $event->getResponse()->headers->getCookies();
         $foundCookie = false;
         foreach ($cookies as $cookie) {
-            if ('sonata_page_is_editor' == $cookie->getName()) {
-                $this->assertEquals(1, $cookie->getValue());
+            if ('sonata_page_is_editor' === $cookie->getName()) {
+                $this->assertSame(1, $cookie->getValue());
                 $foundCookie = true;
             }
         }

@@ -75,7 +75,7 @@ class RequestListener
         }
 
         // true cms page
-        if (PageInterface::PAGE_ROUTE_CMS_NAME == $request->get('_route')) {
+        if (PageInterface::PAGE_ROUTE_CMS_NAME === $request->get('_route')) {
             return;
         }
 
@@ -89,7 +89,7 @@ class RequestListener
             throw new InternalErrorException('No site available for the current request with uri '.htmlspecialchars($request->getUri(), ENT_QUOTES));
         }
 
-        if ($site->getLocale() && $site->getLocale() != $request->get('_locale')) {
+        if ($site->getLocale() && $site->getLocale() !== $request->get('_locale')) {
             throw new PageNotFoundException(sprintf('Invalid locale - site.locale=%s - request._locale=%s', $site->getLocale(), $request->get('_locale')));
         }
 

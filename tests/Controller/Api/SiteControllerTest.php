@@ -42,14 +42,14 @@ class SiteControllerTest extends TestCase
         $paramFetcher->expects($this->exactly(3))->method('get');
         $paramFetcher->expects($this->once())->method('all')->will($this->returnValue([]));
 
-        $this->assertEquals([], $this->createSiteController(null, $siteManager)->getSitesAction($paramFetcher));
+        $this->assertSame([], $this->createSiteController(null, $siteManager)->getSitesAction($paramFetcher));
     }
 
     public function testGetSiteAction()
     {
         $site = $this->createMock(SiteInterface::class);
 
-        $this->assertEquals($site, $this->createSiteController($site)->getSiteAction(1));
+        $this->assertSame($site, $this->createSiteController($site)->getSiteAction(1));
     }
 
     public function testGetSiteActionNotFoundException()
@@ -147,7 +147,7 @@ class SiteControllerTest extends TestCase
 
         $view = $this->createSiteController($site, $siteManager)->deleteSiteAction(1);
 
-        $this->assertEquals(['deleted' => true], $view);
+        $this->assertSame(['deleted' => true], $view);
     }
 
     public function testDeleteSiteInvalidAction()

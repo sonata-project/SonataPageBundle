@@ -38,7 +38,7 @@ class HostSiteSelectorTest extends TestCase
         list($site, $event) = $this->performHandleKernelRequestTest('http://localhost');
 
         // Ensure we retrieved the "Site 1" site.
-        $this->assertEquals('Site 0', $site->getName());
+        $this->assertSame('Site 0', $site->getName());
     }
 
     /**
@@ -50,7 +50,7 @@ class HostSiteSelectorTest extends TestCase
         list($site, $event) = $this->performHandleKernelRequestTest('http://www.example1.com');
 
         // Ensure we retrieved the "Site 1" site.
-        $this->assertEquals('Site 1', $site->getName());
+        $this->assertSame('Site 1', $site->getName());
     }
 
     /**
@@ -62,7 +62,7 @@ class HostSiteSelectorTest extends TestCase
         list($site, $event) = $this->performHandleKernelRequestTest('http://www.example2.com');
 
         // Ensure we retrieved the "Site 2" site.
-        $this->assertEquals('Site 2', $site->getName());
+        $this->assertSame('Site 2', $site->getName());
     }
 
     /**
@@ -74,7 +74,7 @@ class HostSiteSelectorTest extends TestCase
         list($site, $event) = $this->performHandleKernelRequestTest('http://www.example3.com');
 
         // Ensure we retrieved the "Site 3" site.
-        $this->assertEquals('Site 3', $site->getName());
+        $this->assertSame('Site 3', $site->getName());
     }
 
     /**
@@ -86,7 +86,7 @@ class HostSiteSelectorTest extends TestCase
         list($site, $event) = $this->performHandleKernelRequestTest('http://www.example4.com');
 
         // Ensure we retrieved the "Site 4" site.
-        $this->assertEquals('Site 4', $site->getName());
+        $this->assertSame('Site 4', $site->getName());
     }
 
     /**
@@ -98,7 +98,7 @@ class HostSiteSelectorTest extends TestCase
         list($site, $event) = $this->performHandleKernelRequestTest('http://www.example5.com');
 
         // Ensure we retrieved the "Site 0" site.
-        $this->assertEquals('Site 0', $site->getName());
+        $this->assertSame('Site 0', $site->getName());
     }
 
     /**
@@ -110,7 +110,7 @@ class HostSiteSelectorTest extends TestCase
         list($site, $event) = $this->performHandleKernelRequestTest('http://www.example6.com');
 
         // Ensure we retrieved the "Site 0" site.
-        $this->assertEquals('Site 0', $site->getName());
+        $this->assertSame('Site 0', $site->getName());
     }
 
     /**
@@ -122,7 +122,7 @@ class HostSiteSelectorTest extends TestCase
         list($site, $event) = $this->performHandleKernelRequestTest('http://www.example7.com');
 
         // Ensure we retrieved the "Site 0" site.
-        $this->assertEquals('Site 0', $site->getName());
+        $this->assertSame('Site 0', $site->getName());
     }
 
     /**
@@ -151,7 +151,7 @@ class HostSiteSelectorTest extends TestCase
         $site = $siteSelector->retrieve();
 
         // Ensure request locale matches site locale
-        $this->assertEquals($site->getLocale(), $request->attributes->get('_locale'));
+        $this->assertSame($site->getLocale(), $request->attributes->get('_locale'));
 
         return [
             $site,
@@ -227,7 +227,7 @@ class HostSiteSelector extends BaseSiteSelector
                 $value = $this->_getFieldValue($site, $param_name);
 
                 if (\is_array($param_value)) {
-                    if (!\in_array($value, $param_value)) {
+                    if (!\in_array($value, $param_value, true)) {
                         $valid_site = false;
                     }
                 } else {

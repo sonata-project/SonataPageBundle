@@ -82,6 +82,6 @@ class BlockSsiCacheTest extends TestCase
 
         $this->assertInstanceOf(CacheElement::class, $cacheElement);
 
-        $this->assertEquals('<!--# include virtual="/cache/page/esi/XXXXX/page/5/4?updated_at=as" -->', $cacheElement->getData()->getContent());
+        $this->assertSame('<!--# include virtual="/cache/page/esi/XXXXX/page/5/4?updated_at=as" -->', $cacheElement->getData()->getContent());
     }
 }

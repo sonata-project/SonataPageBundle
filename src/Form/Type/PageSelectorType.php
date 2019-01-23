@@ -101,14 +101,14 @@ class PageSelectorType extends AbstractType
                 continue;
             }
 
-            if (!$filter_choice['current_page'] && $options['page'] && $options['page']->getId() == $page->getId()) {
+            if (!$filter_choice['current_page'] && $options['page'] && $options['page']->getId() === $page->getId()) {
                 continue;
             }
 
             if (
-                'all' != $filter_choice['hierarchy'] && (
-                    ('root' != $filter_choice['hierarchy'] || $page->getParent()) &&
-                    ('children' != $filter_choice['hierarchy'] || !$page->getParent())
+                'all' !== $filter_choice['hierarchy'] && (
+                    ('root' !== $filter_choice['hierarchy'] || $page->getParent()) &&
+                    ('children' !== $filter_choice['hierarchy'] || !$page->getParent())
                 )
             ) {
                 continue;
@@ -122,7 +122,7 @@ class PageSelectorType extends AbstractType
                 continue;
             }
 
-            if ('all' != $filter_choice['request_method'] && !$page->hasRequestMethod($filter_choice['request_method'])) {
+            if ('all' !== $filter_choice['request_method'] && !$page->hasRequestMethod($filter_choice['request_method'])) {
                 continue;
             }
 
@@ -167,7 +167,7 @@ class PageSelectorType extends AbstractType
     private function childWalker(PageInterface $page, PageInterface $currentPage = null, &$choices, $level = 1)
     {
         foreach ($page->getChildren() as $child) {
-            if ($currentPage && $currentPage->getId() == $child->getId()) {
+            if ($currentPage && $currentPage->getId() === $child->getId()) {
                 continue;
             }
 

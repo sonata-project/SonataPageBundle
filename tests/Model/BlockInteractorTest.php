@@ -54,7 +54,7 @@ class BlockInteractorTest extends TestCase
 
         $this->assertTrue($container->getEnabled());
 
-        $this->assertEquals('my-code', $settings['code']);
-        $this->assertEquals('<div class="custom-layout">{{ CONTENT }}</div>', $settings['layout']);
+        $this->assertSame('my-code', $settings['code']);
+        $this->assertSame('<div class="custom-layout">{{ CONTENT }}</div>', $settings['layout']);
     }
 }

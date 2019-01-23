@@ -43,11 +43,11 @@ class SnapshotManagerTest extends TestCase
             ->getMock()
         ;
 
-        $this->assertEquals([], $manager->getTemplates());
+        $this->assertSame([], $manager->getTemplates());
 
         $manager->setTemplates(['foo' => 'bar']);
 
-        $this->assertEquals(['foo' => 'bar'], $manager->getTemplates());
+        $this->assertSame(['foo' => 'bar'], $manager->getTemplates());
     }
 
     public function testGetTemplates()
@@ -65,7 +65,7 @@ class SnapshotManagerTest extends TestCase
         $templates->setAccessible(true);
         $templates->setValue($manager, ['foo' => 'bar']);
 
-        $this->assertEquals(['foo' => 'bar'], $manager->getTemplates());
+        $this->assertSame(['foo' => 'bar'], $manager->getTemplates());
     }
 
     public function testGetTemplate()
@@ -83,7 +83,7 @@ class SnapshotManagerTest extends TestCase
         $templates->setAccessible(true);
         $templates->setValue($manager, ['foo' => 'bar']);
 
-        $this->assertEquals('bar', $manager->getTemplate('foo'));
+        $this->assertSame('bar', $manager->getTemplate('foo'));
     }
 
     public function testGetTemplatesException()
@@ -245,7 +245,7 @@ class SnapshotManagerTest extends TestCase
             ->with($manager, $transformer, $snapshot)
             ->will($this->returnValue($proxyInterface));
 
-        $this->assertEquals($proxyInterface, $manager->createSnapshotPageProxy($transformer, $snapshot));
+        $this->assertSame($proxyInterface, $manager->createSnapshotPageProxy($transformer, $snapshot));
     }
 
     /**
