@@ -37,14 +37,14 @@ class SnapshotControllerTest extends TestCase
         $paramFetcher->expects($this->exactly(3))->method('get');
         $paramFetcher->expects($this->once())->method('all')->will($this->returnValue([]));
 
-        $this->assertEquals([], $this->createSnapshotController(null, $snapshotManager)->getSnapshotsAction($paramFetcher));
+        $this->assertSame([], $this->createSnapshotController(null, $snapshotManager)->getSnapshotsAction($paramFetcher));
     }
 
     public function testGetSnapshotAction()
     {
         $snapshot = $this->createMock(SnapshotInterface::class);
 
-        $this->assertEquals($snapshot, $this->createSnapshotController($snapshot)->getSnapshotAction(1));
+        $this->assertSame($snapshot, $this->createSnapshotController($snapshot)->getSnapshotAction(1));
     }
 
     public function testGetSnapshotActionNotFoundException()
@@ -64,7 +64,7 @@ class SnapshotControllerTest extends TestCase
 
         $view = $this->createSnapshotController($snapshot, $snapshotManager)->deleteSnapshotAction(1);
 
-        $this->assertEquals(['deleted' => true], $view);
+        $this->assertSame(['deleted' => true], $view);
     }
 
     public function testDeletePageInvalidAction()

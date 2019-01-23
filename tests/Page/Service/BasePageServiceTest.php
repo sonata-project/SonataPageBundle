@@ -36,7 +36,7 @@ class BasePageServiceTest extends TestCase
         $name = $service->getName();
 
         // THEN
-        $this->assertEquals('my name', $name);
+        $this->assertSame('my name', $name);
     }
 
     /**

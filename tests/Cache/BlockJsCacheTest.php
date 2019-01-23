@@ -103,6 +103,6 @@ class BlockJsCacheTest extends TestCase
 </div>
 EXPECTED;
 
-        $this->assertEquals($expected, $cacheElement->getData()->getContent());
+        $this->assertSame($expected, $cacheElement->getData()->getContent());
     }
 }

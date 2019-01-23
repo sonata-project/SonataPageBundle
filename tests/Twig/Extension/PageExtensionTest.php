@@ -48,7 +48,7 @@ class PageExtensionTest extends TestCase
         $block->expects($this->exactly(2))->method('getPage')->will($this->returnValue($page));
 
         $extension = new PageExtension($cmsManager, $siteSelector, $router, $blockHelper, $httpKernelExtension);
-        $this->assertEquals('/foo/bar', $extension->ajaxUrl($block));
+        $this->assertSame('/foo/bar', $extension->ajaxUrl($block));
     }
 
     /**

@@ -165,7 +165,7 @@ abstract class Site implements SiteInterface
      */
     public function isLocalhost()
     {
-        return 'localhost' == $this->getHost();
+        return 'localhost' === $this->getHost();
     }
 
     /**

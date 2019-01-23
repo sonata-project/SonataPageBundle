@@ -32,7 +32,7 @@ class BlockControllerTest extends TestCase
     {
         $block = $this->createMock(BlockInterface::class);
 
-        $this->assertEquals($block, $this->createBlockController($block)->getBlockAction(1));
+        $this->assertSame($block, $this->createBlockController($block)->getBlockAction(1));
     }
 
     public function testGetBlockActionNotFoundException()
@@ -91,7 +91,7 @@ class BlockControllerTest extends TestCase
 
         $view = $this->createBlockController($block, $blockManager)->deleteBlockAction(1);
 
-        $this->assertEquals(['deleted' => true], $view);
+        $this->assertSame(['deleted' => true], $view);
     }
 
     public function testDeleteBlockInvalidAction()

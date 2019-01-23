@@ -86,7 +86,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
      */
     public function enableSnapshots(array $snapshots, \DateTime $date = null)
     {
-        if (0 == \count($snapshots)) {
+        if (0 === \count($snapshots)) {
             return;
         }
 

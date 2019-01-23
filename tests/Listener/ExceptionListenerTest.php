@@ -140,7 +140,7 @@ class ExceptionListenerTest extends TestCase
 
         // THEN
         $this->assertInstanceOf(Response::class, $event->getResponse(), 'Should return a response in event');
-        $this->assertEquals(404, $event->getResponse()->getStatusCode(), 'Should return 404 status code');
+        $this->assertSame(404, $event->getResponse()->getStatusCode(), 'Should return 404 status code');
     }
 
     /**
@@ -154,7 +154,7 @@ class ExceptionListenerTest extends TestCase
         $exception->expects($this->any())->method('getStatusCode')->will($this->returnValue(404));
         $event = $this->getMockEvent($exception);
 
-        $this->assertEquals('en', $event->getRequest()->getLocale());
+        $this->assertSame('en', $event->getRequest()->getLocale());
 
         // mock a site
         $site = $this->createMock(SiteInterface::class);
@@ -186,7 +186,7 @@ class ExceptionListenerTest extends TestCase
 
         // THEN
         // mock asserts
-        $this->assertEquals('fr', $event->getRequest()->getLocale());
+        $this->assertSame('fr', $event->getRequest()->getLocale());
     }
 
     /**

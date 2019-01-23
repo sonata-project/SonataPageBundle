@@ -83,6 +83,6 @@ class BlockEsiCacheTest extends TestCase
 
         $this->assertInstanceOf(CacheElement::class, $cacheElement);
 
-        $this->assertEquals('<esi:include src="https://sonata-project.org/cache/XXX/page/esi/page/5/4?updated_at=as" />', $cacheElement->getData()->getContent());
+        $this->assertSame('<esi:include src="https://sonata-project.org/cache/XXX/page/esi/page/5/4?updated_at=as" />', $cacheElement->getData()->getContent());
     }
 }
