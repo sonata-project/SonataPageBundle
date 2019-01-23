@@ -707,7 +707,7 @@ abstract class Page implements PageInterface
      */
     public function isHybrid()
     {
-        return self::PAGE_ROUTE_CMS_NAME != $this->getRouteName() && !$this->isInternal();
+        return self::PAGE_ROUTE_CMS_NAME !== $this->getRouteName() && !$this->isInternal();
     }
 
     /**
@@ -715,7 +715,7 @@ abstract class Page implements PageInterface
      */
     public function isCms()
     {
-        return self::PAGE_ROUTE_CMS_NAME == $this->getRouteName() && !$this->isInternal();
+        return self::PAGE_ROUTE_CMS_NAME === $this->getRouteName() && !$this->isInternal();
     }
 
     /**
@@ -723,7 +723,7 @@ abstract class Page implements PageInterface
      */
     public function isInternal()
     {
-        return '_page_internal_' == substr($this->getRouteName(), 0, 15);
+        return '_page_internal_' === substr($this->getRouteName(), 0, 15);
     }
 
     /**
@@ -739,7 +739,7 @@ abstract class Page implements PageInterface
      */
     public function isError()
     {
-        return '_page_internal_error_' == substr($this->getRouteName(), 0, 21);
+        return '_page_internal_error_' === substr($this->getRouteName(), 0, 21);
     }
 
     /**
@@ -822,7 +822,7 @@ abstract class Page implements PageInterface
         $block = null;
 
         foreach ($this->getBlocks() as $blockTmp) {
-            if (\in_array($blockTmp->getType(), ['sonata.page.block.container', 'sonata.block.service.container']) && $blockTmp->getSetting('code') == $code) {
+            if (\in_array($blockTmp->getType(), ['sonata.page.block.container', 'sonata.block.service.container'], true) && $blockTmp->getSetting('code') === $code) {
                 $block = $blockTmp;
 
                 break;
@@ -844,7 +844,7 @@ abstract class Page implements PageInterface
         $blocks = [];
 
         foreach ($this->getBlocks() as $block) {
-            if ($type == $block->getType()) {
+            if ($type === $block->getType()) {
                 $blocks[] = $block;
             }
         }
@@ -859,7 +859,7 @@ abstract class Page implements PageInterface
     {
         $method = strtoupper($method);
 
-        if (!\in_array($method, ['PUT', 'POST', 'GET', 'DELETE', 'HEAD'])) {
+        if (!\in_array($method, ['PUT', 'POST', 'GET', 'DELETE', 'HEAD'], true)) {
             return false;
         }
 
@@ -926,7 +926,7 @@ abstract class Page implements PageInterface
         $headers = [];
 
         foreach (explode("\r\n", (string) $rawHeaders) as $header) {
-            if (false != strpos($header, ':')) {
+            if (false !== strpos($header, ':')) {
                 list($name, $headerStr) = explode(':', $header, 2);
                 $headers[trim($name)] = trim($headerStr);
             }

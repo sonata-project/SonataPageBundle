@@ -78,7 +78,7 @@ class CmsSnapshotManagerTest extends TestCase
 
         $container = $this->manager->findContainer('findme', $page);
 
-        $this->assertEquals(spl_object_hash($block), spl_object_hash($container), 'should retrieve the block of the page');
+        $this->assertSame(spl_object_hash($block), spl_object_hash($container), 'should retrieve the block of the page');
     }
 
     /**
@@ -123,7 +123,7 @@ class CmsSnapshotManagerTest extends TestCase
 
             ++$count;
 
-            if (1 == $count) {
+            if (1 === $count) {
                 return [];
             }
 

@@ -94,7 +94,7 @@ abstract class BaseCommand extends ContainerAwareCommand
      */
     public function getNotificationBackend($mode)
     {
-        if ('async' == $mode) {
+        if ('async' === $mode) {
             return $this->getContainer()->get('sonata.notification.backend');
         }
 
@@ -111,7 +111,7 @@ abstract class BaseCommand extends ContainerAwareCommand
         $parameters = [];
         $identifiers = $input->getOption('site');
 
-        if ('all' != current($identifiers)) {
+        if ('all' !== current($identifiers)) {
             $parameters['id'] = 1 === \count($identifiers) ? current($identifiers) : $identifiers;
         }
 

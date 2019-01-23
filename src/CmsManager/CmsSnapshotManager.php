@@ -64,7 +64,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
      */
     public function getPage(SiteInterface $site, $page)
     {
-        if (\is_string($page) && '/' == substr($page, 0, 1)) {
+        if (\is_string($page) && '/' === substr($page, 0, 1)) {
             $page = $this->getPageByUrl($site, $page);
         } elseif (\is_string($page)) { // page is a slug, load the related page
             $page = $this->getPageByRouteName($site, $page);
@@ -105,7 +105,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
         // first level blocks are containers
         if (!$container && $page->getBlocks()) {
             foreach ($page->getBlocks() as $block) {
-                if ($block->getSetting('code') == $code) {
+                if ($block->getSetting('code') === $code) {
                     $container = $block;
 
                     break;
@@ -131,7 +131,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
      */
     protected function getPageBy(SiteInterface $site = null, $fieldName, $value)
     {
-        if ('id' == $fieldName) {
+        if ('id' === $fieldName) {
             $fieldName = 'pageId';
             $id = $value;
         } elseif (isset($this->pageReferences[$fieldName][$value])) {
@@ -167,7 +167,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
 
                 $id = $page->getId();
 
-                if ('id' != $fieldName) {
+                if ('id' !== $fieldName) {
                     $this->pageReferences[$fieldName][$value] = $id;
                 }
 

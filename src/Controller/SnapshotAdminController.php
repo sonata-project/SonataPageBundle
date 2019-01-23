@@ -39,7 +39,7 @@ class SnapshotAdminController extends Controller
 
         $snapshot = new $class();
 
-        if ('GET' == $request->getMethod() && $request->get('pageId')) {
+        if ('GET' === $request->getMethod() && $request->get('pageId')) {
             $page = $pageManager->find($request->get('pageId'));
         } elseif ($this->admin->isChild()) {
             $page = $this->admin->getParent()->getSubject();
@@ -51,7 +51,7 @@ class SnapshotAdminController extends Controller
 
         $form = $this->createForm(CreateSnapshotType::class, $snapshot);
 
-        if ('POST' == $request->getMethod()) {
+        if ('POST' === $request->getMethod()) {
             $form->submit($request->request->get($form->getName()));
 
             if ($form->isValid()) {

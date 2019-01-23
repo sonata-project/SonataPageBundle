@@ -58,7 +58,7 @@ class PageControllerTest extends TestCase
     {
         $page = $this->createMock(PageInterface::class);
 
-        $this->assertEquals($page, $this->createPageController($page)->getPageAction(1));
+        $this->assertSame($page, $this->createPageController($page)->getPageAction(1));
     }
 
     public function testGetPageActionNotFoundException()
@@ -76,7 +76,7 @@ class PageControllerTest extends TestCase
 
         $page->expects($this->once())->method('getBlocks')->will($this->returnValue([$block]));
 
-        $this->assertEquals([$block], $this->createPageController($page)->getPageBlocksAction(1));
+        $this->assertSame([$block], $this->createPageController($page)->getPageBlocksAction(1));
     }
 
     public function testPostPageAction()
@@ -166,7 +166,7 @@ class PageControllerTest extends TestCase
 
         $view = $this->createPageController($page, null, $pageManager)->deletePageAction(1);
 
-        $this->assertEquals(['deleted' => true], $view);
+        $this->assertSame(['deleted' => true], $view);
     }
 
     public function testDeletePageInvalidAction()
@@ -238,7 +238,7 @@ class PageControllerTest extends TestCase
 
         $view = $this->createPageController($page, null, null, null, null, $backend)->postPageSnapshotAction(1);
 
-        $this->assertEquals(['queued' => true], $view);
+        $this->assertSame(['queued' => true], $view);
     }
 
     public function testPostPagesSnapshotsAction()
@@ -253,7 +253,7 @@ class PageControllerTest extends TestCase
 
         $view = $this->createPageController(null, $siteManager, null, null, null, $backend)->postPagesSnapshotsAction();
 
-        $this->assertEquals(['queued' => true], $view);
+        $this->assertSame(['queued' => true], $view);
     }
 
     /**

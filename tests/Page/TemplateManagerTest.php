@@ -39,7 +39,7 @@ class TemplateManagerTest extends TestCase
         $manager->add('code', $template);
 
         // THEN
-        $this->assertEquals($template, $manager->get('code'));
+        $this->assertSame($template, $manager->get('code'));
     }
 
     /**
@@ -60,9 +60,9 @@ class TemplateManagerTest extends TestCase
         $manager->setAll($templates);
 
         // THEN
-        $this->assertEquals($templates['test1'], $manager->get('test1'));
-        $this->assertEquals($templates['test2'], $manager->get('test2'));
-        $this->assertEquals($templates, $manager->getAll());
+        $this->assertSame($templates['test1'], $manager->get('test1'));
+        $this->assertSame($templates['test2'], $manager->get('test2'));
+        $this->assertSame($templates, $manager->getAll());
     }
 
     /**
@@ -78,7 +78,7 @@ class TemplateManagerTest extends TestCase
         $manager->setDefaultTemplateCode('test');
 
         // THEN
-        $this->assertEquals('test', $manager->getDefaultTemplateCode());
+        $this->assertSame('test', $manager->getDefaultTemplateCode());
     }
 
     /**
@@ -100,7 +100,7 @@ class TemplateManagerTest extends TestCase
         $result = $manager->renderResponse('test');
 
         // THEN
-        $this->assertEquals($response, $result, 'should return the mocked response');
+        $this->assertSame($response, $result, 'should return the mocked response');
     }
 
     /**
@@ -139,7 +139,7 @@ class TemplateManagerTest extends TestCase
         $result = $manager->renderResponse(null);
 
         // THEN
-        $this->assertEquals($response, $result, 'should return the mocked response');
+        $this->assertSame($response, $result, 'should return the mocked response');
     }
 
     /**
@@ -168,7 +168,7 @@ class TemplateManagerTest extends TestCase
         $result = $manager->renderResponse('test', ['parameter2' => 'value']);
 
         // THEN
-        $this->assertEquals($response, $result, 'should return the mocked response');
+        $this->assertSame($response, $result, 'should return the mocked response');
     }
 
     /**

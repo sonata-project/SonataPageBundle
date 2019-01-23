@@ -44,7 +44,7 @@ class BlockContextManagerTest extends TestCase
 
         $this->assertInstanceOf(BlockContextInterface::class, $blockContext);
 
-        $this->assertEquals([
+        $this->assertSame([
             'manager' => false,
             'page_id' => false,
             'use_cache' => true,

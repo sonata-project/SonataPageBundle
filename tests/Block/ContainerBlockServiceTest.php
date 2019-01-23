@@ -47,9 +47,9 @@ class ContainerBlockServiceTest extends AbstractBlockServiceTestCase
 
         $service->execute($blockContext);
 
-        $this->assertEquals('@SonataPage/Block/block_container.html.twig', $this->templating->view);
-        $this->assertEquals('block.code', $this->templating->parameters['block']->getSetting('code'));
-        $this->assertEquals('block.name', $this->templating->parameters['block']->getName());
+        $this->assertSame('@SonataPage/Block/block_container.html.twig', $this->templating->view);
+        $this->assertSame('block.code', $this->templating->parameters['block']->getSetting('code'));
+        $this->assertSame('block.name', $this->templating->parameters['block']->getName());
         $this->assertInstanceOf(Block::class, $this->templating->parameters['block']);
     }
 
@@ -77,8 +77,8 @@ class ContainerBlockServiceTest extends AbstractBlockServiceTestCase
         $this->assertInternalType('array', $this->templating->parameters['decorator']);
         $this->assertArrayHasKey('pre', $this->templating->parameters['decorator']);
         $this->assertArrayHasKey('post', $this->templating->parameters['decorator']);
-        $this->assertEquals('before', $this->templating->parameters['decorator']['pre']);
-        $this->assertEquals('after', $this->templating->parameters['decorator']['post']);
+        $this->assertSame('before', $this->templating->parameters['decorator']['pre']);
+        $this->assertSame('after', $this->templating->parameters['decorator']['post']);
     }
 
     /**

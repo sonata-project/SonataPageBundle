@@ -153,7 +153,7 @@ class RoutePageGenerator
                 ]);
             }
 
-            if (!$page->getParent() && $page->getId() != $root->getId()) {
+            if (!$page->getParent() && $page->getId() !== $root->getId()) {
                 $page->setParent($root);
             }
 
@@ -208,7 +208,7 @@ class RoutePageGenerator
                 continue;
             }
 
-            if (!\in_array($page->getRouteName(), $knowRoutes)) {
+            if (!\in_array($page->getRouteName(), $knowRoutes, true)) {
                 if (!$has) {
                     $has = true;
 

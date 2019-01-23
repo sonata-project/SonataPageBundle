@@ -57,7 +57,7 @@ class PageServiceManagerTest extends TestCase
         $this->manager->add('default', $service);
 
         // THEN
-        $this->assertEquals($service, $this->manager->get('default'));
+        $this->assertSame($service, $this->manager->get('default'));
     }
 
     /**
@@ -98,7 +98,7 @@ class PageServiceManagerTest extends TestCase
         $services = $this->manager->getAll();
 
         // THEN
-        $this->assertEquals(['service1' => $service1, 'service2' => $service2], $services, 'Should return all page services');
+        $this->assertSame(['service1' => $service1, 'service2' => $service2], $services, 'Should return all page services');
     }
 
     /**
@@ -116,7 +116,7 @@ class PageServiceManagerTest extends TestCase
         $service = $this->manager->get('non-existing');
 
         // THEN
-        $this->assertEquals($default, $service, 'Should return the default page service');
+        $this->assertSame($default, $service, 'Should return the default page service');
     }
 
     /**
