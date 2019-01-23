@@ -69,7 +69,12 @@ class ResponseListenerTest extends TestCase
         $this->cmsSelector->expects($this->once())->method('retrieve')->will($this->returnValue($this->cmsManager));
         $this->templating = $this->createMock(EngineInterface::class);
 
-        $this->listener = new ResponseListener($this->cmsSelector, $this->pageServiceManager, $this->decoratorStrategy, $this->templating);
+        $this->listener = new ResponseListener(
+            $this->cmsSelector,
+            $this->pageServiceManager,
+            $this->decoratorStrategy,
+            $this->templating
+        );
     }
 
     /**
@@ -110,7 +115,11 @@ class ResponseListenerTest extends TestCase
         $this->listener->onCoreResponse($event);
 
         // THEN
-        $this->assertSame('content', $event->getResponse()->getContent(), 'response should not be altered when non-decorable');
+        $this->assertSame(
+            'content',
+            $event->getResponse()->getContent(),
+            'response should not be altered when non-decorable'
+        );
     }
 
     /**
@@ -174,7 +183,7 @@ class ResponseListenerTest extends TestCase
         $foundCookie = false;
         foreach ($cookies as $cookie) {
             if ('sonata_page_is_editor' === $cookie->getName()) {
-                $this->assertSame(1, $cookie->getValue());
+                $this->assertSame('1', $cookie->getValue());
                 $foundCookie = true;
             }
         }

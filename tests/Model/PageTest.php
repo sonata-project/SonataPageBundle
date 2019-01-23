@@ -85,7 +85,7 @@ class PageTest extends TestCase
         $this->assertSame($page->getHeaders(), ['Cache-Control' => 'no-cache']);
 
         $page->setHeaders([]);
-        $this->assertSame($page->getRawHeaders(), '');
+        $this->assertNull($page->getRawHeaders());
         $this->assertSame($page->getHeaders(), []);
 
         $page = new Page();
@@ -98,7 +98,7 @@ class PageTest extends TestCase
         $this->assertSame($page->getHeaders(), ['Cache-Control' => 'no-cache']);
 
         $page->setRawHeaders('');
-        $this->assertSame($page->getRawHeaders(), '');
+        $this->assertNull($page->getRawHeaders());
         $this->assertSame($page->getHeaders(), []);
 
         $page = new Page();
@@ -127,17 +127,17 @@ class PageTest extends TestCase
     {
         $page = new Page();
         $page->setRequestMethod('POST');
-        $this->assertSame($page->hasRequestMethod('POST'), true);
-        $this->assertSame($page->hasRequestMethod('GeT'), false);
+        $this->assertTrue($page->hasRequestMethod('POST'));
+        $this->assertFalse($page->hasRequestMethod('GeT'));
 
         $page->setRequestMethod('POST|GET');
-        $this->assertSame($page->hasRequestMethod('POsT'), true);
-        $this->assertSame($page->hasRequestMethod('GET'), true);
+        $this->assertTrue($page->hasRequestMethod('POsT'));
+        $this->assertTrue($page->hasRequestMethod('GET'));
 
         $page->setRequestMethod('');
-        $this->assertSame($page->hasRequestMethod('GET'), true);
-        $this->assertSame($page->hasRequestMethod('post'), true);
-        $this->assertSame($page->hasRequestMethod('biloute'), false);
+        $this->assertTrue($page->hasRequestMethod('GET'));
+        $this->assertTrue($page->hasRequestMethod('post'));
+        $this->assertFalse($page->hasRequestMethod('biloute'));
     }
 
     public function testGetterSetter()

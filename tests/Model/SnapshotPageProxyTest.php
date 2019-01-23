@@ -17,6 +17,7 @@ use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Model\SnapshotInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\SnapshotPageProxy;
+use Sonata\PageBundle\Model\SnapshotPageProxyInterface;
 use Sonata\PageBundle\Model\TransformerInterface;
 
 class SnapshotPageProxyTest extends TestCase
@@ -27,6 +28,9 @@ class SnapshotPageProxyTest extends TestCase
         $snapshot = $this->createMock(SnapshotInterface::class);
         $transformer = $this->createMock(TransformerInterface::class);
 
-        new SnapshotPageProxy($snapshotManager, $transformer, $snapshot);
+        $this->assertInstanceOf(
+            SnapshotPageProxyInterface::class,
+            new SnapshotPageProxy($snapshotManager, $transformer, $snapshot)
+        );
     }
 }

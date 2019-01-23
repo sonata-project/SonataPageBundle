@@ -45,13 +45,13 @@ class BlockContextManagerTest extends TestCase
         $this->assertInstanceOf(BlockContextInterface::class, $blockContext);
 
         $this->assertSame([
-            'manager' => false,
-            'page_id' => false,
             'use_cache' => true,
             'extra_cache_keys' => [],
             'attr' => [],
             'template' => false,
             'ttl' => 0,
+            'manager' => false,
+            'page_id' => false,
         ], $blockContext->getSettings());
     }
 }
