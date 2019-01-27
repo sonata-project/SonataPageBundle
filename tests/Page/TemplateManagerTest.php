@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Page;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Model\Template;
 use Sonata\PageBundle\Page\TemplateManager;
@@ -20,9 +21,6 @@ use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Templating\StreamingEngineInterface;
 
-/**
- * Test the template manager.
- */
 class TemplateManagerTest extends TestCase
 {
     /**
@@ -30,15 +28,12 @@ class TemplateManagerTest extends TestCase
      */
     public function testAddSingleTemplate()
     {
-        // GIVEN
         $template = $this->getMockTemplate('template');
         $templating = $this->createMock(EngineInterface::class);
         $manager = new TemplateManager($templating);
 
-        // WHEN
         $manager->add('code', $template);
 
-        // THEN
         $this->assertSame($template, $manager->get('code'));
     }
 
@@ -47,7 +42,6 @@ class TemplateManagerTest extends TestCase
      */
     public function testSetAllTemplates()
     {
-        // GIVEN
         $templating = $this->createMock(EngineInterface::class);
         $manager = new TemplateManager($templating);
 
@@ -56,10 +50,8 @@ class TemplateManagerTest extends TestCase
             'test2' => $this->getMockTemplate('template'),
         ];
 
-        // WHEN
         $manager->setAll($templates);
 
-        // THEN
         $this->assertSame($templates['test1'], $manager->get('test1'));
         $this->assertSame($templates['test2'], $manager->get('test2'));
         $this->assertSame($templates, $manager->getAll());
@@ -70,14 +62,11 @@ class TemplateManagerTest extends TestCase
      */
     public function testSetDefaultTemplateCode()
     {
-        // GIVEN
         $templating = $this->createMock(EngineInterface::class);
         $manager = new TemplateManager($templating);
 
-        // WHEN
         $manager->setDefaultTemplateCode('test');
 
-        // THEN
         $this->assertSame('test', $manager->getDefaultTemplateCode());
     }
 
@@ -86,21 +75,24 @@ class TemplateManagerTest extends TestCase
      */
     public function testRenderResponse()
     {
-        // GIVEN
         $template = $this->getMockTemplate('template', 'path/to/template');
 
         $response = $this->createMock(Response::class);
         $templating = $this->createMock(EngineInterface::class);
-        $templating->expects($this->once())->method('renderResponse')->with($this->equalTo('path/to/template'))->will($this->returnValue($response));
+        $templating
+            ->expects($this->once())
+            ->method('renderResponse')
+            ->with($this->equalTo('path/to/template'))
+            ->will($this->returnValue($response));
 
         $manager = new TemplateManager($templating);
         $manager->add('test', $template);
 
-        // WHEN
-        $result = $manager->renderResponse('test');
-
-        // THEN
-        $this->assertSame($response, $result, 'should return the mocked response');
+        $this->assertSame(
+            $response,
+            $manager->renderResponse('test'),
+            'should return the mocked response'
+        );
     }
 
     /**
@@ -108,16 +100,14 @@ class TemplateManagerTest extends TestCase
      */
     public function testRenderResponseWithNonExistingCode()
     {
-        // GIVEN
         $templating = $this->createMock(EngineInterface::class);
-        $templating->expects($this->once())->method('renderResponse')->with($this->equalTo('@SonataPage/layout.html.twig'));
+        $templating
+            ->expects($this->once())
+            ->method('renderResponse')
+            ->with($this->equalTo('@SonataPage/layout.html.twig'));
         $manager = new TemplateManager($templating);
 
-        // WHEN
         $manager->renderResponse('test');
-
-        // THEN
-        // mock asserts
     }
 
     /**
@@ -125,21 +115,24 @@ class TemplateManagerTest extends TestCase
      */
     public function testRenderResponseWithoutCode()
     {
-        // GIVEN
         $response = $this->createMock(Response::class);
         $templating = $this->createMock(EngineInterface::class);
-        $templating->expects($this->once())->method('renderResponse')->with($this->equalTo('path/to/default'))->will($this->returnValue($response));
+        $templating
+            ->expects($this->once())
+            ->method('renderResponse')
+            ->with($this->equalTo('path/to/default'))
+            ->will($this->returnValue($response));
 
         $template = $this->getMockTemplate('template', 'path/to/default');
         $manager = new TemplateManager($templating);
         $manager->add('default', $template);
         $manager->setDefaultTemplateCode('default');
 
-        // WHEN
-        $result = $manager->renderResponse(null);
-
-        // THEN
-        $this->assertSame($response, $result, 'should return the mocked response');
+        $this->assertSame(
+            $response,
+            $manager->renderResponse(null),
+            'should return the mocked response'
+        );
     }
 
     /**
@@ -147,7 +140,6 @@ class TemplateManagerTest extends TestCase
      */
     public function testRenderResponseWithDefaultParameters()
     {
-        // GIVEN
         $template = $this->getMockTemplate('template', 'path/to/template');
 
         $response = $this->createMock(Response::class);
@@ -164,24 +156,19 @@ class TemplateManagerTest extends TestCase
         $manager = new TemplateManager($templating, $defaultParameters);
         $manager->add('test', $template);
 
-        // WHEN
-        $result = $manager->renderResponse('test', ['parameter2' => 'value']);
-
-        // THEN
-        $this->assertSame($response, $result, 'should return the mocked response');
+        $this->assertSame(
+            $response,
+            $manager->renderResponse('test', ['parameter2' => 'value']),
+            'should return the mocked response'
+        );
     }
 
     /**
      * Returns the mock template.
-     *
-     * @param string $name Name of the template
-     * @param string $path Path to the file of the template
-     *
-     * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    protected function getMockTemplate($name, $path = 'path/to/file')
+    protected function getMockTemplate(string $name, string $path = 'path/to/file'): MockObject
     {
-        $template = $this->getMockbuilder(Template::class)->disableOriginalConstructor()->getMock();
+        $template = $this->createMock(Template::class);
         $template->expects($this->any())->method('getName')->will($this->returnValue($name));
         $template->expects($this->any())->method('getPath')->will($this->returnValue($path));
 

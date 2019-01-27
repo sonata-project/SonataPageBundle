@@ -50,7 +50,7 @@ class BlockControllerTest extends TestCase
         $blockManager = $this->createMock(BlockManagerInterface::class);
         $blockManager->expects($this->once())->method('save')->will($this->returnValue($block));
 
-        $form = $this->getMockBuilder(Form::class)->disableOriginalConstructor()->getMock();
+        $form = $this->createMock(Form::class);
         $form->expects($this->once())->method('handleRequest');
         $form->expects($this->once())->method('isValid')->will($this->returnValue(true));
         $form->expects($this->once())->method('getData')->will($this->returnValue($block));
@@ -70,7 +70,7 @@ class BlockControllerTest extends TestCase
         $blockManager = $this->createMock(BlockManagerInterface::class);
         $blockManager->expects($this->never())->method('save')->will($this->returnValue($block));
 
-        $form = $this->getMockBuilder(Form::class)->disableOriginalConstructor()->getMock();
+        $form = $this->createMock(Form::class);
         $form->expects($this->once())->method('handleRequest');
         $form->expects($this->once())->method('isValid')->will($this->returnValue(false));
 
@@ -105,10 +105,6 @@ class BlockControllerTest extends TestCase
     }
 
     /**
-     * @param $block
-     * @param $blockManager
-     * @param $formFactory
-     *
      * @return BlockController
      */
     public function createBlockController($block = null, $blockManager = null, $formFactory = null)

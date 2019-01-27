@@ -95,10 +95,7 @@ class ContainerBlockServiceTest extends AbstractBlockServiceTestCase
             'name' => 'block.code',
         ]);
 
-        $formMapper = $this->getMockBuilder(FormMapper::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        $formMapper = $this->createMock(FormMapper::class);
         $formMapper->expects($this->exactly(6))->method('add');
 
         $service->buildCreateForm($formMapper, $block);

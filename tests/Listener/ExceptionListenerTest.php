@@ -31,9 +31,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Templating\EngineInterface;
 
-/**
- * Test the page bundle exception listener.
- */
 class ExceptionListenerTest extends TestCase
 {
     /**
@@ -95,7 +92,16 @@ class ExceptionListenerTest extends TestCase
             '403' => 'route_403',
         ];
 
-        $this->listener = new ExceptionListener($this->siteSelector, $this->cmsSelector, false, $this->templating, $this->pageServiceManager, $this->decoratorStrategy, $errors, $this->logger);
+        $this->listener = new ExceptionListener(
+            $this->siteSelector,
+            $this->cmsSelector,
+            false,
+            $this->templating,
+            $this->pageServiceManager,
+            $this->decoratorStrategy,
+            $errors,
+            $this->logger
+        );
     }
 
     /**
@@ -103,15 +109,11 @@ class ExceptionListenerTest extends TestCase
      */
     public function testInternalException()
     {
-        // GIVEN
-        // mock exception
         $exception = $this->createMock(InternalErrorException::class);
         $event = $this->getMockEvent($exception);
 
-        $this->logger->expects($this->once())
-            ->method('error');
+        $this->logger->expects($this->once())->method('error');
 
-        // WHEN
         $this->listener->onKernelException($event);
     }
 
@@ -120,8 +122,6 @@ class ExceptionListenerTest extends TestCase
      */
     public function testNotFoundExceptionInEditorMode()
     {
-        // GIVEN
-        // mock exception
         $exception = new NotFoundHttpException();
         $event = $this->getMockEvent($exception);
 
@@ -135,10 +135,8 @@ class ExceptionListenerTest extends TestCase
         $this->templating->expects($this->once())->method('render')
              ->with($this->equalTo('@SonataPage/Page/create.html.twig'));
 
-        // WHEN
         $this->listener->onKernelException($event);
 
-        // THEN
         $this->assertInstanceOf(Response::class, $event->getResponse(), 'Should return a response in event');
         $this->assertSame(404, $event->getResponse()->getStatusCode(), 'Should return 404 status code');
     }
@@ -148,8 +146,6 @@ class ExceptionListenerTest extends TestCase
      */
     public function testNotFoundException()
     {
-        // GIVEN
-        // mock exception
         $exception = $this->createMock(NotFoundHttpException::class);
         $exception->expects($this->any())->method('getStatusCode')->will($this->returnValue(404));
         $event = $this->getMockEvent($exception);
@@ -166,37 +162,47 @@ class ExceptionListenerTest extends TestCase
 
         // mock cms manager to return the mock error page and set it as current page
         $this->cmsManager = $this->createMock(CmsManagerInterface::class);
-        $this->cmsManager->expects($this->once())->method('getPageByRouteName')->with($this->anything(), $this->equalTo('route_404'))->will($this->returnValue($page));
+        $this->cmsManager
+            ->expects($this->once())
+            ->method('getPageByRouteName')
+            ->with($this->anything(), $this->equalTo('route_404'))
+            ->will($this->returnValue($page));
         $this->cmsManager->expects($this->once())->method('setCurrentPage')->with($this->equalTo($page));
         $this->cmsSelector->expects($this->any())->method('retrieve')->will($this->returnValue($this->cmsManager));
 
         // mocked site selector should return a site
-        $this->siteSelector->expects($this->any())->method('retrieve')->will($this->returnValue($this->createMock(SiteInterface::class)));
+        $this->siteSelector
+            ->expects($this->any())
+            ->method('retrieve')
+            ->will($this->returnValue($this->createMock(SiteInterface::class)));
 
         // mocked decorator strategy should allow decorate
-        $this->decoratorStrategy->expects($this->any())->method('isRouteNameDecorable')->will($this->returnValue(true));
-        $this->decoratorStrategy->expects($this->any())->method('isRouteUriDecorable')->will($this->returnValue(true));
+        $this->decoratorStrategy
+            ->expects($this->any())
+            ->method('isRouteNameDecorable')
+            ->will($this->returnValue(true));
+        $this->decoratorStrategy
+            ->expects($this->any())
+            ->method('isRouteUriDecorable')
+            ->will($this->returnValue(true));
 
         // mocked page service manager should execute the page and return a response
         $response = $this->createMock(Response::class);
-        $this->pageServiceManager->expects($this->once())->method('execute')->with($this->equalTo($page))->will($this->returnValue($response));
+        $this->pageServiceManager
+            ->expects($this->once())
+            ->method('execute')
+            ->with($this->equalTo($page))
+            ->will($this->returnValue($response));
 
-        // WHEN
         $this->listener->onKernelException($event);
 
-        // THEN
-        // mock asserts
         $this->assertSame('fr', $event->getRequest()->getLocale());
     }
 
     /**
      * Returns a mocked event with given content data.
-     *
-     * @param \Exception $exception
-     *
-     * @return GetResponseForExceptionEvent
      */
-    protected function getMockEvent($exception)
+    protected function getMockEvent(\Exception $exception): GetResponseForExceptionEvent
     {
         $kernel = $this->createMock(HttpKernelInterface::class);
         $request = new Request();

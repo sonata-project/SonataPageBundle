@@ -57,7 +57,11 @@ class PageTest extends TestCase
                 "Location:http://www.google.fr\r\nExpires:0",
                 "\r\nLocation: http://www.google.fr\r\nExpires: 0\r\nInvalid Header Line",
             ] as $rawHeaders) {
-            $this->assertSame($expectedHeaders, $method->invokeArgs($page, [$rawHeaders]), 'Page::getHeadersAsArray()');
+            $this->assertSame(
+                $expectedHeaders,
+                $method->invokeArgs($page, [$rawHeaders]),
+                'Page::getHeadersAsArray()'
+            );
         }
 
         $method = $pageReflection->getMethod('getHeadersAsString');
@@ -68,11 +72,16 @@ class PageTest extends TestCase
                     'Expires' => '0',
                 ],
                 [
+
                     ' Location ' => ' http://www.google.fr ',
                     "\r\nExpires " => " 0\r\n",
                 ],
             ] as $headers) {
-            $this->assertSame($expectedStringHeaders, $method->invokeArgs($page, [$headers]), 'Page::getHeadersAsString()');
+            $this->assertSame(
+                $expectedStringHeaders,
+                $method->invokeArgs($page, [$headers]),
+                'Page::getHeadersAsString()'
+            );
         }
 
         $page = new Page();
@@ -111,8 +120,13 @@ class PageTest extends TestCase
         $this->assertSame($page->getHeaders(), $expectedHeaders);
 
         $page->addHeader('Cache-Control', 'no-cache, private');
-        $this->assertSame($page->getRawHeaders(), $expectedStringHeaders."\r\nCache-Control: no-cache, private");
-        $this->assertSame($page->getHeaders(), array_merge($expectedHeaders, ['Cache-Control' => 'no-cache, private']));
+        $this->assertSame(
+            $page->getRawHeaders(),
+            $expectedStringHeaders."\r\nCache-Control: no-cache, private"
+        );
+        $this->assertSame(
+            $page->getHeaders(), array_merge($expectedHeaders, ['Cache-Control' => 'no-cache, private'])
+        );
 
         $page->setRawHeaders($expectedStringHeaders);
         $this->assertSame($page->getRawHeaders(), $expectedStringHeaders);
@@ -299,14 +313,14 @@ class PageTest extends TestCase
     {
         $page = new Page();
 
-        $block1 = $this->getMockBuilder(Block::class)->getMock();
+        $block1 = $this->createMock(Block::class);
         $block1->expects($this->any())->method('getType')->will($this->returnValue('sonata.page.block.action'));
 
-        $block2 = $this->getMockBuilder(Block::class)->getMock();
+        $block2 = $this->createMock(Block::class);
         $block2->expects($this->any())->method('getType')->will($this->returnValue('sonata.page.block.container'));
         $block2->expects($this->once())->method('getSetting')->will($this->returnValue('bar'));
 
-        $block3 = $this->getMockBuilder(Block::class)->getMock();
+        $block3 = $this->createMock(Block::class);
         $block3->expects($this->any())->method('getType')->will($this->returnValue('sonata.page.block.container'));
         $block3->expects($this->once())->method('getSetting')->will($this->returnValue('gotcha'));
 
@@ -321,13 +335,13 @@ class PageTest extends TestCase
     {
         $page = new Page();
 
-        $block1 = $this->getMockBuilder(Block::class)->getMock();
+        $block1 = $this->createMock(Block::class);
         $block1->expects($this->once())->method('getType')->will($this->returnValue('sonata.page.block.action'));
 
-        $block2 = $this->getMockBuilder(Block::class)->getMock();
+        $block2 = $this->createMock(Block::class);
         $block2->expects($this->once())->method('getType')->will($this->returnValue('sonata.page.block.container'));
 
-        $block3 = $this->getMockBuilder(Block::class)->getMock();
+        $block3 = $this->createMock(Block::class);
         $block3->expects($this->once())->method('getType')->will($this->returnValue('sonata.page.block.action'));
 
         $page->addBlocks($block1);

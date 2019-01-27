@@ -19,41 +19,26 @@ use Sonata\PageBundle\Page\Service\BasePageService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * Test the abstract base page service.
- */
 class BasePageServiceTest extends TestCase
 {
-    /**
-     * test the service name.
-     */
     public function testName()
     {
-        // GIVEN
         $service = new ConcretePageService('my name');
 
-        // WHEN
-        $name = $service->getName();
-
-        // THEN
-        $this->assertSame('my name', $name);
+        $this->assertSame('my name', $service->getName());
     }
 
-    /**
-     * Test the service execution.
-     */
     public function testExecution()
     {
-        // GIVEN
         $service = new ConcretePageService('my name');
         $page = $this->createMock(PageInterface::class);
         $request = $this->createMock(Request::class);
 
-        // WHEN
-        $response = $service->execute($page, $request);
-
-        // THEN
-        $this->assertInstanceOf(Response::class, $response, 'Should return a Response object');
+        $this->assertInstanceOf(
+            Response::class,
+            $service->execute($page, $request),
+            'Should return a Response object'
+        );
     }
 }
 
@@ -62,9 +47,6 @@ class BasePageServiceTest extends TestCase
  */
 class ConcretePageService extends BasePageService
 {
-    /**
-     * {@inheritdoc}
-     */
     public function execute(PageInterface $page, Request $request, array $parameters = [], Response $response = null)
     {
         // do nothing

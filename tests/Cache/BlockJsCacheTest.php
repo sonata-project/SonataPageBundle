@@ -57,7 +57,10 @@ class BlockJsCacheTest extends TestCase
     public function testInitCache()
     {
         $router = $this->createMock(RouterInterface::class);
-        $router->expects($this->once())->method('generate')->will($this->returnValue('https://sonata-project.org/page/cache/js/block.js'));
+        $router
+            ->expects($this->once())
+            ->method('generate')
+            ->will($this->returnValue('https://sonata-project.org/page/cache/js/block.js'));
 
         $cmsSelectorManager = $this->createMock(CmsManagerSelectorInterface::class);
         $blockRenderer = $this->createMock(BlockRendererInterface::class);

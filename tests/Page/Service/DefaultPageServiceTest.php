@@ -21,9 +21,6 @@ use Sonata\SeoBundle\Seo\SeoPageInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * Test the default page service.
- */
 class DefaultPageServiceTest extends TestCase
 {
     /**
@@ -41,9 +38,6 @@ class DefaultPageServiceTest extends TestCase
      */
     protected $seoPage;
 
-    /**
-     * setup unit tests.
-     */
     public function setUp()
     {
         $name = 'my name';
@@ -58,8 +52,6 @@ class DefaultPageServiceTest extends TestCase
      */
     public function testExecute()
     {
-        // GIVEN
-
         // mock a http request
         $request = $this->createMock(Request::class);
 
@@ -92,10 +84,6 @@ class DefaultPageServiceTest extends TestCase
         $this->templateManager->expects($this->once())
             ->method('renderResponse')->with($this->equalTo('template code'))->will($this->returnValue($response));
 
-        // WHEN
         $this->service->execute($page, $request);
-
-        // THEN
-        // mock asserts
     }
 }

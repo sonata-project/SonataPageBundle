@@ -32,261 +32,74 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 class HostPathSiteSelectorTest extends TestCase
 {
     /**
-     * Site Test #1 - Should match "Site 0".
+     * @dataProvider siteProvider
      */
-    public function testSite1()
+    public function testSite(string $expectedName, string $url, string $expectedPath = '/')
     {
         // Retrieve the site that would be matched from the request
-        list($site, $event) = $this->performHandleKernelRequestTest('http://www.example.com/test0');
-
-        // Ensure we retrieved the "Site 0" site.
-        $this->assertSame('Site 0', $site->getName());
-
-        // Ensure request path info is /
-        $this->assertSame('/', $event->getRequest()->getPathInfo());
-
-        // Ensure request locale matches site locale
-        $this->assertSame($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
-    }
-
-    /**
-     * Site Test #2 - Should match "Site 1".
-     */
-    public function testSite2()
-    {
-        // Retrieve the site that would be matched from the request
-        list($site, $event) = $this->performHandleKernelRequestTest('http://www.example.com/test1');
-
-        // Ensure we retrieved the "Site 1" site.
-        $this->assertSame('Site 1', $site->getName());
-
-        // Ensure request path info is /
-        $this->assertSame('/', $event->getRequest()->getPathInfo());
-
-        // Ensure request locale matches site locale
-        $this->assertSame($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
-    }
-
-    /**
-     * Site Test #3 - Should match "Site 2".
-     */
-    public function testSite3()
-    {
-        // Retrieve the site that would be matched from the request
-        list($site, $event) = $this->performHandleKernelRequestTest('http://www.example.com/test2');
-
-        // Ensure we retrieved the "Site 1" site.
-        $this->assertSame('Site 2', $site->getName());
-
-        // Ensure request path info is /
-        $this->assertSame('/', $event->getRequest()->getPathInfo());
-
-        // Ensure request locale matches site locale
-        $this->assertSame($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
-    }
-
-    /**
-     * Site Test #4 - Should match "Site 3".
-     */
-    public function testSite4()
-    {
-        // Retrieve the site that would be matched from the request
-        list($site, $event) = $this->performHandleKernelRequestTest('http://www.example.com/test3');
-
-        // Ensure we retrieved the "Site 1" site.
-        $this->assertSame('Site 3', $site->getName());
-
-        // Ensure request path info is /
-        $this->assertSame('/', $event->getRequest()->getPathInfo());
-
-        // Ensure request locale matches site locale
-        $this->assertSame($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
-    }
-
-    /**
-     * Site Test #5 - Should match "Site 4".
-     */
-    public function testSite5()
-    {
-        // Retrieve the site that would be matched from the request
-        list($site, $event) = $this->performHandleKernelRequestTest('http://www.example.com/test4');
-
-        // Ensure we retrieved the "Site 1" site.
-        $this->assertSame('Site 4', $site->getName());
-
-        // Ensure request path info is /
-        $this->assertSame('/', $event->getRequest()->getPathInfo());
-
-        // Ensure request locale matches site locale
-        $this->assertSame($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
-    }
-
-    /**
-     * Site Test #6 - Should match no site, and the event response should yield a RedirectResponse object to redirect to "Site 2".
-     */
-    public function testSite6()
-    {
-        // Retrieve the site that would be matched from the request
-        list($site, $event) = $this->performHandleKernelRequestTest('http://www.example.com/test5');
-
-        // Ensure no site was retrieved
-        $this->assertNull($site);
-
-        // Retrieve the event's response object
-        $response = $event->getResponse();
-
-        // Ensure the response was a redirect to the default site
-        $this->assertInstanceOf(RedirectResponse::class, $response);
-
-        // Ensure the redirect url is for "Site 2"
-        $this->assertSame('//www.example.com/test2', $response->getTargetUrl());
-
-        // Ensure request path info is /test5
-        $this->assertSame('/test5', $event->getRequest()->getPathInfo());
-
-        // Ensure request locale is null
-        $this->assertNull($event->getRequest()->attributes->get('_locale'));
-    }
-
-    /**
-     * Site Test #7 - Should match no site, and the event response should yield a RedirectResponse object to redirect to "Site 2".
-     */
-    public function testSite7()
-    {
-        // Retrieve the site that would be matched from the request
-        list($site, $event) = $this->performHandleKernelRequestTest('http://www.example.com/test6');
-
-        // Ensure no site was retrieved
-        $this->assertNull($site);
-
-        // Retrieve the event's response object
-        $response = $event->getResponse();
-
-        // Ensure the response was a redirect to the default site
-        $this->assertInstanceOf(RedirectResponse::class, $response);
-
-        // Ensure the redirect url is for "Site 2"
-        $this->assertSame('//www.example.com/test2', $response->getTargetUrl());
-
-        // Ensure request path info is /test6
-        $this->assertSame('/test6', $event->getRequest()->getPathInfo());
-
-        // Ensure request locale is null
-        $this->assertNull($event->getRequest()->attributes->get('_locale'));
-    }
-
-    /**
-     * Site Test #8 - Should match no site, and the event response should yield a RedirectResponse object to redirect to "Site 2".
-     */
-    public function testSite8()
-    {
-        // Retrieve the site that would be matched from the request
-        list($site, $event) = $this->performHandleKernelRequestTest('http://www.example.com/test7');
-
-        // Ensure no site was retrieved
-        $this->assertNull($site);
-
-        // Retrieve the event's response object
-        $response = $event->getResponse();
-
-        // Ensure the response was a redirect to the default site
-        $this->assertInstanceOf(RedirectResponse::class, $response);
-
-        // Ensure the redirect url is for "Site 2"
-        $this->assertSame('//www.example.com/test2', $response->getTargetUrl());
-
-        // Ensure request path info is /test7
-        $this->assertSame('/test7', $event->getRequest()->getPathInfo());
-
-        // Ensure request locale is null
-        $this->assertNull($event->getRequest()->attributes->get('_locale'));
-    }
-
-    /**
-     * Site Test #9 - Should match no site, and the event response should yield a RedirectResponse object to redirect to "Site 2".
-     */
-    public function testSite9()
-    {
-        // Retrieve the site that would be matched from the request
-        list($site, $event) = $this->performHandleKernelRequestTest('http://www.example.com');
-
-        // Ensure no site was retrieved
-        $this->assertNull($site);
-
-        // Retrieve the event's response object
-        $response = $event->getResponse();
-
-        // Ensure the response was a redirect to the default site
-        $this->assertInstanceOf(RedirectResponse::class, $response);
-
-        // Ensure the redirect url is for "Site 2"
-        $this->assertSame('//www.example.com/test2', $response->getTargetUrl());
-
-        // Ensure request path info is /
-        $this->assertSame('/', $event->getRequest()->getPathInfo());
-
-        // Ensure request locale is null
-        $this->assertNull($event->getRequest()->attributes->get('_locale'));
-    }
-
-    /**
-     * Site Test #10 - Should match "Site 8".
-     */
-    public function testSite10()
-    {
-        // Retrieve the site that would be matched from the request
-        list($site, $event) = $this->performHandleKernelRequestTest('http://www.example.com/test');
+        list($site, $event) = $this->performHandleKernelRequestTest($url);
 
         // Ensure we retrieved the correct site.
-        $this->assertSame('Site 8', $site->getName());
+        $this->assertSame($expectedName, $site->getName());
 
-        // Ensure request path info is /
-        $this->assertSame('/', $event->getRequest()->getPathInfo());
-
-        // Ensure request locale matches site locale
-        $this->assertSame($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
-    }
-
-    /**
-     * Site Test #11 - Should match "Site 8" and path info should match "/abc".
-     */
-    public function testSite11()
-    {
-        // Retrieve the site that would be matched from the request
-        list($site, $event) = $this->performHandleKernelRequestTest('http://www.example.com/test/abc');
-
-        // Ensure we retrieved the correct site.
-        $this->assertSame('Site 8', $site->getName());
-
-        // Ensure request path info is /abc
-        $this->assertSame('/abc', $event->getRequest()->getPathInfo());
+        // Ensure request path info
+        $this->assertSame($expectedPath, $event->getRequest()->getPathInfo());
 
         // Ensure request locale matches site locale
         $this->assertSame($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
     }
 
+    public function siteProvider(): \Generator
+    {
+        yield ['Site 0', 'http://www.example.com/test0'];
+        yield ['Site 1', 'http://www.example.com/test1'];
+        yield ['Site 2', 'http://www.example.com/test2'];
+        yield ['Site 3', 'http://www.example.com/test3'];
+        yield ['Site 4', 'http://www.example.com/test4'];
+        yield ['Site 8', 'http://www.example.com/test'];
+        yield ['Site 8', 'http://www.example.com/test/abc', '/abc'];
+        yield ['Site 9', 'http://www.example.org/abc', '/abc'];
+    }
+
     /**
-     * Site Test #12 - Should match "Site 9" and path info should match "/abc".
+     * @dataProvider siteWithRedirectProvider
      */
-    public function testSite12()
+    public function testSiteWithRedirect(string $expectedRedirectUri, string $url, string $path)
     {
         // Retrieve the site that would be matched from the request
-        list($site, $event) = $this->performHandleKernelRequestTest('http://www.example.org/abc');
+        list($site, $event) = $this->performHandleKernelRequestTest($url);
 
-        // Ensure we retrieved the correct site.
-        $this->assertSame('Site 9', $site->getName());
+        // Ensure no site was retrieved
+        $this->assertNull($site);
 
-        // Ensure request path info is /abc
-        $this->assertSame('/abc', $event->getRequest()->getPathInfo());
+        // Retrieve the event's response object
+        $response = $event->getResponse();
 
-        // Ensure request locale matches site locale
-        $this->assertSame($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
+        // Ensure the response was a redirect to the default site
+        $this->assertInstanceOf(RedirectResponse::class, $response);
+
+        // Ensure the redirect url
+        $this->assertSame($expectedRedirectUri, $response->getTargetUrl());
+
+        // Ensure request path info
+        $this->assertSame($path, $event->getRequest()->getPathInfo());
+
+        // Ensure request locale is null
+        $this->assertNull($event->getRequest()->attributes->get('_locale'));
+    }
+
+    public function siteWithRedirectProvider(): \Generator
+    {
+        yield ['//www.example.com/test2', 'http://www.example.com/test5', '/test5'];
+        yield ['//www.example.com/test2', 'http://www.example.com/test6', '/test6'];
+        yield ['//www.example.com/test2', 'http://www.example.com/test7', '/test7'];
+        yield ['//www.example.com/test2', 'http://www.example.com', '/'];
     }
 
     /**
      * Perform the actual handleKernelSiteRequest method test.
      */
-    protected function performHandleKernelRequestTest($url)
+    protected function performHandleKernelRequestTest($url): array
     {
         $kernel = $this->createMock(HttpKernelInterface::class);
         $request = SiteRequest::create($url);

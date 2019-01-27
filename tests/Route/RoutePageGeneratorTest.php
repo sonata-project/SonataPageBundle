@@ -20,14 +20,12 @@ use Sonata\PageBundle\Listener\ExceptionListener;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Route\RoutePageGenerator;
 use Sonata\PageBundle\Tests\Model\Page;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\Console\Output\StreamOutput;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
+use Symfony\Component\Routing\RouterInterface;
 
 /**
- * Test RoutePageGenerator service.
- *
  * @author Vincent Composieux <vincent.composieux@gmail.com>
  */
 class RoutePageGeneratorTest extends TestCase
@@ -111,10 +109,8 @@ class RoutePageGeneratorTest extends TestCase
 
     /**
      * Returns a mock of a site model.
-     *
-     * @return SiteInterface
      */
-    protected function getSiteMock()
+    protected function getSiteMock(): SiteInterface
     {
         $site = $this->createMock(SiteInterface::class);
         $site->expects($this->any())->method('getHost')->will($this->returnValue('sonata-project.org'));
@@ -125,10 +121,8 @@ class RoutePageGeneratorTest extends TestCase
 
     /**
      * Returns a mock of Symfony router.
-     *
-     * @return Router
      */
-    protected function getRouterMock()
+    protected function getRouterMock(): RouterInterface
     {
         $collection = new RouteCollection();
         $collection->add('route1', new Route('first_custom_route'));
@@ -148,10 +142,7 @@ class RoutePageGeneratorTest extends TestCase
             'sonata-project.com'
         ));
 
-        $router = $this->getMockBuilder(Router::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        $router = $this->createMock(RouterInterface::class);
         $router->expects($this->any())->method('getRouteCollection')->will($this->returnValue($collection));
 
         return $router;
@@ -159,17 +150,12 @@ class RoutePageGeneratorTest extends TestCase
 
     /**
      * Returns Sonata route page generator service.
-     *
-     * @return RoutePageGenerator
      */
-    protected function getRoutePageGenerator()
+    protected function getRoutePageGenerator(): RoutePageGenerator
     {
         $router = $this->getRouterMock();
 
-        $pageManager = $this->getMockBuilder(PageManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        $pageManager = $this->createMock(PageManager::class);
         $pageManager->expects($this->any())->method('create')->will($this->returnValue(new Page()));
 
         $hybridPageNotExists = new Page();
@@ -192,10 +178,7 @@ class RoutePageGeneratorTest extends TestCase
 
         $decoratorStrategy = new DecoratorStrategy([], [], []);
 
-        $exceptionListener = $this->getMockBuilder(ExceptionListener::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        $exceptionListener = $this->createMock(ExceptionListener::class);
         $exceptionListener->expects($this->any())->method('getHttpErrorCodes')->will($this->returnValue([404, 500]));
 
         return new RoutePageGenerator($router, $pageManager, $decoratorStrategy, $exceptionListener);

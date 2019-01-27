@@ -17,6 +17,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use PHPUnit\Framework\TestCase;
@@ -43,7 +44,9 @@ class SiteManagerTest extends TestCase
     public function testGetPagerWithInvalidSort()
     {
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Invalid sort field \'invalid\' in \'Sonata\\PageBundle\\Entity\\BaseSite\' class');
+        $this->expectExceptionMessage(
+            'Invalid sort field \'invalid\' in \'Sonata\\PageBundle\\Entity\\BaseSite\' class'
+        );
 
         $self = $this;
         $this
@@ -127,11 +130,7 @@ class SiteManagerTest extends TestCase
         $query->expects($this->any())->method('execute')->will($this->returnValue(true));
 
         $qb = $this->getMockBuilder(QueryBuilder::class)
-            ->setConstructorArgs([
-                $this->getMockBuilder(EntityManager::class)
-                    ->disableOriginalConstructor()
-                    ->getMock(),
-            ])
+            ->setConstructorArgs([$this->createMock(EntityManager::class)])
             ->getMock();
 
         $qb->expects($this->any())->method('getRootAliases')->will($this->returnValue([]));
@@ -140,7 +139,7 @@ class SiteManagerTest extends TestCase
 
         $qbCallback($qb);
 
-        $repository = $this->getMockBuilder(EntityRepository::class)->disableOriginalConstructor()->getMock();
+        $repository = $this->createMock(EntityRepository::class);
         $repository->expects($this->any())->method('createQueryBuilder')->will($this->returnValue($qb));
 
         $metadata = $this->createMock(ClassMetadata::class);
@@ -149,7 +148,7 @@ class SiteManagerTest extends TestCase
             'host',
         ]));
 
-        $em = $this->getMockBuilder(EntityManager::class)->disableOriginalConstructor()->getMock();
+        $em = $this->createMock(EntityManagerInterface::class);
         $em->expects($this->any())->method('getRepository')->will($this->returnValue($repository));
         $em->expects($this->any())->method('getClassMetadata')->will($this->returnValue($metadata));
 

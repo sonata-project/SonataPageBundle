@@ -15,22 +15,18 @@ namespace Sonata\PageBundle\Tests\Site;
 
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Entity\BaseSite;
+use Sonata\PageBundle\Site\SiteSelectorInterface;
 
 /**
- * Base test class of the locale selector services.
- *
  * @author Rémi Marseille <marseille@ekino.com>
  */
 abstract class BaseLocaleSiteSelectorTest extends TestCase
 {
     /**
-     * @var \Sonata\PageBundle\Site\SiteSelectorInterface
+     * @var SiteSelectorInterface
      */
     protected $siteSelector;
 
-    /**
-     * Initializes the site selector.
-     */
     protected function setUp()
     {
         throw new \RuntimeException('You must define a setUp method to initialize the site selector.');
