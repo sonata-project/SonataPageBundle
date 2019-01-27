@@ -40,10 +40,11 @@ template. This can be easily achieved by using the template manager service.
         public function __construct($name, TemplateManager $templateManager)
         {
             // ...
+
             $this->templateManager = $templateManager;
         }
 
-        public function execute(PageInterface $page, Request $request, array $parameters = array(), Response $response = null)
+        public function execute(PageInterface $page, Request $request, array $parameters = [], Response $response = null)
         {
             // add custom processing (load data, update SEO values, update http headers, perform security checks, ...)
 
@@ -57,9 +58,9 @@ it as being a page service:
 .. code-block:: xml
 
     <service id="app.custom_page_service" class="App\Service\CustomPageService">
-        <tag name="sonata.page"/>
         <argument>Custom page service</argument>
         <argument type="service" id="sonata.page.template_manager" />
+        <tag name="sonata.page"/>
     </service>
 
 Once you have defined the service and the class, you will have a new page type to choose in the ``Page Admin``.

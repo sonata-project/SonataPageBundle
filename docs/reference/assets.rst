@@ -11,7 +11,6 @@ Assets are managed with gulp which require yarn and a global gulp install.
    Do not edit directly files located in the ``src/Resources/public`` folder,
    if you want to contribute, you should edit files in the ``assets/src`` folder.
 
-
 Compiling Sources
 -----------------
 

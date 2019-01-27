@@ -118,7 +118,6 @@ Configure
                   R: right_col
                   M: mid_col
 
-
 Template inheritance
 ^^^^^^^^^^^^^^^^^^^^
 
@@ -136,7 +135,6 @@ This is also shown in the example above.
                    name: Main content
                    blocks:
                        - sonata.media.block.media
-
 
 Template chooser
 ^^^^^^^^^^^^^^^^
@@ -156,13 +154,11 @@ Javascript
 
 The **PageComposer** js object trigger various events to allow customization:
 
-
 **containerloaded**, event properties:
 
 .. code-block:: javascript
 
    event.containerId // loaded container id
-
 
 **blockcreated**, event properties:
 
@@ -174,13 +170,11 @@ The **PageComposer** js object trigger various events to allow customization:
    event.blockName   // created block name
    event.blockType   // created block type
 
-
 **blockremoved**, event properties:
 
 .. code-block:: javascript
 
    event.parentId // removed block parent id
-
 
 **blockcreateformloaded**, event properties:
 
@@ -190,20 +184,17 @@ The **PageComposer** js object trigger various events to allow customization:
    event.containerId // current container id
    event.blockType   // selected block type
 
-
 **blockpositionsupdate**, event properties:
 
 .. code-block:: javascript
 
    event.disposition // a javascript object containing all child blocks position/ids…
 
-
 **blockeditformloaded**, event properties:
 
 .. code-block:: javascript
 
    event.$block // the block jQuery element
-
 
 **blockparentswitched**, event properties:
 
