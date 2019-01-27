@@ -13,15 +13,13 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Form\Type;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Form\Type\TemplateChoiceType;
 use Sonata\PageBundle\Model\Template;
 use Sonata\PageBundle\Page\TemplateManagerInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- * Test the template choice form type.
- */
 class TemplateChoiceTypeTest extends TestCase
 {
     /**
@@ -48,17 +46,12 @@ class TemplateChoiceTypeTest extends TestCase
      */
     public function testGetOptions()
     {
-        // GIVEN
-        $template = $this->getMockTemplate('Template 1');
-
         $this->manager->expects($this->atLeastOnce())->method('getAll')->will($this->returnValue([
-            'my_template' => $template,
+            'my_template' => $this->getMockTemplate('Template 1'),
         ]));
 
-        // WHEN
         $this->type->configureOptions(new OptionsResolver());
 
-        // THEN
         $this->type->getTemplates();
         $this->assertSame(['Template 1' => 'my_template'], $this->type->getTemplates(),
             'Should return an array of templates provided by the template manager');
@@ -66,15 +59,10 @@ class TemplateChoiceTypeTest extends TestCase
 
     /**
      * Returns the mock template.
-     *
-     * @param string $name Name of the template
-     * @param string $path Path to the file of the template
-     *
-     * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    protected function getMockTemplate($name, $path = 'path/to/file')
+    protected function getMockTemplate(string $name, string $path = 'path/to/file'): MockObject
     {
-        $template = $this->getMockbuilder(Template::class)->disableOriginalConstructor()->getMock();
+        $template = $this->createMock(Template::class);
         $template->expects($this->any())->method('getName')->will($this->returnValue($name));
         $template->expects($this->any())->method('getPath')->will($this->returnValue($path));
 

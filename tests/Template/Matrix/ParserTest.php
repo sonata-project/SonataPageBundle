@@ -21,7 +21,9 @@ class ParserTest extends TestCase
     public function testParserWithInvalidTemplateMatrix()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid template matrix, a matrix should contain at least one row');
+        $this->expectExceptionMessage(
+            'Invalid template matrix, a matrix should contain at least one row'
+        );
 
         Parser::parse('', []);
     }
@@ -29,7 +31,9 @@ class ParserTest extends TestCase
     public function testParserWithInvalidRowLength()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid template matrix, inconsistent row length, row "1" should have a length of "4"');
+        $this->expectExceptionMessage(
+            'Invalid template matrix, inconsistent row length, row "1" should have a length of "4"'
+        );
 
         Parser::parse("YYYY\nNNNNNN", ['Y' => 'top']);
     }
@@ -37,7 +41,9 @@ class ParserTest extends TestCase
     public function testParserWithInvalidMapping()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid template matrix, no mapping found for symbol "Y"');
+        $this->expectExceptionMessage(
+            'Invalid template matrix, no mapping found for symbol "Y"'
+        );
 
         Parser::parse("YYYY\nNNNNNN", []);
     }

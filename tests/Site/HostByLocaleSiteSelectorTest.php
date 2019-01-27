@@ -22,15 +22,10 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
- * Tests the HostByLocaleSiteSelector service.
- *
  * @author Rémi Marseille <marseille@ekino.com>
  */
 class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp()
     {
         $siteManager = $this->createMock(SiteManagerInterface::class);

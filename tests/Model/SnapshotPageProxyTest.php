@@ -24,13 +24,13 @@ class SnapshotPageProxyTest extends TestCase
 {
     public function testInterface()
     {
-        $snapshotManager = $this->createMock(SnapshotManagerInterface::class);
-        $snapshot = $this->createMock(SnapshotInterface::class);
-        $transformer = $this->createMock(TransformerInterface::class);
-
         $this->assertInstanceOf(
             SnapshotPageProxyInterface::class,
-            new SnapshotPageProxy($snapshotManager, $transformer, $snapshot)
+            new SnapshotPageProxy(
+                $this->createMock(SnapshotManagerInterface::class),
+                $this->createMock(TransformerInterface::class),
+                $this->createMock(SnapshotInterface::class)
+            )
         );
     }
 }
