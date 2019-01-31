@@ -170,7 +170,7 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
         $host = $request->getHost();
 
         foreach ($sites as $site) {
-            if (\in_array($site->getHost(), ['localhost', $host]) && $language === $site->getLocale()) {
+            if (\in_array($site->getHost(), ['localhost', $host], true) && $language === $site->getLocale()) {
                 return $site;
             }
         }

@@ -42,11 +42,11 @@ class SonataPageBundleTest extends TestCase
         $container = $this->createMock(ContainerInterface::class);
         $container->expects($this->exactly(1))->method('hasParameter')->will($this->returnValue(true));
         $container->expects($this->exactly(2))->method('getParameter')->will($this->returnCallback(function ($value) {
-            if ('sonata.page.page.class' == $value) {
+            if ('sonata.page.page.class' === $value) {
                 return Page::class;
             }
 
-            if ('sonata.page.slugify_service' == $value) {
+            if ('sonata.page.slugify_service' === $value) {
                 return 'slug_service';
             }
         }));
@@ -57,7 +57,7 @@ class SonataPageBundleTest extends TestCase
 
         $page = new Page();
         $page->setSlug($text);
-        $this->assertEquals($page->getSlug(), $expected);
+        $this->assertSame($page->getSlug(), $expected);
     }
 
     public function getSlug()

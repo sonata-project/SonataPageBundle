@@ -25,7 +25,7 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RequestContext;
-use Symfony\Component\Routing\Router;
+use Symfony\Component\Routing\RouterInterface;
 
 class CmsPageRouterTest extends TestCase
 {
@@ -40,7 +40,7 @@ class CmsPageRouterTest extends TestCase
     protected $siteSelector;
 
     /**
-     * @var \Symfony\Component\Routing\RouterInterface
+     * @var RouterInterface
      */
     protected $defaultRouter;
 
@@ -56,7 +56,7 @@ class CmsPageRouterTest extends TestCase
     {
         $this->cmsSelector = $this->createMock(CmsManagerSelectorInterface::class);
         $this->siteSelector = $this->createMock(SiteSelectorInterface::class);
-        $this->defaultRouter = $this->getMockBuilder(Router::class)->disableOriginalConstructor()->getMock();
+        $this->defaultRouter = $this->createMock(RouterInterface::class);
 
         $this->router = new CmsPageRouter($this->cmsSelector, $this->siteSelector, $this->defaultRouter);
     }
@@ -109,8 +109,8 @@ class CmsPageRouterTest extends TestCase
 
         $route = $this->router->match('/');
 
-        $this->assertEquals('sonata.page.page_service_manager:execute', $route['_controller']);
-        $this->assertEquals('page_slug', $route['_route']);
+        $this->assertSame('sonata.page.page_service_manager:execute', $route['_controller']);
+        $this->assertSame('page_slug', $route['_route']);
     }
 
     public function testGenerateInvalidPage(): void
@@ -148,22 +148,38 @@ class CmsPageRouterTest extends TestCase
         $this->router->setContext(new RequestContext());
 
         $url = $this->router->generate('page_slug', ['path' => '/my/path']);
-        $this->assertEquals('/my/path', $url);
+        $this->assertSame('/my/path', $url);
 
         $url = $this->router->generate('page_slug', ['path' => '/my/path', 'foo' => 'bar']);
-        $this->assertEquals('/my/path?foo=bar', $url);
+        $this->assertSame('/my/path?foo=bar', $url);
 
-        $url = $this->router->generate('page_slug', ['path' => '/my/path', 'foo' => 'bar'], UrlGeneratorInterface::ABSOLUTE_PATH);
-        $this->assertEquals('/my/path?foo=bar', $url);
+        $url = $this->router->generate(
+            'page_slug',
+            ['path' => '/my/path', 'foo' => 'bar'],
+            UrlGeneratorInterface::ABSOLUTE_PATH
+        );
+        $this->assertSame('/my/path?foo=bar', $url);
 
-        $url = $this->router->generate('page_slug', ['path' => '/my/path', 'foo' => 'bar'], UrlGeneratorInterface::RELATIVE_PATH);
-        $this->assertEquals('my/path?foo=bar', $url);
+        $url = $this->router->generate(
+            'page_slug',
+            ['path' => '/my/path', 'foo' => 'bar'],
+            UrlGeneratorInterface::RELATIVE_PATH
+        );
+        $this->assertSame('my/path?foo=bar', $url);
 
-        $url = $this->router->generate('page_slug', ['path' => '/my/path', 'foo' => 'bar'], UrlGeneratorInterface::ABSOLUTE_URL);
-        $this->assertEquals('http://localhost/my/path?foo=bar', $url);
+        $url = $this->router->generate(
+            'page_slug',
+            ['path' => '/my/path', 'foo' => 'bar'],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
+        $this->assertSame('http://localhost/my/path?foo=bar', $url);
 
-        $url = $this->router->generate('page_slug', ['path' => '/my/path', 'foo' => 'bar'], UrlGeneratorInterface::NETWORK_PATH);
-        $this->assertEquals('//localhost/my/path?foo=bar', $url);
+        $url = $this->router->generate(
+            'page_slug',
+            ['path' => '/my/path', 'foo' => 'bar'],
+            UrlGeneratorInterface::NETWORK_PATH
+        );
+        $this->assertSame('//localhost/my/path?foo=bar', $url);
     }
 
     /**
@@ -179,19 +195,19 @@ class CmsPageRouterTest extends TestCase
         $this->router->setContext(new RequestContext());
 
         $url = $this->router->generate($page, ['key' => 'value']);
-        $this->assertEquals('/test/path?key=value', $url);
+        $this->assertSame('/test/path?key=value', $url);
 
         $url = $this->router->generate($page, ['key' => 'value'], UrlGeneratorInterface::ABSOLUTE_PATH);
-        $this->assertEquals('/test/path?key=value', $url);
+        $this->assertSame('/test/path?key=value', $url);
 
         $url = $this->router->generate($page, ['key' => 'value'], UrlGeneratorInterface::RELATIVE_PATH);
-        $this->assertEquals('test/path?key=value', $url);
+        $this->assertSame('test/path?key=value', $url);
 
         $url = $this->router->generate($page, ['key' => 'value'], UrlGeneratorInterface::ABSOLUTE_URL);
-        $this->assertEquals('http://localhost/test/path?key=value', $url);
+        $this->assertSame('http://localhost/test/path?key=value', $url);
 
         $url = $this->router->generate($page, ['key' => 'value'], UrlGeneratorInterface::NETWORK_PATH);
-        $this->assertEquals('//localhost/test/path?key=value', $url);
+        $this->assertSame('//localhost/test/path?key=value', $url);
     }
 
     /**
@@ -206,19 +222,19 @@ class CmsPageRouterTest extends TestCase
         $this->router->setContext(new RequestContext());
 
         $url = $this->router->generate($page, ['key' => 'value']);
-        $this->assertEquals('/test/path?key=value', $url);
+        $this->assertSame('/test/path?key=value', $url);
 
         $url = $this->router->generate($page, ['key' => 'value'], UrlGeneratorInterface::ABSOLUTE_PATH);
-        $this->assertEquals('/test/path?key=value', $url);
+        $this->assertSame('/test/path?key=value', $url);
 
         $url = $this->router->generate($page, ['key' => 'value'], UrlGeneratorInterface::RELATIVE_PATH);
-        $this->assertEquals('test/path?key=value', $url);
+        $this->assertSame('test/path?key=value', $url);
 
         $url = $this->router->generate($page, ['key' => 'value'], UrlGeneratorInterface::ABSOLUTE_URL);
-        $this->assertEquals('http://localhost/test/path?key=value', $url);
+        $this->assertSame('http://localhost/test/path?key=value', $url);
 
         $url = $this->router->generate($page, ['key' => 'value'], UrlGeneratorInterface::NETWORK_PATH);
-        $this->assertEquals('//localhost/test/path?key=value', $url);
+        $this->assertSame('//localhost/test/path?key=value', $url);
     }
 
     /**
@@ -232,43 +248,63 @@ class CmsPageRouterTest extends TestCase
 
         $this->defaultRouter->expects($this->at(0))
             ->method('generate')
-            ->with($this->equalTo('test_route'), $this->equalTo(['key' => 'value']), $this->equalTo(UrlGeneratorInterface::ABSOLUTE_PATH))
+            ->with(
+                $this->equalTo('test_route'),
+                $this->equalTo(['key' => 'value']),
+                $this->equalTo(UrlGeneratorInterface::ABSOLUTE_PATH)
+            )
             ->will($this->returnValue('/test/path?key=value'));
 
         $this->defaultRouter->expects($this->at(1))
             ->method('generate')
-            ->with($this->equalTo('test_route'), $this->equalTo(['key' => 'value']), $this->equalTo(UrlGeneratorInterface::ABSOLUTE_PATH))
+            ->with(
+                $this->equalTo('test_route'),
+                $this->equalTo(['key' => 'value']),
+                $this->equalTo(UrlGeneratorInterface::ABSOLUTE_PATH)
+            )
             ->will($this->returnValue('/test/path?key=value'));
 
         $this->defaultRouter->expects($this->at(2))
             ->method('generate')
-            ->with($this->equalTo('test_route'), $this->equalTo(['key' => 'value']), $this->equalTo(UrlGeneratorInterface::RELATIVE_PATH))
+            ->with(
+                $this->equalTo('test_route'),
+                $this->equalTo(['key' => 'value']),
+                $this->equalTo(UrlGeneratorInterface::RELATIVE_PATH)
+            )
             ->will($this->returnValue('test/path?key=value'));
 
         $this->defaultRouter->expects($this->at(3))
             ->method('generate')
-            ->with($this->equalTo('test_route'), $this->equalTo(['key' => 'value']), $this->equalTo(UrlGeneratorInterface::ABSOLUTE_URL))
+            ->with(
+                $this->equalTo('test_route'),
+                $this->equalTo(['key' => 'value']),
+                $this->equalTo(UrlGeneratorInterface::ABSOLUTE_URL)
+            )
             ->will($this->returnValue('http://localhost/test/path?key=value'));
 
         $this->defaultRouter->expects($this->at(4))
             ->method('generate')
-            ->with($this->equalTo('test_route'), $this->equalTo(['key' => 'value']), $this->equalTo(UrlGeneratorInterface::NETWORK_PATH))
+            ->with(
+                $this->equalTo('test_route'),
+                $this->equalTo(['key' => 'value']),
+                $this->equalTo(UrlGeneratorInterface::NETWORK_PATH)
+            )
             ->will($this->returnValue('//localhost/test/path?key=value'));
 
         $url = $this->router->generate($page, ['key' => 'value']);
-        $this->assertEquals('/test/path?key=value', $url);
+        $this->assertSame('/test/path?key=value', $url);
 
         $url = $this->router->generate($page, ['key' => 'value'], UrlGeneratorInterface::ABSOLUTE_PATH);
-        $this->assertEquals('/test/path?key=value', $url);
+        $this->assertSame('/test/path?key=value', $url);
 
         $url = $this->router->generate($page, ['key' => 'value'], UrlGeneratorInterface::RELATIVE_PATH);
-        $this->assertEquals('test/path?key=value', $url);
+        $this->assertSame('test/path?key=value', $url);
 
         $url = $this->router->generate($page, ['key' => 'value'], UrlGeneratorInterface::ABSOLUTE_URL);
-        $this->assertEquals('http://localhost/test/path?key=value', $url);
+        $this->assertSame('http://localhost/test/path?key=value', $url);
 
         $url = $this->router->generate($page, ['key' => 'value'], UrlGeneratorInterface::NETWORK_PATH);
-        $this->assertEquals('//localhost/test/path?key=value', $url);
+        $this->assertSame('//localhost/test/path?key=value', $url);
     }
 
     /**
@@ -290,19 +326,19 @@ class CmsPageRouterTest extends TestCase
         $this->router->setContext(new RequestContext());
 
         $url = $this->router->generate('_page_alias_homepage', ['key' => 'value']);
-        $this->assertEquals('/test/path?key=value', $url);
+        $this->assertSame('/test/path?key=value', $url);
 
         $url = $this->router->generate('_page_alias_homepage', ['key' => 'value'], UrlGeneratorInterface::ABSOLUTE_PATH);
-        $this->assertEquals('/test/path?key=value', $url);
+        $this->assertSame('/test/path?key=value', $url);
 
         $url = $this->router->generate('_page_alias_homepage', ['key' => 'value'], UrlGeneratorInterface::RELATIVE_PATH);
-        $this->assertEquals('test/path?key=value', $url);
+        $this->assertSame('test/path?key=value', $url);
 
         $url = $this->router->generate('_page_alias_homepage', ['key' => 'value'], UrlGeneratorInterface::ABSOLUTE_URL);
-        $this->assertEquals('http://localhost/test/path?key=value', $url);
+        $this->assertSame('http://localhost/test/path?key=value', $url);
 
         $url = $this->router->generate('_page_alias_homepage', ['key' => 'value'], UrlGeneratorInterface::NETWORK_PATH);
-        $this->assertEquals('//localhost/test/path?key=value', $url);
+        $this->assertSame('//localhost/test/path?key=value', $url);
     }
 
     public function testGenerateWithPageAliasFromHybridPage(): void
@@ -320,43 +356,63 @@ class CmsPageRouterTest extends TestCase
 
         $this->defaultRouter->expects($this->at(0))
             ->method('generate')
-            ->with($this->equalTo('test_route'), $this->equalTo(['key' => 'value']), $this->equalTo(UrlGeneratorInterface::ABSOLUTE_PATH))
+            ->with(
+                $this->equalTo('test_route'),
+                $this->equalTo(['key' => 'value']),
+                $this->equalTo(UrlGeneratorInterface::ABSOLUTE_PATH)
+            )
             ->will($this->returnValue('/test/key/value'));
 
         $this->defaultRouter->expects($this->at(1))
             ->method('generate')
-            ->with($this->equalTo('test_route'), $this->equalTo(['key' => 'value']), $this->equalTo(UrlGeneratorInterface::ABSOLUTE_PATH))
+            ->with(
+                $this->equalTo('test_route'),
+                $this->equalTo(['key' => 'value']),
+                $this->equalTo(UrlGeneratorInterface::ABSOLUTE_PATH)
+            )
             ->will($this->returnValue('/test/key/value'));
 
         $this->defaultRouter->expects($this->at(2))
             ->method('generate')
-            ->with($this->equalTo('test_route'), $this->equalTo(['key' => 'value']), $this->equalTo(UrlGeneratorInterface::RELATIVE_PATH))
+            ->with(
+                $this->equalTo('test_route'),
+                $this->equalTo(['key' => 'value']),
+                $this->equalTo(UrlGeneratorInterface::RELATIVE_PATH)
+            )
             ->will($this->returnValue('test/key/value'));
 
         $this->defaultRouter->expects($this->at(3))
             ->method('generate')
-            ->with($this->equalTo('test_route'), $this->equalTo(['key' => 'value']), $this->equalTo(UrlGeneratorInterface::ABSOLUTE_URL))
+            ->with(
+                $this->equalTo('test_route'),
+                $this->equalTo(['key' => 'value']),
+                $this->equalTo(UrlGeneratorInterface::ABSOLUTE_URL)
+            )
             ->will($this->returnValue('http://localhost/test/key/value'));
 
         $this->defaultRouter->expects($this->at(4))
             ->method('generate')
-            ->with($this->equalTo('test_route'), $this->equalTo(['key' => 'value']), $this->equalTo(UrlGeneratorInterface::NETWORK_PATH))
+            ->with(
+                $this->equalTo('test_route'),
+                $this->equalTo(['key' => 'value']),
+                $this->equalTo(UrlGeneratorInterface::NETWORK_PATH)
+            )
             ->will($this->returnValue('//localhost/test/key/value'));
 
         $url = $this->router->generate('_page_alias_homepage', ['key' => 'value']);
-        $this->assertEquals('/test/key/value', $url);
+        $this->assertSame('/test/key/value', $url);
 
         $url = $this->router->generate('_page_alias_homepage', ['key' => 'value'], UrlGeneratorInterface::ABSOLUTE_PATH);
-        $this->assertEquals('/test/key/value', $url);
+        $this->assertSame('/test/key/value', $url);
 
         $url = $this->router->generate('_page_alias_homepage', ['key' => 'value'], UrlGeneratorInterface::RELATIVE_PATH);
-        $this->assertEquals('test/key/value', $url);
+        $this->assertSame('test/key/value', $url);
 
         $url = $this->router->generate('_page_alias_homepage', ['key' => 'value'], UrlGeneratorInterface::ABSOLUTE_URL);
-        $this->assertEquals('http://localhost/test/key/value', $url);
+        $this->assertSame('http://localhost/test/key/value', $url);
 
         $url = $this->router->generate('_page_alias_homepage', ['key' => 'value'], UrlGeneratorInterface::NETWORK_PATH);
-        $this->assertEquals('//localhost/test/key/value', $url);
+        $this->assertSame('//localhost/test/key/value', $url);
     }
 
     public function testGenerateWithPageAndNewSiteContext(): void
@@ -381,9 +437,9 @@ class CmsPageRouterTest extends TestCase
         $this->router->setContext(new SiteRequestContext($siteSelector));
 
         $url = $this->router->generate($page, ['key' => 'value']);
-        $this->assertEquals('/site1/test/path?key=value', $url);
+        $this->assertSame('/site1/test/path?key=value', $url);
 
         $url = $this->router->generate($page2, ['key' => 'value']);
-        $this->assertEquals('/site2/test/path?key=value', $url);
+        $this->assertSame('/site2/test/path?key=value', $url);
     }
 }

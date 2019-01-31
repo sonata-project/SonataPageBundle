@@ -17,6 +17,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use PHPUnit\Framework\TestCase;
@@ -43,11 +44,11 @@ class SnapshotManagerTest extends TestCase
             ->getMock()
         ;
 
-        $this->assertEquals([], $manager->getTemplates());
+        $this->assertSame([], $manager->getTemplates());
 
         $manager->setTemplates(['foo' => 'bar']);
 
-        $this->assertEquals(['foo' => 'bar'], $manager->getTemplates());
+        $this->assertSame(['foo' => 'bar'], $manager->getTemplates());
     }
 
     public function testGetTemplates(): void
@@ -65,7 +66,7 @@ class SnapshotManagerTest extends TestCase
         $templates->setAccessible(true);
         $templates->setValue($manager, ['foo' => 'bar']);
 
-        $this->assertEquals(['foo' => 'bar'], $manager->getTemplates());
+        $this->assertSame(['foo' => 'bar'], $manager->getTemplates());
     }
 
     public function testGetTemplate(): void
@@ -83,7 +84,7 @@ class SnapshotManagerTest extends TestCase
         $templates->setAccessible(true);
         $templates->setValue($manager, ['foo' => 'bar']);
 
-        $this->assertEquals('bar', $manager->getTemplate('foo'));
+        $this->assertSame('bar', $manager->getTemplate('foo'));
     }
 
     public function testGetTemplatesException(): void
@@ -198,20 +199,18 @@ class SnapshotManagerTest extends TestCase
         $snapshot->expects($this->once())->method('getId')->will($this->returnValue(123));
         $snapshot->expects($this->once())->method('getPage')->will($this->returnValue($page));
 
-        $connection = $this->getMockBuilder(Connection::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $date = new \DateTime();
 
+        $connection = $this->createMock(Connection::class);
         $connection
             ->expects($this->once())
             ->method('query')
-            ->with(sprintf("UPDATE page_snapshot SET publication_date_end = '%s' WHERE id NOT IN(123) AND page_id IN (456)", $date->format('Y-m-d H:i:s')));
+            ->with(sprintf(
+                "UPDATE page_snapshot SET publication_date_end = '%s' WHERE id NOT IN(123) AND page_id IN (456)",
+                $date->format('Y-m-d H:i:s')
+            ));
 
-        $em = $this->getMockBuilder(EntityManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $em = $this->createMock(EntityManagerInterface::class);
 
         $em->expects($this->once())->method('persist')->with($snapshot);
         $em->expects($this->once())->method('flush');
@@ -245,7 +244,7 @@ class SnapshotManagerTest extends TestCase
             ->with($manager, $transformer, $snapshot)
             ->will($this->returnValue($proxyInterface));
 
-        $this->assertEquals($proxyInterface, $manager->createSnapshotPageProxy($transformer, $snapshot));
+        $this->assertSame($proxyInterface, $manager->createSnapshotPageProxy($transformer, $snapshot));
     }
 
     /**
@@ -253,17 +252,10 @@ class SnapshotManagerTest extends TestCase
      */
     public function testEnableSnapshotsWhenNoSnapshots(): void
     {
-        // Given
-        $connection = $this->getMockBuilder(Connection::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        $connection = $this->createMock(Connection::class);
         $connection->expects($this->never())->method('query');
 
-        $em = $this->getMockBuilder(EntityManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        $em = $this->createMock(EntityManagerInterface::class);
         $em->expects($this->never())->method('persist');
         $em->expects($this->never())->method('flush');
         $em->expects($this->never())->method('getConnection');
@@ -286,11 +278,7 @@ class SnapshotManagerTest extends TestCase
         $query->expects($this->any())->method('execute')->will($this->returnValue(true));
 
         $qb = $this->getMockBuilder(QueryBuilder::class)
-            ->setConstructorArgs([
-                $this->getMockBuilder(EntityManager::class)
-                    ->disableOriginalConstructor()
-                    ->getMock(),
-            ])
+            ->setConstructorArgs([$this->createMock(EntityManager::class)])
             ->getMock();
 
         $qb->expects($this->any())->method('getRootAliases')->will($this->returnValue([]));
@@ -299,10 +287,10 @@ class SnapshotManagerTest extends TestCase
 
         $qbCallback($qb);
 
-        $repository = $this->getMockBuilder(EntityRepository::class)->disableOriginalConstructor()->getMock();
+        $repository = $this->createMock(EntityRepository::class);
         $repository->expects($this->any())->method('createQueryBuilder')->will($this->returnValue($qb));
 
-        $em = $this->getMockBuilder(EntityManager::class)->disableOriginalConstructor()->getMock();
+        $em = $this->createMock(EntityManagerInterface::class);
         $em->expects($this->any())->method('getRepository')->will($this->returnValue($repository));
 
         $registry = $this->createMock(ManagerRegistry::class);

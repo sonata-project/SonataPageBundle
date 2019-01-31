@@ -30,105 +30,33 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 class HostSiteSelectorTest extends TestCase
 {
     /**
-     * Site Test #1 - Should match "Site 0".
+     * @dataProvider siteProvider
      */
-    public function testSite1(): void
+    public function testSite(string $expectedName, string $url): void
     {
         // Retrieve the site that would be matched from the request
-        list($site, $event) = $this->performHandleKernelRequestTest('http://localhost');
+        list($site, $event) = $this->performHandleKernelRequestTest($url);
 
-        // Ensure we retrieved the "Site 1" site.
-        $this->assertEquals('Site 0', $site->getName());
+        // Ensure we retrieved the correct site.
+        $this->assertSame($expectedName, $site->getName());
     }
 
-    /**
-     * Site Test #2 - Should match "Site 1".
-     */
-    public function testSite2(): void
+    public function siteProvider(): \Generator
     {
-        // Retrieve the site that would be matched from the request
-        list($site, $event) = $this->performHandleKernelRequestTest('http://www.example1.com');
-
-        // Ensure we retrieved the "Site 1" site.
-        $this->assertEquals('Site 1', $site->getName());
-    }
-
-    /**
-     * Site Test #3 - Should match "Site 2".
-     */
-    public function testSite3(): void
-    {
-        // Retrieve the site that would be matched from the request
-        list($site, $event) = $this->performHandleKernelRequestTest('http://www.example2.com');
-
-        // Ensure we retrieved the "Site 2" site.
-        $this->assertEquals('Site 2', $site->getName());
-    }
-
-    /**
-     * Site Test #4 - Should match "Site 3".
-     */
-    public function testSite4(): void
-    {
-        // Retrieve the site that would be matched from the request
-        list($site, $event) = $this->performHandleKernelRequestTest('http://www.example3.com');
-
-        // Ensure we retrieved the "Site 3" site.
-        $this->assertEquals('Site 3', $site->getName());
-    }
-
-    /**
-     * Site Test #5 - Should match "Site 4".
-     */
-    public function testSite5(): void
-    {
-        // Retrieve the site that would be matched from the request
-        list($site, $event) = $this->performHandleKernelRequestTest('http://www.example4.com');
-
-        // Ensure we retrieved the "Site 4" site.
-        $this->assertEquals('Site 4', $site->getName());
-    }
-
-    /**
-     * Site Test #6 - Should match "Site 0".
-     */
-    public function testSite6(): void
-    {
-        // Retrieve the site that would be matched from the request
-        list($site, $event) = $this->performHandleKernelRequestTest('http://www.example5.com');
-
-        // Ensure we retrieved the "Site 0" site.
-        $this->assertEquals('Site 0', $site->getName());
-    }
-
-    /**
-     * Site Test #7 - Should match "Site 0".
-     */
-    public function testSite7(): void
-    {
-        // Retrieve the site that would be matched from the request
-        list($site, $event) = $this->performHandleKernelRequestTest('http://www.example6.com');
-
-        // Ensure we retrieved the "Site 0" site.
-        $this->assertEquals('Site 0', $site->getName());
-    }
-
-    /**
-     * Site Test #8 - Should match "Site 0".
-     */
-    public function testSite8(): void
-    {
-        // Retrieve the site that would be matched from the request
-        list($site, $event) = $this->performHandleKernelRequestTest('http://www.example7.com');
-
-        // Ensure we retrieved the "Site 0" site.
-        $this->assertEquals('Site 0', $site->getName());
+        yield ['Site 0', 'http://localhost'];
+        yield ['Site 1', 'http://www.example1.com'];
+        yield ['Site 2', 'http://www.example2.com'];
+        yield ['Site 3', 'http://www.example3.com'];
+        yield ['Site 4', 'http://www.example4.com'];
+        yield ['Site 0', 'http://www.example5.com'];
+        yield ['Site 0', 'http://www.example6.com'];
+        yield ['Site 0', 'http://www.example7.com'];
     }
 
     /**
      * Perform the actual handleKernelRequest method test.
      */
-    protected function performHandleKernelRequestTest($url)
+    protected function performHandleKernelRequestTest($url): array
     {
         $kernel = $this->createMock(HttpKernelInterface::class);
         $request = Request::create($url);
@@ -151,7 +79,7 @@ class HostSiteSelectorTest extends TestCase
         $site = $siteSelector->retrieve();
 
         // Ensure request locale matches site locale
-        $this->assertEquals($site->getLocale(), $request->attributes->get('_locale'));
+        $this->assertSame($site->getLocale(), $request->attributes->get('_locale'));
 
         return [
             $site,
@@ -227,7 +155,7 @@ class HostSiteSelector extends BaseSiteSelector
                 $value = $this->_getFieldValue($site, $param_name);
 
                 if (\is_array($param_value)) {
-                    if (!\in_array($value, $param_value)) {
+                    if (!\in_array($value, $param_value, true)) {
                         $valid_site = false;
                     }
                 } else {

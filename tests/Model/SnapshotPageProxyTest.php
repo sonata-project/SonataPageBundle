@@ -17,16 +17,20 @@ use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Model\SnapshotInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\SnapshotPageProxy;
+use Sonata\PageBundle\Model\SnapshotPageProxyInterface;
 use Sonata\PageBundle\Model\TransformerInterface;
 
 class SnapshotPageProxyTest extends TestCase
 {
     public function testInterface(): void
     {
-        $snapshotManager = $this->createMock(SnapshotManagerInterface::class);
-        $snapshot = $this->createMock(SnapshotInterface::class);
-        $transformer = $this->createMock(TransformerInterface::class);
-
-        new SnapshotPageProxy($snapshotManager, $transformer, $snapshot);
+        $this->assertInstanceOf(
+            SnapshotPageProxyInterface::class,
+            new SnapshotPageProxy(
+                $this->createMock(SnapshotManagerInterface::class),
+                $this->createMock(TransformerInterface::class),
+                $this->createMock(SnapshotInterface::class)
+            )
+        );
     }
 }

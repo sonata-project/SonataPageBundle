@@ -275,9 +275,9 @@ class CmsPageRouter implements ChainedRouterInterface
         $schemeAuthority = '';
         if ($this->context->getHost() && (self::ABSOLUTE_URL === $referenceType || self::NETWORK_PATH === $referenceType)) {
             $port = '';
-            if ('http' === $this->context->getScheme() && 80 != $this->context->getHttpPort()) {
+            if ('http' === $this->context->getScheme() && 80 !== $this->context->getHttpPort()) {
                 $port = sprintf(':%s', $this->context->getHttpPort());
-            } elseif ('https' === $this->context->getScheme() && 443 != $this->context->getHttpsPort()) {
+            } elseif ('https' === $this->context->getScheme() && 443 !== $this->context->getHttpsPort()) {
                 $port = sprintf(':%s', $this->context->getHttpsPort());
             }
 
@@ -361,6 +361,6 @@ class CmsPageRouter implements ChainedRouterInterface
      */
     protected function isPageSlug($name)
     {
-        return \is_string($name) && PageInterface::PAGE_ROUTE_CMS_NAME == $name;
+        return \is_string($name) && PageInterface::PAGE_ROUTE_CMS_NAME === $name;
     }
 }

@@ -97,7 +97,7 @@ class PageSelectorTypeTest extends TestCase
             'request_method' => 'all',
         ]]);
 
-        $this->assertEquals([], $options['choices']);
+        $this->assertSame([], $options['choices']);
     }
 
     /**

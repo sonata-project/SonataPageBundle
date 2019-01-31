@@ -85,7 +85,7 @@ class HostPathSiteSelector extends BaseSiteSelector
             return;
         }
 
-        if ('Symfony\\Bundle\\FrameworkBundle\\Controller\\RedirectController::urlRedirectAction' == $request->get('_controller')) {
+        if ('Symfony\\Bundle\\FrameworkBundle\\Controller\\RedirectController::urlRedirectAction' === $request->get('_controller')) {
             $request->attributes->set('path', $this->site->getRelativePath().$request->attributes->get('path'));
         }
     }

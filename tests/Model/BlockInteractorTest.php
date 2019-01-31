@@ -21,10 +21,6 @@ use Sonata\PageBundle\Entity\BlockInteractor;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * BlockInteractorTest class.
- *
- * This is the BlockInteractor test class
- *
  * @author Vincent Composieux <composieux@ekino.com>
  */
 class BlockInteractorTest extends TestCase
@@ -34,7 +30,7 @@ class BlockInteractorTest extends TestCase
      */
     public function testCreateNewContainer(): void
     {
-        $registry = $this->getMockBuilder(RegistryInterface::class)->disableOriginalConstructor()->getMock();
+        $registry = $this->createMock(RegistryInterface::class);
 
         $blockManager = $this->createMock(BlockManagerInterface::class);
         $blockManager->expects($this->any())->method('create')->will($this->returnValue(new Block()));
@@ -54,7 +50,7 @@ class BlockInteractorTest extends TestCase
 
         $this->assertTrue($container->getEnabled());
 
-        $this->assertEquals('my-code', $settings['code']);
-        $this->assertEquals('<div class="custom-layout">{{ CONTENT }}</div>', $settings['layout']);
+        $this->assertSame('my-code', $settings['code']);
+        $this->assertSame('<div class="custom-layout">{{ CONTENT }}</div>', $settings['layout']);
     }
 }

@@ -23,7 +23,7 @@ use Symfony\Component\Routing\RouterInterface;
 class BlockEsiCacheTest extends TestCase
 {
     /**
-     * @dataProvider      getExceptionCacheKeys
+     * @dataProvider getExceptionCacheKeys
      */
     public function testExceptions($keys): void
     {
@@ -56,7 +56,10 @@ class BlockEsiCacheTest extends TestCase
     public function testInitCache(): void
     {
         $router = $this->createMock(RouterInterface::class);
-        $router->expects($this->any())->method('generate')->will($this->returnValue('https://sonata-project.org/cache/XXX/page/esi/page/5/4?updated_at=as'));
+        $router
+            ->expects($this->any())
+            ->method('generate')
+            ->will($this->returnValue('https://sonata-project.org/cache/XXX/page/esi/page/5/4?updated_at=as'));
 
         $blockRenderer = $this->createMock(BlockRendererInterface::class);
         $contextManager = $this->createMock(BlockContextManagerInterface::class);
@@ -83,6 +86,9 @@ class BlockEsiCacheTest extends TestCase
 
         $this->assertInstanceOf(CacheElement::class, $cacheElement);
 
-        $this->assertEquals('<esi:include src="https://sonata-project.org/cache/XXX/page/esi/page/5/4?updated_at=as" />', $cacheElement->getData()->getContent());
+        $this->assertSame(
+            '<esi:include src="https://sonata-project.org/cache/XXX/page/esi/page/5/4?updated_at=as" />',
+            $cacheElement->getData()->getContent()
+        );
     }
 }

@@ -54,7 +54,11 @@ class BaseBlockAdminTest extends TestCase
         $blockService->expects($this->any())->method('preRemove')->with($block);
 
         $blockServiceManager = $this->createMock(BlockServiceManagerInterface::class);
-        $blockServiceManager->expects($this->once())->method('get')->with($block)->will($this->returnValue($blockService));
+        $blockServiceManager
+            ->expects($this->once())
+            ->method('get')
+            ->with($block)
+            ->will($this->returnValue($blockService));
 
         $blockAdmin = $this->getMockBuilder(BaseBlockAdmin::class)
             ->disableOriginalConstructor()

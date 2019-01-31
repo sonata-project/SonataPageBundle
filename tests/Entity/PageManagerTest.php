@@ -17,6 +17,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use PHPUnit\Framework\TestCase;
@@ -28,11 +29,11 @@ class PageManagerTest extends TestCase
 {
     public function testFixUrl(): void
     {
-        $entityManager = $this->getMockBuilder(ManagerRegistry::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $manager = new PageManager('Foo\Bar', $entityManager, []);
+        $manager = new PageManager(
+            'Foo\Bar',
+            $this->createMock(ManagerRegistry::class),
+            []
+        );
 
         $page1 = new Page();
         $page1->setName('Salut comment ca va ?');
@@ -44,8 +45,8 @@ class PageManagerTest extends TestCase
 
         $manager->fixUrl($page1);
 
-        $this->assertEquals('', $page1->getSlug());
-        $this->assertEquals('/', $page1->getUrl());
+        $this->assertSame('', $page1->getSlug());
+        $this->assertSame('/', $page1->getUrl());
 
         // if a parent page becomes a child page, then the slug and the url must be updated
         $parent = new Page();
@@ -53,30 +54,30 @@ class PageManagerTest extends TestCase
 
         $manager->fixUrl($parent);
 
-        $this->assertEquals('', $parent->getSlug());
-        $this->assertEquals('/', $parent->getUrl());
+        $this->assertSame('', $parent->getSlug());
+        $this->assertSame('/', $parent->getUrl());
 
-        $this->assertEquals('salut-comment-ca-va', $page1->getSlug());
-        $this->assertEquals('/salut-comment-ca-va', $page1->getUrl());
+        $this->assertSame('salut-comment-ca-va', $page1->getSlug());
+        $this->assertSame('/salut-comment-ca-va', $page1->getUrl());
 
-        $this->assertEquals('super-et-toi', $page2->getSlug());
-        $this->assertEquals('/salut-comment-ca-va/super-et-toi', $page2->getUrl());
+        $this->assertSame('super-et-toi', $page2->getSlug());
+        $this->assertSame('/salut-comment-ca-va/super-et-toi', $page2->getUrl());
 
         // check to remove the parent, so $page1 becomes a parent
         $page1->setParent(null);
         $manager->fixUrl($parent);
 
-        $this->assertEquals('', $page1->getSlug());
-        $this->assertEquals('/', $page1->getUrl());
+        $this->assertSame('', $page1->getSlug());
+        $this->assertSame('/', $page1->getUrl());
     }
 
     public function testWithSlashAtTheEnd(): void
     {
-        $entityManager = $this->getMockBuilder(ManagerRegistry::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $manager = new PageManager('Foo\Bar', $entityManager, []);
+        $manager = new PageManager(
+            'Foo\Bar',
+            $this->createMock(ManagerRegistry::class),
+            []
+        );
 
         $homepage = new Page();
         $homepage->setUrl('/');
@@ -94,20 +95,21 @@ class PageManagerTest extends TestCase
 
         $manager->fixUrl($child);
 
-        $this->assertEquals('/bundles/foobar', $child->getUrl());
+        $this->assertSame('/bundles/foobar', $child->getUrl());
     }
 
     public function testCreateWithGlobalDefaults(): void
     {
-        $entityManager = $this->getMockBuilder(ManagerRegistry::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $manager = new PageManager(Page::class, $entityManager, [], ['my_route' => ['decorate' => false, 'name' => 'Salut!']]);
+        $manager = new PageManager(
+            Page::class,
+            $this->createMock(ManagerRegistry::class),
+            [],
+            ['my_route' => ['decorate' => false, 'name' => 'Salut!']]
+        );
 
         $page = $manager->create(['name' => 'My Name', 'routeName' => 'my_route']);
 
-        $this->assertEquals('My Name', $page->getName());
+        $this->assertSame('My Name', $page->getName());
         $this->assertFalse($page->getDecorate());
     }
 
@@ -129,7 +131,9 @@ class PageManagerTest extends TestCase
     public function testGetPagerWithInvalidSort(): void
     {
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Invalid sort field \'invalid\' in \'Sonata\\PageBundle\\Entity\\BasePage\' class');
+        $this->expectExceptionMessage(
+            'Invalid sort field \'invalid\' in \'Sonata\\PageBundle\\Entity\\BasePage\' class'
+        );
 
         $self = $this;
         $this
@@ -262,11 +266,7 @@ class PageManagerTest extends TestCase
         $query->expects($this->any())->method('execute')->will($this->returnValue(true));
 
         $qb = $this->getMockBuilder(QueryBuilder::class)
-            ->setConstructorArgs([
-                $this->getMockBuilder(EntityManager::class)
-                    ->disableOriginalConstructor()
-                    ->getMock(),
-            ])
+            ->setConstructorArgs([$this->createMock(EntityManager::class)])
             ->getMock();
 
         $qb->expects($this->any())->method('getRootAliases')->will($this->returnValue([]));
@@ -275,7 +275,7 @@ class PageManagerTest extends TestCase
 
         $qbCallback($qb);
 
-        $repository = $this->getMockBuilder(EntityRepository::class)->disableOriginalConstructor()->getMock();
+        $repository = $this->createMock(EntityRepository::class);
         $repository->expects($this->any())->method('createQueryBuilder')->will($this->returnValue($qb));
 
         $metadata = $this->createMock(ClassMetadata::class);
@@ -284,7 +284,7 @@ class PageManagerTest extends TestCase
             'routeName',
         ]));
 
-        $em = $this->getMockBuilder(EntityManager::class)->disableOriginalConstructor()->getMock();
+        $em = $this->createMock(EntityManagerInterface::class);
         $em->expects($this->any())->method('getRepository')->will($this->returnValue($repository));
         $em->expects($this->any())->method('getClassMetadata')->will($this->returnValue($metadata));
 

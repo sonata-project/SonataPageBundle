@@ -64,15 +64,15 @@ class UniqueUrlValidator extends ConstraintValidator
         ]);
 
         foreach ($similarPages as $similarPage) {
-            if ($similarPage->isError() || $similarPage->isInternal() || $similarPage == $currentPage) {
+            if ($similarPage->isError() || $similarPage->isInternal() || $similarPage === $currentPage) {
                 continue;
             }
 
-            if ($similarPage->getUrl() != $currentPage->getUrl()) {
+            if ($similarPage->getUrl() !== $currentPage->getUrl()) {
                 continue;
             }
 
-            if ('/' == $currentPage->getUrl() && !$currentPage->getParent()) {
+            if ('/' === $currentPage->getUrl() && !$currentPage->getParent()) {
                 $this->context->buildViolation('error.uniq_url.parent_unselect')
                     ->atPath('parent')
                     ->addViolation();

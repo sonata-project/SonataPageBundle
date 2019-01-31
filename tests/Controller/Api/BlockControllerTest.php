@@ -32,7 +32,7 @@ class BlockControllerTest extends TestCase
     {
         $block = $this->createMock(BlockInterface::class);
 
-        $this->assertEquals($block, $this->createBlockController($block)->getBlockAction(1));
+        $this->assertSame($block, $this->createBlockController($block)->getBlockAction(1));
     }
 
     public function testGetBlockActionNotFoundException(): void
@@ -50,7 +50,7 @@ class BlockControllerTest extends TestCase
         $blockManager = $this->createMock(BlockManagerInterface::class);
         $blockManager->expects($this->once())->method('save')->will($this->returnValue($block));
 
-        $form = $this->getMockBuilder(Form::class)->disableOriginalConstructor()->getMock();
+        $form = $this->createMock(Form::class);
         $form->expects($this->once())->method('handleRequest');
         $form->expects($this->once())->method('isValid')->will($this->returnValue(true));
         $form->expects($this->once())->method('getData')->will($this->returnValue($block));
@@ -70,7 +70,7 @@ class BlockControllerTest extends TestCase
         $blockManager = $this->createMock(BlockManagerInterface::class);
         $blockManager->expects($this->never())->method('save')->will($this->returnValue($block));
 
-        $form = $this->getMockBuilder(Form::class)->disableOriginalConstructor()->getMock();
+        $form = $this->createMock(Form::class);
         $form->expects($this->once())->method('handleRequest');
         $form->expects($this->once())->method('isValid')->will($this->returnValue(false));
 
@@ -91,7 +91,7 @@ class BlockControllerTest extends TestCase
 
         $view = $this->createBlockController($block, $blockManager)->deleteBlockAction(1);
 
-        $this->assertEquals(['deleted' => true], $view);
+        $this->assertSame(['deleted' => true], $view);
     }
 
     public function testDeleteBlockInvalidAction(): void
@@ -105,10 +105,6 @@ class BlockControllerTest extends TestCase
     }
 
     /**
-     * @param $block
-     * @param $blockManager
-     * @param $formFactory
-     *
      * @return BlockController
      */
     public function createBlockController($block = null, $blockManager = null, $formFactory = null)

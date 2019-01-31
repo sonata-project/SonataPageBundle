@@ -38,9 +38,6 @@ class SnapshotBlock extends Block
     }
 }
 
-/**
- * Test CmsSnapshotManager.
- */
 class CmsSnapshotManagerTest extends TestCase
 {
     /**
@@ -78,7 +75,11 @@ class CmsSnapshotManagerTest extends TestCase
 
         $container = $this->manager->findContainer('findme', $page);
 
-        $this->assertEquals(spl_object_hash($block), spl_object_hash($container), 'should retrieve the block of the page');
+        $this->assertSame(
+            spl_object_hash($block),
+            spl_object_hash($container),
+            'should retrieve the block of the page'
+        );
     }
 
     /**
@@ -123,7 +124,7 @@ class CmsSnapshotManagerTest extends TestCase
 
             ++$count;
 
-            if (1 == $count) {
+            if (1 === $count) {
                 return [];
             }
 
@@ -136,7 +137,11 @@ class CmsSnapshotManagerTest extends TestCase
             'blocks' => [],
         ]));
 
-        $this->snapshotManager->expects($this->once())->method('findEnableSnapshot')->will($this->returnValue($snapshot));
+        $this->snapshotManager
+            ->expects($this->once())
+            ->method('findEnableSnapshot')
+            ->will($this->returnValue($snapshot));
+
         $this->transformer->expects($this->once())->method('load')->will($this->returnValue($page));
 
         $site = $this->createMock(SiteInterface::class);
@@ -165,9 +170,12 @@ class CmsSnapshotManagerTest extends TestCase
             return $block;
         };
 
-        $mock = $this->createMock(BlockInteractorInterface::class);
-        $mock->expects($this->any())->method('createNewContainer')->will($this->returnCallback($callback));
+        $blockInteractor = $this->createMock(BlockInteractorInterface::class);
+        $blockInteractor
+            ->expects($this->any())
+            ->method('createNewContainer')
+            ->will($this->returnCallback($callback));
 
-        return $mock;
+        return $blockInteractor;
     }
 }

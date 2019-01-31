@@ -24,7 +24,7 @@ class SiteRequestTest extends TestCase
         $request->setBaseUrl('folder/app_dev.php');
         $request->setPathInfo('/path-info');
 
-        $this->assertEquals('folder/app_dev.php', $request->getBaseUrl());
-        $this->assertEquals('/path-info', $request->getPathInfo());
+        $this->assertSame('folder/app_dev.php', $request->getBaseUrl());
+        $this->assertSame('/path-info', $request->getPathInfo());
     }
 }

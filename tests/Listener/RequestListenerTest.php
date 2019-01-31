@@ -27,9 +27,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-/**
- * Test the page bundle request listener.
- */
 class RequestListenerTest extends TestCase
 {
     public function testValidSite(): void

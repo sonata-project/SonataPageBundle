@@ -116,7 +116,7 @@ class BlockAdmin extends BaseBlockAdmin
                 $block->setPage($page);
             }
 
-            if ($block->getPage()->getId() != $page->getId()) {
+            if ($block->getPage()->getId() !== $page->getId()) {
                 throw new \RuntimeException('The page reference on BlockAdmin and parent admin are not the same');
             }
         }
@@ -140,8 +140,8 @@ class BlockAdmin extends BaseBlockAdmin
 
         $formMapper->end();
 
-        $isContainerRoot = $block && \in_array($blockType, ['sonata.page.block.container', 'sonata.block.service.container']) && !$this->hasParentFieldDescription();
-        $isStandardBlock = $block && !\in_array($blockType, ['sonata.page.block.container', 'sonata.block.service.container']) && !$this->hasParentFieldDescription();
+        $isContainerRoot = $block && \in_array($blockType, ['sonata.page.block.container', 'sonata.block.service.container'], true) && !$this->hasParentFieldDescription();
+        $isStandardBlock = $block && !\in_array($blockType, ['sonata.page.block.container', 'sonata.block.service.container'], true) && !$this->hasParentFieldDescription();
 
         if ($isContainerRoot || $isStandardBlock) {
             $formMapper->with('form.field_group_general', $generalGroupOptions);

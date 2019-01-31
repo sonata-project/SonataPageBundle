@@ -55,7 +55,7 @@ class CleanupSnapshotsCommand extends BaseCommand
             return;
         }
 
-        if (!\in_array($input->getOption('mode'), ['async', 'sync'])) {
+        if (!\in_array($input->getOption('mode'), ['async', 'sync'], true)) {
             throw new \InvalidArgumentException('Option "mode" is not valid (async|sync).');
         }
 
@@ -70,8 +70,8 @@ class CleanupSnapshotsCommand extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
         foreach ($this->getSites($input) as $site) {
-            if ('all' != $input->getOption('site')) {
-                if ('async' == $input->getOption('mode')) {
+            if ('all' !== $input->getOption('site')) {
+                if ('async' === $input->getOption('mode')) {
                     $output->write(sprintf('<info>%s</info> - Publish a notification command ...', $site->getName()));
                 } else {
                     $output->write(sprintf('<info>%s</info> - Cleaning up snapshots ...', $site->getName()));

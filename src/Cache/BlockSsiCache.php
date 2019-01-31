@@ -94,7 +94,7 @@ class BlockSsiCache extends SsiCache
     {
         $parameters = array_merge($request->query->all(), $request->attributes->all());
 
-        if ($request->get('_token') != $this->computeHash($parameters)) {
+        if ($request->get('_token') !== $this->computeHash($parameters)) {
             throw new AccessDeniedHttpException('Invalid token');
         }
 

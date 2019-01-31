@@ -23,15 +23,10 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
- * Tests the HostPathByLocaleSiteSelector service.
- *
  * @author Rémi Marseille <marseille@ekino.com>
  */
 class HostPathByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $siteManager = $this->createMock(SiteManagerInterface::class);
@@ -80,7 +75,7 @@ class HostPathByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
         $this->assertInstanceOf(RedirectResponse::class, $response);
 
         // Ensure the redirect url is for "/en"
-        $this->assertEquals('/en', $response->getTargetUrl());
+        $this->assertSame('/en', $response->getTargetUrl());
     }
 
     /**
@@ -121,6 +116,6 @@ class HostPathByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
         $this->assertInstanceOf(RedirectResponse::class, $response);
 
         // Ensure the redirect url is for "/fr"
-        $this->assertEquals('/fr', $response->getTargetUrl());
+        $this->assertSame('/fr', $response->getTargetUrl());
     }
 }

@@ -32,7 +32,7 @@ class SiteControllerTest extends TestCase
 {
     public function testGetSitesAction(): void
     {
-        $siteManager = $this->getMockBuilder(SiteManagerInterface::class)->getMock();
+        $siteManager = $this->createMock(SiteManagerInterface::class);
         $siteManager->expects($this->once())->method('getPager')->will($this->returnValue([]));
 
         $paramFetcher = $this->getMockBuilder(ParamFetcherInterface::class)
@@ -42,14 +42,14 @@ class SiteControllerTest extends TestCase
         $paramFetcher->expects($this->exactly(3))->method('get');
         $paramFetcher->expects($this->once())->method('all')->will($this->returnValue([]));
 
-        $this->assertEquals([], $this->createSiteController(null, $siteManager)->getSitesAction($paramFetcher));
+        $this->assertSame([], $this->createSiteController(null, $siteManager)->getSitesAction($paramFetcher));
     }
 
     public function testGetSiteAction(): void
     {
         $site = $this->createMock(SiteInterface::class);
 
-        $this->assertEquals($site, $this->createSiteController($site)->getSiteAction(1));
+        $this->assertSame($site, $this->createSiteController($site)->getSiteAction(1));
     }
 
     public function testGetSiteActionNotFoundException(): void
@@ -67,7 +67,7 @@ class SiteControllerTest extends TestCase
         $siteManager = $this->createMock(SiteManagerInterface::class);
         $siteManager->expects($this->once())->method('save')->will($this->returnValue($site));
 
-        $form = $this->getMockBuilder(Form::class)->disableOriginalConstructor()->getMock();
+        $form = $this->createMock(Form::class);
         $form->expects($this->once())->method('handleRequest');
         $form->expects($this->once())->method('isValid')->will($this->returnValue(true));
         $form->expects($this->once())->method('getData')->will($this->returnValue($site));
@@ -87,7 +87,7 @@ class SiteControllerTest extends TestCase
         $siteManager = $this->createMock(SiteManagerInterface::class);
         $siteManager->expects($this->never())->method('save')->will($this->returnValue($site));
 
-        $form = $this->getMockBuilder(Form::class)->disableOriginalConstructor()->getMock();
+        $form = $this->createMock(Form::class);
         $form->expects($this->once())->method('handleRequest');
         $form->expects($this->once())->method('isValid')->will($this->returnValue(false));
 
@@ -106,7 +106,7 @@ class SiteControllerTest extends TestCase
         $siteManager = $this->createMock(SiteManagerInterface::class);
         $siteManager->expects($this->once())->method('save')->will($this->returnValue($site));
 
-        $form = $this->getMockBuilder(Form::class)->disableOriginalConstructor()->getMock();
+        $form = $this->createMock(Form::class);
         $form->expects($this->once())->method('handleRequest');
         $form->expects($this->once())->method('isValid')->will($this->returnValue(true));
         $form->expects($this->once())->method('getData')->will($this->returnValue($site));
@@ -126,7 +126,7 @@ class SiteControllerTest extends TestCase
         $siteManager = $this->createMock(SiteManagerInterface::class);
         $siteManager->expects($this->never())->method('save')->will($this->returnValue($site));
 
-        $form = $this->getMockBuilder(Form::class)->disableOriginalConstructor()->getMock();
+        $form = $this->createMock(Form::class);
         $form->expects($this->once())->method('handleRequest');
         $form->expects($this->once())->method('isValid')->will($this->returnValue(false));
 
@@ -147,7 +147,7 @@ class SiteControllerTest extends TestCase
 
         $view = $this->createSiteController($site, $siteManager)->deleteSiteAction(1);
 
-        $this->assertEquals(['deleted' => true], $view);
+        $this->assertSame(['deleted' => true], $view);
     }
 
     public function testDeleteSiteInvalidAction(): void
@@ -160,14 +160,7 @@ class SiteControllerTest extends TestCase
         $this->createSiteController(null, $siteManager)->deleteSiteAction(1);
     }
 
-    /**
-     * @param $site
-     * @param $siteManager
-     * @param $formFactory
-     *
-     * @return SiteController
-     */
-    public function createSiteController($site = null, $siteManager = null, $formFactory = null)
+    public function createSiteController($site = null, $siteManager = null, $formFactory = null): SiteController
     {
         if (null === $siteManager) {
             $siteManager = $this->createMock(SiteManagerInterface::class);

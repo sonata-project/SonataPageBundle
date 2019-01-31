@@ -65,7 +65,7 @@ class RequestFactory
             return;
         }
 
-        if (!\in_array($type, ['host_with_path', 'host_with_path_by_locale'])) {
+        if (!\in_array($type, ['host_with_path', 'host_with_path_by_locale'], true)) {
             return;
         }
 

@@ -30,12 +30,12 @@ class PageTest extends TestCase
         setlocale(LC_ALL, 'en_US.utf8');
         setlocale(LC_CTYPE, 'en_US.utf8');
 
-        $this->assertEquals(Page::slugify('test'), 'test');
-        $this->assertEquals(Page::slugify('S§!@@#$#$alut'), 's-alut');
-        $this->assertEquals(Page::slugify('Symfony2'), 'symfony2');
-        $this->assertEquals(Page::slugify('test'), 'test');
-        $this->assertEquals(Page::slugify('c\'est bientôt l\'été'), 'c-est-bientot-l-ete');
-        $this->assertEquals(Page::slugify(urldecode('%2Fc\'est+bientôt+l\'été')), 'c-est-bientot-l-ete');
+        $this->assertSame(Page::slugify('test'), 'test');
+        $this->assertSame(Page::slugify('S§!@@#$#$alut'), 's-alut');
+        $this->assertSame(Page::slugify('Symfony2'), 'symfony2');
+        $this->assertSame(Page::slugify('test'), 'test');
+        $this->assertSame(Page::slugify('c\'est bientôt l\'été'), 'c-est-bientot-l-ete');
+        $this->assertSame(Page::slugify(urldecode('%2Fc\'est+bientôt+l\'été')), 'c-est-bientot-l-ete');
     }
 
     public function testHeader(): void
@@ -57,7 +57,11 @@ class PageTest extends TestCase
                 "Location:http://www.google.fr\r\nExpires:0",
                 "\r\nLocation: http://www.google.fr\r\nExpires: 0\r\nInvalid Header Line",
             ] as $rawHeaders) {
-            $this->assertEquals($expectedHeaders, $method->invokeArgs($page, [$rawHeaders]), 'Page::getHeadersAsArray()');
+            $this->assertSame(
+                $expectedHeaders,
+                $method->invokeArgs($page, [$rawHeaders]),
+                'Page::getHeadersAsArray()'
+            );
         }
 
         $method = $pageReflection->getMethod('getHeadersAsString');
@@ -68,76 +72,86 @@ class PageTest extends TestCase
                     'Expires' => '0',
                 ],
                 [
+
                     ' Location ' => ' http://www.google.fr ',
                     "\r\nExpires " => " 0\r\n",
                 ],
             ] as $headers) {
-            $this->assertEquals($expectedStringHeaders, $method->invokeArgs($page, [$headers]), 'Page::getHeadersAsString()');
+            $this->assertSame(
+                $expectedStringHeaders,
+                $method->invokeArgs($page, [$headers]),
+                'Page::getHeadersAsString()'
+            );
         }
 
         $page = new Page();
         $page->setHeaders($expectedHeaders);
-        $this->assertEquals($page->getRawHeaders(), $expectedStringHeaders);
-        $this->assertEquals($page->getHeaders(), $expectedHeaders);
+        $this->assertSame($page->getRawHeaders(), $expectedStringHeaders);
+        $this->assertSame($page->getHeaders(), $expectedHeaders);
 
         $page->setHeaders(['Cache-Control' => 'no-cache']);
-        $this->assertEquals($page->getRawHeaders(), 'Cache-Control: no-cache');
-        $this->assertEquals($page->getHeaders(), ['Cache-Control' => 'no-cache']);
+        $this->assertSame($page->getRawHeaders(), 'Cache-Control: no-cache');
+        $this->assertSame($page->getHeaders(), ['Cache-Control' => 'no-cache']);
 
         $page->setHeaders([]);
-        $this->assertEquals($page->getRawHeaders(), '');
-        $this->assertEquals($page->getHeaders(), []);
+        $this->assertNull($page->getRawHeaders());
+        $this->assertSame($page->getHeaders(), []);
 
         $page = new Page();
         $page->setRawHeaders($expectedStringHeaders);
-        $this->assertEquals($page->getRawHeaders(), $expectedStringHeaders);
-        $this->assertEquals($page->getHeaders(), $expectedHeaders);
+        $this->assertSame($page->getRawHeaders(), $expectedStringHeaders);
+        $this->assertSame($page->getHeaders(), $expectedHeaders);
 
         $page->setRawHeaders('Cache-Control: no-cache');
-        $this->assertEquals($page->getRawHeaders(), 'Cache-Control: no-cache');
-        $this->assertEquals($page->getHeaders(), ['Cache-Control' => 'no-cache']);
+        $this->assertSame($page->getRawHeaders(), 'Cache-Control: no-cache');
+        $this->assertSame($page->getHeaders(), ['Cache-Control' => 'no-cache']);
 
         $page->setRawHeaders('');
-        $this->assertEquals($page->getRawHeaders(), '');
-        $this->assertEquals($page->getHeaders(), []);
+        $this->assertNull($page->getRawHeaders());
+        $this->assertSame($page->getHeaders(), []);
 
         $page = new Page();
         $page->addHeader('Cache-Control', 'no-cache');
-        $this->assertEquals($page->getRawHeaders(), 'Cache-Control: no-cache');
-        $this->assertEquals($page->getHeaders(), ['Cache-Control' => 'no-cache']);
+        $this->assertSame($page->getRawHeaders(), 'Cache-Control: no-cache');
+        $this->assertSame($page->getHeaders(), ['Cache-Control' => 'no-cache']);
 
         $page->setRawHeaders($expectedStringHeaders);
-        $this->assertEquals($page->getRawHeaders(), $expectedStringHeaders);
-        $this->assertEquals($page->getHeaders(), $expectedHeaders);
+        $this->assertSame($page->getRawHeaders(), $expectedStringHeaders);
+        $this->assertSame($page->getHeaders(), $expectedHeaders);
 
         $page->addHeader('Cache-Control', 'no-cache, private');
-        $this->assertEquals($page->getRawHeaders(), $expectedStringHeaders."\r\nCache-Control: no-cache, private");
-        $this->assertEquals($page->getHeaders(), array_merge($expectedHeaders, ['Cache-Control' => 'no-cache, private']));
+        $this->assertSame(
+            $page->getRawHeaders(),
+            $expectedStringHeaders."\r\nCache-Control: no-cache, private"
+        );
+        $this->assertSame(
+            $page->getHeaders(), array_merge($expectedHeaders, ['Cache-Control' => 'no-cache, private'])
+        );
 
         $page->setRawHeaders($expectedStringHeaders);
-        $this->assertEquals($page->getRawHeaders(), $expectedStringHeaders);
-        $this->assertEquals($page->getHeaders(), $expectedHeaders);
+        $this->assertSame($page->getRawHeaders(), $expectedStringHeaders);
+        $this->assertSame($page->getHeaders(), $expectedHeaders);
 
         $page->addHeader('Location', 'http://www.google.com');
         $expectedHeaders['Location'] = 'http://www.google.com';
-        $this->assertEquals($page->getHeaders(), $expectedHeaders);
+        $this->assertSame($page->getHeaders(), $expectedHeaders);
     }
 
     public function testHasRequestMethod(): void
     {
         $page = new Page();
         $page->setRequestMethod('POST');
-        $this->assertEquals($page->hasRequestMethod('POST'), true);
-        $this->assertEquals($page->hasRequestMethod('GeT'), false);
+        $this->assertTrue($page->hasRequestMethod('POST'));
+        $this->assertFalse($page->hasRequestMethod('GeT'));
 
         $page->setRequestMethod('POST|GET');
-        $this->assertEquals($page->hasRequestMethod('POsT'), true);
-        $this->assertEquals($page->hasRequestMethod('GET'), true);
+        $this->assertTrue($page->hasRequestMethod('POsT'));
+        $this->assertTrue($page->hasRequestMethod('GET'));
 
         $page->setRequestMethod('');
-        $this->assertEquals($page->hasRequestMethod('GET'), true);
-        $this->assertEquals($page->hasRequestMethod('post'), true);
-        $this->assertEquals($page->hasRequestMethod('biloute'), false);
+        $this->assertTrue($page->hasRequestMethod('GET'));
+        $this->assertTrue($page->hasRequestMethod('post'));
+        $this->assertFalse($page->hasRequestMethod('biloute'));
     }
 
     public function testGetterSetter(): void
@@ -147,25 +161,25 @@ class PageTest extends TestCase
         $this->assertTrue($page->getEnabled());
 
         $page->setCustomUrl('http://foo.bar');
-        $this->assertEquals('http://foo.bar', $page->getCustomUrl());
+        $this->assertSame('http://foo.bar', $page->getCustomUrl());
 
         $page->setMetaKeyword('foo, bar');
-        $this->assertEquals('foo, bar', $page->getMetaKeyword());
+        $this->assertSame('foo, bar', $page->getMetaKeyword());
 
         $page->setMetaDescription('Foo bar is awesome');
-        $this->assertEquals('Foo bar is awesome', $page->getMetaDescription());
+        $this->assertSame('Foo bar is awesome', $page->getMetaDescription());
 
         $page->setJavascript("alert('foo bar is around')");
-        $this->assertEquals("alert('foo bar is around')", $page->getJavascript());
+        $this->assertSame("alert('foo bar is around')", $page->getJavascript());
 
         $page->setStylesheet('foo.bar { display: block; }');
-        $this->assertEquals('foo.bar { display: block; }', $page->getStylesheet());
+        $this->assertSame('foo.bar { display: block; }', $page->getStylesheet());
 
         $time = new \DateTime();
         $page->setCreatedAt($time);
         $page->setUpdatedAt($time);
-        $this->assertEquals($time, $page->getCreatedAt());
-        $this->assertEquals($time, $page->getUpdatedAt());
+        $this->assertSame($time, $page->getCreatedAt());
+        $this->assertSame($time, $page->getUpdatedAt());
 
         $children = [
             new Page(),
@@ -192,18 +206,18 @@ class PageTest extends TestCase
         $this->assertNull($page->getTarget());
 
         $page->setTemplateCode('template1');
-        $this->assertEquals('template1', $page->getTemplateCode());
+        $this->assertSame('template1', $page->getTemplateCode());
 
         $page->setDecorate(true);
         $this->assertTrue($page->getDecorate());
 
         $page->setPosition(1);
-        $this->assertEquals(1, $page->getPosition());
+        $this->assertSame(1, $page->getPosition());
 
         $page->setName(null);
-        $this->assertEquals('-', (string) $page);
+        $this->assertSame('-', (string) $page);
         $page->setName('Salut');
-        $this->assertEquals('Salut', (string) $page);
+        $this->assertSame('Salut', (string) $page);
     }
 
     public function testParents(): void
@@ -224,12 +238,12 @@ class PageTest extends TestCase
         $page->setParent($level2);
 
         $parent = $page->getParent();
-        $this->assertEquals('level 2', $parent->getName());
+        $this->assertSame('level 2', $parent->getName());
         $parent = $page->getParent(0);
-        $this->assertEquals('root', $parent->getName());
+        $this->assertSame('root', $parent->getName());
 
         $parent = $page->getParent(1);
-        $this->assertEquals('level 1', $parent->getName());
+        $this->assertSame('level 1', $parent->getName());
     }
 
     public function testPageTypeCMS(): void
@@ -299,14 +313,14 @@ class PageTest extends TestCase
     {
         $page = new Page();
 
-        $block1 = $this->getMockBuilder(Block::class)->getMock();
+        $block1 = $this->createMock(Block::class);
         $block1->expects($this->any())->method('getType')->will($this->returnValue('sonata.page.block.action'));
 
-        $block2 = $this->getMockBuilder(Block::class)->getMock();
+        $block2 = $this->createMock(Block::class);
         $block2->expects($this->any())->method('getType')->will($this->returnValue('sonata.page.block.container'));
         $block2->expects($this->once())->method('getSetting')->will($this->returnValue('bar'));
 
-        $block3 = $this->getMockBuilder(Block::class)->getMock();
+        $block3 = $this->createMock(Block::class);
         $block3->expects($this->any())->method('getType')->will($this->returnValue('sonata.page.block.container'));
         $block3->expects($this->once())->method('getSetting')->will($this->returnValue('gotcha'));
 
@@ -314,20 +328,20 @@ class PageTest extends TestCase
         $page->addBlocks($block2);
         $page->addBlocks($block3);
 
-        $this->assertEquals($block3, $page->getContainerByCode('gotcha'));
+        $this->assertSame($block3, $page->getContainerByCode('gotcha'));
     }
 
     public function testGetBlockByType(): void
     {
         $page = new Page();
 
-        $block1 = $this->getMockBuilder(Block::class)->getMock();
+        $block1 = $this->createMock(Block::class);
         $block1->expects($this->once())->method('getType')->will($this->returnValue('sonata.page.block.action'));
 
-        $block2 = $this->getMockBuilder(Block::class)->getMock();
+        $block2 = $this->createMock(Block::class);
         $block2->expects($this->once())->method('getType')->will($this->returnValue('sonata.page.block.container'));
 
-        $block3 = $this->getMockBuilder(Block::class)->getMock();
+        $block3 = $this->createMock(Block::class);
         $block3->expects($this->once())->method('getType')->will($this->returnValue('sonata.page.block.action'));
 
         $page->addBlocks($block1);

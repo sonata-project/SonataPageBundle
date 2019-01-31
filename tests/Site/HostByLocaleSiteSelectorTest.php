@@ -22,15 +22,10 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
- * Tests the HostByLocaleSiteSelector service.
- *
  * @author Rémi Marseille <marseille@ekino.com>
  */
 class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $siteManager = $this->createMock(SiteManagerInterface::class);
@@ -65,12 +60,12 @@ class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
         $this->siteSelector->handleKernelRequest($event);
 
         // Ensure request locale is en
-        $this->assertEquals('en', $request->attributes->get('_locale'));
+        $this->assertSame('en', $request->attributes->get('_locale'));
 
         $site = $this->getSite();
 
         // Ensure we retrieved the site "/en"
-        $this->assertEquals('/en', $site->getRelativePath());
+        $this->assertSame('/en', $site->getRelativePath());
     }
 
     /**
@@ -97,11 +92,11 @@ class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
         $this->siteSelector->handleKernelRequest($event);
 
         // Ensure request locale is fr
-        $this->assertEquals('fr', $request->attributes->get('_locale'));
+        $this->assertSame('fr', $request->attributes->get('_locale'));
 
         $site = $this->getSite();
 
         // Ensure we retrieved the site "/fr"
-        $this->assertEquals('/fr', $site->getRelativePath());
+        $this->assertSame('/fr', $site->getRelativePath());
     }
 }

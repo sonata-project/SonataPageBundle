@@ -68,7 +68,7 @@ class CmsPageManagerTest extends TestCase
 
         $container = $this->manager->findContainer('findme', $page);
 
-        $this->assertEquals(spl_object_hash($block), spl_object_hash($container),
+        $this->assertSame(spl_object_hash($block), spl_object_hash($container),
             'should retrieve the block of the page');
     }
 
@@ -82,7 +82,7 @@ class CmsPageManagerTest extends TestCase
         $container = $this->manager->findContainer('newcontainer', $page);
 
         $this->assertInstanceOf(PageBlockInterface::class, $container, 'should be a block');
-        $this->assertEquals('newcontainer', $container->getSetting('code'));
+        $this->assertSame('newcontainer', $container->getSetting('code'));
     }
 
     /**

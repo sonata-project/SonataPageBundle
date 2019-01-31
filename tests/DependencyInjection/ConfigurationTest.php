@@ -55,8 +55,8 @@ class ConfigurationTest extends TestCase
                     'containers' => [
                         'header' => [
                             'name' => 'My Header',
-                            'type' => 1,
                             'shared' => false,
+                            'type' => 1,
                             'blocks' => [],
                             'placement' => [
                                 'x' => 0,
@@ -73,24 +73,10 @@ class ConfigurationTest extends TestCase
                     'path' => '@ApplicationSonataPage/demo_2columns_layout.html.twig',
                     'name' => '2 columns layout',
                     'containers' => [
-                        'left_col' => [
-                            'name' => 'Left column',
-                            'blocks' => [],
-                            'shared' => false,
-                            'type' => 1,
-                            'placement' => [
-                                'x' => 50.0,
-                                'y' => 0,
-                                'width' => 50.0,
-                                'height' => 100,
-                                'right' => 0,
-                                'bottom' => 0,
-                            ],
-                        ],
                         'header' => [
                             'name' => 'My Header',
-                            'type' => 1,
                             'shared' => false,
+                            'type' => 1,
                             'blocks' => [],
                             'placement' => [
                                 'x' => 0,
@@ -101,32 +87,35 @@ class ConfigurationTest extends TestCase
                                 'bottom' => 0,
                             ],
                         ],
+                        'left_col' => [
+                            'name' => 'Left column',
+                            'shared' => false,
+                            'type' => 1,
+                            'blocks' => [],
+                            'placement' => [
+                                'x' => 50.0,
+                                'y' => 0,
+                                'width' => 50.0,
+                                'height' => 100,
+                                'right' => 0.0,
+                                'bottom' => 0,
+                            ],
+                        ],
                     ],
                 ],
             ],
-            'templates_admin' => [
-                'tree' => '@SonataPage/PageAdmin/tree.html.twig',
-                'list' => '@SonataPage/PageAdmin/list.html.twig',
-                'compose' => '@SonataPage/PageAdmin/compose.html.twig',
-                'select_site' => '@SonataPage/PageAdmin/select_site.html.twig',
-                'compose_container_show' => '@SonataPage/PageAdmin/compose_container_show.html.twig',
-            ],
-            'assets' => [
-                'stylesheets' => [
-                    'bundles/sonatacore/vendor/bootstrap/dist/css/bootstrap.min.css',
-                    'bundles/sonatapage/sonata-page.front.css',
-                ],
-                'javascripts' => [
-                    'bundles/sonatacore/vendor/jquery/dist/jquery.min.js',
-                    'bundles/sonatacore/vendor/bootstrap/dist/js/bootstrap.min.js',
-                ],
-            ],
+            'skip_redirection' => false,
             'hide_disabled_blocks' => false,
             'use_streamed_response' => false,
+            'router_auto_register' => [
+                'enabled' => false,
+                'priority' => 150,
+            ],
             'ignore_route_patterns' => [
                 0 => '(.*)admin(.*)',
                 1 => '^_(.*)',
             ],
+            'slugify_service' => 'sonata.core.slugify.native',
             'ignore_routes' => [
                 0 => 'sonata_page_cache_esi',
                 1 => 'sonata_page_cache_ssi',
@@ -146,25 +135,36 @@ class ConfigurationTest extends TestCase
                 'classes' => [],
             ],
             'default_page_service' => 'sonata.page.service.default',
+            'assets' => [
+                'stylesheets' => [
+                    'bundles/sonatacore/vendor/bootstrap/dist/css/bootstrap.min.css',
+                    'bundles/sonatapage/sonata-page.front.css',
+                ],
+                'javascripts' => [
+                    'bundles/sonatacore/vendor/jquery/dist/jquery.min.js',
+                    'bundles/sonatacore/vendor/bootstrap/dist/js/bootstrap.min.js',
+                ],
+            ],
+            'templates_admin' => [
+                'list' => '@SonataPage/PageAdmin/list.html.twig',
+                'tree' => '@SonataPage/PageAdmin/tree.html.twig',
+                'compose' => '@SonataPage/PageAdmin/compose.html.twig',
+                'compose_container_show' => '@SonataPage/PageAdmin/compose_container_show.html.twig',
+                'select_site' => '@SonataPage/PageAdmin/select_site.html.twig',
+            ],
             'page_defaults' => [],
             'catch_exceptions' => [],
             'class' => [
-                'page' => 'Application\\Sonata\\PageBundle\\Entity\\Page',
-                'snapshot' => 'Application\\Sonata\\PageBundle\\Entity\\Snapshot',
-                'block' => 'Application\\Sonata\\PageBundle\\Entity\\Block',
-                'site' => 'Application\\Sonata\\PageBundle\\Entity\\Site',
+                    'page' => 'Application\\Sonata\\PageBundle\\Entity\\Page',
+                    'snapshot' => 'Application\\Sonata\\PageBundle\\Entity\\Snapshot',
+                    'block' => 'Application\\Sonata\\PageBundle\\Entity\\Block',
+                    'site' => 'Application\\Sonata\\PageBundle\\Entity\\Site',
             ],
-
             'slugify_service' => 'sonata.core.slugify.native',
             'direct_publication' => false,
-            'skip_redirection' => false,
-            'router_auto_register' => [
-                'enabled' => false,
-                'priority' => 150,
-            ],
         ];
 
-        $this->assertEquals($expected, $config);
+        $this->assertSame($expected, $config);
     }
 
     public function testPageWithoutMatrix(): void
@@ -192,29 +192,18 @@ class ConfigurationTest extends TestCase
                     'containers' => [],
                 ],
             ],
-            'templates_admin' => [
-                'tree' => '@SonataPage/PageAdmin/tree.html.twig',
-                'list' => '@SonataPage/PageAdmin/list.html.twig',
-                'compose' => '@SonataPage/PageAdmin/compose.html.twig',
-                'select_site' => '@SonataPage/PageAdmin/select_site.html.twig',
-                'compose_container_show' => '@SonataPage/PageAdmin/compose_container_show.html.twig',
-            ],
-            'assets' => [
-                'stylesheets' => [
-                    'bundles/sonatacore/vendor/bootstrap/dist/css/bootstrap.min.css',
-                    'bundles/sonatapage/sonata-page.front.css',
-                ],
-                'javascripts' => [
-                    'bundles/sonatacore/vendor/jquery/dist/jquery.min.js',
-                    'bundles/sonatacore/vendor/bootstrap/dist/js/bootstrap.min.js',
-                ],
-            ],
+            'skip_redirection' => false,
             'hide_disabled_blocks' => false,
             'use_streamed_response' => false,
+            'router_auto_register' => [
+                'enabled' => false,
+                'priority' => 150,
+            ],
             'ignore_route_patterns' => [
                 0 => '(.*)admin(.*)',
                 1 => '^_(.*)',
             ],
+            'slugify_service' => 'sonata.core.slugify.native',
             'ignore_routes' => [
                 0 => 'sonata_page_cache_esi',
                 1 => 'sonata_page_cache_ssi',
@@ -234,6 +223,23 @@ class ConfigurationTest extends TestCase
                 'classes' => [],
             ],
             'default_page_service' => 'sonata.page.service.default',
+            'assets' => [
+                'stylesheets' => [
+                    'bundles/sonatacore/vendor/bootstrap/dist/css/bootstrap.min.css',
+                    'bundles/sonatapage/sonata-page.front.css',
+                ],
+                'javascripts' => [
+                    'bundles/sonatacore/vendor/jquery/dist/jquery.min.js',
+                    'bundles/sonatacore/vendor/bootstrap/dist/js/bootstrap.min.js',
+                ],
+            ],
+            'templates_admin' => [
+                'list' => '@SonataPage/PageAdmin/list.html.twig',
+                'tree' => '@SonataPage/PageAdmin/tree.html.twig',
+                'compose' => '@SonataPage/PageAdmin/compose.html.twig',
+                'compose_container_show' => '@SonataPage/PageAdmin/compose_container_show.html.twig',
+                'select_site' => '@SonataPage/PageAdmin/select_site.html.twig',
+            ],
             'page_defaults' => [],
             'catch_exceptions' => [],
             'class' => [
@@ -242,16 +248,9 @@ class ConfigurationTest extends TestCase
                 'block' => 'Application\\Sonata\\PageBundle\\Entity\\Block',
                 'site' => 'Application\\Sonata\\PageBundle\\Entity\\Site',
             ],
-
-            'slugify_service' => 'sonata.core.slugify.native',
             'direct_publication' => false,
-            'skip_redirection' => false,
-            'router_auto_register' => [
-                'enabled' => false,
-                'priority' => 150,
-            ],
         ];
 
-        $this->assertEquals($expected, $config);
+        $this->assertSame($expected, $config);
     }
 }

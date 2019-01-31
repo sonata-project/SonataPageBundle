@@ -21,9 +21,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 
-/**
- * Test the page service manager.
- */
 class PageServiceManagerTest extends TestCase
 {
     /**
@@ -36,9 +33,6 @@ class PageServiceManagerTest extends TestCase
      */
     protected $manager;
 
-    /**
-     * setup each test.
-     */
     public function setUp(): void
     {
         $this->router = $this->createMock(RouterInterface::class);
@@ -50,14 +44,11 @@ class PageServiceManagerTest extends TestCase
      */
     public function testAdd(): void
     {
-        // GIVEN
         $service = $this->createMock(PageServiceInterface::class);
 
-        // WHEN
         $this->manager->add('default', $service);
 
-        // THEN
-        $this->assertEquals($service, $this->manager->get('default'));
+        $this->assertSame($service, $this->manager->get('default'));
     }
 
     /**
@@ -67,18 +58,17 @@ class PageServiceManagerTest extends TestCase
      */
     public function testGetByPage(): void
     {
-        // GIVEN
         $service = $this->createMock(PageServiceInterface::class);
         $this->manager->add('my-type', $service);
 
         $page = $this->createMock(PageInterface::class);
         $page->expects($this->once())->method('getType')->will($this->returnValue('my-type'));
 
-        // WHEN
-        $pageService = $this->manager->get($page);
-
-        // THEN
-        $this->assertSame($service, $pageService, 'Should return the page service');
+        $this->assertSame(
+            $service,
+            $this->manager->get($page),
+            'Should return the page service'
+        );
     }
 
     /**
@@ -88,35 +78,29 @@ class PageServiceManagerTest extends TestCase
      */
     public function testGetAll(): void
     {
-        // GIVEN
-        $service1 = $this->createMock(PageServiceInterface::class);
-        $service2 = $this->createMock(PageServiceInterface::class);
-        $this->manager->add('service1', $service1);
-        $this->manager->add('service2', $service2);
+        $this->manager->add('service1', $service1 = $this->createMock(PageServiceInterface::class));
+        $this->manager->add('service2', $service2 = $this->createMock(PageServiceInterface::class));
 
-        // WHEN
-        $services = $this->manager->getAll();
-
-        // THEN
-        $this->assertEquals(['service1' => $service1, 'service2' => $service2], $services, 'Should return all page services');
+        $this->assertSame(
+            ['service1' => $service1, 'service2' => $service2],
+            $this->manager->getAll(),
+            'Should return all page services'
+        );
     }
 
     /**
-     * Test the default page service.
-     *
      * @depends testAdd
      */
     public function testDefault(): void
     {
-        // GIVEN
         $default = $this->createMock(PageServiceInterface::class);
         $this->manager->setDefault($default);
 
-        // WHEN
-        $service = $this->manager->get('non-existing');
-
-        // THEN
-        $this->assertEquals($default, $service, 'Should return the default page service');
+        $this->assertSame(
+            $default,
+            $this->manager->get('non-existing'),
+            'Should return the default page service'
+        );
     }
 
     /**
@@ -126,11 +110,7 @@ class PageServiceManagerTest extends TestCase
      */
     public function testExecute(): void
     {
-        // GIVEN
-        $request = $this
-            ->getMockBuilder(Request::class)
-            ->disableOriginalClone()
-            ->getMock();
+        $request = $this->createMock(Request::class);
         $response = $this->createMock(Response::class);
 
         $page = $this->createMock(PageInterface::class);
@@ -143,10 +123,10 @@ class PageServiceManagerTest extends TestCase
             ->will($this->returnValue($response));
         $this->manager->add('my-type', $service);
 
-        // WHEN
-        $result = $this->manager->execute($page, $request);
-
-        // THEN
-        $this->assertSame($response, $result, 'Should return a response');
+        $this->assertSame(
+            $response,
+            $this->manager->execute($page, $request),
+            'Should return a response'
+        );
     }
 }

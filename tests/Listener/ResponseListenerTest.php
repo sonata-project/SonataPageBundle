@@ -27,9 +27,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-/**
- * Test the page bundle response listener.
- */
 class ResponseListenerTest extends TestCase
 {
     /**
@@ -69,7 +66,12 @@ class ResponseListenerTest extends TestCase
         $this->cmsSelector->expects($this->once())->method('retrieve')->will($this->returnValue($this->cmsManager));
         $this->templating = $this->createMock(EngineInterface::class);
 
-        $this->listener = new ResponseListener($this->cmsSelector, $this->pageServiceManager, $this->decoratorStrategy, $this->templating);
+        $this->listener = new ResponseListener(
+            $this->cmsSelector,
+            $this->pageServiceManager,
+            $this->decoratorStrategy,
+            $this->templating
+        );
     }
 
     /**
@@ -79,21 +81,15 @@ class ResponseListenerTest extends TestCase
     {
         $this->expectException(InternalErrorException::class);
 
-        // GIVEN
-
         // mocked decorator strategy should accept to decorate
         $this->decoratorStrategy->expects($this->once())->method('isDecorable')->will($this->returnValue(true));
 
         // mocked cms manager should return the mock page
         $this->cmsManager->expects($this->once())->method('getCurrentPage')->will($this->returnValue(null));
 
-        $event = $this->getMockEvent('content');
-
-        // WHEN
-        $this->listener->onCoreResponse($event);
-
-        // THEN
-        // exception thrown
+        $this->listener->onCoreResponse(
+            $this->getMockEvent('content')
+        );
     }
 
     /**
@@ -101,16 +97,17 @@ class ResponseListenerTest extends TestCase
      */
     public function testPageIsNonDecorable(): void
     {
-        // GIVEN
         $this->decoratorStrategy->expects($this->once())->method('isDecorable')->will($this->returnValue(false));
 
         $event = $this->getMockEvent('content');
 
-        // WHEN
         $this->listener->onCoreResponse($event);
 
-        // THEN
-        $this->assertEquals('content', $event->getResponse()->getContent(), 'response should not be altered when non-decorable');
+        $this->assertSame(
+            'content',
+            $event->getResponse()->getContent(),
+            'response should not be altered when non-decorable'
+        );
     }
 
     /**
@@ -118,8 +115,6 @@ class ResponseListenerTest extends TestCase
      */
     public function testPageIsDecorable(): void
     {
-        // GIVEN
-
         // a response content
         $content = 'inner';
 
@@ -147,11 +142,9 @@ class ResponseListenerTest extends TestCase
         // create a response event
         $event = $this->getMockEvent($content);
 
-        // WHEN
         $this->listener->onCoreResponse($event);
 
-        // THEN
-        $this->assertEquals('outer "inner" outer', $event->getResponse()->getContent());
+        $this->assertSame('outer "inner" outer', $event->getResponse()->getContent());
     }
 
     /**
@@ -159,22 +152,19 @@ class ResponseListenerTest extends TestCase
      */
     public function testPageIsEditor(): void
     {
-        // GIVEN
         $this->cmsSelector->expects($this->once())->method('isEditor')->will($this->returnValue(true));
         $event = $this->getMockEvent('inner');
 
-        // WHEN
         $this->listener->onCoreResponse($event);
 
-        // THEN
         $this->assertFalse($event->getResponse()->isCacheable(), 'Should not be cacheable in editor mode');
 
         // assert a cookie has been set in the response headers
         $cookies = $event->getResponse()->headers->getCookies();
         $foundCookie = false;
         foreach ($cookies as $cookie) {
-            if ('sonata_page_is_editor' == $cookie->getName()) {
-                $this->assertEquals(1, $cookie->getValue());
+            if ('sonata_page_is_editor' === $cookie->getName()) {
+                $this->assertSame('1', $cookie->getValue());
                 $foundCookie = true;
             }
         }
@@ -184,12 +174,8 @@ class ResponseListenerTest extends TestCase
 
     /**
      * Returns a mocked event with given content data.
-     *
-     * @param string $content
-     *
-     * @return FilterResponseEvent
      */
-    protected function getMockEvent($content)
+    protected function getMockEvent(string $content): FilterResponseEvent
     {
         $kernel = $this->createMock(HttpKernelInterface::class);
         $request = new Request();

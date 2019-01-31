@@ -76,7 +76,7 @@ EOT
         foreach ($values as $name => $value) {
             $values[$name] = $input->getOption($name);
 
-            while (null == $values[$name]) {
+            while (null === $values[$name]) {
                 $question = new Question(sprintf('Please define a value for <info>Site.%s</info> : ', $name));
                 $values[$name] = $helper->ask($input, $output, $question);
             }
@@ -87,14 +87,14 @@ EOT
 
         $site->setName($values['name']);
 
-        $site->setRelativePath('/' == $values['relativePath'] ? '' : $values['relativePath']);
+        $site->setRelativePath('/' === $values['relativePath'] ? '' : $values['relativePath']);
 
         $site->setHost($values['host']);
-        $site->setEnabledFrom('-' == $values['enabledFrom'] ? null : new \DateTime($values['enabledFrom']));
-        $site->setEnabledTo('-' == $values['enabledTo'] ? null : new \DateTime($values['enabledTo']));
-        $site->setIsDefault(\in_array($values['default'], ['true', 1, '1']));
-        $site->setLocale('-' == $values['locale'] ? null : $values['locale']);
-        $site->setEnabled(\in_array($values['enabled'], ['true', 1, '1']));
+        $site->setEnabledFrom('-' === $values['enabledFrom'] ? null : new \DateTime($values['enabledFrom']));
+        $site->setEnabledTo('-' === $values['enabledTo'] ? null : new \DateTime($values['enabledTo']));
+        $site->setIsDefault(\in_array($values['default'], ['true', 1, '1'], true));
+        $site->setLocale('-' === $values['locale'] ? null : $values['locale']);
+        $site->setEnabled(\in_array($values['enabled'], ['true', 1, '1'], true));
 
         $info_enabledFrom = $site->getEnabledFrom() instanceof \DateTime ? $site->getEnabledFrom()->format('r') : 'ALWAYS';
         $info_enabledTo = $site->getEnabledTo() instanceof \DateTime ? $site->getEnabledTo()->format('r') : 'ALWAYS';
