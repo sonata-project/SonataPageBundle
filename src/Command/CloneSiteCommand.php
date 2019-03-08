@@ -130,7 +130,7 @@ final class CloneSiteCommand extends BaseCommand
         $output->writeln('Fixing page parents and targets');
         foreach ($pageClones as $page) {
             if ($page->getParent()) {
-                if (array_key_exists($page->getParent()->getId(), $pageClones)) {
+                if (\array_key_exists($page->getParent()->getId(), $pageClones)) {
                     $output->writeln(sprintf(
                         'new parent: % 4s - % -70s - % 4s -> % 4s',
                         $page->getId(),
@@ -145,7 +145,7 @@ final class CloneSiteCommand extends BaseCommand
             }
 
             if ($page->getTarget()) {
-                if (array_key_exists($page->getTarget()->getId(), $pageClones)) {
+                if (\array_key_exists($page->getTarget()->getId(), $pageClones)) {
                     $output->writeln(
                         sprintf(
                             'new target: % 4s - % -70s - % 4s',
@@ -176,7 +176,7 @@ final class CloneSiteCommand extends BaseCommand
                         $blockClones[$block->getParent()->getId()]->getId()
                     ));
 
-                    if (array_key_exists($block->getParent()->getId(), $blockClones)) {
+                    if (\array_key_exists($block->getParent()->getId(), $blockClones)) {
                         $block->setParent($blockClones[$block->getParent()->getId()]);
                     } else {
                         $block->setParent(null);

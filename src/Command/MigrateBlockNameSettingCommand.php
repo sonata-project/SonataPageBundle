@@ -52,7 +52,7 @@ class MigrateBlockNameSettingCommand extends BaseCommand
             $settings = $block->getSettings();
 
             // Remove orientation option if it exists
-            if (self::CONTAINER_TYPE === $block->getType() && array_key_exists('orientation', $settings)) {
+            if (self::CONTAINER_TYPE === $block->getType() && \array_key_exists('orientation', $settings)) {
                 unset($settings['orientation']);
                 $block->setSettings($settings);
 

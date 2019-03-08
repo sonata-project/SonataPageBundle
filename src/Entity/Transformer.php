@@ -258,7 +258,7 @@ class Transformer implements TransformerInterface
      */
     protected function fixPageContent(array $content)
     {
-        if (!array_key_exists('title', $content)) {
+        if (!\array_key_exists('title', $content)) {
             $content['title'] = null;
         }
 
@@ -272,7 +272,7 @@ class Transformer implements TransformerInterface
      */
     protected function fixBlockContent(array $content)
     {
-        if (!array_key_exists('name', $content)) {
+        if (!\array_key_exists('name', $content)) {
             $content['name'] = null;
         }
 
