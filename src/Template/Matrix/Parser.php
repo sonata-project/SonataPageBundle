@@ -49,7 +49,7 @@ class Parser
 
             $cells = str_split($row);
             foreach ($cells as $x => $symbol) {
-                if (!array_key_exists($symbol, $mapping)) {
+                if (!\array_key_exists($symbol, $mapping)) {
                     throw new \InvalidArgumentException(sprintf('Invalid template matrix, no mapping found for symbol "%s"', $symbol));
                 }
                 if (!isset($areas[$symbol])) {

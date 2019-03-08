@@ -89,7 +89,7 @@ class RequestFactory
      */
     private static function getClass($type)
     {
-        if (!array_key_exists($type, self::$types)) {
+        if (!\array_key_exists($type, self::$types)) {
             throw new \RuntimeException('invalid type');
         }
 
