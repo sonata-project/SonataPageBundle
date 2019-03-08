@@ -91,16 +91,7 @@ class RoutePageGenerator
 
         // no root url for the given website, create one
         if (!$root) {
-            $root = $this->pageManager->create([
-                'routeName' => PageInterface::PAGE_ROUTE_CMS_NAME,
-                'name' => 'Homepage',
-                'url' => '/',
-                'site' => $site,
-                'requestMethod' => $requirements['_method'] ??
-                    'GET|POST|HEAD|DELETE|PUT',
-                'slug' => '/',
-            ]);
-
+            $root = $this->createRootPage($site);
             $this->pageManager->save($root);
         }
 
@@ -247,5 +238,38 @@ MSG
         if ($output instanceof OutputInterface) {
             $output->writeln($message);
         }
+    }
+
+    /**
+     * Generate root page (parent for another generated page).
+     * If root path available in config - create from config
+     * Else - generate it statically.
+     */
+    private function createRootPage(SiteInterface $site): PageInterface
+    {
+        foreach ($this->router->getRouteCollection()->all() as $name => $route) {
+            if ('/' === $route->getPath()) {
+                $requirements = $route->getRequirements();
+                $name = trim($name);
+
+                return $this->pageManager->create([
+                    'routeName' => $name,
+                    'name' => $name,
+                    'url' => $route->getPath(),
+                    'site' => $site,
+                    'requestMethod' => $requirements['_method'] ?? 'GET|POST|HEAD|DELETE|PUT',
+                    'slug' => '/',
+                ]);
+            }
+        }
+
+        return $this->pageManager->create([
+            'routeName' => PageInterface::PAGE_ROUTE_CMS_NAME,
+            'name' => 'Homepage',
+            'url' => '/',
+            'site' => $site,
+            'requestMethod' => 'GET|POST|HEAD|DELETE|PUT',
+            'slug' => '/',
+        ]);
     }
 }
