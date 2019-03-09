@@ -118,7 +118,7 @@ class ExceptionListener
      */
     public function hasErrorCode($statusCode)
     {
-        return array_key_exists($statusCode, $this->httpErrorCodes);
+        return \array_key_exists($statusCode, $this->httpErrorCodes);
     }
 
     /**
