@@ -923,6 +923,14 @@
                 <source>form.label_icon</source>
                 <target>Icon</target>
             </trans-unit>
+            <trans-unit id="sonata_page_exceptions_list">
+                <source>sonata_page_exceptions_list</source>
+                <target>Exceptions</target>
+            </trans-unit>
+            <trans-unit id="sonata_page_exceptions_edit">
+                <source>sonata_page_exceptions_edit</source>
+                <target>Edit exception</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
