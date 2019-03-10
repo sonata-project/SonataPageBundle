@@ -248,7 +248,7 @@ interface PageInterface
     /**
      * Get children.
      *
-     * @return ArrayCollection|array
+     * @return ArrayCollection|PageInterface[]
      */
     public function getChildren();
 
@@ -262,7 +262,7 @@ interface PageInterface
     /**
      * Get blocks.
      *
-     * @return ArrayCollection|array
+     * @return ArrayCollection|PageBlockInterface[]
      */
     public function getBlocks();
 
@@ -389,12 +389,12 @@ interface PageInterface
     public function getHeaders();
 
     /**
-     * @param array $parents
+     * @param PageInterface[] $parents
      */
     public function setParents(array $parents);
 
     /**
-     * @return array
+     * @return PageInterface[]
      */
     public function getParents();
 
