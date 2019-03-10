@@ -101,17 +101,23 @@ class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
         return $cms->getCurrentPage();
     }
 
-    /**
-     * @param ItemInterface $menu
-     * @param PageInterface $page
-     */
     private function createMenuItem(ItemInterface $menu, PageInterface $page): void
     {
-        $menu->addChild($page->getName(), [
+        $label = $page->getTitle();
+        $extras = [];
+
+        if (null === $label) {
+            $label = $page->getName();
+
+            $extras['translation_domain'] = 'SonataPageBundle';
+        }
+
+        $menu->addChild($label, [
             'route' => 'page_slug',
             'routeParameters' => [
                 'path' => $page->getUrl(),
             ],
+            'extras' => $extras,
         ]);
     }
 }
