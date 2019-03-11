@@ -8,15 +8,24 @@ For the full copyright and license information, please view the LICENSE
 file that was distributed with this source code.
 
 #}
+{%- macro label(page) -%}
+    {% if page.title %}
+        {{ page.title }}
+    {% else %}
+        {{ page.name|trans({}, 'SonataPageBundle') }}
+    {% endif %}
+{%- endmacro -%}
+
+{% import _self as helper %}
 
 {% if breadcrumbs %}
     <ul {% for attrname, attrvalue in options.container_attr %}{{ attrname }}="{{ attrvalue }}" {% endfor %}>
         {% for breadcrumb in breadcrumbs %}
             <li {% for attrname, attrvalue in options.elements_attr %}{{ attrname }}="{{ attrvalue }}" {% endfor %}>
                 {% if not breadcrumb.isdynamic %}
-                    <a href="{{ path(breadcrumb) }}" title="{{ breadcrumb.title ? : breadcrumb.name }}">{{ breadcrumb.title ? : breadcrumb.name }}</a>{{ options.separator|raw }}
+                    <a href="{{ path(breadcrumb) }}" title="{{ label(breadcrumb) }}">{{ label(breadcrumb) }}</a>{{ options.separator|raw }}
                 {% else %}
-                    {{ breadcrumb.title ? : breadcrumb.name }}{{ options.separator|raw }}
+                    {{ label(breadcrumb) }}{{ options.separator|raw }}
                 {% endif %}
             </li>
         {% endfor %}
@@ -25,9 +34,9 @@ file that was distributed with this source code.
         {% set li_attrs = options.elements_attr|merge({'class': li_attrs_class}) %}
         <li {% for attrname, attrvalue in li_attrs %}{{ attrname }}="{{ attrvalue }}" {% endfor %}>
             {% if not page.isdynamic %}
-                <a href="{{ path(page) }}" title="{{ page.title ? : page.name }}">{{ page.title ? : page.name }}</a>{{ options.last_separator|raw }}
+                <a href="{{ path(page) }}" title="{{ helper.label(page) }}">{{ helper.label(page) }}</a>{{ options.last_separator|raw }}
             {% else %}
-                {{ page.title ? : page.name }}{{ options.last_separator|raw }}
+                {{ helper.label(page) }}{{ options.last_separator|raw }}
             {% endif %}
         </li>
     </ul>

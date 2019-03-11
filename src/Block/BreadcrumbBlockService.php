@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Block;
 
 use Knp\Menu\FactoryInterface;
+use Knp\Menu\ItemInterface;
 use Knp\Menu\Provider\MenuProviderInterface;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
@@ -78,21 +79,11 @@ class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
                 continue;
             }
 
-            $menu->addChild($parent->getName(), [
-                'route' => 'page_slug',
-                'routeParameters' => [
-                    'path' => $parent->getUrl(),
-                ],
-            ]);
+            $this->createMenuItem($menu, $parent);
         }
 
         if (!$page->isError()) {
-            $menu->addChild($page->getName(), [
-                'route' => 'page_slug',
-                'routeParameters' => [
-                    'path' => $page->getUrl(),
-                ],
-            ]);
+            $this->createMenuItem($menu, $page);
         }
 
         return $menu;
@@ -108,5 +99,25 @@ class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
         $cms = $this->cmsSelector->retrieve();
 
         return $cms->getCurrentPage();
+    }
+
+    private function createMenuItem(ItemInterface $menu, PageInterface $page): void
+    {
+        $label = $page->getTitle();
+        $extras = [];
+
+        if (null === $label) {
+            $label = $page->getName();
+
+            $extras['translation_domain'] = 'SonataPageBundle';
+        }
+
+        $menu->addChild($label, [
+            'route' => 'page_slug',
+            'routeParameters' => [
+                'path' => $page->getUrl(),
+            ],
+            'extras' => $extras,
+        ]);
     }
 }
