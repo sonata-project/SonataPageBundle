@@ -8,7 +8,9 @@
        href="{{ admin_pool.getAdminByAdminCode('sonata.page.admin.block').generateUrl('edit', { 'id': child.id, 'composer': true }) }}"
     >
         {% set service = attribute(blockServices, child.type) %}
-        <h4 class="page-composer__container__child__name">{{ child.name|default(service.name) }}</h4>
+        <h4 class="page-composer__container__child__name">
+            {{ child.name|default(service.name)|trans({}, service.blockMetadata.domain|default('SonataPageBundle')) }}
+        </h4>
         {% if not service.blockMetadata.image %}
             <i class="{{ service.blockMetadata.option('class') }}" ></i>
         {% else %}
