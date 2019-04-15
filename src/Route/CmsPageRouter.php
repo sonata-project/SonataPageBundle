@@ -163,8 +163,12 @@ class CmsPageRouter implements ChainedRouterInterface
 
         try {
             $page = $cms->getPageByUrl($site, $pathinfo);
-        } catch (PageNotFoundException $e) {
-            throw new ResourceNotFoundException($pathinfo, 0, $e);
+        } catch (\Exception $e) {
+            try {
+                $page = $cms->getPageByCustomUrl($site, $pathinfo);
+            } catch (PageNotFoundException $e) {
+                throw new ResourceNotFoundException($pathinfo, 0, $e);
+            }
         }
 
         if (!$page || !$page->isCms()) {
