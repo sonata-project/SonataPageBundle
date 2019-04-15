@@ -47,7 +47,7 @@ interface CmsManagerInterface
     public function getPageByUrl(SiteInterface $site, $slug);
 
     /**
-     * Returns a fully loaded page ( + blocks ) from a url.
+     * Returns a fully loaded page ( + blocks ) from a custom url.
      *
      * @param SiteInterface $site
      * @param string        $slug
