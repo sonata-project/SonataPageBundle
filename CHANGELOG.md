@@ -2,6 +2,18 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.11.0](https://github.com/sonata-project/SonataPageBundle/compare/3.10.0...3.11.0) - 2019-14-17
+### Added
+- Add `|trans()` to `child.name|default(service.name)` in `compose_preview.html.twig`
+
+### Changed
+- Translate page name in breadcrumb if no title is defined
+
+### Fixed
+- Use page title in breadcrumbs
+- Creating homepage from router config (check if page available in config - we
+  will not create default Homepage).
+
 ## [3.10.0](https://github.com/sonata-project/SonataPageBundle/compare/3.9.1...3.10.0) - 2018-10-18
 
 ### Removed
