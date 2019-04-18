@@ -23,9 +23,9 @@ file that was distributed with this source code.
         {% for breadcrumb in breadcrumbs %}
             <li {% for attrname, attrvalue in options.elements_attr %}{{ attrname }}="{{ attrvalue }}" {% endfor %}>
                 {% if not breadcrumb.isdynamic %}
-                    <a href="{{ path(breadcrumb) }}" title="{{ label(breadcrumb) }}">{{ label(breadcrumb) }}</a>{{ options.separator|raw }}
+                    <a href="{{ path(breadcrumb) }}" title="{{ helper.label(breadcrumb) }}">{{ helper.label(breadcrumb) }}</a>{{ options.separator|raw }}
                 {% else %}
-                    {{ label(breadcrumb) }}{{ options.separator|raw }}
+                    {{ helper.label(breadcrumb) }}{{ options.separator|raw }}
                 {% endif %}
             </li>
         {% endfor %}
