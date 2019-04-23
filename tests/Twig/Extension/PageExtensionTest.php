@@ -120,4 +120,36 @@ class PageExtensionTest extends TestCase
 
         $extension->controller('bar');
     }
+
+    public function testInitRuntime(): void
+    {
+        $extension = new PageExtension(
+            $this->createMock(CmsManagerSelectorInterface::class),
+            $this->createMock(SiteSelectorInterface::class),
+            $this->createMock(RouterInterface::class),
+            $this->createMock(BlockHelper::class),
+            $this->createMock(HttpKernelExtension::class)
+        );
+
+        $environment = $this->createMock(Environment::class);
+        $extension->initRuntime($environment);
+
+        $property = new \ReflectionProperty($extension, 'environment');
+        $property->setAccessible(true);
+
+        $this->assertSame($environment, $property->getValue($extension));
+    }
+
+    public function testGetName(): void
+    {
+        $extension = new PageExtension(
+            $this->createMock(CmsManagerSelectorInterface::class),
+            $this->createMock(SiteSelectorInterface::class),
+            $this->createMock(RouterInterface::class),
+            $this->createMock(BlockHelper::class),
+            $this->createMock(HttpKernelExtension::class)
+        );
+
+        $this->assertSame('sonata_page', $extension->getName());
+    }
 }
