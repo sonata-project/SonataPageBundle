@@ -298,7 +298,7 @@ class PageAdmin extends AbstractAdmin
             ->add('parent')
             ->add('edited')
             ->add('hybrid', 'doctrine_orm_callback', [
-                'callback' => function ($queryBuilder, $alias, $field, $data) {
+                'callback' => static function ($queryBuilder, $alias, $field, $data) {
                     if (\in_array($data['value'], ['hybrid', 'cms'], true)) {
                         $queryBuilder->andWhere(sprintf('%s.routeName %s :routeName', $alias, 'cms' === $data['value'] ? '=' : '!='));
                         $queryBuilder->setParameter('routeName', PageInterface::PAGE_ROUTE_CMS_NAME);

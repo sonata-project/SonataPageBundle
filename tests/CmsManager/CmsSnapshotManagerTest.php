@@ -119,7 +119,7 @@ class CmsSnapshotManagerTest extends TestCase
         $pBlock->expects($this->any())->method('getId')->will($this->returnValue(1));
 
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->any())->method('getBlocks')->will($this->returnCallback(function () use ($pBlock) {
+        $page->expects($this->any())->method('getBlocks')->will($this->returnCallback(static function () use ($pBlock) {
             static $count;
 
             ++$count;
@@ -163,7 +163,7 @@ class CmsSnapshotManagerTest extends TestCase
      */
     protected function getMockBlockInteractor()
     {
-        $callback = function ($options) {
+        $callback = static function ($options) {
             $block = new SnapshotBlock();
             $block->setSettings($options);
 

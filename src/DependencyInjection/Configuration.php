@@ -224,7 +224,7 @@ EOF;
                             ->end()
                             ->validate()
                             ->always()
-                                ->then(function ($matrix) {
+                                ->then(static function ($matrix) {
                                     return Parser::parse($matrix['layout'], $matrix['mapping']);
                                 })
                             ->end()
@@ -233,7 +233,7 @@ EOF;
                 ->end()
                 ->validate()
                 ->always()
-                    ->then(function ($templates) {
+                    ->then(static function ($templates) {
                         foreach ($templates as $id => &$template) {
                             if (0 === \count($template['containers'])) {
                                 continue;

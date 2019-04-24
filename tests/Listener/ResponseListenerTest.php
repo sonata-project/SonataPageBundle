@@ -133,7 +133,7 @@ class ResponseListenerTest extends TestCase
         $this->pageServiceManager->expects($this->once())
             ->method('execute')
             ->with($this->equalTo($page), $this->anything(), ['content' => $content])
-            ->will($this->returnCallback(function (PageInterface $page, Request $request, array $params, Response $response) {
+            ->will($this->returnCallback(static function (PageInterface $page, Request $request, array $params, Response $response) {
                 $response->setContent(sprintf('outer "%s" outer', $params['content']));
 
                 return $response;

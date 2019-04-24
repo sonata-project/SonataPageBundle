@@ -30,7 +30,7 @@ class Mustache
      */
     public static function replace($string, array $parameters)
     {
-        $replacer = function ($match) use ($parameters) {
+        $replacer = static function ($match) use ($parameters) {
             return $parameters[$match[1]] ?? $match[0];
         };
 

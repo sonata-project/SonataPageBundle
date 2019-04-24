@@ -52,7 +52,7 @@ class PageSelectorType extends AbstractType
         $resolver->setDefaults([
             'page' => null,
             'site' => null,
-            'choices' => function (Options $opts, $previousValue) use ($that) {
+            'choices' => static function (Options $opts, $previousValue) use ($that) {
                 return $that->getChoices($opts);
             },
             'choice_translation_domain' => false,
