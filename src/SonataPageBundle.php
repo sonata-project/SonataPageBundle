@@ -70,7 +70,7 @@ class SonataPageBundle extends Bundle
             return;
         }
 
-        \call_user_func([$class, 'setSlugifyMethod'], function ($text) use ($container) {
+        \call_user_func([$class, 'setSlugifyMethod'], static function ($text) use ($container) {
             // NEXT_MAJOR: remove this check
             if ($container->hasParameter('sonata.page.slugify_service')) {
                 $id = $container->getParameter('sonata.page.slugify_service');

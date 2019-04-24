@@ -30,7 +30,7 @@ class SiteManagerTest extends TestCase
     {
         $self = $this;
         $this
-            ->getSiteManager(function ($qb) use ($self) {
+            ->getSiteManager(static function ($qb) use ($self) {
                 $qb->expects($self->never())->method('andWhere');
                 $qb->expects($self->once())->method('setParameters')->with([]);
                 $qb->expects($self->once())->method('orderBy')->with(
@@ -50,7 +50,7 @@ class SiteManagerTest extends TestCase
 
         $self = $this;
         $this
-            ->getSiteManager(function ($qb) use ($self) {
+            ->getSiteManager(static function ($qb) use ($self) {
             })
             ->getPager([], 1, 10, ['invalid' => 'ASC']);
     }
@@ -59,7 +59,7 @@ class SiteManagerTest extends TestCase
     {
         $self = $this;
         $this
-            ->getSiteManager(function ($qb) use ($self) {
+            ->getSiteManager(static function ($qb) use ($self) {
                 $qb->expects($self->never())->method('andWhere');
                 $qb->expects($self->once())->method('setParameters')->with([]);
                 $qb->expects($self->exactly(2))->method('orderBy')->with(
@@ -84,7 +84,7 @@ class SiteManagerTest extends TestCase
     {
         $self = $this;
         $this
-            ->getSiteManager(function ($qb) use ($self) {
+            ->getSiteManager(static function ($qb) use ($self) {
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('s.enabled = :enabled'));
                 $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['enabled' => true]));
             })
@@ -95,7 +95,7 @@ class SiteManagerTest extends TestCase
     {
         $self = $this;
         $this
-            ->getSiteManager(function ($qb) use ($self) {
+            ->getSiteManager(static function ($qb) use ($self) {
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('s.enabled = :enabled'));
                 $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['enabled' => false]));
             })
@@ -106,7 +106,7 @@ class SiteManagerTest extends TestCase
     {
         $self = $this;
         $this
-            ->getSiteManager(function ($qb) use ($self) {
+            ->getSiteManager(static function ($qb) use ($self) {
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('s.isDefault = :isDefault'));
                 $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['isDefault' => true]));
             })
@@ -117,7 +117,7 @@ class SiteManagerTest extends TestCase
     {
         $self = $this;
         $this
-            ->getSiteManager(function ($qb) use ($self) {
+            ->getSiteManager(static function ($qb) use ($self) {
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('s.isDefault = :isDefault'));
                 $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['isDefault' => false]));
             })

@@ -107,7 +107,7 @@ class SnapshotManagerTest extends TestCase
     {
         $self = $this;
         $this
-            ->getSnapshotManager(function ($qb) use ($self) {
+            ->getSnapshotManager(static function ($qb) use ($self) {
                 $qb->expects($self->never())->method('andWhere');
                 $qb->expects($self->once())->method('setParameters')->with([]);
             })
@@ -118,7 +118,7 @@ class SnapshotManagerTest extends TestCase
     {
         $self = $this;
         $this
-            ->getSnapshotManager(function ($qb) use ($self) {
+            ->getSnapshotManager(static function ($qb) use ($self) {
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('s.enabled = :enabled'));
                 $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['enabled' => true]));
             })
@@ -129,7 +129,7 @@ class SnapshotManagerTest extends TestCase
     {
         $self = $this;
         $this
-            ->getSnapshotManager(function ($qb) use ($self) {
+            ->getSnapshotManager(static function ($qb) use ($self) {
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('s.enabled = :enabled'));
                 $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['enabled' => false]));
             })
@@ -140,7 +140,7 @@ class SnapshotManagerTest extends TestCase
     {
         $self = $this;
         $this
-            ->getSnapshotManager(function ($qb) use ($self) {
+            ->getSnapshotManager(static function ($qb) use ($self) {
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('s.parent IS NULL'));
             })
             ->getPager(['root' => true], 1);
@@ -150,7 +150,7 @@ class SnapshotManagerTest extends TestCase
     {
         $self = $this;
         $this
-            ->getSnapshotManager(function ($qb) use ($self) {
+            ->getSnapshotManager(static function ($qb) use ($self) {
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('s.parent IS NOT NULL'));
             })
             ->getPager(['root' => false], 1);
@@ -160,7 +160,7 @@ class SnapshotManagerTest extends TestCase
     {
         $self = $this;
         $this
-            ->getSnapshotManager(function ($qb) use ($self) {
+            ->getSnapshotManager(static function ($qb) use ($self) {
                 $qb->expects($self->once())->method('join')->with(
                     $self->equalTo('s.parent'),
                     $self->equalTo('pa')
@@ -175,7 +175,7 @@ class SnapshotManagerTest extends TestCase
     {
         $self = $this;
         $this
-            ->getSnapshotManager(function ($qb) use ($self) {
+            ->getSnapshotManager(static function ($qb) use ($self) {
                 $qb->expects($self->once())->method('join')->with(
                     $self->equalTo('s.site'),
                     $self->equalTo('si')

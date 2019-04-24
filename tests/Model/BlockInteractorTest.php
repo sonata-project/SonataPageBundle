@@ -40,7 +40,7 @@ class BlockInteractorTest extends TestCase
         $container = $blockInteractor->createNewContainer([
             'enabled' => true,
             'code' => 'my-code',
-        ], function ($container) {
+        ], static function ($container) {
             $container->setSetting('layout', '<div class="custom-layout">{{ CONTENT }}</div>');
         });
 

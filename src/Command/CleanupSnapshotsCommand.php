@@ -94,7 +94,7 @@ class CleanupSnapshotsCommand extends BaseCommand
                     $input->getOption('no-debug') ? '--no-debug' : ''
                 ));
 
-                $p->run(function ($type, $data) use ($output) {
+                $p->run(static function ($type, $data) use ($output) {
                     $output->write($data, OutputInterface::OUTPUT_RAW);
                 });
             }

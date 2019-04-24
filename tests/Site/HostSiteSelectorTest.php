@@ -119,7 +119,7 @@ class HostSiteSelector extends BaseSiteSelector
      */
     public static function _camelize($property)
     {
-        return preg_replace_callback('/(^|[_. ])+(.)/', function ($match) {
+        return preg_replace_callback('/(^|[_. ])+(.)/', static function ($match) {
             return ('.' === $match[1] ? '_' : '').strtoupper($match[2]);
         }, $property);
     }

@@ -117,7 +117,7 @@ class PageManagerTest extends TestCase
     {
         $self = $this;
         $this
-            ->getPageManager(function ($qb) use ($self) {
+            ->getPageManager(static function ($qb) use ($self) {
                 $qb->expects($self->never())->method('andWhere');
                 $qb->expects($self->once())->method('orderBy')->with(
                     $self->equalTo('p.name'),
@@ -137,7 +137,7 @@ class PageManagerTest extends TestCase
 
         $self = $this;
         $this
-            ->getPageManager(function ($qb) use ($self) {
+            ->getPageManager(static function ($qb) use ($self) {
             })
             ->getPager([], 1, 10, ['invalid' => 'ASC']);
     }
@@ -146,7 +146,7 @@ class PageManagerTest extends TestCase
     {
         $self = $this;
         $this
-            ->getPageManager(function ($qb) use ($self) {
+            ->getPageManager(static function ($qb) use ($self) {
                 $qb->expects($self->never())->method('andWhere');
                 $qb->expects($self->exactly(2))->method('orderBy')->with(
                     $self->logicalOr(
@@ -170,7 +170,7 @@ class PageManagerTest extends TestCase
     {
         $self = $this;
         $this
-            ->getPageManager(function ($qb) use ($self) {
+            ->getPageManager(static function ($qb) use ($self) {
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('p.parent IS NULL'));
             })
             ->getPager(['root' => true], 1);
@@ -180,7 +180,7 @@ class PageManagerTest extends TestCase
     {
         $self = $this;
         $this
-            ->getPageManager(function ($qb) use ($self) {
+            ->getPageManager(static function ($qb) use ($self) {
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('p.parent IS NOT NULL'));
             })
             ->getPager(['root' => false], 1);
@@ -190,7 +190,7 @@ class PageManagerTest extends TestCase
     {
         $self = $this;
         $this
-            ->getPageManager(function ($qb) use ($self) {
+            ->getPageManager(static function ($qb) use ($self) {
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('p.enabled = :enabled'));
                 $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['enabled' => true]));
             })
@@ -201,7 +201,7 @@ class PageManagerTest extends TestCase
     {
         $self = $this;
         $this
-            ->getPageManager(function ($qb) use ($self) {
+            ->getPageManager(static function ($qb) use ($self) {
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('p.enabled = :enabled'));
                 $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['enabled' => false]));
             })
@@ -212,7 +212,7 @@ class PageManagerTest extends TestCase
     {
         $self = $this;
         $this
-            ->getPageManager(function ($qb) use ($self) {
+            ->getPageManager(static function ($qb) use ($self) {
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('p.edited = :edited'));
                 $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['edited' => true]));
             })
@@ -223,7 +223,7 @@ class PageManagerTest extends TestCase
     {
         $self = $this;
         $this
-            ->getPageManager(function ($qb) use ($self) {
+            ->getPageManager(static function ($qb) use ($self) {
                 $qb->expects($self->once())->method('andWhere')->with($self->equalTo('p.edited = :edited'));
                 $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['edited' => false]));
             })
@@ -234,7 +234,7 @@ class PageManagerTest extends TestCase
     {
         $self = $this;
         $this
-            ->getPageManager(function ($qb) use ($self) {
+            ->getPageManager(static function ($qb) use ($self) {
                 $qb->expects($self->once())->method('join')->with(
                     $self->equalTo('p.parent'),
                     $self->equalTo('pa')
@@ -249,7 +249,7 @@ class PageManagerTest extends TestCase
     {
         $self = $this;
         $this
-            ->getPageManager(function ($qb) use ($self) {
+            ->getPageManager(static function ($qb) use ($self) {
                 $qb->expects($self->once())->method('join')->with(
                     $self->equalTo('p.site'),
                     $self->equalTo('s')

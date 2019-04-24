@@ -162,7 +162,7 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
             return;
         }
 
-        $sitesLocales = array_map(function (SiteInterface $site) {
+        $sitesLocales = array_map(static function (SiteInterface $site) {
             return $site->getLocale();
         }, $sites);
 
