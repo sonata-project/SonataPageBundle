@@ -81,7 +81,7 @@ class PageAdminController extends Controller
         $pageManager = $this->get('sonata.page.manager.page');
 
         $currentSite = null;
-        $siteId = $request->get('site');
+        $siteId = (int) $request->get('site');
         foreach ($sites as $site) {
             if ($siteId && $site->getId() === $siteId) {
                 $currentSite = $site;

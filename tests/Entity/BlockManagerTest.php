@@ -29,7 +29,7 @@ class BlockManagerTest extends TestCase
     {
         $self = $this;
         $this
-            ->getBlockManager(function ($qb) use ($self): void {
+            ->getBlockManager(static function ($qb) use ($self): void {
                 $qb->expects($self->never())->method('join');
                 $qb->expects($self->never())->method('andWhere');
                 $qb->expects($self->once())->method('setParameters')->with($self->equalTo([]));

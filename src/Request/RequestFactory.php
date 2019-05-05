@@ -69,7 +69,7 @@ class RequestFactory
             return;
         }
 
-        Request::setFactory(function (
+        Request::setFactory(static function (
             array $query = [],
             array $request = [],
             array $attributes = [],

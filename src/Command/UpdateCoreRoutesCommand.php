@@ -85,7 +85,7 @@ class UpdateCoreRoutesCommand extends BaseCommand
 
                 $process = $builder->getProcess();
 
-                $process->run(function ($type, $data) use ($output): void {
+                $process->run(static function ($type, $data) use ($output): void {
                     $output->write($data);
                 });
             }

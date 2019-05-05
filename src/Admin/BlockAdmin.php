@@ -154,7 +154,7 @@ class BlockAdmin extends BaseBlockAdmin
             if ($isStandardBlock && $page && !empty($containerBlockTypes)) {
                 $formMapper->add('parent', EntityType::class, [
                     'class' => $this->getClass(),
-                    'query_builder' => function (EntityRepository $repository) use ($page, $containerBlockTypes) {
+                    'query_builder' => static function (EntityRepository $repository) use ($page, $containerBlockTypes) {
                         return $repository->createQueryBuilder('a')
                             ->andWhere('a.page = :page AND a.type IN (:types)')
                             ->setParameters([

@@ -256,7 +256,7 @@ class CmsPageManagerTest extends TestCase
      */
     protected function getMockBlockInteractor()
     {
-        $callback = function ($options) {
+        $callback = static function ($options) {
             $block = new CmsBlock();
             $block->setSettings($options);
 
