@@ -33,13 +33,13 @@ class PageExtensionTest extends TestCase
     public function testAjaxUrl()
     {
         $router = $this->createMock(RouterInterface::class);
-        $router->expects($this->once())->method('generate')->will($this->returnValue('/foo/bar'));
+        $router->expects($this->once())->method('generate')->willReturn('/foo/bar');
 
         $block = $this->createMock(PageBlockInterface::class);
         $block
             ->expects($this->exactly(2))
             ->method('getPage')
-            ->will($this->returnValue($this->createMock(PageInterface::class)));
+            ->willReturn($this->createMock(PageInterface::class));
 
         $extension = new PageExtension(
             $this->createMock(CmsManagerSelectorInterface::class),

@@ -314,15 +314,15 @@ class PageTest extends TestCase
         $page = new Page();
 
         $block1 = $this->createMock(Block::class);
-        $block1->expects($this->any())->method('getType')->will($this->returnValue('sonata.page.block.action'));
+        $block1->expects($this->any())->method('getType')->willReturn('sonata.page.block.action');
 
         $block2 = $this->createMock(Block::class);
-        $block2->expects($this->any())->method('getType')->will($this->returnValue('sonata.page.block.container'));
-        $block2->expects($this->once())->method('getSetting')->will($this->returnValue('bar'));
+        $block2->expects($this->any())->method('getType')->willReturn('sonata.page.block.container');
+        $block2->expects($this->once())->method('getSetting')->willReturn('bar');
 
         $block3 = $this->createMock(Block::class);
-        $block3->expects($this->any())->method('getType')->will($this->returnValue('sonata.page.block.container'));
-        $block3->expects($this->once())->method('getSetting')->will($this->returnValue('gotcha'));
+        $block3->expects($this->any())->method('getType')->willReturn('sonata.page.block.container');
+        $block3->expects($this->once())->method('getSetting')->willReturn('gotcha');
 
         $page->addBlocks($block1);
         $page->addBlocks($block2);
@@ -336,13 +336,13 @@ class PageTest extends TestCase
         $page = new Page();
 
         $block1 = $this->createMock(Block::class);
-        $block1->expects($this->once())->method('getType')->will($this->returnValue('sonata.page.block.action'));
+        $block1->expects($this->once())->method('getType')->willReturn('sonata.page.block.action');
 
         $block2 = $this->createMock(Block::class);
-        $block2->expects($this->once())->method('getType')->will($this->returnValue('sonata.page.block.container'));
+        $block2->expects($this->once())->method('getType')->willReturn('sonata.page.block.container');
 
         $block3 = $this->createMock(Block::class);
-        $block3->expects($this->once())->method('getType')->will($this->returnValue('sonata.page.block.action'));
+        $block3->expects($this->once())->method('getType')->willReturn('sonata.page.block.action');
 
         $page->addBlocks($block1);
         $page->addBlocks($block2);

@@ -66,10 +66,10 @@ class CmsPageRouterTest extends TestCase
         $this->expectException(ResourceNotFoundException::class);
 
         $cms = $this->createMock(CmsManagerInterface::class);
-        $this->cmsSelector->expects($this->any())->method('retrieve')->will($this->returnValue($cms));
+        $this->cmsSelector->expects($this->any())->method('retrieve')->willReturn($cms);
 
         $site = $this->createMock(SiteInterface::class);
-        $this->siteSelector->expects($this->any())->method('retrieve')->will($this->returnValue($site));
+        $this->siteSelector->expects($this->any())->method('retrieve')->willReturn($site);
 
         $this->router->match('/');
     }
@@ -79,15 +79,15 @@ class CmsPageRouterTest extends TestCase
         $this->expectException(ResourceNotFoundException::class);
 
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->any())->method('isCms')->will($this->returnValue(false));
+        $page->expects($this->any())->method('isCms')->willReturn(false);
 
         $cms = $this->createMock(CmsManagerInterface::class);
-        $cms->expects($this->any())->method('getPageByUrl')->will($this->returnValue($page));
+        $cms->expects($this->any())->method('getPageByUrl')->willReturn($page);
 
-        $this->cmsSelector->expects($this->any())->method('retrieve')->will($this->returnValue($cms));
+        $this->cmsSelector->expects($this->any())->method('retrieve')->willReturn($cms);
 
         $site = $this->createMock(SiteInterface::class);
-        $this->siteSelector->expects($this->any())->method('retrieve')->will($this->returnValue($site));
+        $this->siteSelector->expects($this->any())->method('retrieve')->willReturn($site);
 
         $this->router->match('/');
     }
@@ -95,17 +95,17 @@ class CmsPageRouterTest extends TestCase
     public function testMatch()
     {
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->any())->method('isCms')->will($this->returnValue(true));
-        $page->expects($this->any())->method('getEnabled')->will($this->returnValue(true));
+        $page->expects($this->any())->method('isCms')->willReturn(true);
+        $page->expects($this->any())->method('getEnabled')->willReturn(true);
 
         $cms = $this->createMock(CmsManagerInterface::class);
-        $cms->expects($this->any())->method('getPageByUrl')->will($this->returnValue($page));
+        $cms->expects($this->any())->method('getPageByUrl')->willReturn($page);
         $cms->expects($this->once())->method('setCurrentPage');
 
-        $this->cmsSelector->expects($this->any())->method('retrieve')->will($this->returnValue($cms));
+        $this->cmsSelector->expects($this->any())->method('retrieve')->willReturn($cms);
 
         $site = $this->createMock(SiteInterface::class);
-        $this->siteSelector->expects($this->any())->method('retrieve')->will($this->returnValue($site));
+        $this->siteSelector->expects($this->any())->method('retrieve')->willReturn($site);
 
         $route = $this->router->match('/');
 
@@ -189,8 +189,8 @@ class CmsPageRouterTest extends TestCase
     {
         $page = $this->createMock(PageInterface::class);
 
-        $page->expects($this->exactly(5))->method('isHybrid')->will($this->returnValue(false));
-        $page->expects($this->exactly(5))->method('getUrl')->will($this->returnValue('/test/path'));
+        $page->expects($this->exactly(5))->method('isHybrid')->willReturn(false);
+        $page->expects($this->exactly(5))->method('getUrl')->willReturn('/test/path');
 
         $this->router->setContext(new RequestContext());
 
@@ -216,8 +216,8 @@ class CmsPageRouterTest extends TestCase
     public function testGenerateWithPageCustomUrl()
     {
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->exactly(5))->method('isHybrid')->will($this->returnValue(false));
-        $page->expects($this->exactly(5))->method('getCustomUrl')->will($this->returnValue('/test/path'));
+        $page->expects($this->exactly(5))->method('isHybrid')->willReturn(false);
+        $page->expects($this->exactly(5))->method('getCustomUrl')->willReturn('/test/path');
 
         $this->router->setContext(new RequestContext());
 
@@ -243,8 +243,8 @@ class CmsPageRouterTest extends TestCase
     public function testGenerateWithHybridPage()
     {
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->exactly(5))->method('isHybrid')->will($this->returnValue(true));
-        $page->expects($this->exactly(5))->method('getRouteName')->will($this->returnValue('test_route'));
+        $page->expects($this->exactly(5))->method('isHybrid')->willReturn(true);
+        $page->expects($this->exactly(5))->method('getRouteName')->willReturn('test_route');
 
         $this->defaultRouter->expects($this->at(0))
             ->method('generate')
@@ -253,7 +253,7 @@ class CmsPageRouterTest extends TestCase
                 $this->equalTo(['key' => 'value']),
                 $this->equalTo(UrlGeneratorInterface::ABSOLUTE_PATH)
             )
-            ->will($this->returnValue('/test/path?key=value'));
+            ->willReturn('/test/path?key=value');
 
         $this->defaultRouter->expects($this->at(1))
             ->method('generate')
@@ -262,7 +262,7 @@ class CmsPageRouterTest extends TestCase
                 $this->equalTo(['key' => 'value']),
                 $this->equalTo(UrlGeneratorInterface::ABSOLUTE_PATH)
             )
-            ->will($this->returnValue('/test/path?key=value'));
+            ->willReturn('/test/path?key=value');
 
         $this->defaultRouter->expects($this->at(2))
             ->method('generate')
@@ -271,7 +271,7 @@ class CmsPageRouterTest extends TestCase
                 $this->equalTo(['key' => 'value']),
                 $this->equalTo(UrlGeneratorInterface::RELATIVE_PATH)
             )
-            ->will($this->returnValue('test/path?key=value'));
+            ->willReturn('test/path?key=value');
 
         $this->defaultRouter->expects($this->at(3))
             ->method('generate')
@@ -280,7 +280,7 @@ class CmsPageRouterTest extends TestCase
                 $this->equalTo(['key' => 'value']),
                 $this->equalTo(UrlGeneratorInterface::ABSOLUTE_URL)
             )
-            ->will($this->returnValue('http://localhost/test/path?key=value'));
+            ->willReturn('http://localhost/test/path?key=value');
 
         $this->defaultRouter->expects($this->at(4))
             ->method('generate')
@@ -289,7 +289,7 @@ class CmsPageRouterTest extends TestCase
                 $this->equalTo(['key' => 'value']),
                 $this->equalTo(UrlGeneratorInterface::NETWORK_PATH)
             )
-            ->will($this->returnValue('//localhost/test/path?key=value'));
+            ->willReturn('//localhost/test/path?key=value');
 
         $url = $this->router->generate($page, ['key' => 'value']);
         $this->assertSame('/test/path?key=value', $url);
@@ -313,15 +313,15 @@ class CmsPageRouterTest extends TestCase
     public function testGenerateWithPageAlias()
     {
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->exactly(5))->method('isHybrid')->will($this->returnValue(false));
-        $page->expects($this->exactly(5))->method('getUrl')->will($this->returnValue('/test/path'));
+        $page->expects($this->exactly(5))->method('isHybrid')->willReturn(false);
+        $page->expects($this->exactly(5))->method('getUrl')->willReturn('/test/path');
 
         $site = $this->createMock(SiteInterface::class);
-        $this->siteSelector->expects($this->any())->method('retrieve')->will($this->returnValue($site));
+        $this->siteSelector->expects($this->any())->method('retrieve')->willReturn($site);
 
         $cmsManager = $this->createMock(CmsManagerInterface::class);
-        $cmsManager->expects($this->exactly(5))->method('getPageByPageAlias')->will($this->returnValue($page));
-        $this->cmsSelector->expects($this->exactly(5))->method('retrieve')->will($this->returnValue($cmsManager));
+        $cmsManager->expects($this->exactly(5))->method('getPageByPageAlias')->willReturn($page);
+        $this->cmsSelector->expects($this->exactly(5))->method('retrieve')->willReturn($cmsManager);
 
         $this->router->setContext(new RequestContext());
 
@@ -344,15 +344,15 @@ class CmsPageRouterTest extends TestCase
     public function testGenerateWithPageAliasFromHybridPage()
     {
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->exactly(5))->method('isHybrid')->will($this->returnValue(true));
-        $page->expects($this->exactly(5))->method('getRouteName')->will($this->returnValue('test_route'));
+        $page->expects($this->exactly(5))->method('isHybrid')->willReturn(true);
+        $page->expects($this->exactly(5))->method('getRouteName')->willReturn('test_route');
 
         $site = $this->createMock(SiteInterface::class);
-        $this->siteSelector->expects($this->exactly(5))->method('retrieve')->will($this->returnValue($site));
+        $this->siteSelector->expects($this->exactly(5))->method('retrieve')->willReturn($site);
 
         $cmsManager = $this->createMock(CmsManagerInterface::class);
-        $cmsManager->expects($this->exactly(5))->method('getPageByPageAlias')->will($this->returnValue($page));
-        $this->cmsSelector->expects($this->exactly(5))->method('retrieve')->will($this->returnValue($cmsManager));
+        $cmsManager->expects($this->exactly(5))->method('getPageByPageAlias')->willReturn($page);
+        $this->cmsSelector->expects($this->exactly(5))->method('retrieve')->willReturn($cmsManager);
 
         $this->defaultRouter->expects($this->at(0))
             ->method('generate')
@@ -361,7 +361,7 @@ class CmsPageRouterTest extends TestCase
                 $this->equalTo(['key' => 'value']),
                 $this->equalTo(UrlGeneratorInterface::ABSOLUTE_PATH)
             )
-            ->will($this->returnValue('/test/key/value'));
+            ->willReturn('/test/key/value');
 
         $this->defaultRouter->expects($this->at(1))
             ->method('generate')
@@ -370,7 +370,7 @@ class CmsPageRouterTest extends TestCase
                 $this->equalTo(['key' => 'value']),
                 $this->equalTo(UrlGeneratorInterface::ABSOLUTE_PATH)
             )
-            ->will($this->returnValue('/test/key/value'));
+            ->willReturn('/test/key/value');
 
         $this->defaultRouter->expects($this->at(2))
             ->method('generate')
@@ -379,7 +379,7 @@ class CmsPageRouterTest extends TestCase
                 $this->equalTo(['key' => 'value']),
                 $this->equalTo(UrlGeneratorInterface::RELATIVE_PATH)
             )
-            ->will($this->returnValue('test/key/value'));
+            ->willReturn('test/key/value');
 
         $this->defaultRouter->expects($this->at(3))
             ->method('generate')
@@ -388,7 +388,7 @@ class CmsPageRouterTest extends TestCase
                 $this->equalTo(['key' => 'value']),
                 $this->equalTo(UrlGeneratorInterface::ABSOLUTE_URL)
             )
-            ->will($this->returnValue('http://localhost/test/key/value'));
+            ->willReturn('http://localhost/test/key/value');
 
         $this->defaultRouter->expects($this->at(4))
             ->method('generate')
@@ -397,7 +397,7 @@ class CmsPageRouterTest extends TestCase
                 $this->equalTo(['key' => 'value']),
                 $this->equalTo(UrlGeneratorInterface::NETWORK_PATH)
             )
-            ->will($this->returnValue('//localhost/test/key/value'));
+            ->willReturn('//localhost/test/key/value');
 
         $url = $this->router->generate('_page_alias_homepage', ['key' => 'value']);
         $this->assertSame('/test/key/value', $url);
@@ -418,21 +418,21 @@ class CmsPageRouterTest extends TestCase
     public function testGenerateWithPageAndNewSiteContext()
     {
         $site1 = $this->createMock(SiteInterface::class);
-        $site1->expects($this->exactly(1))->method('getRelativePath')->will($this->returnValue('/site1'));
+        $site1->expects($this->exactly(1))->method('getRelativePath')->willReturn('/site1');
         $site2 = $this->createMock(SiteInterface::class);
-        $site2->expects($this->exactly(1))->method('getRelativePath')->will($this->returnValue('/site2'));
+        $site2->expects($this->exactly(1))->method('getRelativePath')->willReturn('/site2');
 
         $page = $this->createMock(PageInterface::class);
 
-        $page->expects($this->exactly(2))->method('isHybrid')->will($this->returnValue(false));
-        $page->expects($this->exactly(2))->method('getUrl')->will($this->returnValue('/test/path'));
+        $page->expects($this->exactly(2))->method('isHybrid')->willReturn(false);
+        $page->expects($this->exactly(2))->method('getUrl')->willReturn('/test/path');
 
         $page2 = clone $page;
-        $page2->expects($this->exactly(1))->method('getSite')->will($this->returnValue($site2));
-        $page->expects($this->exactly(1))->method('getSite')->will($this->returnValue($site1));
+        $page2->expects($this->exactly(1))->method('getSite')->willReturn($site2);
+        $page->expects($this->exactly(1))->method('getSite')->willReturn($site1);
 
         $siteSelector = $this->createMock(SiteSelectorInterface::class);
-        $siteSelector->expects($this->exactly(1))->method('retrieve')->will($this->returnValue($site1));
+        $siteSelector->expects($this->exactly(1))->method('retrieve')->willReturn($site1);
 
         $this->router->setContext(new SiteRequestContext($siteSelector));
 

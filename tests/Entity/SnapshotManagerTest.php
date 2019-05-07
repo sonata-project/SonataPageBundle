@@ -193,11 +193,11 @@ class SnapshotManagerTest extends TestCase
     {
         // Given
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->once())->method('getId')->will($this->returnValue(456));
+        $page->expects($this->once())->method('getId')->willReturn(456);
 
         $snapshot = $this->createMock(Snapshot::class);
-        $snapshot->expects($this->once())->method('getId')->will($this->returnValue(123));
-        $snapshot->expects($this->once())->method('getPage')->will($this->returnValue($page));
+        $snapshot->expects($this->once())->method('getId')->willReturn(123);
+        $snapshot->expects($this->once())->method('getPage')->willReturn($page);
 
         $date = new \DateTime();
 
@@ -214,15 +214,15 @@ class SnapshotManagerTest extends TestCase
 
         $em->expects($this->once())->method('persist')->with($snapshot);
         $em->expects($this->once())->method('flush');
-        $em->expects($this->once())->method('getConnection')->will($this->returnValue($connection));
+        $em->expects($this->once())->method('getConnection')->willReturn($connection);
 
         $manager = $this->getMockBuilder(SnapshotManager::class)
             ->disableOriginalConstructor()
             ->setMethods(['getEntityManager', 'getTableName'])
             ->getMock();
 
-        $manager->expects($this->exactly(3))->method('getEntityManager')->will($this->returnValue($em));
-        $manager->expects($this->once())->method('getTableName')->will($this->returnValue('page_snapshot'));
+        $manager->expects($this->exactly(3))->method('getEntityManager')->willReturn($em);
+        $manager->expects($this->once())->method('getTableName')->willReturn('page_snapshot');
 
         // When calling method, expects calls
         $manager->enableSnapshots([$snapshot], $date);
@@ -242,7 +242,7 @@ class SnapshotManagerTest extends TestCase
 
         $snapshotProxyFactory->expects($this->once())->method('create')
             ->with($manager, $transformer, $snapshot)
-            ->will($this->returnValue($proxyInterface));
+            ->willReturn($proxyInterface);
 
         $this->assertSame($proxyInterface, $manager->createSnapshotPageProxy($transformer, $snapshot));
     }
@@ -275,26 +275,26 @@ class SnapshotManagerTest extends TestCase
     protected function getSnapshotManager($qbCallback)
     {
         $query = $this->getMockForAbstractClass(AbstractQuery::class, [], '', false, true, true, ['execute']);
-        $query->expects($this->any())->method('execute')->will($this->returnValue(true));
+        $query->expects($this->any())->method('execute')->willReturn(true);
 
         $qb = $this->getMockBuilder(QueryBuilder::class)
             ->setConstructorArgs([$this->createMock(EntityManager::class)])
             ->getMock();
 
-        $qb->expects($this->any())->method('getRootAliases')->will($this->returnValue([]));
-        $qb->expects($this->any())->method('select')->will($this->returnValue($qb));
-        $qb->expects($this->any())->method('getQuery')->will($this->returnValue($query));
+        $qb->expects($this->any())->method('getRootAliases')->willReturn([]);
+        $qb->expects($this->any())->method('select')->willReturn($qb);
+        $qb->expects($this->any())->method('getQuery')->willReturn($query);
 
         $qbCallback($qb);
 
         $repository = $this->createMock(EntityRepository::class);
-        $repository->expects($this->any())->method('createQueryBuilder')->will($this->returnValue($qb));
+        $repository->expects($this->any())->method('createQueryBuilder')->willReturn($qb);
 
         $em = $this->createMock(EntityManagerInterface::class);
-        $em->expects($this->any())->method('getRepository')->will($this->returnValue($repository));
+        $em->expects($this->any())->method('getRepository')->willReturn($repository);
 
         $registry = $this->createMock(ManagerRegistry::class);
-        $registry->expects($this->any())->method('getManagerForClass')->will($this->returnValue($em));
+        $registry->expects($this->any())->method('getManagerForClass')->willReturn($em);
 
         $snapshotProxyFactory = $this->createMock(SnapshotPageProxyFactoryInterface::class);
 
