@@ -46,10 +46,10 @@ class PageControllerTest extends TestCase
             ->getMock();
 
         $paramFetcher->expects($this->exactly(3))->method('get');
-        $paramFetcher->expects($this->once())->method('all')->will($this->returnValue([]));
+        $paramFetcher->expects($this->once())->method('all')->willReturn([]);
 
         $pageManager = $this->createMock(PageManagerInterface::class);
-        $pageManager->expects($this->once())->method('getPager')->will($this->returnValue($pager));
+        $pageManager->expects($this->once())->method('getPager')->willReturn($pager);
 
         $this->assertSame($pager, $this->createPageController(null, null, $pageManager)->getPagesAction($paramFetcher));
     }
@@ -74,7 +74,7 @@ class PageControllerTest extends TestCase
         $page = $this->createMock(PageInterface::class);
         $block = $this->createMock(PageBlockInterface::class);
 
-        $page->expects($this->once())->method('getBlocks')->will($this->returnValue([$block]));
+        $page->expects($this->once())->method('getBlocks')->willReturn([$block]);
 
         $this->assertSame([$block], $this->createPageController($page)->getPageBlocksAction(1));
     }
@@ -84,15 +84,15 @@ class PageControllerTest extends TestCase
         $page = $this->createMock(PageInterface::class);
 
         $pageManager = $this->createMock(PageManagerInterface::class);
-        $pageManager->expects($this->once())->method('save')->will($this->returnValue($page));
+        $pageManager->expects($this->once())->method('save')->willReturn($page);
 
         $form = $this->createMock(Form::class);
         $form->expects($this->once())->method('handleRequest');
-        $form->expects($this->once())->method('isValid')->will($this->returnValue(true));
-        $form->expects($this->once())->method('getData')->will($this->returnValue($page));
+        $form->expects($this->once())->method('isValid')->willReturn(true);
+        $form->expects($this->once())->method('getData')->willReturn($page);
 
         $formFactory = $this->createMock(FormFactoryInterface::class);
-        $formFactory->expects($this->once())->method('createNamed')->will($this->returnValue($form));
+        $formFactory->expects($this->once())->method('createNamed')->willReturn($form);
 
         $view = $this->createPageController(null, null, $pageManager, null, $formFactory)
             ->postPageAction(new Request());
@@ -105,14 +105,14 @@ class PageControllerTest extends TestCase
         $page = $this->createMock(PageInterface::class);
 
         $pageManager = $this->createMock(PageManagerInterface::class);
-        $pageManager->expects($this->never())->method('save')->will($this->returnValue($page));
+        $pageManager->expects($this->never())->method('save')->willReturn($page);
 
         $form = $this->createMock(Form::class);
         $form->expects($this->once())->method('handleRequest');
-        $form->expects($this->once())->method('isValid')->will($this->returnValue(false));
+        $form->expects($this->once())->method('isValid')->willReturn(false);
 
         $formFactory = $this->createMock(FormFactoryInterface::class);
-        $formFactory->expects($this->once())->method('createNamed')->will($this->returnValue($form));
+        $formFactory->expects($this->once())->method('createNamed')->willReturn($form);
 
         $view = $this->createPageController(null, null, $pageManager, null, $formFactory)
             ->postPageAction(new Request());
@@ -125,15 +125,15 @@ class PageControllerTest extends TestCase
         $page = $this->createMock(PageInterface::class);
 
         $pageManager = $this->createMock(PageManagerInterface::class);
-        $pageManager->expects($this->once())->method('save')->will($this->returnValue($page));
+        $pageManager->expects($this->once())->method('save')->willReturn($page);
 
         $form = $this->createMock(Form::class);
         $form->expects($this->once())->method('handleRequest');
-        $form->expects($this->once())->method('isValid')->will($this->returnValue(true));
-        $form->expects($this->once())->method('getData')->will($this->returnValue($page));
+        $form->expects($this->once())->method('isValid')->willReturn(true);
+        $form->expects($this->once())->method('getData')->willReturn($page);
 
         $formFactory = $this->createMock(FormFactoryInterface::class);
-        $formFactory->expects($this->once())->method('createNamed')->will($this->returnValue($form));
+        $formFactory->expects($this->once())->method('createNamed')->willReturn($form);
 
         $view = $this->createPageController($page, null, $pageManager, null, $formFactory)
             ->putPageAction(1, new Request());
@@ -146,14 +146,14 @@ class PageControllerTest extends TestCase
         $page = $this->createMock(PageInterface::class);
 
         $pageManager = $this->createMock(PageManagerInterface::class);
-        $pageManager->expects($this->never())->method('save')->will($this->returnValue($page));
+        $pageManager->expects($this->never())->method('save')->willReturn($page);
 
         $form = $this->createMock(Form::class);
         $form->expects($this->once())->method('handleRequest');
-        $form->expects($this->once())->method('isValid')->will($this->returnValue(false));
+        $form->expects($this->once())->method('isValid')->willReturn(false);
 
         $formFactory = $this->createMock(FormFactoryInterface::class);
-        $formFactory->expects($this->once())->method('createNamed')->will($this->returnValue($form));
+        $formFactory->expects($this->once())->method('createNamed')->willReturn($form);
 
         $view = $this->createPageController($page, null, $pageManager, null, $formFactory)
             ->putPageAction(1, new Request());
@@ -193,15 +193,15 @@ class PageControllerTest extends TestCase
         $pageManager = $this->createMock(PageManagerInterface::class);
 
         $blockManager = $this->createMock(BlockManagerInterface::class);
-        $blockManager->expects($this->once())->method('save')->will($this->returnValue($block));
+        $blockManager->expects($this->once())->method('save')->willReturn($block);
 
         $form = $this->createMock(Form::class);
         $form->expects($this->once())->method('handleRequest');
-        $form->expects($this->once())->method('isValid')->will($this->returnValue(true));
-        $form->expects($this->once())->method('getData')->will($this->returnValue($block));
+        $form->expects($this->once())->method('isValid')->willReturn(true);
+        $form->expects($this->once())->method('getData')->willReturn($block);
 
         $formFactory = $this->createMock(FormFactoryInterface::class);
-        $formFactory->expects($this->once())->method('createNamed')->will($this->returnValue($form));
+        $formFactory->expects($this->once())->method('createNamed')->willReturn($form);
 
         $pageController = $this->createPageController($page, null, $pageManager, $blockManager, $formFactory);
 
@@ -219,14 +219,14 @@ class PageControllerTest extends TestCase
         $pageManager = $this->createMock(PageManagerInterface::class);
 
         $blockManager = $this->createMock(BlockManagerInterface::class);
-        $blockManager->expects($this->never())->method('save')->will($this->returnValue($block));
+        $blockManager->expects($this->never())->method('save')->willReturn($block);
 
         $form = $this->createMock(Form::class);
         $form->expects($this->once())->method('handleRequest');
-        $form->expects($this->once())->method('isValid')->will($this->returnValue(false));
+        $form->expects($this->once())->method('isValid')->willReturn(false);
 
         $formFactory = $this->createMock(FormFactoryInterface::class);
-        $formFactory->expects($this->once())->method('createNamed')->will($this->returnValue($form));
+        $formFactory->expects($this->once())->method('createNamed')->willReturn($form);
 
         $view = $this->createPageController($page, null, $pageManager, $blockManager, $formFactory)
             ->postPageBlockAction(1, new Request());
@@ -252,7 +252,7 @@ class PageControllerTest extends TestCase
         $site = $this->createMock(SiteInterface::class);
 
         $siteManager = $this->createMock(SiteManagerInterface::class);
-        $siteManager->expects($this->once())->method('findAll')->will($this->returnValue([$site]));
+        $siteManager->expects($this->once())->method('findAll')->willReturn([$site]);
 
         $backend = $this->createMock(BackendInterface::class);
         $backend->expects($this->once())->method('createAndPublish');
@@ -284,7 +284,7 @@ class PageControllerTest extends TestCase
             $blockManager = $this->createMock(BlockManagerInterface::class);
         }
         if (null !== $page) {
-            $pageManager->expects($this->once())->method('findOneBy')->will($this->returnValue($page));
+            $pageManager->expects($this->once())->method('findOneBy')->willReturn($page);
         }
         if (null === $formFactory) {
             $formFactory = $this->createMock(FormFactoryInterface::class);

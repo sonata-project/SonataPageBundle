@@ -58,7 +58,7 @@ class BlockSsiCacheTest extends TestCase
         $router
             ->expects($this->any())
             ->method('generate')
-            ->will($this->returnValue('/cache/page/esi/XXXXX/page/5/4?updated_at=as'));
+            ->willReturn('/cache/page/esi/XXXXX/page/5/4?updated_at=as');
 
         $blockRenderer = $this->createMock(BlockRendererInterface::class);
         $contextManager = $this->createMock(BlockContextManagerInterface::class);

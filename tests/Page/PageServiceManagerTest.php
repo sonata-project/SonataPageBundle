@@ -62,7 +62,7 @@ class PageServiceManagerTest extends TestCase
         $this->manager->add('my-type', $service);
 
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->once())->method('getType')->will($this->returnValue('my-type'));
+        $page->expects($this->once())->method('getType')->willReturn('my-type');
 
         $this->assertSame(
             $service,
@@ -114,13 +114,13 @@ class PageServiceManagerTest extends TestCase
         $response = $this->createMock(Response::class);
 
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->once())->method('getType')->will($this->returnValue('my-type'));
+        $page->expects($this->once())->method('getType')->willReturn('my-type');
 
         $service = $this->createMock(PageServiceInterface::class);
         $service->expects($this->once())
             ->method('execute')
             ->with($this->equalTo($page), $this->equalTo($request))
-            ->will($this->returnValue($response));
+            ->willReturn($response);
         $this->manager->add('my-type', $service);
 
         $this->assertSame(

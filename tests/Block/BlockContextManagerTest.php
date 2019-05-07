@@ -33,10 +33,10 @@ class BlockContextManagerTest extends TestCase
         $blockLoader = $this->createMock(BlockLoaderInterface::class);
 
         $serviceManager = $this->createMock(BlockServiceManagerInterface::class);
-        $serviceManager->expects($this->once())->method('get')->will($this->returnValue($service));
+        $serviceManager->expects($this->once())->method('get')->willReturn($service);
 
         $block = $this->createMock(BlockInterface::class);
-        $block->expects($this->once())->method('getSettings')->will($this->returnValue([]));
+        $block->expects($this->once())->method('getSettings')->willReturn([]);
 
         $manager = new BlockContextManager($blockLoader, $serviceManager);
 

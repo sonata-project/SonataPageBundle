@@ -46,9 +46,9 @@ class TemplateChoiceTypeTest extends TestCase
      */
     public function testGetOptions()
     {
-        $this->manager->expects($this->atLeastOnce())->method('getAll')->will($this->returnValue([
+        $this->manager->expects($this->atLeastOnce())->method('getAll')->willReturn([
             'my_template' => $this->getMockTemplate('Template 1'),
-        ]));
+        ]);
 
         $this->type->configureOptions(new OptionsResolver());
 
@@ -63,8 +63,8 @@ class TemplateChoiceTypeTest extends TestCase
     protected function getMockTemplate(string $name, string $path = 'path/to/file'): MockObject
     {
         $template = $this->createMock(Template::class);
-        $template->expects($this->any())->method('getName')->will($this->returnValue($name));
-        $template->expects($this->any())->method('getPath')->will($this->returnValue($path));
+        $template->expects($this->any())->method('getName')->willReturn($name);
+        $template->expects($this->any())->method('getPath')->willReturn($path);
 
         return $template;
     }

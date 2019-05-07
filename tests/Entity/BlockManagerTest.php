@@ -40,26 +40,26 @@ class BlockManagerTest extends TestCase
     protected function getBlockManager($qbCallback)
     {
         $query = $this->getMockForAbstractClass(AbstractQuery::class, [], '', false, true, true, ['execute']);
-        $query->expects($this->any())->method('execute')->will($this->returnValue(true));
+        $query->expects($this->any())->method('execute')->willReturn(true);
 
         $qb = $this->getMockBuilder(QueryBuilder::class)
             ->setConstructorArgs([$this->createMock(EntityManager::class)])
             ->getMock();
 
-        $qb->expects($this->any())->method('getRootAliases')->will($this->returnValue([]));
-        $qb->expects($this->any())->method('select')->will($this->returnValue($qb));
-        $qb->expects($this->any())->method('getQuery')->will($this->returnValue($query));
+        $qb->expects($this->any())->method('getRootAliases')->willReturn([]);
+        $qb->expects($this->any())->method('select')->willReturn($qb);
+        $qb->expects($this->any())->method('getQuery')->willReturn($query);
 
         $qbCallback($qb);
 
         $repository = $this->createMock(EntityRepository::class);
-        $repository->expects($this->any())->method('createQueryBuilder')->will($this->returnValue($qb));
+        $repository->expects($this->any())->method('createQueryBuilder')->willReturn($qb);
 
         $em = $this->createMock(EntityManagerInterface::class);
-        $em->expects($this->any())->method('getRepository')->will($this->returnValue($repository));
+        $em->expects($this->any())->method('getRepository')->willReturn($repository);
 
         $registry = $this->createMock(ManagerRegistry::class);
-        $registry->expects($this->any())->method('getManagerForClass')->will($this->returnValue($em));
+        $registry->expects($this->any())->method('getManagerForClass')->willReturn($em);
 
         return new BlockManager(BasePage::class, $registry);
     }

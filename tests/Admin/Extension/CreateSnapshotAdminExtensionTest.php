@@ -25,7 +25,7 @@ class CreateSnapshotAdminExtensionTest extends TestCase
     public function testPostUpdateOnPage()
     {
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->once())->method('getId')->will($this->returnValue(42));
+        $page->expects($this->once())->method('getId')->willReturn(42);
 
         $admin = $this->createMock(AdminInterface::class);
 
@@ -42,7 +42,7 @@ class CreateSnapshotAdminExtensionTest extends TestCase
     public function testPostPersistOnPage()
     {
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->once())->method('getId')->will($this->returnValue(42));
+        $page->expects($this->once())->method('getId')->willReturn(42);
 
         $admin = $this->createMock(AdminInterface::class);
 
@@ -59,10 +59,10 @@ class CreateSnapshotAdminExtensionTest extends TestCase
     public function testPostUpdateOnBlock()
     {
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->once())->method('getId')->will($this->returnValue(42));
+        $page->expects($this->once())->method('getId')->willReturn(42);
 
         $block = $this->createMock(PageBlockInterface::class);
-        $block->expects($this->once())->method('getPage')->will($this->returnValue($page));
+        $block->expects($this->once())->method('getPage')->willReturn($page);
 
         $admin = $this->createMock(AdminInterface::class);
 
@@ -79,10 +79,10 @@ class CreateSnapshotAdminExtensionTest extends TestCase
     public function testPostPersistOnBlock()
     {
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->once())->method('getId')->will($this->returnValue(42));
+        $page->expects($this->once())->method('getId')->willReturn(42);
 
         $block = $this->createMock(PageBlockInterface::class);
-        $block->expects($this->once())->method('getPage')->will($this->returnValue($page));
+        $block->expects($this->once())->method('getPage')->willReturn($page);
 
         $admin = $this->createMock(AdminInterface::class);
 

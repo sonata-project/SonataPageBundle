@@ -92,8 +92,8 @@ class CmsPageManagerTest extends TestCase
     {
         $pageManager = $this->createMock(PageManagerInterface::class);
 
-        $pageManager->expects($this->any())->method('findOneBy')->will($this->returnValue(new Page()));
-        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->will($this->returnValue([]));
+        $pageManager->expects($this->any())->method('findOneBy')->willReturn(new Page());
+        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->willReturn([]);
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
@@ -113,14 +113,14 @@ class CmsPageManagerTest extends TestCase
 
         $pageManager = $this->createMock(PageManagerInterface::class);
 
-        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->will($this->returnValue([]));
+        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->willReturn([]);
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
         $page = '/test';
         $site = new Site();
 
-        $pageManager->expects($this->any())->method('findOneBy')->will($this->returnValue(null));
+        $pageManager->expects($this->any())->method('findOneBy')->willReturn(null);
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
         $manager->getPage($site, $page);
@@ -133,8 +133,8 @@ class CmsPageManagerTest extends TestCase
     {
         $pageManager = $this->createMock(PageManagerInterface::class);
 
-        $pageManager->expects($this->any())->method('findOneBy')->will($this->returnValue(new Page()));
-        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->will($this->returnValue([]));
+        $pageManager->expects($this->any())->method('findOneBy')->willReturn(new Page());
+        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->willReturn([]);
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
@@ -154,14 +154,14 @@ class CmsPageManagerTest extends TestCase
 
         $pageManager = $this->createMock(PageManagerInterface::class);
 
-        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->will($this->returnValue([]));
+        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->willReturn([]);
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
         $page = '/test';
         $site = new Site();
 
-        $pageManager->expects($this->any())->method('findOneBy')->will($this->returnValue(null));
+        $pageManager->expects($this->any())->method('findOneBy')->willReturn(null);
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
         $manager->getPage($site, $page);
@@ -174,8 +174,8 @@ class CmsPageManagerTest extends TestCase
     {
         $pageManager = $this->createMock(PageManagerInterface::class);
 
-        $pageManager->expects($this->any())->method('findOneBy')->will($this->returnValue(new Page()));
-        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->will($this->returnValue([]));
+        $pageManager->expects($this->any())->method('findOneBy')->willReturn(new Page());
+        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->willReturn([]);
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
@@ -195,14 +195,14 @@ class CmsPageManagerTest extends TestCase
 
         $pageManager = $this->createMock(PageManagerInterface::class);
 
-        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->will($this->returnValue([]));
+        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->willReturn([]);
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
         $page = 1;
         $site = new Site();
 
-        $pageManager->expects($this->any())->method('findOneBy')->will($this->returnValue(null));
+        $pageManager->expects($this->any())->method('findOneBy')->willReturn(null);
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
         $manager->getPage($site, $page);
@@ -215,8 +215,8 @@ class CmsPageManagerTest extends TestCase
     {
         $pageManager = $this->createMock(PageManagerInterface::class);
 
-        $pageManager->expects($this->any())->method('findOneBy')->will($this->returnValue(new Page()));
-        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->will($this->returnValue([]));
+        $pageManager->expects($this->any())->method('findOneBy')->willReturn(new Page());
+        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->willReturn([]);
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
         $manager->setCurrentPage(new Page());
@@ -236,14 +236,14 @@ class CmsPageManagerTest extends TestCase
 
         $pageManager = $this->createMock(PageManagerInterface::class);
 
-        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->will($this->returnValue([]));
+        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->willReturn([]);
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
         $page = null;
         $site = new Site();
 
-        $pageManager->expects($this->any())->method('findOneBy')->will($this->returnValue(null));
+        $pageManager->expects($this->any())->method('findOneBy')->willReturn(null);
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
         $manager->getPage($site, $page);
@@ -264,7 +264,7 @@ class CmsPageManagerTest extends TestCase
         };
 
         $mock = $this->createMock(BlockInteractorInterface::class);
-        $mock->expects($this->any())->method('createNewContainer')->will($this->returnCallback($callback));
+        $mock->expects($this->any())->method('createNewContainer')->willReturnCallback($callback);
 
         return $mock;
     }

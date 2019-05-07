@@ -32,23 +32,23 @@ class RequestListenerTest extends TestCase
     public function testValidSite()
     {
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->once())->method('getEnabled')->will($this->returnValue(true));
+        $page->expects($this->once())->method('getEnabled')->willReturn(true);
 
         $seoPage = $this->createMock(SeoPageInterface::class);
 
         $decoratorStrategy = $this->createMock(DecoratorStrategyInterface::class);
-        $decoratorStrategy->expects($this->once())->method('isRequestDecorable')->will($this->returnValue(true));
+        $decoratorStrategy->expects($this->once())->method('isRequestDecorable')->willReturn(true);
 
         $cmsManager = $this->createMock(CmsManagerInterface::class);
-        $cmsManager->expects($this->once())->method('getPageByRouteName')->will($this->returnValue($page));
+        $cmsManager->expects($this->once())->method('getPageByRouteName')->willReturn($page);
 
         $cmsSelector = $this->createMock(CmsManagerSelectorInterface::class);
-        $cmsSelector->expects($this->once())->method('retrieve')->will($this->returnValue($cmsManager));
+        $cmsSelector->expects($this->once())->method('retrieve')->willReturn($cmsManager);
 
         $site = $this->createMock(SiteInterface::class);
 
         $siteSelector = $this->createMock(SiteSelectorInterface::class);
-        $siteSelector->expects($this->once())->method('retrieve')->will($this->returnValue($site));
+        $siteSelector->expects($this->once())->method('retrieve')->willReturn($site);
 
         $kernel = $this->createMock(HttpKernelInterface::class);
         $request = new Request();
@@ -68,13 +68,13 @@ class RequestListenerTest extends TestCase
         $seoPage = $this->createMock(SeoPageInterface::class);
 
         $decoratorStrategy = $this->createMock(DecoratorStrategyInterface::class);
-        $decoratorStrategy->expects($this->once())->method('isRequestDecorable')->will($this->returnValue(true));
+        $decoratorStrategy->expects($this->once())->method('isRequestDecorable')->willReturn(true);
 
         $cmsSelector = $this->createMock(CmsManagerSelectorInterface::class);
-        $cmsSelector->expects($this->once())->method('retrieve')->will($this->returnValue($cmsManager));
+        $cmsSelector->expects($this->once())->method('retrieve')->willReturn($cmsManager);
 
         $siteSelector = $this->createMock(SiteSelectorInterface::class);
-        $siteSelector->expects($this->once())->method('retrieve')->will($this->returnValue(false));
+        $siteSelector->expects($this->once())->method('retrieve')->willReturn(false);
 
         $kernel = $this->createMock(HttpKernelInterface::class);
         $request = new Request();
