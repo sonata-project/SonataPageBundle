@@ -79,7 +79,7 @@ class PageSelectorTypeTest extends TestCase
 
         $manager->expects($this->any())
             ->method('loadPages')
-            ->will($this->returnValue($this->pages));
+            ->willReturn($this->pages);
 
         return $manager;
     }

@@ -61,13 +61,13 @@ class PageListBlockServiceTest extends AbstractBlockServiceTestCase
             ->with($this->equalTo([
                 'routeName' => Page::PAGE_ROUTE_CMS_NAME,
             ]))
-            ->will($this->returnValue([$page1, $page2]));
+            ->willReturn([$page1, $page2]);
         $this->pageManager->expects($this->at(1))->method('findBy')
             ->with($this->equalTo([
                 'url' => null,
                 'parent' => null,
             ]))
-            ->will($this->returnValue([$systemPage]));
+            ->willReturn([$systemPage]);
 
         $block = new Block();
 

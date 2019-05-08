@@ -30,7 +30,7 @@ class BaseBlockAdminTest extends TestCase
         $page->expects($this->once())->method('setEdited')->with(true);
 
         $parent = $this->createMock(AdminInterface::class);
-        $parent->expects($this->once())->method('getSubject')->will($this->returnValue($page));
+        $parent->expects($this->once())->method('getSubject')->willReturn($page);
 
         $blockAdmin = $this->getMockBuilder(BaseBlockAdmin::class)
             ->disableOriginalConstructor()
@@ -48,7 +48,7 @@ class BaseBlockAdminTest extends TestCase
         $page->expects($this->once())->method('setEdited')->with(true);
 
         $block = $this->createMock(PageBlockInterface::class);
-        $block->expects($this->once())->method('getPage')->will($this->returnValue($page));
+        $block->expects($this->once())->method('getPage')->willReturn($page);
 
         $blockService = $this->createMock(AbstractAdminBlockService::class);
         $blockService->expects($this->any())->method('preRemove')->with($block);
@@ -58,7 +58,7 @@ class BaseBlockAdminTest extends TestCase
             ->expects($this->once())
             ->method('get')
             ->with($block)
-            ->will($this->returnValue($blockService));
+            ->willReturn($blockService);
 
         $blockAdmin = $this->getMockBuilder(BaseBlockAdmin::class)
             ->disableOriginalConstructor()

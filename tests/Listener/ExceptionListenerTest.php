@@ -126,10 +126,10 @@ class ExceptionListenerTest extends TestCase
         $event = $this->getMockEvent($exception);
 
         // mocked cms selector should enable editor mode
-        $this->cmsSelector->expects($this->once())->method('isEditor')->will($this->returnValue(true));
+        $this->cmsSelector->expects($this->once())->method('isEditor')->willReturn(true);
 
         // mocked decorator strategy should allow decorate
-        $this->decoratorStrategy->expects($this->once())->method('isRouteUriDecorable')->will($this->returnValue(true));
+        $this->decoratorStrategy->expects($this->once())->method('isRouteUriDecorable')->willReturn(true);
 
         // mock templating to expect a twig rendering
         $this->templating->expects($this->once())->method('render')
@@ -147,18 +147,18 @@ class ExceptionListenerTest extends TestCase
     public function testNotFoundException(): void
     {
         $exception = $this->createMock(NotFoundHttpException::class);
-        $exception->expects($this->any())->method('getStatusCode')->will($this->returnValue(404));
+        $exception->expects($this->any())->method('getStatusCode')->willReturn(404);
         $event = $this->getMockEvent($exception);
 
         $this->assertSame('en', $event->getRequest()->getLocale());
 
         // mock a site
         $site = $this->createMock(SiteInterface::class);
-        $site->expects($this->exactly(3))->method('getLocale')->will($this->returnValue('fr'));
+        $site->expects($this->exactly(3))->method('getLocale')->willReturn('fr');
 
         // mock an error page
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->exactly(3))->method('getSite')->will($this->returnValue($site));
+        $page->expects($this->exactly(3))->method('getSite')->willReturn($site);
 
         // mock cms manager to return the mock error page and set it as current page
         $this->cmsManager = $this->createMock(CmsManagerInterface::class);
@@ -166,25 +166,25 @@ class ExceptionListenerTest extends TestCase
             ->expects($this->once())
             ->method('getPageByRouteName')
             ->with($this->anything(), $this->equalTo('route_404'))
-            ->will($this->returnValue($page));
+            ->willReturn($page);
         $this->cmsManager->expects($this->once())->method('setCurrentPage')->with($this->equalTo($page));
-        $this->cmsSelector->expects($this->any())->method('retrieve')->will($this->returnValue($this->cmsManager));
+        $this->cmsSelector->expects($this->any())->method('retrieve')->willReturn($this->cmsManager);
 
         // mocked site selector should return a site
         $this->siteSelector
             ->expects($this->any())
             ->method('retrieve')
-            ->will($this->returnValue($this->createMock(SiteInterface::class)));
+            ->willReturn($this->createMock(SiteInterface::class));
 
         // mocked decorator strategy should allow decorate
         $this->decoratorStrategy
             ->expects($this->any())
             ->method('isRouteNameDecorable')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
         $this->decoratorStrategy
             ->expects($this->any())
             ->method('isRouteUriDecorable')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         // mocked page service manager should execute the page and return a response
         $response = $this->createMock(Response::class);
@@ -192,7 +192,7 @@ class ExceptionListenerTest extends TestCase
             ->expects($this->once())
             ->method('execute')
             ->with($this->equalTo($page))
-            ->will($this->returnValue($response));
+            ->willReturn($response);
 
         $this->listener->onKernelException($event);
 

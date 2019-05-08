@@ -48,15 +48,15 @@ class BlockControllerTest extends TestCase
         $block = $this->createMock(BlockInterface::class);
 
         $blockManager = $this->createMock(BlockManagerInterface::class);
-        $blockManager->expects($this->once())->method('save')->will($this->returnValue($block));
+        $blockManager->expects($this->once())->method('save')->willReturn($block);
 
         $form = $this->createMock(Form::class);
         $form->expects($this->once())->method('handleRequest');
-        $form->expects($this->once())->method('isValid')->will($this->returnValue(true));
-        $form->expects($this->once())->method('getData')->will($this->returnValue($block));
+        $form->expects($this->once())->method('isValid')->willReturn(true);
+        $form->expects($this->once())->method('getData')->willReturn($block);
 
         $formFactory = $this->createMock(FormFactoryInterface::class);
-        $formFactory->expects($this->once())->method('createNamed')->will($this->returnValue($form));
+        $formFactory->expects($this->once())->method('createNamed')->willReturn($form);
 
         $block = $this->createBlockController($block, $blockManager, $formFactory)->putBlockAction(1, new Request());
 
@@ -68,14 +68,14 @@ class BlockControllerTest extends TestCase
         $block = $this->createMock(BlockInterface::class);
 
         $blockManager = $this->createMock(BlockManagerInterface::class);
-        $blockManager->expects($this->never())->method('save')->will($this->returnValue($block));
+        $blockManager->expects($this->never())->method('save')->willReturn($block);
 
         $form = $this->createMock(Form::class);
         $form->expects($this->once())->method('handleRequest');
-        $form->expects($this->once())->method('isValid')->will($this->returnValue(false));
+        $form->expects($this->once())->method('isValid')->willReturn(false);
 
         $formFactory = $this->createMock(FormFactoryInterface::class);
-        $formFactory->expects($this->once())->method('createNamed')->will($this->returnValue($form));
+        $formFactory->expects($this->once())->method('createNamed')->willReturn($form);
 
         $view = $this->createBlockController($block, $blockManager, $formFactory)->putBlockAction(1, new Request());
 
@@ -113,7 +113,7 @@ class BlockControllerTest extends TestCase
             $blockManager = $this->createMock(BlockManagerInterface::class);
         }
         if (null !== $block) {
-            $blockManager->expects($this->once())->method('findOneBy')->will($this->returnValue($block));
+            $blockManager->expects($this->once())->method('findOneBy')->willReturn($block);
         }
         if (null === $formFactory) {
             $formFactory = $this->createMock(FormFactoryInterface::class);

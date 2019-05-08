@@ -28,14 +28,14 @@ class SnapshotControllerTest extends TestCase
     public function testGetSnapshotsAction(): void
     {
         $snapshotManager = $this->createMock(SnapshotManagerInterface::class);
-        $snapshotManager->expects($this->once())->method('getPager')->will($this->returnValue([]));
+        $snapshotManager->expects($this->once())->method('getPager')->willReturn([]);
 
         $paramFetcher = $this->getMockBuilder(ParamFetcherInterface::class)
             ->setMethods(['setController', 'get', 'all'])
             ->getMock();
 
         $paramFetcher->expects($this->exactly(3))->method('get');
-        $paramFetcher->expects($this->once())->method('all')->will($this->returnValue([]));
+        $paramFetcher->expects($this->once())->method('all')->willReturn([]);
 
         $this->assertSame([], $this->createSnapshotController(null, $snapshotManager)
             ->getSnapshotsAction($paramFetcher));
@@ -90,7 +90,7 @@ class SnapshotControllerTest extends TestCase
             $snapshotManager = $this->createMock(SnapshotManagerInterface::class);
         }
         if (null !== $snapshot) {
-            $snapshotManager->expects($this->once())->method('findOneBy')->will($this->returnValue($snapshot));
+            $snapshotManager->expects($this->once())->method('findOneBy')->willReturn($snapshot);
         }
 
         return new SnapshotController($snapshotManager);

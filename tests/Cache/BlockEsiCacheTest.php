@@ -59,7 +59,7 @@ class BlockEsiCacheTest extends TestCase
         $router
             ->expects($this->any())
             ->method('generate')
-            ->will($this->returnValue('https://sonata-project.org/cache/XXX/page/esi/page/5/4?updated_at=as'));
+            ->willReturn('https://sonata-project.org/cache/XXX/page/esi/page/5/4?updated_at=as');
 
         $blockRenderer = $this->createMock(BlockRendererInterface::class);
         $contextManager = $this->createMock(BlockContextManagerInterface::class);

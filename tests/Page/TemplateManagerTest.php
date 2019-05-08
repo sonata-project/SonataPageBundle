@@ -83,7 +83,7 @@ class TemplateManagerTest extends TestCase
             ->expects($this->once())
             ->method('renderResponse')
             ->with($this->equalTo('path/to/template'))
-            ->will($this->returnValue($response));
+            ->willReturn($response);
 
         $manager = new TemplateManager($templating);
         $manager->add('test', $template);
@@ -121,7 +121,7 @@ class TemplateManagerTest extends TestCase
             ->expects($this->once())
             ->method('renderResponse')
             ->with($this->equalTo('path/to/default'))
-            ->will($this->returnValue($response));
+            ->willReturn($response);
 
         $template = $this->getMockTemplate('template', 'path/to/default');
         $manager = new TemplateManager($templating);
@@ -149,7 +149,7 @@ class TemplateManagerTest extends TestCase
                 $this->equalTo('path/to/template'),
                 $this->equalTo(['parameter1' => 'value', 'parameter2' => 'value'])
             )
-            ->will($this->returnValue($response));
+            ->willReturn($response);
 
         $defaultParameters = ['parameter1' => 'value'];
 
@@ -169,8 +169,8 @@ class TemplateManagerTest extends TestCase
     protected function getMockTemplate(string $name, string $path = 'path/to/file'): MockObject
     {
         $template = $this->createMock(Template::class);
-        $template->expects($this->any())->method('getName')->will($this->returnValue($name));
-        $template->expects($this->any())->method('getPath')->will($this->returnValue($path));
+        $template->expects($this->any())->method('getName')->willReturn($name);
+        $template->expects($this->any())->method('getPath')->willReturn($path);
 
         return $template;
     }

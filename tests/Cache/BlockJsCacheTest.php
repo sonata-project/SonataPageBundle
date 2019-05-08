@@ -60,7 +60,7 @@ class BlockJsCacheTest extends TestCase
         $router
             ->expects($this->once())
             ->method('generate')
-            ->will($this->returnValue('https://sonata-project.org/page/cache/js/block.js'));
+            ->willReturn('https://sonata-project.org/page/cache/js/block.js');
 
         $cmsSelectorManager = $this->createMock(CmsManagerSelectorInterface::class);
         $blockRenderer = $this->createMock(BlockRendererInterface::class);

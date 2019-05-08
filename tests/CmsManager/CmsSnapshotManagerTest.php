@@ -98,7 +98,7 @@ class CmsSnapshotManagerTest extends TestCase
     {
         $this->expectException(PageNotFoundException::class);
 
-        $this->snapshotManager->expects($this->once())->method('findEnableSnapshot')->will($this->returnValue(null));
+        $this->snapshotManager->expects($this->once())->method('findEnableSnapshot')->willReturn(null);
 
         $site = $this->createMock(SiteInterface::class);
 
@@ -110,16 +110,16 @@ class CmsSnapshotManagerTest extends TestCase
     public function testGetPageWithId(): void
     {
         $cBlock = $this->createMock(BlockInterface::class);
-        $cBlock->expects($this->any())->method('hasChildren')->will($this->returnValue(false));
-        $cBlock->expects($this->any())->method('getId')->will($this->returnValue(2));
+        $cBlock->expects($this->any())->method('hasChildren')->willReturn(false);
+        $cBlock->expects($this->any())->method('getId')->willReturn(2);
 
         $pBlock = $this->createMock(BlockInterface::class);
-        $pBlock->expects($this->any())->method('getChildren')->will($this->returnValue([$cBlock]));
-        $pBlock->expects($this->any())->method('hasChildren')->will($this->returnValue(true));
-        $pBlock->expects($this->any())->method('getId')->will($this->returnValue(1));
+        $pBlock->expects($this->any())->method('getChildren')->willReturn([$cBlock]);
+        $pBlock->expects($this->any())->method('hasChildren')->willReturn(true);
+        $pBlock->expects($this->any())->method('getId')->willReturn(1);
 
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->any())->method('getBlocks')->will($this->returnCallback(static function () use ($pBlock) {
+        $page->expects($this->any())->method('getBlocks')->willReturnCallback(static function () use ($pBlock) {
             static $count;
 
             ++$count;
@@ -129,20 +129,20 @@ class CmsSnapshotManagerTest extends TestCase
             }
 
             return [$pBlock];
-        }));
+        });
 
         $snapshot = $this->createMock(SnapshotInterface::class);
-        $snapshot->expects($this->once())->method('getContent')->will($this->returnValue([
+        $snapshot->expects($this->once())->method('getContent')->willReturn([
             // we don't care here about real values, the mock transformer will return the valid $pBlock instance
             'blocks' => [],
-        ]));
+        ]);
 
         $this->snapshotManager
             ->expects($this->once())
             ->method('findEnableSnapshot')
-            ->will($this->returnValue($snapshot));
+            ->willReturn($snapshot);
 
-        $this->transformer->expects($this->once())->method('load')->will($this->returnValue($page));
+        $this->transformer->expects($this->once())->method('load')->willReturn($page);
 
         $site = $this->createMock(SiteInterface::class);
 
@@ -174,7 +174,7 @@ class CmsSnapshotManagerTest extends TestCase
         $blockInteractor
             ->expects($this->any())
             ->method('createNewContainer')
-            ->will($this->returnCallback($callback));
+            ->willReturnCallback($callback);
 
         return $blockInteractor;
     }

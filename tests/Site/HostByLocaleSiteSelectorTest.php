@@ -55,7 +55,7 @@ class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
             ->expects($this->once())
             ->method('getSites')
             ->with($request)
-            ->will($this->returnValue($this->getSites()));
+            ->willReturn($this->getSites());
 
         $this->siteSelector->handleKernelRequest($event);
 
@@ -87,7 +87,7 @@ class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
             ->expects($this->once())
             ->method('getSites')
             ->with($request)
-            ->will($this->returnValue($this->getSites()));
+            ->willReturn($this->getSites());
 
         $this->siteSelector->handleKernelRequest($event);
 

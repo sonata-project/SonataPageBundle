@@ -63,7 +63,7 @@ class ResponseListenerTest extends TestCase
         $this->pageServiceManager = $this->createMock(PageServiceManagerInterface::class);
         $this->cmsManager = $this->createMock(CmsManagerInterface::class);
         $this->cmsSelector = $this->createMock(CmsManagerSelectorInterface::class);
-        $this->cmsSelector->expects($this->once())->method('retrieve')->will($this->returnValue($this->cmsManager));
+        $this->cmsSelector->expects($this->once())->method('retrieve')->willReturn($this->cmsManager);
         $this->templating = $this->createMock(EngineInterface::class);
 
         $this->listener = new ResponseListener(
@@ -82,10 +82,10 @@ class ResponseListenerTest extends TestCase
         $this->expectException(InternalErrorException::class);
 
         // mocked decorator strategy should accept to decorate
-        $this->decoratorStrategy->expects($this->once())->method('isDecorable')->will($this->returnValue(true));
+        $this->decoratorStrategy->expects($this->once())->method('isDecorable')->willReturn(true);
 
         // mocked cms manager should return the mock page
-        $this->cmsManager->expects($this->once())->method('getCurrentPage')->will($this->returnValue(null));
+        $this->cmsManager->expects($this->once())->method('getCurrentPage')->willReturn(null);
 
         $this->listener->onCoreResponse(
             $this->getMockEvent('content')
@@ -97,7 +97,7 @@ class ResponseListenerTest extends TestCase
      */
     public function testPageIsNonDecorable(): void
     {
-        $this->decoratorStrategy->expects($this->once())->method('isDecorable')->will($this->returnValue(false));
+        $this->decoratorStrategy->expects($this->once())->method('isDecorable')->willReturn(false);
 
         $event = $this->getMockEvent('content');
 
@@ -120,24 +120,24 @@ class ResponseListenerTest extends TestCase
 
         // a mock page entity that accepts to be decorated
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->once())->method('isHybrid')->will($this->returnValue(true));
-        $page->expects($this->once())->method('getDecorate')->will($this->returnValue(true));
+        $page->expects($this->once())->method('isHybrid')->willReturn(true);
+        $page->expects($this->once())->method('getDecorate')->willReturn(true);
 
         // mocked cms manager should return the mock page
-        $this->cmsManager->expects($this->once())->method('getCurrentPage')->will($this->returnValue($page));
+        $this->cmsManager->expects($this->once())->method('getCurrentPage')->willReturn($page);
 
         // mocked decorator strategy should accept to decorate
-        $this->decoratorStrategy->expects($this->once())->method('isDecorable')->will($this->returnValue(true));
+        $this->decoratorStrategy->expects($this->once())->method('isDecorable')->willReturn(true);
 
         // a mock page service manager that decorates a response
         $this->pageServiceManager->expects($this->once())
             ->method('execute')
             ->with($this->equalTo($page), $this->anything(), ['content' => $content])
-            ->will($this->returnCallback(static function (PageInterface $page, Request $request, array $params, Response $response) {
+            ->willReturnCallback(static function (PageInterface $page, Request $request, array $params, Response $response) {
                 $response->setContent(sprintf('outer "%s" outer', $params['content']));
 
                 return $response;
-            }));
+            });
 
         // create a response event
         $event = $this->getMockEvent($content);
@@ -152,7 +152,7 @@ class ResponseListenerTest extends TestCase
      */
     public function testPageIsEditor(): void
     {
-        $this->cmsSelector->expects($this->once())->method('isEditor')->will($this->returnValue(true));
+        $this->cmsSelector->expects($this->once())->method('isEditor')->willReturn(true);
         $event = $this->getMockEvent('inner');
 
         $this->listener->onCoreResponse($event);

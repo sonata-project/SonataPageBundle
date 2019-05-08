@@ -113,8 +113,8 @@ class RoutePageGeneratorTest extends TestCase
     protected function getSiteMock(): SiteInterface
     {
         $site = $this->createMock(SiteInterface::class);
-        $site->expects($this->any())->method('getHost')->will($this->returnValue('sonata-project.org'));
-        $site->expects($this->any())->method('getId')->will($this->returnValue(1));
+        $site->expects($this->any())->method('getHost')->willReturn('sonata-project.org');
+        $site->expects($this->any())->method('getId')->willReturn(1);
 
         return $site;
     }
@@ -143,7 +143,7 @@ class RoutePageGeneratorTest extends TestCase
         ));
 
         $router = $this->createMock(RouterInterface::class);
-        $router->expects($this->any())->method('getRouteCollection')->will($this->returnValue($collection));
+        $router->expects($this->any())->method('getRouteCollection')->willReturn($collection);
 
         return $router;
     }
@@ -156,7 +156,7 @@ class RoutePageGeneratorTest extends TestCase
         $router = $this->getRouterMock();
 
         $pageManager = $this->createMock(PageManager::class);
-        $pageManager->expects($this->any())->method('create')->will($this->returnValue(new Page()));
+        $pageManager->expects($this->any())->method('create')->willReturn(new Page());
 
         $hybridPageNotExists = new Page();
         $hybridPageNotExists->setRouteName('test_hybrid_page_not_exists');
@@ -170,16 +170,16 @@ class RoutePageGeneratorTest extends TestCase
         $pageManager->expects($this->at(12))
             ->method('findOneBy')
             ->with($this->equalTo(['routeName' => 'test_hybrid_page_with_bad_host', 'site' => 1]))
-            ->will($this->returnValue($hybridPageWithBadHost));
+            ->willReturn($hybridPageWithBadHost);
 
         $pageManager->expects($this->any())
             ->method('getHybridPages')
-            ->will($this->returnValue([$hybridPageNotExists, $hybridPageWithGoodHost, $hybridPageWithBadHost]));
+            ->willReturn([$hybridPageNotExists, $hybridPageWithGoodHost, $hybridPageWithBadHost]);
 
         $decoratorStrategy = new DecoratorStrategy([], [], []);
 
         $exceptionListener = $this->createMock(ExceptionListener::class);
-        $exceptionListener->expects($this->any())->method('getHttpErrorCodes')->will($this->returnValue([404, 500]));
+        $exceptionListener->expects($this->any())->method('getHttpErrorCodes')->willReturn([404, 500]);
 
         return new RoutePageGenerator($router, $pageManager, $decoratorStrategy, $exceptionListener);
     }
