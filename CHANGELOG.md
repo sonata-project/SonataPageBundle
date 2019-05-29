@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.11.1](https://github.com/sonata-project/SonataPageBundle/compare/3.11.0...3.11.1) - 2019-05-28
+
+### Fixed
+- compare with a different value type in the `treeAction`
+- Fixed missing macro call in `breadcrumb.html.twig`
+
 ## [3.11.0](https://github.com/sonata-project/SonataPageBundle/compare/3.10.0...3.11.0) - 2019-14-17
 ### Added
 - Add `|trans()` to `child.name|default(service.name)` in `compose_preview.html.twig`
