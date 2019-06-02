@@ -60,7 +60,7 @@
         "jms/serializer-bundle": "^1.0 || ^2.0",
         "matthiasnoback/symfony-dependency-injection-test": "^3.0",
         "nelmio/api-doc-bundle": "^2.4",
-        "symfony/phpunit-bridge": "^4.2"
+        "symfony/phpunit-bridge": "^4.3"
     },
     "config": {
         "sort-packages": true
