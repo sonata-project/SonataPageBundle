@@ -99,9 +99,8 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     }
 
     /**
-     * @param SiteInterface|null $site
-     * @param string             $fieldName
-     * @param mixed              $value
+     * @param string $fieldName
+     * @param mixed  $value
      *
      * @return PageInterface
      */

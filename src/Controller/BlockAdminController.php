@@ -29,8 +29,6 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class BlockAdminController extends Controller
 {
     /**
-     * @param Request|null $request
-     *
      * @throws AccessDeniedException
      *
      * @return Response
@@ -101,8 +99,6 @@ class BlockAdminController extends Controller
     }
 
     /**
-     * @param Request|null $request
-     *
      * @return Response
      */
     public function switchParentAction(Request $request = null)
@@ -132,8 +128,6 @@ class BlockAdminController extends Controller
     }
 
     /**
-     * @param Request|null $request
-     *
      * @throws AccessDeniedException
      * @throws PageNotFoundException
      *

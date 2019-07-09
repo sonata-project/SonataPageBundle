@@ -35,13 +35,12 @@ class SiteRequestContext extends RequestContext implements SiteRequestContextInt
     private $site;
 
     /**
-     * @param SiteSelectorInterface $selector
-     * @param string                $baseUrl
-     * @param string                $method
-     * @param string                $host
-     * @param string                $scheme
-     * @param int                   $httpPort
-     * @param int                   $httpsPort
+     * @param string $baseUrl
+     * @param string $method
+     * @param string $host
+     * @param string $scheme
+     * @param int    $httpPort
+     * @param int    $httpsPort
      */
     public function __construct(SiteSelectorInterface $selector, $baseUrl = '', $method = 'GET', $host = 'localhost', $scheme = 'http', $httpPort = 80, $httpsPort = 443)
     {

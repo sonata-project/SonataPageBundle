@@ -331,7 +331,6 @@ class CmsPageRouter implements ChainedRouterInterface
     /**
      * Returns the Url from a Page object.
      *
-     * @param PageInterface $page
      *
      * @return string
      */

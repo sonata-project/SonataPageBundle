@@ -26,9 +26,6 @@ class CreateSnapshotAdminExtension extends AbstractAdminExtension
      */
     protected $backend;
 
-    /**
-     * @param BackendInterface $backend
-     */
     public function __construct(BackendInterface $backend)
     {
         $this->backend = $backend;

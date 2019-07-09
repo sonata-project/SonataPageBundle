@@ -35,9 +35,7 @@ class PageListBlockService extends AbstractAdminBlockService
     protected $pageManager;
 
     /**
-     * @param string               $name
-     * @param EngineInterface      $templating
-     * @param PageManagerInterface $pageManager
+     * @param string $name
      */
     public function __construct($name, EngineInterface $templating, PageManagerInterface $pageManager)
     {

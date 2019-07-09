@@ -34,7 +34,6 @@ interface BlockInteractorInterface
     /**
      * return a flat list if page's blocks.
      *
-     * @param PageInterface $page
      *
      * @return BlockInterface[]
      */
@@ -43,7 +42,6 @@ interface BlockInteractorInterface
     /**
      * load blocks attached the given page.
      *
-     * @param PageInterface $page
      *
      * @return array $blocks
      */
@@ -52,8 +50,7 @@ interface BlockInteractorInterface
     /**
      * save the blocks positions.
      *
-     * @param array $data
-     * @param bool  $partial Should we use partial references? (Better for performance, but can lead to query issues.)
+     * @param bool $partial Should we use partial references? (Better for performance, but can lead to query issues.)
      *
      * @return bool
      */

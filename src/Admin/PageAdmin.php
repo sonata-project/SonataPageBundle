@@ -110,9 +110,6 @@ class PageAdmin extends AbstractAdmin
         $object->setEdited(true);
     }
 
-    /**
-     * @param PageManagerInterface $pageManager
-     */
     public function setPageManager(PageManagerInterface $pageManager)
     {
         $this->pageManager = $pageManager;
@@ -204,9 +201,6 @@ class PageAdmin extends AbstractAdmin
         return $actions;
     }
 
-    /**
-     * @param SiteManagerInterface $siteManager
-     */
     public function setSiteManager(SiteManagerInterface $siteManager)
     {
         $this->siteManager = $siteManager;
@@ -220,9 +214,6 @@ class PageAdmin extends AbstractAdmin
         return $this->siteManager->findBy([]);
     }
 
-    /**
-     * @param CacheManagerInterface $cacheManager
-     */
     public function setCacheManager(CacheManagerInterface $cacheManager)
     {
         $this->cacheManager = $cacheManager;

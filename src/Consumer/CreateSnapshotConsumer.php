@@ -41,11 +41,6 @@ class CreateSnapshotConsumer implements ConsumerInterface
      */
     protected $transformer;
 
-    /**
-     * @param SnapshotManagerInterface $snapshotManager
-     * @param PageManagerInterface     $pageManager
-     * @param TransformerInterface     $transformer
-     */
     public function __construct(SnapshotManagerInterface $snapshotManager, PageManagerInterface $pageManager, TransformerInterface $transformer)
     {
         $this->snapshotManager = $snapshotManager;

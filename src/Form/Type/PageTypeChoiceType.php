@@ -32,9 +32,6 @@ class PageTypeChoiceType extends AbstractType
      */
     protected $manager;
 
-    /**
-     * @param PageServiceManagerInterface $manager
-     */
     public function __construct(PageServiceManagerInterface $manager)
     {
         $this->manager = $manager;

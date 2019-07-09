@@ -120,7 +120,6 @@ class PageServiceManager implements PageServiceManagerInterface
     /**
      * Creates a base response for given page.
      *
-     * @param PageInterface $page
      *
      * @return Response
      */

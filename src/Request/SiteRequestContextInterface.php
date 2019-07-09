@@ -22,9 +22,6 @@ use Sonata\PageBundle\Model\SiteInterface;
  */
 interface SiteRequestContextInterface
 {
-    /**
-     * @param SiteInterface $site
-     */
     public function setSite(SiteInterface $site);
 
     /**

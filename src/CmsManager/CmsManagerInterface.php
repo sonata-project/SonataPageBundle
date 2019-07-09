@@ -28,9 +28,7 @@ use Symfony\Component\HttpFoundation\Request;
 interface CmsManagerInterface
 {
     /**
-     * @param string              $name
-     * @param PageInterface       $page
-     * @param BlockInterface|null $parentContainer
+     * @param string $name
      *
      * @return BlockInterface|bool|null
      */
@@ -39,8 +37,7 @@ interface CmsManagerInterface
     /**
      * Returns a fully loaded page ( + blocks ) from a url.
      *
-     * @param SiteInterface $site
-     * @param string        $slug
+     * @param string $slug
      *
      * @return PageInterface
      */
@@ -49,8 +46,7 @@ interface CmsManagerInterface
     /**
      * Returns a fully loaded page ( + blocks ) from a route name.
      *
-     * @param SiteInterface $site
-     * @param string        $routeName
+     * @param string $routeName
      *
      * @return PageInterface
      */
@@ -59,8 +55,7 @@ interface CmsManagerInterface
     /**
      * Returns a fully loaded page ( + blocks ) from a page alias.
      *
-     * @param SiteInterface $site
-     * @param string        $pageAlias
+     * @param string $pageAlias
      *
      * @return PageInterface
      */
@@ -69,8 +64,7 @@ interface CmsManagerInterface
     /**
      * Returns a fully loaded page ( + blocks ) from an internal route name.
      *
-     * @param SiteInterface $site
-     * @param string        $routeName
+     * @param string $routeName
      *
      * @return PageInterface
      */
@@ -79,8 +73,7 @@ interface CmsManagerInterface
     /**
      * Returns a fully loaded page ( + blocks ) from a page name.
      *
-     * @param SiteInterface $site
-     * @param string        $name
+     * @param string $name
      *
      * @return PageInterface
      */
@@ -109,9 +102,6 @@ interface CmsManagerInterface
      */
     public function getCurrentPage();
 
-    /**
-     * @param PageInterface $page
-     */
     public function setCurrentPage(PageInterface $page);
 
     /**
@@ -122,8 +112,7 @@ interface CmsManagerInterface
     public function getBlocks();
 
     /**
-     * @param SiteInterface $site
-     * @param string        $page
+     * @param string $page
      *
      * @return PageInterface
      */
