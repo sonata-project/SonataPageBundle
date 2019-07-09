@@ -49,10 +49,6 @@ class CmsSnapshotManager extends BaseCmsPageManager
      */
     protected $pages = [];
 
-    /**
-     * @param SnapshotManagerInterface $snapshotManager
-     * @param TransformerInterface     $transformer
-     */
     public function __construct(SnapshotManagerInterface $snapshotManager, TransformerInterface $transformer)
     {
         $this->snapshotManager = $snapshotManager;
@@ -180,8 +176,6 @@ class CmsSnapshotManager extends BaseCmsPageManager
 
     /**
      * load the blocks of the $page.
-     *
-     * @param PageInterface $page
      */
     private function loadBlocks(PageInterface $page)
     {

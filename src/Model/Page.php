@@ -584,8 +584,6 @@ abstract class Page implements PageInterface
 
     /**
      * Add blocks.
-     *
-     * @param PageBlockInterface $blocks
      */
     public function addBlocks(PageBlockInterface $blocks)
     {

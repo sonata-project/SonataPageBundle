@@ -26,9 +26,6 @@ class UniqueUrlValidator extends ConstraintValidator
      */
     protected $manager;
 
-    /**
-     * @param PageManagerInterface $manager
-     */
     public function __construct(PageManagerInterface $manager)
     {
         $this->manager = $manager;

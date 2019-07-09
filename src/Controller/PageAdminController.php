@@ -69,8 +69,6 @@ class PageAdminController extends Controller
     }
 
     /**
-     * @param Request|null $request
-     *
      * @return Response
      */
     public function treeAction(Request $request = null)
@@ -147,8 +145,6 @@ class PageAdminController extends Controller
     }
 
     /**
-     * @param Request|null $request
-     *
      * @throws AccessDeniedException
      * @throws NotFoundHttpException
      *
@@ -225,8 +221,6 @@ class PageAdminController extends Controller
     }
 
     /**
-     * @param Request|null $request
-     *
      * @throws AccessDeniedException
      * @throws NotFoundHttpException
      *

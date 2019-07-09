@@ -110,9 +110,6 @@ class SnapshotAdmin extends AbstractAdmin
         ]);
     }
 
-    /**
-     * @param CacheManagerInterface $cacheManager
-     */
     public function setCacheManager(CacheManagerInterface $cacheManager)
     {
         $this->cacheManager = $cacheManager;

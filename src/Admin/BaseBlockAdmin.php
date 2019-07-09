@@ -166,25 +166,16 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         $this->blockManager->get($object)->postRemove($object);
     }
 
-    /**
-     * @param BlockServiceManagerInterface $blockManager
-     */
     public function setBlockManager(BlockServiceManagerInterface $blockManager)
     {
         $this->blockManager = $blockManager;
     }
 
-    /**
-     * @param CacheManagerInterface $cacheManager
-     */
     public function setCacheManager(CacheManagerInterface $cacheManager)
     {
         $this->cacheManager = $cacheManager;
     }
 
-    /**
-     * @param array $containerBlockTypes
-     */
     public function setContainerBlockTypes(array $containerBlockTypes)
     {
         $this->containerBlockTypes = $containerBlockTypes;
@@ -257,8 +248,6 @@ abstract class BaseBlockAdmin extends AbstractAdmin
     }
 
     /**
-     * @param BlockInterface $block
-     *
      * @return BlockInterface
      */
     private function loadBlockDefaults(BlockInterface $block)

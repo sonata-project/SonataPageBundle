@@ -59,13 +59,6 @@ class PageController extends FOSRestController
      */
     protected $backend;
 
-    /**
-     * @param SiteManagerInterface  $siteManager
-     * @param PageManagerInterface  $pageManager
-     * @param BlockManagerInterface $blockManager
-     * @param FormFactoryInterface  $formFactory
-     * @param BackendInterface      $backend
-     */
     public function __construct(SiteManagerInterface $siteManager, PageManagerInterface $pageManager, BlockManagerInterface $blockManager, FormFactoryInterface $formFactory, BackendInterface $backend)
     {
         $this->siteManager = $siteManager;
@@ -94,8 +87,6 @@ class PageController extends FOSRestController
      * @QueryParam(name="orderBy", map=true, requirements="ASC|DESC", nullable=true, strict=true, description="Order by array (key is field, value is direction)")
      *
      * @View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
-     *
-     * @param ParamFetcherInterface $paramFetcher
      *
      * @return PagerInterface
      */

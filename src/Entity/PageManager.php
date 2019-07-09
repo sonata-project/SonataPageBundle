@@ -40,10 +40,7 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
     protected $defaults;
 
     /**
-     * @param string          $class
-     * @param ManagerRegistry $registry
-     * @param array           $defaults
-     * @param array           $pageDefaults
+     * @param string $class
      */
     public function __construct($class, ManagerRegistry $registry, array $defaults = [], array $pageDefaults = [])
     {
@@ -234,8 +231,6 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
     }
 
     /**
-     * @param SiteInterface $site
-     *
      * @return mixed
      */
     public function getHybridPages(SiteInterface $site)
