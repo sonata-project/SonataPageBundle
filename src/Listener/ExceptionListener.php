@@ -150,7 +150,6 @@ class ExceptionListener
     /**
      * Handles a kernel exception.
      *
-     * @param GetResponseForExceptionEvent $event
      *
      * @throws \Exception
      */
@@ -185,8 +184,6 @@ class ExceptionListener
 
     /**
      * Handles an internal error.
-     *
-     * @param GetResponseForExceptionEvent $event
      */
     private function handleInternalError(GetResponseForExceptionEvent $event)
     {
@@ -208,7 +205,6 @@ class ExceptionListener
     /**
      * Handles a native error.
      *
-     * @param GetResponseForExceptionEvent $event
      *
      * @throws mixed
      */

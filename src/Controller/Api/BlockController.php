@@ -36,10 +36,6 @@ class BlockController extends FOSRestController
      */
     protected $formFactory;
 
-    /**
-     * @param BlockManagerInterface $blockManager
-     * @param FormFactoryInterface  $formFactory
-     */
     public function __construct(BlockManagerInterface $blockManager, FormFactoryInterface $formFactory)
     {
         $this->blockManager = $blockManager;

@@ -35,12 +35,8 @@ class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
     protected $cmsSelector;
 
     /**
-     * @param string                      $context
-     * @param string                      $name
-     * @param EngineInterface             $templating
-     * @param MenuProviderInterface       $menuProvider
-     * @param FactoryInterface            $factory
-     * @param CmsManagerSelectorInterface $cmsSelector
+     * @param string $context
+     * @param string $name
      */
     public function __construct($context, $name, EngineInterface $templating, MenuProviderInterface $menuProvider, FactoryInterface $factory, CmsManagerSelectorInterface $cmsSelector)
     {

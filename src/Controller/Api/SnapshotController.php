@@ -32,9 +32,6 @@ class SnapshotController extends FOSRestController
      */
     protected $snapshotManager;
 
-    /**
-     * @param SnapshotManagerInterface $snapshotManager
-     */
     public function __construct(SnapshotManagerInterface $snapshotManager)
     {
         $this->snapshotManager = $snapshotManager;
@@ -58,8 +55,6 @@ class SnapshotController extends FOSRestController
      * @QueryParam(name="orderBy", map=true, requirements="ASC|DESC", nullable=true, strict=true, description="Order by array (key is field, value is direction)")
      *
      * @View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
-     *
-     * @param ParamFetcherInterface $paramFetcher
      *
      * @return PagerInterface
      */

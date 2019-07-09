@@ -40,11 +40,6 @@ class DecoratorStrategy implements DecoratorStrategyInterface
      */
     protected $ignoreUriPatterns;
 
-    /**
-     * @param array $ignoreRoutes
-     * @param array $ignoreRoutePatterns
-     * @param array $ignoreUriPatterns
-     */
     public function __construct(array $ignoreRoutes, array $ignoreRoutePatterns, array $ignoreUriPatterns)
     {
         $this->ignoreRoutes = $ignoreRoutes;

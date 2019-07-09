@@ -32,9 +32,6 @@ class TemplateChoiceType extends AbstractType
      */
     protected $manager;
 
-    /**
-     * @param TemplateManagerInterface $manager
-     */
     public function __construct(TemplateManagerInterface $manager)
     {
         $this->manager = $manager;
