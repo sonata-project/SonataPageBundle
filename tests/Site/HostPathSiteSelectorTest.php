@@ -176,8 +176,6 @@ class HostPathSiteSelector extends BaseSiteSelector
     }
 
     /**
-     * @param array $params
-     *
      * @return array
      */
     protected function _findSites(array $params)

@@ -64,8 +64,6 @@ class DefaultPageService extends BasePageService
 
     /**
      * Updates the SEO page values for given page instance.
-     *
-     * @param PageInterface $page
      */
     protected function updateSeoPage(PageInterface $page): void
     {

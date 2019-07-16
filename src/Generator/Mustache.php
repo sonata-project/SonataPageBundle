@@ -24,7 +24,6 @@ class Mustache
      * @static
      *
      * @param $string
-     * @param array $parameters
      *
      * @return string
      */

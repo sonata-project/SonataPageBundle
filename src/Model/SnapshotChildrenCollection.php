@@ -35,10 +35,6 @@ class SnapshotChildrenCollection implements \Countable, \IteratorAggregate, \Arr
      */
     protected $collection;
 
-    /**
-     * @param TransformerInterface $transformer
-     * @param PageInterface        $page
-     */
     public function __construct(TransformerInterface $transformer, PageInterface $page)
     {
         $this->transformer = $transformer;

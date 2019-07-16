@@ -52,12 +52,7 @@ class BlockSsiCache extends SsiCache
 
     /**
      * @param string                       $token
-     * @param RouterInterface              $router
-     * @param ControllerResolverInterface  $resolver         Controller Resolver
-     * @param ArgumentResolverInterface    $argumentResolver Argument Resolver
-     * @param BlockRendererInterface       $blockRenderer
-     * @param BlockContextManagerInterface $contextManager   Block Context manager
-     * @param array                        $managers
+     * @param BlockContextManagerInterface $contextManager Block Context manager
      */
     public function __construct(
         $token,
@@ -144,8 +139,6 @@ class BlockSsiCache extends SsiCache
     }
 
     /**
-     * @param array $keys
-     *
      * @throws \RuntimeException
      */
     private function validateKeys(array $keys): void
@@ -158,8 +151,6 @@ class BlockSsiCache extends SsiCache
     }
 
     /**
-     * @param Request $request
-     *
      * @throws NotFoundHttpException
      *
      * @return CmsManagerInterface

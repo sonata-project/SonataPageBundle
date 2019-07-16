@@ -26,7 +26,6 @@ abstract class FOSRestController
     /**
      * NEXT_MAJOR: Remove this method, as it should be configured using annotations only.
      *
-     * @param ParamFetcherInterface $paramFetcher
      *
      * @return ParamFetcherInterface
      */
@@ -41,7 +40,6 @@ abstract class FOSRestController
 
     /**
      * @param $entity
-     * @param array $groups
      *
      * @return FOSRestView
      */

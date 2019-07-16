@@ -35,9 +35,6 @@ class CmsManagerSelector implements CmsManagerSelectorInterface, LogoutHandlerIn
      */
     protected $container;
 
-    /**
-     * @param ContainerInterface $container
-     */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
@@ -75,9 +72,6 @@ class CmsManagerSelector implements CmsManagerSelectorInterface, LogoutHandlerIn
         return $sessionAvailable && $session->get('sonata/page/isEditor', false);
     }
 
-    /**
-     * @param InteractiveLoginEvent $event
-     */
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event): void
     {
         if ($this->container->get('security.token_storage')->getToken() &&

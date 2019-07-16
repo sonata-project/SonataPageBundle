@@ -80,10 +80,8 @@ You can use the --extended option to dump block configuration
     }
 
     /**
-     * @param BlockInterface  $block
-     * @param OutputInterface $output
-     * @param bool            $extended
-     * @param int             $space
+     * @param bool $extended
+     * @param int  $space
      */
     public function renderBlock(BlockInterface $block, OutputInterface $output, $extended, $space = 0): void
     {

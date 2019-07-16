@@ -40,11 +40,6 @@ class CreateSnapshotsConsumer implements ConsumerInterface
      */
     protected $pageInterface;
 
-    /**
-     * @param BackendInterface     $asyncBackend
-     * @param BackendInterface     $runtimeBackend
-     * @param PageManagerInterface $pageManager
-     */
     public function __construct(BackendInterface $asyncBackend, BackendInterface $runtimeBackend, PageManagerInterface $pageManager)
     {
         $this->asyncBackend = $asyncBackend;

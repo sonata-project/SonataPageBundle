@@ -162,8 +162,6 @@ class SonataPageExtension extends Extension implements PrependExtensionInterface
 
     /**
      * Registers doctrine mapping on concrete page entities.
-     *
-     * @param array $config
      */
     public function registerDoctrineMapping(array $config): void
     {

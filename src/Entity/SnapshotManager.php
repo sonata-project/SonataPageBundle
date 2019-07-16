@@ -351,8 +351,6 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
     /**
      * Create a snapShotPageProxy instance.
      *
-     * @param TransformerInterface $transformer
-     * @param SnapshotInterface    $snapshot
      *
      * @return SnapshotPageProxyInterface
      */

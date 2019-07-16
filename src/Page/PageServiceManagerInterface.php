@@ -49,8 +49,6 @@ interface PageServiceManagerInterface
 
     /**
      * Sets the default page service.
-     *
-     * @param PageServiceInterface $service
      */
     public function setDefault(PageServiceInterface $service);
 

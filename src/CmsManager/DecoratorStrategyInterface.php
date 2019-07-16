@@ -25,17 +25,13 @@ use Symfony\Component\HttpFoundation\Response;
 interface DecoratorStrategyInterface
 {
     /**
-     * @param Request  $request
-     * @param int      $requestType
-     * @param Response $response
+     * @param int $requestType
      *
      * @return bool
      */
     public function isDecorable(Request $request, $requestType, Response $response);
 
     /**
-     * @param Request $request
-     *
      * @return bool
      */
     public function isRequestDecorable(Request $request);

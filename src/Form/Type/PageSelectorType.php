@@ -34,9 +34,6 @@ class PageSelectorType extends AbstractType
      */
     protected $manager;
 
-    /**
-     * @param PageManagerInterface $manager
-     */
     public function __construct(PageManagerInterface $manager)
     {
         $this->manager = $manager;
@@ -74,8 +71,6 @@ class PageSelectorType extends AbstractType
     }
 
     /**
-     * @param Options $options
-     *
      * @return array
      */
     public function getChoices(Options $options)
@@ -159,7 +154,6 @@ class PageSelectorType extends AbstractType
     }
 
     /**
-     * @param PageInterface $page
      * @param PageInterface $currentPage
      * @param array         $choices
      * @param int           $level

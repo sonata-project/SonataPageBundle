@@ -110,8 +110,6 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
     }
 
     /**
-     * @param Request $request
-     *
      * @return SiteInterface[]
      */
     protected function getSites(Request $request)
@@ -180,8 +178,6 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
 
     /**
      * @abstract
-     *
-     * @param GetResponseEvent $event
      */
     abstract protected function handleKernelRequest(GetResponseEvent $event);
 }

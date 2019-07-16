@@ -54,10 +54,7 @@ class SharedBlockBlockService extends AbstractAdminBlockService
     private $blockManager;
 
     /**
-     * @param string                $name
-     * @param EngineInterface       $templating
-     * @param ContainerInterface    $container
-     * @param BlockManagerInterface $blockManager
+     * @param string $name
      */
     public function __construct($name, EngineInterface $templating, ContainerInterface $container, BlockManagerInterface $blockManager)
     {
@@ -177,8 +174,6 @@ class SharedBlockBlockService extends AbstractAdminBlockService
     }
 
     /**
-     * @param FormMapper $formMapper
-     *
      * @return FormBuilder
      */
     protected function getBlockBuilder(FormMapper $formMapper)

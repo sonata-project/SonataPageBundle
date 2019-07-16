@@ -24,8 +24,6 @@ use Sonata\Doctrine\Model\PageableManagerInterface;
 interface SnapshotManagerInterface extends ManagerInterface, PageableManagerInterface
 {
     /**
-     * @param array $criteria
-     *
      * @return SnapshotInterface
      */
     public function findEnableSnapshot(array $criteria);

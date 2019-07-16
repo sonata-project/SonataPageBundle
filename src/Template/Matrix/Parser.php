@@ -23,7 +23,6 @@ class Parser
 {
     /**
      * @param string $matrix
-     * @param array  $mapping
      *
      * @throws \InvalidArgumentException
      *

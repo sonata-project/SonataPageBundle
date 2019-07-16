@@ -46,10 +46,7 @@ class ChildrenPagesBlockService extends AbstractAdminBlockService
     protected $cmsManagerSelector;
 
     /**
-     * @param string                      $name
-     * @param EngineInterface             $templating
-     * @param SiteSelectorInterface       $siteSelector
-     * @param CmsManagerSelectorInterface $cmsManagerSelector
+     * @param string $name
      */
     public function __construct($name, EngineInterface $templating, SiteSelectorInterface $siteSelector, CmsManagerSelectorInterface $cmsManagerSelector)
     {

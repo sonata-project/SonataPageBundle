@@ -58,11 +58,7 @@ class BlockJsCache implements CacheAdapterInterface
     protected $contextManager;
 
     /**
-     * @param RouterInterface              $router
-     * @param CmsManagerSelectorInterface  $cmsSelector
-     * @param BlockRendererInterface       $blockRenderer
-     * @param BlockContextManagerInterface $contextManager
-     * @param bool                         $sync
+     * @param bool $sync
      */
     public function __construct(RouterInterface $router, CmsManagerSelectorInterface $cmsSelector, BlockRendererInterface $blockRenderer, BlockContextManagerInterface $contextManager, $sync = false)
     {
@@ -118,8 +114,6 @@ class BlockJsCache implements CacheAdapterInterface
     }
 
     /**
-     * @param Request $request
-     *
      * @return Response
      */
     public function cacheAction(Request $request)
@@ -178,8 +172,6 @@ class BlockJsCache implements CacheAdapterInterface
     }
 
     /**
-     * @param array $keys
-     *
      * @return string
      */
     protected function getSync(array $keys)
@@ -217,8 +209,6 @@ class BlockJsCache implements CacheAdapterInterface
     }
 
     /**
-     * @param array $keys
-     *
      * @return string
      */
     protected function getAsync(array $keys)
@@ -242,8 +232,6 @@ class BlockJsCache implements CacheAdapterInterface
     }
 
     /**
-     * @param array $keys
-     *
      * @throws \RuntimeException
      */
     private function validateKeys(array $keys): void

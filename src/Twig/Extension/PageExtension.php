@@ -79,11 +79,10 @@ class PageExtension extends AbstractExtension implements InitRuntimeInterface
     private $hideDisabledBlocks;
 
     /**
-     * @param CmsManagerSelectorInterface $cmsManagerSelector  A CMS manager selector
-     * @param SiteSelectorInterface       $siteSelector        A site selector
-     * @param RouterInterface             $router              The Router
-     * @param BlockHelper                 $blockHelper         The Block Helper
-     * @param HttpKernelExtension         $httpKernelExtension
+     * @param CmsManagerSelectorInterface $cmsManagerSelector A CMS manager selector
+     * @param SiteSelectorInterface       $siteSelector       A site selector
+     * @param RouterInterface             $router             The Router
+     * @param BlockHelper                 $blockHelper        The Block Helper
      * @param bool                        $hideDisabledBlocks
      */
     public function __construct(CmsManagerSelectorInterface $cmsManagerSelector, SiteSelectorInterface $siteSelector, RouterInterface $router, BlockHelper $blockHelper, HttpKernelExtension $httpKernelExtension, $hideDisabledBlocks = false)
@@ -128,7 +127,6 @@ class PageExtension extends AbstractExtension implements InitRuntimeInterface
 
     /**
      * @param PageInterface $page
-     * @param array         $options
      *
      * @return string
      */
@@ -196,7 +194,6 @@ class PageExtension extends AbstractExtension implements InitRuntimeInterface
     /**
      * @param string $name
      * @param null   $page
-     * @param array  $options
      *
      * @return Response
      */
@@ -233,9 +230,6 @@ class PageExtension extends AbstractExtension implements InitRuntimeInterface
     }
 
     /**
-     * @param PageBlockInterface $block
-     * @param array              $options
-     *
      * @return string
      */
     public function renderBlock(PageBlockInterface $block, array $options = [])
@@ -295,7 +289,6 @@ class PageExtension extends AbstractExtension implements InitRuntimeInterface
 
     /**
      * @param string $template
-     * @param array  $parameters
      *
      * @return string
      */

@@ -41,7 +41,6 @@ class Template
     /**
      * @param string $name
      * @param string $path
-     * @param array  $containers
      */
     public function __construct($name, $path, array $containers = [])
     {
@@ -106,8 +105,6 @@ class Template
     }
 
     /**
-     * @param array $meta
-     *
      * @return array
      */
     protected function normalize(array $meta)

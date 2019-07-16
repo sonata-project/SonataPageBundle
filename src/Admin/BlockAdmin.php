@@ -54,7 +54,6 @@ class BlockAdmin extends BaseBlockAdmin
      * @param string $code
      * @param string $class
      * @param string $baseControllerName
-     * @param array  $blocks
      */
     public function __construct($code, $class, $baseControllerName, array $blocks = [])
     {
@@ -228,8 +227,6 @@ class BlockAdmin extends BaseBlockAdmin
     }
 
     /**
-     * @param BlockServiceInterface $blockService
-     *
      * @return string|null
      */
     private function getDefaultTemplate(BlockServiceInterface $blockService)

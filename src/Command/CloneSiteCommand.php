@@ -192,8 +192,6 @@ final class CloneSiteCommand extends BaseCommand
 
     /**
      * Prints a list of all available sites.
-     *
-     * @param OutputInterface $output
      */
     private function listAllSites(OutputInterface $output): void
     {

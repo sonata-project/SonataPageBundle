@@ -60,7 +60,6 @@ class RequestListener
     /**
      * Filter the `core.request` event to decorated the action.
      *
-     * @param GetResponseEvent $event
      *
      * @throws InternalErrorException
      * @throws PageNotFoundException

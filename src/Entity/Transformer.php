@@ -55,12 +55,6 @@ class Transformer implements TransformerInterface
      */
     protected $registry;
 
-    /**
-     * @param SnapshotManagerInterface $snapshotManager
-     * @param PageManagerInterface     $pageManager
-     * @param BlockManagerInterface    $blockManager
-     * @param RegistryInterface        $registry
-     */
     public function __construct(SnapshotManagerInterface $snapshotManager, PageManagerInterface $pageManager, BlockManagerInterface $blockManager, RegistryInterface $registry)
     {
         $this->snapshotManager = $snapshotManager;
@@ -252,8 +246,6 @@ class Transformer implements TransformerInterface
     }
 
     /**
-     * @param array $content
-     *
      * @return array
      */
     protected function fixPageContent(array $content)
@@ -266,8 +258,6 @@ class Transformer implements TransformerInterface
     }
 
     /**
-     * @param array $content
-     *
      * @return array
      */
     protected function fixBlockContent(array $content)
@@ -280,8 +270,6 @@ class Transformer implements TransformerInterface
     }
 
     /**
-     * @param BlockInterface $block
-     *
      * @return array
      */
     protected function createBlocks(BlockInterface $block)

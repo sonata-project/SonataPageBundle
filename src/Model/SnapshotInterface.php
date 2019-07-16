@@ -198,9 +198,6 @@ interface SnapshotInterface
      */
     public function getPage();
 
-    /**
-     * @param SiteInterface $site
-     */
     public function setSite(SiteInterface $site);
 
     /**

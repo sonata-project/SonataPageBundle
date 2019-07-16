@@ -254,8 +254,6 @@ interface PageInterface
 
     /**
      * Add blocks.
-     *
-     * @param PageBlockInterface $block
      */
     public function addBlocks(PageBlockInterface $block);
 
@@ -372,9 +370,6 @@ interface PageInterface
      */
     public function getRequestMethod();
 
-    /**
-     * @param array $headers
-     */
     public function setHeaders(array $headers = []);
 
     /**
@@ -405,9 +400,6 @@ interface PageInterface
      */
     public function hasRequestMethod($method);
 
-    /**
-     * @param SiteInterface $site
-     */
     public function setSite(SiteInterface $site);
 
     /**

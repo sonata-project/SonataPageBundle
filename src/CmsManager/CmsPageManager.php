@@ -47,10 +47,6 @@ class CmsPageManager extends BaseCmsPageManager
      */
     protected $pages = [];
 
-    /**
-     * @param PageManagerInterface     $pageManager
-     * @param BlockInteractorInterface $blockInteractor
-     */
     public function __construct(PageManagerInterface $pageManager, BlockInteractorInterface $blockInteractor)
     {
         $this->pageManager = $pageManager;
@@ -202,8 +198,6 @@ class CmsPageManager extends BaseCmsPageManager
 
     /**
      * load all the related nested blocks linked to one page.
-     *
-     * @param PageInterface $page
      */
     private function loadBlocks(PageInterface $page): void
     {

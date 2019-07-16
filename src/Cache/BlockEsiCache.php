@@ -172,8 +172,6 @@ class BlockEsiCache extends VarnishCache
     }
 
     /**
-     * @param array $keys
-     *
      * @throws \RuntimeException
      */
     private function validateKeys(array $keys): void
@@ -186,8 +184,6 @@ class BlockEsiCache extends VarnishCache
     }
 
     /**
-     * @param Request $request
-     *
      * @throws NotFoundHttpException
      *
      * @return CmsManagerInterface
