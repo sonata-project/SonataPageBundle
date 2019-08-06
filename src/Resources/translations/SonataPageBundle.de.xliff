@@ -740,7 +740,7 @@
             </trans-unit>
             <trans-unit id="184" resname="breadcrumb.link_shared_block_list">
                 <source>breadcrumb.link_shared_block_list</source>
-                <target>breadcrumb.link_shared_block_list</target>
+                <target>Gemeinsame Blöcke</target>
             </trans-unit>
             <trans-unit id="185" resname="breadcrumb.link_shared_block_update">
                 <source>breadcrumb.link_shared_block_update</source>
@@ -748,11 +748,11 @@
             </trans-unit>
             <trans-unit id="186" resname="sidemenu.link_list_shared_blocks">
                 <source>sidemenu.link_list_shared_blocks</source>
-                <target>sidemenu.link_list_shared_blocks</target>
+                <target>Gemeinsame Blöcke</target>
             </trans-unit>
             <trans-unit id="187" resname="title_select_shared_block_type">
                 <source>title_select_shared_block_type</source>
-                <target>title_select_shared_block_type</target>
+                <target>Wähle einen Block-Typ</target>
             </trans-unit>
             <trans-unit id="188" resname="composer.shared_block.add.type">
                 <source>composer.shared_block.add.type</source>
