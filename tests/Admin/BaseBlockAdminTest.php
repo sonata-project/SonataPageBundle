@@ -42,6 +42,11 @@ class BaseBlockAdminTest extends TestCase
         $blockAdmin->preBatchAction('delete', $query, $idx, true);
     }
 
+    /**
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @group legacy
+     */
     public function testSettingAsEditedOnPreRemove()
     {
         $page = $this->createMock(PageInterface::class);

@@ -226,7 +226,7 @@ class BlockAdmin extends BaseBlockAdmin
         } else {
             @trigger_error(
                 sprintf(
-                    'Editing a non %s block service is deprecated since 3.x and will be removed with sonata/page-bundle 4.0',
+                    'Editing a non %s block service is deprecated since sonata-project/page-bundle 3.x and will not be allowed with version 4.0.',
                     EditableBlockService::class
                 ),
                 E_USER_DEPRECATED
