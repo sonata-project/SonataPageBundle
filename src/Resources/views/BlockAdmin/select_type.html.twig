@@ -21,7 +21,7 @@ file that was distributed with this source code.
             </h3>
         </div>
         <div class="box-body">
-            {% for code, service in services %}
+            {% for code, service in services|filter(service => service.metadata is defined or service.blockMetadata is defined) %}
                 {% if service.metadata is defined %}
                     {% set metadata = service.metadata %}
                 {% else %}
