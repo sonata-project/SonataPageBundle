@@ -25,7 +25,6 @@ interface BlockInteractorInterface
     /**
      * return a block with the given id.
      *
-     * @param mixed $id
      *
      * @return BlockInterface
      */

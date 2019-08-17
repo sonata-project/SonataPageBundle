@@ -63,9 +63,6 @@ class Transformer implements TransformerInterface
         $this->registry = $registry;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function create(PageInterface $page)
     {
         $snapshot = $this->snapshotManager->create();
@@ -125,9 +122,6 @@ class Transformer implements TransformerInterface
         return $snapshot;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load(SnapshotInterface $snapshot)
     {
         $page = $this->pageManager->create();
@@ -167,9 +161,6 @@ class Transformer implements TransformerInterface
         return $page;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function loadBlock(array $content, PageInterface $page)
     {
         $block = $this->blockManager->create();
@@ -199,9 +190,6 @@ class Transformer implements TransformerInterface
         return $block;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getChildren(PageInterface $parent)
     {
         if (!isset($this->children[$parent->getId()])) {

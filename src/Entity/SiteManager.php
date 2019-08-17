@@ -25,9 +25,6 @@ use Sonata\PageBundle\Model\SiteManagerInterface;
  */
 class SiteManager extends BaseEntityManager implements SiteManagerInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function save($site, $andFlush = true)
     {
         parent::save($site, $andFlush);
@@ -35,9 +32,6 @@ class SiteManager extends BaseEntityManager implements SiteManagerInterface
         return $site;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPager(array $criteria, $page, $limit = 10, array $sort = [])
     {
         $query = $this->getRepository()

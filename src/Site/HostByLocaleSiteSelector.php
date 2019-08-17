@@ -22,9 +22,6 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
  */
 class HostByLocaleSiteSelector extends BaseSiteSelector
 {
-    /**
-     * {@inheritdoc}
-     */
     public function handleKernelRequest(GetResponseEvent $event)
     {
         $request = $event->getRequest();

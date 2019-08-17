@@ -39,9 +39,6 @@ class BlockAdmin extends BaseBlockAdmin
 
     protected $classnameLabel = 'Block';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $accessMapping = [
         'savePosition' => 'EDIT',
         'switchParent' => 'EDIT',
@@ -62,9 +59,6 @@ class BlockAdmin extends BaseBlockAdmin
         $this->blocks = $blocks;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPersistentParameters()
     {
         $parameters = parent::getPersistentParameters();
@@ -76,9 +70,6 @@ class BlockAdmin extends BaseBlockAdmin
         return $parameters;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configureRoutes(RouteCollection $collection)
     {
         parent::configureRoutes($collection);
@@ -90,9 +81,6 @@ class BlockAdmin extends BaseBlockAdmin
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configureFormFields(FormMapper $formMapper)
     {
         $block = $this->getSubject();

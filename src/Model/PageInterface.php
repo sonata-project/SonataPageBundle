@@ -26,14 +26,9 @@ interface PageInterface
 
     /**
      * Returns the id.
-     *
-     * @return mixed
      */
     public function getId();
 
-    /**
-     * @param mixed $id
-     */
     public function setId($id);
 
     /**
@@ -374,7 +369,6 @@ interface PageInterface
 
     /**
      * @param string $name
-     * @param mixed  $value
      */
     public function addHeader($name, $value);
 

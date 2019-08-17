@@ -24,9 +24,6 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class CacheCompilerPass implements CompilerPassInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function process(ContainerBuilder $container)
     {
         $services = [];

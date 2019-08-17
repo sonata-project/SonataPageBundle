@@ -60,9 +60,6 @@ class BlockSsiCache extends SsiCache
         $this->contextManager = $contextManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function get(array $keys)
     {
         $this->validateKeys($keys);
@@ -74,9 +71,6 @@ class BlockSsiCache extends SsiCache
         return new CacheElement($keys, new Response($content));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function set(array $keys, $data, $ttl = CacheElement::DAY, array $contextualKeys = [])
     {
         $this->validateKeys($keys);
@@ -84,9 +78,6 @@ class BlockSsiCache extends SsiCache
         return new CacheElement($keys, $data, $ttl, $contextualKeys);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function cacheAction(Request $request)
     {
         $parameters = array_merge($request->query->all(), $request->attributes->all());
@@ -114,9 +105,6 @@ class BlockSsiCache extends SsiCache
         return $response;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function computeHash(array $keys)
     {
         // values are casted into string for non numeric id

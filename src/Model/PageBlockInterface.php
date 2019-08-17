@@ -24,8 +24,6 @@ interface PageBlockInterface extends BlockInterface
 
     /**
      * @param PageInterface $page The related page
-     *
-     * @return mixed
      */
     public function setPage(PageInterface $page = null);
 }

@@ -68,33 +68,21 @@ class BlockJsCache implements CacheAdapterInterface
         $this->contextManager = $contextManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function flushAll()
     {
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function flush(array $keys = [])
     {
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function has(array $keys)
     {
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function get(array $keys)
     {
         $this->validateKeys($keys);
@@ -102,9 +90,6 @@ class BlockJsCache implements CacheAdapterInterface
         return new CacheElement($keys, new Response($this->sync ? $this->getSync($keys) : $this->getAsync($keys)));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function set(array $keys, $data, $ttl = CacheElement::DAY, array $contextualKeys = [])
     {
         $this->validateKeys($keys);
@@ -162,9 +147,6 @@ class BlockJsCache implements CacheAdapterInterface
         return $response;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isContextual()
     {
         return false;

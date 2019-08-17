@@ -25,9 +25,6 @@ use Sonata\Doctrine\Entity\BaseEntityManager;
  */
 class BlockManager extends BaseEntityManager implements BlockManagerInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function save($block, $andFlush = true)
     {
         parent::save($block, $andFlush);
@@ -43,8 +40,6 @@ class BlockManager extends BaseEntityManager implements BlockManagerInterface
      * @param int  $parentId Parent block Id (needed when partial = true)
      * @param int  $pageId   Page Id (needed when partial = true)
      * @param bool $partial  Should we use partial references? (Better for performance, but can lead to query issues.)
-     *
-     * @return mixed
      */
     public function updatePosition($id, $position, $parentId = null, $pageId = null, $partial = true)
     {
@@ -72,9 +67,6 @@ class BlockManager extends BaseEntityManager implements BlockManagerInterface
         return $block;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPager(array $criteria, $page, $limit = 10, array $sort = [])
     {
         $query = $this->getRepository()

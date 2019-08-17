@@ -47,9 +47,6 @@ class DecoratorStrategy implements DecoratorStrategyInterface
         $this->ignoreUriPatterns = $ignoreUriPatterns;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isDecorable(Request $request, $requestType, Response $response)
     {
         if (HttpKernelInterface::MASTER_REQUEST !== $requestType) {
@@ -80,17 +77,11 @@ class DecoratorStrategy implements DecoratorStrategyInterface
         return $this->isRequestDecorable($request);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isRequestDecorable(Request $request)
     {
         return $this->isRouteNameDecorable($request->get('_route')) && $this->isRouteUriDecorable($request->getPathInfo());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isRouteNameDecorable($routeName)
     {
         if (!$routeName) {
@@ -112,9 +103,6 @@ class DecoratorStrategy implements DecoratorStrategyInterface
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isRouteUriDecorable($uri)
     {
         foreach ($this->ignoreUriPatterns as $uriPattern) {

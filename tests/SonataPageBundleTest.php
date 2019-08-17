@@ -22,8 +22,6 @@ class Page extends \Sonata\PageBundle\Model\Page
 {
     /**
      * Returns the id.
-     *
-     * @return mixed
      */
     public function getId()
     {

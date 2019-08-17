@@ -23,9 +23,6 @@ use Symfony\Component\Process\Process;
  */
 class CleanupSnapshotsCommand extends BaseCommand
 {
-    /**
-     * {@inheritdoc}
-     */
     public function configure()
     {
         $this->setName('sonata:page:cleanup-snapshots');
@@ -37,9 +34,6 @@ class CleanupSnapshotsCommand extends BaseCommand
         $this->addOption('keep-snapshots', null, InputOption::VALUE_OPTIONAL, 'Keep a given count of snapshots per page', 5);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
         if (!$input->getOption('site')) {
@@ -64,9 +58,6 @@ class CleanupSnapshotsCommand extends BaseCommand
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         foreach ($this->getSites($input) as $site) {

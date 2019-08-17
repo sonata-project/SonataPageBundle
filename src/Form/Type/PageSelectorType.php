@@ -39,9 +39,6 @@ class PageSelectorType extends AbstractType
         $this->manager = $manager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $that = $this;
@@ -62,9 +59,6 @@ class PageSelectorType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $this->configureOptions($resolver);
@@ -129,25 +123,16 @@ class PageSelectorType extends AbstractType
         return $choices;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent()
     {
         return ModelType::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getBlockPrefix()
     {
         return 'sonata_page_selector';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName()
     {
         return $this->getBlockPrefix();

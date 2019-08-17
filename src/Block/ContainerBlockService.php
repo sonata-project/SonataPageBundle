@@ -23,9 +23,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class ContainerBlockService extends BaseContainerBlockService
 {
-    /**
-     * {@inheritdoc}
-     */
     public function configureSettings(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

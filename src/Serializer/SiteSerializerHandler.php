@@ -20,9 +20,6 @@ use Sonata\Serializer\BaseSerializerHandler;
  */
 class SiteSerializerHandler extends BaseSerializerHandler
 {
-    /**
-     * {@inheritdoc}
-     */
     public static function getType()
     {
         return 'sonata_page_site_id';

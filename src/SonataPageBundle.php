@@ -36,17 +36,11 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class SonataPageBundle extends Bundle
 {
-    /**
-     * {@inheritdoc}
-     */
     public function init()
     {
         $this->registerFormMapping();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function build(ContainerBuilder $container)
     {
         $container->addCompilerPass(new CacheCompilerPass());
@@ -55,9 +49,6 @@ class SonataPageBundle extends Bundle
         $container->addCompilerPass(new CmfRouterCompilerPass());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function boot()
     {
         $this->registerFormMapping();

@@ -20,9 +20,6 @@ use Sonata\Serializer\BaseSerializerHandler;
  */
 class SnapshotSerializerHandler extends BaseSerializerHandler
 {
-    /**
-     * {@inheritdoc}
-     */
     public static function getType()
     {
         return 'sonata_page_snapshot_id';

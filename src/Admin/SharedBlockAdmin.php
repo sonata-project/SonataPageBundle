@@ -30,25 +30,16 @@ class SharedBlockAdmin extends BaseBlockAdmin
      */
     protected $classnameLabel = 'shared_block';
 
-    /**
-     * {@inheritdoc}
-     */
     public function getBaseRoutePattern()
     {
         return sprintf('%s/%s', parent::getBaseRoutePattern(), 'shared');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getBaseRouteName()
     {
         return sprintf('%s/%s', parent::getBaseRouteName(), 'shared');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function createQuery($context = 'list')
     {
         $query = parent::createQuery($context);
@@ -61,9 +52,6 @@ class SharedBlockAdmin extends BaseBlockAdmin
         return $query;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
@@ -74,9 +62,6 @@ class SharedBlockAdmin extends BaseBlockAdmin
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configureFormFields(FormMapper $formMapper)
     {
         /** @var BaseBlock $block */

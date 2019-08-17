@@ -24,9 +24,6 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
  */
 class HostPathByLocaleSiteSelector extends HostPathSiteSelector
 {
-    /**
-     * {@inheritdoc}
-     */
     public function handleKernelRequest(GetResponseEvent $event)
     {
         $request = $event->getRequest();
