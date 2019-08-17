@@ -17,6 +17,13 @@ namespace Sonata\PageBundle\Model;
  * Defines methods to interact with the persistency layer of a SnapshotInterface.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * @method int|null           getTargetId()
+ * @method void               setTargetId(?int $targetId)
+ * @method PageInterface|null getTarget()
+ * @method void               setTarget(?PageInterface $target)
+ * @method int|null           getParent()
+ * @method void               setParentId(?int $parentId)
  */
 interface SnapshotInterface
 {
@@ -37,7 +44,7 @@ interface SnapshotInterface
     /**
      * Get routeAlias.
      *
-     * @return string $routeAlias
+     * @return string|null $routeAlias
      */
     public function getPageAlias();
 
@@ -47,21 +54,21 @@ interface SnapshotInterface
      *
      * Set pageAlias
      *
-     * @param string $pageAlias
+     * @param string|null $pageAlias
      */
     public function setPageAlias($pageAlias);
 
     /**
      * Returns the page type.
      *
-     * @return string
+     * @return string|null
      */
     public function getType();
 
     /**
      * Sets the page type.
      *
-     * @param string $type
+     * @param string|null $type
      */
     public function setType($type);
 
@@ -96,42 +103,38 @@ interface SnapshotInterface
     /**
      * Set url.
      *
-     * @param string $url
+     * @param string|null $url
      */
     public function setUrl($url);
 
     /**
      * Get url.
      *
-     * @return string $url
+     * @return string|null $url
      */
     public function getUrl();
 
     /**
      * Set publicationDateStart.
-     *
-     * @param \DateTime $publicationDateStart
      */
     public function setPublicationDateStart(\DateTime $publicationDateStart = null);
 
     /**
      * Get publicationDateStart.
      *
-     * @return \DateTime $publicationDateStart
+     * @return \DateTime|null $publicationDateStart
      */
     public function getPublicationDateStart();
 
     /**
      * Set publicationDateEnd.
-     *
-     * @param \DateTime $publicationDateEnd
      */
     public function setPublicationDateEnd(\DateTime $publicationDateEnd = null);
 
     /**
      * Get publicationDateEnd.
      *
-     * @return \DateTime $publicationDateEnd
+     * @return \DateTime|null $publicationDateEnd
      */
     public function getPublicationDateEnd();
 

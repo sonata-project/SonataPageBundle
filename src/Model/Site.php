@@ -46,17 +46,17 @@ abstract class Site implements SiteInterface
     protected $host;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $relativePath;
 
     /**
-     * @var \DateTime
+     * @var \DateTime|null
      */
     protected $enabledFrom;
 
     /**
-     * @var \DateTime
+     * @var \DateTime|null
      */
     protected $enabledTo;
 
@@ -71,22 +71,22 @@ abstract class Site implements SiteInterface
     protected $formats = [];
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $locale;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $title;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $metaKeywords;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $metaDescription;
 

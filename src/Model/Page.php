@@ -36,12 +36,12 @@ abstract class Page implements PageInterface
     protected $routeName;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $pageAlias;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $type;
 
@@ -51,52 +51,52 @@ abstract class Page implements PageInterface
     protected $name;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $title;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $slug;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $url;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $customUrl;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $requestMethod;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $metaKeyword;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $metaDescription;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $javascript;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $stylesheet;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $rawHeaders;
 
@@ -146,7 +146,7 @@ abstract class Page implements PageInterface
     protected $snapshots;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $templateCode;
 

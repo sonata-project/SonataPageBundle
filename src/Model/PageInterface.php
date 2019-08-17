@@ -53,7 +53,7 @@ interface PageInterface
     /**
      * Get pageAlias.
      *
-     * @return string $pageAlias
+     * @return string|null $pageAlias
      */
     public function getPageAlias();
 
@@ -66,21 +66,21 @@ interface PageInterface
      *
      * Set pageAlias
      *
-     * @param string $pageAlias
+     * @param string|null $pageAlias
      */
     public function setPageAlias($pageAlias);
 
     /**
      * Returns the page type.
      *
-     * @return string
+     * @return string|null
      */
     public function getType();
 
     /**
      * Sets the page type.
      *
-     * @param string $type
+     * @param string|null $type
      */
     public function setType($type);
 
@@ -115,98 +115,98 @@ interface PageInterface
     /**
      * Set slug.
      *
-     * @param string $slug
+     * @param string|null $slug
      */
     public function setSlug($slug);
 
     /**
      * Get slug.
      *
-     * @return string
+     * @return string|null
      */
     public function getSlug();
 
     /**
      * Get url.
      *
-     * @return string
+     * @return string|null
      */
     public function getUrl();
 
     /**
      * Set Url.
      *
-     * @param string $url
+     * @param string|null $url
      */
     public function setUrl($url);
 
     /**
      * Set customUrl.
      *
-     * @param string $customUrl
+     * @param string|null $customUrl
      */
     public function setCustomUrl($customUrl);
 
     /**
      * Get customUrl.
      *
-     * @return int $customUrl
+     * @return string|null $customUrl
      */
     public function getCustomUrl();
 
     /**
      * Set metaKeyword.
      *
-     * @param string $metaKeyword
+     * @param string|null $metaKeyword
      */
     public function setMetaKeyword($metaKeyword);
 
     /**
      * Get metaKeyword.
      *
-     * @return string $metaKeyword
+     * @return string|null $metaKeyword
      */
     public function getMetaKeyword();
 
     /**
      * Set metaDescription.
      *
-     * @param string $metaDescription
+     * @param string|null $metaDescription
      */
     public function setMetaDescription($metaDescription);
 
     /**
      * Get metaDescription.
      *
-     * @return string $metaDescription
+     * @return string|null $metaDescription
      */
     public function getMetaDescription();
 
     /**
      * Set javascript.
      *
-     * @param string $javascript
+     * @param string|null $javascript
      */
     public function setJavascript($javascript);
 
     /**
      * Get javascript.
      *
-     * @return string $javascript
+     * @return string|null $javascript
      */
     public function getJavascript();
 
     /**
      * Set stylesheet.
      *
-     * @param string $stylesheet
+     * @param string|null $stylesheet
      */
     public function setStylesheet($stylesheet);
 
     /**
      * Get stylesheet.
      *
-     * @return string $stylesheet
+     * @return string|null $stylesheet
      */
     public function getStylesheet();
 
@@ -295,14 +295,14 @@ interface PageInterface
     /**
      * Set template.
      *
-     * @param string $templateCode
+     * @param string|null $templateCode
      */
     public function setTemplateCode($templateCode);
 
     /**
      * Get template.
      *
-     * @return string
+     * @return string|null
      */
     public function getTemplateCode();
 
@@ -361,12 +361,12 @@ interface PageInterface
     public function getPosition();
 
     /**
-     * @param string $method
+     * @param string|null $method
      */
     public function setRequestMethod($method);
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getRequestMethod();
 
@@ -408,7 +408,7 @@ interface PageInterface
     public function getSite();
 
     /**
-     * @param array $rawHeaders
+     * @param string|null $rawHeaders
      */
     public function setRawHeaders($rawHeaders);
 
@@ -430,14 +430,14 @@ interface PageInterface
     /**
      * Return the title.
      *
-     * @return string
+     * @return string|null
      */
     public function getTitle();
 
     /**
      * Set the title.
      *
-     * @param string $title
+     * @param string|null $title
      */
     public function setTitle($title);
 }

@@ -36,12 +36,12 @@ abstract class Snapshot implements SnapshotInterface
     protected $routeName;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $pageAlias;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $type;
 
@@ -51,7 +51,7 @@ abstract class Snapshot implements SnapshotInterface
     protected $name;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $url;
 
@@ -61,12 +61,12 @@ abstract class Snapshot implements SnapshotInterface
     protected $enabled;
 
     /**
-     * @var \DateTime
+     * @var \DateTime|null
      */
     protected $publicationDateStart;
 
     /**
-     * @var \DateTime
+     * @var \DateTime|null
      */
     protected $publicationDateEnd;
 
@@ -101,7 +101,7 @@ abstract class Snapshot implements SnapshotInterface
     protected $parent;
 
     /**
-     * @var int
+     * @var int|null
      */
     protected $parentId;
 
@@ -110,8 +110,14 @@ abstract class Snapshot implements SnapshotInterface
      */
     protected $sources;
 
+    /**
+     * @var PageInterface|null
+     */
     protected $target;
 
+    /**
+     * @var int|null
+     */
     protected $targetId;
 
     /**
