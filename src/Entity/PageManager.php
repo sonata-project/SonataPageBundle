@@ -212,6 +212,9 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
         return $pages;
     }
 
+    /**
+     * @return PageInterface[]
+     */
     public function getHybridPages(SiteInterface $site)
     {
         return $this->getEntityManager()->createQueryBuilder()

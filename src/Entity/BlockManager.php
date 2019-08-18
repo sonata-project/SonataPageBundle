@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Entity;
 
+use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\BlockBundle\Model\BlockManagerInterface;
 use Sonata\DatagridBundle\Pager\Doctrine\Pager;
 use Sonata\DatagridBundle\ProxyQuery\Doctrine\ProxyQuery;
@@ -40,6 +41,8 @@ class BlockManager extends BaseEntityManager implements BlockManagerInterface
      * @param int  $parentId Parent block Id (needed when partial = true)
      * @param int  $pageId   Page Id (needed when partial = true)
      * @param bool $partial  Should we use partial references? (Better for performance, but can lead to query issues.)
+     *
+     * @return BlockInterface
      */
     public function updatePosition($id, $position, $parentId = null, $pageId = null, $partial = true)
     {

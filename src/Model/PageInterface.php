@@ -26,6 +26,8 @@ interface PageInterface
 
     /**
      * Returns the id.
+     *
+     * @return mixed
      */
     public function getId();
 

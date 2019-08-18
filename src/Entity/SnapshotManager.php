@@ -39,7 +39,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
     protected $children = [];
 
     /**
-     * @var array
+     * @var array<string, string>
      */
     protected $templates = [];
 
@@ -189,7 +189,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
     }
 
     /**
-     * @param array $templates
+     * @param string[] $templates
      */
     public function setTemplates($templates)
     {
@@ -197,7 +197,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
     }
 
     /**
-     * @return array
+     * @return string
      */
     public function getTemplates()
     {
@@ -208,6 +208,8 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
      * @param string $code
      *
      * @throws \RuntimeException
+     *
+     * @return string
      */
     public function getTemplate($code)
     {
