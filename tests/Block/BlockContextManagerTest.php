@@ -28,7 +28,7 @@ class BlockContextManagerTest extends TestCase
 {
     public function testGetWithValidData()
     {
-        $service = $this->getMockForAbstractClass(AbstractBlockService::class);
+        $service = $this->createMock(AbstractBlockService::class);
 
         $blockLoader = $this->createMock(BlockLoaderInterface::class);
 
