@@ -45,17 +45,11 @@ class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
         parent::__construct($context, $name, $templating, $menuProvider, $factory);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName()
     {
         return 'sonata.page.block.breadcrumb';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getMenu(BlockContextInterface $blockContext)
     {
         $blockContext->setSetting('include_homepage_link', false);

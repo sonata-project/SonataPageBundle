@@ -51,17 +51,11 @@ class SiteAdmin extends AbstractAdmin
         parent::__construct($code, $class, $baseControllerName);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function postPersist($object)
     {
         $this->routePageGenerator->update($object);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
@@ -79,9 +73,6 @@ class SiteAdmin extends AbstractAdmin
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
@@ -97,9 +88,6 @@ class SiteAdmin extends AbstractAdmin
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
@@ -107,9 +95,6 @@ class SiteAdmin extends AbstractAdmin
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
@@ -132,9 +117,6 @@ class SiteAdmin extends AbstractAdmin
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configureRoutes(RouteCollection $collection)
     {
         $collection->add('snapshots', $this->getRouterIdParameter().'/snapshots');

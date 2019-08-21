@@ -50,9 +50,6 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
         $this->pageDefaults = $pageDefaults;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPageByUrl(SiteInterface $site, $url)
     {
         return $this->findOneBy([
@@ -61,9 +58,6 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPager(array $criteria, $page, $limit = 10, array $sort = [])
     {
         $query = $this->getRepository()
@@ -128,9 +122,6 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
         return $pager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function create(array $defaults = [])
     {
         // create a new page for this routing
@@ -152,9 +143,6 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
         return $page;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function fixUrl(PageInterface $page)
     {
         if ($page->isInternal()) {
@@ -192,9 +180,6 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function save($page, $andFlush = true)
     {
         if (!$page->isHybrid()) {
@@ -206,9 +191,6 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
         return $page;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function loadPages(SiteInterface $site)
     {
         $pages = $this->getEntityManager()
@@ -231,7 +213,7 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
     }
 
     /**
-     * @return mixed
+     * @return PageInterface[]
      */
     public function getHybridPages(SiteInterface $site)
     {

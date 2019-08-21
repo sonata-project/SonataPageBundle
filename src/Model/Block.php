@@ -28,9 +28,6 @@ abstract class Block extends BaseBlock implements PageBlockInterface
      */
     protected $page;
 
-    /**
-     * {@inheritdoc}
-     */
     public function addChildren(BlockInterface $child)
     {
         $this->children[] = $child;
@@ -42,17 +39,11 @@ abstract class Block extends BaseBlock implements PageBlockInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setPage(PageInterface $page = null)
     {
         $this->page = $page;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPage()
     {
         return $this->page;

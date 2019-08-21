@@ -26,9 +26,6 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class SnapshotAdminController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
     public function createAction(Request $request = null)
     {
         $this->admin->checkAccess('create');
@@ -82,8 +79,6 @@ class SnapshotAdminController extends Controller
     }
 
     /**
-     * @param mixed $query
-     *
      * @throws AccessDeniedException
      *
      * @return RedirectResponse

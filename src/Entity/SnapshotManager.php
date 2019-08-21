@@ -39,7 +39,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
     protected $children = [];
 
     /**
-     * @var array
+     * @var array<string, string>
      */
     protected $templates = [];
 
@@ -71,9 +71,6 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
         $this->snapshotPageProxyFactory = $snapshotPageProxyFactory;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function save($snapshot, $andFlush = true)
     {
         parent::save($snapshot);
@@ -81,9 +78,6 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
         return $snapshot;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function enableSnapshots(array $snapshots, \DateTime $date = null)
     {
         if (0 === \count($snapshots)) {
@@ -115,9 +109,6 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
         $this->getConnection()->query($sql);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function findEnableSnapshot(array $criteria)
     {
         $date = new \Datetime();
@@ -198,7 +189,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
     }
 
     /**
-     * @param array $templates
+     * @param string[] $templates
      */
     public function setTemplates($templates)
     {
@@ -206,7 +197,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
     }
 
     /**
-     * @return array
+     * @return string
      */
     public function getTemplates()
     {
@@ -218,7 +209,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
      *
      * @throws \RuntimeException
      *
-     * @return mixed
+     * @return string
      */
     public function getTemplate($code)
     {
@@ -229,9 +220,6 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
         return $this->templates[$code];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function cleanup(PageInterface $page, $keep)
     {
         if (!is_numeric($keep)) {
@@ -294,9 +282,6 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
         throw new \RuntimeException(sprintf('The %s database platform has not been tested yet. Please report us if it works and feel free to create a pull request to handle it ;-)', $platform));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPager(array $criteria, $page, $limit = 10, array $sort = [])
     {
         $query = $this->getRepository()

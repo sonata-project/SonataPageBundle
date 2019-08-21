@@ -47,9 +47,6 @@ class CreateSnapshotsConsumer implements ConsumerInterface
         $this->pageManager = $pageManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function process(ConsumerEvent $event)
     {
         $pages = $this->pageManager->findBy([

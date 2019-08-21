@@ -50,9 +50,6 @@ class DefaultPageService extends BasePageService
         $this->seoPage = $seoPage;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function execute(PageInterface $page, Request $request, array $parameters = [], Response $response = null)
     {
         $this->updateSeoPage($page);

@@ -31,17 +31,11 @@ class CreateSnapshotAdminExtension extends AbstractAdminExtension
         $this->backend = $backend;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function postUpdate(AdminInterface $admin, $object)
     {
         $this->sendMessage($object);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function postPersist(AdminInterface $admin, $object)
     {
         $this->sendMessage($object);

@@ -72,9 +72,6 @@ class BlockAdminController extends Controller
         return $this->renderJson(['result' => $result], $status);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function createAction(Request $request = null)
     {
         $this->admin->checkAccess('create');

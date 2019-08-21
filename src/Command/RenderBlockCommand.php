@@ -24,9 +24,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class RenderBlockCommand extends BaseCommand
 {
-    /**
-     * {@inheritdoc}
-     */
     public function configure()
     {
         $this->setName('sonata:page:render-block');
@@ -44,9 +41,6 @@ Available manager:
         $this->addArgument('block_id', InputArgument::REQUIRED, 'The page id');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $manager = $this->getContainer()->get($input->getArgument('manager'));

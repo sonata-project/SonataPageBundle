@@ -53,9 +53,6 @@ abstract class BaseBlockAdmin extends AbstractAdmin
      */
     protected $containerBlockTypes = [];
 
-    /**
-     * {@inheritdoc}
-     */
     public function getObject($id)
     {
         $subject = parent::getObject($id);
@@ -67,9 +64,6 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         return $subject;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getNewInstance()
     {
         $block = parent::getNewInstance();
@@ -79,8 +73,6 @@ abstract class BaseBlockAdmin extends AbstractAdmin
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @param BaseBlock $object
      */
     public function preUpdate($object)
@@ -96,8 +88,6 @@ abstract class BaseBlockAdmin extends AbstractAdmin
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @param BaseBlock $object
      */
     public function postUpdate($object)
@@ -110,8 +100,6 @@ abstract class BaseBlockAdmin extends AbstractAdmin
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @param BaseBlock $object
      */
     public function prePersist($object)
@@ -127,8 +115,6 @@ abstract class BaseBlockAdmin extends AbstractAdmin
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @param BaseBlock $object
      */
     public function postPersist($object)
@@ -141,8 +127,6 @@ abstract class BaseBlockAdmin extends AbstractAdmin
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @param BaseBlock $object
      */
     public function preRemove($object)
@@ -157,8 +141,6 @@ abstract class BaseBlockAdmin extends AbstractAdmin
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @param BaseBlock $object
      */
     public function postRemove($object)
@@ -181,9 +163,6 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         $this->containerBlockTypes = $containerBlockTypes;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPersistentParameters()
     {
         if (!$this->hasRequest()) {
@@ -195,9 +174,6 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function preBatchAction($actionName, ProxyQueryInterface $query, array &$idx, $allElements)
     {
         $parent = $this->getParent();
@@ -213,17 +189,11 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         parent::preBatchAction($actionName, $query, $idx, $allElements);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configureRoutes(RouteCollection $collection)
     {
         $collection->add('view', $this->getRouterIdParameter().'/view');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
@@ -235,9 +205,6 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper

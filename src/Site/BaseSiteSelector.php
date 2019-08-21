@@ -60,32 +60,20 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
         $this->seoPage = $seoPage;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function retrieve()
     {
         return $this->site;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getRequestContext()
     {
         return new RequestContext();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function onKernelRequestRedirect(GetResponseEvent $event)
     {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     final public function onKernelRequest(GetResponseEvent $event)
     {
         if (!$this->decoratorStrategy->isRouteUriDecorable($event->getRequest()->getPathInfo())) {

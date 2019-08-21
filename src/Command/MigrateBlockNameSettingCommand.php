@@ -26,9 +26,6 @@ class MigrateBlockNameSettingCommand extends BaseCommand
 {
     public const CONTAINER_TYPE = 'sonata.page.block.container';
 
-    /**
-     * {@inheritdoc}
-     */
     public function configure()
     {
         $this->setName('sonata:page:migrate-block-setting');
@@ -39,9 +36,6 @@ class MigrateBlockNameSettingCommand extends BaseCommand
         $this->setDescription('Migrate the "name" setting of all blocks into a "code" setting and remove unused "orientation" setting on "'.self::CONTAINER_TYPE.'" blocks');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $count = 0;

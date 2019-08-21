@@ -95,9 +95,6 @@ class PageExtension extends AbstractExtension implements InitRuntimeInterface
         $this->hideDisabledBlocks = $hideDisabledBlocks;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getFunctions()
     {
         return [
@@ -109,17 +106,11 @@ class PageExtension extends AbstractExtension implements InitRuntimeInterface
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function initRuntime(Environment $environment)
     {
         $this->environment = $environment;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName()
     {
         return 'sonata_page';

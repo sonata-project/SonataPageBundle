@@ -26,9 +26,6 @@ use Symfony\Component\Process\ProcessBuilder;
  */
 class UpdateCoreRoutesCommand extends BaseCommand
 {
-    /**
-     * {@inheritdoc}
-     */
     public function configure()
     {
         $this->setName('sonata:page:update-core-routes');
@@ -40,9 +37,6 @@ class UpdateCoreRoutesCommand extends BaseCommand
         $this->addOption('base-command', null, InputOption::VALUE_OPTIONAL, 'Site id', 'php app/console');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function execute(InputInterface $input, OutputInterface $output)
     {
         if ($input->getOption('all')) {

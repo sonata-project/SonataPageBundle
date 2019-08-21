@@ -34,16 +34,10 @@ class SnapshotAdmin extends AbstractAdmin
      */
     protected $cacheManager;
 
-    /**
-     * {@inheritdoc}
-     */
     protected $accessMapping = [
         'batchToggleEnabled' => 'EDIT',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureListFields(ListMapper $listMapper)
     {
         $listMapper
@@ -54,18 +48,12 @@ class SnapshotAdmin extends AbstractAdmin
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
             ->add('routeName');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
@@ -75,9 +63,6 @@ class SnapshotAdmin extends AbstractAdmin
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getBatchActions()
     {
         $actions = parent::getBatchActions();
@@ -90,9 +75,6 @@ class SnapshotAdmin extends AbstractAdmin
         return $actions;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function postUpdate($object)
     {
         $this->cacheManager->invalidate([
@@ -100,9 +82,6 @@ class SnapshotAdmin extends AbstractAdmin
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function postPersist($object)
     {
         $this->cacheManager->invalidate([

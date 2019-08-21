@@ -26,9 +26,6 @@ use Symfony\Component\Console\Question\Question;
  */
 class CreateSiteCommand extends BaseCommand
 {
-    /**
-     * {@inheritdoc}
-     */
     public function configure()
     {
         $this->setName('sonata:page:create-site');
@@ -55,9 +52,6 @@ EOT
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $helper = $this->getHelper('question');
