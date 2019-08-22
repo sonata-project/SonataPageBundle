@@ -77,7 +77,16 @@ abstract class BaseBlockAdmin extends AbstractAdmin
      */
     public function preUpdate($object)
     {
-        $this->blockManager->get($object)->preUpdate($object);
+        $block = $this->blockManager->get($object);
+
+        if (\is_callable([$block, 'preUpdate'])) {
+            $block->preUpdate($object);
+
+            @trigger_error(
+                'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.x and will be removed in version 4.0.',
+                E_USER_DEPRECATED
+            );
+        }
 
         // fix weird bug with setter object not being call
         $object->setChildren($object->getChildren());
@@ -92,7 +101,16 @@ abstract class BaseBlockAdmin extends AbstractAdmin
      */
     public function postUpdate($object)
     {
-        $this->blockManager->get($object)->postUpdate($object);
+        $block = $this->blockManager->get($object);
+
+        if (\is_callable([$block, 'postUpdate'])) {
+            $block->postUpdate($object);
+
+            @trigger_error(
+                'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.x and will be removed in version 4.0.',
+                E_USER_DEPRECATED
+            );
+        }
 
         $service = $this->blockManager->get($object);
 
@@ -104,7 +122,16 @@ abstract class BaseBlockAdmin extends AbstractAdmin
      */
     public function prePersist($object)
     {
-        $this->blockManager->get($object)->prePersist($object);
+        $block = $this->blockManager->get($object);
+
+        if (\is_callable([$block, 'prePersist'])) {
+            $block->prePersist($object);
+
+            @trigger_error(
+                'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.x and will be removed in version 4.0.',
+                E_USER_DEPRECATED
+            );
+        }
 
         if ($object->getPage() instanceof PageInterface) {
             $object->getPage()->setEdited(true);
@@ -119,7 +146,16 @@ abstract class BaseBlockAdmin extends AbstractAdmin
      */
     public function postPersist($object)
     {
-        $this->blockManager->get($object)->postPersist($object);
+        $block = $this->blockManager->get($object);
+
+        if (\is_callable([$block, 'postPersist'])) {
+            $block->postPersist($object);
+
+            @trigger_error(
+                'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.x and will be removed in version 4.0.',
+                E_USER_DEPRECATED
+            );
+        }
 
         $service = $this->blockManager->get($object);
 
@@ -131,7 +167,16 @@ abstract class BaseBlockAdmin extends AbstractAdmin
      */
     public function preRemove($object)
     {
-        $this->blockManager->get($object)->preRemove($object);
+        $block = $this->blockManager->get($object);
+
+        if (\is_callable([$block, 'preRemove'])) {
+            $block->preRemove($object);
+
+            @trigger_error(
+                'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.x and will be removed in version 4.0.',
+                E_USER_DEPRECATED
+            );
+        }
 
         $page = $object->getPage();
 
@@ -145,7 +190,16 @@ abstract class BaseBlockAdmin extends AbstractAdmin
      */
     public function postRemove($object)
     {
-        $this->blockManager->get($object)->postRemove($object);
+        $block = $this->blockManager->get($object);
+
+        if (\is_callable([$block, 'postRemove'])) {
+            $block->postRemove($object);
+
+            @trigger_error(
+                'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.x and will be removed in version 4.0.',
+                E_USER_DEPRECATED
+            );
+        }
     }
 
     public function setBlockManager(BlockServiceManagerInterface $blockManager)

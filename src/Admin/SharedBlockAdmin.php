@@ -15,8 +15,11 @@ namespace Sonata\PageBundle\Admin;
 
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\BlockBundle\Block\BaseBlockService;
+use Sonata\BlockBundle\Block\BlockServiceInterface;
+use Sonata\BlockBundle\Block\Service\EditableBlockService;
+use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\PageBundle\Entity\BaseBlock;
+use Sonata\PageBundle\Mapper\PageFormMapper;
 
 /**
  * Admin class for shared Block model.
@@ -80,15 +83,44 @@ class SharedBlockAdmin extends BaseBlockAdmin
 
         $formMapper->with('form.field_group_options');
 
-        /** @var BaseBlockService $service */
-        $service = $this->blockManager->get($block);
-
-        if ($block->getId() > 0) {
-            $service->buildEditForm($formMapper, $block);
-        } else {
-            $service->buildCreateForm($formMapper, $block);
-        }
+        $this->configureBlockFields($formMapper, $block);
 
         $formMapper->end();
+    }
+
+    private function configureBlockFields(FormMapper $formMapper, BlockInterface $block): void
+    {
+        $service = $this->blockManager->get($block);
+
+        if (!$service instanceof BlockServiceInterface) {
+            throw new \RuntimeException(sprintf(
+                'The block "%s" is not a valid %s',
+                $block->getType(),
+                BlockServiceInterface::class
+            ));
+        }
+
+        if ($service instanceof EditableBlockService) {
+            $blockMapper = new PageFormMapper($formMapper);
+            if ($block->getId() > 0) {
+                $service->configureEditForm($blockMapper, $block);
+            } else {
+                $service->configureCreateForm($blockMapper, $block);
+            }
+        } else {
+            @trigger_error(
+                sprintf(
+                    'Editing a block service that doesn\'t implement %s is deprecated since sonata-project/page-bundle 3.x and will not be allowed with version 4.0.',
+                    EditableBlockService::class
+                ),
+                E_USER_DEPRECATED
+            );
+
+            if ($block->getId() > 0) {
+                $service->buildEditForm($formMapper, $block);
+            } else {
+                $service->buildCreateForm($formMapper, $block);
+            }
+        }
     }
 }
