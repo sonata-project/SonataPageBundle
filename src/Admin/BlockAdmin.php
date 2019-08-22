@@ -210,7 +210,7 @@ class BlockAdmin extends BaseBlockAdmin
 
         if (!$service instanceof BlockServiceInterface) {
             throw new \RuntimeException(sprintf(
-                'The block "%s" is not a valid %s',
+                'The block "%s" must implement %s',
                 $blockType,
                 BlockServiceInterface::class
             ));
@@ -226,7 +226,7 @@ class BlockAdmin extends BaseBlockAdmin
         } else {
             @trigger_error(
                 sprintf(
-                    'Editing a non %s block service is deprecated since sonata-project/page-bundle 3.x and will not be allowed with version 4.0.',
+                    'Editing a block service which doesn\'t implement %s is deprecated since sonata-project/page-bundle 3.x and will not be allowed with version 4.0.',
                     EditableBlockService::class
                 ),
                 E_USER_DEPRECATED
