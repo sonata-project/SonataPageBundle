@@ -34,8 +34,6 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class PageAdminController extends Controller
 {
     /**
-     * @param mixed $query
-     *
      * @throws AccessDeniedException
      *
      * @return RedirectResponse
@@ -56,9 +54,6 @@ class PageAdminController extends Controller
         return new RedirectResponse($this->admin->generateUrl('list', $this->admin->getFilterParameters()));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function listAction(Request $request = null)
     {
         if (!$request->get('filter')) {
@@ -112,9 +107,6 @@ class PageAdminController extends Controller
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function createAction(Request $request = null)
     {
         $this->admin->checkAccess('create');

@@ -31,9 +31,6 @@ class UniqueUrlValidator extends ConstraintValidator
         $this->manager = $manager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function validate($currentPage, Constraint $constraint): void
     {
         if (!$currentPage instanceof PageInterface) {

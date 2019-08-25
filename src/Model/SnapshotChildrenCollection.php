@@ -41,9 +41,6 @@ class SnapshotChildrenCollection implements \Countable, \IteratorAggregate, \Arr
         $this->page = $page;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function offsetUnset($offset)
     {
         $this->load();
@@ -51,9 +48,6 @@ class SnapshotChildrenCollection implements \Countable, \IteratorAggregate, \Arr
         return $this->collection->offsetUnset($offset);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function offsetSet($offset, $value)
     {
         $this->load();
@@ -61,9 +55,6 @@ class SnapshotChildrenCollection implements \Countable, \IteratorAggregate, \Arr
         return $this->collection->offsetSet($offset, $value);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function offsetGet($offset)
     {
         $this->load();
@@ -71,9 +62,6 @@ class SnapshotChildrenCollection implements \Countable, \IteratorAggregate, \Arr
         return $this->collection->offsetGet($offset);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function offsetExists($offset)
     {
         $this->load();
@@ -81,9 +69,6 @@ class SnapshotChildrenCollection implements \Countable, \IteratorAggregate, \Arr
         return $this->collection->offsetExists($offset);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getIterator()
     {
         $this->load();
@@ -91,9 +76,6 @@ class SnapshotChildrenCollection implements \Countable, \IteratorAggregate, \Arr
         return $this->collection->getIterator();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function count()
     {
         $this->load();

@@ -55,9 +55,6 @@ class CmsSnapshotManager extends BaseCmsPageManager
         $this->transformer = $transformer;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPage(SiteInterface $site, $page)
     {
         if (\is_string($page) && '/' === substr($page, 0, 1)) {
@@ -77,17 +74,11 @@ class CmsSnapshotManager extends BaseCmsPageManager
         return $page;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getInternalRoute(SiteInterface $site, $pageName)
     {
         return $this->getPageByRouteName($site, sprintf('_page_internal_%s', $pageName));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function findContainer($code, PageInterface $page, BlockInterface $parentContainer = null)
     {
         $container = null;
@@ -112,9 +103,6 @@ class CmsSnapshotManager extends BaseCmsPageManager
         return $container;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getBlock($id)
     {
         if (isset($this->blocks[$id])) {
@@ -122,9 +110,6 @@ class CmsSnapshotManager extends BaseCmsPageManager
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getPageBy(SiteInterface $site = null, $fieldName, $value)
     {
         if ('id' === $fieldName) {

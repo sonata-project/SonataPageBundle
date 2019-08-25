@@ -52,17 +52,11 @@ class PageServiceManager implements PageServiceManagerInterface
         $this->router = $router;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function add($type, PageServiceInterface $service): void
     {
         $this->services[$type] = $service;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function get($type)
     {
         if ($type instanceof PageInterface) {
@@ -80,25 +74,16 @@ class PageServiceManager implements PageServiceManagerInterface
         return $this->services[$type];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAll()
     {
         return $this->services;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setDefault(PageServiceInterface $service): void
     {
         $this->default = $service;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function execute(PageInterface $page, Request $request, array $parameters = [], Response $response = null)
     {
         $service = $this->get($page);

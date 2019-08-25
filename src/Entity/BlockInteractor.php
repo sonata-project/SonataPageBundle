@@ -51,9 +51,6 @@ class BlockInteractor implements BlockInteractorInterface
         $this->registry = $registry;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getBlock($id)
     {
         $blocks = $this->getEntityManager()->createQueryBuilder()
@@ -69,9 +66,6 @@ class BlockInteractor implements BlockInteractorInterface
         return \count($blocks) > 0 ? $blocks[0] : false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getBlocksById(PageInterface $page)
     {
         $blocks = $this->getEntityManager()
@@ -84,9 +78,6 @@ class BlockInteractor implements BlockInteractorInterface
         return $blocks;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function saveBlocksPosition(array $data = [], $partial = true)
     {
         $em = $this->getEntityManager();
@@ -112,9 +103,6 @@ class BlockInteractor implements BlockInteractorInterface
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function createNewContainer(array $values = [], \Closure $alter = null)
     {
         $container = $this->blockManager->create();
@@ -149,9 +137,6 @@ class BlockInteractor implements BlockInteractorInterface
         return $container;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function loadPageBlocks(PageInterface $page)
     {
         if (isset($this->pageBlocksLoaded[$page->getId()])) {

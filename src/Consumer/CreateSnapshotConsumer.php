@@ -48,9 +48,6 @@ class CreateSnapshotConsumer implements ConsumerInterface
         $this->transformer = $transformer;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function process(ConsumerEvent $event): void
     {
         $pageId = $event->getMessage()->getValue('pageId');

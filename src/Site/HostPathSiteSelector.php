@@ -25,9 +25,6 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
  */
 class HostPathSiteSelector extends BaseSiteSelector
 {
-    /**
-     * {@inheritdoc}
-     */
     public function handleKernelRequest(GetResponseEvent $event): void
     {
         $request = $event->getRequest();
@@ -74,9 +71,6 @@ class HostPathSiteSelector extends BaseSiteSelector
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function onKernelRequestRedirect(GetResponseEvent $event): void
     {
         $request = $event->getRequest();
@@ -90,9 +84,6 @@ class HostPathSiteSelector extends BaseSiteSelector
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getRequestContext()
     {
         return new SiteRequestContext($this);

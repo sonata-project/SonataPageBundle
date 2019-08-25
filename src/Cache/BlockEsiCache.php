@@ -88,9 +88,6 @@ class BlockEsiCache extends VarnishCache
         $this->recorder = $recorder;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function get(array $keys): CacheElementInterface
     {
         $this->validateKeys($keys);
@@ -102,9 +99,6 @@ class BlockEsiCache extends VarnishCache
         return new CacheElement($keys, new Response($content));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function set(array $keys, $data, $ttl = CacheElement::DAY, array $contextualKeys = []): CacheElementInterface
     {
         $this->validateKeys($keys);
@@ -112,9 +106,6 @@ class BlockEsiCache extends VarnishCache
         return new CacheElement($keys, $data, $ttl, $contextualKeys);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function cacheAction(Request $request)
     {
         $parameters = array_merge($request->query->all(), $request->attributes->all());
@@ -157,9 +148,6 @@ class BlockEsiCache extends VarnishCache
         return $response;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function computeHash(array $keys): string
     {
         // values are casted into string for non numeric id

@@ -67,17 +67,11 @@ class TemplateManager implements TemplateManagerInterface
         $this->defaultParameters = $defaultParameters;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function add($code, Template $template): void
     {
         $this->templates[$code] = $template;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function get($code)
     {
         if (!isset($this->templates[$code])) {
@@ -87,41 +81,26 @@ class TemplateManager implements TemplateManagerInterface
         return $this->templates[$code];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setDefaultTemplateCode($code): void
     {
         $this->defaultTemplateCode = $code;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getDefaultTemplateCode()
     {
         return $this->defaultTemplateCode;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setAll($templates): void
     {
         $this->templates = $templates;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAll()
     {
         return $this->templates;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function renderResponse($code, array $parameters = [], Response $response = null)
     {
         return $this->engine->renderResponse(

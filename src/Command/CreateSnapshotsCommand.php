@@ -25,9 +25,6 @@ use Symfony\Component\Process\Process;
  */
 class CreateSnapshotsCommand extends BaseCommand
 {
-    /**
-     * {@inheritdoc}
-     */
     public function configure(): void
     {
         $this->setName('sonata:page:create-snapshots');
@@ -38,9 +35,6 @@ class CreateSnapshotsCommand extends BaseCommand
         $this->addOption('mode', null, InputOption::VALUE_OPTIONAL, 'Run the command asynchronously', 'sync');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function execute(InputInterface $input, OutputInterface $output): void
     {
         if (!$input->getOption('site')) {

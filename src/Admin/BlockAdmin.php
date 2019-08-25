@@ -17,7 +17,10 @@ use Doctrine\ORM\EntityRepository;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\BlockBundle\Block\BlockServiceInterface;
+use Sonata\BlockBundle\Block\Service\EditableBlockService;
 use Sonata\BlockBundle\Form\Type\ServiceListType;
+use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\PageBundle\Mapper\PageFormMapper;
 use Sonata\PageBundle\Model\PageInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -39,9 +42,6 @@ class BlockAdmin extends BaseBlockAdmin
 
     protected $classnameLabel = 'Block';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $accessMapping = [
         'savePosition' => 'EDIT',
         'switchParent' => 'EDIT',
@@ -62,9 +62,6 @@ class BlockAdmin extends BaseBlockAdmin
         $this->blocks = $blocks;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPersistentParameters()
     {
         $parameters = parent::getPersistentParameters();
@@ -76,9 +73,6 @@ class BlockAdmin extends BaseBlockAdmin
         return $parameters;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configureRoutes(RouteCollection $collection): void
     {
         parent::configureRoutes($collection);
@@ -90,9 +84,6 @@ class BlockAdmin extends BaseBlockAdmin
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $block = $this->getSubject();
@@ -145,8 +136,6 @@ class BlockAdmin extends BaseBlockAdmin
         if ($isContainerRoot || $isStandardBlock) {
             $formMapper->with('form.field_group_general', $generalGroupOptions);
 
-            $service = $this->blockManager->get($block);
-
             $containerBlockTypes = $this->containerBlockTypes;
 
             // need to investigate on this case where $page == null ... this should not be possible
@@ -180,39 +169,7 @@ class BlockAdmin extends BaseBlockAdmin
 
             $formMapper->with('form.field_group_options', $optionsGroupOptions);
 
-            if ($block->getId() > 0) {
-                $service->buildEditForm($formMapper, $block);
-            } else {
-                $service->buildCreateForm($formMapper, $block);
-            }
-
-            if ($formMapper->has('settings') && isset($this->blocks[$blockType]['templates'])) {
-                $settingsField = $formMapper->get('settings');
-
-                if (!$settingsField->has('template')) {
-                    $choices = [];
-
-                    if (null !== $defaultTemplate = $this->getDefaultTemplate($service)) {
-                        $choices['default'] = $defaultTemplate;
-                    }
-
-                    foreach ($this->blocks[$blockType]['templates'] as $item) {
-                        $choices[$item['name']] = $item['template'];
-                    }
-
-                    if (\count($choices) > 1) {
-                        $templateOptions = [
-                            'choices' => $choices,
-                        ];
-
-                        if ($settingsField->hasOption('choices_as_values')) {
-                            $templateOptions['choices_as_values'] = true;
-                        }
-
-                        $settingsField->add('template', ChoiceType::class, $templateOptions);
-                    }
-                }
-            }
+            $this->configureBlockFields($formMapper, $block);
 
             $formMapper->end();
         } else {
@@ -243,6 +200,71 @@ class BlockAdmin extends BaseBlockAdmin
 
         if (isset($options['template'])) {
             return $options['template'];
+        }
+    }
+
+    private function configureBlockFields(FormMapper $formMapper, BlockInterface $block): void
+    {
+        $service = $this->blockManager->get($block);
+        $blockType = $block->getType();
+
+        if (!$service instanceof BlockServiceInterface) {
+            throw new \RuntimeException(sprintf(
+                'The block "%s" must implement %s',
+                $blockType,
+                BlockServiceInterface::class
+            ));
+        }
+
+        if ($service instanceof EditableBlockService) {
+            $blockMapper = new PageFormMapper($formMapper);
+            if ($block->getId() > 0) {
+                $service->configureEditForm($blockMapper, $block);
+            } else {
+                $service->configureCreateForm($blockMapper, $block);
+            }
+        } else {
+            @trigger_error(
+                sprintf(
+                    'Editing a block service which doesn\'t implement %s is deprecated since sonata-project/page-bundle 3.x and will not be allowed with version 4.0.',
+                    EditableBlockService::class
+                ),
+                E_USER_DEPRECATED
+            );
+
+            if ($block->getId() > 0) {
+                $service->buildEditForm($formMapper, $block);
+            } else {
+                $service->buildCreateForm($formMapper, $block);
+            }
+        }
+
+        if ($formMapper->has('settings') && isset($this->blocks[$blockType]['templates'])) {
+            $settingsField = $formMapper->get('settings');
+
+            if (!$settingsField->has('template')) {
+                $choices = [];
+
+                if (null !== $defaultTemplate = $this->getDefaultTemplate($service)) {
+                    $choices['default'] = $defaultTemplate;
+                }
+
+                foreach ($this->blocks[$blockType]['templates'] as $item) {
+                    $choices[$item['name']] = $item['template'];
+                }
+
+                if (\count($choices) > 1) {
+                    $templateOptions = [
+                        'choices' => $choices,
+                    ];
+
+                    if ($settingsField->hasOption('choices_as_values')) {
+                        $templateOptions['choices_as_values'] = true;
+                    }
+
+                    $settingsField->add('template', ChoiceType::class, $templateOptions);
+                }
+            }
         }
     }
 }

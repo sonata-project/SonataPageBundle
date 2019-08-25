@@ -36,12 +36,12 @@ abstract class Snapshot implements SnapshotInterface
     protected $routeName;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $pageAlias;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $type;
 
@@ -51,7 +51,7 @@ abstract class Snapshot implements SnapshotInterface
     protected $name;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $url;
 
@@ -61,12 +61,12 @@ abstract class Snapshot implements SnapshotInterface
     protected $enabled;
 
     /**
-     * @var \DateTime
+     * @var \DateTime|null
      */
     protected $publicationDateStart;
 
     /**
-     * @var \DateTime
+     * @var \DateTime|null
      */
     protected $publicationDateEnd;
 
@@ -101,7 +101,7 @@ abstract class Snapshot implements SnapshotInterface
     protected $parent;
 
     /**
-     * @var int
+     * @var int|null
      */
     protected $parentId;
 
@@ -110,8 +110,14 @@ abstract class Snapshot implements SnapshotInterface
      */
     protected $sources;
 
+    /**
+     * @var PageInterface|null
+     */
     protected $target;
 
+    /**
+     * @var int|null
+     */
     protected $targetId;
 
     /**
@@ -119,273 +125,171 @@ abstract class Snapshot implements SnapshotInterface
      */
     protected $site;
 
-    /**
-     * {@inheritdoc}
-     */
     public function __toString()
     {
         return $this->getName() ?: '-';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setRouteName($routeName): void
     {
         $this->routeName = $routeName;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getRouteName()
     {
         return $this->routeName;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setPageAlias($pageAlias): void
     {
         $this->pageAlias = $pageAlias;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPageAlias()
     {
         return $this->pageAlias;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setType($type): void
     {
         $this->type = $type;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getType()
     {
         return $this->type;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setEnabled($enabled): void
     {
         $this->enabled = $enabled;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getEnabled()
     {
         return $this->enabled;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setName($name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName()
     {
         return $this->name;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setPublicationDateStart(\DateTime $publicationDateStart = null): void
     {
         $this->publicationDateStart = $publicationDateStart;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPublicationDateStart()
     {
         return $this->publicationDateStart;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setPublicationDateEnd(\DateTime $publicationDateEnd = null): void
     {
         $this->publicationDateEnd = $publicationDateEnd;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPublicationDateEnd()
     {
         return $this->publicationDateEnd;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setCreatedAt(\DateTime $createdAt = null): void
     {
         $this->createdAt = $createdAt;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getCreatedAt()
     {
         return $this->createdAt;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setUpdatedAt(\DateTime $updatedAt = null): void
     {
         $this->updatedAt = $updatedAt;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getUpdatedAt()
     {
         return $this->updatedAt;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setDecorate($decorate): void
     {
         $this->decorate = $decorate;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getDecorate()
     {
         return $this->decorate;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isHybrid()
     {
         return self::PAGE_ROUTE_CMS_NAME !== $this->getRouteName();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setPosition($position): void
     {
         $this->position = $position;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPosition()
     {
         return $this->position;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setContent($content): void
     {
         $this->content = $content;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getContent()
     {
         return $this->content;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setPage(PageInterface $page = null): void
     {
         $this->page = $page;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPage()
     {
         return $this->page;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setChildren($children): void
     {
         $this->children = $children;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getChildren()
     {
         return $this->children;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setParent($parent): void
     {
         $this->parent = $parent;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent()
     {
         return $this->parent;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setParentId($parentId): void
     {
         $this->parentId = $parentId;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParentId()
     {
         return $this->parentId;
@@ -411,65 +315,41 @@ abstract class Snapshot implements SnapshotInterface
         return $this->sources;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setTarget($target): void
     {
         $this->target = $target;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getTarget()
     {
         return $this->target;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setTargetId($targetId): void
     {
         $this->targetId = $targetId;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getTargetId()
     {
         return $this->targetId;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setUrl($url): void
     {
         $this->url = $url;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getUrl()
     {
         return $this->url;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setSite(SiteInterface $site): void
     {
         $this->site = $site;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getSite()
     {
         return $this->site;

@@ -26,9 +26,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 final class CreateBlockContainerCommand extends BaseCommand
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function configure(): void
     {
         $this->setName('sonata:page:create-block-container');
@@ -40,9 +37,6 @@ final class CreateBlockContainerCommand extends BaseCommand
         $this->setDescription('Creates a block container in all pages for specified template code');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $blockCode = $input->getArgument('blockCode');

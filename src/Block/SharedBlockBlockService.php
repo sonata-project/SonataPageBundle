@@ -64,9 +64,6 @@ class SharedBlockBlockService extends AbstractAdminBlockService
         $this->blockManager = $blockManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function execute(BlockContextInterface $blockContext, Response $response = null)
     {
         $block = $blockContext->getBlock();
@@ -85,9 +82,6 @@ class SharedBlockBlockService extends AbstractAdminBlockService
             ], $response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function validateBlock(ErrorElement $errorElement, BlockInterface $block): void
     {
         $errorElement
@@ -96,9 +90,6 @@ class SharedBlockBlockService extends AbstractAdminBlockService
             ->end();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function buildEditForm(FormMapper $formMapper, BlockInterface $block): void
     {
         if (!$block->getSetting('blockId') instanceof BlockInterface) {
@@ -112,17 +103,11 @@ class SharedBlockBlockService extends AbstractAdminBlockService
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName()
     {
         return 'Shared Block';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureSettings(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
@@ -131,9 +116,6 @@ class SharedBlockBlockService extends AbstractAdminBlockService
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load(BlockInterface $block): void
     {
         $sharedBlock = $block->getSetting('blockId', null);
@@ -145,17 +127,11 @@ class SharedBlockBlockService extends AbstractAdminBlockService
         $block->setSetting('blockId', $sharedBlock);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function prePersist(BlockInterface $block): void
     {
         $block->setSetting('blockId', \is_object($block->getSetting('blockId')) ? $block->getSetting('blockId')->getId() : null);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function preUpdate(BlockInterface $block): void
     {
         $block->setSetting('blockId', \is_object($block->getSetting('blockId')) ? $block->getSetting('blockId')->getId() : null);

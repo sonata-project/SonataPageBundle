@@ -272,8 +272,6 @@ class HostSiteSelector extends BaseSiteSelector
     /**
      * @param object $object
      * @param string $fieldName
-     *
-     * @return mixed
      */
     protected function _getFieldValue($object, $fieldName)
     {

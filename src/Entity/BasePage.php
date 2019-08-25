@@ -23,9 +23,6 @@ use Sonata\PageBundle\Model\Page;
  */
 abstract class BasePage extends Page
 {
-    /**
-     * {@inheritdoc}
-     */
     public function __construct()
     {
         parent::__construct();

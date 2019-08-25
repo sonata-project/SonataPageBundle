@@ -40,9 +40,6 @@ class CmsManagerSelector implements CmsManagerSelectorInterface, LogoutHandlerIn
         $this->container = $container;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function retrieve()
     {
         if ($this->isEditor()) {
@@ -54,9 +51,6 @@ class CmsManagerSelector implements CmsManagerSelectorInterface, LogoutHandlerIn
         return $manager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isEditor()
     {
         /*
@@ -80,9 +74,6 @@ class CmsManagerSelector implements CmsManagerSelectorInterface, LogoutHandlerIn
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function logout(Request $request, Response $response, TokenInterface $token): void
     {
         $this->getSession()->set('sonata/page/isEditor', false);

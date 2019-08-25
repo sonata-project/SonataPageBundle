@@ -53,9 +53,6 @@ class CmsPageManager extends BaseCmsPageManager
         $this->blockInteractor = $blockInteractor;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPage(SiteInterface $site, $page)
     {
         if (\is_string($page) && '/' === substr($page, 0, 1)) {
@@ -75,9 +72,6 @@ class CmsPageManager extends BaseCmsPageManager
         return $page;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getInternalRoute(SiteInterface $site, $pageName)
     {
         if ('error' === substr($pageName, 0, 5)) {
@@ -104,9 +98,6 @@ class CmsPageManager extends BaseCmsPageManager
         return $page;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function findContainer($code, PageInterface $page, BlockInterface $parentContainer = null)
     {
         $container = null;
@@ -141,9 +132,6 @@ class CmsPageManager extends BaseCmsPageManager
         return $container;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getBlock($id)
     {
         if (!isset($this->blocks[$id])) {
@@ -153,9 +141,6 @@ class CmsPageManager extends BaseCmsPageManager
         return $this->blocks[$id];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getPageBy(SiteInterface $site = null, $fieldName, $value)
     {
         if ('id' === $fieldName) {

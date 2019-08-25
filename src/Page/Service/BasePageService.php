@@ -35,9 +35,6 @@ abstract class BasePageService implements PageServiceInterface
         $this->name = $name;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName()
     {
         return $this->name;

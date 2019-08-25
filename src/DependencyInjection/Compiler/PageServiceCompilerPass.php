@@ -34,9 +34,6 @@ class PageServiceCompilerPass implements CompilerPassInterface
      */
     protected $tagName = 'sonata.page';
 
-    /**
-     * {@inheritdoc}
-     */
     public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition($this->manager)) {

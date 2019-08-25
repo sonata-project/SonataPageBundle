@@ -28,9 +28,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 final class CloneSiteCommand extends BaseCommand
 {
-    /**
-     * {@inheritdoc}
-     */
     public function configure(): void
     {
         $this
@@ -42,9 +39,6 @@ final class CloneSiteCommand extends BaseCommand
             ->addOption('only-hybrid', 'oh', InputOption::VALUE_OPTIONAL, 'only clone hybrid pages', false);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         if (!$input->getOption('source-id')) {
@@ -64,9 +58,6 @@ final class CloneSiteCommand extends BaseCommand
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
         if ($input->getOption('only-hybrid')) {

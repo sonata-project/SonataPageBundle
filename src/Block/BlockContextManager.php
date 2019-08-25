@@ -19,9 +19,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BlockContextManager extends BaseBlockContextManager
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function configureSettings(OptionsResolver $optionsResolver, BlockInterface $block): void
     {
         parent::configureSettings($optionsResolver, $block);

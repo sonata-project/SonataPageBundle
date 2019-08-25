@@ -25,9 +25,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class DumpPageCommand extends BaseCommand
 {
-    /**
-     * {@inheritdoc}
-     */
     public function configure(): void
     {
         $this->setName('sonata:page:dump-page');
@@ -47,9 +44,6 @@ You can use the --extended option to dump block configuration
         $this->addOption('extended', null, InputOption::VALUE_NONE, 'Extended information');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function execute(InputInterface $input, OutputInterface $output): void
     {
         $manager = $this->getContainer()->get($input->getArgument('manager'));

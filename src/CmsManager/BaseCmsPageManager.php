@@ -34,65 +34,41 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
      */
     protected $blocks = [];
 
-    /**
-     * {@inheritdoc}
-     */
     public function getCurrentPage()
     {
         return $this->currentPage;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setCurrentPage(PageInterface $page): void
     {
         $this->currentPage = $page;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getBlocks()
     {
         return $this->blocks;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPageByUrl(SiteInterface $site, $url)
     {
         return $this->getPageBy($site, 'url', $url);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPageByRouteName(SiteInterface $site, $routeName)
     {
         return $this->getPageBy($site, 'routeName', $routeName);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPageByPageAlias(SiteInterface $site, $pageAlias)
     {
         return $this->getPageBy($site, 'pageAlias', $pageAlias);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPageByName(SiteInterface $site, $name)
     {
         return $this->getPageBy($site, 'name', $name);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPageById($id)
     {
         return $this->getPageBy(null, 'id', $id);
@@ -100,7 +76,6 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
 
     /**
      * @param string $fieldName
-     * @param mixed  $value
      *
      * @return PageInterface
      */

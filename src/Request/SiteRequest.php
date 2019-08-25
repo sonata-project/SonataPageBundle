@@ -22,17 +22,11 @@ use Symfony\Component\HttpFoundation\Request as BaseRequest;
  */
 class SiteRequest extends BaseRequest implements SiteRequestInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function setPathInfo($pathInfo): void
     {
         $this->pathInfo = $pathInfo;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setBaseUrl($baseUrl): void
     {
         $this->baseUrl = $baseUrl;

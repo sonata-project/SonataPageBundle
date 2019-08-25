@@ -43,9 +43,6 @@ class CleanupSnapshotConsumer implements ConsumerInterface
         $this->pageManager = $pageManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function process(ConsumerEvent $event): void
     {
         $page = $this->pageManager->findOneBy([

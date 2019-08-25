@@ -40,8 +40,5 @@ interface PageManagerInterface extends ManagerInterface, PageableManagerInterfac
      */
     public function loadPages(SiteInterface $site);
 
-    /**
-     * @return mixed
-     */
     public function fixUrl(PageInterface $page);
 }

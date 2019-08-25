@@ -48,24 +48,24 @@ interface SiteInterface
     public function getHost();
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getLocale();
 
     /**
-     * @param string $locale
+     * @param string|null $locale
      */
     public function setLocale($locale);
 
     /**
-     * @return \DateTime
+     * @return \DateTime|null
      */
     public function getEnabledFrom();
 
     public function setEnabledFrom(\DateTime $enabledFrom = null);
 
     /**
-     * @return \DateTime
+     * @return \DateTime|null
      */
     public function getEnabledTo();
 
@@ -82,12 +82,12 @@ interface SiteInterface
     public function setIsDefault($default);
 
     /**
-     * @param string $path
+     * @param string|null $path
      */
     public function setRelativePath($path);
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getRelativePath();
 
@@ -147,38 +147,38 @@ interface SiteInterface
     public function isLocalhost();
 
     /**
-     * @param string $metaDescription
+     * @param string|null $metaDescription
      *
      * @return string
      */
     public function setMetaDescription($metaDescription);
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getMetaDescription();
 
     /**
-     * @param string $metaKeywords
+     * @param string|null $metaKeywords
      *
      * @return string
      */
     public function setMetaKeywords($metaKeywords);
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getMetaKeywords();
 
     /**
-     * @param string $title
+     * @param string|null $title
      *
      * @return string
      */
     public function setTitle($title);
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getTitle();
 }

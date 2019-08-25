@@ -59,17 +59,11 @@ class PageAdmin extends AbstractAdmin
      */
     protected $cacheManager;
 
-    /**
-     * {@inheritdoc}
-     */
     protected $accessMapping = [
         'tree' => 'LIST',
         'compose' => 'EDIT',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureRoutes(RouteCollection $collection): void
     {
         $collection->add('compose', '{id}/compose', [
@@ -82,17 +76,11 @@ class PageAdmin extends AbstractAdmin
         $collection->add('tree', 'tree');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function preUpdate($object): void
     {
         $object->setEdited(true);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function postUpdate($object): void
     {
         if ($this->cacheManager) {
@@ -102,9 +90,6 @@ class PageAdmin extends AbstractAdmin
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function prePersist($object): void
     {
         $object->setEdited(true);
@@ -115,9 +100,6 @@ class PageAdmin extends AbstractAdmin
         $this->pageManager = $pageManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getNewInstance()
     {
         $instance = parent::getNewInstance();
@@ -185,9 +167,6 @@ class PageAdmin extends AbstractAdmin
         return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getBatchActions()
     {
         $actions = parent::getBatchActions();
@@ -219,9 +198,6 @@ class PageAdmin extends AbstractAdmin
         $this->cacheManager = $cacheManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPersistentParameters()
     {
         $parameters = parent::getPersistentParameters();
@@ -238,9 +214,6 @@ class PageAdmin extends AbstractAdmin
         return $parameters;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configureShowFields(ShowMapper $showMapper): void
     {
         $showMapper
@@ -257,9 +230,6 @@ class PageAdmin extends AbstractAdmin
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
@@ -276,9 +246,6 @@ class PageAdmin extends AbstractAdmin
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
@@ -308,9 +275,6 @@ class PageAdmin extends AbstractAdmin
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configureFormFields(FormMapper $formMapper): void
     {
         // define group zoning
@@ -437,9 +401,6 @@ class PageAdmin extends AbstractAdmin
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configureTabMenu(MenuItemInterface $menu, $action, AdminInterface $childAdmin = null): void
     {
         if (!$childAdmin && !\in_array($action, ['edit'], true)) {

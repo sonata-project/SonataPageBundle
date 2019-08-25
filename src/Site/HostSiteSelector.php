@@ -22,9 +22,6 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
  */
 class HostSiteSelector extends BaseSiteSelector
 {
-    /**
-     * {@inheritdoc}
-     */
     public function handleKernelRequest(GetResponseEvent $event): void
     {
         foreach ($this->getSites($event->getRequest()) as $site) {
