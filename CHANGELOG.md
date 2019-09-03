@@ -2,6 +2,19 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.12.0](https://github.com/sonata-project/SonataPageBundle/compare/3.11.1...3.12.0) - 2019-10-03
+### Added
+- Added missing German translation
+- Added support for new `EditableBlockService`
+
+### Changed
+- Match PHPDoc with doctrine model
+- Increased block type length to 255 chars
+
+### Removed
+- Removed superfluous PHPDoc
+- Removed routing deprecations
+
 ## [3.11.1](https://github.com/sonata-project/SonataPageBundle/compare/3.11.0...3.11.1) - 2019-05-28
 
 ### Fixed
