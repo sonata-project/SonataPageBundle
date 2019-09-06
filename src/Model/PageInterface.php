@@ -262,21 +262,21 @@ interface PageInterface
     public function getBlocks();
 
     /**
-     * @param PageInterface $target
+     * @param PageInterface|null $target
      */
     public function setTarget(self $target = null);
 
     /**
      * Get target.
      *
-     * @return PageInterface
+     * @return PageInterface|null
      */
     public function getTarget();
 
     /**
      * Set parent.
      *
-     * @param PageInterface $parent
+     * @param PageInterface|null $parent
      */
     public function setParent(self $parent = null);
 
@@ -285,7 +285,7 @@ interface PageInterface
      *
      * @param int $level default -1
      *
-     * @return PageInterface $parent
+     * @return PageInterface|null
      */
     public function getParent($level = -1);
 
@@ -396,10 +396,10 @@ interface PageInterface
      */
     public function hasRequestMethod($method);
 
-    public function setSite(SiteInterface $site);
+    public function setSite(SiteInterface $site = null);
 
     /**
-     * @return SiteInterface
+     * @return SiteInterface|null
      */
     public function getSite();
 

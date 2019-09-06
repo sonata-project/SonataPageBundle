@@ -197,14 +197,14 @@ interface SnapshotInterface
     public function setPage(PageInterface $page = null);
 
     /**
-     * @return PageInterface
+     * @return PageInterface|null
      */
     public function getPage();
 
-    public function setSite(SiteInterface $site);
+    public function setSite(SiteInterface $site = null);
 
     /**
-     * @return SiteInterface
+     * @return SiteInterface|null
      */
     public function getSite();
 
