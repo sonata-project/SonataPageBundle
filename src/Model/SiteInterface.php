@@ -92,15 +92,11 @@ interface SiteInterface
     public function getRelativePath();
 
     /**
-     * Set enabled.
-     *
      * @param bool $enabled
      */
     public function setEnabled($enabled);
 
     /**
-     * Get enabled.
-     *
      * @return bool $enabled
      */
     public function getEnabled();
@@ -112,26 +108,16 @@ interface SiteInterface
      */
     public function isEnabled();
 
-    /**
-     * Set createdAt.
-     */
     public function setCreatedAt(\DateTime $createdAt = null);
 
     /**
-     * Get createdAt.
-     *
      * @return \Datetime $createdAt
      */
     public function getCreatedAt();
 
-    /**
-     * Set updatedAt.
-     */
     public function setUpdatedAt(\DateTime $updatedAt = null);
 
     /**
-     * Get updatedAt.
-     *
      * @return \Datetime $updatedAt
      */
     public function getUpdatedAt();

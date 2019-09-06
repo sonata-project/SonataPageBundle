@@ -34,22 +34,16 @@ interface PageInterface
     public function setId($id);
 
     /**
-     * Get routeName.
-     *
      * @return string $routeName
      */
     public function getRouteName();
 
     /**
-     * Set routeName.
-     *
      * @param string $routeName
      */
     public function setRouteName($routeName);
 
     /**
-     * Get pageAlias.
-     *
      * @return string|null $pageAlias
      */
     public function getPageAlias();
@@ -61,7 +55,6 @@ interface PageInterface
      * For performance, all pageAlias must be prefixed by _page_alias_ this will avoid
      * database lookup to load non existent alias
      *
-     * Set pageAlias
      *
      * @param string|null $pageAlias
      */
@@ -82,181 +75,128 @@ interface PageInterface
     public function setType($type);
 
     /**
-     * Set enabled.
-     *
      * @param bool $enabled
      */
     public function setEnabled($enabled);
 
     /**
-     * Get enabled.
-     *
      * @return bool $enabled
      */
     public function getEnabled();
 
     /**
-     * Set name.
-     *
      * @param string $name
      */
     public function setName($name);
 
     /**
-     * Get name.
-     *
      * @return string $name
      */
     public function getName();
 
     /**
-     * Set slug.
-     *
      * @param string|null $slug
      */
     public function setSlug($slug);
 
     /**
-     * Get slug.
-     *
      * @return string|null
      */
     public function getSlug();
 
     /**
-     * Get url.
-     *
      * @return string|null
      */
     public function getUrl();
 
     /**
-     * Set Url.
-     *
      * @param string|null $url
      */
     public function setUrl($url);
 
     /**
-     * Set customUrl.
-     *
      * @param string|null $customUrl
      */
     public function setCustomUrl($customUrl);
 
     /**
-     * Get customUrl.
-     *
      * @return string|null $customUrl
      */
     public function getCustomUrl();
 
     /**
-     * Set metaKeyword.
-     *
      * @param string|null $metaKeyword
      */
     public function setMetaKeyword($metaKeyword);
 
     /**
-     * Get metaKeyword.
-     *
      * @return string|null $metaKeyword
      */
     public function getMetaKeyword();
 
     /**
-     * Set metaDescription.
-     *
      * @param string|null $metaDescription
      */
     public function setMetaDescription($metaDescription);
 
     /**
-     * Get metaDescription.
-     *
      * @return string|null $metaDescription
      */
     public function getMetaDescription();
 
     /**
-     * Set javascript.
-     *
      * @param string|null $javascript
      */
     public function setJavascript($javascript);
 
     /**
-     * Get javascript.
-     *
      * @return string|null $javascript
      */
     public function getJavascript();
 
     /**
-     * Set stylesheet.
-     *
      * @param string|null $stylesheet
      */
     public function setStylesheet($stylesheet);
 
     /**
-     * Get stylesheet.
-     *
      * @return string|null $stylesheet
      */
     public function getStylesheet();
 
     /**
-     * Set createdAt.
-     *
      * @param \DateTime $createdAt
      */
     public function setCreatedAt(\DateTime $createdAt = null);
 
     /**
-     * Get createdAt.
-     *
      * @return \DateTime $createdAt
      */
     public function getCreatedAt();
 
     /**
-     * Set updatedAt.
-     *
      * @param \DateTime $updatedAt
      */
     public function setUpdatedAt(\DateTime $updatedAt = null);
 
     /**
-     * Get updatedAt.
-     *
      * @return \DateTime $updatedAt
      */
     public function getUpdatedAt();
 
     /**
-     * Add children.
-     *
      * @param PageInterface $children
      */
     public function addChildren(self $children);
 
     /**
-     * Get children.
-     *
      * @return ArrayCollection|PageInterface[]
      */
     public function getChildren();
 
-    /**
-     * Add blocks.
-     */
     public function addBlocks(PageBlockInterface $block);
 
     /**
-     * Get blocks.
-     *
      * @return ArrayCollection|PageBlockInterface[]
      */
     public function getBlocks();
@@ -267,22 +207,16 @@ interface PageInterface
     public function setTarget(self $target = null);
 
     /**
-     * Get target.
-     *
      * @return PageInterface|null
      */
     public function getTarget();
 
     /**
-     * Set parent.
-     *
      * @param PageInterface|null $parent
      */
     public function setParent(self $parent = null);
 
     /**
-     * Get parent.
-     *
      * @param int $level default -1
      *
      * @return PageInterface|null
@@ -290,15 +224,11 @@ interface PageInterface
     public function getParent($level = -1);
 
     /**
-     * Set template.
-     *
      * @param string|null $templateCode
      */
     public function setTemplateCode($templateCode);
 
     /**
-     * Get template.
-     *
      * @return string|null
      */
     public function getTemplateCode();
