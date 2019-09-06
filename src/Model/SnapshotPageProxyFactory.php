@@ -21,8 +21,6 @@ final class SnapshotPageProxyFactory implements SnapshotPageProxyFactoryInterfac
     private $snapshotPageProxyClass;
 
     /**
-     * SnapshotPageProxyFactory constructor.
-     *
      * @param string $snapshotPageProxyClass class name
      */
     public function __construct($snapshotPageProxyClass)

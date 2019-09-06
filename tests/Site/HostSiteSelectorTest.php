@@ -96,8 +96,6 @@ class HostSite extends BaseSite
     protected $id;
 
     /**
-     * Get id.
-     *
      * @return int $id
      */
     public function getId()

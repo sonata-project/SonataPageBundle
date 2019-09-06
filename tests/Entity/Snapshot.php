@@ -23,8 +23,6 @@ class Snapshot extends BaseSnapshot
     protected $id;
 
     /**
-     * Get id.
-     *
      * @return int $id
      */
     public function getId()

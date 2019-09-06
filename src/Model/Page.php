@@ -438,8 +438,6 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Set target.
-     *
      * @param PageInterface $target
      */
     public function setTarget(PageInterface $target = null)
@@ -447,9 +445,6 @@ abstract class Page implements PageInterface
         $this->target = $target;
     }
 
-    /**
-     * Add blocks.
-     */
     public function addBlocks(PageBlockInterface $blocks)
     {
         $blocks->setPage($this);
