@@ -86,7 +86,7 @@ abstract class Snapshot implements SnapshotInterface
     protected $content = [];
 
     /**
-     * @var PageInterface
+     * @var PageInterface|null
      */
     protected $page;
 
@@ -121,7 +121,7 @@ abstract class Snapshot implements SnapshotInterface
     protected $targetId;
 
     /**
-     * @var SiteInterface
+     * @var SiteInterface|null
      */
     protected $site;
 
@@ -345,7 +345,7 @@ abstract class Snapshot implements SnapshotInterface
         return $this->url;
     }
 
-    public function setSite(SiteInterface $site)
+    public function setSite(SiteInterface $site = null)
     {
         $this->site = $site;
     }

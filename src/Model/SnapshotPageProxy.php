@@ -417,7 +417,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
         return $this->getPage()->hasRequestMethod($method);
     }
 
-    public function setSite(SiteInterface $site)
+    public function setSite(SiteInterface $site = null)
     {
         $this->getPage()->setSite($site);
     }

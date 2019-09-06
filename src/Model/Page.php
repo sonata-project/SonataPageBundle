@@ -121,7 +121,7 @@ abstract class Page implements PageInterface
     protected $sources;
 
     /**
-     * @var PageInterface
+     * @var PageInterface|null
      */
     protected $parent;
 
@@ -131,7 +131,7 @@ abstract class Page implements PageInterface
     protected $parents;
 
     /**
-     * @var PageInterface
+     * @var PageInterface|null
      */
     protected $target;
 
@@ -161,7 +161,7 @@ abstract class Page implements PageInterface
     protected $decorate = true;
 
     /**
-     * @var SiteInterface
+     * @var SiteInterface|null
      */
     protected $site;
 
@@ -672,7 +672,7 @@ abstract class Page implements PageInterface
         return !$this->getRequestMethod() || false !== strpos($this->getRequestMethod(), $method);
     }
 
-    public function setSite(SiteInterface $site)
+    public function setSite(SiteInterface $site = null)
     {
         $this->site = $site;
     }
