@@ -17,6 +17,7 @@ use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
 use Knp\Menu\Provider\MenuProviderInterface;
 use Sonata\BlockBundle\Block\BlockContextInterface;
+use Sonata\BlockBundle\Meta\Metadata;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\SeoBundle\Block\Breadcrumb\BaseBreadcrumbMenuBlockService;
@@ -48,6 +49,13 @@ class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
     public function getName()
     {
         return 'sonata.page.block.breadcrumb';
+    }
+
+    public function getBlockMetadata($code = null)
+    {
+        return new Metadata($this->getName(), (null !== $code ? $code : $this->getName()), false, 'SonataPageBundle', [
+            'class' => 'fa fa-bars',
+        ]);
     }
 
     protected function getMenu(BlockContextInterface $blockContext)

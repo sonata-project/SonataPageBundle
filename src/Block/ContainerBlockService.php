@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Block;
 
 use Sonata\BlockBundle\Block\Service\ContainerBlockService as BaseContainerBlockService;
+use Sonata\BlockBundle\Meta\Metadata;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -30,6 +31,13 @@ class ContainerBlockService extends BaseContainerBlockService
             'layout' => '{{ CONTENT }}',
             'class' => '',
             'template' => '@SonataPage/Block/block_container.html.twig',
+        ]);
+    }
+
+    public function getBlockMetadata($code = null)
+    {
+        return new Metadata($this->getName(), (null !== $code ? $code : $this->getName()), false, 'SonataPageBundle', [
+            'class' => 'fa fa-square-o',
         ]);
     }
 }
