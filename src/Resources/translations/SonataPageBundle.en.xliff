@@ -931,6 +931,14 @@
                 <source>sonata_page_exceptions_edit</source>
                 <target>Edit exception</target>
             </trans-unit>
+            <trans-unit id="sonata.page.block.breadcrumb">
+                <source>sonata.page.block.breadcrumb</source>
+                <target>Breadcrumb</target>
+            </trans-unit>
+            <trans-unit id="sonata.page.block.container">
+                <source>sonata.page.block.container</source>
+                <target>Container</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

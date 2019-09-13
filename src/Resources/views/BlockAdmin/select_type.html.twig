@@ -32,7 +32,9 @@ file that was distributed with this source code.
                         class="btn btn-app btn-block sonata-block-type"
                         data-toggle="tooltip"
                         data-placement="top"
-                        title="{{ metadata.description|trans({}, metadata.domain|default('SonataBlockBundle')) }}"
+                        {% if metadata.description|length > 0 %}
+                            title="{{ metadata.description|trans({}, metadata.domain|default('SonataBlockBundle')) }}"
+                        {% endif %}
                             >
                         {% if not metadata.image %}
                             <i class="{{ metadata.option('class') }}" ></i>

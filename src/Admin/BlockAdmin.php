@@ -49,8 +49,6 @@ class BlockAdmin extends BaseBlockAdmin
     ];
 
     /**
-     * BlockAdmin constructor.
-     *
      * @param string $code
      * @param string $class
      * @param string $baseControllerName

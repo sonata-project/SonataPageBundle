@@ -930,6 +930,14 @@
                 <source>sonata_page_exceptions_edit</source>
                 <target>Exception bearbeiten</target>
             </trans-unit>
+            <trans-unit id="sonata.page.block.breadcrumb">
+                <source>sonata.page.block.breadcrumb</source>
+                <target>Navigation</target>
+            </trans-unit>
+            <trans-unit id="sonata.page.block.container">
+                <source>sonata.page.block.container</source>
+                <target>Container</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

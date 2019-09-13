@@ -23,7 +23,6 @@ use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\SnapshotPageProxy;
 use Sonata\PageBundle\Model\SnapshotPageProxyFactory;
 use Sonata\PageBundle\Model\SnapshotPageProxyFactoryInterface;
-use Sonata\PageBundle\Model\SnapshotPageProxyInterface;
 use Sonata\PageBundle\Model\TransformerInterface;
 
 /**
@@ -333,12 +332,6 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
         return $pager;
     }
 
-    /**
-     * Create a snapShotPageProxy instance.
-     *
-     *
-     * @return SnapshotPageProxyInterface
-     */
     final public function createSnapshotPageProxy(TransformerInterface $transformer, SnapshotInterface $snapshot)
     {
         return $this->snapshotPageProxyFactory

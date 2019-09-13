@@ -85,8 +85,6 @@ class Site extends BaseSite
     protected $id;
 
     /**
-     * Get id.
-     *
      * @return int $id
      */
     public function getId()
