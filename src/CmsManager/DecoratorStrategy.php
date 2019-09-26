@@ -57,12 +57,14 @@ class DecoratorStrategy implements DecoratorStrategyInterface
             return false;
         }
 
-        if (true === $response->headers->get('x-sonata-page-not-decorable', false)) {
+        // TODO: drop support for `true` value when bumping symfony/http-foundation dependency to >= 3.4.31
+        if (\in_array($response->headers->get('x-sonata-page-not-decorable', '0'), [true, '1'], true)) {
             return false;
         }
 
+        // TODO: drop support for `true` value when bumping symfony/http-foundation dependency to >= 3.4.31
         // the main controller explicitly force the the page to be decorate
-        if (true === $response->headers->get('x-sonata-page-decorable', false)) {
+        if (\in_array($response->headers->get('x-sonata-page-decorable', '0'), [true, '1'], true)) {
             return true;
         }
 
