@@ -10,7 +10,7 @@
     </parameters>
     <services>
         <service id="sonata.page.block.container" class="%sonata.page.block.container.class%">
-            <tag name="sonata.block"/>
+            <tag name="sonata.block" context="internal"/>
             <argument>sonata.page.block.container</argument>
             <argument type="service" id="sonata.templating"/>
         </service>
