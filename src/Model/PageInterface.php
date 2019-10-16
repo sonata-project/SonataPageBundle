@@ -25,15 +25,6 @@ interface PageInterface
     public const PAGE_ROUTE_CMS_NAME = 'page_slug';
 
     /**
-     * Returns the id.
-     *
-     * @return mixed
-     */
-    public function getId();
-
-    public function setId($id);
-
-    /**
      * @return string $routeName
      */
     public function getRouteName();

@@ -100,11 +100,6 @@ abstract class Site implements SiteInterface
         return $this->getName() ?: 'n/a';
     }
 
-    public function setId($id): void
-    {
-        $this->id = $id;
-    }
-
     public function setEnabled($enabled): void
     {
         $this->enabled = $enabled;

@@ -202,11 +202,6 @@ abstract class Page implements PageInterface
         self::$slugifyMethod = $slugifyMethod;
     }
 
-    public function setId($id): void
-    {
-        $this->id = $id;
-    }
-
     public function setRouteName($routeName): void
     {
         $this->routeName = $routeName;

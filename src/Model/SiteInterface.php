@@ -25,8 +25,6 @@ interface SiteInterface
      */
     public function __toString();
 
-    public function getId();
-
     /**
      * @param string $name
      */
