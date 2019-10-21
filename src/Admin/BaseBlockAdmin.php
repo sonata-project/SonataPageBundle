@@ -83,7 +83,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
             $block->preUpdate($object);
 
             @trigger_error(
-                'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.x and will be removed in version 4.0.',
+                'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.12.0 and will be removed in version 4.0.',
                 E_USER_DEPRECATED
             );
         }
@@ -107,7 +107,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
             $block->postUpdate($object);
 
             @trigger_error(
-                'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.x and will be removed in version 4.0.',
+                'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.12.0 and will be removed in version 4.0.',
                 E_USER_DEPRECATED
             );
         }
@@ -128,7 +128,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
             $block->prePersist($object);
 
             @trigger_error(
-                'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.x and will be removed in version 4.0.',
+                'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.12.0 and will be removed in version 4.0.',
                 E_USER_DEPRECATED
             );
         }
@@ -152,7 +152,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
             $block->postPersist($object);
 
             @trigger_error(
-                'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.x and will be removed in version 4.0.',
+                'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.12.0 and will be removed in version 4.0.',
                 E_USER_DEPRECATED
             );
         }
@@ -173,7 +173,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
             $block->preRemove($object);
 
             @trigger_error(
-                'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.x and will be removed in version 4.0.',
+                'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.12.0 and will be removed in version 4.0.',
                 E_USER_DEPRECATED
             );
         }
@@ -196,7 +196,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
             $block->postRemove($object);
 
             @trigger_error(
-                'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.x and will be removed in version 4.0.',
+                'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.12.0 and will be removed in version 4.0.',
                 E_USER_DEPRECATED
             );
         }
