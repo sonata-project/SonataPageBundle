@@ -15,14 +15,14 @@ namespace Sonata\PageBundle\Tests\Page;
 
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\CmsManager\DecoratorStrategy;
-use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class DecoratorStrategyTest extends TestCase
 {
-    public function testIsDecorable(): void
+    // TODO: drop support for headers' boolean values when bumping symfony/http-foundation dependency to >= 3.4.31
     {
         $response = new Response('dummy');
         $request = Request::create('/myurl');
@@ -31,7 +31,7 @@ class DecoratorStrategyTest extends TestCase
 
         $this->assertFalse($strategy->isDecorable($request, HttpKernelInterface::SUB_REQUEST, $response));
 
-        $response->headers = new ParameterBag();
+        $response->headers = new ResponseHeaderBag();
         $response->headers->set('Content-Type', 'foo/test');
 
         $this->assertFalse($strategy->isDecorable($request, HttpKernelInterface::MASTER_REQUEST, $response));
@@ -47,11 +47,22 @@ class DecoratorStrategyTest extends TestCase
 
         $request->headers->set('x-requested-with', null);
 
+        $response->headers->set('x-sonata-page-decorable', true);
+        $this->assertTrue($strategy->isDecorable($request, HttpKernelInterface::MASTER_REQUEST, $response));
+
+        $response->headers->set('x-sonata-page-not-decorable', true);
+        $this->assertFalse($strategy->isDecorable($request, HttpKernelInterface::MASTER_REQUEST, $response));
+
+        $response->headers->set('x-sonata-page-not-decorable', '1');
+        $this->assertFalse($strategy->isDecorable($request, HttpKernelInterface::MASTER_REQUEST, $response));
+
+        $response->headers->remove('x-sonata-page-not-decorable');
+
         $response->headers->set('x-sonata-page-decorable', false);
         $this->assertFalse($strategy->isDecorable($request, HttpKernelInterface::MASTER_REQUEST, $response));
 
         $request->headers->set('x-requested-with', 'XMLHttpRequest');
-        $response->headers->set('x-sonata-page-decorable', true);
+        $response->headers->set('x-sonata-page-decorable', '1');
         $this->assertTrue($strategy->isDecorable($request, HttpKernelInterface::MASTER_REQUEST, $response));
     }
 
