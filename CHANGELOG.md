@@ -2,6 +2,25 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.13.0](https://github.com/sonata-project/SonataPageBundle/compare/3.12.0...3.13.0) - 2019-10-21
+### Added
+- Add missing translation for admin menu
+- Added missing translation for blocks
+- Add more `@method` annotation to propagate new methods of
+  `SnapshotManagerInterface`
+
+### Fixed
+- Fixed `DecoratorStrategy` compatibility with `symfony/http-foundation` >= 3.4.31
+- Match PHPDoc with doctrine model
+
+### Changed
+- Add `internal` as default context for technical blocks
+- Use correct translation domain for page blocks
+
+### Removed
+- Remove translation call for empty block descriptions
+- Remove superfluous PHPDoc
+
 ## [3.12.0](https://github.com/sonata-project/SonataPageBundle/compare/3.11.1...3.12.0) - 2019-10-03
 ### Added
 - Added missing German translation

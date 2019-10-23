@@ -110,7 +110,7 @@ class SharedBlockAdmin extends BaseBlockAdmin
         } else {
             @trigger_error(
                 sprintf(
-                    'Editing a block service that doesn\'t implement %s is deprecated since sonata-project/page-bundle 3.x and will not be allowed with version 4.0.',
+                    'Editing a block service that doesn\'t implement %s is deprecated since sonata-project/page-bundle 3.12.0 and will not be allowed with version 4.0.',
                     EditableBlockService::class
                 ),
                 E_USER_DEPRECATED
