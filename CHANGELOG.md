@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.13.1](https://github.com/sonata-project/SonataPageBundle/compare/3.13.0...3.13.1) - 2019-11-02
+### Security
+- Bumps lodash from 2.4.2 to 4.17.15.
+
 ## [3.13.0](https://github.com/sonata-project/SonataPageBundle/compare/3.12.0...3.13.0) - 2019-10-21
 ### Added
 - Add missing translation for admin menu
