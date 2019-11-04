@@ -55,7 +55,6 @@ interface PageInterface
      * For performance, all pageAlias must be prefixed by _page_alias_ this will avoid
      * database lookup to load non existent alias
      *
-     *
      * @param string|null $pageAlias
      */
     public function setPageAlias($pageAlias);
@@ -235,7 +234,6 @@ interface PageInterface
 
     /**
      * Indicates if the page should be decorated with the CMS outer layout.
-     *
      *
      * @param bool $decorate
      */

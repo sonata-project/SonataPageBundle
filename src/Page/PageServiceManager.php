@@ -105,7 +105,6 @@ class PageServiceManager implements PageServiceManagerInterface
     /**
      * Creates a base response for given page.
      *
-     *
      * @return Response
      */
     protected function createResponse(PageInterface $page)

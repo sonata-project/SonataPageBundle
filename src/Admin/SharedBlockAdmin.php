@@ -93,11 +93,7 @@ class SharedBlockAdmin extends BaseBlockAdmin
         $service = $this->blockManager->get($block);
 
         if (!$service instanceof BlockServiceInterface) {
-            throw new \RuntimeException(sprintf(
-                'The block "%s" is not a valid %s',
-                $block->getType(),
-                BlockServiceInterface::class
-            ));
+            throw new \RuntimeException(sprintf('The block "%s" is not a valid %s', $block->getType(), BlockServiceInterface::class));
         }
 
         if ($service instanceof EditableBlockService) {

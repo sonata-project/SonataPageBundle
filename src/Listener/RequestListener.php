@@ -60,7 +60,6 @@ class RequestListener
     /**
      * Filter the `core.request` event to decorated the action.
      *
-     *
      * @throws InternalErrorException
      * @throws PageNotFoundException
      */
