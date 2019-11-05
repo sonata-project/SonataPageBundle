@@ -25,7 +25,6 @@ interface BlockInteractorInterface
     /**
      * return a block with the given id.
      *
-     *
      * @return BlockInterface
      */
     public function getBlock($id);
@@ -33,14 +32,12 @@ interface BlockInteractorInterface
     /**
      * return a flat list if page's blocks.
      *
-     *
      * @return BlockInterface[]
      */
     public function getBlocksById(PageInterface $page);
 
     /**
      * load blocks attached the given page.
-     *
      *
      * @return array $blocks
      */
