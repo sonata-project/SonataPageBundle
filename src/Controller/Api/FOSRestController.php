@@ -26,7 +26,6 @@ abstract class FOSRestController
     /**
      * NEXT_MAJOR: Remove this method, as it should be configured using annotations only.
      *
-     *
      * @return ParamFetcherInterface
      */
     final protected function setMapForOrderByParam(ParamFetcherInterface $paramFetcher)
