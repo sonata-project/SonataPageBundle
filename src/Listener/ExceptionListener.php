@@ -150,7 +150,6 @@ class ExceptionListener
     /**
      * Handles a kernel exception.
      *
-     *
      * @throws \Exception
      */
     public function onKernelException(GetResponseForExceptionEvent $event): void
@@ -204,7 +203,6 @@ class ExceptionListener
 
     /**
      * Handles a native error.
-     *
      *
      * @throws mixed
      */

@@ -46,7 +46,6 @@ interface SnapshotInterface
      * The route alias defines an internal url code that user can use to point
      * to an url. This feature must used with care to avoid to many generated queries.
      *
-     *
      * @param string|null $pageAlias
      */
     public function setPageAlias($pageAlias);

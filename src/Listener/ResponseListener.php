@@ -81,7 +81,6 @@ class ResponseListener
     /**
      * Filter the `core.response` event to decorate the action.
      *
-     *
      * @throws InternalErrorException
      */
     public function onCoreResponse(FilterResponseEvent $event): void
