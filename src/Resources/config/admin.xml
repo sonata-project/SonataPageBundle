@@ -69,12 +69,6 @@
             <call method="setContainerBlockTypes">
                 <argument>%sonata.block.container.types%</argument>
             </call>
-            <call method="setFormTheme">
-                <argument type="collection">
-                    <argument>@SonataPage/Form/form_admin_fields.html.twig</argument>
-                    <argument>@SonataDoctrineORMAdmin/Form/form_admin_fields.html.twig</argument>
-                </argument>
-            </call>
         </service>
         <service id="sonata.page.admin.shared_block" class="%sonata.page.admin.shared_block.class%" public="true">
             <tag name="sonata.admin" manager_type="orm" show_in_dashboard="true" group="%sonata.page.admin.groupname%" label_catalogue="%sonata.page.admin.page.translation_domain%" label="shared_block" label_translator_strategy="sonata.admin.label.strategy.underscore" icon="%sonata.page.admin.groupicon%"/>
@@ -92,12 +86,6 @@
             </call>
             <call method="setContainerBlockTypes">
                 <argument>%sonata.block.container.types%</argument>
-            </call>
-            <call method="setFormTheme">
-                <argument type="collection">
-                    <argument>@SonataPage/Form/form_admin_fields.html.twig</argument>
-                    <argument>@SonataDoctrineORMAdmin/Form/form_admin_fields.html.twig</argument>
-                </argument>
             </call>
         </service>
         <service id="sonata.page.admin.snapshot" class="%sonata.page.admin.snapshot.class%" public="true">
