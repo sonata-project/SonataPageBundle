@@ -16,7 +16,6 @@ namespace Sonata\PageBundle\Form\Type;
 use Sonata\PageBundle\Page\TemplateManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -44,14 +43,12 @@ class TemplateChoiceType extends AbstractType
             'choice_translation_domain' => false,
         ];
 
-        // NEXT_MAJOR: Remove (when requirement of Symfony is >= 3.0)
-        if (method_exists(FormTypeInterface::class, 'setDefaultOptions')) {
-            $defaults['choices_as_values'] = true;
-        }
-
         $resolver->setDefaults($defaults);
     }
 
+    /**
+     * NEXT_MAJOR: remove this method.
+     */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $this->configureOptions($resolver);
@@ -80,6 +77,9 @@ class TemplateChoiceType extends AbstractType
         return 'sonata_page_template';
     }
 
+    /**
+     * NEXT_MAJOR: remove this method.
+     */
     public function getName()
     {
         return $this->getBlockPrefix();
