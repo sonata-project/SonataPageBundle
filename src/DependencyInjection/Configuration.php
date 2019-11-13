@@ -30,8 +30,16 @@ class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $node = $treeBuilder->root('sonata_page')->children();
+        $treeBuilder = new TreeBuilder('sonata_block');
+
+        // Keep compatibility with symfony/config < 4.2
+        if (!method_exists($treeBuilder, 'getRootNode')) {
+            $node = $treeBuilder->root('sonata_page');
+        } else {
+            $node = $treeBuilder->getRootNode();
+        }
+
+        $node = $node->children();
 
         $routerAutoRegisterInfo = <<<'EOF'
 Automatically add 'sonata.page.router' service to the index of 'cmf_routing.router' chain router
