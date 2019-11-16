@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Request;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Kernel;
 
 class RequestFactory
 {
@@ -60,11 +59,6 @@ class RequestFactory
      */
     private static function configureFactory($type): void
     {
-        if (version_compare(Kernel::VERSION, '2.5', '<')) {
-            // nothing to configure as Request::setFactory require SF > 2.5
-            return;
-        }
-
         if (!\in_array($type, ['host_with_path', 'host_with_path_by_locale'], true)) {
             return;
         }

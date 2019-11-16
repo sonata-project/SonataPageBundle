@@ -256,10 +256,6 @@ class BlockAdmin extends BaseBlockAdmin
                         'choices' => $choices,
                     ];
 
-                    if ($settingsField->hasOption('choices_as_values')) {
-                        $templateOptions['choices_as_values'] = true;
-                    }
-
                     $settingsField->add('template', ChoiceType::class, $templateOptions);
                 }
             }

@@ -21,7 +21,6 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Sonata\PageBundle\Twig\Extension\PageExtension;
-use Symfony\Bridge\Twig\AppVariable;
 use Symfony\Bridge\Twig\Extension\HttpKernelExtension;
 use Symfony\Bundle\FrameworkBundle\Templating\GlobalVariables;
 use Symfony\Component\HttpFoundation\Request;
@@ -80,14 +79,6 @@ class PageExtensionTest extends TestCase
         );
         $extension->initRuntime($twigEnvironment);
 
-        if (!method_exists(AppVariable::class, 'getToken')) {
-            $httpKernelExtension->expects($this->once())->method('controller')->with(
-                'foo',
-                ['pathInfo' => '/foo/bar/'],
-                []
-            );
-        }
-
         $extension->controller('foo');
     }
 
@@ -113,10 +104,6 @@ class PageExtensionTest extends TestCase
             $httpKernelExtension = $this->createMock(HttpKernelExtension::class)
         );
         $extension->initRuntime($twigEnvironment);
-
-        if (!method_exists(AppVariable::class, 'getToken')) {
-            $httpKernelExtension->expects($this->once())->method('controller')->with('bar', [], []);
-        }
 
         $extension->controller('bar');
     }

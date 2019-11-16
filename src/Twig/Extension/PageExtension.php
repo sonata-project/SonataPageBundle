@@ -20,7 +20,6 @@ use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SnapshotPageProxy;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
-use Symfony\Bridge\Twig\AppVariable;
 use Symfony\Bridge\Twig\Extension\HttpKernelExtension;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
@@ -111,6 +110,11 @@ class PageExtension extends AbstractExtension implements InitRuntimeInterface
         $this->environment = $environment;
     }
 
+    /**
+     * NEXT_MAJOR: remove this method.
+     *
+     * @deprecated since sonata-project/page-bundle 3.x, to be removed in version 4.0.
+     */
     public function getName()
     {
         return 'sonata_page';
@@ -270,12 +274,7 @@ class PageExtension extends AbstractExtension implements InitRuntimeInterface
             }
         }
 
-        // Simplify this when dropping twig-bridge < 3.2 support
-        if (method_exists(AppVariable::class, 'getToken')) {
-            return HttpKernelExtension::controller($controller, $attributes, $query);
-        }
-
-        return $this->httpKernelExtension->controller($controller, $attributes, $query);
+        return HttpKernelExtension::controller($controller, $attributes, $query);
     }
 
     /**

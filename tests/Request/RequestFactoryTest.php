@@ -17,26 +17,17 @@ use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Request\RequestFactory;
 use Sonata\PageBundle\Request\SiteRequest;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Kernel;
 
 class RequestFactoryTest extends TestCase
 {
-    protected $hasFactory = false;
-
     public function setup(): void
     {
-        $this->hasFactory = version_compare(Kernel::VERSION, '2.5', '>=');
-
-        if ($this->hasFactory) {
-            Request::setFactory(null);
-        }
+        Request::setFactory(null);
     }
 
     public function tearDown(): void
     {
-        if ($this->hasFactory) {
-            Request::setFactory(null);
-        }
+        Request::setFactory(null);
     }
 
     public function testHostAndCreate(): void
@@ -54,19 +45,13 @@ class RequestFactoryTest extends TestCase
     public function testHostWithPathAndCreate(): void
     {
         $this->assertInstanceOf(SiteRequest::class, RequestFactory::create('host_with_path', '/'));
-
-        if ($this->hasFactory) {
-            $this->assertInstanceOf(SiteRequest::class, Request::create('/'));
-        }
+        $this->assertInstanceOf(SiteRequest::class, Request::create('/'));
     }
 
     public function testHostWithPathAndCreateFromGlobals(): void
     {
         $this->assertInstanceOf(SiteRequest::class, RequestFactory::createFromGlobals('host_with_path'));
-
-        if ($this->hasFactory) {
-            $this->assertInstanceOf(SiteRequest::class, Request::create('/'));
-        }
+        $this->assertInstanceOf(SiteRequest::class, Request::create('/'));
     }
 
     public function testInvalidType(): void
