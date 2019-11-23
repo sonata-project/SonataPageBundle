@@ -99,8 +99,12 @@ class BlockEsiCache extends VarnishCache
         return new CacheElement($keys, new Response($content));
     }
 
-    public function set(array $keys, $data, $ttl = CacheElement::DAY, array $contextualKeys = []): CacheElementInterface
-    {
+    public function set(
+        array $keys,
+        $data,
+        int $ttl = CacheElement::DAY,
+        array $contextualKeys = []
+    ): CacheElementInterface {
         $this->validateKeys($keys);
 
         return new CacheElement($keys, $data, $ttl, $contextualKeys);
