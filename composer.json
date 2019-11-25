@@ -23,6 +23,7 @@
     "require": {
         "php": "^7.1",
         "cocur/slugify": "^1.0 || ^2.0 || ^3.0",
+        "doctrine/doctrine-bundle": "^1.0",
         "sonata-project/admin-bundle": "^3.35",
         "sonata-project/block-bundle": "^3.18",
         "sonata-project/cache": "^1.0.2 || ^2.0",
