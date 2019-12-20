@@ -939,6 +939,10 @@
                 <source>sonata.page.block.container</source>
                 <target>Container</target>
             </trans-unit>
+            <trans-unit id="show.label_type">
+                <source>show.label_type</source>
+                <target>Type</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
