@@ -924,6 +924,10 @@
                 <source>form.label_icon</source>
                 <target>Icône</target>
             </trans-unit>
+            <trans-unit id="show.label_type">
+                <source>show.label_type</source>
+                <target>Type</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
