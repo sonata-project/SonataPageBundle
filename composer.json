@@ -23,7 +23,7 @@
     "require": {
         "php": "^7.1",
         "cocur/slugify": "^1.0 || ^2.0 || ^3.0",
-        "doctrine/doctrine-bundle": "^1.0",
+        "doctrine/doctrine-bundle": "^2.0",
         "sonata-project/admin-bundle": "^3.35",
         "sonata-project/block-bundle": "^3.18",
         "sonata-project/cache": "^1.0.2 || ^2.0",
@@ -39,7 +39,7 @@
         "symfony/config": "^3.4 || ^4.2",
         "symfony/console": "^3.4 || ^4.2",
         "symfony/debug": "^3.4 || ^4.2",
-        "symfony/dependency-injection": "^3.4 || ^4.2,<4.4.0",
+        "symfony/dependency-injection": "^3.4 || ^4.2",
         "symfony/form": "^3.4 || ^4.2",
         "symfony/http-foundation": "^3.4.31 || ^4.2",
         "symfony/http-kernel": "^3.4 || ^4.2",
