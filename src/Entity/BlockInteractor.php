@@ -14,10 +14,10 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Entity;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\Persistence\ManagerRegistry;
 use Sonata\BlockBundle\Model\BlockManagerInterface;
 use Sonata\PageBundle\Model\BlockInteractorInterface;
 use Sonata\PageBundle\Model\PageInterface;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * This class interacts with blocks.
@@ -32,7 +32,7 @@ class BlockInteractor implements BlockInteractorInterface
     protected $pageBlocksLoaded = [];
 
     /**
-     * @var RegistryInterface
+     * @var ManagerRegistry
      */
     protected $registry;
 
@@ -42,10 +42,10 @@ class BlockInteractor implements BlockInteractorInterface
     protected $blockManager;
 
     /**
-     * @param RegistryInterface     $registry     Doctrine registry
+     * @param ManagerRegistry       $registry     Doctrine registry
      * @param BlockManagerInterface $blockManager Block manager
      */
-    public function __construct(RegistryInterface $registry, BlockManagerInterface $blockManager)
+    public function __construct(ManagerRegistry $registry, BlockManagerInterface $blockManager)
     {
         $this->blockManager = $blockManager;
         $this->registry = $registry;
