@@ -116,7 +116,7 @@ abstract class Page implements PageInterface
     protected $blocks;
 
     /**
-     * @deprecated This property is deprecated since sonata-project/page-bundle 2.4 and will be removed in 3.0
+     * @deprecated This property is deprecated since sonata-project/page-bundle 2.4 and will be removed in 4.0
      */
     protected $sources;
 
