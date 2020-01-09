@@ -15,6 +15,7 @@ namespace Sonata\PageBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\BlockBundle\Model\BlockManagerInterface;
 use Sonata\PageBundle\Model\PageInterface;
@@ -23,7 +24,6 @@ use Sonata\PageBundle\Model\SnapshotInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\SnapshotPageProxy;
 use Sonata\PageBundle\Model\TransformerInterface;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * This class transform a SnapshotInterface into PageInterface.
@@ -51,11 +51,11 @@ class Transformer implements TransformerInterface
     protected $children = [];
 
     /**
-     * @var RegistryInterface
+     * @var ManagerRegistry
      */
     protected $registry;
 
-    public function __construct(SnapshotManagerInterface $snapshotManager, PageManagerInterface $pageManager, BlockManagerInterface $blockManager, RegistryInterface $registry)
+    public function __construct(SnapshotManagerInterface $snapshotManager, PageManagerInterface $pageManager, BlockManagerInterface $blockManager, ManagerRegistry $registry)
     {
         $this->snapshotManager = $snapshotManager;
         $this->pageManager = $pageManager;
