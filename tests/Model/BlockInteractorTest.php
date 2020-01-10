@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Model;
 
+use Doctrine\Common\Persistence\ManagerRegistry;
 use PHPUnit\Framework\TestCase;
 use Sonata\BlockBundle\Model\Block;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\BlockBundle\Model\BlockManagerInterface;
 use Sonata\PageBundle\Entity\BlockInteractor;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * @author Vincent Composieux <composieux@ekino.com>
@@ -30,7 +30,7 @@ class BlockInteractorTest extends TestCase
      */
     public function testCreateNewContainer(): void
     {
-        $registry = $this->createMock(RegistryInterface::class);
+        $registry = $this->createMock(ManagerRegistry::class);
 
         $blockManager = $this->createMock(BlockManagerInterface::class);
         $blockManager->expects($this->any())->method('create')->willReturn(new Block());

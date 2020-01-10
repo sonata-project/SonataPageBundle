@@ -159,7 +159,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
      *
      * @return PageInterface|false
      *
-     * @deprecated since 3.2, to be removed in 4.0
+     * @deprecated since sonata-project/page-bundle 3.2, to be removed in 4.0
      */
     public function getPageByName($routeName)
     {

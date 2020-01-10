@@ -106,7 +106,7 @@ abstract class Snapshot implements SnapshotInterface
     protected $parentId;
 
     /**
-     * @deprecated since version 2.4 and will be removed in 3.0
+     * @deprecated since sonata-project/page-bundle 2.4 and will be removed in 4.0
      */
     protected $sources;
 
@@ -296,7 +296,7 @@ abstract class Snapshot implements SnapshotInterface
     }
 
     /**
-     * @deprecated since version 2.4 and will be removed in 3.0
+     * @deprecated since sonata-project/page-bundle 2.4 and will be removed in 4.0
      */
     public function setSources($sources): void
     {
@@ -306,7 +306,7 @@ abstract class Snapshot implements SnapshotInterface
     }
 
     /**
-     * @deprecated since version 2.4 and will be removed in 3.0
+     * @deprecated since sonata-project/page-bundle 2.4 and will be removed in 4.0
      */
     public function getSource()
     {
