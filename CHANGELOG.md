@@ -2,6 +2,18 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.14.0](https://github.com/sonata-project/SonataPageBundle/compare/3.13.0...3.14.0) - 2020-01-12
+Changelog
+
+### Changed
+- `BlockInteractor` constructor's argument $registry is now an instance of
+  `Doctrine\Persistence\ManagerRegistry`
+- `Transformer` constructor's argument $registry is now an instance of
+  `Doctrine\Persistence\ManagerRegistry`
+
+### Fixed
+- deprecations from `doctrine/persistence`
+
 ## [3.13.0](https://github.com/sonata-project/SonataPageBundle/compare/3.12.0...3.13.0) - 2019-10-21
 ### Added
 - Add missing translation for admin menu
