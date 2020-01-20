@@ -38,7 +38,7 @@ class RoutePageGeneratorTest extends TestCase
     /**
      * Set up dependencies.
      */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->routePageGenerator = $this->getRoutePageGenerator();
     }

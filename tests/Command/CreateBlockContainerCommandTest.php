@@ -48,7 +48,7 @@ class CreateBlockContainerCommandTest extends TestCase
      */
     protected $container;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->blockInteractor = $this->prophesize(BlockInteractor::class);
 

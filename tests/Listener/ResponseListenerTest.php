@@ -57,7 +57,7 @@ class ResponseListenerTest extends TestCase
     /**
      * setup unit test.
      */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->decoratorStrategy = $this->createMock(DecoratorStrategyInterface::class);
         $this->pageServiceManager = $this->createMock(PageServiceManagerInterface::class);

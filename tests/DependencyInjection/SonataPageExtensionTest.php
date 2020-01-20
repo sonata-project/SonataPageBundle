@@ -79,12 +79,12 @@ class SonataPageExtensionTest extends AbstractExtensionTestCase
         ));
     }
 
-    protected function getContainerExtensions()
+    protected function getContainerExtensions(): array
     {
         return [new SonataPageExtension()];
     }
 
-    protected function getMinimalConfiguration()
+    protected function getMinimalConfiguration(): array
     {
         return [
             'multisite' => 'host',

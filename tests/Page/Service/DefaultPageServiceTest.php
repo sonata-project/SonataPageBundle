@@ -38,7 +38,7 @@ class DefaultPageServiceTest extends TestCase
      */
     protected $seoPage;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $name = 'my name';
         $this->templateManager = $this->createMock(TemplateManagerInterface::class);

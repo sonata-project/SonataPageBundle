@@ -27,7 +27,7 @@ abstract class BaseLocaleSiteSelectorTest extends TestCase
      */
     protected $siteSelector;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         throw new \RuntimeException('You must define a setUp method to initialize the site selector.');
     }
@@ -35,7 +35,7 @@ abstract class BaseLocaleSiteSelectorTest extends TestCase
     /**
      * Cleanups the site selector.
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         unset($this->siteSelector);
     }
