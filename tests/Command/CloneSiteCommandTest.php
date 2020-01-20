@@ -51,7 +51,7 @@ class CloneSiteCommandTest extends TestCase
      */
     private $blockManager;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->siteManager = $this->prophesize(SiteManagerInterface::class);
         $this->pageManager = $this->prophesize(PageManagerInterface::class);

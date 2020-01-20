@@ -48,7 +48,7 @@ class CmsPageManagerTest extends TestCase
     /**
      * Setup manager object to test.
      */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->blockInteractor = $this->getMockBlockInteractor();
         $this->pageManager = $this->createMock(PageManagerInterface::class);

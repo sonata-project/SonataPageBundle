@@ -26,7 +26,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
  */
 class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         $siteManager = $this->createMock(SiteManagerInterface::class);
         $decoratorStrategy = $this->createMock(DecoratorStrategyInterface::class);

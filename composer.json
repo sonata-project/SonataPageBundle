@@ -40,7 +40,7 @@
         "symfony/config": "^3.4 || ^4.2",
         "symfony/console": "^3.4 || ^4.2",
         "symfony/debug": "^3.4 || ^4.2",
-        "symfony/dependency-injection": "^3.4 || ^4.2,<4.4.0",
+        "symfony/dependency-injection": "^3.4 || ^4.2",
         "symfony/form": "^3.4 || ^4.2",
         "symfony/http-foundation": "^3.4.31 || ^4.2",
         "symfony/http-kernel": "^3.4 || ^4.2",
@@ -60,7 +60,7 @@
     "require-dev": {
         "friendsofsymfony/rest-bundle": "^2.1",
         "jms/serializer-bundle": "^1.0 || ^2.0",
-        "matthiasnoback/symfony-dependency-injection-test": "^3.0",
+        "matthiasnoback/symfony-dependency-injection-test": "^4.0",
         "nelmio/api-doc-bundle": "^2.4",
         "symfony/phpunit-bridge": "^4.3"
     },

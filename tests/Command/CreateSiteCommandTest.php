@@ -40,7 +40,7 @@ class CreateSiteCommandTest extends TestCase
      */
     private $siteManager;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->siteManager = $this->prophesize(SiteManagerInterface::class);
 

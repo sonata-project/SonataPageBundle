@@ -76,7 +76,7 @@ class ExceptionListenerTest extends TestCase
     /**
      * setup unit test.
      */
-    public function setUp()
+    protected function setUp(): void
     {
         // mock dependencies
         $this->siteSelector = $this->createMock(SiteSelectorInterface::class);

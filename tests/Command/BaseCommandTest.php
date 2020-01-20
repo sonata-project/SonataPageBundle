@@ -31,7 +31,7 @@ class BaseCommandTest extends TestCase
     /**
      * Sets up a new BaseCommand instance.
      */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->command = $this->getMockBuilder(BaseCommand::class)
             ->disableOriginalConstructor()
