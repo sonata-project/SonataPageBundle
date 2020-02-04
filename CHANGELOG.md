@@ -2,9 +2,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [3.14.0](https://github.com/sonata-project/SonataPageBundle/compare/3.13.0...3.14.0) - 2020-01-12
-Changelog
+## [3.15.0](https://github.com/sonata-project/SonataPageBundle/compare/3.14.0...3.15.0) - 2020-01-27
+### Changed
+- Re-allow SF DI>4.4.0
+- Upgrade matthiasnoback/symfony-dependency-injection-test to ^4.0
 
+## [3.14.0](https://github.com/sonata-project/SonataPageBundle/compare/3.13.0...3.14.0) - 2020-01-12
 ### Changed
 - `BlockInteractor` constructor's argument $registry is now an instance of
   `Doctrine\Persistence\ManagerRegistry`

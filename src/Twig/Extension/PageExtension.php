@@ -113,7 +113,7 @@ class PageExtension extends AbstractExtension implements InitRuntimeInterface
     /**
      * NEXT_MAJOR: remove this method.
      *
-     * @deprecated since sonata-project/page-bundle 3.x, to be removed in version 4.0.
+     * @deprecated since sonata-project/page-bundle 3.14, to be removed in version 4.0.
      */
     public function getName()
     {

@@ -33,7 +33,7 @@ class PageServiceManagerTest extends TestCase
      */
     protected $manager;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->router = $this->createMock(RouterInterface::class);
         $this->manager = new PageServiceManager($this->router);

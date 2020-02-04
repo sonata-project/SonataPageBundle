@@ -52,7 +52,7 @@ class CmsPageRouterTest extends TestCase
     /**
      * Setup test object with its dependencies.
      */
-    public function setup(): void
+    protected function setUp(): void
     {
         $this->cmsSelector = $this->createMock(CmsManagerSelectorInterface::class);
         $this->siteSelector = $this->createMock(SiteSelectorInterface::class);

@@ -20,12 +20,12 @@ use Symfony\Component\HttpFoundation\Request;
 
 class RequestFactoryTest extends TestCase
 {
-    public function setup(): void
+    protected function setUp(): void
     {
         Request::setFactory(null);
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         Request::setFactory(null);
     }

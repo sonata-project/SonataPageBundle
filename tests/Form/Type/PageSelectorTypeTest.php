@@ -27,7 +27,7 @@ class PageSelectorTypeTest extends TestCase
 
     protected $site;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $pages = [];
 

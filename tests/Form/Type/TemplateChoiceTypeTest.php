@@ -35,7 +35,7 @@ class TemplateChoiceTypeTest extends TestCase
     /**
      * setup each unit test.
      */
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->manager = $this->createMock(TemplateManagerInterface::class);
         $this->type = new TemplateChoiceType($this->manager);

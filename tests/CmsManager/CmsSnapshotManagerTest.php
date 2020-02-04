@@ -54,7 +54,7 @@ class CmsSnapshotManagerTest extends TestCase
     /**
      * Setup manager object to test.
      */
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->blockInteractor = $this->getMockBlockInteractor();
         $this->snapshotManager = $this->createMock(SnapshotManagerInterface::class);
