@@ -17,9 +17,7 @@ return a Response object. At this stage, the page service works a little bit lik
 For example, a simple implementation of a page service is to render the page. Normally, you could simply inject the
 templating engine and use it to render a Response object, just as you would do in a standard Controller. However, pages
 can be configured to use a particular template. Therefore, to render a page, you need to retrieve the page's configured
-template. This can be easily achieved by using the template manager service.
-
-.. code-block:: php
+template. This can be easily achieved by using the template manager service::
 
     // src/App/Service/CustomPageService.php
 
@@ -59,7 +57,7 @@ it as being a page service:
 
     <service id="app.custom_page_service" class="App\Service\CustomPageService">
         <argument>Custom page service</argument>
-        <argument type="service" id="sonata.page.template_manager" />
+        <argument type="service" id="sonata.page.template_manager"/>
         <tag name="sonata.page"/>
     </service>
 
