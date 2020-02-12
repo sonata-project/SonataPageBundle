@@ -125,7 +125,8 @@ class PageTest extends TestCase
             $expectedStringHeaders."\r\nCache-Control: no-cache, private"
         );
         $this->assertSame(
-            $page->getHeaders(), array_merge($expectedHeaders, ['Cache-Control' => 'no-cache, private'])
+            $page->getHeaders(),
+            array_merge($expectedHeaders, ['Cache-Control' => 'no-cache, private'])
         );
 
         $page->setRawHeaders($expectedStringHeaders);

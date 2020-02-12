@@ -98,7 +98,8 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
 
         $this->getEntityManager()->flush();
         //@todo: strange sql and low-level pdo usage: use dql or qb
-        $sql = sprintf("UPDATE %s SET publication_date_end = '%s' WHERE id NOT IN(%s) AND page_id IN (%s)",
+        $sql = sprintf(
+            "UPDATE %s SET publication_date_end = '%s' WHERE id NOT IN(%s) AND page_id IN (%s)",
             $this->getTableName(),
             $date->format('Y-m-d H:i:s'),
             implode(',', $snapshotIds),
