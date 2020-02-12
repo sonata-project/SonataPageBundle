@@ -411,19 +411,23 @@ class PageAdmin extends AbstractAdmin
 
         $id = $admin->getRequest()->get('id');
 
-        $menu->addChild('sidemenu.link_edit_page',
+        $menu->addChild(
+            'sidemenu.link_edit_page',
             $admin->generateMenuUrl('edit', ['id' => $id])
         );
 
-        $menu->addChild('sidemenu.link_compose_page',
+        $menu->addChild(
+            'sidemenu.link_compose_page',
             $admin->generateMenuUrl('compose', ['id' => $id])
         );
 
-        $menu->addChild('sidemenu.link_list_blocks',
+        $menu->addChild(
+            'sidemenu.link_list_blocks',
             $admin->generateMenuUrl('sonata.page.admin.block.list', ['id' => $id])
         );
 
-        $menu->addChild('sidemenu.link_list_snapshots',
+        $menu->addChild(
+            'sidemenu.link_list_snapshots',
             $admin->generateMenuUrl('sonata.page.admin.snapshot.list', ['id' => $id])
         );
 

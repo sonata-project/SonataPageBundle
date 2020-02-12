@@ -81,7 +81,8 @@ HELP
      */
     public function renderBlock(BlockInterface $block, OutputInterface $output, $extended, $space = 0)
     {
-        $output->writeln(sprintf('%s <comment>> Id: %d - type: %s - name: %s</comment>',
+        $output->writeln(sprintf(
+            '%s <comment>> Id: %d - type: %s - name: %s</comment>',
             str_repeat('  ', $space),
             $block->getId(),
             $block->getType(),

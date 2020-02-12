@@ -68,8 +68,11 @@ class CmsPageManagerTest extends TestCase
 
         $container = $this->manager->findContainer('findme', $page);
 
-        $this->assertSame(spl_object_hash($block), spl_object_hash($container),
-            'should retrieve the block of the page');
+        $this->assertSame(
+            spl_object_hash($block),
+            spl_object_hash($container),
+            'should retrieve the block of the page'
+        );
     }
 
     /**
