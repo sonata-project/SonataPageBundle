@@ -104,9 +104,9 @@ class PageSelectorType extends AbstractType
             }
 
             if ('all' !== $filter_choice['dynamic'] && (
-                    ($filter_choice['dynamic'] && $page->isDynamic()) ||
+                ($filter_choice['dynamic'] && $page->isDynamic()) ||
                     (!$filter_choice['dynamic'] && !$page->isDynamic())
-                )
+            )
             ) {
                 continue;
             }

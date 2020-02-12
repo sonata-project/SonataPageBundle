@@ -29,10 +29,20 @@ class MigrateBlockNameSettingCommand extends BaseCommand
     public function configure()
     {
         $this->setName('sonata:page:migrate-block-setting');
-        $this->addOption('class', null, InputOption::VALUE_OPTIONAL, 'Block entity class',
-            'Application\Sonata\PageBundle\Entity\Block');
-        $this->addOption('update-name', null, InputOption::VALUE_OPTIONAL, 'update name field from code setting',
-            false);
+        $this->addOption(
+            'class',
+            null,
+            InputOption::VALUE_OPTIONAL,
+            'Block entity class',
+            'Application\Sonata\PageBundle\Entity\Block'
+        );
+        $this->addOption(
+            'update-name',
+            null,
+            InputOption::VALUE_OPTIONAL,
+            'update name field from code setting',
+            false
+        );
         $this->setDescription('Migrate the "name" setting of all blocks into a "code" setting and remove unused "orientation" setting on "'.self::CONTAINER_TYPE.'" blocks');
     }
 

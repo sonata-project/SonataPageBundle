@@ -76,7 +76,8 @@ class CleanupSnapshotsCommand extends BaseCommand
 
                 $output->writeln(' done!');
             } else {
-                $p = new Process(sprintf('%s sonata:page:cleanup-snapshots --env=%s --site=%s --mode=%s --keep-snapshots=%s %s',
+                $p = new Process(sprintf(
+                    '%s sonata:page:cleanup-snapshots --env=%s --site=%s --mode=%s --keep-snapshots=%s %s',
                     $input->getOption('base-console'),
                     $input->getOption('env'),
                     $site->getId(),

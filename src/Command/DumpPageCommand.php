@@ -30,14 +30,15 @@ class DumpPageCommand extends BaseCommand
         $this->setName('sonata:page:dump-page');
         $this->setDescription('Dump page information');
         $this->setHelp(
-'Dump page information
+            'Dump page information
 
 Available managers:
  - sonata.page.cms.snapshot
  - sonata.page.cms.page
 
 You can use the --extended option to dump block configuration
-');
+'
+        );
 
         $this->addArgument('manager', InputArgument::REQUIRED, 'The manager service id');
         $this->addArgument('page_id', InputArgument::REQUIRED, 'The page id');
@@ -79,7 +80,8 @@ You can use the --extended option to dump block configuration
      */
     public function renderBlock(BlockInterface $block, OutputInterface $output, $extended, $space = 0)
     {
-        $output->writeln(sprintf('%s <comment>> Id: %d - type: %s - name: %s</comment>',
+        $output->writeln(sprintf(
+            '%s <comment>> Id: %d - type: %s - name: %s</comment>',
             str_repeat('  ', $space),
             $block->getId(),
             $block->getType(),
