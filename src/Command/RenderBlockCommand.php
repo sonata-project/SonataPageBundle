@@ -29,12 +29,14 @@ class RenderBlockCommand extends BaseCommand
         $this->setName('sonata:page:render-block');
         $this->setDescription('Dump page information');
         $this->setHelp(
-'Dump page information
+            <<<HELP
+Dump page information
 
 Available manager:
  - sonata.page.cms.snapshot
  - sonata.page.cms.page
-');
+HELP
+        );
 
         $this->addArgument('manager', InputArgument::REQUIRED, 'The manager service id');
         $this->addArgument('page_id', InputArgument::REQUIRED, 'The page id');
