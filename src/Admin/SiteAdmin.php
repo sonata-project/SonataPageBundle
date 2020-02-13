@@ -106,7 +106,10 @@ class SiteAdmin extends AbstractAdmin
                 ->add('locale', LocaleType::class, ['required' => false])
                 ->add('relativePath', null, ['required' => false])
                 ->add('enabledFrom', DateTimePickerType::class, ['dp_side_by_side' => true])
-                ->add('enabledTo', DateTimePickerType::class, ['required' => false, 'dp_side_by_side' => true]
+                ->add(
+                    'enabledTo',
+                    DateTimePickerType::class,
+                    ['required' => false, 'dp_side_by_side' => true]
                 )
             ->end()
             ->with('form_site.label_seo', ['class' => 'col-md-6'])

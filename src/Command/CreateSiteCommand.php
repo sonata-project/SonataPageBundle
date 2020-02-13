@@ -45,7 +45,8 @@ class CreateSiteCommand extends BaseCommand
 
         $this->setDescription('Create a site');
 
-        $this->setHelp(<<<'EOT'
+        $this->setHelp(
+            <<<'EOT'
 The <info>sonata:page:create-site</info> command create a new site entity.
 
 EOT
@@ -93,7 +94,8 @@ EOT
         $info_enabledFrom = $site->getEnabledFrom() instanceof \DateTime ? $site->getEnabledFrom()->format('r') : 'ALWAYS';
         $info_enabledTo = $site->getEnabledTo() instanceof \DateTime ? $site->getEnabledTo()->format('r') : 'ALWAYS';
 
-        $output->writeln(<<<INFO
+        $output->writeln(
+            <<<INFO
 
 Creating website with the following information :
   <info>name</info> : {$site->getName()}

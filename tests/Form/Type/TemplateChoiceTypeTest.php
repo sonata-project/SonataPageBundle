@@ -53,8 +53,11 @@ class TemplateChoiceTypeTest extends TestCase
         $this->type->configureOptions(new OptionsResolver());
 
         $this->type->getTemplates();
-        $this->assertSame(['Template 1' => 'my_template'], $this->type->getTemplates(),
-            'Should return an array of templates provided by the template manager');
+        $this->assertSame(
+            ['Template 1' => 'my_template'],
+            $this->type->getTemplates(),
+            'Should return an array of templates provided by the template manager'
+        );
     }
 
     /**

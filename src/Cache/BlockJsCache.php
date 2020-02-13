@@ -159,7 +159,7 @@ class BlockJsCache implements CacheAdapterInterface
     protected function getSync(array $keys)
     {
         return sprintf(
-'<div id="block-cms-%s" >
+            '<div id="block-cms-%s" >
     <script>
         /*<![CDATA[*/
             (function () {
@@ -187,7 +187,11 @@ class BlockJsCache implements CacheAdapterInterface
             })();
         /*]]>*/
     </script>
-</div>', $keys['block_id'], $keys['block_id'], $this->router->generate('sonata_page_js_sync_cache', $keys, UrlGeneratorInterface::ABSOLUTE_URL));
+</div>',
+            $keys['block_id'],
+            $keys['block_id'],
+            $this->router->generate('sonata_page_js_sync_cache', $keys, UrlGeneratorInterface::ABSOLUTE_URL)
+        );
     }
 
     /**
@@ -196,7 +200,7 @@ class BlockJsCache implements CacheAdapterInterface
     protected function getAsync(array $keys)
     {
         return sprintf(
-'<div id="block-cms-%s" >
+            '<div id="block-cms-%s" >
     <script>
         /*<![CDATA[*/
             (function() {
@@ -210,7 +214,10 @@ class BlockJsCache implements CacheAdapterInterface
 
         /*]]>*/
     </script>
-</div>', $keys['block_id'], $this->router->generate('sonata_page_js_async_cache', $keys, UrlGeneratorInterface::ABSOLUTE_URL));
+</div>',
+            $keys['block_id'],
+            $this->router->generate('sonata_page_js_async_cache', $keys, UrlGeneratorInterface::ABSOLUTE_URL)
+        );
     }
 
     /**
