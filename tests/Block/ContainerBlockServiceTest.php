@@ -74,7 +74,7 @@ class ContainerBlockServiceTest extends AbstractBlockServiceTestCase
 
         $service->execute($blockContext);
 
-        $this->assertInternalType('array', $this->templating->parameters['decorator']);
+        $this->assertIsArray($this->templating->parameters['decorator']);
         $this->assertArrayHasKey('pre', $this->templating->parameters['decorator']);
         $this->assertArrayHasKey('post', $this->templating->parameters['decorator']);
         $this->assertSame('before', $this->templating->parameters['decorator']['pre']);
