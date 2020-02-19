@@ -83,7 +83,7 @@ class PageListBlockServiceTest extends AbstractBlockServiceTestCase
         $this->assertSame('@SonataPage/Block/block_pagelist.html.twig', $this->templating->view);
 
         $this->assertSame($blockContext, $this->templating->parameters['context']);
-        $this->assertInternalType('array', $this->templating->parameters['settings']);
+        $this->assertIsArray($this->templating->parameters['settings']);
         $this->assertInstanceOf(BlockInterface::class, $this->templating->parameters['block']);
         $this->assertCount(2, $this->templating->parameters['elements']);
         $this->assertContains($page1, $this->templating->parameters['elements']);
