@@ -79,6 +79,31 @@ class CreateSiteCommandTest extends TestCase
         $this->assertRegExp('@Site created !@', $commandTester->getDisplay());
     }
 
+    public function testExecuteWithNoInteraction()
+    {
+        $site = new Site();
+
+        $this->siteManager->create()->willReturn($site);
+        $this->siteManager->save($site)->shouldBeCalled();
+
+        $command = $this->application->find('sonata:page:create-site');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute([
+            'command' => $command->getName(),
+            '--name' => 'foo',
+            '--host' => 'foo',
+            '--relativePath' => 'foo',
+            '--enabled' => true,
+            '--enabledFrom' => 'now',
+            '--enabledTo' => 'now',
+            '--default' => true,
+            '--locale' => 'foo',
+            '--no-interaction',
+        ]);
+
+        $this->assertRegExp('@Site created !@', $commandTester->getDisplay());
+    }
+
     public function testExecuteWithoutNoConfirmation()
     {
         $site = new Site();

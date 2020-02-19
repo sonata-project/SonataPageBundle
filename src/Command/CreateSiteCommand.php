@@ -107,7 +107,16 @@ INFO
 
         $confirmation = true;
 
-        if (!$input->getOption('no-confirmation')) {
+        if (!$input->hasOption('no-confirmation')) {
+            $input->setOption('no-interaction', true === $input->getOption('no-confirmation'));
+
+            @trigger_error(
+                'The "no-confirmation" option is deprecated since sonata-project/page-bundle 3.x and will be removed in version 4.0.',
+                E_USER_DEPRECATED
+            );
+        }
+
+        if (!$input->hasOption('no-interaction')) {
             $question = new ConfirmationQuestion('Confirm site creation (Y/N)', false, '/^(y)/i');
             $confirmation = $helper->ask($input, $output, $question);
         }
