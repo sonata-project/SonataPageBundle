@@ -35,8 +35,18 @@ class PageController extends Controller
      * @throws AccessDeniedException
      *
      * @return Response
+     *
+     * NEXT_MAJOR: Remove this method
      */
     public function exceptionsListAction()
+    {
+        return $this->exceptionsList();
+    }
+
+    /**
+     * @throws AccessDeniedException
+     */
+    public function exceptionsList(): Response
     {
         if (!$this->getCmsManagerSelector()->isEditor()) {
             throw new AccessDeniedException();
@@ -53,8 +63,18 @@ class PageController extends Controller
      * @throws InternalErrorException|AccessDeniedException
      *
      * @return Response
+     *
+     * NEXT_MAJOR: Remove this method
      */
     public function exceptionEditAction($code)
+    {
+        return $this->exceptionEdit($code);
+    }
+
+    /**
+     * @throws InternalErrorException|AccessDeniedException
+     */
+    public function exceptionEdit(string $code): Response
     {
         $cms = $this->getCmsManager();
 
