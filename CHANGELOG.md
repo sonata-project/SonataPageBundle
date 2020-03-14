@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.15.1](https://github.com/sonata-project/SonataPageBundle/compare/3.15.0...3.15.1) - 2020-03-14
+### Fixed
+- Fix page actions for symfony 4
+
+### Removed
+- Dependency on `cocur/slugify`
+
 ## [3.15.0](https://github.com/sonata-project/SonataPageBundle/compare/3.14.0...3.15.0) - 2020-01-27
 ### Changed
 - Re-allow SF DI>4.4.0
