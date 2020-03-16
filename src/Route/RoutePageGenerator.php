@@ -98,6 +98,7 @@ class RoutePageGenerator
         // Iterate over declared routes from the routing mechanism
         foreach ($this->router->getRouteCollection()->all() as $name => $route) {
             $name = trim($name);
+            $displayName = $this->displayName($name);
 
             $knowRoutes[] = $name;
 
@@ -136,7 +137,7 @@ class RoutePageGenerator
 
                 $page = $this->pageManager->create([
                     'routeName' => $name,
-                    'name' => $name,
+                    'name' => $displayName,
                     'url' => $route->getPath(),
                     'site' => $site,
                     'requestMethod' => $requirements['_method'] ??
@@ -166,6 +167,7 @@ class RoutePageGenerator
         // Iterate over error pages
         foreach ($this->exceptionListener->getHttpErrorCodes() as $name) {
             $name = trim((string) $name);
+            $displayName = $this->displayName($name);
 
             $knowRoutes[] = $name;
 
@@ -177,7 +179,7 @@ class RoutePageGenerator
             if (!$page) {
                 $params = [
                     'routeName' => $name,
-                    'name' => $name,
+                    'name' => $displayName,
                     'decorate' => false,
                     'site' => $site,
                 ];
@@ -253,10 +255,11 @@ MSG
             if ('/' === $route->getPath()) {
                 $requirements = $route->getRequirements();
                 $name = trim($name);
+                $displayName = $this->displayName($name);
 
                 return $this->pageManager->create([
                     'routeName' => $name,
-                    'name' => $name,
+                    'name' => $displayName,
                     'url' => $route->getPath(),
                     'site' => $site,
                     'requestMethod' => $requirements['_method'] ?? 'GET|POST|HEAD|DELETE|PUT',
@@ -273,5 +276,10 @@ MSG
             'requestMethod' => 'GET|POST|HEAD|DELETE|PUT',
             'slug' => '/',
         ]);
+    }
+
+    private function displayName(string $name): string
+    {
+        return ucwords(trim(str_replace('_', ' ', $name)));
     }
 }
