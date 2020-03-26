@@ -13,19 +13,10 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle;
 
-use Sonata\CoreBundle\Form\FormHelper;
 use Sonata\PageBundle\DependencyInjection\Compiler\CacheCompilerPass;
 use Sonata\PageBundle\DependencyInjection\Compiler\CmfRouterCompilerPass;
 use Sonata\PageBundle\DependencyInjection\Compiler\GlobalVariablesCompilerPass;
 use Sonata\PageBundle\DependencyInjection\Compiler\PageServiceCompilerPass;
-use Sonata\PageBundle\Form\Type\ApiBlockType;
-use Sonata\PageBundle\Form\Type\ApiPageType;
-use Sonata\PageBundle\Form\Type\ApiSiteType;
-use Sonata\PageBundle\Form\Type\CreateSnapshotType;
-use Sonata\PageBundle\Form\Type\PageSelectorType;
-use Sonata\PageBundle\Form\Type\PageTypeChoiceType;
-use Sonata\PageBundle\Form\Type\TemplateChoiceType;
-use Symfony\Cmf\Bundle\RoutingBundle\Form\Type\RouteTypeType;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -80,22 +71,5 @@ class SonataPageBundle extends Bundle
 
             return $service->slugify($text);
         });
-    }
-
-    /**
-     * Register form mapping information.
-     */
-    public function registerFormMapping(): void
-    {
-        FormHelper::registerFormTypeMapping([
-            'sonata_page_api_form_site' => ApiSiteType::class,
-            'sonata_page_api_form_page' => ApiPageType::class,
-            'sonata_page_api_form_block' => ApiBlockType::class,
-            'sonata_page_selector' => PageSelectorType::class,
-            'sonata_page_create_snapshot' => CreateSnapshotType::class,
-            'sonata_page_template' => TemplateChoiceType::class,
-            'sonata_page_type_choice' => PageTypeChoiceType::class,
-            'cmf_routing_route_type' => RouteTypeType::class,
-        ]);
     }
 }
