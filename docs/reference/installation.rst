@@ -28,9 +28,6 @@ Add the dependant bundles to the vendor/bundles directory:
 .. code-block:: bash
 
     composer require sonata-project/page-bundle --no-update
-
-    # for SonataPageBundle > 2.3.6
-    composer require sonata-project/datagrid-bundle --no-update
     composer require sonata-project/doctrine-orm-admin-bundle --no-update
 
     # optional when using API
@@ -69,10 +66,6 @@ Add these bundles in the config mapping definition (or enable `auto_mapping`_):
                     mappings:
                         ApplicationSonataPageBundle: ~ # only once the ApplicationSonataPageBundle is generated
                         SonataPageBundle: ~
-
-        dbal:
-            types:
-                json: Sonata\Doctrine\Types\JsonType
 
 CMF Routing Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~
