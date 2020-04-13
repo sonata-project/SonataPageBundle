@@ -25,7 +25,7 @@ class PageTest extends TestCase
      *
      * @group legacy
      */
-    public function testSlugify()
+    public function testSlugify(): void
     {
         setlocale(LC_ALL, 'en_US.utf8');
         setlocale(LC_CTYPE, 'en_US.utf8');
@@ -38,7 +38,7 @@ class PageTest extends TestCase
         $this->assertSame(Page::slugify(urldecode('%2Fc\'est+bientôt+l\'été')), 'c-est-bientot-l-ete');
     }
 
-    public function testHeader()
+    public function testHeader(): void
     {
         $expectedHeaders = [
             'Location' => 'http://www.google.fr',
@@ -138,7 +138,7 @@ class PageTest extends TestCase
         $this->assertSame($page->getHeaders(), $expectedHeaders);
     }
 
-    public function testHasRequestMethod()
+    public function testHasRequestMethod(): void
     {
         $page = new Page();
         $page->setRequestMethod('POST');
@@ -155,7 +155,7 @@ class PageTest extends TestCase
         $this->assertFalse($page->hasRequestMethod('biloute'));
     }
 
-    public function testGetterSetter()
+    public function testGetterSetter(): void
     {
         $page = new Page();
         $page->setEnabled(true);
@@ -221,7 +221,7 @@ class PageTest extends TestCase
         $this->assertSame('Salut', (string) $page);
     }
 
-    public function testParents()
+    public function testParents(): void
     {
         $root = new Page();
         $root->setName('root');
@@ -247,7 +247,7 @@ class PageTest extends TestCase
         $this->assertSame('level 1', $parent->getName());
     }
 
-    public function testPageTypeCMS()
+    public function testPageTypeCMS(): void
     {
         $page = new Page();
         $page->setRouteName(Page::PAGE_ROUTE_CMS_NAME);
@@ -259,7 +259,7 @@ class PageTest extends TestCase
         $this->assertFalse($page->isError(), 'isError');
     }
 
-    public function testPageTypeHybrid()
+    public function testPageTypeHybrid(): void
     {
         $page = new Page();
         $page->setRouteName('foo_bar');
@@ -272,7 +272,7 @@ class PageTest extends TestCase
         $this->assertFalse($page->isError(), 'isError');
     }
 
-    public function testPageTypeInternal()
+    public function testPageTypeInternal(): void
     {
         $page = new Page();
         $page->setName('global');
@@ -285,7 +285,7 @@ class PageTest extends TestCase
         $this->assertFalse($page->isError(), 'isError');
     }
 
-    public function testPageTypeError()
+    public function testPageTypeError(): void
     {
         $page = new Page();
         $page->setName('global');
@@ -298,7 +298,7 @@ class PageTest extends TestCase
         $this->assertTrue($page->isError(), 'isError');
     }
 
-    public function testPageTypeDynamic()
+    public function testPageTypeDynamic(): void
     {
         $page = new Page();
         $page->setRouteName('foo_bar');
@@ -310,19 +310,19 @@ class PageTest extends TestCase
         $this->assertFalse($page->isInternal(), 'isInternal');
     }
 
-    public function testGetContainer()
+    public function testGetContainer(): void
     {
         $page = new Page();
 
         $block1 = $this->createMock(Block::class);
-        $block1->expects($this->any())->method('getType')->willReturn('sonata.page.block.action');
+        $block1->method('getType')->willReturn('sonata.page.block.action');
 
         $block2 = $this->createMock(Block::class);
-        $block2->expects($this->any())->method('getType')->willReturn('sonata.page.block.container');
+        $block2->method('getType')->willReturn('sonata.page.block.container');
         $block2->expects($this->once())->method('getSetting')->willReturn('bar');
 
         $block3 = $this->createMock(Block::class);
-        $block3->expects($this->any())->method('getType')->willReturn('sonata.page.block.container');
+        $block3->method('getType')->willReturn('sonata.page.block.container');
         $block3->expects($this->once())->method('getSetting')->willReturn('gotcha');
 
         $page->addBlocks($block1);
@@ -332,7 +332,7 @@ class PageTest extends TestCase
         $this->assertSame($block3, $page->getContainerByCode('gotcha'));
     }
 
-    public function testGetBlockByType()
+    public function testGetBlockByType(): void
     {
         $page = new Page();
 

@@ -54,7 +54,7 @@ class CreateSiteCommandTest extends TestCase
         $this->application->add($command);
     }
 
-    public function testExecuteWithNoConfirmation()
+    public function testExecuteWithNoConfirmation(): void
     {
         $site = new Site();
 
@@ -79,7 +79,7 @@ class CreateSiteCommandTest extends TestCase
         $this->assertRegExp('@Site created !@', $commandTester->getDisplay());
     }
 
-    public function testExecuteWithoutNoConfirmation()
+    public function testExecuteWithoutNoConfirmation(): void
     {
         $site = new Site();
 

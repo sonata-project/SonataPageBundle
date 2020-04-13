@@ -29,7 +29,7 @@ use Twig\Environment;
 
 class PageExtensionTest extends TestCase
 {
-    public function testAjaxUrl()
+    public function testAjaxUrl(): void
     {
         $router = $this->createMock(RouterInterface::class);
         $router->expects($this->once())->method('generate')->willReturn('/foo/bar');
@@ -54,7 +54,7 @@ class PageExtensionTest extends TestCase
     /**
      * @doesNotPerformAssertions
      */
-    public function testController()
+    public function testController(): void
     {
         $site = $this->createMock(SiteInterface::class);
         $site->method('getRelativePath')->willReturn('/foo/bar');
@@ -85,7 +85,7 @@ class PageExtensionTest extends TestCase
     /**
      * @doesNotPerformAssertions
      */
-    public function testControllerWithoutSite()
+    public function testControllerWithoutSite(): void
     {
         $request = $this->createMock(Request::class);
         $request->method('getPathInfo')->willReturn('/');

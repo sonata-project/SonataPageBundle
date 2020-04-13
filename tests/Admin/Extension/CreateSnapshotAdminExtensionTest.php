@@ -22,7 +22,7 @@ use Sonata\PageBundle\Model\PageInterface;
 
 class CreateSnapshotAdminExtensionTest extends TestCase
 {
-    public function testPostUpdateOnPage()
+    public function testPostUpdateOnPage(): void
     {
         $page = $this->createMock(PageInterface::class);
         $page->expects($this->once())->method('getId')->willReturn(42);
@@ -39,7 +39,7 @@ class CreateSnapshotAdminExtensionTest extends TestCase
         $extension->postUpdate($admin, $page);
     }
 
-    public function testPostPersistOnPage()
+    public function testPostPersistOnPage(): void
     {
         $page = $this->createMock(PageInterface::class);
         $page->expects($this->once())->method('getId')->willReturn(42);
@@ -56,7 +56,7 @@ class CreateSnapshotAdminExtensionTest extends TestCase
         $extension->postPersist($admin, $page);
     }
 
-    public function testPostUpdateOnBlock()
+    public function testPostUpdateOnBlock(): void
     {
         $page = $this->createMock(PageInterface::class);
         $page->expects($this->once())->method('getId')->willReturn(42);
@@ -76,7 +76,7 @@ class CreateSnapshotAdminExtensionTest extends TestCase
         $extension->postUpdate($admin, $block);
     }
 
-    public function testPostPersistOnBlock()
+    public function testPostPersistOnBlock(): void
     {
         $page = $this->createMock(PageInterface::class);
         $page->expects($this->once())->method('getId')->willReturn(42);

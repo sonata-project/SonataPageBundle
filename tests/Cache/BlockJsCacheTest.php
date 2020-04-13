@@ -26,7 +26,7 @@ class BlockJsCacheTest extends TestCase
     /**
      * @dataProvider getExceptionCacheKeys
      */
-    public function testExceptions($keys)
+    public function testExceptions($keys): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -41,7 +41,7 @@ class BlockJsCacheTest extends TestCase
         $cache->get($keys, 'data');
     }
 
-    public static function getExceptionCacheKeys()
+    public static function getExceptionCacheKeys(): array
     {
         return [
             [[]],
@@ -54,7 +54,7 @@ class BlockJsCacheTest extends TestCase
         ];
     }
 
-    public function testInitCache()
+    public function testInitCache(): void
     {
         $router = $this->createMock(RouterInterface::class);
         $router

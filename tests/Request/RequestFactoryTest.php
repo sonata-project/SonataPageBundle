@@ -30,31 +30,31 @@ class RequestFactoryTest extends TestCase
         Request::setFactory(null);
     }
 
-    public function testHostAndCreate()
+    public function testHostAndCreate(): void
     {
         $this->assertInstanceOf(Request::class, RequestFactory::create('host', '/'));
         $this->assertInstanceOf(Request::class, Request::create('/'));
     }
 
-    public function testHostAndCreateFromGlobals()
+    public function testHostAndCreateFromGlobals(): void
     {
         $this->assertInstanceOf(Request::class, RequestFactory::createFromGlobals('host'));
         $this->assertInstanceOf(Request::class, Request::create('/'));
     }
 
-    public function testHostWithPathAndCreate()
+    public function testHostWithPathAndCreate(): void
     {
         $this->assertInstanceOf(SiteRequest::class, RequestFactory::create('host_with_path', '/'));
         $this->assertInstanceOf(SiteRequest::class, Request::create('/'));
     }
 
-    public function testHostWithPathAndCreateFromGlobals()
+    public function testHostWithPathAndCreateFromGlobals(): void
     {
         $this->assertInstanceOf(SiteRequest::class, RequestFactory::createFromGlobals('host_with_path'));
         $this->assertInstanceOf(SiteRequest::class, Request::create('/'));
     }
 
-    public function testInvalidType()
+    public function testInvalidType(): void
     {
         $this->expectException(\RuntimeException::class);
 

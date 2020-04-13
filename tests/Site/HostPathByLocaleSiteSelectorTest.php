@@ -42,7 +42,7 @@ class HostPathByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
     /**
      * Tests handleKernelRequest method redirects to /en.
      */
-    public function testHandleKernelRequestRedirectsToEn()
+    public function testHandleKernelRequestRedirectsToEn(): void
     {
         $kernel = $this->createMock(HttpKernelInterface::class);
         $request = SiteRequest::create('http://www.example.com');
@@ -81,7 +81,7 @@ class HostPathByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
     /**
      * Tests handleKernelRequest method redirects to /fr.
      */
-    public function testHandleKernelRequestRedirectsToFr()
+    public function testHandleKernelRequestRedirectsToFr(): void
     {
         $kernel = $this->createMock(HttpKernelInterface::class);
         $request = SiteRequest::create('http://www.example.com', 'GET', [], [], [], [

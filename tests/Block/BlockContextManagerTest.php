@@ -26,7 +26,7 @@ use Sonata\PageBundle\Block\BlockContextManager;
  */
 class BlockContextManagerTest extends TestCase
 {
-    public function testGetWithValidData()
+    public function testGetWithValidData(): void
     {
         $service = $this->createMock(AbstractBlockService::class);
 

@@ -22,7 +22,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class DecoratorStrategyTest extends TestCase
 {
-    public function testIsDecorable()
+    public function testIsDecorable(): void
     {
         $response = new Response('dummy');
         $request = Request::create('/myurl');
@@ -57,28 +57,28 @@ class DecoratorStrategyTest extends TestCase
         $this->assertTrue($strategy->isDecorable($request, HttpKernelInterface::MASTER_REQUEST, $response));
     }
 
-    public function testIgnoreRouteNameMatch()
+    public function testIgnoreRouteNameMatch(): void
     {
         $strategy = new DecoratorStrategy(['test'], [], []);
 
         $this->assertFalse($strategy->isRouteNameDecorable('test'));
     }
 
-    public function testIgnoreRouteNamePatternsMatch()
+    public function testIgnoreRouteNamePatternsMatch(): void
     {
         $strategy = new DecoratorStrategy([], ['test[0-2]{1}'], []);
 
         $this->assertFalse($strategy->isRouteNameDecorable('test2'));
     }
 
-    public function testIgnoreUriPatternsMatch()
+    public function testIgnoreUriPatternsMatch(): void
     {
         $strategy = new DecoratorStrategy([], [], ['(.*)']);
 
         $this->assertFalse($strategy->isRouteUriDecorable('ok'));
     }
 
-    public function testIgnoreUriPatternsNotMatch()
+    public function testIgnoreUriPatternsNotMatch(): void
     {
         $strategy = new DecoratorStrategy([], [], ['ok']);
 
