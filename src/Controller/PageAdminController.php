@@ -47,7 +47,9 @@ class PageAdminController extends Controller
                 ]);
         }
 
-        return new RedirectResponse($this->admin->generateUrl('list', $this->admin->getFilterParameters()));
+        return new RedirectResponse($this->admin->generateUrl('list', [
+            'filter' => $this->admin->getFilterParameters(),
+        ]));
     }
 
     public function listAction(?Request $request = null)
