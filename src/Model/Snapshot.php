@@ -56,7 +56,7 @@ abstract class Snapshot implements SnapshotInterface
     protected $url;
 
     /**
-     * @var
+     * @var bool
      */
     protected $enabled;
 
