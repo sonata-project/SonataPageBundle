@@ -158,8 +158,6 @@ class CmsSnapshotManagerTest extends TestCase
 
     /**
      * Returns a mock block interactor.
-     *
-     * @return BlockInteractorInterface
      */
     protected function getMockBlockInteractor(): BlockInteractorInterface
     {

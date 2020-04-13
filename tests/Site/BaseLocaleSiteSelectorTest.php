@@ -68,8 +68,6 @@ abstract class BaseLocaleSiteSelectorTest extends TestCase
 
     /**
      * Gets the site from site selector.
-     *
-     * @return Site|null
      */
     protected function getSite(): ?Site
     {

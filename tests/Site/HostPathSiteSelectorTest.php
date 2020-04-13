@@ -152,8 +152,6 @@ class HostPathSiteSelector extends BaseSiteSelector
      * @static
      *
      * @param string $property
-     *
-     * @return string
      */
     public static function _camelize($property): string
     {
@@ -173,9 +171,6 @@ class HostPathSiteSelector extends BaseSiteSelector
         ]);
     }
 
-    /**
-     * @return array
-     */
     protected function _findSites(array $params): array
     {
         $all_sites = $this->_getAllSites();
@@ -207,9 +202,6 @@ class HostPathSiteSelector extends BaseSiteSelector
         return $matched_sites;
     }
 
-    /**
-     * @return array
-     */
     protected function _getAllSites(): array
     {
         $always = null;

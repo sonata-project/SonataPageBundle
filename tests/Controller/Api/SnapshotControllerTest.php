@@ -81,9 +81,6 @@ class SnapshotControllerTest extends TestCase
             ->deleteSnapshotAction(1);
     }
 
-    /**
-     * @return SnapshotController
-     */
     public function createSnapshotController($snapshot = null, $snapshotManager = null): SnapshotController
     {
         if (null === $snapshotManager) {

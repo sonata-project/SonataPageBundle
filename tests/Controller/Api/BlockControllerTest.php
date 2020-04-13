@@ -104,9 +104,6 @@ class BlockControllerTest extends TestCase
         $this->createBlockController(null, $blockManager)->deleteBlockAction(1);
     }
 
-    /**
-     * @return BlockController
-     */
     public function createBlockController($block = null, $blockManager = null, $formFactory = null): BlockController
     {
         if (null === $blockManager) {

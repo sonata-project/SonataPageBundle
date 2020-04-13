@@ -254,8 +254,6 @@ class CmsPageManagerTest extends TestCase
 
     /**
      * Returns a mock block interactor.
-     *
-     * @return \Sonata\PageBundle\Model\BlockInteractorInterface
      */
     protected function getMockBlockInteractor(): BlockInteractorInterface
     {
