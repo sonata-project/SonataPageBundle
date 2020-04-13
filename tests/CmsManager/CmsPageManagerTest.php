@@ -58,7 +58,7 @@ class CmsPageManagerTest extends TestCase
     /**
      * Test finding an existing container in a page.
      */
-    public function testFindExistingContainer()
+    public function testFindExistingContainer(): void
     {
         $block = new CmsBlock();
         $block->setSettings(['code' => 'findme']);
@@ -78,7 +78,7 @@ class CmsPageManagerTest extends TestCase
     /**
      * Test finding an non-existing container in a page does create a new block.
      */
-    public function testFindNonExistingContainerCreatesNewBlock()
+    public function testFindNonExistingContainerCreatesNewBlock(): void
     {
         $page = new Page();
 
@@ -91,12 +91,12 @@ class CmsPageManagerTest extends TestCase
     /**
      * Test get Page method with url return Page.
      */
-    public function testGetPageWithUrl()
+    public function testGetPageWithUrl(): void
     {
         $pageManager = $this->createMock(PageManagerInterface::class);
 
-        $pageManager->expects($this->any())->method('findOneBy')->willReturn(new Page());
-        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->willReturn([]);
+        $pageManager->method('findOneBy')->willReturn(new Page());
+        $this->blockInteractor->method('loadPageBlocks')->willReturn([]);
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
@@ -109,21 +109,21 @@ class CmsPageManagerTest extends TestCase
     /**
      * Test get Page method with url throw Exception.
      */
-    public function testGetPageWithUrlException()
+    public function testGetPageWithUrlException(): void
     {
         $this->expectException(PageNotFoundException::class);
         $this->expectExceptionMessage('Unable to find the page : url = /test');
 
         $pageManager = $this->createMock(PageManagerInterface::class);
 
-        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->willReturn([]);
+        $this->blockInteractor->method('loadPageBlocks')->willReturn([]);
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
         $page = '/test';
         $site = new Site();
 
-        $pageManager->expects($this->any())->method('findOneBy')->willReturn(null);
+        $pageManager->method('findOneBy')->willReturn(null);
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
         $manager->getPage($site, $page);
@@ -132,12 +132,12 @@ class CmsPageManagerTest extends TestCase
     /**
      * Test get Page method with url return Page.
      */
-    public function testGetPageWithRouteName()
+    public function testGetPageWithRouteName(): void
     {
         $pageManager = $this->createMock(PageManagerInterface::class);
 
-        $pageManager->expects($this->any())->method('findOneBy')->willReturn(new Page());
-        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->willReturn([]);
+        $pageManager->method('findOneBy')->willReturn(new Page());
+        $this->blockInteractor->method('loadPageBlocks')->willReturn([]);
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
@@ -150,21 +150,21 @@ class CmsPageManagerTest extends TestCase
     /**
      * Test get Page method with url throw Exception.
      */
-    public function testGetPageWithRouteNameException()
+    public function testGetPageWithRouteNameException(): void
     {
         $this->expectException(PageNotFoundException::class);
         $this->expectExceptionMessage('Unable to find the page : url = /test');
 
         $pageManager = $this->createMock(PageManagerInterface::class);
 
-        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->willReturn([]);
+        $this->blockInteractor->method('loadPageBlocks')->willReturn([]);
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
         $page = '/test';
         $site = new Site();
 
-        $pageManager->expects($this->any())->method('findOneBy')->willReturn(null);
+        $pageManager->method('findOneBy')->willReturn(null);
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
         $manager->getPage($site, $page);
@@ -173,12 +173,12 @@ class CmsPageManagerTest extends TestCase
     /**
      * Test get Page method with url return Page.
      */
-    public function testGetPageWithId()
+    public function testGetPageWithId(): void
     {
         $pageManager = $this->createMock(PageManagerInterface::class);
 
-        $pageManager->expects($this->any())->method('findOneBy')->willReturn(new Page());
-        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->willReturn([]);
+        $pageManager->method('findOneBy')->willReturn(new Page());
+        $this->blockInteractor->method('loadPageBlocks')->willReturn([]);
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
@@ -191,21 +191,21 @@ class CmsPageManagerTest extends TestCase
     /**
      * Test get Page method with url throw Exception.
      */
-    public function testGetPageWithIdException()
+    public function testGetPageWithIdException(): void
     {
         $this->expectException(PageNotFoundException::class);
         $this->expectExceptionMessage('Unable to find the page : id = 1');
 
         $pageManager = $this->createMock(PageManagerInterface::class);
 
-        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->willReturn([]);
+        $this->blockInteractor->method('loadPageBlocks')->willReturn([]);
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
         $page = 1;
         $site = new Site();
 
-        $pageManager->expects($this->any())->method('findOneBy')->willReturn(null);
+        $pageManager->method('findOneBy')->willReturn(null);
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
         $manager->getPage($site, $page);
@@ -214,12 +214,12 @@ class CmsPageManagerTest extends TestCase
     /**
      * Test get Page method with url return Page.
      */
-    public function testGetPageWithoutParam()
+    public function testGetPageWithoutParam(): void
     {
         $pageManager = $this->createMock(PageManagerInterface::class);
 
-        $pageManager->expects($this->any())->method('findOneBy')->willReturn(new Page());
-        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->willReturn([]);
+        $pageManager->method('findOneBy')->willReturn(new Page());
+        $this->blockInteractor->method('loadPageBlocks')->willReturn([]);
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
         $manager->setCurrentPage(new Page());
@@ -232,21 +232,21 @@ class CmsPageManagerTest extends TestCase
     /**
      * Test get Page method with url throw Exception.
      */
-    public function testGetPageWithoutParamException()
+    public function testGetPageWithoutParamException(): void
     {
         $this->expectException(PageNotFoundException::class);
         $this->expectExceptionMessage('Unable to retrieve the page');
 
         $pageManager = $this->createMock(PageManagerInterface::class);
 
-        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->willReturn([]);
+        $this->blockInteractor->method('loadPageBlocks')->willReturn([]);
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
         $page = null;
         $site = new Site();
 
-        $pageManager->expects($this->any())->method('findOneBy')->willReturn(null);
+        $pageManager->method('findOneBy')->willReturn(null);
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
         $manager->getPage($site, $page);
@@ -257,7 +257,7 @@ class CmsPageManagerTest extends TestCase
      *
      * @return \Sonata\PageBundle\Model\BlockInteractorInterface
      */
-    protected function getMockBlockInteractor()
+    protected function getMockBlockInteractor(): BlockInteractorInterface
     {
         $callback = static function ($options) {
             $block = new CmsBlock();
@@ -267,12 +267,12 @@ class CmsPageManagerTest extends TestCase
         };
 
         $mock = $this->createMock(BlockInteractorInterface::class);
-        $mock->expects($this->any())->method('createNewContainer')->willReturnCallback($callback);
+        $mock->method('createNewContainer')->willReturnCallback($callback);
 
         return $mock;
     }
 
-    private function createManager($pageManager, $blockInteractor)
+    private function createManager($pageManager, $blockInteractor): CmsPageManager
     {
         return new CmsPageManager($pageManager, $blockInteractor);
     }

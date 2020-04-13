@@ -30,7 +30,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class SiteControllerTest extends TestCase
 {
-    public function testGetSitesAction()
+    public function testGetSitesAction(): void
     {
         $siteManager = $this->createMock(SiteManagerInterface::class);
         $siteManager->expects($this->once())->method('getPager')->willReturn([]);
@@ -45,14 +45,14 @@ class SiteControllerTest extends TestCase
         $this->assertSame([], $this->createSiteController(null, $siteManager)->getSitesAction($paramFetcher));
     }
 
-    public function testGetSiteAction()
+    public function testGetSiteAction(): void
     {
         $site = $this->createMock(SiteInterface::class);
 
         $this->assertSame($site, $this->createSiteController($site)->getSiteAction(1));
     }
 
-    public function testGetSiteActionNotFoundException()
+    public function testGetSiteActionNotFoundException(): void
     {
         $this->expectException(NotFoundHttpException::class);
         $this->expectExceptionMessage('Site (1) not found');
@@ -60,7 +60,7 @@ class SiteControllerTest extends TestCase
         $this->createSiteController()->getSiteAction(1);
     }
 
-    public function testPostSiteAction()
+    public function testPostSiteAction(): void
     {
         $site = $this->createMock(SiteInterface::class);
 
@@ -80,7 +80,7 @@ class SiteControllerTest extends TestCase
         $this->assertInstanceOf(View::class, $view);
     }
 
-    public function testPostSiteInvalidAction()
+    public function testPostSiteInvalidAction(): void
     {
         $site = $this->createMock(SiteInterface::class);
 
@@ -99,7 +99,7 @@ class SiteControllerTest extends TestCase
         $this->assertInstanceOf(FormInterface::class, $view);
     }
 
-    public function testPutSiteAction()
+    public function testPutSiteAction(): void
     {
         $site = $this->createMock(SiteInterface::class);
 
@@ -119,7 +119,7 @@ class SiteControllerTest extends TestCase
         $this->assertInstanceOf(View::class, $view);
     }
 
-    public function testPutSiteInvalidAction()
+    public function testPutSiteInvalidAction(): void
     {
         $site = $this->createMock(SiteInterface::class);
 
@@ -138,7 +138,7 @@ class SiteControllerTest extends TestCase
         $this->assertInstanceOf(FormInterface::class, $view);
     }
 
-    public function testDeleteSiteAction()
+    public function testDeleteSiteAction(): void
     {
         $site = $this->createMock(SiteInterface::class);
 
@@ -150,7 +150,7 @@ class SiteControllerTest extends TestCase
         $this->assertSame(['deleted' => true], $view);
     }
 
-    public function testDeleteSiteInvalidAction()
+    public function testDeleteSiteInvalidAction(): void
     {
         $this->expectException(NotFoundHttpException::class);
 

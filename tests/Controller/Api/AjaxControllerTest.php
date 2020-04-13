@@ -30,7 +30,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class AjaxControllerTest extends TestCase
 {
-    public function testWithInvalidBlock()
+    public function testWithInvalidBlock(): void
     {
         $this->expectException(BlockNotFoundException::class);
 
@@ -50,7 +50,7 @@ class AjaxControllerTest extends TestCase
         $controller->execute($request, 10, 12);
     }
 
-    public function testRenderer()
+    public function testRenderer(): void
     {
         $block = $this->createMock(BlockInterface::class);
 

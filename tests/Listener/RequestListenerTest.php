@@ -29,7 +29,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class RequestListenerTest extends TestCase
 {
-    public function testValidSite()
+    public function testValidSite(): void
     {
         $page = $this->createMock(PageInterface::class);
         $page->expects($this->once())->method('getEnabled')->willReturn(true);
@@ -59,7 +59,7 @@ class RequestListenerTest extends TestCase
         $listener->onCoreRequest($event);
     }
 
-    public function testNoSite()
+    public function testNoSite(): void
     {
         $this->expectException(InternalErrorException::class);
 

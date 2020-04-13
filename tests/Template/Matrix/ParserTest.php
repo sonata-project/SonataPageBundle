@@ -18,7 +18,7 @@ use Sonata\PageBundle\Template\Matrix\Parser;
 
 class ParserTest extends TestCase
 {
-    public function testParserWithInvalidTemplateMatrix()
+    public function testParserWithInvalidTemplateMatrix(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(
@@ -28,7 +28,7 @@ class ParserTest extends TestCase
         Parser::parse('', []);
     }
 
-    public function testParserWithInvalidRowLength()
+    public function testParserWithInvalidRowLength(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(
@@ -38,7 +38,7 @@ class ParserTest extends TestCase
         Parser::parse("YYYY\nNNNNNN", ['Y' => 'top']);
     }
 
-    public function testParserWithInvalidMapping()
+    public function testParserWithInvalidMapping(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(
@@ -48,7 +48,7 @@ class ParserTest extends TestCase
         Parser::parse("YYYY\nNNNNNN", []);
     }
 
-    public function testValidMapping()
+    public function testValidMapping(): void
     {
         $result = Parser::parse("TTTT\nLLRR", [
             'T' => 'top',

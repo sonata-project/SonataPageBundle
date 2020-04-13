@@ -69,7 +69,7 @@ class CloneSiteCommandTest extends TestCase
         $this->application->add($command);
     }
 
-    public function testExecute()
+    public function testExecute(): void
     {
         $sourceSite = $this->prophesize(SiteInterface::class);
         $destSite = $this->prophesize(SiteInterface::class);
@@ -155,7 +155,7 @@ class CloneSiteCommandTest extends TestCase
         $this->assertRegExp('@done!@', $commandTester->getDisplay());
     }
 
-    public function testExecuteNoSourceId()
+    public function testExecuteNoSourceId(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Please provide a "--source-id=SITE_ID" option.');
@@ -173,7 +173,7 @@ class CloneSiteCommandTest extends TestCase
         $this->assertRegExp('@Writing cache file ...\s+done!@', $commandTester->getDisplay());
     }
 
-    public function testExecuteNoDestId()
+    public function testExecuteNoDestId(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Please provide a "--dest-id=SITE_ID" option.');
@@ -191,7 +191,7 @@ class CloneSiteCommandTest extends TestCase
         $this->assertRegExp('@Writing cache file ...\s+done!@', $commandTester->getDisplay());
     }
 
-    public function testExecuteNoPrefix()
+    public function testExecuteNoPrefix(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Please provide a "--prefix=PREFIX" option.');

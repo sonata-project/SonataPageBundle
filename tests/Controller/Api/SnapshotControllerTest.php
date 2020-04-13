@@ -25,7 +25,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class SnapshotControllerTest extends TestCase
 {
-    public function testGetSnapshotsAction()
+    public function testGetSnapshotsAction(): void
     {
         $snapshotManager = $this->createMock(SnapshotManagerInterface::class);
         $snapshotManager->expects($this->once())->method('getPager')->willReturn([]);
@@ -41,7 +41,7 @@ class SnapshotControllerTest extends TestCase
             ->getSnapshotsAction($paramFetcher));
     }
 
-    public function testGetSnapshotAction()
+    public function testGetSnapshotAction(): void
     {
         $snapshot = $this->createMock(SnapshotInterface::class);
 
@@ -49,7 +49,7 @@ class SnapshotControllerTest extends TestCase
             ->getSnapshotAction(1));
     }
 
-    public function testGetSnapshotActionNotFoundException()
+    public function testGetSnapshotActionNotFoundException(): void
     {
         $this->expectException(NotFoundHttpException::class);
         $this->expectExceptionMessage('Snapshot (1) not found');
@@ -57,7 +57,7 @@ class SnapshotControllerTest extends TestCase
         $this->createSnapshotController()->getSnapshotAction(1);
     }
 
-    public function testDeleteSnapshotAction()
+    public function testDeleteSnapshotAction(): void
     {
         $snapshot = $this->createMock(SnapshotInterface::class);
 
@@ -70,7 +70,7 @@ class SnapshotControllerTest extends TestCase
         $this->assertSame(['deleted' => true], $view);
     }
 
-    public function testDeletePageInvalidAction()
+    public function testDeletePageInvalidAction(): void
     {
         $this->expectException(NotFoundHttpException::class);
 
@@ -84,7 +84,7 @@ class SnapshotControllerTest extends TestCase
     /**
      * @return SnapshotController
      */
-    public function createSnapshotController($snapshot = null, $snapshotManager = null)
+    public function createSnapshotController($snapshot = null, $snapshotManager = null): SnapshotController
     {
         if (null === $snapshotManager) {
             $snapshotManager = $this->createMock(SnapshotManagerInterface::class);

@@ -26,7 +26,7 @@ class TemplateManagerTest extends TestCase
     /**
      * Test adding a new template.
      */
-    public function testAddSingleTemplate()
+    public function testAddSingleTemplate(): void
     {
         $template = $this->getMockTemplate('template');
         $templating = $this->createMock(EngineInterface::class);
@@ -40,7 +40,7 @@ class TemplateManagerTest extends TestCase
     /**
      * Test setting all templates.
      */
-    public function testSetAllTemplates()
+    public function testSetAllTemplates(): void
     {
         $templating = $this->createMock(EngineInterface::class);
         $manager = new TemplateManager($templating);
@@ -60,7 +60,7 @@ class TemplateManagerTest extends TestCase
     /**
      * Test setting the default template code.
      */
-    public function testSetDefaultTemplateCode()
+    public function testSetDefaultTemplateCode(): void
     {
         $templating = $this->createMock(EngineInterface::class);
         $manager = new TemplateManager($templating);
@@ -73,7 +73,7 @@ class TemplateManagerTest extends TestCase
     /**
      * test the rendering of a response.
      */
-    public function testRenderResponse()
+    public function testRenderResponse(): void
     {
         $template = $this->getMockTemplate('template', 'path/to/template');
 
@@ -98,7 +98,7 @@ class TemplateManagerTest extends TestCase
     /**
      * test the rendering of a response with a non existing template code.
      */
-    public function testRenderResponseWithNonExistingCode()
+    public function testRenderResponseWithNonExistingCode(): void
     {
         $templating = $this->createMock(EngineInterface::class);
         $templating
@@ -113,7 +113,7 @@ class TemplateManagerTest extends TestCase
     /**
      * test the rendering of a response with no template code.
      */
-    public function testRenderResponseWithoutCode()
+    public function testRenderResponseWithoutCode(): void
     {
         $response = $this->createMock(Response::class);
         $templating = $this->createMock(EngineInterface::class);
@@ -138,7 +138,7 @@ class TemplateManagerTest extends TestCase
     /**
      * test the rendering of a response with default parameters.
      */
-    public function testRenderResponseWithDefaultParameters()
+    public function testRenderResponseWithDefaultParameters(): void
     {
         $template = $this->getMockTemplate('template', 'path/to/template');
 
@@ -169,8 +169,8 @@ class TemplateManagerTest extends TestCase
     protected function getMockTemplate(string $name, string $path = 'path/to/file'): MockObject
     {
         $template = $this->createMock(Template::class);
-        $template->expects($this->any())->method('getName')->willReturn($name);
-        $template->expects($this->any())->method('getPath')->willReturn($path);
+        $template->method('getName')->willReturn($name);
+        $template->method('getPath')->willReturn($path);
 
         return $template;
     }

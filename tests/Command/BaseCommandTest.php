@@ -42,7 +42,7 @@ class BaseCommandTest extends TestCase
     /**
      * Tests the getSites() method with different parameters.
      */
-    public function testGetSites()
+    public function testGetSites(): void
     {
         // Given
         $method = new \ReflectionMethod($this->command, 'getSites');
@@ -54,7 +54,7 @@ class BaseCommandTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->command->expects($this->any())->method('getSiteManager')->willReturn($siteManager);
+        $this->command->method('getSiteManager')->willReturn($siteManager);
 
         // Test --site=all value
         $input->expects($this->at(0))->method('getOption')->with('site')->willReturn(['all']);

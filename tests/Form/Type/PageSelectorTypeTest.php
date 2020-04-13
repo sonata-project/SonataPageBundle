@@ -77,7 +77,7 @@ class PageSelectorTypeTest extends TestCase
     {
         $manager = $this->createMock(PageManagerInterface::class);
 
-        $manager->expects($this->any())
+        $manager
             ->method('loadPages')
             ->willReturn($this->pages);
 
@@ -87,7 +87,7 @@ class PageSelectorTypeTest extends TestCase
     /**
      * @group legacy
      */
-    public function testNoSite()
+    public function testNoSite(): void
     {
         $pageSelector = new PageSelectorType($this->getPageManager());
 
@@ -103,7 +103,7 @@ class PageSelectorTypeTest extends TestCase
     /**
      * @group legacy
      */
-    public function testAllRequestMethodChoices()
+    public function testAllRequestMethodChoices(): void
     {
         $pageSelector = new PageSelectorType($this->getPageManager());
 
@@ -116,7 +116,7 @@ class PageSelectorTypeTest extends TestCase
         $this->assertCount(4, $options['choices']);
     }
 
-    public function testGetRequestMethodChoices()
+    public function testGetRequestMethodChoices(): void
     {
         $pageSelector = new PageSelectorType($this->getPageManager());
 
@@ -132,7 +132,7 @@ class PageSelectorTypeTest extends TestCase
         $this->assertRouteNameEquals('get-post', $views[4]);
     }
 
-    public function testPostRequestMethodChoices()
+    public function testPostRequestMethodChoices(): void
     {
         $pageSelector = new PageSelectorType($this->getPageManager());
 
@@ -150,7 +150,7 @@ class PageSelectorTypeTest extends TestCase
         $this->assertRouteNameEquals('get-post', $views[4]);
     }
 
-    public function testRootHierarchyChoices()
+    public function testRootHierarchyChoices(): void
     {
         $pageSelector = new PageSelectorType($this->getPageManager());
 
@@ -167,7 +167,7 @@ class PageSelectorTypeTest extends TestCase
         $this->assertRouteNameEquals('all', $views[1]);
     }
 
-    public function testChildrenHierarchyChoices()
+    public function testChildrenHierarchyChoices(): void
     {
         $pageSelector = new PageSelectorType($this->getPageManager());
 
@@ -186,7 +186,7 @@ class PageSelectorTypeTest extends TestCase
         $this->assertRouteNameEquals('get-post', $views[4]);
     }
 
-    public function testComplexHierarchyChoices()
+    public function testComplexHierarchyChoices(): void
     {
         $pageSelector = new PageSelectorType($this->getPageManager());
 
@@ -204,12 +204,12 @@ class PageSelectorTypeTest extends TestCase
         $this->assertRouteNameEquals('get-post', $views[4]);
     }
 
-    private function assertRouteNameEquals($expected, $choiceView)
+    private function assertRouteNameEquals($expected, $choiceView): void
     {
         if ($choiceView instanceof LegacyChoiceView) { // NEXT_MAJOR: remove conditional
-            return $this->assertSame($expected, $choiceView->label->getRouteName());
+            $this->assertSame($expected, $choiceView->label->getRouteName());
         }
 
-        return $this->assertSame($expected, $choiceView->getRouteName());
+        $this->assertSame($expected, $choiceView->getRouteName());
     }
 }

@@ -22,7 +22,7 @@ use Sonata\PageBundle\Model\TransformerInterface;
 
 class SnapshotPageProxyTest extends TestCase
 {
-    public function testInterface()
+    public function testInterface(): void
     {
         $this->assertInstanceOf(
             SnapshotPageProxyInterface::class,

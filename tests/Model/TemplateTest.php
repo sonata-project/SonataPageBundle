@@ -18,7 +18,7 @@ use Sonata\PageBundle\Model\Template;
 
 class TemplateTest extends TestCase
 {
-    public function testArea()
+    public function testArea(): void
     {
         $template = new Template('page', 'template.twig');
 
@@ -47,7 +47,7 @@ class TemplateTest extends TestCase
         $this->assertSame($template->getContainers(), $expected);
     }
 
-    public function testGetContainer()
+    public function testGetContainer(): void
     {
         $template = new Template('page', 'template.twig', ['header' => [
             'name' => 'Header',

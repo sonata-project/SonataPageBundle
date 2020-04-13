@@ -28,14 +28,14 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class BlockControllerTest extends TestCase
 {
-    public function testGetBlockAction()
+    public function testGetBlockAction(): void
     {
         $block = $this->createMock(BlockInterface::class);
 
         $this->assertSame($block, $this->createBlockController($block)->getBlockAction(1));
     }
 
-    public function testGetBlockActionNotFoundException()
+    public function testGetBlockActionNotFoundException(): void
     {
         $this->expectException(NotFoundHttpException::class);
         $this->expectExceptionMessage('Block (42) not found');
@@ -43,7 +43,7 @@ class BlockControllerTest extends TestCase
         $this->createBlockController()->getBlockAction(42);
     }
 
-    public function testPutBlockAction()
+    public function testPutBlockAction(): void
     {
         $block = $this->createMock(BlockInterface::class);
 
@@ -63,7 +63,7 @@ class BlockControllerTest extends TestCase
         $this->assertInstanceOf(BlockInterface::class, $block);
     }
 
-    public function testPutBlockInvalidAction()
+    public function testPutBlockInvalidAction(): void
     {
         $block = $this->createMock(BlockInterface::class);
 
@@ -82,7 +82,7 @@ class BlockControllerTest extends TestCase
         $this->assertInstanceOf(FormInterface::class, $view);
     }
 
-    public function testDeleteBlockAction()
+    public function testDeleteBlockAction(): void
     {
         $block = $this->createMock(BlockInterface::class);
 
@@ -94,7 +94,7 @@ class BlockControllerTest extends TestCase
         $this->assertSame(['deleted' => true], $view);
     }
 
-    public function testDeleteBlockInvalidAction()
+    public function testDeleteBlockInvalidAction(): void
     {
         $this->expectException(NotFoundHttpException::class);
 
@@ -107,7 +107,7 @@ class BlockControllerTest extends TestCase
     /**
      * @return BlockController
      */
-    public function createBlockController($block = null, $blockManager = null, $formFactory = null)
+    public function createBlockController($block = null, $blockManager = null, $formFactory = null): BlockController
     {
         if (null === $blockManager) {
             $blockManager = $this->createMock(BlockManagerInterface::class);
