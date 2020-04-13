@@ -28,7 +28,11 @@ class PageTest extends TestCase
     public function testSlugify(): void
     {
         setlocale(LC_ALL, 'en_US.utf8');
-        setlocale(LC_CTYPE, 'en_US.utf8');
+
+        $reflectionClass = new \ReflectionClass(Page::class);
+        $property = $reflectionClass->getProperty('slugifyMethod');
+        $property->setAccessible(true);
+        $property->setValue(null);
 
         $this->assertSame(Page::slugify('test'), 'test');
         $this->assertSame(Page::slugify('S§!@@#$#$alut'), 's-alut');
