@@ -77,7 +77,7 @@ class ResponseListenerTest extends TestCase
     /**
      * Test the listener without a page.
      */
-    public function testWithoutPage()
+    public function testWithoutPage(): void
     {
         $this->expectException(InternalErrorException::class);
 
@@ -95,7 +95,7 @@ class ResponseListenerTest extends TestCase
     /**
      * Test that the  listener does not mess up with response when a page is non decorable.
      */
-    public function testPageIsNonDecorable()
+    public function testPageIsNonDecorable(): void
     {
         $this->decoratorStrategy->expects($this->once())->method('isDecorable')->willReturn(false);
 
@@ -113,7 +113,7 @@ class ResponseListenerTest extends TestCase
     /**
      * Test that the listener correctly decorates the response content when a page is decorable.
      */
-    public function testPageIsDecorable()
+    public function testPageIsDecorable(): void
     {
         // a response content
         $content = 'inner';
@@ -150,7 +150,7 @@ class ResponseListenerTest extends TestCase
     /**
      * Test that the listener correctly alters the http headers when the editor is enabled.
      */
-    public function testPageIsEditor()
+    public function testPageIsEditor(): void
     {
         $this->cmsSelector->expects($this->once())->method('isEditor')->willReturn(true);
         $event = $this->getMockEvent('inner');

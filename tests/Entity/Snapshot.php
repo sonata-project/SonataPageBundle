@@ -25,7 +25,7 @@ class Snapshot extends BaseSnapshot
     /**
      * @return int $id
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }

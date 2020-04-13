@@ -24,7 +24,7 @@ use Sonata\PageBundle\Model\PageInterface;
 
 class BaseBlockAdminTest extends TestCase
 {
-    public function testSettingAsEditedOnPreBatchDeleteAction()
+    public function testSettingAsEditedOnPreBatchDeleteAction(): void
     {
         $page = $this->createMock(PageInterface::class);
         $page->expects($this->once())->method('setEdited')->with(true);
@@ -47,7 +47,7 @@ class BaseBlockAdminTest extends TestCase
      *
      * @group legacy
      */
-    public function testSettingAsEditedOnPreRemove()
+    public function testSettingAsEditedOnPreRemove(): void
     {
         $page = $this->createMock(PageInterface::class);
         $page->expects($this->once())->method('setEdited')->with(true);
@@ -56,7 +56,7 @@ class BaseBlockAdminTest extends TestCase
         $block->expects($this->once())->method('getPage')->willReturn($page);
 
         $blockService = $this->createMock(AbstractAdminBlockService::class);
-        $blockService->expects($this->any())->method('preRemove')->with($block);
+        $blockService->method('preRemove')->with($block);
 
         $blockServiceManager = $this->createMock(BlockServiceManagerInterface::class);
         $blockServiceManager

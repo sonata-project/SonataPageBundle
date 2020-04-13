@@ -41,7 +41,7 @@ class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
     /**
      * Tests handleKernelRequest method selects the site /en.
      */
-    public function testHandleKernelRequestSelectsEn()
+    public function testHandleKernelRequestSelectsEn(): void
     {
         $kernel = $this->createMock(HttpKernelInterface::class);
         $request = SiteRequest::create('http://www.example.com');
@@ -71,7 +71,7 @@ class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
     /**
      * Tests handleKernelRequest method selects the site /fr.
      */
-    public function testHandleKernelRequestSelectsFr()
+    public function testHandleKernelRequestSelectsFr(): void
     {
         $kernel = $this->createMock(HttpKernelInterface::class);
         $request = SiteRequest::create('http://www.example.com', 'GET', [], [], [], [

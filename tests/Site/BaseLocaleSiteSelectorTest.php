@@ -45,7 +45,7 @@ abstract class BaseLocaleSiteSelectorTest extends TestCase
      *
      * @return Site[]
      */
-    protected function getSites()
+    protected function getSites(): array
     {
         $sites = [];
 
@@ -68,10 +68,8 @@ abstract class BaseLocaleSiteSelectorTest extends TestCase
 
     /**
      * Gets the site from site selector.
-     *
-     * @return Site|null
      */
-    protected function getSite()
+    protected function getSite(): ?Site
     {
         return $this->siteSelector->retrieve();
     }

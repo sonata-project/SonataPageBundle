@@ -42,7 +42,7 @@ class PageServiceManagerTest extends TestCase
     /**
      * Test adding a new page service.
      */
-    public function testAdd()
+    public function testAdd(): void
     {
         $service = $this->createMock(PageServiceInterface::class);
 
@@ -56,7 +56,7 @@ class PageServiceManagerTest extends TestCase
      *
      * @depends testAdd
      */
-    public function testGetByPage()
+    public function testGetByPage(): void
     {
         $service = $this->createMock(PageServiceInterface::class);
         $this->manager->add('my-type', $service);
@@ -76,7 +76,7 @@ class PageServiceManagerTest extends TestCase
      *
      * @depends testAdd
      */
-    public function testGetAll()
+    public function testGetAll(): void
     {
         $this->manager->add('service1', $service1 = $this->createMock(PageServiceInterface::class));
         $this->manager->add('service2', $service2 = $this->createMock(PageServiceInterface::class));
@@ -91,7 +91,7 @@ class PageServiceManagerTest extends TestCase
     /**
      * @depends testAdd
      */
-    public function testDefault()
+    public function testDefault(): void
     {
         $default = $this->createMock(PageServiceInterface::class);
         $this->manager->setDefault($default);
@@ -108,7 +108,7 @@ class PageServiceManagerTest extends TestCase
      *
      * @depends testDefault
      */
-    public function testExecute()
+    public function testExecute(): void
     {
         $request = $this->createMock(Request::class);
         $response = $this->createMock(Response::class);

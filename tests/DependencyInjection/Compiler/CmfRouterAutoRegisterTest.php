@@ -24,7 +24,7 @@ class CmfRouterAutoRegisterTest extends AbstractCompilerPassTestCase
     /**
      * @dataProvider providerRoutedAutoRegister
      */
-    public function testRouterAutoRegister($enabled, $priority)
+    public function testRouterAutoRegister($enabled, $priority): void
     {
         $this->container->setParameter('sonata.page.router_auto_register.enabled', $enabled);
         $this->container->setParameter('sonata.page.router_auto_register.priority', $priority);
@@ -33,12 +33,12 @@ class CmfRouterAutoRegisterTest extends AbstractCompilerPassTestCase
 
         $router = $this->container->getDefinition('cmf_routing.router');
         foreach ($router->getMethodCalls() as $methodCall) {
-            list($method, $arguments) = $methodCall;
+            [$method, $arguments] = $methodCall;
 
             if ('add' !== $method) {
                 continue;
             }
-            list($reference, $weight) = $arguments;
+            [$reference, $weight] = $arguments;
             if ($reference instanceof Reference && 'sonata.page.router' === $reference->__toString()) {
                 if ($enabled) {
                     $this->assertSame($priority, $weight);
@@ -49,7 +49,7 @@ class CmfRouterAutoRegisterTest extends AbstractCompilerPassTestCase
         }
     }
 
-    public function providerRoutedAutoRegister()
+    public function providerRoutedAutoRegister(): array
     {
         return [
             'enabled router' => [true, 42],

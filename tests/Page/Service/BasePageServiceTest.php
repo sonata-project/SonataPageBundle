@@ -21,14 +21,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class BasePageServiceTest extends TestCase
 {
-    public function testName()
+    public function testName(): void
     {
         $service = new ConcretePageService('my name');
 
         $this->assertSame('my name', $service->getName());
     }
 
-    public function testExecution()
+    public function testExecution(): void
     {
         $service = new ConcretePageService('my name');
         $page = $this->createMock(PageInterface::class);

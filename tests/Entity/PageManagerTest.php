@@ -27,7 +27,7 @@ use Sonata\PageBundle\Tests\Model\Page;
 
 class PageManagerTest extends TestCase
 {
-    public function testFixUrl()
+    public function testFixUrl(): void
     {
         $manager = new PageManager(
             'Foo\Bar',
@@ -71,7 +71,7 @@ class PageManagerTest extends TestCase
         $this->assertSame('/', $page1->getUrl());
     }
 
-    public function testWithSlashAtTheEnd()
+    public function testWithSlashAtTheEnd(): void
     {
         $manager = new PageManager(
             'Foo\Bar',
@@ -98,7 +98,7 @@ class PageManagerTest extends TestCase
         $this->assertSame('/bundles/foobar', $child->getUrl());
     }
 
-    public function testCreateWithGlobalDefaults()
+    public function testCreateWithGlobalDefaults(): void
     {
         $manager = new PageManager(
             Page::class,
@@ -113,7 +113,7 @@ class PageManagerTest extends TestCase
         $this->assertFalse($page->getDecorate());
     }
 
-    public function testGetPager()
+    public function testGetPager(): void
     {
         $self = $this;
         $this
@@ -128,21 +128,20 @@ class PageManagerTest extends TestCase
             ->getPager([], 1);
     }
 
-    public function testGetPagerWithInvalidSort()
+    public function testGetPagerWithInvalidSort(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage(
             'Invalid sort field \'invalid\' in \'Sonata\\PageBundle\\Entity\\BasePage\' class'
         );
 
-        $self = $this;
         $this
-            ->getPageManager(static function ($qb) use ($self) {
+            ->getPageManager(static function ($qb) {
             })
             ->getPager([], 1, 10, ['invalid' => 'ASC']);
     }
 
-    public function testGetPagerWithMultipleSort()
+    public function testGetPagerWithMultipleSort(): void
     {
         $self = $this;
         $this
@@ -166,7 +165,7 @@ class PageManagerTest extends TestCase
             ]);
     }
 
-    public function testGetPagerWithRootPages()
+    public function testGetPagerWithRootPages(): void
     {
         $self = $this;
         $this
@@ -176,7 +175,7 @@ class PageManagerTest extends TestCase
             ->getPager(['root' => true], 1);
     }
 
-    public function testGetPagerWithNonRootPages()
+    public function testGetPagerWithNonRootPages(): void
     {
         $self = $this;
         $this
@@ -186,7 +185,7 @@ class PageManagerTest extends TestCase
             ->getPager(['root' => false], 1);
     }
 
-    public function testGetPagerWithEnabledPages()
+    public function testGetPagerWithEnabledPages(): void
     {
         $self = $this;
         $this
@@ -197,7 +196,7 @@ class PageManagerTest extends TestCase
             ->getPager(['enabled' => true], 1);
     }
 
-    public function testGetPagerWithDisabledPages()
+    public function testGetPagerWithDisabledPages(): void
     {
         $self = $this;
         $this
@@ -208,7 +207,7 @@ class PageManagerTest extends TestCase
             ->getPager(['enabled' => false], 1);
     }
 
-    public function testGetPagerWithEditedPages()
+    public function testGetPagerWithEditedPages(): void
     {
         $self = $this;
         $this
@@ -219,7 +218,7 @@ class PageManagerTest extends TestCase
             ->getPager(['edited' => true], 1);
     }
 
-    public function testGetPagerWithNonEditedPages()
+    public function testGetPagerWithNonEditedPages(): void
     {
         $self = $this;
         $this
@@ -230,7 +229,7 @@ class PageManagerTest extends TestCase
             ->getPager(['edited' => false], 1);
     }
 
-    public function testGetPagerWithParentChildPages()
+    public function testGetPagerWithParentChildPages(): void
     {
         $self = $this;
         $this
@@ -245,7 +244,7 @@ class PageManagerTest extends TestCase
             ->getPager(['parent' => 13], 1);
     }
 
-    public function testGetPagerWithSitePages()
+    public function testGetPagerWithSitePages(): void
     {
         $self = $this;
         $this
@@ -260,36 +259,36 @@ class PageManagerTest extends TestCase
             ->getPager(['site' => 13], 1);
     }
 
-    protected function getPageManager($qbCallback)
+    protected function getPageManager($qbCallback): PageManager
     {
         $query = $this->getMockForAbstractClass(AbstractQuery::class, [], '', false, true, true, ['execute']);
-        $query->expects($this->any())->method('execute')->willReturn(true);
+        $query->method('execute')->willReturn(true);
 
         $qb = $this->getMockBuilder(QueryBuilder::class)
             ->setConstructorArgs([$this->createMock(EntityManager::class)])
             ->getMock();
 
-        $qb->expects($this->any())->method('getRootAliases')->willReturn([]);
-        $qb->expects($this->any())->method('select')->willReturn($qb);
-        $qb->expects($this->any())->method('getQuery')->willReturn($query);
+        $qb->method('getRootAliases')->willReturn([]);
+        $qb->method('select')->willReturn($qb);
+        $qb->method('getQuery')->willReturn($query);
 
         $qbCallback($qb);
 
         $repository = $this->createMock(EntityRepository::class);
-        $repository->expects($this->any())->method('createQueryBuilder')->willReturn($qb);
+        $repository->method('createQueryBuilder')->willReturn($qb);
 
         $metadata = $this->createMock(ClassMetadata::class);
-        $metadata->expects($this->any())->method('getFieldNames')->willReturn([
+        $metadata->method('getFieldNames')->willReturn([
             'name',
             'routeName',
         ]);
 
         $em = $this->createMock(EntityManagerInterface::class);
-        $em->expects($this->any())->method('getRepository')->willReturn($repository);
-        $em->expects($this->any())->method('getClassMetadata')->willReturn($metadata);
+        $em->method('getRepository')->willReturn($repository);
+        $em->method('getClassMetadata')->willReturn($metadata);
 
         $registry = $this->createMock(ManagerRegistry::class);
-        $registry->expects($this->any())->method('getManagerForClass')->willReturn($em);
+        $registry->method('getManagerForClass')->willReturn($em);
 
         return new PageManager(BasePage::class, $registry);
     }

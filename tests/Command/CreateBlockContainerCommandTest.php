@@ -65,7 +65,7 @@ class CreateBlockContainerCommandTest extends TestCase
     /**
      * Tests that Block is added into Page's blocks field.
      */
-    public function testCreateBlock()
+    public function testCreateBlock(): void
     {
         $block = $this->prophesize(PageBlockInterface::class);
         $this->blockInteractor->createNewContainer(Argument::any())->willReturn($block->reveal());
