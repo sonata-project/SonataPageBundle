@@ -4,7 +4,7 @@ Installation
 Prerequisites
 -------------
 
-PHP 7.1 and Symfony >=4.3 are needed to make this bundle work, there are
+PHP 7.2 and Symfony >=4.3 are needed to make this bundle work, there are
 also some Sonata dependencies that need to be installed and configured beforehand:
 
     - SonataAdminBundle_
