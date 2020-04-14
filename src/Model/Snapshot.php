@@ -180,7 +180,7 @@ abstract class Snapshot implements SnapshotInterface
         return $this->name;
     }
 
-    public function setPublicationDateStart(\DateTime $publicationDateStart = null)
+    public function setPublicationDateStart(?\DateTime $publicationDateStart = null)
     {
         $this->publicationDateStart = $publicationDateStart;
     }
@@ -190,7 +190,7 @@ abstract class Snapshot implements SnapshotInterface
         return $this->publicationDateStart;
     }
 
-    public function setPublicationDateEnd(\DateTime $publicationDateEnd = null)
+    public function setPublicationDateEnd(?\DateTime $publicationDateEnd = null)
     {
         $this->publicationDateEnd = $publicationDateEnd;
     }
@@ -200,7 +200,7 @@ abstract class Snapshot implements SnapshotInterface
         return $this->publicationDateEnd;
     }
 
-    public function setCreatedAt(\DateTime $createdAt = null)
+    public function setCreatedAt(?\DateTime $createdAt = null)
     {
         $this->createdAt = $createdAt;
     }
@@ -210,7 +210,7 @@ abstract class Snapshot implements SnapshotInterface
         return $this->createdAt;
     }
 
-    public function setUpdatedAt(\DateTime $updatedAt = null)
+    public function setUpdatedAt(?\DateTime $updatedAt = null)
     {
         $this->updatedAt = $updatedAt;
     }
@@ -255,7 +255,7 @@ abstract class Snapshot implements SnapshotInterface
         return $this->content;
     }
 
-    public function setPage(PageInterface $page = null)
+    public function setPage(?PageInterface $page = null)
     {
         $this->page = $page;
     }
@@ -345,7 +345,7 @@ abstract class Snapshot implements SnapshotInterface
         return $this->url;
     }
 
-    public function setSite(SiteInterface $site = null)
+    public function setSite(?SiteInterface $site = null)
     {
         $this->site = $site;
     }

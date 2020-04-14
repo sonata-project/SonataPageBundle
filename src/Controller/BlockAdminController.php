@@ -33,7 +33,7 @@ class BlockAdminController extends Controller
      *
      * @return Response
      */
-    public function savePositionAction(Request $request = null)
+    public function savePositionAction(?Request $request = null)
     {
         $this->admin->checkAccess('savePosition');
 
@@ -72,7 +72,7 @@ class BlockAdminController extends Controller
         return $this->renderJson(['result' => $result], $status);
     }
 
-    public function createAction(Request $request = null)
+    public function createAction(?Request $request = null)
     {
         $this->admin->checkAccess('create');
 
@@ -98,7 +98,7 @@ class BlockAdminController extends Controller
     /**
      * @return Response
      */
-    public function switchParentAction(Request $request = null)
+    public function switchParentAction(?Request $request = null)
     {
         $this->admin->checkAccess('switchParent');
 
@@ -130,7 +130,7 @@ class BlockAdminController extends Controller
      *
      * @return Response
      */
-    public function composePreviewAction(Request $request = null)
+    public function composePreviewAction(?Request $request = null)
     {
         $this->admin->checkAccess('composePreview');
 

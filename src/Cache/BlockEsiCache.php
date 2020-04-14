@@ -63,7 +63,7 @@ class BlockEsiCache extends VarnishCache
      * @param array                        $managers         An array of managers
      * @param Recorder                     $recorder         The cache recorder to build the contextual key
      */
-    public function __construct($token, array $servers, RouterInterface $router, $purgeInstruction, BlockRendererInterface $blockRenderer, BlockContextManagerInterface $contextManager, array $managers = [], Recorder $recorder = null)
+    public function __construct($token, array $servers, RouterInterface $router, $purgeInstruction, BlockRendererInterface $blockRenderer, BlockContextManagerInterface $contextManager, array $managers = [], ?Recorder $recorder = null)
     {
         parent::__construct($token, $servers, $router, $purgeInstruction, null);
 

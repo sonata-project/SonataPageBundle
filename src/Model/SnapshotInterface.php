@@ -94,14 +94,14 @@ interface SnapshotInterface
      */
     public function getUrl();
 
-    public function setPublicationDateStart(\DateTime $publicationDateStart = null);
+    public function setPublicationDateStart(?\DateTime $publicationDateStart = null);
 
     /**
      * @return \DateTime|null $publicationDateStart
      */
     public function getPublicationDateStart();
 
-    public function setPublicationDateEnd(\DateTime $publicationDateEnd = null);
+    public function setPublicationDateEnd(?\DateTime $publicationDateEnd = null);
 
     /**
      * @return \DateTime|null $publicationDateEnd
@@ -111,7 +111,7 @@ interface SnapshotInterface
     /**
      * @param \DateTime $createdAt
      */
-    public function setCreatedAt(\DateTime $createdAt = null);
+    public function setCreatedAt(?\DateTime $createdAt = null);
 
     /**
      * @return \DateTime $createdAt
@@ -121,7 +121,7 @@ interface SnapshotInterface
     /**
      * @param \Datetime $updatedAt
      */
-    public function setUpdatedAt(\DateTime $updatedAt = null);
+    public function setUpdatedAt(?\DateTime $updatedAt = null);
 
     /**
      * @return \DateTime $updatedAt
@@ -156,14 +156,14 @@ interface SnapshotInterface
     /**
      * @param PageInterface $page
      */
-    public function setPage(PageInterface $page = null);
+    public function setPage(?PageInterface $page = null);
 
     /**
      * @return PageInterface|null
      */
     public function getPage();
 
-    public function setSite(SiteInterface $site = null);
+    public function setSite(?SiteInterface $site = null);
 
     /**
      * @return SiteInterface|null
