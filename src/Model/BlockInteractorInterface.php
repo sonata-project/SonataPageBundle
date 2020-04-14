@@ -58,5 +58,5 @@ interface BlockInteractorInterface
      *
      * @return BlockInterface
      */
-    public function createNewContainer(array $values = [], \Closure $alter = null);
+    public function createNewContainer(array $values = [], ?\Closure $alter = null);
 }

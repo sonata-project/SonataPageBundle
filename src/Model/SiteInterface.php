@@ -62,14 +62,14 @@ interface SiteInterface
      */
     public function getEnabledFrom();
 
-    public function setEnabledFrom(\DateTime $enabledFrom = null);
+    public function setEnabledFrom(?\DateTime $enabledFrom = null);
 
     /**
      * @return \DateTime|null
      */
     public function getEnabledTo();
 
-    public function setEnabledTo(\DateTime $enabledTo = null);
+    public function setEnabledTo(?\DateTime $enabledTo = null);
 
     /**
      * @return bool
@@ -108,14 +108,14 @@ interface SiteInterface
      */
     public function isEnabled();
 
-    public function setCreatedAt(\DateTime $createdAt = null);
+    public function setCreatedAt(?\DateTime $createdAt = null);
 
     /**
      * @return \Datetime $createdAt
      */
     public function getCreatedAt();
 
-    public function setUpdatedAt(\DateTime $updatedAt = null);
+    public function setUpdatedAt(?\DateTime $updatedAt = null);
 
     /**
      * @return \Datetime $updatedAt
