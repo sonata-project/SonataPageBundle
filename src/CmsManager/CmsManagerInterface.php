@@ -32,7 +32,7 @@ interface CmsManagerInterface
      *
      * @return BlockInterface|bool|null
      */
-    public function findContainer($name, PageInterface $page, BlockInterface $parentContainer = null);
+    public function findContainer($name, PageInterface $page, ?BlockInterface $parentContainer = null);
 
     /**
      * Returns a fully loaded page ( + blocks ) from a url.

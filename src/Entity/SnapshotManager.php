@@ -53,7 +53,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
      * @param array                             $templates                An array of templates
      * @param SnapshotPageProxyFactoryInterface $snapshotPageProxyFactory
      */
-    public function __construct($class, ManagerRegistry $registry, $templates = [], SnapshotPageProxyFactoryInterface $snapshotPageProxyFactory = null)
+    public function __construct($class, ManagerRegistry $registry, $templates = [], ?SnapshotPageProxyFactoryInterface $snapshotPageProxyFactory = null)
     {
         parent::__construct($class, $registry);
 
@@ -77,7 +77,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
         return $snapshot;
     }
 
-    public function enableSnapshots(array $snapshots, \DateTime $date = null)
+    public function enableSnapshots(array $snapshots, ?\DateTime $date = null)
     {
         if (0 === \count($snapshots)) {
             return;

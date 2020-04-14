@@ -166,7 +166,7 @@ interface PageInterface
     /**
      * @param \DateTime $createdAt
      */
-    public function setCreatedAt(\DateTime $createdAt = null);
+    public function setCreatedAt(?\DateTime $createdAt = null);
 
     /**
      * @return \DateTime $createdAt
@@ -176,7 +176,7 @@ interface PageInterface
     /**
      * @param \DateTime $updatedAt
      */
-    public function setUpdatedAt(\DateTime $updatedAt = null);
+    public function setUpdatedAt(?\DateTime $updatedAt = null);
 
     /**
      * @return \DateTime $updatedAt
@@ -203,7 +203,7 @@ interface PageInterface
     /**
      * @param PageInterface|null $target
      */
-    public function setTarget(self $target = null);
+    public function setTarget(?self $target = null);
 
     /**
      * @return PageInterface|null
@@ -213,7 +213,7 @@ interface PageInterface
     /**
      * @param PageInterface|null $parent
      */
-    public function setParent(self $parent = null);
+    public function setParent(?self $parent = null);
 
     /**
      * @param int $level default -1
@@ -324,7 +324,7 @@ interface PageInterface
      */
     public function hasRequestMethod($method);
 
-    public function setSite(SiteInterface $site = null);
+    public function setSite(?SiteInterface $site = null);
 
     /**
      * @return SiteInterface|null

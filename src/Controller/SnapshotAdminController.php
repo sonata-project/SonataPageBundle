@@ -26,7 +26,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class SnapshotAdminController extends Controller
 {
-    public function createAction(Request $request = null)
+    public function createAction(?Request $request = null)
     {
         $this->admin->checkAccess('create');
 
