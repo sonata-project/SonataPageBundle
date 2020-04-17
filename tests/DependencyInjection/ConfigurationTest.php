@@ -160,7 +160,6 @@ class ConfigurationTest extends TestCase
                     'block' => 'Application\\Sonata\\PageBundle\\Entity\\Block',
                     'site' => 'Application\\Sonata\\PageBundle\\Entity\\Site',
             ],
-            'slugify_service' => 'sonata.core.slugify.native',
             'direct_publication' => false,
         ];
 

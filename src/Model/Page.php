@@ -373,7 +373,7 @@ abstract class Page implements PageInterface
         return $this->headers;
     }
 
-    public function setCreatedAt(\DateTime $createdAt = null): void
+    public function setCreatedAt(?\DateTime $createdAt = null): void
     {
         $this->createdAt = $createdAt;
     }
@@ -383,7 +383,7 @@ abstract class Page implements PageInterface
         return $this->createdAt;
     }
 
-    public function setUpdatedAt(\DateTime $updatedAt = null): void
+    public function setUpdatedAt(?\DateTime $updatedAt = null): void
     {
         $this->updatedAt = $updatedAt;
     }
@@ -440,7 +440,7 @@ abstract class Page implements PageInterface
     /**
      * @param PageInterface $target
      */
-    public function setTarget(PageInterface $target = null): void
+    public function setTarget(?PageInterface $target = null): void
     {
         $this->target = $target;
     }
@@ -457,7 +457,7 @@ abstract class Page implements PageInterface
         return $this->blocks;
     }
 
-    public function setParent(PageInterface $parent = null): void
+    public function setParent(?PageInterface $parent = null): void
     {
         $this->parent = $parent;
     }
@@ -667,7 +667,7 @@ abstract class Page implements PageInterface
         return !$this->getRequestMethod() || false !== strpos($this->getRequestMethod(), $method);
     }
 
-    public function setSite(SiteInterface $site = null): void
+    public function setSite(?SiteInterface $site = null): void
     {
         $this->site = $site;
     }

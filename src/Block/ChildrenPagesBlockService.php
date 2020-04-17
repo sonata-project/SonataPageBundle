@@ -56,7 +56,7 @@ class ChildrenPagesBlockService extends AbstractAdminBlockService
         $this->cmsManagerSelector = $cmsManagerSelector;
     }
 
-    public function execute(BlockContextInterface $blockContext, Response $response = null)
+    public function execute(BlockContextInterface $blockContext, ?Response $response = null)
     {
         $settings = $blockContext->getSettings();
 

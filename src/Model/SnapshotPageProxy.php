@@ -134,7 +134,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
         return $this->getPage()->getBlocks();
     }
 
-    public function setTarget(PageInterface $target = null): void
+    public function setTarget(?PageInterface $target = null): void
     {
         $this->target = $target;
     }
@@ -207,7 +207,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
         return $this->parents;
     }
 
-    public function setParent(PageInterface $parent = null): void
+    public function setParent(?PageInterface $parent = null): void
     {
         $this->getPage()->setParent($parent);
     }
@@ -377,7 +377,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
         return $this->getPage()->setPageAlias($pageAlias);
     }
 
-    public function setCreatedAt(\DateTime $createdAt = null): void
+    public function setCreatedAt(?\DateTime $createdAt = null): void
     {
         $this->getPage()->setCreatedAt($createdAt);
     }
@@ -387,7 +387,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
         return $this->getPage()->getCreatedAt();
     }
 
-    public function setUpdatedAt(\DateTime $updatedAt = null): void
+    public function setUpdatedAt(?\DateTime $updatedAt = null): void
     {
         $this->getPage()->setUpdatedAt($updatedAt);
     }
@@ -417,7 +417,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
         return $this->getPage()->hasRequestMethod($method);
     }
 
-    public function setSite(SiteInterface $site = null): void
+    public function setSite(?SiteInterface $site = null): void
     {
         $this->getPage()->setSite($site);
     }

@@ -125,7 +125,7 @@ class PageExtension extends AbstractExtension implements InitRuntimeInterface
      *
      * @return string
      */
-    public function breadcrumb(PageInterface $page = null, array $options = [])
+    public function breadcrumb(?PageInterface $page = null, array $options = [])
     {
         if (!$page) {
             $page = $this->cmsManagerSelector->retrieve()->getCurrentPage();

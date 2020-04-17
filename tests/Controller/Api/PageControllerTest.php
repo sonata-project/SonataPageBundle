@@ -263,9 +263,6 @@ class PageControllerTest extends TestCase
         $this->assertSame(['queued' => true], $view);
     }
 
-    /**
-     * @return PageController
-     */
     public function createPageController(
         $page = null,
         $siteManager = null,
@@ -273,7 +270,7 @@ class PageControllerTest extends TestCase
         $blockManager = null,
         $formFactory = null,
         $backend = null
-    ) {
+    ): PageController {
         if (null === $siteManager) {
             $siteManager = $this->createMock(SiteManagerInterface::class);
         }

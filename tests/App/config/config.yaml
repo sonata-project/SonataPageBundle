@@ -1,0 +1,20 @@
+imports:
+    - security.yaml
+    - doctrine.yaml
+    - sonata.yaml
+
+framework:
+    test: true
+    secret: secret
+    session:
+        handler_id: session.handler.native_file
+        storage_id: session.storage.mock_file
+        name: MOCKSESSID
+    translator:
+        enabled: true
+    form:
+        enabled: true
+    csrf_protection:
+        enabled: true
+    templating:
+        engines: [twig]

@@ -33,7 +33,7 @@ class BlockInteractorTest extends TestCase
         $registry = $this->createMock(ManagerRegistry::class);
 
         $blockManager = $this->createMock(BlockManagerInterface::class);
-        $blockManager->expects($this->any())->method('create')->willReturn(new Block());
+        $blockManager->method('create')->willReturn(new Block());
 
         $blockInteractor = new BlockInteractor($registry, $blockManager);
 

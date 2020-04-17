@@ -42,7 +42,7 @@ class BlockEsiCacheTest extends TestCase
         $cache->get($keys, 'data');
     }
 
-    public static function getExceptionCacheKeys()
+    public static function getExceptionCacheKeys(): array
     {
         return [
             [[]],
@@ -59,7 +59,6 @@ class BlockEsiCacheTest extends TestCase
     {
         $router = $this->createMock(RouterInterface::class);
         $router
-            ->expects($this->any())
             ->method('generate')
             ->willReturn('https://sonata-project.org/cache/XXX/page/esi/page/5/4?updated_at=as');
 

@@ -147,7 +147,7 @@ abstract class Site implements SiteInterface
         return 'localhost' === $this->getHost();
     }
 
-    public function setCreatedAt(\DateTime $createdAt = null): void
+    public function setCreatedAt(?\DateTime $createdAt = null): void
     {
         $this->createdAt = $createdAt;
     }
@@ -157,7 +157,7 @@ abstract class Site implements SiteInterface
         return $this->createdAt;
     }
 
-    public function setUpdatedAt(\DateTime $updatedAt = null): void
+    public function setUpdatedAt(?\DateTime $updatedAt = null): void
     {
         $this->updatedAt = $updatedAt;
     }
@@ -217,7 +217,7 @@ abstract class Site implements SiteInterface
         return $this->isDefault;
     }
 
-    public function setEnabledFrom(\DateTime $enabledFrom = null): void
+    public function setEnabledFrom(?\DateTime $enabledFrom = null): void
     {
         $this->enabledFrom = $enabledFrom;
     }
@@ -227,7 +227,7 @@ abstract class Site implements SiteInterface
         return $this->enabledFrom;
     }
 
-    public function setEnabledTo(\DateTime $enabledTo = null): void
+    public function setEnabledTo(?\DateTime $enabledTo = null): void
     {
         $this->enabledTo = $enabledTo;
     }

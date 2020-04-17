@@ -101,7 +101,7 @@ class TemplateManager implements TemplateManagerInterface
         return $this->templates;
     }
 
-    public function renderResponse($code, array $parameters = [], Response $response = null)
+    public function renderResponse($code, array $parameters = [], ?Response $response = null)
     {
         return $this->engine->renderResponse(
             $this->getTemplatePath($code),

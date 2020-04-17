@@ -60,7 +60,7 @@ class DefaultPageServiceTest extends TestCase
 
         // mock a page instance
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->any())->method('getTitle')->willReturn('page title');
+        $page->method('getTitle')->willReturn('page title');
         $page->expects($this->atLeastOnce())->method('getMetaDescription')->willReturn('page meta description');
         $page->expects($this->atLeastOnce())->method('getMetaKeyword')->willReturn('page meta keywords');
         $page->expects($this->once())->method('getTemplateCode')->willReturn('template code');

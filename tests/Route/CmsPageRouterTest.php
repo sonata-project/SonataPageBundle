@@ -66,10 +66,10 @@ class CmsPageRouterTest extends TestCase
         $this->expectException(ResourceNotFoundException::class);
 
         $cms = $this->createMock(CmsManagerInterface::class);
-        $this->cmsSelector->expects($this->any())->method('retrieve')->willReturn($cms);
+        $this->cmsSelector->method('retrieve')->willReturn($cms);
 
         $site = $this->createMock(SiteInterface::class);
-        $this->siteSelector->expects($this->any())->method('retrieve')->willReturn($site);
+        $this->siteSelector->method('retrieve')->willReturn($site);
 
         $this->router->match('/');
     }
@@ -79,15 +79,15 @@ class CmsPageRouterTest extends TestCase
         $this->expectException(ResourceNotFoundException::class);
 
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->any())->method('isCms')->willReturn(false);
+        $page->method('isCms')->willReturn(false);
 
         $cms = $this->createMock(CmsManagerInterface::class);
-        $cms->expects($this->any())->method('getPageByUrl')->willReturn($page);
+        $cms->method('getPageByUrl')->willReturn($page);
 
-        $this->cmsSelector->expects($this->any())->method('retrieve')->willReturn($cms);
+        $this->cmsSelector->method('retrieve')->willReturn($cms);
 
         $site = $this->createMock(SiteInterface::class);
-        $this->siteSelector->expects($this->any())->method('retrieve')->willReturn($site);
+        $this->siteSelector->method('retrieve')->willReturn($site);
 
         $this->router->match('/');
     }
@@ -95,17 +95,17 @@ class CmsPageRouterTest extends TestCase
     public function testMatch(): void
     {
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->any())->method('isCms')->willReturn(true);
-        $page->expects($this->any())->method('getEnabled')->willReturn(true);
+        $page->method('isCms')->willReturn(true);
+        $page->method('getEnabled')->willReturn(true);
 
         $cms = $this->createMock(CmsManagerInterface::class);
-        $cms->expects($this->any())->method('getPageByUrl')->willReturn($page);
+        $cms->method('getPageByUrl')->willReturn($page);
         $cms->expects($this->once())->method('setCurrentPage');
 
-        $this->cmsSelector->expects($this->any())->method('retrieve')->willReturn($cms);
+        $this->cmsSelector->method('retrieve')->willReturn($cms);
 
         $site = $this->createMock(SiteInterface::class);
-        $this->siteSelector->expects($this->any())->method('retrieve')->willReturn($site);
+        $this->siteSelector->method('retrieve')->willReturn($site);
 
         $route = $this->router->match('/');
 
@@ -317,7 +317,7 @@ class CmsPageRouterTest extends TestCase
         $page->expects($this->exactly(5))->method('getUrl')->willReturn('/test/path');
 
         $site = $this->createMock(SiteInterface::class);
-        $this->siteSelector->expects($this->any())->method('retrieve')->willReturn($site);
+        $this->siteSelector->method('retrieve')->willReturn($site);
 
         $cmsManager = $this->createMock(CmsManagerInterface::class);
         $cmsManager->expects($this->exactly(5))->method('getPageByPageAlias')->willReturn($page);
@@ -418,9 +418,9 @@ class CmsPageRouterTest extends TestCase
     public function testGenerateWithPageAndNewSiteContext(): void
     {
         $site1 = $this->createMock(SiteInterface::class);
-        $site1->expects($this->exactly(1))->method('getRelativePath')->willReturn('/site1');
+        $site1->expects($this->once())->method('getRelativePath')->willReturn('/site1');
         $site2 = $this->createMock(SiteInterface::class);
-        $site2->expects($this->exactly(1))->method('getRelativePath')->willReturn('/site2');
+        $site2->expects($this->once())->method('getRelativePath')->willReturn('/site2');
 
         $page = $this->createMock(PageInterface::class);
 
@@ -428,11 +428,11 @@ class CmsPageRouterTest extends TestCase
         $page->expects($this->exactly(2))->method('getUrl')->willReturn('/test/path');
 
         $page2 = clone $page;
-        $page2->expects($this->exactly(1))->method('getSite')->willReturn($site2);
-        $page->expects($this->exactly(1))->method('getSite')->willReturn($site1);
+        $page2->expects($this->once())->method('getSite')->willReturn($site2);
+        $page->expects($this->once())->method('getSite')->willReturn($site1);
 
         $siteSelector = $this->createMock(SiteSelectorInterface::class);
-        $siteSelector->expects($this->exactly(1))->method('retrieve')->willReturn($site1);
+        $siteSelector->expects($this->once())->method('retrieve')->willReturn($site1);
 
         $this->router->setContext(new SiteRequestContext($siteSelector));
 

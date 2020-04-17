@@ -78,7 +78,7 @@ class BlockEsiCache extends VarnishCache
         BlockRendererInterface $blockRenderer,
         BlockContextManagerInterface $contextManager,
         array $managers = [],
-        Recorder $recorder = null
+        ?Recorder $recorder = null
     ) {
         parent::__construct($token, $servers, $router, $purgeInstruction, $resolver, $argumentResolver);
 

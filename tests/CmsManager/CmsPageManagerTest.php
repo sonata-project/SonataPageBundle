@@ -95,8 +95,8 @@ class CmsPageManagerTest extends TestCase
     {
         $pageManager = $this->createMock(PageManagerInterface::class);
 
-        $pageManager->expects($this->any())->method('findOneBy')->willReturn(new Page());
-        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->willReturn([]);
+        $pageManager->method('findOneBy')->willReturn(new Page());
+        $this->blockInteractor->method('loadPageBlocks')->willReturn([]);
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
@@ -116,14 +116,14 @@ class CmsPageManagerTest extends TestCase
 
         $pageManager = $this->createMock(PageManagerInterface::class);
 
-        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->willReturn([]);
+        $this->blockInteractor->method('loadPageBlocks')->willReturn([]);
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
         $page = '/test';
         $site = new Site();
 
-        $pageManager->expects($this->any())->method('findOneBy')->willReturn(null);
+        $pageManager->method('findOneBy')->willReturn(null);
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
         $manager->getPage($site, $page);
@@ -136,8 +136,8 @@ class CmsPageManagerTest extends TestCase
     {
         $pageManager = $this->createMock(PageManagerInterface::class);
 
-        $pageManager->expects($this->any())->method('findOneBy')->willReturn(new Page());
-        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->willReturn([]);
+        $pageManager->method('findOneBy')->willReturn(new Page());
+        $this->blockInteractor->method('loadPageBlocks')->willReturn([]);
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
@@ -157,14 +157,14 @@ class CmsPageManagerTest extends TestCase
 
         $pageManager = $this->createMock(PageManagerInterface::class);
 
-        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->willReturn([]);
+        $this->blockInteractor->method('loadPageBlocks')->willReturn([]);
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
         $page = '/test';
         $site = new Site();
 
-        $pageManager->expects($this->any())->method('findOneBy')->willReturn(null);
+        $pageManager->method('findOneBy')->willReturn(null);
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
         $manager->getPage($site, $page);
@@ -177,8 +177,8 @@ class CmsPageManagerTest extends TestCase
     {
         $pageManager = $this->createMock(PageManagerInterface::class);
 
-        $pageManager->expects($this->any())->method('findOneBy')->willReturn(new Page());
-        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->willReturn([]);
+        $pageManager->method('findOneBy')->willReturn(new Page());
+        $this->blockInteractor->method('loadPageBlocks')->willReturn([]);
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
@@ -198,14 +198,14 @@ class CmsPageManagerTest extends TestCase
 
         $pageManager = $this->createMock(PageManagerInterface::class);
 
-        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->willReturn([]);
+        $this->blockInteractor->method('loadPageBlocks')->willReturn([]);
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
         $page = 1;
         $site = new Site();
 
-        $pageManager->expects($this->any())->method('findOneBy')->willReturn(null);
+        $pageManager->method('findOneBy')->willReturn(null);
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
         $manager->getPage($site, $page);
@@ -218,8 +218,8 @@ class CmsPageManagerTest extends TestCase
     {
         $pageManager = $this->createMock(PageManagerInterface::class);
 
-        $pageManager->expects($this->any())->method('findOneBy')->willReturn(new Page());
-        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->willReturn([]);
+        $pageManager->method('findOneBy')->willReturn(new Page());
+        $this->blockInteractor->method('loadPageBlocks')->willReturn([]);
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
         $manager->setCurrentPage(new Page());
@@ -239,14 +239,14 @@ class CmsPageManagerTest extends TestCase
 
         $pageManager = $this->createMock(PageManagerInterface::class);
 
-        $this->blockInteractor->expects($this->any())->method('loadPageBlocks')->willReturn([]);
+        $this->blockInteractor->method('loadPageBlocks')->willReturn([]);
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
         $page = null;
         $site = new Site();
 
-        $pageManager->expects($this->any())->method('findOneBy')->willReturn(null);
+        $pageManager->method('findOneBy')->willReturn(null);
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
         $manager->getPage($site, $page);
@@ -254,10 +254,8 @@ class CmsPageManagerTest extends TestCase
 
     /**
      * Returns a mock block interactor.
-     *
-     * @return \Sonata\PageBundle\Model\BlockInteractorInterface
      */
-    protected function getMockBlockInteractor()
+    protected function getMockBlockInteractor(): BlockInteractorInterface
     {
         $callback = static function ($options) {
             $block = new CmsBlock();
@@ -267,12 +265,12 @@ class CmsPageManagerTest extends TestCase
         };
 
         $mock = $this->createMock(BlockInteractorInterface::class);
-        $mock->expects($this->any())->method('createNewContainer')->willReturnCallback($callback);
+        $mock->method('createNewContainer')->willReturnCallback($callback);
 
         return $mock;
     }
 
-    private function createManager($pageManager, $blockInteractor)
+    private function createManager($pageManager, $blockInteractor): CmsPageManager
     {
         return new CmsPageManager($pageManager, $blockInteractor);
     }

@@ -401,7 +401,7 @@ class PageAdmin extends AbstractAdmin
         ]);
     }
 
-    protected function configureTabMenu(MenuItemInterface $menu, $action, AdminInterface $childAdmin = null): void
+    protected function configureTabMenu(MenuItemInterface $menu, $action, ?AdminInterface $childAdmin = null): void
     {
         if (!$childAdmin && !\in_array($action, ['edit'], true)) {
             return;

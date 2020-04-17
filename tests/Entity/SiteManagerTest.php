@@ -48,9 +48,8 @@ class SiteManagerTest extends TestCase
             'Invalid sort field \'invalid\' in \'Sonata\\PageBundle\\Entity\\BaseSite\' class'
         );
 
-        $self = $this;
         $this
-            ->getSiteManager(static function ($qb) use ($self): void {
+            ->getSiteManager(static function ($qb): void {
             })
             ->getPager([], 1, 10, ['invalid' => 'ASC']);
     }
@@ -124,36 +123,36 @@ class SiteManagerTest extends TestCase
             ->getPager(['is_default' => false], 1);
     }
 
-    protected function getSiteManager($qbCallback)
+    protected function getSiteManager($qbCallback): SiteManager
     {
         $query = $this->getMockForAbstractClass(AbstractQuery::class, [], '', false, true, true, ['execute']);
-        $query->expects($this->any())->method('execute')->willReturn(true);
+        $query->method('execute')->willReturn(true);
 
         $qb = $this->getMockBuilder(QueryBuilder::class)
             ->setConstructorArgs([$this->createMock(EntityManager::class)])
             ->getMock();
 
-        $qb->expects($this->any())->method('getRootAliases')->willReturn([]);
-        $qb->expects($this->any())->method('select')->willReturn($qb);
-        $qb->expects($this->any())->method('getQuery')->willReturn($query);
+        $qb->method('getRootAliases')->willReturn([]);
+        $qb->method('select')->willReturn($qb);
+        $qb->method('getQuery')->willReturn($query);
 
         $qbCallback($qb);
 
         $repository = $this->createMock(EntityRepository::class);
-        $repository->expects($this->any())->method('createQueryBuilder')->willReturn($qb);
+        $repository->method('createQueryBuilder')->willReturn($qb);
 
         $metadata = $this->createMock(ClassMetadata::class);
-        $metadata->expects($this->any())->method('getFieldNames')->willReturn([
+        $metadata->method('getFieldNames')->willReturn([
             'name',
             'host',
         ]);
 
         $em = $this->createMock(EntityManagerInterface::class);
-        $em->expects($this->any())->method('getRepository')->willReturn($repository);
-        $em->expects($this->any())->method('getClassMetadata')->willReturn($metadata);
+        $em->method('getRepository')->willReturn($repository);
+        $em->method('getClassMetadata')->willReturn($metadata);
 
         $registry = $this->createMock(ManagerRegistry::class);
-        $registry->expects($this->any())->method('getManagerForClass')->willReturn($em);
+        $registry->method('getManagerForClass')->willReturn($em);
 
         return new SiteManager(BaseSite::class, $registry);
     }

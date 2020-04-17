@@ -143,7 +143,7 @@ class PageSelectorType extends AbstractType
      * @param array         $choices
      * @param int           $level
      */
-    private function childWalker(PageInterface $page, PageInterface $currentPage = null, &$choices, $level = 1): void
+    private function childWalker(PageInterface $page, ?PageInterface $currentPage = null, &$choices, $level = 1): void
     {
         foreach ($page->getChildren() as $child) {
             if ($currentPage && $currentPage->getId() === $child->getId()) {

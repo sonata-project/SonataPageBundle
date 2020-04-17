@@ -79,7 +79,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
         return $this->getPageByRouteName($site, sprintf('_page_internal_%s', $pageName));
     }
 
-    public function findContainer($code, PageInterface $page, BlockInterface $parentContainer = null)
+    public function findContainer($code, PageInterface $page, ?BlockInterface $parentContainer = null)
     {
         $container = null;
 
@@ -110,7 +110,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
         }
     }
 
-    protected function getPageBy(SiteInterface $site = null, $fieldName, $value)
+    protected function getPageBy(?SiteInterface $site = null, $fieldName, $value)
     {
         if ('id' === $fieldName) {
             $fieldName = 'pageId';

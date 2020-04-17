@@ -84,7 +84,7 @@ class PageServiceManager implements PageServiceManagerInterface
         $this->default = $service;
     }
 
-    public function execute(PageInterface $page, Request $request, array $parameters = [], Response $response = null)
+    public function execute(PageInterface $page, Request $request, array $parameters = [], ?Response $response = null)
     {
         $service = $this->get($page);
 

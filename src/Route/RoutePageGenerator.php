@@ -69,7 +69,7 @@ class RoutePageGenerator
      * @param OutputInterface $output A Symfony console output
      * @param bool            $clean  clean orphaned pages
      */
-    public function update(SiteInterface $site, OutputInterface $output = null, $clean = false): void
+    public function update(SiteInterface $site, ?OutputInterface $output = null, $clean = false): void
     {
         $message = sprintf(
             ' > <info>Updating core routes for site</info> : <comment>%s - %s</comment>',
@@ -237,7 +237,7 @@ MSG
      * @param OutputInterface $output  A Symfony console output instance
      * @param string          $message A string message to output
      */
-    protected function writeln(OutputInterface $output = null, $message): void
+    protected function writeln(?OutputInterface $output = null, $message): void
     {
         if ($output instanceof OutputInterface) {
             $output->writeln($message);

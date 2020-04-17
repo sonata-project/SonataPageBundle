@@ -76,7 +76,7 @@ class PageListBlockService extends AbstractAdminBlockService
         ]);
     }
 
-    public function execute(BlockContextInterface $blockContext, Response $response = null)
+    public function execute(BlockContextInterface $blockContext, ?Response $response = null)
     {
         $pageList = $this->pageManager->findBy([
             'routeName' => Page::PAGE_ROUTE_CMS_NAME,

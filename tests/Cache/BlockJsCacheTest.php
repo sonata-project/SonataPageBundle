@@ -41,7 +41,7 @@ class BlockJsCacheTest extends TestCase
         $cache->get($keys, 'data');
     }
 
-    public static function getExceptionCacheKeys()
+    public static function getExceptionCacheKeys(): array
     {
         return [
             [[]],

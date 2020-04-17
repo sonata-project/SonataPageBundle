@@ -147,7 +147,7 @@ class ExceptionListenerTest extends TestCase
     public function testNotFoundException(): void
     {
         $exception = $this->createMock(NotFoundHttpException::class);
-        $exception->expects($this->any())->method('getStatusCode')->willReturn(404);
+        $exception->method('getStatusCode')->willReturn(404);
         $event = $this->getMockEvent($exception);
 
         $this->assertSame('en', $event->getRequest()->getLocale());
@@ -168,21 +168,18 @@ class ExceptionListenerTest extends TestCase
             ->with($this->anything(), $this->equalTo('route_404'))
             ->willReturn($page);
         $this->cmsManager->expects($this->once())->method('setCurrentPage')->with($this->equalTo($page));
-        $this->cmsSelector->expects($this->any())->method('retrieve')->willReturn($this->cmsManager);
+        $this->cmsSelector->method('retrieve')->willReturn($this->cmsManager);
 
         // mocked site selector should return a site
         $this->siteSelector
-            ->expects($this->any())
             ->method('retrieve')
             ->willReturn($this->createMock(SiteInterface::class));
 
         // mocked decorator strategy should allow decorate
         $this->decoratorStrategy
-            ->expects($this->any())
             ->method('isRouteNameDecorable')
             ->willReturn(true);
         $this->decoratorStrategy
-            ->expects($this->any())
             ->method('isRouteUriDecorable')
             ->willReturn(true);
 

@@ -66,8 +66,8 @@ class TemplateChoiceTypeTest extends TestCase
     protected function getMockTemplate(string $name, string $path = 'path/to/file'): MockObject
     {
         $template = $this->createMock(Template::class);
-        $template->expects($this->any())->method('getName')->willReturn($name);
-        $template->expects($this->any())->method('getPath')->willReturn($path);
+        $template->method('getName')->willReturn($name);
+        $template->method('getPath')->willReturn($path);
 
         return $template;
     }

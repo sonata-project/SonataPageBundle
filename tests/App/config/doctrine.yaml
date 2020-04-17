@@ -1,0 +1,15 @@
+doctrine:
+    dbal:
+        url: 'sqlite:///%kernel.cache_dir%/data.db'
+    orm:
+        auto_generate_proxy_classes: true
+        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+        auto_mapping: true
+        mappings:
+            App:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/Entity'
+                prefix: 'Sonata\PageBundle\Tests\App\Entity'
+                alias: App
+            SonataPageBundle: ~

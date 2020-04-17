@@ -39,7 +39,7 @@ abstract class Block extends BaseBlock implements PageBlockInterface
         }
     }
 
-    public function setPage(PageInterface $page = null): void
+    public function setPage(?PageInterface $page = null): void
     {
         $this->page = $page;
     }

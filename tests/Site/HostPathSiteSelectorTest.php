@@ -37,7 +37,7 @@ class HostPathSiteSelectorTest extends TestCase
     public function testSite(string $expectedName, string $url, string $expectedPath = '/'): void
     {
         // Retrieve the site that would be matched from the request
-        list($site, $event) = $this->performHandleKernelRequestTest($url);
+        [$site, $event] = $this->performHandleKernelRequestTest($url);
 
         // Ensure we retrieved the correct site.
         $this->assertSame($expectedName, $site->getName());
@@ -67,7 +67,7 @@ class HostPathSiteSelectorTest extends TestCase
     public function testSiteWithRedirect(string $expectedRedirectUri, string $url, string $path): void
     {
         // Retrieve the site that would be matched from the request
-        list($site, $event) = $this->performHandleKernelRequestTest($url);
+        [$site, $event] = $this->performHandleKernelRequestTest($url);
 
         // Ensure no site was retrieved
         $this->assertNull($site);
@@ -152,10 +152,8 @@ class HostPathSiteSelector extends BaseSiteSelector
      * @static
      *
      * @param string $property
-     *
-     * @return string
      */
-    public static function _camelize($property)
+    public static function _camelize($property): string
     {
         return preg_replace_callback('/(^|[_. ])+(.)/', static function ($match) {
             return ('.' === $match[1] ? '_' : '').strtoupper($match[2]);
@@ -173,10 +171,7 @@ class HostPathSiteSelector extends BaseSiteSelector
         ]);
     }
 
-    /**
-     * @return array
-     */
-    protected function _findSites(array $params)
+    protected function _findSites(array $params): array
     {
         $all_sites = $this->_getAllSites();
 
@@ -207,10 +202,7 @@ class HostPathSiteSelector extends BaseSiteSelector
         return $matched_sites;
     }
 
-    /**
-     * @return array
-     */
-    protected function _getAllSites()
+    protected function _getAllSites(): array
     {
         $always = null;
         $now = new \DateTime();
@@ -347,7 +339,7 @@ class HostPathSiteSelector extends BaseSiteSelector
 
         foreach ($getters as $getter) {
             if (method_exists($object, $getter)) {
-                return \call_user_func([$object, $getter]);
+                return $object->$getter();
             }
         }
 

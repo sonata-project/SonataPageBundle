@@ -50,5 +50,5 @@ interface PageServiceInterface
      *
      * @return Response
      */
-    public function execute(PageInterface $page, Request $request, array $parameters = [], Response $response = null);
+    public function execute(PageInterface $page, Request $request, array $parameters = [], ?Response $response = null);
 }

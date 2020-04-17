@@ -37,7 +37,7 @@ class XliffTest extends TestCase
     /**
      * @dataProvider getXliffPaths
      */
-    public function testXliff($path)
+    public function testXliff($path): void
     {
         $this->validatePath($path);
 
@@ -55,7 +55,7 @@ class XliffTest extends TestCase
     /**
      * @return array List all path to validate xliff
      */
-    public function getXliffPaths()
+    public function getXliffPaths(): array
     {
         return [[__DIR__.'/../../Resources/translations']];
     }
@@ -63,7 +63,7 @@ class XliffTest extends TestCase
     /**
      * @param string $file The path to the xliff file
      */
-    protected function validateXliff($file)
+    protected function validateXliff($file): void
     {
         try {
             $this->loader->load($file, 'en');
@@ -76,7 +76,7 @@ class XliffTest extends TestCase
     /**
      * @param string $path The path to lookup for Xliff file
      */
-    protected function validatePath($path)
+    protected function validatePath($path): void
     {
         $files = glob(sprintf('%s/*.xliff', $path));
 

@@ -56,7 +56,7 @@ abstract class Snapshot implements SnapshotInterface
     protected $url;
 
     /**
-     * @var
+     * @var bool
      */
     protected $enabled;
 
@@ -180,7 +180,7 @@ abstract class Snapshot implements SnapshotInterface
         return $this->name;
     }
 
-    public function setPublicationDateStart(\DateTime $publicationDateStart = null): void
+    public function setPublicationDateStart(?\DateTime $publicationDateStart = null): void
     {
         $this->publicationDateStart = $publicationDateStart;
     }
@@ -190,7 +190,7 @@ abstract class Snapshot implements SnapshotInterface
         return $this->publicationDateStart;
     }
 
-    public function setPublicationDateEnd(\DateTime $publicationDateEnd = null): void
+    public function setPublicationDateEnd(?\DateTime $publicationDateEnd = null): void
     {
         $this->publicationDateEnd = $publicationDateEnd;
     }
@@ -200,7 +200,7 @@ abstract class Snapshot implements SnapshotInterface
         return $this->publicationDateEnd;
     }
 
-    public function setCreatedAt(\DateTime $createdAt = null): void
+    public function setCreatedAt(?\DateTime $createdAt = null): void
     {
         $this->createdAt = $createdAt;
     }
@@ -210,7 +210,7 @@ abstract class Snapshot implements SnapshotInterface
         return $this->createdAt;
     }
 
-    public function setUpdatedAt(\DateTime $updatedAt = null): void
+    public function setUpdatedAt(?\DateTime $updatedAt = null): void
     {
         $this->updatedAt = $updatedAt;
     }
@@ -255,7 +255,7 @@ abstract class Snapshot implements SnapshotInterface
         return $this->content;
     }
 
-    public function setPage(PageInterface $page = null): void
+    public function setPage(?PageInterface $page = null): void
     {
         $this->page = $page;
     }
@@ -345,7 +345,7 @@ abstract class Snapshot implements SnapshotInterface
         return $this->url;
     }
 
-    public function setSite(SiteInterface $site = null): void
+    public function setSite(?SiteInterface $site = null): void
     {
         $this->site = $site;
     }

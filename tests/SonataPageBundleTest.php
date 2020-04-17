@@ -38,7 +38,7 @@ class SonataPageBundleTest extends TestCase
     {
         $bundle = new SonataPageBundle();
         $container = $this->createMock(ContainerInterface::class);
-        $container->expects($this->exactly(1))->method('hasParameter')->willReturn(true);
+        $container->expects($this->once())->method('hasParameter')->willReturn(true);
         $container->expects($this->exactly(2))->method('getParameter')->willReturnCallback(static function ($value) {
             if ('sonata.page.page.class' === $value) {
                 return Page::class;
@@ -58,7 +58,7 @@ class SonataPageBundleTest extends TestCase
         $this->assertSame($page->getSlug(), $expected);
     }
 
-    public function getSlug()
+    public function getSlug(): array
     {
         return [
             ['Salut comment ca va ?',  'salut-comment-ca-va'],

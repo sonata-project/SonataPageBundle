@@ -64,7 +64,7 @@ class SharedBlockBlockService extends AbstractAdminBlockService
         $this->blockManager = $blockManager;
     }
 
-    public function execute(BlockContextInterface $blockContext, Response $response = null)
+    public function execute(BlockContextInterface $blockContext, ?Response $response = null)
     {
         $block = $blockContext->getBlock();
 

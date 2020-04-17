@@ -98,7 +98,7 @@ class CmsPageManager extends BaseCmsPageManager
         return $page;
     }
 
-    public function findContainer($code, PageInterface $page, BlockInterface $parentContainer = null)
+    public function findContainer($code, PageInterface $page, ?BlockInterface $parentContainer = null)
     {
         $container = null;
 
@@ -141,7 +141,7 @@ class CmsPageManager extends BaseCmsPageManager
         return $this->blocks[$id];
     }
 
-    protected function getPageBy(SiteInterface $site = null, $fieldName, $value)
+    protected function getPageBy(?SiteInterface $site = null, $fieldName, $value)
     {
         if ('id' === $fieldName) {
             $id = $value;

@@ -28,7 +28,11 @@ class PageTest extends TestCase
     public function testSlugify(): void
     {
         setlocale(LC_ALL, 'en_US.utf8');
-        setlocale(LC_CTYPE, 'en_US.utf8');
+
+        $reflectionClass = new \ReflectionClass(Page::class);
+        $property = $reflectionClass->getProperty('slugifyMethod');
+        $property->setAccessible(true);
+        $property->setValue(null);
 
         $this->assertSame(Page::slugify('test'), 'test');
         $this->assertSame(Page::slugify('S§!@@#$#$alut'), 's-alut');
@@ -315,14 +319,14 @@ class PageTest extends TestCase
         $page = new Page();
 
         $block1 = $this->createMock(Block::class);
-        $block1->expects($this->any())->method('getType')->willReturn('sonata.page.block.action');
+        $block1->method('getType')->willReturn('sonata.page.block.action');
 
         $block2 = $this->createMock(Block::class);
-        $block2->expects($this->any())->method('getType')->willReturn('sonata.page.block.container');
+        $block2->method('getType')->willReturn('sonata.page.block.container');
         $block2->expects($this->once())->method('getSetting')->willReturn('bar');
 
         $block3 = $this->createMock(Block::class);
-        $block3->expects($this->any())->method('getType')->willReturn('sonata.page.block.container');
+        $block3->method('getType')->willReturn('sonata.page.block.container');
         $block3->expects($this->once())->method('getSetting')->willReturn('gotcha');
 
         $page->addBlocks($block1);

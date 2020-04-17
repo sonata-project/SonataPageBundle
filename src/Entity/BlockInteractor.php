@@ -103,7 +103,7 @@ class BlockInteractor implements BlockInteractorInterface
         return true;
     }
 
-    public function createNewContainer(array $values = [], \Closure $alter = null)
+    public function createNewContainer(array $values = [], ?\Closure $alter = null)
     {
         $container = $this->blockManager->create();
         $container->setEnabled($values['enabled'] ?? true);

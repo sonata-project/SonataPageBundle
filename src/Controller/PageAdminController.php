@@ -47,10 +47,12 @@ class PageAdminController extends Controller
                 ]);
         }
 
-        return new RedirectResponse($this->admin->generateUrl('list', $this->admin->getFilterParameters()));
+        return new RedirectResponse($this->admin->generateUrl('list', [
+            'filter' => $this->admin->getFilterParameters(),
+        ]));
     }
 
-    public function listAction(Request $request = null)
+    public function listAction(?Request $request = null)
     {
         if (!$request->get('filter')) {
             return new RedirectResponse($this->admin->generateUrl('tree'));
@@ -62,7 +64,7 @@ class PageAdminController extends Controller
     /**
      * @return Response
      */
-    public function treeAction(Request $request = null)
+    public function treeAction(?Request $request = null)
     {
         $this->admin->checkAccess('tree');
 
@@ -103,7 +105,7 @@ class PageAdminController extends Controller
         ]);
     }
 
-    public function createAction(Request $request = null)
+    public function createAction(?Request $request = null)
     {
         $this->admin->checkAccess('create');
 
@@ -138,7 +140,7 @@ class PageAdminController extends Controller
      *
      * @return Response
      */
-    public function composeAction(Request $request = null)
+    public function composeAction(?Request $request = null)
     {
         $this->admin->checkAccess('compose');
         if (false === $this->get('sonata.page.admin.block')->isGranted('LIST')) {
@@ -214,7 +216,7 @@ class PageAdminController extends Controller
      *
      * @return Response
      */
-    public function composeContainerShowAction(Request $request = null)
+    public function composeContainerShowAction(?Request $request = null)
     {
         if (false === $this->get('sonata.page.admin.block')->isGranted('LIST')) {
             throw new AccessDeniedException();
