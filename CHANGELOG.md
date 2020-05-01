@@ -2,6 +2,15 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.17.0](https://github.com/sonata-project/SonataPageBundle/compare/3.16.0...3.17.0) - 2020-05-01
+### Fixed
+- Catch possible null error when retriving site
+- Redirecting after batch snapshot
+- Missing var type declaration
+
+### Removed
+- Support for Symfony < 4.3
+
 ## [3.16.0](https://github.com/sonata-project/SonataPageBundle/compare/3.15.1...3.16.0) - 2020-03-25
 ### Changed
 - Removed underscores in page names when calling `sonata:page:update-core-route`
