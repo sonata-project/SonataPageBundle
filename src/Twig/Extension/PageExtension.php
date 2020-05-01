@@ -147,10 +147,14 @@ class PageExtension extends AbstractExtension implements InitRuntimeInterface
             $breadcrumbs = $page->getParents();
 
             if ($options['force_view_home_page'] && (!isset($breadcrumbs[0]) || 'homepage' !== $breadcrumbs[0]->getRouteName())) {
+                $site = $this->siteSelector->retrieve();
+
+                $homePage = false;
                 try {
-                    $homePage = $this->cmsManagerSelector->retrieve()->getPageByRouteName($this->siteSelector->retrieve(), 'homepage');
+                    if (null !== $site) {
+                        $homePage = $this->cmsManagerSelector->retrieve()->getPageByRouteName($site, 'homepage');
+                    }
                 } catch (PageNotFoundException $e) {
-                    $homePage = false;
                 }
 
                 if ($homePage) {
@@ -201,7 +205,7 @@ class PageExtension extends AbstractExtension implements InitRuntimeInterface
         try {
             if (null === $page) {
                 $targetPage = $cms->getCurrentPage();
-            } elseif (!$page instanceof PageInterface && \is_string($page)) {
+            } elseif (null !== $site && !$page instanceof PageInterface && \is_string($page)) {
                 $targetPage = $cms->getInternalRoute($site, $page);
             } elseif ($page instanceof PageInterface) {
                 $targetPage = $page;
