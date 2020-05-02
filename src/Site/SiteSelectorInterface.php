@@ -25,7 +25,7 @@ use Symfony\Component\Routing\RequestContext;
 interface SiteSelectorInterface
 {
     /**
-     * @return SiteInterface
+     * @return SiteInterface|null
      */
     public function retrieve();
 

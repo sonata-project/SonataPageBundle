@@ -67,10 +67,13 @@ class ChildrenPagesBlockService extends AbstractAdminBlockService
         } elseif ($settings['pageId']) {
             $page = $settings['pageId'];
         } else {
+            $page = false;
             try {
-                $page = $cmsManager->getPage($this->siteSelector->retrieve(), '/');
+                $site = $this->siteSelector->retrieve();
+                if (null !== $site) {
+                    $page = $cmsManager->getPage($site, '/');
+                }
             } catch (PageNotFoundException $e) {
-                $page = false;
             }
         }
 

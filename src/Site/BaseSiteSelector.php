@@ -44,7 +44,7 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
     protected $seoPage;
 
     /**
-     * @var SiteInterface
+     * @var SiteInterface|null
      */
     protected $site;
 

@@ -302,6 +302,11 @@ class CmsPageRouter implements ChainedRouterInterface
     protected function getPageByPageAlias($alias)
     {
         $site = $this->siteSelector->retrieve();
+
+        if (null === $site) {
+            return null;
+        }
+
         $page = $this->cmsSelector->retrieve()->getPageByPageAlias($site, $alias);
 
         return $page;
