@@ -76,6 +76,10 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
 
     final public function onKernelRequest(GetResponseEvent $event)
     {
+        if (!$event->isMasterRequest()) {
+            return;
+        }
+
         if (!$this->decoratorStrategy->isRouteUriDecorable($event->getRequest()->getPathInfo())) {
             return;
         }
