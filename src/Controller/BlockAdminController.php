@@ -118,8 +118,8 @@ class BlockAdminController extends Controller
             throw new PageNotFoundException(sprintf('Unable to find parent block with id %d', $parentId));
         }
 
-        $parent->addChildren($block);
-        $this->admin->update($parent);
+        $block->setParent($parent);
+        $this->admin->update($block);
 
         return $this->renderJson(['result' => 'ok']);
     }
