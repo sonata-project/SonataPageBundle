@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.17.2](https://github.com/sonata-project/SonataPageBundle/compare/3.17.1...3.17.2) - 2020-05-20
+### Fixed
+- fixed sql to work with mssql
+- Fix switch parent
+
 ## [3.17.1](https://github.com/sonata-project/SonataPageBundle/compare/3.17.0...3.17.1) - 2020-05-08
 ### Fixed
 - Truncate texts in page composer
