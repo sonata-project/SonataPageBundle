@@ -479,7 +479,7 @@
 
                 if (self.isFormControlTypeByName(formControlName, 'name')) {
                     $nameFormControl = $formControl;
-                    $title.html('<input type="text" class="page-composer__container__child__name__input" value="' + $title.text() + '">');
+                    $title.html('<input type="text" class="page-composer__container__child__name__input" value="' + $title.text().trim() + '">');
                     $input = $title.find('input');
                     $input.bind("propertychange keyup input paste", function (e) {
                         $nameFormControl.val($input.val());
@@ -720,7 +720,7 @@
                 $blockTypeSelectorLoader.css('display', 'inline-block');
 
                 var blockType      = $blockTypeSelectorSelect.val(),
-                    blockTypeLabel = $blockTypeSelectorSelect.find('option:selected').text();
+                    blockTypeLabel = $blockTypeSelectorSelect.find('option:selected').text().trim();
 
                 $.ajax({
                     url:     blockTypeSelectorUrl,
