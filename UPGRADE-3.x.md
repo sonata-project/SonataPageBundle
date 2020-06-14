@@ -1,6 +1,14 @@
 UPGRADE 3.x
 ===========
 
+UPGRADE FROM 3.x to 3.x
+=========================
+
+### SonataEasyExtends is deprecated
+
+Registering `SonataEasyExtendsBundle` bundle is deprecated, it SHOULD NOT be registered.
+Register `SonataDoctrineBundle` bundle instead.
+
 UPGRADE FROM 3.3 to 3.4
 =======================
 
@@ -13,8 +21,8 @@ UPGRADE FROM 3.1 to 3.2
 
 ### Tests
 
-All files under the ``Tests`` directory are now correctly handled as internal test classes. 
-You can't extend them anymore, because they are only loaded when running internal tests. 
+All files under the ``Tests`` directory are now correctly handled as internal test classes.
+You can't extend them anymore, because they are only loaded when running internal tests.
 More information can be found in the [composer docs](https://getcomposer.org/doc/04-schema.md#autoload-dev).
 
 ### Deprecations
