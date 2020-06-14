@@ -24,7 +24,7 @@ class SonataPageExtensionTest extends AbstractExtensionTestCase
 {
     public function testRequestContextServiceIsDefined(): void
     {
-        $this->container->setParameter('kernel.bundles', []);
+        $this->container->setParameter('kernel.bundles', ['SonataDoctrineBundle' => true]);
         $this->load();
         $this->assertContainerBuilderHasService('sonata.page.router.request_context');
     }
@@ -32,8 +32,9 @@ class SonataPageExtensionTest extends AbstractExtensionTestCase
     public function testApiServicesAreDefinedWhenSpecificBundlesArePresent(): void
     {
         $this->container->setParameter('kernel.bundles', [
-            'FOSRestBundle' => 42,
-            'NelmioApiDocBundle' => 42,
+            'FOSRestBundle' => true,
+            'NelmioApiDocBundle' => true,
+            'SonataDoctrineBundle' => true,
         ]);
         $this->load();
         $this->assertContainerBuilderHasService('sonata.page.serializer.handler.page');
@@ -42,7 +43,8 @@ class SonataPageExtensionTest extends AbstractExtensionTestCase
     public function testAdminServicesAreDefinedWhenAdminBundlesIsPresent(): void
     {
         $this->container->setParameter('kernel.bundles', [
-            'SonataAdminBundle' => 42,
+            'SonataAdminBundle' => true,
+            'SonataDoctrineBundle' => true,
         ]);
         $this->load();
         $this->assertContainerBuilderHasService('sonata.page.admin.page');
@@ -51,7 +53,8 @@ class SonataPageExtensionTest extends AbstractExtensionTestCase
     public function testRouterAutoRegister(): void
     {
         $this->container->setParameter('kernel.bundles', [
-            'CmfRouterBundle' => 42,
+            'CmfRouterBundle' => true,
+            'SonataDoctrineBundle' => true,
         ]);
         $this->load([
             'router_auto_register' => [
@@ -66,8 +69,9 @@ class SonataPageExtensionTest extends AbstractExtensionTestCase
     public function testDatePickerFormThemeFromSonataCore(): void
     {
         $this->container->setParameter('kernel.bundles', [
-            'SonataCoreBundle' => 'SonataCoreBundle',
-            'SonataFormBundle' => 'SonataFormBundle',
+            'SonataCoreBundle' => true,
+            'SonataFormBundle' => true,
+            'SonataDoctrineBundle' => true,
         ]);
         $this->container->setParameter('kernel.bundles_metadata', []);
         $this->container->setParameter('kernel.project_dir', __DIR__);
@@ -84,7 +88,10 @@ class SonataPageExtensionTest extends AbstractExtensionTestCase
 
     public function testDatePickerFormThemeFromSonataForm(): void
     {
-        $this->container->setParameter('kernel.bundles', ['SonataFormBundle' => 'SonataFormBundle']);
+        $this->container->setParameter('kernel.bundles', [
+            'SonataFormBundle' => true,
+            'SonataDoctrineBundle' => true,
+        ]);
         $this->container->setParameter('kernel.bundles_metadata', []);
         $this->container->setParameter('kernel.project_dir', __DIR__);
         $this->container->setParameter('kernel.root_dir', __DIR__);
