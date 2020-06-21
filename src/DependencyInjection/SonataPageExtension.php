@@ -204,7 +204,6 @@ class SonataPageExtension extends Extension implements PrependExtensionInterface
             'targetEntity' => $config['class']['site'],
             'cascade' => [
                 'persist',
-                'remove',
             ],
             'mappedBy' => null,
             'inversedBy' => null,
@@ -212,6 +211,7 @@ class SonataPageExtension extends Extension implements PrependExtensionInterface
                 [
                     'name' => 'site_id',
                     'referencedColumnName' => 'id',
+                    'onDelete' => 'CASCADE',
                 ],
             ],
             'orphanRemoval' => false,
@@ -222,7 +222,6 @@ class SonataPageExtension extends Extension implements PrependExtensionInterface
             'targetEntity' => $config['class']['page'],
             'cascade' => [
                  'persist',
-                 'remove',
             ],
             'mappedBy' => null,
             'inversedBy' => 'children',
@@ -230,6 +229,7 @@ class SonataPageExtension extends Extension implements PrependExtensionInterface
                 [
                     'name' => 'parent_id',
                     'referencedColumnName' => 'id',
+                    'onDelete' => 'CASCADE',
                 ],
             ],
             'orphanRemoval' => false,
@@ -248,7 +248,6 @@ class SonataPageExtension extends Extension implements PrependExtensionInterface
             'targetEntity' => $config['class']['page'],
             'cascade' => [
                 'persist',
-                'remove',
             ],
             'mappedBy' => null,
             'inversedBy' => 'sources',
@@ -256,6 +255,7 @@ class SonataPageExtension extends Extension implements PrependExtensionInterface
                 [
                     'name' => 'target_id',
                     'referencedColumnName' => 'id',
+                    'onDelete' => 'CASCADE',
                 ],
             ],
             'orphanRemoval' => false,
@@ -279,7 +279,6 @@ class SonataPageExtension extends Extension implements PrependExtensionInterface
             'fieldName' => 'parent',
             'targetEntity' => $config['class']['block'],
             'cascade' => [
-                'remove',
             ],
             'mappedBy' => null,
             'inversedBy' => 'children',
@@ -287,6 +286,7 @@ class SonataPageExtension extends Extension implements PrependExtensionInterface
                 [
                     'name' => 'parent_id',
                     'referencedColumnName' => 'id',
+                    'onDelete' => 'CASCADE',
                 ],
             ],
             'orphanRemoval' => false,
