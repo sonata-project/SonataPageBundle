@@ -2,6 +2,15 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.17.3](https://github.com/sonata-project/SonataPageBundle/compare/3.17.2...3.17.3) - 2020-06-22
+### Fixed
+- [[#1165](https://github.com/sonata-project/SonataPageBundle/pull/1165)] Fix
+  mysql database schema ([@wbloszyk](https://github.com/wbloszyk))
+
+### Removed
+- [[#1165](https://github.com/sonata-project/SonataPageBundle/pull/1165)]
+  Remove support for mssql database ([@wbloszyk](https://github.com/wbloszyk))
+
 ## [3.17.2](https://github.com/sonata-project/SonataPageBundle/compare/3.17.1...3.17.2) - 2020-05-20
 ### Fixed
 - fixed sql to work with mssql
