@@ -16,6 +16,7 @@ namespace Sonata\PageBundle\Tests\DependencyInjection;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use Sonata\PageBundle\DependencyInjection\SonataPageExtension;
 use Symfony\Bundle\TwigBundle\DependencyInjection\TwigExtension;
+use Twig\Extra\String\StringExtension;
 
 /**
  * @author Rémi Marseille <marseille@ekino.com>
@@ -77,6 +78,15 @@ class SonataPageExtensionTest extends AbstractExtensionTestCase
             '@SonataCore/Form/datepicker.html.twig',
             $this->container->getParameter('twig.form.resources')
         );
+    }
+
+    public function testLoadTwigStringExtension(): void
+    {
+        $this->container->setParameter('kernel.bundles', []);
+
+        $this->load();
+
+        $this->assertContainerBuilderHasServiceDefinitionWithTag(StringExtension::class, 'twig.extension');
     }
 
     protected function getContainerExtensions(): array
