@@ -32,11 +32,19 @@ class SonataPageExtension extends Extension implements PrependExtensionInterface
 {
     public function prepend(ContainerBuilder $container)
     {
+        $bundles = $container->getParameter('kernel.bundles');
+
+        // add custom form widgets
         if ($container->hasExtension('twig')) {
-            // add custom form widgets
-            $container->prependExtensionConfig('twig', [
-                'form_themes' => ['@SonataCore/Form/datepicker.html.twig'],
-            ]);
+            if (isset($bundles['SonataCoreBundle'])) {
+                $container->prependExtensionConfig('twig', [
+                    'form_themes' => ['@SonataCore/Form/datepicker.html.twig'],
+                ]);
+            } elseif (isset($bundles['SonataFormBundle'])) {
+                $container->prependExtensionConfig('twig', [
+                    'form_themes' => ['@SonataForm/Form/datepicker.html.twig'],
+                ]);
+            }
         }
     }
 
@@ -84,6 +92,7 @@ class SonataPageExtension extends Extension implements PrependExtensionInterface
         $loader->load('consumer.xml');
         $loader->load('validators.xml');
         $loader->load('command.xml');
+        $loader->load('slugify.xml');
 
         $this->configureMultisite($container, $config);
         $this->configureCache($container, $config);
