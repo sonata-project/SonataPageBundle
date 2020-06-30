@@ -30,7 +30,7 @@ class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder('sonata_block');
+        $treeBuilder = new TreeBuilder('sonata_page');
 
         $node = $treeBuilder->getRootNode();
 

@@ -64,9 +64,12 @@ class SonataPageExtensionTest extends AbstractExtensionTestCase
         $this->assertContainerBuilderHasParameter('sonata.page.router_auto_register.priority', 84);
     }
 
-    public function testDatePickerFormTheme(): void
+    public function testDatePickerFormThemeFromSonataCore(): void
     {
-        $this->container->setParameter('kernel.bundles', []);
+        $this->container->setParameter('kernel.bundles', [
+            'SonataCoreBundle' => 'SonataCoreBundle',
+            'SonataFormBundle' => 'SonataFormBundle',
+        ]);
         $this->container->setParameter('kernel.bundles_metadata', []);
         $this->container->setParameter('kernel.project_dir', __DIR__);
         $this->container->setParameter('kernel.root_dir', __DIR__);
@@ -76,6 +79,22 @@ class SonataPageExtensionTest extends AbstractExtensionTestCase
         $this->container->compile();
         $this->assertContains(
             '@SonataCore/Form/datepicker.html.twig',
+            $this->container->getParameter('twig.form.resources')
+        );
+    }
+
+    public function testDatePickerFormThemeFromSonataForm(): void
+    {
+        $this->container->setParameter('kernel.bundles', ['SonataFormBundle' => 'SonataFormBundle']);
+        $this->container->setParameter('kernel.bundles_metadata', []);
+        $this->container->setParameter('kernel.project_dir', __DIR__);
+        $this->container->setParameter('kernel.root_dir', __DIR__);
+        $this->container->setParameter('kernel.debug', false);
+        $this->container->registerExtension(new TwigExtension());
+
+        $this->container->compile();
+        $this->assertContains(
+            '@SonataForm/Form/datepicker.html.twig',
             $this->container->getParameter('twig.form.resources')
         );
     }

@@ -2,6 +2,27 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.18.0](https://github.com/sonata-project/SonataPageBundle/compare/3.17.3...3.18.0) - 2020-06-29
+### Added
+- [[#1166](https://github.com/sonata-project/SonataPageBundle/pull/1166)] Added
+  `twig/string-extra` dependency. ([@wbloszyk](https://github.com/wbloszyk))
+
+### Changed
+- [[#1166](https://github.com/sonata-project/SonataPageBundle/pull/1166)]
+  Changed use of `truncate` filter with `u` filter.
+([@wbloszyk](https://github.com/wbloszyk))
+
+### Fixed
+- [[#1156](https://github.com/sonata-project/SonataPageBundle/pull/1156)] Fix
+  wrong root node ([@wbloszyk](https://github.com/wbloszyk))
+
+### Removed
+- [[#1156](https://github.com/sonata-project/SonataPageBundle/pull/1156)]
+  Remove support for Symfony <4.4 ([@wbloszyk](https://github.com/wbloszyk))
+- [[#1156](https://github.com/sonata-project/SonataPageBundle/pull/1156)]
+  Remove SonataCoreBundle dependencies
+([@wbloszyk](https://github.com/wbloszyk))
+
 ## [3.17.3](https://github.com/sonata-project/SonataPageBundle/compare/3.17.2...3.17.3) - 2020-06-22
 ### Fixed
 - [[#1165](https://github.com/sonata-project/SonataPageBundle/pull/1165)] Fix

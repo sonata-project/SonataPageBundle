@@ -21,9 +21,11 @@ use Sonata\CacheBundle\SonataCacheBundle;
 use Sonata\CoreBundle\SonataCoreBundle;
 use Sonata\Doctrine\Bridge\Symfony\Bundle\SonataDoctrineBundle;
 use Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle;
+use Sonata\Form\Bridge\Symfony\SonataFormBundle;
 use Sonata\NotificationBundle\SonataNotificationBundle;
 use Sonata\PageBundle\SonataPageBundle;
 use Sonata\SeoBundle\SonataSeoBundle;
+use Sonata\Twig\Bridge\Symfony\SonataTwigBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Bundle\SecurityBundle\SecurityBundle;
@@ -45,13 +47,12 @@ final class AppKernel extends Kernel
 
     public function registerBundles(): array
     {
-        return [
+        $bundles = [
             new FrameworkBundle(),
             new TwigBundle(),
             new SecurityBundle(),
             new KnpMenuBundle(),
             new SonataBlockBundle(),
-            new SonataCoreBundle(),
             new SonataDoctrineBundle(),
             new SonataAdminBundle(),
             new CmfRoutingBundle(),
@@ -61,7 +62,15 @@ final class AppKernel extends Kernel
             new SonataSeoBundle(),
             new SonataCacheBundle(),
             new SonataPageBundle(),
+            new SonataFormBundle(),
+            new SonataTwigBundle(),
         ];
+
+        if (class_exists(SonataCoreBundle::class)) {
+            $bundles[] = new SonataCoreBundle();
+        }
+
+        return $bundles;
     }
 
     public function getCacheDir(): string
