@@ -18,6 +18,7 @@ use Sonata\PageBundle\DependencyInjection\Compiler\CacheCompilerPass;
 use Sonata\PageBundle\DependencyInjection\Compiler\CmfRouterCompilerPass;
 use Sonata\PageBundle\DependencyInjection\Compiler\GlobalVariablesCompilerPass;
 use Sonata\PageBundle\DependencyInjection\Compiler\PageServiceCompilerPass;
+use Sonata\PageBundle\DependencyInjection\Compiler\TwigStringExtensionCompilerPass;
 use Sonata\PageBundle\Form\Type\ApiBlockType;
 use Sonata\PageBundle\Form\Type\ApiPageType;
 use Sonata\PageBundle\Form\Type\ApiSiteType;
@@ -26,6 +27,7 @@ use Sonata\PageBundle\Form\Type\PageSelectorType;
 use Sonata\PageBundle\Form\Type\PageTypeChoiceType;
 use Sonata\PageBundle\Form\Type\TemplateChoiceType;
 use Symfony\Cmf\Bundle\RoutingBundle\Form\Type\RouteTypeType;
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -47,6 +49,7 @@ class SonataPageBundle extends Bundle
         $container->addCompilerPass(new GlobalVariablesCompilerPass());
         $container->addCompilerPass(new PageServiceCompilerPass());
         $container->addCompilerPass(new CmfRouterCompilerPass());
+        $container->addCompilerPass(new TwigStringExtensionCompilerPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 1);
     }
 
     public function boot()

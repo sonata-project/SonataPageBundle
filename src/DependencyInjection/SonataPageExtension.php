@@ -23,7 +23,6 @@ use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Twig\Extra\String\StringExtension;
 
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
@@ -100,7 +99,6 @@ class SonataPageExtension extends Extension implements PrependExtensionInterface
         $this->configureExceptions($container, $config);
         $this->configurePageDefaults($container, $config);
         $this->configurePageServices($container, $config);
-        $this->configureStringExtension($container);
 
         $container->setParameter('sonata.page.assets', $config['assets']);
         $container->setParameter('sonata.page.slugify_service', $config['slugify_service']);
@@ -518,15 +516,5 @@ class SonataPageExtension extends Extension implements PrependExtensionInterface
         // set the default page service to use when no page type has been set. (backward compatibility)
         $definition = $container->getDefinition('sonata.page.page_service_manager');
         $definition->addMethodCall('setDefault', [new Reference($config['default_page_service'])]);
-    }
-
-    private function configureStringExtension(ContainerBuilder $container): void
-    {
-        if (!$container->hasDefinition('twig.extension.string') || !is_a($container->getDefinition('twig.extension.string')->getClass(), StringExtension::class)) {
-            $definition = new Definition(StringExtension::class);
-            $definition->addTag('twig.extension');
-
-            $container->setDefinition(StringExtension::class, $definition);
-        }
     }
 }
