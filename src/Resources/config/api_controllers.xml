@@ -5,6 +5,7 @@
             <argument type="service" id="sonata.page.manager.block"/>
             <argument type="service" id="form.factory"/>
         </service>
+        <service id="Sonata\PageBundle\Controller\Api\BlockController" alias="sonata.page.controller.api.block" public="true"/>
         <service id="sonata.page.controller.api.page" class="Sonata\PageBundle\Controller\Api\PageController">
             <argument type="service" id="sonata.page.manager.site"/>
             <argument type="service" id="sonata.page.manager.page"/>
@@ -12,12 +13,15 @@
             <argument type="service" id="form.factory"/>
             <argument type="service" id="sonata.notification.backend"/>
         </service>
+        <service id="Sonata\PageBundle\Controller\Api\PageController" alias="sonata.page.controller.api.page" public="true"/>
         <service id="sonata.page.controller.api.site" class="Sonata\PageBundle\Controller\Api\SiteController">
             <argument type="service" id="sonata.page.manager.site"/>
             <argument type="service" id="form.factory"/>
         </service>
+        <service id="Sonata\PageBundle\Controller\Api\SiteController" alias="sonata.page.controller.api.site" public="true"/>
         <service id="sonata.page.controller.api.snapshot" class="Sonata\PageBundle\Controller\Api\SnapshotController">
             <argument type="service" id="sonata.page.manager.snapshot"/>
         </service>
+        <service id="Sonata\PageBundle\Controller\Api\SnapshotController" alias="sonata.page.controller.api.snapshot" public="true"/>
     </services>
 </container>
