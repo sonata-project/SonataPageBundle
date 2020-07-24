@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Controller\Api;
 
-use FOS\RestBundle\Controller\Annotations\QueryParam;
-use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
+use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sonata\DatagridBundle\Pager\PagerInterface;
 use Sonata\PageBundle\Model\SnapshotInterface;
@@ -45,16 +45,16 @@ class SnapshotController extends FOSRestController
      *  output={"class"="Sonata\DatagridBundle\Pager\PagerInterface", "groups"={"sonata_api_read"}}
      * )
      *
-     * @QueryParam(name="page", requirements="\d+", default="1", description="Page for snapshots list pagination")
-     * @QueryParam(name="count", requirements="\d+", default="10", description="Maximum number of snapshots per page")
-     * @QueryParam(name="site", requirements="\d+", nullable=true, strict=true, description="Filter snapshots for a specific site's id")
-     * @QueryParam(name="page_id", requirements="\d+", nullable=true, strict=true, description="Filter snapshots for a specific page's id")
-     * @QueryParam(name="root", requirements="0|1", nullable=true, strict=true, description="Filter snapshots having no parent id")
-     * @QueryParam(name="parent", requirements="\d+", nullable=true, strict=true, description="Get snapshots being child of given snapshots id")
-     * @QueryParam(name="enabled", requirements="0|1", nullable=true, strict=true, description="Enabled/Disabled snapshots filter")
-     * @QueryParam(name="orderBy", map=true, requirements="ASC|DESC", nullable=true, strict=true, description="Order by array (key is field, value is direction)")
+     * @Rest\QueryParam(name="page", requirements="\d+", default="1", description="Page for snapshots list pagination")
+     * @Rest\QueryParam(name="count", requirements="\d+", default="10", description="Maximum number of snapshots per page")
+     * @Rest\QueryParam(name="site", requirements="\d+", nullable=true, strict=true, description="Filter snapshots for a specific site's id")
+     * @Rest\QueryParam(name="page_id", requirements="\d+", nullable=true, strict=true, description="Filter snapshots for a specific page's id")
+     * @Rest\QueryParam(name="root", requirements="0|1", nullable=true, strict=true, description="Filter snapshots having no parent id")
+     * @Rest\QueryParam(name="parent", requirements="\d+", nullable=true, strict=true, description="Get snapshots being child of given snapshots id")
+     * @Rest\QueryParam(name="enabled", requirements="0|1", nullable=true, strict=true, description="Enabled/Disabled snapshots filter")
+     * @Rest\QueryParam(name="orderBy", map=true, requirements="ASC|DESC", nullable=true, strict=true, description="Order by array (key is field, value is direction)")
      *
-     * @View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
      *
      * @return PagerInterface
      */
@@ -96,7 +96,7 @@ class SnapshotController extends FOSRestController
      * @ApiDoc(
      *  resource=true,
      *  requirements={
-     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="snapshot id"}
+     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="Snapshot identifier"}
      *  },
      *  output={"class"="Sonata\PageBundle\Model\SnapshotInterface", "groups"={"sonata_api_read"}},
      *  statusCodes={
@@ -105,7 +105,7 @@ class SnapshotController extends FOSRestController
      *  }
      * )
      *
-     * @View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
      *
      * @param $id
      *
@@ -121,7 +121,7 @@ class SnapshotController extends FOSRestController
      *
      * @ApiDoc(
      *  requirements={
-     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="snapshot id"}
+     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="Snapshot identifier"}
      *  },
      *  statusCodes={
      *      200="Returned when snapshots is successfully deleted",
@@ -130,11 +130,11 @@ class SnapshotController extends FOSRestController
      *  }
      * )
      *
-     * @param int $id A Snapshot identifier
+     * @param int $id Snapshot identifier
      *
      * @throws NotFoundHttpException
      *
-     * @return \FOS\RestBundle\View\View
+     * @return View
      */
     public function deleteSnapshotAction($id)
     {
