@@ -1,19 +1,30 @@
+.. index::
+    single: Installation
+    single: Configuration
+
 Installation
 ============
 
 Prerequisites
 -------------
 
-PHP 7.2 and Symfony >=4.3 are needed to make this bundle work, there are
-also some Sonata dependencies that need to be installed and configured beforehand:
+PHP ^7.2 and Symfony ^4.4 are needed to make this bundle work, there are
+also some Sonata dependencies that need to be installed and configured beforehand.
 
-    - SonataAdminBundle_
-    - SonataDoctrineORMAdminBundle_
-    - SonataBlockBundle_
-    - SonataCacheBundle_
-    - SonataSeoBundle_
-    - SonataEasyExtendsBundle_
-    - SonataNotificationBundle_
+Required dependencies:
+
+* `SonataAdminBundle <https://sonata-project.org/bundles/admin>`_
+* `SonataBlockBundle_ <https://sonata-project.org/bundles/block>`_
+* `SonataCacheBundle_ <https://sonata-project.org/bundles/cache>`_
+* `SonataSeoBundle_ <https://sonata-project.org/bundles/seo>`_
+* `SonataNotificationBundle_ <https://sonata-project.org/bundles/notification>`_
+
+And the persistence bundle (currently, not all the implementations of the Sonata persistence bundles are available):
+
+* `SonataDoctrineOrmAdminBundle <https://sonata-project.org/bundles/doctrine-orm-admin>`_
+
+Follow also their configuration step; you will find everything you need in
+their own installation chapter.
 
 .. note::
 
@@ -23,20 +34,19 @@ also some Sonata dependencies that need to be installed and configured beforehan
 Enable the Bundle
 -----------------
 
-Add the dependant bundles to the vendor/bundles directory:
+Add ``SonataPageBundle`` via composer::
 
-.. code-block:: bash
+    composer require sonata-project/page-bundle
 
-    composer require sonata-project/page-bundle --no-update
-    composer require sonata-project/doctrine-orm-admin-bundle --no-update
+.. note::
 
-    # optional when using API
-    composer require friendsofsymfony/rest-bundle  --no-update
-    composer require nelmio/api-doc-bundle  --no-update
+    This will install the SymfonyCmfRoutingBundle_, too.
 
-    composer update
+If you want to use the REST API, you also need ``friendsofsymfony/rest-bundle`` and ``nelmio/api-doc-bundle``::
 
-Next, be sure to enable the bundles in your ``bundles.php`` file if they
+    composer require friendsofsymfony/rest-bundle nelmio/api-doc-bundle
+
+Next, be sure to enable the bundles in your ``config/bundles.php`` file if they
 are not already enabled::
 
     // config/bundles.php
@@ -44,31 +54,13 @@ are not already enabled::
     return [
         // ...
         Sonata\PageBundle\SonataPageBundle::class => ['all' => true],
-        Sonata\EasyExtendsBundle\SonataEasyExtendsBundle::class => ['all' => true],
     ];
 
 Configuration
--------------
-
-Doctrine Configuration
-~~~~~~~~~~~~~~~~~~~~~~
-
-Add these bundles in the config mapping definition (or enable `auto_mapping`_):
-
-.. code-block:: yaml
-
-    # config/packages/doctrine.yaml
-
-    doctrine:
-        orm:
-            entity_managers:
-                default:
-                    mappings:
-                        ApplicationSonataPageBundle: ~ # only once the ApplicationSonataPageBundle is generated
-                        SonataPageBundle: ~
+=============
 
 CMF Routing Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~
+-------------------------
 
 ``sonata.page.router`` service must be added to the index of ``cmf_routing.router`` chain router.
 
@@ -99,19 +91,25 @@ Or register ``sonata.page.router`` automatically:
             priority: 150
 
 SonataPageBundle Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------
 
 .. code-block:: yaml
 
     # config/packages/sonata_page.yaml
 
     sonata_page:
-        slugify_service:   sonata.core.slugify.cocur # old BC value is sonata.core.slugify.native
+        slugify_service: sonata.core.slugify.cocur # old BC value is sonata.core.slugify.native
         multisite: host
         use_streamed_response: true # set the value to false in debug mode or if the reverse proxy does not handle streamed response
         ignore_route_patterns:
             - ^(.*)admin(.*)   # ignore admin route, ie route containing 'admin'
             - ^_(.*)          # ignore symfony routes
+
+        class:
+            page: App\Entity\SonataPagePage
+            snapshot: App\Entity\SonataPageSnapshot
+            block: App\Entity\SonataPageBlock
+            site: App\Entity\SonataPageSite
 
         ignore_routes:
             - sonata_page_cache_esi
@@ -143,7 +141,7 @@ SonataPageBundle Configuration
             fatal:     [500]    # so you can use the same page for different http errors or specify specific page for each error
 
 SonataAdminBundle Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-------------------------------
 
 .. code-block:: yaml
 
@@ -157,7 +155,7 @@ SonataAdminBundle Configuration
                 - bundles/sonatapage/sonata-page.back.min.css
 
 SonataBlockBundle Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-------------------------------
 
 .. code-block:: yaml
 
@@ -171,7 +169,7 @@ SonataBlockBundle Configuration
     Please you need to use the context ``sonata_page_bundle`` in the SonataBlockBundle to add block into a Page.
 
 Security Configuration
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------
 
 .. code-block:: yaml
 
@@ -201,7 +199,7 @@ this logout handler:
                     handlers: ['sonata.page.cms_manager_selector']
 
 Routing Configuration
-~~~~~~~~~~~~~~~~~~~~~
+---------------------
 
 .. code-block:: yaml
 
@@ -215,62 +213,120 @@ Routing Configuration
         resource: '@SonataPageBundle/Resources/config/routing/cache.xml'
         prefix: /
 
-Extend the Bundle
------------------
+Doctrine ORM Configuration
+--------------------------
 
-At this point, the bundle is usable, but not quite ready yet. You need to
-generate the correct entities for the page:
+And these in the config mapping definition (or enable `auto_mapping`_)::
 
-.. code-block:: bash
+    # config/packages/doctrine.yaml
 
-    bin/console sonata:easy-extends:generate SonataPageBundle --dest=src --namespace_prefix=App
+    doctrine:
+        orm:
+            entity_managers:
+                default:
+                    mappings:
+                        SonataPageBundle: ~
 
-With provided parameters, the files are generated in ``src/Application/Sonata/PageBundle``.
+And then create the corresponding entities, ``src/Entity/SonataPageBlock``::
 
-.. note::
+    // src/Entity/SonataPageBlock.php
 
-    The command will generate domain objects in an ``App\Application`` namespace.
-    So you can point entities' associations to a global and common namespace.
-    This will make Entities sharing easier as your models will allow to
-    point to a global namespace. For instance the page will be
-    ``App\Application\Sonata\PageBundle\Entity\Page``.
+    use Doctrine\ORM\Mapping as ORM;
+    use Sonata\PageBundle\Entity\BaseBlock;
 
-Now, add the new ``Application`` Bundle into the ``bundles.php``::
+    /**
+     * @ORM\Entity
+     * @ORM\Table(name="page__block")
+     */
+    class SonataPageBlock extends BaseBlock
+    {
+        /**
+         * @ORM\Id
+         * @ORM\GeneratedValue
+         * @ORM\Column(type="integer")
+         */
+        protected $id;
+    }
 
-    // config/bundles.php
+``src/Entity/SonataPagePage``::
 
-    return [
-        // ...
-        App\Application\Sonata\PageBundle\ApplicationSonataPageBundle::class => ['all' => true],
-    ];
+    // src/Entity/SonataPagePage.php
 
-Configure SonataPageBundle to use the newly generated classes:
+    use Doctrine\ORM\Mapping as ORM;
+    use Sonata\PageBundle\Entity\BasePage;
 
-.. code-block:: yaml
+    /**
+     * @ORM\Entity
+     * @ORM\Table(name="page__page")
+     */
+    class SonataPagePage extends BasePage
+    {
+        /**
+         * @ORM\Id
+         * @ORM\GeneratedValue
+         * @ORM\Column(type="integer")
+         */
+        protected $id;
+    }
 
-    # config/packages/sonata_page.yaml
+``src/Entity/SonataPageSite``::
 
-    sonata_page:
-        class:
-            page: App\Application\Sonata\PageBundle\Entity\Page # This is an optional value
-            snapshot: App\Application\Sonata\PageBundle\Entity\Snapshot
-            block: App\Application\Sonata\PageBundle\Entity\Block
-            site: App\Application\Sonata\PageBundle\Entity\Site
+    // src/Entity/SonataPageSite.php
 
-The only thing left is to update your schema:
+    use Doctrine\ORM\Mapping as ORM;
+    use Sonata\PageBundle\Entity\BaseSite;
 
-.. code-block:: bash
+    /**
+     * @ORM\Entity
+     * @ORM\Table(name="page__site")
+     */
+    class SonataPageSite extends BaseSite
+    {
+        /**
+         * @ORM\Id
+         * @ORM\GeneratedValue
+         * @ORM\Column(type="integer")
+         */
+        protected $id;
+    }
+
+and ``src/Entity/SonataPageSnapshot``::
+
+    // src/Entity/SonataPageSnapshot.php
+
+    use Doctrine\ORM\Mapping as ORM;
+    use Sonata\PageBundle\Entity\BaseSnapshot;
+
+    /**
+     * @ORM\Entity
+     * @ORM\Table(name="page__snapshot")
+     */
+    class SonataPageSnapshot extends BaseSnapshot
+    {
+        /**
+         * @ORM\Id
+         * @ORM\GeneratedValue
+         * @ORM\Column(type="integer")
+         */
+        protected $id;
+    }
+
+The only thing left is to update your schema::
 
     bin/console doctrine:schema:update --force
 
-.. _SonataAdminBundle: https://sonata-project.org/bundles/admin
-.. _SonataDoctrineORMAdminBundle: https://sonata-project.org/bundles/doctrine-orm-admin
-.. _SonataBlockBundle: https://sonata-project.org/bundles/block
-.. _SonataCacheBundle: https://sonata-project.org/bundles/cache
-.. _SonataSeoBundle: https://sonata-project.org/bundles/seo
-.. _SonataEasyExtendsBundle: https://sonata-project.org/bundles/easy-extends
-.. _SonataNotificationBundle: https://sonata-project.org/bundles/notification
-.. _EasyExtendsBundle: https://sonata-project.org/bundles/easy-extends/master/doc/index.html
+Next Steps
+----------
+
+At this point, your Symfony installation should be fully functional, without errors
+showing up from SonataPageBundle. If, at this point or during the installation,
+you come across any errors, don't panic:
+
+    - Read the error message carefully. Try to find out exactly which bundle is causing the error.
+      Is it SonataPageBundle or one of the dependencies?
+    - Make sure you followed all the instructions correctly, for both SonataPageBundle and its dependencies.
+    - Still no luck? Try checking the project's `open issues on GitHub`_.
+
+.. _`open issues on GitHub`: https://github.com/sonata-project/SonataPageBundle/issues
 .. _SymfonyCmfRoutingBundle: https://github.com/symfony-cmf/RoutingBundle
-.. _SymfonyCmfRoutingExtraBundle: https://github.com/symfony-cmf/RoutingExtraBundle
 .. _auto_mapping: http://symfony.com/doc/2.0/reference/configuration/doctrine.html#configuration-overview

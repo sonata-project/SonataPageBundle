@@ -112,11 +112,11 @@ Full configuration options:
                 # Prototype
                 id:                   ~
             class:
-                page:                 Application\Sonata\PageBundle\Entity\Page
-                snapshot:             Application\Sonata\PageBundle\Entity\Snapshot
-                block:                Application\Sonata\PageBundle\Entity\Block
-                site:                 Application\Sonata\PageBundle\Entity\Site
-            direct_publication:   false
+                page: App\Entity\SonataPagePage
+                snapshot: App\Entity\SonataPageSnapshot
+                block: App\Entity\SonataPageBlock
+                site: App\Entity\SonataPageSite
+            direct_publication: false
 
     .. code-block:: yaml
 
@@ -128,7 +128,6 @@ Full configuration options:
                 entity_managers:
                     default:
                         mappings:
-                            ApplicationSonataPageBundle: ~
                             SonataPageBundle: ~
 
 .. _`here`: https://sonata-project.org/bundles/page
