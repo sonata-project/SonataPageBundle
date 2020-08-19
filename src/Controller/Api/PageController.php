@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Controller\Api;
 
-use FOS\RestBundle\Controller\Annotations\QueryParam;
-use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
+use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\BlockBundle\Model\BlockManagerInterface;
@@ -76,17 +76,17 @@ class PageController extends FOSRestController
      *  output={"class"="Sonata\DatagridBundle\Pager\PagerInterface", "groups"={"sonata_api_read"}}
      * )
      *
-     * @QueryParam(name="page", requirements="\d+", default="1", description="Page for 'page' list pagination")
-     * @QueryParam(name="count", requirements="\d+", default="10", description="Number of pages by page")
-     * @QueryParam(name="enabled", requirements="0|1", nullable=true, strict=true, description="Enabled/Disabled pages filter")
-     * @QueryParam(name="edited", requirements="0|1", nullable=true, strict=true, description="Edited/Up to date pages filter")
-     * @QueryParam(name="internal", requirements="0|1", nullable=true, strict=true, description="Internal/Exposed pages filter")
-     * @QueryParam(name="root", requirements="0|1", nullable=true, strict=true, description="Filter pages having no parent id")
-     * @QueryParam(name="site", requirements="\d+", nullable=true, strict=true, description="Filter pages for a specific site's id")
-     * @QueryParam(name="parent", requirements="\d+", nullable=true, strict=true, description="Get pages being child of given page id")
-     * @QueryParam(name="orderBy", map=true, requirements="ASC|DESC", nullable=true, strict=true, description="Order by array (key is field, value is direction)")
+     * @Rest\QueryParam(name="page", requirements="\d+", default="1", description="Page for 'page' list pagination")
+     * @Rest\QueryParam(name="count", requirements="\d+", default="10", description="Number of pages by page")
+     * @Rest\QueryParam(name="enabled", requirements="0|1", nullable=true, strict=true, description="Enabled/Disabled pages filter")
+     * @Rest\QueryParam(name="edited", requirements="0|1", nullable=true, strict=true, description="Edited/Up to date pages filter")
+     * @Rest\QueryParam(name="internal", requirements="0|1", nullable=true, strict=true, description="Internal/Exposed pages filter")
+     * @Rest\QueryParam(name="root", requirements="0|1", nullable=true, strict=true, description="Filter pages having no parent id")
+     * @Rest\QueryParam(name="site", requirements="\d+", nullable=true, strict=true, description="Filter pages for a specific site's id")
+     * @Rest\QueryParam(name="parent", requirements="\d+", nullable=true, strict=true, description="Get pages being child of given page id")
+     * @Rest\QueryParam(name="orderBy", map=true, requirements="ASC|DESC", nullable=true, strict=true, description="Order by array (key is field, value is direction)")
      *
-     * @View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
      *
      * @return PagerInterface
      */
@@ -128,7 +128,7 @@ class PageController extends FOSRestController
      *
      * @ApiDoc(
      *  requirements={
-     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="page id"}
+     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="Page identifier"}
      *  },
      *  output={"class"="Sonata\PageBundle\Model\PageInterface", "groups"={"sonata_api_read"}},
      *  statusCodes={
@@ -137,7 +137,7 @@ class PageController extends FOSRestController
      *  }
      * )
      *
-     * @View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
      *
      * @param $id
      *
@@ -153,7 +153,7 @@ class PageController extends FOSRestController
      *
      * @ApiDoc(
      *  requirements={
-     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="page id"}
+     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="Page identifier"}
      *  },
      *  output={"class"="Sonata\BlockBundle\Model\BlockInterface", "groups"={"sonata_api_read"}},
      *  statusCodes={
@@ -162,7 +162,7 @@ class PageController extends FOSRestController
      *  }
      * )
      *
-     * @View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
      *
      * @param $id
      *
@@ -178,7 +178,7 @@ class PageController extends FOSRestController
      *
      * @ApiDoc(
      *  requirements={
-     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="page id"}
+     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="Page identifier"}
      *  },
      *  output={"class"="Sonata\BlockBundle\Model\BlockInterface", "groups"={"sonata_api_read"}},
      *  statusCodes={
@@ -187,7 +187,7 @@ class PageController extends FOSRestController
      *  }
      * )
      *
-     * @View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
      *
      * @param $id
      *
@@ -205,7 +205,7 @@ class PageController extends FOSRestController
      *
      * @ApiDoc(
      *  requirements={
-     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="page identifier"}
+     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="Page identifier"}
      *  },
      *  input={"class"="sonata_page_api_form_block", "name"="", "groups"={"sonata_api_write"}},
      *  output={"class"="Sonata\PageBundle\Model\Block", "groups"={"sonata_api_read"}},
@@ -216,10 +216,10 @@ class PageController extends FOSRestController
      *  }
      * )
      *
-     * @View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
      *
-     * @param int     $id      A Page identifier
-     * @param Request $request A Symfony request
+     * @param int     $id      Page identifier
+     * @param Request $request Symfony request
      *
      * @throws NotFoundHttpException
      *
@@ -260,7 +260,7 @@ class PageController extends FOSRestController
      *  }
      * )
      *
-     * @param Request $request A Symfony request
+     * @param Request $request Symfony request
      *
      * @throws NotFoundHttpException
      *
@@ -276,7 +276,7 @@ class PageController extends FOSRestController
      *
      * @ApiDoc(
      *  requirements={
-     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="page identifier"}
+     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="Page identifier"}
      *  },
      *  input={"class"="sonata_page_api_form_page", "name"="", "groups"={"sonata_api_write"}},
      *  output={"class"="Sonata\PageBundle\Model\Page", "groups"={"sonata_api_read"}},
@@ -287,8 +287,8 @@ class PageController extends FOSRestController
      *  }
      * )
      *
-     * @param int     $id      A Page identifier
-     * @param Request $request A Symfony request
+     * @param int     $id      Page identifier
+     * @param Request $request Symfony request
      *
      * @throws NotFoundHttpException
      *
@@ -304,7 +304,7 @@ class PageController extends FOSRestController
      *
      * @ApiDoc(
      *  requirements={
-     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="page identifier"}
+     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="Page identifier"}
      *  },
      *  statusCodes={
      *      200="Returned when page is successfully deleted",
@@ -313,11 +313,11 @@ class PageController extends FOSRestController
      *  }
      * )
      *
-     * @param int $id A Page identifier
+     * @param int $id Page identifier
      *
      * @throws NotFoundHttpException
      *
-     * @return \FOS\RestBundle\View\View
+     * @return View
      */
     public function deletePageAction($id)
     {
@@ -333,7 +333,7 @@ class PageController extends FOSRestController
      *
      * @ApiDoc(
      *  requirements={
-     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="page identifier"}
+     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="Page identifier"}
      *  },
      *  statusCodes={
      *      200="Returned when snapshots are successfully queued for creation",
@@ -342,11 +342,11 @@ class PageController extends FOSRestController
      *  }
      * )
      *
-     * @param int $id A Page identifier
+     * @param int $id Page identifier
      *
      * @throws NotFoundHttpException
      *
-     * @return \FOS\RestBundle\View\View
+     * @return View
      */
     public function postPageSnapshotAction($id)
     {
@@ -371,7 +371,7 @@ class PageController extends FOSRestController
      *
      * @throws NotFoundHttpException
      *
-     * @return \FOS\RestBundle\View\View
+     * @return View
      */
     public function postPagesSnapshotsAction()
     {
@@ -430,7 +430,7 @@ class PageController extends FOSRestController
      * Write a page, this method is used by both POST and PUT action methods.
      *
      * @param Request  $request Symfony request
-     * @param int|null $id      A page identifier
+     * @param int|null $id      Page identifier
      *
      * @return FormInterface
      */

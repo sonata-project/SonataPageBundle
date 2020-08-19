@@ -13,10 +13,9 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Controller\Api;
 
-use FOS\RestBundle\Controller\Annotations\QueryParam;
-use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
-use FOS\RestBundle\View\View as FOSRestView;
+use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
@@ -54,13 +53,13 @@ class SiteController extends FOSRestController
      *  output={"class"="Sonata\DatagridBundle\Pager\PagerInterface", "groups"={"sonata_api_read"}}
      * )
      *
-     * @QueryParam(name="page", requirements="\d+", default="1", description="Page for site list pagination")
-     * @QueryParam(name="count", requirements="\d+", default="10", description="Maximum number of sites per page")
-     * @QueryParam(name="enabled", requirements="0|1", nullable=true, strict=true, description="Enabled/Disabled sites filter")
-     * @QueryParam(name="is_default", requirements="0|1", nullable=true, strict=true, description="Default sites filter")
-     * @QueryParam(name="orderBy", map=true, requirements="ASC|DESC", nullable=true, strict=true, description="Order by array (key is field, value is direction)")
+     * @Rest\QueryParam(name="page", requirements="\d+", default="1", description="Page for site list pagination")
+     * @Rest\QueryParam(name="count", requirements="\d+", default="10", description="Maximum number of sites per page")
+     * @Rest\QueryParam(name="enabled", requirements="0|1", nullable=true, strict=true, description="Enabled/Disabled sites filter")
+     * @Rest\QueryParam(name="is_default", requirements="0|1", nullable=true, strict=true, description="Default sites filter")
+     * @Rest\QueryParam(name="orderBy", map=true, requirements="ASC|DESC", nullable=true, strict=true, description="Order by array (key is field, value is direction)")
      *
-     * @View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
      *
      * @return PagerInterface
      */
@@ -99,7 +98,7 @@ class SiteController extends FOSRestController
      * @ApiDoc(
      *  resource=true,
      *  requirements={
-     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="site id"}
+     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="Site identifier"}
      *  },
      *  output={"class"="Sonata\PageBundle\Model\SiteInterface", "groups"={"sonata_api_read"}},
      *  statusCodes={
@@ -108,7 +107,7 @@ class SiteController extends FOSRestController
      *  }
      * )
      *
-     * @View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
      *
      * @param $id
      *
@@ -131,7 +130,7 @@ class SiteController extends FOSRestController
      *  }
      * )
      *
-     * @param Request $request A Symfony request
+     * @param Request $request Symfony request
      *
      * @throws NotFoundHttpException
      *
@@ -147,7 +146,7 @@ class SiteController extends FOSRestController
      *
      * @ApiDoc(
      *  requirements={
-     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="site id"},
+     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="Site identifier"},
      *  },
      *  input={"class"="sonata_page_api_form_site", "name"="", "groups"={"sonata_api_write"}},
      *  output={"class"="Sonata\PageBundle\Model\Site", "groups"={"sonata_api_read"}},
@@ -158,8 +157,8 @@ class SiteController extends FOSRestController
      *  }
      * )
      *
-     * @param int     $id      A Site identifier
-     * @param Request $request A Symfony request
+     * @param int     $id      Site identifier
+     * @param Request $request Symfony request
      *
      * @throws NotFoundHttpException
      *
@@ -175,7 +174,7 @@ class SiteController extends FOSRestController
      *
      * @ApiDoc(
      *  requirements={
-     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="site id"}
+     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="Site identifier"}
      *  },
      *  statusCodes={
      *      200="Returned when site is successfully deleted",
@@ -184,11 +183,11 @@ class SiteController extends FOSRestController
      *  }
      * )
      *
-     * @param int $id A Site identifier
+     * @param int $id Site identifier
      *
      * @throws NotFoundHttpException
      *
-     * @return \FOS\RestBundle\View\View
+     * @return View
      */
     public function deleteSiteAction($id)
     {
@@ -223,9 +222,9 @@ class SiteController extends FOSRestController
      * Write a site, this method is used by both POST and PUT action methods.
      *
      * @param Request  $request Symfony request
-     * @param int|null $id      A post identifier
+     * @param int|null $id      Site identifier
      *
-     * @return FormInterface|FOSRestView
+     * @return FormInterface|View
      */
     protected function handleWriteSite($request, $id = null)
     {

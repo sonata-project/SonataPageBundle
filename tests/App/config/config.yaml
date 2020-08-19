@@ -5,7 +5,7 @@ imports:
 
 framework:
     test: true
-    secret: secret
+    secret: '50n474.U53r'
     session:
         handler_id: session.handler.native_file
         storage_id: session.storage.mock_file
@@ -20,4 +20,5 @@ framework:
         engines: [twig]
 
 twig:
-    form_themes:
+    exception_controller: null
+    strict_variables: '%kernel.debug%'
