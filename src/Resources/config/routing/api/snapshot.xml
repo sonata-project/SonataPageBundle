@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes xmlns="http://symfony.com/schema/routing" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/routing https://symfony.com/schema/routing/routing-1.0.xsd">
+    <route id="get_snapshots" path="/snapshots.{_format}" methods="GET" controller="Sonata\PageBundle\Controller\Api\SnapshotController::getSnapshotsAction" format="json">
+        <requirement key="_format">json|xml|html</requirement>
+    </route>
+    <route id="get_snapshot" path="/snapshots/{id}.{_format}" methods="GET" controller="Sonata\PageBundle\Controller\Api\SnapshotController::getSnapshotAction" format="json">
+        <requirement key="_format">json|xml|html</requirement>
+    </route>
+    <route id="delete_snapshot" path="/snapshots/{id}.{_format}" methods="DELETE" controller="Sonata\PageBundle\Controller\Api\SnapshotController::deleteSnapshotAction" format="json">
+        <requirement key="_format">json|xml|html</requirement>
+    </route>
+</routes>

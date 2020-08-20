@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<routes xmlns="http://friendsofsymfony.github.com/schema/rest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://friendsofsymfony.github.com/schema/rest https://raw.github.com/FriendsOfSymfony/FOSRestBundle/master/Resources/config/schema/routing/rest_routing-1.0.xsd">
-    <import type="rest" resource="Sonata\PageBundle\Controller\Api\BlockController" name-prefix="sonata_api_block_"/>
-    <import type="rest" resource="Sonata\PageBundle\Controller\Api\PageController" name-prefix="sonata_api_page_"/>
-    <import type="rest" resource="Sonata\PageBundle\Controller\Api\SiteController" name-prefix="sonata_api_site_"/>
-    <import type="rest" resource="Sonata\PageBundle\Controller\Api\SnapshotController" name-prefix="sonata_api_snapshot_"/>
+<routes xmlns="http://symfony.com/schema/routing" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/routing https://symfony.com/schema/routing/routing-1.0.xsd">
+    <import type="xml" resource="./api/block.xml" name-prefix="sonata_api_block_"/>
+    <import type="xml" resource="./api/page.xml" name-prefix="sonata_api_page_"/>
+    <import type="xml" resource="./api/site.xml" name-prefix="sonata_api_site_"/>
+    <import type="xml" resource="./api/snapshot.xml" name-prefix="sonata_api_snapshot_"/>
 </routes>
