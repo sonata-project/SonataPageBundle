@@ -98,7 +98,7 @@ class SiteController extends FOSRestController
      * @ApiDoc(
      *  resource=true,
      *  requirements={
-     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="Site identifier"}
+     *      {"name"="id", "dataType"="string", "description"="Site identifier"}
      *  },
      *  output={"class"="Sonata\PageBundle\Model\SiteInterface", "groups"={"sonata_api_read"}},
      *  statusCodes={
@@ -109,7 +109,7 @@ class SiteController extends FOSRestController
      *
      * @Rest\View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
      *
-     * @param $id
+     * @param string $id Site identifier
      *
      * @return SiteInterface
      */
@@ -146,7 +146,7 @@ class SiteController extends FOSRestController
      *
      * @ApiDoc(
      *  requirements={
-     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="Site identifier"},
+     *      {"name"="id", "dataType"="string", "description"="Site identifier"},
      *  },
      *  input={"class"="sonata_page_api_form_site", "name"="", "groups"={"sonata_api_write"}},
      *  output={"class"="Sonata\PageBundle\Model\Site", "groups"={"sonata_api_read"}},
@@ -157,7 +157,7 @@ class SiteController extends FOSRestController
      *  }
      * )
      *
-     * @param int     $id      Site identifier
+     * @param string  $id      Site identifier
      * @param Request $request Symfony request
      *
      * @throws NotFoundHttpException
@@ -174,7 +174,7 @@ class SiteController extends FOSRestController
      *
      * @ApiDoc(
      *  requirements={
-     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="Site identifier"}
+     *      {"name"="id", "dataType"="string", "description"="Site identifier"}
      *  },
      *  statusCodes={
      *      200="Returned when site is successfully deleted",
@@ -183,7 +183,7 @@ class SiteController extends FOSRestController
      *  }
      * )
      *
-     * @param int $id Site identifier
+     * @param string $id Site identifier
      *
      * @throws NotFoundHttpException
      *
@@ -201,7 +201,7 @@ class SiteController extends FOSRestController
     /**
      * Retrieves Site with id $id or throws an exception if it doesn't exist.
      *
-     * @param $id
+     * @param string $id Site identifier
      *
      * @throws NotFoundHttpException
      *
@@ -221,8 +221,8 @@ class SiteController extends FOSRestController
     /**
      * Write a site, this method is used by both POST and PUT action methods.
      *
-     * @param Request  $request Symfony request
-     * @param int|null $id      Site identifier
+     * @param Request     $request Symfony request
+     * @param string|null $id      Site identifier
      *
      * @return FormInterface|View
      */

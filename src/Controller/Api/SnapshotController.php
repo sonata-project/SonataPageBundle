@@ -96,7 +96,7 @@ class SnapshotController extends FOSRestController
      * @ApiDoc(
      *  resource=true,
      *  requirements={
-     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="Snapshot identifier"}
+     *      {"name"="id", "dataType"="string", "description"="Snapshot identifier"}
      *  },
      *  output={"class"="Sonata\PageBundle\Model\SnapshotInterface", "groups"={"sonata_api_read"}},
      *  statusCodes={
@@ -107,7 +107,7 @@ class SnapshotController extends FOSRestController
      *
      * @Rest\View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
      *
-     * @param $id
+     * @param string $id Snapshot identifier
      *
      * @return SnapshotInterface
      */
@@ -121,7 +121,7 @@ class SnapshotController extends FOSRestController
      *
      * @ApiDoc(
      *  requirements={
-     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="Snapshot identifier"}
+     *      {"name"="id", "dataType"="string", "description"="Snapshot identifier"}
      *  },
      *  statusCodes={
      *      200="Returned when snapshots is successfully deleted",
@@ -130,7 +130,7 @@ class SnapshotController extends FOSRestController
      *  }
      * )
      *
-     * @param int $id Snapshot identifier
+     * @param string $id Snapshot identifier
      *
      * @throws NotFoundHttpException
      *
@@ -148,7 +148,7 @@ class SnapshotController extends FOSRestController
     /**
      * Retrieves Snapshot with id $id or throws an exception if it doesn't exist.
      *
-     * @param $id
+     * @param string $id Snapshot identifier
      *
      * @throws NotFoundHttpException
      *
