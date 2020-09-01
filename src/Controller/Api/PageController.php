@@ -128,7 +128,7 @@ class PageController extends FOSRestController
      *
      * @ApiDoc(
      *  requirements={
-     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="Page identifier"}
+     *      {"name"="id", "dataType"="string", "description"="Page identifier"}
      *  },
      *  output={"class"="Sonata\PageBundle\Model\PageInterface", "groups"={"sonata_api_read"}},
      *  statusCodes={
@@ -139,7 +139,7 @@ class PageController extends FOSRestController
      *
      * @Rest\View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
      *
-     * @param $id
+     * @param string $id Page identifier
      *
      * @return PageInterface
      */
@@ -153,7 +153,7 @@ class PageController extends FOSRestController
      *
      * @ApiDoc(
      *  requirements={
-     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="Page identifier"}
+     *      {"name"="id", "dataType"="string", "description"="Page identifier"}
      *  },
      *  output={"class"="Sonata\BlockBundle\Model\BlockInterface", "groups"={"sonata_api_read"}},
      *  statusCodes={
@@ -164,7 +164,7 @@ class PageController extends FOSRestController
      *
      * @Rest\View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
      *
-     * @param $id
+     * @param string $id Page identifier
      *
      * @return BlockInterface[]
      */
@@ -178,7 +178,7 @@ class PageController extends FOSRestController
      *
      * @ApiDoc(
      *  requirements={
-     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="Page identifier"}
+     *      {"name"="id", "dataType"="string", "description"="Page identifier"}
      *  },
      *  output={"class"="Sonata\BlockBundle\Model\BlockInterface", "groups"={"sonata_api_read"}},
      *  statusCodes={
@@ -189,7 +189,7 @@ class PageController extends FOSRestController
      *
      * @Rest\View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
      *
-     * @param $id
+     * @param string $id Page identifier
      *
      * @return PageInterface[]
      */
@@ -205,7 +205,7 @@ class PageController extends FOSRestController
      *
      * @ApiDoc(
      *  requirements={
-     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="Page identifier"}
+     *      {"name"="id", "dataType"="string", "description"="Page identifier"}
      *  },
      *  input={"class"="sonata_page_api_form_block", "name"="", "groups"={"sonata_api_write"}},
      *  output={"class"="Sonata\PageBundle\Model\Block", "groups"={"sonata_api_read"}},
@@ -218,7 +218,7 @@ class PageController extends FOSRestController
      *
      * @Rest\View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
      *
-     * @param int     $id      Page identifier
+     * @param string  $id      Page identifier
      * @param Request $request Symfony request
      *
      * @throws NotFoundHttpException
@@ -276,7 +276,7 @@ class PageController extends FOSRestController
      *
      * @ApiDoc(
      *  requirements={
-     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="Page identifier"}
+     *      {"name"="id", "dataType"="string", "description"="Page identifier"}
      *  },
      *  input={"class"="sonata_page_api_form_page", "name"="", "groups"={"sonata_api_write"}},
      *  output={"class"="Sonata\PageBundle\Model\Page", "groups"={"sonata_api_read"}},
@@ -287,7 +287,7 @@ class PageController extends FOSRestController
      *  }
      * )
      *
-     * @param int     $id      Page identifier
+     * @param string  $id      Page identifier
      * @param Request $request Symfony request
      *
      * @throws NotFoundHttpException
@@ -304,7 +304,7 @@ class PageController extends FOSRestController
      *
      * @ApiDoc(
      *  requirements={
-     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="Page identifier"}
+     *      {"name"="id", "dataType"="string", "description"="Page identifier"}
      *  },
      *  statusCodes={
      *      200="Returned when page is successfully deleted",
@@ -313,7 +313,7 @@ class PageController extends FOSRestController
      *  }
      * )
      *
-     * @param int $id Page identifier
+     * @param string $id Page identifier
      *
      * @throws NotFoundHttpException
      *
@@ -333,7 +333,7 @@ class PageController extends FOSRestController
      *
      * @ApiDoc(
      *  requirements={
-     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="Page identifier"}
+     *      {"name"="id", "dataType"="string", "description"="Page identifier"}
      *  },
      *  statusCodes={
      *      200="Returned when snapshots are successfully queued for creation",
@@ -342,7 +342,7 @@ class PageController extends FOSRestController
      *  }
      * )
      *
-     * @param int $id Page identifier
+     * @param string $id Page identifier
      *
      * @throws NotFoundHttpException
      *
@@ -389,7 +389,7 @@ class PageController extends FOSRestController
     /**
      * Retrieves page with id $id or throws an exception if it doesn't exist.
      *
-     * @param $id
+     * @param string $id Page identifier
      *
      * @throws NotFoundHttpException
      *
@@ -409,7 +409,7 @@ class PageController extends FOSRestController
     /**
      * Retrieves Block with id $id or throws an exception if it doesn't exist.
      *
-     * @param $id
+     * @param string $id Block identifier
      *
      * @throws NotFoundHttpException
      *
@@ -429,8 +429,8 @@ class PageController extends FOSRestController
     /**
      * Write a page, this method is used by both POST and PUT action methods.
      *
-     * @param Request  $request Symfony request
-     * @param int|null $id      Page identifier
+     * @param Request     $request Symfony request
+     * @param string|null $id      Page identifier
      *
      * @return FormInterface
      */

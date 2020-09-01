@@ -49,7 +49,7 @@ class BlockController extends FOSRestController
      * @ApiDoc(
      *  resource=true,
      *  requirements={
-     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="Block identifier"}
+     *      {"name"="id", "dataType"="string", "description"="Block identifier"}
      *  },
      *  output={"class"="Sonata\PageBundle\Model\BlockInterface", "groups"={"sonata_api_read"}},
      *  statusCodes={
@@ -60,7 +60,7 @@ class BlockController extends FOSRestController
      *
      * @Rest\View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
      *
-     * @param $id
+     * @param string $id Block identifier
      *
      * @return BlockInterface
      */
@@ -74,7 +74,7 @@ class BlockController extends FOSRestController
      *
      * @ApiDoc(
      *  requirements={
-     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="Block identifier"},
+     *      {"name"="id", "dataType"="string", "description"="Block identifier"},
      *  },
      *  input={"class"="sonata_page_api_form_block", "name"="", "groups"={"sonata_api_write"}},
      *  output={"class"="Sonata\PageBundle\Model\Block", "groups"={"sonata_api_read"}},
@@ -87,7 +87,7 @@ class BlockController extends FOSRestController
      *
      * @Rest\View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
      *
-     * @param int     $id      Block identifier
+     * @param string  $id      Block identifier
      * @param Request $request Symfony request
      *
      * @throws NotFoundHttpException
@@ -120,7 +120,7 @@ class BlockController extends FOSRestController
      *
      * @ApiDoc(
      *  requirements={
-     *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="Block identifier"}
+     *      {"name"="id", "dataType"="string", "description"="Block identifier"}
      *  },
      *  statusCodes={
      *      200="Returned when block is successfully deleted",
@@ -129,7 +129,7 @@ class BlockController extends FOSRestController
      *  }
      * )
      *
-     * @param int $id Block identifier
+     * @param string $id Block identifier
      *
      * @throws NotFoundHttpException
      *
@@ -147,7 +147,7 @@ class BlockController extends FOSRestController
     /**
      * Retrieves Block with id $id or throws an exception if it doesn't exist.
      *
-     * @param $id
+     * @param string $id
      *
      * @throws NotFoundHttpException
      *
