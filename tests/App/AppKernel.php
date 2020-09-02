@@ -14,7 +14,11 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\App;
 
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
+use FOS\RestBundle\FOSRestBundle;
+use JMS\SerializerBundle\JMSSerializerBundle;
 use Knp\Bundle\MenuBundle\KnpMenuBundle;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Nelmio\ApiDocBundle\NelmioApiDocBundle;
 use Sonata\AdminBundle\SonataAdminBundle;
 use Sonata\BlockBundle\SonataBlockBundle;
 use Sonata\CacheBundle\SonataCacheBundle;
@@ -49,6 +53,7 @@ final class AppKernel extends Kernel
     {
         $bundles = [
             new FrameworkBundle(),
+            new FOSRestBundle(),
             new TwigBundle(),
             new SecurityBundle(),
             new KnpMenuBundle(),
@@ -56,6 +61,7 @@ final class AppKernel extends Kernel
             new SonataDoctrineBundle(),
             new SonataAdminBundle(),
             new CmfRoutingBundle(),
+            new JMSSerializerBundle(),
             new DoctrineBundle(),
             new SonataNotificationBundle(),
             new SonataDoctrineORMAdminBundle(),
@@ -64,6 +70,7 @@ final class AppKernel extends Kernel
             new SonataPageBundle(),
             new SonataFormBundle(),
             new SonataTwigBundle(),
+            new NelmioApiDocBundle(),
         ];
 
         if (class_exists(SonataCoreBundle::class)) {
@@ -90,12 +97,18 @@ final class AppKernel extends Kernel
 
     protected function configureRoutes(RouteCollectionBuilder $routes): void
     {
-        $routes->import($this->getProjectDir().'/config/routes.yaml');
+        $routes->import($this->getProjectDir().'/Resources/config/routing/routes.yaml');
+
+        if (class_exists(Operation::class)) {
+            $routes->import(__DIR__.'/Resources/config/routing/api_nelmio_v3.yml', '/', 'yaml');
+        } else {
+            $routes->import(__DIR__.'/Resources/config/routing/api_nelmio_v2.yml', '/', 'yaml');
+        }
     }
 
     protected function configureContainer(ContainerBuilder $containerBuilder, LoaderInterface $loader): void
     {
-        $loader->load($this->getProjectDir().'/config/config.yaml');
+        $loader->load($this->getProjectDir().'/Resources/config/config.yaml');
     }
 
     private function getBaseDir(): string

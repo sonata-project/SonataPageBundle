@@ -61,12 +61,28 @@ class PageControllerTest extends TestCase
         $this->assertSame($page, $this->createPageController($page)->getPageAction(1));
     }
 
-    public function testGetPageActionNotFoundException(): void
+    /**
+     * @dataProvider getIdsForNotFound
+     */
+    public function testGetPageActionNotFoundException($identifier, string $message): void
     {
         $this->expectException(NotFoundHttpException::class);
-        $this->expectExceptionMessage('Page (42) not found');
+        $this->expectExceptionMessage($message);
 
-        $this->createPageController()->getPageAction(42);
+        $this->createPageController()->getPageAction($identifier);
+    }
+
+    /**
+     * @phpstan-return list<array{mixed, string}>
+     */
+    public function getIdsForNotFound(): array
+    {
+        return [
+            [42, 'Page not found for identifier 42.'],
+            ['42', 'Page not found for identifier \'42\'.'],
+            [null, 'Page not found for identifier NULL.'],
+            ['', 'Page not found for identifier \'\'.'],
+        ];
     }
 
     public function testGetPageBlocksAction(): void

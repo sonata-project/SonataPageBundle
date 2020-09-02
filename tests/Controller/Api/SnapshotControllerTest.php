@@ -49,12 +49,28 @@ class SnapshotControllerTest extends TestCase
             ->getSnapshotAction(1));
     }
 
-    public function testGetSnapshotActionNotFoundException(): void
+    /**
+     * @dataProvider getIdsForNotFound
+     */
+    public function testGetSnapshotActionNotFoundException($identifier, string $message): void
     {
         $this->expectException(NotFoundHttpException::class);
-        $this->expectExceptionMessage('Snapshot (1) not found');
+        $this->expectExceptionMessage($message);
 
-        $this->createSnapshotController()->getSnapshotAction(1);
+        $this->createSnapshotController()->getSnapshotAction($identifier);
+    }
+
+    /**
+     * @phpstan-return list<array{mixed, string}>
+     */
+    public function getIdsForNotFound(): array
+    {
+        return [
+            [42, 'Snapshot not found for identifier 42.'],
+            ['42', 'Snapshot not found for identifier \'42\'.'],
+            [null, 'Snapshot not found for identifier NULL.'],
+            ['', 'Snapshot not found for identifier \'\'.'],
+        ];
     }
 
     public function testDeleteSnapshotAction(): void

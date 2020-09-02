@@ -17,8 +17,20 @@ framework:
     csrf_protection:
         enabled: true
     templating:
-        engines: [twig]
+        engines: ['twig']
 
 twig:
     exception_controller: null
     strict_variables: '%kernel.debug%'
+    paths:
+        - '%kernel.project_dir%/Resources/views'
+
+fos_rest:
+    param_fetcher_listener: true
+    body_listener: true
+    format_listener: true
+    view:
+        view_response_listener: true
+    body_converter:
+        enabled: false
+        validate: true

@@ -11,16 +11,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\PageBundle\Controller\Api;
+namespace Sonata\PageBundle\Controller\Api\Legacy;
 
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\View\View;
-use Nelmio\ApiDocBundle\Annotation\Model;
-use Nelmio\ApiDocBundle\Annotation\Operation;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
-use Swagger\Annotations as SWG;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,49 +48,9 @@ class SiteController extends FOSRestController
     /**
      * Retrieves the list of sites (paginated).
      *
-     * @Operation(
-     *     tags={"/api/page/pages"},
-     *     summary="Retrieves the list of sites (paginated).",
-     *     @SWG\Parameter(
-     *         name="page",
-     *         in="query",
-     *         description="Page for site list pagination",
-     *         required=false,
-     *         type="string"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="count",
-     *         in="query",
-     *         description="Maximum number of sites per page",
-     *         required=false,
-     *         type="string"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="enabled",
-     *         in="query",
-     *         description="Enables or disables the sites filter",
-     *         required=false,
-     *         type="string"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="is_default",
-     *         in="query",
-     *         description="Default sites filter",
-     *         required=false,
-     *         type="string"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="orderBy",
-     *         in="query",
-     *         description="Order by array (key is field, value is direction)",
-     *         required=false,
-     *         type="string"
-     *     ),
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned when successful",
-     *         @SWG\Schema(ref=@Model(type="Sonata\DatagridBundle\Pager\PagerInterface"))
-     *     )
+     * @ApiDoc(
+     *  resource=true,
+     *  output={"class"="Sonata\DatagridBundle\Pager\PagerInterface", "groups"={"sonata_api_read"}}
      * )
      *
      * @Rest\QueryParam(name="page", requirements="\d+", default="1", description="Page for site list pagination")
@@ -133,18 +91,16 @@ class SiteController extends FOSRestController
     /**
      * Retrieves a specific site.
      *
-     * @Operation(
-     *     tags={"/api/page/pages"},
-     *     summary="Retrieves a specific site.",
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned when successful",
-     *         @SWG\Schema(ref=@Model(type="Sonata\PageBundle\Model\SiteInterface"))
-     *     ),
-     *     @SWG\Response(
-     *         response="404",
-     *         description="Returned when page is not found"
-     *     )
+     * @ApiDoc(
+     *  resource=true,
+     *  requirements={
+     *      {"name"="id", "dataType"="string", "description"="Site identifier"}
+     *  },
+     *  output={"class"="Sonata\PageBundle\Model\SiteInterface", "groups"={"sonata_api_read"}},
+     *  statusCodes={
+     *      200="Returned when successful",
+     *      404="Returned when page is not found"
+     *  }
      * )
      *
      * @Rest\View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
@@ -161,18 +117,13 @@ class SiteController extends FOSRestController
     /**
      * Adds a site.
      *
-     * @Operation(
-     *     tags={"/api/page/pages"},
-     *     summary="Adds a site.",
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned when successful",
-     *         @SWG\Schema(ref=@Model(type="Sonata\PageBundle\Model\Site"))
-     *     ),
-     *     @SWG\Response(
-     *         response="400",
-     *         description="Returned when an error has occurred while site creation"
-     *     )
+     * @ApiDoc(
+     *  input={"class"="sonata_page_api_form_site", "name"="", "groups"={"sonata_api_write"}},
+     *  output={"class"="Sonata\PageBundle\Model\Site", "groups"={"sonata_api_read"}},
+     *  statusCodes={
+     *      200="Returned when successful",
+     *      400="Returned when an error has occurred while site creation"
+     *  }
      * )
      *
      * @param Request $request Symfony request
@@ -189,22 +140,17 @@ class SiteController extends FOSRestController
     /**
      * Updates a site.
      *
-     * @Operation(
-     *     tags={"/api/page/pages"},
-     *     summary="Updates a site.",
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned when successful",
-     *         @SWG\Schema(ref=@Model(type="Sonata\PageBundle\Model\Site"))
-     *     ),
-     *     @SWG\Response(
-     *         response="400",
-     *         description="Returned when an error has occurred while updating the site"
-     *     ),
-     *     @SWG\Response(
-     *         response="404",
-     *         description="Returned when unable to find the site"
-     *     )
+     * @ApiDoc(
+     *  requirements={
+     *      {"name"="id", "dataType"="string", "description"="Site identifier"},
+     *  },
+     *  input={"class"="sonata_page_api_form_site", "name"="", "groups"={"sonata_api_write"}},
+     *  output={"class"="Sonata\PageBundle\Model\Site", "groups"={"sonata_api_read"}},
+     *  statusCodes={
+     *      200="Returned when successful",
+     *      400="Returned when an error has occurred while updating the site",
+     *      404="Returned when unable to find the site"
+     *  }
      * )
      *
      * @param string  $id      Site identifier
@@ -222,21 +168,15 @@ class SiteController extends FOSRestController
     /**
      * Deletes a site.
      *
-     * @Operation(
-     *     tags={"/api/page/pages"},
-     *     summary="Deletes a site.",
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned when site is successfully deleted"
-     *     ),
-     *     @SWG\Response(
-     *         response="400",
-     *         description="Returned when an error has occurred while deleting the site"
-     *     ),
-     *     @SWG\Response(
-     *         response="404",
-     *         description="Returned when unable to find the site"
-     *     )
+     * @ApiDoc(
+     *  requirements={
+     *      {"name"="id", "dataType"="string", "description"="Site identifier"}
+     *  },
+     *  statusCodes={
+     *      200="Returned when site is successfully deleted",
+     *      400="Returned when an error has occurred while deleting the site",
+     *      404="Returned when unable to find the site"
+     *  }
      * )
      *
      * @param string $id Site identifier

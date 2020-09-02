@@ -11,13 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\PageBundle\Controller\Api;
+namespace Sonata\PageBundle\Controller\Api\Legacy;
 
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\View\View;
-use Nelmio\ApiDocBundle\Annotation\Model;
-use Nelmio\ApiDocBundle\Annotation\Operation;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\BlockBundle\Model\BlockManagerInterface;
 use Sonata\DatagridBundle\Pager\PagerInterface;
@@ -25,7 +24,6 @@ use Sonata\NotificationBundle\Backend\BackendInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
-use Swagger\Annotations as SWG;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -73,77 +71,9 @@ class PageController extends FOSRestController
     /**
      * Retrieves the list of pages (paginated).
      *
-     * @Operation(
-     *     tags={"/api/page/pages"},
-     *     summary="Retrieves the list of pages (paginated).",
-     *     @SWG\Parameter(
-     *         name="page",
-     *         in="query",
-     *         description="Page for 'page' list pagination",
-     *         required=false,
-     *         type="string"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="count",
-     *         in="query",
-     *         description="Number of pages per page",
-     *         required=false,
-     *         type="string"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="enabled",
-     *         in="query",
-     *         description="Enables or disables the pages filter",
-     *         required=false,
-     *         type="string"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="edited",
-     *         in="query",
-     *         description="Edited/Up to date pages filter",
-     *         required=false,
-     *         type="string"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="internal",
-     *         in="query",
-     *         description="Internal/Exposed pages filter",
-     *         required=false,
-     *         type="string"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="root",
-     *         in="query",
-     *         description="Filter pages having no parent id",
-     *         required=false,
-     *         type="string"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="site",
-     *         in="query",
-     *         description="Filter pages for a specific site's id",
-     *         required=false,
-     *         type="string"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="parent",
-     *         in="query",
-     *         description="Get pages being child of given page id",
-     *         required=false,
-     *         type="string"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="orderBy",
-     *         in="query",
-     *         description="Order by array (key is field, value is direction)",
-     *         required=false,
-     *         type="string"
-     *     ),
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned when successful",
-     *         @SWG\Schema(ref=@Model(type="Sonata\DatagridBundle\Pager\PagerInterface"))
-     *     )
+     * @ApiDoc(
+     *  resource=true,
+     *  output={"class"="Sonata\DatagridBundle\Pager\PagerInterface", "groups"={"sonata_api_read"}}
      * )
      *
      * @Rest\QueryParam(name="page", requirements="\d+", default="1", description="Page for 'page' list pagination")
@@ -192,18 +122,15 @@ class PageController extends FOSRestController
     /**
      * Retrieves a specific page.
      *
-     * @Operation(
-     *     tags={"/api/page/pages"},
-     *     summary="Retrieves a specific page.",
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned when successful",
-     *         @SWG\Schema(ref=@Model(type="Sonata\PageBundle\Model\PageInterface"))
-     *     ),
-     *     @SWG\Response(
-     *         response="404",
-     *         description="Returned when page is not found"
-     *     )
+     * @ApiDoc(
+     *  requirements={
+     *      {"name"="id", "dataType"="string", "description"="Page identifier"}
+     *  },
+     *  output={"class"="Sonata\PageBundle\Model\PageInterface", "groups"={"sonata_api_read"}},
+     *  statusCodes={
+     *      200="Returned when successful",
+     *      404="Returned when page is not found"
+     *  }
      * )
      *
      * @Rest\View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
@@ -220,18 +147,15 @@ class PageController extends FOSRestController
     /**
      * Retrieves a specific page's blocks.
      *
-     * @Operation(
-     *     tags={"/api/page/pages"},
-     *     summary="Retrieves a specific page's blocks.",
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned when successful",
-     *         @SWG\Schema(ref=@Model(type="Sonata\BlockBundle\Model\BlockInterface"))
-     *     ),
-     *     @SWG\Response(
-     *         response="404",
-     *         description="Returned when page is not found"
-     *     )
+     * @ApiDoc(
+     *  requirements={
+     *      {"name"="id", "dataType"="string", "description"="Page identifier"}
+     *  },
+     *  output={"class"="Sonata\BlockBundle\Model\BlockInterface", "groups"={"sonata_api_read"}},
+     *  statusCodes={
+     *      200="Returned when successful",
+     *      404="Returned when page is not found"
+     *  }
      * )
      *
      * @Rest\View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
@@ -248,18 +172,15 @@ class PageController extends FOSRestController
     /**
      * Retrieves a specific page's child pages.
      *
-     * @Operation(
-     *     tags={"/api/page/pages"},
-     *     summary="Retrieves a specific page's child pages.",
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned when successful",
-     *         @SWG\Schema(ref=@Model(type="Sonata\BlockBundle\Model\BlockInterface"))
-     *     ),
-     *     @SWG\Response(
-     *         response="404",
-     *         description="Returned when page is not found"
-     *     )
+     * @ApiDoc(
+     *  requirements={
+     *      {"name"="id", "dataType"="string", "description"="Page identifier"}
+     *  },
+     *  output={"class"="Sonata\BlockBundle\Model\BlockInterface", "groups"={"sonata_api_read"}},
+     *  statusCodes={
+     *      200="Returned when successful",
+     *      404="Returned when page is not found"
+     *  }
      * )
      *
      * @Rest\View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
@@ -278,22 +199,17 @@ class PageController extends FOSRestController
     /**
      * Adds a block.
      *
-     * @Operation(
-     *     tags={"/api/page/pages"},
-     *     summary="Adds a block.",
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned when successful",
-     *         @SWG\Schema(ref=@Model(type="Sonata\PageBundle\Model\Block"))
-     *     ),
-     *     @SWG\Response(
-     *         response="400",
-     *         description="Returned when an error has occurred while block creation"
-     *     ),
-     *     @SWG\Response(
-     *         response="404",
-     *         description="Returned when unable to find page"
-     *     )
+     * @ApiDoc(
+     *  requirements={
+     *      {"name"="id", "dataType"="string", "description"="Page identifier"}
+     *  },
+     *  input={"class"="sonata_page_api_form_block", "name"="", "groups"={"sonata_api_write"}},
+     *  output={"class"="Sonata\PageBundle\Model\Block", "groups"={"sonata_api_read"}},
+     *  statusCodes={
+     *      200="Returned when successful",
+     *      400="Returned when an error has occurred while block creation",
+     *      404="Returned when unable to find page"
+     *  }
      * )
      *
      * @Rest\View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
@@ -330,22 +246,14 @@ class PageController extends FOSRestController
     /**
      * Adds a page.
      *
-     * @Operation(
-     *     tags={"/api/page/pages"},
-     *     summary="Adds a page.",
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned when successful",
-     *         @SWG\Schema(ref=@Model(type="Sonata\PageBundle\Model\Page"))
-     *     ),
-     *     @SWG\Response(
-     *         response="400",
-     *         description="Returned when an error has occurred while page creation"
-     *     ),
-     *     @SWG\Response(
-     *         response="404",
-     *         description="Returned when unable to find page"
-     *     )
+     * @ApiDoc(
+     *  input={"class"="sonata_page_api_form_page", "name"="", "groups"={"sonata_api_write"}},
+     *  output={"class"="Sonata\PageBundle\Model\Page", "groups"={"sonata_api_read"}},
+     *  statusCodes={
+     *      200="Returned when successful",
+     *      400="Returned when an error has occurred while page creation",
+     *      404="Returned when unable to find page"
+     *  }
      * )
      *
      * @param Request $request Symfony request
@@ -362,22 +270,17 @@ class PageController extends FOSRestController
     /**
      * Updates a page.
      *
-     * @Operation(
-     *     tags={"/api/page/pages"},
-     *     summary="Updates a page.",
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned when successful",
-     *         @SWG\Schema(ref=@Model(type="Sonata\PageBundle\Model\Page"))
-     *     ),
-     *     @SWG\Response(
-     *         response="400",
-     *         description="Returned when an error has occurred while page update"
-     *     ),
-     *     @SWG\Response(
-     *         response="404",
-     *         description="Returned when unable to find page"
-     *     )
+     * @ApiDoc(
+     *  requirements={
+     *      {"name"="id", "dataType"="string", "description"="Page identifier"}
+     *  },
+     *  input={"class"="sonata_page_api_form_page", "name"="", "groups"={"sonata_api_write"}},
+     *  output={"class"="Sonata\PageBundle\Model\Page", "groups"={"sonata_api_read"}},
+     *  statusCodes={
+     *      200="Returned when successful",
+     *      400="Returned when an error has occurred while page update",
+     *      404="Returned when unable to find page"
+     *  }
      * )
      *
      * @param string  $id      Page identifier
@@ -395,21 +298,15 @@ class PageController extends FOSRestController
     /**
      * Deletes a page.
      *
-     * @Operation(
-     *     tags={"/api/page/pages"},
-     *     summary="Deletes a page.",
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned when page is successfully deleted"
-     *     ),
-     *     @SWG\Response(
-     *         response="400",
-     *         description="Returned when an error has occurred while page deletion"
-     *     ),
-     *     @SWG\Response(
-     *         response="404",
-     *         description="Returned when unable to find page"
-     *     )
+     * @ApiDoc(
+     *  requirements={
+     *      {"name"="id", "dataType"="string", "description"="Page identifier"}
+     *  },
+     *  statusCodes={
+     *      200="Returned when page is successfully deleted",
+     *      400="Returned when an error has occurred while page deletion",
+     *      404="Returned when unable to find page"
+     *  }
      * )
      *
      * @param string $id Page identifier
@@ -430,21 +327,15 @@ class PageController extends FOSRestController
     /**
      * Creates snapshots of a page.
      *
-     * @Operation(
-     *     tags={"/api/page/pages"},
-     *     summary="Creates snapshots of a page.",
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned when snapshots are successfully queued for creation"
-     *     ),
-     *     @SWG\Response(
-     *         response="400",
-     *         description="Returned when an error has occurred while snapshots creation"
-     *     ),
-     *     @SWG\Response(
-     *         response="404",
-     *         description="Returned when unable to find page"
-     *     )
+     * @ApiDoc(
+     *  requirements={
+     *      {"name"="id", "dataType"="string", "description"="Page identifier"}
+     *  },
+     *  statusCodes={
+     *      200="Returned when snapshots are successfully queued for creation",
+     *      400="Returned when an error has occurred while snapshots creation",
+     *      404="Returned when unable to find page"
+     *  }
      * )
      *
      * @param string $id Page identifier
@@ -467,17 +358,11 @@ class PageController extends FOSRestController
     /**
      * Creates snapshots of all pages.
      *
-     * @Operation(
-     *     tags={"/api/page/pages"},
-     *     summary="Creates snapshots of all pages.",
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned when snapshots are successfully queued for creation"
-     *     ),
-     *     @SWG\Response(
-     *         response="400",
-     *         description="Returned when an error has occurred while snapshots creation"
-     *     )
+     * @ApiDoc(
+     *  statusCodes={
+     *      200="Returned when snapshots are successfully queued for creation",
+     *      400="Returned when an error has occurred while snapshots creation",
+     *  }
      * )
      *
      * @throws NotFoundHttpException

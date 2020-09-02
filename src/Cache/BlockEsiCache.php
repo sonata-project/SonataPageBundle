@@ -104,7 +104,7 @@ class BlockEsiCache extends VarnishCache
         $page = $manager->getPageById($request->get('page_id'));
 
         if (!$page) {
-            throw new NotFoundHttpException(sprintf('Page not found : %s', $request->get('page_id')));
+            throw new NotFoundHttpException(sprintf('Page not found for identifier %s.', var_export($request->get('page_id'), true)));
         }
 
         $block = $manager->getBlock($request->get('block_id'));

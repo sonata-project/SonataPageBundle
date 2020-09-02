@@ -12,6 +12,10 @@ UPGRADE FROM 3.18.0 to 3.19.0
 Registering `SonataEasyExtendsBundle` bundle is deprecated, it SHOULD NOT be registered.
 Register `SonataDoctrineBundle` bundle instead.
 
+### Support for NelmioApiDocBundle > 3.6 is added
+
+Controllers for NelmioApiDocBundle v2 were moved under `Sonata\PageBundle\Controller\Api\Legacy\` namespace and controllers for NelmioApiDocBundle v3 were added as replacement. If you extend them, you must ensure they are using the corresponding inheritance.
+
 UPGRADE FROM 3.3 to 3.4
 =======================
 

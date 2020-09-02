@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <routes xmlns="http://symfony.com/schema/routing" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/routing https://symfony.com/schema/routing/routing-1.0.xsd">
-    <route id="get_pages" path="/pages.{_format}" methods="GET" controller="Sonata\PageBundle\Controller\Api\PageController::getPagesAction" format="json">
+    <route id="get_pages" path="/pages.{_format}" methods="GET" controller="Sonata\PageBundle\Controller\Api\Legacy\PageController::getPagesAction" format="json">
         <requirement key="_format">json|xml|html</requirement>
     </route>
-    <route id="get_page" path="/page/pages/{id}.{_format}" methods="GET" controller="Sonata\PageBundle\Controller\Api\PageController::getPageAction" format="json">
+    <route id="get_page" path="/pages/{id}.{_format}" methods="GET" controller="Sonata\PageBundle\Controller\Api\Legacy\PageController::getPageAction" format="json">
         <requirement key="_format">json|xml|html</requirement>
     </route>
-    <route id="get_page_blocks" path="/pages/{id}/blocks.{_format}" methods="GET" controller="Sonata\PageBundle\Controller\Api\PageController::getPageBlocksAction" format="json">
+    <route id="get_page_blocks" path="/pages/{id}/blocks.{_format}" methods="GET" controller="Sonata\PageBundle\Controller\Api\Legacy\PageController::getPageBlocksAction" format="json">
         <requirement key="_format">json|xml|html</requirement>
     </route>
-    <route id="get_page_pages" path="/pages/{id}/pages.{_format}" methods="GET" controller="Sonata\PageBundle\Controller\Api\PageController::getPagePagesAction" format="json">
+    <route id="get_page_pages" path="/pages/{id}/pages.{_format}" methods="GET" controller="Sonata\PageBundle\Controller\Api\Legacy\PageController::getPagePagesAction" format="json">
         <requirement key="_format">json|xml|html</requirement>
     </route>
-    <route id="post_page_block" path="/pages/{id}/blocks.{_format}" methods="POST" controller="Sonata\PageBundle\Controller\Api\PageController::postPageBlockAction" format="json">
+    <route id="post_page_block" path="/pages/{id}/blocks.{_format}" methods="POST" controller="Sonata\PageBundle\Controller\Api\Legacy\PageController::postPageBlockAction" format="json">
         <requirement key="_format">json|xml|html</requirement>
     </route>
-    <route id="post_page" path="/pages.{_format}" methods="POST" controller="Sonata\PageBundle\Controller\Api\PageController::postPageAction" format="json">
+    <route id="post_page" path="/pages.{_format}" methods="POST" controller="Sonata\PageBundle\Controller\Api\Legacy\PageController::postPageAction" format="json">
         <requirement key="_format">json|xml|html</requirement>
     </route>
-    <route id="put_page" path="/pages/{id}.{_format}" methods="PUT" controller="Sonata\PageBundle\Controller\Api\PageController::putPageAction" format="json">
+    <route id="put_page" path="/pages/{id}.{_format}" methods="PUT" controller="Sonata\PageBundle\Controller\Api\Legacy\PageController::putPageAction" format="json">
         <requirement key="_format">json|xml|html</requirement>
     </route>
-    <route id="delete_page" path="/pages/{id}.{_format}" methods="DELETE" controller="Sonata\PageBundle\Controller\Api\PageController::deletePageAction" format="json">
+    <route id="delete_page" path="/pages/{id}.{_format}" methods="DELETE" controller="Sonata\PageBundle\Controller\Api\Legacy\PageController::deletePageAction" format="json">
         <requirement key="_format">json|xml|html</requirement>
     </route>
-    <route id="post_page_snapshot" path="/pages/{id}/snapshots.{_format}" methods="POST" controller="Sonata\PageBundle\Controller\Api\PageController::postPageSnapshotAction" format="json">
+    <route id="post_page_snapshot" path="/pages/{id}/snapshots.{_format}" methods="POST" controller="Sonata\PageBundle\Controller\Api\Legacy\PageController::postPageSnapshotAction" format="json">
         <requirement key="_format">json|xml|html</requirement>
     </route>
-    <route id="post_pages_snapshots" path="/pages/snapshots.{_format}" methods="POST" controller="Sonata\PageBundle\Controller\Api\PageController::postPagesSnapshotsAction" format="json">
+    <route id="post_pages_snapshots" path="/pages/snapshots.{_format}" methods="POST" controller="Sonata\PageBundle\Controller\Api\Legacy\PageController::postPagesSnapshotsAction" format="json">
         <requirement key="_format">json|xml|html</requirement>
     </route>
 </routes>

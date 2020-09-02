@@ -35,12 +35,28 @@ class BlockControllerTest extends TestCase
         $this->assertSame($block, $this->createBlockController($block)->getBlockAction(1));
     }
 
-    public function testGetBlockActionNotFoundException(): void
+    /**
+     * @dataProvider getIdsForNotFound
+     */
+    public function testGetBlockActionNotFoundException($identifier, string $message): void
     {
         $this->expectException(NotFoundHttpException::class);
-        $this->expectExceptionMessage('Block (42) not found');
+        $this->expectExceptionMessage($message);
 
-        $this->createBlockController()->getBlockAction(42);
+        $this->createBlockController()->getBlockAction($identifier);
+    }
+
+    /**
+     * @phpstan-return list<array{mixed, string}>
+     */
+    public function getIdsForNotFound(): array
+    {
+        return [
+            [42, 'Block not found for identifier 42.'],
+            ['42', 'Block not found for identifier \'42\'.'],
+            [null, 'Block not found for identifier NULL.'],
+            ['', 'Block not found for identifier \'\'.'],
+        ];
     }
 
     public function testPutBlockAction(): void

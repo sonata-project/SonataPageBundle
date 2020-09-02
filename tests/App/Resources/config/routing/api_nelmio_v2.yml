@@ -1,0 +1,7 @@
+NelmioApiDocBundle:
+    prefix: /api/doc
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+
+sonata_api_page:
+    prefix: /api/page
+    resource: "@SonataPageBundle/Resources/config/routing/api.xml"

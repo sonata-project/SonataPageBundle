@@ -122,6 +122,16 @@ Full configuration options:
 
     .. code-block:: yaml
 
+        # config/packages/jms_serializer.yaml
+
+        jms_serializer:
+            metadata:
+                directories:
+                    - { name: 'sonata_datagrid', path: "%kernel.project_dir%/vendor/sonata-project/datagrid-bundle/src/Resources/config/serializer", namespace_prefix: 'Sonata\DatagridBundle' }
+                    - { name: 'sonata_page', path: "%kernel.project_dir%/vendor/sonata-project/page-bundle/src/Resources/config/serializer", namespace_prefix: 'Sonata\PageBundle' }
+
+    .. code-block:: yaml
+
         # config/packages/doctrine.yaml
 
         # Enable Doctrine to map the provided entities

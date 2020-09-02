@@ -52,12 +52,28 @@ class SiteControllerTest extends TestCase
         $this->assertSame($site, $this->createSiteController($site)->getSiteAction(1));
     }
 
-    public function testGetSiteActionNotFoundException(): void
+    /**
+     * @dataProvider getIdsForNotFound
+     */
+    public function testGetSiteActionNotFoundException($identifier, string $message): void
     {
         $this->expectException(NotFoundHttpException::class);
-        $this->expectExceptionMessage('Site (1) not found');
+        $this->expectExceptionMessage($message);
 
-        $this->createSiteController()->getSiteAction(1);
+        $this->createSiteController()->getSiteAction($identifier);
+    }
+
+    /**
+     * @phpstan-return list<array{mixed, string}>
+     */
+    public function getIdsForNotFound(): array
+    {
+        return [
+            [42, 'Site not found for identifier 42.'],
+            ['42', 'Site not found for identifier \'42\'.'],
+            [null, 'Site not found for identifier NULL.'],
+            ['', 'Site not found for identifier \'\'.'],
+        ];
     }
 
     public function testPostSiteAction(): void
