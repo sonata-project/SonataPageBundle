@@ -183,7 +183,7 @@ class SonataPageExtension extends Extension implements PrependExtensionInterface
     public function registerDoctrineMapping(array $config)
     {
         @trigger_error(
-            'Using SonataEasyExtendsBundle is deprecated since sonata-project/page-bundle 3.x. Please register SonataDoctrineBundle as a bundle instead.',
+            'Using SonataEasyExtendsBundle is deprecated since sonata-project/page-bundle 3.19. Please register SonataDoctrineBundle as a bundle instead.',
             E_USER_DEPRECATED
         );
 
