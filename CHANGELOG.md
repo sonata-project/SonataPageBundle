@@ -2,6 +2,31 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.19.0](https://github.com/sonata-project/SonataPageBundle/compare/3.18.0...3.19.0) - 2020-09-04
+### Added
+- [[#1175](https://github.com/sonata-project/SonataPageBundle/pull/1175)] Support for "friendsofsymfony/rest-bundle:^3.0" ([@wbloszyk](https://github.com/wbloszyk))
+- [[#1173](https://github.com/sonata-project/SonataPageBundle/pull/1173)] Added public alias `Sonata\PageBundle\Controller\Api\BlockController` for `sonata.page.controller.api.block` service ([@wbloszyk](https://github.com/wbloszyk))
+- [[#1173](https://github.com/sonata-project/SonataPageBundle/pull/1173)] Added public alias `Sonata\PageBundle\Controller\Api\PageController` for `sonata.page.controller.api.page` service ([@wbloszyk](https://github.com/wbloszyk))
+- [[#1173](https://github.com/sonata-project/SonataPageBundle/pull/1173)] Added public alias `Sonata\PageBundle\Controller\Api\SiteController` for `sonata.page.controller.api.site` service ([@wbloszyk](https://github.com/wbloszyk))
+- [[#1173](https://github.com/sonata-project/SonataPageBundle/pull/1173)] Added public alias `Sonata\PageBundle\Controller\Api\SnapshotController` for `sonata.page.controller.api.snapshot` service ([@wbloszyk](https://github.com/wbloszyk))
+
+### Change
+- [[#1175](https://github.com/sonata-project/SonataPageBundle/pull/1175)] Support for deprecated "rest" routing type in favor for xml ([@wbloszyk](https://github.com/wbloszyk))
+
+### Changed
+- [[#1162](https://github.com/sonata-project/SonataPageBundle/pull/1162)] SonataEasyExtendsBundle is now optional, using SonataDoctrineBundle is preferred ([@jordisala1991](https://github.com/jordisala1991))
+
+### Deprecated
+- [[#1162](https://github.com/sonata-project/SonataPageBundle/pull/1162)] Using SonataEasyExtendsBundle to add Doctrine mapping information ([@jordisala1991](https://github.com/jordisala1991))
+
+### Fixed
+- [[#1195](https://github.com/sonata-project/SonataPageBundle/pull/1195)] Fixed support for string model identifiers at Open API definitions ([@wbloszyk](https://github.com/wbloszyk))
+- [[#1173](https://github.com/sonata-project/SonataPageBundle/pull/1173)] Fix RestFul API - `Class could not be determined for Controller identified` Error ([@wbloszyk](https://github.com/wbloszyk))
+- [[#1170](https://github.com/sonata-project/SonataPageBundle/pull/1170)] Fix `Twig\Extra\String\StringExtension` optional auto-registration to avoid duplication `twig.extension` service ([@wbloszyk](https://github.com/wbloszyk))
+
+### Removed
+- [[#1195](https://github.com/sonata-project/SonataPageBundle/pull/1195)] Removed requirements that were only allowing integers for model identifiers at Open API definitions ([@wbloszyk](https://github.com/wbloszyk))
+
 ## [3.18.0](https://github.com/sonata-project/SonataPageBundle/compare/3.17.3...3.18.0) - 2020-06-29
 ### Added
 - [[#1166](https://github.com/sonata-project/SonataPageBundle/pull/1166)] Added
@@ -189,7 +214,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - The internal page name is not used as a seo title fallback anymore
 - make services explicit public
- 
+
 ### Fixed
 - Fix for getRuntime on Symfony older than 3.4
 - Fixed missing import

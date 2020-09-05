@@ -2,7 +2,10 @@ UPGRADE 3.x
 ===========
 
 UPGRADE FROM 3.x to 3.x
-=========================
+=======================
+
+UPGRADE FROM 3.18.0 to 3.19.0
+=============================
 
 ### SonataEasyExtends is deprecated
 
