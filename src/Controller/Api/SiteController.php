@@ -18,6 +18,9 @@ use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Operation;
+use Sonata\DatagridBundle\Pager\BasePager;
+use Sonata\DatagridBundle\Pager\PagerInterface;
+use Sonata\PageBundle\Model\Site;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 use Swagger\Annotations as SWG;
@@ -91,7 +94,7 @@ class SiteController extends FOSRestController
      *     @SWG\Response(
      *         response="200",
      *         description="Returned when successful",
-     *         @SWG\Schema(ref=@Model(type="Sonata\DatagridBundle\Pager\PagerInterface"))
+     *         @SWG\Schema(ref=@Model(type=BasePager::class, groups={"sonata_api_read"}))
      *     )
      * )
      *
@@ -139,7 +142,7 @@ class SiteController extends FOSRestController
      *     @SWG\Response(
      *         response="200",
      *         description="Returned when successful",
-     *         @SWG\Schema(ref=@Model(type="Sonata\PageBundle\Model\SiteInterface"))
+     *         @SWG\Schema(ref=@Model(type=Site::class, groups={"sonata_api_read"}))
      *     ),
      *     @SWG\Response(
      *         response="404",
@@ -167,15 +170,13 @@ class SiteController extends FOSRestController
      *     @SWG\Response(
      *         response="200",
      *         description="Returned when successful",
-     *         @SWG\Schema(ref=@Model(type="Sonata\PageBundle\Model\Site"))
+     *         @SWG\Schema(ref=@Model(type=Site::class, groups={"sonata_api_read"}))
      *     ),
      *     @SWG\Response(
      *         response="400",
      *         description="Returned when an error has occurred while site creation"
      *     )
      * )
-     *
-     * @param Request $request Symfony request
      *
      * @throws NotFoundHttpException
      *
@@ -195,7 +196,7 @@ class SiteController extends FOSRestController
      *     @SWG\Response(
      *         response="200",
      *         description="Returned when successful",
-     *         @SWG\Schema(ref=@Model(type="Sonata\PageBundle\Model\Site"))
+     *         @SWG\Schema(ref=@Model(type=Site::class, groups={"sonata_api_read"}))
      *     ),
      *     @SWG\Response(
      *         response="400",
@@ -208,7 +209,6 @@ class SiteController extends FOSRestController
      * )
      *
      * @param string  $id      Site identifier
-     * @param Request $request Symfony request
      *
      * @throws NotFoundHttpException
      *

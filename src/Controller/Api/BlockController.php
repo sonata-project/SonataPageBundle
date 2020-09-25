@@ -17,6 +17,7 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Operation;
+use Sonata\PageBundle\Model\Block;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\BlockBundle\Model\BlockManagerInterface;
 use Swagger\Annotations as SWG;
@@ -54,7 +55,7 @@ class BlockController extends FOSRestController
      *     @SWG\Response(
      *         response="200",
      *         description="Returned when successful",
-     *         @SWG\Schema(ref=@Model(type="Sonata\PageBundle\Model\BlockInterface"))
+     *         @SWG\Schema(ref=@Model(type=Block::class, groups={"sonata_api_read"}))
      *     ),
      *     @SWG\Response(
      *         response="404",
@@ -82,7 +83,7 @@ class BlockController extends FOSRestController
      *     @SWG\Response(
      *         response="200",
      *         description="Returned when successful",
-     *         @SWG\Schema(ref=@Model(type="Sonata\PageBundle\Model\Block"))
+     *         @SWG\Schema(ref=@Model(type=Block::class, groups={"sonata_api_read"}))
      *     ),
      *     @SWG\Response(
      *         response="400",
@@ -97,7 +98,6 @@ class BlockController extends FOSRestController
      * @Rest\View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
      *
      * @param string  $id      Block identifier
-     * @param Request $request Symfony request
      *
      * @throws NotFoundHttpException
      *

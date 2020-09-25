@@ -18,10 +18,14 @@ use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Operation;
+use Sonata\BlockBundle\Model\Block;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\BlockBundle\Model\BlockManagerInterface;
+use Sonata\DatagridBundle\Pager\BasePager;
 use Sonata\DatagridBundle\Pager\PagerInterface;
 use Sonata\NotificationBundle\Backend\BackendInterface;
+use Sonata\PageBundle\Model\Block as PageBlock;
+use Sonata\PageBundle\Model\Page;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
@@ -142,7 +146,7 @@ class PageController extends FOSRestController
      *     @SWG\Response(
      *         response="200",
      *         description="Returned when successful",
-     *         @SWG\Schema(ref=@Model(type="Sonata\DatagridBundle\Pager\PagerInterface"))
+     *         @SWG\Schema(ref=@Model(type=BasePager::class, groups={"sonata_api_read"}))
      *     )
      * )
      *
@@ -198,7 +202,7 @@ class PageController extends FOSRestController
      *     @SWG\Response(
      *         response="200",
      *         description="Returned when successful",
-     *         @SWG\Schema(ref=@Model(type="Sonata\PageBundle\Model\PageInterface"))
+     *         @SWG\Schema(ref=@Model(type=Page::class, groups={"sonata_api_read"}))
      *     ),
      *     @SWG\Response(
      *         response="404",
@@ -226,7 +230,7 @@ class PageController extends FOSRestController
      *     @SWG\Response(
      *         response="200",
      *         description="Returned when successful",
-     *         @SWG\Schema(ref=@Model(type="Sonata\BlockBundle\Model\BlockInterface"))
+     *         @SWG\Schema(ref=@Model(type=Block::class, groups={"sonata_api_read"}))
      *     ),
      *     @SWG\Response(
      *         response="404",
@@ -254,7 +258,7 @@ class PageController extends FOSRestController
      *     @SWG\Response(
      *         response="200",
      *         description="Returned when successful",
-     *         @SWG\Schema(ref=@Model(type="Sonata\BlockBundle\Model\BlockInterface"))
+     *         @SWG\Schema(ref=@Model(type=Block::class, groups={"sonata_api_read"}))
      *     ),
      *     @SWG\Response(
      *         response="404",
@@ -284,7 +288,7 @@ class PageController extends FOSRestController
      *     @SWG\Response(
      *         response="200",
      *         description="Returned when successful",
-     *         @SWG\Schema(ref=@Model(type="Sonata\PageBundle\Model\Block"))
+     *         @SWG\Schema(ref=@Model(type=PageBlock::class, groups={"sonata_api_read"}))
      *     ),
      *     @SWG\Response(
      *         response="400",
@@ -299,7 +303,6 @@ class PageController extends FOSRestController
      * @Rest\View(serializerGroups={"sonata_api_read"}, serializerEnableMaxDepthChecks=true)
      *
      * @param string  $id      Page identifier
-     * @param Request $request Symfony request
      *
      * @throws NotFoundHttpException
      *
@@ -336,7 +339,7 @@ class PageController extends FOSRestController
      *     @SWG\Response(
      *         response="200",
      *         description="Returned when successful",
-     *         @SWG\Schema(ref=@Model(type="Sonata\PageBundle\Model\Page"))
+     *         @SWG\Schema(ref=@Model(type=Page::class, groups={"sonata_api_read"}))
      *     ),
      *     @SWG\Response(
      *         response="400",
@@ -347,8 +350,6 @@ class PageController extends FOSRestController
      *         description="Returned when unable to find page"
      *     )
      * )
-     *
-     * @param Request $request Symfony request
      *
      * @throws NotFoundHttpException
      *
@@ -368,7 +369,7 @@ class PageController extends FOSRestController
      *     @SWG\Response(
      *         response="200",
      *         description="Returned when successful",
-     *         @SWG\Schema(ref=@Model(type="Sonata\PageBundle\Model\Page"))
+     *         @SWG\Schema(ref=@Model(type=Page::class, groups={"sonata_api_read"}))
      *     ),
      *     @SWG\Response(
      *         response="400",
@@ -381,7 +382,6 @@ class PageController extends FOSRestController
      * )
      *
      * @param string  $id      Page identifier
-     * @param Request $request Symfony request
      *
      * @throws NotFoundHttpException
      *

@@ -18,7 +18,9 @@ use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Operation;
+use Sonata\DatagridBundle\Pager\BasePager;
 use Sonata\DatagridBundle\Pager\PagerInterface;
+use Sonata\PageBundle\Model\Snapshot;
 use Sonata\PageBundle\Model\SnapshotInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Swagger\Annotations as SWG;
@@ -104,7 +106,7 @@ class SnapshotController extends FOSRestController
      *     @SWG\Response(
      *         response="200",
      *         description="Returned when successful",
-     *         @SWG\Schema(ref=@Model(type="Sonata\DatagridBundle\Pager\PagerInterface"))
+     *         @SWG\Schema(ref=@Model(type=BasePager::class))
      *     )
      * )
      *
@@ -158,7 +160,7 @@ class SnapshotController extends FOSRestController
      *     @SWG\Response(
      *         response="200",
      *         description="Returned when successful",
-     *         @SWG\Schema(ref=@Model(type="Sonata\PageBundle\Model\SnapshotInterface"))
+     *         @SWG\Schema(ref=@Model(type=Snapshot::class))
      *     ),
      *     @SWG\Response(
      *         response="404",
