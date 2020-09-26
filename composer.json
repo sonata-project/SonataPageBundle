@@ -29,7 +29,7 @@
         "sonata-project/block-bundle": "^3.20",
         "sonata-project/cache": "^2.0",
         "sonata-project/cache-bundle": "^3.0",
-        "sonata-project/datagrid-bundle": "^2.5",
+        "sonata-project/datagrid-bundle": "^2.5 || ^3.0",
         "sonata-project/doctrine-extensions": "^1.8",
         "sonata-project/doctrine-orm-admin-bundle": "^3.19",
         "sonata-project/form-extensions": "^0.1.1 || ^1.4",
