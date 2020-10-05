@@ -784,7 +784,8 @@
                     revert:            true,
                     connectToSortable: '.page-composer__container__children',
                     accept: function (source) {
-                        var blockAllowlist = $(this).attr('data-block-allowlist');
+                        // NEXT_MAJOR: Remove the 'data-block-whitelist'
+                        var blockAllowlist = $(this).attr('data-block-allowlist') || $(this).attr('data-block-whitelist');
                         if (blockAllowlist === '') {
                             return true;
                         }
