@@ -784,15 +784,16 @@
                     revert:            true,
                     connectToSortable: '.page-composer__container__children',
                     accept: function (source) {
-                        var blockWhitelist = $(this).attr('data-block-whitelist');
-                        if (blockWhitelist === '') {
+                        // NEXT_MAJOR: Remove the 'data-block-whitelist'
+                        var blockAllowlist = $(this).attr('data-block-allowlist') || $(this).attr('data-block-whitelist');
+                        if (blockAllowlist === '') {
                             return true;
                         }
 
-                        blockWhitelist = blockWhitelist.split(',');
+                        blockAllowlist = blockAllowlist.split(',');
                         var sourceBlockType = $(source).attr('data-block-type');
 
-                        return blockWhitelist.indexOf(sourceBlockType) !== -1;
+                        return blockAllowlist.indexOf(sourceBlockType) !== -1;
                     },
                     drop: function (event, ui) {
                         var droppedBlockId = ui.draggable.attr('data-block-id');
