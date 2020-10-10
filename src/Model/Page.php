@@ -710,7 +710,7 @@ abstract class Page implements PageInterface
 
         foreach (explode("\r\n", (string) $rawHeaders) as $header) {
             if (false !== strpos($header, ':')) {
-                list($name, $headerStr) = explode(':', $header, 2);
+                [$name, $headerStr] = explode(':', $header, 2);
                 $headers[trim($name)] = trim($headerStr);
             }
         }
