@@ -68,7 +68,7 @@ To do so, open ``index.php`` file and change the following parts::
 
     use App\Kernel;
     use Symfony\Component\Debug\Debug;
-    use Sonata\PageBundle\Request\RequestFactory; // before: use Symfony\Component\HttpFoundation\Request;
+    use Sonata\PageBundle\Request\RequestFactory; # before: use Symfony\Component\HttpFoundation\Request;
 
     require dirname(__DIR__).'/config/bootstrap.php';
 
@@ -115,7 +115,7 @@ To do so, open ``index.php`` file and change the following parts::
 
     use App\Kernel;
     use Symfony\Component\Debug\Debug;
-    use Sonata\PageBundle\Request\RequestFactory; // before: use Symfony\Component\HttpFoundation\Request;
+    use Sonata\PageBundle\Request\RequestFactory; # before: use Symfony\Component\HttpFoundation\Request;
 
     require dirname(__DIR__).'/config/bootstrap.php';
 
