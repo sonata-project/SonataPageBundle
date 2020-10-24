@@ -11,10 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\Test\PageBundle\Command;
+namespace Sonata\PageBundle\Tests\Command;
 
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Prophecy\ObjectProphecy;
 use Sonata\BlockBundle\Model\BlockManagerInterface;
 use Sonata\PageBundle\Command\CloneSiteCommand;
 use Sonata\PageBundle\Model\PageBlockInterface;
@@ -32,38 +33,40 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class CloneSiteCommandTest extends TestCase
 {
     /**
-     * @var Application|ObjectProphecy
+     * @var Application
      */
     private $application;
 
     /**
-     * @var SiteManagerInterface|ObjectProphecy
+     * @var Stub&SiteManagerInterface
      */
     private $siteManager;
 
     /**
-     * @var PageManagerInterface|ObjectProphecy
+     * @var MockObject&PageManagerInterface
      */
     private $pageManager;
 
     /**
-     * @var BlockManagerInterface|ObjectProphecy
+     * @var MockObject&BlockManagerInterface
      */
     private $blockManager;
 
     protected function setUp(): void
     {
-        $this->siteManager = $this->prophesize(SiteManagerInterface::class);
-        $this->pageManager = $this->prophesize(PageManagerInterface::class);
-        $this->blockManager = $this->prophesize(BlockManagerInterface::class);
+        $this->siteManager = $this->createStub(SiteManagerInterface::class);
+        $this->pageManager = $this->createMock(PageManagerInterface::class);
+        $this->blockManager = $this->createMock(BlockManagerInterface::class);
 
-        $container = $this->prophesize(ContainerInterface::class);
-        $container->get('sonata.page.manager.site')->willReturn($this->siteManager->reveal());
-        $container->get('sonata.page.manager.page')->willReturn($this->pageManager->reveal());
-        $container->get('sonata.page.manager.block')->willReturn($this->blockManager->reveal());
+        $container = $this->createStub(ContainerInterface::class);
+        $container->method('get')->willReturnMap([
+            ['sonata.page.manager.site', ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, $this->siteManager],
+            ['sonata.page.manager.page', ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, $this->pageManager],
+            ['sonata.page.manager.block', ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, $this->blockManager],
+        ]);
 
         $command = new CloneSiteCommand();
-        $command->setContainer($container->reveal());
+        $command->setContainer($container);
 
         $this->application = new Application();
         $this->application->add($command);
@@ -71,76 +74,68 @@ class CloneSiteCommandTest extends TestCase
 
     public function testExecute(): void
     {
-        $sourceSite = $this->prophesize(SiteInterface::class);
-        $destSite = $this->prophesize(SiteInterface::class);
+        $sourceSite = $this->createStub(SiteInterface::class);
+        $destSite = $this->createStub(SiteInterface::class);
 
-        $this->siteManager->find(23)->willReturn($sourceSite->reveal());
-        $this->siteManager->find(42)->willReturn($destSite->reveal());
+        $this->siteManager->method('find')->willReturnMap([
+            [23, $sourceSite],
+            [42, $destSite],
+        ]);
 
-        $page1 = $this->prophesize(PageInterface::class);
-        $page1->getId()->willReturn(1);
-        $page1->getTitle()->willReturn('Page 1');
-        $page1->getParent()->willReturn(null);
-        $page1->isHybrid()->willReturn(true);
+        $page1 = $this->createMock(PageInterface::class);
+        $page1->method('getId')->willReturn(1);
+        $page1->method('getTitle')->willReturn('Page 1');
+        $page1->method('getParent')->willReturn(null);
+        $page1->method('isHybrid')->willReturn(true);
 
-        $page2 = $this->prophesize(PageInterface::class);
-        $page2->getId()->willReturn(2);
-        $page2->getTitle()->willReturn('Page 2');
-        $page2->getParent()->willReturn($page1->reveal());
-        $page2->getTarget()->willReturn(null);
-        $page2->isHybrid()->willReturn(true);
+        $page2 = $this->createMock(PageInterface::class);
+        $page2->method('getId')->willReturn(2);
+        $page2->method('getTitle')->willReturn('Page 2');
+        $page2->method('getParent')->willReturn($page1);
+        $page2->method('getTarget')->willReturn(null);
+        $page2->method('isHybrid')->willReturn(true);
 
-        $page1->getTarget()->willReturn($page2->reveal());
+        $page1->method('getTarget')->willReturn($page2);
 
-        $page3 = $this->prophesize(PageInterface::class);
-        $page3->getId()->willReturn(3);
-        $page3->isHybrid()->willReturn(false);
+        $page3 = $this->createStub(PageInterface::class);
+        $page3->method('getId')->willReturn(3);
+        $page3->method('isHybrid')->willReturn(false);
 
-        $this->pageManager->findBy([
+        $this->pageManager->method('findBy')->with([
             'site' => $sourceSite,
         ])->willReturn([
-            $page1->reveal(),
-            $page2->reveal(),
-            $page3->reveal(),
+            $page1,
+            $page2,
+            $page3,
         ]);
 
-        // Replace this with new mock, when cloing is supported in prophecies
         $newPage1 = $page1;
-        $newPage1->setTitle('Copy of Page 1')->shouldBeCalled();
-        $newPage1->setSite($destSite)->shouldBeCalled();
+        $newPage1->expects($this->once())->method('setTitle')->with('Copy of Page 1');
+        $newPage1->expects($this->once())->method('setSite')->with($destSite);
 
-        $this->pageManager->save($newPage1)->shouldBeCalled();
-
-        // Replace this with new mock, when cloing is supported in prophecies
         $newPage2 = $page2;
-        $newPage2->setTitle('Copy of Page 2')->shouldBeCalled();
-        $newPage2->setSite($destSite)->shouldBeCalled();
-        $newPage2->setParent($newPage1)->shouldBeCalled();
+        $newPage2->expects($this->once())->method('setTitle')->with('Copy of Page 2');
+        $newPage2->expects($this->once())->method('setSite')->with($destSite);
+        $newPage2->expects($this->once())->method('setParent')->with($newPage1);
 
-        $newPage1->setTarget($newPage2)->shouldBeCalled();
+        $newPage1->expects($this->once())->method('setTarget')->with($newPage2);
 
-        $this->pageManager->save($newPage2)->shouldBeCalled();
-        $this->pageManager->save($newPage2, true)->shouldBeCalled();
+        $this->pageManager->expects($this->exactly(4))->method('save');
 
-        $block = $this->prophesize(PageBlockInterface::class);
-        $block->getId()->willReturn(4711);
-        $block->getParent()->willReturn(null);
+        $block = $this->createMock(PageBlockInterface::class);
+        $block->method('getId')->willReturn(4711);
+        $block->method('getParent')->willReturn(null);
 
-        $this->blockManager->findBy([
-           'page' => $page1,
-        ])->willReturn([]);
-
-        $this->blockManager->findBy([
-           'page' => $page2,
-        ])->willReturn([
-            $block->reveal(),
-        ]);
-
-        // Replace this with new mock, when cloing is supported in prophecies
         $newBlock = $block;
-        $block->setPage($newPage2)->shouldBeCalled();
+        $newBlock->expects($this->once())->method('setPage')->with($newPage2);
 
-        $this->blockManager->save($newBlock)->shouldBeCalled();
+        $this->blockManager->method('findBy')->willReturnOnConsecutiveCalls(
+            [],
+            [$block],
+            [],
+            [$newBlock]
+        );
+        $this->blockManager->expects($this->once())->method('save');
 
         $command = $this->application->find('sonata:page:clone-site');
         $commandTester = new CommandTester($command);
@@ -152,7 +147,7 @@ class CloneSiteCommandTest extends TestCase
             '--only-hybrid' => true,
         ]);
 
-        $this->assertRegExp('@done!@', $commandTester->getDisplay());
+        $this->assertMatchesRegularExpression('@done!@', $commandTester->getDisplay());
     }
 
     public function testExecuteNoSourceId(): void
@@ -160,7 +155,7 @@ class CloneSiteCommandTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Please provide a "--source-id=SITE_ID" option.');
 
-        $this->siteManager->findAll()->willReturn([]);
+        $this->siteManager->method('findAll')->willReturn([]);
 
         $command = $this->application->find('sonata:page:clone-site');
         $commandTester = new CommandTester($command);
@@ -170,7 +165,7 @@ class CloneSiteCommandTest extends TestCase
             '--prefix' => 'Copy of ',
         ]);
 
-        $this->assertRegExp('@Writing cache file ...\s+done!@', $commandTester->getDisplay());
+        $this->assertMatchesRegularExpression('@Writing cache file ...\s+done!@', $commandTester->getDisplay());
     }
 
     public function testExecuteNoDestId(): void
@@ -178,7 +173,7 @@ class CloneSiteCommandTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Please provide a "--dest-id=SITE_ID" option.');
 
-        $this->siteManager->findAll()->willReturn([]);
+        $this->siteManager->method('findAll')->willReturn([]);
 
         $command = $this->application->find('sonata:page:clone-site');
         $commandTester = new CommandTester($command);
@@ -188,7 +183,7 @@ class CloneSiteCommandTest extends TestCase
             '--prefix' => 'Copy of ',
         ]);
 
-        $this->assertRegExp('@Writing cache file ...\s+done!@', $commandTester->getDisplay());
+        $this->assertMatchesRegularExpression('@Writing cache file ...\s+done!@', $commandTester->getDisplay());
     }
 
     public function testExecuteNoPrefix(): void
@@ -196,7 +191,7 @@ class CloneSiteCommandTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Please provide a "--prefix=PREFIX" option.');
 
-        $this->siteManager->findAll()->willReturn([]);
+        $this->siteManager->method('findAll')->willReturn([]);
 
         $command = $this->application->find('sonata:page:clone-site');
         $commandTester = new CommandTester($command);

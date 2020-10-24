@@ -57,17 +57,10 @@ class PageListBlockServiceTest extends AbstractBlockServiceTestCase
         $page2 = $this->createMock(PageInterface::class);
         $systemPage = $this->createMock(PageInterface::class);
 
-        $this->pageManager->expects($this->at(0))->method('findBy')
-            ->with($this->equalTo([
-                'routeName' => Page::PAGE_ROUTE_CMS_NAME,
-            ]))
-            ->willReturn([$page1, $page2]);
-        $this->pageManager->expects($this->at(1))->method('findBy')
-            ->with($this->equalTo([
-                'url' => null,
-                'parent' => null,
-            ]))
-            ->willReturn([$systemPage]);
+        $this->pageManager->expects($this->exactly(2))->method('findBy')->willReturnMap([
+            [['routeName' => Page::PAGE_ROUTE_CMS_NAME], null, null, null, [$page1, $page2]],
+            [['url' => null, 'parent' => null], null, null, null, [$systemPage]],
+        ]);
 
         $block = new Block();
 
