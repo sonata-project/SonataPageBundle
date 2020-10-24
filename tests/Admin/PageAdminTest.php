@@ -15,7 +15,6 @@ namespace Sonata\PageBundle\Tests\Admin;
 
 use Knp\Menu\MenuFactory;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
 use Sonata\AdminBundle\Route\RouteGeneratorInterface;
 use Sonata\PageBundle\Admin\PageAdmin;
 use Sonata\PageBundle\Controller\PageController;
@@ -37,21 +36,21 @@ class PageAdminTest extends TestCase
         $admin->setMenuFactory(new MenuFactory());
         $admin->setRequest($request);
 
-        $site = $this->prophesize(Site::class);
-        $site->getRelativePath()->willReturn('/my-subsite');
+        $site = $this->createStub(Site::class);
+        $site->method('getRelativePath')->willReturn('/my-subsite');
 
-        $page = $this->prophesize(Page::class);
-        $page->getRouteName()->willReturn(Page::PAGE_ROUTE_CMS_NAME);
-        $page->getUrl()->willReturn('/my-page');
-        $page->isHybrid()->willReturn(false);
-        $page->isInternal()->willReturn(false);
-        $page->getSite()->willReturn($site->reveal());
-        $admin->setSubject($page->reveal());
+        $page = $this->createStub(Page::class);
+        $page->method('getRouteName')->willReturn(Page::PAGE_ROUTE_CMS_NAME);
+        $page->method('getUrl')->willReturn('/my-page');
+        $page->method('isHybrid')->willReturn(false);
+        $page->method('isInternal')->willReturn(false);
+        $page->method('getSite')->willReturn($site);
+        $admin->setSubject($page);
 
-        $routeGenerator = $this->prophesize(RouteGeneratorInterface::class);
-        $routeGenerator->generateMenuUrl(
+        $routeGenerator = $this->createMock(RouteGeneratorInterface::class);
+        $routeGenerator->method('generateMenuUrl')->with(
             $admin,
-            Argument::any(),
+            $this->anything(),
             ['id' => 42],
             UrlGeneratorInterface::ABSOLUTE_PATH
         )->willReturn([
@@ -60,13 +59,13 @@ class PageAdminTest extends TestCase
             'routeAbsolute' => true,
         ]);
 
-        $routeGenerator->generate(
+        $routeGenerator->expects($this->once())->method('generate')->with(
             'page_slug',
             ['path' => '/my-subsite/my-page']
-        )->shouldBeCalled();
+        );
 
-        $admin->setRouteGenerator($routeGenerator->reveal());
-        $admin->setSubject($page->reveal());
+        $admin->setRouteGenerator($routeGenerator);
+        $admin->setSubject($page);
 
         $admin->buildTabMenu('edit');
     }

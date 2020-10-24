@@ -290,7 +290,7 @@ class SnapshotManagerTest extends TestCase
         $repository = $this->createMock(EntityRepository::class);
         $repository->method('createQueryBuilder')->willReturn($qb);
 
-        $em = $this->createMock(EntityManagerInterface::class);
+        $em = $this->createMock(EntityManager::class);
         $em->method('getRepository')->willReturn($repository);
 
         $registry = $this->createMock(ManagerRegistry::class);

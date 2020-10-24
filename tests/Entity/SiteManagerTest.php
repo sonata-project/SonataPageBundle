@@ -15,7 +15,6 @@ namespace Sonata\PageBundle\Tests\Entity;
 
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -147,7 +146,7 @@ class SiteManagerTest extends TestCase
             'host',
         ]);
 
-        $em = $this->createMock(EntityManagerInterface::class);
+        $em = $this->createStub(EntityManager::class);
         $em->method('getRepository')->willReturn($repository);
         $em->method('getClassMetadata')->willReturn($metadata);
 

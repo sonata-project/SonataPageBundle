@@ -11,11 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\Tests\PageBundle\Command;
+namespace Sonata\PageBundle\Tests\Command;
 
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\Prophecy\ObjectProphecy;
 use Sonata\PageBundle\Command\CreateBlockContainerCommand;
 use Sonata\PageBundle\Entity\BlockInteractor;
 use Sonata\PageBundle\Entity\BlockManager;
@@ -29,37 +28,37 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class CreateBlockContainerCommandTest extends TestCase
 {
     /**
-     * @var ObjectProphecy|BlockInteractor
+     * @var Stub&BlockInteractor
      */
     protected $blockInteractor;
 
     /**
-     * @var ObjectProphecy|PageManager
+     * @var Stub&PageManager
      */
     protected $pageManager;
 
     /**
-     * @var ObjectProphecy|BlockManager
+     * @var Stub&BlockManager
      */
     protected $blockManager;
 
     /**
-     * @var ObjectProphecy|ContainerInterface
+     * @var Stub&ContainerInterface
      */
     protected $container;
 
     protected function setUp(): void
     {
-        $this->blockInteractor = $this->prophesize(BlockInteractor::class);
+        $this->blockInteractor = $this->createStub(BlockInteractor::class);
+        $this->pageManager = $this->createStub(PageManager::class);
+        $this->blockManager = $this->createStub(BlockManager::class);
+        $this->container = $this->createStub(ContainerInterface::class);
 
-        $this->pageManager = $this->prophesize(PageManager::class);
-
-        $this->blockManager = $this->prophesize(BlockManager::class);
-
-        $this->container = $this->prophesize(ContainerInterface::class);
-        $this->container->get('sonata.page.block_interactor')->willReturn($this->blockInteractor);
-        $this->container->get('sonata.page.manager.page')->willReturn($this->pageManager);
-        $this->container->get('sonata.page.manager.block')->willReturn($this->blockManager);
+        $this->container->method('get')->willReturnMap([
+            ['sonata.page.block_interactor', ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, $this->blockInteractor],
+            ['sonata.page.manager.page', ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, $this->pageManager],
+            ['sonata.page.manager.block', ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, $this->blockManager],
+        ]);
     }
 
     /**
@@ -67,27 +66,29 @@ class CreateBlockContainerCommandTest extends TestCase
      */
     public function testCreateBlock(): void
     {
-        $block = $this->prophesize(PageBlockInterface::class);
-        $this->blockInteractor->createNewContainer(Argument::any())->willReturn($block->reveal());
+        $block = $this->createStub(PageBlockInterface::class);
+        $this->blockInteractor->method('createNewContainer')->willReturn($block);
 
         $page = new Page();
-        $this->pageManager->findBy(['templateCode' => 'foo'])->willReturn([$page]);
-        $this->pageManager->save($page)->willReturn($page);
+        $this->pageManager->method('findBy')->with(['templateCode' => 'foo'])->willReturn([$page]);
+        $this->pageManager->method('save')->with($page)->willReturn($page);
 
         $command = new CreateBlockContainerCommand();
-        $command->setContainer($this->container->reveal());
+        $command->setContainer($this->container);
 
-        $input = $this->prophesize(InputInterface::class);
-        $input->getArgument('templateCode')->willReturn('foo');
-        $input->getArgument('blockCode')->willReturn('content_bar');
-        $input->getArgument('blockName')->willReturn('Baz!');
+        $input = $this->createStub(InputInterface::class);
+        $input->method('getArgument')->willReturnMap([
+            ['templateCode', 'foo'],
+            ['blockCode', 'content_bar'],
+            ['blockName', 'Baz!'],
+        ]);
 
-        $output = $this->prophesize(OutputInterface::class);
+        $output = $this->createStub(OutputInterface::class);
 
         $method = new \ReflectionMethod($command, 'execute');
         $method->setAccessible(true);
-        $method->invoke($command, $input->reveal(), $output->reveal());
+        $method->invoke($command, $input, $output);
 
-        $this->assertSame($page->getBlocks(), [$block->reveal()]);
+        $this->assertSame($page->getBlocks(), [$block]);
     }
 }
