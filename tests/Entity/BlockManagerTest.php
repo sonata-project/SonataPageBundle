@@ -15,7 +15,6 @@ namespace Sonata\PageBundle\Tests\Entity;
 
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -55,7 +54,7 @@ class BlockManagerTest extends TestCase
         $repository = $this->createMock(EntityRepository::class);
         $repository->method('createQueryBuilder')->willReturn($qb);
 
-        $em = $this->createMock(EntityManagerInterface::class);
+        $em = $this->createStub(EntityManager::class);
         $em->method('getRepository')->willReturn($repository);
 
         $registry = $this->createMock(ManagerRegistry::class);
