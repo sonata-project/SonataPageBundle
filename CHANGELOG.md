@@ -2,6 +2,16 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.20.0](https://github.com/sonata-project/SonataPageBundle/compare/3.19.0...3.20.0) - 2020-12-05
+### Added
+- [[#1202](https://github.com/sonata-project/SonataPageBundle/pull/1202)] Support for sonata-project/datagrid-bundle v3 ([@wbloszyk](https://github.com/wbloszyk))
+
+### Changed
+- [[#1209](https://github.com/sonata-project/SonataPageBundle/pull/1209)] Replace mentions of 'whitelist' with 'allowlist' ([@jlt10](https://github.com/jlt10))
+
+### Fixed
+- [[#1242](https://github.com/sonata-project/SonataPageBundle/pull/1242)] Newly created snapshot does not effect on all previous snapshots end dates only the last one ([@haivala](https://github.com/haivala))
+
 ## [3.19.0](https://github.com/sonata-project/SonataPageBundle/compare/3.18.0...3.19.0) - 2020-09-04
 ### Added
 - [[#1175](https://github.com/sonata-project/SonataPageBundle/pull/1175)] Support for "friendsofsymfony/rest-bundle:^3.0" ([@wbloszyk](https://github.com/wbloszyk))

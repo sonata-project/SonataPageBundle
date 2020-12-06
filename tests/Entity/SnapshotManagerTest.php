@@ -206,7 +206,7 @@ class SnapshotManagerTest extends TestCase
             ->expects($this->once())
             ->method('query')
             ->with(sprintf(
-                "UPDATE page_snapshot SET publication_date_end = '%s' WHERE id NOT IN(123) AND page_id IN (456)",
+                "UPDATE page_snapshot SET publication_date_end = '%s' WHERE id NOT IN(123) AND page_id IN (456) and publication_date_end IS NULL",
                 $date->format('Y-m-d H:i:s')
             ));
 
