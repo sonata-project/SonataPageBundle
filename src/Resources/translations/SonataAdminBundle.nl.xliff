@@ -7,7 +7,7 @@
         <body>
             <trans-unit id="sonata_page">
                 <source>sonata_page</source>
-                <target>Pagina&apos;s</target>
+                <target>Pagina's</target>
             </trans-unit>
         </body>
     </file>
