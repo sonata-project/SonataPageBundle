@@ -86,7 +86,7 @@ class CmsPageManager extends BaseCmsPageManager
             $page = $this->pageManager->create([
                 'url' => null,
                 'routeName' => $routeName,
-                'name' => sprintf(sprintf('Internal Page : %s', $pageName)),
+                'name' => sprintf('Internal Page : %s', $pageName),
                 'decorate' => false,
             ]);
 
