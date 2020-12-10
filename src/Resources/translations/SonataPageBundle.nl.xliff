@@ -741,7 +741,7 @@
             </trans-unit>
             <trans-unit id="184" resname="breadcrumb.link_shared_block_list">
                 <source>breadcrumb.link_shared_block_list</source>
-                <target>breadcrumb.link_shared_block_list</target>
+                <target>Gedeelde blokken</target>
             </trans-unit>
             <trans-unit id="185" resname="breadcrumb.link_shared_block_update">
                 <source>breadcrumb.link_shared_block_update</source>
@@ -749,171 +749,199 @@
             </trans-unit>
             <trans-unit id="186" resname="sidemenu.link_list_shared_blocks">
                 <source>sidemenu.link_list_shared_blocks</source>
-                <target>sidemenu.link_list_shared_blocks</target>
+                <target>Gedeelde blokken</target>
             </trans-unit>
             <trans-unit id="187" resname="title_select_shared_block_type">
                 <source>title_select_shared_block_type</source>
-                <target>title_select_shared_block_type</target>
+                <target>Selecteer een blok type</target>
             </trans-unit>
             <trans-unit id="188" resname="composer.shared_block.add.type">
                 <source>composer.shared_block.add.type</source>
-                <target>composer.shared_block.add.type</target>
+                <target>blok toevoegen</target>
             </trans-unit>
             <trans-unit id="189" resname="pages.compose_label">
                 <source>pages.compose_label</source>
-                <target>pages.compose_label</target>
+                <target>opbouwen</target>
             </trans-unit>
             <trans-unit id="190" resname="pages.edited_label">
                 <source>pages.edited_label</source>
-                <target>pages.edited_label</target>
+                <target>bewerkt</target>
             </trans-unit>
             <trans-unit id="191" resname="page.compose_template_label">
                 <source>page.compose_template_label</source>
-                <target>page.compose_template_label</target>
+                <target>sjabloon</target>
             </trans-unit>
             <trans-unit id="192" resname="page.compose_blocks_label">
                 <source>page.compose_blocks_label</source>
-                <target>page.compose_blocks_label</target>
+                <target>{0} blokken|{1} blok|[2,Inf] blokken</target>
             </trans-unit>
             <trans-unit id="193" resname="page.composer_preview_error">
                 <source>page.composer_preview_error</source>
-                <target>page.composer_preview_error</target>
+                <target>Er is een fout opgetreden bij het ophalen van het blok voorbeeld.</target>
             </trans-unit>
             <trans-unit id="194" resname="page.composer_update_saving">
                 <source>page.composer_update_saving</source>
-                <target>page.composer_update_saving</target>
+                <target>Blok posities opslaan…</target>
             </trans-unit>
             <trans-unit id="195" resname="page.composer_update_saved">
                 <source>page.composer_update_saved</source>
-                <target>page.composer_update_saved</target>
+                <target>Blok posities opgeslagen</target>
             </trans-unit>
             <trans-unit id="196" resname="page.composer_update_error">
                 <source>page.composer_update_error</source>
-                <target>page.composer_update_error</target>
+                <target>Er is een fout opgetreden bij het opslaan van de blok posities</target>
             </trans-unit>
             <trans-unit id="197" resname="page.composer_status_error">
                 <source>page.composer_status_error</source>
-                <target>page.composer_status_error</target>
+                <target>Er is een fout opgetreden bij het opslaan van de block actief status</target>
             </trans-unit>
             <trans-unit id="198" resname="message_page_does_not_exist">
                 <source>message_page_does_not_exist</source>
-                <target>message_page_does_not_exist</target>
+                <target>Deze pagina bestaat niet.</target>
             </trans-unit>
             <trans-unit id="199" resname="title_content_pages">
                 <source>title_content_pages</source>
-                <target>title_content_pages</target>
+                <target>Inhoud pagina's</target>
             </trans-unit>
             <trans-unit id="200" resname="label_page_enabled">
                 <source>label_page_enabled</source>
-                <target>label_page_enabled</target>
+                <target>ingeschakeld</target>
             </trans-unit>
             <trans-unit id="201" resname="label_page_disabled">
                 <source>label_page_disabled</source>
-                <target>label_page_disabled</target>
+                <target>uitgeschakeld</target>
             </trans-unit>
             <trans-unit id="202" resname="title_system_pages">
                 <source>title_system_pages</source>
-                <target>title_system_pages</target>
+                <target>Systeem pagina's</target>
             </trans-unit>
             <trans-unit id="203" resname="no_pages_found">
                 <source>no_pages_found</source>
-                <target>no_pages_found</target>
+                <target>Geen pagina's gevonden.</target>
             </trans-unit>
             <trans-unit id="204" resname="view_all_pages">
                 <source>view_all_pages</source>
-                <target>view_all_pages</target>
+                <target>Alle pagina's weergeven</target>
             </trans-unit>
             <trans-unit id="205" resname="form.label_mode">
                 <source>form.label_mode</source>
-                <target>form.label_mode</target>
+                <target>Mode</target>
             </trans-unit>
             <trans-unit id="206" resname="form.label_mode_public">
                 <source>form.label_mode_public</source>
-                <target>form.label_mode_public</target>
+                <target>publiek</target>
             </trans-unit>
             <trans-unit id="207" resname="form.label_mode_admin">
                 <source>form.label_mode_admin</source>
-                <target>form.label_mode_admin</target>
+                <target>admin</target>
             </trans-unit>
             <trans-unit id="208" resname="sonata.page.block.pagelist">
                 <source>sonata.page.block.pagelist</source>
-                <target>sonata.page.block.pagelist</target>
+                <target>Pagina lijst</target>
             </trans-unit>
             <trans-unit id="209" resname="form.label_block">
                 <source>form.label_block</source>
-                <target>form.label_block</target>
+                <target>Blokken</target>
             </trans-unit>
             <trans-unit id="210" resname="form.label_title">
                 <source>form.label_title</source>
-                <target>form.label_title</target>
+                <target>Titel</target>
             </trans-unit>
             <trans-unit id="211" resname="form.label_current">
                 <source>form.label_current</source>
-                <target>form.label_current</target>
+                <target>Huidige pagina</target>
             </trans-unit>
             <trans-unit id="212" resname="form.label_page">
                 <source>form.label_page</source>
-                <target>form.label_page</target>
+                <target>Pagina</target>
             </trans-unit>
             <trans-unit id="213" resname="form.label_class">
                 <source>form.label_class</source>
-                <target>form.label_class</target>
+                <target>CSS class</target>
             </trans-unit>
             <trans-unit id="214" resname="form.label_text">
                 <source>form.label_text</source>
-                <target>form.label_text</target>
+                <target>Tekst</target>
             </trans-unit>
             <trans-unit id="215" resname="form.label_cache_policy">
                 <source>form.label_cache_policy</source>
-                <target>form.label_cache_policy</target>
+                <target>Cache beleid</target>
             </trans-unit>
             <trans-unit id="216" resname="form.label_cache_policy_public">
                 <source>form.label_cache_policy_public</source>
-                <target>form.label_cache_policy_public</target>
+                <target>publiek</target>
             </trans-unit>
             <trans-unit id="217" resname="form.label_cache_policy_private">
                 <source>form.label_cache_policy_private</source>
-                <target>form.label_cache_policy_private</target>
+                <target>privé</target>
             </trans-unit>
             <trans-unit id="218" resname="form.label_menu_name">
                 <source>form.label_menu_name</source>
-                <target>form.label_menu_name</target>
+                <target>Menu</target>
             </trans-unit>
             <trans-unit id="219" resname="form.label_safe_labels">
                 <source>form.label_safe_labels</source>
-                <target>form.label_safe_labels</target>
+                <target>Veilige labels</target>
             </trans-unit>
             <trans-unit id="220" resname="form.label_current_class">
                 <source>form.label_current_class</source>
-                <target>form.label_current_class</target>
+                <target>Huidige CSS class</target>
             </trans-unit>
             <trans-unit id="221" resname="form.label_first_class">
                 <source>form.label_first_class</source>
-                <target>form.label_first_class</target>
+                <target>Eerste CSS class</target>
             </trans-unit>
             <trans-unit id="222" resname="form.label_last_class">
                 <source>form.label_last_class</source>
-                <target>form.label_last_class</target>
+                <target>Laatste CSS class</target>
             </trans-unit>
             <trans-unit id="223" resname="form.label_menu_class">
                 <source>form.label_menu_class</source>
-                <target>form.label_menu_class</target>
+                <target>Menu CSS class</target>
             </trans-unit>
             <trans-unit id="224" resname="form.label_children_class">
                 <source>form.label_children_class</source>
-                <target>form.label_children_class</target>
+                <target>Children CSS class</target>
             </trans-unit>
             <trans-unit id="225" resname="form.label_menu_template">
                 <source>form.label_menu_template</source>
-                <target>form.label_menu_template</target>
+                <target>Menu sjabloon</target>
             </trans-unit>
             <trans-unit id="226" resname="pages.label_no_sites">
                 <source>pages.label_no_sites</source>
-                <target>pages.label_no_sites</target>
+                <target>Geen sites geconfigureerd</target>
             </trans-unit>
             <trans-unit id="227" resname="pages.label_no_site_selected">
                 <source>pages.label_no_site_selected</source>
-                <target>pages.label_no_site_selected</target>
+                <target>Geen site geselecteerd</target>
+            </trans-unit>
+            <trans-unit id="form.label_translation_domain">
+                <source>form.label_translation_domain</source>
+                <target>Vertalings domein</target>
+            </trans-unit>
+            <trans-unit id="form.label_icon">
+                <source>form.label_icon</source>
+                <target>Icoon</target>
+            </trans-unit>
+            <trans-unit id="sonata_page_exceptions_list">
+                <source>sonata_page_exceptions_list</source>
+                <target>Exceptions</target>
+            </trans-unit>
+            <trans-unit id="sonata_page_exceptions_edit">
+                <source>sonata_page_exceptions_edit</source>
+                <target>Bewerk exception</target>
+            </trans-unit>
+            <trans-unit id="sonata.page.block.breadcrumb">
+                <source>sonata.page.block.breadcrumb</source>
+                <target>Kruimelpad</target>
+            </trans-unit>
+            <trans-unit id="sonata.page.block.container">
+                <source>sonata.page.block.container</source>
+                <target>Container</target>
+            </trans-unit>
+            <trans-unit id="show.label_type">
+                <source>show.label_type</source>
+                <target>Type</target>
             </trans-unit>
         </body>
     </file>
