@@ -32,7 +32,7 @@ class CreateSnapshotsCommand extends BaseCommand
         $this->addOption('site', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Site id', null);
         $this->addOption('base-console', null, InputOption::VALUE_OPTIONAL, 'Base symfony console command', 'php app/console');
 
-        $this->addOption('mode', null, InputOption::VALUE_OPTIONAL, 'Run the command asynchronously', 'sync');
+        $this->addOption('mode', null, InputOption::VALUE_OPTIONAL, '[DEPRECATED] Run the command asynchronously', 'sync');
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
@@ -58,10 +58,20 @@ class CreateSnapshotsCommand extends BaseCommand
                     $output->write(sprintf('<info>%s</info> - Generating snapshots ...', $site->getName()));
                 }
 
-                $this->getNotificationBackend($input->getOption('mode'))->createAndPublish('sonata.page.create_snapshots', [
-                    'siteId' => $site->getId(),
-                    'mode' => $input->getOption('mode'),
-                ]);
+                if ('async' === $input->getOption('mode')) {
+                    @trigger_error(
+                        'The "mode" option since sonata-project/page-bundle 3.x.',
+                        E_USER_DEPRECATED
+                    );
+
+                    $this->getNotificationBackend('async')
+                        ->createAndPublish('sonata.page.create_snapshots', [
+                        'siteId' => $site->getId(),
+                        'mode' => $input->getOption('mode'),
+                    ]);
+                } else {
+                    $this->getPublisher()->createSnapshots($site, (int) $input->getOption('keep-snapshots'));
+                }
 
                 $output->writeln(' done!');
             } else {

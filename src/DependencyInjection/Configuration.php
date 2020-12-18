@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\DependencyInjection;
 
 use Sonata\PageBundle\Model\Template;
+use Sonata\PageBundle\Publisher\SimplePublisher;
 use Sonata\PageBundle\Template\Matrix\Parser;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -367,6 +368,10 @@ EOF;
             ->booleanNode('direct_publication')
                 ->info($directPublicationInfo)
                 ->defaultValue(false)
+            ->end()
+
+            ->scalarNode('publisher')
+                ->defaultValue(SimplePublisher::class)
             ->end()
         ;
 

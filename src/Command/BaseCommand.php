@@ -21,6 +21,7 @@ use Sonata\PageBundle\Listener\ExceptionListener;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
+use Sonata\PageBundle\Publisher\Publisher;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 
@@ -99,6 +100,11 @@ abstract class BaseCommand extends ContainerAwareCommand
         }
 
         return $this->getContainer()->get('sonata.notification.backend.runtime');
+    }
+
+    final protected function getPublisher(): Publisher
+    {
+        return $this->getContainer()->get(Publisher::class);
     }
 
     /**

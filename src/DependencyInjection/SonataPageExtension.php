@@ -17,6 +17,7 @@ use Sonata\Doctrine\Mapper\Builder\OptionsBuilder;
 use Sonata\Doctrine\Mapper\DoctrineCollector;
 use Sonata\EasyExtendsBundle\Mapper\DoctrineCollector as DeprecatedDoctrineCollector;
 use Sonata\PageBundle\Model\Template;
+use Sonata\PageBundle\Publisher\Publisher;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -112,6 +113,8 @@ class SonataPageExtension extends Extension implements PrependExtensionInterface
             ->replaceArgument(0, $config['ignore_routes'])
             ->replaceArgument(1, $config['ignore_route_patterns'])
             ->replaceArgument(2, $config['ignore_uri_patterns']);
+
+        $container->setAlias(Publisher::class, $config['publisher']);
 
         if (isset($bundles['SonataDoctrineBundle'])) {
             $this->registerSonataDoctrineMapping($config);

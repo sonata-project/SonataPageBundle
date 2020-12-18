@@ -17,11 +17,14 @@ Required dependencies:
 * `SonataBlockBundle_ <https://sonata-project.org/bundles/block>`_
 * `SonataCacheBundle_ <https://sonata-project.org/bundles/cache>`_
 * `SonataSeoBundle_ <https://sonata-project.org/bundles/seo>`_
-* `SonataNotificationBundle_ <https://sonata-project.org/bundles/notification>`_
 
 And the persistence bundle (currently, not all the implementations of the Sonata persistence bundles are available):
 
 * `SonataDoctrineOrmAdminBundle <https://sonata-project.org/bundles/doctrine-orm-admin>`_
+
+Add this dependency if you rely on asynchronous processing, e.g. if you site structure is very complex.
+
+* `SonataNotificationBundle_ <https://sonata-project.org/bundles/notification>`_
 
 Follow also their configuration step; you will find everything you need in
 their own installation chapter.

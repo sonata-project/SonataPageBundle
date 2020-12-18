@@ -24,6 +24,7 @@ use Sonata\NotificationBundle\Backend\BackendInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
+use Sonata\PageBundle\Publisher\Publisher;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -59,13 +60,47 @@ class PageController extends FOSRestController
      */
     protected $backend;
 
-    public function __construct(SiteManagerInterface $siteManager, PageManagerInterface $pageManager, BlockManagerInterface $blockManager, FormFactoryInterface $formFactory, BackendInterface $backend)
-    {
+    /**
+     * @var Publisher
+     */
+    private $publisher;
+
+    /**
+     * @param Publisher|BackendInterface $publisherOrBackend
+     */
+    public function __construct(
+        SiteManagerInterface $siteManager,
+        PageManagerInterface $pageManager,
+        BlockManagerInterface $blockManager,
+        FormFactoryInterface $formFactory,
+        object $publisherOrBackend
+    ) {
         $this->siteManager = $siteManager;
         $this->pageManager = $pageManager;
         $this->blockManager = $blockManager;
         $this->formFactory = $formFactory;
-        $this->backend = $backend;
+
+        if ($publisherOrBackend instanceof Publisher) {
+            $this->publisher = $publisherOrBackend;
+        } elseif ($publisherOrBackend instanceof BackendInterface) {
+            @trigger_error(sprintf(
+                'Passing %s as argument 4 to %s() is deprecated since sonata-project/page-bundle 3.x'
+                .' and will throw a \TypeError in version 4.0. You must pass an instance of %s instead.',
+                BackendInterface::class,
+                __METHOD__,
+                Publisher::class
+            ), E_USER_DEPRECATED);
+
+            $this->backend = $publisherOrBackend;
+        } else {
+            throw new \TypeError(sprintf(
+                'Argument 4 passed to %s() must be either null or an instance of %s or preferably %s, instance of %s given.',
+                __METHOD__,
+                BackendInterface::class,
+                Publisher::class,
+                \get_class($publisherOrBackend)
+            ));
+        }
     }
 
     /**
@@ -352,9 +387,13 @@ class PageController extends FOSRestController
     {
         $page = $this->getPage($id);
 
-        $this->backend->createAndPublish('sonata.page.create_snapshot', [
-            'pageId' => $page->getId(),
-        ]);
+        if (null !== $this->publisher) {
+            $this->publisher->createSnapshot($page);
+        } else {
+            $this->backend->createAndPublish('sonata.page.create_snapshot', [
+                'pageId' => $page->getId(),
+            ]);
+        }
 
         return ['queued' => true];
     }

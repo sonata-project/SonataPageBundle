@@ -30,7 +30,7 @@ class CleanupSnapshotsCommand extends BaseCommand
 
         $this->addOption('site', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Site id', null);
         $this->addOption('base-console', null, InputOption::VALUE_OPTIONAL, 'Base Symfony console command', 'app/console');
-        $this->addOption('mode', null, InputOption::VALUE_OPTIONAL, 'Run the command asynchronously', 'sync');
+        $this->addOption('mode', null, InputOption::VALUE_OPTIONAL, '[DEPRECATED] Run the command asynchronously', 'sync');
         $this->addOption('keep-snapshots', null, InputOption::VALUE_OPTIONAL, 'Keep a given count of snapshots per page', 5);
     }
 
@@ -68,11 +68,21 @@ class CleanupSnapshotsCommand extends BaseCommand
                     $output->write(sprintf('<info>%s</info> - Cleaning up snapshots ...', $site->getName()));
                 }
 
-                $this->getNotificationBackend($input->getOption('mode'))->createAndPublish('sonata.page.cleanup_snapshots', [
-                    'siteId' => $site->getId(),
-                    'mode' => $input->getOption('mode'),
-                    'keepSnapshots' => $input->getOption('keep-snapshots'),
-                ]);
+                if ('async' === $input->getOption('mode')) {
+                    @trigger_error(
+                        'The "mode" option since sonata-project/page-bundle 3.x.',
+                        E_USER_DEPRECATED
+                    );
+
+                    $this->getNotificationBackend('async')
+                        ->createAndPublish('sonata.page.cleanup_snapshots', [
+                            'siteId' => $site->getId(),
+                            'mode' => $input->getOption('mode'),
+                            'keepSnapshots' => $input->getOption('keep-snapshots'),
+                        ]);
+                } else {
+                    $this->getPublisher()->createSnapshots($site, (int) $input->getOption('keep-snapshots'));
+                }
 
                 $output->writeln(' done!');
             } else {

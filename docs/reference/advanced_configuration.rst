@@ -120,6 +120,8 @@ Full configuration options:
                 site: App\Entity\SonataPageSite
             direct_publication: false
 
+            publisher: "@Sonata\\PageBundle\\Publisher\\SimplePublisher"
+
     .. code-block:: yaml
 
         # config/packages/doctrine.yaml

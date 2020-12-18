@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
+use Sonata\PageBundle\Publisher\Publisher;
 use Symfony\Component\Form\FormRenderer;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -40,11 +41,10 @@ class PageAdminController extends Controller
             throw new AccessDeniedException();
         }
 
+        $publisher = $this->get(Publisher::class);
+
         foreach ($query->execute() as $page) {
-            $this->get('sonata.notification.backend')
-                ->createAndPublish('sonata.page.create_snapshot', [
-                    'pageId' => $page->getId(),
-                ]);
+            $publisher->createSnapshot($page);
         }
 
         return new RedirectResponse($this->admin->generateUrl('list', [

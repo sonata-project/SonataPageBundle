@@ -4,6 +4,18 @@ UPGRADE 3.x
 UPGRADE FROM 3.x to 3.x
 =======================
 
+### SonataNotificationBundle is optional
+
+All publishing commands are synchronous by default.
+
+If you still want to use asynchronous processing, you should explicitly require `sonata-project/notification-bundle` and add the following configuration:
+
+```yaml
+
+sonata_page:
+  publisher: "@Sonata\PageBundle\Publisher\NotificationPublisher"
+```
+
 UPGRADE FROM 3.18.0 to 3.19.0
 =============================
 
