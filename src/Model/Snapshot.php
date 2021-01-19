@@ -300,7 +300,7 @@ abstract class Snapshot implements SnapshotInterface
      */
     public function setSources($sources)
     {
-        @trigger_error('The '.__METHOD__.' method is deprecated since version 2.4 and will be removed in 3.0.', E_USER_DEPRECATED);
+        @trigger_error('The '.__METHOD__.' method is deprecated since version 2.4 and will be removed in 3.0.', \E_USER_DEPRECATED);
 
         $this->sources = $sources;
     }
@@ -310,7 +310,7 @@ abstract class Snapshot implements SnapshotInterface
      */
     public function getSource()
     {
-        @trigger_error('The '.__METHOD__.' method is deprecated since version 2.4 and will be removed in 3.0.', E_USER_DEPRECATED);
+        @trigger_error('The '.__METHOD__.' method is deprecated since version 2.4 and will be removed in 3.0.', \E_USER_DEPRECATED);
 
         return $this->sources;
     }

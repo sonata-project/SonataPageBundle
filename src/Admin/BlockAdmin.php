@@ -227,7 +227,7 @@ class BlockAdmin extends BaseBlockAdmin
                     'Editing a block service which doesn\'t implement %s is deprecated since sonata-project/page-bundle 3.12.0 and will not be allowed with version 4.0.',
                     EditableBlockService::class
                 ),
-                E_USER_DEPRECATED
+                \E_USER_DEPRECATED
             );
 
             if ($block->getId() > 0) {

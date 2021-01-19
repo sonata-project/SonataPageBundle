@@ -61,7 +61,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
         if (null === $snapshotPageProxyFactory) {
             @trigger_error(
                 'The $snapshotPageProxyFactory parameter is required with the next major release.',
-                E_USER_DEPRECATED
+                \E_USER_DEPRECATED
             );
             $snapshotPageProxyFactory = new SnapshotPageProxyFactory(SnapshotPageProxy::class);
         }
@@ -166,7 +166,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
     {
         @trigger_error(
             'The '.__METHOD__.' method is deprecated since version 3.2 and will be removed in 4.0.',
-            E_USER_DEPRECATED
+            \E_USER_DEPRECATED
         );
 
         $snapshots = $this->getEntityManager()->createQueryBuilder()
