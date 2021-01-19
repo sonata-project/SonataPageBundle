@@ -27,7 +27,7 @@ class PageTest extends TestCase
      */
     public function testSlugify(): void
     {
-        setlocale(LC_ALL, 'en_US.utf8');
+        setlocale(\LC_ALL, 'en_US.utf8');
 
         $reflectionClass = new \ReflectionClass(Page::class);
         $property = $reflectionClass->getProperty('slugifyMethod');
