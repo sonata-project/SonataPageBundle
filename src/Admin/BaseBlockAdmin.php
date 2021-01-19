@@ -84,7 +84,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
 
             @trigger_error(
                 'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.12.0 and will be removed in version 4.0.',
-                E_USER_DEPRECATED
+                \E_USER_DEPRECATED
             );
         }
 
@@ -108,7 +108,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
 
             @trigger_error(
                 'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.12.0 and will be removed in version 4.0.',
-                E_USER_DEPRECATED
+                \E_USER_DEPRECATED
             );
         }
 
@@ -129,7 +129,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
 
             @trigger_error(
                 'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.12.0 and will be removed in version 4.0.',
-                E_USER_DEPRECATED
+                \E_USER_DEPRECATED
             );
         }
 
@@ -153,7 +153,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
 
             @trigger_error(
                 'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.12.0 and will be removed in version 4.0.',
-                E_USER_DEPRECATED
+                \E_USER_DEPRECATED
             );
         }
 
@@ -174,7 +174,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
 
             @trigger_error(
                 'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.12.0 and will be removed in version 4.0.',
-                E_USER_DEPRECATED
+                \E_USER_DEPRECATED
             );
         }
 
@@ -197,7 +197,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
 
             @trigger_error(
                 'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.12.0 and will be removed in version 4.0.',
-                E_USER_DEPRECATED
+                \E_USER_DEPRECATED
             );
         }
     }
