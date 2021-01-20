@@ -194,7 +194,7 @@ class CmsPageRouter implements ChainedRouterInterface
         if (!$this->context instanceof SiteRequestContextInterface) {
             @trigger_error(
                 sprintf('Since, 3.3 when calling %s, %s::$context should implement SiteRequestContextInterface. This will become mandatory in 4.0.', __METHOD__, __CLASS__),
-                E_USER_DEPRECATED
+                \E_USER_DEPRECATED
             );
 
             return $this->decorateUrl($url, $parameters, $referenceType);
