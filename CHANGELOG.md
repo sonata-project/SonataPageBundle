@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.21.0](https://github.com/sonata-project/SonataPageBundle/compare/3.20.0...3.21.0) - 2021-02-15
+### Added
+- [[#1250](https://github.com/sonata-project/SonataPageBundle/pull/1250)] Added support for `doctrine/persistence` 2 ([@core23](https://github.com/core23))
+
+### Changed
+- [[#1230](https://github.com/sonata-project/SonataPageBundle/pull/1230)] Update Dutch translations ([@zghosts](https://github.com/zghosts))
+
 ## [3.20.0](https://github.com/sonata-project/SonataPageBundle/compare/3.19.0...3.20.0) - 2020-12-05
 ### Added
 - [[#1202](https://github.com/sonata-project/SonataPageBundle/pull/1202)] Support for sonata-project/datagrid-bundle v3 ([@wbloszyk](https://github.com/wbloszyk))
