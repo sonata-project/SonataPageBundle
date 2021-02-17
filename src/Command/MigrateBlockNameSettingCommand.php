@@ -15,6 +15,7 @@ namespace Sonata\PageBundle\Command;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -25,6 +26,21 @@ use Symfony\Component\Console\Output\OutputInterface;
 class MigrateBlockNameSettingCommand extends BaseCommand
 {
     public const CONTAINER_TYPE = 'sonata.page.block.container';
+
+    /**
+     * @var EntityManager
+     */
+    protected $entityManager;
+
+    public function __construct(
+        ?string $name = null,
+        ContainerInterface $container,
+        EntityManager $entityManager
+    ) {
+        parent::__construct($name, $container);
+
+        $this->entityManager = $entityManager;
+    }
 
     public function configure()
     {
@@ -60,7 +76,7 @@ class MigrateBlockNameSettingCommand extends BaseCommand
                 unset($settings['orientation']);
                 $block->setSettings($settings);
 
-                $this->getEntityManager()->persist($block);
+                $this->entityManager->persist($block);
                 ++$count;
             }
 
@@ -76,16 +92,16 @@ class MigrateBlockNameSettingCommand extends BaseCommand
                     $block->setName($block->getSetting('code'));
                 }
 
-                $this->getEntityManager()->persist($block);
+                $this->entityManager->persist($block);
                 ++$count;
             }
 
             if ($count % 100) {
-                $this->getEntityManager()->flush();
+                $this->entityManager->flush();
             }
         }
 
-        $this->getEntityManager()->flush();
+        $this->entityManager->flush();
 
         $output->writeln("<info>Migrated $count blocks</info>");
     }
@@ -99,7 +115,7 @@ class MigrateBlockNameSettingCommand extends BaseCommand
      */
     protected function getRepository($class)
     {
-        return $this->getEntityManager()->getRepository($class);
+        return $this->entityManager->getRepository($class);
     }
 
     /**
@@ -109,6 +125,6 @@ class MigrateBlockNameSettingCommand extends BaseCommand
      */
     protected function getEntityManager()
     {
-        return $this->getContainer()->get('doctrine.orm.entity_manager');
+        return $this->entityManager;
     }
 }

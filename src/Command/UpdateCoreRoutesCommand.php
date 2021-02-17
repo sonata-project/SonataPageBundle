@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Command;
 
+use Psr\Container\ContainerInterface;
+use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Route\RoutePageGenerator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -26,6 +28,27 @@ use Symfony\Component\Process\ProcessBuilder;
  */
 class UpdateCoreRoutesCommand extends BaseCommand
 {
+    /**
+     * @var RoutePageGenerator
+     */
+    protected $rouePageGenerator;
+
+    /**
+     * @var SiteManagerInterface
+     */
+    protected $siteManager;
+
+    public function __construct(
+        ?string $name = null,
+        ContainerInterface $container,
+        SiteManagerInterface $siteManager,
+        RoutePageGenerator $rouePageGenerator
+    ) {
+        parent::__construct($name, $container, null, null, $siteManager);
+
+        $this->rouePageGenerator = $rouePageGenerator;
+    }
+
     public function configure()
     {
         $this->setName('sonata:page:update-core-routes');
@@ -52,7 +75,7 @@ class UpdateCoreRoutesCommand extends BaseCommand
 
             $output->writeln(sprintf(' % 5s - % -30s - %s', 'ID', 'Name', 'Url'));
 
-            foreach ($this->getSiteManager()->findBy([]) as $site) {
+            foreach ($this->siteManager->findBy([]) as $site) {
                 $output->writeln(sprintf(' % 5s - % -30s - %s', $site->getId(), $site->getName(), $site->getUrl()));
             }
 
@@ -61,7 +84,7 @@ class UpdateCoreRoutesCommand extends BaseCommand
 
         foreach ($this->getSites($input) as $site) {
             if ('all' !== $input->getOption('site')) {
-                $this->getRoutePageGenerator()->update($site, $output, $input->getOption('clean'));
+                $this->rouePageGenerator->update($site, $output, $input->getOption('clean'));
                 $output->writeln('');
             } else {
                 $builder = ProcessBuilder::create($input->getOption('base-command'))
@@ -86,15 +109,5 @@ class UpdateCoreRoutesCommand extends BaseCommand
         }
 
         $output->writeln('<info>done!</info>');
-    }
-
-    /**
-     * Returns Sonata route page generator service.
-     *
-     * @return RoutePageGenerator
-     */
-    private function getRoutePageGenerator()
-    {
-        return $this->getContainer()->get('sonata.page.route.page.generator');
     }
 }

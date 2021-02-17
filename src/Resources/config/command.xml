@@ -2,34 +2,72 @@
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
         <service id="Sonata\PageBundle\Command\CleanupSnapshotsCommand" class="Sonata\PageBundle\Command\CleanupSnapshotsCommand" public="true">
-            <tag name="console.command"/>
+            <tag name="console.command" />
+            <argument>null</argument>
+            <argument type="service" id="service_container"/>
+            <argument type="service" id="sonata.notification.backend"/>
+            <argument type="service" id="sonata.notification.backend.runtime"/>
+            <argument type="service" id="sonata.page.manager.site"/>
         </service>
         <service id="Sonata\PageBundle\Command\CloneSiteCommand" class="Sonata\PageBundle\Command\CloneSiteCommand" public="true">
             <tag name="console.command"/>
+            <argument>null</argument>
+            <argument type="service" id="service_container"/>
+            <argument type="service" id="sonata.page.manager.site"/>
+            <argument type="service" id="sonata.page.manager.page"/>
+            <argument type="service" id="sonata.page.manager.block"/>
         </service>
         <service id="Sonata\PageBundle\Command\CreateBlockContainerCommand" class="Sonata\PageBundle\Command\CreateBlockContainerCommand" public="true">
             <tag name="console.command"/>
+            <argument>null</argument>
+            <argument type="service" id="service_container"/>
+            <argument type="service" id="sonata.page.manager.page"/>
+            <argument type="service" id="sonata.page.block_interactor"/>
         </service>
         <service id="Sonata\PageBundle\Command\CreateSiteCommand" class="Sonata\PageBundle\Command\CreateSiteCommand" public="true">
             <tag name="console.command"/>
+            <argument>null</argument>
+            <argument type="service" id="service_container"/>
+            <argument type="service" id="sonata.page.manager.site"/>
         </service>
         <service id="Sonata\PageBundle\Command\CreateSnapshotsCommand" class="Sonata\PageBundle\Command\CreateSnapshotsCommand" public="true">
             <tag name="console.command"/>
+            <argument>null</argument>
+            <argument type="service" id="service_container"/>
+            <argument type="service" id="sonata.notification.backend"/>
+            <argument type="service" id="sonata.notification.backend.runtime"/>
+            <argument type="service" id="sonata.page.manager.site"/>
         </service>
         <service id="Sonata\PageBundle\Command\DumpPageCommand" class="Sonata\PageBundle\Command\DumpPageCommand" public="true">
             <tag name="console.command"/>
+            <argument>null</argument>
+            <argument type="service" id="service_container"/>
         </service>
         <service id="Sonata\PageBundle\Command\MigrateBlockNameSettingCommand" class="Sonata\PageBundle\Command\MigrateBlockNameSettingCommand" public="true">
             <tag name="console.command"/>
+            <argument>null</argument>
+            <argument type="service" id="service_container"/>
+            <argument type="service" id="doctrine.orm.entity_manager"/>
         </service>
         <service id="Sonata\PageBundle\Command\MigrateToJsonTypeCommand" class="Sonata\PageBundle\Command\MigrateToJsonTypeCommand" public="true">
             <tag name="console.command"/>
+            <argument>null</argument>
+            <argument type="service" id="service_container"/>
+            <argument type="service" id="doctrine.orm.entity_manager"/>
         </service>
         <service id="Sonata\PageBundle\Command\RenderBlockCommand" class="Sonata\PageBundle\Command\RenderBlockCommand" public="true">
             <tag name="console.command"/>
+            <argument>null</argument>
+            <argument type="service" id="service_container"/>
+            <argument type="service" id="sonata.block.context_manager"/>
+            <argument type="service" id="sonata.block.renderer"/>
         </service>
         <service id="Sonata\PageBundle\Command\UpdateCoreRoutesCommand" class="Sonata\PageBundle\Command\UpdateCoreRoutesCommand" public="true">
             <tag name="console.command"/>
+            <argument>null</argument>
+            <argument type="service" id="service_container"/>
+            <argument type="service" id="sonata.page.manager.site"/>
+            <argument type="service" id="sonata.page.route.page.generator"/>
         </service>
     </services>
 </container>

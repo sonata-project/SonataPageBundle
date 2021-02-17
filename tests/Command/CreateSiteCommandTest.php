@@ -14,7 +14,9 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Command;
 
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerInterface;
 use Sonata\PageBundle\Command\CreateSiteCommand;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Tests\Model\Site;
@@ -22,7 +24,6 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Tester\CommandTester;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @author Ahmet Akbana <ahmetakbana@gmail.com>
@@ -39,15 +40,17 @@ class CreateSiteCommandTest extends TestCase
      */
     private $siteManager;
 
+    /**
+     * @var Stub&ContainerInterface
+     */
+    private $container;
+
     protected function setUp(): void
     {
         $this->siteManager = $this->createMock(SiteManagerInterface::class);
+        $this->container = $this->createStub(ContainerInterface::class);
 
-        $container = $this->createStub(ContainerInterface::class);
-        $container->method('get')->with('sonata.page.manager.site')->willReturn($this->siteManager);
-
-        $command = new CreateSiteCommand();
-        $command->setContainer($container);
+        $command = new CreateSiteCommand(null, $this->container, $this->siteManager);
 
         $this->application = new Application();
         $this->application->add($command);

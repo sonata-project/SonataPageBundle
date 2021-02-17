@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Command;
 
+use Psr\Container\ContainerInterface;
 use Sonata\BlockBundle\Model\BlockManagerInterface;
 use Sonata\NotificationBundle\Backend\BackendInterface;
 use Sonata\PageBundle\CmsManager\CmsPageManager;
@@ -21,7 +22,7 @@ use Sonata\PageBundle\Listener\ExceptionListener;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 
 /**
@@ -29,62 +30,121 @@ use Symfony\Component\Console\Input\InputInterface;
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-abstract class BaseCommand extends ContainerAwareCommand
+abstract class BaseCommand extends Command
 {
     /**
+     * @var ContainerInterface
+     */
+    public $container;
+
+    /**
+     * @var BackendInterface
+     */
+    public $notificationBackendRuntime;
+
+    /**
+     * @var SiteManagerInterface
+     */
+    protected $siteManager;
+
+    /**
+     * @var BackendInterface
+     */
+    protected $notificationBackend;
+
+    public function __construct(
+        ?string $name = null,
+        ContainerInterface $container,
+        ?BackendInterface $backend = null,
+        ?BackendInterface $backendRuntime = null,
+        ?SiteManagerInterface $siteManager = null
+    ) {
+        parent::__construct($name);
+
+        $this->container = $container;
+        $this->notificationBackend = $backend ?? $container->get('sonata.notification.backend');
+        $this->notificationBackendRuntime = $backendRuntime ?? $container->get('sonata.notification.backend.runtime');
+        $this->siteManager = $siteManager;
+    }
+
+    /**
+     * @deprecated since sonata-project/page-bundle 3.x, to be removed in version 4.0.
+     *
+     * @return ContainerInterface
+     */
+    public function getContainer()
+    {
+        return $this->container;
+    }
+
+    /**
+     * @deprecated since sonata-project/page-bundle 3.x, to be removed in version 4.0.
+     *
      * @return SiteManagerInterface
      */
     public function getSiteManager()
     {
-        return $this->getContainer()->get('sonata.page.manager.site');
+        return $this->siteManager ?? $this->container->get('sonata.page.manager.site');
     }
 
     /**
+     * @deprecated since sonata-project/page-bundle 3.x, to be removed in version 4.0.
+     *
      * @return PageManagerInterface
      */
     public function getPageManager()
     {
-        return $this->getContainer()->get('sonata.page.manager.page');
+        return $this->container->get('sonata.page.manager.page');
     }
 
     /**
+     * @deprecated since sonata-project/page-bundle 3.x, to be removed in version 4.0.
+     *
      * @return BlockManagerInterface
      */
     public function getBlockManager()
     {
-        return $this->getContainer()->get('sonata.page.manager.block');
+        return $this->container->get('sonata.page.manager.block');
     }
 
     /**
+     * @deprecated since sonata-project/page-bundle 3.x, to be removed in version 4.0.
+     *
      * @return SnapshotManagerInterface
      */
     public function getSnapshotManager()
     {
-        return $this->getContainer()->get('sonata.page.manager.snapshot');
+        return $this->container->get('sonata.page.manager.snapshot');
     }
 
     /**
+     * @deprecated since sonata-project/page-bundle 3.x, to be removed in version 4.0.
+     *
      * @return CmsPageManager
      */
     public function getCmsPageManager()
     {
-        return $this->getContainer()->get('sonata.page.cms.page');
+        return $this->container->get('sonata.page.cms.page');
     }
 
     /**
+     * @deprecated since sonata-project/page-bundle 3.x, to be removed in version 4.0.
+     *
      * @return DecoratorStrategyInterface
      */
     public function getDecoratorStrategy()
     {
-        return $this->getContainer()->get('sonata.page.decorator_strategy');
+        return $this->container->get('sonata.page.decorator_strategy');
     }
 
     /**
+     * @deprecated since sonata-project/page-bundle 3.x, to be removed in version 4.0.
+     *
      * @return ExceptionListener
      */
     public function getErrorListener()
     {
-        return $this->getContainer()->get('sonata.page.kernel.exception_listener');
+        return $this->container->get('sonata.page.kernel.exception_listener');
     }
 
     /**
@@ -95,10 +155,10 @@ abstract class BaseCommand extends ContainerAwareCommand
     public function getNotificationBackend($mode)
     {
         if ('async' === $mode) {
-            return $this->getContainer()->get('sonata.notification.backend');
+            return $this->notificationBackend;
         }
 
-        return $this->getContainer()->get('sonata.notification.backend.runtime');
+        return $this->notificationBackendRuntime;
     }
 
     /**

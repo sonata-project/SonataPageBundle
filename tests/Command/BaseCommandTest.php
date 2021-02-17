@@ -15,7 +15,7 @@ namespace Sonata\PageBundle\Tests\Command;
 
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Command\BaseCommand;
-use Sonata\PageBundle\Entity\SiteManager;
+use Sonata\PageBundle\Model\SiteManagerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 
 /**
@@ -46,7 +46,7 @@ class BaseCommandTest extends TestCase
         $method->setAccessible(true);
 
         $input = $this->createMock(InputInterface::class);
-        $siteManager = $this->createMock(SiteManager::class);
+        $siteManager = $this->createMock(SiteManagerInterface::class);
 
         $this->command->method('getSiteManager')->willReturn($siteManager);
 

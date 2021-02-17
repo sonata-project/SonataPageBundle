@@ -65,8 +65,7 @@ class CloneSiteCommandTest extends TestCase
             ['sonata.page.manager.block', ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, $this->blockManager],
         ]);
 
-        $command = new CloneSiteCommand();
-        $command->setContainer($container);
+        $command = new CloneSiteCommand(null, $container, $this->siteManager, $this->pageManager, $this->blockManager);
 
         $this->application = new Application();
         $this->application->add($command);

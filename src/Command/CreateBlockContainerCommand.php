@@ -13,8 +13,10 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Command;
 
+use Psr\Container\ContainerInterface;
 use Sonata\PageBundle\Entity\BlockInteractor;
 use Sonata\PageBundle\Model\PageInterface;
+use Sonata\PageBundle\Model\PageManagerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -26,6 +28,28 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 final class CreateBlockContainerCommand extends BaseCommand
 {
+    /**
+     * @var BlockInteractor
+     */
+    protected $blockInteractor;
+
+    /**
+     * @var PageManagerInterface
+     */
+    protected $pageManager;
+
+    public function __construct(
+        ?string $name = null,
+        ContainerInterface $container,
+        PageManagerInterface $pageManager,
+        BlockInteractor $blockInteractor
+    ) {
+        parent::__construct($name, $container);
+
+        $this->blockInteractor = $blockInteractor;
+        $this->pageManager = $pageManager;
+    }
+
     protected function configure()
     {
         $this->setName('sonata:page:create-block-container');
@@ -41,10 +65,7 @@ final class CreateBlockContainerCommand extends BaseCommand
     {
         $blockCode = $input->getArgument('blockCode');
 
-        $pageManager = $this->getPageManager();
-        $blockInteractor = $this->getBlockInteractor();
-
-        $pages = $pageManager->findBy([
+        $pages = $this->pageManager->findBy([
             'templateCode' => $input->getArgument('templateCode'),
         ]);
 
@@ -52,7 +73,7 @@ final class CreateBlockContainerCommand extends BaseCommand
         foreach ($pages as $page) {
             $output->writeln(sprintf('Adding to page <info>%s</info>', $page->getName()));
 
-            $block = $blockInteractor->createNewContainer([
+            $block = $this->blockInteractor->createNewContainer([
                 'name' => $input->getArgument('blockName'),
                 'enabled' => true,
                 'page' => $page,
@@ -61,7 +82,7 @@ final class CreateBlockContainerCommand extends BaseCommand
 
             $page->addBlocks($block);
 
-            $pageManager->save($page);
+            $this->pageManager->save($page);
         }
 
         $output->writeln(sprintf(
@@ -70,13 +91,5 @@ final class CreateBlockContainerCommand extends BaseCommand
         ));
 
         $output->writeln('<info>done!</info>');
-    }
-
-    /**
-     * @return BlockInteractor
-     */
-    private function getBlockInteractor()
-    {
-        return $this->getContainer()->get('sonata.page.block_interactor');
     }
 }

@@ -13,12 +13,29 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Command;
 
+use Doctrine\ORM\EntityManager;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class MigrateToJsonTypeCommand extends BaseCommand
 {
+    /**
+     * @var EntityManager
+     */
+    protected $entityManager;
+
+    public function __construct(
+        ?string $name = null,
+        ContainerInterface $container,
+        EntityManager $entityManager
+    ) {
+        parent::__construct($name, $container);
+
+        $this->entityManager = $entityManager;
+    }
+
     public function configure()
     {
         $this->setName('sonata:page:migrate-block-json');
@@ -30,7 +47,7 @@ class MigrateToJsonTypeCommand extends BaseCommand
     {
         $count = 0;
         $table = $input->getOption('table');
-        $connection = $this->getContainer()->get('doctrine.orm.entity_manager')->getConnection();
+        $connection = $this->entityManager->getConnection();
         $blocks = $connection->fetchAll("SELECT * FROM $table");
 
         foreach ($blocks as $block) {

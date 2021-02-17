@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Command;
 
+use Psr\Container\ContainerInterface;
+use Sonata\BlockBundle\Block\BlockContextManagerInterface;
+use Sonata\BlockBundle\Block\BlockRendererInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -24,6 +27,33 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class RenderBlockCommand extends BaseCommand
 {
+    /**
+     * @var ContainerInterface
+     */
+    public $container;
+    /**
+     * @var BlockContextManagerInterface
+     */
+    protected $blockContextManager;
+
+    /**
+     * @var BlockRendererInterface
+     */
+    protected $blockRenderer;
+
+    public function __construct(
+        ?string $name = null,
+        ContainerInterface $container,
+        BlockContextManagerInterface $blockContextManager,
+        BlockRendererInterface $blockRenderer
+    ) {
+        parent::__construct($name, $container);
+
+        $this->container = $container;
+        $this->blockContextManager = $blockContextManager;
+        $this->blockRenderer = $blockRenderer;
+    }
+
     public function configure()
     {
         $this->setName('sonata:page:render-block');
@@ -45,7 +75,7 @@ HELP
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $manager = $this->getContainer()->get($input->getArgument('manager'));
+        $manager = $this->container->get($input->getArgument('manager'));
 
         if (!$manager instanceof CmsManagerInterface) {
             throw new \RuntimeException('The service does not implement the CmsManagerInterface');
@@ -66,7 +96,7 @@ HELP
             $output->writeln(sprintf('   >> %s: %s', $name, json_encode($value)));
         }
 
-        $context = $this->getContainer()->get('sonata.block.context_manager')->get($block);
+        $context = $this->blockContextManager->get($block);
 
         $output->writeln("\n<info>BlockContext Information</info>");
         foreach ($context->getSettings() as $name => $value) {
@@ -77,11 +107,11 @@ HELP
 
         // fake request
         $request = new Request();
-        $this->getContainer()->enterScope('request');
-        $this->getContainer()->set('request', $request, 'request');
+        $this->container->enterScope('request');
+        $this->container->set('request', $request, 'request');
 
-        $output->writeln($this->getContainer()->get('sonata.block.renderer')->render($context));
+        $output->writeln($this->blockRenderer->render($context));
 
-        $this->getContainer()->leaveScope('request');
+        $this->container->leaveScope('request');
     }
 }

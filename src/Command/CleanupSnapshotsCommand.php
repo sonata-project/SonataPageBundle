@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Command;
 
+use Psr\Container\ContainerInterface;
+use Sonata\NotificationBundle\Backend\BackendInterface;
+use Sonata\PageBundle\Model\SiteManagerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -23,6 +26,23 @@ use Symfony\Component\Process\Process;
  */
 class CleanupSnapshotsCommand extends BaseCommand
 {
+    /**
+     * @var SiteManagerInterface
+     */
+    protected $siteManager;
+
+    public function __construct(
+        ?string $name = null,
+        ContainerInterface $container,
+        BackendInterface $backend,
+        BackendInterface $backendRuntime,
+        SiteManagerInterface $siteManager
+    ) {
+        parent::__construct($name, $container, $backend, $backendRuntime, $siteManager);
+
+        $this->siteManager = $siteManager;
+    }
+
     public function configure()
     {
         $this->setName('sonata:page:cleanup-snapshots');
@@ -42,7 +62,7 @@ class CleanupSnapshotsCommand extends BaseCommand
 
             $output->writeln(sprintf(' % 5s - % -30s - %s', 'ID', 'Name', 'Url'));
 
-            foreach ($this->getSiteManager()->findBy([]) as $site) {
+            foreach ($this->siteManager->findBy([]) as $site) {
                 $output->writeln(sprintf(' % 5s - % -30s - %s', $site->getId(), $site->getName(), $site->getUrl()));
             }
 

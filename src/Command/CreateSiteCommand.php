@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Command;
 
+use Psr\Container\ContainerInterface;
+use Sonata\PageBundle\Model\SiteManagerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -26,6 +28,21 @@ use Symfony\Component\Console\Question\Question;
  */
 class CreateSiteCommand extends BaseCommand
 {
+    /**
+     * @var SiteManagerInterface
+     */
+    protected $siteManager;
+
+    public function __construct(
+        ?string $name = null,
+        ContainerInterface $container,
+        SiteManagerInterface $siteManager
+    ) {
+        parent::__construct($name, $container, null, null, $siteManager);
+
+        $this->siteManager = $siteManager;
+    }
+
     public function configure()
     {
         $this->setName('sonata:page:create-site');
@@ -78,7 +95,7 @@ EOT
         }
 
         // create the object
-        $site = $this->getSiteManager()->create();
+        $site = $this->siteManager->create();
 
         $site->setName($values['name']);
 
@@ -113,7 +130,7 @@ INFO
         }
 
         if ($confirmation) {
-            $this->getSiteManager()->save($site);
+            $this->siteManager->save($site);
 
             $output->writeln([
                 '',
