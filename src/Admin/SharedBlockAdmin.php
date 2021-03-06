@@ -71,7 +71,7 @@ class SharedBlockAdmin extends BaseBlockAdmin
         $block = $this->getSubject();
 
         // New block
-        if (null === $block->getId()) {
+        if (null === $block->getId() && $this->hasRequest()) {
             $block->setType($this->request->get('type'));
         }
 
@@ -90,12 +90,18 @@ class SharedBlockAdmin extends BaseBlockAdmin
 
     private function configureBlockFields(FormMapper $formMapper, BlockInterface $block): void
     {
+        $blockType = $block->getType();
+
+        if (null === $blockType || !$this->blockManager->has($blockType)) {
+            return;
+        }
+
         $service = $this->blockManager->get($block);
 
         if (!$service instanceof BlockServiceInterface) {
             throw new \RuntimeException(sprintf(
                 'The block "%s" is not a valid %s',
-                $block->getType(),
+                $blockType,
                 BlockServiceInterface::class
             ));
         }

@@ -203,6 +203,10 @@ class PageAdmin extends AbstractAdmin
         $parameters = parent::getPersistentParameters();
         $key = sprintf('%s.current_site', $this->getCode());
 
+        if (!$this->hasRequest()) {
+            return $parameters;
+        }
+
         if ($site = $this->request->get('site', null)) {
             $this->request->getSession()->set($key, $site);
         }
@@ -284,7 +288,9 @@ class PageAdmin extends AbstractAdmin
              ->with('form_page.group_advanced_label', ['class' => 'col-md-6'])->end()
         ;
 
-        if (!$this->getSubject() || (!$this->getSubject()->isInternal() && !$this->getSubject()->isError())) {
+        $page = $this->hasSubject() ? $this->getSubject() : null;
+
+        if (null === $page || (!$page->isInternal() && !$page->isError())) {
             $formMapper
                 ->with('form_page.group_main_label')
                     ->add('url', TextType::class, ['attr' => ['readonly' => true]])
@@ -292,7 +298,7 @@ class PageAdmin extends AbstractAdmin
             ;
         }
 
-        if ($this->hasSubject() && !$this->getSubject()->getId()) {
+        if (null !== $page && null === $page->getId()) {
             $formMapper
                 ->with('form_page.group_main_label')
                     ->add('site', null, ['required' => true, 'attr' => ['readonly' => true]])
@@ -308,7 +314,7 @@ class PageAdmin extends AbstractAdmin
             ->end()
         ;
 
-        if ($this->hasSubject() && !$this->getSubject()->isInternal()) {
+        if (null !== $page && !$page->isInternal()) {
             $formMapper
                 ->with('form_page.group_main_label')
                     ->add('type', PageTypeChoiceType::class, ['required' => false])
@@ -322,12 +328,12 @@ class PageAdmin extends AbstractAdmin
             ->end()
         ;
 
-        if (!$this->getSubject() || ($this->getSubject() && $this->getSubject()->getParent()) || ($this->getSubject() && !$this->getSubject()->getId())) {
+        if (null === $page || ($page && $page->getParent()) || ($page && null === $page->getId())) {
             $formMapper
                 ->with('form_page.group_main_label')
                     ->add('parent', PageSelectorType::class, [
-                        'page' => $this->getSubject() ?: null,
-                        'site' => $this->getSubject() ? $this->getSubject()->getSite() : null,
+                        'page' => $page ?: null,
+                        'site' => $page ? $page->getSite() : null,
                         'model_manager' => $this->getModelManager(),
                         'class' => $this->getClass(),
                         'required' => false,
@@ -335,20 +341,20 @@ class PageAdmin extends AbstractAdmin
                     ], [
                         'admin_code' => $this->getCode(),
                         'link_parameters' => [
-                            'siteId' => $this->getSubject() ? $this->getSubject()->getSite()->getId() : null,
+                            'siteId' => $page && $page->getSite() ? $page->getSite()->getId() : null,
                         ],
                     ])
                 ->end()
             ;
         }
 
-        if (!$this->getSubject() || !$this->getSubject()->isDynamic()) {
+        if (null === $page || !$page->isDynamic()) {
             $formMapper
                 ->with('form_page.group_main_label')
                     ->add('pageAlias', null, ['required' => false])
                     ->add('parent', PageSelectorType::class, [
-                        'page' => $this->getSubject() ?: null,
-                        'site' => $this->getSubject() ? $this->getSubject()->getSite() : null,
+                        'page' => $page ?: null,
+                        'site' => $page ? $page->getSite() : null,
                         'model_manager' => $this->getModelManager(),
                         'class' => $this->getClass(),
                         'filter_choice' => ['request_method' => 'all'],
@@ -356,14 +362,14 @@ class PageAdmin extends AbstractAdmin
                     ], [
                         'admin_code' => $this->getCode(),
                         'link_parameters' => [
-                            'siteId' => $this->getSubject() ? $this->getSubject()->getSite()->getId() : null,
+                            'siteId' => null !== $page && null !== $page->getSite() ? $page->getSite()->getId() : null,
                         ],
                     ])
                 ->end()
             ;
         }
 
-        if (!$this->getSubject() || !$this->getSubject()->isHybrid()) {
+        if (null === $page || !$page->isHybrid()) {
             $formMapper
                 ->with('form_page.group_seo_label')
                     ->add('slug', TextType::class, ['required' => false])
@@ -380,7 +386,7 @@ class PageAdmin extends AbstractAdmin
             ->end()
         ;
 
-        if ($this->hasSubject() && !$this->getSubject()->isCms()) {
+        if (null !== $page && !$page->isCms()) {
             $formMapper
                 ->with('form_page.group_advanced_label', ['collapsed' => true])
                     ->add('decorate', null, ['required' => false])
@@ -404,6 +410,10 @@ class PageAdmin extends AbstractAdmin
     protected function configureTabMenu(MenuItemInterface $menu, $action, ?AdminInterface $childAdmin = null)
     {
         if (!$childAdmin && !\in_array($action, ['edit'], true)) {
+            return;
+        }
+
+        if (!$this->hasRequest()) {
             return;
         }
 
