@@ -100,40 +100,6 @@ class PageAdmin extends AbstractAdmin
         $this->pageManager = $pageManager;
     }
 
-    public function getNewInstance()
-    {
-        $instance = parent::getNewInstance();
-
-        if (!$this->hasRequest()) {
-            return $instance;
-        }
-
-        if ($site = $this->getSite()) {
-            $instance->setSite($site);
-        }
-
-        if ($site && $this->getRequest()->get('url')) {
-            $slugs = explode('/', $this->getRequest()->get('url'));
-            $slug = array_pop($slugs);
-
-            try {
-                $parent = $this->pageManager->getPageByUrl($site, implode('/', $slugs));
-            } catch (PageNotFoundException $e) {
-                try {
-                    $parent = $this->pageManager->getPageByUrl($site, '/');
-                } catch (PageNotFoundException $e) {
-                    throw new InternalErrorException('Unable to find the root url, please create a route with url = /');
-                }
-            }
-
-            $instance->setSlug(urldecode($slug));
-            $instance->setParent($parent ?: null);
-            $instance->setName(urldecode($slug));
-        }
-
-        return $instance;
-    }
-
     /**
      * @throws \RuntimeException
      *
@@ -198,9 +164,39 @@ class PageAdmin extends AbstractAdmin
         $this->cacheManager = $cacheManager;
     }
 
-    public function getPersistentParameters()
+    protected function alterNewInstance(object $object): void
     {
-        $parameters = parent::getPersistentParameters();
+        if (!$this->hasRequest()) {
+            return;
+        }
+
+        if ($site = $this->getSite()) {
+            $object->setSite($site);
+        }
+
+        if ($site && $this->getRequest()->get('url')) {
+            $slugs = explode('/', $this->getRequest()->get('url'));
+            $slug = array_pop($slugs);
+
+            try {
+                $parent = $this->pageManager->getPageByUrl($site, implode('/', $slugs));
+            } catch (PageNotFoundException $e) {
+                try {
+                    $parent = $this->pageManager->getPageByUrl($site, '/');
+                } catch (PageNotFoundException $e) {
+                    throw new InternalErrorException('Unable to find the root url, please create a route with url = /');
+                }
+            }
+
+            $object->setSlug(urldecode($slug));
+            $object->setParent($parent ?: null);
+            $object->setName(urldecode($slug));
+        }
+    }
+
+    protected function configurePersistentParameters(): array
+    {
+        $parameters = [];
         $key = sprintf('%s.current_site', $this->getCode());
 
         if ($site = $this->request->get('site', null)) {

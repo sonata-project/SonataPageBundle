@@ -60,9 +60,9 @@ class BlockAdmin extends BaseBlockAdmin
         $this->blocks = $blocks;
     }
 
-    public function getPersistentParameters()
+    protected function configurePersistentParameters(): array
     {
-        $parameters = parent::getPersistentParameters();
+        $parameters = [];
 
         if ($composer = $this->getRequest()->get('composer')) {
             $parameters['composer'] = $composer;
