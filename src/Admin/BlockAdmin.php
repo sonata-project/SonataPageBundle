@@ -64,6 +64,10 @@ class BlockAdmin extends BaseBlockAdmin
     {
         $parameters = parent::getPersistentParameters();
 
+        if (!$this->hasRequest()) {
+            return $parameters;
+        }
+
         if ($composer = $this->getRequest()->get('composer')) {
             $parameters['composer'] = $composer;
         }
@@ -99,7 +103,7 @@ class BlockAdmin extends BaseBlockAdmin
                 throw new \RuntimeException('The BlockAdmin must be attached to a parent PageAdmin');
             }
 
-            if (null === $block->getId()) { // new block
+            if ($this->hasRequest() && null === $block->getId()) { // new block
                 $block->setType($this->request->get('type'));
                 $block->setPage($page);
             }
@@ -203,8 +207,13 @@ class BlockAdmin extends BaseBlockAdmin
 
     private function configureBlockFields(FormMapper $formMapper, BlockInterface $block): void
     {
-        $service = $this->blockManager->get($block);
         $blockType = $block->getType();
+
+        if (null === $blockType || !$this->blockManager->has($blockType)) {
+            return;
+        }
+
+        $service = $this->blockManager->get($block);
 
         if (!$service instanceof BlockServiceInterface) {
             throw new \RuntimeException(sprintf(

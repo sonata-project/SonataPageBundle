@@ -273,6 +273,12 @@ abstract class BaseBlockAdmin extends AbstractAdmin
      */
     private function loadBlockDefaults(BlockInterface $block)
     {
+        $blockType = $block->getType();
+
+        if (null === $blockType || !$this->blockManager->has($blockType)) {
+            return $block;
+        }
+
         $service = $this->blockManager->get($block);
 
         $resolver = new OptionsResolver();
