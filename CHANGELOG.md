@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.21.1](https://github.com/sonata-project/SonataPageBundle/compare/3.21.0...3.21.1) - 2021-03-21
+### Fixed
+- [[#1283](https://github.com/sonata-project/SonataPageBundle/pull/1283)] Catch null errors when accessing request ([@core23](https://github.com/core23))
+- [[#1283](https://github.com/sonata-project/SonataPageBundle/pull/1283)] Catch null errors when loading unknown block ([@core23](https://github.com/core23))
+
 ## [3.21.0](https://github.com/sonata-project/SonataPageBundle/compare/3.20.0...3.21.0) - 2021-02-15
 ### Added
 - [[#1250](https://github.com/sonata-project/SonataPageBundle/pull/1250)] Added support for `doctrine/persistence` 2 ([@core23](https://github.com/core23))
