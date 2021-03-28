@@ -60,9 +60,9 @@ class BlockAdmin extends BaseBlockAdmin
         $this->blocks = $blocks;
     }
 
-    public function getPersistentParameters()
+    protected function configurePersistentParameters(): array
     {
-        $parameters = parent::getPersistentParameters();
+        $parameters = [];
 
         if (!$this->hasRequest()) {
             return $parameters;

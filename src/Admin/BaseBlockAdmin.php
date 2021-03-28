@@ -53,25 +53,6 @@ abstract class BaseBlockAdmin extends AbstractAdmin
      */
     protected $containerBlockTypes = [];
 
-    public function getObject($id)
-    {
-        $subject = parent::getObject($id);
-
-        if ($subject) {
-            return $this->loadBlockDefaults($subject);
-        }
-
-        return $subject;
-    }
-
-    public function getNewInstance()
-    {
-        $block = parent::getNewInstance();
-        $block->setType($this->getPersistentParameter('type'));
-
-        return $this->loadBlockDefaults($block);
-    }
-
     /**
      * @param BaseBlock $object
      */
@@ -217,17 +198,6 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         $this->containerBlockTypes = $containerBlockTypes;
     }
 
-    public function getPersistentParameters()
-    {
-        if (!$this->hasRequest()) {
-            return [];
-        }
-
-        return [
-            'type' => $this->getRequest()->get('type'),
-        ];
-    }
-
     public function preBatchAction($actionName, ProxyQueryInterface $query, array &$idx, $allElements)
     {
         $parent = $this->getParent();
@@ -241,6 +211,29 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         }
 
         parent::preBatchAction($actionName, $query, $idx, $allElements);
+    }
+
+    protected function alterObject(object $object): void
+    {
+        $this->loadBlockDefaults($object);
+    }
+
+    protected function alterNewInstance(object $object): void
+    {
+        $object->setType($this->getPersistentParameter('type'));
+
+        $this->loadBlockDefaults($object);
+    }
+
+    protected function configurePersistentParameters(): array
+    {
+        if (!$this->hasRequest()) {
+            return [];
+        }
+
+        return [
+            'type' => $this->getRequest()->get('type'),
+        ];
     }
 
     protected function configureRoutes(RouteCollection $collection)
