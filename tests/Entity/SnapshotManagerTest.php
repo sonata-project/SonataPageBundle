@@ -41,8 +41,7 @@ class SnapshotManagerTest extends TestCase
                 'fooBar',
             ])
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
 
         $this->assertSame([], $manager->getTemplates());
 
@@ -58,8 +57,7 @@ class SnapshotManagerTest extends TestCase
                 'setTemplates',
             ])
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
 
         $managerReflection = new \ReflectionClass($manager);
         $templates = $managerReflection->getProperty('templates');
@@ -76,8 +74,7 @@ class SnapshotManagerTest extends TestCase
                 'setTemplates',
             ])
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
 
         $managerReflection = new \ReflectionClass($manager);
         $templates = $managerReflection->getProperty('templates');
@@ -94,8 +91,7 @@ class SnapshotManagerTest extends TestCase
                 'setTemplates',
             ])
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
 
         $this->expectException('RuntimeException');
         $this->expectExceptionMessage('No template references with the code : foo');

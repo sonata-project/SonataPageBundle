@@ -367,8 +367,7 @@ EOF;
             ->booleanNode('direct_publication')
                 ->info($directPublicationInfo)
                 ->defaultValue(false)
-            ->end()
-        ;
+            ->end();
 
         return $treeBuilder;
     }
