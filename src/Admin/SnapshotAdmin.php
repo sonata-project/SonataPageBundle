@@ -44,8 +44,7 @@ class SnapshotAdmin extends AbstractAdmin
             ->addIdentifier('url')
             ->add('enabled')
             ->add('publicationDateStart')
-            ->add('publicationDateEnd')
-        ;
+            ->add('publicationDateEnd');
     }
 
     public function configureDatagridFilters(DatagridMapper $datagridMapper)
@@ -59,8 +58,7 @@ class SnapshotAdmin extends AbstractAdmin
         $formMapper
             ->add('enabled', null, ['required' => false])
             ->add('publicationDateStart', DateTimePickerType::class, ['dp_side_by_side' => true])
-            ->add('publicationDateEnd', DateTimePickerType::class, ['required' => false, 'dp_side_by_side' => true])
-        ;
+            ->add('publicationDateEnd', DateTimePickerType::class, ['required' => false, 'dp_side_by_side' => true]);
     }
 
     public function getBatchActions()
