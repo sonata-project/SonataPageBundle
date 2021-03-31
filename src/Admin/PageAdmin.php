@@ -226,8 +226,7 @@ class PageAdmin extends AbstractAdmin
             ->add('name')
             ->add('slug')
             ->add('customUrl')
-            ->add('edited')
-        ;
+            ->add('edited');
     }
 
     protected function configureListFields(ListMapper $listMapper)
@@ -242,8 +241,7 @@ class PageAdmin extends AbstractAdmin
             ])
             ->add('decorate', null, ['editable' => true])
             ->add('enabled', null, ['editable' => true])
-            ->add('edited', null, ['editable' => true])
-        ;
+            ->add('edited', null, ['editable' => true]);
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
@@ -271,8 +269,7 @@ class PageAdmin extends AbstractAdmin
                     'choice_translation_domain' => false,
                 ],
                 'field_type' => ChoiceType::class,
-            ])
-        ;
+            ]);
     }
 
     protected function configureFormFields(FormMapper $formMapper)
@@ -281,8 +278,7 @@ class PageAdmin extends AbstractAdmin
         $formMapper
              ->with('form_page.group_main_label', ['class' => 'col-md-6'])->end()
              ->with('form_page.group_seo_label', ['class' => 'col-md-6'])->end()
-             ->with('form_page.group_advanced_label', ['class' => 'col-md-6'])->end()
-        ;
+             ->with('form_page.group_advanced_label', ['class' => 'col-md-6'])->end();
 
         $page = $this->hasSubject() ? $this->getSubject() : null;
 
@@ -290,16 +286,14 @@ class PageAdmin extends AbstractAdmin
             $formMapper
                 ->with('form_page.group_main_label')
                     ->add('url', TextType::class, ['attr' => ['readonly' => true]])
-                ->end()
-            ;
+                ->end();
         }
 
         if (null !== $page && null === $page->getId()) {
             $formMapper
                 ->with('form_page.group_main_label')
                     ->add('site', null, ['required' => true, 'attr' => ['readonly' => true]])
-                ->end()
-            ;
+                ->end();
         }
 
         $formMapper
@@ -307,22 +301,19 @@ class PageAdmin extends AbstractAdmin
                 ->add('name')
                 ->add('enabled', null, ['required' => false])
                 ->add('position')
-            ->end()
-        ;
+            ->end();
 
         if (null !== $page && !$page->isInternal()) {
             $formMapper
                 ->with('form_page.group_main_label')
                     ->add('type', PageTypeChoiceType::class, ['required' => false])
-                ->end()
-            ;
+                ->end();
         }
 
         $formMapper
             ->with('form_page.group_main_label')
                 ->add('templateCode', TemplateChoiceType::class, ['required' => true])
-            ->end()
-        ;
+            ->end();
 
         if (null === $page || ($page && $page->getParent()) || ($page && null === $page->getId())) {
             $formMapper
@@ -340,8 +331,7 @@ class PageAdmin extends AbstractAdmin
                             'siteId' => $page && $page->getSite() ? $page->getSite()->getId() : null,
                         ],
                     ])
-                ->end()
-            ;
+                ->end();
         }
 
         if (null === $page || !$page->isDynamic()) {
@@ -361,8 +351,7 @@ class PageAdmin extends AbstractAdmin
                             'siteId' => null !== $page && null !== $page->getSite() ? $page->getSite()->getId() : null,
                         ],
                     ])
-                ->end()
-            ;
+                ->end();
         }
 
         if (null === $page || !$page->isHybrid()) {
@@ -370,8 +359,7 @@ class PageAdmin extends AbstractAdmin
                 ->with('form_page.group_seo_label')
                     ->add('slug', TextType::class, ['required' => false])
                     ->add('customUrl', TextType::class, ['required' => false])
-                ->end()
-            ;
+                ->end();
         }
 
         $formMapper
@@ -379,15 +367,13 @@ class PageAdmin extends AbstractAdmin
                 ->add('title', null, ['required' => false])
                 ->add('metaKeyword', TextareaType::class, ['required' => false])
                 ->add('metaDescription', TextareaType::class, ['required' => false])
-            ->end()
-        ;
+            ->end();
 
         if (null !== $page && !$page->isCms()) {
             $formMapper
                 ->with('form_page.group_advanced_label', ['collapsed' => true])
                     ->add('decorate', null, ['required' => false])
-                ->end()
-            ;
+                ->end();
         }
 
         $formMapper
@@ -395,8 +381,7 @@ class PageAdmin extends AbstractAdmin
                 ->add('javascript', null, ['required' => false])
                 ->add('stylesheet', null, ['required' => false])
                 ->add('rawHeaders', null, ['required' => false])
-            ->end()
-        ;
+            ->end();
 
         $formMapper->setHelps([
             'name' => 'help_page_name',

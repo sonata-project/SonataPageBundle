@@ -248,8 +248,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
             ->add('name')
             ->add('enabled', null, ['editable' => true])
             ->add('updatedAt')
-            ->add('position')
-        ;
+            ->add('position');
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
@@ -257,8 +256,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         $datagridMapper
             ->add('name')
             ->add('enabled')
-            ->add('type')
-        ;
+            ->add('type');
     }
 
     /**

@@ -60,8 +60,7 @@ class SharedBlockAdmin extends BaseBlockAdmin
             ->addIdentifier('name')
             ->add('type')
             ->add('enabled', null, ['editable' => true])
-            ->add('updatedAt')
-        ;
+            ->add('updatedAt');
     }
 
     protected function configureFormFields(FormMapper $formMapper)

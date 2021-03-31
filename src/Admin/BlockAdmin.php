@@ -180,8 +180,7 @@ class BlockAdmin extends BaseBlockAdmin
                 ->add('type', ServiceListType::class, ['context' => 'sonata_page_bundle'])
                 ->add('enabled')
                 ->add('position', IntegerType::class)
-                ->end()
-            ;
+                ->end();
         }
     }
 
