@@ -95,4 +95,24 @@ class CreateSnapshotAdminExtensionTest extends TestCase
         $extension = new CreateSnapshotAdminExtension($backend);
         $extension->postPersist($admin, $block);
     }
+
+    public function testPostRemoveOnBlock(): void
+    {
+        $page = $this->createMock(PageInterface::class);
+        $page->expects($this->once())->method('getId')->willReturn(42);
+
+        $block = $this->createMock(PageBlockInterface::class);
+        $block->expects($this->once())->method('getPage')->willReturn($page);
+
+        $admin = $this->createStub(AdminInterface::class);
+
+        $backend = $this->createMock(BackendInterface::class);
+        $backend->expects($this->once())->method('createAndPublish')->with(
+            'sonata.page.create_snapshot',
+            ['pageId' => 42]
+        );
+
+        $extension = new CreateSnapshotAdminExtension($backend);
+        $extension->postRemove($admin, $block);
+    }
 }
