@@ -83,5 +83,7 @@ HELP
         $output->writeln($this->getContainer()->get('sonata.block.renderer')->render($context));
 
         $this->getContainer()->leaveScope('request');
+
+        return 0;
     }
 }

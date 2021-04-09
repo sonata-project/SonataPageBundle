@@ -73,6 +73,8 @@ HELP
         foreach ($page->getBlocks() as $block) {
             $this->renderBlock($block, $output, $input->getOption('extended'));
         }
+
+        return 0;
     }
 
     /**
