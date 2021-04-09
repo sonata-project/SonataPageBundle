@@ -93,5 +93,7 @@ class CleanupSnapshotsCommand extends BaseCommand
         }
 
         $output->writeln('<info>done!</info>');
+
+        return 0;
     }
 }
