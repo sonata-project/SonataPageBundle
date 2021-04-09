@@ -62,7 +62,7 @@ class BlockAdmin extends BaseBlockAdmin
 
     protected function configurePersistentParameters(): array
     {
-        $parameters = [];
+        $parameters = parent::configurePersistentParameters();
 
         if (!$this->hasRequest()) {
             return $parameters;
