@@ -22,6 +22,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\Cache\CacheManagerInterface;
+use Sonata\DoctrineORMAdminBundle\Filter\CallbackFilter;
 use Sonata\PageBundle\Exception\InternalErrorException;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Form\Type\PageSelectorType;
@@ -253,7 +254,7 @@ class PageAdmin extends AbstractAdmin
             ->add('pageAlias')
             ->add('parent')
             ->add('edited')
-            ->add('hybrid', 'doctrine_orm_callback', [
+            ->add('hybrid', CallbackFilter::class, [
                 'callback' => static function ($queryBuilder, $alias, $field, $data) {
                     if (\in_array($data['value'], ['hybrid', 'cms'], true)) {
                         $queryBuilder->andWhere(sprintf('%s.routeName %s :routeName', $alias, 'cms' === $data['value'] ? '=' : '!='));
