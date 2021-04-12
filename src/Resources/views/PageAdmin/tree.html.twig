@@ -14,7 +14,7 @@ file that was distributed with this source code.
 {% import _self as tree %}
 {% macro pages(pages, admin, rootPages) %}
     <ul{% if rootPages %} class="page-tree"{% endif %}>
-        {% for page in pages if not page.internal and (not page.parent or not rootPages)%}
+        {% for page in pages|filter(page => not page.internal and (not page.parent or not rootPages)) %}
             <li>
                 <div class="page-tree__item">
                     {% if page.parent %}<i class="fa fa-caret-right"></i>{% endif %}
