@@ -53,7 +53,7 @@ EOT
         );
     }
 
-    public function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $helper = $this->getHelper('question');
 

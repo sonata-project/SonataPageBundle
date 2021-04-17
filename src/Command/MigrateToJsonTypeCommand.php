@@ -26,7 +26,7 @@ class MigrateToJsonTypeCommand extends BaseCommand
         $this->setDescription('Migrate all block settings to the doctrine JsonType');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $count = 0;
         $table = $input->getOption('table');

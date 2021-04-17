@@ -46,7 +46,33 @@ HELP
         $this->addOption('extended', null, InputOption::VALUE_NONE, 'Extended information');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output): void
+    /**
+     * @param bool $extended
+     * @param int  $space
+     */
+    public function renderBlock(BlockInterface $block, OutputInterface $output, $extended, $space = 0): void
+    {
+        $output->writeln(sprintf(
+            '%s <comment>> Id: %d - type: %s - name: %s</comment>',
+            str_repeat('  ', $space),
+            $block->getId(),
+            $block->getType(),
+            $block->getName()
+        ));
+
+        if ($extended) {
+            $output->writeln(sprintf('%s page class: <comment>%s</comment>', str_repeat('  ', $space + 1), \get_class($block->getPage())));
+            foreach ($block->getSettings() as $name => $value) {
+                $output->writeln(sprintf('%s %s: %s', str_repeat('  ', $space + 1), $name, var_export($value, 1)));
+            }
+        }
+
+        foreach ($block->getChildren() as $block) {
+            $this->renderBlock($block, $output, $extended, $space + 1);
+        }
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $manager = $this->getContainer()->get($input->getArgument('manager'));
 
@@ -75,31 +101,5 @@ HELP
         }
 
         return 0;
-    }
-
-    /**
-     * @param bool $extended
-     * @param int  $space
-     */
-    public function renderBlock(BlockInterface $block, OutputInterface $output, $extended, $space = 0): void
-    {
-        $output->writeln(sprintf(
-            '%s <comment>> Id: %d - type: %s - name: %s</comment>',
-            str_repeat('  ', $space),
-            $block->getId(),
-            $block->getType(),
-            $block->getName()
-        ));
-
-        if ($extended) {
-            $output->writeln(sprintf('%s page class: <comment>%s</comment>', str_repeat('  ', $space + 1), \get_class($block->getPage())));
-            foreach ($block->getSettings() as $name => $value) {
-                $output->writeln(sprintf('%s %s: %s', str_repeat('  ', $space + 1), $name, var_export($value, 1)));
-            }
-        }
-
-        foreach ($block->getChildren() as $block) {
-            $this->renderBlock($block, $output, $extended, $space + 1);
-        }
     }
 }

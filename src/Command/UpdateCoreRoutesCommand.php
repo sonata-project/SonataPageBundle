@@ -37,7 +37,7 @@ class UpdateCoreRoutesCommand extends BaseCommand
         $this->addOption('base-command', null, InputOption::VALUE_OPTIONAL, 'Site id', 'php app/console');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if ($input->getOption('all')) {
             @trigger_error(

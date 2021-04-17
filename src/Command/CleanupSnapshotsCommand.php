@@ -58,7 +58,7 @@ class CleanupSnapshotsCommand extends BaseCommand
         }
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         foreach ($this->getSites($input) as $site) {
             if ('all' !== $input->getOption('site')) {

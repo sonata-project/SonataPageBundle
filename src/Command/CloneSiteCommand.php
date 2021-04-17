@@ -58,7 +58,7 @@ final class CloneSiteCommand extends BaseCommand
         }
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if ($input->getOption('only-hybrid')) {
             $output->writeln('Cloning hybrid pages only.');

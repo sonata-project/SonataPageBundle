@@ -37,7 +37,7 @@ final class CreateBlockContainerCommand extends BaseCommand
         $this->setDescription('Creates a block container in all pages for specified template code');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $blockCode = $input->getArgument('blockCode');
 

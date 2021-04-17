@@ -46,7 +46,7 @@ class MigrateBlockNameSettingCommand extends BaseCommand
         $this->setDescription('Migrate the "name" setting of all blocks into a "code" setting and remove unused "orientation" setting on "'.self::CONTAINER_TYPE.'" blocks');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $count = 0;
         $repository = $this->getRepository($input->getOption('class'));

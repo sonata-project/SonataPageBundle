@@ -43,7 +43,7 @@ HELP
         $this->addArgument('block_id', InputArgument::REQUIRED, 'The page id');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $manager = $this->getContainer()->get($input->getArgument('manager'));
 
