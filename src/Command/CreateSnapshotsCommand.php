@@ -47,7 +47,7 @@ class CreateSnapshotsCommand extends BaseCommand
                 $output->writeln(sprintf(' % 5s - % -30s - %s', $site->getId(), $site->getName(), $site->getUrl()));
             }
 
-            return;
+            return 0;
         }
 
         foreach ($this->getSites($input) as $site) {
@@ -74,5 +74,7 @@ class CreateSnapshotsCommand extends BaseCommand
         }
 
         $output->writeln('<info>done!</info>');
+
+        return 0;
     }
 }

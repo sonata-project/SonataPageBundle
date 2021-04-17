@@ -60,9 +60,9 @@ class BlockAdmin extends BaseBlockAdmin
         $this->blocks = $blocks;
     }
 
-    public function getPersistentParameters()
+    protected function configurePersistentParameters(): array
     {
-        $parameters = parent::getPersistentParameters();
+        $parameters = parent::configurePersistentParameters();
 
         if (!$this->hasRequest()) {
             return $parameters;
@@ -180,8 +180,7 @@ class BlockAdmin extends BaseBlockAdmin
                 ->add('type', ServiceListType::class, ['context' => 'sonata_page_bundle'])
                 ->add('enabled')
                 ->add('position', IntegerType::class)
-                ->end()
-            ;
+                ->end();
         }
     }
 

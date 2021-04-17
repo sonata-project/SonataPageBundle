@@ -6,7 +6,7 @@ sonata_block:
     default_contexts: [sonata_page_bundle]
 
 sonata_page:
-    slugify_service: sonata.core.slugify.cocur
+    slugify_service: sonata.page.slugify.cocur
     multisite: host
     use_streamed_response: false
 

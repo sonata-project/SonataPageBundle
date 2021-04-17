@@ -43,5 +43,7 @@ class MigrateToJsonTypeCommand extends BaseCommand
         }
 
         $output->writeln("Migrated $count blocks");
+
+        return 0;
     }
 }

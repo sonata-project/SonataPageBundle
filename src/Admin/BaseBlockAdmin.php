@@ -53,25 +53,6 @@ abstract class BaseBlockAdmin extends AbstractAdmin
      */
     protected $containerBlockTypes = [];
 
-    public function getObject($id)
-    {
-        $subject = parent::getObject($id);
-
-        if ($subject) {
-            return $this->loadBlockDefaults($subject);
-        }
-
-        return $subject;
-    }
-
-    public function getNewInstance()
-    {
-        $block = parent::getNewInstance();
-        $block->setType($this->getPersistentParameter('type'));
-
-        return $this->loadBlockDefaults($block);
-    }
-
     /**
      * @param BaseBlock $object
      */
@@ -217,7 +198,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         $this->containerBlockTypes = $containerBlockTypes;
     }
 
-    public function getPersistentParameters()
+    public function getPersistentParameters(): array
     {
         if (!$this->hasRequest()) {
             return [];
@@ -243,6 +224,29 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         parent::preBatchAction($actionName, $query, $idx, $allElements);
     }
 
+    protected function alterObject(object $object): void
+    {
+        $this->loadBlockDefaults($object);
+    }
+
+    protected function alterNewInstance(object $object): void
+    {
+        $object->setType($this->getPersistentParameter('type'));
+
+        $this->loadBlockDefaults($object);
+    }
+
+    protected function configurePersistentParameters(): array
+    {
+        if (!$this->hasRequest()) {
+            return [];
+        }
+
+        return [
+            'type' => $this->getRequest()->get('type'),
+        ];
+    }
+
     protected function configureRoutes(RouteCollection $collection): void
     {
         $collection->add('view', $this->getRouterIdParameter().'/view');
@@ -255,8 +259,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
             ->add('name')
             ->add('enabled', null, ['editable' => true])
             ->add('updatedAt')
-            ->add('position')
-        ;
+            ->add('position');
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
@@ -264,8 +267,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         $datagridMapper
             ->add('name')
             ->add('enabled')
-            ->add('type')
-        ;
+            ->add('type');
     }
 
     /**

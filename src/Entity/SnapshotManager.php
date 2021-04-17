@@ -120,8 +120,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
         $query = $this->getRepository()
             ->createQueryBuilder('s')
             ->andWhere('s.publicationDateStart <= :publicationDateStart AND ( s.publicationDateEnd IS NULL OR s.publicationDateEnd >= :publicationDateEnd )')
-            ->andWhere('s.enabled = true')
-        ;
+            ->andWhere('s.enabled = true');
 
         if (isset($criteria['site'])) {
             $query->andWhere('s.site = :site');
@@ -336,7 +335,6 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
     final public function createSnapshotPageProxy(TransformerInterface $transformer, SnapshotInterface $snapshot)
     {
         return $this->snapshotPageProxyFactory
-            ->create($this, $transformer, $snapshot)
-        ;
+            ->create($this, $transformer, $snapshot);
     }
 }

@@ -50,7 +50,6 @@ file that was distributed with this source code.
         {% block sonata_page_top_bar %}
             {% block page_top_bar %} {# Deprecated block #}
                 {% if sonata_page.isEditor or ( app.user and is_granted('ROLE_PREVIOUS_ADMIN') ) %}
-
                     <header class="sonata-bc sonata-page-top-bar navbar navbar-inverse navbar-fixed-top" role="banner"
                         <div class="container">
                             <ul class="nav navbar-nav">
@@ -76,12 +75,12 @@ file that was distributed with this source code.
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Page <span class="caret"></span></a>
                                         <ul class="dropdown-menu">
                                             {% if page is defined %}
-                                                <li><a href="{{ sonata_admin.objectUrl('sonata.page.admin.page', 'edit', page) }}" target="_new">{{ "header.edit_page"|trans({}, 'SonataPageBundle') }}</a></li>
-                                                <li><a href="{{ sonata_admin.objectUrl('sonata.page.admin.page|sonata.page.admin.snapshot', 'list', page) }}" target="_new">{{ "header.create_snapshot"|trans({}, 'SonataPageBundle') }}</a></li>
+                                                <li><a href="{{ sonata_page_admin.generateUrl('edit', {(sonata_page_admin.idParameter): page.id}) }}" target="_new">{{ "header.edit_page"|trans({}, 'SonataPageBundle') }}</a></li>
+                                                <li><a href="{{ sonata_page_admin.generateUrl('sonata.page.admin.page|sonata.page.admin.snapshot.list', {(sonata_page_admin.idParameter): page.id}) }}" target="_new">{{ "header.create_snapshot"|trans({}, 'SonataPageBundle') }}</a></li>
                                                 <li class="divider"></li>
                                             {% endif %}
 
-                                            <li><a href="{{ sonata_admin.url('sonata.page.admin.page', 'list') }}" target="_new">{{ "header.view_all_pages"|trans({}, 'SonataPageBundle') }}</a></li>
+                                            <li><a href="{{ sonata_page_admin.generateUrl('list') }}" target="_new">{{ "header.view_all_pages"|trans({}, 'SonataPageBundle') }}</a></li>
 
                                             {% if error_codes is defined and error_codes|length %}
                                                 <li class="divider"></li>
@@ -92,7 +91,7 @@ file that was distributed with this source code.
 
                                     {% if page is defined %}
                                         <li>
-                                            <a href="{{ sonata_admin.url('sonata.page.admin.page', 'compose', {'id': page.id}) }}">
+                                            <a href="{{ sonata_page_admin.generateUrl('compose', {(sonata_page_admin.idParameter): page.id}) }}">
                                                 <i class="fa fa-magic"></i>
                                                 {{ 'header.compose_page'|trans({}, 'SonataPageBundle')}}
                                             </a>
