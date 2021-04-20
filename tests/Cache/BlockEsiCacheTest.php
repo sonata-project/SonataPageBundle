@@ -18,6 +18,8 @@ use Sonata\BlockBundle\Block\BlockContextManagerInterface;
 use Sonata\BlockBundle\Block\BlockRendererInterface;
 use Sonata\Cache\CacheElement;
 use Sonata\PageBundle\Cache\BlockEsiCache;
+use Symfony\Component\HttpKernel\Controller\ArgumentResolverInterface;
+use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 class BlockEsiCacheTest extends TestCase
@@ -35,9 +37,22 @@ class BlockEsiCacheTest extends TestCase
 
         $contextManager = $this->createMock(BlockContextManagerInterface::class);
 
-        $cache = new BlockEsiCache('My Token', [], $router, 'ban', $blockRenderer, $contextManager);
+        $resolver = $this->createMock(ControllerResolverInterface::class);
 
-        $cache->get($keys, 'data');
+        $argumentResolver = $this->createMock(ArgumentResolverInterface::class);
+
+        $cache = new BlockEsiCache(
+            'My Token',
+            [],
+            $router,
+            'ban',
+            $resolver,
+            $argumentResolver,
+            $blockRenderer,
+            $contextManager
+        );
+
+        $cache->get($keys);
     }
 
     public static function getExceptionCacheKeys(): array
@@ -63,7 +78,20 @@ class BlockEsiCacheTest extends TestCase
         $blockRenderer = $this->createMock(BlockRendererInterface::class);
         $contextManager = $this->createMock(BlockContextManagerInterface::class);
 
-        $cache = new BlockEsiCache('My Token', [], $router, 'ban', $blockRenderer, $contextManager);
+        $resolver = $this->createMock(ControllerResolverInterface::class);
+
+        $argumentResolver = $this->createMock(ArgumentResolverInterface::class);
+
+        $cache = new BlockEsiCache(
+            'My Token',
+            [],
+            $router,
+            'ban',
+            $resolver,
+            $argumentResolver,
+            $blockRenderer,
+            $contextManager
+        );
 
         $this->assertTrue($cache->flush([]));
         $this->assertTrue($cache->flushAll());
