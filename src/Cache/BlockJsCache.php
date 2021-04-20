@@ -17,6 +17,7 @@ use Sonata\BlockBundle\Block\BlockContextManagerInterface;
 use Sonata\BlockBundle\Block\BlockRendererInterface;
 use Sonata\Cache\CacheAdapterInterface;
 use Sonata\Cache\CacheElement;
+use Sonata\Cache\CacheElementInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
@@ -56,11 +57,13 @@ class BlockJsCache implements CacheAdapterInterface
      */
     protected $contextManager;
 
-    /**
-     * @param bool $sync
-     */
-    public function __construct(RouterInterface $router, CmsManagerSelectorInterface $cmsSelector, BlockRendererInterface $blockRenderer, BlockContextManagerInterface $contextManager, $sync = false)
-    {
+    public function __construct(
+        RouterInterface $router,
+        CmsManagerSelectorInterface $cmsSelector,
+        BlockRendererInterface $blockRenderer,
+        BlockContextManagerInterface $contextManager,
+        bool $sync = false
+    ) {
         $this->router = $router;
         $this->sync = $sync;
         $this->cmsSelector = $cmsSelector;
@@ -68,39 +71,36 @@ class BlockJsCache implements CacheAdapterInterface
         $this->contextManager = $contextManager;
     }
 
-    public function flushAll()
+    public function flushAll(): bool
     {
         return true;
     }
 
-    public function flush(array $keys = [])
+    public function flush(array $keys = []): bool
     {
         return true;
     }
 
-    public function has(array $keys)
+    public function has(array $keys): bool
     {
         return true;
     }
 
-    public function get(array $keys)
+    public function get(array $keys): CacheElementInterface
     {
         $this->validateKeys($keys);
 
         return new CacheElement($keys, new Response($this->sync ? $this->getSync($keys) : $this->getAsync($keys)));
     }
 
-    public function set(array $keys, $data, $ttl = CacheElement::DAY, array $contextualKeys = [])
+    public function set(array $keys, $data, $ttl = CacheElement::DAY, array $contextualKeys = []): CacheElementInterface
     {
         $this->validateKeys($keys);
 
         return new CacheElement($keys, $data, $ttl, $contextualKeys);
     }
 
-    /**
-     * @return Response
-     */
-    public function cacheAction(Request $request)
+    public function cacheAction(Request $request): Response
     {
         $cms = $this->cmsSelector->retrieve();
 
@@ -147,15 +147,12 @@ class BlockJsCache implements CacheAdapterInterface
         return $response;
     }
 
-    public function isContextual()
+    public function isContextual(): bool
     {
         return false;
     }
 
-    /**
-     * @return string
-     */
-    protected function getSync(array $keys)
+    protected function getSync(array $keys): string
     {
         return sprintf(
             '<div id="block-cms-%s" >
@@ -193,10 +190,7 @@ class BlockJsCache implements CacheAdapterInterface
         );
     }
 
-    /**
-     * @return string
-     */
-    protected function getAsync(array $keys)
+    protected function getAsync(array $keys): string
     {
         return sprintf(
             '<div id="block-cms-%s" >
@@ -222,7 +216,7 @@ class BlockJsCache implements CacheAdapterInterface
     /**
      * @throws \RuntimeException
      */
-    private function validateKeys(array $keys)
+    private function validateKeys(array $keys): void
     {
         foreach (['block_id', 'page_id', 'manager', 'updated_at'] as $key) {
             if (!isset($keys[$key])) {
