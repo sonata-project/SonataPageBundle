@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Admin;
 
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\BlockBundle\Block\BlockServiceInterface;
 use Sonata\BlockBundle\Block\Service\EditableBlockService;
@@ -43,10 +44,8 @@ class SharedBlockAdmin extends BaseBlockAdmin
         return sprintf('%s/%s', parent::getBaseRouteName(), 'shared');
     }
 
-    public function createQuery($context = 'list')
+    protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        $query = parent::createQuery($context);
-
         // Filter on blocks without page and parents
         $rootAlias = current($query->getRootAliases());
         $query->andWhere($query->expr()->isNull($rootAlias.'.page'));
@@ -61,8 +60,7 @@ class SharedBlockAdmin extends BaseBlockAdmin
             ->addIdentifier('name')
             ->add('type')
             ->add('enabled', null, ['editable' => true])
-            ->add('updatedAt')
-        ;
+            ->add('updatedAt');
     }
 
     protected function configureFormFields(FormMapper $formMapper)
@@ -71,7 +69,7 @@ class SharedBlockAdmin extends BaseBlockAdmin
         $block = $this->getSubject();
 
         // New block
-        if (null === $block->getId()) {
+        if (null === $block->getId() && $this->hasRequest()) {
             $block->setType($this->request->get('type'));
         }
 
@@ -90,12 +88,18 @@ class SharedBlockAdmin extends BaseBlockAdmin
 
     private function configureBlockFields(FormMapper $formMapper, BlockInterface $block): void
     {
+        $blockType = $block->getType();
+
+        if (null === $blockType || !$this->blockManager->has($blockType)) {
+            return;
+        }
+
         $service = $this->blockManager->get($block);
 
         if (!$service instanceof BlockServiceInterface) {
             throw new \RuntimeException(sprintf(
                 'The block "%s" is not a valid %s',
-                $block->getType(),
+                $blockType,
                 BlockServiceInterface::class
             ));
         }

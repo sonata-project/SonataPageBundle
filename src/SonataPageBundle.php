@@ -71,12 +71,12 @@ class SonataPageBundle extends Bundle
             } else {
                 @trigger_error(
                     'The "sonata.core.slugify.native" service is deprecated since 2.3.9, to be removed in 4.0. '.
-                    'Use "sonata.core.slugify.cocur" service through config instead.',
+                    'Use "sonata.page.slugify.cocur" service through config instead.',
                     \E_USER_DEPRECATED
                 );
 
-                // default BC value, you should use sonata.core.slugify.cocur
-                $id = 'sonata.core.slugify.native';
+                // default BC value, you should use sonata.page.slugify.cocur
+                $id = 'sonata.page.slugify.cocur';
             }
 
             $service = $container->get($id);

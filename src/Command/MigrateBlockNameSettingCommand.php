@@ -88,6 +88,8 @@ class MigrateBlockNameSettingCommand extends BaseCommand
         $this->getEntityManager()->flush();
 
         $output->writeln("<info>Migrated $count blocks</info>");
+
+        return 0;
     }
 
     /**

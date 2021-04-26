@@ -98,7 +98,7 @@ SonataPageBundle Configuration
     # config/packages/sonata_page.yaml
 
     sonata_page:
-        slugify_service: sonata.core.slugify.cocur # old BC value is sonata.core.slugify.native
+        slugify_service: sonata.page.slugify.cocur # old BC value is sonata.core.slugify.native
         multisite: host
         use_streamed_response: true # set the value to false in debug mode or if the reverse proxy does not handle streamed response
         ignore_route_patterns:

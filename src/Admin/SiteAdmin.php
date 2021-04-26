@@ -69,8 +69,7 @@ class SiteAdmin extends AbstractAdmin
             ->add('enabledTo')
             ->add('title')
             ->add('metaDescription')
-            ->add('metaKeywords')
-        ;
+            ->add('metaKeywords');
     }
 
     protected function configureListFields(ListMapper $listMapper)
@@ -84,15 +83,13 @@ class SiteAdmin extends AbstractAdmin
             ->add('locale')
             ->add('enabledFrom')
             ->add('enabledTo')
-            ->add('create_snapshots', 'string', ['template' => '@SonataPage/SiteAdmin/list_create_snapshots.html.twig'])
-        ;
+            ->add('create_snapshots', 'string', ['template' => '@SonataPage/SiteAdmin/list_create_snapshots.html.twig']);
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('name')
-        ;
+            ->add('name');
     }
 
     protected function configureFormFields(FormMapper $formMapper)
@@ -116,8 +113,7 @@ class SiteAdmin extends AbstractAdmin
                 ->add('title', null, ['required' => false])
                 ->add('metaDescription', TextareaType::class, ['required' => false])
                 ->add('metaKeywords', TextareaType::class, ['required' => false])
-            ->end()
-        ;
+            ->end();
     }
 
     protected function configureRoutes(RouteCollection $collection)

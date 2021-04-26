@@ -179,6 +179,8 @@ final class CloneSiteCommand extends BaseCommand
         }
 
         $output->writeln('<info>done!</info>');
+
+        return 0;
     }
 
     /**

@@ -2,6 +2,32 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.22.0](https://github.com/sonata-project/SonataPageBundle/compare/3.21.1...3.22.0) - 2021-04-19
+### Added
+- [[#1293](https://github.com/sonata-project/SonataPageBundle/pull/1293)] Added `CreateSnapshotAdminExtension::postRemove()` method in order to create a snapshot when a block is deleted. ([@gremo](https://github.com/gremo))
+- [[#1297](https://github.com/sonata-project/SonataPageBundle/pull/1297)] Added `sonata_page_admin` Twig global variable which holds `sonata.page.admin.page` service ([@franmomu](https://github.com/franmomu))
+
+### Fixed
+- [[#1296](https://github.com/sonata-project/SonataPageBundle/pull/1296)] Fixed using deprecated Twig tags ([@franmomu](https://github.com/franmomu))
+- [[#1296](https://github.com/sonata-project/SonataPageBundle/pull/1296)] Fixed references to deprecated `sonata.core.slugify.cocur` and changed them to `sonata.page.slugify.cocur` ([@franmomu](https://github.com/franmomu))
+- [[#1295](https://github.com/sonata-project/SonataPageBundle/pull/1295)] Fixed deprecations using commands because of not returning `int` ([@franmomu](https://github.com/franmomu))
+
+### Removed
+- [[#1297](https://github.com/sonata-project/SonataPageBundle/pull/1297)] Removed deprecations from `sonata-project/admin-bundle` using `sonata_admin` Twig global variable ([@franmomu](https://github.com/franmomu))
+- [[#1284](https://github.com/sonata-project/SonataPageBundle/pull/1284)] Remove admin deprecations ([@core23](https://github.com/core23))
+
+## [3.21.1](https://github.com/sonata-project/SonataPageBundle/compare/3.21.0...3.21.1) - 2021-03-21
+### Fixed
+- [[#1283](https://github.com/sonata-project/SonataPageBundle/pull/1283)] Catch null errors when accessing request ([@core23](https://github.com/core23))
+- [[#1283](https://github.com/sonata-project/SonataPageBundle/pull/1283)] Catch null errors when loading unknown block ([@core23](https://github.com/core23))
+
+## [3.21.0](https://github.com/sonata-project/SonataPageBundle/compare/3.20.0...3.21.0) - 2021-02-15
+### Added
+- [[#1250](https://github.com/sonata-project/SonataPageBundle/pull/1250)] Added support for `doctrine/persistence` 2 ([@core23](https://github.com/core23))
+
+### Changed
+- [[#1230](https://github.com/sonata-project/SonataPageBundle/pull/1230)] Update Dutch translations ([@zghosts](https://github.com/zghosts))
+
 ## [3.20.0](https://github.com/sonata-project/SonataPageBundle/compare/3.19.0...3.20.0) - 2020-12-05
 ### Added
 - [[#1202](https://github.com/sonata-project/SonataPageBundle/pull/1202)] Support for sonata-project/datagrid-bundle v3 ([@wbloszyk](https://github.com/wbloszyk))

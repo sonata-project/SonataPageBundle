@@ -53,25 +53,6 @@ abstract class BaseBlockAdmin extends AbstractAdmin
      */
     protected $containerBlockTypes = [];
 
-    public function getObject($id)
-    {
-        $subject = parent::getObject($id);
-
-        if ($subject) {
-            return $this->loadBlockDefaults($subject);
-        }
-
-        return $subject;
-    }
-
-    public function getNewInstance()
-    {
-        $block = parent::getNewInstance();
-        $block->setType($this->getPersistentParameter('type'));
-
-        return $this->loadBlockDefaults($block);
-    }
-
     /**
      * @param BaseBlock $object
      */
@@ -217,17 +198,6 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         $this->containerBlockTypes = $containerBlockTypes;
     }
 
-    public function getPersistentParameters()
-    {
-        if (!$this->hasRequest()) {
-            return [];
-        }
-
-        return [
-            'type' => $this->getRequest()->get('type'),
-        ];
-    }
-
     public function preBatchAction($actionName, ProxyQueryInterface $query, array &$idx, $allElements)
     {
         $parent = $this->getParent();
@@ -243,6 +213,29 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         parent::preBatchAction($actionName, $query, $idx, $allElements);
     }
 
+    protected function alterObject(object $object): void
+    {
+        $this->loadBlockDefaults($object);
+    }
+
+    protected function alterNewInstance(object $object): void
+    {
+        $object->setType($this->getPersistentParameter('type'));
+
+        $this->loadBlockDefaults($object);
+    }
+
+    protected function configurePersistentParameters(): array
+    {
+        if (!$this->hasRequest()) {
+            return [];
+        }
+
+        return [
+            'type' => $this->getRequest()->get('type'),
+        ];
+    }
+
     protected function configureRoutes(RouteCollection $collection)
     {
         $collection->add('view', $this->getRouterIdParameter().'/view');
@@ -255,8 +248,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
             ->add('name')
             ->add('enabled', null, ['editable' => true])
             ->add('updatedAt')
-            ->add('position')
-        ;
+            ->add('position');
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
@@ -264,8 +256,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         $datagridMapper
             ->add('name')
             ->add('enabled')
-            ->add('type')
-        ;
+            ->add('type');
     }
 
     /**
@@ -273,6 +264,12 @@ abstract class BaseBlockAdmin extends AbstractAdmin
      */
     private function loadBlockDefaults(BlockInterface $block)
     {
+        $blockType = $block->getType();
+
+        if (null === $blockType || !$this->blockManager->has($blockType)) {
+            return $block;
+        }
+
         $service = $this->blockManager->get($block);
 
         $resolver = new OptionsResolver();

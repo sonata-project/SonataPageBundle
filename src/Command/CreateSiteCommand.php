@@ -126,5 +126,7 @@ INFO
         } else {
             $output->writeln('<error>Site creation cancelled !</error>');
         }
+
+        return 0;
     }
 }
