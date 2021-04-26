@@ -16,6 +16,13 @@ Render a page url
 
     {{ url(page, {}, true) }} => //sonata-project.org/network/path/to/url
 
+.. note::
+
+    In case you need to use a page's router in twig files, you can use ``pageAlias`` e.g:
+      ``{{ path('_page_alias_your_page') }}``.
+
+    You will find this field in your sonata page admin, the ``pageAlias`` is named of ``Technical Alias``.
+
 Render a block url to render it in AJAX (given we have a block id = 1 used on a page id = 2)
 
 .. code-block:: jinja
