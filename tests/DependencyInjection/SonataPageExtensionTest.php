@@ -35,6 +35,7 @@ class SonataPageExtensionTest extends AbstractExtensionTestCase
             'FOSRestBundle' => true,
             'NelmioApiDocBundle' => true,
             'SonataDoctrineBundle' => true,
+            'JMSSerializerBundle' => true
         ]);
         $this->load();
         $this->assertContainerBuilderHasService('sonata.page.serializer.handler.page');
