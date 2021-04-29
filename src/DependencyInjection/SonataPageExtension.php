@@ -67,7 +67,7 @@ class SonataPageExtension extends Extension implements PrependExtensionInterface
             'getRequestContext',
         ]);
 
-        if (isset($bundles['FOSRestBundle'], $bundles['NelmioApiDocBundle'])) {
+        if (isset($bundles['FOSRestBundle'], $bundles['NelmioApiDocBundle'], $bundles['JMSSerializerBundle'])) {
             $loader->load('serializer.xml');
 
             $loader->load('api_controllers.xml');
