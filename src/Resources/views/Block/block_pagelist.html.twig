@@ -22,7 +22,7 @@
 
             <div class="list-group">
                 {% for page in elements %}
-                    {% if settings.mode == 'admin' %}
+                    {% if settings.mode == 'admin' and sonata_page_admin is defined %}
                         <a href="{{ sonata_page_admin.generateObjectUrl('compose', page) }}" class="list-group-item">
                             {% if page.enabled %}
                                 <span class="label label-success pull-right">{{ 'label_page_enabled'|trans({}, 'SonataPageBundle') }}</span>
@@ -41,7 +41,7 @@
                 {% endfor %}
             </div>
 
-            {% if settings.mode == 'admin' %}
+            {% if settings.mode == 'admin' and sonata_page_admin is defined %}
                 <h4>{{ 'title_system_pages'|trans({}, 'SonataPageBundle') }}</h4>
                 <div class="list-group">
                     {% for page in systemElements %}
@@ -57,7 +57,7 @@
                 </div>
             {% endif %}
 
-            {% if settings.mode == 'admin' %}
+            {% if settings.mode == 'admin' and sonata_page_admin is defined %}
                 <a href="{{ sonata_page_admin.generateUrl('list', {filter:{hybrid:{value:'cms' }}}) }}" class="btn btn-primary btn-block">
                     <i class="fa fa-list"></i> {{ 'view_all_pages'|trans({}, 'SonataPageBundle') }}
                 </a>
