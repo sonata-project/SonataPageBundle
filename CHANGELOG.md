@@ -3,9 +3,6 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [3.22.1](https://github.com/sonata-project/SonataPageBundle/compare/3.22.0...3.22.1) - 2021-05-18
-### Added
-- [[#1309](https://github.com/sonata-project/SonataPageBundle/pull/1309)] Added  `Technical Alias` example in the doc ([@eerison](https://github.com/eerison))
-
 ### Fixed
 - [[#1305](https://github.com/sonata-project/SonataPageBundle/pull/1305)] Do not load `api_form.xml` if `JMSSerializerBundle` is not installed ([@4c0n](https://github.com/4c0n))
 - [[#1306](https://github.com/sonata-project/SonataPageBundle/pull/1306)] Added missing Dutch translation value. ([@4c0n](https://github.com/4c0n))
