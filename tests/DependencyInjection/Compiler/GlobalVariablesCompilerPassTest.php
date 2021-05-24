@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\DependencyInjection\Compiler;
 
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
+use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\PageBundle\DependencyInjection\Compiler\GlobalVariablesCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -36,6 +37,19 @@ final class GlobalVariablesCompilerPassTest extends AbstractCompilerPassTestCase
             'addGlobal',
             ['sonata_page', new Reference('sonata.page.twig.global')]
         );
+    }
+
+    public function testLoadsPageAdminTwigGlobalVariables(): void
+    {
+        $twigDefinition = new Definition(Environment::class);
+
+        $this->container
+            ->setDefinition('twig', $twigDefinition);
+
+        $this->container
+            ->register('sonata.page.admin.page', $this->createStub(AdminInterface::class));
+
+        $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
             'twig',
