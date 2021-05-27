@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.22.2](https://github.com/sonata-project/SonataPageBundle/compare/3.22.1...3.22.2) - 2021-05-26
+### Fixed
+- [[#1310](https://github.com/sonata-project/SonataPageBundle/pull/1310)] Fixed creating `sonata_page_admin` twig variable only when `SonataAdminBundle` is loaded. ([@franmomu](https://github.com/franmomu))
+
 ## [3.22.1](https://github.com/sonata-project/SonataPageBundle/compare/3.22.0...3.22.1) - 2021-05-18
 ### Fixed
 - [[#1305](https://github.com/sonata-project/SonataPageBundle/pull/1305)] Do not load `api_form.xml` if `JMSSerializerBundle` is not installed ([@4c0n](https://github.com/4c0n))
