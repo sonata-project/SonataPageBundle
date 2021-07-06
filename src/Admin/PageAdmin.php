@@ -22,6 +22,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\Cache\CacheManagerInterface;
+use Sonata\DoctrineORMAdminBundle\Filter\CallbackFilter;
 use Sonata\PageBundle\Exception\InternalErrorException;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Form\Type\PageSelectorType;
@@ -100,40 +101,6 @@ class PageAdmin extends AbstractAdmin
         $this->pageManager = $pageManager;
     }
 
-    public function getNewInstance()
-    {
-        $instance = parent::getNewInstance();
-
-        if (!$this->hasRequest()) {
-            return $instance;
-        }
-
-        if ($site = $this->getSite()) {
-            $instance->setSite($site);
-        }
-
-        if ($site && $this->getRequest()->get('url')) {
-            $slugs = explode('/', $this->getRequest()->get('url'));
-            $slug = array_pop($slugs);
-
-            try {
-                $parent = $this->pageManager->getPageByUrl($site, implode('/', $slugs));
-            } catch (PageNotFoundException $e) {
-                try {
-                    $parent = $this->pageManager->getPageByUrl($site, '/');
-                } catch (PageNotFoundException $e) {
-                    throw new InternalErrorException('Unable to find the root url, please create a route with url = /');
-                }
-            }
-
-            $instance->setSlug(urldecode($slug));
-            $instance->setParent($parent ?: null);
-            $instance->setName(urldecode($slug));
-        }
-
-        return $instance;
-    }
-
     /**
      * @throws \RuntimeException
      *
@@ -198,10 +165,44 @@ class PageAdmin extends AbstractAdmin
         $this->cacheManager = $cacheManager;
     }
 
-    public function getPersistentParameters()
+    protected function alterNewInstance(object $object): void
     {
-        $parameters = parent::getPersistentParameters();
+        if (!$this->hasRequest()) {
+            return;
+        }
+
+        if ($site = $this->getSite()) {
+            $object->setSite($site);
+        }
+
+        if ($site && $this->getRequest()->get('url')) {
+            $slugs = explode('/', $this->getRequest()->get('url'));
+            $slug = array_pop($slugs);
+
+            try {
+                $parent = $this->pageManager->getPageByUrl($site, implode('/', $slugs));
+            } catch (PageNotFoundException $e) {
+                try {
+                    $parent = $this->pageManager->getPageByUrl($site, '/');
+                } catch (PageNotFoundException $e) {
+                    throw new InternalErrorException('Unable to find the root url, please create a route with url = /');
+                }
+            }
+
+            $object->setSlug(urldecode($slug));
+            $object->setParent($parent ?: null);
+            $object->setName(urldecode($slug));
+        }
+    }
+
+    protected function configurePersistentParameters(): array
+    {
+        $parameters = [];
         $key = sprintf('%s.current_site', $this->getCode());
+
+        if (!$this->hasRequest()) {
+            return $parameters;
+        }
 
         if ($site = $this->request->get('site', null)) {
             $this->request->getSession()->set($key, $site);
@@ -226,8 +227,7 @@ class PageAdmin extends AbstractAdmin
             ->add('name')
             ->add('slug')
             ->add('customUrl')
-            ->add('edited')
-        ;
+            ->add('edited');
     }
 
     protected function configureListFields(ListMapper $listMapper)
@@ -242,8 +242,7 @@ class PageAdmin extends AbstractAdmin
             ])
             ->add('decorate', null, ['editable' => true])
             ->add('enabled', null, ['editable' => true])
-            ->add('edited', null, ['editable' => true])
-        ;
+            ->add('edited', null, ['editable' => true]);
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
@@ -255,7 +254,7 @@ class PageAdmin extends AbstractAdmin
             ->add('pageAlias')
             ->add('parent')
             ->add('edited')
-            ->add('hybrid', 'doctrine_orm_callback', [
+            ->add('hybrid', CallbackFilter::class, [
                 'callback' => static function ($queryBuilder, $alias, $field, $data) {
                     if (\in_array($data['value'], ['hybrid', 'cms'], true)) {
                         $queryBuilder->andWhere(sprintf('%s.routeName %s :routeName', $alias, 'cms' === $data['value'] ? '=' : '!='));
@@ -271,8 +270,7 @@ class PageAdmin extends AbstractAdmin
                     'choice_translation_domain' => false,
                 ],
                 'field_type' => ChoiceType::class,
-            ])
-        ;
+            ]);
     }
 
     protected function configureFormFields(FormMapper $formMapper)
@@ -281,23 +279,22 @@ class PageAdmin extends AbstractAdmin
         $formMapper
              ->with('form_page.group_main_label', ['class' => 'col-md-6'])->end()
              ->with('form_page.group_seo_label', ['class' => 'col-md-6'])->end()
-             ->with('form_page.group_advanced_label', ['class' => 'col-md-6'])->end()
-        ;
+             ->with('form_page.group_advanced_label', ['class' => 'col-md-6'])->end();
 
-        if (!$this->getSubject() || (!$this->getSubject()->isInternal() && !$this->getSubject()->isError())) {
+        $page = $this->hasSubject() ? $this->getSubject() : null;
+
+        if (null === $page || (!$page->isInternal() && !$page->isError())) {
             $formMapper
                 ->with('form_page.group_main_label')
                     ->add('url', TextType::class, ['attr' => ['readonly' => true]])
-                ->end()
-            ;
+                ->end();
         }
 
-        if ($this->hasSubject() && !$this->getSubject()->getId()) {
+        if (null !== $page && null === $page->getId()) {
             $formMapper
                 ->with('form_page.group_main_label')
                     ->add('site', null, ['required' => true, 'attr' => ['readonly' => true]])
-                ->end()
-            ;
+                ->end();
         }
 
         $formMapper
@@ -305,29 +302,26 @@ class PageAdmin extends AbstractAdmin
                 ->add('name')
                 ->add('enabled', null, ['required' => false])
                 ->add('position')
-            ->end()
-        ;
+            ->end();
 
-        if ($this->hasSubject() && !$this->getSubject()->isInternal()) {
+        if (null !== $page && !$page->isInternal()) {
             $formMapper
                 ->with('form_page.group_main_label')
                     ->add('type', PageTypeChoiceType::class, ['required' => false])
-                ->end()
-            ;
+                ->end();
         }
 
         $formMapper
             ->with('form_page.group_main_label')
                 ->add('templateCode', TemplateChoiceType::class, ['required' => true])
-            ->end()
-        ;
+            ->end();
 
-        if (!$this->getSubject() || ($this->getSubject() && $this->getSubject()->getParent()) || ($this->getSubject() && !$this->getSubject()->getId())) {
+        if (null === $page || ($page && $page->getParent()) || ($page && null === $page->getId())) {
             $formMapper
                 ->with('form_page.group_main_label')
                     ->add('parent', PageSelectorType::class, [
-                        'page' => $this->getSubject() ?: null,
-                        'site' => $this->getSubject() ? $this->getSubject()->getSite() : null,
+                        'page' => $page ?: null,
+                        'site' => $page ? $page->getSite() : null,
                         'model_manager' => $this->getModelManager(),
                         'class' => $this->getClass(),
                         'required' => false,
@@ -335,20 +329,19 @@ class PageAdmin extends AbstractAdmin
                     ], [
                         'admin_code' => $this->getCode(),
                         'link_parameters' => [
-                            'siteId' => $this->getSubject() ? $this->getSubject()->getSite()->getId() : null,
+                            'siteId' => $page && $page->getSite() ? $page->getSite()->getId() : null,
                         ],
                     ])
-                ->end()
-            ;
+                ->end();
         }
 
-        if (!$this->getSubject() || !$this->getSubject()->isDynamic()) {
+        if (null === $page || !$page->isDynamic()) {
             $formMapper
                 ->with('form_page.group_main_label')
                     ->add('pageAlias', null, ['required' => false])
                     ->add('parent', PageSelectorType::class, [
-                        'page' => $this->getSubject() ?: null,
-                        'site' => $this->getSubject() ? $this->getSubject()->getSite() : null,
+                        'page' => $page ?: null,
+                        'site' => $page ? $page->getSite() : null,
                         'model_manager' => $this->getModelManager(),
                         'class' => $this->getClass(),
                         'filter_choice' => ['request_method' => 'all'],
@@ -356,20 +349,18 @@ class PageAdmin extends AbstractAdmin
                     ], [
                         'admin_code' => $this->getCode(),
                         'link_parameters' => [
-                            'siteId' => $this->getSubject() ? $this->getSubject()->getSite()->getId() : null,
+                            'siteId' => null !== $page && null !== $page->getSite() ? $page->getSite()->getId() : null,
                         ],
                     ])
-                ->end()
-            ;
+                ->end();
         }
 
-        if (!$this->getSubject() || !$this->getSubject()->isHybrid()) {
+        if (null === $page || !$page->isHybrid()) {
             $formMapper
                 ->with('form_page.group_seo_label')
                     ->add('slug', TextType::class, ['required' => false])
                     ->add('customUrl', TextType::class, ['required' => false])
-                ->end()
-            ;
+                ->end();
         }
 
         $formMapper
@@ -377,15 +368,13 @@ class PageAdmin extends AbstractAdmin
                 ->add('title', null, ['required' => false])
                 ->add('metaKeyword', TextareaType::class, ['required' => false])
                 ->add('metaDescription', TextareaType::class, ['required' => false])
-            ->end()
-        ;
+            ->end();
 
-        if ($this->hasSubject() && !$this->getSubject()->isCms()) {
+        if (null !== $page && !$page->isCms()) {
             $formMapper
                 ->with('form_page.group_advanced_label', ['collapsed' => true])
                     ->add('decorate', null, ['required' => false])
-                ->end()
-            ;
+                ->end();
         }
 
         $formMapper
@@ -393,8 +382,7 @@ class PageAdmin extends AbstractAdmin
                 ->add('javascript', null, ['required' => false])
                 ->add('stylesheet', null, ['required' => false])
                 ->add('rawHeaders', null, ['required' => false])
-            ->end()
-        ;
+            ->end();
 
         $formMapper->setHelps([
             'name' => 'help_page_name',
@@ -404,6 +392,10 @@ class PageAdmin extends AbstractAdmin
     protected function configureTabMenu(MenuItemInterface $menu, $action, ?AdminInterface $childAdmin = null)
     {
         if (!$childAdmin && !\in_array($action, ['edit'], true)) {
+            return;
+        }
+
+        if (!$this->hasRequest()) {
             return;
         }
 

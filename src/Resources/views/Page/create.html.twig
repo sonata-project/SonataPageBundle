@@ -18,7 +18,7 @@ file that was distributed with this source code.
 
         {% if creatable %}
             <p>
-                <a href="{{ sonata_admin.url('sonata.page.admin.page', 'create', {'url': pathInfo, 'siteId': site.id}) }}"
+                <a href="{{ sonata_page_admin.generateUrl('create', {'url': pathInfo, 'siteId': site.id}) }}"
                    class="btn btn-primary"
                 >
                     <i class="fa fa-plus" aria-hidden="true"></i>

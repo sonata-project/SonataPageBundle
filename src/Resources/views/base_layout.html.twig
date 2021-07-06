@@ -50,15 +50,21 @@ file that was distributed with this source code.
         {% block sonata_page_top_bar %}
             {% block page_top_bar %} {# Deprecated block #}
                 {% if sonata_page.isEditor or ( app.user and is_granted('ROLE_PREVIOUS_ADMIN') ) %}
-
+                    {#
+                        The "page" variable is an instance of SnapshotPageProxy and cannot be used in admin service calls
+                        which expect an instance of the Page model.
+                    #}
                     {% if sonata_page.isEditor and sonata_page.isInlineEditionOn %}
                         <!-- CMS specific variables -->
                         <script>
                             jQuery(document).ready(function() {
                                 Sonata.Page.init({
                                     url: {
-                                        block_save_position: '{{ sonata_admin.objectUrl('sonata.page.admin.page', 'edit', page) }}',
-                                        block_edit:          '{{ sonata_admin.url('sonata.page.admin.page|sonata.page.admin.block', 'edit', {'id': 'BLOCK_ID'}) }}'
+                                        block_save_position: '{{ sonata_page_admin.generateUrl('edit', {(sonata_page_admin.idParameter): page.id}) }}',
+                                        block_edit:          '{{ sonata_page_admin.generateUrl('sonata.page.admin.page|sonata.page.admin.block.edit', {
+                                            (sonata_page_admin.idParameter): page.id,
+                                            (sonata_page_admin.getChild('sonata.page.admin.block').idParameter): 'BLOCK_ID'
+                                        }) }}
                                     }
                                 });
                             });
@@ -69,8 +75,11 @@ file that was distributed with this source code.
                     {% if sonata_page.isEditor and sonata_page.isInlineEditionOn %}
                         data-page-editor='{{ {
                             url: {
-                                block_save_position: sonata_admin.objectUrl('sonata.page.admin.page', 'edit', page),
-                                block_edit:          sonata_admin.url('sonata.page.admin.page|sonata.page.admin.block', 'edit', {'id': 'BLOCK_ID'})
+                                block_save_position: sonata_page_admin.generateUrl('edit', {(sonata_page_admin.idParameter): page.id}),
+                                block_edit:          sonata_page_admin.generateUrl('sonata.page.admin.page|sonata.page.admin.block.edit', {
+                                    (sonata_page_admin.idParameter): page.id,
+                                    (sonata_page_admin.getChild('sonata.page.admin.block').idParameter): 'BLOCK_ID'
+                                })
                             }
                         }|json_encode()|raw }}'
                     {% endif %}>
@@ -98,12 +107,12 @@ file that was distributed with this source code.
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Page <span class="caret"></span></a>
                                         <ul class="dropdown-menu">
                                             {% if page is defined %}
-                                                <li><a href="{{ sonata_admin.objectUrl('sonata.page.admin.page', 'edit', page) }}" target="_new">{{ "header.edit_page"|trans({}, 'SonataPageBundle') }}</a></li>
-                                                <li><a href="{{ sonata_admin.objectUrl('sonata.page.admin.page|sonata.page.admin.snapshot', 'list', page) }}" target="_new">{{ "header.create_snapshot"|trans({}, 'SonataPageBundle') }}</a></li>
+                                                <li><a href="{{ sonata_page_admin.generateUrl('edit', {(sonata_page_admin.idParameter): page.id}) }}" target="_new">{{ "header.edit_page"|trans({}, 'SonataPageBundle') }}</a></li>
+                                                <li><a href="{{ sonata_page_admin.generateUrl('sonata.page.admin.page|sonata.page.admin.snapshot.list', {(sonata_page_admin.idParameter): page.id}) }}" target="_new">{{ "header.create_snapshot"|trans({}, 'SonataPageBundle') }}</a></li>
                                                 <li class="divider"></li>
                                             {% endif %}
 
-                                            <li><a href="{{ sonata_admin.url('sonata.page.admin.page', 'list') }}" target="_new">{{ "header.view_all_pages"|trans({}, 'SonataPageBundle') }}</a></li>
+                                            <li><a href="{{ sonata_page_admin.generateUrl('list') }}" target="_new">{{ "header.view_all_pages"|trans({}, 'SonataPageBundle') }}</a></li>
 
                                             {% if error_codes is defined and error_codes|length %}
                                                 <li class="divider"></li>
@@ -114,7 +123,7 @@ file that was distributed with this source code.
 
                                     {% if page is defined %}
                                         <li>
-                                            <a href="{{ sonata_admin.url('sonata.page.admin.page', 'compose', {'id': page.id}) }}">
+                                            <a href="{{ sonata_page_admin.generateUrl('compose', {(sonata_page_admin.idParameter): page.id}) }}">
                                                 <i class="fa fa-magic"></i>
                                                 {{ 'header.compose_page'|trans({}, 'SonataPageBundle')}}
                                             </a>

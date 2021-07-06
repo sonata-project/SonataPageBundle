@@ -70,6 +70,8 @@ final class CreateBlockContainerCommand extends BaseCommand
         ));
 
         $output->writeln('<info>done!</info>');
+
+        return 0;
     }
 
     /**

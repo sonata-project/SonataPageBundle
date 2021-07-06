@@ -53,7 +53,7 @@ class PageExtension extends AbstractExtension implements InitRuntimeInterface
     private $resources;
 
     /**
-     * @var \Twig_Environment
+     * @var Environment
      */
     private $environment;
 
