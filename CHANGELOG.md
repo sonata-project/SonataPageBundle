@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.22.3](https://github.com/sonata-project/SonataPageBundle/compare/3.22.2...3.22.3) - 2021-07-14
+### Fixed
+- [[#1275](https://github.com/sonata-project/SonataPageBundle/pull/1275)] Ignore metadata setup on SiteSelector, not whole site detection. ([@BadPixxel](https://github.com/BadPixxel))
+
 ## [3.22.2](https://github.com/sonata-project/SonataPageBundle/compare/3.22.1...3.22.2) - 2021-05-26
 ### Fixed
 - [[#1310](https://github.com/sonata-project/SonataPageBundle/pull/1310)] Fixed creating `sonata_page_admin` twig variable only when `SonataAdminBundle` is loaded. ([@franmomu](https://github.com/franmomu))
