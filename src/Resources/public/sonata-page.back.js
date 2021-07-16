@@ -408,6 +408,9 @@
                     url:  formAction + '&' + $.param({'composer': 1}),
                     data: $form.serialize(),
                     type: formMethod,
+                    headers: {
+                        Accept: 'text/html, application/xhtml+xml;'
+                    },
                     success: function (resp) {
                         if (resp.result && resp.result === 'ok' && resp.objectId) {
                             var createdEvent = $.Event('blockcreated');
