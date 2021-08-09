@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-    <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
-        <header/>
-        <body>
-            <trans-unit id="error.uniq_url" resname="error.uniq_url">
-                <source>error.uniq_url</source>
-                <target>The URL '%url%' is already associated with another page.</target>
-            </trans-unit>
-            <trans-unit id="error.uniq_url.parent_unselect" resname="error.uniq_url.parent_unselect">
-                <source>error.uniq_url.parent_unselect</source>
-                <target>The root URL '/' is already associated with another page of this site, please select a parent.
+  <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+    <header/>
+    <body>
+      <trans-unit id="error.uniq_url" resname="error.uniq_url">
+        <source>error.uniq_url</source>
+        <target>The URL '%url%' is already associated with another page.</target>
+      </trans-unit>
+      <trans-unit id="error.uniq_url.parent_unselect" resname="error.uniq_url.parent_unselect">
+        <source>error.uniq_url.parent_unselect</source>
+        <target>The root URL '/' is already associated with another page of this site, please select a parent.
                 </target>
-            </trans-unit>
-        </body>
-    </file>
+      </trans-unit>
+    </body>
+  </file>
 </xliff>
