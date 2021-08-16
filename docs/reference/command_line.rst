@@ -78,4 +78,4 @@ Debug Commands
     bin/console sonata:page:render-block sonata.page.cms.snapshot PAGE_ID BLOCK_ID
     bin/console sonata:page:render-block sonata.page.cms.page PAGE_ID BLOCK_ID
 
-.. _`SonataCacheBundle documentation`: https://sonata-project.org/bundles/cache/master/doc/index.html
+.. _`SonataCacheBundle documentation`: https://docs.sonata-project.org/projects/SonataCacheBundle/en/3.x/
