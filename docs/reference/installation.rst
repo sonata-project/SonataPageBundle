@@ -13,15 +13,15 @@ also some Sonata dependencies that need to be installed and configured beforehan
 
 Required dependencies:
 
-* `SonataAdminBundle <https://sonata-project.org/bundles/admin>`_
-* `SonataBlockBundle_ <https://sonata-project.org/bundles/block>`_
-* `SonataCacheBundle_ <https://sonata-project.org/bundles/cache>`_
-* `SonataSeoBundle_ <https://sonata-project.org/bundles/seo>`_
-* `SonataNotificationBundle_ <https://sonata-project.org/bundles/notification>`_
+* `SonataAdminBundle <https://docs.sonata-project.org/projects/SonataAdminBundle/en/3.x/>`_
+* `SonataBlockBundle_ <https://docs.sonata-project.org/projects/SonataBlockBundle/en/3.x/>`_
+* `SonataCacheBundle_ <https://docs.sonata-project.org/projects/SonataCacheBundle/en/3.x/>`_
+* `SonataSeoBundle_ <https://docs.sonata-project.org/projects/SonataSeoBundle/en/2.x/>`_
+* `SonataNotificationBundle_ <https://docs.sonata-project.org/projects/SonataNotificationBundle/en/3.x/>`_
 
 And the persistence bundle (currently, not all the implementations of the Sonata persistence bundles are available):
 
-* `SonataDoctrineOrmAdminBundle <https://sonata-project.org/bundles/doctrine-orm-admin>`_
+* `SonataDoctrineOrmAdminBundle <https://docs.sonata-project.org/projects/SonataDoctrineORMAdminBundle/en/3.x/>`_
 
 Follow also their configuration step; you will find everything you need in
 their own installation chapter.

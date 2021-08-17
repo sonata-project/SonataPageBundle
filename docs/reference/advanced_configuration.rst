@@ -130,4 +130,4 @@ Full configuration options:
                         mappings:
                             SonataPageBundle: ~
 
-.. _`here`: https://sonata-project.org/bundles/page
+.. _`here`: https://docs.sonata-project.org/projects/SonataPageBundle/en/3.x/
