@@ -16,10 +16,13 @@ namespace Sonata\PageBundle\Cache;
 use Sonata\BlockBundle\Block\BlockContextManagerInterface;
 use Sonata\BlockBundle\Block\BlockRendererInterface;
 use Sonata\Cache\CacheElement;
+use Sonata\Cache\CacheElementInterface;
 use Sonata\CacheBundle\Adapter\SsiCache;
 use Sonata\PageBundle\CmsManager\CmsManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Controller\ArgumentResolverInterface;
+use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -47,20 +50,23 @@ class BlockSsiCache extends SsiCache
      */
     protected $contextManager;
 
-    /**
-     * @param string                       $token
-     * @param BlockContextManagerInterface $contextManager Block Context manager
-     */
-    public function __construct($token, RouterInterface $router, BlockRendererInterface $blockRenderer, BlockContextManagerInterface $contextManager, array $managers = [])
-    {
-        parent::__construct($token, $router, null);
+    public function __construct(
+        string $token,
+        RouterInterface $router,
+        ControllerResolverInterface $resolver,
+        ArgumentResolverInterface $argumentResolver,
+        BlockRendererInterface $blockRenderer,
+        BlockContextManagerInterface $contextManager,
+        array $managers = []
+    ) {
+        parent::__construct($token, $router, $resolver, $argumentResolver);
 
         $this->managers = $managers;
         $this->blockRenderer = $blockRenderer;
         $this->contextManager = $contextManager;
     }
 
-    public function get(array $keys)
+    public function get(array $keys): CacheElementInterface
     {
         $this->validateKeys($keys);
 
@@ -71,7 +77,7 @@ class BlockSsiCache extends SsiCache
         return new CacheElement($keys, new Response($content));
     }
 
-    public function set(array $keys, $data, $ttl = CacheElement::DAY, array $contextualKeys = [])
+    public function set(array $keys, $data, int $ttl = CacheElement::DAY, array $contextualKeys = []): CacheElementInterface
     {
         $this->validateKeys($keys);
 
@@ -105,7 +111,7 @@ class BlockSsiCache extends SsiCache
         return $response;
     }
 
-    protected function computeHash(array $keys)
+    protected function computeHash(array $keys): string
     {
         // values are casted into string for non numeric id
         return hash('sha256', $this->token.serialize([

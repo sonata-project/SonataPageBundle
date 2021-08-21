@@ -1,8 +1,18 @@
 UPGRADE 3.x
 ===========
 
-UPGRADE FROM 3.x to 3.x
-=======================
+UPGRADE FROM 3.22 to 3.23
+=========================
+
+### Sonata Cache-bundle
+
+`SonataCacheBundle` was upgrade from `2.x` to `3.x`. Because of the change in the `CacheAdapterInterface`,
+technically there are few BC-break in this project:
+- `BlockEsiCache` and `BlockSsiCache` constructor signatures have changed.
+- Some methods of `BlockEsiCache`, `BlockJsCache` and `BlockSsiCache` have now return type hints.
+
+If you override any of these class make sure you are explicitly declaring your dependency with
+`sonata-project/cache-bundle` to your `composer.json` in order to avoid unwanted upgrades.
 
 UPGRADE FROM 3.18.0 to 3.19.0
 =============================
