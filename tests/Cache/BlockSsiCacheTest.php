@@ -18,6 +18,8 @@ use Sonata\BlockBundle\Block\BlockContextManagerInterface;
 use Sonata\BlockBundle\Block\BlockRendererInterface;
 use Sonata\Cache\CacheElement;
 use Sonata\PageBundle\Cache\BlockSsiCache;
+use Symfony\Component\HttpKernel\Controller\ArgumentResolverInterface;
+use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 class BlockSsiCacheTest extends TestCase
@@ -30,13 +32,14 @@ class BlockSsiCacheTest extends TestCase
         $this->expectException(\RuntimeException::class);
 
         $router = $this->createMock(RouterInterface::class);
-
+        $resolver = $this->createMock(ControllerResolverInterface::class);
+        $argumentResolver = $this->createMock(ArgumentResolverInterface::class);
         $blockRenderer = $this->createMock(BlockRendererInterface::class);
         $contextManager = $this->createMock(BlockContextManagerInterface::class);
 
-        $cache = new BlockSsiCache('', $router, $blockRenderer, $contextManager);
+        $cache = new BlockSsiCache('', $router, $resolver, $argumentResolver, $blockRenderer, $contextManager);
 
-        $cache->get($keys, 'data');
+        $cache->get($keys);
     }
 
     public static function getExceptionCacheKeys(): array
@@ -59,10 +62,12 @@ class BlockSsiCacheTest extends TestCase
             ->method('generate')
             ->willReturn('/cache/page/esi/XXXXX/page/5/4?updated_at=as');
 
+        $resolver = $this->createMock(ControllerResolverInterface::class);
+        $argumentResolver = $this->createMock(ArgumentResolverInterface::class);
         $blockRenderer = $this->createMock(BlockRendererInterface::class);
         $contextManager = $this->createMock(BlockContextManagerInterface::class);
 
-        $cache = new BlockSsiCache('', $router, $blockRenderer, $contextManager);
+        $cache = new BlockSsiCache('', $router, $resolver, $argumentResolver, $blockRenderer, $contextManager);
 
         $this->assertTrue($cache->flush([]));
         $this->assertTrue($cache->flushAll());

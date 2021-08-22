@@ -17,6 +17,7 @@ use Sonata\BlockBundle\Block\BlockContextManagerInterface;
 use Sonata\BlockBundle\Block\BlockRendererInterface;
 use Sonata\Cache\CacheAdapterInterface;
 use Sonata\Cache\CacheElement;
+use Sonata\Cache\CacheElementInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
@@ -59,8 +60,13 @@ class BlockJsCache implements CacheAdapterInterface
     /**
      * @param bool $sync
      */
-    public function __construct(RouterInterface $router, CmsManagerSelectorInterface $cmsSelector, BlockRendererInterface $blockRenderer, BlockContextManagerInterface $contextManager, $sync = false)
-    {
+    public function __construct(
+        RouterInterface $router,
+        CmsManagerSelectorInterface $cmsSelector,
+        BlockRendererInterface $blockRenderer,
+        BlockContextManagerInterface $contextManager,
+        $sync = false
+    ) {
         $this->router = $router;
         $this->sync = $sync;
         $this->cmsSelector = $cmsSelector;
@@ -68,29 +74,29 @@ class BlockJsCache implements CacheAdapterInterface
         $this->contextManager = $contextManager;
     }
 
-    public function flushAll()
+    public function flushAll(): bool
     {
         return true;
     }
 
-    public function flush(array $keys = [])
+    public function flush(array $keys = []): bool
     {
         return true;
     }
 
-    public function has(array $keys)
+    public function has(array $keys): bool
     {
         return true;
     }
 
-    public function get(array $keys)
+    public function get(array $keys): CacheElementInterface
     {
         $this->validateKeys($keys);
 
         return new CacheElement($keys, new Response($this->sync ? $this->getSync($keys) : $this->getAsync($keys)));
     }
 
-    public function set(array $keys, $data, $ttl = CacheElement::DAY, array $contextualKeys = [])
+    public function set(array $keys, $data, int $ttl = CacheElement::DAY, array $contextualKeys = []): CacheElementInterface
     {
         $this->validateKeys($keys);
 
@@ -147,7 +153,7 @@ class BlockJsCache implements CacheAdapterInterface
         return $response;
     }
 
-    public function isContextual()
+    public function isContextual(): bool
     {
         return false;
     }

@@ -16,11 +16,14 @@ namespace Sonata\PageBundle\Cache;
 use Sonata\BlockBundle\Block\BlockContextManagerInterface;
 use Sonata\BlockBundle\Block\BlockRendererInterface;
 use Sonata\Cache\CacheElement;
+use Sonata\Cache\CacheElementInterface;
 use Sonata\Cache\Invalidation\Recorder;
 use Sonata\CacheBundle\Adapter\VarnishCache;
 use Sonata\PageBundle\CmsManager\CmsManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Controller\ArgumentResolverInterface;
+use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -53,19 +56,19 @@ class BlockEsiCache extends VarnishCache
      */
     protected $recorder;
 
-    /**
-     * @param string                       $token            A token
-     * @param array                        $servers          An array of servers
-     * @param RouterInterface              $router           A router instance
-     * @param string                       $purgeInstruction The purge instruction (purge in Varnish 2, ban in Varnish 3)
-     * @param BlockRendererInterface       $blockRenderer    A block renderer instance
-     * @param BlockContextManagerInterface $contextManager   Block Context manager
-     * @param array                        $managers         An array of managers
-     * @param Recorder                     $recorder         The cache recorder to build the contextual key
-     */
-    public function __construct($token, array $servers, RouterInterface $router, $purgeInstruction, BlockRendererInterface $blockRenderer, BlockContextManagerInterface $contextManager, array $managers = [], ?Recorder $recorder = null)
-    {
-        parent::__construct($token, $servers, $router, $purgeInstruction, null);
+    public function __construct(
+        string $token,
+        array $servers,
+        RouterInterface $router,
+        string $purgeInstruction,
+        ControllerResolverInterface $resolver,
+        ArgumentResolverInterface $argumentResolver,
+        BlockRendererInterface $blockRenderer,
+        BlockContextManagerInterface $contextManager,
+        array $managers = [],
+        ?Recorder $recorder = null
+    ) {
+        parent::__construct($token, $servers, $router, $purgeInstruction, $resolver, $argumentResolver);
 
         $this->blockRenderer = $blockRenderer;
         $this->managers = $managers;
@@ -73,7 +76,7 @@ class BlockEsiCache extends VarnishCache
         $this->recorder = $recorder;
     }
 
-    public function get(array $keys)
+    public function get(array $keys): CacheElementInterface
     {
         $this->validateKeys($keys);
 
@@ -84,7 +87,7 @@ class BlockEsiCache extends VarnishCache
         return new CacheElement($keys, new Response($content));
     }
 
-    public function set(array $keys, $data, $ttl = CacheElement::DAY, array $contextualKeys = [])
+    public function set(array $keys, $data, int $ttl = CacheElement::DAY, array $contextualKeys = []): CacheElementInterface
     {
         $this->validateKeys($keys);
 
@@ -133,7 +136,7 @@ class BlockEsiCache extends VarnishCache
         return $response;
     }
 
-    protected function computeHash(array $keys)
+    protected function computeHash(array $keys): string
     {
         // values are casted into string for non numeric id
         return hash('sha256', $this->token.serialize([
