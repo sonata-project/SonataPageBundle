@@ -56,23 +56,11 @@ class BlockEsiCache extends VarnishCache
      */
     protected $recorder;
 
-    /**
-     * @param string                       $token            A token
-     * @param array                        $servers          An array of servers
-     * @param RouterInterface              $router           A router instance
-     * @param string                       $purgeInstruction The purge instruction (purge in Varnish 2, ban in Varnish 3)
-     * @param ControllerResolverInterface  $resolver         Controller Resolver
-     * @param ArgumentResolverInterface    $argumentResolver Argument Resolver
-     * @param BlockRendererInterface       $blockRenderer    A block renderer instance
-     * @param BlockContextManagerInterface $contextManager   Block Context manager
-     * @param array                        $managers         An array of managers
-     * @param Recorder                     $recorder         The cache recorder to build the contextual key
-     */
     public function __construct(
-        $token,
+        string $token,
         array $servers,
         RouterInterface $router,
-        $purgeInstruction,
+        string $purgeInstruction,
         ControllerResolverInterface $resolver,
         ArgumentResolverInterface $argumentResolver,
         BlockRendererInterface $blockRenderer,
@@ -99,12 +87,8 @@ class BlockEsiCache extends VarnishCache
         return new CacheElement($keys, new Response($content));
     }
 
-    public function set(
-        array $keys,
-        $data,
-        int $ttl = CacheElement::DAY,
-        array $contextualKeys = []
-    ): CacheElementInterface {
+    public function set(array $keys, $data, int $ttl = CacheElement::DAY, array $contextualKeys = []): CacheElementInterface
+    {
         $this->validateKeys($keys);
 
         return new CacheElement($keys, $data, $ttl, $contextualKeys);

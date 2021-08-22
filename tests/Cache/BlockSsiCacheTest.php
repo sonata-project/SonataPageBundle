@@ -32,14 +32,14 @@ class BlockSsiCacheTest extends TestCase
         $this->expectException(\RuntimeException::class);
 
         $router = $this->createMock(RouterInterface::class);
-        $controllerResolver = $this->createMock(ControllerResolverInterface::class);
+        $resolver = $this->createMock(ControllerResolverInterface::class);
         $argumentResolver = $this->createMock(ArgumentResolverInterface::class);
         $blockRenderer = $this->createMock(BlockRendererInterface::class);
         $contextManager = $this->createMock(BlockContextManagerInterface::class);
 
-        $cache = new BlockSsiCache('', $router, $controllerResolver, $argumentResolver, $blockRenderer, $contextManager);
+        $cache = new BlockSsiCache('', $router, $resolver, $argumentResolver, $blockRenderer, $contextManager);
 
-        $cache->get($keys, 'data');
+        $cache->get($keys);
     }
 
     public static function getExceptionCacheKeys(): array
@@ -62,12 +62,12 @@ class BlockSsiCacheTest extends TestCase
             ->method('generate')
             ->willReturn('/cache/page/esi/XXXXX/page/5/4?updated_at=as');
 
-        $controllerResolver = $this->createMock(ControllerResolverInterface::class);
+        $resolver = $this->createMock(ControllerResolverInterface::class);
         $argumentResolver = $this->createMock(ArgumentResolverInterface::class);
         $blockRenderer = $this->createMock(BlockRendererInterface::class);
         $contextManager = $this->createMock(BlockContextManagerInterface::class);
 
-        $cache = new BlockSsiCache('', $router, $controllerResolver, $argumentResolver, $blockRenderer, $contextManager);
+        $cache = new BlockSsiCache('', $router, $resolver, $argumentResolver, $blockRenderer, $contextManager);
 
         $this->assertTrue($cache->flush([]));
         $this->assertTrue($cache->flushAll());

@@ -32,14 +32,23 @@ class BlockEsiCacheTest extends TestCase
         $this->expectException(\RuntimeException::class);
 
         $router = $this->createMock(RouterInterface::class);
-        $controllerResolver = $this->createMock(ControllerResolverInterface::class);
+        $resolver = $this->createMock(ControllerResolverInterface::class);
         $argumentResolver = $this->createMock(ArgumentResolverInterface::class);
         $blockRenderer = $this->createMock(BlockRendererInterface::class);
         $contextManager = $this->createMock(BlockContextManagerInterface::class);
 
-        $cache = new BlockEsiCache('My Token', [], $router, 'ban', $controllerResolver, $argumentResolver, $blockRenderer, $contextManager);
+        $cache = new BlockEsiCache(
+            'My Token',
+            [],
+            $router,
+            'ban',
+            $resolver,
+            $argumentResolver,
+            $blockRenderer,
+            $contextManager
+        );
 
-        $cache->get($keys, 'data');
+        $cache->get($keys);
     }
 
     public static function getExceptionCacheKeys(): array
@@ -62,12 +71,21 @@ class BlockEsiCacheTest extends TestCase
             ->method('generate')
             ->willReturn('https://sonata-project.org/cache/XXX/page/esi/page/5/4?updated_at=as');
 
-        $controllerResolver = $this->createMock(ControllerResolverInterface::class);
+        $resolver = $this->createMock(ControllerResolverInterface::class);
         $argumentResolver = $this->createMock(ArgumentResolverInterface::class);
         $blockRenderer = $this->createMock(BlockRendererInterface::class);
         $contextManager = $this->createMock(BlockContextManagerInterface::class);
 
-        $cache = new BlockEsiCache('My Token', [], $router, 'ban', $controllerResolver, $argumentResolver, $blockRenderer, $contextManager);
+        $cache = new BlockEsiCache(
+            'My Token',
+            [],
+            $router,
+            'ban',
+            $resolver,
+            $argumentResolver,
+            $blockRenderer,
+            $contextManager
+        );
 
         $this->assertTrue($cache->flush([]));
         $this->assertTrue($cache->flushAll());

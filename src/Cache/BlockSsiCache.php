@@ -50,12 +50,8 @@ class BlockSsiCache extends SsiCache
      */
     protected $contextManager;
 
-    /**
-     * @param string                       $token
-     * @param BlockContextManagerInterface $contextManager Block Context manager
-     */
     public function __construct(
-        $token,
+        string $token,
         RouterInterface $router,
         ControllerResolverInterface $resolver,
         ArgumentResolverInterface $argumentResolver,
@@ -81,12 +77,8 @@ class BlockSsiCache extends SsiCache
         return new CacheElement($keys, new Response($content));
     }
 
-    public function set(
-        array $keys,
-        $data,
-        int $ttl = CacheElement::DAY,
-        array $contextualKeys = []
-    ): CacheElementInterface {
+    public function set(array $keys, $data, int $ttl = CacheElement::DAY, array $contextualKeys = []): CacheElementInterface
+    {
         $this->validateKeys($keys);
 
         return new CacheElement($keys, $data, $ttl, $contextualKeys);

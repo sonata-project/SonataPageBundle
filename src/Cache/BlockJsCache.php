@@ -60,8 +60,13 @@ class BlockJsCache implements CacheAdapterInterface
     /**
      * @param bool $sync
      */
-    public function __construct(RouterInterface $router, CmsManagerSelectorInterface $cmsSelector, BlockRendererInterface $blockRenderer, BlockContextManagerInterface $contextManager, $sync = false)
-    {
+    public function __construct(
+        RouterInterface $router,
+        CmsManagerSelectorInterface $cmsSelector,
+        BlockRendererInterface $blockRenderer,
+        BlockContextManagerInterface $contextManager,
+        $sync = false
+    ) {
         $this->router = $router;
         $this->sync = $sync;
         $this->cmsSelector = $cmsSelector;
@@ -91,7 +96,7 @@ class BlockJsCache implements CacheAdapterInterface
         return new CacheElement($keys, new Response($this->sync ? $this->getSync($keys) : $this->getAsync($keys)));
     }
 
-    public function set(array $keys, $data, $ttl = CacheElement::DAY, array $contextualKeys = []): CacheElementInterface
+    public function set(array $keys, $data, int $ttl = CacheElement::DAY, array $contextualKeys = []): CacheElementInterface
     {
         $this->validateKeys($keys);
 

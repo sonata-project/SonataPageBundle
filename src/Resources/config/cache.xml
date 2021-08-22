@@ -9,9 +9,9 @@
             <!-- servers -->
             <argument type="service" id="router"/>
             <argument/>
+            <!-- base purge command -->
             <argument type="service" id="controller_resolver"/>
             <argument type="service" id="argument_resolver"/>
-            <!-- base purge command -->
             <argument type="service" id="sonata.block.renderer"/>
             <argument type="service" id="sonata.page.block.context_manager"/>
             <argument type="collection"/>
@@ -22,9 +22,9 @@
             <tag name="sonata.cache"/>
             <argument/>
             <!-- token -->
-            <argument type="service" id="router"/>
             <argument type="service" id="controller_resolver"/>
             <argument type="service" id="argument_resolver"/>
+            <argument type="service" id="router"/>
             <argument type="service" id="sonata.block.renderer"/>
             <argument type="service" id="sonata.page.block.context_manager"/>
             <argument type="collection"/>
