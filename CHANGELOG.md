@@ -4,7 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [3.23.0](https://github.com/sonata-project/SonataPageBundle/compare/3.22.3...3.23.0) - 2021-08-22
 ### Added
-- [[#1341](https://github.com/sonata-project/SonataPageBundle/pull/1341)] Support for `SonataCacheBundle` v3. ([@VincentLanglet](https://github.com/VincentLanglet))
+- [[#1341](https://github.com/sonata-project/SonataPageBundle/pull/1341)] Support for `SonataCacheBundle` v3 ([@VincentLanglet](https://github.com/VincentLanglet))
 - [[#1341](https://github.com/sonata-project/SonataPageBundle/pull/1341)] Support for PHP 8. ([@VincentLanglet](https://github.com/VincentLanglet))
 - [[#1341](https://github.com/sonata-project/SonataPageBundle/pull/1341)] Some return type hint to `BlockEsiCache`, `BlockJsCache` and `BlockSsiCache`. ([@VincentLanglet](https://github.com/VincentLanglet))
 
