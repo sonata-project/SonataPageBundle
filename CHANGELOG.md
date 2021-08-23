@@ -9,7 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - [[#1341](https://github.com/sonata-project/SonataPageBundle/pull/1341)] Some return type hint to `BlockEsiCache`, `BlockJsCache` and `BlockSsiCache` ([@VincentLanglet](https://github.com/VincentLanglet))
 
 ### Changed
-- [[#1341](https://github.com/sonata-project/SonataPageBundle/pull/1341)] `BlockEsiCache::__construct` signature ([@VincentLanglet](https://github.com/VincentLanglet))
+- [[#1341](https://github.com/sonata-project/SonataPageBundle/pull/1341)] `BlockEsiCache::__construct()` signature ([@VincentLanglet](https://github.com/VincentLanglet))
 - [[#1341](https://github.com/sonata-project/SonataPageBundle/pull/1341)] `BlockSsiCache::__construct` signature ([@VincentLanglet](https://github.com/VincentLanglet))
 
 ### Removed
