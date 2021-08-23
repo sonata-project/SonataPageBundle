@@ -13,7 +13,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - [[#1341](https://github.com/sonata-project/SonataPageBundle/pull/1341)] `BlockSsiCache::__construct` signature ([@VincentLanglet](https://github.com/VincentLanglet))
 
 ### Removed
-- [[#1341](https://github.com/sonata-project/SonataPageBundle/pull/1341)] Support for `SonataCacheBundle` v2. ([@VincentLanglet](https://github.com/VincentLanglet))
+- [[#1341](https://github.com/sonata-project/SonataPageBundle/pull/1341)] Support for `SonataCacheBundle` v2 ([@VincentLanglet](https://github.com/VincentLanglet))
 - [[#1341](https://github.com/sonata-project/SonataPageBundle/pull/1341)] Support for `SonataCache` v1. ([@VincentLanglet](https://github.com/VincentLanglet))
 
 ## [3.22.3](https://github.com/sonata-project/SonataPageBundle/compare/3.22.2...3.22.3) - 2021-07-15
