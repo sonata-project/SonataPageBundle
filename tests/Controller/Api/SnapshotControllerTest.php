@@ -28,16 +28,16 @@ class SnapshotControllerTest extends TestCase
     public function testGetSnapshotsAction(): void
     {
         $snapshotManager = $this->createMock(SnapshotManagerInterface::class);
-        $snapshotManager->expects($this->once())->method('getPager')->willReturn([]);
+        $snapshotManager->expects(static::once())->method('getPager')->willReturn([]);
 
         $paramFetcher = $this->getMockBuilder(ParamFetcherInterface::class)
             ->setMethods(['setController', 'get', 'all'])
             ->getMock();
 
-        $paramFetcher->expects($this->exactly(3))->method('get');
-        $paramFetcher->expects($this->once())->method('all')->willReturn([]);
+        $paramFetcher->expects(static::exactly(3))->method('get');
+        $paramFetcher->expects(static::once())->method('all')->willReturn([]);
 
-        $this->assertSame([], $this->createSnapshotController(null, $snapshotManager)
+        static::assertSame([], $this->createSnapshotController(null, $snapshotManager)
             ->getSnapshotsAction($paramFetcher));
     }
 
@@ -45,7 +45,7 @@ class SnapshotControllerTest extends TestCase
     {
         $snapshot = $this->createMock(SnapshotInterface::class);
 
-        $this->assertSame($snapshot, $this->createSnapshotController($snapshot)
+        static::assertSame($snapshot, $this->createSnapshotController($snapshot)
             ->getSnapshotAction(1));
     }
 
@@ -62,12 +62,12 @@ class SnapshotControllerTest extends TestCase
         $snapshot = $this->createMock(SnapshotInterface::class);
 
         $snapshotManager = $this->createMock(SnapshotManagerInterface::class);
-        $snapshotManager->expects($this->once())->method('delete');
+        $snapshotManager->expects(static::once())->method('delete');
 
         $view = $this->createSnapshotController($snapshot, $snapshotManager)
             ->deleteSnapshotAction(1);
 
-        $this->assertSame(['deleted' => true], $view);
+        static::assertSame(['deleted' => true], $view);
     }
 
     public function testDeletePageInvalidAction(): void
@@ -75,7 +75,7 @@ class SnapshotControllerTest extends TestCase
         $this->expectException(NotFoundHttpException::class);
 
         $snapshotManager = $this->createMock(SnapshotManagerInterface::class);
-        $snapshotManager->expects($this->never())->method('delete');
+        $snapshotManager->expects(static::never())->method('delete');
 
         $this->createSnapshotController(null, $snapshotManager)
             ->deleteSnapshotAction(1);
@@ -87,7 +87,7 @@ class SnapshotControllerTest extends TestCase
             $snapshotManager = $this->createMock(SnapshotManagerInterface::class);
         }
         if (null !== $snapshot) {
-            $snapshotManager->expects($this->once())->method('findOneBy')->willReturn($snapshot);
+            $snapshotManager->expects(static::once())->method('findOneBy')->willReturn($snapshot);
         }
 
         return new SnapshotController($snapshotManager);

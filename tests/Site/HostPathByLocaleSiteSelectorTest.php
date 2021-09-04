@@ -48,12 +48,12 @@ class HostPathByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
         $request = SiteRequest::create('http://www.example.com');
 
         // Ensure request locale is null
-        $this->assertNull($request->attributes->get('_locale'));
+        static::assertNull($request->attributes->get('_locale'));
 
         $event = new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
 
         $this->siteSelector
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('getSites')
             ->with($request)
             ->willReturn($this->getSites());
@@ -61,21 +61,21 @@ class HostPathByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
         $this->siteSelector->handleKernelRequest($event);
 
         // Ensure request locale is still null
-        $this->assertNull($request->attributes->get('_locale'));
+        static::assertNull($request->attributes->get('_locale'));
 
         $site = $this->getSite();
 
         // Ensure no site was retrieved
-        $this->assertNull($site);
+        static::assertNull($site);
 
         // Retrieve the event's response object
         $response = $event->getResponse();
 
         // Ensure the response was a redirect to the default site
-        $this->assertInstanceOf(RedirectResponse::class, $response);
+        static::assertInstanceOf(RedirectResponse::class, $response);
 
         // Ensure the redirect url is for "/en"
-        $this->assertSame('/en', $response->getTargetUrl());
+        static::assertSame('/en', $response->getTargetUrl());
     }
 
     /**
@@ -89,12 +89,12 @@ class HostPathByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
         ]);
 
         // Ensure request locale is null
-        $this->assertNull($request->attributes->get('_locale'));
+        static::assertNull($request->attributes->get('_locale'));
 
         $event = new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
 
         $this->siteSelector
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('getSites')
             ->with($request)
             ->willReturn($this->getSites());
@@ -102,20 +102,20 @@ class HostPathByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
         $this->siteSelector->handleKernelRequest($event);
 
         // Ensure request locale is still null
-        $this->assertNull($request->attributes->get('_locale'));
+        static::assertNull($request->attributes->get('_locale'));
 
         $site = $this->getSite();
 
         // Ensure no site was retrieved
-        $this->assertNull($site);
+        static::assertNull($site);
 
         // Retrieve the event's response object
         $response = $event->getResponse();
 
         // Ensure the response was a redirect to the default site
-        $this->assertInstanceOf(RedirectResponse::class, $response);
+        static::assertInstanceOf(RedirectResponse::class, $response);
 
         // Ensure the redirect url is for "/fr"
-        $this->assertSame('/fr', $response->getTargetUrl());
+        static::assertSame('/fr', $response->getTargetUrl());
     }
 }

@@ -24,7 +24,7 @@ class SnapshotPageProxyTest extends TestCase
 {
     public function testInterface(): void
     {
-        $this->assertInstanceOf(
+        static::assertInstanceOf(
             SnapshotPageProxyInterface::class,
             new SnapshotPageProxy(
                 $this->createMock(SnapshotManagerInterface::class),

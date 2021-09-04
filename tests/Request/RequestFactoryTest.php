@@ -32,26 +32,26 @@ class RequestFactoryTest extends TestCase
 
     public function testHostAndCreate(): void
     {
-        $this->assertInstanceOf(Request::class, RequestFactory::create('host', '/'));
-        $this->assertInstanceOf(Request::class, Request::create('/'));
+        static::assertInstanceOf(Request::class, RequestFactory::create('host', '/'));
+        static::assertInstanceOf(Request::class, Request::create('/'));
     }
 
     public function testHostAndCreateFromGlobals(): void
     {
-        $this->assertInstanceOf(Request::class, RequestFactory::createFromGlobals('host'));
-        $this->assertInstanceOf(Request::class, Request::create('/'));
+        static::assertInstanceOf(Request::class, RequestFactory::createFromGlobals('host'));
+        static::assertInstanceOf(Request::class, Request::create('/'));
     }
 
     public function testHostWithPathAndCreate(): void
     {
-        $this->assertInstanceOf(SiteRequest::class, RequestFactory::create('host_with_path', '/'));
-        $this->assertInstanceOf(SiteRequest::class, Request::create('/'));
+        static::assertInstanceOf(SiteRequest::class, RequestFactory::create('host_with_path', '/'));
+        static::assertInstanceOf(SiteRequest::class, Request::create('/'));
     }
 
     public function testHostWithPathAndCreateFromGlobals(): void
     {
-        $this->assertInstanceOf(SiteRequest::class, RequestFactory::createFromGlobals('host_with_path'));
-        $this->assertInstanceOf(SiteRequest::class, Request::create('/'));
+        static::assertInstanceOf(SiteRequest::class, RequestFactory::createFromGlobals('host_with_path'));
+        static::assertInstanceOf(SiteRequest::class, Request::create('/'));
     }
 
     public function testInvalidType(): void

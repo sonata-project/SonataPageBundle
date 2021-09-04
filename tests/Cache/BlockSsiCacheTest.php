@@ -69,8 +69,8 @@ class BlockSsiCacheTest extends TestCase
 
         $cache = new BlockSsiCache('', $router, $resolver, $argumentResolver, $blockRenderer, $contextManager);
 
-        $this->assertTrue($cache->flush([]));
-        $this->assertTrue($cache->flushAll());
+        static::assertTrue($cache->flush([]));
+        static::assertTrue($cache->flushAll());
 
         $keys = [
             'block_id' => 4,
@@ -81,15 +81,15 @@ class BlockSsiCacheTest extends TestCase
 
         $cacheElement = $cache->set($keys, 'data');
 
-        $this->assertInstanceOf(CacheElement::class, $cacheElement);
+        static::assertInstanceOf(CacheElement::class, $cacheElement);
 
-        $this->assertTrue($cache->has(['id' => 7]));
+        static::assertTrue($cache->has(['id' => 7]));
 
         $cacheElement = $cache->get($keys);
 
-        $this->assertInstanceOf(CacheElement::class, $cacheElement);
+        static::assertInstanceOf(CacheElement::class, $cacheElement);
 
-        $this->assertSame(
+        static::assertSame(
             '<!--# include virtual="/cache/page/esi/XXXXX/page/5/4?updated_at=as" -->',
             $cacheElement->getData()->getContent()
         );

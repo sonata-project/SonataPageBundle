@@ -47,12 +47,12 @@ final class SubRequestsSiteSelectorTest extends BaseLocaleSiteSelectorTest
         $request = SiteRequest::create('http://www.example.com');
 
         // Ensure request locale is null
-        $this->assertNull($request->attributes->get('_locale'));
+        static::assertNull($request->attributes->get('_locale'));
 
         $event = new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
 
         $this->siteSelector
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('getSites')
             ->with($request)
             ->willReturn($this->getSites());
@@ -60,12 +60,12 @@ final class SubRequestsSiteSelectorTest extends BaseLocaleSiteSelectorTest
         $this->siteSelector->onKernelRequest($event);
 
         // Ensure request locale is still null
-        $this->assertNull($request->attributes->get('_locale'));
+        static::assertNull($request->attributes->get('_locale'));
 
         $site = $this->getSite();
 
         // Ensure no site was retrieved
-        $this->assertNull($site);
+        static::assertNull($site);
     }
 
     /**
@@ -77,12 +77,12 @@ final class SubRequestsSiteSelectorTest extends BaseLocaleSiteSelectorTest
         $request = SiteRequest::create('http://www.example.com/fr');
 
         // Ensure request locale is null
-        $this->assertNull($request->attributes->get('_locale'));
+        static::assertNull($request->attributes->get('_locale'));
 
         $event = new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
 
         $this->siteSelector
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('getSites')
             ->with($request)
             ->willReturn($this->getSites());
@@ -90,13 +90,13 @@ final class SubRequestsSiteSelectorTest extends BaseLocaleSiteSelectorTest
         $this->siteSelector->onKernelRequest($event);
 
         // Ensure request locale is now fr
-        $this->assertSame('fr', $request->attributes->get('_locale'));
+        static::assertSame('fr', $request->attributes->get('_locale'));
 
         $site = $this->getSite();
 
         // Ensure /fr site was retrieved
-        $this->assertNotEmpty($site);
-        $this->assertSame('/fr', $site->getRelativePath());
+        static::assertNotEmpty($site);
+        static::assertSame('/fr', $site->getRelativePath());
     }
 
     /**
@@ -108,12 +108,12 @@ final class SubRequestsSiteSelectorTest extends BaseLocaleSiteSelectorTest
         $request = SiteRequest::create('http://www.example.com');
 
         // Ensure request locale is null
-        $this->assertNull($request->attributes->get('_locale'));
+        static::assertNull($request->attributes->get('_locale'));
 
         $event = new GetResponseEvent($kernel, $request, HttpKernelInterface::SUB_REQUEST);
 
         $this->siteSelector
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('getSites')
             ->with($request)
             ->willReturn($this->getSites());
@@ -121,12 +121,12 @@ final class SubRequestsSiteSelectorTest extends BaseLocaleSiteSelectorTest
         $this->siteSelector->onKernelRequest($event);
 
         // Ensure request locale is still null
-        $this->assertNull($request->attributes->get('_locale'));
+        static::assertNull($request->attributes->get('_locale'));
 
         $site = $this->getSite();
 
         // Ensure no site was retrieved
-        $this->assertNull($site);
+        static::assertNull($site);
     }
 
     /**
@@ -138,12 +138,12 @@ final class SubRequestsSiteSelectorTest extends BaseLocaleSiteSelectorTest
         $request = SiteRequest::create('http://www.example.com/fr');
 
         // Ensure request locale is null
-        $this->assertNull($request->attributes->get('_locale'));
+        static::assertNull($request->attributes->get('_locale'));
 
         $event = new GetResponseEvent($kernel, $request, HttpKernelInterface::SUB_REQUEST);
 
         $this->siteSelector
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('getSites')
             ->with($request)
             ->willReturn($this->getSites());
@@ -151,12 +151,12 @@ final class SubRequestsSiteSelectorTest extends BaseLocaleSiteSelectorTest
         $this->siteSelector->onKernelRequest($event);
 
         // Ensure request locale is now fr
-        $this->assertSame('fr', $request->attributes->get('_locale'));
+        static::assertSame('fr', $request->attributes->get('_locale'));
 
         $site = $this->getSite();
 
         // Ensure /fr site was retrieved
-        $this->assertNotEmpty($site);
-        $this->assertSame('/fr', $site->getRelativePath());
+        static::assertNotEmpty($site);
+        static::assertSame('/fr', $site->getRelativePath());
     }
 }

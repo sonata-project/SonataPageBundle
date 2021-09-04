@@ -43,11 +43,11 @@ class SnapshotManagerTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->assertSame([], $manager->getTemplates());
+        static::assertSame([], $manager->getTemplates());
 
         $manager->setTemplates(['foo' => 'bar']);
 
-        $this->assertSame(['foo' => 'bar'], $manager->getTemplates());
+        static::assertSame(['foo' => 'bar'], $manager->getTemplates());
     }
 
     public function testGetTemplates(): void
@@ -64,7 +64,7 @@ class SnapshotManagerTest extends TestCase
         $templates->setAccessible(true);
         $templates->setValue($manager, ['foo' => 'bar']);
 
-        $this->assertSame(['foo' => 'bar'], $manager->getTemplates());
+        static::assertSame(['foo' => 'bar'], $manager->getTemplates());
     }
 
     public function testGetTemplate(): void
@@ -81,7 +81,7 @@ class SnapshotManagerTest extends TestCase
         $templates->setAccessible(true);
         $templates->setValue($manager, ['foo' => 'bar']);
 
-        $this->assertSame('bar', $manager->getTemplate('foo'));
+        static::assertSame('bar', $manager->getTemplate('foo'));
     }
 
     public function testGetTemplatesException(): void
@@ -189,17 +189,17 @@ class SnapshotManagerTest extends TestCase
     {
         // Given
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->once())->method('getId')->willReturn(456);
+        $page->expects(static::once())->method('getId')->willReturn(456);
 
         $snapshot = $this->createMock(Snapshot::class);
-        $snapshot->expects($this->once())->method('getId')->willReturn(123);
-        $snapshot->expects($this->once())->method('getPage')->willReturn($page);
+        $snapshot->expects(static::once())->method('getId')->willReturn(123);
+        $snapshot->expects(static::once())->method('getPage')->willReturn($page);
 
         $date = new \DateTime();
 
         $connection = $this->createMock(Connection::class);
         $connection
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('query')
             ->with(sprintf(
                 "UPDATE page_snapshot SET publication_date_end = '%s' WHERE id NOT IN(123) AND page_id IN (456) and publication_date_end IS NULL",
@@ -208,17 +208,17 @@ class SnapshotManagerTest extends TestCase
 
         $em = $this->createMock(EntityManagerInterface::class);
 
-        $em->expects($this->once())->method('persist')->with($snapshot);
-        $em->expects($this->once())->method('flush');
-        $em->expects($this->once())->method('getConnection')->willReturn($connection);
+        $em->expects(static::once())->method('persist')->with($snapshot);
+        $em->expects(static::once())->method('flush');
+        $em->expects(static::once())->method('getConnection')->willReturn($connection);
 
         $manager = $this->getMockBuilder(SnapshotManager::class)
             ->disableOriginalConstructor()
             ->setMethods(['getEntityManager', 'getTableName'])
             ->getMock();
 
-        $manager->expects($this->exactly(3))->method('getEntityManager')->willReturn($em);
-        $manager->expects($this->once())->method('getTableName')->willReturn('page_snapshot');
+        $manager->expects(static::exactly(3))->method('getEntityManager')->willReturn($em);
+        $manager->expects(static::once())->method('getTableName')->willReturn('page_snapshot');
 
         // When calling method, expects calls
         $manager->enableSnapshots([$snapshot], $date);
@@ -236,11 +236,11 @@ class SnapshotManagerTest extends TestCase
         $transformer = $this->createMock(TransformerInterface::class);
         $snapshot = $this->createMock(SnapshotInterface::class);
 
-        $snapshotProxyFactory->expects($this->once())->method('create')
+        $snapshotProxyFactory->expects(static::once())->method('create')
             ->with($manager, $transformer, $snapshot)
             ->willReturn($proxyInterface);
 
-        $this->assertSame($proxyInterface, $manager->createSnapshotPageProxy($transformer, $snapshot));
+        static::assertSame($proxyInterface, $manager->createSnapshotPageProxy($transformer, $snapshot));
     }
 
     /**
@@ -249,20 +249,20 @@ class SnapshotManagerTest extends TestCase
     public function testEnableSnapshotsWhenNoSnapshots(): void
     {
         $connection = $this->createMock(Connection::class);
-        $connection->expects($this->never())->method('query');
+        $connection->expects(static::never())->method('query');
 
         $em = $this->createMock(EntityManagerInterface::class);
-        $em->expects($this->never())->method('persist');
-        $em->expects($this->never())->method('flush');
-        $em->expects($this->never())->method('getConnection');
+        $em->expects(static::never())->method('persist');
+        $em->expects(static::never())->method('flush');
+        $em->expects(static::never())->method('getConnection');
 
         $manager = $this->getMockBuilder(SnapshotManager::class)
             ->disableOriginalConstructor()
             ->setMethods(['getEntityManager', 'getTableName'])
             ->getMock();
 
-        $manager->expects($this->never())->method('getEntityManager');
-        $manager->expects($this->never())->method('getTableName');
+        $manager->expects(static::never())->method('getEntityManager');
+        $manager->expects(static::never())->method('getTableName');
 
         // When calling method, do not expects any calls
         $manager->enableSnapshots([]);

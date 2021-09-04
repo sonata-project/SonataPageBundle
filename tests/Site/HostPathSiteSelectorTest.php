@@ -40,13 +40,13 @@ class HostPathSiteSelectorTest extends TestCase
         [$site, $event] = $this->performHandleKernelRequestTest($url);
 
         // Ensure we retrieved the correct site.
-        $this->assertSame($expectedName, $site->getName());
+        static::assertSame($expectedName, $site->getName());
 
         // Ensure request path info
-        $this->assertSame($expectedPath, $event->getRequest()->getPathInfo());
+        static::assertSame($expectedPath, $event->getRequest()->getPathInfo());
 
         // Ensure request locale matches site locale
-        $this->assertSame($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
+        static::assertSame($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
     }
 
     public function siteProvider(): \Generator
@@ -70,22 +70,22 @@ class HostPathSiteSelectorTest extends TestCase
         [$site, $event] = $this->performHandleKernelRequestTest($url);
 
         // Ensure no site was retrieved
-        $this->assertNull($site);
+        static::assertNull($site);
 
         // Retrieve the event's response object
         $response = $event->getResponse();
 
         // Ensure the response was a redirect to the default site
-        $this->assertInstanceOf(RedirectResponse::class, $response);
+        static::assertInstanceOf(RedirectResponse::class, $response);
 
         // Ensure the redirect url
-        $this->assertSame($expectedRedirectUri, $response->getTargetUrl());
+        static::assertSame($expectedRedirectUri, $response->getTargetUrl());
 
         // Ensure request path info
-        $this->assertSame($path, $event->getRequest()->getPathInfo());
+        static::assertSame($path, $event->getRequest()->getPathInfo());
 
         // Ensure request locale is null
-        $this->assertNull($event->getRequest()->attributes->get('_locale'));
+        static::assertNull($event->getRequest()->attributes->get('_locale'));
     }
 
     public function siteWithRedirectProvider(): \Generator
@@ -105,7 +105,7 @@ class HostPathSiteSelectorTest extends TestCase
         $request = SiteRequest::create($url);
 
         // Ensure request locale is null
-        $this->assertNull($request->attributes->get('_locale'));
+        static::assertNull($request->attributes->get('_locale'));
 
         $event = new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
 

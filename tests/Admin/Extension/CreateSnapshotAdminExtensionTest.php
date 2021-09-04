@@ -25,12 +25,12 @@ class CreateSnapshotAdminExtensionTest extends TestCase
     public function testPostUpdateOnPage(): void
     {
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->once())->method('getId')->willReturn(42);
+        $page->expects(static::once())->method('getId')->willReturn(42);
 
         $admin = $this->createMock(AdminInterface::class);
 
         $backend = $this->createMock(BackendInterface::class);
-        $backend->expects($this->once())->method('createAndPublish')->with(
+        $backend->expects(static::once())->method('createAndPublish')->with(
             'sonata.page.create_snapshot',
             ['pageId' => 42]
         );
@@ -42,12 +42,12 @@ class CreateSnapshotAdminExtensionTest extends TestCase
     public function testPostPersistOnPage(): void
     {
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->once())->method('getId')->willReturn(42);
+        $page->expects(static::once())->method('getId')->willReturn(42);
 
         $admin = $this->createMock(AdminInterface::class);
 
         $backend = $this->createMock(BackendInterface::class);
-        $backend->expects($this->once())->method('createAndPublish')->with(
+        $backend->expects(static::once())->method('createAndPublish')->with(
             'sonata.page.create_snapshot',
             ['pageId' => 42]
         );
@@ -59,15 +59,15 @@ class CreateSnapshotAdminExtensionTest extends TestCase
     public function testPostUpdateOnBlock(): void
     {
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->once())->method('getId')->willReturn(42);
+        $page->expects(static::once())->method('getId')->willReturn(42);
 
         $block = $this->createMock(PageBlockInterface::class);
-        $block->expects($this->once())->method('getPage')->willReturn($page);
+        $block->expects(static::once())->method('getPage')->willReturn($page);
 
         $admin = $this->createMock(AdminInterface::class);
 
         $backend = $this->createMock(BackendInterface::class);
-        $backend->expects($this->once())->method('createAndPublish')->with(
+        $backend->expects(static::once())->method('createAndPublish')->with(
             'sonata.page.create_snapshot',
             ['pageId' => 42]
         );
@@ -79,15 +79,15 @@ class CreateSnapshotAdminExtensionTest extends TestCase
     public function testPostPersistOnBlock(): void
     {
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->once())->method('getId')->willReturn(42);
+        $page->expects(static::once())->method('getId')->willReturn(42);
 
         $block = $this->createMock(PageBlockInterface::class);
-        $block->expects($this->once())->method('getPage')->willReturn($page);
+        $block->expects(static::once())->method('getPage')->willReturn($page);
 
         $admin = $this->createMock(AdminInterface::class);
 
         $backend = $this->createMock(BackendInterface::class);
-        $backend->expects($this->once())->method('createAndPublish')->with(
+        $backend->expects(static::once())->method('createAndPublish')->with(
             'sonata.page.create_snapshot',
             ['pageId' => 42]
         );
@@ -99,15 +99,15 @@ class CreateSnapshotAdminExtensionTest extends TestCase
     public function testPostRemoveOnBlock(): void
     {
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->once())->method('getId')->willReturn(42);
+        $page->expects(static::once())->method('getId')->willReturn(42);
 
         $block = $this->createMock(PageBlockInterface::class);
-        $block->expects($this->once())->method('getPage')->willReturn($page);
+        $block->expects(static::once())->method('getPage')->willReturn($page);
 
         $admin = $this->createStub(AdminInterface::class);
 
         $backend = $this->createMock(BackendInterface::class);
-        $backend->expects($this->once())->method('createAndPublish')->with(
+        $backend->expects(static::once())->method('createAndPublish')->with(
             'sonata.page.create_snapshot',
             ['pageId' => 42]
         );

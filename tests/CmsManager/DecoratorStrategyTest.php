@@ -29,59 +29,59 @@ class DecoratorStrategyTest extends TestCase
 
         $strategy = new DecoratorStrategy([], [], []);
 
-        $this->assertFalse($strategy->isDecorable($request, HttpKernelInterface::SUB_REQUEST, $response));
+        static::assertFalse($strategy->isDecorable($request, HttpKernelInterface::SUB_REQUEST, $response));
 
         $response->headers = new ResponseHeaderBag();
         $response->headers->set('Content-Type', 'foo/test');
 
-        $this->assertFalse($strategy->isDecorable($request, HttpKernelInterface::MASTER_REQUEST, $response));
+        static::assertFalse($strategy->isDecorable($request, HttpKernelInterface::MASTER_REQUEST, $response));
 
         $response->headers->set('Content-Type', 'text/html');
         $response->setStatusCode(404);
-        $this->assertFalse($strategy->isDecorable($request, HttpKernelInterface::MASTER_REQUEST, $response));
+        static::assertFalse($strategy->isDecorable($request, HttpKernelInterface::MASTER_REQUEST, $response));
 
         $response->setStatusCode(200);
 
         $request->headers->set('x-requested-with', 'XMLHttpRequest');
-        $this->assertFalse($strategy->isDecorable($request, HttpKernelInterface::MASTER_REQUEST, $response));
+        static::assertFalse($strategy->isDecorable($request, HttpKernelInterface::MASTER_REQUEST, $response));
 
         $request->headers->set('x-requested-with', null);
 
         $response->headers->set('x-sonata-page-not-decorable', '1');
-        $this->assertFalse($strategy->isDecorable($request, HttpKernelInterface::MASTER_REQUEST, $response));
+        static::assertFalse($strategy->isDecorable($request, HttpKernelInterface::MASTER_REQUEST, $response));
 
         $response->headers->remove('x-sonata-page-not-decorable');
 
         $request->headers->set('x-requested-with', 'XMLHttpRequest');
         $response->headers->set('x-sonata-page-decorable', '1');
-        $this->assertTrue($strategy->isDecorable($request, HttpKernelInterface::MASTER_REQUEST, $response));
+        static::assertTrue($strategy->isDecorable($request, HttpKernelInterface::MASTER_REQUEST, $response));
     }
 
     public function testIgnoreRouteNameMatch(): void
     {
         $strategy = new DecoratorStrategy(['test'], [], []);
 
-        $this->assertFalse($strategy->isRouteNameDecorable('test'));
+        static::assertFalse($strategy->isRouteNameDecorable('test'));
     }
 
     public function testIgnoreRouteNamePatternsMatch(): void
     {
         $strategy = new DecoratorStrategy([], ['test[0-2]{1}'], []);
 
-        $this->assertFalse($strategy->isRouteNameDecorable('test2'));
+        static::assertFalse($strategy->isRouteNameDecorable('test2'));
     }
 
     public function testIgnoreUriPatternsMatch(): void
     {
         $strategy = new DecoratorStrategy([], [], ['(.*)']);
 
-        $this->assertFalse($strategy->isRouteUriDecorable('ok'));
+        static::assertFalse($strategy->isRouteUriDecorable('ok'));
     }
 
     public function testIgnoreUriPatternsNotMatch(): void
     {
         $strategy = new DecoratorStrategy([], [], ['ok']);
 
-        $this->assertFalse($strategy->isRouteUriDecorable('ok'));
+        static::assertFalse($strategy->isRouteUriDecorable('ok'));
     }
 }

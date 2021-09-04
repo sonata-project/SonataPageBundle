@@ -33,18 +33,18 @@ class BlockContextManagerTest extends TestCase
         $blockLoader = $this->createMock(BlockLoaderInterface::class);
 
         $serviceManager = $this->createMock(BlockServiceManagerInterface::class);
-        $serviceManager->expects($this->once())->method('get')->willReturn($service);
+        $serviceManager->expects(static::once())->method('get')->willReturn($service);
 
         $block = $this->createMock(BlockInterface::class);
-        $block->expects($this->once())->method('getSettings')->willReturn([]);
+        $block->expects(static::once())->method('getSettings')->willReturn([]);
 
         $manager = new BlockContextManager($blockLoader, $serviceManager);
 
         $blockContext = $manager->get($block);
 
-        $this->assertInstanceOf(BlockContextInterface::class, $blockContext);
+        static::assertInstanceOf(BlockContextInterface::class, $blockContext);
 
-        $this->assertSame([
+        static::assertSame([
             'use_cache' => true,
             'extra_cache_keys' => [],
             'attr' => [],

@@ -58,7 +58,7 @@ class BlockJsCacheTest extends TestCase
     {
         $router = $this->createMock(RouterInterface::class);
         $router
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('generate')
             ->willReturn('https://sonata-project.org/page/cache/js/block.js');
 
@@ -68,8 +68,8 @@ class BlockJsCacheTest extends TestCase
 
         $cache = new BlockJsCache($router, $cmsSelectorManager, $blockRenderer, $contextManager);
 
-        $this->assertTrue($cache->flush([]));
-        $this->assertTrue($cache->flushAll());
+        static::assertTrue($cache->flush([]));
+        static::assertTrue($cache->flushAll());
 
         $keys = [
             'block_id' => 4,
@@ -80,13 +80,13 @@ class BlockJsCacheTest extends TestCase
 
         $cacheElement = $cache->set($keys, 'data');
 
-        $this->assertInstanceOf(CacheElement::class, $cacheElement);
+        static::assertInstanceOf(CacheElement::class, $cacheElement);
 
-        $this->assertTrue($cache->has(['id' => 7]));
+        static::assertTrue($cache->has(['id' => 7]));
 
         $cacheElement = $cache->get($keys);
 
-        $this->assertInstanceOf(CacheElement::class, $cacheElement);
+        static::assertInstanceOf(CacheElement::class, $cacheElement);
 
         $expected = <<<'EXPECTED'
 <div id="block-cms-4" >
@@ -106,6 +106,6 @@ class BlockJsCacheTest extends TestCase
 </div>
 EXPECTED;
 
-        $this->assertSame($expected, $cacheElement->getData()->getContent());
+        static::assertSame($expected, $cacheElement->getData()->getContent());
     }
 }

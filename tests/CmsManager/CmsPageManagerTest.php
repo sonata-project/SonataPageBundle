@@ -68,7 +68,7 @@ class CmsPageManagerTest extends TestCase
 
         $container = $this->manager->findContainer('findme', $page);
 
-        $this->assertSame(
+        static::assertSame(
             spl_object_hash($block),
             spl_object_hash($container),
             'should retrieve the block of the page'
@@ -84,8 +84,8 @@ class CmsPageManagerTest extends TestCase
 
         $container = $this->manager->findContainer('newcontainer', $page);
 
-        $this->assertInstanceOf(PageBlockInterface::class, $container, 'should be a block');
-        $this->assertSame('newcontainer', $container->getSetting('code'));
+        static::assertInstanceOf(PageBlockInterface::class, $container, 'should be a block');
+        static::assertSame('newcontainer', $container->getSetting('code'));
     }
 
     /**
@@ -103,7 +103,7 @@ class CmsPageManagerTest extends TestCase
         $page = '/test';
         $site = new Site();
 
-        $this->assertInstanceOf(PageInterface::class, $manager->getPage($site, $page));
+        static::assertInstanceOf(PageInterface::class, $manager->getPage($site, $page));
     }
 
     /**
@@ -144,7 +144,7 @@ class CmsPageManagerTest extends TestCase
         $page = 'test';
         $site = new Site();
 
-        $this->assertInstanceOf(PageInterface::class, $manager->getPage($site, $page));
+        static::assertInstanceOf(PageInterface::class, $manager->getPage($site, $page));
     }
 
     /**
@@ -185,7 +185,7 @@ class CmsPageManagerTest extends TestCase
         $page = 1;
         $site = new Site();
 
-        $this->assertInstanceOf(PageInterface::class, $manager->getPage($site, $page));
+        static::assertInstanceOf(PageInterface::class, $manager->getPage($site, $page));
     }
 
     /**
@@ -226,7 +226,7 @@ class CmsPageManagerTest extends TestCase
         $page = null;
         $site = new Site();
 
-        $this->assertInstanceOf(PageInterface::class, $manager->getPage($site, $page));
+        static::assertInstanceOf(PageInterface::class, $manager->getPage($site, $page));
     }
 
     /**

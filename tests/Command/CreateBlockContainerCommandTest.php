@@ -89,6 +89,6 @@ class CreateBlockContainerCommandTest extends TestCase
         $method->setAccessible(true);
         $method->invoke($command, $input, $output);
 
-        $this->assertSame($page->getBlocks(), [$block]);
+        static::assertSame($page->getBlocks(), [$block]);
     }
 }

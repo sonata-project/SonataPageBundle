@@ -110,24 +110,24 @@ class CloneSiteCommandTest extends TestCase
         ]);
 
         $newPage1 = $page1;
-        $newPage1->expects($this->once())->method('setTitle')->with('Copy of Page 1');
-        $newPage1->expects($this->once())->method('setSite')->with($destSite);
+        $newPage1->expects(static::once())->method('setTitle')->with('Copy of Page 1');
+        $newPage1->expects(static::once())->method('setSite')->with($destSite);
 
         $newPage2 = $page2;
-        $newPage2->expects($this->once())->method('setTitle')->with('Copy of Page 2');
-        $newPage2->expects($this->once())->method('setSite')->with($destSite);
-        $newPage2->expects($this->once())->method('setParent')->with($newPage1);
+        $newPage2->expects(static::once())->method('setTitle')->with('Copy of Page 2');
+        $newPage2->expects(static::once())->method('setSite')->with($destSite);
+        $newPage2->expects(static::once())->method('setParent')->with($newPage1);
 
-        $newPage1->expects($this->once())->method('setTarget')->with($newPage2);
+        $newPage1->expects(static::once())->method('setTarget')->with($newPage2);
 
-        $this->pageManager->expects($this->exactly(4))->method('save');
+        $this->pageManager->expects(static::exactly(4))->method('save');
 
         $block = $this->createMock(PageBlockInterface::class);
         $block->method('getId')->willReturn(4711);
         $block->method('getParent')->willReturn(null);
 
         $newBlock = $block;
-        $newBlock->expects($this->once())->method('setPage')->with($newPage2);
+        $newBlock->expects(static::once())->method('setPage')->with($newPage2);
 
         $this->blockManager->method('findBy')->willReturnOnConsecutiveCalls(
             [],
@@ -135,7 +135,7 @@ class CloneSiteCommandTest extends TestCase
             [],
             [$newBlock]
         );
-        $this->blockManager->expects($this->once())->method('save');
+        $this->blockManager->expects(static::once())->method('save');
 
         $command = $this->application->find('sonata:page:clone-site');
         $commandTester = new CommandTester($command);
@@ -147,7 +147,7 @@ class CloneSiteCommandTest extends TestCase
             '--only-hybrid' => true,
         ]);
 
-        $this->assertMatchesRegularExpression('@done!@', $commandTester->getDisplay());
+        static::assertMatchesRegularExpression('@done!@', $commandTester->getDisplay());
     }
 
     public function testExecuteNoSourceId(): void
@@ -165,7 +165,7 @@ class CloneSiteCommandTest extends TestCase
             '--prefix' => 'Copy of ',
         ]);
 
-        $this->assertMatchesRegularExpression('@Writing cache file ...\s+done!@', $commandTester->getDisplay());
+        static::assertMatchesRegularExpression('@Writing cache file ...\s+done!@', $commandTester->getDisplay());
     }
 
     public function testExecuteNoDestId(): void
@@ -183,7 +183,7 @@ class CloneSiteCommandTest extends TestCase
             '--prefix' => 'Copy of ',
         ]);
 
-        $this->assertMatchesRegularExpression('@Writing cache file ...\s+done!@', $commandTester->getDisplay());
+        static::assertMatchesRegularExpression('@Writing cache file ...\s+done!@', $commandTester->getDisplay());
     }
 
     public function testExecuteNoPrefix(): void

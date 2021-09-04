@@ -25,7 +25,7 @@ class BasePageServiceTest extends TestCase
     {
         $service = new ConcretePageService('my name');
 
-        $this->assertSame('my name', $service->getName());
+        static::assertSame('my name', $service->getName());
     }
 
     public function testExecution(): void
@@ -34,7 +34,7 @@ class BasePageServiceTest extends TestCase
         $page = $this->createMock(PageInterface::class);
         $request = $this->createMock(Request::class);
 
-        $this->assertInstanceOf(
+        static::assertInstanceOf(
             Response::class,
             $service->execute($page, $request),
             'Should return a Response object'

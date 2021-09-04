@@ -97,7 +97,7 @@ class PageSelectorTypeTest extends TestCase
             'request_method' => 'all',
         ]]);
 
-        $this->assertSame([], $options['choices']);
+        static::assertSame([], $options['choices']);
     }
 
     /**
@@ -113,7 +113,7 @@ class PageSelectorTypeTest extends TestCase
             'request_method' => 'all',
         ]]);
 
-        $this->assertCount(4, $options['choices']);
+        static::assertCount(4, $options['choices']);
     }
 
     public function testGetRequestMethodChoices(): void
@@ -126,7 +126,7 @@ class PageSelectorTypeTest extends TestCase
 
         $views = $options['choices'];
 
-        $this->assertCount(3, $views);
+        static::assertCount(3, $views);
         $this->assertRouteNameEquals('all', $views[1]);
         $this->assertRouteNameEquals('get', $views[3]);
         $this->assertRouteNameEquals('get-post', $views[4]);
@@ -144,7 +144,7 @@ class PageSelectorTypeTest extends TestCase
 
         $views = $options['choices'];
 
-        $this->assertCount(3, $views);
+        static::assertCount(3, $views);
         $this->assertRouteNameEquals('all', $views[1]);
         $this->assertRouteNameEquals('post', $views[2]);
         $this->assertRouteNameEquals('get-post', $views[4]);
@@ -163,7 +163,7 @@ class PageSelectorTypeTest extends TestCase
 
         $views = $options['choices'];
 
-        $this->assertCount(1, $views);
+        static::assertCount(1, $views);
         $this->assertRouteNameEquals('all', $views[1]);
     }
 
@@ -180,7 +180,7 @@ class PageSelectorTypeTest extends TestCase
 
         $views = $options['choices'];
 
-        $this->assertCount(3, $views);
+        static::assertCount(3, $views);
         $this->assertRouteNameEquals('post', $views[2]);
         $this->assertRouteNameEquals('get', $views[3]);
         $this->assertRouteNameEquals('get-post', $views[4]);
@@ -199,7 +199,7 @@ class PageSelectorTypeTest extends TestCase
 
         $views = $options['choices'];
 
-        $this->assertCount(2, $views);
+        static::assertCount(2, $views);
         $this->assertRouteNameEquals('post', $views[2]);
         $this->assertRouteNameEquals('get-post', $views[4]);
     }
@@ -207,9 +207,9 @@ class PageSelectorTypeTest extends TestCase
     private function assertRouteNameEquals($expected, $choiceView): void
     {
         if ($choiceView instanceof LegacyChoiceView) { // NEXT_MAJOR: remove conditional
-            $this->assertSame($expected, $choiceView->label->getRouteName());
+            static::assertSame($expected, $choiceView->label->getRouteName());
         }
 
-        $this->assertSame($expected, $choiceView->getRouteName());
+        static::assertSame($expected, $choiceView->getRouteName());
     }
 }

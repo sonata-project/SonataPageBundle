@@ -75,7 +75,7 @@ class CmsSnapshotManagerTest extends TestCase
 
         $container = $this->manager->findContainer('findme', $page);
 
-        $this->assertSame(
+        static::assertSame(
             spl_object_hash($block),
             spl_object_hash($container),
             'should retrieve the block of the page'
@@ -91,14 +91,14 @@ class CmsSnapshotManagerTest extends TestCase
 
         $container = $this->manager->findContainer('newcontainer', $page);
 
-        $this->assertNull($container, 'should not create a new container block');
+        static::assertNull($container, 'should not create a new container block');
     }
 
     public function testGetPageWithUnknownPage(): void
     {
         $this->expectException(PageNotFoundException::class);
 
-        $this->snapshotManager->expects($this->once())->method('findEnableSnapshot')->willReturn(null);
+        $this->snapshotManager->expects(static::once())->method('findEnableSnapshot')->willReturn(null);
 
         $site = $this->createMock(SiteInterface::class);
 
@@ -132,17 +132,17 @@ class CmsSnapshotManagerTest extends TestCase
         });
 
         $snapshot = $this->createMock(SnapshotInterface::class);
-        $snapshot->expects($this->once())->method('getContent')->willReturn([
+        $snapshot->expects(static::once())->method('getContent')->willReturn([
             // we don't care here about real values, the mock transformer will return the valid $pBlock instance
             'blocks' => [],
         ]);
 
         $this->snapshotManager
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('findEnableSnapshot')
             ->willReturn($snapshot);
 
-        $this->transformer->expects($this->once())->method('load')->willReturn($page);
+        $this->transformer->expects(static::once())->method('load')->willReturn($page);
 
         $site = $this->createMock(SiteInterface::class);
 
@@ -150,10 +150,10 @@ class CmsSnapshotManagerTest extends TestCase
 
         $page = $snapshotManager->getPage($site, 1);
 
-        $this->assertInstanceOf(SnapshotPageProxyInterface::class, $page);
+        static::assertInstanceOf(SnapshotPageProxyInterface::class, $page);
 
-        $this->assertInstanceOf(BlockInterface::class, $snapshotManager->getBlock(1));
-        $this->assertInstanceOf(BlockInterface::class, $snapshotManager->getBlock(2));
+        static::assertInstanceOf(BlockInterface::class, $snapshotManager->getBlock(1));
+        static::assertInstanceOf(BlockInterface::class, $snapshotManager->getBlock(2));
     }
 
     /**

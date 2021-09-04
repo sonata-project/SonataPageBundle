@@ -22,7 +22,7 @@ class UniqueUrlTest extends TestCase
     {
         $constraint = new UniqueUrl();
 
-        $this->assertSame('class', $constraint->getTargets());
-        $this->assertSame('sonata.page.validator.unique_url', $constraint->validatedBy());
+        static::assertSame('class', $constraint->getTargets());
+        static::assertSame('sonata.page.validator.unique_url', $constraint->validatedBy());
     }
 }
