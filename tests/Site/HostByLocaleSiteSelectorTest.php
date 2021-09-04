@@ -47,12 +47,12 @@ class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
         $request = SiteRequest::create('http://www.example.com');
 
         // Ensure request locale is null
-        $this->assertNull($request->attributes->get('_locale'));
+        static::assertNull($request->attributes->get('_locale'));
 
         $event = new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
 
         $this->siteSelector
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('getSites')
             ->with($request)
             ->willReturn($this->getSites());
@@ -60,12 +60,12 @@ class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
         $this->siteSelector->handleKernelRequest($event);
 
         // Ensure request locale is en
-        $this->assertSame('en', $request->attributes->get('_locale'));
+        static::assertSame('en', $request->attributes->get('_locale'));
 
         $site = $this->getSite();
 
         // Ensure we retrieved the site "/en"
-        $this->assertSame('/en', $site->getRelativePath());
+        static::assertSame('/en', $site->getRelativePath());
     }
 
     /**
@@ -79,12 +79,12 @@ class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
         ]);
 
         // Ensure request locale is null
-        $this->assertNull($request->attributes->get('_locale'));
+        static::assertNull($request->attributes->get('_locale'));
 
         $event = new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
 
         $this->siteSelector
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('getSites')
             ->with($request)
             ->willReturn($this->getSites());
@@ -92,11 +92,11 @@ class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
         $this->siteSelector->handleKernelRequest($event);
 
         // Ensure request locale is fr
-        $this->assertSame('fr', $request->attributes->get('_locale'));
+        static::assertSame('fr', $request->attributes->get('_locale'));
 
         $site = $this->getSite();
 
         // Ensure we retrieved the site "/fr"
-        $this->assertSame('/fr', $site->getRelativePath());
+        static::assertSame('/fr', $site->getRelativePath());
     }
 }

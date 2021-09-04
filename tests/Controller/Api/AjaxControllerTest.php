@@ -37,7 +37,7 @@ class AjaxControllerTest extends TestCase
         $cmsManager = $this->createMock(CmsManagerInterface::class);
 
         $selector = $this->createMock(CmsManagerSelectorInterface::class);
-        $selector->expects($this->once())->method('retrieve')->willReturn($cmsManager);
+        $selector->expects(static::once())->method('retrieve')->willReturn($cmsManager);
 
         $renderer = $this->createMock(BlockRendererInterface::class);
 
@@ -55,18 +55,18 @@ class AjaxControllerTest extends TestCase
         $block = $this->createMock(BlockInterface::class);
 
         $cmsManager = $this->createMock(CmsManagerInterface::class);
-        $cmsManager->expects($this->once())->method('getBlock')->willReturn($block);
+        $cmsManager->expects(static::once())->method('getBlock')->willReturn($block);
 
         $selector = $this->createMock(CmsManagerSelectorInterface::class);
-        $selector->expects($this->once())->method('retrieve')->willReturn($cmsManager);
+        $selector->expects(static::once())->method('retrieve')->willReturn($cmsManager);
 
         $renderer = $this->createMock(BlockRendererInterface::class);
-        $renderer->expects($this->once())->method('render')->willReturn(new Response());
+        $renderer->expects(static::once())->method('render')->willReturn(new Response());
 
         $blockContext = $this->createMock(BlockContextInterface::class);
 
         $contextManager = $this->createMock(BlockContextManagerInterface::class);
-        $contextManager->expects($this->once())->method('get')->willReturn($blockContext);
+        $contextManager->expects(static::once())->method('get')->willReturn($blockContext);
 
         $controller = new AjaxController($selector, $renderer, $contextManager);
 
@@ -74,6 +74,6 @@ class AjaxControllerTest extends TestCase
 
         $response = $controller->execute($request, 10, 12);
 
-        $this->assertInstanceOf(Response::class, $response);
+        static::assertInstanceOf(Response::class, $response);
     }
 }

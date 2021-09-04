@@ -81,7 +81,7 @@ class SonataPageExtensionTest extends AbstractExtensionTestCase
         $this->container->registerExtension(new TwigExtension());
 
         $this->container->compile();
-        $this->assertContains(
+        static::assertContains(
             '@SonataCore/Form/datepicker.html.twig',
             $this->container->getParameter('twig.form.resources')
         );
@@ -100,7 +100,7 @@ class SonataPageExtensionTest extends AbstractExtensionTestCase
         $this->container->registerExtension(new TwigExtension());
 
         $this->container->compile();
-        $this->assertContains(
+        static::assertContains(
             '@SonataForm/Form/datepicker.html.twig',
             $this->container->getParameter('twig.form.resources')
         );

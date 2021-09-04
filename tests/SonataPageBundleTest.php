@@ -38,8 +38,8 @@ class SonataPageBundleTest extends TestCase
     {
         $bundle = new SonataPageBundle();
         $container = $this->createMock(ContainerInterface::class);
-        $container->expects($this->once())->method('hasParameter')->willReturn(true);
-        $container->expects($this->exactly(2))->method('getParameter')->willReturnCallback(static function ($value) {
+        $container->expects(static::once())->method('hasParameter')->willReturn(true);
+        $container->expects(static::exactly(2))->method('getParameter')->willReturnCallback(static function ($value) {
             if ('sonata.page.page.class' === $value) {
                 return Page::class;
             }
@@ -48,14 +48,14 @@ class SonataPageBundleTest extends TestCase
                 return 'slug_service';
             }
         });
-        $container->expects($this->once())->method('get')->willReturn(Slugify::create());
+        $container->expects(static::once())->method('get')->willReturn(Slugify::create());
 
         $bundle->setContainer($container);
         $bundle->boot();
 
         $page = new Page();
         $page->setSlug($text);
-        $this->assertSame($page->getSlug(), $expected);
+        static::assertSame($page->getSlug(), $expected);
     }
 
     public function getSlug(): array

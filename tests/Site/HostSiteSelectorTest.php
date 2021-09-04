@@ -38,7 +38,7 @@ class HostSiteSelectorTest extends TestCase
         [$site, $event] = $this->performHandleKernelRequestTest($url);
 
         // Ensure we retrieved the correct site.
-        $this->assertSame($expectedName, $site->getName());
+        static::assertSame($expectedName, $site->getName());
     }
 
     public function siteProvider(): \Generator
@@ -62,7 +62,7 @@ class HostSiteSelectorTest extends TestCase
         $request = Request::create($url);
 
         // Ensure request locale is null
-        $this->assertNull($request->attributes->get('_locale'));
+        static::assertNull($request->attributes->get('_locale'));
 
         $event = new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
 
@@ -79,7 +79,7 @@ class HostSiteSelectorTest extends TestCase
         $site = $siteSelector->retrieve();
 
         // Ensure request locale matches site locale
-        $this->assertSame($site->getLocale(), $request->attributes->get('_locale'));
+        static::assertSame($site->getLocale(), $request->attributes->get('_locale'));
 
         return [
             $site,

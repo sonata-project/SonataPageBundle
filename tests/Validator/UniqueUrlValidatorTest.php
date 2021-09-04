@@ -34,12 +34,12 @@ class UniqueUrlValidatorTest extends TestCase
         $site = $this->createMock(SiteInterface::class);
 
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->exactly(2))->method('getSite')->willReturn($site);
-        $page->expects($this->exactly(2))->method('isError')->willReturn(false);
+        $page->expects(static::exactly(2))->method('getSite')->willReturn($site);
+        $page->expects(static::exactly(2))->method('isError')->willReturn(false);
 
         $manager = $this->createMock(PageManagerInterface::class);
-        $manager->expects($this->once())->method('fixUrl');
-        $manager->expects($this->once())->method('findBy')->willReturn([$page]);
+        $manager->expects(static::once())->method('fixUrl');
+        $manager->expects(static::once())->method('findBy')->willReturn([$page]);
 
         $context = $this->getContext();
 
@@ -54,16 +54,16 @@ class UniqueUrlValidatorTest extends TestCase
         $site = $this->createMock(SiteInterface::class);
 
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->exactly(2))->method('getSite')->willReturn($site);
-        $page->expects($this->exactly(2))->method('isError')->willReturn(false);
+        $page->expects(static::exactly(2))->method('getSite')->willReturn($site);
+        $page->expects(static::exactly(2))->method('isError')->willReturn(false);
         $page->method('getUrl')->willReturn('/salut');
 
         $pageFound = $this->createMock(PageInterface::class);
         $pageFound->method('getUrl')->willReturn('/salut');
 
         $manager = $this->createMock(PageManagerInterface::class);
-        $manager->expects($this->once())->method('fixUrl');
-        $manager->expects($this->once())->method('findBy')->willReturn([$page, $pageFound]);
+        $manager->expects(static::once())->method('fixUrl');
+        $manager->expects(static::once())->method('findBy')->willReturn([$page, $pageFound]);
 
         $context = $this->getContext();
 
@@ -78,17 +78,17 @@ class UniqueUrlValidatorTest extends TestCase
         $site = $this->createMock(SiteInterface::class);
 
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->exactly(2))->method('getSite')->willReturn($site);
-        $page->expects($this->exactly(2))->method('isError')->willReturn(false);
-        $page->expects($this->once())->method('getParent')->willReturn(null);
+        $page->expects(static::exactly(2))->method('getSite')->willReturn($site);
+        $page->expects(static::exactly(2))->method('isError')->willReturn(false);
+        $page->expects(static::once())->method('getParent')->willReturn(null);
         $page->method('getUrl')->willReturn('/');
 
         $pageFound = $this->createMock(PageInterface::class);
         $pageFound->method('getUrl')->willReturn('/');
 
         $manager = $this->createMock(PageManagerInterface::class);
-        $manager->expects($this->once())->method('fixUrl');
-        $manager->expects($this->once())->method('findBy')->willReturn([$page, $pageFound]);
+        $manager->expects(static::once())->method('fixUrl');
+        $manager->expects(static::once())->method('findBy')->willReturn([$page, $pageFound]);
 
         $context = $this->getContext();
 
@@ -103,9 +103,9 @@ class UniqueUrlValidatorTest extends TestCase
         $site = $this->createMock(SiteInterface::class);
 
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->once())->method('getSite')->willReturn($site);
-        $page->expects($this->once())->method('isError')->willReturn(false);
-        $page->expects($this->once())->method('isDynamic')->willReturn(true);
+        $page->expects(static::once())->method('getSite')->willReturn($site);
+        $page->expects(static::once())->method('isError')->willReturn(false);
+        $page->expects(static::once())->method('isDynamic')->willReturn(true);
         $page->method('getUrl')->willReturn('/salut');
 
         $manager = $this->createMock(PageManagerInterface::class);

@@ -45,20 +45,20 @@ class PageControllerTest extends TestCase
             ->setMethods(['setController', 'get', 'all'])
             ->getMock();
 
-        $paramFetcher->expects($this->exactly(3))->method('get');
-        $paramFetcher->expects($this->once())->method('all')->willReturn([]);
+        $paramFetcher->expects(static::exactly(3))->method('get');
+        $paramFetcher->expects(static::once())->method('all')->willReturn([]);
 
         $pageManager = $this->createMock(PageManagerInterface::class);
-        $pageManager->expects($this->once())->method('getPager')->willReturn($pager);
+        $pageManager->expects(static::once())->method('getPager')->willReturn($pager);
 
-        $this->assertSame($pager, $this->createPageController(null, null, $pageManager)->getPagesAction($paramFetcher));
+        static::assertSame($pager, $this->createPageController(null, null, $pageManager)->getPagesAction($paramFetcher));
     }
 
     public function testGetPageAction(): void
     {
         $page = $this->createMock(PageInterface::class);
 
-        $this->assertSame($page, $this->createPageController($page)->getPageAction(1));
+        static::assertSame($page, $this->createPageController($page)->getPageAction(1));
     }
 
     public function testGetPageActionNotFoundException(): void
@@ -74,9 +74,9 @@ class PageControllerTest extends TestCase
         $page = $this->createMock(PageInterface::class);
         $block = $this->createMock(PageBlockInterface::class);
 
-        $page->expects($this->once())->method('getBlocks')->willReturn([$block]);
+        $page->expects(static::once())->method('getBlocks')->willReturn([$block]);
 
-        $this->assertSame([$block], $this->createPageController($page)->getPageBlocksAction(1));
+        static::assertSame([$block], $this->createPageController($page)->getPageBlocksAction(1));
     }
 
     public function testPostPageAction(): void
@@ -84,20 +84,20 @@ class PageControllerTest extends TestCase
         $page = $this->createMock(PageInterface::class);
 
         $pageManager = $this->createMock(PageManagerInterface::class);
-        $pageManager->expects($this->once())->method('save')->willReturn($page);
+        $pageManager->expects(static::once())->method('save')->willReturn($page);
 
         $form = $this->createMock(Form::class);
-        $form->expects($this->once())->method('handleRequest');
-        $form->expects($this->once())->method('isValid')->willReturn(true);
-        $form->expects($this->once())->method('getData')->willReturn($page);
+        $form->expects(static::once())->method('handleRequest');
+        $form->expects(static::once())->method('isValid')->willReturn(true);
+        $form->expects(static::once())->method('getData')->willReturn($page);
 
         $formFactory = $this->createMock(FormFactoryInterface::class);
-        $formFactory->expects($this->once())->method('createNamed')->willReturn($form);
+        $formFactory->expects(static::once())->method('createNamed')->willReturn($form);
 
         $view = $this->createPageController(null, null, $pageManager, null, $formFactory)
             ->postPageAction(new Request());
 
-        $this->assertInstanceOf(View::class, $view);
+        static::assertInstanceOf(View::class, $view);
     }
 
     public function testPostPageInvalidAction(): void
@@ -105,19 +105,19 @@ class PageControllerTest extends TestCase
         $page = $this->createMock(PageInterface::class);
 
         $pageManager = $this->createMock(PageManagerInterface::class);
-        $pageManager->expects($this->never())->method('save')->willReturn($page);
+        $pageManager->expects(static::never())->method('save')->willReturn($page);
 
         $form = $this->createMock(Form::class);
-        $form->expects($this->once())->method('handleRequest');
-        $form->expects($this->once())->method('isValid')->willReturn(false);
+        $form->expects(static::once())->method('handleRequest');
+        $form->expects(static::once())->method('isValid')->willReturn(false);
 
         $formFactory = $this->createMock(FormFactoryInterface::class);
-        $formFactory->expects($this->once())->method('createNamed')->willReturn($form);
+        $formFactory->expects(static::once())->method('createNamed')->willReturn($form);
 
         $view = $this->createPageController(null, null, $pageManager, null, $formFactory)
             ->postPageAction(new Request());
 
-        $this->assertInstanceOf(FormInterface::class, $view);
+        static::assertInstanceOf(FormInterface::class, $view);
     }
 
     public function testPutPageAction(): void
@@ -125,20 +125,20 @@ class PageControllerTest extends TestCase
         $page = $this->createMock(PageInterface::class);
 
         $pageManager = $this->createMock(PageManagerInterface::class);
-        $pageManager->expects($this->once())->method('save')->willReturn($page);
+        $pageManager->expects(static::once())->method('save')->willReturn($page);
 
         $form = $this->createMock(Form::class);
-        $form->expects($this->once())->method('handleRequest');
-        $form->expects($this->once())->method('isValid')->willReturn(true);
-        $form->expects($this->once())->method('getData')->willReturn($page);
+        $form->expects(static::once())->method('handleRequest');
+        $form->expects(static::once())->method('isValid')->willReturn(true);
+        $form->expects(static::once())->method('getData')->willReturn($page);
 
         $formFactory = $this->createMock(FormFactoryInterface::class);
-        $formFactory->expects($this->once())->method('createNamed')->willReturn($form);
+        $formFactory->expects(static::once())->method('createNamed')->willReturn($form);
 
         $view = $this->createPageController($page, null, $pageManager, null, $formFactory)
             ->putPageAction(1, new Request());
 
-        $this->assertInstanceOf(View::class, $view);
+        static::assertInstanceOf(View::class, $view);
     }
 
     public function testPutPageInvalidAction(): void
@@ -146,19 +146,19 @@ class PageControllerTest extends TestCase
         $page = $this->createMock(PageInterface::class);
 
         $pageManager = $this->createMock(PageManagerInterface::class);
-        $pageManager->expects($this->never())->method('save')->willReturn($page);
+        $pageManager->expects(static::never())->method('save')->willReturn($page);
 
         $form = $this->createMock(Form::class);
-        $form->expects($this->once())->method('handleRequest');
-        $form->expects($this->once())->method('isValid')->willReturn(false);
+        $form->expects(static::once())->method('handleRequest');
+        $form->expects(static::once())->method('isValid')->willReturn(false);
 
         $formFactory = $this->createMock(FormFactoryInterface::class);
-        $formFactory->expects($this->once())->method('createNamed')->willReturn($form);
+        $formFactory->expects(static::once())->method('createNamed')->willReturn($form);
 
         $view = $this->createPageController($page, null, $pageManager, null, $formFactory)
             ->putPageAction(1, new Request());
 
-        $this->assertInstanceOf(FormInterface::class, $view);
+        static::assertInstanceOf(FormInterface::class, $view);
     }
 
     public function testDeletePageAction(): void
@@ -166,11 +166,11 @@ class PageControllerTest extends TestCase
         $page = $this->createMock(PageInterface::class);
 
         $pageManager = $this->createMock(PageManagerInterface::class);
-        $pageManager->expects($this->once())->method('delete');
+        $pageManager->expects(static::once())->method('delete');
 
         $view = $this->createPageController($page, null, $pageManager)->deletePageAction(1);
 
-        $this->assertSame(['deleted' => true], $view);
+        static::assertSame(['deleted' => true], $view);
     }
 
     public function testDeletePageInvalidAction(): void
@@ -178,7 +178,7 @@ class PageControllerTest extends TestCase
         $this->expectException(NotFoundHttpException::class);
 
         $pageManager = $this->createMock(PageManagerInterface::class);
-        $pageManager->expects($this->never())->method('delete');
+        $pageManager->expects(static::never())->method('delete');
 
         $this->createPageController(null, null, $pageManager)->deletePageAction(1);
     }
@@ -186,28 +186,28 @@ class PageControllerTest extends TestCase
     public function testPostPageBlockAction(): void
     {
         $block = $this->createMock(Block::class);
-        $block->expects($this->once())->method('setPage');
+        $block->expects(static::once())->method('setPage');
 
         $page = $this->createMock(PageInterface::class);
 
         $pageManager = $this->createMock(PageManagerInterface::class);
 
         $blockManager = $this->createMock(BlockManagerInterface::class);
-        $blockManager->expects($this->once())->method('save')->willReturn($block);
+        $blockManager->expects(static::once())->method('save')->willReturn($block);
 
         $form = $this->createMock(Form::class);
-        $form->expects($this->once())->method('handleRequest');
-        $form->expects($this->once())->method('isValid')->willReturn(true);
-        $form->expects($this->once())->method('getData')->willReturn($block);
+        $form->expects(static::once())->method('handleRequest');
+        $form->expects(static::once())->method('isValid')->willReturn(true);
+        $form->expects(static::once())->method('getData')->willReturn($block);
 
         $formFactory = $this->createMock(FormFactoryInterface::class);
-        $formFactory->expects($this->once())->method('createNamed')->willReturn($form);
+        $formFactory->expects(static::once())->method('createNamed')->willReturn($form);
 
         $pageController = $this->createPageController($page, null, $pageManager, $blockManager, $formFactory);
 
         $block = $pageController->postPageBlockAction(1, new Request());
 
-        $this->assertInstanceOf(Block::class, $block);
+        static::assertInstanceOf(Block::class, $block);
     }
 
     public function testPostPageBlockInvalidAction(): void
@@ -219,19 +219,19 @@ class PageControllerTest extends TestCase
         $pageManager = $this->createMock(PageManagerInterface::class);
 
         $blockManager = $this->createMock(BlockManagerInterface::class);
-        $blockManager->expects($this->never())->method('save')->willReturn($block);
+        $blockManager->expects(static::never())->method('save')->willReturn($block);
 
         $form = $this->createMock(Form::class);
-        $form->expects($this->once())->method('handleRequest');
-        $form->expects($this->once())->method('isValid')->willReturn(false);
+        $form->expects(static::once())->method('handleRequest');
+        $form->expects(static::once())->method('isValid')->willReturn(false);
 
         $formFactory = $this->createMock(FormFactoryInterface::class);
-        $formFactory->expects($this->once())->method('createNamed')->willReturn($form);
+        $formFactory->expects(static::once())->method('createNamed')->willReturn($form);
 
         $view = $this->createPageController($page, null, $pageManager, $blockManager, $formFactory)
             ->postPageBlockAction(1, new Request());
 
-        $this->assertInstanceOf(FormInterface::class, $view);
+        static::assertInstanceOf(FormInterface::class, $view);
     }
 
     public function testPostPageSnapshotAction(): void
@@ -239,12 +239,12 @@ class PageControllerTest extends TestCase
         $page = $this->createMock(PageInterface::class);
 
         $backend = $this->createMock(BackendInterface::class);
-        $backend->expects($this->once())->method('createAndPublish');
+        $backend->expects(static::once())->method('createAndPublish');
 
         $view = $this->createPageController($page, null, null, null, null, $backend)
             ->postPageSnapshotAction(1);
 
-        $this->assertSame(['queued' => true], $view);
+        static::assertSame(['queued' => true], $view);
     }
 
     public function testPostPagesSnapshotsAction(): void
@@ -252,15 +252,15 @@ class PageControllerTest extends TestCase
         $site = $this->createMock(SiteInterface::class);
 
         $siteManager = $this->createMock(SiteManagerInterface::class);
-        $siteManager->expects($this->once())->method('findAll')->willReturn([$site]);
+        $siteManager->expects(static::once())->method('findAll')->willReturn([$site]);
 
         $backend = $this->createMock(BackendInterface::class);
-        $backend->expects($this->once())->method('createAndPublish');
+        $backend->expects(static::once())->method('createAndPublish');
 
         $view = $this->createPageController(null, $siteManager, null, null, null, $backend)
             ->postPagesSnapshotsAction();
 
-        $this->assertSame(['queued' => true], $view);
+        static::assertSame(['queued' => true], $view);
     }
 
     public function createPageController(
@@ -281,7 +281,7 @@ class PageControllerTest extends TestCase
             $blockManager = $this->createMock(BlockManagerInterface::class);
         }
         if (null !== $page) {
-            $pageManager->expects($this->once())->method('findOneBy')->willReturn($page);
+            $pageManager->expects(static::once())->method('findOneBy')->willReturn($page);
         }
         if (null === $formFactory) {
             $formFactory = $this->createMock(FormFactoryInterface::class);

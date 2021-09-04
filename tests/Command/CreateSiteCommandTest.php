@@ -58,7 +58,7 @@ class CreateSiteCommandTest extends TestCase
         $site = new Site();
 
         $this->siteManager->method('create')->willReturn($site);
-        $this->siteManager->expects($this->once())->method('save')->with($site);
+        $this->siteManager->expects(static::once())->method('save')->with($site);
 
         $command = $this->application->find('sonata:page:create-site');
         $commandTester = new CommandTester($command);
@@ -75,7 +75,7 @@ class CreateSiteCommandTest extends TestCase
             '--no-confirmation' => true,
         ]);
 
-        $this->assertMatchesRegularExpression('@Site created !@', $commandTester->getDisplay());
+        static::assertMatchesRegularExpression('@Site created !@', $commandTester->getDisplay());
     }
 
     public function testExecuteWithoutNoConfirmation(): void
@@ -83,7 +83,7 @@ class CreateSiteCommandTest extends TestCase
         $site = new Site();
 
         $this->siteManager->method('create')->willReturn($site);
-        $this->siteManager->expects($this->never())->method('save')->with($site);
+        $this->siteManager->expects(static::never())->method('save')->with($site);
 
         $questionHelper = $this->createStub(QuestionHelper::class);
         $questionHelper->method('getName')->willReturn('question');
@@ -106,6 +106,6 @@ class CreateSiteCommandTest extends TestCase
             '--locale' => 'foo',
         ]);
 
-        $this->assertMatchesRegularExpression('@Site creation cancelled !@', $commandTester->getDisplay());
+        static::assertMatchesRegularExpression('@Site creation cancelled !@', $commandTester->getDisplay());
     }
 }

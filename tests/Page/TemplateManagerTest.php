@@ -34,7 +34,7 @@ class TemplateManagerTest extends TestCase
 
         $manager->add('code', $template);
 
-        $this->assertSame($template, $manager->get('code'));
+        static::assertSame($template, $manager->get('code'));
     }
 
     /**
@@ -52,9 +52,9 @@ class TemplateManagerTest extends TestCase
 
         $manager->setAll($templates);
 
-        $this->assertSame($templates['test1'], $manager->get('test1'));
-        $this->assertSame($templates['test2'], $manager->get('test2'));
-        $this->assertSame($templates, $manager->getAll());
+        static::assertSame($templates['test1'], $manager->get('test1'));
+        static::assertSame($templates['test2'], $manager->get('test2'));
+        static::assertSame($templates, $manager->getAll());
     }
 
     /**
@@ -67,7 +67,7 @@ class TemplateManagerTest extends TestCase
 
         $manager->setDefaultTemplateCode('test');
 
-        $this->assertSame('test', $manager->getDefaultTemplateCode());
+        static::assertSame('test', $manager->getDefaultTemplateCode());
     }
 
     /**
@@ -80,15 +80,15 @@ class TemplateManagerTest extends TestCase
         $response = $this->createMock(Response::class);
         $templating = $this->createMock(EngineInterface::class);
         $templating
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('renderResponse')
-            ->with($this->equalTo('path/to/template'))
+            ->with(static::equalTo('path/to/template'))
             ->willReturn($response);
 
         $manager = new TemplateManager($templating);
         $manager->add('test', $template);
 
-        $this->assertSame(
+        static::assertSame(
             $response,
             $manager->renderResponse('test'),
             'should return the mocked response'
@@ -102,9 +102,9 @@ class TemplateManagerTest extends TestCase
     {
         $templating = $this->createMock(EngineInterface::class);
         $templating
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('renderResponse')
-            ->with($this->equalTo('@SonataPage/layout.html.twig'));
+            ->with(static::equalTo('@SonataPage/layout.html.twig'));
         $manager = new TemplateManager($templating);
 
         $manager->renderResponse('test');
@@ -118,9 +118,9 @@ class TemplateManagerTest extends TestCase
         $response = $this->createMock(Response::class);
         $templating = $this->createMock(EngineInterface::class);
         $templating
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('renderResponse')
-            ->with($this->equalTo('path/to/default'))
+            ->with(static::equalTo('path/to/default'))
             ->willReturn($response);
 
         $template = $this->getMockTemplate('template', 'path/to/default');
@@ -128,7 +128,7 @@ class TemplateManagerTest extends TestCase
         $manager->add('default', $template);
         $manager->setDefaultTemplateCode('default');
 
-        $this->assertSame(
+        static::assertSame(
             $response,
             $manager->renderResponse(null),
             'should return the mocked response'
@@ -144,10 +144,10 @@ class TemplateManagerTest extends TestCase
 
         $response = $this->createMock(Response::class);
         $templating = $this->createMock(EngineInterface::class);
-        $templating->expects($this->once())->method('renderResponse')
+        $templating->expects(static::once())->method('renderResponse')
             ->with(
-                $this->equalTo('path/to/template'),
-                $this->equalTo(['parameter1' => 'value', 'parameter2' => 'value'])
+                static::equalTo('path/to/template'),
+                static::equalTo(['parameter1' => 'value', 'parameter2' => 'value'])
             )
             ->willReturn($response);
 
@@ -156,7 +156,7 @@ class TemplateManagerTest extends TestCase
         $manager = new TemplateManager($templating, $defaultParameters);
         $manager->add('test', $template);
 
-        $this->assertSame(
+        static::assertSame(
             $response,
             $manager->renderResponse('test', ['parameter2' => 'value']),
             'should return the mocked response'

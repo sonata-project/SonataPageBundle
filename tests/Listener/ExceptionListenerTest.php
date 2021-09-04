@@ -112,7 +112,7 @@ class ExceptionListenerTest extends TestCase
         $exception = $this->createMock(InternalErrorException::class);
         $event = $this->getMockEvent($exception);
 
-        $this->logger->expects($this->once())->method('error');
+        $this->logger->expects(static::once())->method('error');
 
         $this->listener->onKernelException($event);
     }
@@ -126,19 +126,19 @@ class ExceptionListenerTest extends TestCase
         $event = $this->getMockEvent($exception);
 
         // mocked cms selector should enable editor mode
-        $this->cmsSelector->expects($this->once())->method('isEditor')->willReturn(true);
+        $this->cmsSelector->expects(static::once())->method('isEditor')->willReturn(true);
 
         // mocked decorator strategy should allow decorate
-        $this->decoratorStrategy->expects($this->once())->method('isRouteUriDecorable')->willReturn(true);
+        $this->decoratorStrategy->expects(static::once())->method('isRouteUriDecorable')->willReturn(true);
 
         // mock templating to expect a twig rendering
-        $this->templating->expects($this->once())->method('render')
-             ->with($this->equalTo('@SonataPage/Page/create.html.twig'));
+        $this->templating->expects(static::once())->method('render')
+             ->with(static::equalTo('@SonataPage/Page/create.html.twig'));
 
         $this->listener->onKernelException($event);
 
-        $this->assertInstanceOf(Response::class, $event->getResponse(), 'Should return a response in event');
-        $this->assertSame(404, $event->getResponse()->getStatusCode(), 'Should return 404 status code');
+        static::assertInstanceOf(Response::class, $event->getResponse(), 'Should return a response in event');
+        static::assertSame(404, $event->getResponse()->getStatusCode(), 'Should return 404 status code');
     }
 
     /**
@@ -150,24 +150,24 @@ class ExceptionListenerTest extends TestCase
         $exception->method('getStatusCode')->willReturn(404);
         $event = $this->getMockEvent($exception);
 
-        $this->assertSame('en', $event->getRequest()->getLocale());
+        static::assertSame('en', $event->getRequest()->getLocale());
 
         // mock a site
         $site = $this->createMock(SiteInterface::class);
-        $site->expects($this->exactly(3))->method('getLocale')->willReturn('fr');
+        $site->expects(static::exactly(3))->method('getLocale')->willReturn('fr');
 
         // mock an error page
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->exactly(3))->method('getSite')->willReturn($site);
+        $page->expects(static::exactly(3))->method('getSite')->willReturn($site);
 
         // mock cms manager to return the mock error page and set it as current page
         $this->cmsManager = $this->createMock(CmsManagerInterface::class);
         $this->cmsManager
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('getPageByRouteName')
-            ->with($this->anything(), $this->equalTo('route_404'))
+            ->with(static::anything(), static::equalTo('route_404'))
             ->willReturn($page);
-        $this->cmsManager->expects($this->once())->method('setCurrentPage')->with($this->equalTo($page));
+        $this->cmsManager->expects(static::once())->method('setCurrentPage')->with(static::equalTo($page));
         $this->cmsSelector->method('retrieve')->willReturn($this->cmsManager);
 
         // mocked site selector should return a site
@@ -186,14 +186,14 @@ class ExceptionListenerTest extends TestCase
         // mocked page service manager should execute the page and return a response
         $response = $this->createMock(Response::class);
         $this->pageServiceManager
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('execute')
-            ->with($this->equalTo($page))
+            ->with(static::equalTo($page))
             ->willReturn($response);
 
         $this->listener->onKernelException($event);
 
-        $this->assertSame('fr', $event->getRequest()->getLocale());
+        static::assertSame('fr', $event->getRequest()->getLocale());
     }
 
     /**

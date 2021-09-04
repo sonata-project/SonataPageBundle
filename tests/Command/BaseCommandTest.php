@@ -50,13 +50,13 @@ class BaseCommandTest extends TestCase
 
         $this->command->method('getSiteManager')->willReturn($siteManager);
 
-        $input->expects($this->exactly(3))->method('getOption')->with('site')->willReturnOnConsecutiveCalls(
+        $input->expects(static::exactly(3))->method('getOption')->with('site')->willReturnOnConsecutiveCalls(
             ['all'],
             ['10'],
             ['10', '11']
         );
 
-        $siteManager->expects($this->exactly(3))->method('findBy')->withConsecutive(
+        $siteManager->expects(static::exactly(3))->method('findBy')->withConsecutive(
             [[]],
             [['id' => 10]],
             [['id' => [10, 11]]]
