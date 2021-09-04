@@ -61,13 +61,13 @@ class DefaultPageServiceTest extends TestCase
         // mock a page instance
         $page = $this->createMock(PageInterface::class);
         $page->method('getTitle')->willReturn('page title');
-        $page->expects($this->atLeastOnce())->method('getMetaDescription')->willReturn('page meta description');
-        $page->expects($this->atLeastOnce())->method('getMetaKeyword')->willReturn('page meta keywords');
-        $page->expects($this->once())->method('getTemplateCode')->willReturn('template code');
+        $page->expects(static::atLeastOnce())->method('getMetaDescription')->willReturn('page meta description');
+        $page->expects(static::atLeastOnce())->method('getMetaKeyword')->willReturn('page meta keywords');
+        $page->expects(static::once())->method('getTemplateCode')->willReturn('template code');
 
         // mocked SeoPage should expect SEO values
-        $this->seoPage->expects($this->once())
-            ->method('setTitle')->with($this->equalTo('page title'));
+        $this->seoPage->expects(static::once())
+            ->method('setTitle')->with(static::equalTo('page title'));
 
         $metaMapping = [
             ['name',       'description',  'page meta description', true],
@@ -75,14 +75,14 @@ class DefaultPageServiceTest extends TestCase
             ['property',   'og:type',      'article',               true],
         ];
 
-        $this->seoPage->expects($this->exactly(3))->method('addMeta')->willReturnMap($metaMapping);
+        $this->seoPage->expects(static::exactly(3))->method('addMeta')->willReturnMap($metaMapping);
 
-        $this->seoPage->expects($this->once())
-            ->method('addHtmlAttributes')->with($this->equalTo('prefix'), $this->equalTo('og: http://ogp.me/ns#'));
+        $this->seoPage->expects(static::once())
+            ->method('addHtmlAttributes')->with(static::equalTo('prefix'), static::equalTo('og: http://ogp.me/ns#'));
 
         // mocked template manager should render something
-        $this->templateManager->expects($this->once())
-            ->method('renderResponse')->with($this->equalTo('template code'))->willReturn($response);
+        $this->templateManager->expects(static::once())
+            ->method('renderResponse')->with(static::equalTo('template code'))->willReturn($response);
 
         $this->service->execute($page, $request);
     }

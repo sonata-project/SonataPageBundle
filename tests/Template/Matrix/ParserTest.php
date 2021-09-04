@@ -83,6 +83,6 @@ class ParserTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expected, $result);
+        static::assertSame($expected, $result);
     }
 }

@@ -43,15 +43,15 @@ class CmfRouterAutoRegisterTest extends AbstractCompilerPassTestCase
 
             if ($reference instanceof Reference && 'sonata.page.router' === $reference->__toString()) {
                 if ($enabled) {
-                    $this->assertSame($priority, $weight);
+                    static::assertSame($priority, $weight);
                     break;
                 }
-                $this->fail('"sonata.page.router" service should not be auto registered');
+                static::fail('"sonata.page.router" service should not be auto registered');
             }
         }
 
         if (0 === \count($router->getMethodCalls())) {
-            $this->assertFalse($enabled);
+            static::assertFalse($enabled);
         }
     }
 

@@ -51,6 +51,6 @@ final class Issue1134Test extends ResetableDBWebTestTest
 
         $this->client->request('GET', $this->client->getResponse()->headers->get('Location'));
 
-        $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        static::assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 }

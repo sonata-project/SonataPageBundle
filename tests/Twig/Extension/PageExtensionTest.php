@@ -32,11 +32,11 @@ class PageExtensionTest extends TestCase
     public function testAjaxUrl(): void
     {
         $router = $this->createMock(RouterInterface::class);
-        $router->expects($this->once())->method('generate')->willReturn('/foo/bar');
+        $router->expects(static::once())->method('generate')->willReturn('/foo/bar');
 
         $block = $this->createMock(PageBlockInterface::class);
         $block
-            ->expects($this->exactly(2))
+            ->expects(static::exactly(2))
             ->method('getPage')
             ->willReturn($this->createMock(PageInterface::class));
 
@@ -48,7 +48,7 @@ class PageExtensionTest extends TestCase
             $this->createMock(HttpKernelExtension::class)
         );
 
-        $this->assertSame('/foo/bar', $extension->ajaxUrl($block));
+        static::assertSame('/foo/bar', $extension->ajaxUrl($block));
     }
 
     /**
@@ -124,7 +124,7 @@ class PageExtensionTest extends TestCase
         $property = new \ReflectionProperty($extension, 'environment');
         $property->setAccessible(true);
 
-        $this->assertSame($environment, $property->getValue($extension));
+        static::assertSame($environment, $property->getValue($extension));
     }
 
     public function testGetName(): void
@@ -137,6 +137,6 @@ class PageExtensionTest extends TestCase
             $this->createMock(HttpKernelExtension::class)
         );
 
-        $this->assertSame('sonata_page', $extension->getName());
+        static::assertSame('sonata_page', $extension->getName());
     }
 }

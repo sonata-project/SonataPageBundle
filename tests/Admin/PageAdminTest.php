@@ -50,7 +50,7 @@ class PageAdminTest extends TestCase
         $routeGenerator = $this->createMock(RouteGeneratorInterface::class);
         $routeGenerator->method('generateMenuUrl')->with(
             $admin,
-            $this->anything(),
+            static::anything(),
             ['id' => 42],
             UrlGeneratorInterface::ABSOLUTE_PATH
         )->willReturn([
@@ -59,7 +59,7 @@ class PageAdminTest extends TestCase
             'routeAbsolute' => true,
         ]);
 
-        $routeGenerator->expects($this->once())->method('generate')->with(
+        $routeGenerator->expects(static::once())->method('generate')->with(
             'page_slug',
             ['path' => '/my-subsite/my-page']
         );

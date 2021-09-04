@@ -27,10 +27,10 @@ class BaseBlockAdminTest extends TestCase
     public function testSettingAsEditedOnPreBatchDeleteAction(): void
     {
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->once())->method('setEdited')->with(true);
+        $page->expects(static::once())->method('setEdited')->with(true);
 
         $parent = $this->createMock(AdminInterface::class);
-        $parent->expects($this->once())->method('getSubject')->willReturn($page);
+        $parent->expects(static::once())->method('getSubject')->willReturn($page);
 
         $blockAdmin = $this->getMockBuilder(BaseBlockAdmin::class)
             ->disableOriginalConstructor()
@@ -50,17 +50,17 @@ class BaseBlockAdminTest extends TestCase
     public function testSettingAsEditedOnPreRemove(): void
     {
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->once())->method('setEdited')->with(true);
+        $page->expects(static::once())->method('setEdited')->with(true);
 
         $block = $this->createMock(PageBlockInterface::class);
-        $block->expects($this->once())->method('getPage')->willReturn($page);
+        $block->expects(static::once())->method('getPage')->willReturn($page);
 
         $blockService = $this->createMock(AbstractAdminBlockService::class);
         $blockService->method('preRemove')->with($block);
 
         $blockServiceManager = $this->createMock(BlockServiceManagerInterface::class);
         $blockServiceManager
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('get')
             ->with($block)
             ->willReturn($blockService);

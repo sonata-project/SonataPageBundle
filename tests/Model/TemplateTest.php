@@ -32,7 +32,7 @@ class TemplateTest extends TestCase
                 'shared' => false,
             ],
         ];
-        $this->assertSame($template->getContainers(), $expected);
+        static::assertSame($template->getContainers(), $expected);
 
         $template->addContainer('zone_B', [
             'shared' => true,
@@ -44,7 +44,7 @@ class TemplateTest extends TestCase
             'placement' => [],
             'shared' => true,
         ];
-        $this->assertSame($template->getContainers(), $expected);
+        static::assertSame($template->getContainers(), $expected);
     }
 
     public function testGetContainer(): void
@@ -62,6 +62,6 @@ class TemplateTest extends TestCase
             'shared' => false,
         ];
 
-        $this->assertSame($expected, $template->getContainer('header'));
+        static::assertSame($expected, $template->getContainer('header'));
     }
 }

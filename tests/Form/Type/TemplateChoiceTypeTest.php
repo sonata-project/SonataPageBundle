@@ -46,14 +46,14 @@ class TemplateChoiceTypeTest extends TestCase
      */
     public function testGetOptions(): void
     {
-        $this->manager->expects($this->atLeastOnce())->method('getAll')->willReturn([
+        $this->manager->expects(static::atLeastOnce())->method('getAll')->willReturn([
             'my_template' => $this->getMockTemplate('Template 1'),
         ]);
 
         $this->type->configureOptions(new OptionsResolver());
 
         $this->type->getTemplates();
-        $this->assertSame(
+        static::assertSame(
             ['Template 1' => 'my_template'],
             $this->type->getTemplates(),
             'Should return an array of templates provided by the template manager'

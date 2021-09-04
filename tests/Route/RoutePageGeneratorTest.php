@@ -62,17 +62,17 @@ class RoutePageGeneratorTest extends TestCase
             $output = fread($tmpFile, 4096);
         }
 
-        $this->assertMatchesRegularExpression('/CREATE(.*)route1(.*)\/first_custom_route/', $output);
-        $this->assertMatchesRegularExpression('/CREATE(.*)route1(.*)\/first_custom_route/', $output);
-        $this->assertMatchesRegularExpression('/CREATE(.*)test_hybrid_page_with_good_host(.*)\/third_custom_route/', $output);
-        $this->assertMatchesRegularExpression('/CREATE(.*)404/', $output);
-        $this->assertMatchesRegularExpression('/CREATE(.*)500/', $output);
+        static::assertMatchesRegularExpression('/CREATE(.*)route1(.*)\/first_custom_route/', $output);
+        static::assertMatchesRegularExpression('/CREATE(.*)route1(.*)\/first_custom_route/', $output);
+        static::assertMatchesRegularExpression('/CREATE(.*)test_hybrid_page_with_good_host(.*)\/third_custom_route/', $output);
+        static::assertMatchesRegularExpression('/CREATE(.*)404/', $output);
+        static::assertMatchesRegularExpression('/CREATE(.*)500/', $output);
 
-        $this->assertMatchesRegularExpression('/DISABLE(.*)test_hybrid_page_with_bad_host(.*)\/fourth_custom_route/', $output);
+        static::assertMatchesRegularExpression('/DISABLE(.*)test_hybrid_page_with_bad_host(.*)\/fourth_custom_route/', $output);
 
-        $this->assertMatchesRegularExpression('/UPDATE(.*)test_hybrid_page_with_bad_host(.*)\/fourth_custom_route/', $output);
+        static::assertMatchesRegularExpression('/UPDATE(.*)test_hybrid_page_with_bad_host(.*)\/fourth_custom_route/', $output);
 
-        $this->assertMatchesRegularExpression('/ERROR(.*)test_hybrid_page_not_exists/', $output);
+        static::assertMatchesRegularExpression('/ERROR(.*)test_hybrid_page_not_exists/', $output);
     }
 
     /**
@@ -94,17 +94,17 @@ class RoutePageGeneratorTest extends TestCase
             $output = fread($tmpFile, 4096);
         }
 
-        $this->assertMatchesRegularExpression('#CREATE(.*)route1(.*)/first_custom_route#', $output);
-        $this->assertMatchesRegularExpression('#CREATE(.*)route1(.*)/first_custom_route#', $output);
-        $this->assertMatchesRegularExpression('#CREATE(.*)test_hybrid_page_with_good_host(.*)/third_custom_route#', $output);
-        $this->assertMatchesRegularExpression('#CREATE(.*)404#', $output);
-        $this->assertMatchesRegularExpression('#CREATE(.*)500#', $output);
+        static::assertMatchesRegularExpression('#CREATE(.*)route1(.*)/first_custom_route#', $output);
+        static::assertMatchesRegularExpression('#CREATE(.*)route1(.*)/first_custom_route#', $output);
+        static::assertMatchesRegularExpression('#CREATE(.*)test_hybrid_page_with_good_host(.*)/third_custom_route#', $output);
+        static::assertMatchesRegularExpression('#CREATE(.*)404#', $output);
+        static::assertMatchesRegularExpression('#CREATE(.*)500#', $output);
 
-        $this->assertMatchesRegularExpression('#DISABLE(.*)test_hybrid_page_with_bad_host(.*)/fourth_custom_route#', $output);
+        static::assertMatchesRegularExpression('#DISABLE(.*)test_hybrid_page_with_bad_host(.*)/fourth_custom_route#', $output);
 
-        $this->assertMatchesRegularExpression('#UPDATE(.*)test_hybrid_page_with_bad_host(.*)/fourth_custom_route#', $output);
+        static::assertMatchesRegularExpression('#UPDATE(.*)test_hybrid_page_with_bad_host(.*)/fourth_custom_route#', $output);
 
-        $this->assertMatchesRegularExpression('#REMOVED(.*)test_hybrid_page_not_exists#', $output);
+        static::assertMatchesRegularExpression('#REMOVED(.*)test_hybrid_page_not_exists#', $output);
     }
 
     /**
@@ -167,7 +167,7 @@ class RoutePageGeneratorTest extends TestCase
         $hybridPageWithBadHost = new Page();
         $hybridPageWithBadHost->setRouteName('test_hybrid_page_with_bad_host');
 
-        $pageManager->expects($this->atLeastOnce())
+        $pageManager->expects(static::atLeastOnce())
             ->method('findOneBy')
             ->willReturnMap([
                 [['routeName' => 'test_hybrid_page_with_bad_host', 'site' => 1], null, $hybridPageWithBadHost],

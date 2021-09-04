@@ -66,12 +66,12 @@ class CacheCompilerPassTest extends AbstractCompilerPassTestCase
         $cacheSsi = $this->container->getDefinition('sonata.page.cache.ssi');
 
         if ($this->container->has('sonata.page.cms.page') && $this->container->has('sonata.page.cms.snapshot')) {
-            $this->assertSame($cacheEsi->getArguments()[8], $cacheSsi->getArguments()[6]);
+            static::assertSame($cacheEsi->getArguments()[8], $cacheSsi->getArguments()[6]);
 
             $services = $cacheEsi->getArguments()[8];
 
-            $this->assertSame('sonata.page.cms.page', $services['page']->__toString());
-            $this->assertSame('sonata.page.cms.snapshot', $services['snapshot']->__toString());
+            static::assertSame('sonata.page.cms.page', $services['page']->__toString());
+            static::assertSame('sonata.page.cms.snapshot', $services['snapshot']->__toString());
         }
     }
 

@@ -163,7 +163,7 @@ class ConfigurationTest extends TestCase
             'direct_publication' => false,
         ];
 
-        $this->assertSame($expected, $config);
+        static::assertSame($expected, $config);
     }
 
     public function testPageWithoutMatrix(): void
@@ -250,6 +250,6 @@ class ConfigurationTest extends TestCase
             'direct_publication' => false,
         ];
 
-        $this->assertSame($expected, $config);
+        static::assertSame($expected, $config);
     }
 }

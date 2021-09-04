@@ -48,7 +48,7 @@ class PageServiceManagerTest extends TestCase
 
         $this->manager->add('default', $service);
 
-        $this->assertSame($service, $this->manager->get('default'));
+        static::assertSame($service, $this->manager->get('default'));
     }
 
     /**
@@ -62,9 +62,9 @@ class PageServiceManagerTest extends TestCase
         $this->manager->add('my-type', $service);
 
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->once())->method('getType')->willReturn('my-type');
+        $page->expects(static::once())->method('getType')->willReturn('my-type');
 
-        $this->assertSame(
+        static::assertSame(
             $service,
             $this->manager->get($page),
             'Should return the page service'
@@ -81,7 +81,7 @@ class PageServiceManagerTest extends TestCase
         $this->manager->add('service1', $service1 = $this->createMock(PageServiceInterface::class));
         $this->manager->add('service2', $service2 = $this->createMock(PageServiceInterface::class));
 
-        $this->assertSame(
+        static::assertSame(
             ['service1' => $service1, 'service2' => $service2],
             $this->manager->getAll(),
             'Should return all page services'
@@ -96,7 +96,7 @@ class PageServiceManagerTest extends TestCase
         $default = $this->createMock(PageServiceInterface::class);
         $this->manager->setDefault($default);
 
-        $this->assertSame(
+        static::assertSame(
             $default,
             $this->manager->get('non-existing'),
             'Should return the default page service'
@@ -114,16 +114,16 @@ class PageServiceManagerTest extends TestCase
         $response = $this->createMock(Response::class);
 
         $page = $this->createMock(PageInterface::class);
-        $page->expects($this->once())->method('getType')->willReturn('my-type');
+        $page->expects(static::once())->method('getType')->willReturn('my-type');
 
         $service = $this->createMock(PageServiceInterface::class);
-        $service->expects($this->once())
+        $service->expects(static::once())
             ->method('execute')
-            ->with($this->equalTo($page), $this->equalTo($request))
+            ->with(static::equalTo($page), static::equalTo($request))
             ->willReturn($response);
         $this->manager->add('my-type', $service);
 
-        $this->assertSame(
+        static::assertSame(
             $response,
             $this->manager->execute($page, $request),
             'Should return a response'
