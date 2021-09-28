@@ -112,6 +112,11 @@ class PageManagerTest extends TestCase
         static::assertFalse($page->getDecorate());
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testGetPager(): void
     {
         $self = $this;
@@ -127,6 +132,11 @@ class PageManagerTest extends TestCase
             ->getPager([], 1);
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testGetPagerWithInvalidSort(): void
     {
         $this->expectException(\RuntimeException::class);
@@ -140,6 +150,11 @@ class PageManagerTest extends TestCase
             ->getPager([], 1, 10, ['invalid' => 'ASC']);
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testGetPagerWithMultipleSort(): void
     {
         $self = $this;
@@ -164,6 +179,11 @@ class PageManagerTest extends TestCase
             ]);
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testGetPagerWithRootPages(): void
     {
         $self = $this;
@@ -174,6 +194,11 @@ class PageManagerTest extends TestCase
             ->getPager(['root' => true], 1);
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testGetPagerWithNonRootPages(): void
     {
         $self = $this;
@@ -184,6 +209,11 @@ class PageManagerTest extends TestCase
             ->getPager(['root' => false], 1);
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testGetPagerWithEnabledPages(): void
     {
         $self = $this;
@@ -195,6 +225,11 @@ class PageManagerTest extends TestCase
             ->getPager(['enabled' => true], 1);
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testGetPagerWithDisabledPages(): void
     {
         $self = $this;
@@ -206,6 +241,11 @@ class PageManagerTest extends TestCase
             ->getPager(['enabled' => false], 1);
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testGetPagerWithEditedPages(): void
     {
         $self = $this;
@@ -217,6 +257,11 @@ class PageManagerTest extends TestCase
             ->getPager(['edited' => true], 1);
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testGetPagerWithNonEditedPages(): void
     {
         $self = $this;
@@ -228,6 +273,11 @@ class PageManagerTest extends TestCase
             ->getPager(['edited' => false], 1);
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testGetPagerWithParentChildPages(): void
     {
         $self = $this;
@@ -243,6 +293,11 @@ class PageManagerTest extends TestCase
             ->getPager(['parent' => 13], 1);
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testGetPagerWithSitePages(): void
     {
         $self = $this;

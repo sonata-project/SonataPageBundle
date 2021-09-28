@@ -19,7 +19,11 @@ use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\View\View;
 
 /**
+ * NEXT_MAJOR: Remove this file.
+ *
  * @author Duchkina Anastasiya <duchkina.nast@gmail.com>
+ *
+ * @deprecated since sonata-project/page-bundle 3.x, to be removed in 4.0.
  */
 abstract class FOSRestController
 {
