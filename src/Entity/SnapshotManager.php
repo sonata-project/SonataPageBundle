@@ -281,6 +281,11 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
         throw new \RuntimeException(sprintf('The %s database platform has not been tested yet. Please report us if it works and feel free to create a pull request to handle it ;-)', $platform));
     }
 
+    /**
+     * NEXT_MAJOR: remove this method.
+     *
+     * @deprecated since sonata-project/page-bundle 3.x, to be removed in 4.0.
+     */
     public function getPager(array $criteria, $page, $limit = 10, array $sort = [])
     {
         $query = $this->getRepository()

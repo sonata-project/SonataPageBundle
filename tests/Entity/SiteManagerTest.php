@@ -25,6 +25,11 @@ use Sonata\PageBundle\Entity\SiteManager;
 
 class SiteManagerTest extends TestCase
 {
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testGetPager(): void
     {
         $self = $this;
@@ -40,6 +45,11 @@ class SiteManagerTest extends TestCase
             ->getPager([], 1);
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testGetPagerWithInvalidSort(): void
     {
         $this->expectException(\RuntimeException::class);
@@ -53,6 +63,11 @@ class SiteManagerTest extends TestCase
             ->getPager([], 1, 10, ['invalid' => 'ASC']);
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testGetPagerWithMultipleSort(): void
     {
         $self = $this;
@@ -78,6 +93,11 @@ class SiteManagerTest extends TestCase
             ]);
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testGetPagerWithEnabledSites(): void
     {
         $self = $this;
@@ -89,6 +109,11 @@ class SiteManagerTest extends TestCase
             ->getPager(['enabled' => true], 1);
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testGetPagerWithDisabledSites(): void
     {
         $self = $this;
@@ -100,6 +125,11 @@ class SiteManagerTest extends TestCase
             ->getPager(['enabled' => false], 1);
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testGetPagerWithDefaultSites(): void
     {
         $self = $this;
@@ -111,6 +141,11 @@ class SiteManagerTest extends TestCase
             ->getPager(['is_default' => true], 1);
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testGetPagerWithNonDefaultSites(): void
     {
         $self = $this;

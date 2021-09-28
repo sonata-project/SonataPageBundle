@@ -99,6 +99,11 @@ class SnapshotManagerTest extends TestCase
         $manager->getTemplate('foo');
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testGetPager(): void
     {
         $self = $this;
@@ -110,6 +115,11 @@ class SnapshotManagerTest extends TestCase
             ->getPager([], 1);
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testGetPagerWithEnabledSnapshots(): void
     {
         $self = $this;
@@ -121,6 +131,11 @@ class SnapshotManagerTest extends TestCase
             ->getPager(['enabled' => true], 1);
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testGetPagerWithDisabledSnapshots(): void
     {
         $self = $this;
@@ -132,6 +147,11 @@ class SnapshotManagerTest extends TestCase
             ->getPager(['enabled' => false], 1);
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testGetPagerWithRootSnapshots(): void
     {
         $self = $this;
@@ -142,6 +162,11 @@ class SnapshotManagerTest extends TestCase
             ->getPager(['root' => true], 1);
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testGetPagerWithNonRootSnapshots(): void
     {
         $self = $this;
@@ -152,6 +177,11 @@ class SnapshotManagerTest extends TestCase
             ->getPager(['root' => false], 1);
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testGetPagerWithParentChildSnapshots(): void
     {
         $self = $this;
@@ -167,6 +197,11 @@ class SnapshotManagerTest extends TestCase
             ->getPager(['parent' => 13], 1);
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testGetPagerWithSiteSnapshots(): void
     {
         $self = $this;

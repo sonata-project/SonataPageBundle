@@ -15,6 +15,11 @@ namespace Sonata\PageBundle\Form\Type;
 
 use Sonata\Form\Type\BaseDoctrineORMSerializationType;
 
+/**
+ * NEXT_MAJOR: remove this method.
+ *
+ * @deprecated since sonata-project/page-bundle 3.x, to be removed in 4.0.
+ */
 class ApiBlockType extends BaseDoctrineORMSerializationType
 {
 }

@@ -24,6 +24,11 @@ use Sonata\PageBundle\Entity\BlockManager;
 
 class BlockManagerTest extends TestCase
 {
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testGetPager(): void
     {
         $self = $this;

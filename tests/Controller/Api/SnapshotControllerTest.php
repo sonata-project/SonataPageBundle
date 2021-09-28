@@ -21,7 +21,11 @@ use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
+ * NEXT_MAJOR: Remove this class.
+ *
  * @author Benoit de Jacobet <benoit.de-jacobet@ekino.com>
+ *
+ * @group legacy
  */
 class SnapshotControllerTest extends TestCase
 {
