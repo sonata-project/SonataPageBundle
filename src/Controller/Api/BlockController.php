@@ -23,7 +23,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
+ * NEXT_MAJOR: Remove this file.
+ *
  * @author Vincent Composieux <vincent.composieux@gmail.com>
+ *
+ * @deprecated since sonata-project/page-bundle 3.x, to be removed in 4.0.
  */
 class BlockController extends FOSRestController
 {

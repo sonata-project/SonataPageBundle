@@ -24,7 +24,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
+ * NEXT_MAJOR: Remove this class.
+ *
  * @author Vincent Composieux <vincent.composieux@gmail.com>
+ *
+ * @group legacy
  */
 class BlockControllerTest extends TestCase
 {

@@ -23,7 +23,11 @@ use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
+ * NEXT_MAJOR: Remove this file.
+ *
  * @author Benoit de Jacobet <benoit.de-jacobet@ekino.com>
+ *
+ * @deprecated since sonata-project/page-bundle 3.x, to be removed in 4.0.
  */
 class SnapshotController extends FOSRestController
 {

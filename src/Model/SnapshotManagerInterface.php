@@ -17,6 +17,8 @@ use Sonata\Doctrine\Model\ManagerInterface;
 use Sonata\Doctrine\Model\PageableManagerInterface;
 
 /**
+ * NEXT_MAJOR: Remove PageableManagerInterface extension.
+ *
  * Defines methods to interact with the persistency layer of a SnapshotInterface.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>

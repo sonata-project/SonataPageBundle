@@ -26,7 +26,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
+ * NEXT_MAJOR: Remove this class.
+ *
  * @author Vincent Composieux <vincent.composieux@gmail.com>
+ *
+ * @group legacy
  */
 class AjaxControllerTest extends TestCase
 {
