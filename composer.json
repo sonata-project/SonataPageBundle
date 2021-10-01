@@ -7,7 +7,7 @@
         "sonata",
         "cms"
     ],
-    "homepage": "https://sonata-project.org/bundles/page",
+    "homepage": "https://docs.sonata-project.org/projects/SonataPageBundle",
     "license": "MIT",
     "authors": [
         {
