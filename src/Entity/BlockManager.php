@@ -13,11 +13,10 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Entity;
 
-use Sonata\BlockBundle\Model\BlockInterface;
-use Sonata\BlockBundle\Model\BlockManagerInterface;
 use Sonata\DatagridBundle\Pager\Doctrine\Pager;
 use Sonata\DatagridBundle\ProxyQuery\Doctrine\ProxyQuery;
 use Sonata\Doctrine\Entity\BaseEntityManager;
+use Sonata\PageBundle\Model\BlockManagerInterface;
 
 /**
  * This class manages BlockInterface persistency with the Doctrine ORM.
@@ -33,17 +32,6 @@ class BlockManager extends BaseEntityManager implements BlockManagerInterface
         return $entity;
     }
 
-    /**
-     * Updates position for given block.
-     *
-     * @param int  $id       Block Id
-     * @param int  $position New Position
-     * @param int  $parentId Parent block Id (needed when partial = true)
-     * @param int  $pageId   Page Id (needed when partial = true)
-     * @param bool $partial  Should we use partial references? (Better for performance, but can lead to query issues.)
-     *
-     * @return BlockInterface
-     */
     public function updatePosition($id, $position, $parentId = null, $pageId = null, $partial = true)
     {
         if ($partial) {
