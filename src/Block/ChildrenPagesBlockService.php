@@ -13,11 +13,15 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Block;
 
-use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\BlockBundle\Block\BlockContextInterface;
-use Sonata\BlockBundle\Block\Service\AbstractAdminBlockService;
+use Sonata\BlockBundle\Block\Service\AbstractBlockService;
+use Sonata\BlockBundle\Block\Service\EditableBlockService;
+use Sonata\BlockBundle\Form\Mapper\FormMapper;
+use Sonata\BlockBundle\Meta\Metadata;
+use Sonata\BlockBundle\Meta\MetadataInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\Form\Type\ImmutableArrayType;
+use Sonata\Form\Validator\ErrorElement;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Form\Type\PageSelectorType;
@@ -26,14 +30,14 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Templating\EngineInterface;
+use Twig\Environment;
 
 /**
  * Render children pages.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class ChildrenPagesBlockService extends AbstractAdminBlockService
+class ChildrenPagesBlockService extends AbstractBlockService implements EditableBlockService
 {
     /**
      * @var SiteSelectorInterface
@@ -45,18 +49,15 @@ class ChildrenPagesBlockService extends AbstractAdminBlockService
      */
     protected $cmsManagerSelector;
 
-    /**
-     * @param string $name
-     */
-    public function __construct($name, EngineInterface $templating, SiteSelectorInterface $siteSelector, CmsManagerSelectorInterface $cmsManagerSelector)
+    public function __construct(Environment $twig, SiteSelectorInterface $siteSelector, CmsManagerSelectorInterface $cmsManagerSelector)
     {
-        parent::__construct($name, $templating);
+        parent::__construct($twig);
 
         $this->siteSelector = $siteSelector;
         $this->cmsManagerSelector = $cmsManagerSelector;
     }
 
-    public function execute(BlockContextInterface $blockContext, ?Response $response = null)
+    public function execute(BlockContextInterface $blockContext, ?Response $response = null): Response
     {
         $settings = $blockContext->getSettings();
 
@@ -84,7 +85,12 @@ class ChildrenPagesBlockService extends AbstractAdminBlockService
         ], $response);
     }
 
-    public function buildEditForm(FormMapper $form, BlockInterface $block): void
+    public function configureCreateForm(FormMapper $form, BlockInterface $block): void
+    {
+        $this->configureEditForm($form, $block);
+    }
+
+    public function configureEditForm(FormMapper $form, BlockInterface $block): void
     {
         $form->add('settings', ImmutableArrayType::class, [
             'keys' => [
@@ -120,11 +126,6 @@ class ChildrenPagesBlockService extends AbstractAdminBlockService
         ]);
     }
 
-    public function getName()
-    {
-        return 'Children Page (core)';
-    }
-
     public function configureSettings(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
@@ -135,6 +136,17 @@ class ChildrenPagesBlockService extends AbstractAdminBlockService
             'icon' => null,
             'class' => null,
             'template' => '@SonataPage/Block/block_core_children_pages.html.twig',
+        ]);
+    }
+
+    public function validate(ErrorElement $errorElement, BlockInterface $block): void
+    {
+    }
+
+    public function getMetadata(): MetadataInterface
+    {
+        return new Metadata('sonata.page.block.children_pages', null, null, 'SonataPageBundle', [
+            'class' => 'fa fa-home',
         ]);
     }
 

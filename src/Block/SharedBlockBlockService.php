@@ -14,10 +14,11 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Block;
 
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
-use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\BlockBundle\Block\BlockContextInterface;
-use Sonata\BlockBundle\Block\Service\AbstractAdminBlockService;
+use Sonata\BlockBundle\Block\Service\AbstractBlockService;
+use Sonata\BlockBundle\Block\Service\EditableBlockService;
+use Sonata\BlockBundle\Form\Mapper\FormMapper;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\Doctrine\Model\ManagerInterface;
 use Sonata\Form\Type\ImmutableArrayType;
@@ -28,15 +29,15 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Twig\Environment;
 
 /**
  * Render a shared block.
  *
  * @author Romain Mouillard <romain.mouillard@gmail.com>
  */
-class SharedBlockBlockService extends AbstractAdminBlockService
+class SharedBlockBlockService extends AbstractBlockService implements EditableBlockService
 {
     /**
      * @var SharedBlockAdmin
@@ -53,20 +54,15 @@ class SharedBlockBlockService extends AbstractAdminBlockService
      */
     private $blockManager;
 
-    /**
-     * @param string $name
-     *
-     * @psalm-suppress ContainerDependency
-     */
-    public function __construct($name, EngineInterface $templating, ContainerInterface $container, ManagerInterface $blockManager)
+    public function __construct(Environment $twig, ContainerInterface $container, BlockManagerInterface $blockManager)
     {
-        $this->name = $name;
-        $this->templating = $templating;
+        parent::__construct($twig);
+
         $this->container = $container;
         $this->blockManager = $blockManager;
     }
 
-    public function execute(BlockContextInterface $blockContext, ?Response $response = null)
+    public function execute(BlockContextInterface $blockContext, ?Response $response = null): Response
     {
         $block = $blockContext->getBlock();
 
@@ -84,7 +80,7 @@ class SharedBlockBlockService extends AbstractAdminBlockService
             ], $response);
     }
 
-    public function validateBlock(ErrorElement $errorElement, BlockInterface $block): void
+    public function validate(ErrorElement $errorElement, BlockInterface $block): void
     {
         $errorElement
             ->with('settings[blockId]')
@@ -92,7 +88,12 @@ class SharedBlockBlockService extends AbstractAdminBlockService
             ->end();
     }
 
-    public function buildEditForm(FormMapper $form, BlockInterface $block): void
+    public function configureCreateForm(FormMapper $form, BlockInterface $block): void
+    {
+        $this->configureEditForm($form, $block);
+    }
+
+    public function configureEditForm(FormMapper $form, BlockInterface $block): void
     {
         if (!$block->getSetting('blockId') instanceof BlockInterface) {
             $this->load($block);
@@ -103,11 +104,6 @@ class SharedBlockBlockService extends AbstractAdminBlockService
                 [$this->getBlockBuilder($form), null, []],
             ],
         ]);
-    }
-
-    public function getName()
-    {
-        return 'Shared Block';
     }
 
     public function configureSettings(OptionsResolver $resolver): void
