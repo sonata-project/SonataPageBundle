@@ -164,8 +164,5 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
         return reset($sites);
     }
 
-    /**
-     * @abstract
-     */
     abstract protected function handleKernelRequest(GetResponseEvent $event);
 }
