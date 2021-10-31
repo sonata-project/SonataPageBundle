@@ -491,6 +491,9 @@
                     url:     url,
                     data:    $form.serialize(),
                     type:    method,
+                    headers: {
+                        Accept: 'text/html, application/xhtml+xml;'
+                    },
                     success: function (resp) {
                         $loader.hide();
                         if (resp.result && resp.result === 'ok') {
