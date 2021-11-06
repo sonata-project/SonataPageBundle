@@ -61,7 +61,7 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
     /**
      * NEXT_MAJOR: remove this method.
      *
-     * @deprecated since sonata-project/page-bundle 3.x, to be removed in 4.0.
+     * @deprecated since sonata-project/page-bundle 3.24, to be removed in 4.0.
      */
     public function getPager(array $criteria, $page, $limit = 10, array $sort = [])
     {

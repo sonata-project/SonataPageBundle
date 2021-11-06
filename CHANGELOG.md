@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.24.0](https://github.com/sonata-project/SonataPageBundle/compare/3.23.0...3.24.0) - 2021-11-06
+### Deprecated
+- [[#1365](https://github.com/sonata-project/SonataPageBundle/pull/1365)] Deprecated ReST API with FOSRest, Nelmio Api Docs and JMS Serializer. ([@wbloszyk](https://github.com/wbloszyk))
+
+### Fixed
+- [[#1377](https://github.com/sonata-project/SonataPageBundle/pull/1377)] Block validation in edit mode ([@VincentLanglet](https://github.com/VincentLanglet))
+
 ## [3.23.0](https://github.com/sonata-project/SonataPageBundle/compare/3.22.3...3.23.0) - 2021-08-22
 ### Added
 - [[#1341](https://github.com/sonata-project/SonataPageBundle/pull/1341)] Support for `SonataCacheBundle` v3 ([@VincentLanglet](https://github.com/VincentLanglet))
