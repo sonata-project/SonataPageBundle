@@ -20,7 +20,7 @@ use Sonata\Form\Serializer\BaseSerializerHandler;
  *
  * @author Sylvain Deloux <sylvain.deloux@ekino.com>
  *
- * @deprecated since sonata-project/page-bundle 3.x, to be removed in 4.0.
+ * @deprecated since sonata-project/page-bundle 3.24, to be removed in 4.0.
  */
 class BlockSerializerHandler extends BaseSerializerHandler
 {

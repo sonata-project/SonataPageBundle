@@ -34,7 +34,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *
  * @author Hugo Briand <briand@ekino.com>
  *
- * @deprecated since sonata-project/page-bundle 3.x, to be removed in 4.0.
+ * @deprecated since sonata-project/page-bundle 3.24, to be removed in 4.0.
  */
 class PageController extends FOSRestController
 {
