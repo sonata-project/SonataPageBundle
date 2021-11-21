@@ -27,11 +27,6 @@ abstract class BaseLocaleSiteSelectorTest extends TestCase
      */
     protected $siteSelector;
 
-    protected function setUp(): void
-    {
-        throw new \RuntimeException('You must define a setUp method to initialize the site selector.');
-    }
-
     /**
      * Cleanups the site selector.
      */
