@@ -190,14 +190,14 @@ class Transformer implements TransformerInterface
         return $block;
     }
 
-    public function getChildren(PageInterface $parent)
+    public function getChildren(PageInterface $page)
     {
-        if (!isset($this->children[$parent->getId()])) {
+        if (!isset($this->children[$page->getId()])) {
             $date = new \DateTime();
             $parameters = [
                 'publicationDateStart' => $date,
                 'publicationDateEnd' => $date,
-                'parentId' => $parent->getId(),
+                'parentId' => $page->getId(),
             ];
 
             $manager = $this->registry->getManagerForClass($this->snapshotManager->getClass());
@@ -227,10 +227,10 @@ class Transformer implements TransformerInterface
                 $pages[$page->getId()] = $page;
             }
 
-            $this->children[$parent->getId()] = new ArrayCollection($pages);
+            $this->children[$page->getId()] = new ArrayCollection($pages);
         }
 
-        return $this->children[$parent->getId()];
+        return $this->children[$page->getId()];
     }
 
     /**

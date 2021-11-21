@@ -70,11 +70,11 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
         $this->snapshotPageProxyFactory = $snapshotPageProxyFactory;
     }
 
-    public function save($snapshot, $andFlush = true)
+    public function save($entity, $andFlush = true)
     {
-        parent::save($snapshot);
+        parent::save($entity);
 
-        return $snapshot;
+        return $entity;
     }
 
     public function enableSnapshots(array $snapshots, ?\DateTime $date = null)
@@ -181,6 +181,10 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
         $snapshot = \count($snapshots) > 0 ? $snapshots[0] : false;
 
         if ($snapshot) {
+            /**
+             * @phpstan-ignore-next-line
+             * @psalm-suppress TooFewArguments
+             */
             return new SnapshotPageProxy($this, $snapshot);
         }
 

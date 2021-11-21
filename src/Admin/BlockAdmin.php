@@ -86,7 +86,7 @@ class BlockAdmin extends BaseBlockAdmin
         ]);
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form)
     {
         $block = $this->getSubject();
 
@@ -122,27 +122,27 @@ class BlockAdmin extends BaseBlockAdmin
             $optionsGroupOptions['name'] = '';
         }
 
-        $formMapper->with('form.field_group_general', $generalGroupOptions);
+        $form->with('form.field_group_general', $generalGroupOptions);
 
         if (!$isComposer) {
-            $formMapper->add('name');
+            $form->add('name');
         } else {
-            $formMapper->add('name', HiddenType::class);
+            $form->add('name', HiddenType::class);
         }
 
-        $formMapper->end();
+        $form->end();
 
         $isContainerRoot = $block && \in_array($blockType, ['sonata.page.block.container', 'sonata.block.service.container'], true) && !$this->hasParentFieldDescription();
         $isStandardBlock = $block && !\in_array($blockType, ['sonata.page.block.container', 'sonata.block.service.container'], true) && !$this->hasParentFieldDescription();
 
         if ($isContainerRoot || $isStandardBlock) {
-            $formMapper->with('form.field_group_general', $generalGroupOptions);
+            $form->with('form.field_group_general', $generalGroupOptions);
 
             $containerBlockTypes = $this->containerBlockTypes;
 
             // need to investigate on this case where $page == null ... this should not be possible
             if ($isStandardBlock && $page && !empty($containerBlockTypes)) {
-                $formMapper->add('parent', EntityType::class, [
+                $form->add('parent', EntityType::class, [
                     'class' => $this->getClass(),
                     'query_builder' => static function (EntityRepository $repository) use ($page, $containerBlockTypes) {
                         return $repository->createQueryBuilder('a')
@@ -158,24 +158,24 @@ class BlockAdmin extends BaseBlockAdmin
             }
 
             if ($isComposer) {
-                $formMapper->add('enabled', HiddenType::class, ['data' => true]);
+                $form->add('enabled', HiddenType::class, ['data' => true]);
             } else {
-                $formMapper->add('enabled');
+                $form->add('enabled');
             }
 
             if ($isStandardBlock) {
-                $formMapper->add('position', IntegerType::class);
+                $form->add('position', IntegerType::class);
             }
 
-            $formMapper->end();
+            $form->end();
 
-            $formMapper->with('form.field_group_options', $optionsGroupOptions);
+            $form->with('form.field_group_options', $optionsGroupOptions);
 
-            $this->configureBlockFields($formMapper, $block);
+            $this->configureBlockFields($form, $block);
 
-            $formMapper->end();
+            $form->end();
         } else {
-            $formMapper
+            $form
                 ->with('form.field_group_options', $optionsGroupOptions)
                 ->add('type', ServiceListType::class, ['context' => 'sonata_page_bundle'])
                 ->add('enabled')
@@ -204,7 +204,7 @@ class BlockAdmin extends BaseBlockAdmin
         }
     }
 
-    private function configureBlockFields(FormMapper $formMapper, BlockInterface $block): void
+    private function configureBlockFields(FormMapper $form, BlockInterface $block): void
     {
         $blockType = $block->getType();
 
@@ -223,7 +223,7 @@ class BlockAdmin extends BaseBlockAdmin
         }
 
         if ($service instanceof EditableBlockService) {
-            $blockMapper = new PageFormMapper($formMapper);
+            $blockMapper = new PageFormMapper($form);
             if ($block->getId() > 0) {
                 $service->configureEditForm($blockMapper, $block);
             } else {
@@ -239,14 +239,14 @@ class BlockAdmin extends BaseBlockAdmin
             );
 
             if ($block->getId() > 0) {
-                $service->buildEditForm($formMapper, $block);
+                $service->buildEditForm($form, $block);
             } else {
-                $service->buildCreateForm($formMapper, $block);
+                $service->buildCreateForm($form, $block);
             }
         }
 
-        if ($formMapper->has('settings') && isset($this->blocks[$blockType]['templates'])) {
-            $settingsField = $formMapper->get('settings');
+        if ($form->has('settings') && isset($this->blocks[$blockType]['templates'])) {
+            $settingsField = $form->get('settings');
 
             if (!$settingsField->has('template')) {
                 $choices = [];

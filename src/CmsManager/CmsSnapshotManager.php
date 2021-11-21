@@ -74,12 +74,12 @@ class CmsSnapshotManager extends BaseCmsPageManager
         return $page;
     }
 
-    public function getInternalRoute(SiteInterface $site, $pageName)
+    public function getInternalRoute(SiteInterface $site, $routeName)
     {
-        return $this->getPageByRouteName($site, sprintf('_page_internal_%s', $pageName));
+        return $this->getPageByRouteName($site, sprintf('_page_internal_%s', $routeName));
     }
 
-    public function findContainer($code, PageInterface $page, ?BlockInterface $parentContainer = null)
+    public function findContainer($name, PageInterface $page, ?BlockInterface $parentContainer = null)
     {
         $container = null;
 
@@ -92,7 +92,7 @@ class CmsSnapshotManager extends BaseCmsPageManager
         // first level blocks are containers
         if (!$container && $page->getBlocks()) {
             foreach ($page->getBlocks() as $block) {
-                if ($block->getSetting('code') === $code) {
+                if ($block->getSetting('code') === $name) {
                     $container = $block;
 
                     break;

@@ -202,9 +202,9 @@ abstract class Site implements SiteInterface
         return $this->name;
     }
 
-    public function setRelativePath($relativePath)
+    public function setRelativePath($path)
     {
-        $this->relativePath = $relativePath;
+        $this->relativePath = $path;
     }
 
     public function getRelativePath()

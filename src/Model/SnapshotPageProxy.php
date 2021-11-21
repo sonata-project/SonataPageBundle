@@ -427,9 +427,9 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
         return $this->getPage()->getSite();
     }
 
-    public function setRawHeaders($headers)
+    public function setRawHeaders($rawHeaders)
     {
-        $this->getPage()->setRawHeaders($headers);
+        $this->getPage()->setRawHeaders($rawHeaders);
     }
 
     public function getEdited()

@@ -84,9 +84,9 @@ class ChildrenPagesBlockService extends AbstractAdminBlockService
         ], $response);
     }
 
-    public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
+    public function buildEditForm(FormMapper $form, BlockInterface $block)
     {
-        $formMapper->add('settings', ImmutableArrayType::class, [
+        $form->add('settings', ImmutableArrayType::class, [
             'keys' => [
                 ['title', TextType::class, [
                   'required' => false,
@@ -105,8 +105,8 @@ class ChildrenPagesBlockService extends AbstractAdminBlockService
                   'label' => 'form.label_current',
                 ]],
                 ['pageId', PageSelectorType::class, [
-                    'model_manager' => $formMapper->getAdmin()->getModelManager(),
-                    'class' => $formMapper->getAdmin()->getClass(),
+                    'model_manager' => $form->getAdmin()->getModelManager(),
+                    'class' => $form->getAdmin()->getClass(),
                     'site' => $block->getPage()->getSite(),
                     'required' => false,
                     'label' => 'form.label_page',

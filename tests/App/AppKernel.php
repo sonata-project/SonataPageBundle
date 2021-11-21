@@ -93,7 +93,7 @@ final class AppKernel extends Kernel
         $routes->import($this->getProjectDir().'/config/routes.yaml');
     }
 
-    protected function configureContainer(ContainerBuilder $containerBuilder, LoaderInterface $loader): void
+    protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
     {
         $loader->load($this->getProjectDir().'/config/config.yaml');
     }
