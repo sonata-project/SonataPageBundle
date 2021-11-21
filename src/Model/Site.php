@@ -21,6 +21,11 @@ namespace Sonata\PageBundle\Model;
 abstract class Site implements SiteInterface
 {
     /**
+     * @var mixed
+     */
+    protected $id;
+
+    /**
      * @var bool
      */
     protected $enabled;

@@ -21,6 +21,11 @@ namespace Sonata\PageBundle\Model;
 abstract class Page implements PageInterface
 {
     /**
+     * @var mixed
+     */
+    protected $id;
+
+    /**
      * @var \DateTime
      */
     protected $createdAt;

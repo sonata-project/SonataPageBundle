@@ -14,10 +14,11 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Command;
 
 use Sonata\PageBundle\Route\RoutePageGenerator;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\ProcessBuilder;
+use Symfony\Component\Process\Process;
 
 /**
  * Update core routes by reading routing information.
@@ -64,24 +65,20 @@ class UpdateCoreRoutesCommand extends BaseCommand
                 $this->getRoutePageGenerator()->update($site, $output, $input->getOption('clean'));
                 $output->writeln('');
             } else {
-                $builder = ProcessBuilder::create($input->getOption('base-command'))
-                    ->add('sonata:page:update-core-routes')
-                    ->setOption('env', $input->getOption('env'))
-                    ->setOption('site', $site->getId());
+                $arguments = [
+                    'env' => $input->getOption('env'),
+                    'site' => $site->getId(),
+                ];
 
                 if ($input->getOption('no-debug')) {
-                    $builder->add('--no-debug');
+                    $arguments['--no-debug'] = true;
                 }
 
                 if ($input->getOption('clean')) {
-                    $builder->add('--clean');
+                    $arguments['--clean'] = true;
                 }
 
-                $process = $builder->getProcess();
-
-                $process->run(static function ($type, $data) use ($output) {
-                    $output->write($data);
-                });
+                $this->run(new ArrayInput($arguments), $output);
             }
         }
 
