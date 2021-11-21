@@ -35,6 +35,9 @@ class CmsManagerSelector implements CmsManagerSelectorInterface, LogoutHandlerIn
      */
     protected $container;
 
+    /**
+     * @psalm-suppress ContainerDependency
+     */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;

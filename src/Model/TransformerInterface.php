@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Model;
 
+use Sonata\BlockBundle\Model\BlockInterface;
+
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */

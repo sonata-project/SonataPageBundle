@@ -55,6 +55,8 @@ class SharedBlockBlockService extends AbstractAdminBlockService
 
     /**
      * @param string $name
+     *
+     * @psalm-suppress ContainerDependency
      */
     public function __construct($name, EngineInterface $templating, ContainerInterface $container, BlockManagerInterface $blockManager)
     {
