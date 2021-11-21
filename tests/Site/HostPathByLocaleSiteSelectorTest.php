@@ -29,6 +29,8 @@ class HostPathByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
 {
     protected function setUp(): void
     {
+        parent::setUp();
+
         $siteManager = $this->createMock(SiteManagerInterface::class);
         $decoratorStrategy = $this->createMock(DecoratorStrategyInterface::class);
         $seoPage = $this->createMock(SeoPageInterface::class);

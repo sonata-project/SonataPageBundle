@@ -28,6 +28,8 @@ final class SubRequestsSiteSelectorTest extends BaseLocaleSiteSelectorTest
 {
     protected function setUp(): void
     {
+        parent::setUp();
+
         $siteManager = $this->createMock(SiteManagerInterface::class);
         $decoratorStrategy = new DecoratorStrategy([], [], []);
         $seoPage = $this->createMock(SeoPageInterface::class);

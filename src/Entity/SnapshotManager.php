@@ -111,7 +111,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
 
     public function findEnableSnapshot(array $criteria)
     {
-        $date = new \Datetime();
+        $date = new \DateTime();
         $parameters = [
             'publicationDateStart' => $date,
             'publicationDateEnd' => $date,

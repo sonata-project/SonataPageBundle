@@ -535,12 +535,12 @@ abstract class Page implements PageInterface
 
     public function isHybrid()
     {
-        return self::PAGE_ROUTE_CMS_NAME !== $this->getRouteName() && !$this->isInternal();
+        return PageInterface::PAGE_ROUTE_CMS_NAME !== $this->getRouteName() && !$this->isInternal();
     }
 
     public function isCms()
     {
-        return self::PAGE_ROUTE_CMS_NAME === $this->getRouteName() && !$this->isInternal();
+        return PageInterface::PAGE_ROUTE_CMS_NAME === $this->getRouteName() && !$this->isInternal();
     }
 
     public function isInternal()

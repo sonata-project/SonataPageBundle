@@ -193,7 +193,7 @@ class Transformer implements TransformerInterface
     public function getChildren(PageInterface $parent)
     {
         if (!isset($this->children[$parent->getId()])) {
-            $date = new \Datetime();
+            $date = new \DateTime();
             $parameters = [
                 'publicationDateStart' => $date,
                 'publicationDateEnd' => $date,
