@@ -18,7 +18,7 @@ use Sonata\BlockBundle\Meta\Metadata;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * NEXT_MAJOR: Do not extend from `ContainerBlockService` since it will be final
+ * NEXT_MAJOR: Do not extend from `ContainerBlockService` since it will be final.
  *
  * Render children pages.
  *

@@ -18,7 +18,7 @@ use Sonata\BlockBundle\Model\BlockInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * NEXT_MAJOR: Do not extend from `BlockContextManager` since it will be final
+ * NEXT_MAJOR: Do not extend from `BlockContextManager` since it will be final.
  *
  * @psalm-suppress InvalidExtendClass
  * @phpstan-ignore-next-line
