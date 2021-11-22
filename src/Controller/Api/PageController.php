@@ -21,6 +21,8 @@ use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\BlockBundle\Model\BlockManagerInterface;
 use Sonata\DatagridBundle\Pager\PagerInterface;
 use Sonata\NotificationBundle\Backend\BackendInterface;
+use Sonata\PageBundle\Form\Type\ApiBlockType;
+use Sonata\PageBundle\Form\Type\ApiPageType;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
@@ -233,7 +235,7 @@ class PageController extends FOSRestController
     {
         $page = $id ? $this->getPage($id) : null;
 
-        $form = $this->formFactory->createNamed(null, 'sonata_page_api_form_block', null, [
+        $form = $this->formFactory->createNamed(null, ApiBlockType::class, null, [
             'csrf_protection' => false,
         ]);
 
@@ -442,7 +444,7 @@ class PageController extends FOSRestController
     {
         $page = $id ? $this->getPage($id) : null;
 
-        $form = $this->formFactory->createNamed(null, 'sonata_page_api_form_page', $page, [
+        $form = $this->formFactory->createNamed(null, ApiPageType::class, $page, [
             'csrf_protection' => false,
         ]);
 

@@ -31,42 +31,42 @@ class UniqueUrlValidator extends ConstraintValidator
         $this->manager = $manager;
     }
 
-    public function validate($currentPage, Constraint $constraint)
+    public function validate($value, Constraint $constraint)
     {
-        if (!$currentPage instanceof PageInterface) {
+        if (!$value instanceof PageInterface) {
             $this->context->addViolation('The page is not valid, expected a PageInterface');
 
             return;
         }
 
-        if (!$currentPage->getSite() instanceof SiteInterface) {
+        if (!$value->getSite() instanceof SiteInterface) {
             $this->context->addViolation('The page is not linked to a Site');
 
             return;
         }
 
         // do not validate error or dynamic pages
-        if ($currentPage->isError() || $currentPage->isDynamic()) {
+        if ($value->isError() || $value->isDynamic()) {
             return;
         }
 
-        $this->manager->fixUrl($currentPage);
+        $this->manager->fixUrl($value);
 
         $similarPages = $this->manager->findBy([
-            'site' => $currentPage->getSite(),
-            'url' => $currentPage->getUrl(),
+            'site' => $value->getSite(),
+            'url' => $value->getUrl(),
         ]);
 
         foreach ($similarPages as $similarPage) {
-            if ($similarPage->isError() || $similarPage->isInternal() || $similarPage === $currentPage) {
+            if ($similarPage->isError() || $similarPage->isInternal() || $similarPage === $value) {
                 continue;
             }
 
-            if ($similarPage->getUrl() !== $currentPage->getUrl()) {
+            if ($similarPage->getUrl() !== $value->getUrl()) {
                 continue;
             }
 
-            if ('/' === $currentPage->getUrl() && !$currentPage->getParent()) {
+            if ('/' === $value->getUrl() && !$value->getParent()) {
                 $this->context->buildViolation('error.uniq_url.parent_unselect')
                     ->atPath('parent')
                     ->addViolation();
@@ -74,7 +74,7 @@ class UniqueUrlValidator extends ConstraintValidator
                 return;
             }
 
-            $this->context->buildViolation('error.uniq_url', ['%url%' => $currentPage->getUrl()])
+            $this->context->buildViolation('error.uniq_url', ['%url%' => $value->getUrl()])
                 ->atPath('url')
                 ->addViolation();
         }

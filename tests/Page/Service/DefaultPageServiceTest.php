@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Page\Service;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Page\Service\DefaultPageService;
@@ -24,19 +25,19 @@ use Symfony\Component\HttpFoundation\Response;
 class DefaultPageServiceTest extends TestCase
 {
     /**
-     * @var DefaultPageService
-     */
-    protected $service;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var MockObject&TemplateManagerInterface
      */
     protected $templateManager;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var MockObject&SeoPageInterface
      */
     protected $seoPage;
+
+    /**
+     * @var DefaultPageService
+     */
+    protected $service;
 
     protected function setUp(): void
     {

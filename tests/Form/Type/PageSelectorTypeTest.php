@@ -18,7 +18,6 @@ use Sonata\PageBundle\Form\Type\PageSelectorType;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Tests\Model\Page;
 use Sonata\PageBundle\Tests\Model\Site;
-use Symfony\Component\Form\Extension\Core\View\ChoiceView as LegacyChoiceView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PageSelectorTypeTest extends TestCase
@@ -206,10 +205,6 @@ class PageSelectorTypeTest extends TestCase
 
     private function assertRouteNameEquals($expected, $choiceView): void
     {
-        if ($choiceView instanceof LegacyChoiceView) { // NEXT_MAJOR: remove conditional
-            static::assertSame($expected, $choiceView->label->getRouteName());
-        }
-
         static::assertSame($expected, $choiceView->getRouteName());
     }
 }

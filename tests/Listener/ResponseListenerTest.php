@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Listener;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\CmsManager\CmsManagerInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
@@ -30,29 +31,34 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 class ResponseListenerTest extends TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var MockObject&DecoratorStrategyInterface
      */
-    protected $decoratorStrategy;
+    private $decoratorStrategy;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var MockObject&PageServiceManagerInterface
      */
-    protected $pageServiceManager;
+    private $pageServiceManager;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var MockObject&CmsManagerInterface
      */
-    protected $cmsManager;
+    private $cmsManager;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var MockObject&CmsManagerSelectorInterface
      */
-    protected $cmsSelector;
+    private $cmsSelector;
+
+    /**
+     * @var MockObject&EngineInterface
+     */
+    private $templating;
 
     /**
      * @var ResponseListener
      */
-    protected $listener;
+    private $listener;
 
     /**
      * setup unit test.

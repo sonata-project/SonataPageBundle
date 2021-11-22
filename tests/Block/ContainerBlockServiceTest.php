@@ -16,13 +16,13 @@ namespace Sonata\PageBundle\Tests\Block;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\BlockBundle\Block\BlockContext;
 use Sonata\BlockBundle\Model\Block;
-use Sonata\BlockBundle\Test\AbstractBlockServiceTestCase;
+use Sonata\BlockBundle\Test\BlockServiceTestCase;
 use Sonata\PageBundle\Block\ContainerBlockService;
 
 /**
  * Test Container Block service.
  */
-class ContainerBlockServiceTest extends AbstractBlockServiceTestCase
+class ContainerBlockServiceTest extends BlockServiceTestCase
 {
     /**
      * test the block execute() method.
@@ -95,10 +95,10 @@ class ContainerBlockServiceTest extends AbstractBlockServiceTestCase
             'name' => 'block.code',
         ]);
 
-        $formMapper = $this->createMock(FormMapper::class);
-        $formMapper->expects(static::exactly(6))->method('add');
+        $form = $this->createMock(FormMapper::class);
+        $form->expects(static::exactly(6))->method('add');
 
-        $service->buildCreateForm($formMapper, $block);
-        $service->buildEditForm($formMapper, $block);
+        $service->buildCreateForm($form, $block);
+        $service->buildEditForm($form, $block);
     }
 }

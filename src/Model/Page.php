@@ -21,6 +21,11 @@ namespace Sonata\PageBundle\Model;
 abstract class Page implements PageInterface
 {
     /**
+     * @var mixed
+     */
+    protected $id;
+
+    /**
      * @var \DateTime
      */
     protected $createdAt;
@@ -281,9 +286,9 @@ abstract class Page implements PageInterface
         return $this->customUrl;
     }
 
-    public function setRequestMethod($requestMethod)
+    public function setRequestMethod($method)
     {
-        $this->requestMethod = $requestMethod;
+        $this->requestMethod = $method;
     }
 
     public function getRequestMethod()
@@ -343,11 +348,11 @@ abstract class Page implements PageInterface
         return $this->rawHeaders;
     }
 
-    public function addHeader($name, $header)
+    public function addHeader($name, $value)
     {
         $headers = $this->getHeaders();
 
-        $headers[$name] = $header;
+        $headers[$name] = $value;
 
         $this->headers = $headers;
 
@@ -445,11 +450,11 @@ abstract class Page implements PageInterface
         $this->target = $target;
     }
 
-    public function addBlocks(PageBlockInterface $blocks)
+    public function addBlocks(PageBlockInterface $block)
     {
-        $blocks->setPage($this);
+        $block->setPage($this);
 
-        $this->blocks[] = $blocks;
+        $this->blocks[] = $block;
     }
 
     public function getBlocks()
@@ -535,12 +540,12 @@ abstract class Page implements PageInterface
 
     public function isHybrid()
     {
-        return self::PAGE_ROUTE_CMS_NAME !== $this->getRouteName() && !$this->isInternal();
+        return PageInterface::PAGE_ROUTE_CMS_NAME !== $this->getRouteName() && !$this->isInternal();
     }
 
     public function isCms()
     {
-        return self::PAGE_ROUTE_CMS_NAME === $this->getRouteName() && !$this->isInternal();
+        return PageInterface::PAGE_ROUTE_CMS_NAME === $this->getRouteName() && !$this->isInternal();
     }
 
     public function isInternal()

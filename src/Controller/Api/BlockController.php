@@ -18,6 +18,7 @@ use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\BlockBundle\Model\BlockManagerInterface;
+use Sonata\PageBundle\Form\Type\ApiBlockType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -102,7 +103,7 @@ class BlockController extends FOSRestController
     {
         $block = $id ? $this->getBlock($id) : null;
 
-        $form = $this->formFactory->createNamed(null, 'sonata_page_api_form_block', $block, [
+        $form = $this->formFactory->createNamed(null, ApiBlockType::class, $block, [
             'csrf_protection' => false,
         ]);
 

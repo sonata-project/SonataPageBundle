@@ -91,7 +91,7 @@ interface CmsManagerInterface
     /**
      * @param int $id
      *
-     * @return PageInterface
+     * @return PageInterface|null
      */
     public function getBlock($id);
 

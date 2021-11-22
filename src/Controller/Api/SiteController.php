@@ -17,6 +17,8 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sonata\DatagridBundle\Pager\PagerInterface;
+use Sonata\PageBundle\Form\Type\ApiSiteType;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -234,7 +236,7 @@ class SiteController extends FOSRestController
     {
         $site = $id ? $this->getSite($id) : null;
 
-        $form = $this->formFactory->createNamed(null, 'sonata_page_api_form_site', $site, [
+        $form = $this->formFactory->createNamed(null, ApiSiteType::class, $site, [
             'csrf_protection' => false,
         ]);
 

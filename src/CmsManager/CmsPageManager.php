@@ -72,13 +72,13 @@ class CmsPageManager extends BaseCmsPageManager
         return $page;
     }
 
-    public function getInternalRoute(SiteInterface $site, $pageName)
+    public function getInternalRoute(SiteInterface $site, $routeName)
     {
-        if ('error' === substr($pageName, 0, 5)) {
-            throw new \RuntimeException(sprintf('Illegal internal route name : %s, an internal page cannot start with `error`', $pageName));
+        if ('error' === substr($routeName, 0, 5)) {
+            throw new \RuntimeException(sprintf('Illegal internal route name : %s, an internal page cannot start with `error`', $routeName));
         }
 
-        $routeName = sprintf('_page_internal_%s', $pageName);
+        $routeName = sprintf('_page_internal_%s', $routeName);
 
         try {
             $page = $this->getPageByRouteName($site, $routeName);
@@ -86,7 +86,7 @@ class CmsPageManager extends BaseCmsPageManager
             $page = $this->pageManager->create([
                 'url' => null,
                 'routeName' => $routeName,
-                'name' => sprintf('Internal Page : %s', $pageName),
+                'name' => sprintf('Internal Page : %s', $routeName),
                 'decorate' => false,
             ]);
 
@@ -98,7 +98,7 @@ class CmsPageManager extends BaseCmsPageManager
         return $page;
     }
 
-    public function findContainer($code, PageInterface $page, ?BlockInterface $parentContainer = null)
+    public function findContainer($name, PageInterface $page, ?BlockInterface $parentContainer = null)
     {
         $container = null;
 
@@ -111,7 +111,7 @@ class CmsPageManager extends BaseCmsPageManager
         // first level blocks are containers
         if (!$container && $page->getBlocks()) {
             foreach ($page->getBlocks() as $block) {
-                if ($block->getSetting('code') === $code) {
+                if ($block->getSetting('code') === $name) {
                     $container = $block;
 
                     break;
@@ -123,7 +123,7 @@ class CmsPageManager extends BaseCmsPageManager
             $container = $this->blockInteractor->createNewContainer([
                 'enabled' => true,
                 'page' => $page,
-                'code' => $code,
+                'code' => $name,
                 'position' => 1,
                 'parent' => $parentContainer,
             ]);
