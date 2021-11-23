@@ -135,7 +135,7 @@ interface SiteInterface
     /**
      * @param string|null $metaDescription
      *
-     * @return string
+     * @return void
      */
     public function setMetaDescription($metaDescription);
 
@@ -147,7 +147,7 @@ interface SiteInterface
     /**
      * @param string|null $metaKeywords
      *
-     * @return string
+     * @return void
      */
     public function setMetaKeywords($metaKeywords);
 
@@ -159,7 +159,7 @@ interface SiteInterface
     /**
      * @param string|null $title
      *
-     * @return string
+     * @return void
      */
     public function setTitle($title);
 

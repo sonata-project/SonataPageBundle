@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Page;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\CmsManager\CmsPageManager;
 use Sonata\PageBundle\Exception\PageNotFoundException;
@@ -41,9 +42,19 @@ class CmsBlock extends AbstractBlock
 class CmsPageManagerTest extends TestCase
 {
     /**
-     * @var \Sonata\PageBundle\CmsManager\CmsPageManager
+     * @var MockObject&BlockInteractorInterface
      */
-    protected $manager;
+    private $blockInteractor;
+
+    /**
+     * @var MockObject&PageManagerInterface
+     */
+    private $pageManager;
+
+    /**
+     * @var CmsPageManager
+     */
+    private $manager;
 
     /**
      * Setup manager object to test.

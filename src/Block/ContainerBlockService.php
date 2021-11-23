@@ -18,9 +18,14 @@ use Sonata\BlockBundle\Meta\Metadata;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
+ * NEXT_MAJOR: Do not extend from `ContainerBlockService` since it will be final.
+ *
  * Render children pages.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * @psalm-suppress InvalidExtendClass
+ * @phpstan-ignore-next-line
  */
 class ContainerBlockService extends BaseContainerBlockService
 {

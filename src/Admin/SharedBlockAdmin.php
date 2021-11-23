@@ -54,16 +54,16 @@ class SharedBlockAdmin extends BaseBlockAdmin
         return $query;
     }
 
-    protected function configureListFields(ListMapper $listMapper): void
+    protected function configureListFields(ListMapper $list): void
     {
-        $listMapper
+        $list
             ->addIdentifier('name')
             ->add('type')
             ->add('enabled', null, ['editable' => true])
             ->add('updatedAt');
     }
 
-    protected function configureFormFields(FormMapper $formMapper): void
+    protected function configureFormFields(FormMapper $form): void
     {
         /** @var BaseBlock $block */
         $block = $this->getSubject();
@@ -73,20 +73,20 @@ class SharedBlockAdmin extends BaseBlockAdmin
             $block->setType($this->request->get('type'));
         }
 
-        $formMapper
+        $form
             ->with('form.field_group_general')
                 ->add('name', null, ['required' => true])
                 ->add('enabled')
             ->end();
 
-        $formMapper->with('form.field_group_options');
+        $form->with('form.field_group_options');
 
-        $this->configureBlockFields($formMapper, $block);
+        $this->configureBlockFields($form, $block);
 
-        $formMapper->end();
+        $form->end();
     }
 
-    private function configureBlockFields(FormMapper $formMapper, BlockInterface $block): void
+    private function configureBlockFields(FormMapper $form, BlockInterface $block): void
     {
         $blockType = $block->getType();
 
@@ -105,7 +105,7 @@ class SharedBlockAdmin extends BaseBlockAdmin
         }
 
         if ($service instanceof EditableBlockService) {
-            $blockMapper = new PageFormMapper($formMapper);
+            $blockMapper = new PageFormMapper($form);
             if ($block->getId() > 0) {
                 $service->configureEditForm($blockMapper, $block);
             } else {
@@ -121,9 +121,9 @@ class SharedBlockAdmin extends BaseBlockAdmin
             );
 
             if ($block->getId() > 0) {
-                $service->buildEditForm($formMapper, $block);
+                $service->buildEditForm($form, $block);
             } else {
-                $service->buildCreateForm($formMapper, $block);
+                $service->buildCreateForm($form, $block);
             }
         }
     }

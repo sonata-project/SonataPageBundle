@@ -252,9 +252,9 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         $collection->add('view', $this->getRouterIdParameter().'/view');
     }
 
-    protected function configureListFields(ListMapper $listMapper): void
+    protected function configureListFields(ListMapper $list): void
     {
-        $listMapper
+        $list
             ->addIdentifier('type')
             ->add('name')
             ->add('enabled', null, ['editable' => true])
@@ -262,9 +262,9 @@ abstract class BaseBlockAdmin extends AbstractAdmin
             ->add('position');
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        $datagridMapper
+        $filter
             ->add('name')
             ->add('enabled')
             ->add('type');

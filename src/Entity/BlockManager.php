@@ -26,11 +26,11 @@ use Sonata\Doctrine\Entity\BaseEntityManager;
  */
 class BlockManager extends BaseEntityManager implements BlockManagerInterface
 {
-    public function save($block, $andFlush = true)
+    public function save($entity, $andFlush = true)
     {
-        parent::save($block, $andFlush);
+        parent::save($entity, $andFlush);
 
-        return $block;
+        return $entity;
     }
 
     /**

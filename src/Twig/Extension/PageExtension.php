@@ -175,7 +175,7 @@ class PageExtension extends AbstractExtension implements InitRuntimeInterface
      *
      * @param PageBlockInterface $block      Block service
      * @param array              $parameters Provide absolute or relative url ?
-     * @param bool               $absolute
+     * @param int                $absolute
      *
      * @return string
      */

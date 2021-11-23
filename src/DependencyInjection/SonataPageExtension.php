@@ -191,6 +191,10 @@ class SonataPageExtension extends Extension implements PrependExtensionInterface
             return;
         }
 
+        /**
+         * @phpstan-ignore-next-line
+         * @psalm-suppress UndefinedClass
+         */
         $collector = DeprecatedDoctrineCollector::getInstance();
 
         $collector->addAssociation($config['class']['page'], 'mapOneToMany', [

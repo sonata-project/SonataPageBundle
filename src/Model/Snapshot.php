@@ -232,7 +232,7 @@ abstract class Snapshot implements SnapshotInterface
 
     public function isHybrid()
     {
-        return self::PAGE_ROUTE_CMS_NAME !== $this->getRouteName();
+        return PageInterface::PAGE_ROUTE_CMS_NAME !== $this->getRouteName();
     }
 
     public function setPosition($position): void

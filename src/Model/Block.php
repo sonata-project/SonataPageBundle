@@ -28,14 +28,14 @@ abstract class Block extends BaseBlock implements PageBlockInterface
      */
     protected $page;
 
-    public function addChildren(BlockInterface $child): void
+    public function addChildren(BlockInterface $children): void
     {
-        $this->children[] = $child;
+        $this->children[] = $children;
 
-        $child->setParent($this);
+        $children->setParent($this);
 
-        if ($child instanceof PageBlockInterface) {
-            $child->setPage($this->getPage());
+        if ($children instanceof PageBlockInterface) {
+            $children->setPage($this->getPage());
         }
     }
 

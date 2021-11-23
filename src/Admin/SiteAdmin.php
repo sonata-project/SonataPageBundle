@@ -56,9 +56,9 @@ class SiteAdmin extends AbstractAdmin
         $this->routePageGenerator->update($object);
     }
 
-    protected function configureShowFields(ShowMapper $showMapper): void
+    protected function configureShowFields(ShowMapper $show): void
     {
-        $showMapper
+        $show
             ->add('name')
             ->add('isDefault')
             ->add('enabled')
@@ -72,9 +72,9 @@ class SiteAdmin extends AbstractAdmin
             ->add('metaKeywords');
     }
 
-    protected function configureListFields(ListMapper $listMapper): void
+    protected function configureListFields(ListMapper $list): void
     {
-        $listMapper
+        $list
             ->addIdentifier('name')
             ->add('isDefault')
             ->add('enabled', null, ['editable' => true])
@@ -86,15 +86,15 @@ class SiteAdmin extends AbstractAdmin
             ->add('create_snapshots', 'string', ['template' => '@SonataPage/SiteAdmin/list_create_snapshots.html.twig']);
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        $datagridMapper
+        $filter
             ->add('name');
     }
 
-    protected function configureFormFields(FormMapper $formMapper): void
+    protected function configureFormFields(FormMapper $form): void
     {
-        $formMapper
+        $form
             ->with('form_site.label_general', ['class' => 'col-md-6'])
                 ->add('name')
                 ->add('isDefault', null, ['required' => false])

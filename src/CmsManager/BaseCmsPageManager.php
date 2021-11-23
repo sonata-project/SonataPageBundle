@@ -49,9 +49,9 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
         return $this->blocks;
     }
 
-    public function getPageByUrl(SiteInterface $site, $url)
+    public function getPageByUrl(SiteInterface $site, $slug)
     {
-        return $this->getPageBy($site, 'url', $url);
+        return $this->getPageBy($site, 'url', $slug);
     }
 
     public function getPageByRouteName(SiteInterface $site, $routeName)

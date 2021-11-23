@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Page;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Page\PageServiceManager;
@@ -24,7 +25,7 @@ use Symfony\Component\Routing\RouterInterface;
 class PageServiceManagerTest extends TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var MockObject&RouterInterface
      */
     protected $router;
 

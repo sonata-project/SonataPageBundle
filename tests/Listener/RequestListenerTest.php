@@ -22,7 +22,6 @@ use Sonata\PageBundle\Listener\RequestListener;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
-use Sonata\SeoBundle\Seo\SeoPageInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -33,8 +32,6 @@ class RequestListenerTest extends TestCase
     {
         $page = $this->createMock(PageInterface::class);
         $page->expects(static::once())->method('getEnabled')->willReturn(true);
-
-        $seoPage = $this->createMock(SeoPageInterface::class);
 
         $decoratorStrategy = $this->createMock(DecoratorStrategyInterface::class);
         $decoratorStrategy->expects(static::once())->method('isRequestDecorable')->willReturn(true);
@@ -55,7 +52,7 @@ class RequestListenerTest extends TestCase
 
         $event = new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
 
-        $listener = new RequestListener($cmsSelector, $siteSelector, $decoratorStrategy, $seoPage);
+        $listener = new RequestListener($cmsSelector, $siteSelector, $decoratorStrategy);
         $listener->onCoreRequest($event);
     }
 
@@ -64,8 +61,6 @@ class RequestListenerTest extends TestCase
         $this->expectException(InternalErrorException::class);
 
         $cmsManager = $this->createMock(CmsManagerInterface::class);
-
-        $seoPage = $this->createMock(SeoPageInterface::class);
 
         $decoratorStrategy = $this->createMock(DecoratorStrategyInterface::class);
         $decoratorStrategy->expects(static::once())->method('isRequestDecorable')->willReturn(true);
@@ -81,7 +76,7 @@ class RequestListenerTest extends TestCase
 
         $event = new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
 
-        $listener = new RequestListener($cmsSelector, $siteSelector, $decoratorStrategy, $seoPage);
+        $listener = new RequestListener($cmsSelector, $siteSelector, $decoratorStrategy);
         $listener->onCoreRequest($event);
     }
 }

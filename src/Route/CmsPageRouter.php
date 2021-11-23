@@ -171,7 +171,7 @@ class CmsPageRouter implements ChainedRouterInterface
      *
      * @param PageInterface $page          Page object
      * @param array         $parameters    An array of parameters
-     * @param bool|string   $referenceType The type of reference to be generated (one of the constants)
+     * @param int           $referenceType The type of reference to be generated (one of the constants)
      *
      * @throws \RuntimeException
      *
@@ -215,8 +215,8 @@ class CmsPageRouter implements ChainedRouterInterface
     /**
      * Generates an URL for a page slug.
      *
-     * @param array       $parameters    An array of parameters
-     * @param bool|string $referenceType The type of reference to be generated (one of the constants)
+     * @param array $parameters    An array of parameters
+     * @param int   $referenceType The type of reference to be generated (one of the constants)
      *
      * @throws \RuntimeException
      *
@@ -237,9 +237,9 @@ class CmsPageRouter implements ChainedRouterInterface
     /**
      * Decorates an URL with url context and query.
      *
-     * @param string      $url           Relative URL
-     * @param array       $parameters    An array of parameters
-     * @param bool|string $referenceType The type of reference to be generated (one of the constants)
+     * @param string $url           Relative URL
+     * @param array  $parameters    An array of parameters
+     * @param int    $referenceType The type of reference to be generated (one of the constants)
      *
      * @throws \RuntimeException
      *

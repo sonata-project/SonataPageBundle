@@ -23,6 +23,11 @@ use Sonata\PageBundle\Model\Block;
  */
 abstract class BaseBlock extends Block
 {
+    /**
+     * @var mixed
+     */
+    protected $id;
+
     public function __construct()
     {
         $this->children = new ArrayCollection();

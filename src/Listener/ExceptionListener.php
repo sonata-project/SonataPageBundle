@@ -203,8 +203,6 @@ class ExceptionListener
 
     /**
      * Handles a native error.
-     *
-     * @throws mixed
      */
     private function handleNativeError(GetResponseForExceptionEvent $event): void
     {

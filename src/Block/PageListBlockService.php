@@ -19,7 +19,7 @@ use Sonata\BlockBundle\Block\Service\AbstractAdminBlockService;
 use Sonata\BlockBundle\Meta\Metadata;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\Form\Type\ImmutableArrayType;
-use Sonata\PageBundle\Model\Page;
+use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -44,9 +44,9 @@ class PageListBlockService extends AbstractAdminBlockService
         $this->pageManager = $pageManager;
     }
 
-    public function buildEditForm(FormMapper $formMapper, BlockInterface $block): void
+    public function buildEditForm(FormMapper $form, BlockInterface $block): void
     {
-        $formMapper->add('settings', ImmutableArrayType::class, [
+        $form->add('settings', ImmutableArrayType::class, [
             'keys' => [
                 ['title', TextType::class, [
                     'label' => 'form.label_title',
@@ -79,7 +79,7 @@ class PageListBlockService extends AbstractAdminBlockService
     public function execute(BlockContextInterface $blockContext, ?Response $response = null)
     {
         $pageList = $this->pageManager->findBy([
-            'routeName' => Page::PAGE_ROUTE_CMS_NAME,
+            'routeName' => PageInterface::PAGE_ROUTE_CMS_NAME,
         ]);
 
         $systemElements = $this->pageManager->findBy([

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Listener;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerInterface;
@@ -34,44 +35,39 @@ use Symfony\Component\Templating\EngineInterface;
 class ExceptionListenerTest extends TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var MockObject&SiteSelectorInterface
      */
-    protected $decoratorStrategy;
+    private $siteSelector;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var MockObject&EngineInterface
      */
-    protected $pageServiceManager;
+    private $templating;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var MockObject&DecoratorStrategyInterface
      */
-    protected $cmsManager;
+    private $decoratorStrategy;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var MockObject&PageServiceManagerInterface
      */
-    protected $cmsSelector;
+    private $pageServiceManager;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var MockObject&CmsManagerSelectorInterface
      */
-    protected $siteSelector;
+    private $cmsSelector;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var MockObject&LoggerInterface
      */
-    protected $templating;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $logger;
+    private $logger;
 
     /**
      * @var ExceptionListener
      */
-    protected $listener;
+    private $listener;
 
     /**
      * setup unit test.
@@ -80,7 +76,6 @@ class ExceptionListenerTest extends TestCase
     {
         // mock dependencies
         $this->siteSelector = $this->createMock(SiteSelectorInterface::class);
-        $this->cmsSelector = $this->createMock(CmsManagerSelectorInterface::class);
         $this->templating = $this->createMock(EngineInterface::class);
         $this->decoratorStrategy = $this->createMock(DecoratorStrategyInterface::class);
         $this->pageServiceManager = $this->createMock(PageServiceManagerInterface::class);
@@ -161,14 +156,14 @@ class ExceptionListenerTest extends TestCase
         $page->expects(static::exactly(3))->method('getSite')->willReturn($site);
 
         // mock cms manager to return the mock error page and set it as current page
-        $this->cmsManager = $this->createMock(CmsManagerInterface::class);
-        $this->cmsManager
+        $cmsManager = $this->createMock(CmsManagerInterface::class);
+        $cmsManager
             ->expects(static::once())
             ->method('getPageByRouteName')
             ->with(static::anything(), static::equalTo('route_404'))
             ->willReturn($page);
-        $this->cmsManager->expects(static::once())->method('setCurrentPage')->with(static::equalTo($page));
-        $this->cmsSelector->method('retrieve')->willReturn($this->cmsManager);
+        $cmsManager->expects(static::once())->method('setCurrentPage')->with(static::equalTo($page));
+        $this->cmsSelector->method('retrieve')->willReturn($cmsManager);
 
         // mocked site selector should return a site
         $this->siteSelector

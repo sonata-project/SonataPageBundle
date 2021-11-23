@@ -21,6 +21,11 @@ namespace Sonata\PageBundle\Model;
 abstract class Site implements SiteInterface
 {
     /**
+     * @var mixed
+     */
+    protected $id;
+
+    /**
      * @var bool
      */
     protected $enabled;
@@ -197,9 +202,9 @@ abstract class Site implements SiteInterface
         return $this->name;
     }
 
-    public function setRelativePath($relativePath): void
+    public function setRelativePath($path): void
     {
-        $this->relativePath = $relativePath;
+        $this->relativePath = $path;
     }
 
     public function getRelativePath()

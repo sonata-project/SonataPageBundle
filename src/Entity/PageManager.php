@@ -185,15 +185,15 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
         }
     }
 
-    public function save($page, $andFlush = true)
+    public function save($entity, $andFlush = true)
     {
-        if (!$page->isHybrid()) {
-            $this->fixUrl($page);
+        if (!$entity->isHybrid()) {
+            $this->fixUrl($entity);
         }
 
-        parent::save($page, $andFlush);
+        parent::save($entity, $andFlush);
 
-        return $page;
+        return $entity;
     }
 
     public function loadPages(SiteInterface $site)
