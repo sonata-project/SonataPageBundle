@@ -14,17 +14,15 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Entity;
 
 use Sonata\BlockBundle\Model\BlockInterface;
-use Sonata\BlockBundle\Model\BlockManagerInterface;
-use Sonata\DatagridBundle\Pager\Doctrine\Pager;
-use Sonata\DatagridBundle\ProxyQuery\Doctrine\ProxyQuery;
 use Sonata\Doctrine\Entity\BaseEntityManager;
+use Sonata\Doctrine\Model\ManagerInterface;
 
 /**
  * This class manages BlockInterface persistency with the Doctrine ORM.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class BlockManager extends BaseEntityManager implements BlockManagerInterface
+class BlockManager extends BaseEntityManager implements ManagerInterface
 {
     public function save($entity, $andFlush = true)
     {
@@ -68,39 +66,5 @@ class BlockManager extends BaseEntityManager implements BlockManagerInterface
         $this->getEntityManager()->persist($block);
 
         return $block;
-    }
-
-    /**
-     * NEXT_MAJOR: remove this method.
-     *
-     * @deprecated since sonata-project/page-bundle 3.24, to be removed in 4.0.
-     */
-    public function getPager(array $criteria, $page, $limit = 10, array $sort = [])
-    {
-        $query = $this->getRepository()
-            ->createQueryBuilder('b')
-            ->select('b');
-
-        $parameters = [];
-
-        if (isset($criteria['enabled'])) {
-            $query->andWhere('p.enabled = :enabled');
-            $parameters['enabled'] = $criteria['enabled'];
-        }
-
-        if (isset($criteria['type'])) {
-            $query->andWhere('p.type = :type');
-            $parameters['type'] = $criteria['type'];
-        }
-
-        $query->setParameters($parameters);
-
-        $pager = new Pager();
-        $pager->setMaxPerPage($limit);
-        $pager->setQuery(new ProxyQuery($query));
-        $pager->setPage($page);
-        $pager->init();
-
-        return $pager;
     }
 }

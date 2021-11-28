@@ -19,7 +19,7 @@ use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Block\Service\AbstractAdminBlockService;
 use Sonata\BlockBundle\Model\BlockInterface;
-use Sonata\BlockBundle\Model\BlockManagerInterface;
+use Sonata\Doctrine\Model\ManagerInterface;
 use Sonata\Form\Type\ImmutableArrayType;
 use Sonata\Form\Validator\ErrorElement;
 use Sonata\PageBundle\Admin\SharedBlockAdmin;
@@ -49,7 +49,7 @@ class SharedBlockBlockService extends AbstractAdminBlockService
     private $container;
 
     /**
-     * @var BlockManagerInterface
+     * @var ManagerInterface
      */
     private $blockManager;
 
@@ -58,7 +58,7 @@ class SharedBlockBlockService extends AbstractAdminBlockService
      *
      * @psalm-suppress ContainerDependency
      */
-    public function __construct($name, EngineInterface $templating, ContainerInterface $container, BlockManagerInterface $blockManager)
+    public function __construct($name, EngineInterface $templating, ContainerInterface $container, ManagerInterface $blockManager)
     {
         $this->name = $name;
         $this->templating = $templating;
