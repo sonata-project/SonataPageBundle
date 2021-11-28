@@ -67,14 +67,6 @@ class SonataPageExtension extends Extension implements PrependExtensionInterface
             'getRequestContext',
         ]);
 
-        // NEXT_MAJOR: Remove this condition and remove all configuration files related to this.
-        if (isset($bundles['FOSRestBundle'], $bundles['NelmioApiDocBundle'], $bundles['JMSSerializerBundle'])) {
-            $loader->load('serializer.xml');
-
-            $loader->load('api_controllers.xml');
-            $loader->load('api_form.xml');
-        }
-
         if (isset($bundles['SonataAdminBundle'])) {
             $loader->load('admin.xml');
 

@@ -17,7 +17,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Sonata\BlockBundle\Model\BlockInterface;
-use Sonata\BlockBundle\Model\BlockManagerInterface;
+use Sonata\Doctrine\Model\ManagerInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SnapshotInterface;
@@ -41,7 +41,7 @@ class Transformer implements TransformerInterface
     protected $pageManager;
 
     /**
-     * @var BlockManagerInterface
+     * @var ManagerInterface
      */
     protected $blockManager;
 
@@ -55,7 +55,7 @@ class Transformer implements TransformerInterface
      */
     protected $registry;
 
-    public function __construct(SnapshotManagerInterface $snapshotManager, PageManagerInterface $pageManager, BlockManagerInterface $blockManager, ManagerRegistry $registry)
+    public function __construct(SnapshotManagerInterface $snapshotManager, PageManagerInterface $pageManager, ManagerInterface $blockManager, ManagerRegistry $registry)
     {
         $this->snapshotManager = $snapshotManager;
         $this->pageManager = $pageManager;

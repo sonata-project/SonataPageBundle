@@ -15,7 +15,7 @@ namespace Sonata\PageBundle\Entity;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
-use Sonata\BlockBundle\Model\BlockManagerInterface;
+use Sonata\Doctrine\Model\ManagerInterface;
 use Sonata\PageBundle\Model\BlockInteractorInterface;
 use Sonata\PageBundle\Model\PageInterface;
 
@@ -37,15 +37,15 @@ class BlockInteractor implements BlockInteractorInterface
     protected $registry;
 
     /**
-     * @var BlockManagerInterface
+     * @var ManagerInterface
      */
     protected $blockManager;
 
     /**
-     * @param ManagerRegistry       $registry     Doctrine registry
-     * @param BlockManagerInterface $blockManager Block manager
+     * @param ManagerRegistry  $registry     Doctrine registry
+     * @param ManagerInterface $blockManager Block manager
      */
-    public function __construct(ManagerRegistry $registry, BlockManagerInterface $blockManager)
+    public function __construct(ManagerRegistry $registry, ManagerInterface $blockManager)
     {
         $this->blockManager = $blockManager;
         $this->registry = $registry;

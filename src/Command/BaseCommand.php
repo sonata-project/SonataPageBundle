@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Command;
 
-use Sonata\BlockBundle\Model\BlockManagerInterface;
+use Sonata\Doctrine\Model\ManagerInterface;
 use Sonata\NotificationBundle\Backend\BackendInterface;
 use Sonata\PageBundle\CmsManager\CmsPageManager;
 use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
@@ -48,7 +48,7 @@ abstract class BaseCommand extends ContainerAwareCommand
     }
 
     /**
-     * @return BlockManagerInterface
+     * @return ManagerInterface
      */
     public function getBlockManager()
     {

@@ -14,18 +14,15 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Model;
 
 use Sonata\Doctrine\Model\ManagerInterface;
-use Sonata\Doctrine\Model\PageableManagerInterface;
 
 /**
- * NEXT_MAJOR: Remove PageableManagerInterface extension.
- *
  * Defines methods to interact with the persistency layer of a SnapshotInterface.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
  * @method SnapshotPageProxyInterface createSnapshotPageProxy(TransformerInterface $transformer, SnapshotInterface $snapshot)
  */
-interface SnapshotManagerInterface extends ManagerInterface, PageableManagerInterface
+interface SnapshotManagerInterface extends ManagerInterface
 {
     /**
      * @return SnapshotInterface

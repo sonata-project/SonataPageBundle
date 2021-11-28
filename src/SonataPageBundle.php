@@ -19,9 +19,6 @@ use Sonata\PageBundle\DependencyInjection\Compiler\CmfRouterCompilerPass;
 use Sonata\PageBundle\DependencyInjection\Compiler\GlobalVariablesCompilerPass;
 use Sonata\PageBundle\DependencyInjection\Compiler\PageServiceCompilerPass;
 use Sonata\PageBundle\DependencyInjection\Compiler\TwigStringExtensionCompilerPass;
-use Sonata\PageBundle\Form\Type\ApiBlockType;
-use Sonata\PageBundle\Form\Type\ApiPageType;
-use Sonata\PageBundle\Form\Type\ApiSiteType;
 use Sonata\PageBundle\Form\Type\CreateSnapshotType;
 use Sonata\PageBundle\Form\Type\PageSelectorType;
 use Sonata\PageBundle\Form\Type\PageTypeChoiceType;
@@ -94,9 +91,6 @@ class SonataPageBundle extends Bundle
     {
         if (class_exists(FormHelper::class)) {
             FormHelper::registerFormTypeMapping([
-                'sonata_page_api_form_site' => ApiSiteType::class,
-                'sonata_page_api_form_page' => ApiPageType::class,
-                'sonata_page_api_form_block' => ApiBlockType::class,
                 'sonata_page_selector' => PageSelectorType::class,
                 'sonata_page_create_snapshot' => CreateSnapshotType::class,
                 'sonata_page_template' => TemplateChoiceType::class,

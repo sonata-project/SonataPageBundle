@@ -14,8 +14,6 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Entity;
 
 use Doctrine\Persistence\ManagerRegistry;
-use Sonata\DatagridBundle\Pager\Doctrine\Pager;
-use Sonata\DatagridBundle\ProxyQuery\Doctrine\ProxyQuery;
 use Sonata\Doctrine\Entity\BaseEntityManager;
 use Sonata\PageBundle\Model\Page;
 use Sonata\PageBundle\Model\PageInterface;
@@ -56,75 +54,6 @@ class PageManager extends BaseEntityManager implements PageManagerInterface
             'url' => $url,
             'site' => $site->getId(),
         ]);
-    }
-
-    /**
-     * NEXT_MAJOR: remove this method.
-     *
-     * @deprecated since sonata-project/page-bundle 3.24, to be removed in 4.0.
-     */
-    public function getPager(array $criteria, $page, $limit = 10, array $sort = [])
-    {
-        $query = $this->getRepository()
-            ->createQueryBuilder('p')
-            ->select('p');
-
-        $fields = $this->getEntityManager()->getClassMetadata($this->class)->getFieldNames();
-
-        foreach ($sort as $field => $direction) {
-            if (!\in_array($field, $fields, true)) {
-                throw new \RuntimeException(sprintf("Invalid sort field '%s' in '%s' class", $field, $this->class));
-            }
-        }
-        if (0 === \count($sort)) {
-            $sort = ['name' => 'ASC'];
-        }
-        foreach ($sort as $field => $direction) {
-            $query->orderBy(sprintf('p.%s', $field), strtoupper($direction));
-        }
-
-        $parameters = [];
-
-        if (isset($criteria['enabled'])) {
-            $query->andWhere('p.enabled = :enabled');
-            $parameters['enabled'] = $criteria['enabled'];
-        }
-
-        if (isset($criteria['edited'])) {
-            $query->andWhere('p.edited = :edited');
-            $parameters['edited'] = $criteria['edited'];
-        }
-
-        if (isset($criteria['site'])) {
-            $query->join('p.site', 's');
-            $query->andWhere('s.id = :siteId');
-            $parameters['siteId'] = $criteria['site'];
-        }
-
-        if (isset($criteria['parent'])) {
-            $query->join('p.parent', 'pa');
-            $query->andWhere('pa.id = :parentId');
-            $parameters['parentId'] = $criteria['parent'];
-        }
-
-        if (isset($criteria['root'])) {
-            $isRoot = (bool) $criteria['root'];
-            if ($isRoot) {
-                $query->andWhere('p.parent IS NULL');
-            } else {
-                $query->andWhere('p.parent IS NOT NULL');
-            }
-        }
-
-        $query->setParameters($parameters);
-
-        $pager = new Pager();
-        $pager->setMaxPerPage($limit);
-        $pager->setQuery(new ProxyQuery($query));
-        $pager->setPage($page);
-        $pager->init();
-
-        return $pager;
     }
 
     public function create(array $defaults = [])

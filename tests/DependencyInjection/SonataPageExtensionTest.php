@@ -29,18 +29,6 @@ class SonataPageExtensionTest extends AbstractExtensionTestCase
         $this->assertContainerBuilderHasService('sonata.page.router.request_context');
     }
 
-    public function testApiServicesAreDefinedWhenSpecificBundlesArePresent(): void
-    {
-        $this->container->setParameter('kernel.bundles', [
-            'FOSRestBundle' => true,
-            'NelmioApiDocBundle' => true,
-            'SonataDoctrineBundle' => true,
-            'JMSSerializerBundle' => true,
-        ]);
-        $this->load();
-        $this->assertContainerBuilderHasService('sonata.page.serializer.handler.page');
-    }
-
     public function testAdminServicesAreDefinedWhenAdminBundlesIsPresent(): void
     {
         $this->container->setParameter('kernel.bundles', [

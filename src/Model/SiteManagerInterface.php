@@ -14,15 +14,12 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Model;
 
 use Sonata\Doctrine\Model\ManagerInterface;
-use Sonata\Doctrine\Model\PageableManagerInterface;
 
 /**
- * NEXT_MAJOR: Remove PageableManagerInterface extension.
- *
  * SiteManagerInterface.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-interface SiteManagerInterface extends ManagerInterface, PageableManagerInterface
+interface SiteManagerInterface extends ManagerInterface
 {
 }

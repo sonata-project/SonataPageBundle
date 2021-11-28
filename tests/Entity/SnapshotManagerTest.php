@@ -14,11 +14,7 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Entity;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\ORM\AbstractQuery;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Entity\BaseSnapshot;
@@ -97,124 +93,6 @@ class SnapshotManagerTest extends TestCase
         $this->expectExceptionMessage('No template references with the code : foo');
 
         $manager->getTemplate('foo');
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this test.
-     *
-     * @group legacy
-     */
-    public function testGetPager(): void
-    {
-        $self = $this;
-        $this
-            ->getSnapshotManager(static function ($qb) use ($self): void {
-                $qb->expects($self->never())->method('andWhere');
-                $qb->expects($self->once())->method('setParameters')->with([]);
-            })
-            ->getPager([], 1);
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this test.
-     *
-     * @group legacy
-     */
-    public function testGetPagerWithEnabledSnapshots(): void
-    {
-        $self = $this;
-        $this
-            ->getSnapshotManager(static function ($qb) use ($self): void {
-                $qb->expects($self->once())->method('andWhere')->with($self->equalTo('s.enabled = :enabled'));
-                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['enabled' => true]));
-            })
-            ->getPager(['enabled' => true], 1);
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this test.
-     *
-     * @group legacy
-     */
-    public function testGetPagerWithDisabledSnapshots(): void
-    {
-        $self = $this;
-        $this
-            ->getSnapshotManager(static function ($qb) use ($self): void {
-                $qb->expects($self->once())->method('andWhere')->with($self->equalTo('s.enabled = :enabled'));
-                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['enabled' => false]));
-            })
-            ->getPager(['enabled' => false], 1);
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this test.
-     *
-     * @group legacy
-     */
-    public function testGetPagerWithRootSnapshots(): void
-    {
-        $self = $this;
-        $this
-            ->getSnapshotManager(static function ($qb) use ($self): void {
-                $qb->expects($self->once())->method('andWhere')->with($self->equalTo('s.parent IS NULL'));
-            })
-            ->getPager(['root' => true], 1);
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this test.
-     *
-     * @group legacy
-     */
-    public function testGetPagerWithNonRootSnapshots(): void
-    {
-        $self = $this;
-        $this
-            ->getSnapshotManager(static function ($qb) use ($self): void {
-                $qb->expects($self->once())->method('andWhere')->with($self->equalTo('s.parent IS NOT NULL'));
-            })
-            ->getPager(['root' => false], 1);
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this test.
-     *
-     * @group legacy
-     */
-    public function testGetPagerWithParentChildSnapshots(): void
-    {
-        $self = $this;
-        $this
-            ->getSnapshotManager(static function ($qb) use ($self): void {
-                $qb->expects($self->once())->method('join')->with(
-                    $self->equalTo('s.parent'),
-                    $self->equalTo('pa')
-                );
-                $qb->expects($self->once())->method('andWhere')->with($self->equalTo('pa.id = :parentId'));
-                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['parentId' => 13]));
-            })
-            ->getPager(['parent' => 13], 1);
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this test.
-     *
-     * @group legacy
-     */
-    public function testGetPagerWithSiteSnapshots(): void
-    {
-        $self = $this;
-        $this
-            ->getSnapshotManager(static function ($qb) use ($self): void {
-                $qb->expects($self->once())->method('join')->with(
-                    $self->equalTo('s.site'),
-                    $self->equalTo('si')
-                );
-                $qb->expects($self->once())->method('andWhere')->with($self->equalTo('si.id = :siteId'));
-                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['siteId' => 13]));
-            })
-            ->getPager(['site' => 13], 1);
     }
 
     /**
@@ -301,34 +179,5 @@ class SnapshotManagerTest extends TestCase
 
         // When calling method, do not expects any calls
         $manager->enableSnapshots([]);
-    }
-
-    protected function getSnapshotManager($qbCallback): SnapshotManager
-    {
-        $query = $this->getMockForAbstractClass(AbstractQuery::class, [], '', false, true, true, ['execute']);
-        $query->method('execute')->willReturn(true);
-
-        $qb = $this->getMockBuilder(QueryBuilder::class)
-            ->setConstructorArgs([$this->createMock(EntityManager::class)])
-            ->getMock();
-
-        $qb->method('getRootAliases')->willReturn([]);
-        $qb->method('select')->willReturn($qb);
-        $qb->method('getQuery')->willReturn($query);
-
-        $qbCallback($qb);
-
-        $repository = $this->createMock(EntityRepository::class);
-        $repository->method('createQueryBuilder')->willReturn($qb);
-
-        $em = $this->createMock(EntityManager::class);
-        $em->method('getRepository')->willReturn($repository);
-
-        $registry = $this->createMock(ManagerRegistry::class);
-        $registry->method('getManagerForClass')->willReturn($em);
-
-        $snapshotProxyFactory = $this->createMock(SnapshotPageProxyFactoryInterface::class);
-
-        return new SnapshotManager(BaseSnapshot::class, $registry, [], $snapshotProxyFactory);
     }
 }
