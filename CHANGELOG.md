@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.25.0](https://github.com/sonata-project/SonataPageBundle/compare/3.24.0...3.25.0) - 2021-12-04
+### Added
+- [[#1382](https://github.com/sonata-project/SonataPageBundle/pull/1382)] Added PHPStan and Psalm. ([@jordisala1991](https://github.com/jordisala1991))
+
 ## [3.24.0](https://github.com/sonata-project/SonataPageBundle/compare/3.23.0...3.24.0) - 2021-11-06
 ### Deprecated
 - [[#1365](https://github.com/sonata-project/SonataPageBundle/pull/1365)] Deprecated ReST API with FOSRest, Nelmio Api Docs and JMS Serializer. ([@wbloszyk](https://github.com/wbloszyk))
