@@ -1,14 +1,13 @@
 {
     "name": "sonata-project/page-bundle",
-    "type": "symfony-bundle",
     "description": "This bundle provides a Site and Page management through container and block services",
+    "license": "MIT",
+    "type": "symfony-bundle",
     "keywords": [
         "page",
         "sonata",
         "cms"
     ],
-    "homepage": "https://docs.sonata-project.org/projects/SonataPageBundle",
-    "license": "MIT",
     "authors": [
         {
             "name": "Thomas Rabaix",
@@ -20,6 +19,7 @@
             "homepage": "https://github.com/sonata-project/SonataPageBundle/contributors"
         }
     ],
+    "homepage": "https://docs.sonata-project.org/projects/SonataPageBundle",
     "require": {
         "php": "^7.3 || ^8.0",
         "cocur/slugify": "^3.0 || ^4.0",
@@ -54,11 +54,6 @@
         "twig/string-extra": "^3.0",
         "twig/twig": "^2.12.1"
     },
-    "conflict": {
-        "friendsofsymfony/rest-bundle": "<2.1",
-        "jms/serializer": "<0.13",
-        "sonata-project/core-bundle": "<3.20"
-    },
     "require-dev": {
         "doctrine/annotations": "^1.10.3",
         "friendsofsymfony/rest-bundle": "^2.1 || ^3.0",
@@ -77,16 +72,13 @@
         "symfony/phpunit-bridge": "^5.1.4",
         "vimeo/psalm": "^4.7.2"
     },
+    "conflict": {
+        "friendsofsymfony/rest-bundle": "<2.1",
+        "jms/serializer": "<0.13",
+        "sonata-project/core-bundle": "<3.20"
+    },
     "suggest": {
         "twig/extra-bundle": "Auto configures the Twig Intl extension"
-    },
-    "config": {
-        "sort-packages": true
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "3.x-dev"
-        }
     },
     "autoload": {
         "psr-4": {
@@ -96,6 +88,14 @@
     "autoload-dev": {
         "psr-4": {
             "Sonata\\PageBundle\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.x-dev"
         }
     }
 }
