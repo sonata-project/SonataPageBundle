@@ -26,7 +26,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-class RequestListenerTest extends TestCase
+final class RequestListenerTest extends TestCase
 {
     public function testValidSite(): void
     {

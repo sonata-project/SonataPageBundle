@@ -23,6 +23,8 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  * Select a page type.
  *
  * @author Olivier Paradis <paradis.olivier@gmail.com>
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class PageTypeChoiceType extends AbstractType
 {

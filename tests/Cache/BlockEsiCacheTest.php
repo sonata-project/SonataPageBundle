@@ -22,7 +22,7 @@ use Symfony\Component\HttpKernel\Controller\ArgumentResolverInterface;
 use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
 use Symfony\Component\Routing\RouterInterface;
 
-class BlockEsiCacheTest extends TestCase
+final class BlockEsiCacheTest extends TestCase
 {
     /**
      * @dataProvider getExceptionCacheKeys

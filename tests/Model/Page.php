@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Model;
 
-class Page extends \Sonata\PageBundle\Model\Page
+final class Page extends \Sonata\PageBundle\Model\Page
 {
     protected $id;
 

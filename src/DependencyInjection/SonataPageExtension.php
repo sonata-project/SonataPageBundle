@@ -28,6 +28,8 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class SonataPageExtension extends Extension implements PrependExtensionInterface
 {

@@ -22,6 +22,8 @@ use Symfony\Component\Process\Process;
  * Create snapshots for a site.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class CreateSnapshotsCommand extends BaseCommand
 {

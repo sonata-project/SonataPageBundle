@@ -27,7 +27,7 @@ use Sonata\PageBundle\Model\SnapshotPageProxyInterface;
 use Sonata\PageBundle\Model\TransformerInterface;
 use Sonata\PageBundle\Tests\Model\Page;
 
-class SnapshotBlock extends Block
+final class SnapshotBlock extends Block
 {
     public function setId($id)
     {
@@ -38,7 +38,7 @@ class SnapshotBlock extends Block
     }
 }
 
-class CmsSnapshotManagerTest extends TestCase
+final class CmsSnapshotManagerTest extends TestCase
 {
     /**
      * @var CmsSnapshotManager

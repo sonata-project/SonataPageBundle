@@ -27,7 +27,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment;
 
-class PageExtensionTest extends TestCase
+final class PageExtensionTest extends TestCase
 {
     public function testAjaxUrl(): void
     {

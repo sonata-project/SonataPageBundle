@@ -27,6 +27,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * @final since sonata-project/page-bundle 3.x
+ */
 class PageListBlockService extends AbstractAdminBlockService
 {
     /**

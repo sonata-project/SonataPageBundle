@@ -20,7 +20,7 @@ use Sonata\PageBundle\Model\SnapshotPageProxy;
 use Sonata\PageBundle\Model\SnapshotPageProxyInterface;
 use Sonata\PageBundle\Model\TransformerInterface;
 
-class SnapshotPageProxyTest extends TestCase
+final class SnapshotPageProxyTest extends TestCase
 {
     public function testInterface(): void
     {

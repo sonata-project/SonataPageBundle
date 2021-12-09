@@ -19,7 +19,7 @@ use Sonata\PageBundle\Page\Service\BasePageService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class BasePageServiceTest extends TestCase
+final class BasePageServiceTest extends TestCase
 {
     public function testName(): void
     {
@@ -45,7 +45,7 @@ class BasePageServiceTest extends TestCase
 /**
  * Concrete page service implementation for test purposes; Should only implement the execute method.
  */
-class ConcretePageService extends BasePageService
+final class ConcretePageService extends BasePageService
 {
     public function execute(PageInterface $page, Request $request, array $parameters = [], ?Response $response = null)
     {

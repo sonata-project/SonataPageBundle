@@ -23,6 +23,8 @@ use Symfony\Component\Console\Question\Question;
  * Create a site.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class CreateSiteCommand extends BaseCommand
 {

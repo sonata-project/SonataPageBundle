@@ -29,7 +29,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 /**
  * @author Stephen Leavitt <stephen.leavitt@sonyatv.com>
  */
-class HostPathSiteSelectorTest extends TestCase
+final class HostPathSiteSelectorTest extends TestCase
 {
     /**
      * @dataProvider siteProvider
@@ -128,7 +128,7 @@ class HostPathSiteSelectorTest extends TestCase
     }
 }
 
-class HostPathSite extends BaseSite
+final class HostPathSite extends BaseSite
 {
     /**
      * @var int
@@ -144,7 +144,7 @@ class HostPathSite extends BaseSite
     }
 }
 
-class HostPathSiteSelector extends BaseSiteSelector
+final class HostPathSiteSelector extends BaseSiteSelector
 {
     /**
      * Camelize a string.

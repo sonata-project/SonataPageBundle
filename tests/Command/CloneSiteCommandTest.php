@@ -30,7 +30,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * @author Christian Gripp <mail@core23.de>
  */
-class CloneSiteCommandTest extends TestCase
+final class CloneSiteCommandTest extends TestCase
 {
     /**
      * @var Application

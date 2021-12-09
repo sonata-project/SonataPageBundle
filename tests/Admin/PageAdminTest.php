@@ -18,12 +18,13 @@ use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Route\RouteGeneratorInterface;
 use Sonata\PageBundle\Admin\PageAdmin;
 use Sonata\PageBundle\Controller\PageController;
+use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\Site;
 use Sonata\PageBundle\Tests\Model\Page;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class PageAdminTest extends TestCase
+final class PageAdminTest extends TestCase
 {
     public function testTabMenuHasLinksWithSubSite(): void
     {
@@ -39,8 +40,8 @@ class PageAdminTest extends TestCase
         $site = $this->createStub(Site::class);
         $site->method('getRelativePath')->willReturn('/my-subsite');
 
-        $page = $this->createStub(Page::class);
-        $page->method('getRouteName')->willReturn(Page::PAGE_ROUTE_CMS_NAME);
+        $page = $this->createStub(PageInterface::class);
+        $page->method('getRouteName')->willReturn(PageInterface::PAGE_ROUTE_CMS_NAME);
         $page->method('getUrl')->willReturn('/my-page');
         $page->method('isHybrid')->willReturn(false);
         $page->method('isInternal')->willReturn(false);

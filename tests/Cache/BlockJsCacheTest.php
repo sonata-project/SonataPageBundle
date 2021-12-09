@@ -21,7 +21,7 @@ use Sonata\PageBundle\Cache\BlockJsCache;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Symfony\Component\Routing\RouterInterface;
 
-class BlockJsCacheTest extends TestCase
+final class BlockJsCacheTest extends TestCase
 {
     /**
      * @dataProvider getExceptionCacheKeys

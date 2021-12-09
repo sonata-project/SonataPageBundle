@@ -34,6 +34,8 @@ use Twig\TwigFunction;
  * PageExtension.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class PageExtension extends AbstractExtension implements InitRuntimeInterface
 {

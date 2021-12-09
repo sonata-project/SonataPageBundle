@@ -21,6 +21,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Migrates the name setting of all blocks into a code setting.
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class RenderBlockCommand extends BaseCommand
 {

@@ -18,7 +18,7 @@ use Sonata\PageBundle\Request\RequestFactory;
 use Sonata\PageBundle\Request\SiteRequest;
 use Symfony\Component\HttpFoundation\Request;
 
-class RequestFactoryTest extends TestCase
+final class RequestFactoryTest extends TestCase
 {
     protected function setUp(): void
     {

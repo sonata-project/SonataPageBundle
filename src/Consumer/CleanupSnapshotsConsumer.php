@@ -20,6 +20,8 @@ use Sonata\PageBundle\Model\PageManagerInterface;
 
 /**
  * Consumer class to cleanup snapshots.
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class CleanupSnapshotsConsumer implements ConsumerInterface
 {

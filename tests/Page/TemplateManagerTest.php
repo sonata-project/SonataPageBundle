@@ -21,7 +21,7 @@ use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Templating\StreamingEngineInterface;
 
-class TemplateManagerTest extends TestCase
+final class TemplateManagerTest extends TestCase
 {
     /**
      * Test adding a new template.

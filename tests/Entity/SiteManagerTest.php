@@ -23,7 +23,7 @@ use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Entity\BaseSite;
 use Sonata\PageBundle\Entity\SiteManager;
 
-class SiteManagerTest extends TestCase
+final class SiteManagerTest extends TestCase
 {
     /**
      * NEXT_MAJOR: Remove this test.

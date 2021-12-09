@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\SonataPageBundle;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class Page extends \Sonata\PageBundle\Model\Page
+final class Page extends \Sonata\PageBundle\Model\Page
 {
     /**
      * Returns the id.
@@ -29,7 +29,7 @@ class Page extends \Sonata\PageBundle\Model\Page
     }
 }
 
-class SonataPageBundleTest extends TestCase
+final class SonataPageBundleTest extends TestCase
 {
     /**
      * @dataProvider getSlug

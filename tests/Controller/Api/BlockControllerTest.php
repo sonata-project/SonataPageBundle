@@ -30,7 +30,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *
  * @group legacy
  */
-class BlockControllerTest extends TestCase
+final class BlockControllerTest extends TestCase
 {
     public function testGetBlockAction(): void
     {

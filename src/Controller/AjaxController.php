@@ -25,6 +25,8 @@ use Symfony\Component\HttpFoundation\Response;
  * Render a block in ajax.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class AjaxController
 {

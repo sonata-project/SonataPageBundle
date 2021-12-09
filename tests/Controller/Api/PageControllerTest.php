@@ -39,7 +39,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *
  * @group legacy
  */
-class PageControllerTest extends TestCase
+final class PageControllerTest extends TestCase
 {
     public function testGetPagesAction(): void
     {

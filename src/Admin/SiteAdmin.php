@@ -28,6 +28,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
  * Admin definition for the Site class.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class SiteAdmin extends AbstractAdmin
 {
