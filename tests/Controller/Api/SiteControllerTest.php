@@ -32,7 +32,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *
  * @group legacy
  */
-class SiteControllerTest extends TestCase
+final class SiteControllerTest extends TestCase
 {
     public function testGetSitesAction(): void
     {

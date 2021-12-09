@@ -19,6 +19,9 @@ use Sonata\PageBundle\Model\SiteInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
+/**
+ * @final since sonata-project/page-bundle 3.x
+ */
 class UniqueUrlValidator extends ConstraintValidator
 {
     /**

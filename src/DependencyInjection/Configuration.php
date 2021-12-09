@@ -25,6 +25,8 @@ use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html#cookbook-bundles-extension-config-class}
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class Configuration implements ConfigurationInterface
 {

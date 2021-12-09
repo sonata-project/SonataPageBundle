@@ -29,6 +29,9 @@ use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\RouterInterface;
 
+/**
+ * @final since sonata-project/page-bundle 3.x
+ */
 class CmsPageRouter implements ChainedRouterInterface
 {
     /**

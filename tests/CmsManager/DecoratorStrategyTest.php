@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-class DecoratorStrategyTest extends TestCase
+final class DecoratorStrategyTest extends TestCase
 {
     public function testIsDecorable(): void
     {

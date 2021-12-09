@@ -19,7 +19,7 @@ use Symfony\Cmf\Component\Routing\ChainRouter;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-class CmfRouterAutoRegisterTest extends AbstractCompilerPassTestCase
+final class CmfRouterAutoRegisterTest extends AbstractCompilerPassTestCase
 {
     /**
      * @dataProvider providerRoutedAutoRegister

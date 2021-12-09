@@ -22,7 +22,7 @@ use Sonata\PageBundle\Block\ContainerBlockService;
 /**
  * Test Container Block service.
  */
-class ContainerBlockServiceTest extends BlockServiceTestCase
+final class ContainerBlockServiceTest extends BlockServiceTestCase
 {
     /**
      * test the block execute() method.

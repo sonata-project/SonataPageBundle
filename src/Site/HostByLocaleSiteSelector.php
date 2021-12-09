@@ -19,6 +19,8 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
  * HostByLocaleSiteSelector.
  *
  * @author Rémi Marseille <marseille@ekino.com>
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class HostByLocaleSiteSelector extends BaseSiteSelector
 {

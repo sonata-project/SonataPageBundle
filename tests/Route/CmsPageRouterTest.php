@@ -27,7 +27,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouterInterface;
 
-class CmsPageRouterTest extends TestCase
+final class CmsPageRouterTest extends TestCase
 {
     /**
      * @var CmsManagerSelectorInterface

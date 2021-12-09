@@ -22,7 +22,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 
-class PageServiceManagerTest extends TestCase
+final class PageServiceManagerTest extends TestCase
 {
     /**
      * @var MockObject&RouterInterface

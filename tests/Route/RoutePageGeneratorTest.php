@@ -28,7 +28,7 @@ use Symfony\Component\Routing\RouterInterface;
 /**
  * @author Vincent Composieux <vincent.composieux@gmail.com>
  */
-class RoutePageGeneratorTest extends TestCase
+final class RoutePageGeneratorTest extends TestCase
 {
     /**
      * @var RoutePageGenerator

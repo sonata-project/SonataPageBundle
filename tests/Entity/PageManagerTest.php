@@ -24,7 +24,7 @@ use Sonata\PageBundle\Entity\BasePage;
 use Sonata\PageBundle\Entity\PageManager;
 use Sonata\PageBundle\Tests\Model\Page;
 
-class PageManagerTest extends TestCase
+final class PageManagerTest extends TestCase
 {
     public function testFixUrl(): void
     {

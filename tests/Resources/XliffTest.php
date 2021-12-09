@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Translation\Exception\InvalidResourceException;
 use Symfony\Component\Translation\Loader\XliffFileLoader;
 
-class XliffTest extends TestCase
+final class XliffTest extends TestCase
 {
     /**
      * @var XliffFileLoader

@@ -28,7 +28,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-class ResponseListenerTest extends TestCase
+final class ResponseListenerTest extends TestCase
 {
     /**
      * @var MockObject&DecoratorStrategyInterface

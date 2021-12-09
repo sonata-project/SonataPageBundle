@@ -27,6 +27,8 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
  * cms manager upon user permission.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class RequestListener
 {

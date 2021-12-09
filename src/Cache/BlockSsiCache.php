@@ -32,6 +32,8 @@ use Symfony\Component\Routing\RouterInterface;
  * Cache block through an ssi statement.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class BlockSsiCache extends SsiCache
 {

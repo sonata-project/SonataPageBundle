@@ -27,7 +27,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *
  * @group legacy
  */
-class SnapshotControllerTest extends TestCase
+final class SnapshotControllerTest extends TestCase
 {
     public function testGetSnapshotsAction(): void
     {

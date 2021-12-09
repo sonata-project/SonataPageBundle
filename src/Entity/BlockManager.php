@@ -22,6 +22,8 @@ use Sonata\PageBundle\Model\BlockManagerInterface;
  * This class manages BlockInterface persistency with the Doctrine ORM.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class BlockManager extends BaseEntityManager implements BlockManagerInterface
 {

@@ -18,7 +18,7 @@ use Sonata\PageBundle\Model\Block;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SnapshotInterface;
 
-class PageTest extends TestCase
+final class PageTest extends TestCase
 {
     /**
      * NEXT_MAJOR: remove the legacy group from this test.

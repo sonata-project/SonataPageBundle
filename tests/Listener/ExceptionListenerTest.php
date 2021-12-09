@@ -32,7 +32,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Templating\EngineInterface;
 
-class ExceptionListenerTest extends TestCase
+final class ExceptionListenerTest extends TestCase
 {
     /**
      * @var MockObject&SiteSelectorInterface

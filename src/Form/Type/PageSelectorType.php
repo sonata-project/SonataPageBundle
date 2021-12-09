@@ -26,6 +26,8 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  * Select a page.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class PageSelectorType extends AbstractType
 {

@@ -15,7 +15,7 @@ namespace Sonata\PageBundle\Tests\Entity;
 
 use Sonata\PageBundle\Entity\BaseSnapshot;
 
-class Snapshot extends BaseSnapshot
+final class Snapshot extends BaseSnapshot
 {
     /**
      * @var int

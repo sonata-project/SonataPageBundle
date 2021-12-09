@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Entity\BasePage;
 use Sonata\PageBundle\Entity\BlockManager;
 
-class BlockManagerTest extends TestCase
+final class BlockManagerTest extends TestCase
 {
     /**
      * NEXT_MAJOR: Remove this test.

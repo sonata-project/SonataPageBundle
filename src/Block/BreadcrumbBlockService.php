@@ -27,6 +27,8 @@ use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
  * BlockService for homepage breadcrumb.
  *
  * @author Sylvain Deloux <sylvain.deloux@ekino.com>
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
 {

@@ -29,7 +29,7 @@ use Sonata\PageBundle\Model\SnapshotPageProxyFactoryInterface;
 use Sonata\PageBundle\Model\SnapshotPageProxyInterface;
 use Sonata\PageBundle\Model\TransformerInterface;
 
-class SnapshotManagerTest extends TestCase
+final class SnapshotManagerTest extends TestCase
 {
     public function testSetTemplates(): void
     {
@@ -226,7 +226,11 @@ class SnapshotManagerTest extends TestCase
         $page = $this->createMock(PageInterface::class);
         $page->expects(static::once())->method('getId')->willReturn(456);
 
-        $snapshot = $this->createMock(Snapshot::class);
+        $snapshot = $this->getMockBuilder(SnapshotInterface::class)
+            ->disableOriginalConstructor()
+            ->addMethods(['getId'])
+            ->getMockForAbstractClass();
+        // @phpstan-ignore-next-line
         $snapshot->expects(static::once())->method('getId')->willReturn(123);
         $snapshot->expects(static::once())->method('getPage')->willReturn($page);
 

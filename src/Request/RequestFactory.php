@@ -15,6 +15,9 @@ namespace Sonata\PageBundle\Request;
 
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * @final since sonata-project/page-bundle 3.x
+ */
 class RequestFactory
 {
     private static $types = [

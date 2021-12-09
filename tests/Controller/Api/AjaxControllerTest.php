@@ -32,7 +32,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @group legacy
  */
-class AjaxControllerTest extends TestCase
+final class AjaxControllerTest extends TestCase
 {
     public function testWithInvalidBlock(): void
     {

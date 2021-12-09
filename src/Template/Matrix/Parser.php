@@ -18,6 +18,8 @@ namespace Sonata\PageBundle\Template\Matrix;
  * computes string based template matrix to position/sise.
  *
  * @author Raphaël Benitte <raphael.benitte@fullsix.com>
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class Parser
 {

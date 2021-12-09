@@ -17,6 +17,8 @@ namespace Sonata\PageBundle\Generator;
  * Render a string using the mustache formatter : {{ var }}.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class Mustache
 {
