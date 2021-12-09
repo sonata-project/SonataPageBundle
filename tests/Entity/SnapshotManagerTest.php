@@ -230,7 +230,6 @@ final class SnapshotManagerTest extends TestCase
             ->disableOriginalConstructor()
             ->addMethods(['getId'])
             ->getMockForAbstractClass();
-        // @phpstan-ignore-next-line
         $snapshot->expects(static::once())->method('getId')->willReturn(123);
         $snapshot->expects(static::once())->method('getPage')->willReturn($page);
 
