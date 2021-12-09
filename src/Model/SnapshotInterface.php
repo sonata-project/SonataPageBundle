@@ -18,6 +18,7 @@ namespace Sonata\PageBundle\Model;
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
+ * @method int|null           getId()
  * @method int|null           getTargetId()
  * @method void               setTargetId(?int $targetId)
  * @method PageInterface|null getTarget()
