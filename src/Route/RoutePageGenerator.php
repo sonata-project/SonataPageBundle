@@ -25,6 +25,8 @@ use Symfony\Component\Routing\RouterInterface;
  * This is the page generator service from existing routes.
  *
  * @author Vincent Composieux <vincent.composieux@gmail.com>
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class RoutePageGenerator
 {

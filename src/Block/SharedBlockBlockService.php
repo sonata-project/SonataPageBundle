@@ -35,6 +35,8 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  * Render a shared block.
  *
  * @author Romain Mouillard <romain.mouillard@gmail.com>
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class SharedBlockBlockService extends AbstractAdminBlockService
 {

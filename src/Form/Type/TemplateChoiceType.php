@@ -23,6 +23,8 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  * Select a template.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class TemplateChoiceType extends AbstractType
 {

@@ -19,6 +19,9 @@ use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\NotificationBundle\Backend\BackendInterface;
 use Sonata\PageBundle\Model\PageInterface;
 
+/**
+ * @final since sonata-project/page-bundle 3.x
+ */
 class CreateSnapshotAdminExtension extends AbstractAdminExtension
 {
     /**

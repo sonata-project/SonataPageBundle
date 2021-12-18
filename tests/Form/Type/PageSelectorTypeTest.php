@@ -20,7 +20,7 @@ use Sonata\PageBundle\Tests\Model\Page;
 use Sonata\PageBundle\Tests\Model\Site;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PageSelectorTypeTest extends TestCase
+final class PageSelectorTypeTest extends TestCase
 {
     protected $pages;
 

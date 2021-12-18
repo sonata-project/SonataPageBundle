@@ -40,6 +40,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
  * Admin definition for the Page class.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class PageAdmin extends AbstractAdmin
 {

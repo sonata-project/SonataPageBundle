@@ -22,6 +22,8 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
  * on the current request.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class DecoratorStrategy implements DecoratorStrategyInterface
 {

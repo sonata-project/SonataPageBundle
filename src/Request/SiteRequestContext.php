@@ -21,6 +21,8 @@ use Symfony\Component\Routing\RequestContext;
  * SiteRequestContext.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class SiteRequestContext extends RequestContext implements SiteRequestContextInterface
 {

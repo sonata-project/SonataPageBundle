@@ -1,6 +1,14 @@
 UPGRADE 3.x
 ===========
 
+UPGRADE FROM 3.X to 3.X
+=======================
+
+### Closed API
+
+Many classes have been made final, meaning you can no longer extend them. Consider using decoration instead.
+
+
 UPGRADE FROM 3.23 to 3.24
 =========================
 

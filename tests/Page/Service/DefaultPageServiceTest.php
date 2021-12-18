@@ -22,7 +22,7 @@ use Sonata\SeoBundle\Seo\SeoPageInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class DefaultPageServiceTest extends TestCase
+final class DefaultPageServiceTest extends TestCase
 {
     /**
      * @var MockObject&TemplateManagerInterface

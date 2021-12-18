@@ -24,6 +24,8 @@ use Sonata\PageBundle\Model\SiteInterface;
  * This class manages PageInterface persistency with the Doctrine ORM.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class PageManager extends BaseEntityManager implements PageManagerInterface
 {

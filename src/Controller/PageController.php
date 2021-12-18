@@ -28,6 +28,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  * Page controller.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class PageController extends Controller
 {

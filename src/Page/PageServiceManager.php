@@ -26,6 +26,8 @@ use Symfony\Component\Routing\RouterInterface;
  * to handle the page rendering but it may also implement an alternate rendering method.
  *
  * @author Olivier Paradis <paradis.olivier@gmail.com>
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class PageServiceManager implements PageServiceManagerInterface
 {

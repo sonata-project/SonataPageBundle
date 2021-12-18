@@ -25,7 +25,7 @@ use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Tests\Model\Page;
 use Sonata\PageBundle\Tests\Model\Site;
 
-class CmsBlock extends AbstractBlock
+final class CmsBlock extends AbstractBlock
 {
     public function setId($id): void
     {
@@ -39,7 +39,7 @@ class CmsBlock extends AbstractBlock
 /**
  * Test CmsPageManager.
  */
-class CmsPageManagerTest extends TestCase
+final class CmsPageManagerTest extends TestCase
 {
     /**
      * @var MockObject&BlockInteractorInterface

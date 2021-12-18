@@ -26,6 +26,8 @@ use Sonata\PageBundle\Mapper\PageFormMapper;
  * Admin class for shared Block model.
  *
  * @author Romain Mouillard <romain.mouillard@gmail.com>
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class SharedBlockAdmin extends BaseBlockAdmin
 {

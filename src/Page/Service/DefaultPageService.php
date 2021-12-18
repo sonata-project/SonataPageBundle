@@ -25,6 +25,8 @@ use Symfony\Component\HttpFoundation\Response;
  * Note: this service is backward-compatible and functions like the old page renderer class.
  *
  * @author Olivier Paradis <paradis.olivier@gmail.com>
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class DefaultPageService extends BasePageService
 {

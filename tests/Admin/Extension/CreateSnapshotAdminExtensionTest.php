@@ -20,7 +20,7 @@ use Sonata\PageBundle\Admin\Extension\CreateSnapshotAdminExtension;
 use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 
-class CreateSnapshotAdminExtensionTest extends TestCase
+final class CreateSnapshotAdminExtensionTest extends TestCase
 {
     public function testPostUpdateOnPage(): void
     {

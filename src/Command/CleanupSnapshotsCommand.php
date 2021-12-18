@@ -20,6 +20,8 @@ use Symfony\Component\Process\Process;
 
 /**
  * Cleanups the deprecated snapshots.
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class CleanupSnapshotsCommand extends BaseCommand
 {

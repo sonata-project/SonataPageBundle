@@ -23,6 +23,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Update core routes by reading routing information.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class UpdateCoreRoutesCommand extends BaseCommand
 {

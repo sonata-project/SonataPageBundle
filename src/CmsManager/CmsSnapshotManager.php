@@ -26,6 +26,8 @@ use Sonata\PageBundle\Model\TransformerInterface;
  * The CmsSnapshotManager class is in charge of retrieving the correct page (cms page or action page).
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class CmsSnapshotManager extends BaseCmsPageManager
 {

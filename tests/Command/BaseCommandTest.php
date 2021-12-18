@@ -21,7 +21,7 @@ use Symfony\Component\Console\Input\InputInterface;
 /**
  * @author Vincent Composieux <vincent.composieux@gmail.com>
  */
-class BaseCommandTest extends TestCase
+final class BaseCommandTest extends TestCase
 {
     /**
      * @var BaseCommand

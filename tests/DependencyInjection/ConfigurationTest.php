@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\DependencyInjection\Configuration;
 use Symfony\Component\Config\Definition\Processor;
 
-class ConfigurationTest extends TestCase
+final class ConfigurationTest extends TestCase
 {
     public function testPageWithMatrix(): void
     {

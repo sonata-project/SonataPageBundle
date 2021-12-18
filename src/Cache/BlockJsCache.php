@@ -29,6 +29,8 @@ use Symfony\Component\Routing\RouterInterface;
  * Cache a block through a Javascript code.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class BlockJsCache implements CacheAdapterInterface
 {

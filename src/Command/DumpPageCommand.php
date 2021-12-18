@@ -22,6 +22,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Migrates the name setting of all blocks into a code setting.
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class DumpPageCommand extends BaseCommand
 {

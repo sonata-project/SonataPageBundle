@@ -21,6 +21,8 @@ use Symfony\Component\HttpFoundation\Response;
  * Templates management and rendering.
  *
  * @author Olivier Paradis <paradis.olivier@gmail.com>
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class TemplateManager implements TemplateManagerInterface
 {

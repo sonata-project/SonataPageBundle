@@ -22,7 +22,7 @@ use Sonata\PageBundle\Admin\BaseBlockAdmin;
 use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 
-class BaseBlockAdminTest extends TestCase
+final class BaseBlockAdminTest extends TestCase
 {
     public function testSettingAsEditedOnPreBatchDeleteAction(): void
     {

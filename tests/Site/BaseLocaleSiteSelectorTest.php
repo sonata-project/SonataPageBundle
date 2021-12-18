@@ -70,7 +70,7 @@ abstract class BaseLocaleSiteSelectorTest extends TestCase
     }
 }
 
-class Site extends BaseSite
+final class Site extends BaseSite
 {
     /**
      * @var int

@@ -27,7 +27,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * @author Ahmet Akbana <ahmetakbana@gmail.com>
  */
-class CreateSiteCommandTest extends TestCase
+final class CreateSiteCommandTest extends TestCase
 {
     /**
      * @var Application

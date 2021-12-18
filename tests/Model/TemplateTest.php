@@ -16,7 +16,7 @@ namespace Sonata\PageBundle\Tests\Model;
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Model\Template;
 
-class TemplateTest extends TestCase
+final class TemplateTest extends TestCase
 {
     public function testArea(): void
     {

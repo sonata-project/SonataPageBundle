@@ -24,7 +24,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 /**
  * @author Rémi Marseille <marseille@ekino.com>
  */
-class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
+final class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
 {
     protected function setUp(): void
     {

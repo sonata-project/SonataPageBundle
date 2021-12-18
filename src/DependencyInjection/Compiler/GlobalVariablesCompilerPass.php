@@ -21,6 +21,8 @@ use Symfony\Component\DependencyInjection\Reference;
  * GlobalVariablesCompilerPass.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class GlobalVariablesCompilerPass implements CompilerPassInterface
 {

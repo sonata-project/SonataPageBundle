@@ -23,6 +23,8 @@ use Sonata\PageBundle\Model\TransformerInterface;
  * Consumer class to generate a snapshot.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class CreateSnapshotConsumer implements ConsumerInterface
 {

@@ -22,7 +22,7 @@ use Sonata\PageBundle\Model\Page;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 
-class PageListBlockServiceTest extends AbstractBlockServiceTestCase
+final class PageListBlockServiceTest extends AbstractBlockServiceTestCase
 {
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|PageManagerInterface

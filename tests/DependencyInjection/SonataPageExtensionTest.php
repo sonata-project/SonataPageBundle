@@ -20,7 +20,7 @@ use Symfony\Bundle\TwigBundle\DependencyInjection\TwigExtension;
 /**
  * @author Rémi Marseille <marseille@ekino.com>
  */
-class SonataPageExtensionTest extends AbstractExtensionTestCase
+final class SonataPageExtensionTest extends AbstractExtensionTestCase
 {
     public function testRequestContextServiceIsDefined(): void
     {

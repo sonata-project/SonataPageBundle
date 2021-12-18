@@ -20,7 +20,7 @@ use Sonata\PageBundle\Model\Template;
 use Sonata\PageBundle\Page\TemplateManagerInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TemplateChoiceTypeTest extends TestCase
+final class TemplateChoiceTypeTest extends TestCase
 {
     /**
      * @var MockObject&TemplateManagerInterface

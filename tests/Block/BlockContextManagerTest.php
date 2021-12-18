@@ -24,7 +24,7 @@ use Sonata\PageBundle\Block\BlockContextManager;
 /**
  * @author Sullivan Senechal <soullivaneuh@gmail.com>
  */
-class BlockContextManagerTest extends TestCase
+final class BlockContextManagerTest extends TestCase
 {
     public function testGetWithValidData(): void
     {

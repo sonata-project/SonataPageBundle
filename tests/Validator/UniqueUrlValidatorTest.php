@@ -24,7 +24,7 @@ use Symfony\Component\Validator\Context\ExecutionContext;
 use Symfony\Component\Validator\Validator\ContextualValidatorInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class UniqueUrlValidatorTest extends TestCase
+final class UniqueUrlValidatorTest extends TestCase
 {
     /**
      * @group legacy

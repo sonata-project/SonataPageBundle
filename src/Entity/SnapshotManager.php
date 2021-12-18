@@ -27,6 +27,8 @@ use Sonata\PageBundle\Model\TransformerInterface;
  * This class manages SnapshotInterface persistency with the Doctrine ORM.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * @final since sonata-project/page-bundle 3.x
  */
 class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterface
 {
