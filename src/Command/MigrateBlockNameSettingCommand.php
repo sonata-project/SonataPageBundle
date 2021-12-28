@@ -22,7 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Migrates the name setting of all blocks into a code setting.
  *
- * @final since sonata-project/page-bundle 3.x
+ * @final since sonata-project/page-bundle 3.26
  */
 class MigrateBlockNameSettingCommand extends BaseCommand
 {

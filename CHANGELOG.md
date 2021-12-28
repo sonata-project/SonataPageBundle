@@ -2,6 +2,17 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.26.0](https://github.com/sonata-project/SonataPageBundle/compare/3.25.0...3.26.0) - 2021-12-28
+### Added
+- [[#1392](https://github.com/sonata-project/SonataPageBundle/pull/1392)] Add `SnapshotInterface::getId()` method ([@core23](https://github.com/core23))
+- [[#1369](https://github.com/sonata-project/SonataPageBundle/pull/1369)] Added `Sonata\BlockBundle\Model\BlockManagerInterface` ([@core23](https://github.com/core23))
+
+### Changed
+- [[#1392](https://github.com/sonata-project/SonataPageBundle/pull/1392)] Mark all classes as final ([@core23](https://github.com/core23))
+
+### Deprecated
+- [[#1369](https://github.com/sonata-project/SonataPageBundle/pull/1369)] Deprecated `Sonata\BlockBundle\Model\BlockManagerInterface` usage ([@core23](https://github.com/core23))
+
 ## [3.25.0](https://github.com/sonata-project/SonataPageBundle/compare/3.24.0...3.25.0) - 2021-12-04
 ### Added
 - [[#1382](https://github.com/sonata-project/SonataPageBundle/pull/1382)] Added PHPStan and Psalm. ([@jordisala1991](https://github.com/jordisala1991))

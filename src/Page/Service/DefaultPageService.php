@@ -26,7 +26,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author Olivier Paradis <paradis.olivier@gmail.com>
  *
- * @final since sonata-project/page-bundle 3.x
+ * @final since sonata-project/page-bundle 3.26
  */
 class DefaultPageService extends BasePageService
 {

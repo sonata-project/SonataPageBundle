@@ -19,7 +19,7 @@ namespace Sonata\PageBundle\Template\Matrix;
  *
  * @author Raphaël Benitte <raphael.benitte@fullsix.com>
  *
- * @final since sonata-project/page-bundle 3.x
+ * @final since sonata-project/page-bundle 3.26
  */
 class Parser
 {

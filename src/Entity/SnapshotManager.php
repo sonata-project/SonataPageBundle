@@ -30,7 +30,7 @@ use Sonata\PageBundle\Model\TransformerInterface;
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
- * @final since sonata-project/page-bundle 3.x
+ * @final since sonata-project/page-bundle 3.26
  */
 class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterface
 {
