@@ -20,7 +20,7 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
 /**
- * @final since sonata-project/page-bundle 3.x
+ * @final since sonata-project/page-bundle 3.26
  */
 class UniqueUrlValidator extends ConstraintValidator
 {

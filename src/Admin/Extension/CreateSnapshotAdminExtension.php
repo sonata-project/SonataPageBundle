@@ -20,7 +20,7 @@ use Sonata\NotificationBundle\Backend\BackendInterface;
 use Sonata\PageBundle\Model\PageInterface;
 
 /**
- * @final since sonata-project/page-bundle 3.x
+ * @final since sonata-project/page-bundle 3.26
  */
 class CreateSnapshotAdminExtension extends AbstractAdminExtension
 {

@@ -36,7 +36,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  *
  * @author Romain Mouillard <romain.mouillard@gmail.com>
  *
- * @final since sonata-project/page-bundle 3.x
+ * @final since sonata-project/page-bundle 3.26
  */
 class SharedBlockBlockService extends AbstractAdminBlockService
 {

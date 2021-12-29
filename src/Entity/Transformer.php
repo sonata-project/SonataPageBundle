@@ -28,7 +28,7 @@ use Sonata\PageBundle\Model\TransformerInterface;
 /**
  * This class transform a SnapshotInterface into PageInterface.
  *
- * @final since sonata-project/page-bundle 3.x
+ * @final since sonata-project/page-bundle 3.26
  */
 class Transformer implements TransformerInterface
 {

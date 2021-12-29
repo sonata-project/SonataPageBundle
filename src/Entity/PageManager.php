@@ -25,7 +25,7 @@ use Sonata\PageBundle\Model\SiteInterface;
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
- * @final since sonata-project/page-bundle 3.x
+ * @final since sonata-project/page-bundle 3.26
  */
 class PageManager extends BaseEntityManager implements PageManagerInterface
 {

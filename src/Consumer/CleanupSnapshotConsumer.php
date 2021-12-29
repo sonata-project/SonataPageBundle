@@ -21,7 +21,7 @@ use Sonata\PageBundle\Model\SnapshotManagerInterface;
 /**
  * Consumer class to cleanup snapshots by a given page.
  *
- * @final since sonata-project/page-bundle 3.x
+ * @final since sonata-project/page-bundle 3.26
  */
 class CleanupSnapshotConsumer implements ConsumerInterface
 {
