@@ -55,6 +55,7 @@
     },
     "require-dev": {
         "doctrine/annotations": "^1.10.3",
+        "friendsofphp/php-cs-fixer": "^3.4",
         "matthiasnoback/symfony-dependency-injection-test": "^4.1.1",
         "phpstan/extension-installer": "^1.0",
         "phpstan/phpstan": "^1.0",
