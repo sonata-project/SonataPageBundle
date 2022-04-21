@@ -21,13 +21,11 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SnapshotPageProxy;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Symfony\Bridge\Twig\Extension\HttpKernelExtension;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
-use Twig\Extension\InitRuntimeInterface;
 use Twig\TwigFunction;
 
 /**
@@ -37,7 +35,7 @@ use Twig\TwigFunction;
  *
  * @final since sonata-project/page-bundle 3.26
  */
-class PageExtension extends AbstractExtension implements InitRuntimeInterface
+class PageExtension extends AbstractExtension
 {
     /**
      * @var CmsManagerSelectorInterface
@@ -48,16 +46,6 @@ class PageExtension extends AbstractExtension implements InitRuntimeInterface
      * @var SiteSelectorInterface
      */
     private $siteSelector;
-
-    /**
-     * @var array
-     */
-    private $resources;
-
-    /**
-     * @var Environment
-     */
-    private $environment;
 
     /**
      * @var RouterInterface
@@ -96,80 +84,14 @@ class PageExtension extends AbstractExtension implements InitRuntimeInterface
         $this->hideDisabledBlocks = $hideDisabledBlocks;
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('sonata_page_ajax_url', [$this, 'ajaxUrl']),
-            new TwigFunction('sonata_page_breadcrumb', [$this, 'breadcrumb'], ['is_safe' => ['html']]),
             new TwigFunction('sonata_page_render_container', [$this, 'renderContainer'], ['is_safe' => ['html']]),
             new TwigFunction('sonata_page_render_block', [$this, 'renderBlock'], ['is_safe' => ['html']]),
             new TwigFunction('controller', [$this, 'controller']),
         ];
-    }
-
-    public function initRuntime(Environment $environment): void
-    {
-        $this->environment = $environment;
-    }
-
-    /**
-     * NEXT_MAJOR: remove this method.
-     *
-     * @deprecated since sonata-project/page-bundle 3.14, to be removed in version 4.0.
-     */
-    public function getName()
-    {
-        return 'sonata_page';
-    }
-
-    /**
-     * @param PageInterface $page
-     *
-     * @return string
-     */
-    public function breadcrumb(?PageInterface $page = null, array $options = [])
-    {
-        if (!$page) {
-            $page = $this->cmsManagerSelector->retrieve()->getCurrentPage();
-        }
-
-        $options = array_merge([
-            'separator' => '',
-            'current_class' => '',
-            'last_separator' => '',
-            'force_view_home_page' => true,
-            'container_attr' => ['class' => 'sonata-page-breadcrumbs'],
-            'elements_attr' => [],
-            'template' => '@SonataPage/Page/breadcrumb.html.twig',
-        ], $options);
-
-        $breadcrumbs = [];
-
-        if ($page) {
-            $breadcrumbs = $page->getParents();
-
-            if ($options['force_view_home_page'] && (!isset($breadcrumbs[0]) || 'homepage' !== $breadcrumbs[0]->getRouteName())) {
-                $site = $this->siteSelector->retrieve();
-
-                $homePage = false;
-                try {
-                    if (null !== $site) {
-                        $homePage = $this->cmsManagerSelector->retrieve()->getPageByRouteName($site, 'homepage');
-                    }
-                } catch (PageNotFoundException $e) {
-                }
-
-                if ($homePage) {
-                    array_unshift($breadcrumbs, $homePage);
-                }
-            }
-        }
-
-        return $this->render($options['template'], [
-            'page' => $page,
-            'breadcrumbs' => $breadcrumbs,
-            'options' => $options,
-        ]);
     }
 
     /**
@@ -181,7 +103,7 @@ class PageExtension extends AbstractExtension implements InitRuntimeInterface
      *
      * @return string
      */
-    public function ajaxUrl(PageBlockInterface $block, $parameters = [], $absolute = UrlGeneratorInterface::ABSOLUTE_PATH)
+    public function ajaxUrl(PageBlockInterface $block, $parameters = [], $absolute = UrlGeneratorInterface::ABSOLUTE_PATH): string
     {
         $parameters['blockId'] = $block->getId();
 
@@ -196,9 +118,9 @@ class PageExtension extends AbstractExtension implements InitRuntimeInterface
      * @param string $name
      * @param null   $page
      *
-     * @return Response
+     * @return string
      */
-    public function renderContainer($name, $page = null, array $options = [])
+    public function renderContainer($name, $page = null, array $options = []): string
     {
         $cms = $this->cmsManagerSelector->retrieve();
         $site = $this->siteSelector->retrieve();
@@ -231,9 +153,10 @@ class PageExtension extends AbstractExtension implements InitRuntimeInterface
     }
 
     /**
+     * @param array $options
      * @return string
      */
-    public function renderBlock(PageBlockInterface $block, array $options = [])
+    public function renderBlock(PageBlockInterface $block, array $options = []): string
     {
         if (false === $block->getEnabled() && !$this->cmsManagerSelector->isEditor() && $this->hideDisabledBlocks) {
             return '';
@@ -267,13 +190,13 @@ class PageExtension extends AbstractExtension implements InitRuntimeInterface
      *
      * @return ControllerReference
      */
-    public function controller($controller, $attributes = [], $query = [])
+    public function controller(Environment $environment, $controller, $attributes = [], $query = [])
     {
         if (!isset($attributes['pathInfo'])) {
             $site = $this->siteSelector->retrieve();
             if ($site) {
                 $sitePath = $site->getRelativePath();
-                $globals = $this->environment->getGlobals();
+                $globals = $environment->getGlobals();
                 $currentPathInfo = $globals['app']->getRequest()->getPathInfo();
 
                 $attributes['pathInfo'] = $sitePath.$currentPathInfo;
@@ -283,17 +206,8 @@ class PageExtension extends AbstractExtension implements InitRuntimeInterface
         return HttpKernelExtension::controller($controller, $attributes, $query);
     }
 
-    /**
-     * @param string $template
-     *
-     * @return string
-     */
-    private function render($template, array $parameters = [])
+    public function getName(): string
     {
-        if (!isset($this->resources[$template])) {
-            $this->resources[$template] = $this->environment->loadTemplate($template);
-        }
-
-        return $this->resources[$template]->render($parameters);
+        return 'sonata_page';
     }
 }

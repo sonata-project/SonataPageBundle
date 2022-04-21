@@ -18,7 +18,7 @@ gulp.task('css', _.map(config.groups.css, function (files, name) {
                 // because the plugin puts all
                 // generated css in a single tmp dir
                 container: name,
-                "sourcemap=none": true
+                "no-source-map": true
             }))
             .pipe(concat('sonata-page.' + name + '.css'))
             .pipe(banner())

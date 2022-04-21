@@ -16,7 +16,7 @@ namespace Sonata\PageBundle\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\BlockBundle\Block\BlockServiceInterface;
+use Sonata\BlockBundle\Block\Service\BlockServiceInterface;
 use Sonata\BlockBundle\Block\Service\EditableBlockService;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\PageBundle\Entity\BaseBlock;
@@ -35,16 +35,6 @@ class SharedBlockAdmin extends BaseBlockAdmin
      * @var string
      */
     protected $classnameLabel = 'shared_block';
-
-    public function getBaseRoutePattern()
-    {
-        return sprintf('%s/%s', parent::getBaseRoutePattern(), 'shared');
-    }
-
-    public function getBaseRouteName()
-    {
-        return sprintf('%s/%s', parent::getBaseRouteName(), 'shared');
-    }
 
     protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
@@ -72,7 +62,7 @@ class SharedBlockAdmin extends BaseBlockAdmin
 
         // New block
         if (null === $block->getId() && $this->hasRequest()) {
-            $block->setType($this->request->get('type'));
+            $block->setType($this->getRequest()->get('type'));
         }
 
         $form

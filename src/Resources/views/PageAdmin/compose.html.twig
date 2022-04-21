@@ -44,9 +44,9 @@ file that was distributed with this source code.
                             composer_status_error: 'page.composer_status_error'|trans({}, 'SonataPageBundle')
                         },
                         routes: {
-                            save_blocks_positions: admin_pool.getAdminByAdminCode('sonata.page.admin.block').generateUrl('savePosition', { 'id': page.id }),
-                            block_switch_parent:   admin_pool.getAdminByAdminCode('sonata.page.admin.block').generateUrl('switchParent'),
-                            block_preview:         admin_pool.getAdminByAdminCode('sonata.page.admin.block').generateUrl('composePreview', { 'block_id': 'BLOCK_ID' })
+                            save_blocks_positions: blockAdmin.generateUrl('savePosition', { 'id': page.id }),
+                            block_switch_parent:   blockAdmin.generateUrl('switchParent'),
+                            block_preview:         blockAdmin.generateUrl('composePreview', { 'block_id': 'BLOCK_ID' })
                         }
                     }|json_encode()|raw }}'>
                         <div class="page-composer__page-preview__containers">
@@ -55,8 +55,6 @@ file that was distributed with this source code.
                                     <a class="page-composer__page-preview__container block-preview-{{ container.block.id }}"
                                        data-block-id="{{ container.block.id }}"
                                        data-block-allowlist="{{ container.area.blocks|join(',') }}"
-                                       {# NEXT_MAJOR: Remove the following line #}
-                                       data-block-whitelist="{{ container.area.blocks|join(',') }}"
                                        style="top:{{ container.area.placement.y }}%;right:{{ container.area.placement.right }}%;bottom:{{ container.area.placement.bottom }}%;left:{{ container.area.placement.x }}%"
                                        href="{{ admin.generateUrl('compose_container_show', { 'id': container.block.id }) }}"
                                     >

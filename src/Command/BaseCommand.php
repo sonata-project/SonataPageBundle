@@ -21,7 +21,7 @@ use Sonata\PageBundle\Listener\ExceptionListener;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 
 /**
@@ -29,7 +29,7 @@ use Symfony\Component\Console\Input\InputInterface;
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-abstract class BaseCommand extends ContainerAwareCommand
+abstract class BaseCommand extends Command
 {
     /**
      * @return SiteManagerInterface

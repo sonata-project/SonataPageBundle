@@ -137,12 +137,10 @@ final class ConfigurationTest extends TestCase
             'default_page_service' => 'sonata.page.service.default',
             'assets' => [
                 'stylesheets' => [
-                    'bundles/sonatacore/vendor/bootstrap/dist/css/bootstrap.min.css',
                     'bundles/sonatapage/sonata-page.front.css',
                 ],
                 'javascripts' => [
-                    'bundles/sonatacore/vendor/jquery/dist/jquery.min.js',
-                    'bundles/sonatacore/vendor/bootstrap/dist/js/bootstrap.min.js',
+                    'bundles/sonatapage/sonata-page.back.js',
                 ],
             ],
             'templates_admin' => [
@@ -224,12 +222,10 @@ final class ConfigurationTest extends TestCase
             'default_page_service' => 'sonata.page.service.default',
             'assets' => [
                 'stylesheets' => [
-                    'bundles/sonatacore/vendor/bootstrap/dist/css/bootstrap.min.css',
                     'bundles/sonatapage/sonata-page.front.css',
                 ],
                 'javascripts' => [
-                    'bundles/sonatacore/vendor/jquery/dist/jquery.min.js',
-                    'bundles/sonatacore/vendor/bootstrap/dist/js/bootstrap.min.js',
+                    'bundles/sonatapage/sonata-page.back.js',
                 ],
             ],
             'templates_admin' => [

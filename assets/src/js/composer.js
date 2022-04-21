@@ -386,7 +386,7 @@
                     data: $form.serialize(),
                     type: formMethod,
                     headers: {
-                        Accept: 'text/html, application/xhtml+xml;'
+                        Accept: 'text/html, application/xhtml+xml, application/json;'
                     },
                     success: function (resp) {
                         if (resp.result && resp.result === 'ok' && resp.objectId) {
@@ -484,7 +484,7 @@
                     data:    $form.serialize(),
                     type:    method,
                     headers: {
-                        Accept: 'text/html, application/xhtml+xml;'
+                        Accept: 'text/html, application/xhtml+xml, application/json;'
                     },
                     success: function (resp) {
                         $loader.hide();
@@ -790,8 +790,7 @@
                     revert:            true,
                     connectToSortable: '.page-composer__container__children',
                     accept: function (source) {
-                        // NEXT_MAJOR: Remove the 'data-block-whitelist'
-                        var blockAllowlist = $(this).attr('data-block-allowlist') || $(this).attr('data-block-whitelist');
+                        var blockAllowlist = $(this).attr('data-block-allowlist');
                         if (blockAllowlist === '') {
                             return true;
                         }

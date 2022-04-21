@@ -17,7 +17,6 @@ use Sonata\PageBundle\Page\PageServiceManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
  * Select a page type.
@@ -49,16 +48,6 @@ class PageTypeChoiceType extends AbstractType
     }
 
     /**
-     * NEXT_MAJOR: remove this method.
-     *
-     * @deprecated since sonata-project/page-bundle 3.14, to be removed in version 4.0.
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver): void
-    {
-        $this->configureOptions($resolver);
-    }
-
-    /**
      * @return string[]
      */
     public function getPageTypes()
@@ -82,15 +71,5 @@ class PageTypeChoiceType extends AbstractType
     public function getBlockPrefix()
     {
         return 'sonata_page_type_choice';
-    }
-
-    /**
-     * NEXT_MAJOR: remove this method.
-     *
-     * @deprecated since sonata-project/page-bundle 3.14, to be removed in version 4.0.
-     */
-    public function getName()
-    {
-        return $this->getBlockPrefix();
     }
 }

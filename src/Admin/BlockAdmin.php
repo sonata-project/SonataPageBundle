@@ -15,8 +15,9 @@ namespace Sonata\PageBundle\Admin;
 
 use Doctrine\ORM\EntityRepository;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
-use Sonata\BlockBundle\Block\BlockServiceInterface;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
+use Sonata\AdminBundle\Security\Acl\Permission\AdminPermissionMap;
+use Sonata\BlockBundle\Block\Service\BlockServiceInterface;
 use Sonata\BlockBundle\Block\Service\EditableBlockService;
 use Sonata\BlockBundle\Form\Type\ServiceListType;
 use Sonata\BlockBundle\Model\BlockInterface;
@@ -43,12 +44,6 @@ class BlockAdmin extends BaseBlockAdmin
     protected $blocks;
 
     protected $classnameLabel = 'Block';
-
-    protected $accessMapping = [
-        'savePosition' => 'EDIT',
-        'switchParent' => 'EDIT',
-        'composePreview' => 'EDIT',
-    ];
 
     /**
      * @param string $code
@@ -77,7 +72,7 @@ class BlockAdmin extends BaseBlockAdmin
         return $parameters;
     }
 
-    protected function configureRoutes(RouteCollection $collection): void
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         parent::configureRoutes($collection);
 
@@ -106,7 +101,7 @@ class BlockAdmin extends BaseBlockAdmin
             }
 
             if ($this->hasRequest() && null === $block->getId()) { // new block
-                $block->setType($this->request->get('type'));
+                $block->setType($this->getRequest()->get('type'));
                 $block->setPage($page);
             }
 
@@ -192,13 +187,7 @@ class BlockAdmin extends BaseBlockAdmin
     private function getDefaultTemplate(BlockServiceInterface $blockService)
     {
         $resolver = new OptionsResolver();
-        // use new interface method whenever possible
-        // NEXT_MAJOR: Remove this check and legacy setDefaultSettings method call
-        if (method_exists($blockService, 'configureSettings')) {
-            $blockService->configureSettings($resolver);
-        } else {
-            $blockService->setDefaultSettings($resolver);
-        }
+        $blockService->configureSettings($resolver);
         $options = $resolver->resolve();
 
         if (isset($options['template'])) {
@@ -232,19 +221,11 @@ class BlockAdmin extends BaseBlockAdmin
                 $service->configureCreateForm($blockMapper, $block);
             }
         } else {
-            @trigger_error(
-                sprintf(
-                    'Editing a block service which doesn\'t implement %s is deprecated since sonata-project/page-bundle 3.12.0 and will not be allowed with version 4.0.',
-                    EditableBlockService::class
-                ),
-                \E_USER_DEPRECATED
-            );
-
-            if ($block->getId() > 0) {
-                $service->buildEditForm($form, $block);
-            } else {
-                $service->buildCreateForm($form, $block);
-            }
+            throw new \RuntimeException(sprintf(
+                'The block "%s" must implement %s',
+                $blockType,
+                EditableBlockService::class
+            ));
         }
 
         if ($form->has('settings') && isset($this->blocks[$blockType]['templates'])) {
@@ -270,5 +251,17 @@ class BlockAdmin extends BaseBlockAdmin
                 }
             }
         }
+    }
+
+    /**
+     * @return array<string, string|string[]> [action1 => requiredRole1, action2 => [requiredRole2, requiredRole3]]
+     */
+    protected function getAccessMapping(): array
+    {
+        return [
+            'savePosition' => AdminPermissionMap::PERMISSION_EDIT,
+            'switchParent' => AdminPermissionMap::PERMISSION_EDIT,
+            'composePreview' => AdminPermissionMap::PERMISSION_EDIT,
+        ];
     }
 }

@@ -60,16 +60,6 @@ Optionally, you can pass as a third argument some settings that will override or
 
     {{ sonata_page_render_container('name', page, {key: value}) }}
 
-Breadcrumbs
------------
-
-.. code-block:: jinja
-
-    {{ sonata_page_breadcrumb(page, {key: value}) }}
-
-where expected ``key`` options can be ``separator`` (string), ``current_class`` (string),
-``last_separator`` (string), ``force_view_home_page`` (boolean), ``container_attr`` (array of html attributes), ``elements_attr`` (array of html attributes), ``template`` (string).
-
 Assets
 ------
 

@@ -15,7 +15,14 @@ namespace Sonata\PageBundle\Tests;
 
 use Cocur\Slugify\Slugify;
 use PHPUnit\Framework\TestCase;
+use Sonata\PageBundle\DependencyInjection\Compiler\CacheCompilerPass;
+use Sonata\PageBundle\DependencyInjection\Compiler\CmfRouterCompilerPass;
+use Sonata\PageBundle\DependencyInjection\Compiler\GlobalVariablesCompilerPass;
+use Sonata\PageBundle\DependencyInjection\Compiler\PageServiceCompilerPass;
+use Sonata\PageBundle\DependencyInjection\Compiler\TwigStringExtensionCompilerPass;
 use Sonata\PageBundle\SonataPageBundle;
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 final class Page extends \Sonata\PageBundle\Model\Page
@@ -31,6 +38,25 @@ final class Page extends \Sonata\PageBundle\Model\Page
 
 final class SonataPageBundleTest extends TestCase
 {
+    public function testBuild(): void
+    {
+        $containerBuilder = $this->createMock(ContainerBuilder::class);
+
+        $containerBuilder->expects(static::exactly(5))
+            ->method('addCompilerPass')
+            ->withConsecutive(
+                [new CacheCompilerPass()],
+                [new GlobalVariablesCompilerPass()],
+                [new PageServiceCompilerPass()],
+                [new CmfRouterCompilerPass()],
+                [new TwigStringExtensionCompilerPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 1],
+
+        );
+
+        $bundle = new SonataPageBundle();
+        $bundle->build($containerBuilder);
+    }
+
     /**
      * @dataProvider getSlug
      */

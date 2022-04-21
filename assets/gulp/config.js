@@ -1,9 +1,9 @@
 module.exports = {
-    source: './src',
-    dest:   '../public',
+    source: './assets/src',
+    dest:   './src/Resources/public',
     groups: {
         js: {
-            back:  ['js/composer.js', 'js/treeview.js']
+            back:  ['js/droppable.js', 'js/composer.js', 'js/treeview.js']
         },
         css: {
             front: ['default.scss'],

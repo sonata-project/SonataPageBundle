@@ -16,8 +16,9 @@ namespace Sonata\PageBundle\Admin;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\Form\Type\DateTimePickerType;
 use Sonata\PageBundle\Route\RoutePageGenerator;
@@ -85,7 +86,10 @@ class SiteAdmin extends AbstractAdmin
             ->add('locale')
             ->add('enabledFrom')
             ->add('enabledTo')
-            ->add('create_snapshots', 'string', ['template' => '@SonataPage/SiteAdmin/list_create_snapshots.html.twig']);
+            ->add('create_snapshots', FieldDescriptionInterface::TYPE_STRING, [
+                'virtual_field' => true,
+                'template' => '@SonataPage/SiteAdmin/list_create_snapshots.html.twig',
+            ]);
     }
 
     protected function configureDatagridFilters(DatagridMapper $filter): void
@@ -118,7 +122,7 @@ class SiteAdmin extends AbstractAdmin
             ->end();
     }
 
-    protected function configureRoutes(RouteCollection $collection): void
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection->add('snapshots', $this->getRouterIdParameter().'/snapshots');
     }

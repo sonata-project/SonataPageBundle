@@ -20,11 +20,6 @@ use Sonata\PageBundle\Model\SnapshotInterface;
 
 final class PageTest extends TestCase
 {
-    /**
-     * NEXT_MAJOR: remove the legacy group from this test.
-     *
-     * @group legacy
-     */
     public function testSlugify(): void
     {
         setlocale(\LC_ALL, 'en_US.utf8');

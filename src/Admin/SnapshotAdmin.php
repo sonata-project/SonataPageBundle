@@ -17,6 +17,7 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Security\Acl\Permission\AdminPermissionMap;
 use Sonata\Cache\CacheManagerInterface;
 use Sonata\Form\Type\DateTimePickerType;
 
@@ -35,10 +36,6 @@ class SnapshotAdmin extends AbstractAdmin
      * @var CacheManagerInterface
      */
     protected $cacheManager;
-
-    protected $accessMapping = [
-        'batchToggleEnabled' => 'EDIT',
-    ];
 
     public function configureListFields(ListMapper $list): void
     {
@@ -63,18 +60,6 @@ class SnapshotAdmin extends AbstractAdmin
             ->add('publicationDateEnd', DateTimePickerType::class, ['required' => false, 'dp_side_by_side' => true]);
     }
 
-    public function getBatchActions()
-    {
-        $actions = parent::getBatchActions();
-
-        $actions['toggle_enabled'] = [
-            'label' => $this->trans('toggle_enabled'),
-            'ask_confirmation' => true,
-        ];
-
-        return $actions;
-    }
-
     public function postUpdate($object): void
     {
         $this->cacheManager->invalidate([
@@ -92,5 +77,15 @@ class SnapshotAdmin extends AbstractAdmin
     public function setCacheManager(CacheManagerInterface $cacheManager): void
     {
         $this->cacheManager = $cacheManager;
+    }
+
+    /**
+     * @return array<string, string|string[]> [action1 => requiredRole1, action2 => [requiredRole2, requiredRole3]]
+     */
+    protected function getAccessMapping(): array
+    {
+        return [
+            'batchToggleEnabled' => AdminPermissionMap::PERMISSION_EDIT,
+        ];
     }
 }

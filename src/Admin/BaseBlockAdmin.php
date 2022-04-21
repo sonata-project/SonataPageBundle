@@ -17,7 +17,7 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\Cache\CacheManagerInterface;
@@ -58,17 +58,6 @@ abstract class BaseBlockAdmin extends AbstractAdmin
      */
     public function preUpdate($object): void
     {
-        $block = $this->blockManager->get($object);
-
-        if (\is_callable([$block, 'preUpdate'])) {
-            $block->preUpdate($object);
-
-            @trigger_error(
-                'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.12.0 and will be removed in version 4.0.',
-                \E_USER_DEPRECATED
-            );
-        }
-
         // fix weird bug with setter object not being call
         $object->setChildren($object->getChildren());
 
@@ -82,17 +71,6 @@ abstract class BaseBlockAdmin extends AbstractAdmin
      */
     public function postUpdate($object): void
     {
-        $block = $this->blockManager->get($object);
-
-        if (\is_callable([$block, 'postUpdate'])) {
-            $block->postUpdate($object);
-
-            @trigger_error(
-                'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.12.0 and will be removed in version 4.0.',
-                \E_USER_DEPRECATED
-            );
-        }
-
         $service = $this->blockManager->get($object);
 
         $this->cacheManager->invalidate($service->getCacheKeys($object));
@@ -103,17 +81,6 @@ abstract class BaseBlockAdmin extends AbstractAdmin
      */
     public function prePersist($object): void
     {
-        $block = $this->blockManager->get($object);
-
-        if (\is_callable([$block, 'prePersist'])) {
-            $block->prePersist($object);
-
-            @trigger_error(
-                'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.12.0 and will be removed in version 4.0.',
-                \E_USER_DEPRECATED
-            );
-        }
-
         if ($object->getPage() instanceof PageInterface) {
             $object->getPage()->setEdited(true);
         }
@@ -127,17 +94,6 @@ abstract class BaseBlockAdmin extends AbstractAdmin
      */
     public function postPersist($object): void
     {
-        $block = $this->blockManager->get($object);
-
-        if (\is_callable([$block, 'postPersist'])) {
-            $block->postPersist($object);
-
-            @trigger_error(
-                'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.12.0 and will be removed in version 4.0.',
-                \E_USER_DEPRECATED
-            );
-        }
-
         $service = $this->blockManager->get($object);
 
         $this->cacheManager->invalidate($service->getCacheKeys($object));
@@ -148,38 +104,10 @@ abstract class BaseBlockAdmin extends AbstractAdmin
      */
     public function preRemove($object): void
     {
-        $block = $this->blockManager->get($object);
-
-        if (\is_callable([$block, 'preRemove'])) {
-            $block->preRemove($object);
-
-            @trigger_error(
-                'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.12.0 and will be removed in version 4.0.',
-                \E_USER_DEPRECATED
-            );
-        }
-
         $page = $object->getPage();
 
         if ($page instanceof PageInterface) {
             $page->setEdited(true);
-        }
-    }
-
-    /**
-     * @param BaseBlock $object
-     */
-    public function postRemove($object): void
-    {
-        $block = $this->blockManager->get($object);
-
-        if (\is_callable([$block, 'postRemove'])) {
-            $block->postRemove($object);
-
-            @trigger_error(
-                'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.12.0 and will be removed in version 4.0.',
-                \E_USER_DEPRECATED
-            );
         }
     }
 
@@ -198,20 +126,13 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         $this->containerBlockTypes = $containerBlockTypes;
     }
 
-    public function getPersistentParameters(): array
+    public function preBatchAction(string $actionName, ProxyQueryInterface $query, array &$idx, bool $allElements = false): void
     {
-        if (!$this->hasRequest()) {
-            return [];
+        try {
+            $parent = $this->getParent();
+        } catch (\LogicException $e) {
+            $parent = null;
         }
-
-        return [
-            'type' => $this->getRequest()->get('type'),
-        ];
-    }
-
-    public function preBatchAction($actionName, ProxyQueryInterface $query, array &$idx, $allElements): void
-    {
-        $parent = $this->getParent();
 
         if ($parent && 'delete' === $actionName) {
             $subject = $parent->getSubject();
@@ -247,7 +168,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         ];
     }
 
-    protected function configureRoutes(RouteCollection $collection): void
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection->add('view', $this->getRouterIdParameter().'/view');
     }
@@ -284,13 +205,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         $service = $this->blockManager->get($block);
 
         $resolver = new OptionsResolver();
-        // use new interface method whenever possible
-        // NEXT_MAJOR: Remove this check and legacy setDefaultSettings method call
-        if (method_exists($service, 'configureSettings')) {
-            $service->configureSettings($resolver);
-        } else {
-            $service->setDefaultSettings($resolver);
-        }
+        $service->configureSettings($resolver);
 
         try {
             $block->setSettings($resolver->resolve($block->getSettings()));

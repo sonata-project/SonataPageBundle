@@ -15,13 +15,13 @@ namespace Sonata\PageBundle\DependencyInjection;
 
 use Sonata\Doctrine\Mapper\Builder\OptionsBuilder;
 use Sonata\Doctrine\Mapper\DoctrineCollector;
-use Sonata\EasyExtendsBundle\Mapper\DoctrineCollector as DeprecatedDoctrineCollector;
 use Sonata\PageBundle\Model\Template;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -39,11 +39,7 @@ class SonataPageExtension extends Extension implements PrependExtensionInterface
 
         // add custom form widgets
         if ($container->hasExtension('twig')) {
-            if (isset($bundles['SonataCoreBundle'])) {
-                $container->prependExtensionConfig('twig', [
-                    'form_themes' => ['@SonataCore/Form/datepicker.html.twig'],
-                ]);
-            } elseif (isset($bundles['SonataFormBundle'])) {
+            if (isset($bundles['SonataFormBundle'])) {
                 $container->prependExtensionConfig('twig', [
                     'form_themes' => ['@SonataForm/Form/datepicker.html.twig'],
                 ]);
@@ -62,15 +58,10 @@ class SonataPageExtension extends Extension implements PrependExtensionInterface
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('page.xml');
 
-        // NEXT_MAJOR: remove this code block
-        $definition = $container->getDefinition('sonata.page.router.request_context');
-        $definition->setFactory([
-            new Reference('sonata.page.site.selector'),
-            'getRequestContext',
-        ]);
-
         if (isset($bundles['SonataAdminBundle'])) {
-            $loader->load('admin.xml');
+            $loaderPhp = new PhpFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+            $loaderPhp->load('controllers.php');
+            $loaderPhp->load('admin.php');
 
             if (!$config['direct_publication']) {
                 $container->removeDefinition('sonata.page.admin.extension.snapshot');
@@ -110,8 +101,7 @@ class SonataPageExtension extends Extension implements PrependExtensionInterface
         if (isset($bundles['SonataDoctrineBundle'])) {
             $this->registerSonataDoctrineMapping($config);
         } else {
-            // NEXT MAJOR: Remove this line and throw error when not registering SonataDoctrineBundle
-            $this->registerDoctrineMapping($config);
+            throw new \Exception('SonataDoctrineBundle must be registered');
         }
 
         $this->registerParameters($container, $config);
@@ -160,219 +150,8 @@ class SonataPageExtension extends Extension implements PrependExtensionInterface
         $container->setParameter('sonata.page.snapshot.class', $config['class']['snapshot']);
         $container->setParameter('sonata.page.page.class', $config['class']['page']);
 
-        $container->setParameter('sonata.page.admin.site.entity', $config['class']['site']);
-        $container->setParameter('sonata.page.admin.block.entity', $config['class']['block']);
-        $container->setParameter('sonata.page.admin.snapshot.entity', $config['class']['snapshot']);
-        $container->setParameter('sonata.page.admin.page.entity', $config['class']['page']);
-
         $container->setParameter('sonata.page.router_auto_register.enabled', $config['router_auto_register']['enabled']);
         $container->setParameter('sonata.page.router_auto_register.priority', $config['router_auto_register']['priority']);
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this method.
-     *
-     * Registers doctrine mapping on concrete page entities.
-     */
-    public function registerDoctrineMapping(array $config): void
-    {
-        @trigger_error(
-            'Using SonataEasyExtendsBundle is deprecated since sonata-project/page-bundle 3.19. Please register SonataDoctrineBundle as a bundle instead.',
-            \E_USER_DEPRECATED
-        );
-
-        if (!class_exists($config['class']['page'])) {
-            return;
-        }
-
-        /**
-         * @phpstan-ignore-next-line
-         * @psalm-suppress UndefinedClass
-         */
-        $collector = DeprecatedDoctrineCollector::getInstance();
-
-        $collector->addAssociation($config['class']['page'], 'mapOneToMany', [
-            'fieldName' => 'children',
-            'targetEntity' => $config['class']['page'],
-            'cascade' => [
-                'persist',
-             ],
-            'mappedBy' => 'parent',
-            'orphanRemoval' => false,
-            'orderBy' => [
-                'position' => 'ASC',
-            ],
-        ]);
-
-        $collector->addAssociation($config['class']['page'], 'mapOneToMany', [
-            'fieldName' => 'blocks',
-            'targetEntity' => $config['class']['block'],
-            'cascade' => [
-                'remove',
-                'persist',
-                'refresh',
-                'merge',
-                'detach',
-            ],
-            'mappedBy' => 'page',
-            'orphanRemoval' => false,
-            'orderBy' => [
-                'position' => 'ASC',
-            ],
-        ]);
-
-        $collector->addAssociation($config['class']['page'], 'mapManyToOne', [
-            'fieldName' => 'site',
-            'targetEntity' => $config['class']['site'],
-            'cascade' => [
-                'persist',
-            ],
-            'mappedBy' => null,
-            'inversedBy' => null,
-            'joinColumns' => [
-                [
-                    'name' => 'site_id',
-                    'referencedColumnName' => 'id',
-                    'onDelete' => 'CASCADE',
-                ],
-            ],
-            'orphanRemoval' => false,
-        ]);
-
-        $collector->addAssociation($config['class']['page'], 'mapManyToOne', [
-            'fieldName' => 'parent',
-            'targetEntity' => $config['class']['page'],
-            'cascade' => [
-                 'persist',
-            ],
-            'mappedBy' => null,
-            'inversedBy' => 'children',
-            'joinColumns' => [
-                [
-                    'name' => 'parent_id',
-                    'referencedColumnName' => 'id',
-                    'onDelete' => 'CASCADE',
-                ],
-            ],
-            'orphanRemoval' => false,
-        ]);
-
-        $collector->addAssociation($config['class']['page'], 'mapOneToMany', [
-             'fieldName' => 'sources',
-             'targetEntity' => $config['class']['page'],
-             'cascade' => [],
-             'mappedBy' => 'target',
-             'orphanRemoval' => false,
-        ]);
-
-        $collector->addAssociation($config['class']['page'], 'mapManyToOne', [
-            'fieldName' => 'target',
-            'targetEntity' => $config['class']['page'],
-            'cascade' => [
-                'persist',
-            ],
-            'mappedBy' => null,
-            'inversedBy' => 'sources',
-            'joinColumns' => [
-                [
-                    'name' => 'target_id',
-                    'referencedColumnName' => 'id',
-                    'onDelete' => 'CASCADE',
-                ],
-            ],
-            'orphanRemoval' => false,
-        ]);
-
-        $collector->addAssociation($config['class']['block'], 'mapOneToMany', [
-            'fieldName' => 'children',
-            'targetEntity' => $config['class']['block'],
-            'cascade' => [
-                'remove',
-                'persist',
-            ],
-            'mappedBy' => 'parent',
-            'orphanRemoval' => true,
-            'orderBy' => [
-                'position' => 'ASC',
-            ],
-        ]);
-
-        $collector->addAssociation($config['class']['block'], 'mapManyToOne', [
-            'fieldName' => 'parent',
-            'targetEntity' => $config['class']['block'],
-            'cascade' => [
-            ],
-            'mappedBy' => null,
-            'inversedBy' => 'children',
-            'joinColumns' => [
-                [
-                    'name' => 'parent_id',
-                    'referencedColumnName' => 'id',
-                    'onDelete' => 'CASCADE',
-                ],
-            ],
-            'orphanRemoval' => false,
-        ]);
-
-        $collector->addAssociation($config['class']['block'], 'mapManyToOne', [
-            'fieldName' => 'page',
-            'targetEntity' => $config['class']['page'],
-            'cascade' => [
-                'persist',
-            ],
-            'mappedBy' => null,
-            'inversedBy' => 'blocks',
-            'joinColumns' => [
-                [
-                    'name' => 'page_id',
-                    'referencedColumnName' => 'id',
-                    'onDelete' => 'CASCADE',
-                ],
-            ],
-            'orphanRemoval' => false,
-        ]);
-
-        $collector->addAssociation($config['class']['snapshot'], 'mapManyToOne', [
-            'fieldName' => 'site',
-            'targetEntity' => $config['class']['site'],
-            'cascade' => [
-                'persist',
-            ],
-            'mappedBy' => null,
-            'inversedBy' => null,
-            'joinColumns' => [
-                [
-                    'name' => 'site_id',
-                    'referencedColumnName' => 'id',
-                    'onDelete' => 'CASCADE',
-                ],
-            ],
-            'orphanRemoval' => false,
-        ]);
-
-        $collector->addAssociation($config['class']['snapshot'], 'mapManyToOne', [
-            'fieldName' => 'page',
-            'targetEntity' => $config['class']['page'],
-            'cascade' => [
-                'persist',
-            ],
-            'mappedBy' => null,
-            'inversedBy' => null,
-            'joinColumns' => [
-                [
-                    'name' => 'page_id',
-                    'referencedColumnName' => 'id',
-                    'onDelete' => 'CASCADE',
-                ],
-            ],
-            'orphanRemoval' => false,
-        ]);
-
-        $collector->addIndex($config['class']['snapshot'], 'idx_snapshot_dates_enabled', [
-            'publication_date_start',
-            'publication_date_end',
-            'enabled',
-        ]);
     }
 
     /**

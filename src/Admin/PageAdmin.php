@@ -19,7 +19,8 @@ use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
+use Sonata\AdminBundle\Security\Acl\Permission\AdminPermissionMap;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\Cache\CacheManagerInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\CallbackFilter;
@@ -62,12 +63,7 @@ class PageAdmin extends AbstractAdmin
      */
     protected $cacheManager;
 
-    protected $accessMapping = [
-        'tree' => 'LIST',
-        'compose' => 'EDIT',
-    ];
-
-    public function configureRoutes(RouteCollection $collection): void
+    public function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection->add('compose', '{id}/compose', [
             'id' => null,
@@ -136,19 +132,6 @@ class PageAdmin extends AbstractAdmin
         return false;
     }
 
-    public function getBatchActions()
-    {
-        $actions = parent::getBatchActions();
-
-        $actions['snapshot'] = [
-            'label' => 'create_snapshot',
-            'translation_domain' => $this->getTranslationDomain(),
-            'ask_confirmation' => true,
-        ];
-
-        return $actions;
-    }
-
     public function setSiteManager(SiteManagerInterface $siteManager): void
     {
         $this->siteManager = $siteManager;
@@ -206,11 +189,11 @@ class PageAdmin extends AbstractAdmin
             return $parameters;
         }
 
-        if ($site = $this->request->get('site', null)) {
-            $this->request->getSession()->set($key, $site);
+        if ($site = $this->getRequest()->get('site', null)) {
+            $this->getRequest()->getSession()->set($key, $site);
         }
 
-        if ($site = $this->request->getSession()->get($key, null)) {
+        if ($site = $this->getRequest()->getSession()->get($key, null)) {
             $parameters['site'] = $site;
         }
 
@@ -266,8 +249,8 @@ class PageAdmin extends AbstractAdmin
                 'field_options' => [
                     'required' => false,
                     'choices' => [
-                        'hybrid' => $this->trans('hybrid'),
-                        'cms' => $this->trans('cms'),
+                        'hybrid' => $this->getTranslator()->trans('hybrid'),
+                        'cms' => $this->getTranslator()->trans('cms'),
                     ],
                     'choice_translation_domain' => false,
                 ],
@@ -385,10 +368,6 @@ class PageAdmin extends AbstractAdmin
                 ->add('stylesheet', null, ['required' => false])
                 ->add('rawHeaders', null, ['required' => false])
             ->end();
-
-        $form->setHelps([
-            'name' => 'help_page_name',
-        ]);
     }
 
     protected function configureTabMenu(MenuItemInterface $menu, $action, ?AdminInterface $childAdmin = null): void
@@ -443,5 +422,16 @@ class PageAdmin extends AbstractAdmin
                 // throw $e;
             }
         }
+    }
+
+    /**
+     * @return array<string, string|string[]> [action1 => requiredRole1, action2 => [requiredRole2, requiredRole3]]
+     */
+    protected function getAccessMapping(): array
+    {
+        return [
+            'tree' => AdminPermissionMap::PERMISSION_LIST,
+            'compose' => AdminPermissionMap::PERMISSION_EDIT,
+        ];
     }
 }

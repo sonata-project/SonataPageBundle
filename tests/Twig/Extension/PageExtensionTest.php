@@ -77,9 +77,9 @@ final class PageExtensionTest extends TestCase
             $this->createMock(BlockHelper::class),
             $httpKernelExtension = $this->createMock(HttpKernelExtension::class)
         );
-        $extension->initRuntime($twigEnvironment);
 
-        $extension->controller('foo');
+        $environment = $this->createMock(Environment::class);
+        $extension->controller($environment, 'foo');
     }
 
     /**
@@ -103,28 +103,10 @@ final class PageExtensionTest extends TestCase
             $this->createMock(BlockHelper::class),
             $httpKernelExtension = $this->createMock(HttpKernelExtension::class)
         );
-        $extension->initRuntime($twigEnvironment);
-
-        $extension->controller('bar');
-    }
-
-    public function testInitRuntime(): void
-    {
-        $extension = new PageExtension(
-            $this->createMock(CmsManagerSelectorInterface::class),
-            $this->createMock(SiteSelectorInterface::class),
-            $this->createMock(RouterInterface::class),
-            $this->createMock(BlockHelper::class),
-            $this->createMock(HttpKernelExtension::class)
-        );
 
         $environment = $this->createMock(Environment::class);
-        $extension->initRuntime($environment);
 
-        $property = new \ReflectionProperty($extension, 'environment');
-        $property->setAccessible(true);
-
-        static::assertSame($environment, $property->getValue($extension));
+        $extension->controller($environment, 'bar');
     }
 
     public function testGetName(): void

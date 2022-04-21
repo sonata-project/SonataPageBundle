@@ -19,8 +19,7 @@ use Sonata\PageBundle\Exception\InternalErrorException;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 /**
  * This class redirect the onCoreResponse event to the correct
@@ -65,7 +64,7 @@ class RequestListener
      * @throws InternalErrorException
      * @throws PageNotFoundException
      */
-    public function onCoreRequest(GetResponseEvent $event): void
+    public function onCoreRequest(RequestEvent $event): void
     {
         $request = $event->getRequest();
 

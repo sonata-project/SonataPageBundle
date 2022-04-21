@@ -1,33 +1,32 @@
-/**
- *
- * This file is part of the Sonata package.
+/*
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * generated on: Fri Dec 01 2017 00:48:05 GMT+0100 (CET)
- * revision:     4e8bf4373af18c69b99332d84f3cff6894faa869
- *
  */
 /**
  * Code from http://twitter.github.com/bootstrap/examples/container-app.html
  */
 div.cms-fake-block {
-  display: none; }
+  display: none;
+}
 
 /* Override some defaults */
 html.sonata-bc, body.sonata-bc {
-  background-color: #eee; }
+  background-color: #eee;
+}
 
 .sonata-bc .container > footer div {
   text-align: center;
-  /* center align it with the container */ }
+  /* center align it with the container */
+}
 
 .sonata-bc .container {
   width: 820px;
-  /* downsize our container to make the content feel a bit tighter and more cohesive. NOTE: this removes two full columns from the grid, meaning you only go to 14 columns and not 16. */ }
+  /* downsize our container to make the content feel a bit tighter and more cohesive. NOTE: this removes two full columns from the grid, meaning you only go to 14 columns and not 16. */
+}
 
 /* The white background content wrapper */
 .sonata-bc .content {
@@ -40,47 +39,58 @@ html.sonata-bc, body.sonata-bc {
   border-radius: 0 0 6px 6px;
   -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15); }
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
 
 /* Page header tweaks */
 .sonata-bc .page-header {
   background-color: #f5f5f5;
   padding: 20px 20px 10px;
-  margin: -20px -20px 20px; }
+  margin: -20px -20px 20px;
+}
 
 .sonata-bc .page-header a {
   color: #404040;
-  font-weight: bold; }
+  font-weight: bold;
+}
 
 .sonata-bc .page-header .nav {
-  margin: 0; }
+  margin: 0;
+}
 
 .sonata-bc .page-header .nav a {
-  font-size: 1.5em; }
+  font-size: 1.5em;
+}
 
 .sonata-bc .page-header .nav .dropdown-menu a {
-  font-size: 1em; }
+  font-size: 1em;
+}
 
 .sonata-bc .page-header .nav .dropdown-toggle .caret-menu {
   border-top-color: #404040;
-  border-bottom-color: #404040; }
+  border-bottom-color: #404040;
+}
 
 /* Give a quick and non-cross-browser friendly divider */
 .sonata-bc .content .span4 {
   margin-left: 0;
-  padding-left: 19px; }
+  padding-left: 19px;
+}
 
 .sonata-bc .topbar .btn {
-  border: 0; }
+  border: 0;
+}
 
 .sonata-bc .row {
-  margin-left: auto; }
+  margin-left: auto;
+}
 
 li.sonata-page-menu-children-element {
   float: left;
   list-style: none;
   margin-left: 20px;
-  font-size: 16px; }
+  font-size: 16px;
+}
 
 a.sonata-media-gallery-media-item-link {
   border: 1px solid #DDDDDD;
@@ -88,13 +98,16 @@ a.sonata-media-gallery-media-item-link {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
   float: left;
   margin: 0 0 18px 20px;
-  padding: 4px; }
+  padding: 4px;
+}
 
 a.sonata-media-gallery-media-item-link {
-  display: block; }
+  display: block;
+}
 
 a.sonata-media-gallery-media-item-link:hover {
   border-color: #0069d6;
   -webkit-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
   -moz-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
-  box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25); }
+  box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
+}

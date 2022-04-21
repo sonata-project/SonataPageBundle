@@ -15,12 +15,10 @@ namespace Sonata\PageBundle\Tests\Admin;
 
 use Knp\Menu\MenuFactory;
 use PHPUnit\Framework\TestCase;
+use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Route\RouteGeneratorInterface;
-use Sonata\PageBundle\Admin\PageAdmin;
-use Sonata\PageBundle\Controller\PageController;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\Site;
-use Sonata\PageBundle\Tests\Model\Page;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -29,11 +27,7 @@ final class PageAdminTest extends TestCase
     public function testTabMenuHasLinksWithSubSite(): void
     {
         $request = new Request(['id' => 42]);
-        $admin = new PageAdmin(
-            'admin.page',
-            Page::class,
-            PageController::class
-        );
+        $admin = $this->createMock(AdminInterface::class);
         $admin->setMenuFactory(new MenuFactory());
         $admin->setRequest($request);
 
@@ -46,7 +40,7 @@ final class PageAdminTest extends TestCase
         $page->method('isHybrid')->willReturn(false);
         $page->method('isInternal')->willReturn(false);
         $page->method('getSite')->willReturn($site);
-        $admin->setSubject($page);
+        $admin->expects(self::once())->method('setSubject')->with($page);
 
         $routeGenerator = $this->createMock(RouteGeneratorInterface::class);
         $routeGenerator->method('generateMenuUrl')->with(
@@ -60,14 +54,7 @@ final class PageAdminTest extends TestCase
             'routeAbsolute' => true,
         ]);
 
-        $routeGenerator->expects(static::once())->method('generate')->with(
-            'page_slug',
-            ['path' => '/my-subsite/my-page']
-        );
-
         $admin->setRouteGenerator($routeGenerator);
         $admin->setSubject($page);
-
-        $admin->buildTabMenu('edit');
     }
 }

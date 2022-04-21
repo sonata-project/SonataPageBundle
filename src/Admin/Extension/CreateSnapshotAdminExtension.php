@@ -44,7 +44,7 @@ class CreateSnapshotAdminExtension extends AbstractAdminExtension
         $this->sendMessage($object);
     }
 
-    public function postRemove(AdminInterface $admin, $object)
+    public function postRemove(AdminInterface $admin, object $object): void
     {
         $this->sendMessage($object);
     }

@@ -115,11 +115,7 @@ EOF;
                 ->prototype('scalar')->end()
             ->end()
             ->scalarNode('slugify_service')
-                // NEXT_MAJOR: reword this info message
-                ->info('You should use: sonata.page.slugify.cocur, but for BC we keep \'sonata.core.slugify.native\' as default')
-
-                // NEXT_MAJOR: use "sonata.page.slugify.cocur" instead of "sonata.core.slugify.native" as default value
-                ->defaultValue('sonata.core.slugify.native')
+                ->defaultValue('sonata.page.slugify.cocur')
             ->end()
             ->arrayNode('ignore_routes')
                 ->defaultValue([
@@ -168,15 +164,13 @@ EOF;
                 ->children()
                     ->arrayNode('stylesheets')
                         ->defaultValue([
-                                'bundles/sonatacore/vendor/bootstrap/dist/css/bootstrap.min.css',
-                                'bundles/sonatapage/sonata-page.front.css',
+                                'bundles/sonatapage/sonata-page.front.min.css',
                             ])
                         ->prototype('scalar')->end()
                     ->end()
                     ->arrayNode('javascripts')
                         ->defaultValue([
-                                'bundles/sonatacore/vendor/jquery/dist/jquery.min.js',
-                                'bundles/sonatacore/vendor/bootstrap/dist/js/bootstrap.min.js',
+                                'bundles/sonatapage/sonata-page.back.js',
                             ])
                         ->prototype('scalar')->end()
                     ->end()

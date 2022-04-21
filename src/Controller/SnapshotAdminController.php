@@ -15,8 +15,12 @@ namespace Sonata\PageBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Sonata\PageBundle\Form\Type\CreateSnapshotType;
+use Sonata\PageBundle\Model\PageManagerInterface;
+use Sonata\PageBundle\Model\SnapshotManagerInterface;
+use Sonata\PageBundle\Model\TransformerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
@@ -28,7 +32,16 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class SnapshotAdminController extends Controller
 {
-    public function createAction(?Request $request = null)
+    public static function getSubscribedServices(): array
+    {
+        return [
+            'sonata.page.manager.snapshot' => SnapshotManagerInterface::class,
+                'sonata.page.manager.page' => PageManagerInterface::class,
+                'sonata.page.transformer' => TransformerInterface::class,
+            ] + parent::getSubscribedServices();
+    }
+
+    public function createAction(?Request $request = null): Response
     {
         $this->admin->checkAccess('create');
 
@@ -74,7 +87,7 @@ class SnapshotAdminController extends Controller
             ]));
         }
 
-        return $this->render('@SonataPage/SnapshotAdmin/create.html.twig', [
+        return $this->renderWithExtraParams('@SonataPage/SnapshotAdmin/create.html.twig', [
             'action' => 'create',
             'form' => $form->createView(),
         ]);

@@ -18,11 +18,9 @@ use Knp\Bundle\MenuBundle\KnpMenuBundle;
 use Sonata\AdminBundle\SonataAdminBundle;
 use Sonata\BlockBundle\SonataBlockBundle;
 use Sonata\CacheBundle\SonataCacheBundle;
-use Sonata\CoreBundle\SonataCoreBundle;
 use Sonata\Doctrine\Bridge\Symfony\SonataDoctrineBundle;
 use Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle;
 use Sonata\Form\Bridge\Symfony\SonataFormBundle;
-use Sonata\NotificationBundle\SonataNotificationBundle;
 use Sonata\PageBundle\SonataPageBundle;
 use Sonata\SeoBundle\SonataSeoBundle;
 use Sonata\Twig\Bridge\Symfony\SonataTwigBundle;
@@ -65,10 +63,6 @@ final class AppKernel extends Kernel
             new SonataFormBundle(),
             new SonataTwigBundle(),
         ];
-
-        if (class_exists(SonataCoreBundle::class)) {
-            $bundles[] = new SonataCoreBundle();
-        }
 
         return $bundles;
     }

@@ -13,8 +13,9 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Controller;
 
-use Sonata\AdminBundle\Controller\CRUDController as Controller;
+use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -26,7 +27,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  *
  * @final since sonata-project/page-bundle 3.26
  */
-class SiteAdminController extends Controller
+final class SiteAdminController extends CRUDController
 {
     /**
      * @throws NotFoundHttpException
@@ -34,9 +35,8 @@ class SiteAdminController extends Controller
      *
      * @return RedirectResponse|Response
      */
-    public function snapshotsAction()
+    public function snapshotsAction(Request $request)
     {
-        $request = $this->getRequest();
         if (false === $this->get('sonata.page.admin.snapshot')->isGranted('CREATE')) {
             throw new AccessDeniedException();
         }

@@ -52,7 +52,7 @@ class BlockManager extends BaseEntityManager implements BlockManagerInterface
         }
 
         // set new values
-        $block->setPosition($position);
+        $block->setPosition((int)$position);
         $this->getEntityManager()->persist($block);
 
         return $block;

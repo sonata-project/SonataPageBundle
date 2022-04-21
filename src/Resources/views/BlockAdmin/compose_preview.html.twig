@@ -5,7 +5,7 @@
     data-block-type="{{ child.type }}"
 >
     <a class="page-composer__container__child__edit"
-       href="{{ admin_pool.getAdminByAdminCode('sonata.page.admin.block').generateUrl('edit', { 'id': child.id, 'composer': true }) }}"
+       href="{{ blockAdmin.generateUrl('edit', { 'id': child.id, 'composer': true }) }}"
     >
         {% set service = attribute(blockServices, child.type) %}
         {% if service.metadata is defined %}
@@ -14,7 +14,7 @@
             {% set metadata = service.blockMetadata %}
         {% endif %}
         <h4 class="page-composer__container__child__name">
-            {{ child.name|default(service.name)|trans({}, service.blockMetadata.domain|default('SonataPageBundle')) }}
+            {{ child.name|default('SonataPageBundle')|trans({}, service.blockMetadata.domain|default('SonataPageBundle')) }}
         </h4>
         {% if not metadata.image %}
             <i class="{{ metadata.option('class') }}" ></i>
@@ -30,7 +30,7 @@
 
     <div class="page-composer__container__child__right">
         <div class="page-composer__container__child__remove">
-            <a class="badge" href="{{ admin_pool.getAdminByAdminCode('sonata.page.admin.block').generateUrl('delete', { 'id': child.id }) }}">{{ 'composer.remove'|trans({}, 'SonataPageBundle') }} <i class="fa fa-times"></i> </a>
+            <a class="badge" href="{{ blockAdmin.generateUrl('delete', { 'id': child.id }) }}">{{ 'composer.remove'|trans({}, 'SonataPageBundle') }} <i class="fa fa-times"></i> </a>
         </div>
 
         <div class="page-composer__container__child__switch-enabled"

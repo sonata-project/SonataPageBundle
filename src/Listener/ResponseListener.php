@@ -17,10 +17,10 @@ use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 use Sonata\PageBundle\Exception\InternalErrorException;
 use Sonata\PageBundle\Page\PageServiceManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
+use Twig\Environment;
 
 /**
  * This class redirect the onCoreResponse event to the correct
@@ -48,7 +48,7 @@ class ResponseListener
     protected $decoratorStrategy;
 
     /**
-     * @var EngineInterface
+     * @var Environment
      */
     protected $templating;
 
@@ -61,17 +61,15 @@ class ResponseListener
      * @param CmsManagerSelectorInterface $cmsSelector        CMS manager selector
      * @param PageServiceManagerInterface $pageServiceManager Page service manager
      * @param DecoratorStrategyInterface  $decoratorStrategy  Decorator strategy
-     * @param EngineInterface             $templating         The template engine
+     * @param Environment                 $templating         The template engine
      * @param bool                        $skipRedirection    To skip the redirection by configuration
-     *
-     * NEXT_MAJOR: Remove default value for $skipRedirection
      */
     public function __construct(
         CmsManagerSelectorInterface $cmsSelector,
         PageServiceManagerInterface $pageServiceManager,
         DecoratorStrategyInterface $decoratorStrategy,
-        EngineInterface $templating,
-        $skipRedirection = false
+        Environment $templating,
+        bool $skipRedirection
     ) {
         $this->cmsSelector = $cmsSelector;
         $this->pageServiceManager = $pageServiceManager;
@@ -85,7 +83,7 @@ class ResponseListener
      *
      * @throws InternalErrorException
      */
-    public function onCoreResponse(FilterResponseEvent $event): void
+    public function onCoreResponse(ResponseEvent $event): void
     {
         $cms = $this->cmsSelector->retrieve();
 

@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Page;
 
 use Sonata\PageBundle\Model\Template;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Twig\Environment;
 
 /**
  * Templates management and rendering.
@@ -29,7 +29,7 @@ class TemplateManager implements TemplateManagerInterface
     /**
      * Templating engine.
      *
-     * @var EngineInterface
+     * @var Environment
      */
     protected $engine;
 
@@ -60,10 +60,10 @@ class TemplateManager implements TemplateManagerInterface
     protected $defaultTemplatePath = '@SonataPage/layout.html.twig';
 
     /**
-     * @param EngineInterface $engine            Templating engine
+     * @param Environment $engine            Templating engine
      * @param array           $defaultParameters An array of default view parameters
      */
-    public function __construct(EngineInterface $engine, array $defaultParameters = [])
+    public function __construct(Environment $engine, array $defaultParameters = [])
     {
         $this->engine = $engine;
         $this->defaultParameters = $defaultParameters;
@@ -103,13 +103,17 @@ class TemplateManager implements TemplateManagerInterface
         return $this->templates;
     }
 
-    public function renderResponse($code, array $parameters = [], ?Response $response = null)
+    public function renderResponse($code, array $parameters = [], ?Response $response = null): Response
     {
-        return $this->engine->renderResponse(
-            $this->getTemplatePath($code),
-            array_merge($this->defaultParameters, $parameters),
-            $response
+        $response = $response ?? new Response();
+
+        $response->setContent(
+            $this->engine->render(
+                $this->getTemplatePath($code), array_merge($this->defaultParameters, $parameters)
+            )
         );
+
+        return $response;
     }
 
     /**

@@ -63,13 +63,11 @@ Full configuration options:
                 stylesheets:
 
                     # Defaults:
-                    - bundles/sonatacore/vendor/bootstrap/dist/css/bootstrap.min.css
                     - bundles/sonatapage/sonata-page.front.css
                 javascripts:
 
                     # Defaults:
-                    - bundles/sonatacore/vendor/jquery/dist/jquery.min.js
-                    - bundles/sonatacore/vendor/bootstrap/dist/js/bootstrap.min.js
+                    - bundles/sonatapage/sonata-page.back.min.js
             templates:            # Required
 
                 # Prototype

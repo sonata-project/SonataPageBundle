@@ -15,13 +15,17 @@ namespace Sonata\PageBundle\Block;
 
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
-use Knp\Menu\Provider\MenuProviderInterface;
 use Sonata\BlockBundle\Block\BlockContextInterface;
+use Sonata\BlockBundle\Block\Service\EditableBlockService;
+use Sonata\BlockBundle\Form\Mapper\FormMapper;
 use Sonata\BlockBundle\Meta\Metadata;
+use Sonata\BlockBundle\Meta\MetadataInterface;
+use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\Form\Validator\ErrorElement;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\SeoBundle\Block\Breadcrumb\BaseBreadcrumbMenuBlockService;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Twig\Environment;
 
 /**
  * BlockService for homepage breadcrumb.
@@ -30,22 +34,18 @@ use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
  *
  * @final since sonata-project/page-bundle 3.26
  */
-class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
+class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService implements EditableBlockService
 {
     /**
      * @var CmsManagerSelectorInterface
      */
     protected $cmsSelector;
 
-    /**
-     * @param string $context
-     * @param string $name
-     */
-    public function __construct($context, $name, EngineInterface $templating, MenuProviderInterface $menuProvider, FactoryInterface $factory, CmsManagerSelectorInterface $cmsSelector)
+    public function __construct(Environment $templating, FactoryInterface $factory, CmsManagerSelectorInterface $cmsSelector)
     {
         $this->cmsSelector = $cmsSelector;
 
-        parent::__construct($context, $name, $templating, $menuProvider, $factory);
+        parent::__construct($templating, $factory);
     }
 
     public function getName()
@@ -53,18 +53,18 @@ class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
         return 'sonata.page.block.breadcrumb';
     }
 
-    public function getBlockMetadata($code = null)
+    public function getMetadata(): MetadataInterface
     {
-        return new Metadata($this->getName(), (null !== $code ? $code : $this->getName()), false, 'SonataPageBundle', [
+        return new Metadata('sonata.page.block.breadcrumb', null, null, 'SonataPageBundle', [
             'class' => 'fa fa-bars',
         ]);
     }
 
-    protected function getMenu(BlockContextInterface $blockContext)
+    protected function getMenu(BlockContextInterface $blockContext): ItemInterface
     {
         $blockContext->setSetting('include_homepage_link', false);
 
-        $menu = $this->getRootMenu($blockContext);
+        $menu = parent::getMenu($blockContext);
 
         $page = $this->getCurrentPage();
 
@@ -119,5 +119,26 @@ class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
             ],
             'extras' => $extras,
         ]);
+    }
+
+    public function handleContext(string $context): bool
+    {
+        // TODO: Implement handleContext() method.
+        return 'homepage' === $context;
+    }
+
+    public function configureEditForm(FormMapper $form, BlockInterface $block): void
+    {
+        // TODO: Implement configureEditForm() method.
+    }
+
+    public function configureCreateForm(FormMapper $form, BlockInterface $block): void
+    {
+        // TODO: Implement configureCreateForm() method.
+    }
+
+    public function validate(ErrorElement $errorElement, BlockInterface $block): void
+    {
+        // TODO: Implement validate() method.
     }
 }

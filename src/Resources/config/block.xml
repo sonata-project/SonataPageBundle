@@ -7,19 +7,19 @@
         <parameter key="sonata.page.block.breadcrumb.class">Sonata\PageBundle\Block\BreadcrumbBlockService</parameter>
         <parameter key="sonata.page.block.shared_block.class">Sonata\PageBundle\Block\SharedBlockBlockService</parameter>
         <parameter key="sonata.page.block.pagelist.class">Sonata\PageBundle\Block\PageListBlockService</parameter>
+        <parameter key="sonata.block.manager.interface">Sonata\BlockBundle\Block\BlockServiceManagerInterface</parameter>
     </parameters>
     <services>
         <service id="sonata.page.block.container" class="%sonata.page.block.container.class%">
             <tag name="sonata.block" context="internal"/>
-            <argument>sonata.page.block.container</argument>
-            <argument type="service" id="sonata.templating"/>
+            <argument type="service" id="twig"/>
         </service>
         <service id="sonata.page.block.children_pages" class="%sonata.page.block.children_pages.class%">
             <tag name="sonata.block"/>
-            <argument>sonata.page.block.children_pages</argument>
-            <argument type="service" id="sonata.templating"/>
+            <argument type="service" id="twig"/>
             <argument type="service" id="sonata.page.site.selector"/>
             <argument type="service" id="sonata.page.cms_manager_selector"/>
+            <argument type="service" id="sonata.page.admin.page"/>
         </service>
         <service id="sonata.page.block.ajax" class="%sonata.page.block.ajax.class%">
             <argument type="service" id="sonata.page.cms_manager_selector"/>
@@ -33,25 +33,21 @@
         <service id="sonata.page.block.breadcrumb" class="%sonata.page.block.breadcrumb.class%">
             <tag name="sonata.block"/>
             <tag name="sonata.breadcrumb"/>
-            <argument>page</argument>
-            <argument>sonata.page.block.breadcrumb</argument>
-            <argument type="service" id="sonata.templating"/>
-            <argument type="service" id="knp_menu.menu_provider"/>
+            <argument type="service" id="twig"/>
             <argument type="service" id="knp_menu.factory"/>
             <argument type="service" id="sonata.page.cms_manager_selector"/>
         </service>
         <service id="sonata.page.block.shared_block" class="%sonata.page.block.shared_block.class%">
             <tag name="sonata.block"/>
-            <argument>sonata.page.block.shared_block</argument>
-            <argument type="service" id="sonata.templating"/>
+            <argument type="service" id="twig"/>
             <argument type="service" id="service_container"/>
             <argument type="service" id="sonata.page.manager.block"/>
         </service>
         <service id="sonata.page.block.pagelist" class="%sonata.page.block.pagelist.class%">
             <tag name="sonata.block"/>
-            <argument>sonata.page.block.pagelist</argument>
-            <argument type="service" id="sonata.templating"/>
+            <argument type="service" id="twig"/>
             <argument type="service" id="sonata.page.manager.page"/>
         </service>
+        <service id="%sonata.block.manager.interface%" alias="sonata.block.manager" />
     </services>
 </container>

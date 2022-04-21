@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Model;
 
+use Doctrine\Common\Collections\Collection;
 use Sonata\BlockBundle\Model\BaseBlock;
 use Sonata\BlockBundle\Model\BlockInterface;
 
@@ -57,5 +58,14 @@ abstract class Block extends BaseBlock implements PageBlockInterface
         if (\is_object($this->children)) {
             $this->children->setInitialized(true);
         }
+    }
+
+    public function getChildren(): array
+    {
+        if (is_array($this->children)) {
+            return $this->children;
+        }
+
+        return $this->children->getValues();
     }
 }
