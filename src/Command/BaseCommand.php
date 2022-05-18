@@ -17,8 +17,10 @@ use Sonata\BlockBundle\Model\BlockManagerInterface;
 use Sonata\NotificationBundle\Backend\BackendInterface;
 use Sonata\PageBundle\CmsManager\CmsPageManager;
 use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
+use Sonata\PageBundle\Entity\SnapshotManager;
 use Sonata\PageBundle\Listener\ExceptionListener;
 use Sonata\PageBundle\Model\PageManagerInterface;
+use Sonata\PageBundle\Model\Site;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -91,6 +93,7 @@ abstract class BaseCommand extends ContainerAwareCommand
      * @param string $mode
      *
      * @return BackendInterface
+     * @TODO after decouple the code of this method, deprecate it.
      */
     public function getNotificationBackend($mode)
     {
