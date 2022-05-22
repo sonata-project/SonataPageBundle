@@ -15,6 +15,7 @@ namespace Sonata\PageBundle\Command;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Sonata\BlockBundle\Model\BlockInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -55,6 +56,12 @@ class MigrateBlockNameSettingCommand extends BaseCommand
         $blocks = $repository->findAll();
 
         foreach ($blocks as $block) {
+            if (!$block instanceof BlockInterface) {
+                throw new \Exception(
+                    sprintf('The block class need to implements the %s interface.', BlockInterface::class)
+                );
+            }
+
             $settings = $block->getSettings();
 
             // Remove orientation option if it exists
