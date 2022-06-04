@@ -80,7 +80,7 @@ EOT
         }
 
         // create the object
-        $site = $this->getSiteManager()->create();
+        $site = $this->siteManager->create();
 
         $site->setName($values['name']);
 
@@ -115,7 +115,7 @@ INFO
         }
 
         if ($confirmation) {
-            $this->getSiteManager()->save($site);
+            $this->siteManager->save($site);
 
             $output->writeln([
                 '',

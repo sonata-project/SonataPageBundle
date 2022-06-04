@@ -48,8 +48,6 @@ final class BaseCommandTest extends TestCase
         $input = $this->createMock(InputInterface::class);
         $siteManager = $this->createMock(SiteManager::class);
 
-        $this->command->method('getSiteManager')->willReturn($siteManager);
-
         $input->expects(static::exactly(3))->method('getOption')->with('site')->willReturnOnConsecutiveCalls(
             ['all'],
             ['10'],

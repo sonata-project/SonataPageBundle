@@ -44,7 +44,7 @@ class CleanupSnapshotsCommand extends BaseCommand
 
             $output->writeln(sprintf(' % 5s - % -30s - %s', 'ID', 'Name', 'Url'));
 
-            foreach ($this->getSiteManager()->findBy([]) as $site) {
+            foreach ($this->siteManager->findBy([]) as $site) {
                 $output->writeln(sprintf(' % 5s - % -30s - %s', $site->getId(), $site->getName(), $site->getUrl()));
             }
 

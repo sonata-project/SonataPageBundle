@@ -68,17 +68,17 @@ final class CloneSiteCommand extends BaseCommand
         }
 
         /** @var SiteInterface $sourceSite */
-        $sourceSite = $this->getSiteManager()->find($input->getOption('source-id'));
+        $sourceSite = $this->siteManager->find($input->getOption('source-id'));
 
         /** @var SiteInterface $destSite */
-        $destSite = $this->getSiteManager()->find($input->getOption('dest-id'));
+        $destSite = $this->siteManager->find($input->getOption('dest-id'));
 
         $pageClones = [];
         $blockClones = [];
 
         $output->writeln('Cloning pages');
         /** @var PageInterface[] $pages */
-        $pages = $this->getPageManager()->findBy([
+        $pages = $this->pageManager->findBy([
             'site' => $sourceSite,
         ]);
         foreach ($pages as $page) {
@@ -100,13 +100,13 @@ final class CloneSiteCommand extends BaseCommand
             }
 
             $newPage->setSite($destSite);
-            $this->getPageManager()->save($newPage);
+            $this->pageManager->save($newPage);
 
             $pageClones[$page->getId()] = $newPage;
 
             // Clone page blocks
             /** @var BlockInterface[] $blocks */
-            $blocks = $this->getBlockManager()->findBy([
+            $blocks = $this->blockManager->findBy([
                 'page' => $page,
             ]);
             foreach ($blocks as $block) {
@@ -114,7 +114,7 @@ final class CloneSiteCommand extends BaseCommand
                 $newBlock = clone $block;
                 $newBlock->setPage($newPage);
                 $blockClones[$block->getId()] = $newBlock;
-                $this->getBlockManager()->save($newBlock);
+                $this->blockManager->save($newBlock);
             }
         }
 
@@ -151,12 +151,12 @@ final class CloneSiteCommand extends BaseCommand
                 }
             }
 
-            $this->getPageManager()->save($newPage, true);
+            $this->pageManager->save($newPage, true);
         }
 
         $output->writeln('Fixing block parents');
         foreach ($pageClones as $page) {
-            $blocks = $this->getBlockManager()->findBy([
+            $blocks = $this->blockManager->findBy([
                 'page' => $page,
             ]);
             foreach ($blocks as $block) {
@@ -173,7 +173,7 @@ final class CloneSiteCommand extends BaseCommand
                         $block->setParent(null);
                     }
 
-                    $this->getBlockManager()->save($block, true);
+                    $this->blockManager->save($block, true);
                 }
             }
         }
@@ -190,7 +190,7 @@ final class CloneSiteCommand extends BaseCommand
     {
         $output->writeln(sprintf(' % 5s - % -30s - %s', 'ID', 'Name', 'Url'));
 
-        $sites = $this->getSiteManager()->findAll();
+        $sites = $this->siteManager->findAll();
 
         foreach ($sites as $site) {
             $output->writeln(sprintf(' % 5s - % -30s - %s', $site->getId(), $site->getName(), $site->getUrl()));

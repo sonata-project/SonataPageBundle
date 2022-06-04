@@ -13,8 +13,15 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Command;
 
+use Sonata\Doctrine\Model\ManagerInterface;
+use Sonata\NotificationBundle\Backend\BackendInterface;
+use Sonata\PageBundle\CmsManager\CmsPageManager;
 use Sonata\PageBundle\Entity\BlockInteractor;
+use Sonata\PageBundle\Listener\ExceptionListener;
 use Sonata\PageBundle\Model\PageInterface;
+use Sonata\PageBundle\Model\PageManagerInterface;
+use Sonata\PageBundle\Model\SiteManagerInterface;
+use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -26,6 +33,34 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 final class CreateBlockContainerCommand extends BaseCommand
 {
+    /** @var BlockInteractor */
+    private $blockInteractor;
+
+    public function __construct(
+        SiteManagerInterface $siteManager,
+        PageManagerInterface $pageManager,
+        SnapshotManagerInterface $snapshotManager,
+        ManagerInterface $blockManager,
+        CmsPageManager $cmsPageManager,
+        ExceptionListener $exceptionListener,
+        BackendInterface $backend,
+        BackendInterface $backendRuntime,
+        BlockInteractor $blockInteractor
+    ) {
+        parent::__construct(
+            $siteManager,
+            $pageManager,
+            $snapshotManager,
+            $blockManager,
+            $cmsPageManager,
+            $exceptionListener,
+            $backend,
+            $backendRuntime
+        );
+
+        $this->blockInteractor = $blockInteractor;
+    }
+
     protected function configure(): void
     {
         $this->setName('sonata:page:create-block-container');
@@ -41,10 +76,9 @@ final class CreateBlockContainerCommand extends BaseCommand
     {
         $blockCode = $input->getArgument('blockCode');
 
-        $pageManager = $this->getPageManager();
         $blockInteractor = $this->getBlockInteractor();
 
-        $pages = $pageManager->findBy([
+        $pages = $this->pageManager->findBy([
             'templateCode' => $input->getArgument('templateCode'),
         ]);
 
@@ -61,7 +95,7 @@ final class CreateBlockContainerCommand extends BaseCommand
 
             $page->addBlocks($block);
 
-            $pageManager->save($page);
+            $this->pageManager->save($page);
         }
 
         $output->writeln(sprintf(
@@ -79,6 +113,6 @@ final class CreateBlockContainerCommand extends BaseCommand
      */
     private function getBlockInteractor()
     {
-        return $this->getContainer()->get('sonata.page.block_interactor');
+        return $this->blockInteractor;
     }
 }

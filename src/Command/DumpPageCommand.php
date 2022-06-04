@@ -14,7 +14,14 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Command;
 
 use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\Doctrine\Model\ManagerInterface;
+use Sonata\NotificationBundle\Backend\BackendInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerInterface;
+use Sonata\PageBundle\CmsManager\CmsPageManager;
+use Sonata\PageBundle\Listener\ExceptionListener;
+use Sonata\PageBundle\Model\PageManagerInterface;
+use Sonata\PageBundle\Model\SiteManagerInterface;
+use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -27,6 +34,33 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class DumpPageCommand extends BaseCommand
 {
+    /** @var CmsManagerInterface */
+    private $cmsSnapshotManager;
+
+    public function __construct(
+        SiteManagerInterface $siteManager,
+        PageManagerInterface $pageManager,
+        SnapshotManagerInterface $snapshotManager,
+        ManagerInterface $blockManager,
+        CmsPageManager $cmsPageManager,
+        ExceptionListener $exceptionListener,
+        BackendInterface $backend,
+        BackendInterface $backendRuntime,
+        CmsManagerInterface $cmsSnapshotManager
+    ) {
+        parent::__construct(
+            $siteManager,
+            $pageManager,
+            $snapshotManager,
+            $blockManager,
+            $cmsPageManager,
+            $exceptionListener,
+            $backend,
+            $backendRuntime
+        );
+        $this->cmsSnapshotManager = $cmsSnapshotManager;
+    }
+
     public function configure(): void
     {
         $this->setName('sonata:page:dump-page');
@@ -76,13 +110,17 @@ HELP
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $manager = $this->getContainer()->get($input->getArgument('manager'));
+        $manager = $input->getArgument('manager');
 
-        if (!$manager instanceof CmsManagerInterface) {
-            throw new \RuntimeException('The service does not implement the CmsManagerInterface');
+        if (!\in_array($manager, ['sonata.page.cms.snapshot', 'sonata.page.cms.page'], true)) {
+            throw new \RuntimeException(
+                'Available managers are "sonata.page.cms.snapshot" and "sonata.page.cms.page"'
+            );
         }
 
-        $page = $manager->getPageById($input->getArgument('page_id'));
+        $managerService = 'sonata.page.cms.snapshot' === $manager ? $this->cmsSnapshotManager : $this->cmsPageManager;
+
+        $page = $managerService->getPageById($input->getArgument('page_id'));
 
         $output->writeln([
             '<info>Page:</info>',

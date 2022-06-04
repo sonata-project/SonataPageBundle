@@ -14,8 +14,10 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Command;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Sonata\BlockBundle\Model\BlockInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -25,9 +27,18 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @final since sonata-project/page-bundle 3.26
  */
-class MigrateBlockNameSettingCommand extends BaseCommand
+class MigrateBlockNameSettingCommand extends Command
 {
     public const CONTAINER_TYPE = 'sonata.page.block.container';
+
+    /** @var EntityManagerInterface */
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        parent::__construct();
+        $this->entityManager = $entityManager;
+    }
 
     public function configure(): void
     {
@@ -120,6 +131,6 @@ class MigrateBlockNameSettingCommand extends BaseCommand
      */
     protected function getEntityManager()
     {
-        return $this->getContainer()->get('doctrine.orm.entity_manager');
+        return $this->entityManager;
     }
 }
