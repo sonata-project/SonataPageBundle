@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Command;
 
+use Sonata\PageBundle\Model\SnapshotManagerInterface;
+use Sonata\PageBundle\Service\CreateSnapshotsFromPageInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -29,6 +31,27 @@ use Symfony\Component\Process\Process;
 class CreateSnapshotsCommand extends BaseCommand
 {
     protected static $defaultName = 'sonata:page:create-snapshots';
+    private $creteSnapshots;
+
+    /**
+     * @param ?string|CreateSnapshotsFromPageInterface $creteSnapshots
+     * NEXT_MAJOR: Remove the default value for $snapshotManager
+     */
+    public function __construct($creteSnapshots = null)
+    {
+        //NEXT_MAJOR: Remove the "if" condition and let only the "else" code.
+        if (is_string($creteSnapshots) || $creteSnapshots === null) {
+            @trigger_error(sprintf(
+                'The %s class is final since sonata-project/page-bundle 3.27.0 and in 4.0'
+                 . 'release you won\'t be able to extend this class anymore.'
+                , __CLASS__
+            ), \E_USER_DEPRECATED);
+            parent::__construct($creteSnapshots);
+        } else {
+            parent::__construct(self::$defaultName);
+            $this->creteSnapshots = $creteSnapshots;
+        }
+    }
 
     public function configure()
     {
@@ -61,8 +84,9 @@ class CreateSnapshotsCommand extends BaseCommand
             }
 
             $output->write(sprintf('<info>%s</info> - Generating snapshots ...', $site->getName()));
-            //TODO need to call CreateSnapshotsService!!!!
 
+            // TODO need to create snapshot by sites
+            //$this->creteSnapshots->createFromPages($site->get)
             $output->writeln(' done!');
         }
 

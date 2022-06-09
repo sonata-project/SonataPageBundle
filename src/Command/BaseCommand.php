@@ -105,7 +105,7 @@ abstract class BaseCommand extends ContainerAwareCommand
     }
 
     /**
-     * @return array
+     * @return array|Site[]
      */
     protected function getSites(InputInterface $input)
     {

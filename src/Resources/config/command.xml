@@ -14,6 +14,8 @@
             <tag name="console.command"/>
         </service>
         <service id="Sonata\PageBundle\Command\CreateSnapshotsCommand" class="Sonata\PageBundle\Command\CreateSnapshotsCommand" public="true">
+<!--        TODO need to inject CreateSnapshotsFromPageInterface-->
+            <!--            <argument type="service" id="sonata.page.manager.snapshot"/>-->
             <tag name="console.command"/>
         </service>
         <service id="Sonata\PageBundle\Command\DumpPageCommand" class="Sonata\PageBundle\Command\DumpPageCommand" public="true">
