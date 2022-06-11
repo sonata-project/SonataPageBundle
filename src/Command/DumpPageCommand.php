@@ -62,7 +62,6 @@ class DumpPageCommand extends BaseCommand
 
     public function configure(): void
     {
-        $this->setName('sonata:page:dump-page');
         $this->setDescription('Dump page information');
         $this->setHelp(
             <<<HELP

@@ -66,14 +66,12 @@ class RenderBlockCommand extends BaseCommand
             $backend,
             $backendRuntime
         );
-        $this->cmsSnapshotManager = $cmsSnapshotManager;
         $this->blockContextManager = $blockContextManager;
         $this->blockRenderer = $blockRenderer;
     }
 
     public function configure(): void
     {
-        $this->setName('sonata:page:render-block');
         $this->setDescription('Dump page information');
         $this->setHelp(
             <<<HELP

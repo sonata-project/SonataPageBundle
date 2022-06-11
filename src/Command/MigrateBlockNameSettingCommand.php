@@ -42,7 +42,6 @@ class MigrateBlockNameSettingCommand extends Command
 
     public function configure(): void
     {
-        $this->setName('sonata:page:migrate-block-setting');
         $this->addOption(
             'class',
             null,

@@ -64,7 +64,6 @@ class UpdateCoreRoutesCommand extends BaseCommand
 
     public function configure(): void
     {
-        $this->setName('sonata:page:update-core-routes');
         $this->setDescription('Update core routes, from routing files to page manager');
         // NEXT_MAJOR: Remove the "all" option.
         $this->addOption('all', null, InputOption::VALUE_NONE, 'Create snapshots for all sites');
