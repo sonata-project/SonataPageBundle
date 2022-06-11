@@ -17,7 +17,6 @@ use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\Doctrine\Model\ManagerInterface;
 use Sonata\NotificationBundle\Backend\BackendInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerInterface;
-use Sonata\PageBundle\CmsManager\CmsPageManager;
 use Sonata\PageBundle\Listener\ExceptionListener;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
@@ -42,7 +41,7 @@ class DumpPageCommand extends BaseCommand
         PageManagerInterface $pageManager,
         SnapshotManagerInterface $snapshotManager,
         ManagerInterface $blockManager,
-        CmsPageManager $cmsPageManager,
+        CmsManagerInterface $cmsPageManager,
         ExceptionListener $exceptionListener,
         BackendInterface $backend,
         BackendInterface $backendRuntime,

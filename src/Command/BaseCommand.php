@@ -15,7 +15,7 @@ namespace Sonata\PageBundle\Command;
 
 use Sonata\Doctrine\Model\ManagerInterface;
 use Sonata\NotificationBundle\Backend\BackendInterface;
-use Sonata\PageBundle\CmsManager\CmsPageManager;
+use Sonata\PageBundle\CmsManager\CmsManagerInterface;
 use Sonata\PageBundle\Listener\ExceptionListener;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
@@ -42,7 +42,7 @@ abstract class BaseCommand extends Command
     /** @var ManagerInterface */
     protected $blockManager;
 
-    /** @var CmsPageManager */
+    /** @var CmsManagerInterface */
     protected $cmsPageManager;
 
     /** @var ExceptionListener */
@@ -59,7 +59,7 @@ abstract class BaseCommand extends Command
         PageManagerInterface $pageManager,
         SnapshotManagerInterface $snapshotManager,
         ManagerInterface $blockManager,
-        CmsPageManager $cmsPageManager,
+        CmsManagerInterface $cmsPageManager,
         ExceptionListener $exceptionListener,
         BackendInterface $backend,
         BackendInterface $backendRuntime
