@@ -16,6 +16,7 @@ namespace Sonata\PageBundle;
 use Sonata\CoreBundle\Form\FormHelper;
 use Sonata\PageBundle\DependencyInjection\Compiler\CacheCompilerPass;
 use Sonata\PageBundle\DependencyInjection\Compiler\CmfRouterCompilerPass;
+use Sonata\PageBundle\DependencyInjection\Compiler\CmsManagerServiceLocatorCompilerPass;
 use Sonata\PageBundle\DependencyInjection\Compiler\GlobalVariablesCompilerPass;
 use Sonata\PageBundle\DependencyInjection\Compiler\PageServiceCompilerPass;
 use Sonata\PageBundle\DependencyInjection\Compiler\TwigStringExtensionCompilerPass;
@@ -49,6 +50,7 @@ class SonataPageBundle extends Bundle
         $container->addCompilerPass(new PageServiceCompilerPass());
         $container->addCompilerPass(new CmfRouterCompilerPass());
         $container->addCompilerPass(new TwigStringExtensionCompilerPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 1);
+        $container->addCompilerPass(new CmsManagerServiceLocatorCompilerPass());
     }
 
     public function boot(): void

@@ -89,6 +89,7 @@ class SonataPageExtension extends Extension implements PrependExtensionInterface
         $loader->load('validators.xml');
         $loader->load('command.xml');
         $loader->load('slugify.xml');
+        $loader->load('service_locator.xml');
 
         $this->configureMultisite($container, $config);
         $this->configureCache($container, $config);
