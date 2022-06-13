@@ -15,11 +15,13 @@ namespace Sonata\PageBundle\Service;
 
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
+use Sonata\PageBundle\Model\Site;
+use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SnapshotInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\TransformerInterface;
 
-final class CreateSnapshotsService implements CreateSnapshotsFromPageInterface
+final class CreateSnapshotsService implements CreateSnapshotsFromSiteInterface
 {
     private $snapshotManager;
 
@@ -38,13 +40,13 @@ final class CreateSnapshotsService implements CreateSnapshotsFromPageInterface
     }
 
     /**
-     * @param iterable<PageInterface> $pages
      *
      * @return iterable<SnapshotInterface>
      */
-    public function createFromPages(iterable $pages): iterable
+    public function createBySite(SiteInterface $site): iterable
     {
         $entityManager = $this->snapshotManager->getEntityManager();
+        $pages = $this->snapshotManager->findBy(['site' => $site->getId()]);
 
         // start a transaction
         $entityManager->beginTransaction();

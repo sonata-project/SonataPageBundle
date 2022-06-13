@@ -18,6 +18,7 @@ use Sonata\PageBundle\Command\CreateSnapshotsCommand;
 use Sonata\PageBundle\Model\Site;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
+use Sonata\PageBundle\Service\CreateSnapshotsFromSiteInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Input\InputInterface;
@@ -87,18 +88,35 @@ class CreateSnapshotsCommandTest extends KernelTestCase
     }
 
     /**
+     * @TODO implement this test!
+     */
+    public function createSnapshot()
+    {
+
+    }
+
+    /**
      * @test
      * @testdox it's using notificationBundle when mode option is equals "async"
-     * @testWith ["sync", 0]
-     *           ["async", 1]
+     * @testWith ["sync", 0, 1]
+     *           ["async", 1, 0]
      */
-    public function callNotificationBackend(string $mode, int $notificationWillBeExecuted): void
-    {
+    public function callNotificationBackend(
+        string $mode,
+        int $notificationWillBeExecuted,
+        int $createSnapshotServiceWillBeExecuted
+    ): void {
         // Mocks
-        $commandMock = $this->createPartialMock(CreateSnapshotsCommand::class, [
-            'getNotificationBackend',
-            'getSites',
-        ]);
+        $createSnapshotServiceMock = $this->createMock(CreateSnapshotsFromSiteInterface::class);
+        $createSnapshotServiceMock
+            ->expects($this->exactly($createSnapshotServiceWillBeExecuted))
+            ->method('createBySite');
+
+        $commandMock = $this
+            ->getMockBuilder(CreateSnapshotsCommand::class)
+            ->onlyMethods(['getNotificationBackend', 'getSites'])
+            ->setConstructorArgs([$createSnapshotServiceMock])
+            ->getMock();
         $commandMock
             ->expects(static::once())
             ->method('getSites')

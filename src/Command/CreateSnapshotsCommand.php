@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Command;
 
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
-use Sonata\PageBundle\Service\CreateSnapshotsFromPageInterface;
+use Sonata\PageBundle\Service\CreateSnapshotsFromSiteInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -34,7 +34,7 @@ class CreateSnapshotsCommand extends BaseCommand
     private $creteSnapshots;
 
     /**
-     * @param ?string|CreateSnapshotsFromPageInterface $creteSnapshots
+     * @param ?string|CreateSnapshotsFromSiteInterface $creteSnapshots
      * NEXT_MAJOR: Remove the default value for $snapshotManager
      */
     public function __construct($creteSnapshots = null)
@@ -85,8 +85,7 @@ class CreateSnapshotsCommand extends BaseCommand
 
             $output->write(sprintf('<info>%s</info> - Generating snapshots ...', $site->getName()));
 
-            // TODO need to create snapshot by sites
-            //$this->creteSnapshots->createFromPages($site->get)
+            $this->creteSnapshots->createBySite($site);
             $output->writeln(' done!');
         }
 
