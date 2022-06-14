@@ -13,13 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Command;
 
-use Sonata\Doctrine\Model\ManagerInterface;
-use Sonata\NotificationBundle\Backend\BackendInterface;
-use Sonata\PageBundle\CmsManager\CmsManagerInterface;
-use Sonata\PageBundle\Listener\ExceptionListener;
-use Sonata\PageBundle\Model\PageManagerInterface;
-use Sonata\PageBundle\Model\SiteManagerInterface;
-use Sonata\PageBundle\Model\SnapshotManagerInterface;
+use Psr\Container\ContainerInterface;
 use Sonata\PageBundle\Route\RoutePageGenerator;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -38,27 +32,10 @@ class UpdateCoreRoutesCommand extends BaseCommand
     /** @var RoutePageGenerator */
     private $routePageGenerator;
 
-    public function __construct(
-        SiteManagerInterface $siteManager,
-        PageManagerInterface $pageManager,
-        SnapshotManagerInterface $snapshotManager,
-        ManagerInterface $blockManager,
-        CmsManagerInterface $cmsPageManager,
-        ExceptionListener $exceptionListener,
-        BackendInterface $backend,
-        BackendInterface $backendRuntime,
-        RoutePageGenerator $routePageGenerator
-    ) {
-        parent::__construct(
-            $siteManager,
-            $pageManager,
-            $snapshotManager,
-            $blockManager,
-            $cmsPageManager,
-            $exceptionListener,
-            $backend,
-            $backendRuntime
-        );
+    public function __construct(ContainerInterface $locator, RoutePageGenerator $routePageGenerator)
+    {
+        parent::__construct($locator);
+
         $this->routePageGenerator = $routePageGenerator;
     }
 
@@ -87,7 +64,7 @@ class UpdateCoreRoutesCommand extends BaseCommand
 
             $output->writeln(sprintf(' % 5s - % -30s - %s', 'ID', 'Name', 'Url'));
 
-            foreach ($this->siteManager->findBy([]) as $site) {
+            foreach (($this->locator)('sonata.page.manager.site')->findBy([]) as $site) {
                 $output->writeln(sprintf(' % 5s - % -30s - %s', $site->getId(), $site->getName(), $site->getUrl()));
             }
 
@@ -96,7 +73,7 @@ class UpdateCoreRoutesCommand extends BaseCommand
 
         foreach ($this->getSites($input) as $site) {
             if ('all' !== $input->getOption('site')) {
-                $this->getRoutePageGenerator()->update($site, $output, $input->getOption('clean'));
+                $this->routePageGenerator->update($site, $output, $input->getOption('clean'));
                 $output->writeln('');
             } else {
                 $arguments = [
@@ -119,15 +96,5 @@ class UpdateCoreRoutesCommand extends BaseCommand
         $output->writeln('<info>done!</info>');
 
         return 0;
-    }
-
-    /**
-     * Returns Sonata route page generator service.
-     *
-     * @return RoutePageGenerator
-     */
-    private function getRoutePageGenerator()
-    {
-        return $this->routePageGenerator;
     }
 }

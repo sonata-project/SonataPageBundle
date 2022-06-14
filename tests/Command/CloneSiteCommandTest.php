@@ -17,13 +17,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Sonata\BlockBundle\Model\BlockManagerInterface;
-use Sonata\NotificationBundle\Backend\MessageManagerBackend;
-use Sonata\NotificationBundle\Backend\RuntimeBackend;
-use Sonata\PageBundle\CmsManager\CmsPageManager;
 use Sonata\PageBundle\Command\CloneSiteCommand;
-use Sonata\PageBundle\Entity\BlockInteractor;
-use Sonata\PageBundle\Entity\SnapshotManager;
-use Sonata\PageBundle\Listener\ExceptionListener;
 use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
@@ -31,71 +25,46 @@ use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
+use Symfony\Component\DependencyInjection\ServiceLocator;
 
 /**
  * @author Christian Gripp <mail@core23.de>
  */
 final class CloneSiteCommandTest extends TestCase
 {
-    /** @var Stub&BlockInteractor */
-    protected $blockInteractor;
-
-    /** @var Stub&SnapshotManager */
-    protected $snapshotManager;
-
-    /** @var Stub&CmsPageManager */
-    protected $cmsPageManager;
-
-    /** @var Stub&ExceptionListener */
-    protected $exceptionListener;
-
-    /** @var Stub&MessageManagerBackend */
-    protected $backend;
-
-    /** @var Stub&RuntimeBackend */
-    protected $backendRuntime;
-    /**
-     * @var Application
-     */
+    /** @var Application */
     private $application;
 
-    /**
-     * @var Stub&SiteManagerInterface
-     */
+    /** @var Stub&SiteManagerInterface */
     private $siteManager;
 
-    /**
-     * @var MockObject&PageManagerInterface
-     */
+    /** @var MockObject&PageManagerInterface */
     private $pageManager;
 
-    /**
-     * @var MockObject&BlockManagerInterface
-     */
+    /** @var MockObject&BlockManagerInterface */
     private $blockManager;
+
+    /** @var MockObject|ServiceLocator */
+    private $locator;
 
     protected function setUp(): void
     {
+        $this->locator = $this->createMock(ServiceLocator::class);
         $this->siteManager = $this->createStub(SiteManagerInterface::class);
         $this->pageManager = $this->createMock(PageManagerInterface::class);
         $this->blockManager = $this->createMock(BlockManagerInterface::class);
-        $this->blockInteractor = $this->createStub(BlockInteractor::class);
-        $this->snapshotManager = $this->createStub(SnapshotManager::class);
-        $this->cmsPageManager = $this->createStub(CmsPageManager::class);
-        $this->exceptionListener = $this->createStub(ExceptionListener::class);
-        $this->backend = $this->createStub(MessageManagerBackend::class);
-        $this->backendRuntime = $this->createStub(RuntimeBackend::class);
 
-        $command = new CloneSiteCommand(
-            $this->siteManager,
-            $this->pageManager,
-            $this->snapshotManager,
-            $this->blockManager,
-            $this->cmsPageManager,
-            $this->exceptionListener,
-            $this->backend,
-            $this->backendRuntime
-        );
+        $this->locator
+            ->method('__invoke')
+            ->withConsecutive(
+                ['sonata.page.manager.site'],
+                ['sonata.page.manager.page'],
+                ['sonata.page.manager.block']
+            )
+            ->willReturnOnConsecutiveCalls($this->siteManager, $this->pageManager, $this->blockManager);
+
+        $command = new CloneSiteCommand($this->locator);
+        $command->setName('sonata:page:clone-site');
 
         $this->application = new Application();
         $this->application->add($command);

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Command;
 
+use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -28,6 +29,11 @@ use Symfony\Component\Console\Question\Question;
  */
 class CreateSiteCommand extends BaseCommand
 {
+    public function __construct(ContainerInterface $locator)
+    {
+        parent::__construct($locator);
+    }
+
     public function configure(): void
     {
         $this->addOption('no-confirmation', null, InputOption::VALUE_OPTIONAL, 'Ask confirmation before generating the site', false);
@@ -77,8 +83,9 @@ EOT
             }
         }
 
+        $siteManager = ($this->locator)('sonata.page.manager.site');
         // create the object
-        $site = $this->siteManager->create();
+        $site = $siteManager->create();
 
         $site->setName($values['name']);
 
@@ -113,7 +120,7 @@ INFO
         }
 
         if ($confirmation) {
-            $this->siteManager->save($site);
+            $siteManager->save($site);
 
             $output->writeln([
                 '',

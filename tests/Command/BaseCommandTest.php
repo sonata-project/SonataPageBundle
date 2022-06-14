@@ -15,25 +15,28 @@ namespace Sonata\PageBundle\Tests\Command;
 
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Command\BaseCommand;
-use Sonata\PageBundle\Entity\SiteManager;
+use Sonata\PageBundle\Model\SiteManagerInterface;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\DependencyInjection\ServiceLocator;
 
 /**
  * @author Vincent Composieux <vincent.composieux@gmail.com>
  */
 final class BaseCommandTest extends TestCase
 {
-    /**
-     * @var BaseCommand
-     */
+    /** @var BaseCommand */
     private $command;
+
+    /** @var ServiceLocator */
+    private $locator;
 
     /**
      * Sets up a new BaseCommand instance.
      */
     protected function setUp(): void
     {
-        $this->command = $this->createMock(BaseCommand::class);
+        $this->locator = $this->createMock(ServiceLocator::class);
+        $this->command = $this->getMockForAbstractClass(BaseCommand::class, [$this->locator]);
     }
 
     /**
@@ -41,12 +44,10 @@ final class BaseCommandTest extends TestCase
      */
     public function testGetSites(): void
     {
-        // Given
+        $input = $this->createMock(InputInterface::class);
+
         $method = new \ReflectionMethod($this->command, 'getSites');
         $method->setAccessible(true);
-
-        $input = $this->createMock(InputInterface::class);
-        $siteManager = $this->createMock(SiteManager::class);
 
         $input->expects(static::exactly(3))->method('getOption')->with('site')->willReturnOnConsecutiveCalls(
             ['all'],
@@ -54,11 +55,13 @@ final class BaseCommandTest extends TestCase
             ['10', '11']
         );
 
-        $siteManager->expects(static::exactly(3))->method('findBy')->withConsecutive(
-            [[]],
-            [['id' => 10]],
-            [['id' => [10, 11]]]
-        );
+        $siteManager = $this->createMock(SiteManagerInterface::class);
+
+        $this->locator
+            ->expects(static::exactly(3))
+            ->method('__invoke')
+            ->with('sonata.page.manager.site')
+            ->willReturn($siteManager);
 
         $method->invoke($this->command, $input);
         $method->invoke($this->command, $input);

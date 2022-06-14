@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Command;
 
+use Psr\Container\ContainerInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SiteInterface;
@@ -28,6 +29,11 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 final class CloneSiteCommand extends BaseCommand
 {
+    public function __construct(ContainerInterface $locator)
+    {
+        parent::__construct($locator);
+    }
+
     public function configure(): void
     {
         $this
@@ -66,18 +72,23 @@ final class CloneSiteCommand extends BaseCommand
             $hybridOnly = false;
         }
 
+        $siteManager = ($this->locator)('sonata.page.manager.site');
+        $pageManager = ($this->locator)('sonata.page.manager.page');
+        $blockManager = ($this->locator)('sonata.page.manager.block');
+
         /** @var SiteInterface $sourceSite */
-        $sourceSite = $this->siteManager->find($input->getOption('source-id'));
+        $sourceSite = $siteManager->find($input->getOption('source-id'));
 
         /** @var SiteInterface $destSite */
-        $destSite = $this->siteManager->find($input->getOption('dest-id'));
+        $destSite = $siteManager->find($input->getOption('dest-id'));
 
         $pageClones = [];
         $blockClones = [];
 
         $output->writeln('Cloning pages');
+
         /** @var PageInterface[] $pages */
-        $pages = $this->pageManager->findBy([
+        $pages = $pageManager->findBy([
             'site' => $sourceSite,
         ]);
         foreach ($pages as $page) {
@@ -99,13 +110,13 @@ final class CloneSiteCommand extends BaseCommand
             }
 
             $newPage->setSite($destSite);
-            $this->pageManager->save($newPage);
+            $pageManager->save($newPage);
 
             $pageClones[$page->getId()] = $newPage;
 
             // Clone page blocks
             /** @var BlockInterface[] $blocks */
-            $blocks = $this->blockManager->findBy([
+            $blocks = $blockManager->findBy([
                 'page' => $page,
             ]);
             foreach ($blocks as $block) {
@@ -113,7 +124,7 @@ final class CloneSiteCommand extends BaseCommand
                 $newBlock = clone $block;
                 $newBlock->setPage($newPage);
                 $blockClones[$block->getId()] = $newBlock;
-                $this->blockManager->save($newBlock);
+                $blockManager->save($newBlock);
             }
         }
 
@@ -150,12 +161,12 @@ final class CloneSiteCommand extends BaseCommand
                 }
             }
 
-            $this->pageManager->save($newPage, true);
+            $pageManager->save($newPage, true);
         }
 
         $output->writeln('Fixing block parents');
         foreach ($pageClones as $page) {
-            $blocks = $this->blockManager->findBy([
+            $blocks = $blockManager->findBy([
                 'page' => $page,
             ]);
             foreach ($blocks as $block) {
@@ -172,7 +183,7 @@ final class CloneSiteCommand extends BaseCommand
                         $block->setParent(null);
                     }
 
-                    $this->blockManager->save($block, true);
+                    $blockManager->save($block, true);
                 }
             }
         }
@@ -189,7 +200,7 @@ final class CloneSiteCommand extends BaseCommand
     {
         $output->writeln(sprintf(' % 5s - % -30s - %s', 'ID', 'Name', 'Url'));
 
-        $sites = $this->siteManager->findAll();
+        $sites = ($this->locator)('sonata.page.manager.site')->findAll();
 
         foreach ($sites as $site) {
             $output->writeln(sprintf(' % 5s - % -30s - %s', $site->getId(), $site->getName(), $site->getUrl()));

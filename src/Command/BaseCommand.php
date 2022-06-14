@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Command;
 
+use Psr\Container\ContainerInterface;
 use Sonata\Doctrine\Model\ManagerInterface;
 use Sonata\NotificationBundle\Backend\BackendInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerInterface;
@@ -22,58 +23,37 @@ use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Contracts\Service\ServiceSubscriberInterface;
 
 /**
  * BaseCommand.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-abstract class BaseCommand extends Command
+abstract class BaseCommand extends Command implements ServiceSubscriberInterface
 {
-    /** @var SiteManagerInterface */
-    protected $siteManager;
+    /** @var ContainerInterface */
+    protected $locator;
 
-    /** @var PageManagerInterface */
-    protected $pageManager;
-
-    /** @var SnapshotManagerInterface */
-    protected $snapshotManager;
-
-    /** @var ManagerInterface */
-    protected $blockManager;
-
-    /** @var CmsManagerInterface */
-    protected $cmsPageManager;
-
-    /** @var ExceptionListener */
-    protected $exceptionListener;
-
-    /** @var BackendInterface */
-    protected $backend;
-
-    /** @var BackendInterface */
-    protected $backendRuntime;
-
-    public function __construct(
-        SiteManagerInterface $siteManager,
-        PageManagerInterface $pageManager,
-        SnapshotManagerInterface $snapshotManager,
-        ManagerInterface $blockManager,
-        CmsManagerInterface $cmsPageManager,
-        ExceptionListener $exceptionListener,
-        BackendInterface $backend,
-        BackendInterface $backendRuntime
-    ) {
+    public function __construct(ContainerInterface $locator)
+    {
         parent::__construct();
 
-        $this->siteManager = $siteManager;
-        $this->pageManager = $pageManager;
-        $this->snapshotManager = $snapshotManager;
-        $this->blockManager = $blockManager;
-        $this->cmsPageManager = $cmsPageManager;
-        $this->exceptionListener = $exceptionListener;
-        $this->backend = $backend;
-        $this->backendRuntime = $backendRuntime;
+        $this->locator = $locator;
+    }
+
+    public static function getSubscribedServices(): array
+    {
+        return [
+            'sonata.page.manager.site' => SiteManagerInterface::class,
+            'sonata.page.manager.page' => PageManagerInterface::class,
+            'sonata.page.manager.snapshot' => SnapshotManagerInterface::class,
+            'sonata.page.manager.block' => ManagerInterface::class,
+            'sonata.page.cms.page' => CmsManagerInterface::class,
+            'sonata.page.kernel.exception_listener' => ExceptionListener::class,
+            'sonata.notification.backend' => BackendInterface::class,
+            'sonata.notification.backend.runtime' => BackendInterface::class,
+        ];
     }
 
     /**
@@ -84,10 +64,10 @@ abstract class BaseCommand extends Command
     public function getNotificationBackend($mode)
     {
         if ('async' === $mode) {
-            return $this->backend;
+            return ($this->locator)('sonata.notification.backend');
         }
 
-        return $this->backendRuntime;
+        return ($this->locator)('sonata.notification.backend.runtime');
     }
 
     /**
@@ -102,6 +82,6 @@ abstract class BaseCommand extends Command
             $parameters['id'] = 1 === \count($identifiers) ? current($identifiers) : $identifiers;
         }
 
-        return $this->siteManager->findBy($parameters);
+        return ($this->locator)('sonata.page.manager.site')->findBy($parameters);
     }
 }

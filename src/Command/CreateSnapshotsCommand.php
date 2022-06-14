@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Command;
 
+use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -27,6 +28,11 @@ use Symfony\Component\Process\Process;
  */
 class CreateSnapshotsCommand extends BaseCommand
 {
+    public function __construct(ContainerInterface $locator)
+    {
+        parent::__construct($locator);
+    }
+
     public function configure(): void
     {
         $this->setDescription('Create a snapshots of all pages available');
@@ -44,7 +50,7 @@ class CreateSnapshotsCommand extends BaseCommand
 
             $output->writeln(sprintf(' % 5s - % -30s - %s', 'ID', 'Name', 'Url'));
 
-            foreach ($this->siteManager->findBy([]) as $site) {
+            foreach (($this->locator)('sonata.page.manager.site')->findBy([]) as $site) {
                 $output->writeln(sprintf(' % 5s - % -30s - %s', $site->getId(), $site->getName(), $site->getUrl()));
             }
 

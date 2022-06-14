@@ -13,63 +13,34 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Command;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
-use Sonata\NotificationBundle\Backend\MessageManagerBackend;
-use Sonata\NotificationBundle\Backend\RuntimeBackend;
-use Sonata\PageBundle\CmsManager\CmsPageManager;
 use Sonata\PageBundle\Command\CreateBlockContainerCommand;
 use Sonata\PageBundle\Entity\BlockInteractor;
-use Sonata\PageBundle\Entity\BlockManager;
-use Sonata\PageBundle\Entity\PageManager;
-use Sonata\PageBundle\Entity\SiteManager;
-use Sonata\PageBundle\Entity\SnapshotManager;
-use Sonata\PageBundle\Listener\ExceptionListener;
 use Sonata\PageBundle\Model\PageBlockInterface;
+use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Tests\Model\Page;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\ServiceLocator;
 
 final class CreateBlockContainerCommandTest extends TestCase
 {
     /** @var Stub&BlockInteractor */
-    protected $blockInteractor;
+    private $blockInteractor;
 
-    /** @var Stub&PageManager */
-    protected $pageManager;
+    /** @var MockObject|ServiceLocator */
+    private $locator;
 
-    /** @var Stub&SnapshotManager */
-    protected $snapshotManager;
-
-    /** @var Stub&BlockManager */
-    protected $blockManager;
-
-    /** @var Stub&SiteManager */
-    protected $siteManager;
-
-    /** @var Stub&CmsPageManager */
-    protected $cmsPageManager;
-
-    /** @var Stub&ExceptionListener */
-    protected $exceptionListener;
-
-    /** @var Stub&MessageManagerBackend */
-    protected $backend;
-
-    /** @var Stub&RuntimeBackend */
-    protected $backendRuntime;
+    /** @var MockObject|PageManagerInterface */
+    private $pageManager;
 
     protected function setUp(): void
     {
+        $this->locator = $this->createMock(ServiceLocator::class);
+        $this->pageManager = $this->createMock(PageManagerInterface::class);
         $this->blockInteractor = $this->createStub(BlockInteractor::class);
-        $this->pageManager = $this->createStub(PageManager::class);
-        $this->snapshotManager = $this->createStub(SnapshotManager::class);
-        $this->blockManager = $this->createStub(BlockManager::class);
-        $this->siteManager = $this->createStub(SiteManager::class);
-        $this->cmsPageManager = $this->createStub(CmsPageManager::class);
-        $this->exceptionListener = $this->createStub(ExceptionListener::class);
-        $this->backend = $this->createStub(MessageManagerBackend::class);
-        $this->backendRuntime = $this->createStub(RuntimeBackend::class);
     }
 
     /**
@@ -77,6 +48,10 @@ final class CreateBlockContainerCommandTest extends TestCase
      */
     public function testCreateBlock(): void
     {
+        $this->locator
+            ->method('__invoke')
+            ->with('sonata.page.manager.page')
+            ->willReturn($this->pageManager);
         $block = $this->createStub(PageBlockInterface::class);
         $this->blockInteractor->method('createNewContainer')->willReturn($block);
 
@@ -84,17 +59,7 @@ final class CreateBlockContainerCommandTest extends TestCase
         $this->pageManager->method('findBy')->with(['templateCode' => 'foo'])->willReturn([$page]);
         $this->pageManager->method('save')->with($page)->willReturn($page);
 
-        $command = new CreateBlockContainerCommand(
-            $this->siteManager,
-            $this->pageManager,
-            $this->snapshotManager,
-            $this->blockManager,
-            $this->cmsPageManager,
-            $this->exceptionListener,
-            $this->backend,
-            $this->backendRuntime,
-            $this->blockInteractor
-        );
+        $command = new CreateBlockContainerCommand($this->locator, $this->blockInteractor);
 
         $input = $this->createStub(InputInterface::class);
         $input->method('getArgument')->willReturnMap([

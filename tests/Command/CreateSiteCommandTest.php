@@ -14,46 +14,23 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Command;
 
 use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
-use Sonata\BlockBundle\Model\BlockManagerInterface;
-use Sonata\NotificationBundle\Backend\MessageManagerBackend;
-use Sonata\NotificationBundle\Backend\RuntimeBackend;
-use Sonata\PageBundle\CmsManager\CmsPageManager;
 use Sonata\PageBundle\Command\CreateSiteCommand;
-use Sonata\PageBundle\Entity\BlockInteractor;
-use Sonata\PageBundle\Entity\SnapshotManager;
-use Sonata\PageBundle\Listener\ExceptionListener;
-use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Tests\Model\Site;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Tester\CommandTester;
+use Symfony\Component\DependencyInjection\ServiceLocator;
 
 /**
  * @author Ahmet Akbana <ahmetakbana@gmail.com>
  */
 final class CreateSiteCommandTest extends TestCase
 {
-    /** @var Stub&BlockInteractor */
-    protected $blockInteractor;
-
-    /** @var Stub&SnapshotManager */
-    protected $snapshotManager;
-
-    /** @var Stub&CmsPageManager */
-    protected $cmsPageManager;
-
-    /** @var Stub&ExceptionListener */
-    protected $exceptionListener;
-
-    /** @var Stub&MessageManagerBackend */
-    protected $backend;
-
-    /** @var Stub&RuntimeBackend */
-    protected $backendRuntime;
+    /** @var MockObject|ServiceLocator */
+    private $locator;
 
     /** @var Application */
     private $application;
@@ -61,34 +38,18 @@ final class CreateSiteCommandTest extends TestCase
     /** @var MockObject&SiteManagerInterface */
     private $siteManager;
 
-    /** @var MockObject&PageManagerInterface */
-    private $pageManager;
-
-    /** @var MockObject&BlockManagerInterface */
-    private $blockManager;
-
     protected function setUp(): void
     {
+        $this->locator = $this->createMock(ServiceLocator::class);
         $this->siteManager = $this->createMock(SiteManagerInterface::class);
-        $this->pageManager = $this->createMock(PageManagerInterface::class);
-        $this->blockManager = $this->createMock(BlockManagerInterface::class);
-        $this->blockInteractor = $this->createStub(BlockInteractor::class);
-        $this->snapshotManager = $this->createStub(SnapshotManager::class);
-        $this->cmsPageManager = $this->createStub(CmsPageManager::class);
-        $this->exceptionListener = $this->createStub(ExceptionListener::class);
-        $this->backend = $this->createStub(MessageManagerBackend::class);
-        $this->backendRuntime = $this->createStub(RuntimeBackend::class);
 
-        $command = new CreateSiteCommand(
-            $this->siteManager,
-            $this->pageManager,
-            $this->snapshotManager,
-            $this->blockManager,
-            $this->cmsPageManager,
-            $this->exceptionListener,
-            $this->backend,
-            $this->backendRuntime
-        );
+        $this->locator
+            ->method('__invoke')
+            ->with('sonata.page.manager.site')
+            ->willReturn($this->siteManager);
+
+        $command = new CreateSiteCommand($this->locator);
+        $command->setName('sonata:page:create-site');
 
         $this->application = new Application();
         $this->application->add($command);

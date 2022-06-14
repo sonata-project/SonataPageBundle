@@ -4,5 +4,8 @@
         <service id="sonata.cms_manager.service_locator" class="Symfony\Component\DependencyInjection\ServiceLocator">
             <tag name="container.service_locator"/>
         </service>
+        <service id="sonata.command.container.service_subscriber" class="Symfony\Component\DependencyInjection\ServiceLocator">
+            <tag name="container.service_subscriber"/>
+        </service>
     </services>
 </container>

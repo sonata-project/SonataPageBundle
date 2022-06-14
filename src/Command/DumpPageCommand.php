@@ -13,14 +13,9 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Command;
 
+use Psr\Container\ContainerInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
-use Sonata\Doctrine\Model\ManagerInterface;
-use Sonata\NotificationBundle\Backend\BackendInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerInterface;
-use Sonata\PageBundle\Listener\ExceptionListener;
-use Sonata\PageBundle\Model\PageManagerInterface;
-use Sonata\PageBundle\Model\SiteManagerInterface;
-use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -36,27 +31,10 @@ class DumpPageCommand extends BaseCommand
     /** @var CmsManagerInterface */
     private $cmsSnapshotManager;
 
-    public function __construct(
-        SiteManagerInterface $siteManager,
-        PageManagerInterface $pageManager,
-        SnapshotManagerInterface $snapshotManager,
-        ManagerInterface $blockManager,
-        CmsManagerInterface $cmsPageManager,
-        ExceptionListener $exceptionListener,
-        BackendInterface $backend,
-        BackendInterface $backendRuntime,
-        CmsManagerInterface $cmsSnapshotManager
-    ) {
-        parent::__construct(
-            $siteManager,
-            $pageManager,
-            $snapshotManager,
-            $blockManager,
-            $cmsPageManager,
-            $exceptionListener,
-            $backend,
-            $backendRuntime
-        );
+    public function __construct(ContainerInterface $locator, CmsManagerInterface $cmsSnapshotManager)
+    {
+        parent::__construct($locator);
+
         $this->cmsSnapshotManager = $cmsSnapshotManager;
     }
 
