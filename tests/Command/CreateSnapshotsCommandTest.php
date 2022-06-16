@@ -18,7 +18,7 @@ use Sonata\PageBundle\Command\CreateSnapshotsCommand;
 use Sonata\PageBundle\Model\Site;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
-use Sonata\PageBundle\Service\CreateSnapshotsFromSiteInterface;
+use Sonata\PageBundle\Service\CreateSnapshotFromSiteInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Input\InputInterface;
@@ -88,11 +88,31 @@ class CreateSnapshotsCommandTest extends KernelTestCase
     }
 
     /**
-     * @TODO implement this test!
+     * @test
+     * @testdox it is creating snapshot by site.
      */
     public function createSnapshot()
     {
+        //Mocks
+        $createSnapshotsMock = $this->createMock(CreateSnapshotFromSiteInterface::class);
+        $createSnapshotsMock
+            ->expects(static::once())
+            ->method('createBySite')
+            ->with(static::isInstanceOf(SiteInterface::class));
 
+        $createSnapshotCommandMock = $this->getMockBuilder(CreateSnapshotsCommand::class)
+            ->onlyMethods(['getSites'])
+            ->setConstructorArgs([$createSnapshotsMock])
+            ->getMock();
+        $createSnapshotCommandMock
+            ->method('getSites')
+            ->willReturn([$this->createMock(SiteInterface::class)]);
+
+        $inputMock = $this->createMock(InputInterface::class);
+        $outputMock = $this->createMock(OutputInterface::class);
+
+        //Run code
+        $createSnapshotCommandMock->execute($inputMock, $outputMock);
     }
 
     /**
@@ -107,9 +127,9 @@ class CreateSnapshotsCommandTest extends KernelTestCase
         int $createSnapshotServiceWillBeExecuted
     ): void {
         // Mocks
-        $createSnapshotServiceMock = $this->createMock(CreateSnapshotsFromSiteInterface::class);
+        $createSnapshotServiceMock = $this->createMock(CreateSnapshotFromSiteInterface::class);
         $createSnapshotServiceMock
-            ->expects($this->exactly($createSnapshotServiceWillBeExecuted))
+            ->expects(static::exactly($createSnapshotServiceWillBeExecuted))
             ->method('createBySite');
 
         $commandMock = $this

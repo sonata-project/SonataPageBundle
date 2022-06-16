@@ -13,13 +13,10 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Command;
 
-use Sonata\PageBundle\Model\SnapshotManagerInterface;
-use Sonata\PageBundle\Service\CreateSnapshotsFromSiteInterface;
-use Symfony\Component\Console\Command\Command;
+use Sonata\PageBundle\Service\CreateSnapshotFromSiteInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\Process;
 
 /**
  * Create snapshots for a site.
@@ -31,25 +28,28 @@ use Symfony\Component\Process\Process;
 class CreateSnapshotsCommand extends BaseCommand
 {
     protected static $defaultName = 'sonata:page:create-snapshots';
-    private $creteSnapshots;
 
     /**
-     * @param ?string|CreateSnapshotsFromSiteInterface $creteSnapshots
-     * NEXT_MAJOR: Remove the default value for $snapshotManager
+     * @var ?string|CreateSnapshotFromSiteInterface
      */
-    public function __construct($creteSnapshots = null)
+    private $createSnapshot;
+
+    /**
+     * NEXT_MAJOR: Remove the default value for $createSnapshot and add the CreateSnapshotFromSiteInterface type
+     */
+    public function __construct($createSnapshot = null)
     {
         //NEXT_MAJOR: Remove the "if" condition and let only the "else" code.
-        if (is_string($creteSnapshots) || $creteSnapshots === null) {
+        if (\is_string($createSnapshot) || null === $createSnapshot) {
             @trigger_error(sprintf(
                 'The %s class is final since sonata-project/page-bundle 3.27.0 and in 4.0'
-                 . 'release you won\'t be able to extend this class anymore.'
-                , __CLASS__
+                 .'release you won\'t be able to extend this class anymore.',
+                __CLASS__
             ), \E_USER_DEPRECATED);
-            parent::__construct($creteSnapshots);
+            parent::__construct($createSnapshot);
         } else {
             parent::__construct(self::$defaultName);
-            $this->creteSnapshots = $creteSnapshots;
+            $this->createSnapshot = $createSnapshot;
         }
     }
 
@@ -68,9 +68,10 @@ class CreateSnapshotsCommand extends BaseCommand
         foreach ($sites as $site) {
             // NEXT_MAJOR: Remove this "async" condition block.
             if ('async' === $input->getOption('mode')) {
-                @trigger_error(sprintf(
-                    'The async mode is deprecated since sonata-project/page-bundle 3.27.0 and will be removed in 4.0'
-                ), \E_USER_DEPRECATED);
+                @trigger_error(
+                    'The async mode is deprecated since sonata-project/page-bundle 3.27.0 and will be removed in 4.0',
+                    \E_USER_DEPRECATED
+                );
 
                 $output->write(sprintf('<info>%s</info> - Publish a notification command ...', $site->getName()));
 
@@ -85,7 +86,7 @@ class CreateSnapshotsCommand extends BaseCommand
 
             $output->write(sprintf('<info>%s</info> - Generating snapshots ...', $site->getName()));
 
-            $this->creteSnapshots->createBySite($site);
+            $this->createSnapshot->createBySite($site);
             $output->writeln(' done!');
         }
 

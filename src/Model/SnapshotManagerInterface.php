@@ -24,6 +24,7 @@ use Sonata\Doctrine\Model\PageableManagerInterface;
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
  * @method SnapshotPageProxyInterface createSnapshotPageProxy(TransformerInterface $transformer, SnapshotInterface $snapshot)
+ * @method get
  */
 interface SnapshotManagerInterface extends ManagerInterface, PageableManagerInterface
 {

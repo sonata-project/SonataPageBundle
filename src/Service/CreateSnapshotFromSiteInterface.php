@@ -13,14 +13,9 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Service;
 
-use Sonata\PageBundle\Model\Site;
 use Sonata\PageBundle\Model\SiteInterface;
-use Sonata\PageBundle\Model\SnapshotInterface;
 
-interface CreateSnapshotsFromSiteInterface
+interface CreateSnapshotFromSiteInterface
 {
-    /**
-     * @return iterable<SnapshotInterface>
-     */
-    public function createBySite(SiteInterface $site): iterable;
+    public function createBySite(SiteInterface $site): void;
 }

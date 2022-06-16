@@ -15,13 +15,11 @@ namespace Sonata\PageBundle\Service;
 
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
-use Sonata\PageBundle\Model\Site;
 use Sonata\PageBundle\Model\SiteInterface;
-use Sonata\PageBundle\Model\SnapshotInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\TransformerInterface;
 
-final class CreateSnapshotsService implements CreateSnapshotsFromSiteInterface
+final class CreateSnapshotService implements CreateSnapshotFromSiteInterface
 {
     private $snapshotManager;
 
@@ -39,27 +37,23 @@ final class CreateSnapshotsService implements CreateSnapshotsFromSiteInterface
         $this->transformer = $transformer;
     }
 
-    /**
-     *
-     * @return iterable<SnapshotInterface>
-     */
-    public function createBySite(SiteInterface $site): iterable
+    public function createBySite(SiteInterface $site): void
     {
         $entityManager = $this->snapshotManager->getEntityManager();
-        $pages = $this->snapshotManager->findBy(['site' => $site->getId()]);
+        $pages = $this->pageManager->findBy(['site' => $site->getId()]);
 
         // start a transaction
         $entityManager->beginTransaction();
 
         foreach ($pages as $page) {
-            yield $this->createByPage($page);
+            $this->createByPage($page);
         }
-
+//
         // commit the changes
         $entityManager->commit();
     }
 
-    private function createByPage(PageInterface $page): SnapshotInterface
+    private function createByPage(PageInterface $page): void
     {
         // creating snapshot
         $snapshot = $this->transformer->create($page);
@@ -72,6 +66,5 @@ final class CreateSnapshotsService implements CreateSnapshotsFromSiteInterface
         $this->snapshotManager->save($snapshot);
         $this->snapshotManager->enableSnapshots([$snapshot]);
 
-        return $snapshot;
     }
 }
