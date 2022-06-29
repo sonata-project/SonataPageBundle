@@ -16,10 +16,13 @@ namespace Sonata\PageBundle\Service;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteInterface;
+use Sonata\PageBundle\Model\SnapshotInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\TransformerInterface;
+use Sonata\PageBundle\Service\Contract\CreateSnapshotByPageInterface;
+use Sonata\PageBundle\Service\Contract\CreateSnapshotBySiteInterface;
 
-final class CreateSnapshotService implements CreateSnapshotFromSiteInterface
+final class CreateSnapshotService implements CreateSnapshotBySiteInterface, CreateSnapshotByPageInterface
 {
     private $snapshotManager;
 
@@ -53,7 +56,7 @@ final class CreateSnapshotService implements CreateSnapshotFromSiteInterface
         $entityManager->commit();
     }
 
-    private function createByPage(PageInterface $page): void
+    public function createByPage(PageInterface $page): SnapshotInterface
     {
         // creating snapshot
         $snapshot = $this->transformer->create($page);
@@ -66,5 +69,6 @@ final class CreateSnapshotService implements CreateSnapshotFromSiteInterface
         $this->snapshotManager->save($snapshot);
         $this->snapshotManager->enableSnapshots([$snapshot]);
 
+        return $snapshot;
     }
 }

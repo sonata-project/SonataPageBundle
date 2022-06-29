@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\PageBundle\Service;
+namespace Sonata\PageBundle\Service\Contract;
 
 use Sonata\PageBundle\Model\SiteInterface;
 
-interface CreateSnapshotFromSiteInterface
+interface CreateSnapshotBySiteInterface
 {
     public function createBySite(SiteInterface $site): void;
 }

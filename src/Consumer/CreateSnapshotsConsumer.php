@@ -23,7 +23,9 @@ use Sonata\PageBundle\Model\PageManagerInterface;
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
+ * NEXT_MAJOR: Remove this class
  * @final since sonata-project/page-bundle 3.26
+ * @deprecated it'll be removed on version 4.x
  */
 class CreateSnapshotsConsumer implements ConsumerInterface
 {

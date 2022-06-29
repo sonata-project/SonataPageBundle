@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Command;
 
-use Sonata\PageBundle\Service\CreateSnapshotFromSiteInterface;
+use Sonata\PageBundle\Service\Contract\CreateSnapshotBySiteInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -30,7 +30,7 @@ class CreateSnapshotsCommand extends BaseCommand
     protected static $defaultName = 'sonata:page:create-snapshots';
 
     /**
-     * @var ?string|CreateSnapshotFromSiteInterface
+     * @var ?string|CreateSnapshotBySiteInterface
      */
     private $createSnapshot;
 
