@@ -17,7 +17,6 @@ use Sonata\BlockBundle\Model\BlockManagerInterface;
 use Sonata\NotificationBundle\Backend\BackendInterface;
 use Sonata\PageBundle\CmsManager\CmsPageManager;
 use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
-use Sonata\PageBundle\Entity\SnapshotManager;
 use Sonata\PageBundle\Listener\ExceptionListener;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\Site;
@@ -93,7 +92,8 @@ abstract class BaseCommand extends ContainerAwareCommand
      * @param string $mode
      *
      * @return BackendInterface
-     * @TODO after decouple the code of this method, deprecate it.
+     * NEXT_MAJOR: Remove this method
+     * @deprecated since 3.27, and it will be removed in 4.0.
      */
     public function getNotificationBackend($mode)
     {

@@ -52,6 +52,12 @@ class SiteAdminController extends Controller
         $this->admin->setSubject($object);
 
         if ('POST' === $request->getMethod()) {
+            //NEXT_MAJOR change this code for CreateSnapshotService, and inject CreateSnapshotBySiteInterface
+            @trigger_error(
+                'The async mode is deprecated since sonata-project/page-bundle 3.27.0 and will be removed in 4.0',
+                \E_USER_DEPRECATED
+            );
+
             $this->get('sonata.notification.backend')
                 ->createAndPublish('sonata.page.create_snapshots', [
                     'siteId' => $object->getId(),
