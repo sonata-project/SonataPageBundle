@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
+use Sonata\NotificationBundle\Backend\RuntimeBackend;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -52,17 +53,25 @@ class SiteAdminController extends Controller
         $this->admin->setSubject($object);
 
         if ('POST' === $request->getMethod()) {
-            //NEXT_MAJOR change this code for CreateSnapshotService, and inject CreateSnapshotBySiteInterface
-            @trigger_error(
-                'The async mode is deprecated since sonata-project/page-bundle 3.27.0 and will be removed in 4.0',
-                \E_USER_DEPRECATED
-            );
 
-            $this->get('sonata.notification.backend')
-                ->createAndPublish('sonata.page.create_snapshots', [
+            //NEXT_MAJOR: remove notificationBackend and else block.
+            $notificationBacked = $this->get('sonata.notification.backend');
+
+            if ($notificationBacked instanceof RuntimeBackend) {
+                //NEXT_MAJOR: inject CreateSnapshotBySiteInterface and remove this get.
+                $createSnapshot = $this->get('sonata.page.service.create_snapshot');
+                $createSnapshot->createBySite($object);
+            } else {
+                @trigger_error(
+                    'The async mode is deprecated since sonata-project/page-bundle 3.27.0 and will be removed in 4.0',
+                    \E_USER_DEPRECATED
+                );
+
+                $notificationBacked->createAndPublish('sonata.page.create_snapshots', [
                     'siteId' => $object->getId(),
                     'mode' => 'async',
                 ]);
+            }
 
             $this->addFlash('sonata_flash_success', $this->admin->trans('flash_snapshots_created_success'));
 
