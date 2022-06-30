@@ -51,7 +51,7 @@ final class CreateSnapshotService implements CreateSnapshotBySiteInterface, Crea
         foreach ($pages as $page) {
             $this->createByPage($page);
         }
-//
+
         // commit the changes
         $entityManager->commit();
     }

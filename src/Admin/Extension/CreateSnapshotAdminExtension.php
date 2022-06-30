@@ -27,12 +27,13 @@ class CreateSnapshotAdminExtension extends AbstractAdminExtension
 {
     /**
      * @var BackendInterface|CreateSnapshotByPageInterface
-     *                                                     NEXT_MAJOR: rename this variable, for example: createSnapshotByPage
+     * NEXT_MAJOR: rename this variable to createSnapshotByPage and restrict type to CreateSnapshotByPageInterface
      *
      * @deprecated since 3.27, and it will be removed in 4.0.
      */
     protected $backend;
 
+    //NEXT_MAJOR: restrict type to CreateSnapshotByPageInterface
     public function __construct($backend)
     {
         $this->backend = $backend;

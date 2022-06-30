@@ -57,11 +57,10 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
     }
 
     /**
-     * @test
      * @testdox It's creating a snapshot using "async" mode.
-     * @TODO REMOVE NEXT_MAJOR
+     * NEXT_MAJOR: Remove this test.
      */
-    public function createOneSnapshotAsync(): void
+    public function testCreateOneSnapshotAsync(): void
     {
         //Mock
         $backendMock = $this->createMock(BackendInterface::class);
@@ -89,10 +88,9 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
     }
 
     /**
-     * @test
      * @testdox it is creating snapshot by site.
      */
-    public function createSnapshot()
+    public function testCreateSnapshot()
     {
         //Mocks
         $createSnapshotsMock = $this->createMock(CreateSnapshotBySiteInterface::class);
@@ -117,12 +115,10 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
     }
 
     /**
-     * @test
      * @testdox it's using notificationBundle when mode option is equals "async"
-     * @testWith ["sync", 0, 1]
-     *           ["async", 1, 0]
+     * @dataProvider getProvidedDataCallNotificationBackend
      */
-    public function callNotificationBackend(
+    public function testCallNotificationBackend(
         string $mode,
         int $notificationWillBeExecuted,
         int $createSnapshotServiceWillBeExecuted
@@ -162,5 +158,13 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
 
         // Assert
         static::assertSame(0, $output);
+    }
+
+    public function getProvidedDataCallNotificationBackend(): array
+    {
+        return [
+            ['sync', 0, 1],
+            ['async', 1, 0]
+        ];
     }
 }

@@ -118,10 +118,9 @@ final class CreateSnapshotAdminExtensionTest extends TestCase
     }
 
     /**
-     * @test
      * @testdox it's creating snapshot by page object
      */
-    public function createSnapshotByPage(): void
+    public function testCreateSnapshotByPage(): void
     {
         // Mocks
         $adminMock = $this->createMock(AdminInterface::class);
