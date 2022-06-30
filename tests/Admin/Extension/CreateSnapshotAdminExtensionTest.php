@@ -19,6 +19,7 @@ use Sonata\NotificationBundle\Backend\BackendInterface;
 use Sonata\PageBundle\Admin\Extension\CreateSnapshotAdminExtension;
 use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
+use Sonata\PageBundle\Service\Contract\CreateSnapshotByPageInterface;
 
 final class CreateSnapshotAdminExtensionTest extends TestCase
 {
@@ -114,5 +115,27 @@ final class CreateSnapshotAdminExtensionTest extends TestCase
 
         $extension = new CreateSnapshotAdminExtension($backend);
         $extension->postRemove($admin, $block);
+    }
+
+    /**
+     * @test
+     * @testdox it's creating snapshot by page object
+     */
+    public function createSnapshotByPage(): void
+    {
+        // Mocks
+        $adminMock = $this->createMock(AdminInterface::class);
+
+        $pageMock = $this->createMock(PageInterface::class);
+
+        $createSnapshotByPageMock = $this->createMock(CreateSnapshotByPageInterface::class);
+        $createSnapshotByPageMock
+            ->expects($this->once())
+            ->method('createByPage')
+            ->with($this->isInstanceOf(PageInterface::class));
+
+        // Run code
+        $createSnapshotAdminExtension = new CreateSnapshotAdminExtension($createSnapshotByPageMock);
+        $createSnapshotAdminExtension->postUpdate($adminMock, $pageMock);
     }
 }

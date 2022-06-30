@@ -113,7 +113,7 @@
         <service id="sonata.page.admin.extension.snapshot" class="Sonata\PageBundle\Admin\Extension\CreateSnapshotAdminExtension">
             <tag name="sonata.admin.extension" target="sonata.page.admin.page"/>
             <tag name="sonata.admin.extension" target="sonata.page.admin.block"/>
-            <argument type="service" id="sonata.notification.backend"/>
+            <argument type="service" id="sonata.page.service.create_snapshot"/>
         </service>
     </services>
 </container>
