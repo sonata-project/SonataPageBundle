@@ -25,13 +25,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class CreateSnapshotsCommandTest extends KernelTestCase
+final class CreateSnapshotsCommandTest extends KernelTestCase
 {
     private $siteManagerMock;
     private $application;
 
     protected function setUp(): void
     {
+        parent::setUp();
         //Mocks
         $siteMock = $this->createMock(SiteInterface::class);
         $siteMock

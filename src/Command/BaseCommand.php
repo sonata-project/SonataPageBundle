@@ -92,7 +92,8 @@ abstract class BaseCommand extends ContainerAwareCommand
      * @param string $mode
      *
      * @return BackendInterface
-     * NEXT_MAJOR: Remove this method
+     *                          NEXT_MAJOR: Remove this method
+     *
      * @deprecated since 3.27, and it will be removed in 4.0.
      */
     public function getNotificationBackend($mode)

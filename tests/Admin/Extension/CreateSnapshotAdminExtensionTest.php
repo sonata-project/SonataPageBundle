@@ -130,9 +130,9 @@ final class CreateSnapshotAdminExtensionTest extends TestCase
 
         $createSnapshotByPageMock = $this->createMock(CreateSnapshotByPageInterface::class);
         $createSnapshotByPageMock
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('createByPage')
-            ->with($this->isInstanceOf(PageInterface::class));
+            ->with(static::isInstanceOf(PageInterface::class));
 
         // Run code
         $createSnapshotAdminExtension = new CreateSnapshotAdminExtension($createSnapshotByPageMock);

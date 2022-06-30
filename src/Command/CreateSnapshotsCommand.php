@@ -35,7 +35,7 @@ class CreateSnapshotsCommand extends BaseCommand
     private $createSnapshot;
 
     /**
-     * NEXT_MAJOR: Remove the default value for $createSnapshot and add the CreateSnapshotFromSiteInterface type
+     * NEXT_MAJOR: Remove the default value for $createSnapshot and add the CreateSnapshotFromSiteInterface type.
      */
     public function __construct($createSnapshot = null)
     {

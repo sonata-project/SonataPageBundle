@@ -27,7 +27,8 @@ class CreateSnapshotAdminExtension extends AbstractAdminExtension
 {
     /**
      * @var BackendInterface|CreateSnapshotByPageInterface
-     * NEXT_MAJOR: rename this variable, for example: createSnapshotByPage
+     *                                                     NEXT_MAJOR: rename this variable, for example: createSnapshotByPage
+     *
      * @deprecated since 3.27, and it will be removed in 4.0.
      */
     protected $backend;
@@ -54,6 +55,7 @@ class CreateSnapshotAdminExtension extends AbstractAdminExtension
 
     /**
      * @param PageInterface $object
+     *
      * @deprecated since 3.27, and it will be removed in 4.0.
      * NEXT_MAJOR: rename this method, as we are not using message code, no make sense keep this name.
      */
@@ -72,12 +74,13 @@ class CreateSnapshotAdminExtension extends AbstractAdminExtension
         //NEXT_MAJOR: Remove the if code and all code related with BackendInterface
         if ($this->backend instanceof BackendInterface) {
             @trigger_error(
-                sprintf('Inject %s in %s is deprecated since sonata-project/page-bundle 3.27.0'.
-                    ' and will be removed in 4.0, Please inject %s insteadof %s'
-                    , BackendInterface::class
-                    , CreateSnapshotAdminExtension::class
-                    , CreateSnapshotByPageInterface::class
-                    , BackendInterface::class
+                sprintf(
+                    'Inject %s in %s is deprecated since sonata-project/page-bundle 3.27.0'.
+                    ' and will be removed in 4.0, Please inject %s insteadof %s',
+                    BackendInterface::class,
+                    self::class,
+                    CreateSnapshotByPageInterface::class,
+                    BackendInterface::class
                 ),
                 \E_USER_DEPRECATED
             );
