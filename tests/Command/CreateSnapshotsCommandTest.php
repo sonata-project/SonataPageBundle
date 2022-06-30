@@ -58,6 +58,8 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
 
     /**
      * @testdox It's creating a snapshot using "async" mode.
+     * @group legacy
+     *
      * NEXT_MAJOR: Remove this test.
      */
     public function testCreateOneSnapshotAsync(): void
@@ -116,6 +118,9 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
 
     /**
      * @testdox it's using notificationBundle when mode option is equals "async"
+     *
+     * NEXT_MAJOR: remove the dataProvider, because the notification Bundle will be removed and the legacy group.
+     * @group legacy
      * @dataProvider getProvidedDataCallNotificationBackend
      */
     public function testCallNotificationBackend(
@@ -164,7 +169,7 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
     {
         return [
             ['sync', 0, 1],
-            ['async', 1, 0]
+            ['async', 1, 0],
         ];
     }
 }

@@ -23,6 +23,11 @@ use Sonata\PageBundle\Service\Contract\CreateSnapshotByPageInterface;
 
 final class CreateSnapshotAdminExtensionTest extends TestCase
 {
+    /**
+     * @group legacy
+     *
+     * NEXT_MAJOR: after remove the deprecated code into the CreateSnapshotAdminExtension, remove the group legacy above.
+     */
     public function testPostUpdateOnPage(): void
     {
         $page = $this->createMock(PageInterface::class);
@@ -40,6 +45,11 @@ final class CreateSnapshotAdminExtensionTest extends TestCase
         $extension->postUpdate($admin, $page);
     }
 
+    /**
+     * @group legacy
+     *
+     * NEXT_MAJOR: after remove the deprecated code into the CreateSnapshotAdminExtension, remove the group legacy above.
+     */
     public function testPostPersistOnPage(): void
     {
         $page = $this->createMock(PageInterface::class);
@@ -57,6 +67,11 @@ final class CreateSnapshotAdminExtensionTest extends TestCase
         $extension->postPersist($admin, $page);
     }
 
+    /**
+     * @group legacy
+     *
+     * NEXT_MAJOR: after remove the deprecated code into the CreateSnapshotAdminExtension, remove the group legacy above.
+     */
     public function testPostUpdateOnBlock(): void
     {
         $page = $this->createMock(PageInterface::class);
@@ -77,6 +92,11 @@ final class CreateSnapshotAdminExtensionTest extends TestCase
         $extension->postUpdate($admin, $block);
     }
 
+    /**
+     * @group legacy
+     *
+     * NEXT_MAJOR: after remove the deprecated code into the CreateSnapshotAdminExtension, remove the group legacy above.
+     */
     public function testPostPersistOnBlock(): void
     {
         $page = $this->createMock(PageInterface::class);
@@ -97,6 +117,11 @@ final class CreateSnapshotAdminExtensionTest extends TestCase
         $extension->postPersist($admin, $block);
     }
 
+    /**
+     * @group legacy
+     *
+     * NEXT_MAJOR: after remove the deprecated code into the CreateSnapshotAdminExtension, remove the group legacy above.
+     */
     public function testPostRemoveOnBlock(): void
     {
         $page = $this->createMock(PageInterface::class);

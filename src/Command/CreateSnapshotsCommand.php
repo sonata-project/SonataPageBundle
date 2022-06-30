@@ -31,6 +31,7 @@ class CreateSnapshotsCommand extends BaseCommand
 
     /**
      * @var ?string|CreateSnapshotBySiteInterface
+     *
      * NEXT_MAJOR restrict to CreateSnapshotBySiteInterface
      */
     private $createSnapshot;
