@@ -19,6 +19,7 @@ use Sonata\PageBundle\Model\Site;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Service\Contract\CreateSnapshotBySiteInterface;
+use Sonata\PageBundle\Tests\App\AppKernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Input\InputInterface;
@@ -171,5 +172,10 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
             ['sync', 0, 1],
             ['async', 1, 0],
         ];
+    }
+
+    protected static function getKernelClass(): string
+    {
+        return AppKernel::class;
     }
 }
