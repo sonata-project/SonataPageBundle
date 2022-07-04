@@ -77,16 +77,20 @@ class SnapshotAdmin extends AbstractAdmin
 
     public function postUpdate($object)
     {
-        $this->cacheManager->invalidate([
-            'page_id' => $object->getPage()->getId(),
-        ]);
+        if ($this->cacheManager) {
+            $this->cacheManager->invalidate([
+                'page_id' => $object->getPage()->getId(),
+            ]);
+        }
     }
 
     public function postPersist($object)
     {
-        $this->cacheManager->invalidate([
-            'page_id' => $object->getPage()->getId(),
-        ]);
+        if ($this->cacheManager) {
+            $this->cacheManager->invalidate([
+                'page_id' => $object->getPage()->getId(),
+            ]);
+        }
     }
 
     public function setCacheManager(CacheManagerInterface $cacheManager)

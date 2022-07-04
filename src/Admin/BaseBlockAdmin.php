@@ -88,16 +88,17 @@ abstract class BaseBlockAdmin extends AbstractAdmin
             $block->postUpdate($object);
 
             @trigger_error(
-                'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.12.0 and will be removed in version 4.0.',
+                'The ' . __METHOD__ . '() method is deprecated since sonata-project/block-bundle 3.12.0 and will be removed in version 4.0.',
                 \E_USER_DEPRECATED
             );
         }
 
-        $service = $this->blockManager->get($object);
+        if ($this->cacheManager) {
+            $service = $this->blockManager->get($object);
 
-        $this->cacheManager->invalidate($service->getCacheKeys($object));
+            $this->cacheManager->invalidate($service->getCacheKeys($object));
+        }
     }
-
     /**
      * @param BaseBlock $object
      */
@@ -133,14 +134,16 @@ abstract class BaseBlockAdmin extends AbstractAdmin
             $block->postPersist($object);
 
             @trigger_error(
-                'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.12.0 and will be removed in version 4.0.',
+                'The ' . __METHOD__ . '() method is deprecated since sonata-project/block-bundle 3.12.0 and will be removed in version 4.0.',
                 \E_USER_DEPRECATED
             );
         }
 
-        $service = $this->blockManager->get($object);
+        if ($this->cacheManager) {
+            $service = $this->blockManager->get($object);
 
-        $this->cacheManager->invalidate($service->getCacheKeys($object));
+            $this->cacheManager->invalidate($service->getCacheKeys($object));
+        }
     }
 
     /**

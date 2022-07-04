@@ -90,7 +90,6 @@ class SonataPageExtension extends Extension implements PrependExtensionInterface
         $loader->load('block.xml');
         $loader->load('orm.xml');
         $loader->load('form.xml');
-        $loader->load('cache.xml');
         $loader->load('twig.xml');
         $loader->load('http_kernel.xml');
         $loader->load('consumer.xml');
@@ -98,8 +97,12 @@ class SonataPageExtension extends Extension implements PrependExtensionInterface
         $loader->load('command.xml');
         $loader->load('slugify.xml');
 
+        if (isset($bundles['SonataCacheBundle'])) {
+            $loader->load('cache.xml');
+            $this->configureCache($container, $config);
+        }
+
         $this->configureMultisite($container, $config);
-        $this->configureCache($container, $config);
         $this->configureTemplates($container, $config);
         $this->configureExceptions($container, $config);
         $this->configurePageDefaults($container, $config);
