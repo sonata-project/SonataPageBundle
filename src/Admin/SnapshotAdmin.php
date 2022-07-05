@@ -32,7 +32,7 @@ class SnapshotAdmin extends AbstractAdmin
     protected $classnameLabel = 'Snapshot';
 
     /**
-     * @var CacheManagerInterface
+     * @var CacheManagerInterface|null
      */
     protected $cacheManager;
 
@@ -77,7 +77,7 @@ class SnapshotAdmin extends AbstractAdmin
 
     public function postUpdate($object)
     {
-        if ($this->cacheManager) {
+        if (null !== $this->cacheManager) {
             $this->cacheManager->invalidate([
                 'page_id' => $object->getPage()->getId(),
             ]);
@@ -86,7 +86,7 @@ class SnapshotAdmin extends AbstractAdmin
 
     public function postPersist($object)
     {
-        if ($this->cacheManager) {
+        if (null !== $this->cacheManager) {
             $this->cacheManager->invalidate([
                 'page_id' => $object->getPage()->getId(),
             ]);
