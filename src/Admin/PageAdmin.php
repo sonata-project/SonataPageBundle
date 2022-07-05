@@ -86,7 +86,7 @@ class PageAdmin extends AbstractAdmin
 
     public function postUpdate($object)
     {
-        if (null !== this->cacheManager) {
+        if (null !== $this->cacheManager) {
             $this->cacheManager->invalidate([
                 'page_id' => $object->getId(),
             ]);
