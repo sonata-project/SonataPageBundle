@@ -88,7 +88,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
             $block->postUpdate($object);
 
             @trigger_error(
-                'The ' . __METHOD__ . '() method is deprecated since sonata-project/block-bundle 3.12.0 and will be removed in version 4.0.',
+                'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.12.0 and will be removed in version 4.0.',
                 \E_USER_DEPRECATED
             );
         }
