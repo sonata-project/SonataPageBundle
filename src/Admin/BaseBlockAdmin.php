@@ -99,6 +99,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
             $this->cacheManager->invalidate($service->getCacheKeys($object));
         }
     }
+
     /**
      * @param BaseBlock $object
      */
