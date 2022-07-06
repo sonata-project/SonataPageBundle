@@ -20,9 +20,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class Issue1134Test extends ResetableDBWebTestTest
 {
-    /**
-     * @group legacy
-     */
     public function testLabelInShowAction(): void
     {
         $site = new SonataPageSite();
