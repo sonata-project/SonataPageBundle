@@ -142,7 +142,7 @@ following command need to be run:
 
 .. code-block:: bash
 
-    bin/console sonata:page:create-snapshots
+    bin/console sonata:page:create-snapshots --site=all
 
 The output might look like this::
 

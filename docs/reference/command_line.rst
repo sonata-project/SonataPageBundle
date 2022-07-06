@@ -33,7 +33,7 @@ You could also remove orphan pages with the ``--clean`` option.
 
 .. code-block:: bash
 
-    bin/console sonata:page:create-snapshots
+    bin/console sonata:page:create-snapshots --site=all
 
 - Cleanup snapshots
 

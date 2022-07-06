@@ -174,6 +174,26 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
         ];
     }
 
+    /**
+     * @testdox it's checking if there is the "--site" as argument
+     *
+     * We are requiring this argument to work like "doctrine:schema:update --force"
+     * You can check more details here: https://github.com/sonata-project/SonataPageBundle/pull/1418#discussion_r912350492
+     */
+    public function testRequireSiteAllArgument()
+    {
+        $command = $this->application->find('sonata:page:create-snapshots');
+        $commandTester = new CommandTester($command);
+
+        $commandTester->execute([
+            'command' => $command->getName(),
+        ]);
+
+        $output = $commandTester->getDisplay();
+
+        static::assertStringContainsString('Please provide an --site=SITE_ID option or the --site=all directive', $output);
+    }
+
     protected static function getKernelClass(): string
     {
         return AppKernel::class;

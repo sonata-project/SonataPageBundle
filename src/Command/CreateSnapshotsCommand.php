@@ -58,13 +58,21 @@ class CreateSnapshotsCommand extends BaseCommand
     public function configure()
     {
         $this->setDescription('Create a snapshots of all pages available');
-        $this->addOption('site', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Site id', ['all']);
+        $this->addOption('site', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Site id');
         $this->addOption('base-console', null, InputOption::VALUE_OPTIONAL, 'Base symfony console command', 'php app/console');
         $this->addOption('mode', null, InputOption::VALUE_OPTIONAL, 'Run the command asynchronously', 'sync');
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
+        $siteOption = $input->getOption('site');
+
+        if ([] === $siteOption) {
+            $output->writeln('Please provide an <info>--site=SITE_ID</info> option or the <info>--site=all</info> directive');
+
+            return 1;
+        }
+
         $sites = $this->getSites($input);
 
         foreach ($sites as $site) {
