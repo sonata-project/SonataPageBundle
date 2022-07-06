@@ -76,9 +76,9 @@
     "conflict": {
         "friendsofsymfony/rest-bundle": "<2.1",
         "jms/serializer": "<0.13",
-        "sonata-project/core-bundle": "<3.20",
         "sonata-project/cache": "<2.0",
-        "sonata-project/cache-bundle": "<3.3"
+        "sonata-project/cache-bundle": "<3.3",
+        "sonata-project/core-bundle": "<3.20"
     },
     "suggest": {
         "twig/extra-bundle": "Auto configures the Twig Intl extension"
