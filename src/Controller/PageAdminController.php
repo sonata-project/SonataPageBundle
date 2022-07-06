@@ -281,6 +281,16 @@ class PageAdminController extends Controller
     }
 
     /**
+     * NEXT_MAJOR: Check if it was added in SonataAdminBundle, if yes remove this method!
+     *
+     * @internal
+     */
+    protected function getAdmin(): AdminInterface
+    {
+        return $this->admin;
+    }
+
+    /**
      * Sets the admin form theme to form view. Used for compatibility between Symfony versions.
      */
     private function setFormTheme(FormView $formView, $theme)
@@ -288,14 +298,5 @@ class PageAdminController extends Controller
         $twig = $this->get('twig');
 
         $twig->getRuntime(FormRenderer::class)->setTheme($formView, $theme);
-    }
-
-    /**
-     * NEXT_MAJOR: Check if it was added in SonataAdminBundle, if yes remove this method!
-     * @internal
-     */
-    protected function getAdmin(): AdminInterface
-    {
-        return $this->admin;
     }
 }

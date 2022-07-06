@@ -21,4 +21,4 @@ framework:
 
 twig:
     exception_controller: null
-    strict_variables: '%kernel.debug%'
+    strict_variables: true
