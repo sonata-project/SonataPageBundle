@@ -97,7 +97,7 @@ class SonataPageExtension extends Extension implements PrependExtensionInterface
         $loader->load('command.xml');
         $loader->load('slugify.xml');
 
-        if (isset($bundles['SonataCacheBundle'])) {
+        if ($config['cache'] && isset($bundles['SonataCacheBundle'])) {
             $loader->load('cache.xml');
             $this->configureCache($container, $config);
         }
@@ -487,6 +487,11 @@ class SonataPageExtension extends Extension implements PrependExtensionInterface
      */
     public function configureCache(ContainerBuilder $container, array $config)
     {
+        @trigger_error(
+            'Using SonataCacheBundle is deprecated since sonata-project/page-bundle 3.27 and will be removed in 4.x',
+            \E_USER_DEPRECATED
+        );
+
         if (isset($config['caches']['esi'])) {
             $container
                 ->getDefinition('sonata.page.cache.esi')
