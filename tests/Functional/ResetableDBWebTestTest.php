@@ -26,6 +26,9 @@ abstract class ResetableDBWebTestTest extends WebTestCase
      */
     protected $client;
 
+    /**
+     * @group legacy
+     */
     protected function setUp(): void
     {
         parent::setUp();
