@@ -13,91 +13,148 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Controller;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Controller\CRUDController;
+use Sonata\AdminBundle\Admin\Pool;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\Request\AdminFetcher;
+use Sonata\AdminBundle\Templating\MutableTemplateRegistryInterface;
+use Sonata\AdminBundle\Templating\TemplateRegistryInterface;
 use Sonata\NotificationBundle\Backend\BackendInterface;
 use Sonata\NotificationBundle\Backend\RuntimeBackend;
 use Sonata\PageBundle\Controller\PageAdminController;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Service\Contract\CreateSnapshotByPageInterface;
+use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Twig\Environment;
 
 class PageAdminControllerTest extends TestCase
 {
     /**
-     * @test it is calling the createSnapshot service for "batchActionSnapshot"
+     * @var Container
+     */
+    private $container;
+
+    /**
+     * @var MockObject&AdminInterface
+     */
+    private $admin;
+
+    /**
+     * @var Request
+     */
+    private $request;
+
+    /**
+     * @var PageAdminController
+     */
+    private $controller;
+
+    /**
+     * @var MockObject&Environment
+     */
+    private $twig;
+
+    protected function setUp(): void
+    {
+        $this->container = new Container();
+        $this->admin = $this->createMock(AdminInterface::class);
+        $this->request = new Request();
+        $this->twig = $this->createMock(Environment::class);
+
+        $this->container->set('twig', $this->twig);
+
+        $this->configureCRUDController();
+
+        $this->controller = new PageAdminController();
+        $this->controller->setContainer($this->container);
+        $this->controller->configureAdmin($this->request);
+    }
+
+    /**
      * @group legacy
      */
-    public function callTheNotificationCreateSnapshot(): void
+    public function testCallTheNotificationCreateSnapshot(): void
     {
-        //Mock
-        $queryMock = $this->createMock(ProxyQueryInterface::class);
-        $pageMock = $this->createMock(PageInterface::class);
-        $securityMock = $this->createMock(AbstractAdmin::class);
+        $adminSnapshot = $this->createMock(AbstractAdmin::class);
+        $this->container->set('sonata.page.admin.snapshot', $adminSnapshot);
 
-        $adminMock = $this->createMock(AdminInterface::class);
-        $adminMock->method('generateUrl')->willReturn('https://fake.bar');
+        $this->admin->method('generateUrl')->willReturn('https://fake.bar');
 
-        $runtimeBackendMock = $this->createMock(BackendInterface::class);
-        $runtimeBackendMock
+        $backend = $this->createMock(BackendInterface::class);
+        $backend
             ->expects(static::once())
             ->method('createAndPublish');
+        $this->container->set('sonata.notification.backend', $backend);
 
-        $pageAdminControllerMock = $this->createPartialMock(PageAdminController::class, ['get']);
-        $this->mockAdmin($pageAdminControllerMock, $adminMock);
-        $pageAdminControllerMock
-            ->method('get')
-            ->willReturnOnConsecutiveCalls($securityMock, $runtimeBackendMock);
-
+        $pageMock = $this->createMock(PageInterface::class);
+        $queryMock = $this->createMock(ProxyQueryInterface::class);
         $queryMock
             ->method('execute')
             ->willReturn([$pageMock]);
 
         //Run code
-        $pageAdminControllerMock->batchActionSnapshot($queryMock);
+        $this->controller->batchActionSnapshot($queryMock);
     }
 
-    /**
-     * @test it is creating snapshot from "batchActionSnapshot"
-     */
-    public function createSnapshotByPage(): void
+    public function testCreateSnapshotByPage(): void
     {
-        //Mock
-        $adminMock = $this->createMock(AdminInterface::class);
-        $adminMock->method('generateUrl')->willReturn('https://fake.bar');
+        $adminSnapshot = $this->createMock(AbstractAdmin::class);
+        $this->container->set('sonata.page.admin.snapshot', $adminSnapshot);
 
-        $pageMock = $this->createMock(PageInterface::class);
-        $securityMock = $this->createMock(AbstractAdmin::class);
-        $runtimeBackendMock = $this->createMock(RuntimeBackend::class);
+        $this->admin->method('generateUrl')->willReturn('https://fake.bar');
+
+        $backend = $this->createMock(RuntimeBackend::class);
+        $this->container->set('sonata.notification.backend', $backend);
 
         $createSnapshotByPageMock = $this->createMock(CreateSnapshotByPageInterface::class);
         $createSnapshotByPageMock
             ->expects(static::once())
             ->method('createByPage');
 
-        $pageAdminControllerMock = $this->createPartialMock(PageAdminController::class, ['get']);
-        $this->mockAdmin($pageAdminControllerMock, $adminMock);
-        $pageAdminControllerMock
-            ->method('get')
-            ->willReturnOnConsecutiveCalls($securityMock, $runtimeBackendMock, $createSnapshotByPageMock);
+        $this->container->set('sonata.page.service.create_snapshot', $createSnapshotByPageMock);
 
+        $pageMock = $this->createMock(PageInterface::class);
         $queryMock = $this->createMock(ProxyQueryInterface::class);
         $queryMock
             ->method('execute')
             ->willReturn([$pageMock]);
 
         //Run code
-        $pageAdminControllerMock->batchActionSnapshot($queryMock);
+        $this->controller->batchActionSnapshot($queryMock);
     }
 
-    private function mockAdmin(CRUDController $CRUDController, AdminInterface $adminMock): void
+    private function configureCRUDController(): void
     {
-        $reflection = new \ReflectionClass($CRUDController);
-        $reflectionProperty = $reflection->getProperty('admin');
-        $reflectionProperty->setAccessible(true);
+        $pool = new Pool($this->container, ['admin_code' => 'admin_code']);
 
-        $reflectionProperty->setValue($CRUDController, $adminMock);
+        $adminFetcher = new AdminFetcher($pool);
+
+        $templateRegistry = $this->createStub(TemplateRegistryInterface::class);
+        $mutableTemplateRegistry = $this->createStub(MutableTemplateRegistryInterface::class);
+
+        $this->configureGetCurrentRequest($this->request);
+
+        $this->request->query->set('_xml_http_request', false);
+        $this->request->query->set('_sonata_admin', 'admin_code');
+
+        $this->container->set('admin_code', $this->admin);
+        $this->container->set('sonata.admin.pool.do-not-use', $pool);
+        $this->container->set('admin_code.template_registry', $templateRegistry);
+        $this->container->set('sonata.admin.request.fetcher', $adminFetcher);
+
+        $this->admin->method('getCode')->willReturn('admin_code');
+    }
+
+    private function configureGetCurrentRequest(Request $request): void
+    {
+        $requestStack = $this->createStub(RequestStack::class);
+
+        $this->container->set('request_stack', $requestStack);
+        $requestStack->method('getCurrentRequest')->willReturn($request);
     }
 }

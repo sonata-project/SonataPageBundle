@@ -13,29 +13,32 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Functional\Ticket;
 
+use Sonata\PageBundle\Tests\App\AppKernel;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageSite;
-use Sonata\PageBundle\Tests\Functional\ResetableDBWebTestTest;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-final class Issue1134Test extends ResetableDBWebTestTest
+final class Issue1134Test extends WebTestCase
 {
     public function testLabelInShowAction(): void
     {
+        $client = static::createClient();
+
         $site = new SonataPageSite();
         $site->setId(1);
         $site->setName('name');
         $site->setHost('http://localhost');
         $site->setIsDefault(true);
 
-        $entityManager = $this->client->getContainer()->get('doctrine')->getManager();
+        $entityManager = $client->getContainer()->get('doctrine')->getManager();
         $entityManager->persist($site);
         $entityManager->flush();
 
-        $tokenManager = $this->client->getContainer()->get('security.csrf.token_manager');
+        $tokenManager = $client->getContainer()->get('security.csrf.token_manager');
         $csrfToken = $tokenManager->getToken('sonata.batch');
 
-        $crawler = $this->client->request(
+        $crawler = $client->request(
             Request::METHOD_POST,
             '/admin/tests/app/sonatapagepage/batch?filter%5Bsite%5D%5Bvalue%5D=1',
             [
@@ -47,10 +50,15 @@ final class Issue1134Test extends ResetableDBWebTestTest
 
         $form = $crawler->selectButton('Yes, execute')->form();
 
-        $this->client->submit($form);
+        $client->submit($form);
 
-        $this->client->request('GET', $this->client->getResponse()->headers->get('Location'));
+        $client->request('GET', $client->getResponse()->headers->get('Location'));
 
-        static::assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        static::assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
+    }
+
+    protected static function getKernelClass(): string
+    {
+        return AppKernel::class;
     }
 }

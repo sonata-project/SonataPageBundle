@@ -58,7 +58,6 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
     }
 
     /**
-     * @testdox It's creating a snapshot using "async" mode.
      * @group legacy
      *
      * NEXT_MAJOR: Remove this test.
@@ -90,9 +89,6 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
         static::assertStringContainsString('done!', $output);
     }
 
-    /**
-     * @testdox it is creating snapshot by site.
-     */
     public function testCreateSnapshot()
     {
         //Mocks
@@ -118,10 +114,10 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
     }
 
     /**
-     * @testdox it's using notificationBundle when mode option is equals "async"
-     *
      * NEXT_MAJOR: remove the dataProvider, because the notification Bundle will be removed and the legacy group.
+     *
      * @group legacy
+     *
      * @dataProvider getProvidedDataCallNotificationBackend
      */
     public function testCallNotificationBackend(
@@ -175,10 +171,8 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
     }
 
     /**
-     * @testdox it's checking if there is the "--site" as argument
-     *
      * We are requiring this argument to work like "doctrine:schema:update --force"
-     * You can check more details here: https://github.com/sonata-project/SonataPageBundle/pull/1418#discussion_r912350492
+     * You can check more details here: https://github.com/sonata-project/SonataPageBundle/pull/1418#discussion_r912350492.
      */
     public function testRequireSiteAllArgument()
     {

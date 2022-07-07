@@ -25,11 +25,7 @@ use Sonata\PageBundle\Service\CreateSnapshotService;
 
 final class CreateSnapshotServiceTest extends TestCase
 {
-    /**
-     * @test
-     * @testdox it is executing the code inside of code
-     */
-    public function createBySite(): void
+    public function testCreateBySite(): void
     {
         //Mocks
         $snapshotManagerMock = $this->createMock(SnapshotManager::class);

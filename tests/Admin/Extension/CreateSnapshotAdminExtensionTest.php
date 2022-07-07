@@ -142,9 +142,6 @@ final class CreateSnapshotAdminExtensionTest extends TestCase
         $extension->postRemove($admin, $block);
     }
 
-    /**
-     * @testdox it's creating snapshot by page object
-     */
     public function testCreateSnapshotByPage(): void
     {
         // Mocks
