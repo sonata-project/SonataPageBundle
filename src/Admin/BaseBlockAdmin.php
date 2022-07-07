@@ -39,7 +39,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
     protected $blockManager;
 
     /**
-     * @var CacheManagerInterface
+     * @var CacheManagerInterface|null
      */
     protected $cacheManager;
 
@@ -93,9 +93,11 @@ abstract class BaseBlockAdmin extends AbstractAdmin
             );
         }
 
-        $service = $this->blockManager->get($object);
+        if (null !== $this->cacheManager) {
+            $service = $this->blockManager->get($object);
 
-        $this->cacheManager->invalidate($service->getCacheKeys($object));
+            $this->cacheManager->invalidate($service->getCacheKeys($object));
+        }
     }
 
     /**
@@ -138,9 +140,11 @@ abstract class BaseBlockAdmin extends AbstractAdmin
             );
         }
 
-        $service = $this->blockManager->get($object);
+        if (null !== $this->cacheManager) {
+            $service = $this->blockManager->get($object);
 
-        $this->cacheManager->invalidate($service->getCacheKeys($object));
+            $this->cacheManager->invalidate($service->getCacheKeys($object));
+        }
     }
 
     /**

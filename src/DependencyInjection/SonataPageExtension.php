@@ -82,16 +82,21 @@ class SonataPageExtension extends Extension implements PrependExtensionInterface
         $loader->load('block.xml');
         $loader->load('orm.xml');
         $loader->load('form.xml');
-        $loader->load('cache.xml');
         $loader->load('twig.xml');
         $loader->load('http_kernel.xml');
+        //@NEXT_MAJOR: Remove this load, and consumer.xml file
         $loader->load('consumer.xml');
+        $loader->load('service.xml');
         $loader->load('validators.xml');
         $loader->load('command.xml');
         $loader->load('slugify.xml');
 
+        if ($config['cache'] && isset($bundles['SonataCacheBundle'])) {
+            $loader->load('cache.xml');
+            $this->configureCache($container, $config);
+        }
+
         $this->configureMultisite($container, $config);
-        $this->configureCache($container, $config);
         $this->configureTemplates($container, $config);
         $this->configureExceptions($container, $config);
         $this->configurePageDefaults($container, $config);
@@ -475,6 +480,11 @@ class SonataPageExtension extends Extension implements PrependExtensionInterface
      */
     public function configureCache(ContainerBuilder $container, array $config): void
     {
+        @trigger_error(
+            'Using SonataCacheBundle is deprecated since sonata-project/page-bundle 3.27 and will be removed in 4.x',
+            \E_USER_DEPRECATED
+        );
+
         if (isset($config['caches']['esi'])) {
             $container
                 ->getDefinition('sonata.page.cache.esi')

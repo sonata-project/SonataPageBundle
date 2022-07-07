@@ -161,6 +161,7 @@ final class ConfigurationTest extends TestCase
                     'site' => 'Application\\Sonata\\PageBundle\\Entity\\Site',
             ],
             'direct_publication' => false,
+            'cache' => true,
         ];
 
         static::assertSame($expected, $config);
@@ -248,6 +249,7 @@ final class ConfigurationTest extends TestCase
                 'site' => 'Application\\Sonata\\PageBundle\\Entity\\Site',
             ],
             'direct_publication' => false,
+            'cache' => true,
         ];
 
         static::assertSame($expected, $config);

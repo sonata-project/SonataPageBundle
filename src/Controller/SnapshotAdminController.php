@@ -54,19 +54,11 @@ class SnapshotAdminController extends Controller
             $form->submit($request->request->get($form->getName()));
 
             if ($form->isValid()) {
-                $snapshotManager = $this->get('sonata.page.manager.snapshot');
-                $transformer = $this->get('sonata.page.transformer');
-
-                $page = $form->getData()->getPage();
-                $page->setEdited(false);
-
-                $snapshot = $transformer->create($page);
+                //@NEXT_MAJOR: when you're going to inject this service use CreateSnapshotByPageInterface
+                $createSnapshot = $this->get('sonata.page.service.create_snapshot');
+                $snapshot = $createSnapshot->createByPage($page);
 
                 $this->admin->create($snapshot);
-
-                $pageManager->save($page);
-
-                $snapshotManager->enableSnapshots([$snapshot]);
             }
 
             return $this->redirect($this->admin->generateUrl('edit', [
@@ -74,7 +66,7 @@ class SnapshotAdminController extends Controller
             ]));
         }
 
-        return $this->render('@SonataPage/SnapshotAdmin/create.html.twig', [
+        return $this->renderWithExtraParams('@SonataPage/SnapshotAdmin/create.html.twig', [
             'action' => 'create',
             'form' => $form->createView(),
         ]);

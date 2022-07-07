@@ -24,7 +24,11 @@ use Sonata\PageBundle\Model\TransformerInterface;
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
+ * NEXT_MAJOR: Remove this class
+ *
  * @final since sonata-project/page-bundle 3.26
+ *
+ * @deprecated since 3.27, and it will be removed in 4.0.
  */
 class CreateSnapshotConsumer implements ConsumerInterface
 {
