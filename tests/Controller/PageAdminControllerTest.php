@@ -20,7 +20,6 @@ use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\Pool;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Request\AdminFetcher;
-use Sonata\AdminBundle\Templating\MutableTemplateRegistryInterface;
 use Sonata\AdminBundle\Templating\TemplateRegistryInterface;
 use Sonata\NotificationBundle\Backend\BackendInterface;
 use Sonata\NotificationBundle\Backend\RuntimeBackend;
@@ -76,6 +75,8 @@ class PageAdminControllerTest extends TestCase
     }
 
     /**
+     * NEXT_MAJOR: Remove this test.
+     *
      * @group legacy
      */
     public function testCallTheNotificationCreateSnapshot(): void
@@ -108,7 +109,11 @@ class PageAdminControllerTest extends TestCase
 
         $this->admin->method('generateUrl')->willReturn('https://fake.bar');
 
+        //NEXT_MAJOR: Remove the RuntimeBackend mock
         $backend = $this->createMock(RuntimeBackend::class);
+        $backend
+            ->expects(static::exactly(0))
+            ->method('createAndPublish');
         $this->container->set('sonata.notification.backend', $backend);
 
         $createSnapshotByPageMock = $this->createMock(CreateSnapshotByPageInterface::class);
@@ -135,11 +140,9 @@ class PageAdminControllerTest extends TestCase
         $adminFetcher = new AdminFetcher($pool);
 
         $templateRegistry = $this->createStub(TemplateRegistryInterface::class);
-        $mutableTemplateRegistry = $this->createStub(MutableTemplateRegistryInterface::class);
 
         $this->configureGetCurrentRequest($this->request);
 
-        $this->request->query->set('_xml_http_request', false);
         $this->request->query->set('_sonata_admin', 'admin_code');
 
         $this->container->set('admin_code', $this->admin);
