@@ -66,6 +66,7 @@ sonata_page:
                     F: footer
 
     direct_publication: '%kernel.debug%'
+    cache: false
 
     catch_exceptions:
         not_found: [404]
