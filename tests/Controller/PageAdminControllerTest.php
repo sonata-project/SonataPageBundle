@@ -16,6 +16,7 @@ namespace Sonata\PageBundle\Tests\Controller;
 use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Admin\AdminInterface;
+use Sonata\AdminBundle\Controller\CRUDController;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\NotificationBundle\Backend\BackendInterface;
 use Sonata\NotificationBundle\Backend\RuntimeBackend;
@@ -44,14 +45,11 @@ class PageAdminControllerTest extends TestCase
             ->expects(static::once())
             ->method('createAndPublish');
 
-        $pageAdminControllerMock = $this->createPartialMock(PageAdminController::class, ['get', 'getAdmin']);
+        $pageAdminControllerMock = $this->createPartialMock(PageAdminController::class, ['get']);
+        $this->mockAdmin($pageAdminControllerMock, $adminMock);
         $pageAdminControllerMock
             ->method('get')
             ->willReturnOnConsecutiveCalls($securityMock, $runtimeBackendMock);
-
-        $pageAdminControllerMock
-            ->method('getAdmin')
-            ->willReturn($adminMock);
 
         $queryMock
             ->method('execute')
@@ -67,6 +65,9 @@ class PageAdminControllerTest extends TestCase
     public function createSnapshotByPage(): void
     {
         //Mock
+        $adminMock = $this->createMock(AdminInterface::class);
+        $adminMock->method('generateUrl')->willReturn('https://fake.bar');
+
         $pageMock = $this->createMock(PageInterface::class);
         $securityMock = $this->createMock(AbstractAdmin::class);
         $runtimeBackendMock = $this->createMock(RuntimeBackend::class);
@@ -76,16 +77,11 @@ class PageAdminControllerTest extends TestCase
             ->expects(static::once())
             ->method('createByPage');
 
-        $adminMock = $this->createMock(AdminInterface::class);
-        $adminMock->method('generateUrl')->willReturn('https://fake.bar');
-
-        $pageAdminControllerMock = $this->createPartialMock(PageAdminController::class, ['get', 'getAdmin']);
+        $pageAdminControllerMock = $this->createPartialMock(PageAdminController::class, ['get']);
+        $this->mockAdmin($pageAdminControllerMock, $adminMock);
         $pageAdminControllerMock
             ->method('get')
             ->willReturnOnConsecutiveCalls($securityMock, $runtimeBackendMock, $createSnapshotByPageMock);
-        $pageAdminControllerMock
-            ->method('getAdmin')
-            ->willReturn($adminMock);
 
         $queryMock = $this->createMock(ProxyQueryInterface::class);
         $queryMock
@@ -94,5 +90,14 @@ class PageAdminControllerTest extends TestCase
 
         //Run code
         $pageAdminControllerMock->batchActionSnapshot($queryMock);
+    }
+
+    private function mockAdmin(CRUDController $CRUDController, AdminInterface $adminMock): void
+    {
+        $reflection = new \ReflectionClass($CRUDController);
+        $reflectionProperty = $reflection->getProperty('admin');
+        $reflectionProperty->setAccessible(true);
+
+        $reflectionProperty->setValue($CRUDController, $adminMock);
     }
 }

@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Controller;
 
-use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Sonata\NotificationBundle\Backend\BackendInterface;
 use Sonata\NotificationBundle\Backend\RuntimeBackend;
@@ -73,8 +72,8 @@ class PageAdminController extends Controller
             }
         }
 
-        return new RedirectResponse($this->getAdmin()->generateUrl('list', [
-            'filter' => $this->getAdmin()->getFilterParameters(),
+        return new RedirectResponse($this->admin->generateUrl('list', [
+            'filter' => $this->admin->getFilterParameters(),
         ]));
     }
 
@@ -278,16 +277,6 @@ class PageAdminController extends Controller
             'container' => $block,
             'page' => $block->getPage(),
         ]);
-    }
-
-    /**
-     * NEXT_MAJOR: Check if it was added in SonataAdminBundle, if yes remove this method!
-     *
-     * @internal
-     */
-    protected function getAdmin(): AdminInterface
-    {
-        return $this->admin;
     }
 
     /**
