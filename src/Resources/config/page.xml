@@ -80,11 +80,7 @@
             <argument/>
         </service>
         <service id="sonata.page.router.request_context" class="Symfony\Component\Routing\RequestContext" public="false">
-            <!-- NEXT_MAJOR: uncomment factory tag
-            <factory service="sonata.page.site.selector"
-                method="getRequestContext"
-            />
-            -->
+            <factory service="sonata.page.site.selector" method="getRequestContext"/>
         </service>
         <service id="sonata.page.router" class="%sonata.page.router.class%" public="true">
             <argument type="service" id="sonata.page.cms_manager_selector"/>

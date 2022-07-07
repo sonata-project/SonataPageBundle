@@ -41,15 +41,12 @@ final class CreateSnapshotAdminExtension extends AbstractAdminExtension
         $this->createByPage($object);
     }
 
-    public function postRemove(AdminInterface $admin, $object)
+    public function postRemove(AdminInterface $admin, $object): void
     {
         $this->createByPage($object);
     }
 
-    /**
-     * @param PageInterface $object
-     */
-    protected function createByPage($object): void
+    private function createByPage(object $object): void
     {
         if ($object instanceof BlockInterface && method_exists($object, 'getPage')) {
             $page = $object->getPage();

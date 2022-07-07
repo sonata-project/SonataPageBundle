@@ -33,18 +33,6 @@ final class PageController extends Controller
 {
     /**
      * @throws AccessDeniedException
-     *
-     * @return Response
-     *
-     * NEXT_MAJOR: Remove this method
-     */
-    public function exceptionsListAction()
-    {
-        return $this->exceptionsList();
-    }
-
-    /**
-     * @throws AccessDeniedException
      */
     public function exceptionsList(): Response
     {
@@ -55,20 +43,6 @@ final class PageController extends Controller
         return $this->render('@SonataPage/Exceptions/list.html.twig', [
             'httpErrorCodes' => $this->getExceptionListener()->getHttpErrorCodes(),
         ]);
-    }
-
-    /**
-     * @param string $code
-     *
-     * @throws InternalErrorException|AccessDeniedException
-     *
-     * @return Response
-     *
-     * NEXT_MAJOR: Remove this method
-     */
-    public function exceptionEditAction($code)
-    {
-        return $this->exceptionEdit($code);
     }
 
     /**

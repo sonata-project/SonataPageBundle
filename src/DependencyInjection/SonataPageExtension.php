@@ -55,13 +55,6 @@ final class SonataPageExtension extends Extension implements PrependExtensionInt
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('page.xml');
 
-        // NEXT_MAJOR: remove this code block
-        $definition = $container->getDefinition('sonata.page.router.request_context');
-        $definition->setFactory([
-            new Reference('sonata.page.site.selector'),
-            'getRequestContext',
-        ]);
-
         if (isset($bundles['SonataAdminBundle'])) {
             $loader->load('admin.xml');
 

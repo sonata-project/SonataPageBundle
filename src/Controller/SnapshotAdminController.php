@@ -55,7 +55,7 @@ final class SnapshotAdminController extends Controller
             $form->submit($request->request->get($form->getName()));
 
             if ($form->isValid()) {
-                //@NEXT_MAJOR: when you're going to inject this service use CreateSnapshotByPageInterface
+                //NEXT_MAJOR: when you're going to inject this service use CreateSnapshotByPageInterface
                 $createSnapshot = $this->get('sonata.page.service.create_snapshot');
                 $snapshot = $createSnapshot->createByPage($page);
 

@@ -191,12 +191,7 @@ final class BlockAdmin extends BaseBlockAdmin
     {
         $resolver = new OptionsResolver();
         // use new interface method whenever possible
-        // NEXT_MAJOR: Remove this check and legacy setDefaultSettings method call
-        if (method_exists($blockService, 'configureSettings')) {
-            $blockService->configureSettings($resolver);
-        } else {
-            $blockService->setDefaultSettings($resolver);
-        }
+        $blockService->configureSettings($resolver);
         $options = $resolver->resolve();
 
         return $options['template'] ?? null;
