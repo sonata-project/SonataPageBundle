@@ -154,7 +154,7 @@ class ExceptionListener
      *
      * @throws \Exception
      */
-    public function onKernelException(ExceptionEvent $event): void
+    public function onKernelException(ExceptionEvent $event)
     {
         if ($event->getThrowable() instanceof NotFoundHttpException && $this->cmsManagerSelector->isEditor()) {
             $pathInfo = $event->getRequest()->getPathInfo();
@@ -186,7 +186,7 @@ class ExceptionListener
     /**
      * Handles an internal error.
      */
-    private function handleInternalError(ExceptionEvent $event): void
+    private function handleInternalError(ExceptionEvent $event)
     {
         if (false === $this->debug) {
             $this->logger->error($event->getThrowable()->getMessage(), [
@@ -206,7 +206,7 @@ class ExceptionListener
     /**
      * Handles a native error.
      */
-    private function handleNativeError(ExceptionEvent $event): void
+    private function handleNativeError(ExceptionEvent $event)
     {
         if (true === $this->debug) {
             return;
