@@ -37,7 +37,6 @@
         "symfony-cmf/routing-bundle": "^2.1",
         "symfony/config": "^4.4",
         "symfony/console": "^4.4",
-        "symfony/debug": "^4.4",
         "symfony/dependency-injection": "^4.4.3",
         "symfony/form": "^4.4",
         "symfony/http-foundation": "^4.4",
