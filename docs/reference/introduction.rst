@@ -84,19 +84,3 @@ A ``Snapshot`` is a version of a ``Page`` used to render the page to the final u
 So when an editor organizes ``Page`` and ``Block`` the final user does not see these
 modifications unless the editor creates a new snapshot of the page.
 
-A Cache
--------
-
-There is a cache mechanism integrated into the bundle. Each block service is linked
-to a cache service.
-
-Depending on the block logic some cache backends are more suitable than others:
-
- - Container should use the ``sonata.page.cache.esi`` cache
- - Users related block like basket summary or authentication area should
-   use the ``sonata.page.cache.js_async`` cache.
-
-Of course if you don't have a reverse proxy server you can use other caching
-solution such as memcached, mongo or apc.
-
-The ``sonata.cache.noop`` cache can be use if you don't want caching!

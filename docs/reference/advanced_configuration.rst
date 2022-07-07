@@ -35,28 +35,11 @@ Full configuration options:
                 - /(.*)admin(.*)/
                 - /^_(.*)/
             slugify_service:      sonata.core.slugify.native
-            ignore_routes:
-
-                # Defaults:
-                - sonata_page_cache_esi
-                - sonata_page_cache_ssi
-                - sonata_page_js_sync_cache
-                - sonata_page_js_async_cache
-                - sonata_cache_esi
-                - sonata_cache_js_async
-                - sonata_cache_js_sync
-                - sonata_cache_apc
             ignore_uri_patterns:
 
                 # Default:
                 - /admin(.*)/
-            cache_invalidation:
-                service:              sonata.cache.invalidation.simple
-                recorder:             sonata.cache.recorder
-                classes:
 
-                    # Prototype
-                    id:                   ~
             default_page_service:  sonata.page.service.default
             default_template:     ~ # Required
             assets:
@@ -100,13 +83,6 @@ Full configuration options:
                 id:
                     decorate:             true
                     enabled:              true
-            caches:
-                esi:
-                    token:                4b8fa46a0a00d0297e0b39b71aaeaa56cc2c40e3083642a720f940e9cf4ee718
-                    version:              2
-                    servers:              []
-                ssi:
-                    token:                adcd02dc23d9da234436d44b1ec58d147f86db2a08b94b872d969ce48687c386
             catch_exceptions:
 
                 # Prototype

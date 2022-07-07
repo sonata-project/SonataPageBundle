@@ -19,7 +19,6 @@ Page Bundle
    reference/advanced_usage
    reference/page_services
    reference/advanced_configuration
-   reference/varnish
    reference/performance
    reference/api
    reference/assets

@@ -17,7 +17,6 @@ use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Knp\Bundle\MenuBundle\KnpMenuBundle;
 use Sonata\AdminBundle\SonataAdminBundle;
 use Sonata\BlockBundle\SonataBlockBundle;
-use Sonata\CacheBundle\SonataCacheBundle;
 use Sonata\CoreBundle\SonataCoreBundle;
 use Sonata\Doctrine\Bridge\Symfony\SonataDoctrineBundle;
 use Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle;
@@ -60,7 +59,6 @@ final class AppKernel extends Kernel
             new SonataNotificationBundle(),
             new SonataDoctrineORMAdminBundle(),
             new SonataSeoBundle(),
-            new SonataCacheBundle(),
             new SonataPageBundle(),
             new SonataFormBundle(),
             new SonataTwigBundle(),

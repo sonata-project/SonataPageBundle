@@ -17,7 +17,6 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\Cache\CacheManagerInterface;
 use Sonata\Form\Type\DateTimePickerType;
 
 /**
@@ -30,11 +29,6 @@ use Sonata\Form\Type\DateTimePickerType;
 class SnapshotAdmin extends AbstractAdmin
 {
     protected $classnameLabel = 'Snapshot';
-
-    /**
-     * @var CacheManagerInterface|null
-     */
-    protected $cacheManager;
 
     protected $accessMapping = [
         'batchToggleEnabled' => 'EDIT',
@@ -73,28 +67,5 @@ class SnapshotAdmin extends AbstractAdmin
         ];
 
         return $actions;
-    }
-
-    public function postUpdate($object): void
-    {
-        if (null !== $this->cacheManager) {
-            $this->cacheManager->invalidate([
-                'page_id' => $object->getPage()->getId(),
-            ]);
-        }
-    }
-
-    public function postPersist($object): void
-    {
-        if (null !== $this->cacheManager) {
-            $this->cacheManager->invalidate([
-                'page_id' => $object->getPage()->getId(),
-            ]);
-        }
-    }
-
-    public function setCacheManager(CacheManagerInterface $cacheManager): void
-    {
-        $this->cacheManager = $cacheManager;
     }
 }

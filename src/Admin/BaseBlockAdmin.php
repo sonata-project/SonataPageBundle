@@ -20,7 +20,6 @@ use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
-use Sonata\Cache\CacheManagerInterface;
 use Sonata\PageBundle\Entity\BaseBlock;
 use Sonata\PageBundle\Model\PageInterface;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
@@ -37,11 +36,6 @@ abstract class BaseBlockAdmin extends AbstractAdmin
      * @var BlockServiceManagerInterface
      */
     protected $blockManager;
-
-    /**
-     * @var CacheManagerInterface|null
-     */
-    protected $cacheManager;
 
     /**
      * @var bool
@@ -92,12 +86,6 @@ abstract class BaseBlockAdmin extends AbstractAdmin
                 \E_USER_DEPRECATED
             );
         }
-
-        if (null !== $this->cacheManager) {
-            $service = $this->blockManager->get($object);
-
-            $this->cacheManager->invalidate($service->getCacheKeys($object));
-        }
     }
 
     /**
@@ -138,12 +126,6 @@ abstract class BaseBlockAdmin extends AbstractAdmin
                 'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.12.0 and will be removed in version 4.0.',
                 \E_USER_DEPRECATED
             );
-        }
-
-        if (null !== $this->cacheManager) {
-            $service = $this->blockManager->get($object);
-
-            $this->cacheManager->invalidate($service->getCacheKeys($object));
         }
     }
 
@@ -190,11 +172,6 @@ abstract class BaseBlockAdmin extends AbstractAdmin
     public function setBlockManager(BlockServiceManagerInterface $blockManager): void
     {
         $this->blockManager = $blockManager;
-    }
-
-    public function setCacheManager(CacheManagerInterface $cacheManager): void
-    {
-        $this->cacheManager = $cacheManager;
     }
 
     public function setContainerBlockTypes(array $containerBlockTypes): void

@@ -15,7 +15,6 @@ Required dependencies:
 
 * `SonataAdminBundle <https://docs.sonata-project.org/projects/SonataAdminBundle/en/3.x/>`_
 * `SonataBlockBundle_ <https://docs.sonata-project.org/projects/SonataBlockBundle/en/3.x/>`_
-* `SonataCacheBundle_ <https://docs.sonata-project.org/projects/SonataCacheBundle/en/3.x/>`_
 * `SonataSeoBundle_ <https://docs.sonata-project.org/projects/SonataSeoBundle/en/2.x/>`_
 * `SonataNotificationBundle_ <https://docs.sonata-project.org/projects/SonataNotificationBundle/en/3.x/>`_
 
@@ -111,17 +110,6 @@ SonataPageBundle Configuration
             block: App\Entity\SonataPageBlock
             site: App\Entity\SonataPageSite
 
-        ignore_routes:
-            - sonata_page_cache_esi
-            - sonata_page_cache_ssi
-            - sonata_page_js_sync_cache
-            - sonata_page_js_async_cache
-            - sonata_cache_esi
-            - sonata_cache_ssi
-            - sonata_cache_js_async
-            - sonata_cache_js_sync
-            - sonata_cache_apc
-
         ignore_uri_patterns:
             - ^/admin\/   # ignore admin route, ie route containing 'admin'
 
@@ -207,10 +195,6 @@ Routing Configuration
 
     sonata_page_exceptions:
         resource: '@SonataPageBundle/Resources/config/routing/exceptions.xml'
-        prefix: /
-
-    sonata_page_cache:
-        resource: '@SonataPageBundle/Resources/config/routing/cache.xml'
         prefix: /
 
 Doctrine ORM Configuration
