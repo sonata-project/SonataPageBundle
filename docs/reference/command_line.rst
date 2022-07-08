@@ -1,19 +1,6 @@
 Command Line Tools
 ==================
 
-Flush commands
---------------
-
-- Flush cache elements matching the key ``block_id = 5``::
-
-    bin/console sonata:cache:flush --keys='{"block_id":5}'
-
-- Flush all cache elements::
-
-    bin/console sonata:cache:flush-all
-
-For more information about this, please have a look at the `SonataCacheBundle documentation`_.
-
 Page commands
 -------------
 

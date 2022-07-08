@@ -26,10 +26,6 @@ Key                             Description
                 - (.*)admin(.*)   # ignore admin route, i.e. route containing 'admin'
                 - ^_(.*)          # ignore symfony routes
 
-            ignore_routes:
-                - sonata_page_cache_esi
-                - sonata_page_cache_ssi
-
             ignore_uri_patterns:
                 - ^/admin\/     # ignore admin route, i.e. route containing 'admin'
 

@@ -117,22 +117,9 @@ final class ConfigurationTest extends TestCase
             ],
             'slugify_service' => 'sonata.core.slugify.native',
             'ignore_routes' => [
-                0 => 'sonata_page_cache_esi',
-                1 => 'sonata_page_cache_ssi',
-                2 => 'sonata_page_js_sync_cache',
-                3 => 'sonata_page_js_async_cache',
-                4 => 'sonata_cache_esi',
-                5 => 'sonata_cache_js_async',
-                6 => 'sonata_cache_js_sync',
-                7 => 'sonata_cache_apc',
             ],
             'ignore_uri_patterns' => [
                 0 => 'admin(.*)',
-            ],
-            'cache_invalidation' => [
-                'service' => 'sonata.cache.invalidation.simple',
-                'recorder' => 'sonata.cache.recorder',
-                'classes' => [],
             ],
             'default_page_service' => 'sonata.page.service.default',
             'assets' => [
@@ -161,7 +148,6 @@ final class ConfigurationTest extends TestCase
                     'site' => 'Application\\Sonata\\PageBundle\\Entity\\Site',
             ],
             'direct_publication' => false,
-            'cache' => true,
         ];
 
         static::assertSame($expected, $config);
@@ -205,22 +191,9 @@ final class ConfigurationTest extends TestCase
             ],
             'slugify_service' => 'sonata.core.slugify.native',
             'ignore_routes' => [
-                0 => 'sonata_page_cache_esi',
-                1 => 'sonata_page_cache_ssi',
-                2 => 'sonata_page_js_sync_cache',
-                3 => 'sonata_page_js_async_cache',
-                4 => 'sonata_cache_esi',
-                5 => 'sonata_cache_js_async',
-                6 => 'sonata_cache_js_sync',
-                7 => 'sonata_cache_apc',
             ],
             'ignore_uri_patterns' => [
                 0 => 'admin(.*)',
-            ],
-            'cache_invalidation' => [
-                'service' => 'sonata.cache.invalidation.simple',
-                'recorder' => 'sonata.cache.recorder',
-                'classes' => [],
             ],
             'default_page_service' => 'sonata.page.service.default',
             'assets' => [
@@ -249,7 +222,6 @@ final class ConfigurationTest extends TestCase
                 'site' => 'Application\\Sonata\\PageBundle\\Entity\\Site',
             ],
             'direct_publication' => false,
-            'cache' => true,
         ];
 
         static::assertSame($expected, $config);

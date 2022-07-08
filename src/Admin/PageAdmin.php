@@ -21,7 +21,6 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\Cache\CacheManagerInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\CallbackFilter;
 use Sonata\PageBundle\Exception\InternalErrorException;
 use Sonata\PageBundle\Exception\PageNotFoundException;
@@ -57,11 +56,6 @@ class PageAdmin extends AbstractAdmin
      */
     protected $siteManager;
 
-    /**
-     * @var CacheManagerInterface|null
-     */
-    protected $cacheManager;
-
     protected $accessMapping = [
         'tree' => 'LIST',
         'compose' => 'EDIT',
@@ -82,15 +76,6 @@ class PageAdmin extends AbstractAdmin
     public function preUpdate($object): void
     {
         $object->setEdited(true);
-    }
-
-    public function postUpdate($object): void
-    {
-        if (null !== $this->cacheManager) {
-            $this->cacheManager->invalidate([
-                'page_id' => $object->getId(),
-            ]);
-        }
     }
 
     public function prePersist($object): void
@@ -160,11 +145,6 @@ class PageAdmin extends AbstractAdmin
     public function getSites()
     {
         return $this->siteManager->findBy([]);
-    }
-
-    public function setCacheManager(CacheManagerInterface $cacheManager): void
-    {
-        $this->cacheManager = $cacheManager;
     }
 
     protected function alterNewInstance(object $object): void

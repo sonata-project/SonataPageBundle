@@ -61,16 +61,12 @@
         "phpunit/phpunit": "^9.5",
         "psalm/plugin-phpunit": "^0.16",
         "psalm/plugin-symfony": "^3.0",
-        "sonata-project/cache": "^2.0",
-        "sonata-project/cache-bundle": "^3.3",
         "symfony/browser-kit": "^4.4",
         "symfony/css-selector": "^4.4",
         "symfony/phpunit-bridge": "^5.1.4",
         "vimeo/psalm": "^4.7.2"
     },
     "conflict": {
-        "sonata-project/cache": "<2.0",
-        "sonata-project/cache-bundle": "<3.3",
         "sonata-project/core-bundle": "<3.20"
     },
     "suggest": {

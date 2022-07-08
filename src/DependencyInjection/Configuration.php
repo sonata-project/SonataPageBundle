@@ -123,16 +123,7 @@ EOF;
                 ->defaultValue('sonata.core.slugify.native')
             ->end()
             ->arrayNode('ignore_routes')
-                ->defaultValue([
-                    'sonata_page_cache_esi',
-                    'sonata_page_cache_ssi',
-                    'sonata_page_js_sync_cache',
-                    'sonata_page_js_async_cache',
-                    'sonata_cache_esi',
-                    'sonata_cache_js_async',
-                    'sonata_cache_js_sync',
-                    'sonata_cache_apc',
-                ])
+                ->defaultValue([])
                 ->prototype('scalar')->end()
             ->end()
 
@@ -142,24 +133,6 @@ EOF;
                     'admin(.*)',
                 ])
                 ->prototype('scalar')->end()
-            ->end()
-
-            ->arrayNode('cache_invalidation')
-                ->addDefaultsIfNotSet()
-                ->setDeprecated(
-                    ...$this->getDeprecationMessage(
-                        'The "cache_invalidation" option is deprecated since sonata-project/page-bundle 3.27.0 and will be removed in 4.0',
-                        '3.27'
-                    )
-                )
-                ->children()
-                    ->scalarNode('service')->defaultValue('sonata.cache.invalidation.simple')->end()
-                    ->scalarNode('recorder')->defaultValue('sonata.cache.recorder')->end()
-                    ->arrayNode('classes')
-                        ->useAttributeAsKey('id')
-                        ->prototype('scalar')->end()
-                    ->end()
-                ->end()
             ->end()
 
             ->scalarNode('default_page_service')
@@ -319,39 +292,6 @@ EOF;
                 ->end()
             ->end()
 
-            ->arrayNode('caches')
-                ->setDeprecated(
-                    ...$this->getDeprecationMessage(
-                        'The "caches" option is deprecated since sonata-project/page-bundle 3.27.0 and will be removed in 4.0',
-                        '3.27'
-                    )
-                )
-                ->children()
-                    ->arrayNode('esi')
-                        ->children()
-                            ->scalarNode('token')
-                                ->info('The default value is auto generated every time')
-                                ->defaultValue(hash('sha256', uniqid((string) mt_rand(), true)))
-                            ->end()
-                            ->scalarNode('version')
-                                ->defaultValue(2)
-                            ->end()
-                            ->arrayNode('servers')
-                                ->prototype('scalar')->end()
-                            ->end()
-                        ->end()
-                    ->end()
-                    ->arrayNode('ssi')
-                        ->children()
-                            ->scalarNode('token')
-                                ->info('The default value is auto generated every time')
-                                ->defaultValue(hash('sha256', uniqid((string) mt_rand(), true)))
-                            ->end()
-                        ->end()
-                    ->end()
-                ->end()
-            ->end()
-
             ->arrayNode('catch_exceptions')
                 ->info($catchExceptionsInfo)
                 ->useAttributeAsKey('id')
@@ -378,15 +318,6 @@ EOF;
             ->booleanNode('direct_publication')
                 ->info($directPublicationInfo)
                 ->defaultValue(false)
-            ->end()
-            ->booleanNode('cache')
-                ->defaultValue(true)
-                ->setDeprecated(
-                    ...$this->getDeprecationMessage(
-                        'The "cache" option is deprecated since sonata-project/page-bundle 3.27.0 and will be removed in 4.0',
-                        '3.27'
-                    )
-                )
             ->end();
 
         return $treeBuilder;

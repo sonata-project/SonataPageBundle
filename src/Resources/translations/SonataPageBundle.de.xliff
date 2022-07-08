@@ -862,18 +862,6 @@
         <source>form.label_text</source>
         <target>Text</target>
       </trans-unit>
-      <trans-unit id="215" resname="form.label_cache_policy">
-        <source>form.label_cache_policy</source>
-        <target>Cache Methode</target>
-      </trans-unit>
-      <trans-unit id="216" resname="form.label_cache_policy_public">
-        <source>form.label_cache_policy_public</source>
-        <target>Öffentlich</target>
-      </trans-unit>
-      <trans-unit id="217" resname="form.label_cache_policy_private">
-        <source>form.label_cache_policy_private</source>
-        <target>Privat</target>
-      </trans-unit>
       <trans-unit id="218" resname="form.label_menu_name">
         <source>form.label_menu_name</source>
         <target>Menu</target>
