@@ -110,6 +110,7 @@ final class PageExtensionTest extends TestCase
     {
         $stack = new RequestStack();
         $stack->push($request);
+
         return $stack;
     }
 }
