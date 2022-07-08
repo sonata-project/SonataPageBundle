@@ -398,7 +398,6 @@ EOF;
 
     protected function getDeprecationMessage($message, $version): array
     {
-        // @phpstan-ignore-next-line
         if (method_exists(BaseNode::class, 'getDeprecation')) {
             return [
                 'sonata-project/page-bundle',
