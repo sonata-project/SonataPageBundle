@@ -31,6 +31,8 @@ use Symfony\Component\Routing\RouterInterface;
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
  * @final since sonata-project/page-bundle 3.26
+ *
+ * @deprecated since sonata-project/page-bundle 3.27.0
  */
 class BlockJsCache implements CacheAdapterInterface
 {
