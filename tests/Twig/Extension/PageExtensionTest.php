@@ -93,19 +93,6 @@ final class PageExtensionTest extends TestCase
         $extension->controller('bar');
     }
 
-    public function testGetName(): void
-    {
-        $extension = new PageExtension(
-            $this->createMock(CmsManagerSelectorInterface::class),
-            $this->createMock(SiteSelectorInterface::class),
-            $this->createMock(RouterInterface::class),
-            $this->createMock(BlockHelper::class),
-            $this->getRequestStack(new Request())
-        );
-
-        static::assertSame('sonata_page', $extension->getName());
-    }
-
     protected function getRequestStack(Request $request): RequestStack
     {
         $stack = new RequestStack();

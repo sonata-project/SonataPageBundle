@@ -102,19 +102,9 @@ class PageExtension extends AbstractExtension
     }
 
     /**
-     * NEXT_MAJOR: remove this method.
-     *
-     * @deprecated since sonata-project/page-bundle 3.14, to be removed in version 4.0.
-     */
-    public function getName()
-    {
-        return 'sonata_page';
-    }
-
-    /**
      * @return string
      */
-    public function breadcrumb(Environment $env, ?PageInterface $page = null, array $options = [])
+    public function breadcrumb(Environment $twig, ?PageInterface $page = null, array $options = [])
     {
         if (!$page) {
             $page = $this->cmsManagerSelector->retrieve()->getCurrentPage();
@@ -152,7 +142,7 @@ class PageExtension extends AbstractExtension
             }
         }
 
-        return $this->render($env, $options['template'], [
+        return $this->render($twig, $options['template'], [
             'page' => $page,
             'breadcrumbs' => $breadcrumbs,
             'options' => $options,
@@ -274,10 +264,10 @@ class PageExtension extends AbstractExtension
      *
      * @return string
      */
-    private function render(Environment $env, $template, array $parameters = [])
+    private function render(Environment $twig, $template, array $parameters = [])
     {
         if (!isset($this->resources[$template])) {
-            $this->resources[$template] = $env->load($template);
+            $this->resources[$template] = $twig->load($template);
         }
 
         return $this->resources[$template]->render($parameters);
