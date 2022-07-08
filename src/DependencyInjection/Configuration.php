@@ -15,6 +15,7 @@ namespace Sonata\PageBundle\DependencyInjection;
 
 use Sonata\PageBundle\Model\Template;
 use Sonata\PageBundle\Template\Matrix\Parser;
+use Symfony\Component\Config\Definition\BaseNode;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
@@ -145,6 +146,12 @@ EOF;
 
             ->arrayNode('cache_invalidation')
                 ->addDefaultsIfNotSet()
+                ->setDeprecated(
+                    ...$this->getDeprecationMessage(
+                        'The "cache_invalidation" option is deprecated since sonata-project/page-bundle 3.27.0 and will be removed in 4.0',
+                        '3.27'
+                    )
+                )
                 ->children()
                     ->scalarNode('service')->defaultValue('sonata.cache.invalidation.simple')->end()
                     ->scalarNode('recorder')->defaultValue('sonata.cache.recorder')->end()
@@ -313,6 +320,12 @@ EOF;
             ->end()
 
             ->arrayNode('caches')
+                ->setDeprecated(
+                    ...$this->getDeprecationMessage(
+                        'The "caches" option is deprecated since sonata-project/page-bundle 3.27.0 and will be removed in 4.0',
+                        '3.27'
+                    )
+                )
                 ->children()
                     ->arrayNode('esi')
                         ->children()
@@ -368,8 +381,27 @@ EOF;
             ->end()
             ->booleanNode('cache')
                 ->defaultValue(true)
+                ->setDeprecated(
+                    ...$this->getDeprecationMessage(
+                        'The "cache" option is deprecated since sonata-project/page-bundle 3.27.0 and will be removed in 4.0',
+                        '3.27'
+                    )
+                )
             ->end();
 
         return $treeBuilder;
+    }
+
+    protected function getDeprecationMessage($message, $version): array
+    {
+        if (method_exists(BaseNode::class, 'getDeprecation')) {
+            return [
+                'sonata-project/page-bundle',
+                $version,
+                $message,
+            ];
+        }
+
+        return [$message];
     }
 }
