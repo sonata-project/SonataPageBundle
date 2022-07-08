@@ -33,10 +33,8 @@ use Twig\TwigFunction;
  * PageExtension.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class PageExtension extends AbstractExtension
+final class PageExtension extends AbstractExtension
 {
     /**
      * @var CmsManagerSelectorInterface
