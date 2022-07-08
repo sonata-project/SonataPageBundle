@@ -26,6 +26,9 @@ use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -45,11 +48,6 @@ final class PageExtension extends AbstractExtension
      * @var SiteSelectorInterface
      */
     private $siteSelector;
-
-    /**
-     * @var array
-     */
-    private $resources;
 
     /**
      * @var RouterInterface
@@ -100,9 +98,11 @@ final class PageExtension extends AbstractExtension
     }
 
     /**
-     * @return string
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function breadcrumb(Environment $twig, ?PageInterface $page = null, array $options = [])
+    public function breadcrumb(Environment $twig, ?PageInterface $page = null, array $options = []): string
     {
         if (!$page) {
             $page = $this->cmsManagerSelector->retrieve()->getCurrentPage();
@@ -140,7 +140,7 @@ final class PageExtension extends AbstractExtension
             }
         }
 
-        return $this->render($twig, $options['template'], [
+        return $twig->render($options['template'], [
             'page' => $page,
             'breadcrumbs' => $breadcrumbs,
             'options' => $options,
@@ -255,19 +255,5 @@ final class PageExtension extends AbstractExtension
         }
 
         return HttpKernelExtension::controller($controller, $attributes, $query);
-    }
-
-    /**
-     * @param string $template
-     *
-     * @return string
-     */
-    private function render(Environment $twig, $template, array $parameters = [])
-    {
-        if (!isset($this->resources[$template])) {
-            $this->resources[$template] = $twig->load($template);
-        }
-
-        return $this->resources[$template]->render($parameters);
     }
 }
