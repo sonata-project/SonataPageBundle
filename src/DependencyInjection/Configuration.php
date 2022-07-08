@@ -387,8 +387,8 @@ EOF;
                 ->defaultValue(true)
                 ->setDeprecated(
                     ...$this->getDeprecationMessage(
-                    'The "cache" option is deprecated since sonata-project/page-bundle 3.27.0 and will be removed in 4.0',
-                    '3.27'
+                        'The "cache" option is deprecated since sonata-project/page-bundle 3.27.0 and will be removed in 4.0',
+                        '3.27'
                     )
                 )
             ->end();
@@ -403,7 +403,7 @@ EOF;
             return [
                 'sonata-project/page-bundle',
                 $version,
-                $message
+                $message,
             ];
         }
 
