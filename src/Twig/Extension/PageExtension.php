@@ -21,23 +21,23 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SnapshotPageProxy;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Symfony\Bridge\Twig\Extension\HttpKernelExtension;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 use Twig\Extension\AbstractExtension;
-use Twig\Extension\InitRuntimeInterface;
 use Twig\TwigFunction;
 
 /**
  * PageExtension.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class PageExtension extends AbstractExtension implements InitRuntimeInterface
+final class PageExtension extends AbstractExtension
 {
     /**
      * @var CmsManagerSelectorInterface
@@ -50,16 +50,6 @@ class PageExtension extends AbstractExtension implements InitRuntimeInterface
     private $siteSelector;
 
     /**
-     * @var array
-     */
-    private $resources;
-
-    /**
-     * @var Environment
-     */
-    private $environment;
-
-    /**
      * @var RouterInterface
      */
     private $router;
@@ -70,9 +60,9 @@ class PageExtension extends AbstractExtension implements InitRuntimeInterface
     private $blockHelper;
 
     /**
-     * @var HttpKernelExtension
+     * @var RequestStack
      */
-    private $httpKernelExtension;
+    private $requestStack;
 
     /**
      * @var bool
@@ -86,13 +76,13 @@ class PageExtension extends AbstractExtension implements InitRuntimeInterface
      * @param BlockHelper                 $blockHelper        The Block Helper
      * @param bool                        $hideDisabledBlocks
      */
-    public function __construct(CmsManagerSelectorInterface $cmsManagerSelector, SiteSelectorInterface $siteSelector, RouterInterface $router, BlockHelper $blockHelper, HttpKernelExtension $httpKernelExtension, $hideDisabledBlocks = false)
+    public function __construct(CmsManagerSelectorInterface $cmsManagerSelector, SiteSelectorInterface $siteSelector, RouterInterface $router, BlockHelper $blockHelper, RequestStack $requestStack, $hideDisabledBlocks = false)
     {
         $this->cmsManagerSelector = $cmsManagerSelector;
         $this->siteSelector = $siteSelector;
         $this->router = $router;
         $this->blockHelper = $blockHelper;
-        $this->httpKernelExtension = $httpKernelExtension;
+        $this->requestStack = $requestStack;
         $this->hideDisabledBlocks = $hideDisabledBlocks;
     }
 
@@ -100,34 +90,19 @@ class PageExtension extends AbstractExtension implements InitRuntimeInterface
     {
         return [
             new TwigFunction('sonata_page_ajax_url', [$this, 'ajaxUrl']),
-            new TwigFunction('sonata_page_breadcrumb', [$this, 'breadcrumb'], ['is_safe' => ['html']]),
+            new TwigFunction('sonata_page_breadcrumb', [$this, 'breadcrumb'], ['is_safe' => ['html'], 'needs_environment' => true]),
             new TwigFunction('sonata_page_render_container', [$this, 'renderContainer'], ['is_safe' => ['html']]),
             new TwigFunction('sonata_page_render_block', [$this, 'renderBlock'], ['is_safe' => ['html']]),
             new TwigFunction('controller', [$this, 'controller']),
         ];
     }
 
-    public function initRuntime(Environment $environment): void
-    {
-        $this->environment = $environment;
-    }
-
     /**
-     * NEXT_MAJOR: remove this method.
-     *
-     * @deprecated since sonata-project/page-bundle 3.14, to be removed in version 4.0.
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function getName()
-    {
-        return 'sonata_page';
-    }
-
-    /**
-     * @param PageInterface $page
-     *
-     * @return string
-     */
-    public function breadcrumb(?PageInterface $page = null, array $options = [])
+    public function breadcrumb(Environment $twig, ?PageInterface $page = null, array $options = []): string
     {
         if (!$page) {
             $page = $this->cmsManagerSelector->retrieve()->getCurrentPage();
@@ -165,7 +140,7 @@ class PageExtension extends AbstractExtension implements InitRuntimeInterface
             }
         }
 
-        return $this->render($options['template'], [
+        return $twig->render($options['template'], [
             'page' => $page,
             'breadcrumbs' => $breadcrumbs,
             'options' => $options,
@@ -196,7 +171,7 @@ class PageExtension extends AbstractExtension implements InitRuntimeInterface
      * @param string $name
      * @param null   $page
      *
-     * @return Response
+     * @return string
      */
     public function renderContainer($name, $page = null, array $options = [])
     {
@@ -273,27 +248,12 @@ class PageExtension extends AbstractExtension implements InitRuntimeInterface
             $site = $this->siteSelector->retrieve();
             if ($site) {
                 $sitePath = $site->getRelativePath();
-                $globals = $this->environment->getGlobals();
-                $currentPathInfo = $globals['app']->getRequest()->getPathInfo();
+                $currentPathInfo = $this->requestStack->getCurrentRequest()->getPathInfo();
 
                 $attributes['pathInfo'] = $sitePath.$currentPathInfo;
             }
         }
 
         return HttpKernelExtension::controller($controller, $attributes, $query);
-    }
-
-    /**
-     * @param string $template
-     *
-     * @return string
-     */
-    private function render($template, array $parameters = [])
-    {
-        if (!isset($this->resources[$template])) {
-            $this->resources[$template] = $this->environment->loadTemplate($template);
-        }
-
-        return $this->resources[$template]->render($parameters);
     }
 }
