@@ -34,6 +34,22 @@ final class UniqueUrlValidatorTest extends ConstraintValidatorTestCase
         parent::setUp();
     }
 
+    public function testValidateWithoutSite(): void
+    {
+        $page = $this->createMock(PageInterface::class);
+        $page->expects(static::exactly(1))->method('getSite')->willReturn(null);
+        $page->expects(static::never())->method('isError');
+
+        $this->manager->expects(static::never())->method('fixUrl');
+        $this->manager->expects(static::never())->method('findBy');
+
+        $this->validator->validate($page, new UniqueUrl());
+
+        $this->buildViolation('error.uniq_url.no_site')
+            ->atPath($this->propertyPath.'.site')
+            ->assertRaised();
+    }
+
     /**
      * @group legacy
      */

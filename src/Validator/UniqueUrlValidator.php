@@ -50,9 +50,12 @@ class UniqueUrlValidator extends ConstraintValidator
             throw new UnexpectedValueException($value, PageInterface::class);
         }
 
-        // at this it can only be SiteInterface or null
-        if (!$value->getSite() instanceof SiteInterface) {
-            throw new UnexpectedValueException($value->getSite(), SiteInterface::class);
+        if (null === $value->getSite()) {
+            $this->context->buildViolation('error.uniq_url.no_site')
+                ->atPath('site')
+                ->addViolation();
+
+            return;
         }
 
         // do not validate error or dynamic pages
