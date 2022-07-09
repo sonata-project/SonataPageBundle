@@ -22,16 +22,10 @@ use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
 final class UniqueUrlValidatorTest extends ConstraintValidatorTestCase
 {
-
     /**
      * @var PageManagerInterface
      */
     protected $manager;
-
-    protected function createValidator(): UniqueUrlValidator
-    {
-        return new UniqueUrlValidator($this->manager);
-    }
 
     protected function setUp(): void
     {
@@ -79,7 +73,7 @@ final class UniqueUrlValidatorTest extends ConstraintValidatorTestCase
 
         $this->buildViolation('error.uniq_url')
             ->setParameter('%url%', $url)
-            ->atPath($this->propertyPath . '.url')
+            ->atPath($this->propertyPath.'.url')
             ->assertRaised();
     }
 
@@ -102,7 +96,7 @@ final class UniqueUrlValidatorTest extends ConstraintValidatorTestCase
         $this->validator->validate($page, new UniqueUrl());
 
         $this->buildViolation('error.uniq_url.parent_unselect')
-            ->atPath($this->propertyPath . '.parent')
+            ->atPath($this->propertyPath.'.parent')
             ->assertRaised();
     }
 
@@ -118,5 +112,10 @@ final class UniqueUrlValidatorTest extends ConstraintValidatorTestCase
 
         $this->validator->validate($page, new UniqueUrl());
         $this->assertNoViolation();
+    }
+
+    protected function createValidator(): UniqueUrlValidator
+    {
+        return new UniqueUrlValidator($this->manager);
     }
 }
