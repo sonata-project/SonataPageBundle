@@ -40,12 +40,10 @@ final class PageAdminTest extends TestCase
         $site = $this->createStub(Site::class);
         $site->method('getRelativePath')->willReturn('/my-subsite');
 
-        $page = $this->createStub(PageInterface::class);
-        $page->method('getRouteName')->willReturn(PageInterface::PAGE_ROUTE_CMS_NAME);
-        $page->method('getUrl')->willReturn('/my-page');
-        $page->method('isHybrid')->willReturn(false);
-        $page->method('isInternal')->willReturn(false);
-        $page->method('getSite')->willReturn($site);
+        $page = new Page();
+        $page->setRouteName(PageInterface::PAGE_ROUTE_CMS_NAME);
+        $page->setUrl('/my-page');
+        $page->setSite($site);
         $admin->setSubject($page);
 
         $routeGenerator = $this->createMock(RouteGeneratorInterface::class);
@@ -68,6 +66,6 @@ final class PageAdminTest extends TestCase
         $admin->setRouteGenerator($routeGenerator);
         $admin->setSubject($page);
 
-        $admin->buildTabMenu('edit');
+        $admin->getSideMenu('edit');
     }
 }

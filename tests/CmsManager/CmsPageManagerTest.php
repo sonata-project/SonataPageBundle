@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\PageBundle\Tests\Page;
+namespace Sonata\PageBundle\Tests\CmsManager;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -281,7 +281,7 @@ final class CmsPageManagerTest extends TestCase
         return $mock;
     }
 
-    private function createManager($pageManager, $blockInteractor): CmsPageManager
+    private function createManager(PageManagerInterface $pageManager, BlockInteractorInterface $blockInteractor): CmsPageManager
     {
         return new CmsPageManager($pageManager, $blockInteractor);
     }

@@ -13,19 +13,20 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Block;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use Sonata\BlockBundle\Block\BlockContext;
 use Sonata\BlockBundle\Model\Block;
 use Sonata\BlockBundle\Model\BlockInterface;
-use Sonata\BlockBundle\Test\AbstractBlockServiceTestCase;
+use Sonata\BlockBundle\Test\BlockServiceTestCase;
 use Sonata\PageBundle\Block\PageListBlockService;
 use Sonata\PageBundle\Model\Page;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 
-final class PageListBlockServiceTest extends AbstractBlockServiceTestCase
+final class PageListBlockServiceTest extends BlockServiceTestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|PageManagerInterface
+     * @var PageManagerInterface&MockObject
      */
     protected $pageManager;
 

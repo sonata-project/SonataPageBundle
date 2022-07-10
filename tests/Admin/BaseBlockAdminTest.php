@@ -35,7 +35,7 @@ final class BaseBlockAdminTest extends TestCase
         $blockAdmin = $this->getMockBuilder(BaseBlockAdmin::class)
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
-        $blockAdmin->setParent($parent);
+        $blockAdmin->setParent($parent, 'foo');
 
         $query = $this->createMock(ProxyQueryInterface::class);
         $idx = [];

@@ -68,7 +68,7 @@ class SnapshotAdmin extends AbstractAdmin
         $actions = parent::getBatchActions();
 
         $actions['toggle_enabled'] = [
-            'label' => $this->trans('toggle_enabled'),
+            'label' => $this->getTranslator()->trans('toggle_enabled', [], 'SonataPageBundle'),
             'ask_confirmation' => true,
         ];
 
