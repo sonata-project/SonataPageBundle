@@ -12,6 +12,10 @@
         <target>L'URL racine '/' est déjà associée à une autre page de ce site, veuillez sélectionner
                 un parent.</target>
       </trans-unit>
+      <trans-unit id="error.uniq_url.no_site" resname="error.uniq_url.no_site">
+        <source>error.uniq_url.no_site</source>
+        <target>error.uniq_url.no_site</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

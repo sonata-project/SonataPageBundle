@@ -21,10 +21,7 @@ use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
-/**
- * @final since sonata-project/page-bundle 3.26
- */
-class UniqueUrlValidator extends ConstraintValidator
+final class UniqueUrlValidator extends ConstraintValidator
 {
     /**
      * @var PageManagerInterface
