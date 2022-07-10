@@ -15,14 +15,13 @@ namespace Sonata\PageBundle\Validator;
 
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
-use Sonata\PageBundle\Model\SiteInterface;
+use Sonata\PageBundle\Validator\Constraints\UniqueUrl;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
+use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
-/**
- * @final since sonata-project/page-bundle 3.26
- */
-class UniqueUrlValidator extends ConstraintValidator
+final class UniqueUrlValidator extends ConstraintValidator
 {
     /**
      * @var PageManagerInterface
@@ -36,14 +35,21 @@ class UniqueUrlValidator extends ConstraintValidator
 
     public function validate($value, Constraint $constraint): void
     {
-        if (!$value instanceof PageInterface) {
-            $this->context->addViolation('The page is not valid, expected a PageInterface');
-
+        if (!$constraint instanceof UniqueUrl) {
+            throw new UnexpectedTypeException($constraint, UniqueUrl::class);
+        }
+        // do not validate on null, use NotNull instead
+        if (null === $value) {
             return;
         }
+        if (!$value instanceof PageInterface) {
+            throw new UnexpectedValueException($value, PageInterface::class);
+        }
 
-        if (!$value->getSite() instanceof SiteInterface) {
-            $this->context->addViolation('The page is not linked to a Site');
+        if (null === $value->getSite()) {
+            $this->context->buildViolation('error.uniq_url.no_site')
+                ->atPath('site')
+                ->addViolation();
 
             return;
         }

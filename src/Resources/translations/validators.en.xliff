@@ -12,6 +12,10 @@
         <target>The root URL '/' is already associated with another page of this site, please select a parent.
                 </target>
       </trans-unit>
+      <trans-unit id="error.uniq_url.no_site" resname="error.uniq_url.no_site">
+        <source>error.uniq_url.no_site</source>
+        <target>A website must be assigned to the page.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
