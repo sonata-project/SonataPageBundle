@@ -65,6 +65,7 @@
         "phpunit/phpunit": "^9.5",
         "psalm/plugin-phpunit": "^0.16",
         "psalm/plugin-symfony": "^3.0",
+        "rector/rector": "dev-main",
         "sonata-project/cache": "^2.0",
         "sonata-project/cache-bundle": "^3.3",
         "symfony/browser-kit": "^4.4",
