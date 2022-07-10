@@ -12,10 +12,6 @@
         <target>L'URL radice '/' è già associato ad un'altra pagina di questo sito, selezionare un genitore.
                 </target>
       </trans-unit>
-      <trans-unit id="error.uniq_url.no_site" resname="error.uniq_url.no_site">
-        <source>error.uniq_url.no_site</source>
-        <target>error.uniq_url.no_site</target>
-      </trans-unit>
     </body>
   </file>
 </xliff>
