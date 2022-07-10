@@ -14,7 +14,7 @@
       </trans-unit>
       <trans-unit id="error.uniq_url.no_site" resname="error.uniq_url.no_site">
         <source>error.uniq_url.no_site</source>
-        <target>error.uniq_url.no_site</target>
+        <target>Un site Web doit être attribué à la page.</target>
       </trans-unit>
     </body>
   </file>
