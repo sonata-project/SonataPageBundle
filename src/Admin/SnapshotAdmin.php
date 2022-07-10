@@ -63,18 +63,6 @@ class SnapshotAdmin extends AbstractAdmin
             ->add('publicationDateEnd', DateTimePickerType::class, ['required' => false, 'dp_side_by_side' => true]);
     }
 
-    public function getBatchActions()
-    {
-        $actions = parent::getBatchActions();
-
-        $actions['toggle_enabled'] = [
-            'label' => $this->trans('toggle_enabled'),
-            'ask_confirmation' => true,
-        ];
-
-        return $actions;
-    }
-
     public function postUpdate($object)
     {
         if (null !== $this->cacheManager) {
@@ -96,5 +84,17 @@ class SnapshotAdmin extends AbstractAdmin
     public function setCacheManager(CacheManagerInterface $cacheManager)
     {
         $this->cacheManager = $cacheManager;
+    }
+
+    protected function configureBatchActions($actions): array
+    {
+        $actions = parent::configureBatchActions($actions);
+
+        $actions['toggle_enabled'] = [
+            'label' => 'toggle_enabled',
+            'ask_confirmation' => true,
+        ];
+
+        return $actions;
     }
 }

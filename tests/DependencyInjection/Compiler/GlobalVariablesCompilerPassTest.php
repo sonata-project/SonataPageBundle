@@ -47,7 +47,7 @@ final class GlobalVariablesCompilerPassTest extends AbstractCompilerPassTestCase
             ->setDefinition('twig', $twigDefinition);
 
         $this->container
-            ->register('sonata.page.admin.page', $this->createStub(AdminInterface::class));
+            ->register('sonata.page.admin.page', AdminInterface::class);
 
         $this->compile();
 

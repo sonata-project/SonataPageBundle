@@ -73,7 +73,10 @@ class SiteAdminController extends Controller
                 ]);
             }
 
-            $this->addFlash('sonata_flash_success', $this->admin->trans('flash_snapshots_created_success'));
+            $this->addFlash(
+                'sonata_flash_success',
+                $this->admin->getTranslator()->trans('flash_snapshots_created_success', [], 'SonataPageBundle')
+            );
 
             return new RedirectResponse($this->admin->generateUrl('edit', ['id' => $object->getId()]));
         }
