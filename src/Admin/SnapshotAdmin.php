@@ -57,12 +57,12 @@ class SnapshotAdmin extends AbstractAdmin
             ->add('publicationDateEnd', DateTimePickerType::class, ['required' => false, 'dp_side_by_side' => true]);
     }
 
-    public function getBatchActions()
+    protected function configureBatchActions($actions): array
     {
-        $actions = parent::getBatchActions();
+        $actions = parent::configureBatchActions($actions);
 
         $actions['toggle_enabled'] = [
-            'label' => $this->trans('toggle_enabled'),
+            'label' => 'toggle_enabled',
             'ask_confirmation' => true,
         ];
 

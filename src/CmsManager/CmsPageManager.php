@@ -143,7 +143,7 @@ class CmsPageManager extends BaseCmsPageManager
         return $this->blocks[$id];
     }
 
-    protected function getPageBy(?SiteInterface $site = null, $fieldName, $value)
+    protected function getPageBy(?SiteInterface $site, $fieldName, $value)
     {
         if ('id' === $fieldName) {
             $id = $value;

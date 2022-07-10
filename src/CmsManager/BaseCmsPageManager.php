@@ -79,5 +79,5 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
      *
      * @return PageInterface
      */
-    abstract protected function getPageBy(?SiteInterface $site = null, $fieldName, $value);
+    abstract protected function getPageBy(?SiteInterface $site, $fieldName, $value);
 }
