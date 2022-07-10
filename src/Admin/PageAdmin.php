@@ -160,7 +160,6 @@ class PageAdmin extends AbstractAdmin
 
         $actions['snapshot'] = [
             'label' => 'create_snapshot',
-            'translation_domain' => $this->getTranslationDomain(),
             'ask_confirmation' => true,
         ];
 
@@ -266,10 +265,10 @@ class PageAdmin extends AbstractAdmin
                 'field_options' => [
                     'required' => false,
                     'choices' => [
-                        'hybrid' => $this->getTranslator()->trans('hybrid', [], 'SonataPageBundle'),
-                        'cms' => $this->getTranslator()->trans('cms', [], 'SonataPageBundle'),
+                        'hybrid' => 'hybrid',
+                        'cms' => 'cms',
                     ],
-                    'choice_translation_domain' => false,
+                    'choice_translation_domain' => 'SonataPageBundle',
                 ],
                 'field_type' => ChoiceType::class,
             ]);
