@@ -25,5 +25,4 @@ use Sonata\Doctrine\Model\PageableManagerInterface;
  */
 interface SiteManagerInterface extends ManagerInterface, PageableManagerInterface
 {
-    public const ALL = 'all';
 }

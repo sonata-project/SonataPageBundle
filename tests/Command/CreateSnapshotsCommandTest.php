@@ -18,7 +18,7 @@ use Sonata\PageBundle\Command\CreateSnapshotsCommand;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Service\Contract\CreateSnapshotBySiteInterface;
-use Sonata\PageBundle\Service\Contract\GetSitesFromCommand;
+use Sonata\PageBundle\Service\Contract\GetSitesFromCommandInterface;
 use Sonata\PageBundle\Tests\App\AppKernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -99,7 +99,7 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
             ->method('createBySite')
             ->with(static::isInstanceOf(SiteInterface::class));
 
-        $getSitesServiceMock = $this->createMock(GetSitesFromCommand::class);
+        $getSitesServiceMock = $this->createMock(GetSitesFromCommandInterface::class);
         $getSitesServiceMock
             ->expects(static::once())
             ->method('findSitesById')
@@ -149,7 +149,7 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
             ->expects(static::exactly($createSnapshotServiceWillBeExecuted))
             ->method('createBySite');
 
-        $getSitesServiceMock = $this->createMock(GetSitesFromCommand::class);
+        $getSitesServiceMock = $this->createMock(GetSitesFromCommandInterface::class);
         $getSitesServiceMock
             ->expects(static::once())
             ->method('findSitesById')

@@ -5,10 +5,12 @@ namespace Sonata\PageBundle\Service;
 use Sonata\PageBundle\Exception\ParameterNotAllowedException;
 use Sonata\PageBundle\Model\Site;
 use Sonata\PageBundle\Model\SiteManagerInterface;
-use Sonata\PageBundle\Service\Contract\GetSitesFromCommand;
+use Sonata\PageBundle\Service\Contract\GetSitesFromCommandInterface;
 
-final class GetSitesService implements GetSitesFromCommand
+final class GetSitesService implements GetSitesFromCommandInterface
 {
+    private const ALL = 'all';
+
     private $siteManager;
 
     public function __construct(SiteManagerInterface $siteManager)
@@ -17,24 +19,21 @@ final class GetSitesService implements GetSitesFromCommand
     }
 
     /**
-     * @param array<int>|array<SiteManagerInterface::ALL> $ids
+     * @param array<int>|array<self::ALL> $ids
      * @return array<Site>
      * @throws ParameterNotAllowedException
      */
     public function findSitesById(array $ids): array
     {
         $hasInvalidString = array_filter($ids, function ($id) {
-            return is_string($id) && $id !== SiteManagerInterface::ALL;
+            return is_string($id) && $id !== self::ALL;
         });
 
         if ($hasInvalidString) {
-            throw new ParameterNotAllowedException(sprintf(
-                'The parameter "%s" is not allowed.'
-                , $hasInvalidString[0])
-            );
+            throw new ParameterNotAllowedException;
         }
 
-        if ([SiteManagerInterface::ALL] === $ids) {
+        if ([self::ALL] === $ids) {
             return $this->siteManager->findAll();
         }
 

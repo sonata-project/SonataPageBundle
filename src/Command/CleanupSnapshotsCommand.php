@@ -62,7 +62,12 @@ class CleanupSnapshotsCommand extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        foreach ($this->getSites($input) as $site) {
+        $siteOption = $input->getOption('site');
+
+        //NEXT_MAJOR: Inject GetSitesFromCommand $getSites
+        $getSites = $this->getContainer()->get('sonata.page.service.get_sites');
+
+        foreach ($getSites->findSitesById($siteOption) as $site) {
             if ('all' !== $input->getOption('site')) {
                 if ('async' === $input->getOption('mode')) {
                     $output->write(sprintf('<info>%s</info> - Publish a notification command ...', $site->getName()));

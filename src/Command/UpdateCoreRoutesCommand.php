@@ -48,7 +48,9 @@ class UpdateCoreRoutesCommand extends BaseCommand
             );
         }
 
-        if (!$input->getOption('site')) {
+        $siteOption = $input->getOption('site');
+
+        if (!$siteOption) {
             $output->writeln('Please provide an <info>--site=SITE_ID</info> option or the <info>--site=all</info> directive');
             $output->writeln('');
 
@@ -61,7 +63,10 @@ class UpdateCoreRoutesCommand extends BaseCommand
             return 0;
         }
 
-        foreach ($this->getSites($input) as $site) {
+        //NEXT_MAJOR: Inject GetSitesFromCommand $getSites
+        $getSites = $this->getContainer()->get('sonata.page.service.get_sites');
+
+        foreach ($getSites->findSitesById($siteOption) as $site) {
             if ('all' !== $input->getOption('site')) {
                 $this->getRoutePageGenerator()->update($site, $output, $input->getOption('clean'));
                 $output->writeln('');

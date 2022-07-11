@@ -5,10 +5,10 @@ namespace Sonata\PageBundle\Service\Contract;
 use Sonata\PageBundle\Model\Site;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 
-interface GetSitesFromCommand
+interface GetSitesFromCommandInterface
 {
     /**
-     * @param array<int>|array<SiteManagerInterface::ALL> $ids
+     * @param array<int>|array<self::ALL> $ids
      * @return array<Site>
      */
     public function findSitesById(array $ids): array;

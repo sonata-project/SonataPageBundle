@@ -62,7 +62,6 @@ class GetSitesServiceTest extends TestCase
 
         //Assert
         static::expectException(ParameterNotAllowedException::class);
-        static::expectExceptionMessage('The parameter "otherValueDifferentOfAll" is not allowed.');
 
         //Run code
         $getSitesService =  new GetSitesService($siteManagerMock);
