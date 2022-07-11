@@ -136,19 +136,6 @@ class PageAdmin extends AbstractAdmin
         return false;
     }
 
-    public function getBatchActions()
-    {
-        $actions = parent::getBatchActions();
-
-        $actions['snapshot'] = [
-            'label' => 'create_snapshot',
-            'translation_domain' => $this->getTranslationDomain(),
-            'ask_confirmation' => true,
-        ];
-
-        return $actions;
-    }
-
     public function setSiteManager(SiteManagerInterface $siteManager)
     {
         $this->siteManager = $siteManager;
@@ -165,6 +152,18 @@ class PageAdmin extends AbstractAdmin
     public function setCacheManager(CacheManagerInterface $cacheManager)
     {
         $this->cacheManager = $cacheManager;
+    }
+
+    protected function configureBatchActions($actions): array
+    {
+        $actions = parent::configureBatchActions($actions);
+
+        $actions['snapshot'] = [
+            'label' => 'create_snapshot',
+            'ask_confirmation' => true,
+        ];
+
+        return $actions;
     }
 
     protected function alterNewInstance(object $object): void
@@ -266,10 +265,10 @@ class PageAdmin extends AbstractAdmin
                 'field_options' => [
                     'required' => false,
                     'choices' => [
-                        'hybrid' => $this->trans('hybrid'),
-                        'cms' => $this->trans('cms'),
+                        'hybrid' => 'hybrid',
+                        'cms' => 'cms',
                     ],
-                    'choice_translation_domain' => false,
+                    'choice_translation_domain' => 'SonataPageBundle',
                 ],
                 'field_type' => ChoiceType::class,
             ]);

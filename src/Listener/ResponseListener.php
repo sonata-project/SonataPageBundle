@@ -96,7 +96,7 @@ class ResponseListener
             $response->setPrivate();
 
             if (!$request->cookies->has('sonata_page_is_editor')) {
-                $response->headers->setCookie(new Cookie('sonata_page_is_editor', '1'));
+                $response->headers->setCookie(Cookie::create('sonata_page_is_editor', '1'));
             }
         }
 
