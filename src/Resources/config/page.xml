@@ -51,7 +51,7 @@
             <argument type="service" id="sonata.page.cms_manager_selector"/>
             <argument type="service" id="sonata.page.page_service_manager"/>
             <argument type="service" id="sonata.page.decorator_strategy"/>
-            <argument type="service" id="sonata.templating"/>
+            <argument type="service" id="twig"/>
             <argument>%sonata.page.skip_redirection%</argument>
         </service>
         <service id="sonata.page.request_listener" class="%sonata.page.request_listener.class%">
@@ -98,7 +98,7 @@
             <argument type="service" id="sonata.page.kernel.exception_listener"/>
         </service>
         <service id="sonata.page.template_manager" class="%sonata.page.template.manager.class%" public="true">
-            <argument type="service" id="sonata.templating"/>
+            <argument type="service" id="twig"/>
             <argument type="collection"/>
         </service>
         <service id="sonata.page.page_service_manager" class="%sonata.page.service.manager.class%" public="true">

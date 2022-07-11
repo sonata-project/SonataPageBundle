@@ -22,11 +22,11 @@ use Sonata\PageBundle\Exception\InternalErrorException;
 use Sonata\PageBundle\Listener\ResponseListener;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Page\PageServiceManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Twig\Environment;
 
 final class ResponseListenerTest extends TestCase
 {
@@ -51,9 +51,9 @@ final class ResponseListenerTest extends TestCase
     private $cmsSelector;
 
     /**
-     * @var MockObject&EngineInterface
+     * @var MockObject&Environment
      */
-    private $templating;
+    private $twig;
 
     /**
      * @var ResponseListener
@@ -70,13 +70,14 @@ final class ResponseListenerTest extends TestCase
         $this->cmsManager = $this->createMock(CmsManagerInterface::class);
         $this->cmsSelector = $this->createMock(CmsManagerSelectorInterface::class);
         $this->cmsSelector->expects(static::once())->method('retrieve')->willReturn($this->cmsManager);
-        $this->templating = $this->createMock(EngineInterface::class);
+        $this->twig = $this->createMock(Environment::class);
 
         $this->listener = new ResponseListener(
             $this->cmsSelector,
             $this->pageServiceManager,
             $this->decoratorStrategy,
-            $this->templating
+            $this->twig,
+            true
         );
     }
 

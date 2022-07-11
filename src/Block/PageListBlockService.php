@@ -15,39 +15,32 @@ namespace Sonata\PageBundle\Block;
 
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\BlockBundle\Block\BlockContextInterface;
-use Sonata\BlockBundle\Block\Service\AbstractAdminBlockService;
+use Sonata\BlockBundle\Block\Service\AbstractBlockService;
 use Sonata\BlockBundle\Meta\Metadata;
-use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\Form\Type\ImmutableArrayType;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Twig\Environment;
 
-/**
- * @final since sonata-project/page-bundle 3.26
- */
-class PageListBlockService extends AbstractAdminBlockService
+final class PageListBlockService extends AbstractBlockService
 {
-    /**
-     * @var PageManagerInterface
-     */
-    protected $pageManager;
+    private PageManagerInterface $pageManager;
 
-    /**
-     * @param string $name
-     */
-    public function __construct($name, EngineInterface $templating, PageManagerInterface $pageManager)
+    private string $name;
+
+    public function __construct(string $name, Environment $twig, PageManagerInterface $pageManager)
     {
-        parent::__construct($name, $templating);
+        parent::__construct($twig);
 
+        $this->name = $name;
         $this->pageManager = $pageManager;
     }
 
-    public function buildEditForm(FormMapper $form, BlockInterface $block): void
+    public function buildEditForm(FormMapper $form): void
     {
         $form->add('settings', ImmutableArrayType::class, [
             'keys' => [
@@ -79,7 +72,7 @@ class PageListBlockService extends AbstractAdminBlockService
         ]);
     }
 
-    public function execute(BlockContextInterface $blockContext, ?Response $response = null)
+    public function execute(BlockContextInterface $blockContext, ?Response $response = null): Response
     {
         $pageList = $this->pageManager->findBy([
             'routeName' => PageInterface::PAGE_ROUTE_CMS_NAME,
@@ -111,10 +104,15 @@ class PageListBlockService extends AbstractAdminBlockService
         ]);
     }
 
-    public function getBlockMetadata($code = null)
+    public function getBlockMetadata($code = null): Metadata
     {
-        return new Metadata($this->getName(), (null !== $code ? $code : $this->getName()), false, 'SonataPageBundle', [
+        return new Metadata($this->getName(), (null !== $code ? $code : $this->getName()), null, 'SonataPageBundle', [
             'class' => 'fa fa-home',
         ]);
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 }

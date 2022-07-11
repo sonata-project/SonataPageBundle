@@ -13,22 +13,17 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Block controller.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class BlockController extends Controller
+final class BlockController extends AbstractController
 {
-    /**
-     * @return Response
-     */
-    public function emptyAction()
+    public function emptyAction(): Response
     {
         return new Response('Empty response');
     }

@@ -16,7 +16,7 @@ namespace Sonata\PageBundle\Admin;
 use Doctrine\ORM\EntityRepository;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
-use Sonata\BlockBundle\Block\BlockServiceInterface;
+use Sonata\BlockBundle\Block\Service\BlockServiceInterface;
 use Sonata\BlockBundle\Block\Service\EditableBlockService;
 use Sonata\BlockBundle\Form\Type\ServiceListType;
 use Sonata\BlockBundle\Model\BlockInterface;
@@ -32,16 +32,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * Admin class for the Block model.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class BlockAdmin extends BaseBlockAdmin
+final class BlockAdmin extends BaseBlockAdmin
 {
-    /**
-     * @var array
-     */
-    protected $blocks;
-
     protected $classnameLabel = 'Block';
 
     protected $accessMapping = [
@@ -50,12 +43,9 @@ class BlockAdmin extends BaseBlockAdmin
         'composePreview' => 'EDIT',
     ];
 
-    /**
-     * @param string $code
-     * @param string $class
-     * @param string $baseControllerName
-     */
-    public function __construct($code, $class, $baseControllerName, array $blocks = [])
+    private array $blocks;
+
+    public function __construct(string $code, string $class, string $baseControllerName, array $blocks = [])
     {
         parent::__construct($code, $class, $baseControllerName);
 
@@ -150,9 +140,9 @@ class BlockAdmin extends BaseBlockAdmin
                         return $repository->createQueryBuilder('a')
                             ->andWhere('a.page = :page AND a.type IN (:types)')
                             ->setParameters([
-                                    'page' => $page,
-                                    'types' => $containerBlockTypes,
-                                ]);
+                                'page' => $page,
+                                'types' => $containerBlockTypes,
+                            ]);
                     },
                 ], [
                     'admin_code' => $this->getCode(),
@@ -186,24 +176,13 @@ class BlockAdmin extends BaseBlockAdmin
         }
     }
 
-    /**
-     * @return string|null
-     */
-    private function getDefaultTemplate(BlockServiceInterface $blockService)
+    private function getDefaultTemplate(BlockServiceInterface $blockService): ?string
     {
         $resolver = new OptionsResolver();
-        // use new interface method whenever possible
-        // NEXT_MAJOR: Remove this check and legacy setDefaultSettings method call
-        if (method_exists($blockService, 'configureSettings')) {
-            $blockService->configureSettings($resolver);
-        } else {
-            $blockService->setDefaultSettings($resolver);
-        }
+        $blockService->configureSettings($resolver);
         $options = $resolver->resolve();
 
-        if (isset($options['template'])) {
-            return $options['template'];
-        }
+        return $options['template'] ?? null;
     }
 
     private function configureBlockFields(FormMapper $form, BlockInterface $block): void

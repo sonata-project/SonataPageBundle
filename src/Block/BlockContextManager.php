@@ -13,24 +13,67 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Block;
 
+use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Block\BlockContextManager as BaseBlockContextManager;
-use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\BlockBundle\Block\BlockContextManagerInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- * NEXT_MAJOR: Do not extend from `BlockContextManager` since it will be final.
- *
- * @psalm-suppress InvalidExtendClass
- * @phpstan-ignore-next-line
- *
- * @final since sonata-project/page-bundle 3.26
- */
-class BlockContextManager extends BaseBlockContextManager
+final class BlockContextManager implements BlockContextManagerInterface
 {
-    protected function configureSettings(OptionsResolver $optionsResolver, BlockInterface $block): void
-    {
-        parent::configureSettings($optionsResolver, $block);
+    /** @var BaseBlockContextManager|BlockContextManagerInterface */
+    private $blockContextManager;
 
+    private OptionsResolver $optionsResolver;
+
+    /**
+     * @param BaseBlockContextManager|BlockContextManagerInterface $blockContextManager
+     */
+    public function __construct($blockContextManager)
+    {
+        $this->blockContextManager = $blockContextManager;
+        $this->optionsResolver = new OptionsResolver();
+    }
+
+    public function getOptionsResolver(): OptionsResolver
+    {
+        return $this->optionsResolver;
+    }
+
+    /**
+     * @return BaseBlockContextManager|BlockContextManagerInterface
+     */
+    public function getBlockContextManager()
+    {
+        return $this->blockContextManager;
+    }
+
+    public function addSettingsByType(string $type, array $settings, bool $replace = false): void
+    {
+        $this->blockContextManager->addSettingsByType($type, $settings, $replace);
+    }
+
+    public function addSettingsByClass(string $class, array $settings, bool $replace = false): void
+    {
+        $this->blockContextManager->addSettingsByClass($class, $settings, $replace);
+    }
+
+    public function get($meta, array $settings = []): BlockContextInterface
+    {
+        $this->configureSettings($this->optionsResolver);
+
+        return $this->blockContextManager->get($meta, [
+            'manager' => false,
+            'page_id' => false,
+        ]);
+    }
+
+    public function exists(string $type): bool
+    {
+        return $this->blockContextManager->exists($type);
+    }
+
+    private function configureSettings(OptionsResolver $optionsResolver): void
+    {
         $optionsResolver->setDefaults([
             'manager' => false,
             'page_id' => false,

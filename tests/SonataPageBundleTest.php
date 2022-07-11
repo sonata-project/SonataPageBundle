@@ -15,10 +15,11 @@ namespace Sonata\PageBundle\Tests;
 
 use Cocur\Slugify\Slugify;
 use PHPUnit\Framework\TestCase;
+use Sonata\PageBundle\Model\Page as BasePage;
 use Sonata\PageBundle\SonataPageBundle;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-final class Page extends \Sonata\PageBundle\Model\Page
+final class Page extends BasePage
 {
     /**
      * Returns the id.
@@ -38,7 +39,6 @@ final class SonataPageBundleTest extends TestCase
     {
         $bundle = new SonataPageBundle();
         $container = $this->createMock(ContainerInterface::class);
-        $container->expects(static::once())->method('hasParameter')->willReturn(true);
         $container->expects(static::exactly(2))->method('getParameter')->willReturnCallback(static function ($value) {
             if ('sonata.page.page.class' === $value) {
                 return Page::class;

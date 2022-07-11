@@ -29,17 +29,13 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  * Page Admin Controller.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class PageAdminController extends Controller
+final class PageAdminController extends Controller
 {
     /**
      * @throws AccessDeniedException
-     *
-     * @return RedirectResponse
      */
-    public function batchActionSnapshot($query)
+    public function batchActionSnapshot($query): RedirectResponse
     {
         if (false === $this->get('sonata.page.admin.snapshot')->isGranted('CREATE')) {
             throw new AccessDeniedException();
@@ -86,10 +82,7 @@ class PageAdminController extends Controller
         return parent::listAction();
     }
 
-    /**
-     * @return Response
-     */
-    public function treeAction(?Request $request = null)
+    public function treeAction(?Request $request = null): Response
     {
         $this->admin->checkAccess('tree');
 
@@ -120,7 +113,7 @@ class PageAdminController extends Controller
         $theme = $this->admin->getFilterTheme();
         $this->setFormTheme($formView, $theme);
 
-        return $this->render($this->admin->getTemplate('tree'), [
+        return $this->renderWithExtraParams($this->admin->getTemplate('tree'), [
             'action' => 'tree',
             'sites' => $sites,
             'currentSite' => $currentSite,
@@ -139,9 +132,9 @@ class PageAdminController extends Controller
 
             if (1 === \count($sites)) {
                 return $this->redirect($this->admin->generateUrl('create', [
-                    'siteId' => $sites[0]->getId(),
-                    'uniqid' => $this->admin->getUniqid(),
-                ] + $request->query->all()));
+                        'siteId' => $sites[0]->getId(),
+                        'uniqid' => $this->admin->getUniqid(),
+                    ] + $request->query->all()));
             }
 
             try {
@@ -150,7 +143,7 @@ class PageAdminController extends Controller
                 $current = false;
             }
 
-            return $this->render($this->admin->getTemplate('select_site'), [
+            return $this->renderWithExtraParams($this->admin->getTemplate('select_site'), [
                 'sites' => $sites,
                 'current' => $current,
             ]);
@@ -162,10 +155,8 @@ class PageAdminController extends Controller
     /**
      * @throws AccessDeniedException
      * @throws NotFoundHttpException
-     *
-     * @return Response
      */
-    public function composeAction(?Request $request = null)
+    public function composeAction(?Request $request = null): Response
     {
         $this->admin->checkAccess('compose');
         if (false === $this->get('sonata.page.admin.block')->isGranted('LIST')) {
@@ -222,7 +213,7 @@ class PageAdminController extends Controller
             }
         }
 
-        return $this->render($this->admin->getTemplate('compose'), [
+        return $this->renderWithExtraParams($this->admin->getTemplate('compose'), [
             'object' => $page,
             'action' => 'edit',
             'template' => $template,
@@ -238,10 +229,8 @@ class PageAdminController extends Controller
     /**
      * @throws AccessDeniedException
      * @throws NotFoundHttpException
-     *
-     * @return Response
      */
-    public function composeContainerShowAction(?Request $request = null)
+    public function composeContainerShowAction(?Request $request = null): Response
     {
         if (false === $this->get('sonata.page.admin.block')->isGranted('LIST')) {
             throw new AccessDeniedException();
@@ -272,7 +261,7 @@ class PageAdminController extends Controller
             }
         }
 
-        return $this->render($this->admin->getTemplate('compose_container_show'), [
+        return $this->renderWithExtraParams($this->admin->getTemplate('compose_container_show'), [
             'blockServices' => $blockServices,
             'container' => $block,
             'page' => $block->getPage(),

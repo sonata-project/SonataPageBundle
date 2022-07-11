@@ -13,24 +13,86 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Block;
 
+use Sonata\BlockBundle\Block\BlockContextInterface;
+use Sonata\BlockBundle\Block\Service\BlockServiceInterface;
 use Sonata\BlockBundle\Block\Service\ContainerBlockService as BaseContainerBlockService;
+use Sonata\BlockBundle\Block\Service\EditableBlockService;
+use Sonata\BlockBundle\Form\Mapper\FormMapper;
 use Sonata\BlockBundle\Meta\Metadata;
+use Sonata\BlockBundle\Meta\MetadataInterface;
+use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\Form\Validator\ErrorElement;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Twig\Environment;
 
 /**
- * NEXT_MAJOR: Do not extend from `ContainerBlockService` since it will be final.
- *
  * Render children pages.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @psalm-suppress InvalidExtendClass
- * @phpstan-ignore-next-line
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class ContainerBlockService extends BaseContainerBlockService
+final class ContainerBlockService implements BlockServiceInterface, EditableBlockService
 {
+    private string $name;
+
+    private BaseContainerBlockService $containerBlockService;
+
+    public function __construct(string $name, BaseContainerBlockService $containerBlockService)
+    {
+        $this->name = $name;
+        $this->containerBlockService = $containerBlockService;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getTwig(): Environment
+    {
+        return $this->containerBlockService->getTwig();
+    }
+
+    public function getContainerBlockService(): BaseContainerBlockService
+    {
+        return $this->containerBlockService;
+    }
+
+    public function execute(BlockContextInterface $blockContext, ?Response $response = null): Response
+    {
+        return $this->containerBlockService->execute($blockContext, $response);
+    }
+
+    public function load(BlockInterface $block): void
+    {
+        $this->containerBlockService->load($block);
+    }
+
+    public function getCacheKeys(BlockInterface $block): array
+    {
+        return $this->containerBlockService->getCacheKeys($block);
+    }
+
+    public function configureEditForm(FormMapper $form, BlockInterface $block): void
+    {
+        $this->containerBlockService->configureEditForm($form, $block);
+    }
+
+    public function configureCreateForm(FormMapper $form, BlockInterface $block): void
+    {
+        $this->containerBlockService->configureCreateForm($form, $block);
+    }
+
+    public function validate(ErrorElement $errorElement, BlockInterface $block): void
+    {
+        $this->containerBlockService->validate($errorElement, $block);
+    }
+
+    public function getMetadata(): MetadataInterface
+    {
+        return $this->getContainerBlockService()->getMetadata();
+    }
+
     public function configureSettings(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
@@ -43,7 +105,7 @@ class ContainerBlockService extends BaseContainerBlockService
 
     public function getBlockMetadata($code = null)
     {
-        return new Metadata($this->getName(), (null !== $code ? $code : $this->getName()), false, 'SonataPageBundle', [
+        return new Metadata($this->getName(), (null !== $code ? $code : $this->getName()), null, 'SonataPageBundle', [
             'class' => 'fa fa-square-o',
         ]);
     }

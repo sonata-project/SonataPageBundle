@@ -16,7 +16,7 @@ namespace Sonata\PageBundle\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\BlockBundle\Block\BlockServiceInterface;
+use Sonata\BlockBundle\Block\Service\BlockServiceInterface;
 use Sonata\BlockBundle\Block\Service\EditableBlockService;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\PageBundle\Entity\BaseBlock;
@@ -77,8 +77,8 @@ class SharedBlockAdmin extends BaseBlockAdmin
 
         $form
             ->with('form.field_group_general')
-                ->add('name', null, ['required' => true])
-                ->add('enabled')
+            ->add('name', null, ['required' => true])
+            ->add('enabled')
             ->end();
 
         $form->with('form.field_group_options');
@@ -100,7 +100,7 @@ class SharedBlockAdmin extends BaseBlockAdmin
 
         if (!$service instanceof BlockServiceInterface) {
             throw new \RuntimeException(sprintf(
-                'The block "%s" is not a valid %s',
+                'The block "%s" must implement %s',
                 $blockType,
                 BlockServiceInterface::class
             ));

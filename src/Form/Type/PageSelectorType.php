@@ -20,16 +20,13 @@ use Sonata\PageBundle\Model\SiteInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
  * Select a page.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class PageSelectorType extends AbstractType
+final class PageSelectorType extends AbstractType
 {
     /**
      * @var PageManagerInterface
@@ -61,7 +58,7 @@ class PageSelectorType extends AbstractType
         ]);
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver): void
+    public function setDefaultOptions(OptionsResolver $resolver): void
     {
         $this->configureOptions($resolver);
     }

@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\BlockBundle\Block\BlockContextInterface;
-use Sonata\BlockBundle\Block\Service\AbstractAdminBlockService;
+use Sonata\BlockBundle\Block\Service\AbstractBlockService;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\Doctrine\Model\ManagerInterface;
 use Sonata\Form\Type\ImmutableArrayType;
@@ -25,50 +25,38 @@ use Sonata\Form\Validator\ErrorElement;
 use Sonata\PageBundle\Admin\SharedBlockAdmin;
 use Sonata\PageBundle\Model\Block;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Twig\Environment;
 
 /**
  * Render a shared block.
  *
  * @author Romain Mouillard <romain.mouillard@gmail.com>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class SharedBlockBlockService extends AbstractAdminBlockService
+final class SharedBlockBlockService extends AbstractBlockService
 {
-    /**
-     * @var SharedBlockAdmin
-     */
-    private $sharedBlockAdmin;
+    private SharedBlockAdmin $sharedBlockAdmin;
+
+    private ContainerInterface $container;
+
+    private ManagerInterface $blockManager;
 
     /**
-     * @var ContainerInterface
-     */
-    private $container;
-
-    /**
-     * @var ManagerInterface
-     */
-    private $blockManager;
-
-    /**
-     * @param string $name
-     *
      * @psalm-suppress ContainerDependency
      */
-    public function __construct($name, EngineInterface $templating, ContainerInterface $container, ManagerInterface $blockManager)
+    public function __construct(Environment $twig, ContainerInterface $container, ManagerInterface $blockManager, SharedBlockAdmin $sharedBlockAdmin)
     {
-        $this->name = $name;
-        $this->templating = $templating;
+        parent::__construct($twig);
+
         $this->container = $container;
         $this->blockManager = $blockManager;
+        $this->sharedBlockAdmin = $sharedBlockAdmin;
     }
 
-    public function execute(BlockContextInterface $blockContext, ?Response $response = null)
+    public function execute(BlockContextInterface $blockContext, ?Response $response = null): Response
     {
         $block = $blockContext->getBlock();
 
@@ -80,17 +68,17 @@ class SharedBlockBlockService extends AbstractAdminBlockService
         $sharedBlock = $block->getSetting('blockId');
 
         return $this->renderResponse($blockContext->getTemplate(), [
-                'block' => $blockContext->getBlock(),
-                'settings' => $blockContext->getSettings(),
-                'sharedBlock' => $sharedBlock,
-            ], $response);
+            'block' => $blockContext->getBlock(),
+            'settings' => $blockContext->getSettings(),
+            'sharedBlock' => $sharedBlock,
+        ], $response);
     }
 
     public function validateBlock(ErrorElement $errorElement, BlockInterface $block): void
     {
         $errorElement
             ->with('settings[blockId]')
-                ->addConstraint(new NotBlank())
+            ->addConstraint(new NotBlank())
             ->end();
     }
 
@@ -107,7 +95,7 @@ class SharedBlockBlockService extends AbstractAdminBlockService
         ]);
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'Shared Block';
     }
@@ -141,10 +129,7 @@ class SharedBlockBlockService extends AbstractAdminBlockService
         $block->setSetting('blockId', \is_object($block->getSetting('blockId')) ? $block->getSetting('blockId')->getId() : null);
     }
 
-    /**
-     * @return SharedBlockAdmin
-     */
-    protected function getSharedBlockAdmin()
+    private function getSharedBlockAdmin(): SharedBlockAdmin
     {
         if (!$this->sharedBlockAdmin) {
             $this->sharedBlockAdmin = $this->container->get('sonata.page.admin.shared_block');
@@ -153,13 +138,10 @@ class SharedBlockBlockService extends AbstractAdminBlockService
         return $this->sharedBlockAdmin;
     }
 
-    /**
-     * @return FormBuilder
-     */
-    protected function getBlockBuilder(FormMapper $form)
+    private function getBlockBuilder(FormMapper $form): FormBuilderInterface
     {
         // simulate an association ...
-        $fieldDescription = $this->getSharedBlockAdmin()->getModelManager()->getNewFieldDescriptionInstance($this->sharedBlockAdmin->getClass(), 'block', [
+        $fieldDescription = $this->getSharedBlockAdmin()->getFieldDescriptionFactory()->create($this->sharedBlockAdmin->getClass(), 'block', [
             'translation_domain' => 'SonataPageBundle',
         ]);
         $fieldDescription->setAssociationAdmin($this->getSharedBlockAdmin());

@@ -19,7 +19,7 @@ use Sonata\PageBundle\Exception\InternalErrorException;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Listener\ExceptionListener;
 use Sonata\PageBundle\Page\PageServiceManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -31,20 +31,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  *
  * @final since sonata-project/page-bundle 3.26
  */
-class PageController extends Controller
+class PageController extends AbstractController
 {
-    /**
-     * @throws AccessDeniedException
-     *
-     * @return Response
-     *
-     * NEXT_MAJOR: Remove this method
-     */
-    public function exceptionsListAction()
-    {
-        return $this->exceptionsList();
-    }
-
     /**
      * @throws AccessDeniedException
      */
@@ -60,23 +48,9 @@ class PageController extends Controller
     }
 
     /**
-     * @param string $code
-     *
-     * @throws InternalErrorException|AccessDeniedException
-     *
-     * @return Response
-     *
-     * NEXT_MAJOR: Remove this method
-     */
-    public function exceptionEditAction($code)
-    {
-        return $this->exceptionEdit($code);
-    }
-
-    /**
      * @throws InternalErrorException|AccessDeniedException
      */
-    public function exceptionEdit(string $code): Response
+    public function exceptionEdit(int $code): Response
     {
         $cms = $this->getCmsManager();
 
@@ -96,42 +70,27 @@ class PageController extends Controller
         return $this->getPageServiceManager()->execute($page, $this->getRequestObject());
     }
 
-    /**
-     * @return ExceptionListener
-     */
-    public function getExceptionListener()
+    public function getExceptionListener(): ExceptionListener
     {
         return $this->get('sonata.page.kernel.exception_listener');
     }
 
-    /**
-     * @return PageServiceManagerInterface
-     */
-    protected function getPageServiceManager()
+    protected function getPageServiceManager(): PageServiceManagerInterface
     {
         return $this->get('sonata.page.page_service_manager');
     }
 
-    /**
-     * @return CmsManagerInterface
-     */
-    protected function getCmsManager()
+    protected function getCmsManager(): CmsManagerInterface
     {
         return $this->getCmsManagerSelector()->retrieve();
     }
 
-    /**
-     * @return CmsManagerSelectorInterface
-     */
-    protected function getCmsManagerSelector()
+    protected function getCmsManagerSelector(): CmsManagerSelectorInterface
     {
         return $this->get('sonata.page.cms_manager_selector');
     }
 
-    /**
-     * @return Request
-     */
-    private function getRequestObject()
+    private function getRequestObject(): Request
     {
         return $this->container->get('request_stack')->getCurrentRequest();
     }

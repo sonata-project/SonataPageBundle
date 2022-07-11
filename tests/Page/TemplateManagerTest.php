@@ -17,9 +17,8 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Model\Template;
 use Sonata\PageBundle\Page\TemplateManager;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Templating\StreamingEngineInterface;
+use Twig\Environment;
 
 final class TemplateManagerTest extends TestCase
 {
@@ -28,9 +27,10 @@ final class TemplateManagerTest extends TestCase
      */
     public function testAddSingleTemplate(): void
     {
+        /** @var Template|MockObject $template */
         $template = $this->getMockTemplate('template');
-        $templating = $this->createMock(EngineInterface::class);
-        $manager = new TemplateManager($templating);
+        $twig = $this->createMock(Environment::class);
+        $manager = new TemplateManager($twig);
 
         $manager->add('code', $template);
 
@@ -42,8 +42,8 @@ final class TemplateManagerTest extends TestCase
      */
     public function testSetAllTemplates(): void
     {
-        $templating = $this->createMock(EngineInterface::class);
-        $manager = new TemplateManager($templating);
+        $twig = $this->createMock(Environment::class);
+        $manager = new TemplateManager($twig);
 
         $templates = [
             'test1' => $this->getMockTemplate('template'),
@@ -62,8 +62,8 @@ final class TemplateManagerTest extends TestCase
      */
     public function testSetDefaultTemplateCode(): void
     {
-        $templating = $this->createMock(EngineInterface::class);
-        $manager = new TemplateManager($templating);
+        $twig = $this->createMock(Environment::class);
+        $manager = new TemplateManager($twig);
 
         $manager->setDefaultTemplateCode('test');
 
@@ -78,19 +78,22 @@ final class TemplateManagerTest extends TestCase
         $template = $this->getMockTemplate('template', 'path/to/template');
 
         $response = $this->createMock(Response::class);
-        $templating = $this->createMock(EngineInterface::class);
-        $templating
+        $response->expects(static::once())
+            ->method('getContent')
+            ->willReturn('');
+        $twig = $this->createMock(Environment::class);
+        $twig
             ->expects(static::once())
-            ->method('renderResponse')
+            ->method('render')
             ->with(static::equalTo('path/to/template'))
             ->willReturn($response);
 
-        $manager = new TemplateManager($templating);
+        $manager = new TemplateManager($twig);
         $manager->add('test', $template);
 
         static::assertSame(
-            $response,
-            $manager->renderResponse('test'),
+            $response->getContent(),
+            $manager->renderResponse('test')->getContent(),
             'should return the mocked response'
         );
     }
@@ -100,12 +103,12 @@ final class TemplateManagerTest extends TestCase
      */
     public function testRenderResponseWithNonExistingCode(): void
     {
-        $templating = $this->createMock(EngineInterface::class);
-        $templating
+        $twig = $this->createMock(Environment::class);
+        $twig
             ->expects(static::once())
-            ->method('renderResponse')
+            ->method('render')
             ->with(static::equalTo('@SonataPage/layout.html.twig'));
-        $manager = new TemplateManager($templating);
+        $manager = new TemplateManager($twig);
 
         $manager->renderResponse('test');
     }
@@ -116,21 +119,24 @@ final class TemplateManagerTest extends TestCase
     public function testRenderResponseWithoutCode(): void
     {
         $response = $this->createMock(Response::class);
-        $templating = $this->createMock(EngineInterface::class);
-        $templating
+        $response->expects(static::once())
+            ->method('getContent')
+            ->willReturn('');
+        $twig = $this->createMock(Environment::class);
+        $twig
             ->expects(static::once())
-            ->method('renderResponse')
+            ->method('render')
             ->with(static::equalTo('path/to/default'))
             ->willReturn($response);
 
         $template = $this->getMockTemplate('template', 'path/to/default');
-        $manager = new TemplateManager($templating);
+        $manager = new TemplateManager($twig);
         $manager->add('default', $template);
         $manager->setDefaultTemplateCode('default');
 
         static::assertSame(
-            $response,
-            $manager->renderResponse(null),
+            $response->getContent(),
+            $manager->renderResponse('')->getContent(),
             'should return the mocked response'
         );
     }
@@ -143,8 +149,11 @@ final class TemplateManagerTest extends TestCase
         $template = $this->getMockTemplate('template', 'path/to/template');
 
         $response = $this->createMock(Response::class);
-        $templating = $this->createMock(EngineInterface::class);
-        $templating->expects(static::once())->method('renderResponse')
+        $response->expects(static::once())
+            ->method('getContent')
+            ->willReturn('');
+        $twig = $this->createMock(Environment::class);
+        $twig->expects(static::once())->method('render')
             ->with(
                 static::equalTo('path/to/template'),
                 static::equalTo(['parameter1' => 'value', 'parameter2' => 'value'])
@@ -153,12 +162,12 @@ final class TemplateManagerTest extends TestCase
 
         $defaultParameters = ['parameter1' => 'value'];
 
-        $manager = new TemplateManager($templating, $defaultParameters);
+        $manager = new TemplateManager($twig, $defaultParameters);
         $manager->add('test', $template);
 
         static::assertSame(
-            $response,
-            $manager->renderResponse('test', ['parameter2' => 'value']),
+            $response->getContent(),
+            $manager->renderResponse('test', ['parameter2' => 'value'])->getContent(),
             'should return the mocked response'
         );
     }
@@ -174,8 +183,4 @@ final class TemplateManagerTest extends TestCase
 
         return $template;
     }
-}
-
-abstract class MockTemplating implements EngineInterface, StreamingEngineInterface
-{
 }

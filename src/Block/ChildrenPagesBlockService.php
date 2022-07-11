@@ -15,7 +15,7 @@ namespace Sonata\PageBundle\Block;
 
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\BlockBundle\Block\BlockContextInterface;
-use Sonata\BlockBundle\Block\Service\AbstractAdminBlockService;
+use Sonata\BlockBundle\Block\Service\AbstractBlockService;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\Form\Type\ImmutableArrayType;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
@@ -26,39 +26,28 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Templating\EngineInterface;
+use Twig\Environment;
 
 /**
  * Render children pages.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class ChildrenPagesBlockService extends AbstractAdminBlockService
+final class ChildrenPagesBlockService extends AbstractBlockService
 {
-    /**
-     * @var SiteSelectorInterface
-     */
-    protected $siteSelector;
+    private SiteSelectorInterface $siteSelector;
 
-    /**
-     * @var CmsManagerSelectorInterface
-     */
-    protected $cmsManagerSelector;
+    private CmsManagerSelectorInterface $cmsManagerSelector;
 
-    /**
-     * @param string $name
-     */
-    public function __construct($name, EngineInterface $templating, SiteSelectorInterface $siteSelector, CmsManagerSelectorInterface $cmsManagerSelector)
+    public function __construct(Environment $twig, SiteSelectorInterface $siteSelector, CmsManagerSelectorInterface $cmsManagerSelector)
     {
-        parent::__construct($name, $templating);
+        parent::__construct($twig);
 
         $this->siteSelector = $siteSelector;
         $this->cmsManagerSelector = $cmsManagerSelector;
     }
 
-    public function execute(BlockContextInterface $blockContext, ?Response $response = null)
+    public function execute(BlockContextInterface $blockContext, ?Response $response = null): Response
     {
         $settings = $blockContext->getSettings();
 
@@ -91,7 +80,7 @@ class ChildrenPagesBlockService extends AbstractAdminBlockService
         $form->add('settings', ImmutableArrayType::class, [
             'keys' => [
                 ['title', TextType::class, [
-                  'required' => false,
+                    'required' => false,
                     'label' => 'form.label_title',
                 ]],
                 ['translation_domain', TextType::class, [
@@ -103,8 +92,8 @@ class ChildrenPagesBlockService extends AbstractAdminBlockService
                     'required' => false,
                 ]],
                 ['current', CheckboxType::class, [
-                  'required' => false,
-                  'label' => 'form.label_current',
+                    'required' => false,
+                    'label' => 'form.label_current',
                 ]],
                 ['pageId', PageSelectorType::class, [
                     'model_manager' => $form->getAdmin()->getModelManager(),
@@ -114,15 +103,15 @@ class ChildrenPagesBlockService extends AbstractAdminBlockService
                     'label' => 'form.label_page',
                 ]],
                 ['class', TextType::class, [
-                  'required' => false,
-                  'label' => 'form.label_class',
+                    'required' => false,
+                    'label' => 'form.label_class',
                 ]],
             ],
             'translation_domain' => 'SonataPageBundle',
         ]);
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'Children Page (core)';
     }

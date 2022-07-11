@@ -25,17 +25,13 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  * Block Admin Controller.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class BlockAdminController extends Controller
+final class BlockAdminController extends Controller
 {
     /**
      * @throws AccessDeniedException
-     *
-     * @return Response
      */
-    public function savePositionAction(?Request $request = null)
+    public function savePositionAction(?Request $request = null): Response
     {
         $this->admin->checkAccess('savePosition');
 
@@ -86,7 +82,7 @@ class BlockAdminController extends Controller
         $parameters = $this->admin->getPersistentParameters();
 
         if (!$parameters['type']) {
-            return $this->render('@SonataPage/BlockAdmin/select_type.html.twig', [
+            return $this->renderWithExtraParams('@SonataPage/BlockAdmin/select_type.html.twig', [
                 'services' => $this->get('sonata.block.manager')->getServicesByContext('sonata_page_bundle'),
                 'base_template' => $this->getBaseTemplate(),
                 'admin' => $this->admin,
@@ -97,10 +93,7 @@ class BlockAdminController extends Controller
         return parent::createAction();
     }
 
-    /**
-     * @return Response
-     */
-    public function switchParentAction(?Request $request = null)
+    public function switchParentAction(?Request $request = null): Response
     {
         $this->admin->checkAccess('switchParent');
 
@@ -129,10 +122,8 @@ class BlockAdminController extends Controller
     /**
      * @throws AccessDeniedException
      * @throws PageNotFoundException
-     *
-     * @return Response
      */
-    public function composePreviewAction(?Request $request = null)
+    public function composePreviewAction(?Request $request = null): Response
     {
         $this->admin->checkAccess('composePreview');
 
@@ -151,7 +142,7 @@ class BlockAdminController extends Controller
 
         $blockServices = $this->get('sonata.block.manager')->getServicesByContext('sonata_page_bundle', false);
 
-        return $this->render('@SonataPage/BlockAdmin/compose_preview.html.twig', [
+        return $this->renderWithExtraParams('@SonataPage/BlockAdmin/compose_preview.html.twig', [
             'container' => $container,
             'child' => $block,
             'blockServices' => $blockServices,

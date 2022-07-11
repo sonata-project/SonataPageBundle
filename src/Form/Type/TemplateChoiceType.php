@@ -17,16 +17,13 @@ use Sonata\PageBundle\Page\TemplateManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
  * Select a template.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class TemplateChoiceType extends AbstractType
+final class TemplateChoiceType extends AbstractType
 {
     /**
      * @var TemplateManagerInterface
@@ -46,16 +43,6 @@ class TemplateChoiceType extends AbstractType
         ];
 
         $resolver->setDefaults($defaults);
-    }
-
-    /**
-     * NEXT_MAJOR: remove this method.
-     *
-     * @deprecated since sonata-project/page-bundle 3.14, to be removed in version 4.0.
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver): void
-    {
-        $this->configureOptions($resolver);
     }
 
     /**
@@ -79,15 +66,5 @@ class TemplateChoiceType extends AbstractType
     public function getBlockPrefix()
     {
         return 'sonata_page_template';
-    }
-
-    /**
-     * NEXT_MAJOR: remove this method.
-     *
-     * @deprecated since sonata-project/page-bundle 3.14, to be removed in version 4.0.
-     */
-    public function getName()
-    {
-        return $this->getBlockPrefix();
     }
 }

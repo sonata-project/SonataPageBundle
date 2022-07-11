@@ -23,10 +23,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  * Snapshot Admin Controller.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class SnapshotAdminController extends Controller
+final class SnapshotAdminController extends Controller
 {
     public function createAction(?Request $request = null)
     {
@@ -74,10 +72,8 @@ class SnapshotAdminController extends Controller
 
     /**
      * @throws AccessDeniedException
-     *
-     * @return RedirectResponse
      */
-    public function batchActionToggleEnabled($query)
+    public function batchActionToggleEnabled($query): RedirectResponse
     {
         $this->admin->checkAccess('batchToggleEnabled');
 

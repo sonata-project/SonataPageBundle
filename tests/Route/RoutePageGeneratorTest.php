@@ -14,16 +14,21 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Route;
 
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
+use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\CmsManager\DecoratorStrategy;
 use Sonata\PageBundle\Entity\PageManager;
 use Sonata\PageBundle\Listener\ExceptionListener;
 use Sonata\PageBundle\Model\SiteInterface;
+use Sonata\PageBundle\Page\PageServiceManagerInterface;
 use Sonata\PageBundle\Route\RoutePageGenerator;
+use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Sonata\PageBundle\Tests\Model\Page;
 use Symfony\Component\Console\Output\StreamOutput;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\RouterInterface;
+use Twig\Environment;
 
 /**
  * @author Vincent Composieux <vincent.composieux@gmail.com>
@@ -179,8 +184,27 @@ final class RoutePageGeneratorTest extends TestCase
 
         $decoratorStrategy = new DecoratorStrategy([], [], []);
 
-        $exceptionListener = $this->createMock(ExceptionListener::class);
-        $exceptionListener->method('getHttpErrorCodes')->willReturn([404, 500]);
+        $siteSelector = $this->createMock(SiteSelectorInterface::class);
+        $cmsManagerSelector = $this->createMock(CmsManagerSelectorInterface::class);
+        $twig = $this->createMock(Environment::class);
+        $pageServiceManager = $this->createMock(PageServiceManagerInterface::class);
+        $logger = $this->createMock(LoggerInterface::class);
+
+        $errors = [
+            '404' => 'route_404',
+            '500' => 'route_500',
+        ];
+
+        $exceptionListener = new ExceptionListener(
+            $siteSelector,
+            $cmsManagerSelector,
+            true,
+            $twig,
+            $pageServiceManager,
+            $decoratorStrategy,
+            $errors,
+            $logger
+        );
 
         return new RoutePageGenerator($router, $pageManager, $decoratorStrategy, $exceptionListener);
     }

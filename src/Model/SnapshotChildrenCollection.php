@@ -17,25 +17,23 @@ namespace Sonata\PageBundle\Model;
  * SnapshotChildrenCollection.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class SnapshotChildrenCollection implements \Countable, \IteratorAggregate, \ArrayAccess
+final class SnapshotChildrenCollection implements \Countable, \IteratorAggregate, \ArrayAccess
 {
     /**
      * @var TransformerInterface
      */
-    protected $transformer;
+    private $transformer;
 
     /**
      * @var PageInterface
      */
-    protected $page;
+    private $page;
 
     /**
      * @var array
      */
-    protected $collection;
+    private $collection;
 
     public function __construct(TransformerInterface $transformer, PageInterface $page)
     {
@@ -43,18 +41,16 @@ class SnapshotChildrenCollection implements \Countable, \IteratorAggregate, \Arr
         $this->page = $page;
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         $this->load();
-
-        return $this->collection->offsetUnset($offset);
+        $this->collection->offsetUnset($offset);
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $this->load();
-
-        return $this->collection->offsetSet($offset, $value);
+        $this->collection->offsetSet($offset, $value);
     }
 
     public function offsetGet($offset)
@@ -64,21 +60,21 @@ class SnapshotChildrenCollection implements \Countable, \IteratorAggregate, \Arr
         return $this->collection->offsetGet($offset);
     }
 
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         $this->load();
 
         return $this->collection->offsetExists($offset);
     }
 
-    public function getIterator()
+    public function getIterator(): \Iterator
     {
         $this->load();
 
         return $this->collection->getIterator();
     }
 
-    public function count()
+    public function count(): int
     {
         $this->load();
 
