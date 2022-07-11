@@ -73,9 +73,10 @@ class CreateSnapshotsCommand extends BaseCommand
             return 1;
         }
 
-        $sites = $this->getSites($input);
+        //NEXT_MAJOR: Inject GetSitesFromCommand $getSites
+        $getSites = $this->getContainer()->get('sonata.page.service.get_sites');
 
-        foreach ($sites as $site) {
+        foreach ($getSites->findSitesById($siteOption) as $site) {
             // NEXT_MAJOR: Remove this "async" condition block.
             if ('async' === $input->getOption('mode')) {
                 @trigger_error(

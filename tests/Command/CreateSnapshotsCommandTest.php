@@ -15,16 +15,17 @@ namespace Sonata\PageBundle\Tests\Command;
 
 use Sonata\NotificationBundle\Backend\BackendInterface;
 use Sonata\PageBundle\Command\CreateSnapshotsCommand;
-use Sonata\PageBundle\Model\Site;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Service\Contract\CreateSnapshotBySiteInterface;
+use Sonata\PageBundle\Service\Contract\GetSitesFromCommand;
 use Sonata\PageBundle\Tests\App\AppKernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Tester\CommandTester;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 final class CreateSnapshotsCommandTest extends KernelTestCase
 {
@@ -98,15 +99,32 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
             ->method('createBySite')
             ->with(static::isInstanceOf(SiteInterface::class));
 
+        $getSitesServiceMock = $this->createMock(GetSitesFromCommand::class);
+        $getSitesServiceMock
+            ->expects(static::once())
+            ->method('findSitesById')
+            ->willReturn([$this->createMock(SiteInterface::class)]);
+
+        $containerMock = $this->createMock(ContainerInterface::class);
+        $containerMock
+            ->method('get')
+            ->with('sonata.page.service.get_sites')
+            ->willReturn($getSitesServiceMock);
+
         $createSnapshotCommandMock = $this->getMockBuilder(CreateSnapshotsCommand::class)
-            ->onlyMethods(['getSites'])
+            ->onlyMethods(['getContainer'])
             ->setConstructorArgs([$createSnapshotsMock])
             ->getMock();
         $createSnapshotCommandMock
-            ->method('getSites')
-            ->willReturn([$this->createMock(SiteInterface::class)]);
+            ->method('getContainer')
+            ->willReturn($containerMock);
 
         $inputMock = $this->createMock(InputInterface::class);
+        $inputMock
+            ->method('getOption')
+            ->willReturnOnConsecutiveCalls(['all'], 'sync')
+        ;
+
         $outputMock = $this->createMock(OutputInterface::class);
 
         //Run code
@@ -131,24 +149,39 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
             ->expects(static::exactly($createSnapshotServiceWillBeExecuted))
             ->method('createBySite');
 
+        $getSitesServiceMock = $this->createMock(GetSitesFromCommand::class);
+        $getSitesServiceMock
+            ->expects(static::once())
+            ->method('findSitesById')
+            ->willReturn([$this->createMock(SiteInterface::class)]);
+
+        $containerMock = $this->createMock(ContainerInterface::class);
+        $containerMock
+            ->method('get')
+            ->with('sonata.page.service.get_sites')
+            ->willReturn($getSitesServiceMock);
+
         $commandMock = $this
             ->getMockBuilder(CreateSnapshotsCommand::class)
-            ->onlyMethods(['getNotificationBackend', 'getSites'])
+            ->onlyMethods(['getNotificationBackend', 'getContainer'])
             ->setConstructorArgs([$createSnapshotServiceMock])
             ->getMock();
+
         $commandMock
-            ->expects(static::once())
-            ->method('getSites')
-            ->willReturn([$this->createMock(Site::class)]);
+            ->method('getContainer')
+            ->willReturn($containerMock);
+
         $commandMock
             ->expects(static::exactly($notificationWillBeExecuted))
             ->method('getNotificationBackend')
             ->willReturn($this->createMock(BackendInterface::class));
 
         $inputMock = $this->createMock(InputInterface::class);
+        $inputMock = $this->createMock(InputInterface::class);
         $inputMock
             ->method('getOption')
-            ->willReturn($mode);
+            ->willReturnOnConsecutiveCalls(['all'], $mode)
+        ;
 
         $outputMock = $this->createMock(OutputInterface::class);
         $outputMock

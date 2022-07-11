@@ -6,5 +6,9 @@
             <argument type="service" id="sonata.page.manager.page"/>
             <argument type="service" id="sonata.page.transformer"/>
         </service>
+
+        <service id="sonata.page.service.get_sites" class="Sonata\PageBundle\Service\GetSitesService" public="true">
+            <argument type="service" id="sonata.page.manager.site"/>
+        </service>
     </services>
 </container>
