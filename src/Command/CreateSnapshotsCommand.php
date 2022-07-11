@@ -44,7 +44,7 @@ class CreateSnapshotsCommand extends BaseCommand
         //NEXT_MAJOR: Remove the "if" condition and let only the "else" code.
         if (\is_string($createSnapshot) || null === $createSnapshot) {
             @trigger_error(sprintf(
-                'The %s class is final since sonata-project/page-bundle 3.27.0 and in 4.0'
+                'The %s class is final since sonata-project/page-bundle 3.27.0 and and it will be removed in 4.0'
                  .'release you won\'t be able to extend this class anymore.',
                 __CLASS__
             ), \E_USER_DEPRECATED);
