@@ -33,131 +33,64 @@ use Symfony\Component\Console\Input\InputInterface;
  * NEXT_MAJOR: Remove this class, and for all commands that use this class need to extend from Symfony command.
  *
  * @deprecated since 3.27, and it will be removed in 4.0.
+ *
+ * TODO Add deprecate message in __construct
  */
 abstract class BaseCommand extends ContainerAwareCommand
 {
     /**
      * @return SiteManagerInterface
-     *
-     * NEXT_MAJOR: Remove this method
-     *
-     * @deprecated since 3.27, and it will be removed in 4.0.
      */
     public function getSiteManager()
     {
-        @trigger_error(sprintf(
-            'This method: %s deprecated since sonata-project/page-bundle 3.27.0 and it will be removed in 4.0',
-            __METHOD__
-        ), \E_USER_DEPRECATED);
-
         return $this->getContainer()->get('sonata.page.manager.site');
     }
 
     /**
      * @return PageManagerInterface
-     *
-     * NEXT_MAJOR: Remove this method,
-     *      and move this "sonata.page.manager.page" to "CreateBlockContainerCommand" and "CloneSite",
-     *      But remember to inject the PageManager instead of get from container.
-     *
-     * @deprecated since 3.27, and it will be removed in 4.0.
-     *
-     * TODO I need to move this getPageManager to "CreateBlockContainerCommand" and "CloneSite"
      */
     public function getPageManager()
     {
-        @trigger_error(sprintf(
-            'This method: %s deprecated since sonata-project/page-bundle 3.27.0 and it will be removed in 4.0',
-            __METHOD__
-        ), \E_USER_DEPRECATED);
-
         return $this->getContainer()->get('sonata.page.manager.page');
     }
 
     /**
      * @return BlockManagerInterface
-     *
-     * NEXT_MAJOR: Remove this method
-     *
-     * @deprecated since 3.27, and it will be removed in 4.0.
-     *
-     * TODO this method is used only in Cleanup snapshot, move this method to there!
      */
     public function getBlockManager()
     {
-        @trigger_error(sprintf(
-            'This method: %s deprecated since sonata-project/page-bundle 3.27.0 and it will be removed in 4.0',
-            __METHOD__
-        ), \E_USER_DEPRECATED);
-
         return $this->getContainer()->get('sonata.page.manager.block');
     }
 
     /**
      * @return SnapshotManagerInterface
-     *
-     * NEXT_MAJOR: Remove this method
-     *
-     * @deprecated since 3.27, and it will be removed in 4.0.
      */
     public function getSnapshotManager()
     {
-        @trigger_error(sprintf(
-            'This method: %s deprecated since sonata-project/page-bundle 3.27.0 and it will be removed in 4.0',
-            __METHOD__
-        ), \E_USER_DEPRECATED);
-
         return $this->getContainer()->get('sonata.page.manager.snapshot');
     }
 
     /**
      * @return CmsPageManager
-     *
-     * NEXT_MAJOR: Remove this method
-     *
-     * @deprecated since 3.27, and it will be removed in 4.0.
      */
     public function getCmsPageManager()
     {
-        @trigger_error(sprintf(
-            'This method: %s deprecated since sonata-project/page-bundle 3.27.0 and it will be removed in 4.0',
-            __METHOD__
-        ), \E_USER_DEPRECATED);
-
         return $this->getContainer()->get('sonata.page.cms.page');
     }
 
     /**
      * @return DecoratorStrategyInterface
-     *
-     * NEXT_MAJOR: Remove this method
-     *
-     * @deprecated since 3.27, and it will be removed in 4.0.
      */
     public function getDecoratorStrategy()
     {
-        @trigger_error(sprintf(
-            'This method: %s deprecated since sonata-project/page-bundle 3.27.0 and it will be removed in 4.0',
-            __METHOD__
-        ), \E_USER_DEPRECATED);
-
         return $this->getContainer()->get('sonata.page.decorator_strategy');
     }
 
     /**
      * @return ExceptionListener
-     *
-     * NEXT_MAJOR: Remove this method
-     *
-     * @deprecated since 3.27, and it will be removed in 4.0.
      */
     public function getErrorListener()
     {
-        @trigger_error(sprintf(
-            'This method: %s deprecated since sonata-project/page-bundle 3.27.0 and it will be removed in 4.0',
-            __METHOD__
-        ), \E_USER_DEPRECATED);
-
         return $this->getContainer()->get('sonata.page.kernel.exception_listener');
     }
 
@@ -165,18 +98,9 @@ abstract class BaseCommand extends ContainerAwareCommand
      * @param string $mode
      *
      * @return BackendInterface
-     *
-     * NEXT_MAJOR: Remove this method
-     *
-     * @deprecated since 3.27, and it will be removed in 4.0.
      */
     public function getNotificationBackend($mode)
     {
-        @trigger_error(sprintf(
-            'This method: %s deprecated since sonata-project/page-bundle 3.27.0 and it will be removed in 4.0',
-            __METHOD__
-        ), \E_USER_DEPRECATED);
-
         if ('async' === $mode) {
             return $this->getContainer()->get('sonata.notification.backend');
         }
@@ -186,20 +110,9 @@ abstract class BaseCommand extends ContainerAwareCommand
 
     /**
      * @return Site[]
-     *
-     * NEXT_MAJOR: Remove this method
-     *
-     * @deprecated since 3.27, and it will be removed in 4.0.
-     *
-     * TODO move this method for the commands that is using it.
      */
     protected function getSites(InputInterface $input)
     {
-        @trigger_error(sprintf(
-            'This method: %s deprecated since sonata-project/page-bundle 3.27.0 and it will be removed in 4.0',
-            __METHOD__
-        ), \E_USER_DEPRECATED);
-
         $parameters = [];
         $identifiers = $input->getOption('site');
 
