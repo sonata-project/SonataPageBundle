@@ -11,8 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\PageBundle\Exception;
+namespace Sonata\PageBundle\Service\Contract;
 
-class ParameterNotAllowedException extends SonataPageException
+use Sonata\PageBundle\Model\SiteInterface;
+
+interface CleanupSnapshotBySiteInterface
 {
+    public function cleanupBySite(SiteInterface $site, int $keepSnapshots): void;
 }

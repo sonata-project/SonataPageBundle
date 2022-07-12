@@ -1,5 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the Sonata Project package.
+ *
+ * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Sonata\PageBundle\Tests\Service;
 
 use PHPUnit\Framework\TestCase;
@@ -29,11 +40,11 @@ class GetSitesServiceTest extends TestCase
             ->willReturn([$siteMock]);
 
         //Run code
-        $getSitesService =  new GetSitesService($siteManagerMock);
+        $getSitesService = new GetSitesService($siteManagerMock);
         $result = $getSitesService->findSitesById($ids);
 
         //Asserts
-        static::assertEquals([$siteMock], $result);
+        static::assertSame([$siteMock], $result);
     }
 
     public function getProvidedData(): array
@@ -59,12 +70,11 @@ class GetSitesServiceTest extends TestCase
             ->expects(static::any())
             ->method('findBy');
 
-
         //Assert
         static::expectException(ParameterNotAllowedException::class);
 
         //Run code
-        $getSitesService =  new GetSitesService($siteManagerMock);
+        $getSitesService = new GetSitesService($siteManagerMock);
         $getSitesService->findSitesById(['otherValueDifferentOfAll']);
     }
 }

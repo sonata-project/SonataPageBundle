@@ -73,13 +73,13 @@ class CleanupSnapshotsCommand extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $siteOption = $input->getOption('site');
+        $keepSnapshots = $input->getOption('keep-snapshots');
 
         //NEXT_MAJOR: Inject GetSitesFromCommand $getSites
         $getSites = $this->getContainer()->get('sonata.page.service.get_sites');
 
         foreach ($getSites->findSitesById($siteOption) as $site) {
             if ('async' === $input->getOption('mode')) {
-
                 @trigger_error(
                     'The async mode is deprecated since sonata-project/page-bundle 3.27.0 and will be removed in 4.0',
                     \E_USER_DEPRECATED
@@ -89,7 +89,7 @@ class CleanupSnapshotsCommand extends BaseCommand
                 $this->getNotificationBackend($input->getOption('mode'))->createAndPublish('sonata.page.cleanup_snapshots', [
                     'siteId' => $site->getId(),
                     'mode' => $input->getOption('mode'),
-                    'keepSnapshots' => $input->getOption('keep-snapshots'),
+                    'keepSnapshots' => $keepSnapshots,
                 ]);
 
                 $output->writeln(' done!');
@@ -97,7 +97,11 @@ class CleanupSnapshotsCommand extends BaseCommand
             }
 
             $output->write(sprintf('<info>%s</info> - Cleaning up snapshots ...', $site->getName()));
-            //TODO Implement the new code.
+
+            //NEXT_MAJOR: inject this class in the constructor CleanupSnapshotBySiteInterface $cleanupSnapshot
+            $cleanupSnapshot = $this->getContainer()->get('sonata.page.service.cleanup_snapshot');
+            $cleanupSnapshot->cleanupBySite($site, $keepSnapshots);
+
             $output->writeln(' done!');
         }
 

@@ -13,12 +13,10 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Consumer;
 
-use Sonata\NotificationBundle\Backend\BackendInterface;
 use Sonata\NotificationBundle\Consumer\ConsumerEvent;
 use Sonata\NotificationBundle\Consumer\ConsumerInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
-use Sonata\PageBundle\Service\Contract\CreateSnapshotByPageInterface;
 
 /**
  * Consumer class to cleanup snapshots by a given page.

@@ -122,8 +122,8 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
         $inputMock = $this->createMock(InputInterface::class);
         $inputMock
             ->method('getOption')
-            ->willReturnOnConsecutiveCalls(['all'], 'sync')
-        ;
+            //NEXT_MAJOR: Change to ->willReturnOnConsecutiveCalls(['all'], 'sync')
+            ->willReturnOnConsecutiveCalls('php app/console', ['all'], 'sync');
 
         $outputMock = $this->createMock(OutputInterface::class);
 
@@ -180,8 +180,8 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
         $inputMock = $this->createMock(InputInterface::class);
         $inputMock
             ->method('getOption')
-            ->willReturnOnConsecutiveCalls(['all'], $mode)
-        ;
+            //NEXT_MAJOR: Change to ->willReturnOnConsecutiveCalls(['all'], $mode)
+            ->willReturnOnConsecutiveCalls('php app/console', ['all'], $mode);
 
         $outputMock = $this->createMock(OutputInterface::class);
         $outputMock
