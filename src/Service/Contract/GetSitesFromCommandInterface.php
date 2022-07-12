@@ -7,6 +7,7 @@ use Sonata\PageBundle\Model\SiteManagerInterface;
 
 interface GetSitesFromCommandInterface
 {
+    public const ALL = 'all';
     /**
      * @param array<int>|array<self::ALL> $ids
      * @return array<Site>

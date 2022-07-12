@@ -59,12 +59,22 @@ class CreateSnapshotsCommand extends BaseCommand
     {
         $this->setDescription('Create a snapshots of all pages available');
         $this->addOption('site', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Site id');
+        //NEXT_MAJOR: Remove the "base-console" option.
         $this->addOption('base-console', null, InputOption::VALUE_OPTIONAL, 'Base symfony console command', 'php app/console');
+        //NEXT_MAJOR: Remove the "mode" option.
         $this->addOption('mode', null, InputOption::VALUE_OPTIONAL, 'Run the command asynchronously', 'sync');
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
+        //NEXT_MAJOR: Remove this condition.
+        if ('php app/console' !== $input->getOption('base-console')) {
+            @trigger_error(
+                'The "base-console" is deprecated since sonata-project/page-bundle 3.27.0 and will be removed in 4.0',
+                \E_USER_DEPRECATED
+            );
+        }
+
         $siteOption = $input->getOption('site');
 
         if ([] === $siteOption) {

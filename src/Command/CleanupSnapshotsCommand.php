@@ -16,7 +16,6 @@ namespace Sonata\PageBundle\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\Process;
 
 /**
  * Cleanups the deprecated snapshots.
@@ -30,14 +29,24 @@ class CleanupSnapshotsCommand extends BaseCommand
         $this->setName('sonata:page:cleanup-snapshots');
         $this->setDescription('Cleanups the deprecated snapshots by a given site');
 
-        $this->addOption('site', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Site id', null);
+        $this->addOption('site', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Site id');
+        //NEXT_MAJOR: Remove the "base-console" option.
         $this->addOption('base-console', null, InputOption::VALUE_OPTIONAL, 'Base Symfony console command', 'app/console');
+        //NEXT_MAJOR: Remove the "mode" option.
         $this->addOption('mode', null, InputOption::VALUE_OPTIONAL, 'Run the command asynchronously', 'sync');
         $this->addOption('keep-snapshots', null, InputOption::VALUE_OPTIONAL, 'Keep a given count of snapshots per page', 5);
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
+        //NEXT_MAJOR: Remove this condition.
+        if ('app/console' !== $input->getOption('base-console')) {
+            @trigger_error(
+                'The "base-console" is deprecated since sonata-project/page-bundle 3.27.0 and will be removed in 4.0',
+                \E_USER_DEPRECATED
+            );
+        }
+
         if (!$input->getOption('site')) {
             $output->writeln('Please provide an <info>--site=SITE_ID</info> option or the <info>--site=all</info> directive');
             $output->writeln('');
@@ -51,6 +60,7 @@ class CleanupSnapshotsCommand extends BaseCommand
             return;
         }
 
+        //NEXT_MAJOR: Remove this condition.
         if (!\in_array($input->getOption('mode'), ['async', 'sync'], true)) {
             throw new \InvalidArgumentException('Option "mode" is not valid (async|sync).');
         }
@@ -68,12 +78,13 @@ class CleanupSnapshotsCommand extends BaseCommand
         $getSites = $this->getContainer()->get('sonata.page.service.get_sites');
 
         foreach ($getSites->findSitesById($siteOption) as $site) {
-            if ('all' !== $input->getOption('site')) {
-                if ('async' === $input->getOption('mode')) {
-                    $output->write(sprintf('<info>%s</info> - Publish a notification command ...', $site->getName()));
-                } else {
-                    $output->write(sprintf('<info>%s</info> - Cleaning up snapshots ...', $site->getName()));
-                }
+            if ('async' === $input->getOption('mode')) {
+
+                @trigger_error(
+                    'The async mode is deprecated since sonata-project/page-bundle 3.27.0 and will be removed in 4.0',
+                    \E_USER_DEPRECATED
+                );
+                $output->write(sprintf('<info>%s</info> - Publish a notification command ...', $site->getName()));
 
                 $this->getNotificationBackend($input->getOption('mode'))->createAndPublish('sonata.page.cleanup_snapshots', [
                     'siteId' => $site->getId(),
@@ -82,21 +93,12 @@ class CleanupSnapshotsCommand extends BaseCommand
                 ]);
 
                 $output->writeln(' done!');
-            } else {
-                $p = new Process(sprintf(
-                    '%s sonata:page:cleanup-snapshots --env=%s --site=%s --mode=%s --keep-snapshots=%s %s',
-                    $input->getOption('base-console'),
-                    $input->getOption('env'),
-                    $site->getId(),
-                    $input->getOption('mode'),
-                    $input->getOption('keep-snapshots'),
-                    $input->getOption('no-debug') ? '--no-debug' : ''
-                ));
-
-                $p->run(static function ($type, $data) use ($output) {
-                    $output->write($data, OutputInterface::OUTPUT_RAW);
-                });
+                continue;
             }
+
+            $output->write(sprintf('<info>%s</info> - Cleaning up snapshots ...', $site->getName()));
+            //TODO Implement the new code.
+            $output->writeln(' done!');
         }
 
         $output->writeln('<info>done!</info>');

@@ -9,8 +9,6 @@ use Sonata\PageBundle\Service\Contract\GetSitesFromCommandInterface;
 
 final class GetSitesService implements GetSitesFromCommandInterface
 {
-    private const ALL = 'all';
-
     private $siteManager;
 
     public function __construct(SiteManagerInterface $siteManager)
