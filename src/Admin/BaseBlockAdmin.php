@@ -179,17 +179,6 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         $this->containerBlockTypes = $containerBlockTypes;
     }
 
-    public function getPersistentParameters(): array
-    {
-        if (!$this->hasRequest()) {
-            return [];
-        }
-
-        return [
-            'type' => $this->getRequest()->get('type'),
-        ];
-    }
-
     public function preBatchAction($actionName, ProxyQueryInterface $query, array &$idx, $allElements): void
     {
         $parent = $this->getParent();
