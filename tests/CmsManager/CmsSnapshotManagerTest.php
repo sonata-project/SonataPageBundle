@@ -28,12 +28,16 @@ use Sonata\PageBundle\Tests\Model\Page;
 
 final class SnapshotBlock extends Block
 {
+    private $id;
+
     public function setId($id): void
     {
+        $this->id = $id;
     }
 
-    public function getId(): void
+    public function getId()
     {
+        return $this->id;
     }
 }
 

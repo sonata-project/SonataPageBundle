@@ -13,8 +13,9 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Block;
 
-use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\BlockBundle\Block\BlockContext;
+use Sonata\BlockBundle\Block\Service\ContainerBlockService as BaseContainerBlockService;
+use Sonata\BlockBundle\Form\Mapper\FormMapper;
 use Sonata\BlockBundle\Model\Block;
 use Sonata\BlockBundle\Test\BlockServiceTestCase;
 use Sonata\PageBundle\Block\ContainerBlockService;
@@ -30,13 +31,6 @@ final class ContainerBlockServiceTest extends BlockServiceTestCase
      */
     public function testExecute(): void
     {
-        $this->twig->expects(static::once())
-            ->method('render')
-            ->with('@SonataPage/Block/block_container.html.twig')
-            ->willReturn('<p> {{ settings.title }} test </p>');
-
-        $service = new ContainerBlockService($this->twig);
-
         $block = new Block();
         $block->setName('block.name');
         $block->setType('core.container');
@@ -44,6 +38,13 @@ final class ContainerBlockServiceTest extends BlockServiceTestCase
             'code' => 'block.code',
         ]);
 
+        $this->twig->expects(static::once())
+            ->method('render')
+            ->with('@SonataPage/Block/block_container.html.twig')
+            ->willReturn('<p> {{ settings.title }} test </p>');
+
+        $baseContainerBlockService = new BaseContainerBlockService($this->twig);
+        $service = new ContainerBlockService($baseContainerBlockService);
         $blockContext = new BlockContext($block, [
             'code' => '',
             'layout' => '{{ CONTENT }}',
@@ -52,6 +53,7 @@ final class ContainerBlockServiceTest extends BlockServiceTestCase
         ]);
 
         $response = $service->execute($blockContext);
+
         static::assertInstanceOf(Response::class, $response);
         static::assertSame('<p> {{ settings.title }} test </p>', $response->getContent());
         static::assertSame(200, $response->getStatusCode());
@@ -62,8 +64,6 @@ final class ContainerBlockServiceTest extends BlockServiceTestCase
      */
     public function testFormBuilder(): void
     {
-        $service = new ContainerBlockService($this->twig);
-
         $block = new Block();
         $block->setName('block.name');
         $block->setType('core.container');
@@ -71,10 +71,12 @@ final class ContainerBlockServiceTest extends BlockServiceTestCase
             'name' => 'block.code',
         ]);
 
-        $form = $this->createMock(FormMapper::class);
-        $form->expects(static::exactly(6))->method('add');
+        $baseContainerBlockService = new BaseContainerBlockService($this->twig);
+        $service = new ContainerBlockService($baseContainerBlockService);
 
-        $service->buildCreateForm($form, $block);
-        $service->buildEditForm($form, $block);
+        $form = $this->createMock(FormMapper::class);
+        $form->expects(static::exactly(3))->method('add');
+
+        $service->configureCreateForm($form, $block);
     }
 }

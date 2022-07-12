@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Block;
 
 use PHPUnit\Framework\MockObject\MockObject;
+use Sonata\AdminBundle\Form\FormMapper as AdminFormMapper;
 use Sonata\BlockBundle\Block\BlockContext;
 use Sonata\BlockBundle\Model\Block;
 use Sonata\BlockBundle\Test\BlockServiceTestCase;
@@ -82,5 +83,16 @@ final class PageListBlockServiceTest extends BlockServiceTestCase
         static::assertInstanceOf(Response::class, $response);
         static::assertSame('<p> {{ settings.title }} test </p>', $response->getContent());
         static::assertSame(200, $response->getStatusCode());
+    }
+
+    public function testFormBuilder(): void
+    {
+        $block = new Block();
+
+        $form = $this->createMock(AdminFormMapper::class);
+        $form->expects(static::once())->method('add');
+
+        $blockService = new PageListBlockService($this->twig, $this->pageManager);
+        $blockService->buildEditForm($form, $block);
     }
 }
