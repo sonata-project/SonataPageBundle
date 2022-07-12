@@ -16,7 +16,7 @@ namespace Sonata\PageBundle\Admin;
 use Doctrine\ORM\EntityRepository;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
-use Sonata\BlockBundle\Block\BlockServiceInterface;
+use Sonata\BlockBundle\Block\Service\BlockServiceInterface;
 use Sonata\BlockBundle\Block\Service\EditableBlockService;
 use Sonata\BlockBundle\Form\Type\ServiceListType;
 use Sonata\BlockBundle\Model\BlockInterface;
@@ -148,9 +148,9 @@ final class BlockAdmin extends BaseBlockAdmin
                         return $repository->createQueryBuilder('a')
                             ->andWhere('a.page = :page AND a.type IN (:types)')
                             ->setParameters([
-                                    'page' => $page,
-                                    'types' => $containerBlockTypes,
-                                ]);
+                                'page' => $page,
+                                'types' => $containerBlockTypes,
+                            ]);
                     },
                 ], [
                     'admin_code' => $this->getCode(),
@@ -190,13 +190,7 @@ final class BlockAdmin extends BaseBlockAdmin
     private function getDefaultTemplate(BlockServiceInterface $blockService)
     {
         $resolver = new OptionsResolver();
-        // use new interface method whenever possible
-        // NEXT_MAJOR: Remove this check and legacy setDefaultSettings method call
-        if (method_exists($blockService, 'configureSettings')) {
-            $blockService->configureSettings($resolver);
-        } else {
-            $blockService->setDefaultSettings($resolver);
-        }
+        $blockService->configureSettings($resolver);
         $options = $resolver->resolve();
 
         return $options['template'] ?? null;

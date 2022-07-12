@@ -11,7 +11,7 @@
     <services>
         <service id="sonata.page.block.container" class="%sonata.page.block.container.class%">
             <tag name="sonata.block" context="internal"/>
-            <argument type="service" id="twig"/>
+            <argument type="service" id="sonata.block.service.container"/>
         </service>
         <service id="sonata.page.block.children_pages" class="%sonata.page.block.children_pages.class%">
             <tag name="sonata.block"/>
@@ -25,16 +25,12 @@
             <argument type="service" id="sonata.block.context_manager"/>
         </service>
         <service id="sonata.page.block.context_manager" class="Sonata\PageBundle\Block\BlockContextManager">
-            <argument type="service" id="sonata.block.loader.service"/>
-            <argument type="service" id="sonata.block.manager"/>
+            <argument type="service" id="sonata.block.context_manager.default"/>
         </service>
         <service id="sonata.page.block.breadcrumb" class="%sonata.page.block.breadcrumb.class%">
             <tag name="sonata.block"/>
             <tag name="sonata.breadcrumb"/>
-            <argument>page</argument>
-            <argument>sonata.page.block.breadcrumb</argument>
-            <argument type="service" id="sonata.templating"/>
-            <argument type="service" id="knp_menu.menu_provider"/>
+            <argument type="service" id="twig"/>
             <argument type="service" id="knp_menu.factory"/>
             <argument type="service" id="sonata.page.cms_manager_selector"/>
         </service>
