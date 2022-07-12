@@ -29,10 +29,8 @@ interface TemplateManagerInterface
      * @param string   $code       Template code
      * @param array    $parameters An array of view parameters
      * @param Response $response   Response to update
-     *
-     * @return Response
      */
-    public function renderResponse($code, array $parameters = [], ?Response $response = null);
+    public function renderResponse(string $code, array $parameters = [], ?Response $response = null): Response;
 
     /**
      * Adds a template.

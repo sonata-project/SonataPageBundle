@@ -30,7 +30,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Symfony\Component\Templating\EngineInterface;
+use Twig\Environment;
 
 final class ExceptionListenerTest extends TestCase
 {
@@ -40,9 +40,9 @@ final class ExceptionListenerTest extends TestCase
     private $siteSelector;
 
     /**
-     * @var MockObject&EngineInterface
+     * @var MockObject&Environment
      */
-    private $templating;
+    private $twig;
 
     /**
      * @var MockObject&DecoratorStrategyInterface
@@ -76,7 +76,7 @@ final class ExceptionListenerTest extends TestCase
     {
         // mock dependencies
         $this->siteSelector = $this->createMock(SiteSelectorInterface::class);
-        $this->templating = $this->createMock(EngineInterface::class);
+        $this->twig = $this->createMock(Environment::class);
         $this->decoratorStrategy = $this->createMock(DecoratorStrategyInterface::class);
         $this->pageServiceManager = $this->createMock(PageServiceManagerInterface::class);
         $this->cmsSelector = $this->createMock(CmsManagerSelectorInterface::class);
@@ -91,7 +91,7 @@ final class ExceptionListenerTest extends TestCase
             $this->siteSelector,
             $this->cmsSelector,
             false,
-            $this->templating,
+            $this->twig,
             $this->pageServiceManager,
             $this->decoratorStrategy,
             $errors,
@@ -126,8 +126,8 @@ final class ExceptionListenerTest extends TestCase
         // mocked decorator strategy should allow decorate
         $this->decoratorStrategy->expects(static::once())->method('isRouteUriDecorable')->willReturn(true);
 
-        // mock templating to expect a twig rendering
-        $this->templating->expects(static::once())->method('render')
+        // mock twig to expect a twig rendering
+        $this->twig->expects(static::once())->method('render')
              ->with(static::equalTo('@SonataPage/Page/create.html.twig'));
 
         $this->listener->onKernelException($event);

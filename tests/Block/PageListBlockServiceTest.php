@@ -16,12 +16,12 @@ namespace Sonata\PageBundle\Tests\Block;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sonata\BlockBundle\Block\BlockContext;
 use Sonata\BlockBundle\Model\Block;
-use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\BlockBundle\Test\BlockServiceTestCase;
 use Sonata\PageBundle\Block\PageListBlockService;
 use Sonata\PageBundle\Model\Page;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 final class PageListBlockServiceTest extends BlockServiceTestCase
 {
@@ -39,7 +39,7 @@ final class PageListBlockServiceTest extends BlockServiceTestCase
 
     public function testDefaultSettings(): void
     {
-        $blockService = new PageListBlockService('block.service', $this->templating, $this->pageManager);
+        $blockService = new PageListBlockService($this->twig, $this->pageManager);
         $blockContext = $this->getBlockContext($blockService);
 
         $this->assertSettings([
@@ -58,6 +58,11 @@ final class PageListBlockServiceTest extends BlockServiceTestCase
         $page2 = $this->createMock(PageInterface::class);
         $systemPage = $this->createMock(PageInterface::class);
 
+        $this->twig->expects(static::once())
+            ->method('render')
+            ->with('@SonataPage/Block/block_pagelist.html.twig')
+            ->willReturn('<p> {{ settings.title }} test </p>');
+
         $this->pageManager->expects(static::exactly(2))->method('findBy')->willReturnMap([
             [['routeName' => Page::PAGE_ROUTE_CMS_NAME], null, null, null, [$page1, $page2]],
             [['url' => null, 'parent' => null], null, null, null, [$systemPage]],
@@ -71,18 +76,11 @@ final class PageListBlockServiceTest extends BlockServiceTestCase
             'template' => '@SonataPage/Block/block_pagelist.html.twig',
         ]);
 
-        $blockService = new PageListBlockService('block.service', $this->templating, $this->pageManager);
-        $blockService->execute($blockContext);
+        $blockService = new PageListBlockService($this->twig, $this->pageManager);
+        $response = $blockService->execute($blockContext);
 
-        static::assertSame('@SonataPage/Block/block_pagelist.html.twig', $this->templating->view);
-
-        static::assertSame($blockContext, $this->templating->parameters['context']);
-        static::assertIsArray($this->templating->parameters['settings']);
-        static::assertInstanceOf(BlockInterface::class, $this->templating->parameters['block']);
-        static::assertCount(2, $this->templating->parameters['elements']);
-        static::assertContains($page1, $this->templating->parameters['elements']);
-        static::assertContains($page2, $this->templating->parameters['elements']);
-        static::assertCount(1, $this->templating->parameters['systemElements']);
-        static::assertContains($systemPage, $this->templating->parameters['systemElements']);
+        static::assertInstanceOf(Response::class, $response);
+        static::assertSame('<p> {{ settings.title }} test </p>', $response->getContent());
+        static::assertSame(200, $response->getStatusCode());
     }
 }
