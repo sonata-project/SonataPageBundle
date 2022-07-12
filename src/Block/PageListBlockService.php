@@ -15,34 +15,25 @@ namespace Sonata\PageBundle\Block;
 
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\BlockBundle\Block\BlockContextInterface;
-use Sonata\BlockBundle\Block\Service\AbstractAdminBlockService;
+use Sonata\BlockBundle\Block\Service\AbstractBlockService;
 use Sonata\BlockBundle\Meta\Metadata;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\Form\Type\ImmutableArrayType;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Twig\Environment;
 
-/**
- * @final since sonata-project/page-bundle 3.26
- */
-class PageListBlockService extends AbstractAdminBlockService
+final class PageListBlockService extends AbstractBlockService
 {
-    /**
-     * @var PageManagerInterface
-     */
-    protected $pageManager;
+    private PageManagerInterface $pageManager;
 
-    /**
-     * @param string $name
-     */
-    public function __construct($name, EngineInterface $templating, PageManagerInterface $pageManager)
+    public function __construct(Environment $twig, PageManagerInterface $pageManager)
     {
-        parent::__construct($name, $templating);
+        parent::__construct($twig);
 
         $this->pageManager = $pageManager;
     }

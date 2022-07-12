@@ -14,58 +14,48 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Page;
 
 use Sonata\PageBundle\Model\Template;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Templates management and rendering.
  *
  * @author Olivier Paradis <paradis.olivier@gmail.com>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class TemplateManager implements TemplateManagerInterface
+final class TemplateManager implements TemplateManagerInterface
 {
     /**
-     * Templating engine.
-     *
-     * @var EngineInterface
+     * Templating twig.
      */
-    protected $engine;
+    private Environment $twig;
 
-    /**
-     * @var array
-     */
-    protected $defaultParameters;
+    private array $defaultParameters;
 
     /**
      * Collection of available templates.
-     *
-     * @var Template[]
      */
-    protected $templates;
+    private array $templates = [];
 
     /**
      * Default template code.
-     *
-     * @var string
      */
-    protected $defaultTemplateCode = 'default';
+    private string $defaultTemplateCode = 'default';
 
     /**
      * Default template path.
-     *
-     * @var string
      */
-    protected $defaultTemplatePath = '@SonataPage/layout.html.twig';
+    private string $defaultTemplatePath = '@SonataPage/layout.html.twig';
 
     /**
-     * @param EngineInterface $engine            Templating engine
-     * @param array           $defaultParameters An array of default view parameters
+     * @param Environment $twig              Templating twig
+     * @param array       $defaultParameters An array of default view parameters
      */
-    public function __construct(EngineInterface $engine, array $defaultParameters = [])
+    public function __construct(Environment $twig, array $defaultParameters = [])
     {
-        $this->engine = $engine;
+        $this->twig = $twig;
         $this->defaultParameters = $defaultParameters;
     }
 
@@ -103,23 +93,27 @@ class TemplateManager implements TemplateManagerInterface
         return $this->templates;
     }
 
-    public function renderResponse($code, array $parameters = [], ?Response $response = null)
+    /**
+     * @throws SyntaxError
+     * @throws RuntimeError
+     * @throws LoaderError
+     */
+    public function renderResponse(string $code, array $parameters = [], ?Response $response = null): Response
     {
-        return $this->engine->renderResponse(
-            $this->getTemplatePath($code),
-            array_merge($this->defaultParameters, $parameters),
-            $response
+        $response ??= new Response();
+
+        return $response->setContent(
+            $this->twig->render(
+                $this->getTemplatePath($code),
+                array_merge($this->defaultParameters, $parameters),
+            )
         );
     }
 
     /**
      * Returns the template path for given code.
-     *
-     * @param string|null $code
-     *
-     * @return string
      */
-    protected function getTemplatePath($code)
+    private function getTemplatePath(?string $code): string
     {
         $code = $code ?: $this->getDefaultTemplateCode();
         $template = $this->get($code);

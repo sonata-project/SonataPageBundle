@@ -17,108 +17,76 @@ use Psr\Log\LoggerInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 use Sonata\PageBundle\Exception\InternalErrorException;
+use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Page\PageServiceManagerInterface;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Templating\EngineInterface;
+use Twig\Environment;
 
 /**
  * ExceptionListener.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class ExceptionListener
+final class ExceptionListener
 {
-    /**
-     * @var SiteSelectorInterface
-     */
-    protected $siteSelector;
+    private SiteSelectorInterface $siteSelector;
 
-    /**
-     * @var CmsManagerSelectorInterface
-     */
-    protected $cmsManagerSelector;
+    private CmsManagerSelectorInterface $cmsManagerSelector;
 
-    /**
-     * @var bool
-     */
-    protected $debug;
+    private bool $debug;
 
-    /**
-     * @var EngineInterface
-     */
-    protected $templating;
+    private Environment $twig;
 
-    /**
-     * @var PageServiceManagerInterface
-     */
-    protected $pageServiceManager;
+    private PageServiceManagerInterface $pageServiceManager;
 
-    /**
-     * @var DecoratorStrategyInterface
-     */
-    protected $decoratorStrategy;
+    private DecoratorStrategyInterface $decoratorStrategy;
 
-    /**
-     * @var array
-     */
-    protected $httpErrorCodes;
+    private array $httpErrorCodes;
 
-    /**
-     * @var LoggerInterface|null
-     */
-    protected $logger;
+    private ?LoggerInterface $logger;
 
-    /**
-     * @var bool
-     */
-    protected $status;
+    private bool $status;
 
     /**
      * @param SiteSelectorInterface       $siteSelector       Site selector
      * @param CmsManagerSelectorInterface $cmsManagerSelector CMS Manager selector
      * @param bool                        $debug              Debug mode
-     * @param EngineInterface             $templating         Templating engine
+     * @param Environment                 $twig               Twig engine
      * @param PageServiceManagerInterface $pageServiceManager Page service manager
      * @param DecoratorStrategyInterface  $decoratorStrategy  Decorator strategy
      * @param array                       $httpErrorCodes     An array of http error codes' routes
      * @param LoggerInterface|null        $logger             Logger instance
+     * @param bool                        $status             log status
      */
-    public function __construct(SiteSelectorInterface $siteSelector, CmsManagerSelectorInterface $cmsManagerSelector, $debug, EngineInterface $templating, PageServiceManagerInterface $pageServiceManager, DecoratorStrategyInterface $decoratorStrategy, array $httpErrorCodes, ?LoggerInterface $logger = null)
+    public function __construct(SiteSelectorInterface $siteSelector, CmsManagerSelectorInterface $cmsManagerSelector, bool $debug, Environment $twig, PageServiceManagerInterface $pageServiceManager, DecoratorStrategyInterface $decoratorStrategy, array $httpErrorCodes, ?LoggerInterface $logger = null, bool $status = false)
     {
         $this->siteSelector = $siteSelector;
         $this->cmsManagerSelector = $cmsManagerSelector;
         $this->debug = $debug;
-        $this->templating = $templating;
+        $this->twig = $twig;
         $this->pageServiceManager = $pageServiceManager;
         $this->decoratorStrategy = $decoratorStrategy;
         $this->httpErrorCodes = $httpErrorCodes;
         $this->logger = $logger;
+        $this->status = $status;
     }
 
     /**
      * Returns list of http error codes managed.
-     *
-     * @return array
      */
-    public function getHttpErrorCodes()
+    public function getHttpErrorCodes(): array
     {
         return $this->httpErrorCodes;
     }
 
     /**
      * Returns true if the http error code is defined.
-     *
-     * @param int $statusCode
-     *
-     * @return bool
      */
-    public function hasErrorCode($statusCode)
+    public function hasErrorCode(int $statusCode): bool
     {
         return \array_key_exists($statusCode, $this->httpErrorCodes);
     }
@@ -126,14 +94,10 @@ class ExceptionListener
     /**
      * Returns a fully loaded page from a route name by the http error code throw.
      *
-     * @param int $statusCode
-     *
      * @throws \RuntimeException      When site is not found, check your state database
      * @throws InternalErrorException When you do not configure page for http error code
-     *
-     * @return \Sonata\PageBundle\Model\PageInterface
      */
-    public function getErrorCodePage($statusCode)
+    public function getErrorCodePage(int $statusCode): PageInterface
     {
         if (!$this->hasErrorCode($statusCode)) {
             throw new InternalErrorException(sprintf('There is not page configured to handle the status code %d', $statusCode));
@@ -163,7 +127,7 @@ class ExceptionListener
             $creatable = !$event->getRequest()->get('_route') && $this->decoratorStrategy->isRouteUriDecorable($pathInfo);
 
             if ($creatable) {
-                $response = new Response($this->templating->render('@SonataPage/Page/create.html.twig', [
+                $response = new Response($this->twig->render('@SonataPage/Page/create.html.twig', [
                     'pathInfo' => $pathInfo,
                     'site' => $this->siteSelector->retrieve(),
                     'creatable' => $creatable,
@@ -196,7 +160,7 @@ class ExceptionListener
             return;
         }
 
-        $content = $this->templating->render('@SonataPage/internal_error.html.twig', [
+        $content = $this->twig->render('@SonataPage/internal_error.html.twig', [
             'exception' => $event->getThrowable(),
         ]);
 

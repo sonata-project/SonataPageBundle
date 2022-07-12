@@ -26,10 +26,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  *
  * @psalm-suppress InvalidExtendClass
  * @phpstan-ignore-next-line
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class ContainerBlockService extends BaseContainerBlockService
+final class ContainerBlockService extends BaseContainerBlockService
 {
     public function configureSettings(OptionsResolver $resolver): void
     {

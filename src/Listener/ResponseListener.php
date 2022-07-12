@@ -17,51 +17,34 @@ use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 use Sonata\PageBundle\Exception\InternalErrorException;
 use Sonata\PageBundle\Page\PageServiceManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Twig\Environment;
 
 /**
  * This class redirect the onCoreResponse event to the correct
  * cms manager upon user permission.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class ResponseListener
+final class ResponseListener
 {
-    /**
-     * @var CmsManagerSelectorInterface
-     */
-    protected $cmsSelector;
+    private CmsManagerSelectorInterface $cmsSelector;
 
-    /**
-     * @var PageServiceManagerInterface
-     */
-    protected $pageServiceManager;
+    private PageServiceManagerInterface $pageServiceManager;
 
-    /**
-     * @var DecoratorStrategyInterface
-     */
-    protected $decoratorStrategy;
+    private DecoratorStrategyInterface $decoratorStrategy;
 
-    /**
-     * @var EngineInterface
-     */
-    protected $templating;
+    private Environment $twig;
 
-    /**
-     * @var bool
-     */
-    private $skipRedirection;
+    private bool $skipRedirection;
 
     /**
      * @param CmsManagerSelectorInterface $cmsSelector        CMS manager selector
      * @param PageServiceManagerInterface $pageServiceManager Page service manager
      * @param DecoratorStrategyInterface  $decoratorStrategy  Decorator strategy
-     * @param EngineInterface             $templating         The template engine
+     * @param Environment                 $twig               Twig engine
      * @param bool                        $skipRedirection    To skip the redirection by configuration
      *
      * NEXT_MAJOR: Remove default value for $skipRedirection
@@ -70,13 +53,13 @@ class ResponseListener
         CmsManagerSelectorInterface $cmsSelector,
         PageServiceManagerInterface $pageServiceManager,
         DecoratorStrategyInterface $decoratorStrategy,
-        EngineInterface $templating,
-        $skipRedirection = false
+        Environment $twig,
+        bool $skipRedirection
     ) {
         $this->cmsSelector = $cmsSelector;
         $this->pageServiceManager = $pageServiceManager;
         $this->decoratorStrategy = $decoratorStrategy;
-        $this->templating = $templating;
+        $this->twig = $twig;
         $this->skipRedirection = $skipRedirection;
     }
 
@@ -109,7 +92,7 @@ class ResponseListener
             !$request->get('_sonata_page_skip') &&
             !$this->skipRedirection
         ) {
-            $response = new Response($this->templating->render('@SonataPage/Page/redirect.html.twig', [
+            $response = new Response($this->twig->render('@SonataPage/Page/redirect.html.twig', [
                 'response' => $response,
                 'page' => $page,
             ]));

@@ -18,6 +18,7 @@ use Sonata\BlockBundle\Block\BlockContext;
 use Sonata\BlockBundle\Model\Block;
 use Sonata\BlockBundle\Test\BlockServiceTestCase;
 use Sonata\PageBundle\Block\ContainerBlockService;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Test Container Block service.
@@ -29,7 +30,12 @@ final class ContainerBlockServiceTest extends BlockServiceTestCase
      */
     public function testExecute(): void
     {
-        $service = new ContainerBlockService('core.container', $this->templating);
+        $this->twig->expects(static::once())
+            ->method('render')
+            ->with('@SonataPage/Block/block_container.html.twig')
+            ->willReturn('<p> {{ settings.title }} test </p>');
+
+        $service = new ContainerBlockService($this->twig);
 
         $block = new Block();
         $block->setName('block.name');
@@ -45,40 +51,10 @@ final class ContainerBlockServiceTest extends BlockServiceTestCase
             'template' => '@SonataPage/Block/block_container.html.twig',
         ]);
 
-        $service->execute($blockContext);
-
-        static::assertSame('@SonataPage/Block/block_container.html.twig', $this->templating->view);
-        static::assertSame('block.code', $this->templating->parameters['block']->getSetting('code'));
-        static::assertSame('block.name', $this->templating->parameters['block']->getName());
-        static::assertInstanceOf(Block::class, $this->templating->parameters['block']);
-    }
-
-    /**
-     * test the container layout.
-     */
-    public function testLayout(): void
-    {
-        $service = new ContainerBlockService('core.container', $this->templating);
-
-        $block = new Block();
-        $block->setName('block.name');
-        $block->setType('core.container');
-
-        // we manually perform the settings merge
-        $blockContext = new BlockContext($block, [
-             'code' => 'block.code',
-             'layout' => 'before{{ CONTENT }}after',
-             'class' => '',
-             'template' => '@SonataPage/Block/block_container.html.twig',
-         ]);
-
-        $service->execute($blockContext);
-
-        static::assertIsArray($this->templating->parameters['decorator']);
-        static::assertArrayHasKey('pre', $this->templating->parameters['decorator']);
-        static::assertArrayHasKey('post', $this->templating->parameters['decorator']);
-        static::assertSame('before', $this->templating->parameters['decorator']['pre']);
-        static::assertSame('after', $this->templating->parameters['decorator']['post']);
+        $response = $service->execute($blockContext);
+        static::assertInstanceOf(Response::class, $response);
+        static::assertSame('<p> {{ settings.title }} test </p>', $response->getContent());
+        static::assertSame(200, $response->getStatusCode());
     }
 
     /**
@@ -86,7 +62,7 @@ final class ContainerBlockServiceTest extends BlockServiceTestCase
      */
     public function testFormBuilder(): void
     {
-        $service = new ContainerBlockService('core.container', $this->templating);
+        $service = new ContainerBlockService($this->twig);
 
         $block = new Block();
         $block->setName('block.name');
