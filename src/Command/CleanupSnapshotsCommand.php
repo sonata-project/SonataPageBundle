@@ -49,13 +49,6 @@ class CleanupSnapshotsCommand extends BaseCommand
 
         if (!$input->getOption('site')) {
             $output->writeln('Please provide an <info>--site=SITE_ID</info> option or the <info>--site=all</info> directive');
-            $output->writeln('');
-
-            $output->writeln(sprintf(' % 5s - % -30s - %s', 'ID', 'Name', 'Url'));
-
-            foreach ($this->getSiteManager()->findBy([]) as $site) {
-                $output->writeln(sprintf(' % 5s - % -30s - %s', $site->getId(), $site->getName(), $site->getUrl()));
-            }
 
             return;
         }

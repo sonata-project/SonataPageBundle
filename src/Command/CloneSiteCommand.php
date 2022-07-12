@@ -67,11 +67,12 @@ final class CloneSiteCommand extends BaseCommand
             $hybridOnly = false;
         }
 
+        $siteManager = $this->getContainer()->get('sonata.page.manager.site');
         /** @var SiteInterface $sourceSite */
-        $sourceSite = $this->getSiteManager()->find($input->getOption('source-id'));
+        $sourceSite = $siteManager->find($input->getOption('source-id'));
 
         /** @var SiteInterface $destSite */
-        $destSite = $this->getSiteManager()->find($input->getOption('dest-id'));
+        $destSite = $siteManager->find($input->getOption('dest-id'));
 
         $pageClones = [];
         $blockClones = [];
@@ -190,7 +191,7 @@ final class CloneSiteCommand extends BaseCommand
     {
         $output->writeln(sprintf(' % 5s - % -30s - %s', 'ID', 'Name', 'Url'));
 
-        $sites = $this->getSiteManager()->findAll();
+        $sites = $this->getContainer()->get('sonata.page.manager.site')->findAll();
 
         foreach ($sites as $site) {
             $output->writeln(sprintf(' % 5s - % -30s - %s', $site->getId(), $site->getName(), $site->getUrl()));

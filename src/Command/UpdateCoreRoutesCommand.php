@@ -52,15 +52,8 @@ class UpdateCoreRoutesCommand extends BaseCommand
 
         if (!$siteOption) {
             $output->writeln('Please provide an <info>--site=SITE_ID</info> option or the <info>--site=all</info> directive');
-            $output->writeln('');
 
-            $output->writeln(sprintf(' % 5s - % -30s - %s', 'ID', 'Name', 'Url'));
-
-            foreach ($this->getSiteManager()->findBy([]) as $site) {
-                $output->writeln(sprintf(' % 5s - % -30s - %s', $site->getId(), $site->getName(), $site->getUrl()));
-            }
-
-            return 0;
+            return 1;
         }
 
         //NEXT_MAJOR: Inject GetSitesFromCommand $getSites
