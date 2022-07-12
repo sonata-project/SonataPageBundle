@@ -99,16 +99,17 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
         }
 
         $this->getEntityManager()->flush();
-        // @todo: strange sql and low-level pdo usage: use dql or qb
-        $sql = sprintf(
-            "UPDATE %s SET publication_date_end = '%s' WHERE id NOT IN(%s) AND page_id IN (%s) and publication_date_end IS NULL",
-            $this->getTableName(),
-            $date->format('Y-m-d H:i:s'),
-            implode(',', $snapshotIds),
-            implode(',', $pageIds)
-        );
 
-        $this->getConnection()->query($sql);
+        $qb = $this->getRepository()->createQueryBuilder('s');
+        $q = $qb->update()
+            ->set('s.publicationDateEnd', ':date_end')
+            ->where($qb->expr()->notIn('s.id', $snapshotIds))
+            ->andWhere($qb->expr()->in('s.page', $pageIds))
+            ->andWhere($qb->expr()->isNull('s.publicationDateEnd'))
+            ->setParameter('date_end', $date, 'datetime')
+            ->getQuery();
+
+        $q->execute();
     }
 
     public function findEnableSnapshot(array $criteria)

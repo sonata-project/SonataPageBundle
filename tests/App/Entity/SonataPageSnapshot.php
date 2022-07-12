@@ -61,4 +61,9 @@ final class SonataPageSnapshot extends BaseSnapshot
     {
         return $this->id;
     }
+
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
 }
