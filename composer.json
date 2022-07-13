@@ -23,7 +23,7 @@
     "require": {
         "php": "^7.4 || ^8.0",
         "cocur/slugify": "^4.0",
-        "doctrine/doctrine-bundle": "^2.3",
+        "doctrine/doctrine-bundle": "^2.5",
         "doctrine/persistence": "^2.1",
         "sonata-project/admin-bundle": "^3.99",
         "sonata-project/block-bundle": "^3.20",
@@ -52,7 +52,7 @@
         "twig/twig": "^2.12.1"
     },
     "require-dev": {
-        "doctrine/annotations": "^1.10.3",
+        "doctrine/annotations": "^1.13.3",
         "friendsofphp/php-cs-fixer": "^3.4",
         "matthiasnoback/symfony-dependency-injection-test": "^4.1.1",
         "phpstan/extension-installer": "^1.0",
