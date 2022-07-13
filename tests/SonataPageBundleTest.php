@@ -38,7 +38,6 @@ final class SonataPageBundleTest extends TestCase
     {
         $bundle = new SonataPageBundle();
         $container = $this->createMock(ContainerInterface::class);
-        $container->expects(static::once())->method('hasParameter')->willReturn(true);
         $container->expects(static::exactly(2))->method('getParameter')->willReturnCallback(static function ($value) {
             if ('sonata.page.page.class' === $value) {
                 return Page::class;

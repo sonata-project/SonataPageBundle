@@ -115,7 +115,7 @@ final class ConfigurationTest extends TestCase
                 0 => '(.*)admin(.*)',
                 1 => '^_(.*)',
             ],
-            'slugify_service' => 'sonata.core.slugify.native',
+            'slugify_service' => 'sonata.page.slugify.cocur',
             'ignore_routes' => [
             ],
             'ignore_uri_patterns' => [
@@ -124,13 +124,9 @@ final class ConfigurationTest extends TestCase
             'default_page_service' => 'sonata.page.service.default',
             'assets' => [
                 'stylesheets' => [
-                    'bundles/sonatacore/vendor/bootstrap/dist/css/bootstrap.min.css',
                     'bundles/sonatapage/sonata-page.front.css',
                 ],
-                'javascripts' => [
-                    'bundles/sonatacore/vendor/jquery/dist/jquery.min.js',
-                    'bundles/sonatacore/vendor/bootstrap/dist/js/bootstrap.min.js',
-                ],
+                'javascripts' => [],
             ],
             'templates_admin' => [
                 'list' => '@SonataPage/PageAdmin/list.html.twig',
@@ -189,7 +185,7 @@ final class ConfigurationTest extends TestCase
                 0 => '(.*)admin(.*)',
                 1 => '^_(.*)',
             ],
-            'slugify_service' => 'sonata.core.slugify.native',
+            'slugify_service' => 'sonata.page.slugify.cocur',
             'ignore_routes' => [
             ],
             'ignore_uri_patterns' => [
@@ -198,13 +194,9 @@ final class ConfigurationTest extends TestCase
             'default_page_service' => 'sonata.page.service.default',
             'assets' => [
                 'stylesheets' => [
-                    'bundles/sonatacore/vendor/bootstrap/dist/css/bootstrap.min.css',
                     'bundles/sonatapage/sonata-page.front.css',
                 ],
-                'javascripts' => [
-                    'bundles/sonatacore/vendor/jquery/dist/jquery.min.js',
-                    'bundles/sonatacore/vendor/bootstrap/dist/js/bootstrap.min.js',
-                ],
+                'javascripts' => [],
             ],
             'templates_admin' => [
                 'list' => '@SonataPage/PageAdmin/list.html.twig',

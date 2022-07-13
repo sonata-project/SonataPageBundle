@@ -97,12 +97,12 @@ SonataPageBundle Configuration
     # config/packages/sonata_page.yaml
 
     sonata_page:
-        slugify_service: sonata.page.slugify.cocur # old BC value is sonata.core.slugify.native
+        slugify_service: sonata.page.slugify.cocur
         multisite: host
         use_streamed_response: true # set the value to false in debug mode or if the reverse proxy does not handle streamed response
         ignore_route_patterns:
-            - ^(.*)admin(.*)   # ignore admin route, ie route containing 'admin'
-            - ^_(.*)          # ignore symfony routes
+            - ^(.*)admin(.*) # ignore admin route, ie route containing 'admin'
+            - ^_(.*) # ignore symfony routes
 
         class:
             page: App\Entity\SonataPagePage
@@ -111,22 +111,22 @@ SonataPageBundle Configuration
             site: App\Entity\SonataPageSite
 
         ignore_uri_patterns:
-            - ^/admin\/   # ignore admin route, ie route containing 'admin'
+            - ^/admin\/ # ignore admin route, ie route containing 'admin'
 
         page_defaults:
             homepage: {decorate: false} # disable decoration for homepage, key - is a page route
 
         default_template: default # template key from templates section, used as default for pages
         templates:
-            default:  { path: '@SonataPage/layout.html.twig',          name: 'default' }
+            default: { path: '@SonataPage/layout.html.twig', name: 'default' }
             2columns: { path: '@SonataPage/2columns_layout.html.twig', name: '2 columns layout' }
 
         direct_publication: false # or %kernel.debug% if you want to publish in dev mode (but not in prod)
 
         # manage the http errors
         catch_exceptions:
-            not_found: [404]    # render 404 page with "not_found" key (name generated: _page_internal_error_{key})
-            fatal:     [500]    # so you can use the same page for different http errors or specify specific page for each error
+            not_found: [404] # render 404 page with "not_found" key (name generated: _page_internal_error_{key})
+            fatal: [500] # so you can use the same page for different http errors or specify specific page for each error
 
 SonataAdminBundle Configuration
 -------------------------------
