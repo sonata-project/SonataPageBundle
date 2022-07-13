@@ -17,7 +17,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Model\Template;
 use Sonata\PageBundle\Page\TemplateManager;
-use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 
 final class TemplateManagerTest extends TestCase
@@ -77,22 +76,18 @@ final class TemplateManagerTest extends TestCase
     {
         $template = $this->getMockTemplate('template', 'path/to/template');
 
-        $response = $this->createMock(Response::class);
-        $response->expects(static::once())
-            ->method('getContent')
-            ->willReturn('');
         $twig = $this->createMock(Environment::class);
         $twig
             ->expects(static::once())
             ->method('render')
             ->with(static::equalTo('path/to/template'))
-            ->willReturn($response);
+            ->willReturn('response');
 
         $manager = new TemplateManager($twig);
         $manager->add('test', $template);
 
         static::assertSame(
-            $response->getContent(),
+            'response',
             $manager->renderResponse('test')->getContent(),
             'should return the mocked response'
         );
@@ -118,16 +113,12 @@ final class TemplateManagerTest extends TestCase
      */
     public function testRenderResponseWithoutCode(): void
     {
-        $response = $this->createMock(Response::class);
-        $response->expects(static::once())
-            ->method('getContent')
-            ->willReturn('');
         $twig = $this->createMock(Environment::class);
         $twig
             ->expects(static::once())
             ->method('render')
             ->with(static::equalTo('path/to/default'))
-            ->willReturn($response);
+            ->willReturn('response');
 
         $template = $this->getMockTemplate('template', 'path/to/default');
         $manager = new TemplateManager($twig);
@@ -135,7 +126,7 @@ final class TemplateManagerTest extends TestCase
         $manager->setDefaultTemplateCode('default');
 
         static::assertSame(
-            $response->getContent(),
+            'response',
             $manager->renderResponse('')->getContent(),
             'should return the mocked response'
         );
@@ -148,17 +139,13 @@ final class TemplateManagerTest extends TestCase
     {
         $template = $this->getMockTemplate('template', 'path/to/template');
 
-        $response = $this->createMock(Response::class);
-        $response->expects(static::once())
-            ->method('getContent')
-            ->willReturn('');
         $twig = $this->createMock(Environment::class);
         $twig->expects(static::once())->method('render')
             ->with(
                 static::equalTo('path/to/template'),
                 static::equalTo(['parameter1' => 'value', 'parameter2' => 'value'])
             )
-            ->willReturn($response);
+            ->willReturn('response');
 
         $defaultParameters = ['parameter1' => 'value'];
 
@@ -166,7 +153,7 @@ final class TemplateManagerTest extends TestCase
         $manager->add('test', $template);
 
         static::assertSame(
-            $response->getContent(),
+            'response',
             $manager->renderResponse('test', ['parameter2' => 'value'])->getContent(),
             'should return the mocked response'
         );
