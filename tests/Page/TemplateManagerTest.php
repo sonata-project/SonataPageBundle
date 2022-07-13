@@ -17,7 +17,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Model\Template;
 use Sonata\PageBundle\Page\TemplateManager;
-use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 
 final class TemplateManagerTest extends TestCase
