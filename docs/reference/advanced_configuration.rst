@@ -27,66 +27,53 @@ Full configuration options:
         # Default configuration for extension with alias: "sonata_page"
         sonata_page:
             skip_redirection: false # Skip asking Editor to redirect
-            use_streamed_response:  false
-            multisite:            ~ # Required
+            use_streamed_response: false
+            multisite: ~ # Required
             ignore_route_patterns:
-
                 # Defaults:
                 - /(.*)admin(.*)/
                 - /^_(.*)/
-            slugify_service:      sonata.core.slugify.native
+            slugify_service: sonata.page.slugify.cocur
             ignore_uri_patterns:
-
                 # Default:
                 - /admin(.*)/
-
-            default_page_service:  sonata.page.service.default
-            default_template:     ~ # Required
+            default_page_service: sonata.page.service.default
+            default_template: ~ # Required
             assets:
                 stylesheets:
-
                     # Defaults:
-                    - bundles/sonatacore/vendor/bootstrap/dist/css/bootstrap.min.css
                     - bundles/sonatapage/sonata-page.front.css
                 javascripts:
-
-                    # Defaults:
-                    - bundles/sonatacore/vendor/jquery/dist/jquery.min.js
-                    - bundles/sonatacore/vendor/bootstrap/dist/js/bootstrap.min.js
-            templates:            # Required
-
+            templates: # Required
                 # Prototype
                 id:
-                    name:                 ~
-                    path:                 ~
-                    inherits_containers:  ~
+                    name: ~
+                    path: ~
+                    inherits_containers: ~
                     containers:
-
                         # Prototype
                         id:
-                            name:                 ~
-                            shared:               false
-                            type:                 1
-                            blocks:               []
+                            name: ~
+                            shared: false
+                            type: 1
+                            blocks: []
                     matrix:
-                        layout:               ~ # Required
-                        mapping:              [] # Required
+                        layout: ~ # Required
+                        mapping: [] # Required
             templates_admin:
-                list:                       "@SonataPage/PageAdmin/list.html.twig"
-                tree:                       "@SonataPage/PageAdmin/tree.html.twig"
-                compose:                    "@SonataPage/PageAdmin/compose.html.twig"
-                compose_container_show:     "@SonataPage/PageAdmin/compose_container_show.html.twig"
-                select_site:                "@SonataPage/PageAdmin/select_site.html.twig"
+                list: "@SonataPage/PageAdmin/list.html.twig"
+                tree: "@SonataPage/PageAdmin/tree.html.twig"
+                compose: "@SonataPage/PageAdmin/compose.html.twig"
+                compose_container_show: "@SonataPage/PageAdmin/compose_container_show.html.twig"
+                select_site: "@SonataPage/PageAdmin/select_site.html.twig"
             page_defaults:
-
                 # Prototype
                 id:
-                    decorate:             true
-                    enabled:              true
+                    decorate: true
+                    enabled: true
             catch_exceptions:
-
                 # Prototype
-                id:                   ~
+                id: ~
             class:
                 page: App\Entity\SonataPagePage
                 snapshot: App\Entity\SonataPageSnapshot
