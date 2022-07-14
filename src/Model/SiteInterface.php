@@ -111,14 +111,14 @@ interface SiteInterface
     public function setCreatedAt(?\DateTime $createdAt = null);
 
     /**
-     * @return \Datetime $createdAt
+     * @return \DateTime $createdAt
      */
     public function getCreatedAt();
 
     public function setUpdatedAt(?\DateTime $updatedAt = null);
 
     /**
-     * @return \Datetime $updatedAt
+     * @return \DateTime $updatedAt
      */
     public function getUpdatedAt();
 

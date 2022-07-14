@@ -120,7 +120,7 @@ interface SnapshotInterface
     public function getCreatedAt();
 
     /**
-     * @param \Datetime $updatedAt
+     * @param \DateTime $updatedAt
      */
     public function setUpdatedAt(?\DateTime $updatedAt = null);
 
@@ -170,6 +170,11 @@ interface SnapshotInterface
      * @return SiteInterface|null
      */
     public function getSite();
+
+    /**
+     * @param array $content
+     */
+    public function setContent($content): void;
 
     /**
      * Serialized data of the current page.

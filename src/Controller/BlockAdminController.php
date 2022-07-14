@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
-use Sonata\PageBundle\Entity\BaseBlock;
 use Sonata\PageBundle\Exception\PageNotFoundException;
+use Sonata\PageBundle\Model\PageBlockInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -23,6 +23,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Block Admin Controller.
+ *
+ * @extends Controller<PageBlockInterface>
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -136,7 +138,6 @@ final class BlockAdminController extends Controller
 
         $blockId = $request->get('block_id');
 
-        /** @var BaseBlock $block */
         $block = $this->admin->getObject($blockId);
         if (!$block) {
             throw new PageNotFoundException(sprintf('Unable to find block with id %d', $blockId));

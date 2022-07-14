@@ -66,7 +66,7 @@ final class HostPathByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
             ->method('findBy')
             ->willReturn($this->getSites());
 
-        $this->siteSelector->handleKernelRequest($event);
+        $this->siteSelector->onKernelRequest($event);
 
         // Ensure request locale is still null
         static::assertNull($request->attributes->get('_locale'));
@@ -106,7 +106,7 @@ final class HostPathByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
             ->method('findBy')
             ->willReturn($this->getSites());
 
-        $this->siteSelector->handleKernelRequest($event);
+        $this->siteSelector->onKernelRequest($event);
 
         // Ensure request locale is still null
         static::assertNull($request->attributes->get('_locale'));

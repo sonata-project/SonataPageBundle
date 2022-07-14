@@ -446,6 +446,11 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
         return $this->getPage()->getSite();
     }
 
+    public function getRawHeaders()
+    {
+        return $this->getPage()->getRawHeaders();
+    }
+
     public function setRawHeaders($rawHeaders): void
     {
         $this->getPage()->setRawHeaders($rawHeaders);

@@ -332,6 +332,11 @@ interface PageInterface
     public function getSite();
 
     /**
+     * @return string|null
+     */
+    public function getRawHeaders();
+
+    /**
      * @param string|null $rawHeaders
      */
     public function setRawHeaders($rawHeaders);

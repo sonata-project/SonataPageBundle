@@ -18,9 +18,12 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\Form\Type\DateTimePickerType;
+use Sonata\PageBundle\Model\SnapshotInterface;
 
 /**
  * Admin definition for the Snapshot class.
+ *
+ * @extends AbstractAdmin<SnapshotInterface>
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */

@@ -199,9 +199,7 @@ final class BlockAdmin extends BaseBlockAdmin
         }
         $options = $resolver->resolve();
 
-        if (isset($options['template'])) {
-            return $options['template'];
-        }
+        return $options['template'] ?? null;
     }
 
     private function configureBlockFields(FormMapper $form, BlockInterface $block): void
@@ -228,20 +226,6 @@ final class BlockAdmin extends BaseBlockAdmin
                 $service->configureEditForm($blockMapper, $block);
             } else {
                 $service->configureCreateForm($blockMapper, $block);
-            }
-        } else {
-            @trigger_error(
-                sprintf(
-                    'Editing a block service which doesn\'t implement %s is deprecated since sonata-project/page-bundle 3.12.0 and will not be allowed with version 4.0.',
-                    EditableBlockService::class
-                ),
-                \E_USER_DEPRECATED
-            );
-
-            if ($block->getId() > 0) {
-                $service->buildEditForm($form, $block);
-            } else {
-                $service->buildCreateForm($form, $block);
             }
         }
 

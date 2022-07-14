@@ -15,6 +15,7 @@ namespace Sonata\PageBundle\Command;
 
 use Sonata\PageBundle\Model\SiteManagerInterface;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -68,6 +69,7 @@ EOT
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $helper = $this->getHelper('question');
+        \assert($helper instanceof QuestionHelper);
 
         $values = [
             'name' => null,

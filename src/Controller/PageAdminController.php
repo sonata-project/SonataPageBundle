@@ -25,6 +25,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 /**
  * Page Admin Controller.
  *
+ * @extends Controller<PageInterface>
+ *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 final class PageAdminController extends Controller

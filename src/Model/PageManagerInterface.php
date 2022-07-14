@@ -18,6 +18,8 @@ use Sonata\Doctrine\Model\ManagerInterface;
 /**
  * Defines methods to interact with the persistency layer of a PageInterface.
  *
+ * @extends ManagerInterface<PageInterface>
+ *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 interface PageManagerInterface extends ManagerInterface

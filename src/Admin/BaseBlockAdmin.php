@@ -20,13 +20,15 @@ use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
-use Sonata\PageBundle\Entity\BaseBlock;
+use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Abstract admin class for the Block model.
+ *
+ * @extends AbstractAdmin<PageBlockInterface>
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -47,9 +49,6 @@ abstract class BaseBlockAdmin extends AbstractAdmin
      */
     protected $containerBlockTypes = [];
 
-    /**
-     * @param BaseBlock $object
-     */
     public function preUpdate($object): void
     {
         $block = $this->blockManager->get($object);
@@ -71,9 +70,6 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         }
     }
 
-    /**
-     * @param BaseBlock $object
-     */
     public function postUpdate($object): void
     {
         $block = $this->blockManager->get($object);
@@ -88,9 +84,6 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         }
     }
 
-    /**
-     * @param BaseBlock $object
-     */
     public function prePersist($object): void
     {
         $block = $this->blockManager->get($object);
@@ -112,9 +105,6 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         $object->setChildren($object->getChildren());
     }
 
-    /**
-     * @param BaseBlock $object
-     */
     public function postPersist($object): void
     {
         $block = $this->blockManager->get($object);
@@ -129,9 +119,6 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         }
     }
 
-    /**
-     * @param BaseBlock $object
-     */
     public function preRemove($object): void
     {
         $block = $this->blockManager->get($object);
@@ -152,9 +139,6 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         }
     }
 
-    /**
-     * @param BaseBlock $object
-     */
     public function postRemove($object): void
     {
         $block = $this->blockManager->get($object);
@@ -240,10 +224,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
             ->add('type');
     }
 
-    /**
-     * @return BlockInterface
-     */
-    private function loadBlockDefaults(BlockInterface $block)
+    private function loadBlockDefaults(BlockInterface $block): PageBlockInterface
     {
         $blockType = $block->getType();
 

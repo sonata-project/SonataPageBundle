@@ -18,6 +18,8 @@ use Sonata\Doctrine\Model\ManagerInterface;
 /**
  * Defines methods to interact with the persistency layer of a SnapshotInterface.
  *
+ * @extends ManagerInterface<SnapshotInterface>
+ *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
  * @method SnapshotPageProxyInterface createSnapshotPageProxy(TransformerInterface $transformer, SnapshotInterface $snapshot)
