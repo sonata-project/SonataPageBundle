@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Validator;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteInterface;
@@ -23,7 +24,7 @@ use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 final class UniqueUrlValidatorTest extends ConstraintValidatorTestCase
 {
     /**
-     * @var PageManagerInterface
+     * @var MockObject&PageManagerInterface
      */
     protected $manager;
 

@@ -15,12 +15,15 @@ namespace Sonata\PageBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Sonata\PageBundle\Form\Type\CreateSnapshotType;
+use Sonata\PageBundle\Model\SnapshotInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Snapshot Admin Controller.
+ *
+ * @extends Controller<SnapshotInterface>
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */

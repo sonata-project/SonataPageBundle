@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Model;
 
-use Sonata\BlockBundle\Model\BlockInterface;
-
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -36,7 +34,7 @@ interface TransformerInterface
     public function getChildren(PageInterface $page);
 
     /**
-     * @return BlockInterface
+     * @return PageBlockInterface
      */
     public function loadBlock(array $content, PageInterface $page);
 }

@@ -199,9 +199,6 @@ abstract class Page implements PageInterface
         return self::$slugifyMethod;
     }
 
-    /**
-     * @param mixed $slugifyMethod
-     */
     public static function setSlugifyMethod(\Closure $slugifyMethod): void
     {
         self::$slugifyMethod = $slugifyMethod;

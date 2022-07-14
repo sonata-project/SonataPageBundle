@@ -98,12 +98,6 @@ final class CmsManagerSelector implements CmsManagerSelectorInterface, LogoutHan
      */
     private function getRequest()
     {
-        if ($this->container->has('request_stack')) {
-            return $this->container->get('request_stack')->getCurrentRequest();
-        }
-
-        if ($this->container->isScopeActive('request')) {
-            return $this->container->get('request');
-        }
+        return $this->container->get('request_stack')->getCurrentRequest();
     }
 }

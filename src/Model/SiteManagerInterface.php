@@ -18,6 +18,8 @@ use Sonata\Doctrine\Model\ManagerInterface;
 /**
  * SiteManagerInterface.
  *
+ * @extends ManagerInterface<SiteInterface>
+ *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 interface SiteManagerInterface extends ManagerInterface

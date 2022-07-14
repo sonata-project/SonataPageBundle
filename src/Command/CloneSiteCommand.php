@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Command;
 
-use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\BlockManagerInterface;
+use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteInterface;
@@ -125,7 +125,7 @@ final class CloneSiteCommand extends Command
             $pageClones[$page->getId()] = $newPage;
 
             // Clone page blocks
-            /** @var BlockInterface[] $blocks */
+            /** @var PageBlockInterface[] $blocks */
             $blocks = $this->blockManager->findBy([
                 'page' => $page,
             ]);
@@ -171,7 +171,7 @@ final class CloneSiteCommand extends Command
                 }
             }
 
-            $this->pageManager->save($newPage, true);
+            $this->pageManager->save($page, true);
         }
 
         $output->writeln('Fixing block parents');

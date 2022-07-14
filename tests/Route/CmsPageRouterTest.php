@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Route;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\CmsManager\CmsManagerInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
@@ -30,17 +31,17 @@ use Symfony\Component\Routing\RouterInterface;
 final class CmsPageRouterTest extends TestCase
 {
     /**
-     * @var CmsManagerSelectorInterface
+     * @var MockObject&CmsManagerSelectorInterface
      */
     protected $cmsSelector;
 
     /**
-     * @var SiteSelectorInterface
+     * @var MockObject&SiteSelectorInterface
      */
     protected $siteSelector;
 
     /**
-     * @var RouterInterface
+     * @var MockObject&RouterInterface
      */
     protected $defaultRouter;
 

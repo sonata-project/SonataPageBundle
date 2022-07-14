@@ -15,9 +15,12 @@ namespace Sonata\PageBundle\Entity;
 
 use Sonata\Doctrine\Entity\BaseEntityManager;
 use Sonata\PageBundle\Model\BlockManagerInterface;
+use Sonata\PageBundle\Model\PageBlockInterface;
 
 /**
  * This class manages BlockInterface persistency with the Doctrine ORM.
+ *
+ * @extends BaseEntityManager<PageBlockInterface>
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */

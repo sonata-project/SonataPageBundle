@@ -20,12 +20,15 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\Form\Type\DateTimePickerType;
+use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Route\RoutePageGenerator;
 use Symfony\Component\Form\Extension\Core\Type\LocaleType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 /**
  * Admin definition for the Site class.
+ *
+ * @extends AbstractAdmin<SiteInterface>
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */

@@ -16,6 +16,9 @@ namespace Sonata\PageBundle\Model;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\Doctrine\Model\ManagerInterface;
 
+/**
+ * @extends ManagerInterface<PageBlockInterface>
+ */
 interface BlockManagerInterface extends ManagerInterface
 {
     /**

@@ -22,6 +22,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 /**
  * Site Admin controller.
  *
+ * @extends Controller<SiteInterface>
+ *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 final class SiteAdminController extends Controller

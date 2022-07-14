@@ -13,8 +13,13 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Model;
 
+use Doctrine\Common\Collections\Collection;
+
 /**
  * SnapshotChildrenCollection.
+ *
+ * @implements \IteratorAggregate<PageInterface>
+ * @implements \ArrayAccess<array-key, PageInterface>
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -25,7 +30,7 @@ final class SnapshotChildrenCollection implements \Countable, \IteratorAggregate
     private PageInterface $page;
 
     /**
-     * @var array
+     * @var Collection<array-key, PageInterface>
      */
     private $collection;
 

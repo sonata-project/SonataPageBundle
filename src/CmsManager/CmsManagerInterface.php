@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\CmsManager;
 
 use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -91,7 +92,7 @@ interface CmsManagerInterface
     /**
      * @param int $id
      *
-     * @return PageInterface|null
+     * @return PageBlockInterface|null
      */
     public function getBlock($id);
 

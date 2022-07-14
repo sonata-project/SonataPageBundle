@@ -21,6 +21,7 @@ use Sonata\Form\Type\ImmutableArrayType;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Form\Type\PageSelectorType;
+use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -77,6 +78,10 @@ final class ChildrenPagesBlockService extends AbstractBlockService
 
     public function buildEditForm(FormMapper $form, BlockInterface $block): void
     {
+        if (!$block instanceof PageBlockInterface) {
+            return;
+        }
+
         $form->add('settings', ImmutableArrayType::class, [
             'keys' => [
                 ['title', TextType::class, [
@@ -141,6 +146,10 @@ final class ChildrenPagesBlockService extends AbstractBlockService
 
     public function load(BlockInterface $block): void
     {
+        if (!$block instanceof PageBlockInterface) {
+            return;
+        }
+
         if (is_numeric($block->getSetting('pageId', null))) {
             $cmsManager = $this->cmsManagerSelector->retrieve();
             $site = $block->getPage()->getSite();

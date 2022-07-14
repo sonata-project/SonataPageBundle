@@ -23,6 +23,8 @@ use Sonata\PageBundle\Model\SiteInterface;
 /**
  * This class manages PageInterface persistency with the Doctrine ORM.
  *
+ * @extends BaseEntityManager<PageInterface>
+ *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 final class PageManager extends BaseEntityManager implements PageManagerInterface
@@ -146,9 +148,6 @@ final class PageManager extends BaseEntityManager implements PageManagerInterfac
         return $pages;
     }
 
-    /**
-     * @return PageInterface[]
-     */
     public function getHybridPages(SiteInterface $site)
     {
         return $this->getEntityManager()->createQueryBuilder()
