@@ -15,7 +15,6 @@ namespace Sonata\PageBundle\Tests\Command;
 
 use Sonata\NotificationBundle\Backend\BackendInterface;
 use Sonata\PageBundle\Command\CreateSnapshotsCommand;
-use Sonata\PageBundle\Model\Site;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Service\Contract\CreateSnapshotBySiteInterface;
@@ -26,6 +25,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Tester\CommandTester;
 
+/**
+ * NEXT_MAJOR: Remove this legacy group.
+ *
+ * @group legacy
+ */
 final class CreateSnapshotsCommandTest extends KernelTestCase
 {
     private $siteManagerMock;
@@ -49,6 +53,10 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
         $siteManagerMock = $this->createMock(SiteManagerInterface::class);
         $siteManagerMock
             ->method('findBy')
+            ->willReturn([$siteMock]);
+
+        $siteManagerMock
+            ->method('findAll')
             ->willReturn([$siteMock]);
 
         // Setup SymfonyKernel
@@ -107,6 +115,11 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
             ->willReturn([$this->createMock(SiteInterface::class)]);
 
         $inputMock = $this->createMock(InputInterface::class);
+        $inputMock
+            ->method('getOption')
+            //NEXT_MAJOR: Change to ->willReturnOnConsecutiveCalls(['all'], 'sync')
+            ->willReturnOnConsecutiveCalls('php app/console', ['all'], 'sync');
+
         $outputMock = $this->createMock(OutputInterface::class);
 
         //Run code
@@ -136,19 +149,22 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
             ->onlyMethods(['getNotificationBackend', 'getSites'])
             ->setConstructorArgs([$createSnapshotServiceMock])
             ->getMock();
+
         $commandMock
-            ->expects(static::once())
             ->method('getSites')
-            ->willReturn([$this->createMock(Site::class)]);
+            ->willReturn([$this->createMock(SiteInterface::class)]);
+
         $commandMock
             ->expects(static::exactly($notificationWillBeExecuted))
             ->method('getNotificationBackend')
             ->willReturn($this->createMock(BackendInterface::class));
 
         $inputMock = $this->createMock(InputInterface::class);
+        $inputMock = $this->createMock(InputInterface::class);
         $inputMock
             ->method('getOption')
-            ->willReturn($mode);
+            //NEXT_MAJOR: Change to ->willReturnOnConsecutiveCalls(['all'], $mode)
+            ->willReturnOnConsecutiveCalls('php app/console', ['all'], $mode);
 
         $outputMock = $this->createMock(OutputInterface::class);
         $outputMock
@@ -171,8 +187,7 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
     }
 
     /**
-     * We are requiring this argument to work like "doctrine:schema:update --force"
-     * You can check more details here: https://github.com/sonata-project/SonataPageBundle/pull/1418#discussion_r912350492.
+     * NEXT_MAJOR: Remove this test.
      */
     public function testRequireSiteAllArgument()
     {

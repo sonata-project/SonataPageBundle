@@ -21,7 +21,11 @@ use Sonata\PageBundle\Model\SnapshotManagerInterface;
 /**
  * Consumer class to cleanup snapshots by a given page.
  *
+ * NEXT_MAJOR: Remove this class
+ *
  * @final since sonata-project/page-bundle 3.26
+ *
+ * @deprecated since 3.27, and it will be removed in 4.0.
  */
 class CleanupSnapshotConsumer implements ConsumerInterface
 {
@@ -41,6 +45,15 @@ class CleanupSnapshotConsumer implements ConsumerInterface
      */
     public function __construct(SnapshotManagerInterface $snapshotManager, PageManagerInterface $pageManager)
     {
+        @trigger_error(
+            sprintf(
+                'This %s is deprecated since sonata-project/page-bundle 3.27.0'.
+                ' and will be removed in 4.0',
+                self::class
+            ),
+            \E_USER_DEPRECATED
+        );
+
         $this->snapshotManager = $snapshotManager;
         $this->pageManager = $pageManager;
     }

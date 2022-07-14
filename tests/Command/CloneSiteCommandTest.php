@@ -29,6 +29,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @author Christian Gripp <mail@core23.de>
+ *
+ * NEXT_MAJOR: Remove this legacy group
+ *
+ * @group legacy
  */
 final class CloneSiteCommandTest extends TestCase
 {

@@ -26,6 +26,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @author Ahmet Akbana <ahmetakbana@gmail.com>
+ *
+ * NEXT_MAJOR: Remove this legacy group
+ *
+ * @group legacy
  */
 final class CreateSiteCommandTest extends TestCase
 {
