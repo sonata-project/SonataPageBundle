@@ -18,14 +18,12 @@ use Sonata\PageBundle\Command\CreateSnapshotsCommand;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Service\Contract\CreateSnapshotBySiteInterface;
-use Sonata\PageBundle\Service\Contract\GetSitesFromCommandInterface;
 use Sonata\PageBundle\Tests\App\AppKernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Tester\CommandTester;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * NEXT_MAJOR: Remove this legacy group.
@@ -55,6 +53,10 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
         $siteManagerMock = $this->createMock(SiteManagerInterface::class);
         $siteManagerMock
             ->method('findBy')
+            ->willReturn([$siteMock]);
+
+        $siteManagerMock
+            ->method('findAll')
             ->willReturn([$siteMock]);
 
         // Setup SymfonyKernel
@@ -104,25 +106,13 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
             ->method('createBySite')
             ->with(static::isInstanceOf(SiteInterface::class));
 
-        $getSitesServiceMock = $this->createMock(GetSitesFromCommandInterface::class);
-        $getSitesServiceMock
-            ->expects(static::once())
-            ->method('findSitesById')
-            ->willReturn([$this->createMock(SiteInterface::class)]);
-
-        $containerMock = $this->createMock(ContainerInterface::class);
-        $containerMock
-            ->method('get')
-            ->with('sonata.page.service.get_sites')
-            ->willReturn($getSitesServiceMock);
-
         $createSnapshotCommandMock = $this->getMockBuilder(CreateSnapshotsCommand::class)
-            ->onlyMethods(['getContainer'])
+            ->onlyMethods(['getSites'])
             ->setConstructorArgs([$createSnapshotsMock])
             ->getMock();
         $createSnapshotCommandMock
-            ->method('getContainer')
-            ->willReturn($containerMock);
+            ->method('getSites')
+            ->willReturn([$this->createMock(SiteInterface::class)]);
 
         $inputMock = $this->createMock(InputInterface::class);
         $inputMock
@@ -154,27 +144,15 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
             ->expects(static::exactly($createSnapshotServiceWillBeExecuted))
             ->method('createBySite');
 
-        $getSitesServiceMock = $this->createMock(GetSitesFromCommandInterface::class);
-        $getSitesServiceMock
-            ->expects(static::once())
-            ->method('findSitesById')
-            ->willReturn([$this->createMock(SiteInterface::class)]);
-
-        $containerMock = $this->createMock(ContainerInterface::class);
-        $containerMock
-            ->method('get')
-            ->with('sonata.page.service.get_sites')
-            ->willReturn($getSitesServiceMock);
-
         $commandMock = $this
             ->getMockBuilder(CreateSnapshotsCommand::class)
-            ->onlyMethods(['getNotificationBackend', 'getContainer'])
+            ->onlyMethods(['getNotificationBackend', 'getSites'])
             ->setConstructorArgs([$createSnapshotServiceMock])
             ->getMock();
 
         $commandMock
-            ->method('getContainer')
-            ->willReturn($containerMock);
+            ->method('getSites')
+            ->willReturn([$this->createMock(SiteInterface::class)]);
 
         $commandMock
             ->expects(static::exactly($notificationWillBeExecuted))
@@ -209,8 +187,7 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
     }
 
     /**
-     * We are requiring this argument to work like "doctrine:schema:update --force"
-     * You can check more details here: https://github.com/sonata-project/SonataPageBundle/pull/1418#discussion_r912350492.
+     * NEXT_MAJOR: Remove this test.
      */
     public function testRequireSiteAllArgument()
     {

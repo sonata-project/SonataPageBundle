@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Command;
 
+use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Route\RoutePageGenerator;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -50,16 +51,28 @@ class UpdateCoreRoutesCommand extends BaseCommand
 
         $siteOption = $input->getOption('site');
 
-        if (!$siteOption) {
+        //NEXT_MAJOR: Remove this condition, because site will be optional
+        if ([] === $siteOption) {
             $output->writeln('Please provide an <info>--site=SITE_ID</info> option or the <info>--site=all</info> directive');
 
             return 1;
         }
 
-        //NEXT_MAJOR: Inject GetSitesFromCommand $getSites
-        $getSites = $this->getContainer()->get('sonata.page.service.get_sites');
+        //NEXT_MAJOR: Remove this block condition.
+        if (['all'] === $siteOption) {
+            @trigger_error(
+                sprintf(
+                    '--site=all option is deprecate since sonata-project/page-bundle 3.27.0 and will be removed in 4.0'.
+                    'you just need to run: bin/console %s',
+                    self::$defaultName
+                ),
+                \E_USER_DEPRECATED
+            );
 
-        foreach ($getSites->findSitesById($siteOption) as $site) {
+            $siteOption = [];
+        }
+
+        foreach ($this->getSites($siteOption) as $site) {
             if ('all' !== $input->getOption('site')) {
                 $this->getRoutePageGenerator()->update($site, $output, $input->getOption('clean'));
                 $output->writeln('');
@@ -84,6 +97,25 @@ class UpdateCoreRoutesCommand extends BaseCommand
         $output->writeln('<info>done!</info>');
 
         return 0;
+    }
+
+    /**
+     * @param array<int> $ids
+     *
+     * @return array<SiteInterface>
+     *
+     * NEXT_MAJOR: add array type for $ids
+     */
+    protected function getSites($ids): array
+    {
+        //NEXT_MAJOR: Inject this on the __construct.
+        $siteManager = $this->getContainer()->get('sonata.page.manager.site');
+
+        if ([] === $ids) {
+            return $siteManager->findAll();
+        }
+
+        return $siteManager->findBy(['id' => $ids]);
     }
 
     /**

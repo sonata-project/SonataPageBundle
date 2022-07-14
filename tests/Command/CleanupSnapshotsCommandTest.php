@@ -14,9 +14,9 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Command;
 
 use Sonata\NotificationBundle\Backend\BackendInterface;
-use Sonata\PageBundle\Model\Site;
+use Sonata\PageBundle\Model\SiteInterface;
+use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Service\Contract\CleanupSnapshotBySiteInterface;
-use Sonata\PageBundle\Service\Contract\GetSitesFromCommandInterface;
 use Sonata\PageBundle\Tests\App\AppKernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -107,11 +107,12 @@ class CleanupSnapshotsCommandTest extends KernelTestCase
     public function testCleanupSnapshotAsync(): void
     {
         //Mock
-        $getSitesMock = $this->createMock(GetSitesFromCommandInterface::class);
-        $getSitesMock
-            ->method('findSitesById')
-            ->willReturn([$this->createMock(Site::class)]);
-        self::$container->set('sonata.page.service.get_sites', $getSitesMock);
+        $siteManagerMock = $this->createMock(SiteManagerInterface::class);
+        $siteManagerMock
+            ->method('findAll')
+            ->willReturn([$this->createMock(SiteInterface::class)]);
+
+        self::$container->set('sonata.page.manager.site', $siteManagerMock);
 
         $notificationBackend = $this->createMock(BackendInterface::class);
         $notificationBackend
@@ -126,8 +127,8 @@ class CleanupSnapshotsCommandTest extends KernelTestCase
         //Run code
         $commandTester->execute([
             'command' => $command->getName(),
-            '--site' => ['all'],
-            '--mode' => 'async', //NEXT_MAJOR: Remove this argument.
+            '--mode' => 'async', //NEXT_MAJOR: Remove this option.
+            '--site' => ['all'], //NEXT_MAJOR: Remove this option.
         ]);
 
         $output = $commandTester->getDisplay();
@@ -142,11 +143,12 @@ class CleanupSnapshotsCommandTest extends KernelTestCase
     public function testCleanupSnapshot(): void
     {
         //Mock
-        $getSitesMock = $this->createMock(GetSitesFromCommandInterface::class);
-        $getSitesMock
-            ->method('findSitesById')
-            ->willReturn([$this->createMock(Site::class)]);
-        self::$container->set('sonata.page.service.get_sites', $getSitesMock);
+        $siteManagerMock = $this->createMock(SiteManagerInterface::class);
+        $siteManagerMock
+            ->method('findAll')
+            ->willReturn([$this->createMock(SiteInterface::class)]);
+
+        self::$container->set('sonata.page.manager.site', $siteManagerMock);
 
         $cleanupSnapshotMock = $this->createMock(CleanupSnapshotBySiteInterface::class);
         $cleanupSnapshotMock
@@ -162,7 +164,7 @@ class CleanupSnapshotsCommandTest extends KernelTestCase
         //Run code
         $commandTester->execute([
             'command' => $command->getName(),
-            '--site' => ['all'],
+            '--site' => ['all'], //NEXT_MAJOR: Remove this option.
         ]);
 
         $output = $commandTester->getDisplay();

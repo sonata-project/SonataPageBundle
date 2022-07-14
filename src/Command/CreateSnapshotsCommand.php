@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Command;
 
+use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Service\Contract\CreateSnapshotBySiteInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -67,6 +68,8 @@ class CreateSnapshotsCommand extends BaseCommand
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
+        $siteOption = $input->getOption('site');
+
         //NEXT_MAJOR: Remove this condition.
         if ('php app/console' !== $input->getOption('base-console')) {
             @trigger_error(
@@ -75,18 +78,28 @@ class CreateSnapshotsCommand extends BaseCommand
             );
         }
 
-        $siteOption = $input->getOption('site');
-
+        //NEXT_MAJOR: Remove this condition, because site will be optional
         if ([] === $siteOption) {
             $output->writeln('Please provide an <info>--site=SITE_ID</info> option or the <info>--site=all</info> directive');
 
             return 1;
         }
 
-        //NEXT_MAJOR: Inject GetSitesFromCommand $getSites
-        $getSites = $this->getContainer()->get('sonata.page.service.get_sites');
+        //NEXT_MAJOR: Remove this block condition.
+        if (['all'] === $siteOption) {
+            @trigger_error(
+                sprintf(
+                    '--site=all option is deprecate since sonata-project/page-bundle 3.27.0 and will be removed in 4.0'.
+                    'you just need to run: bin/console %s',
+                    self::$defaultName
+                ),
+                \E_USER_DEPRECATED
+            );
 
-        foreach ($getSites->findSitesById($siteOption) as $site) {
+            $siteOption = [];
+        }
+
+        foreach ($this->getSites($siteOption) as $site) {
             // NEXT_MAJOR: Remove this "async" condition block.
             if ('async' === $input->getOption('mode')) {
                 @trigger_error(
@@ -114,5 +127,24 @@ class CreateSnapshotsCommand extends BaseCommand
         $output->writeln('<info>done!</info>');
 
         return 0;
+    }
+
+    /**
+     * @param array<int> $ids
+     *
+     * @return array<SiteInterface>
+     *
+     * NEXT_MAJOR: add array type for $ids
+     */
+    protected function getSites($ids): array
+    {
+        //NEXT_MAJOR: Inject this on the __construct.
+        $siteManager = $this->getContainer()->get('sonata.page.manager.site');
+
+        if ([] === $ids) {
+            return $siteManager->findAll();
+        }
+
+        return $siteManager->findBy(['id' => $ids]);
     }
 }

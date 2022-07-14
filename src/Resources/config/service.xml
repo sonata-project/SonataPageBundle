@@ -10,8 +10,5 @@
             <argument type="service" id="sonata.page.manager.snapshot"/>
             <argument type="service" id="sonata.page.manager.page"/>
         </service>
-        <service id="sonata.page.service.get_sites" class="Sonata\PageBundle\Service\GetSitesService" public="true">
-            <argument type="service" id="sonata.page.manager.site"/>
-        </service>
     </services>
 </container>
