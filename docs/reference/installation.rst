@@ -16,7 +16,6 @@ Required dependencies:
 * `SonataAdminBundle <https://docs.sonata-project.org/projects/SonataAdminBundle/en/3.x/>`_
 * `SonataBlockBundle_ <https://docs.sonata-project.org/projects/SonataBlockBundle/en/3.x/>`_
 * `SonataSeoBundle_ <https://docs.sonata-project.org/projects/SonataSeoBundle/en/2.x/>`_
-* `SonataNotificationBundle_ <https://docs.sonata-project.org/projects/SonataNotificationBundle/en/3.x/>`_
 
 And the persistence bundle (currently, not all the implementations of the Sonata persistence bundles are available):
 

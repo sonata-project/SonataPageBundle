@@ -20,13 +20,13 @@ You could also remove orphan pages with the ``--clean`` option.
 
 .. code-block:: bash
 
-    bin/console sonata:page:create-snapshots --site=all
+    bin/console sonata:page:create-snapshots
 
 - Cleanup snapshots
 
 .. code-block:: bash
 
-    bin/console sonata:page:cleanup-snapshots --site=all --keep-snapshots=5
+    bin/console sonata:page:cleanup-snapshots --keep-snapshots=5
 
 - Create blocks
 

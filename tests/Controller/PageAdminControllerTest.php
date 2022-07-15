@@ -21,8 +21,6 @@ use Sonata\AdminBundle\Admin\Pool;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Request\AdminFetcher;
 use Sonata\AdminBundle\Templating\TemplateRegistryInterface;
-use Sonata\NotificationBundle\Backend\BackendInterface;
-use Sonata\NotificationBundle\Backend\RuntimeBackend;
 use Sonata\PageBundle\Controller\PageAdminController;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Service\Contract\CreateSnapshotByPageInterface;
@@ -74,47 +72,12 @@ class PageAdminControllerTest extends TestCase
         $this->controller->configureAdmin($this->request);
     }
 
-    /**
-     * NEXT_MAJOR: Remove this test.
-     *
-     * @group legacy
-     */
-    public function testCallTheNotificationCreateSnapshot(): void
-    {
-        $adminSnapshot = $this->createMock(AbstractAdmin::class);
-        $this->container->set('sonata.page.admin.snapshot', $adminSnapshot);
-
-        $this->admin->method('generateUrl')->willReturn('https://fake.bar');
-
-        $backend = $this->createMock(BackendInterface::class);
-        $backend
-            ->expects(static::once())
-            ->method('createAndPublish');
-        $this->container->set('sonata.notification.backend', $backend);
-
-        $pageMock = $this->createMock(PageInterface::class);
-        $queryMock = $this->createMock(ProxyQueryInterface::class);
-        $queryMock
-            ->method('execute')
-            ->willReturn([$pageMock]);
-
-        //Run code
-        $this->controller->batchActionSnapshot($queryMock);
-    }
-
     public function testCreateSnapshotByPage(): void
     {
         $adminSnapshot = $this->createMock(AbstractAdmin::class);
         $this->container->set('sonata.page.admin.snapshot', $adminSnapshot);
 
         $this->admin->method('generateUrl')->willReturn('https://fake.bar');
-
-        //NEXT_MAJOR: Remove the RuntimeBackend mock
-        $backend = $this->createMock(RuntimeBackend::class);
-        $backend
-            ->expects(static::exactly(0))
-            ->method('createAndPublish');
-        $this->container->set('sonata.notification.backend', $backend);
 
         $createSnapshotByPageMock = $this->createMock(CreateSnapshotByPageInterface::class);
         $createSnapshotByPageMock

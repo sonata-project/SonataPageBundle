@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Command;
 
-use Sonata\NotificationBundle\Backend\BackendInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Service\Contract\CreateSnapshotBySiteInterface;
@@ -62,38 +61,6 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
         $this->siteManagerMock = $siteManagerMock;
     }
 
-    /**
-     * @group legacy
-     *
-     * NEXT_MAJOR: Remove this test.
-     */
-    public function testCreateOneSnapshotAsync(): void
-    {
-        //Mock
-        $backendMock = $this->createMock(BackendInterface::class);
-        $backendMock
-            ->expects(static::once())
-            ->method('createAndPublish');
-
-        //Set mock services
-        self::$container->set('sonata.page.manager.site', $this->siteManagerMock);
-        self::$container->set('sonata.notification.backend', $backendMock);
-
-        //Command
-        $command = $this->application->find('sonata:page:create-snapshots');
-        $commandTester = new CommandTester($command);
-
-        $commandTester->execute([
-            'command' => $command->getName(),
-            '--site' => [1],
-            '--mode' => 'async',
-        ]);
-
-        $output = $commandTester->getDisplay();
-
-        static::assertStringContainsString('done!', $output);
-    }
-
     public function testCreateSnapshot(): void
     {
         //Mocks
@@ -113,72 +80,11 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
 
         $commandTester->execute([
             'command' => $command->getName(),
-            '--site' => ['all'],
-            '--mode' => 'sync',
         ]);
 
         $output = $commandTester->getDisplay();
 
         static::assertStringContainsString('done!', $output);
-    }
-
-    /**
-     * NEXT_MAJOR: remove the dataProvider, because the notification Bundle will be removed and the legacy group.
-     *
-     * @group legacy
-     *
-     * @dataProvider getProvidedDataCallNotificationBackend
-     */
-    public function testCallNotificationBackend(string $mode): void
-    {
-        // Mocks
-        $createSnapshotsMock = $this->createMock(CreateSnapshotBySiteInterface::class);
-        $createSnapshotsMock
-            ->expects(static::any())
-            ->method('createBySite');
-
-        //Set mock services
-        self::$container->set('sonata.page.manager.site', $this->siteManagerMock);
-        self::$container->set('sonata.page.service.create_snapshot', $createSnapshotsMock);
-
-        //Command
-        $command = $this->application->find('sonata:page:create-snapshots');
-        $commandTester = new CommandTester($command);
-
-        $commandTester->execute([
-            'command' => $command->getName(),
-            '--site' => ['all'],
-            '--mode' => $mode,
-        ]);
-
-        $output = $commandTester->getDisplay();
-
-        static::assertStringContainsString('done!', $output);
-    }
-
-    public function getProvidedDataCallNotificationBackend(): array
-    {
-        return [
-            ['sync'],
-            ['async'],
-        ];
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this test.
-     */
-    public function testRequireSiteAllArgument()
-    {
-        $command = $this->application->find('sonata:page:create-snapshots');
-        $commandTester = new CommandTester($command);
-
-        $commandTester->execute([
-            'command' => $command->getName(),
-        ]);
-
-        $output = $commandTester->getDisplay();
-
-        static::assertStringContainsString('Please provide an --site=SITE_ID option or the --site=all directive', $output);
     }
 
     protected static function getKernelClass(): string
