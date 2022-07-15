@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Command;
 
+use Sonata\PageBundle\Model\SiteManagerInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -23,11 +25,18 @@ use Symfony\Component\Console\Question\Question;
  * Create a site.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class CreateSiteCommand extends BaseCommand
+final class CreateSiteCommand extends Command
 {
+    protected static $defaultName = 'sonata:page:create-site';
+    private SiteManagerInterface $siteManager;
+
+    public function __construct(SiteManagerInterface $siteManager)
+    {
+        parent::__construct();
+        $this->siteManager = $siteManager;
+    }
+
     public function configure(): void
     {
         $this->setName('sonata:page:create-site');
@@ -80,7 +89,7 @@ EOT
         }
 
         // create the object
-        $siteManager = $this->getContainer()->get('sonata.page.manager.site');
+        $siteManager = $this->siteManager;
         $site = $siteManager->create();
 
         $site->setName($values['name']);

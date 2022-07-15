@@ -15,21 +15,30 @@ namespace Sonata\PageBundle\Command;
 
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Migrates the name setting of all blocks into a code setting.
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class DumpPageCommand extends BaseCommand
+final class DumpPageCommand extends Command
 {
+    protected static $defaultName = 'sonata:page:dump-page';
+    private ContainerInterface $container;
+
+    public function __construct(ContainerInterface $container)
+    {
+        parent::__construct();
+
+        $this->container = $container;
+    }
+
     public function configure(): void
     {
-        $this->setName('sonata:page:dump-page');
         $this->setDescription('Dump page information');
         $this->setHelp(
             <<<HELP
@@ -76,7 +85,7 @@ HELP
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $manager = $this->getContainer()->get($input->getArgument('manager'));
+        $manager = $this->container->get($input->getArgument('manager'));
 
         if (!$manager instanceof CmsManagerInterface) {
             throw new \RuntimeException('The service does not implement the CmsManagerInterface');

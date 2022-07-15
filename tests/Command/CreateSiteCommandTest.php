@@ -47,11 +47,7 @@ final class CreateSiteCommandTest extends TestCase
     {
         $this->siteManager = $this->createMock(SiteManagerInterface::class);
 
-        $container = $this->createStub(ContainerInterface::class);
-        $container->method('get')->with('sonata.page.manager.site')->willReturn($this->siteManager);
-
-        $command = new CreateSiteCommand();
-        $command->setContainer($container);
+        $command = new CreateSiteCommand($this->siteManager);
 
         $this->application = new Application();
         $this->application->add($command);

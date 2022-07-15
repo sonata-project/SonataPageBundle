@@ -13,25 +13,31 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Command;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Sonata\BlockBundle\Model\BlockInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Migrates the name setting of all blocks into a code setting.
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class MigrateBlockNameSettingCommand extends BaseCommand
+final class MigrateBlockNameSettingCommand extends Command
 {
     public const CONTAINER_TYPE = 'sonata.page.block.container';
+    protected static $defaultName = 'sonata:page:migrate-block-setting';
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        parent::__construct();
+        $this->entityManager = $entityManager;
+    }
 
     public function configure(): void
     {
-        $this->setName('sonata:page:migrate-block-setting');
         $this->addOption(
             'class',
             null,
@@ -69,7 +75,7 @@ class MigrateBlockNameSettingCommand extends BaseCommand
                 unset($settings['orientation']);
                 $block->setSettings($settings);
 
-                $this->getEntityManager()->persist($block);
+                $this->entityManager->persist($block);
                 ++$count;
             }
 
@@ -85,16 +91,16 @@ class MigrateBlockNameSettingCommand extends BaseCommand
                     $block->setName($block->getSetting('code'));
                 }
 
-                $this->getEntityManager()->persist($block);
+                $this->entityManager->persist($block);
                 ++$count;
             }
 
             if ($count % 100) {
-                $this->getEntityManager()->flush();
+                $this->entityManager->flush();
             }
         }
 
-        $this->getEntityManager()->flush();
+        $this->entityManager->flush();
 
         $output->writeln("<info>Migrated $count blocks</info>");
 
@@ -110,16 +116,6 @@ class MigrateBlockNameSettingCommand extends BaseCommand
      */
     protected function getRepository($class)
     {
-        return $this->getEntityManager()->getRepository($class);
-    }
-
-    /**
-     * Returns the entity manager.
-     *
-     * @return EntityManager
-     */
-    protected function getEntityManager()
-    {
-        return $this->getContainer()->get('doctrine.orm.entity_manager');
+        return $this->entityManager->getRepository($class);
     }
 }
