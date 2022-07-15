@@ -14,9 +14,6 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
-use Sonata\NotificationBundle\Backend\BackendInterface;
-use Sonata\NotificationBundle\Backend\RuntimeBackend;
-use Sonata\PageBundle\Service\Contract\CreateSnapshotByPageInterface;
 use Symfony\Component\Form\FormRenderer;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -46,30 +43,7 @@ class PageAdminController extends Controller
         }
 
         foreach ($query->execute() as $page) {
-            //NEXT_MAJOR: Remove the $notificationBackend variable
-            $notificationBackend = $this->get('sonata.notification.backend');
-
-            //NEXT_MAJOR: Remove the "if" condition and use only "createByPage"
-            if ($notificationBackend instanceof RuntimeBackend) {
-                //NEXT_MAJOR: Inject CreateSnapshotByPageInterface type and remove this "get" call.
-                $this->get('sonata.page.service.create_snapshot')->createByPage($page);
-            } else {
-                @trigger_error(
-                    sprintf(
-                        'Inject %s in %s is deprecated since sonata-project/page-bundle 3.27.0'.
-                        ' and will be removed in 4.0, Please inject %s insteadof %s',
-                        BackendInterface::class,
-                        self::class,
-                        CreateSnapshotByPageInterface::class,
-                        BackendInterface::class
-                    ),
-                    \E_USER_DEPRECATED
-                );
-                $notificationBackend
-                    ->createAndPublish('sonata.page.create_snapshot', [
-                        'pageId' => $page->getId(),
-                    ]);
-            }
+            $this->get('sonata.page.service.create_snapshot')->createByPage($page);
         }
 
         return new RedirectResponse($this->admin->generateUrl('list', [

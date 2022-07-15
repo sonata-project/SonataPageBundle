@@ -78,8 +78,6 @@ final class SonataPageExtension extends Extension implements PrependExtensionInt
         $loader->load('form.xml');
         $loader->load('twig.xml');
         $loader->load('http_kernel.xml');
-        //@NEXT_MAJOR: Remove this load, and consumer.xml file
-        $loader->load('consumer.xml');
         $loader->load('service.xml');
         $loader->load('validators.xml');
         $loader->load('command.xml');

@@ -20,7 +20,6 @@ use Sonata\BlockBundle\SonataBlockBundle;
 use Sonata\Doctrine\Bridge\Symfony\SonataDoctrineBundle;
 use Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle;
 use Sonata\Form\Bridge\Symfony\SonataFormBundle;
-use Sonata\NotificationBundle\SonataNotificationBundle;
 use Sonata\PageBundle\SonataPageBundle;
 use Sonata\SeoBundle\SonataSeoBundle;
 use Sonata\Twig\Bridge\Symfony\SonataTwigBundle;
@@ -55,7 +54,6 @@ final class AppKernel extends Kernel
             new SonataAdminBundle(),
             new CmfRoutingBundle(),
             new DoctrineBundle(),
-            new SonataNotificationBundle(),
             new SonataDoctrineORMAdminBundle(),
             new SonataSeoBundle(),
             new SonataPageBundle(),

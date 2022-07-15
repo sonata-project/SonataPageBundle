@@ -66,9 +66,3 @@ sonata_page:
         snapshot: 'Sonata\PageBundle\Tests\App\Entity\SonataPageSnapshot'
         block: 'Sonata\PageBundle\Tests\App\Entity\SonataPageBlock'
         site: 'Sonata\PageBundle\Tests\App\Entity\SonataPageSite'
-
-sonata_notification:
-    consumers:
-        register_default: false
-    admin:
-        enabled: false

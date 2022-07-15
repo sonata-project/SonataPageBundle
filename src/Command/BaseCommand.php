@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Command;
 
 use Sonata\Doctrine\Model\ManagerInterface;
-use Sonata\NotificationBundle\Backend\BackendInterface;
 use Sonata\PageBundle\CmsManager\CmsPageManager;
 use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 use Sonata\PageBundle\Listener\ExceptionListener;
@@ -91,24 +90,6 @@ abstract class BaseCommand extends ContainerAwareCommand
     public function getErrorListener()
     {
         return $this->getContainer()->get('sonata.page.kernel.exception_listener');
-    }
-
-    /**
-     * @param string $mode
-     *
-     * @return BackendInterface
-     *
-     * NEXT_MAJOR: Remove this method
-     *
-     * @deprecated since 3.27, and it will be removed in 4.0.
-     */
-    public function getNotificationBackend($mode)
-    {
-        if ('async' === $mode) {
-            return $this->getContainer()->get('sonata.notification.backend');
-        }
-
-        return $this->getContainer()->get('sonata.notification.backend.runtime');
     }
 
     public function run(InputInterface $input, OutputInterface $output)
