@@ -80,7 +80,8 @@ EOT
         }
 
         // create the object
-        $site = $this->getSiteManager()->create();
+        $siteManager = $this->getContainer()->get('sonata.page.manager.site');
+        $site = $siteManager->create();
 
         $site->setName($values['name']);
 
@@ -115,7 +116,7 @@ INFO
         }
 
         if ($confirmation) {
-            $this->getSiteManager()->save($site);
+            $siteManager->save($site);
 
             $output->writeln([
                 '',

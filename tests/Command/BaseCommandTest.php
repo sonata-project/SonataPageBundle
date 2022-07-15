@@ -20,6 +20,8 @@ use Symfony\Component\Console\Input\InputInterface;
 
 /**
  * @author Vincent Composieux <vincent.composieux@gmail.com>
+ *
+ * NEXT_MAJOR: Remove this class.
  */
 final class BaseCommandTest extends TestCase
 {

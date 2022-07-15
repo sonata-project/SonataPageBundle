@@ -24,11 +24,16 @@ use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * BaseCommand.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * NEXT_MAJOR: Remove this class, and for all commands that use this class need to extend from Symfony command.
+ *
+ * @deprecated since 3.27, and it will be removed in 4.0.
  */
 abstract class BaseCommand extends ContainerAwareCommand
 {
@@ -104,6 +109,21 @@ abstract class BaseCommand extends ContainerAwareCommand
         }
 
         return $this->getContainer()->get('sonata.notification.backend.runtime');
+    }
+
+    public function run(InputInterface $input, OutputInterface $output)
+    {
+        if (false !== strpos($this->getName(), 'sonata')) {
+            @trigger_error(
+                sprintf(
+                    'The %s class is deprecate since sonata-project/page-bundle 3.27.0 and it will be remove in 4.0',
+                    __CLASS__
+                ),
+                \E_USER_DEPRECATED
+            );
+        }
+
+        return parent::run($input, $output);
     }
 
     /**

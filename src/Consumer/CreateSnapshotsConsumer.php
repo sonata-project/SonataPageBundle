@@ -52,6 +52,15 @@ class CreateSnapshotsConsumer implements ConsumerInterface
 
     public function __construct(BackendInterface $asyncBackend, BackendInterface $runtimeBackend, PageManagerInterface $pageManager)
     {
+        @trigger_error(
+            sprintf(
+                'This %s is deprecated since sonata-project/page-bundle 3.27.0'.
+                ' and will be removed in 4.0',
+                self::class
+            ),
+            \E_USER_DEPRECATED
+        );
+
         $this->asyncBackend = $asyncBackend;
         $this->runtimeBackend = $runtimeBackend;
         $this->pageManager = $pageManager;

@@ -49,6 +49,15 @@ class CreateSnapshotConsumer implements ConsumerInterface
 
     public function __construct(SnapshotManagerInterface $snapshotManager, PageManagerInterface $pageManager, TransformerInterface $transformer)
     {
+        @trigger_error(
+            sprintf(
+                'This %s is deprecated since sonata-project/page-bundle 3.27.0'.
+                ' and will be removed in 4.0',
+                self::class
+            ),
+            \E_USER_DEPRECATED
+        );
+
         $this->snapshotManager = $snapshotManager;
         $this->pageManager = $pageManager;
         $this->transformer = $transformer;

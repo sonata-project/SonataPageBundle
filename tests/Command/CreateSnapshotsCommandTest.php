@@ -16,11 +16,17 @@ namespace Sonata\PageBundle\Tests\Command;
 use Sonata\NotificationBundle\Backend\BackendInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
+use Sonata\PageBundle\Service\Contract\CreateSnapshotBySiteInterface;
 use Sonata\PageBundle\Tests\App\AppKernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
+/**
+ * NEXT_MAJOR: Remove this legacy group.
+ *
+ * @group legacy
+ */
 final class CreateSnapshotsCommandTest extends KernelTestCase
 {
     private $siteManagerMock;
@@ -44,6 +50,10 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
         $siteManagerMock = $this->createMock(SiteManagerInterface::class);
         $siteManagerMock
             ->method('findBy')
+            ->willReturn([$siteMock]);
+
+        $siteManagerMock
+            ->method('findAll')
             ->willReturn([$siteMock]);
 
         // Setup SymfonyKernel
@@ -86,8 +96,16 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
 
     public function testCreateSnapshot(): void
     {
+        //Mocks
+        $createSnapshotsMock = $this->createMock(CreateSnapshotBySiteInterface::class);
+        $createSnapshotsMock
+            ->expects(static::once())
+            ->method('createBySite')
+            ->with(static::isInstanceOf(SiteInterface::class));
+
         //Set mock services
         self::$container->set('sonata.page.manager.site', $this->siteManagerMock);
+        self::$container->set('sonata.page.service.create_snapshot', $createSnapshotsMock);
 
         //Command
         $command = $this->application->find('sonata:page:create-snapshots');
@@ -95,7 +113,8 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
 
         $commandTester->execute([
             'command' => $command->getName(),
-            '--site' => [1],
+            '--site' => ['all'],
+            '--mode' => 'sync',
         ]);
 
         $output = $commandTester->getDisplay();
@@ -112,8 +131,15 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
      */
     public function testCallNotificationBackend(string $mode): void
     {
+        // Mocks
+        $createSnapshotsMock = $this->createMock(CreateSnapshotBySiteInterface::class);
+        $createSnapshotsMock
+            ->expects(static::any())
+            ->method('createBySite');
+
         //Set mock services
         self::$container->set('sonata.page.manager.site', $this->siteManagerMock);
+        self::$container->set('sonata.page.service.create_snapshot', $createSnapshotsMock);
 
         //Command
         $command = $this->application->find('sonata:page:create-snapshots');
@@ -121,7 +147,7 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
 
         $commandTester->execute([
             'command' => $command->getName(),
-            '--site' => [1],
+            '--site' => ['all'],
             '--mode' => $mode,
         ]);
 
@@ -139,8 +165,7 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
     }
 
     /**
-     * We are requiring this argument to work like "doctrine:schema:update --force"
-     * You can check more details here: https://github.com/sonata-project/SonataPageBundle/pull/1418#discussion_r912350492.
+     * NEXT_MAJOR: Remove this test.
      */
     public function testRequireSiteAllArgument()
     {

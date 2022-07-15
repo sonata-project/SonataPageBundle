@@ -25,6 +25,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * NEXT_MAJOR: Remove this legacy group.
+ *
+ * @group legacy
+ */
 final class CreateBlockContainerCommandTest extends TestCase
 {
     /**

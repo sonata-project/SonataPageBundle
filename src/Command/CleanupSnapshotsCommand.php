@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Command;
 
+use Sonata\PageBundle\Model\SiteInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\Process;
 
 /**
  * Cleanups the deprecated snapshots.
@@ -25,32 +25,31 @@ use Symfony\Component\Process\Process;
  */
 class CleanupSnapshotsCommand extends BaseCommand
 {
+    protected static $defaultName = 'sonata:page:cleanup-snapshots';
+
     public function configure(): void
     {
-        $this->setName('sonata:page:cleanup-snapshots');
         $this->setDescription('Cleanups the deprecated snapshots by a given site');
 
-        $this->addOption('site', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Site id', null);
+        $this->addOption('site', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Site id');
+        //NEXT_MAJOR: Remove the "base-console" option.
         $this->addOption('base-console', null, InputOption::VALUE_OPTIONAL, 'Base Symfony console command', 'app/console');
+        //NEXT_MAJOR: Remove the "mode" option.
         $this->addOption('mode', null, InputOption::VALUE_OPTIONAL, 'Run the command asynchronously', 'sync');
         $this->addOption('keep-snapshots', null, InputOption::VALUE_OPTIONAL, 'Keep a given count of snapshots per page', 5);
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
-        if (!$input->getOption('site')) {
-            $output->writeln('Please provide an <info>--site=SITE_ID</info> option or the <info>--site=all</info> directive');
-            $output->writeln('');
-
-            $output->writeln(sprintf(' % 5s - % -30s - %s', 'ID', 'Name', 'Url'));
-
-            foreach ($this->getSiteManager()->findBy([]) as $site) {
-                $output->writeln(sprintf(' % 5s - % -30s - %s', $site->getId(), $site->getName(), $site->getUrl()));
-            }
-
-            return;
+        //NEXT_MAJOR: Remove this condition.
+        if ('app/console' !== $input->getOption('base-console')) {
+            @trigger_error(
+                'The "base-console" is deprecated since sonata-project/page-bundle 3.27.0 and will be removed in 4.0',
+                \E_USER_DEPRECATED
+            );
         }
 
+        //NEXT_MAJOR: Remove this condition.
         if (!\in_array($input->getOption('mode'), ['async', 'sync'], true)) {
             throw new \InvalidArgumentException('Option "mode" is not valid (async|sync).');
         }
@@ -62,40 +61,79 @@ class CleanupSnapshotsCommand extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        foreach ($this->getSites($input) as $site) {
-            if ('all' !== $input->getOption('site')) {
-                if ('async' === $input->getOption('mode')) {
-                    $output->write(sprintf('<info>%s</info> - Publish a notification command ...', $site->getName()));
-                } else {
-                    $output->write(sprintf('<info>%s</info> - Cleaning up snapshots ...', $site->getName()));
-                }
+        $siteOption = $input->getOption('site');
+        $keepSnapshots = $input->getOption('keep-snapshots');
+
+        //NEXT_MAJOR: Remove this condition, because site will be optional.
+        if ([] === $siteOption) {
+            $output->writeln('Please provide an <info>--site=SITE_ID</info> option or the <info>--site=all</info> directive');
+
+            return 1;
+        }
+
+        //NEXT_MAJOR: Remove this block condition.
+        if (['all'] === $siteOption) {
+            @trigger_error(
+                sprintf(
+                    '--site=all option is deprecate since sonata-project/page-bundle 3.27.0 and will be removed in 4.0'.
+                'you just need to run: bin/console %s',
+                    self::$defaultName
+                ),
+                \E_USER_DEPRECATED
+            );
+
+            $siteOption = [];
+        }
+
+        foreach ($this->getSites($siteOption) as $site) {
+            //NEXT_MAJOR: Remove this "async" block condition.
+            if ('async' === $input->getOption('mode')) {
+                @trigger_error(
+                    'The async mode is deprecated since sonata-project/page-bundle 3.27.0 and will be removed in 4.0',
+                    \E_USER_DEPRECATED
+                );
+                $output->write(sprintf('<info>%s</info> - Publish a notification command ...', $site->getName()));
 
                 $this->getNotificationBackend($input->getOption('mode'))->createAndPublish('sonata.page.cleanup_snapshots', [
                     'siteId' => $site->getId(),
                     'mode' => $input->getOption('mode'),
-                    'keepSnapshots' => $input->getOption('keep-snapshots'),
+                    'keepSnapshots' => $keepSnapshots,
                 ]);
 
                 $output->writeln(' done!');
-            } else {
-                $p = new Process(sprintf(
-                    '%s sonata:page:cleanup-snapshots --env=%s --site=%s --mode=%s --keep-snapshots=%s %s',
-                    $input->getOption('base-console'),
-                    $input->getOption('env'),
-                    $site->getId(),
-                    $input->getOption('mode'),
-                    $input->getOption('keep-snapshots'),
-                    $input->getOption('no-debug') ? '--no-debug' : ''
-                ));
-
-                $p->run(static function ($type, $data) use ($output): void {
-                    $output->write($data, OutputInterface::OUTPUT_RAW);
-                });
+                continue;
             }
+
+            $output->write(sprintf('<info>%s</info> - Cleaning up snapshots ...', $site->getName()));
+
+            //NEXT_MAJOR: inject this class in the constructor CleanupSnapshotBySiteInterface $cleanupSnapshot
+            $cleanupSnapshot = $this->getContainer()->get('sonata.page.service.cleanup_snapshot');
+            $cleanupSnapshot->cleanupBySite($site, $keepSnapshots);
+
+            $output->writeln(' done!');
         }
 
         $output->writeln('<info>done!</info>');
 
         return 0;
+    }
+
+    /**
+     * @param array<int> $ids
+     *
+     * @return array<SiteInterface>
+     *
+     * NEXT_MAJOR: add array type for $ids
+     */
+    protected function getSites($ids): array
+    {
+        //NEXT_MAJOR: Inject this on the __construct.
+        $siteManager = $this->getContainer()->get('sonata.page.manager.site');
+
+        if ([] === $ids) {
+            return $siteManager->findAll();
+        }
+
+        return $siteManager->findBy(['id' => $ids]);
     }
 }
