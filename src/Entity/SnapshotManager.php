@@ -106,7 +106,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
             implode(',', $pageIds)
         );
 
-        $this->getConnection()->query($sql);
+        $this->getEntityManager()->getConnection()->executeQuery($sql);
     }
 
     public function findEnableSnapshot(array $criteria)
@@ -230,10 +230,10 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
         }
 
         $tableName = $this->getTableName();
-        $platform = $this->getConnection()->getDatabasePlatform()->getName();
+        $platform = $this->getEntityManager()->getConnection()->getDatabasePlatform()->getName();
 
         if ('mysql' === $platform) {
-            return $this->getConnection()->exec(sprintf(
+            return $this->getEntityManager()->getConnection()->executeStatement(sprintf(
                 'DELETE FROM %s
                 WHERE
                     page_id = %d
@@ -259,7 +259,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
         }
 
         if ('oracle' === $platform) {
-            return $this->getConnection()->exec(sprintf(
+            return $this->getEntityManager()->getConnection()->executeStatement(sprintf(
                 'DELETE FROM %s
                 WHERE
                     page_id = %d
