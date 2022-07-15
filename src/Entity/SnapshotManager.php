@@ -250,7 +250,12 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
             ->addOrderBy('i.publicationDateEnd', Criteria::DESC)
             ->setMaxResults($keep);
 
-        $innerArray = $innerQb->getQuery()->getSingleColumnResult();
+        $query = $innerQb->getQuery();
+        if (method_exists($query, 'getSingleColumnResult')) {
+            $innerArray = $query->getSingleColumnResult();
+        } else {
+            $innerArray = array_column($query->getScalarResult(), 'id');
+        }
 
         $qb = $this->getRepository()->createQueryBuilder('s');
         $expr = $qb->expr();
@@ -260,6 +265,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
                 's.id',
                 $innerArray
             ));
+
         return $qb->getQuery()->execute();
     }
 
