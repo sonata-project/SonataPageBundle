@@ -116,7 +116,7 @@ final class SnapshotManagerTest extends TestCase
         $connection = $this->createMock(Connection::class);
         $connection
             ->expects(static::once())
-            ->method('query')
+            ->method('executeQuery')
             ->with(sprintf(
                 "UPDATE page_snapshot SET publication_date_end = '%s' WHERE id NOT IN(123) AND page_id IN (456) and publication_date_end IS NULL",
                 $date->format('Y-m-d H:i:s')
@@ -165,7 +165,7 @@ final class SnapshotManagerTest extends TestCase
     public function testEnableSnapshotsWhenNoSnapshots(): void
     {
         $connection = $this->createMock(Connection::class);
-        $connection->expects(static::never())->method('query');
+        $connection->expects(static::never())->method('executeQuery');
 
         $em = $this->createMock(EntityManagerInterface::class);
         $em->expects(static::never())->method('persist');
