@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Entity;
 
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Persistence\ManagerRegistry;
 use Sonata\DatagridBundle\Pager\Doctrine\Pager;
 use Sonata\DatagridBundle\ProxyQuery\Doctrine\ProxyQuery;
@@ -232,60 +233,34 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
             throw new \RuntimeException(sprintf('Please provide an integer value, %s given', \gettype($keep)));
         }
 
-        $tableName = $this->getTableName();
-        $platform = $this->getConnection()->getDatabasePlatform()->getName();
+        $innerQb = $this->getRepository()->createQueryBuilder('i');
+        $expr = $innerQb->expr();
 
-        if ('mysql' === $platform) {
-            return $this->getConnection()->exec(sprintf(
-                'DELETE FROM %s
-                WHERE
-                    page_id = %d
-                    AND id NOT IN (
-                        SELECT id
-                        FROM (
-                            SELECT id, publication_date_end
-                            FROM %s
-                            WHERE
-                                page_id = %d
-                            ORDER BY
-                                publication_date_end IS NULL DESC,
-                                publication_date_end DESC
-                            LIMIT %d
-                        ) AS table_alias
-                )',
-                $tableName,
-                $page->getId(),
-                $tableName,
-                $page->getId(),
-                $keep
+        // try a better Function expression for this?
+        $ifNullExpr = sprintf(
+            'CASE WHEN %s THEN 1 ELSE 0 END',
+            $expr->isNull('i.publicationDateEnd')
+        );
+
+        // Subquery DQL doesn't support Limit
+        $innerQb
+            ->select('i.id')
+            ->where($expr->eq('i.page', $page->getId()))
+            ->orderBy($ifNullExpr, Criteria::DESC)
+            ->addOrderBy('i.publicationDateEnd', Criteria::DESC)
+            ->setMaxResults($keep);
+
+        $innerArray = $innerQb->getQuery()->getSingleColumnResult();
+
+        $qb = $this->getRepository()->createQueryBuilder('s');
+        $expr = $qb->expr();
+        $qb->delete()
+            ->where($expr->eq('s.page', $page->getId()))
+            ->andWhere($expr->notIn(
+                's.id',
+                $innerArray
             ));
-        }
-
-        if ('oracle' === $platform) {
-            return $this->getConnection()->exec(sprintf(
-                'DELETE FROM %s
-                WHERE
-                    page_id = %d
-                    AND id NOT IN (
-                        SELECT id
-                        FROM (
-                            SELECT id, publication_date_end
-                            FROM %s
-                            WHERE
-                                page_id = %d
-                                AND rownum <= %d
-                            ORDER BY publication_date_end DESC
-                        ) table_alias
-                )',
-                $tableName,
-                $page->getId(),
-                $tableName,
-                $page->getId(),
-                $keep
-            ));
-        }
-
-        throw new \RuntimeException(sprintf('The %s database platform has not been tested yet. Please report us if it works and feel free to create a pull request to handle it ;-)', $platform));
+        return $qb->getQuery()->execute();
     }
 
     /**
