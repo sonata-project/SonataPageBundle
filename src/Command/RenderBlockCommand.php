@@ -23,6 +23,10 @@ use Symfony\Component\HttpFoundation\Request;
  * Migrates the name setting of all blocks into a code setting.
  *
  * @final since sonata-project/page-bundle 3.26
+ *
+ * NEXT_MAJOR: Remove this class
+ *
+ * @deprecated since 3.27, and it will be removed in 4.0.
  */
 class RenderBlockCommand extends BaseCommand
 {
@@ -87,5 +91,19 @@ HELP
         $this->getContainer()->leaveScope('request');
 
         return 0;
+    }
+
+    public function run(InputInterface $input, OutputInterface $output)
+    {
+        @trigger_error(
+            sprintf(
+                'This %s is deprecated since sonata-project/page-bundle 3.27.0'.
+                ' and it will be removed in 4.0',
+                self::class
+            ),
+            \E_USER_DEPRECATED
+        );
+
+        return parent::run($input, $output);
     }
 }
