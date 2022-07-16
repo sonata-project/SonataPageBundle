@@ -13,14 +13,8 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Entity;
 
-use Doctrine\ORM\AbstractQuery;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\Persistence\Mapping\ClassMetadata;
 use PHPUnit\Framework\TestCase;
-use Sonata\PageBundle\Entity\BasePage;
 use Sonata\PageBundle\Entity\PageManager;
 use Sonata\PageBundle\Tests\Model\Page;
 

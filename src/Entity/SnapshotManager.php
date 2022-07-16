@@ -244,7 +244,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
 
         // Subquery DQL doesn't support Limit
         $innerQb
-            ->select('DISTINCT i.id')
+            ->select('i.id')
             ->where($expr->eq('i.page', $page->getId()))
             ->orderBy($ifNullExpr, Criteria::DESC)
             ->addOrderBy('i.publicationDateEnd', Criteria::DESC)
