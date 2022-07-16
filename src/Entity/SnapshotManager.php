@@ -244,7 +244,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
 
         // Subquery DQL doesn't support Limit
         $innerQb
-            ->select('i.id')
+            ->select('DISTINCT i.id')
             ->where($expr->eq('i.page', $page->getId()))
             ->orderBy($ifNullExpr, Criteria::DESC)
             ->addOrderBy('i.publicationDateEnd', Criteria::DESC)
@@ -254,7 +254,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
         if (method_exists($query, 'getSingleColumnResult')) {
             $innerArray = $query->getSingleColumnResult();
         } else {
-            $innerArray = array_column($query->getScalarResult(), 'id');
+            $innerArray = array_column($query->getArrayResult(), 'id');
         }
 
         $qb = $this->getRepository()->createQueryBuilder('s');
