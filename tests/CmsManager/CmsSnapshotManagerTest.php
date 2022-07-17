@@ -19,7 +19,6 @@ use Sonata\PageBundle\CmsManager\CmsSnapshotManager;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Model\Block;
 use Sonata\PageBundle\Model\BlockInteractorInterface;
-use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SnapshotInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
@@ -118,7 +117,7 @@ final class CmsSnapshotManagerTest extends TestCase
         $pBlock->method('hasChildren')->willReturn(true);
         $pBlock->method('getId')->willReturn(1);
 
-        $page = $this->createMock(PageInterface::class);
+        $page = $this->createMock(SnapshotPageProxyInterface::class);
         $page->method('getBlocks')->willReturnCallback(static function () use ($pBlock) {
             static $count;
 
@@ -142,7 +141,10 @@ final class CmsSnapshotManagerTest extends TestCase
             ->method('findEnableSnapshot')
             ->willReturn($snapshot);
 
-        $this->transformer->expects(static::once())->method('load')->willReturn($page);
+        $this->snapshotManager
+            ->expects(static::once())
+            ->method('createSnapshotPageProxy')
+            ->willReturn($page);
 
         $site = $this->createMock(SiteInterface::class);
 
