@@ -171,7 +171,7 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
                 if ($target) {
                     $this->setTarget(new self($this->manager, $this->transformer, $target));
                 } else {
-                    $this->target = false;
+                    $this->setTarget(null);
                 }
             }
         }

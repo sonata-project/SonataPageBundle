@@ -14,7 +14,9 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Sonata\PageBundle\Model\Block;
+use Sonata\PageBundle\Model\PageBlockInterface;
 
 /**
  * The class stores block information.
@@ -27,6 +29,11 @@ abstract class BaseBlock extends Block
      * @var mixed
      */
     protected $id;
+
+    /**
+     * @var Collection<array-key, PageBlockInterface>
+     */
+    protected $children;
 
     public function __construct()
     {

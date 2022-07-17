@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
 /**
  * Page.
  *
@@ -116,7 +119,7 @@ abstract class Page implements PageInterface
     protected $enabled;
 
     /**
-     * @var PageBlockInterface[]
+     * @var Collection<array-key, PageBlockInterface>
      */
     protected $blocks;
 
@@ -141,7 +144,7 @@ abstract class Page implements PageInterface
     protected $target;
 
     /**
-     * @var PageInterface[]
+     * @var Collection<array-key, PageInterface>
      */
     protected $children;
 
@@ -182,8 +185,8 @@ abstract class Page implements PageInterface
 
     public function __construct()
     {
-        $this->blocks = [];
-        $this->children = [];
+        $this->blocks = new ArrayCollection();
+        $this->children = new ArrayCollection();
         $this->routeName = PageInterface::PAGE_ROUTE_CMS_NAME;
         $this->requestMethod = 'GET|POST|HEAD|DELETE|PUT';
         $this->edited = true;
