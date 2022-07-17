@@ -17,8 +17,8 @@ use Doctrine\Persistence\ManagerRegistry;
 use PHPUnit\Framework\TestCase;
 use Sonata\BlockBundle\Model\Block;
 use Sonata\BlockBundle\Model\BlockInterface;
-use Sonata\BlockBundle\Model\BlockManagerInterface;
 use Sonata\PageBundle\Entity\BlockInteractor;
+use Sonata\PageBundle\Model\BlockManagerInterface;
 
 /**
  * @author Vincent Composieux <composieux@ekino.com>

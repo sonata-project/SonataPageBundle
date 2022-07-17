@@ -15,8 +15,8 @@ namespace Sonata\PageBundle\Entity;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
-use Sonata\Doctrine\Model\ManagerInterface;
 use Sonata\PageBundle\Model\BlockInteractorInterface;
+use Sonata\PageBundle\Model\BlockManagerInterface;
 use Sonata\PageBundle\Model\PageInterface;
 
 /**
@@ -37,15 +37,15 @@ final class BlockInteractor implements BlockInteractorInterface
     private $registry;
 
     /**
-     * @var ManagerInterface
+     * @var BlockManagerInterface
      */
     private $blockManager;
 
     /**
-     * @param ManagerRegistry  $registry     Doctrine registry
-     * @param ManagerInterface $blockManager Block manager
+     * @param ManagerRegistry       $registry     Doctrine registry
+     * @param BlockManagerInterface $blockManager Block manager
      */
-    public function __construct(ManagerRegistry $registry, ManagerInterface $blockManager)
+    public function __construct(ManagerRegistry $registry, BlockManagerInterface $blockManager)
     {
         $this->blockManager = $blockManager;
         $this->registry = $registry;
@@ -145,19 +145,15 @@ final class BlockInteractor implements BlockInteractorInterface
 
         $blocks = $this->getBlocksById($page);
 
-        $page->disableBlockLazyLoading();
-
         foreach ($blocks as $block) {
             $parent = $block->getParent();
 
-            $block->disableChildrenLazyLoading();
             if (!$parent) {
                 $page->addBlocks($block);
 
                 continue;
             }
 
-            $blocks[$block->getParent()->getId()]->disableChildrenLazyLoading();
             $blocks[$block->getParent()->getId()]->addChildren($block);
         }
 
