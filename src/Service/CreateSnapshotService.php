@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Service;
 
+use Sonata\Doctrine\Entity\BaseEntityManager;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteInterface;
@@ -42,18 +43,19 @@ final class CreateSnapshotService implements CreateSnapshotBySiteInterface, Crea
 
     public function createBySite(SiteInterface $site): void
     {
-        $entityManager = $this->snapshotManager->getEntityManager();
         $pages = $this->pageManager->findBy(['site' => $site->getId()]);
 
-        // start a transaction
-        $entityManager->beginTransaction();
+        if ($this->snapshotManager instanceof BaseEntityManager) {
+            $this->snapshotManager->getEntityManager()->beginTransaction();
+        }
 
         foreach ($pages as $page) {
             $this->createByPage($page);
         }
 
-        // commit the changes
-        $entityManager->commit();
+        if ($this->snapshotManager instanceof BaseEntityManager) {
+            $this->snapshotManager->getEntityManager()->beginTransaction();
+        }
     }
 
     public function createByPage(PageInterface $page): SnapshotInterface

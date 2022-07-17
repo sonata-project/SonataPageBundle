@@ -27,25 +27,23 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
  * cms manager upon user permission.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class RequestListener
+final class RequestListener
 {
     /**
      * @var CmsManagerSelectorInterface
      */
-    protected $cmsSelector;
+    private $cmsSelector;
 
     /**
      * @var SiteSelectorInterface
      */
-    protected $siteSelector;
+    private $siteSelector;
 
     /**
      * @var DecoratorStrategyInterface
      */
-    protected $decoratorStrategy;
+    private $decoratorStrategy;
 
     /**
      * @param CmsManagerSelectorInterface $cmsSelector       Cms manager selector

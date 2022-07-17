@@ -13,12 +13,11 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Service;
 
-use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
-use Sonata\PageBundle\Entity\SnapshotManager;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\Site;
+use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Service\CleanupSnapshotService;
 
 class CleanupSnapshotServiceTest extends TestCase
@@ -29,10 +28,7 @@ class CleanupSnapshotServiceTest extends TestCase
     public function testCallCleanupQuery(): void
     {
         //Mock
-        $snapshotManagerMock = $this->createMock(SnapshotManager::class);
-        $snapshotManagerMock
-            ->method('getEntityManager')
-            ->willReturn($this->createMock(EntityManagerInterface::class));
+        $snapshotManagerMock = $this->createMock(SnapshotManagerInterface::class);
 
         $snapshotManagerMock
             ->expects(static::once())

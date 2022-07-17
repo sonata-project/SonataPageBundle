@@ -18,18 +18,14 @@ use Sonata\PageBundle\Model\SiteInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * GlobalVariables.
- *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class GlobalVariables
+final class GlobalVariables
 {
     /**
      * @var ContainerInterface
      */
-    protected $container;
+    private $container;
 
     /**
      * @psalm-suppress ContainerDependency

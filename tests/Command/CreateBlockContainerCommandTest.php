@@ -16,10 +16,10 @@ namespace Sonata\PageBundle\Tests\Command;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Command\CreateBlockContainerCommand;
-use Sonata\PageBundle\Entity\BlockInteractor;
-use Sonata\PageBundle\Entity\BlockManager;
-use Sonata\PageBundle\Entity\PageManager;
+use Sonata\PageBundle\Model\BlockInteractorInterface;
+use Sonata\PageBundle\Model\BlockManagerInterface;
 use Sonata\PageBundle\Model\PageBlockInterface;
+use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Tests\Model\Page;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -33,17 +33,17 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 final class CreateBlockContainerCommandTest extends TestCase
 {
     /**
-     * @var Stub&BlockInteractor
+     * @var Stub&BlockInteractorInterface
      */
     protected $blockInteractor;
 
     /**
-     * @var Stub&PageManager
+     * @var Stub&PageManagerInterface
      */
     protected $pageManager;
 
     /**
-     * @var Stub&BlockManager
+     * @var Stub&BlockManagerInterface
      */
     protected $blockManager;
 
@@ -54,9 +54,9 @@ final class CreateBlockContainerCommandTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->blockInteractor = $this->createStub(BlockInteractor::class);
-        $this->pageManager = $this->createStub(PageManager::class);
-        $this->blockManager = $this->createStub(BlockManager::class);
+        $this->blockInteractor = $this->createStub(BlockInteractorInterface::class);
+        $this->pageManager = $this->createStub(PageManagerInterface::class);
+        $this->blockManager = $this->createStub(BlockManagerInterface::class);
         $this->container = $this->createStub(ContainerInterface::class);
 
         $this->container->method('get')->willReturnMap([

@@ -25,10 +25,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  * Block Admin Controller.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class BlockAdminController extends Controller
+final class BlockAdminController extends Controller
 {
     /**
      * @throws AccessDeniedException

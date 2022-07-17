@@ -27,35 +27,33 @@ use Sonata\PageBundle\Model\TransformerInterface;
 
 /**
  * This class transform a SnapshotInterface into PageInterface.
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class Transformer implements TransformerInterface
+final class Transformer implements TransformerInterface
 {
     /**
      * @var SnapshotManagerInterface
      */
-    protected $snapshotManager;
+    private $snapshotManager;
 
     /**
      * @var PageManagerInterface
      */
-    protected $pageManager;
+    private $pageManager;
 
     /**
      * @var ManagerInterface
      */
-    protected $blockManager;
+    private $blockManager;
 
     /**
      * @var BlockInterface[]
      */
-    protected $children = [];
+    private $children = [];
 
     /**
      * @var ManagerRegistry
      */
-    protected $registry;
+    private $registry;
 
     public function __construct(SnapshotManagerInterface $snapshotManager, PageManagerInterface $pageManager, ManagerInterface $blockManager, ManagerRegistry $registry)
     {
@@ -238,7 +236,7 @@ class Transformer implements TransformerInterface
     /**
      * @return array
      */
-    protected function fixPageContent(array $content)
+    private function fixPageContent(array $content)
     {
         if (!\array_key_exists('title', $content)) {
             $content['title'] = null;
@@ -250,7 +248,7 @@ class Transformer implements TransformerInterface
     /**
      * @return array
      */
-    protected function fixBlockContent(array $content)
+    private function fixBlockContent(array $content)
     {
         if (!\array_key_exists('name', $content)) {
             $content['name'] = null;
@@ -262,7 +260,7 @@ class Transformer implements TransformerInterface
     /**
      * @return array
      */
-    protected function createBlocks(BlockInterface $block)
+    private function createBlocks(BlockInterface $block)
     {
         $content = [];
         $content['id'] = $block->getId();

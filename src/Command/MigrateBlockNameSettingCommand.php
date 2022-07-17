@@ -22,10 +22,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Migrates the name setting of all blocks into a code setting.
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class MigrateBlockNameSettingCommand extends BaseCommand
+final class MigrateBlockNameSettingCommand extends BaseCommand
 {
     public const CONTAINER_TYPE = 'sonata.page.block.container';
 

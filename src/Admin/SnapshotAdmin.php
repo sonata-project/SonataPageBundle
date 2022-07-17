@@ -23,10 +23,8 @@ use Sonata\Form\Type\DateTimePickerType;
  * Admin definition for the Snapshot class.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class SnapshotAdmin extends AbstractAdmin
+final class SnapshotAdmin extends AbstractAdmin
 {
     protected $classnameLabel = 'Snapshot';
 

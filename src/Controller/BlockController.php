@@ -20,10 +20,8 @@ use Symfony\Component\HttpFoundation\Response;
  * Block controller.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class BlockController extends Controller
+final class BlockController extends Controller
 {
     /**
      * @return Response

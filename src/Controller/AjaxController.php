@@ -25,25 +25,23 @@ use Symfony\Component\HttpFoundation\Response;
  * Render a block in ajax.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class AjaxController
+final class AjaxController
 {
     /**
      * @var CmsManagerSelectorInterface
      */
-    protected $cmsManagerSelector;
+    private $cmsManagerSelector;
 
     /**
      * @var BlockRendererInterface
      */
-    protected $blockRenderer;
+    private $blockRenderer;
 
     /**
      * @var BlockContextManagerInterface
      */
-    protected $contextManager;
+    private $contextManager;
 
     /**
      * @param CmsManagerSelectorInterface  $cmsManagerSelector CMS Manager selector

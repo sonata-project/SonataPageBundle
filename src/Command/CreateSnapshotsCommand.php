@@ -23,10 +23,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Create snapshots for a site.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class CreateSnapshotsCommand extends BaseCommand
+final class CreateSnapshotsCommand extends BaseCommand
 {
     protected static $defaultName = 'sonata:page:create-snapshots';
 

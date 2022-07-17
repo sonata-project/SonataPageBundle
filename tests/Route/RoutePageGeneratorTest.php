@@ -17,8 +17,8 @@ use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\CmsManager\DecoratorStrategy;
-use Sonata\PageBundle\Entity\PageManager;
 use Sonata\PageBundle\Listener\ExceptionListener;
+use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Page\PageServiceManagerInterface;
 use Sonata\PageBundle\Route\RoutePageGenerator;
@@ -160,7 +160,7 @@ final class RoutePageGeneratorTest extends TestCase
     {
         $router = $this->getRouterMock();
 
-        $pageManager = $this->createMock(PageManager::class);
+        $pageManager = $this->createMock(PageManagerInterface::class);
         $pageManager->method('create')->willReturn(new Page());
 
         $hybridPageNotExists = new Page();
