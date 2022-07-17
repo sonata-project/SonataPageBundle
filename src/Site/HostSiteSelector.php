@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Site;
 
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 /**
  * HostSiteSelector.
@@ -22,7 +22,7 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
  */
 class HostSiteSelector extends BaseSiteSelector
 {
-    public function handleKernelRequest(GetResponseEvent $event): void
+    public function handleKernelRequest(RequestEvent $event): void
     {
         foreach ($this->getSites($event->getRequest()) as $site) {
             if (!$site->isEnabled()) {

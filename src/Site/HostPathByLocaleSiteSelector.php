@@ -15,14 +15,14 @@ namespace Sonata\PageBundle\Site;
 
 use Sonata\PageBundle\Request\SiteRequestInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 /**
  * @author Rémi Marseille <marseille@ekino.com>
  */
 final class HostPathByLocaleSiteSelector extends HostPathSiteSelector
 {
-    public function handleKernelRequest(GetResponseEvent $event): void
+    public function handleKernelRequest(RequestEvent $event): void
     {
         $request = $event->getRequest();
 

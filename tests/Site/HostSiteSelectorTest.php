@@ -21,7 +21,7 @@ use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Site\HostSiteSelector as BaseSiteSelector;
 use Sonata\SeoBundle\Seo\SeoPageInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
@@ -64,7 +64,7 @@ final class HostSiteSelectorTest extends TestCase
         // Ensure request locale is null
         static::assertNull($request->attributes->get('_locale'));
 
-        $event = new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
+        $event = new RequestEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
 
         $siteManager = $this->createMock(SiteManagerInterface::class);
         $decoratorStrategy = $this->createMock(DecoratorStrategyInterface::class);
