@@ -49,6 +49,20 @@ HELP
         $this->addArgument('block_id', InputArgument::REQUIRED, 'The page id');
     }
 
+    public function run(InputInterface $input, OutputInterface $output)
+    {
+        @trigger_error(
+            sprintf(
+                'This %s is deprecated since sonata-project/page-bundle 3.27.0'.
+                ' and it will be removed in 4.0',
+                self::class
+            ),
+            \E_USER_DEPRECATED
+        );
+
+        return parent::run($input, $output);
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $manager = $this->getContainer()->get($input->getArgument('manager'));
@@ -91,19 +105,5 @@ HELP
         $this->getContainer()->leaveScope('request');
 
         return 0;
-    }
-
-    public function run(InputInterface $input, OutputInterface $output)
-    {
-        @trigger_error(
-            sprintf(
-                'This %s is deprecated since sonata-project/page-bundle 3.27.0'.
-                ' and it will be removed in 4.0',
-                self::class
-            ),
-            \E_USER_DEPRECATED
-        );
-
-        return parent::run($input, $output);
     }
 }
