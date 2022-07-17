@@ -48,14 +48,4 @@ abstract class Block extends BaseBlock implements PageBlockInterface
     {
         return $this->page;
     }
-
-    /**
-     * Disables children lazy loading.
-     */
-    public function disableChildrenLazyLoading(): void
-    {
-        if (\is_object($this->children)) {
-            $this->children->setInitialized(true);
-        }
-    }
 }

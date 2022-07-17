@@ -511,20 +511,6 @@ abstract class Page implements PageInterface
         return $this->templateCode;
     }
 
-    public function disableBlockLazyLoading(): void
-    {
-        if (\is_object($this->blocks)) {
-            $this->blocks->setInitialized(true);
-        }
-    }
-
-    public function disableChildrenLazyLoading(): void
-    {
-        if (\is_object($this->children)) {
-            $this->children->setInitialized(true);
-        }
-    }
-
     public function setDecorate($decorate): void
     {
         $this->decorate = $decorate;

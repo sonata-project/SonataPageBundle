@@ -136,12 +136,10 @@ final class PageManager extends BaseEntityManager implements PageManagerInterfac
         foreach ($pages as $page) {
             $parent = $page->getParent();
 
-            $page->disableChildrenLazyLoading();
             if (!$parent) {
                 continue;
             }
 
-            $pages[$parent->getId()]->disableChildrenLazyLoading();
             $pages[$parent->getId()]->addChildren($page);
         }
 
