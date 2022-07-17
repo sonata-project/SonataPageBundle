@@ -212,21 +212,20 @@ final class BlockAdmin extends BaseBlockAdmin
 
         $service = $this->blockManager->get($block);
 
-        if (!$service instanceof BlockServiceInterface) {
+        if (!$service instanceof EditableBlockService) {
             throw new \RuntimeException(sprintf(
                 'The block "%s" must implement %s',
                 $blockType,
-                BlockServiceInterface::class
+                EditableBlockService::class
             ));
         }
 
-        if ($service instanceof EditableBlockService) {
-            $blockMapper = new PageFormMapper($form);
-            if ($block->getId() > 0) {
-                $service->configureEditForm($blockMapper, $block);
-            } else {
-                $service->configureCreateForm($blockMapper, $block);
-            }
+        $blockMapper = new PageFormMapper($form);
+
+        if ($block->getId() > 0) {
+            $service->configureEditForm($blockMapper, $block);
+        } else {
+            $service->configureCreateForm($blockMapper, $block);
         }
 
         if ($form->has('settings') && isset($this->blocks[$blockType]['templates'])) {

@@ -16,7 +16,6 @@ namespace Sonata\PageBundle\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\BlockBundle\Block\BlockServiceInterface;
 use Sonata\BlockBundle\Block\Service\EditableBlockService;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
@@ -99,21 +98,20 @@ final class SharedBlockAdmin extends BaseBlockAdmin
 
         $service = $this->blockManager->get($block);
 
-        if (!$service instanceof BlockServiceInterface) {
+        if (!$service instanceof EditableBlockService) {
             throw new \RuntimeException(sprintf(
                 'The block "%s" is not a valid %s',
                 $blockType,
-                BlockServiceInterface::class
+                EditableBlockService::class
             ));
         }
 
-        if ($service instanceof EditableBlockService) {
-            $blockMapper = new PageFormMapper($form);
-            if ($block->getId() > 0) {
-                $service->configureEditForm($blockMapper, $block);
-            } else {
-                $service->configureCreateForm($blockMapper, $block);
-            }
+        $blockMapper = new PageFormMapper($form);
+
+        if ($block->getId() > 0) {
+            $service->configureEditForm($blockMapper, $block);
+        } else {
+            $service->configureCreateForm($blockMapper, $block);
         }
     }
 }

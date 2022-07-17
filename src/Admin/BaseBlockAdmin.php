@@ -19,7 +19,6 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
-use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
@@ -218,7 +217,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
             ->add('type');
     }
 
-    private function loadBlockDefaults(BlockInterface $block): PageBlockInterface
+    private function loadBlockDefaults(PageBlockInterface $block): PageBlockInterface
     {
         $blockType = $block->getType();
 
