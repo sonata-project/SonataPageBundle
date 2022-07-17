@@ -77,6 +77,25 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
         return $this->getPage()->__toString();
     }
 
+    /**
+     * @return mixed[]
+     */
+    public function __serialize(): array
+    {
+        return [
+            'pageId' => $this->getPage()->getId(),
+            'snapshotId' => $this->snapshot->getId(),
+        ];
+    }
+
+    /**
+     * @param mixed[] $data
+     */
+    public function __unserialize(array $data): void
+    {
+        // TODO: Implement __unserialize() method.
+    }
+
     public function getPage()
     {
         $this->load();
