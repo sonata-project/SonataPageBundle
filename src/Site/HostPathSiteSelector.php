@@ -16,7 +16,7 @@ namespace Sonata\PageBundle\Site;
 use Sonata\PageBundle\Request\SiteRequestContext;
 use Sonata\PageBundle\Request\SiteRequestInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 /**
  * HostPathSiteSelector.
@@ -25,7 +25,7 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
  */
 class HostPathSiteSelector extends BaseSiteSelector
 {
-    public function handleKernelRequest(GetResponseEvent $event): void
+    public function handleKernelRequest(RequestEvent $event): void
     {
         $request = $event->getRequest();
 
@@ -71,7 +71,7 @@ class HostPathSiteSelector extends BaseSiteSelector
         }
     }
 
-    public function onKernelRequestRedirect(GetResponseEvent $event): void
+    public function onKernelRequestRedirect(RequestEvent $event): void
     {
         $request = $event->getRequest();
 

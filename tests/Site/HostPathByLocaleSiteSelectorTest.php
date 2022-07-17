@@ -20,7 +20,7 @@ use Sonata\PageBundle\Request\SiteRequest;
 use Sonata\PageBundle\Site\HostPathByLocaleSiteSelector;
 use Sonata\SeoBundle\Seo\SeoPageInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
@@ -59,7 +59,7 @@ final class HostPathByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
         // Ensure request locale is null
         static::assertNull($request->attributes->get('_locale'));
 
-        $event = new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
+        $event = new RequestEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
 
         $this->siteManager
             ->expects(static::once())
@@ -99,7 +99,7 @@ final class HostPathByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
         // Ensure request locale is null
         static::assertNull($request->attributes->get('_locale'));
 
-        $event = new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
+        $event = new RequestEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
 
         $this->siteManager
             ->expects(static::once())

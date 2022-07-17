@@ -18,7 +18,7 @@ use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\SeoBundle\Seo\SeoPageInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Routing\RequestContext;
 
 /**
@@ -70,11 +70,11 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
         return new RequestContext();
     }
 
-    public function onKernelRequestRedirect(GetResponseEvent $event): void
+    public function onKernelRequestRedirect(RequestEvent $event): void
     {
     }
 
-    final public function onKernelRequest(GetResponseEvent $event): void
+    final public function onKernelRequest(RequestEvent $event): void
     {
         if (!$this->decoratorStrategy->isRouteUriDecorable($event->getRequest()->getPathInfo())) {
             return;
@@ -164,5 +164,5 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
         return reset($sites);
     }
 
-    abstract protected function handleKernelRequest(GetResponseEvent $event);
+    abstract protected function handleKernelRequest(RequestEvent $event);
 }

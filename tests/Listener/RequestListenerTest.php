@@ -23,7 +23,7 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 final class RequestListenerTest extends TestCase
@@ -50,7 +50,7 @@ final class RequestListenerTest extends TestCase
         $kernel = $this->createMock(HttpKernelInterface::class);
         $request = new Request();
 
-        $event = new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
+        $event = new RequestEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
 
         $listener = new RequestListener($cmsSelector, $siteSelector, $decoratorStrategy);
         $listener->onCoreRequest($event);
@@ -74,7 +74,7 @@ final class RequestListenerTest extends TestCase
         $kernel = $this->createMock(HttpKernelInterface::class);
         $request = new Request();
 
-        $event = new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
+        $event = new RequestEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
 
         $listener = new RequestListener($cmsSelector, $siteSelector, $decoratorStrategy);
         $listener->onCoreRequest($event);
