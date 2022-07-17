@@ -65,7 +65,7 @@ final class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
             ->method('findBy')
             ->willReturn($this->getSites());
 
-        $this->siteSelector->onKernelRequest($event);
+        $this->siteSelector->handleKernelRequest($event);
 
         // Ensure request locale is en
         static::assertSame('en', $request->attributes->get('_locale'));
@@ -96,7 +96,7 @@ final class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
             ->method('findBy')
             ->willReturn($this->getSites());
 
-        $this->siteSelector->onKernelRequest($event);
+        $this->siteSelector->handleKernelRequest($event);
 
         // Ensure request locale is fr
         static::assertSame('fr', $request->attributes->get('_locale'));
