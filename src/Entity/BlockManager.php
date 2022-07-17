@@ -29,8 +29,6 @@ final class BlockManager extends BaseEntityManager implements BlockManagerInterf
     public function save($entity, $andFlush = true)
     {
         parent::save($entity, $andFlush);
-
-        return $entity;
     }
 
     public function updatePosition($id, $position, $parentId = null, $pageId = null, $partial = true)

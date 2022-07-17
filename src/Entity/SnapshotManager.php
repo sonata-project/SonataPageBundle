@@ -64,8 +64,6 @@ final class SnapshotManager extends BaseEntityManager implements SnapshotManager
     public function save($entity, $andFlush = true)
     {
         parent::save($entity);
-
-        return $entity;
     }
 
     public function enableSnapshots(array $snapshots, ?\DateTime $date = null): void
@@ -184,7 +182,7 @@ final class SnapshotManager extends BaseEntityManager implements SnapshotManager
     }
 
     /**
-     * @param string[] $templates
+     * @param array<string, string> $templates
      */
     public function setTemplates($templates): void
     {
@@ -192,7 +190,7 @@ final class SnapshotManager extends BaseEntityManager implements SnapshotManager
     }
 
     /**
-     * @return string
+     * @return array<string, string>
      */
     public function getTemplates()
     {

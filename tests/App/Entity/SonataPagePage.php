@@ -13,8 +13,11 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\App\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Sonata\PageBundle\Entity\BasePage;
+use Sonata\PageBundle\Model\PageBlockInterface;
+use Sonata\PageBundle\Model\PageInterface;
 
 /**
  * @ORM\Entity
@@ -39,7 +42,7 @@ class SonataPagePage extends BasePage
      * )
      * @ORM\OrderBy({"position"="ASC"})
      *
-     * @var SonataPagePage[]
+     * @var Collection<array-key, PageInterface>
      */
     protected $children;
 
@@ -50,7 +53,7 @@ class SonataPagePage extends BasePage
      * )
      * @ORM\OrderBy({"position"="ASC"})
      *
-     * @var SonataPageBlock[]
+     * @var Collection<array-key, PageBlockInterface>
      */
     protected $blocks;
 

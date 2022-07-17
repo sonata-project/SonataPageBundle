@@ -67,7 +67,7 @@ final class TemplateManager implements TemplateManagerInterface
     public function get($code)
     {
         if (!isset($this->templates[$code])) {
-            return;
+            return null;
         }
 
         return $this->templates[$code];

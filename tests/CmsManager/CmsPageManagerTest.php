@@ -265,6 +265,8 @@ final class CmsPageManagerTest extends TestCase
 
     /**
      * Returns a mock block interactor.
+     *
+     * @return MockObject&BlockInteractorInterface
      */
     protected function getMockBlockInteractor(): BlockInteractorInterface
     {

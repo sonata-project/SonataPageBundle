@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Entity;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Sonata\PageBundle\Model\BlockInteractorInterface;
 use Sonata\PageBundle\Model\BlockManagerInterface;
@@ -163,10 +164,13 @@ final class BlockInteractor implements BlockInteractorInterface
     }
 
     /**
-     * @return EntityManager
+     * @return EntityManagerInterface
      */
     private function getEntityManager()
     {
-        return $this->registry->getManagerForClass($this->blockManager->getClass());
+        $entityManager = $this->registry->getManagerForClass($this->blockManager->getClass());
+        \assert($entityManager instanceof EntityManagerInterface);
+
+        return $entityManager;
     }
 }

@@ -123,8 +123,6 @@ final class PageManager extends BaseEntityManager implements PageManagerInterfac
         }
 
         parent::save($entity, $andFlush);
-
-        return $entity;
     }
 
     public function loadPages(SiteInterface $site)

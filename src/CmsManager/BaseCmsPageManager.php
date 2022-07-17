@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\CmsManager;
 
-use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 
@@ -30,7 +30,7 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     protected $currentPage;
 
     /**
-     * @var BlockInterface[]
+     * @var PageBlockInterface[]
      */
     protected $blocks = [];
 
