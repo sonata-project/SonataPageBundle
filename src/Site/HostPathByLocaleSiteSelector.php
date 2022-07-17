@@ -18,13 +18,9 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 /**
- * HostPathByLocaleSiteSelector.
- *
  * @author Rémi Marseille <marseille@ekino.com>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class HostPathByLocaleSiteSelector extends HostPathSiteSelector
+final class HostPathByLocaleSiteSelector extends HostPathSiteSelector
 {
     public function handleKernelRequest(GetResponseEvent $event): void
     {

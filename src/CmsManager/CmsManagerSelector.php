@@ -27,15 +27,13 @@ use Symfony\Component\Security\Http\Logout\LogoutHandlerInterface;
  *   - sonata.page.cms.snapshot if the user is a standard user.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class CmsManagerSelector implements CmsManagerSelectorInterface, LogoutHandlerInterface
+final class CmsManagerSelector implements CmsManagerSelectorInterface, LogoutHandlerInterface
 {
     /**
      * @var ContainerInterface
      */
-    protected $container;
+    private $container;
 
     /**
      * @psalm-suppress ContainerDependency

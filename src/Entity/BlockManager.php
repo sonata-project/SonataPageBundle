@@ -20,10 +20,8 @@ use Sonata\PageBundle\Model\BlockManagerInterface;
  * This class manages BlockInterface persistency with the Doctrine ORM.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class BlockManager extends BaseEntityManager implements BlockManagerInterface
+final class BlockManager extends BaseEntityManager implements BlockManagerInterface
 {
     public function save($entity, $andFlush = true)
     {

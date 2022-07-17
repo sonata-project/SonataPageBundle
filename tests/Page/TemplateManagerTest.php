@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Page;
 
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Model\Template;
 use Sonata\PageBundle\Page\TemplateManager;
@@ -26,8 +25,7 @@ final class TemplateManagerTest extends TestCase
      */
     public function testAddSingleTemplate(): void
     {
-        /** @var Template|MockObject $template */
-        $template = $this->getMockTemplate('template');
+        $template = $this->getTemplate('template');
         $twig = $this->createMock(Environment::class);
         $manager = new TemplateManager($twig);
 
@@ -45,8 +43,8 @@ final class TemplateManagerTest extends TestCase
         $manager = new TemplateManager($twig);
 
         $templates = [
-            'test1' => $this->getMockTemplate('template'),
-            'test2' => $this->getMockTemplate('template'),
+            'test1' => $this->getTemplate('template'),
+            'test2' => $this->getTemplate('template'),
         ];
 
         $manager->setAll($templates);
@@ -74,7 +72,7 @@ final class TemplateManagerTest extends TestCase
      */
     public function testRenderResponse(): void
     {
-        $template = $this->getMockTemplate('template', 'path/to/template');
+        $template = $this->getTemplate('template', 'path/to/template');
 
         $twig = $this->createMock(Environment::class);
         $twig
@@ -120,7 +118,7 @@ final class TemplateManagerTest extends TestCase
             ->with(static::equalTo('path/to/default'))
             ->willReturn('response');
 
-        $template = $this->getMockTemplate('template', 'path/to/default');
+        $template = $this->getTemplate('template', 'path/to/default');
         $manager = new TemplateManager($twig);
         $manager->add('default', $template);
         $manager->setDefaultTemplateCode('default');
@@ -137,7 +135,7 @@ final class TemplateManagerTest extends TestCase
      */
     public function testRenderResponseWithDefaultParameters(): void
     {
-        $template = $this->getMockTemplate('template', 'path/to/template');
+        $template = $this->getTemplate('template', 'path/to/template');
 
         $twig = $this->createMock(Environment::class);
         $twig->expects(static::once())->method('render')
@@ -159,15 +157,8 @@ final class TemplateManagerTest extends TestCase
         );
     }
 
-    /**
-     * Returns the mock template.
-     */
-    protected function getMockTemplate(string $name, string $path = 'path/to/file'): MockObject
+    private function getTemplate(string $name, string $path = 'path/to/file'): Template
     {
-        $template = $this->createMock(Template::class);
-        $template->method('getName')->willReturn($name);
-        $template->method('getPath')->willReturn($path);
-
-        return $template;
+        return new Template($name, $path);
     }
 }

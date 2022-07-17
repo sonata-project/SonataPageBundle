@@ -19,9 +19,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  * Exception used to handle a page not found situation.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class PageNotFoundException extends NotFoundHttpException
+final class PageNotFoundException extends NotFoundHttpException
 {
 }

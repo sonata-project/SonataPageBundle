@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Site;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use Sonata\PageBundle\CmsManager\DecoratorStrategy;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Request\SiteRequest;
@@ -26,16 +27,24 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
  */
 final class SubRequestsSiteSelectorTest extends BaseLocaleSiteSelectorTest
 {
+    /**
+     * @var MockObject&SiteManagerInterface
+     */
+    private $siteManager;
+
+    private HostPathByLocaleSiteSelector $siteSelector;
+
     protected function setUp(): void
     {
-        $siteManager = $this->createMock(SiteManagerInterface::class);
+        $this->siteManager = $this->createMock(SiteManagerInterface::class);
         $decoratorStrategy = new DecoratorStrategy([], [], []);
         $seoPage = $this->createMock(SeoPageInterface::class);
 
-        $this->siteSelector = $this->getMockBuilder(HostPathByLocaleSiteSelector::class)
-            ->setConstructorArgs([$siteManager, $decoratorStrategy, $seoPage])
-            ->setMethods(['getSites'])
-            ->getMock();
+        $this->siteSelector = new HostPathByLocaleSiteSelector(
+            $this->siteManager,
+            $decoratorStrategy,
+            $seoPage
+        );
     }
 
     /**
@@ -51,10 +60,9 @@ final class SubRequestsSiteSelectorTest extends BaseLocaleSiteSelectorTest
 
         $event = new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
 
-        $this->siteSelector
+        $this->siteManager
             ->expects(static::once())
-            ->method('getSites')
-            ->with($request)
+            ->method('findBy')
             ->willReturn($this->getSites());
 
         $this->siteSelector->onKernelRequest($event);
@@ -62,7 +70,7 @@ final class SubRequestsSiteSelectorTest extends BaseLocaleSiteSelectorTest
         // Ensure request locale is still null
         static::assertNull($request->attributes->get('_locale'));
 
-        $site = $this->getSite();
+        $site = $this->siteSelector->retrieve();
 
         // Ensure no site was retrieved
         static::assertNull($site);
@@ -81,10 +89,9 @@ final class SubRequestsSiteSelectorTest extends BaseLocaleSiteSelectorTest
 
         $event = new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
 
-        $this->siteSelector
+        $this->siteManager
             ->expects(static::once())
-            ->method('getSites')
-            ->with($request)
+            ->method('findBy')
             ->willReturn($this->getSites());
 
         $this->siteSelector->onKernelRequest($event);
@@ -92,7 +99,7 @@ final class SubRequestsSiteSelectorTest extends BaseLocaleSiteSelectorTest
         // Ensure request locale is now fr
         static::assertSame('fr', $request->attributes->get('_locale'));
 
-        $site = $this->getSite();
+        $site = $this->siteSelector->retrieve();
 
         // Ensure /fr site was retrieved
         static::assertNotEmpty($site);
@@ -112,10 +119,9 @@ final class SubRequestsSiteSelectorTest extends BaseLocaleSiteSelectorTest
 
         $event = new GetResponseEvent($kernel, $request, HttpKernelInterface::SUB_REQUEST);
 
-        $this->siteSelector
+        $this->siteManager
             ->expects(static::once())
-            ->method('getSites')
-            ->with($request)
+            ->method('findBy')
             ->willReturn($this->getSites());
 
         $this->siteSelector->onKernelRequest($event);
@@ -123,7 +129,7 @@ final class SubRequestsSiteSelectorTest extends BaseLocaleSiteSelectorTest
         // Ensure request locale is still null
         static::assertNull($request->attributes->get('_locale'));
 
-        $site = $this->getSite();
+        $site = $this->siteSelector->retrieve();
 
         // Ensure no site was retrieved
         static::assertNull($site);
@@ -142,10 +148,9 @@ final class SubRequestsSiteSelectorTest extends BaseLocaleSiteSelectorTest
 
         $event = new GetResponseEvent($kernel, $request, HttpKernelInterface::SUB_REQUEST);
 
-        $this->siteSelector
+        $this->siteManager
             ->expects(static::once())
-            ->method('getSites')
-            ->with($request)
+            ->method('findBy')
             ->willReturn($this->getSites());
 
         $this->siteSelector->onKernelRequest($event);
@@ -153,7 +158,7 @@ final class SubRequestsSiteSelectorTest extends BaseLocaleSiteSelectorTest
         // Ensure request locale is now fr
         static::assertSame('fr', $request->attributes->get('_locale'));
 
-        $site = $this->getSite();
+        $site = $this->siteSelector->retrieve();
 
         // Ensure /fr site was retrieved
         static::assertNotEmpty($site);

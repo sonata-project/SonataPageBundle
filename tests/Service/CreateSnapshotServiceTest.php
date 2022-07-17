@@ -13,13 +13,12 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Service;
 
-use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
-use Sonata\PageBundle\Entity\SnapshotManager;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SnapshotInterface;
+use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\TransformerInterface;
 use Sonata\PageBundle\Service\CreateSnapshotService;
 
@@ -28,10 +27,7 @@ final class CreateSnapshotServiceTest extends TestCase
     public function testCreateBySite(): void
     {
         //Mocks
-        $snapshotManagerMock = $this->createMock(SnapshotManager::class);
-        $snapshotManagerMock
-            ->method('getEntityManager')
-            ->willReturn($this->createMock(EntityManagerInterface::class));
+        $snapshotManagerMock = $this->createMock(SnapshotManagerInterface::class);
 
         $pageManagerMock = $this->createMock(PageManagerInterface::class);
         $pageManagerMock

@@ -14,13 +14,9 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Model;
 
 /**
- * Template.
- *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class Template
+final class Template
 {
     public const TYPE_STATIC = 1;
 
@@ -28,17 +24,17 @@ class Template
     /**
      * @var string
      */
-    protected $path;
+    private $path;
 
     /**
      * @var string
      */
-    protected $name;
+    private $name;
 
     /**
      * @var array
      */
-    protected $containers;
+    private $containers;
 
     /**
      * @param string $name
@@ -109,7 +105,7 @@ class Template
     /**
      * @return array
      */
-    protected function normalize(array $meta)
+    private function normalize(array $meta)
     {
         return [
             'name' => $meta['name'] ?? 'n/a',

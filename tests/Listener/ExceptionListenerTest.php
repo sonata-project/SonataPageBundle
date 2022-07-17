@@ -104,7 +104,7 @@ final class ExceptionListenerTest extends TestCase
      */
     public function testInternalException(): void
     {
-        $exception = $this->createMock(InternalErrorException::class);
+        $exception = new InternalErrorException();
         $event = $this->getMockEvent($exception);
 
         $this->logger->expects(static::once())->method('error');

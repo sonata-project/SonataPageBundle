@@ -20,10 +20,8 @@ use Symfony\Component\Form\FormBuilderInterface;
  * Select a Page.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class CreateSnapshotType extends AbstractType
+final class CreateSnapshotType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

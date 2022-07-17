@@ -23,10 +23,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  * Snapshot Admin Controller.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class SnapshotAdminController extends Controller
+final class SnapshotAdminController extends Controller
 {
     public function createAction(?Request $request = null)
     {

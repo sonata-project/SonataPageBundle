@@ -29,30 +29,27 @@ use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\RouterInterface;
 
-/**
- * @final since sonata-project/page-bundle 3.26
- */
-class CmsPageRouter implements ChainedRouterInterface
+final class CmsPageRouter implements ChainedRouterInterface
 {
     /**
      * @var RequestContext
      */
-    protected $context;
+    private $context;
 
     /**
      * @var CmsManagerSelectorInterface
      */
-    protected $cmsSelector;
+    private $cmsSelector;
 
     /**
      * @var SiteSelectorInterface
      */
-    protected $siteSelector;
+    private $siteSelector;
 
     /**
      * @var RouterInterface
      */
-    protected $router;
+    private $router;
 
     /**
      * @param CmsManagerSelectorInterface $cmsSelector  Cms manager selector
@@ -180,7 +177,7 @@ class CmsPageRouter implements ChainedRouterInterface
      *
      * @return string
      */
-    protected function generateFromPage(PageInterface $page, array $parameters = [], $referenceType = self::ABSOLUTE_PATH)
+    private function generateFromPage(PageInterface $page, array $parameters = [], $referenceType = self::ABSOLUTE_PATH)
     {
         // hybrid pages use, by definition, the default routing mechanism
         if ($page->isHybrid()) {
@@ -225,7 +222,7 @@ class CmsPageRouter implements ChainedRouterInterface
      *
      * @return string
      */
-    protected function generateFromPageSlug(array $parameters = [], $referenceType = self::ABSOLUTE_PATH)
+    private function generateFromPageSlug(array $parameters = [], $referenceType = self::ABSOLUTE_PATH)
     {
         if (!isset($parameters['path'])) {
             throw new \RuntimeException('Please provide a `path` parameters');
@@ -248,7 +245,7 @@ class CmsPageRouter implements ChainedRouterInterface
      *
      * @return string
      */
-    protected function decorateUrl($url, array $parameters = [], $referenceType = self::ABSOLUTE_PATH)
+    private function decorateUrl($url, array $parameters = [], $referenceType = self::ABSOLUTE_PATH)
     {
         if (!$this->context) {
             throw new \RuntimeException('No context associated to the CmsPageRouter');
@@ -288,7 +285,7 @@ class CmsPageRouter implements ChainedRouterInterface
      *
      * @return string The relative target path
      */
-    protected function getRelativePath($basePath, $targetPath)
+    private function getRelativePath($basePath, $targetPath)
     {
         return UrlGenerator::getRelativePath($basePath, $targetPath);
     }
@@ -302,7 +299,7 @@ class CmsPageRouter implements ChainedRouterInterface
      *
      * @return \Sonata\PageBundle\Model\PageInterface|null
      */
-    protected function getPageByPageAlias($alias)
+    private function getPageByPageAlias($alias)
     {
         $site = $this->siteSelector->retrieve();
 
@@ -320,7 +317,7 @@ class CmsPageRouter implements ChainedRouterInterface
      *
      * @return string
      */
-    protected function getUrlFromPage(PageInterface $page)
+    private function getUrlFromPage(PageInterface $page)
     {
         return $page->getCustomUrl() ?: $page->getUrl();
     }
@@ -332,7 +329,7 @@ class CmsPageRouter implements ChainedRouterInterface
      *
      * @return bool
      */
-    protected function isPageAlias($name)
+    private function isPageAlias($name)
     {
         return \is_string($name) && '_page_alias_' === substr($name, 0, 12);
     }
@@ -344,7 +341,7 @@ class CmsPageRouter implements ChainedRouterInterface
      *
      * @return bool
      */
-    protected function isPageSlug($name)
+    private function isPageSlug($name)
     {
         return \is_string($name) && PageInterface::PAGE_ROUTE_CMS_NAME === $name;
     }

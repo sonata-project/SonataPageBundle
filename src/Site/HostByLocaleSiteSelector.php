@@ -16,13 +16,9 @@ namespace Sonata\PageBundle\Site;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 /**
- * HostByLocaleSiteSelector.
- *
  * @author Rémi Marseille <marseille@ekino.com>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class HostByLocaleSiteSelector extends BaseSiteSelector
+final class HostByLocaleSiteSelector extends BaseSiteSelector
 {
     public function handleKernelRequest(GetResponseEvent $event): void
     {

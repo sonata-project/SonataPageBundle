@@ -20,10 +20,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Cleanups the deprecated snapshots.
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class CleanupSnapshotsCommand extends BaseCommand
+final class CleanupSnapshotsCommand extends BaseCommand
 {
     protected static $defaultName = 'sonata:page:cleanup-snapshots';
 

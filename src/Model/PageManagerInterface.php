@@ -38,5 +38,10 @@ interface PageManagerInterface extends ManagerInterface
      */
     public function loadPages(SiteInterface $site);
 
+    /**
+     * @return PageInterface[]
+     */
+    public function getHybridPages(SiteInterface $site);
+
     public function fixUrl(PageInterface $page);
 }

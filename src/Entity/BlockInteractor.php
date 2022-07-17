@@ -23,25 +23,23 @@ use Sonata\PageBundle\Model\PageInterface;
  * This class interacts with blocks.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class BlockInteractor implements BlockInteractorInterface
+final class BlockInteractor implements BlockInteractorInterface
 {
     /**
      * @var bool[]
      */
-    protected $pageBlocksLoaded = [];
+    private $pageBlocksLoaded = [];
 
     /**
      * @var ManagerRegistry
      */
-    protected $registry;
+    private $registry;
 
     /**
      * @var ManagerInterface
      */
-    protected $blockManager;
+    private $blockManager;
 
     /**
      * @param ManagerRegistry  $registry     Doctrine registry

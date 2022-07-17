@@ -21,20 +21,18 @@ use Symfony\Component\DependencyInjection\Reference;
  * Inject page services into page service manager.
  *
  * @author Olivier Paradis <paradis@ekino.com>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class PageServiceCompilerPass implements CompilerPassInterface
+final class PageServiceCompilerPass implements CompilerPassInterface
 {
     /**
      * @var string
      */
-    protected $manager = 'sonata.page.page_service_manager';
+    private $manager = 'sonata.page.page_service_manager';
 
     /**
      * @var string
      */
-    protected $tagName = 'sonata.page';
+    private $tagName = 'sonata.page';
 
     public function process(ContainerBuilder $container): void
     {
