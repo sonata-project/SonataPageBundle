@@ -27,10 +27,8 @@ use Sonata\PageBundle\Model\TransformerInterface;
  * This class manages SnapshotInterface persistency with the Doctrine ORM.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterface
+final class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterface
 {
     /**
      * @var array
@@ -285,7 +283,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
         throw new \RuntimeException(sprintf('The %s database platform has not been tested yet. Please report us if it works and feel free to create a pull request to handle it ;-)', $platform));
     }
 
-    final public function createSnapshotPageProxy(TransformerInterface $transformer, SnapshotInterface $snapshot)
+    public function createSnapshotPageProxy(TransformerInterface $transformer, SnapshotInterface $snapshot)
     {
         return $this->snapshotPageProxyFactory
             ->create($this, $transformer, $snapshot);

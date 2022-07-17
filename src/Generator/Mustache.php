@@ -18,10 +18,24 @@ namespace Sonata\PageBundle\Generator;
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
- * @final since sonata-project/page-bundle 3.26
+ * @deprecated since 3.27, and it will be removed in 4.0.
+ *
+ * NEXT_MAJOR: Remove this class.
  */
-class Mustache
+final class Mustache
 {
+    public function __construct()
+    {
+        @trigger_error(
+            sprintf(
+                'This %s is deprecated since sonata-project/page-bundle 3.27.0'.
+                ' and it will be removed in 4.0',
+                self::class
+            ),
+            \E_USER_DEPRECATED
+        );
+    }
+
     /**
      * @static
      *

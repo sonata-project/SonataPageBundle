@@ -19,10 +19,7 @@ use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Service\Contract\CreateSnapshotByPageInterface;
 
-/**
- * @final since sonata-project/page-bundle 3.26
- */
-class CreateSnapshotAdminExtension extends AbstractAdminExtension
+final class CreateSnapshotAdminExtension extends AbstractAdminExtension
 {
     protected CreateSnapshotByPageInterface $createSnapshotByPage;
 

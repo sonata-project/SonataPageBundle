@@ -15,30 +15,23 @@ namespace Sonata\PageBundle\Command;
 
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerInterface;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Migrates the name setting of all blocks into a code setting.
+ *
+ * NEXT_MAJOR: Remove this class
+ *
+ * @deprecated since 3.27, and it will be removed in 4.0.
  */
-final class DumpPageCommand extends Command
+final class DumpPageCommand extends BaseCommand
 {
-    protected static $defaultName = 'sonata:page:dump-page';
-    private ContainerInterface $container;
-
-    public function __construct(ContainerInterface $container)
-    {
-        parent::__construct();
-
-        $this->container = $container;
-    }
-
     public function configure(): void
     {
+        $this->setName('sonata:page:dump-page');
         $this->setDescription('Dump page information');
         $this->setHelp(
             <<<HELP
@@ -83,9 +76,23 @@ HELP
         }
     }
 
+    public function run(InputInterface $input, OutputInterface $output)
+    {
+        @trigger_error(
+            sprintf(
+                'This %s is deprecated since sonata-project/page-bundle 3.27.0'.
+                ' and it will be removed in 4.0',
+                self::class
+            ),
+            \E_USER_DEPRECATED
+        );
+
+        return parent::run($input, $output);
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $manager = $this->container->get($input->getArgument('manager'));
+        $manager = $this->getContainer()->get($input->getArgument('manager'));
 
         if (!$manager instanceof CmsManagerInterface) {
             throw new \RuntimeException('The service does not implement the CmsManagerInterface');

@@ -1,6 +1,10 @@
 UPGRADE FROM 3.x to 4.0
 =======================
 
+## Final classes
+
+All classes that were marked as final in 3.x are now marked final in 4.0.
+
 ## Deprecations
 
 All the deprecated code introduced on 3.x is removed on 4.0.

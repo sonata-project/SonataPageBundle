@@ -22,25 +22,23 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
  * on the current request.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class DecoratorStrategy implements DecoratorStrategyInterface
+final class DecoratorStrategy implements DecoratorStrategyInterface
 {
     /**
      * @var array
      */
-    protected $ignoreRoutes;
+    private $ignoreRoutes;
 
     /**
      * @var array
      */
-    protected $ignoreRoutePatterns;
+    private $ignoreRoutePatterns;
 
     /**
      * @var array
      */
-    protected $ignoreUriPatterns;
+    private $ignoreUriPatterns;
 
     public function __construct(array $ignoreRoutes, array $ignoreRoutePatterns, array $ignoreUriPatterns)
     {

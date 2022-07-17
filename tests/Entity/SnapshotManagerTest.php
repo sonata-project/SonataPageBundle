@@ -15,84 +15,75 @@ namespace Sonata\PageBundle\Tests\Entity;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\Persistence\ManagerRegistry;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Entity\BaseSnapshot;
 use Sonata\PageBundle\Entity\SnapshotManager;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SnapshotInterface;
+use Sonata\PageBundle\Model\SnapshotPageProxy;
+use Sonata\PageBundle\Model\SnapshotPageProxyFactory;
 use Sonata\PageBundle\Model\SnapshotPageProxyFactoryInterface;
 use Sonata\PageBundle\Model\SnapshotPageProxyInterface;
 use Sonata\PageBundle\Model\TransformerInterface;
 
 final class SnapshotManagerTest extends TestCase
 {
-    public function testSetTemplates(): void
+    /**
+     * @var Stub&ManagerRegistry
+     */
+    private $managerRegistry;
+
+    /**
+     * @var MockObject&EntityManagerInterface
+     */
+    private $entityManager;
+
+    /**
+     * @var SnapshotManager
+     */
+    private $manager;
+
+    protected function setUp(): void
     {
-        $manager = $this->getMockBuilder(SnapshotManager::class)
-            // we need to set at least one method, which does not need to exist!
-            // otherwise all methods will be mocked and could not be used!
-            // we need the real 'setTemplates' method here!
-            ->setMethods([
-                'fooBar',
-            ])
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->managerRegistry = $this->createStub(ManagerRegistry::class);
+        $this->entityManager = $this->createMock(EntityManagerInterface::class);
 
-        static::assertSame([], $manager->getTemplates());
+        $this->managerRegistry->method('getManagerForClass')->willReturn($this->entityManager);
 
-        $manager->setTemplates(['foo' => 'bar']);
-
-        static::assertSame(['foo' => 'bar'], $manager->getTemplates());
+        $this->manager = new SnapshotManager(
+            BaseSnapshot::class,
+            $this->managerRegistry,
+            [],
+            new SnapshotPageProxyFactory(SnapshotPageProxy::class)
+        );
     }
 
-    public function testGetTemplates(): void
+    public function testSetTemplates(): void
     {
-        $manager = $this->getMockBuilder(SnapshotManager::class)
-            ->setMethods([
-                'setTemplates',
-            ])
-            ->disableOriginalConstructor()
-            ->getMock();
+        static::assertSame([], $this->manager->getTemplates());
 
-        $managerReflection = new \ReflectionClass($manager);
-        $templates = $managerReflection->getProperty('templates');
-        $templates->setAccessible(true);
-        $templates->setValue($manager, ['foo' => 'bar']);
+        $this->manager->setTemplates(['foo' => 'bar']);
 
-        static::assertSame(['foo' => 'bar'], $manager->getTemplates());
+        static::assertSame(['foo' => 'bar'], $this->manager->getTemplates());
     }
 
     public function testGetTemplate(): void
     {
-        $manager = $this->getMockBuilder(SnapshotManager::class)
-            ->setMethods([
-                'setTemplates',
-            ])
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->manager->setTemplates(['foo' => 'bar']);
 
-        $managerReflection = new \ReflectionClass($manager);
-        $templates = $managerReflection->getProperty('templates');
-        $templates->setAccessible(true);
-        $templates->setValue($manager, ['foo' => 'bar']);
-
-        static::assertSame('bar', $manager->getTemplate('foo'));
+        static::assertSame('bar', $this->manager->getTemplate('foo'));
     }
 
     public function testGetTemplatesException(): void
     {
-        $manager = $this->getMockBuilder(SnapshotManager::class)
-            ->setMethods([
-                'setTemplates',
-            ])
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $this->expectException('RuntimeException');
         $this->expectExceptionMessage('No template references with the code : foo');
 
-        $manager->getTemplate('foo');
+        $this->manager->getTemplate('foo');
     }
 
     /**
@@ -122,35 +113,27 @@ final class SnapshotManagerTest extends TestCase
                 $date->format('Y-m-d H:i:s')
             ));
 
-        $em = $this->createMock(EntityManagerInterface::class);
+        $metadata = new ClassMetadataInfo(BaseSnapshot::class);
+        $metadata->table['name'] = 'page_snapshot';
 
-        $em->expects(static::once())->method('persist')->with($snapshot);
-        $em->expects(static::once())->method('flush');
-        $em->expects(static::once())->method('getConnection')->willReturn($connection);
-
-        $manager = $this->getMockBuilder(SnapshotManager::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getEntityManager', 'getTableName'])
-            ->getMock();
-
-        $manager->expects(static::exactly(3))->method('getEntityManager')->willReturn($em);
-        $manager->expects(static::once())->method('getTableName')->willReturn('page_snapshot');
+        $this->entityManager->expects(static::once())->method('getClassMetadata')->willReturn($metadata);
+        $this->entityManager->expects(static::once())->method('persist')->with($snapshot);
+        $this->entityManager->expects(static::once())->method('flush');
+        $this->entityManager->expects(static::once())->method('getConnection')->willReturn($connection);
 
         // When calling method, expects calls
-        $manager->enableSnapshots([$snapshot], $date);
+        $this->manager->enableSnapshots([$snapshot], $date);
     }
 
     public function testCreateSnapshotPageProxy(): void
     {
         $proxyInterface = $this->createMock(SnapshotPageProxyInterface::class);
-
         $snapshotProxyFactory = $this->createMock(SnapshotPageProxyFactoryInterface::class);
-
         $registry = $this->createMock(ManagerRegistry::class);
-        $manager = new SnapshotManager(BaseSnapshot::class, $registry, [], $snapshotProxyFactory);
-
         $transformer = $this->createMock(TransformerInterface::class);
         $snapshot = $this->createMock(SnapshotInterface::class);
+
+        $manager = new SnapshotManager(BaseSnapshot::class, $registry, [], $snapshotProxyFactory);
 
         $snapshotProxyFactory->expects(static::once())->method('create')
             ->with($manager, $transformer, $snapshot)
@@ -167,20 +150,11 @@ final class SnapshotManagerTest extends TestCase
         $connection = $this->createMock(Connection::class);
         $connection->expects(static::never())->method('query');
 
-        $em = $this->createMock(EntityManagerInterface::class);
-        $em->expects(static::never())->method('persist');
-        $em->expects(static::never())->method('flush');
-        $em->expects(static::never())->method('getConnection');
-
-        $manager = $this->getMockBuilder(SnapshotManager::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getEntityManager', 'getTableName'])
-            ->getMock();
-
-        $manager->expects(static::never())->method('getEntityManager');
-        $manager->expects(static::never())->method('getTableName');
+        $this->entityManager->expects(static::never())->method('persist');
+        $this->entityManager->expects(static::never())->method('flush');
+        $this->entityManager->expects(static::never())->method('getConnection');
 
         // When calling method, do not expects any calls
-        $manager->enableSnapshots([]);
+        $this->manager->enableSnapshots([]);
     }
 }

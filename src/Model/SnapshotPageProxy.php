@@ -17,10 +17,8 @@ namespace Sonata\PageBundle\Model;
  * SnapshotPageProxy.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class SnapshotPageProxy implements SnapshotPageProxyInterface
+final class SnapshotPageProxy implements SnapshotPageProxyInterface
 {
     /**
      * @var SnapshotManagerInterface

@@ -32,10 +32,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * Admin class for the Block model.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class BlockAdmin extends BaseBlockAdmin
+final class BlockAdmin extends BaseBlockAdmin
 {
     /**
      * @var array

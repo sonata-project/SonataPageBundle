@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Site;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Request\SiteRequest;
@@ -26,16 +27,24 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
  */
 final class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
 {
+    /**
+     * @var MockObject&SiteManagerInterface
+     */
+    private $siteManager;
+
+    private HostByLocaleSiteSelector $siteSelector;
+
     protected function setUp(): void
     {
-        $siteManager = $this->createMock(SiteManagerInterface::class);
+        $this->siteManager = $this->createMock(SiteManagerInterface::class);
         $decoratorStrategy = $this->createMock(DecoratorStrategyInterface::class);
         $seoPage = $this->createMock(SeoPageInterface::class);
 
-        $this->siteSelector = $this->getMockBuilder(HostByLocaleSiteSelector::class)
-            ->setConstructorArgs([$siteManager, $decoratorStrategy, $seoPage])
-            ->setMethods(['getSites'])
-            ->getMock();
+        $this->siteSelector = new HostByLocaleSiteSelector(
+            $this->siteManager,
+            $decoratorStrategy,
+            $seoPage
+        );
     }
 
     /**
@@ -51,10 +60,9 @@ final class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
 
         $event = new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
 
-        $this->siteSelector
+        $this->siteManager
             ->expects(static::once())
-            ->method('getSites')
-            ->with($request)
+            ->method('findBy')
             ->willReturn($this->getSites());
 
         $this->siteSelector->handleKernelRequest($event);
@@ -62,7 +70,7 @@ final class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
         // Ensure request locale is en
         static::assertSame('en', $request->attributes->get('_locale'));
 
-        $site = $this->getSite();
+        $site = $this->siteSelector->retrieve();
 
         // Ensure we retrieved the site "/en"
         static::assertSame('/en', $site->getRelativePath());
@@ -83,10 +91,9 @@ final class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
 
         $event = new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
 
-        $this->siteSelector
+        $this->siteManager
             ->expects(static::once())
-            ->method('getSites')
-            ->with($request)
+            ->method('findBy')
             ->willReturn($this->getSites());
 
         $this->siteSelector->handleKernelRequest($event);
@@ -94,7 +101,7 @@ final class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
         // Ensure request locale is fr
         static::assertSame('fr', $request->attributes->get('_locale'));
 
-        $site = $this->getSite();
+        $site = $this->siteSelector->retrieve();
 
         // Ensure we retrieved the site "/fr"
         static::assertSame('/fr', $site->getRelativePath());

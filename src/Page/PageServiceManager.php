@@ -26,25 +26,23 @@ use Symfony\Component\Routing\RouterInterface;
  * to handle the page rendering but it may also implement an alternate rendering method.
  *
  * @author Olivier Paradis <paradis.olivier@gmail.com>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class PageServiceManager implements PageServiceManagerInterface
+final class PageServiceManager implements PageServiceManagerInterface
 {
     /**
      * @var PageServiceInterface[]
      */
-    protected $services = [];
+    private $services = [];
 
     /**
      * @var PageServiceInterface|null
      */
-    protected $default;
+    private $default;
 
     /**
      * @var RouterInterface
      */
-    protected $router;
+    private $router;
 
     /**
      * @param RouterInterface $router Router
@@ -109,7 +107,7 @@ class PageServiceManager implements PageServiceManagerInterface
      *
      * @return Response
      */
-    protected function createResponse(PageInterface $page)
+    private function createResponse(PageInterface $page)
     {
         if ($page->getTarget()) {
             $page->addHeader('Location', $this->router->generate($page->getTarget()));

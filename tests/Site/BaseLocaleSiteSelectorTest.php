@@ -15,7 +15,6 @@ namespace Sonata\PageBundle\Tests\Site;
 
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Entity\BaseSite;
-use Sonata\PageBundle\Site\SiteSelectorInterface;
 
 /**
  * @author Rémi Marseille <marseille@ekino.com>
@@ -23,21 +22,6 @@ use Sonata\PageBundle\Site\SiteSelectorInterface;
 abstract class BaseLocaleSiteSelectorTest extends TestCase
 {
     /**
-     * @var SiteSelectorInterface
-     */
-    protected $siteSelector;
-
-    /**
-     * Cleanups the site selector.
-     */
-    protected function tearDown(): void
-    {
-        unset($this->siteSelector);
-    }
-
-    /**
-     * Gets fixtures of sites.
-     *
      * @return Site[]
      */
     protected function getSites(): array
@@ -59,14 +43,6 @@ abstract class BaseLocaleSiteSelectorTest extends TestCase
         $sites[1]->setLocale('en');
 
         return $sites;
-    }
-
-    /**
-     * Gets the site from site selector.
-     */
-    protected function getSite(): ?Site
-    {
-        return $this->siteSelector->retrieve();
     }
 }
 

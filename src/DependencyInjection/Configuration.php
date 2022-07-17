@@ -26,10 +26,8 @@ use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html#cookbook-bundles-extension-config-class}
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class Configuration implements ConfigurationInterface
+final class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder()
     {
@@ -315,7 +313,7 @@ EOF;
         return $treeBuilder;
     }
 
-    protected function getDeprecationMessage($message, $version): array
+    private function getDeprecationMessage($message, $version): array
     {
         if (method_exists(BaseNode::class, 'getDeprecation')) {
             return [

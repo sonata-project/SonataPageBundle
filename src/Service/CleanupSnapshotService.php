@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Service;
 
+use Sonata\Doctrine\Entity\BaseEntityManager;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
@@ -21,6 +22,7 @@ use Sonata\PageBundle\Service\Contract\CleanupSnapshotBySiteInterface;
 final class CleanupSnapshotService implements CleanupSnapshotBySiteInterface
 {
     private SnapshotManagerInterface $snapshotManager;
+
     private PageManagerInterface $pageManager;
 
     public function __construct(SnapshotManagerInterface $snapshotManager, PageManagerInterface $pageManager)
@@ -31,15 +33,18 @@ final class CleanupSnapshotService implements CleanupSnapshotBySiteInterface
 
     public function cleanupBySite(SiteInterface $site, int $keepSnapshots): void
     {
-        $entityManager = $this->snapshotManager->getEntityManager();
         $pages = $this->pageManager->findBy(['site' => $site->getId()]);
 
-        $entityManager->beginTransaction();
+        if ($this->snapshotManager instanceof BaseEntityManager) {
+            $this->snapshotManager->getEntityManager()->beginTransaction();
+        }
 
         foreach ($pages as $page) {
             $this->snapshotManager->cleanup($page, $keepSnapshots);
         }
 
-        $entityManager->commit();
+        if ($this->snapshotManager instanceof BaseEntityManager) {
+            $this->snapshotManager->getEntityManager()->commit();
+        }
     }
 }

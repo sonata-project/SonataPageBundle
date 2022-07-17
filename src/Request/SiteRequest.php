@@ -16,13 +16,9 @@ namespace Sonata\PageBundle\Request;
 use Symfony\Component\HttpFoundation\Request as BaseRequest;
 
 /**
- * SiteRequest.
- *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class SiteRequest extends BaseRequest implements SiteRequestInterface
+final class SiteRequest extends BaseRequest implements SiteRequestInterface
 {
     public function setPathInfo($pathInfo): void
     {
