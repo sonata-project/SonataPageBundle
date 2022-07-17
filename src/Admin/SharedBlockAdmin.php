@@ -19,6 +19,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\BlockBundle\Block\BlockServiceInterface;
 use Sonata\BlockBundle\Block\Service\EditableBlockService;
 use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Sonata\PageBundle\Entity\BaseBlock;
 use Sonata\PageBundle\Mapper\PageFormMapper;
 
@@ -46,6 +47,8 @@ final class SharedBlockAdmin extends BaseBlockAdmin
 
     protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
+        \assert($query instanceof ProxyQuery);
+
         // Filter on blocks without page and parents
         $rootAlias = current($query->getRootAliases());
         $query->andWhere($query->expr()->isNull($rootAlias.'.page'));

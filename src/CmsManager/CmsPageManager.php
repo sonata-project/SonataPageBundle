@@ -83,7 +83,7 @@ final class CmsPageManager extends BaseCmsPageManager
         try {
             $page = $this->getPageByRouteName($site, $routeName);
         } catch (PageNotFoundException $e) {
-            $page = $this->pageManager->create([
+            $page = $this->pageManager->createWithDefaults([
                 'url' => null,
                 'routeName' => $routeName,
                 'name' => sprintf('Internal Page : %s', $routeName),

@@ -25,6 +25,11 @@ use Sonata\Doctrine\Model\ManagerInterface;
 interface PageManagerInterface extends ManagerInterface
 {
     /**
+     * @param array<string, mixed> $defaults
+     */
+    public function createWithDefaults(array $defaults = []): PageInterface;
+
+    /**
      * Returns a page with the give slug.
      *
      * @param string $url

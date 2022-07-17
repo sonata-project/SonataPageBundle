@@ -58,7 +58,7 @@ final class PageManager extends BaseEntityManager implements PageManagerInterfac
         ]);
     }
 
-    public function create(array $defaults = [])
+    public function createWithDefaults(array $defaults = []): PageInterface
     {
         // create a new page for this routing
         $class = $this->getClass();

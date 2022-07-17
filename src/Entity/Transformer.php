@@ -124,7 +124,7 @@ final class Transformer implements TransformerInterface
 
     public function load(SnapshotInterface $snapshot)
     {
-        $page = $this->pageManager->create();
+        $page = $this->pageManager->createWithDefaults();
 
         $page->setRouteName($snapshot->getRouteName());
         $page->setPageAlias($snapshot->getPageAlias());

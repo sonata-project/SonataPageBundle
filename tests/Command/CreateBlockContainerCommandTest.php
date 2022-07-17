@@ -30,17 +30,17 @@ final class CreateBlockContainerCommandTest extends TestCase
     public function testCreateBlock(): void
     {
         //Mock
-        $pageManagerMock = $this->createStub(PageManagerInterface::class);
-        $blockInteractorMock = $this->createStub(BlockInteractorInterface::class);
+        $pageManager = $this->createMock(PageManagerInterface::class);
+        $blockInteractor = $this->createStub(BlockInteractorInterface::class);
 
         $block = $this->createStub(PageBlockInterface::class);
-        $blockInteractorMock->method('createNewContainer')->willReturn($block);
+        $blockInteractor->method('createNewContainer')->willReturn($block);
 
         $page = new Page();
-        $pageManagerMock->method('findBy')->with(['templateCode' => 'foo'])->willReturn([$page]);
-        $pageManagerMock->method('save')->with($page)->willReturn($page);
+        $pageManager->method('findBy')->with(['templateCode' => 'foo'])->willReturn([$page]);
+        $pageManager->method('save')->with($page)->willReturn($page);
 
-        $command = new CreateBlockContainerCommand($pageManagerMock, $blockInteractorMock);
+        $command = new CreateBlockContainerCommand($pageManager, $blockInteractor);
 
         $input = $this->createStub(InputInterface::class);
         $input->method('getArgument')->willReturnMap([
