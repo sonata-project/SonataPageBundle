@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Command;
 
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Command\CloneSiteCommand;
 use Sonata\PageBundle\Model\BlockManagerInterface;
@@ -29,17 +31,31 @@ use Symfony\Component\Console\Tester\CommandTester;
  */
 final class CloneSiteCommandTest extends TestCase
 {
-    private Application $application;
-    private SiteManagerInterface $siteManager;
-    private PageManagerInterface $pageManager;
-    private BlockManagerInterface $blockManager;
+    /**
+     * @var Application
+     */
+    private $application;
+
+    /**
+     * @var Stub&SiteManagerInterface
+     */
+    private $siteManager;
+
+    /**
+     * @var MockObject&PageManagerInterface
+     */
+    private $pageManager;
+
+    /**
+     * @var MockObject&BlockManagerInterface
+     */
+    private $blockManager;
 
     protected function setUp(): void
     {
         $this->siteManager = $this->createStub(SiteManagerInterface::class);
         $this->pageManager = $this->createMock(PageManagerInterface::class);
         $this->blockManager = $this->createMock(BlockManagerInterface::class);
-
 
         $command = new CloneSiteCommand($this->siteManager, $this->pageManager, $this->blockManager);
 

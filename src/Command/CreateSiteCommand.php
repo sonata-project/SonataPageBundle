@@ -34,6 +34,7 @@ final class CreateSiteCommand extends Command
     public function __construct(SiteManagerInterface $siteManager)
     {
         parent::__construct();
+
         $this->siteManager = $siteManager;
     }
 

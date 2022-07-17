@@ -26,20 +26,12 @@
             <argument type="service" id="sonata.page.manager.site"/>
             <tag name="console.command"/>
         </service>
-        <service id="Sonata\PageBundle\Command\DumpPageCommand" class="Sonata\PageBundle\Command\DumpPageCommand" public="true">
-            <argument type="service" id="service_container"/>
-            <tag name="console.command"/>
-        </service>
         <service id="Sonata\PageBundle\Command\MigrateBlockNameSettingCommand" class="Sonata\PageBundle\Command\MigrateBlockNameSettingCommand">
             <argument type="service" id="sonata.admin.entity_manager"/>
             <tag name="console.command"/>
         </service>
         <service id="Sonata\PageBundle\Command\MigrateToJsonTypeCommand" class="Sonata\PageBundle\Command\MigrateToJsonTypeCommand">
             <argument type="service" id="sonata.admin.entity_manager"/>
-            <tag name="console.command"/>
-        </service>
-        <service id="Sonata\PageBundle\Command\RenderBlockCommand" class="Sonata\PageBundle\Command\RenderBlockCommand">
-            <argument type="service" id="service_container"/>
             <tag name="console.command"/>
         </service>
         <service id="Sonata\PageBundle\Command\UpdateCoreRoutesCommand" class="Sonata\PageBundle\Command\UpdateCoreRoutesCommand">

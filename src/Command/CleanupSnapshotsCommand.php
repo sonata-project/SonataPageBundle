@@ -30,11 +30,11 @@ final class CleanupSnapshotsCommand extends Command
     public function __construct(
         CleanupSnapshotBySiteInterface $cleanupSnapshotBySite,
         SiteManagerInterface $siteManager
-    ){
+    ) {
+        parent::__construct();
+
         $this->cleanupSnapshotBySite = $cleanupSnapshotBySite;
         $this->siteManager = $siteManager;
-
-        parent::__construct();
     }
 
     public function configure(): void
@@ -75,7 +75,7 @@ final class CleanupSnapshotsCommand extends Command
      *
      * @return array<SiteInterface>
      */
-    protected function getSites(array $ids): array
+    private function getSites(array $ids): array
     {
         if ([] === $ids) {
             return $this->siteManager->findAll();

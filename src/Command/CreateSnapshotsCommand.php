@@ -68,9 +68,8 @@ final class CreateSnapshotsCommand extends Command
      *
      * @return array<SiteInterface>
      */
-    protected function getSites(array $ids): array
+    private function getSites(array $ids): array
     {
-
         if ([] === $ids) {
             return $this->siteManager->findAll();
         }

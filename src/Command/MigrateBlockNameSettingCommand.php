@@ -26,13 +26,14 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 final class MigrateBlockNameSettingCommand extends Command
 {
-    public const CONTAINER_TYPE = 'sonata.page.block.container';
+    private const CONTAINER_TYPE = 'sonata.page.block.container';
     protected static $defaultName = 'sonata:page:migrate-block-setting';
     private EntityManagerInterface $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
         parent::__construct();
+
         $this->entityManager = $entityManager;
     }
 
@@ -114,7 +115,7 @@ final class MigrateBlockNameSettingCommand extends Command
      *
      * @return EntityRepository
      */
-    protected function getRepository($class)
+    private function getRepository($class)
     {
         return $this->entityManager->getRepository($class);
     }

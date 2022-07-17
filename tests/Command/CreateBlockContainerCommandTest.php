@@ -24,7 +24,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class CreateBlockContainerCommandTest extends TestCase
 {
-
     /**
      * Tests that Block is added into Page's blocks field.
      */
@@ -40,7 +39,6 @@ final class CreateBlockContainerCommandTest extends TestCase
         $page = new Page();
         $pageManagerMock->method('findBy')->with(['templateCode' => 'foo'])->willReturn([$page]);
         $pageManagerMock->method('save')->with($page)->willReturn($page);
-
 
         $command = new CreateBlockContainerCommand($pageManagerMock, $blockInteractorMock);
 

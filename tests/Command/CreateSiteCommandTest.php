@@ -22,7 +22,6 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Tester\CommandTester;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @author Ahmet Akbana <ahmetakbana@gmail.com>

@@ -26,10 +26,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Update core routes by reading routing information.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/page-bundle 3.26
  */
-class UpdateCoreRoutesCommand extends Command
+final class UpdateCoreRoutesCommand extends Command
 {
     protected static $defaultName = 'sonata:page:update-core-routes';
     private SiteManagerInterface $siteManager;
@@ -40,6 +38,7 @@ class UpdateCoreRoutesCommand extends Command
         RoutePageGenerator $pageGenerator
     ) {
         parent::__construct();
+
         $this->siteManager = $siteManager;
         $this->pageGenerator = $pageGenerator;
     }
@@ -87,7 +86,7 @@ class UpdateCoreRoutesCommand extends Command
      *
      * @return array<SiteInterface>
      */
-    protected function getSites(array $ids): array
+    private function getSites(array $ids): array
     {
         if ([] === $ids) {
             return $this->siteManager->findAll();

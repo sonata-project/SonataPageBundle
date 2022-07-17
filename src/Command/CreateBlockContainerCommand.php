@@ -34,6 +34,7 @@ final class CreateBlockContainerCommand extends Command
     public function __construct(PageManagerInterface $pageManager, BlockInteractorInterface $blockInteractor)
     {
         parent::__construct();
+
         $this->pageManager = $pageManager;
         $this->blockInteractor = $blockInteractor;
     }
