@@ -86,7 +86,7 @@ As the Page bundle can handle symfony actions, actions need to be registered, ju
 
 .. code-block:: bash
 
-    bin/console sonata:page:update-core-routes --site=all
+    bin/console sonata:page:update-core-routes
 
 The output might look like this::
 
@@ -142,7 +142,7 @@ following command need to be run:
 
 .. code-block:: bash
 
-    bin/console sonata:page:create-snapshots --site=all
+    bin/console sonata:page:create-snapshots
 
 The output might look like this::
 

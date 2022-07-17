@@ -16,8 +16,8 @@ namespace Sonata\PageBundle\Tests\Command;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
-use Sonata\BlockBundle\Model\BlockManagerInterface;
 use Sonata\PageBundle\Command\CloneSiteCommand;
+use Sonata\PageBundle\Model\BlockManagerInterface;
 use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
@@ -25,14 +25,9 @@ use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @author Christian Gripp <mail@core23.de>
- *
- * NEXT_MAJOR: Remove this legacy group
- *
- * @group legacy
  */
 final class CloneSiteCommandTest extends TestCase
 {
@@ -62,15 +57,7 @@ final class CloneSiteCommandTest extends TestCase
         $this->pageManager = $this->createMock(PageManagerInterface::class);
         $this->blockManager = $this->createMock(BlockManagerInterface::class);
 
-        $container = $this->createStub(ContainerInterface::class);
-        $container->method('get')->willReturnMap([
-            ['sonata.page.manager.site', ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, $this->siteManager],
-            ['sonata.page.manager.page', ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, $this->pageManager],
-            ['sonata.page.manager.block', ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, $this->blockManager],
-        ]);
-
-        $command = new CloneSiteCommand();
-        $command->setContainer($container);
+        $command = new CloneSiteCommand($this->siteManager, $this->pageManager, $this->blockManager);
 
         $this->application = new Application();
         $this->application->add($command);

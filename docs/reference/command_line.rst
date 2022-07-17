@@ -8,13 +8,13 @@ Page commands
 
 .. code-block:: bash
 
-    bin/console sonata:page:update-core-routes --site=all
+    bin/console sonata:page:update-core-routes
 
 You could also remove orphan pages with the ``--clean`` option.
 
 .. code-block:: bash
 
-    bin/console sonata:page:update-core-routes --site=all --clean
+    bin/console sonata:page:update-core-routes --clean
 
 - Create snapshots from defined pages
 
@@ -47,22 +47,5 @@ Please note that you can also give multiple website identifiers to some commands
     bin/console sonata:page:update-core-routes --site=1 --site=2 --site=...
     bin/console sonata:page:create-snapshots --site=1 --site=2 --site=...
     bin/console sonata:page:cleanup-snapshots --site=1 --site=2 --site=...
-
-Debug Commands
---------------
-
-- Print page composition
-
-.. code-block:: bash
-
-    bin/console sonata:page:dump-page sonata.page.cms.snapshot PAGE_ID
-    bin/console sonata:page:dump-page sonata.page.cms.snapshot PAGE_ID --extended
-
-- Render a block
-
-.. code-block:: bash
-
-    bin/console sonata:page:render-block sonata.page.cms.snapshot PAGE_ID BLOCK_ID
-    bin/console sonata:page:render-block sonata.page.cms.page PAGE_ID BLOCK_ID
 
 .. _`SonataCacheBundle documentation`: https://docs.sonata-project.org/projects/SonataCacheBundle/en/3.x/

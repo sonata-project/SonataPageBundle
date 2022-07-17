@@ -22,7 +22,6 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Tester\CommandTester;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @author Ahmet Akbana <ahmetakbana@gmail.com>
@@ -47,11 +46,7 @@ final class CreateSiteCommandTest extends TestCase
     {
         $this->siteManager = $this->createMock(SiteManagerInterface::class);
 
-        $container = $this->createStub(ContainerInterface::class);
-        $container->method('get')->with('sonata.page.manager.site')->willReturn($this->siteManager);
-
-        $command = new CreateSiteCommand();
-        $command->setContainer($container);
+        $command = new CreateSiteCommand($this->siteManager);
 
         $this->application = new Application();
         $this->application->add($command);

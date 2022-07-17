@@ -14,16 +14,28 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Command;
 
 use Sonata\PageBundle\Model\SiteInterface;
+use Sonata\PageBundle\Model\SiteManagerInterface;
+use Sonata\PageBundle\Service\Contract\CleanupSnapshotBySiteInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * Cleanups the deprecated snapshots.
- */
-final class CleanupSnapshotsCommand extends BaseCommand
+final class CleanupSnapshotsCommand extends Command
 {
     protected static $defaultName = 'sonata:page:cleanup-snapshots';
+    private CleanupSnapshotBySiteInterface $cleanupSnapshotBySite;
+    private SiteManagerInterface $siteManager;
+
+    public function __construct(
+        CleanupSnapshotBySiteInterface $cleanupSnapshotBySite,
+        SiteManagerInterface $siteManager
+    ) {
+        parent::__construct();
+
+        $this->cleanupSnapshotBySite = $cleanupSnapshotBySite;
+        $this->siteManager = $siteManager;
+    }
 
     public function configure(): void
     {
@@ -48,9 +60,7 @@ final class CleanupSnapshotsCommand extends BaseCommand
         foreach ($this->getSites($siteOption) as $site) {
             $output->write(sprintf('<info>%s</info> - Cleaning up snapshots ...', $site->getName()));
 
-            //NEXT_MAJOR: inject this class in the constructor CleanupSnapshotBySiteInterface $cleanupSnapshot
-            $cleanupSnapshot = $this->getContainer()->get('sonata.page.service.cleanup_snapshot');
-            $cleanupSnapshot->cleanupBySite($site, $keepSnapshots);
+            $this->cleanupSnapshotBySite->cleanupBySite($site, $keepSnapshots);
 
             $output->writeln(' done!');
         }
@@ -64,18 +74,13 @@ final class CleanupSnapshotsCommand extends BaseCommand
      * @param array<int> $ids
      *
      * @return array<SiteInterface>
-     *
-     * NEXT_MAJOR: add array type for $ids
      */
-    protected function getSites($ids): array
+    private function getSites(array $ids): array
     {
-        //NEXT_MAJOR: Inject this on the __construct.
-        $siteManager = $this->getContainer()->get('sonata.page.manager.site');
-
         if ([] === $ids) {
-            return $siteManager->findAll();
+            return $this->siteManager->findAll();
         }
 
-        return $siteManager->findBy(['id' => $ids]);
+        return $this->siteManager->findBy(['id' => $ids]);
     }
 }
