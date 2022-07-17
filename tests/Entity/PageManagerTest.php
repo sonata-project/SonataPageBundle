@@ -100,7 +100,7 @@ final class PageManagerTest extends TestCase
             ['my_route' => ['decorate' => false, 'name' => 'Salut!']]
         );
 
-        $page = $manager->create(['name' => 'My Name', 'routeName' => 'my_route']);
+        $page = $manager->createWithDefaults(['name' => 'My Name', 'routeName' => 'my_route']);
 
         static::assertSame('My Name', $page->getName());
         static::assertFalse($page->getDecorate());

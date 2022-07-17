@@ -135,7 +135,7 @@ final class RoutePageGenerator
 
                 $requirements = $route->getRequirements();
 
-                $page = $this->pageManager->create([
+                $page = $this->pageManager->createWithDefaults([
                     'routeName' => $name,
                     'name' => $displayName,
                     'url' => $route->getPath(),
@@ -177,14 +177,12 @@ final class RoutePageGenerator
             ]);
 
             if (!$page) {
-                $params = [
+                $page = $this->pageManager->createWithDefaults([
                     'routeName' => $name,
                     'name' => $displayName,
                     'decorate' => false,
                     'site' => $site,
-                ];
-
-                $page = $this->pageManager->create($params);
+                ]);
 
                 $this->writeln($output, sprintf('  <info>%s</info> % -50s %s', 'CREATE ', $name, ''));
             }
@@ -257,7 +255,7 @@ MSG
                 $name = trim($name);
                 $displayName = $this->displayName($name);
 
-                return $this->pageManager->create([
+                return $this->pageManager->createWithDefaults([
                     'routeName' => $name,
                     'name' => $displayName,
                     'url' => $route->getPath(),
@@ -268,7 +266,7 @@ MSG
             }
         }
 
-        return $this->pageManager->create([
+        return $this->pageManager->createWithDefaults([
             'routeName' => PageInterface::PAGE_ROUTE_CMS_NAME,
             'name' => 'Homepage',
             'url' => '/',

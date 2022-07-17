@@ -127,10 +127,6 @@ final class ResponseListener
 
         $response = $this->pageServiceManager->execute($page, $request, $parameters, $response);
 
-        if (!$this->cmsSelector->isEditor() && $page->isCms()) {
-            $response->setTtl($page->getTtl());
-        }
-
         $event->setResponse($response);
     }
 }
