@@ -26,11 +26,6 @@ use Sonata\PageBundle\Model\PageBlockInterface;
  */
 final class BlockManager extends BaseEntityManager implements BlockManagerInterface
 {
-    public function save($entity, $andFlush = true)
-    {
-        parent::save($entity, $andFlush);
-    }
-
     public function updatePosition($id, $position, $parentId = null, $pageId = null, $partial = true)
     {
         if ($partial) {
