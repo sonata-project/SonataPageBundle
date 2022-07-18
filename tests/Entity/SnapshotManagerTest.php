@@ -130,14 +130,7 @@ final class SnapshotManagerTest extends TestCase
 
         $sql = 'UPDATE page_snapshot SET publication_date_end = ? WHERE id NOT IN (123) AND page_id IN (456) AND publication_date_end IS NULL';
 
-        // for older doctrine dbal
-        if (method_exists(Connection::class, 'executeStatement')) {
-            $method = 'executeStatement';
-        } else {
-            $method = 'executeUpdate';
-        }
-
-        $connection->expects(static::once())->method($method)->with($sql, [$date], ['datetime'])->willReturn(0);
+        $connection->expects(static::once())->method('executeStatement')->with($sql, [$date], ['datetime'])->willReturn(0);
 
         $platform = $this->createMock(AbstractPlatform::class);
         $platform->method('getDateTimeFormatString')->willReturn('Y-m-d H:i:s');

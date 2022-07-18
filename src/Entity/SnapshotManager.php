@@ -251,11 +251,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
             ->setMaxResults($keep);
 
         $query = $innerQb->getQuery();
-        if (method_exists($query, 'getSingleColumnResult')) {
-            $innerArray = $query->getSingleColumnResult();
-        } else {
-            $innerArray = array_column($query->getArrayResult(), 'id');
-        }
+        $innerArray = $query->getSingleColumnResult();
 
         $qb = $this->getRepository()->createQueryBuilder('s');
         $expr = $qb->expr();
