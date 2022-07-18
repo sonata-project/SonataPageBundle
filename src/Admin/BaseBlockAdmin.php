@@ -228,7 +228,6 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         $service = $this->blockManager->get($block);
 
         $resolver = new OptionsResolver();
-        // use new interface method whenever possible
         $service->configureSettings($resolver);
 
         try {

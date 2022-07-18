@@ -363,7 +363,7 @@ abstract class Page implements PageInterface
         }
     }
 
-    public function getHeaders()
+    public function getHeaders(): array
     {
         if (null === $this->headers) {
             $rawHeaders = $this->getRawHeaders();

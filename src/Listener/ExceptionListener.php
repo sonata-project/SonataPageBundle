@@ -233,11 +233,11 @@ final class ExceptionListener
     /**
      * Logs exceptions.
      *
-     * @param \Exception  $originalException  Original exception that called the listener
-     * @param \Exception  $generatedException Generated exception
+     * @param \Throwable  $originalException  Original exception that called the listener
+     * @param \Throwable  $generatedException Generated exception
      * @param string|null $message            Message to log
      */
-    private function logException(\Exception $originalException, \Exception $generatedException, $message = null): void
+    private function logException(\Throwable $originalException, \Throwable $generatedException, $message = null): void
     {
         if (!$message) {
             $message = sprintf('Exception thrown when handling an exception (%s: %s)', \get_class($generatedException), $generatedException->getMessage());
