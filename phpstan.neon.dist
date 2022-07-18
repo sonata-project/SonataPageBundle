@@ -1,5 +1,10 @@
+includes:
+    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
+
 parameters:
     level: 2
+    symfony:
+        console_application_loader: ./phpstan-console-application.php
     paths:
         - src
         - tests
