@@ -146,7 +146,7 @@ final class CloneSiteCommand extends Command
                         'new parent: % 4s - % -70s - % 4s -> % 4s',
                         $page->getId(),
                         $page->getTitle(),
-                        $page->getParent() ? $page->getParent()->getId() : '',
+                        $page->getParent()->getId(),
                         $pageClones[$page->getParent()->getId()]->getId()
                     ));
                     $page->setParent($pageClones[$page->getParent()->getId()]);

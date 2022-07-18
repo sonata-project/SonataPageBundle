@@ -15,7 +15,6 @@ namespace Sonata\PageBundle\DependencyInjection;
 
 use Sonata\PageBundle\Model\Template;
 use Sonata\PageBundle\Template\Matrix\Parser;
-use Symfony\Component\Config\Definition\BaseNode;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
@@ -311,18 +310,5 @@ EOF;
             ->end();
 
         return $treeBuilder;
-    }
-
-    private function getDeprecationMessage($message, $version): array
-    {
-        if (method_exists(BaseNode::class, 'getDeprecation')) {
-            return [
-                'sonata-project/page-bundle',
-                $version,
-                $message,
-            ];
-        }
-
-        return [$message];
     }
 }

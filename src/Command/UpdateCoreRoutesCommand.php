@@ -17,7 +17,6 @@ use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Route\RoutePageGenerator;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -55,25 +54,8 @@ final class UpdateCoreRoutesCommand extends Command
         $siteOption = $input->getOption('site');
 
         foreach ($this->getSites($siteOption) as $site) {
-            if ('all' !== $input->getOption('site')) {
-                $this->pageGenerator->update($site, $output, $input->getOption('clean'));
-                $output->writeln('');
-            } else {
-                $arguments = [
-                    'env' => $input->getOption('env'),
-                    'site' => $site->getId(),
-                ];
-
-                if ($input->getOption('no-debug')) {
-                    $arguments['--no-debug'] = true;
-                }
-
-                if ($input->getOption('clean')) {
-                    $arguments['--clean'] = true;
-                }
-
-                $this->run(new ArrayInput($arguments), $output);
-            }
+            $this->pageGenerator->update($site, $output, $input->getOption('clean'));
+            $output->writeln('');
         }
 
         $output->writeln('<info>done!</info>');

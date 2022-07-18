@@ -88,7 +88,7 @@ final class BlockAdmin extends BaseBlockAdmin
 
     protected function configureFormFields(FormMapper $form): void
     {
-        $block = $this->getSubject();
+        $block = $this->hasSubject() ? $this->getSubject() : null;
 
         if (!$block) { // require to have a proper running test suite at the sandbox level
             return;
@@ -132,8 +132,8 @@ final class BlockAdmin extends BaseBlockAdmin
 
         $form->end();
 
-        $isContainerRoot = $block && \in_array($blockType, ['sonata.page.block.container', 'sonata.block.service.container'], true) && !$this->hasParentFieldDescription();
-        $isStandardBlock = $block && !\in_array($blockType, ['sonata.page.block.container', 'sonata.block.service.container'], true) && !$this->hasParentFieldDescription();
+        $isContainerRoot = \in_array($blockType, ['sonata.page.block.container', 'sonata.block.service.container'], true) && !$this->hasParentFieldDescription();
+        $isStandardBlock = !\in_array($blockType, ['sonata.page.block.container', 'sonata.block.service.container'], true) && !$this->hasParentFieldDescription();
 
         if ($isContainerRoot || $isStandardBlock) {
             $form->with('form.field_group_general', $generalGroupOptions);

@@ -34,7 +34,7 @@ final class DefaultPageService extends BasePageService
     protected $templateManager;
 
     /**
-     * @var SeoPageInterface
+     * @var SeoPageInterface|null
      */
     protected $seoPage;
 

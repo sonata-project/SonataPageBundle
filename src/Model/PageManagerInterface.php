@@ -34,7 +34,7 @@ interface PageManagerInterface extends ManagerInterface
      *
      * @param string $url
      *
-     * @return PageInterface
+     * @return PageInterface|null
      */
     public function getPageByUrl(SiteInterface $site, $url);
 

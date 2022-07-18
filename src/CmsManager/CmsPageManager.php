@@ -109,7 +109,7 @@ final class CmsPageManager extends BaseCmsPageManager
         }
 
         // first level blocks are containers
-        if (!$container && $page->getBlocks()) {
+        if (!$container) {
             foreach ($page->getBlocks() as $block) {
                 if ($block->getSetting('code') === $name) {
                     $container = $block;

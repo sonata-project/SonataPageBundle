@@ -25,7 +25,7 @@ use Sonata\Doctrine\Model\ManagerInterface;
 interface SnapshotManagerInterface extends ManagerInterface
 {
     /**
-     * @return SnapshotInterface
+     * @return SnapshotInterface|null
      */
     public function findEnableSnapshot(array $criteria);
 

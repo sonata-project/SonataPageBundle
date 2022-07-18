@@ -59,10 +59,6 @@ final class Parser
                         'height' => 1,
                     ];
                 } else {
-                    // @todo handle non adjacent cells
-                    if (false) {
-                        // throw new \InvalidArgumentException(sprintf('Invalid template matrix, non adjacent symbol found "%s" at row "%s", col "%s"', $symbol, $y, $x));
-                    }
                     $areas[$symbol]['width'] = $x - $areas[$symbol]['x'] + 1;
                     $areas[$symbol]['height'] = $y - $areas[$symbol]['y'] + 1;
                 }

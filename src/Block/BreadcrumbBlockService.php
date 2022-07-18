@@ -90,7 +90,7 @@ final class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
     /**
      * Return the current Page.
      *
-     * @return PageInterface
+     * @return PageInterface|null
      */
     protected function getCurrentPage()
     {
