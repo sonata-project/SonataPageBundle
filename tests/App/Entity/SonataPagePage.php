@@ -21,7 +21,7 @@ use Sonata\PageBundle\Entity\BasePage;
  * @ORM\Table(name="page__page")
  * @ORM\HasLifecycleCallbacks
  */
-final class SonataPagePage extends BasePage
+class SonataPagePage extends BasePage
 {
     /**
      * @ORM\Id

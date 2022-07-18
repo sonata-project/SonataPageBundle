@@ -24,7 +24,7 @@ use Sonata\PageBundle\Entity\BaseSnapshot;
  *     })
  * })
  */
-final class SonataPageSnapshot extends BaseSnapshot
+class SonataPageSnapshot extends BaseSnapshot
 {
     /**
      * @ORM\Id
@@ -60,5 +60,10 @@ final class SonataPageSnapshot extends BaseSnapshot
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
     }
 }

@@ -14,12 +14,20 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Entity;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\Mapping\ClassMetadataFactory;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\UnitOfWork;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\Mapping\MappingException;
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Entity\BaseSnapshot;
 use Sonata\PageBundle\Entity\SnapshotManager;
@@ -28,6 +36,7 @@ use Sonata\PageBundle\Model\SnapshotInterface;
 use Sonata\PageBundle\Model\SnapshotPageProxyFactoryInterface;
 use Sonata\PageBundle\Model\SnapshotPageProxyInterface;
 use Sonata\PageBundle\Model\TransformerInterface;
+use Sonata\PageBundle\Tests\App\Entity\SonataPageSnapshot;
 
 final class SnapshotManagerTest extends TestCase
 {
@@ -100,124 +109,6 @@ final class SnapshotManagerTest extends TestCase
     }
 
     /**
-     * NEXT_MAJOR: Remove this test.
-     *
-     * @group legacy
-     */
-    public function testGetPager(): void
-    {
-        $self = $this;
-        $this
-            ->getSnapshotManager(static function ($qb) use ($self) {
-                $qb->expects($self->never())->method('andWhere');
-                $qb->expects($self->once())->method('setParameters')->with([]);
-            })
-            ->getPager([], 1);
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this test.
-     *
-     * @group legacy
-     */
-    public function testGetPagerWithEnabledSnapshots(): void
-    {
-        $self = $this;
-        $this
-            ->getSnapshotManager(static function ($qb) use ($self) {
-                $qb->expects($self->once())->method('andWhere')->with($self->equalTo('s.enabled = :enabled'));
-                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['enabled' => true]));
-            })
-            ->getPager(['enabled' => true], 1);
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this test.
-     *
-     * @group legacy
-     */
-    public function testGetPagerWithDisabledSnapshots(): void
-    {
-        $self = $this;
-        $this
-            ->getSnapshotManager(static function ($qb) use ($self) {
-                $qb->expects($self->once())->method('andWhere')->with($self->equalTo('s.enabled = :enabled'));
-                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['enabled' => false]));
-            })
-            ->getPager(['enabled' => false], 1);
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this test.
-     *
-     * @group legacy
-     */
-    public function testGetPagerWithRootSnapshots(): void
-    {
-        $self = $this;
-        $this
-            ->getSnapshotManager(static function ($qb) use ($self) {
-                $qb->expects($self->once())->method('andWhere')->with($self->equalTo('s.parent IS NULL'));
-            })
-            ->getPager(['root' => true], 1);
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this test.
-     *
-     * @group legacy
-     */
-    public function testGetPagerWithNonRootSnapshots(): void
-    {
-        $self = $this;
-        $this
-            ->getSnapshotManager(static function ($qb) use ($self) {
-                $qb->expects($self->once())->method('andWhere')->with($self->equalTo('s.parent IS NOT NULL'));
-            })
-            ->getPager(['root' => false], 1);
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this test.
-     *
-     * @group legacy
-     */
-    public function testGetPagerWithParentChildSnapshots(): void
-    {
-        $self = $this;
-        $this
-            ->getSnapshotManager(static function ($qb) use ($self) {
-                $qb->expects($self->once())->method('join')->with(
-                    $self->equalTo('s.parent'),
-                    $self->equalTo('pa')
-                );
-                $qb->expects($self->once())->method('andWhere')->with($self->equalTo('pa.id = :parentId'));
-                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['parentId' => 13]));
-            })
-            ->getPager(['parent' => 13], 1);
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this test.
-     *
-     * @group legacy
-     */
-    public function testGetPagerWithSiteSnapshots(): void
-    {
-        $self = $this;
-        $this
-            ->getSnapshotManager(static function ($qb) use ($self) {
-                $qb->expects($self->once())->method('join')->with(
-                    $self->equalTo('s.site'),
-                    $self->equalTo('si')
-                );
-                $qb->expects($self->once())->method('andWhere')->with($self->equalTo('si.id = :siteId'));
-                $qb->expects($self->once())->method('setParameters')->with($self->equalTo(['siteId' => 13]));
-            })
-            ->getPager(['site' => 13], 1);
-    }
-
-    /**
      * Tests the enableSnapshots() method to ensure execute queries are correct.
      */
     public function testEnableSnapshots(): void
@@ -236,27 +127,83 @@ final class SnapshotManagerTest extends TestCase
         $date = new \DateTime();
 
         $connection = $this->createMock(Connection::class);
-        $connection
-            ->expects(static::once())
-            ->method('query')
-            ->with(sprintf(
-                "UPDATE page_snapshot SET publication_date_end = '%s' WHERE id NOT IN(123) AND page_id IN (456) and publication_date_end IS NULL",
-                $date->format('Y-m-d H:i:s')
-            ));
+
+        $sql = 'UPDATE page_snapshot SET publication_date_end = ? WHERE id NOT IN (123) AND page_id IN (456) AND publication_date_end IS NULL';
+
+        $connection->expects(static::once())->method('executeStatement')->with($sql, [$date], ['datetime'])->willReturn(0);
+
+        $platform = $this->createMock(AbstractPlatform::class);
+        $platform->method('getDateTimeFormatString')->willReturn('Y-m-d H:i:s');
+        $connection->method('getDatabasePlatform')->willReturn($platform);
+        $connection->method('getParams')->willReturn([]);
 
         $em = $this->createMock(EntityManagerInterface::class);
+        $config = new Configuration();
 
+        $qb = new QueryBuilder($em);
+        $expr = new Expr();
         $em->expects(static::once())->method('persist')->with($snapshot);
         $em->expects(static::once())->method('flush');
-        $em->expects(static::once())->method('getConnection')->willReturn($connection);
+        $em->expects(static::atLeastOnce())->method('getConnection')->willReturn($connection);
+        $em->expects(static::once())->method('createQueryBuilder')->willReturn($qb);
+        $em->method('getConfiguration')->willReturn($config);
+        $em->method('getExpressionBuilder')->willReturn($expr);
+        $em->expects(static::once())->method('createQuery')->willReturnCallback(static function ($dql) use ($em) {
+            $query = new Query($em);
+            $query->setDQL($dql);
+
+            return $query;
+        });
+
+        $unit = $this->createMock(UnitOfWork::class);
+        $unit->method('getSingleIdentifierValue')->willReturnCallback(static function ($entity) {
+            if ($entity instanceof \DateTime) {
+                throw new MappingException();
+            }
+
+            return null;
+        });
+        $em->method('getUnitOfWork')->willReturn($unit);
+
+        $classMetadata = new ClassMetadata(SonataPageSnapshot::class);
+        $classMetadata->setPrimaryTable([
+            'name' => 'page_snapshot',
+        ]);
+        $classMetadata->addInheritedFieldMapping([
+            'fieldName' => 'publicationDateEnd',
+            'columnName' => 'publication_date_end',
+            'type' => 'datetime',
+            'nullable' => true,
+        ]);
+        $classMetadata->addInheritedFieldMapping([
+            'fieldName' => 'id',
+            'columnName' => 'id',
+        ]);
+        $classMetadata->addInheritedFieldMapping([
+            'fieldName' => 'page',
+            'columnName' => 'page_id',
+        ]);
+        $classMetadata->identifier = ['id'];
+
+        $em->method('getClassMetadata')->with(SonataPageSnapshot::class)->willReturn($classMetadata);
+
+        $metaDataFactory = $this->createMock(ClassMetadataFactory::class);
+        $metaDataFactory->method('hasMetadataFor')
+            ->willReturnCallback(static function ($class) {
+                return SonataPageSnapshot::class === $class;
+            });
+        $metaDataFactory->method('getMetadataFor')->with(SonataPageSnapshot::class)->willReturn($classMetadata);
+        $em->method('getMetadataFactory')->willReturn($metaDataFactory);
+
+        $repo = new EntityRepository($em, $classMetadata);
 
         $manager = $this->getMockBuilder(SnapshotManager::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getEntityManager', 'getTableName'])
+            ->setMethods(['getEntityManager', 'getRepository'])
             ->getMock();
 
-        $manager->expects(static::exactly(3))->method('getEntityManager')->willReturn($em);
-        $manager->expects(static::once())->method('getTableName')->willReturn('page_snapshot');
+        $manager->expects(static::exactly(2))->method('getEntityManager')->willReturn($em);
+        $manager->method('getRepository')->willReturn($repo);
 
         // When calling method, expects calls
         $manager->enableSnapshots([$snapshot], $date);
