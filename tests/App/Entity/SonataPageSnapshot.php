@@ -24,7 +24,7 @@ use Sonata\PageBundle\Entity\BaseSnapshot;
  *     })
  * })
  */
-final class SonataPageSnapshot extends BaseSnapshot
+class SonataPageSnapshot extends BaseSnapshot
 {
     /**
      * @ORM\Id

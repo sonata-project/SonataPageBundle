@@ -70,7 +70,7 @@ final class SnapshotManagerTest extends KernelTestCase
 
     /**
      * @throws ORMException
-     * @throws OptimisticLockException
+     * @throws OptimisticLockException|ORMException
      */
     public function testFunctionalEnableSnapshots()
     {
@@ -161,17 +161,23 @@ final class SnapshotManagerTest extends KernelTestCase
 
         $this->snapshotManager->cleanup($page, 1);
 
-        // TODO find better way to see if object is deleted
-        // asking if entity manager contains entity isn't enough
+        // asking if entity manager contains entity isn't enough, see below
         $repo = $this->entityManager->getRepository(SonataPageSnapshot::class);
         $all = $repo->findAll();
         static::assertCount(1, $all);
         static::assertContains($snapshot, $all);
         static::assertNotContains($snapshot2, $all);
 
-        // TODO the entities are still in the repo by ID
-//        static::assertNotNull($repo->find(123));
-//        static::assertNull($repo->find(789));
+        // object still exist in entityManager, that is by design
+        static::assertTrue($this->entityManager->contains($snapshot));
+        static::assertTrue($this->entityManager->contains($snapshot2));
+
+        // EntityManager clear is brutal, can't use the entities anymore
+        $this->entityManager->clear();
+
+        // deleted entity shouldn't exist anymore
+        static::assertNotNull($repo->find(123));
+        static::assertNull($repo->find(789));
     }
 
     public static function assertDateTimeEquals(\DateTime $expected, \DateTime $actual)
