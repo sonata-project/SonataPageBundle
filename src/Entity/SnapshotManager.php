@@ -61,11 +61,6 @@ final class SnapshotManager extends BaseEntityManager implements SnapshotManager
         $this->templates = $templates;
     }
 
-    public function save($entity, $andFlush = true)
-    {
-        parent::save($entity);
-    }
-
     public function enableSnapshots(array $snapshots, ?\DateTime $date = null): void
     {
         if (0 === \count($snapshots)) {
