@@ -26,6 +26,7 @@ use Sonata\PageBundle\Mapper\PageFormMapper;
  * Admin class for shared Block model.
  *
  * @author Romain Mouillard <romain.mouillard@gmail.com>
+ * TODO solve deprecation
  */
 final class SharedBlockAdmin extends BaseBlockAdmin
 {
