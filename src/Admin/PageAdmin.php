@@ -297,7 +297,7 @@ final class PageAdmin extends AbstractAdmin
                 ->add('templateCode', TemplateChoiceType::class, ['required' => true])
             ->end();
 
-        if (null === $page || ($page && $page->getParent()) || ($page && null === $page->getId())) {
+        if (null === $page || null === $page->getParent() || null === $page->getId()) {
             $form
                 ->with('form_page.group_main_label')
                     ->add('parent', PageSelectorType::class, [

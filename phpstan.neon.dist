@@ -2,7 +2,7 @@ includes:
     - vendor/phpstan/phpstan/conf/bleedingEdge.neon
 
 parameters:
-    level: 3
+    level: 4
     symfony:
         console_application_loader: ./phpstan-console-application.php
     paths:

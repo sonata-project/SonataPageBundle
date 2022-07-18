@@ -49,9 +49,8 @@ final class MigrateBlockNameSettingCommand extends Command
         $this->addOption(
             'update-name',
             null,
-            InputOption::VALUE_OPTIONAL,
-            'update name field from code setting',
-            false
+            InputOption::VALUE_NONE,
+            'update name field from code setting'
         );
         $this->setDescription('Migrate the "name" setting of all blocks into a "code" setting and remove unused "orientation" setting on "'.self::CONTAINER_TYPE.'" blocks');
     }

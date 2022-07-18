@@ -32,7 +32,7 @@ use Symfony\Component\Routing\RouterInterface;
 final class CmsPageRouter implements ChainedRouterInterface
 {
     /**
-     * @var RequestContext
+     * @var RequestContext|null
      */
     private $context;
 
@@ -146,7 +146,7 @@ final class CmsPageRouter implements ChainedRouterInterface
             throw new ResourceNotFoundException($pathinfo, 0, $e);
         }
 
-        if (!$page || !$page->isCms()) {
+        if (!$page->isCms()) {
             throw new ResourceNotFoundException($pathinfo);
         }
 
@@ -186,7 +186,7 @@ final class CmsPageRouter implements ChainedRouterInterface
 
         $url = $this->getUrlFromPage($page);
 
-        if (false === $url) {
+        if (null === $url) {
             throw new \RuntimeException(sprintf('Page "%d" has no url or customUrl.', $page->getId()));
         }
 
@@ -309,11 +309,11 @@ final class CmsPageRouter implements ChainedRouterInterface
     /**
      * Returns the Url from a Page object.
      *
-     * @return string
+     * @return string|null
      */
     private function getUrlFromPage(PageInterface $page)
     {
-        return $page->getCustomUrl() ?: $page->getUrl();
+        return $page->getCustomUrl() ?? $page->getUrl();
     }
 
     /**

@@ -151,7 +151,7 @@ abstract class Page implements PageInterface
     /**
      * @var SnapshotInterface[]
      */
-    protected $snapshots;
+    protected $snapshots = [];
 
     /**
      * @var string|null
@@ -179,7 +179,7 @@ abstract class Page implements PageInterface
     protected $edited;
 
     /**
-     * @var \Closure
+     * @var \Closure|null
      */
     protected static $slugifyMethod;
 
@@ -417,7 +417,7 @@ abstract class Page implements PageInterface
 
     public function getSnapshot()
     {
-        return $this->snapshots && $this->snapshots[0] ? $this->snapshots[0] : null;
+        return $this->snapshots[0] ?? null;
     }
 
     public function getSnapshots()
