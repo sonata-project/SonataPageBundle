@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Entity;
 
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Sonata\PageBundle\Model\BlockInteractorInterface;
