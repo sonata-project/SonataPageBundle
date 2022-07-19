@@ -22,9 +22,6 @@ final class Snapshot extends BaseSnapshot
      */
     protected $id;
 
-    /**
-     * @return int $id
-     */
     public function getId(): int
     {
         return $this->id;

@@ -66,6 +66,9 @@
         "symfony/phpunit-bridge": "^6.1",
         "vimeo/psalm": "^4.7.2"
     },
+    "conflict": {
+        "doctrine/orm": "<2.10"
+    },
     "suggest": {
         "twig/extra-bundle": "Auto configures the Twig Intl extension"
     },

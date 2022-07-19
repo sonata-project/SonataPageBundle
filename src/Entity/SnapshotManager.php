@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Entity;
 
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Persistence\ManagerRegistry;
 use Sonata\Doctrine\Entity\BaseEntityManager;
 use Sonata\PageBundle\Model\PageInterface;
@@ -97,16 +98,17 @@ final class SnapshotManager extends BaseEntityManager implements SnapshotManager
         }
 
         $this->getEntityManager()->flush();
-        // @todo: strange sql and low-level pdo usage: use dql or qb
-        $sql = sprintf(
-            "UPDATE %s SET publication_date_end = '%s' WHERE id NOT IN(%s) AND page_id IN (%s) and publication_date_end IS NULL",
-            $this->getTableName(),
-            $date->format('Y-m-d H:i:s'),
-            implode(',', $snapshotIds),
-            implode(',', $pageIds)
-        );
 
-        $this->getConnection()->query($sql);
+        $qb = $this->getRepository()->createQueryBuilder('s');
+        $q = $qb->update()
+            ->set('s.publicationDateEnd', ':date_end')
+            ->where($qb->expr()->notIn('s.id', $snapshotIds))
+            ->andWhere($qb->expr()->in('s.page', $pageIds))
+            ->andWhere($qb->expr()->isNull('s.publicationDateEnd'))
+            ->setParameter('date_end', $date, 'datetime')
+            ->getQuery();
+
+        $q->execute();
     }
 
     public function findEnableSnapshot(array $criteria)
@@ -229,60 +231,36 @@ final class SnapshotManager extends BaseEntityManager implements SnapshotManager
             throw new \RuntimeException(sprintf('Please provide an integer value, %s given', \gettype($keep)));
         }
 
-        $tableName = $this->getTableName();
-        $platform = $this->getConnection()->getDatabasePlatform()->getName();
+        $innerQb = $this->getRepository()->createQueryBuilder('i');
+        $expr = $innerQb->expr();
 
-        if ('mysql' === $platform) {
-            return $this->getConnection()->exec(sprintf(
-                'DELETE FROM %s
-                WHERE
-                    page_id = %d
-                    AND id NOT IN (
-                        SELECT id
-                        FROM (
-                            SELECT id, publication_date_end
-                            FROM %s
-                            WHERE
-                                page_id = %d
-                            ORDER BY
-                                publication_date_end IS NULL DESC,
-                                publication_date_end DESC
-                            LIMIT %d
-                        ) AS table_alias
-                )',
-                $tableName,
-                $page->getId(),
-                $tableName,
-                $page->getId(),
-                $keep
+        // try a better Function expression for this?
+        $ifNullExpr = sprintf(
+            'CASE WHEN %s THEN 1 ELSE 0 END',
+            $expr->isNull('i.publicationDateEnd')
+        );
+
+        // Subquery DQL doesn't support Limit
+        $innerQb
+            ->select('i.id')
+            ->where($expr->eq('i.page', $page->getId()))
+            ->orderBy($ifNullExpr, Criteria::DESC)
+            ->addOrderBy('i.publicationDateEnd', Criteria::DESC)
+            ->setMaxResults($keep);
+
+        $query = $innerQb->getQuery();
+        $innerArray = $query->getSingleColumnResult();
+
+        $qb = $this->getRepository()->createQueryBuilder('s');
+        $expr = $qb->expr();
+        $qb->delete()
+            ->where($expr->eq('s.page', $page->getId()))
+            ->andWhere($expr->notIn(
+                's.id',
+                $innerArray
             ));
-        }
 
-        if ('oracle' === $platform) {
-            return $this->getConnection()->exec(sprintf(
-                'DELETE FROM %s
-                WHERE
-                    page_id = %d
-                    AND id NOT IN (
-                        SELECT id
-                        FROM (
-                            SELECT id, publication_date_end
-                            FROM %s
-                            WHERE
-                                page_id = %d
-                                AND rownum <= %d
-                            ORDER BY publication_date_end DESC
-                        ) table_alias
-                )',
-                $tableName,
-                $page->getId(),
-                $tableName,
-                $page->getId(),
-                $keep
-            ));
-        }
-
-        throw new \RuntimeException(sprintf('The %s database platform has not been tested yet. Please report us if it works and feel free to create a pull request to handle it ;-)', $platform));
+        return $qb->getQuery()->execute();
     }
 
     public function createSnapshotPageProxy(TransformerInterface $transformer, SnapshotInterface $snapshot)
