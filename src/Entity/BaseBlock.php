@@ -63,13 +63,4 @@ abstract class BaseBlock extends Block
     {
         $this->updatedAt = new \DateTime();
     }
-
-    public function setChildren($children): void
-    {
-        $this->children = new ArrayCollection();
-
-        foreach ($children as $child) {
-            $this->addChildren($child);
-        }
-    }
 }
