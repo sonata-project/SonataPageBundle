@@ -44,7 +44,6 @@ final class PageAdminController extends Controller
         }
 
         foreach ($query->execute() as $page) {
-            //NEXT_MAJOR: Inject CreateSnapshotByPageInterface type and remove this "get" call.
             $this->get('sonata.page.service.create_snapshot')->createByPage($page);
         }
 

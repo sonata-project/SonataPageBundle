@@ -186,7 +186,7 @@ final class CmsPageRouterTest extends TestCase
     public function testGenerateWithPage(): void
     {
         $page = $this->createMock(PageInterface::class);
-        $site = $this->createStub(SiteInterface::class);
+        $site = $this->createMock(SiteInterface::class);
 
         $page->expects(static::exactly(5))->method('isHybrid')->willReturn(false);
         $page->expects(static::exactly(5))->method('getCustomUrl')->willReturn('/test/path');
@@ -220,7 +220,7 @@ final class CmsPageRouterTest extends TestCase
     public function testGenerateWithPageCustomUrl(): void
     {
         $page = $this->createMock(PageInterface::class);
-        $site = $this->createStub(SiteInterface::class);
+        $site = $this->createMock(SiteInterface::class);
 
         $page->expects(static::exactly(5))->method('isHybrid')->willReturn(false);
         $page->expects(static::exactly(5))->method('getCustomUrl')->willReturn('/test/path');
