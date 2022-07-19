@@ -21,11 +21,6 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
-/**
- * NEXT_MAJOR: Remove this legacy group.
- *
- * @group legacy
- */
 class CleanupSnapshotsCommandTest extends KernelTestCase
 {
     private Application $application;

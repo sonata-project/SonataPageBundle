@@ -41,9 +41,9 @@ final class CreateSiteCommand extends Command
     public function configure(): void
     {
         $this->setName('sonata:page:create-site');
+        $this->setDescription('Create a site');
 
         $this->addOption('no-confirmation', null, InputOption::VALUE_OPTIONAL, 'Ask confirmation before generating the site', false);
-
         $this->addOption('enabled', null, InputOption::VALUE_OPTIONAL, 'Site.enabled', false);
         $this->addOption('name', null, InputOption::VALUE_OPTIONAL, 'Site.name', null);
         $this->addOption('relativePath', null, InputOption::VALUE_OPTIONAL, 'Site.relativePath', null);
@@ -53,14 +53,9 @@ final class CreateSiteCommand extends Command
         $this->addOption('default', null, InputOption::VALUE_OPTIONAL, 'Site.default', null);
         $this->addOption('locale', null, InputOption::VALUE_OPTIONAL, 'Site.locale', null);
 
-        $this->addOption('base-command', null, InputOption::VALUE_OPTIONAL, 'Site id', 'php app/console');
-
-        $this->setDescription('Create a site');
-
         $this->setHelp(
             <<<'EOT'
 The <info>sonata:page:create-site</info> command create a new site entity.
-
 EOT
         );
     }

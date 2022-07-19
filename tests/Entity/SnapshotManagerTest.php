@@ -67,8 +67,8 @@ final class SnapshotManagerTest extends TestCase
         $this->manager = new SnapshotManager(
             BaseSnapshot::class,
             $this->managerRegistry,
-            [],
-            new SnapshotPageProxyFactory(SnapshotPageProxy::class)
+            new SnapshotPageProxyFactory(SnapshotPageProxy::class),
+            []
         );
     }
 
@@ -187,7 +187,7 @@ final class SnapshotManagerTest extends TestCase
         $transformer = $this->createMock(TransformerInterface::class);
         $snapshot = $this->createMock(SnapshotInterface::class);
 
-        $manager = new SnapshotManager(BaseSnapshot::class, $registry, [], $snapshotProxyFactory);
+        $manager = new SnapshotManager(BaseSnapshot::class, $registry, $snapshotProxyFactory, []);
 
         $snapshotProxyFactory->expects(static::once())->method('create')
             ->with($manager, $transformer, $snapshot)

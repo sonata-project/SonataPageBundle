@@ -55,8 +55,6 @@ file that was distributed with this source code.
                                     <a class="page-composer__page-preview__container block-preview-{{ container.block.id }}"
                                        data-block-id="{{ container.block.id }}"
                                        data-block-allowlist="{{ container.area.blocks|join(',') }}"
-                                       {# NEXT_MAJOR: Remove the following line #}
-                                       data-block-whitelist="{{ container.area.blocks|join(',') }}"
                                        style="top:{{ container.area.placement.y }}%;right:{{ container.area.placement.right }}%;bottom:{{ container.area.placement.bottom }}%;left:{{ container.area.placement.x }}%"
                                        href="{{ admin.generateUrl('compose_container_show', { 'id': container.block.id }) }}"
                                     >

@@ -19,7 +19,6 @@ use Sonata\PageBundle\CmsManager\CmsSnapshotManager;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Model\Block;
 use Sonata\PageBundle\Model\BlockInteractorInterface;
-use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SnapshotInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
@@ -110,50 +109,35 @@ final class CmsSnapshotManagerTest extends TestCase
     public function testGetPageWithId(): void
     {
         $cBlock = $this->createMock(BlockInterface::class);
+        $pBlock = $this->createMock(BlockInterface::class);
+        $site = $this->createMock(SiteInterface::class);
+        $page = $this->createMock(SnapshotPageProxyInterface::class);
+        $snapshot = $this->createMock(SnapshotInterface::class);
+
         $cBlock->method('hasChildren')->willReturn(false);
         $cBlock->method('getId')->willReturn(2);
 
-        $pBlock = $this->createMock(BlockInterface::class);
         $pBlock->method('getChildren')->willReturn([$cBlock]);
         $pBlock->method('hasChildren')->willReturn(true);
         $pBlock->method('getId')->willReturn(1);
 
-        $page = $this->createMock(PageInterface::class);
-        $page->method('getBlocks')->willReturnCallback(static function () use ($pBlock) {
-            static $count;
-
-            ++$count;
-
-            if (1 === $count) {
-                return [];
-            }
-
-            return [$pBlock];
-        });
-
-        $snapshot = $this->createMock(SnapshotInterface::class);
-        $snapshot->expects(static::once())->method('getContent')->willReturn([
-            // we don't care here about real values, the mock transformer will return the valid $pBlock instance
-            'blocks' => [],
-        ]);
+        $page->method('getBlocks')->willReturn([$pBlock]);
 
         $this->snapshotManager
             ->expects(static::once())
             ->method('findEnableSnapshot')
             ->willReturn($snapshot);
 
-        $this->transformer->expects(static::once())->method('load')->willReturn($page);
+        $this->snapshotManager
+            ->expects(static::once())
+            ->method('createSnapshotPageProxy')
+            ->willReturn($page);
 
-        $site = $this->createMock(SiteInterface::class);
-
-        $snapshotManager = new CmsSnapshotManager($this->snapshotManager, $this->transformer);
-
-        $page = $snapshotManager->getPage($site, 1);
+        $page = $this->manager->getPage($site, 1);
 
         static::assertInstanceOf(SnapshotPageProxyInterface::class, $page);
-
-        static::assertInstanceOf(BlockInterface::class, $snapshotManager->getBlock(1));
-        static::assertInstanceOf(BlockInterface::class, $snapshotManager->getBlock(2));
+        static::assertInstanceOf(BlockInterface::class, $this->manager->getBlock(1));
+        static::assertInstanceOf(BlockInterface::class, $this->manager->getBlock(2));
     }
 
     /**

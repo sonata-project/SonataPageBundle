@@ -54,6 +54,10 @@ final class SnapshotChildrenCollection implements \Countable, \IteratorAggregate
         $this->collection->offsetSet($offset, $value);
     }
 
+    /**
+     * @return mixed
+     */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         $this->load();

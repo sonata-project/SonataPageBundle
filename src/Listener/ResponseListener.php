@@ -46,8 +46,6 @@ final class ResponseListener
      * @param DecoratorStrategyInterface  $decoratorStrategy  Decorator strategy
      * @param Environment                 $twig               Twig engine
      * @param bool                        $skipRedirection    To skip the redirection by configuration
-     *
-     * NEXT_MAJOR: Remove default value for $skipRedirection
      */
     public function __construct(
         CmsManagerSelectorInterface $cmsSelector,

@@ -21,8 +21,6 @@ use Sonata\Doctrine\Model\ManagerInterface;
  * @extends ManagerInterface<SnapshotInterface>
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @method SnapshotPageProxyInterface createSnapshotPageProxy(TransformerInterface $transformer, SnapshotInterface $snapshot)
  */
 interface SnapshotManagerInterface extends ManagerInterface
 {
@@ -36,6 +34,8 @@ interface SnapshotManagerInterface extends ManagerInterface
      * @param \DateTime|null $date      A date instance
      */
     public function enableSnapshots(array $snapshots, ?\DateTime $date = null);
+
+    public function createSnapshotPageProxy(TransformerInterface $transformer, SnapshotInterface $snapshot): SnapshotPageProxyInterface;
 
     /**
      * Cleanups the deprecated snapshots.

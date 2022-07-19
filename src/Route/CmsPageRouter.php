@@ -190,14 +190,8 @@ final class CmsPageRouter implements ChainedRouterInterface
             throw new \RuntimeException(sprintf('Page "%d" has no url or customUrl.', $page->getId()));
         }
 
-        // NEXT_MAJOR: remove this if block
         if (!$this->context instanceof SiteRequestContextInterface) {
-            @trigger_error(
-                sprintf('Since, 3.3 when calling %s, %s::$context should implement SiteRequestContextInterface. This will become mandatory in 4.0.', __METHOD__, __CLASS__),
-                \E_USER_DEPRECATED
-            );
-
-            return $this->decorateUrl($url, $parameters, $referenceType);
+            throw new \RuntimeException('The context must be an instance of SiteRequestContextInterface');
         }
 
         // Get current site

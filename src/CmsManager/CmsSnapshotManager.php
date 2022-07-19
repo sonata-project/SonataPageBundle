@@ -19,7 +19,6 @@ use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
-use Sonata\PageBundle\Model\SnapshotPageProxy;
 use Sonata\PageBundle\Model\TransformerInterface;
 
 /**
@@ -136,12 +135,7 @@ final class CmsSnapshotManager extends BaseCmsPageManager
                 throw new PageNotFoundException();
             }
 
-            // NEXT_MAJOR: Remove this check
-            if (method_exists($this->snapshotManager, 'createSnapshotPageProxy')) {
-                $page = $this->snapshotManager->createSnapshotPageProxy($this->transformer, $snapshot);
-            } else {
-                $page = new SnapshotPageProxy($this->snapshotManager, $this->transformer, $snapshot);
-            }
+            $page = $this->snapshotManager->createSnapshotPageProxy($this->transformer, $snapshot);
 
             $this->pages[$id] = false;
 

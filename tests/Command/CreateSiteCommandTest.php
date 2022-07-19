@@ -25,10 +25,6 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * @author Ahmet Akbana <ahmetakbana@gmail.com>
- *
- * NEXT_MAJOR: Remove this legacy group
- *
- * @group legacy
  */
 final class CreateSiteCommandTest extends TestCase
 {

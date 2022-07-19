@@ -20,8 +20,8 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SnapshotInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\SnapshotPageProxy;
-use Sonata\PageBundle\Model\SnapshotPageProxyFactory;
 use Sonata\PageBundle\Model\SnapshotPageProxyFactoryInterface;
+use Sonata\PageBundle\Model\SnapshotPageProxyInterface;
 use Sonata\PageBundle\Model\TransformerInterface;
 
 /**
@@ -49,26 +49,16 @@ final class SnapshotManager extends BaseEntityManager implements SnapshotManager
     protected $snapshotPageProxyFactory;
 
     /**
-     * @param string                            $class                    Namespace of entity class
-     * @param ManagerRegistry                   $registry                 An entity manager instance
-     * @param array                             $templates                An array of templates
-     * @param SnapshotPageProxyFactoryInterface $snapshotPageProxyFactory
+     * @param string          $class     Namespace of entity class
+     * @param ManagerRegistry $registry  An entity manager instance
+     * @param array           $templates An array of templates
      */
-    public function __construct($class, ManagerRegistry $registry, $templates = [], ?SnapshotPageProxyFactoryInterface $snapshotPageProxyFactory = null)
+    public function __construct($class, ManagerRegistry $registry, SnapshotPageProxyFactoryInterface $snapshotPageProxyFactory, $templates = [])
     {
         parent::__construct($class, $registry);
 
-        // NEXT_MAJOR: make $snapshotPageProxyFactory parameter required
-        if (null === $snapshotPageProxyFactory) {
-            @trigger_error(
-                'The $snapshotPageProxyFactory parameter is required with the next major release.',
-                \E_USER_DEPRECATED
-            );
-            $snapshotPageProxyFactory = new SnapshotPageProxyFactory(SnapshotPageProxy::class);
-        }
-
-        $this->templates = $templates;
         $this->snapshotPageProxyFactory = $snapshotPageProxyFactory;
+        $this->templates = $templates;
     }
 
     public function save($entity, $andFlush = true)
@@ -263,7 +253,7 @@ final class SnapshotManager extends BaseEntityManager implements SnapshotManager
         return $qb->getQuery()->execute();
     }
 
-    public function createSnapshotPageProxy(TransformerInterface $transformer, SnapshotInterface $snapshot)
+    public function createSnapshotPageProxy(TransformerInterface $transformer, SnapshotInterface $snapshot): SnapshotPageProxyInterface
     {
         return $this->snapshotPageProxyFactory
             ->create($this, $transformer, $snapshot);
