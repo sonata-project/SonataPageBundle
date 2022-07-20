@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Model;
 
-use Sonata\BlockBundle\Model\BlockInterface;
-
 /**
  * BlockInteractorInterface.
  *
@@ -25,14 +23,14 @@ interface BlockInteractorInterface
     /**
      * return a block with the given id.
      *
-     * @return BlockInterface
+     * @return PageBlockInterface
      */
     public function getBlock($id);
 
     /**
      * return a flat list if page's blocks.
      *
-     * @return BlockInterface[]
+     * @return PageBlockInterface[]
      */
     public function getBlocksById(PageInterface $page);
 
@@ -56,7 +54,7 @@ interface BlockInteractorInterface
      * @param array    $values An array of values for container creation
      * @param \Closure $alter  A closure to alter container created
      *
-     * @return BlockInterface
+     * @return PageBlockInterface
      */
     public function createNewContainer(array $values = [], ?\Closure $alter = null);
 }

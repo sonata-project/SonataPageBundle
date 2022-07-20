@@ -67,9 +67,6 @@ final class RequestListener
         $request = $event->getRequest();
 
         $cms = $this->cmsSelector->retrieve();
-        if (!$cms) {
-            throw new InternalErrorException('No CMS Manager available');
-        }
 
         // true cms page
         if (PageInterface::PAGE_ROUTE_CMS_NAME === $request->get('_route')) {

@@ -145,7 +145,7 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
     protected function getPreferredSite(array $sites, Request $request)
     {
         if (0 === \count($sites)) {
-            return;
+            return null;
         }
 
         $sitesLocales = array_map(static function (SiteInterface $site) {

@@ -31,7 +31,7 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
     private $snapshot;
 
     /**
-     * @var PageInterface
+     * @var PageInterface|null
      */
     private $page;
 
@@ -171,7 +171,7 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
                 if ($target) {
                     $this->setTarget(new self($this->manager, $this->transformer, $target));
                 } else {
-                    $this->target = false;
+                    $this->setTarget(null);
                 }
             }
         }
@@ -498,14 +498,10 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
      */
     public function serialize()
     {
-        if ($this->manager) {
-            return serialize([
-                'pageId' => $this->getPage()->getId(),
-                'snapshotId' => $this->snapshot->getId(),
-            ]);
-        }
-
-        return serialize([]);
+        return serialize([
+            'pageId' => $this->getPage()->getId(),
+            'snapshotId' => $this->snapshot->getId(),
+        ]);
     }
 
     /**
@@ -520,7 +516,7 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
 
     private function load(): void
     {
-        if (!$this->page && $this->transformer) {
+        if (!$this->page) {
             $this->page = $this->transformer->load($this->snapshot);
         }
     }

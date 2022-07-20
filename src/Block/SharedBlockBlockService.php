@@ -24,7 +24,6 @@ use Sonata\Form\Type\ImmutableArrayType;
 use Sonata\Form\Validator\ErrorElement;
 use Sonata\PageBundle\Admin\SharedBlockAdmin;
 use Sonata\PageBundle\Model\Block;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -40,15 +39,12 @@ final class SharedBlockBlockService extends AbstractBlockService
 {
     private SharedBlockAdmin $sharedBlockAdmin;
 
-    private ContainerBuilder $container;
-
     private ManagerInterface $blockManager;
 
-    public function __construct(Environment $twig, ContainerBuilder $container, ManagerInterface $blockManager, SharedBlockAdmin $sharedBlockAdmin)
+    public function __construct(Environment $twig, ManagerInterface $blockManager, SharedBlockAdmin $sharedBlockAdmin)
     {
         parent::__construct($twig);
 
-        $this->container = $container;
         $this->blockManager = $blockManager;
         $this->sharedBlockAdmin = $sharedBlockAdmin;
     }
@@ -126,22 +122,13 @@ final class SharedBlockBlockService extends AbstractBlockService
         $block->setSetting('blockId', \is_object($block->getSetting('blockId')) ? $block->getSetting('blockId')->getId() : null);
     }
 
-    protected function getSharedBlockAdmin(): SharedBlockAdmin
-    {
-        if (!$this->sharedBlockAdmin) {
-            $this->sharedBlockAdmin = $this->container->get('sonata.page.admin.shared_block');
-        }
-
-        return $this->sharedBlockAdmin;
-    }
-
     protected function getBlockBuilder(FormMapper $form): FormBuilderInterface
     {
         // simulate an association ...
-        $fieldDescription = $this->getSharedBlockAdmin()->getModelManager()->getNewFieldDescriptionInstance($this->sharedBlockAdmin->getClass(), 'block', [
+        $fieldDescription = $this->sharedBlockAdmin->getModelManager()->getNewFieldDescriptionInstance($this->sharedBlockAdmin->getClass(), 'block', [
             'translation_domain' => 'SonataPageBundle',
         ]);
-        $fieldDescription->setAssociationAdmin($this->getSharedBlockAdmin());
+        $fieldDescription->setAssociationAdmin($this->sharedBlockAdmin);
         $fieldDescription->setAdmin($form->getAdmin());
         $fieldDescription->setOption('edit', 'list');
         $fieldDescription->setAssociationMapping([
@@ -151,8 +138,8 @@ final class SharedBlockBlockService extends AbstractBlockService
 
         return $form->create('blockId', ModelListType::class, [
             'sonata_field_description' => $fieldDescription,
-            'class' => $this->getSharedBlockAdmin()->getClass(),
-            'model_manager' => $this->getSharedBlockAdmin()->getModelManager(),
+            'class' => $this->sharedBlockAdmin->getClass(),
+            'model_manager' => $this->sharedBlockAdmin->getModelManager(),
             'label' => 'form.label_block',
             'required' => false,
         ]);

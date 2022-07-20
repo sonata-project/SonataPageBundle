@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
 /**
  * Page.
  *
@@ -116,7 +119,7 @@ abstract class Page implements PageInterface
     protected $enabled;
 
     /**
-     * @var PageBlockInterface[]
+     * @var Collection<array-key, PageBlockInterface>
      */
     protected $blocks;
 
@@ -141,14 +144,14 @@ abstract class Page implements PageInterface
     protected $target;
 
     /**
-     * @var PageInterface[]
+     * @var Collection<array-key, PageInterface>
      */
     protected $children;
 
     /**
      * @var SnapshotInterface[]
      */
-    protected $snapshots;
+    protected $snapshots = [];
 
     /**
      * @var string|null
@@ -176,14 +179,14 @@ abstract class Page implements PageInterface
     protected $edited;
 
     /**
-     * @var \Closure
+     * @var \Closure|null
      */
     protected static $slugifyMethod;
 
     public function __construct()
     {
-        $this->blocks = [];
-        $this->children = [];
+        $this->blocks = new ArrayCollection();
+        $this->children = new ArrayCollection();
         $this->routeName = PageInterface::PAGE_ROUTE_CMS_NAME;
         $this->requestMethod = 'GET|POST|HEAD|DELETE|PUT';
         $this->edited = true;
@@ -414,7 +417,7 @@ abstract class Page implements PageInterface
 
     public function getSnapshot()
     {
-        return $this->snapshots && $this->snapshots[0] ? $this->snapshots[0] : null;
+        return $this->snapshots[0] ?? null;
     }
 
     public function getSnapshots()

@@ -89,7 +89,7 @@ final class CmsSnapshotManager extends BaseCmsPageManager
         }
 
         // first level blocks are containers
-        if (!$container && $page->getBlocks()) {
+        if (!$container) {
             foreach ($page->getBlocks() as $block) {
                 if ($block->getSetting('code') === $name) {
                     $container = $block;
@@ -139,17 +139,15 @@ final class CmsSnapshotManager extends BaseCmsPageManager
 
             $this->pages[$id] = false;
 
-            if ($page) {
-                $this->loadBlocks($page);
+            $this->loadBlocks($page);
 
-                $id = $page->getId();
+            $id = $page->getId();
 
-                if ('id' !== $fieldName) {
-                    $this->pageReferences[$fieldName][$value] = $id;
-                }
-
-                $this->pages[$id] = $page;
+            if ('id' !== $fieldName) {
+                $this->pageReferences[$fieldName][$value] = $id;
             }
+
+            $this->pages[$id] = $page;
         }
 
         return $this->pages[$id];

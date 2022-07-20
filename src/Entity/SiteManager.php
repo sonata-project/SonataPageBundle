@@ -26,10 +26,4 @@ use Sonata\PageBundle\Model\SiteManagerInterface;
  */
 final class SiteManager extends BaseEntityManager implements SiteManagerInterface
 {
-    public function save($entity, $andFlush = true)
-    {
-        parent::save($entity, $andFlush);
-
-        return $entity;
-    }
 }

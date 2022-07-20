@@ -1,0 +1,6 @@
+parameters:
+    ignoreErrors:
+        - # NEXT_MAJOR: Fix this one in SonataBlockBundle 4.x
+            message: "#^PHPDoc type Doctrine\\\\Common\\\\Collections\\\\Collection\\<\\(int\\|string\\), Sonata\\\\PageBundle\\\\Model\\\\PageBlockInterface\\> of property Sonata\\\\PageBundle\\\\Entity\\\\BaseBlock\\:\\:\\$children is not covariant with PHPDoc type array\\<Sonata\\\\BlockBundle\\\\Model\\\\BlockInterface\\> of overridden property Sonata\\\\BlockBundle\\\\Model\\\\BaseBlock\\:\\:\\$children\\.$#"
+            count: 1
+            path: src/Entity/BaseBlock.php

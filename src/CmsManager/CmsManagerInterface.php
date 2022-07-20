@@ -39,10 +39,8 @@ interface CmsManagerInterface
      * Returns a fully loaded page ( + blocks ) from a url.
      *
      * @param string $slug
-     *
-     * @return PageInterface
      */
-    public function getPageByUrl(SiteInterface $site, $slug);
+    public function getPageByUrl(SiteInterface $site, $slug): PageInterface;
 
     /**
      * Returns a fully loaded page ( + blocks ) from a route name.
@@ -99,7 +97,7 @@ interface CmsManagerInterface
     /**
      * Returns the current page.
      *
-     * @return PageInterface
+     * @return PageInterface|null
      */
     public function getCurrentPage();
 
