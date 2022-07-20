@@ -27,7 +27,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 final class SnapshotManagerTest extends KernelTestCase
 {
     /**
-     * @var EntityManager
+     * @var EntityManager|null
      */
     protected $entityManager;
     /**
