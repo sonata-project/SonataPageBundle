@@ -20,7 +20,6 @@ use Sonata\PageBundle\Model\SiteInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
  * Select a page.
@@ -57,11 +56,6 @@ final class PageSelectorType extends AbstractType
                 'hierarchy' => 'all',
             ],
         ]);
-    }
-
-    public function setDefaultOptions(OptionsResolverInterface $resolver): void
-    {
-        $this->configureOptions($resolver);
     }
 
     /**
@@ -131,11 +125,6 @@ final class PageSelectorType extends AbstractType
     public function getBlockPrefix()
     {
         return 'sonata_page_selector';
-    }
-
-    public function getName()
-    {
-        return $this->getBlockPrefix();
     }
 
     /**
