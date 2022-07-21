@@ -16,9 +16,8 @@ namespace Sonata\PageBundle\Tests\Entity;
 use Doctrine\Persistence\ManagerRegistry;
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Entity\BlockInteractor;
-use Sonata\PageBundle\Model\Block;
 use Sonata\PageBundle\Model\BlockManagerInterface;
-use Sonata\PageBundle\Model\Page;
+use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 
 final class BlockInteractorTest extends TestCase
@@ -28,30 +27,19 @@ final class BlockInteractorTest extends TestCase
      */
     public function testLoadPageBlocks(): void
     {
-        //Mock
-        $managerRegistryMock = $this->createMock(ManagerRegistry::class);
-        $blockManagerInterfaceMock = $this->createMock(BlockManagerInterface::class);
-        //NEXT_MAJOR: use PageInterface
-        $pageMock = $this->createMock(Page::class);
-        //NEXT_MAJOR: use BlockInterface
-        $blockMock = $this->createMock(Block::class);
+        $managerRegistry = $this->createMock(ManagerRegistry::class);
+        $blockManager = $this->createMock(BlockManagerInterface::class);
+        $page = $this->createMock(PageInterface::class);
+        $block = $this->createMock(PageBlockInterface::class);
 
-        $blockInteractorMock = $this
-            ->getMockBuilder(BlockInteractor::class)
-            ->setConstructorArgs([$managerRegistryMock, $blockManagerInterfaceMock])
-            ->onlyMethods(['getBlocksById'])
-            ->getMock();
+        $blockInteractor = new BlockInteractor($managerRegistry, $blockManager);
 
-        $blockInteractorMock
-            ->expects(static::once())
-            ->method('getBlocksById')
-            ->willReturn([$blockMock]);
+        $blockInteractor->expects(static::once())->method('getBlocksById')
+            ->willReturn([$block]);
 
-        //Run
-        $blocks = $blockInteractorMock->loadPageBlocks($pageMock);
+        $blocks = $blockInteractor->loadPageBlocks($page);
 
-        //Asserts
-        static::assertSame([$blockMock], $blocks);
+        static::assertSame([$block], $blocks);
     }
 
     /**
@@ -59,68 +47,46 @@ final class BlockInteractorTest extends TestCase
      */
     public function testNotLoadBlocks(): void
     {
-        //Mock
-        $managerRegistryMock = $this->createMock(ManagerRegistry::class);
-        $blockManagerInterfaceMock = $this->createMock(BlockManagerInterface::class);
-        $pageMock = $this->createMock(PageInterface::class);
-        $pageMock
-            ->expects(static::once())
-            ->method('getId')
-            ->willReturn(1);
+        $managerRegistry = $this->createMock(ManagerRegistry::class);
+        $blockManager = $this->createMock(BlockManagerInterface::class);
+        $page = $this->createMock(PageInterface::class);
 
-        $blockInteractor = new BlockInteractor($managerRegistryMock, $blockManagerInterfaceMock);
+        $page->expects(static::once())->method('getId')->willReturn(1);
 
-        //Change property visibility
-        $reflection = new \ReflectionClass($blockInteractor);
-        $reflection_property = $reflection->getProperty('pageBlocksLoaded');
-        $reflection_property->setAccessible(true);
-        $reflection_property->setValue($blockInteractor, [1 => 'fake_value(block already loaded).']);
+        $blockInteractor = new BlockInteractor($managerRegistry, $blockManager);
 
-        //Run
-        $result = $blockInteractor->loadPageBlocks($pageMock);
+        // $reflection = new \ReflectionClass($blockInteractor);
+        // $reflectionProperty = $reflection->getProperty('pageBlocksLoaded');
+        // $reflectionProperty->setAccessible(true);
+        // $reflectionProperty->setValue($blockInteractor, [1 => 'fake_value(block already loaded).']);
 
-        //Assert
+        $result = $blockInteractor->loadPageBlocks($page);
+
         static::assertSame([], $result);
     }
 
     /**
      * @testdox It's adding a new block children and "disableChildrenLazyLoading"
      *
-     * I'm using "containerBlock" and "emailButtonBlock", just for the test be more clear,
-     *  because usually the container block is the parent of others blocks in the page.
+     * I'm using "containerBlock" and "emailButton", just for the test be more clear,
+     * because usually the container block is the parent of others blocks in the page.
      */
     public function testDisableAndAddChildrenBlocks(): void
     {
-        //Mock
-        $managerRegistryMock = $this->createMock(ManagerRegistry::class);
-        $blockManagerInterfaceMock = $this->createMock(BlockManagerInterface::class);
+        $managerRegistry = $this->createMock(ManagerRegistry::class);
+        $blockManager = $this->createMock(BlockManagerInterface::class);
+        $page = $this->createMock(PageInterface::class);
+        $containerBlock = $this->createMock(PageBlockInterface::class);
+        $emailButton = $this->createMock(PageBlockInterface::class);
 
-        //NEXT_MAJOR: use PageInterface
-        $pageMock = $this->createMock(Page::class);
-        $containerBlockMock = $this->createMock(Block::class);
-        $containerBlockMock
-            ->expects(static::exactly(2))//NEXT_MAJOR: change this to static::once()
-            ->method('getId')
-            ->willReturn(22);
+        $containerBlock->expects(static::once())->method('getId')->willReturn(22);
+        $emailButton->expects(static::once())->method('getParent')->willReturn($containerBlock);
 
-        $emailButtonMock = $this->createMock(Block::class);
-        $emailButtonMock
-            ->expects(static::exactly(3))//NEXT_MAJOR: change this to static::once()
-            ->method('getParent')
-            ->willReturn($containerBlockMock);
+        $blockInteractor = new BlockInteractor($managerRegistry, $blockManager);
 
-        //Run
-        $blockInteractorMock = $this
-            ->getMockBuilder(BlockInteractor::class)
-            ->setConstructorArgs([$managerRegistryMock, $blockManagerInterfaceMock])
-            ->onlyMethods(['getBlocksById'])
-            ->getMock();
-        $blockInteractorMock
-            ->expects(static::once())
-            ->method('getBlocksById')
-            ->willReturn([22 => $containerBlockMock, $emailButtonMock]);
+        $blockInteractor->expects(static::once())->method('getBlocksById')
+            ->willReturn([22 => $containerBlock, $emailButton]);
 
-        //Assert
-        $blockInteractorMock->loadPageBlocks($pageMock);
+        $blockInteractor->loadPageBlocks($page);
     }
 }
