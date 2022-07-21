@@ -159,6 +159,11 @@ final class PageTest extends TestCase
         static::assertFalse($page->hasRequestMethod('biloute'));
     }
 
+    /**
+     * NEXT_MAJOR: Remove legacy group.
+     *
+     * @group legacy
+     */
     public function testGetterSetter(): void
     {
         $page = new Page();
@@ -205,6 +210,7 @@ final class PageTest extends TestCase
 
         static::assertInstanceOf(SnapshotInterface::class, $page->getSnapshot());
 
+        //NEXT_MAJOR remove those target code.
         $page->setTarget($this->createMock(PageInterface::class));
         static::assertInstanceOf(PageInterface::class, $page->getTarget());
         $page->setTarget(null);
