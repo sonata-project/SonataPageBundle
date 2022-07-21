@@ -89,7 +89,13 @@ class Transformer implements TransformerInterface
             $snapshot->setParentId($page->getParent()->getId());
         }
 
+        //NEXT_MAJOR: Remove this "if" condition block.
         if ($page->getTarget()) {
+            @trigger_error(
+                'target page is deprecate since sonata-project/page-bundle 3.27.0'.
+                ', and it will be removed in 4.0',
+                \E_USER_DEPRECATED
+            );
             $snapshot->setTargetId($page->getTarget()->getId());
         }
 
@@ -108,7 +114,7 @@ class Transformer implements TransformerInterface
         $content['updated_at'] = $page->getUpdatedAt()->format('U');
         $content['slug'] = $page->getSlug();
         $content['parent_id'] = $page->getParent() ? $page->getParent()->getId() : null;
-        $content['target_id'] = $page->getTarget() ? $page->getTarget()->getId() : null;
+        $content['target_id'] = $page->getTarget() ? $page->getTarget()->getId() : null; //NEXT_MAJOR: Remove this line.
 
         $content['blocks'] = [];
         foreach ($page->getBlocks() as $block) {

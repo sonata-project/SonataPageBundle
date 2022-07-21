@@ -136,7 +136,14 @@ final class CloneSiteCommand extends BaseCommand
                 }
             }
 
+            //NEXT_MAJOR: Remove this target condition block.
             if ($page->getTarget()) {
+                @trigger_error(
+                    'target page is deprecate since sonata-project/page-bundle 3.27.0'.
+                    ', and it will be removed in 4.0',
+                    \E_USER_DEPRECATED
+                );
+
                 if (\array_key_exists($page->getTarget()->getId(), $pageClones)) {
                     $output->writeln(
                         sprintf(
