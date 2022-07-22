@@ -47,7 +47,6 @@ final class DefaultPageService extends BasePageService
     {
         parent::__construct($name);
 
-        $this->name = $name;
         $this->templateManager = $templateManager;
         $this->seoPage = $seoPage;
     }
