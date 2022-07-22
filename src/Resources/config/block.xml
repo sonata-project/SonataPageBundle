@@ -18,6 +18,7 @@
             <argument type="service" id="twig"/>
             <argument type="service" id="sonata.page.site.selector"/>
             <argument type="service" id="sonata.page.cms_manager_selector"/>
+            <argument type="service" id="sonata.page.admin.page"/>
         </service>
         <service id="sonata.page.block.ajax" class="%sonata.page.block.ajax.class%">
             <argument type="service" id="sonata.page.cms_manager_selector"/>
