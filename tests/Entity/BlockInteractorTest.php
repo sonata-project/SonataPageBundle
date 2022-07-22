@@ -13,45 +13,50 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Entity;
 
-use Doctrine\Persistence\ManagerRegistry;
-use PHPUnit\Framework\TestCase;
+use Doctrine\ORM\EntityManagerInterface;
 use Sonata\PageBundle\Entity\BlockInteractor;
-use Sonata\PageBundle\Model\Block;
-use Sonata\PageBundle\Model\BlockManagerInterface;
-use Sonata\PageBundle\Model\Page;
 use Sonata\PageBundle\Model\PageInterface;
+use Sonata\PageBundle\Tests\App\AppKernel;
+use Sonata\PageBundle\Tests\App\Entity\SonataPageBlock;
+use Sonata\PageBundle\Tests\App\Entity\SonataPagePage;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-final class BlockInteractorTest extends TestCase
+final class BlockInteractorTest extends KernelTestCase
 {
+    /**
+     * @var EntityManagerInterface
+     */
+    protected $entityManager;
+
+    /**
+     * @var BlockInteractor
+     */
+    protected $blockInteractor;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $kernel = self::bootKernel();
+
+        $managerRegistry = $kernel->getContainer()->get('doctrine');
+        $blockManager = $kernel->getContainer()->get('sonata.page.manager.block');
+
+        $this->entityManager = $managerRegistry->getManager();
+        $this->blockInteractor = new BlockInteractor($managerRegistry, $blockManager);
+    }
+
     /**
      * @testdox It is returning a block list.
      */
     public function testLoadPageBlocks(): void
     {
-        //Mock
-        $managerRegistryMock = $this->createMock(ManagerRegistry::class);
-        $blockManagerInterfaceMock = $this->createMock(BlockManagerInterface::class);
-        //NEXT_MAJOR: use PageInterface
-        $pageMock = $this->createMock(Page::class);
-        //NEXT_MAJOR: use BlockInterface
-        $blockMock = $this->createMock(Block::class);
+        $page = $this->prepareData();
+        $block = $page->getBlocks()->first();
 
-        $blockInteractorMock = $this
-            ->getMockBuilder(BlockInteractor::class)
-            ->setConstructorArgs([$managerRegistryMock, $blockManagerInterfaceMock])
-            ->onlyMethods(['getBlocksById'])
-            ->getMock();
+        $blocks = $this->blockInteractor->loadPageBlocks($page);
 
-        $blockInteractorMock
-            ->expects(static::once())
-            ->method('getBlocksById')
-            ->willReturn([$blockMock]);
-
-        //Run
-        $blocks = $blockInteractorMock->loadPageBlocks($pageMock);
-
-        //Asserts
-        static::assertSame([$blockMock], $blocks);
+        static::assertSame([1 => $block], $blocks);
     }
 
     /**
@@ -59,68 +64,34 @@ final class BlockInteractorTest extends TestCase
      */
     public function testNotLoadBlocks(): void
     {
-        //Mock
-        $managerRegistryMock = $this->createMock(ManagerRegistry::class);
-        $blockManagerInterfaceMock = $this->createMock(BlockManagerInterface::class);
-        $pageMock = $this->createMock(PageInterface::class);
-        $pageMock
-            ->expects(static::once())
-            ->method('getId')
-            ->willReturn(1);
+        $page = $this->prepareData();
 
-        $blockInteractor = new BlockInteractor($managerRegistryMock, $blockManagerInterfaceMock);
-
-        //Change property visibility
-        $reflection = new \ReflectionClass($blockInteractor);
-        $reflection_property = $reflection->getProperty('pageBlocksLoaded');
-        $reflection_property->setAccessible(true);
-        $reflection_property->setValue($blockInteractor, [1 => 'fake_value(block already loaded).']);
-
-        //Run
-        $result = $blockInteractor->loadPageBlocks($pageMock);
-
-        //Assert
-        static::assertSame([], $result);
+        static::assertCount(1, $this->blockInteractor->loadPageBlocks($page));
+        static::assertCount(0, $this->blockInteractor->loadPageBlocks($page));
     }
 
-    /**
-     * @testdox It's adding a new block children and "disableChildrenLazyLoading"
-     *
-     * I'm using "containerBlock" and "emailButtonBlock", just for the test be more clear,
-     *  because usually the container block is the parent of others blocks in the page.
-     */
-    public function testDisableAndAddChildrenBlocks(): void
+    protected static function getKernelClass(): string
     {
-        //Mock
-        $managerRegistryMock = $this->createMock(ManagerRegistry::class);
-        $blockManagerInterfaceMock = $this->createMock(BlockManagerInterface::class);
+        return AppKernel::class;
+    }
 
-        //NEXT_MAJOR: use PageInterface
-        $pageMock = $this->createMock(Page::class);
-        $containerBlockMock = $this->createMock(Block::class);
-        $containerBlockMock
-            ->expects(static::exactly(2))//NEXT_MAJOR: change this to static::once()
-            ->method('getId')
-            ->willReturn(22);
+    private function prepareData(): PageInterface
+    {
+        $block = new SonataPageBlock();
+        $block->setId(1);
+        $block->setType('Type');
 
-        $emailButtonMock = $this->createMock(Block::class);
-        $emailButtonMock
-            ->expects(static::exactly(3))//NEXT_MAJOR: change this to static::once()
-            ->method('getParent')
-            ->willReturn($containerBlockMock);
+        $this->entityManager->persist($block);
 
-        //Run
-        $blockInteractorMock = $this
-            ->getMockBuilder(BlockInteractor::class)
-            ->setConstructorArgs([$managerRegistryMock, $blockManagerInterfaceMock])
-            ->onlyMethods(['getBlocksById'])
-            ->getMock();
-        $blockInteractorMock
-            ->expects(static::once())
-            ->method('getBlocksById')
-            ->willReturn([22 => $containerBlockMock, $emailButtonMock]);
+        $page = new SonataPagePage();
+        $page->setName('Page name');
+        $page->setEnabled(true);
+        $page->addBlocks($block);
+        $page->setTemplateCode('TemplateCode');
 
-        //Assert
-        $blockInteractorMock->loadPageBlocks($pageMock);
+        $this->entityManager->persist($page);
+        $this->entityManager->flush();
+
+        return $page;
     }
 }
