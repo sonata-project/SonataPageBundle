@@ -5,7 +5,7 @@ imports:
 
 framework:
     test: true
-    secret: '50n474.U53r'
+    secret: "50n474.U53r"
     session:
         handler_id: session.handler.native_file
         storage_id: session.storage.mock_file
@@ -16,8 +16,6 @@ framework:
         enabled: true
     csrf_protection:
         enabled: true
-    templating:
-        engines: [twig]
 
 twig:
     exception_controller: null
