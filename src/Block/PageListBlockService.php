@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Block;
 
-use Sonata\AdminBundle\Form\FormMapper as AdminFormMapper;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Block\Service\AbstractBlockService;
 use Sonata\BlockBundle\Block\Service\EditableBlockService;
@@ -35,48 +34,13 @@ final class PageListBlockService extends AbstractBlockService implements Editabl
 {
     private PageManagerInterface $pageManager;
 
-    public function __construct(Environment $twig, PageManagerInterface $pageManager)
-    {
+    public function __construct(
+        Environment $twig,
+        PageManagerInterface $pageManager
+    ) {
         parent::__construct($twig);
 
         $this->pageManager = $pageManager;
-    }
-
-    public function getName(): string
-    {
-        return 'sonata.page.block.pagelist';
-    }
-
-    public function buildEditForm(AdminFormMapper $form, BlockInterface $block): void
-    {
-        $form->add('settings', ImmutableArrayType::class, [
-            'keys' => [
-                ['title', TextType::class, [
-                    'label' => 'form.label_title',
-                    'required' => false,
-                ]],
-                ['translation_domain', TextType::class, [
-                    'label' => 'form.label_translation_domain',
-                    'required' => false,
-                ]],
-                ['icon', TextType::class, [
-                    'label' => 'form.label_icon',
-                    'required' => false,
-                ]],
-                ['class', TextType::class, [
-                    'label' => 'form.label_class',
-                    'required' => false,
-                ]],
-                ['mode', ChoiceType::class, [
-                    'label' => 'form.label_mode',
-                    'choices' => [
-                        'public' => 'form.choice_public',
-                        'admin' => 'form.choice_admin',
-                    ],
-                ]],
-            ],
-            'translation_domain' => 'SonataPageBundle',
-        ]);
     }
 
     public function execute(BlockContextInterface $blockContext, ?Response $response = null): Response
@@ -111,15 +75,43 @@ final class PageListBlockService extends AbstractBlockService implements Editabl
         ]);
     }
 
-    public function getMetadata($code = null): MetadataInterface
+    public function getMetadata(): MetadataInterface
     {
-        return new Metadata($this->getName(), $code ?? $this->getName(), null, 'SonataPageBundle', [
+        return new Metadata('sonata.page.block.pagelist', null, null, 'SonataPageBundle', [
             'class' => 'fa fa-home',
         ]);
     }
 
     public function configureEditForm(FormMapper $form, BlockInterface $block): void
     {
+        $form->add('settings', ImmutableArrayType::class, [
+            'keys' => [
+                ['title', TextType::class, [
+                    'label' => 'form.label_title',
+                    'required' => false,
+                ]],
+                ['translation_domain', TextType::class, [
+                    'label' => 'form.label_translation_domain',
+                    'required' => false,
+                ]],
+                ['icon', TextType::class, [
+                    'label' => 'form.label_icon',
+                    'required' => false,
+                ]],
+                ['class', TextType::class, [
+                    'label' => 'form.label_class',
+                    'required' => false,
+                ]],
+                ['mode', ChoiceType::class, [
+                    'label' => 'form.label_mode',
+                    'choices' => [
+                        'public' => 'form.choice_public',
+                        'admin' => 'form.choice_admin',
+                    ],
+                ]],
+            ],
+            'translation_domain' => 'SonataPageBundle',
+        ]);
     }
 
     public function configureCreateForm(FormMapper $form, BlockInterface $block): void

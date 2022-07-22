@@ -24,8 +24,6 @@ use Sonata\SeoBundle\Block\Breadcrumb\BaseBreadcrumbMenuBlockService;
 use Twig\Environment;
 
 /**
- * BlockService for homepage breadcrumb.
- *
  * @author Sylvain Deloux <sylvain.deloux@ekino.com>
  */
 final class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
@@ -35,21 +33,19 @@ final class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
      */
     private $cmsSelector;
 
-    public function __construct(Environment $twig, FactoryInterface $factory, CmsManagerSelectorInterface $cmsSelector)
-    {
+    public function __construct(
+        Environment $twig,
+        FactoryInterface $factory,
+        CmsManagerSelectorInterface $cmsSelector
+    ) {
         parent::__construct($twig, $factory);
 
         $this->cmsSelector = $cmsSelector;
     }
 
-    public function getName()
+    public function getMetadata(): MetadataInterface
     {
-        return 'sonata.page.block.breadcrumb';
-    }
-
-    public function getMetadata($code = null): MetadataInterface
-    {
-        return new Metadata($this->getName(), $code ?? $this->getName(), null, 'SonataPageBundle', [
+        return new Metadata($this->getName(), null, null, 'SonataPageBundle', [
             'class' => 'fa fa-bars',
         ]);
     }
@@ -88,9 +84,12 @@ final class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
         return $menu;
     }
 
+    private function getName()
+    {
+        return 'sonata.page.block.breadcrumb';
+    }
+
     /**
-     * Return the current Page.
-     *
      * @return PageInterface|null
      */
     private function getCurrentPage()

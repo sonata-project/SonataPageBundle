@@ -24,11 +24,8 @@ use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\Form\Validator\ErrorElement;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Twig\Environment;
 
 /**
- * Render children pages.
- *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 final class ContainerBlockService implements BlockServiceInterface, EditableBlockService
@@ -38,16 +35,6 @@ final class ContainerBlockService implements BlockServiceInterface, EditableBloc
     public function __construct(BaseContainerBlockService $containerBlockService)
     {
         $this->containerBlockService = $containerBlockService;
-    }
-
-    public function getName(): string
-    {
-        return 'sonata.page.block.container';
-    }
-
-    public function getTwig(): Environment
-    {
-        return $this->containerBlockService->getTwig();
     }
 
     public function execute(BlockContextInterface $blockContext, ?Response $response = null): Response
@@ -80,9 +67,9 @@ final class ContainerBlockService implements BlockServiceInterface, EditableBloc
         $this->containerBlockService->validate($errorElement, $block);
     }
 
-    public function getMetadata($code = null): MetadataInterface
+    public function getMetadata(): MetadataInterface
     {
-        return new Metadata($this->getName(), $code ?? $this->getName(), null, 'SonataPageBundle', [
+        return new Metadata('sonata.page.block.container', null, null, 'SonataPageBundle', [
             'class' => 'fa fa-square-o',
         ]);
     }

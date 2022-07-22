@@ -14,25 +14,15 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Block;
 
 use Sonata\BlockBundle\Block\BlockContextInterface;
-use Sonata\BlockBundle\Block\BlockContextManager as BaseBlockContextManager;
 use Sonata\BlockBundle\Block\BlockContextManagerInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class BlockContextManager implements BlockContextManagerInterface
 {
-    private BaseBlockContextManager $blockContextManager;
+    private BlockContextManagerInterface $blockContextManager;
 
-    private OptionsResolver $optionsResolver;
-
-    public function __construct(BaseBlockContextManager $blockContextManager)
+    public function __construct(BlockContextManagerInterface $blockContextManager)
     {
         $this->blockContextManager = $blockContextManager;
-        $this->optionsResolver = new OptionsResolver();
-    }
-
-    public function getOptionsResolver(): OptionsResolver
-    {
-        return $this->optionsResolver;
     }
 
     public function addSettingsByType(string $type, array $settings, bool $replace = false): void
