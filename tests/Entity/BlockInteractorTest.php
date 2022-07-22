@@ -13,33 +13,50 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Entity;
 
-use Doctrine\Persistence\ManagerRegistry;
-use PHPUnit\Framework\TestCase;
+use Doctrine\ORM\EntityManagerInterface;
 use Sonata\PageBundle\Entity\BlockInteractor;
-use Sonata\PageBundle\Model\BlockManagerInterface;
-use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
+use Sonata\PageBundle\Tests\App\AppKernel;
+use Sonata\PageBundle\Tests\App\Entity\SonataPageBlock;
+use Sonata\PageBundle\Tests\App\Entity\SonataPagePage;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-final class BlockInteractorTest extends TestCase
+final class BlockInteractorTest extends KernelTestCase
 {
+    /**
+     * @var EntityManagerInterface
+     */
+    protected $entityManager;
+
+    /**
+     * @var BlockInteractor
+     */
+    protected $blockInteractor;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $kernel = self::bootKernel();
+
+        $managerRegistry = $kernel->getContainer()->get('doctrine');
+        $blockManager = $kernel->getContainer()->get('sonata.page.manager.block');
+
+        $this->entityManager = $managerRegistry->getManager();
+        $this->blockInteractor = new BlockInteractor($managerRegistry, $blockManager);
+    }
+
     /**
      * @testdox It is returning a block list.
      */
     public function testLoadPageBlocks(): void
     {
-        $managerRegistry = $this->createMock(ManagerRegistry::class);
-        $blockManager = $this->createMock(BlockManagerInterface::class);
-        $page = $this->createMock(PageInterface::class);
-        $block = $this->createMock(PageBlockInterface::class);
+        $page = $this->prepareData();
+        $block = $page->getBlocks()->first();
 
-        $blockInteractor = new BlockInteractor($managerRegistry, $blockManager);
+        $blocks = $this->blockInteractor->loadPageBlocks($page);
 
-        $blockInteractor->expects(static::once())->method('getBlocksById')
-            ->willReturn([$block]);
-
-        $blocks = $blockInteractor->loadPageBlocks($page);
-
-        static::assertSame([$block], $blocks);
+        static::assertSame([1 => $block], $blocks);
     }
 
     /**
@@ -47,46 +64,34 @@ final class BlockInteractorTest extends TestCase
      */
     public function testNotLoadBlocks(): void
     {
-        $managerRegistry = $this->createMock(ManagerRegistry::class);
-        $blockManager = $this->createMock(BlockManagerInterface::class);
-        $page = $this->createMock(PageInterface::class);
+        $page = $this->prepareData();
 
-        $page->expects(static::once())->method('getId')->willReturn(1);
-
-        $blockInteractor = new BlockInteractor($managerRegistry, $blockManager);
-
-        // $reflection = new \ReflectionClass($blockInteractor);
-        // $reflectionProperty = $reflection->getProperty('pageBlocksLoaded');
-        // $reflectionProperty->setAccessible(true);
-        // $reflectionProperty->setValue($blockInteractor, [1 => 'fake_value(block already loaded).']);
-
-        $result = $blockInteractor->loadPageBlocks($page);
-
-        static::assertSame([], $result);
+        static::assertCount(1, $this->blockInteractor->loadPageBlocks($page));
+        static::assertCount(0, $this->blockInteractor->loadPageBlocks($page));
     }
 
-    /**
-     * @testdox It's adding a new block children and "disableChildrenLazyLoading"
-     *
-     * I'm using "containerBlock" and "emailButton", just for the test be more clear,
-     * because usually the container block is the parent of others blocks in the page.
-     */
-    public function testDisableAndAddChildrenBlocks(): void
+    protected static function getKernelClass(): string
     {
-        $managerRegistry = $this->createMock(ManagerRegistry::class);
-        $blockManager = $this->createMock(BlockManagerInterface::class);
-        $page = $this->createMock(PageInterface::class);
-        $containerBlock = $this->createMock(PageBlockInterface::class);
-        $emailButton = $this->createMock(PageBlockInterface::class);
+        return AppKernel::class;
+    }
 
-        $containerBlock->expects(static::once())->method('getId')->willReturn(22);
-        $emailButton->expects(static::once())->method('getParent')->willReturn($containerBlock);
+    private function prepareData(): PageInterface
+    {
+        $block = new SonataPageBlock();
+        $block->setId(1);
+        $block->setType('Type');
 
-        $blockInteractor = new BlockInteractor($managerRegistry, $blockManager);
+        $this->entityManager->persist($block);
 
-        $blockInteractor->expects(static::once())->method('getBlocksById')
-            ->willReturn([22 => $containerBlock, $emailButton]);
+        $page = new SonataPagePage();
+        $page->setName('Page name');
+        $page->setEnabled(true);
+        $page->addBlocks($block);
+        $page->setTemplateCode('TemplateCode');
 
-        $blockInteractor->loadPageBlocks($page);
+        $this->entityManager->persist($page);
+        $this->entityManager->flush();
+
+        return $page;
     }
 }
