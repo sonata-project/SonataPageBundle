@@ -17,7 +17,7 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\Form\Type\DateTimePickerType;
 use Sonata\PageBundle\Model\SiteInterface;
@@ -39,16 +39,11 @@ final class SiteAdmin extends AbstractAdmin
     protected RoutePageGenerator $routePageGenerator;
 
     /**
-     * @param string             $code               A Sonata admin code
-     * @param string             $class              A Sonata admin class name
-     * @param string             $baseControllerName A Sonata admin base controller name
      * @param RoutePageGenerator $routePageGenerator Sonata route page generator service
      */
-    public function __construct($code, $class, $baseControllerName, RoutePageGenerator $routePageGenerator)
+    public function __construct(RoutePageGenerator $routePageGenerator)
     {
         $this->routePageGenerator = $routePageGenerator;
-
-        parent::__construct($code, $class, $baseControllerName);
     }
 
     public function postPersist($object): void
@@ -116,7 +111,7 @@ final class SiteAdmin extends AbstractAdmin
             ->end();
     }
 
-    protected function configureRoutes(RouteCollection $collection): void
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection->add('snapshots', $this->getRouterIdParameter().'/snapshots');
     }

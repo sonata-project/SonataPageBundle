@@ -29,11 +29,10 @@ final class PageAdminTest extends TestCase
     public function testTabMenuHasLinksWithSubSite(): void
     {
         $request = new Request(['id' => 42]);
-        $admin = new PageAdmin(
-            'admin.page',
-            Page::class,
-            PageController::class
-        );
+        $admin = new PageAdmin();
+        $admin->setModelClass(Page::class);
+        $admin->setBaseControllerName(PageController::class);
+        $admin->setCode('admin.page');
         $admin->setMenuFactory(new MenuFactory());
         $admin->setRequest($request);
 

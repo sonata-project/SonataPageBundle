@@ -13,29 +13,38 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Controller;
 
-use Sonata\AdminBundle\Controller\CRUDController as Controller;
+use Sonata\AdminBundle\Controller\CRUDController;
 use Sonata\PageBundle\Form\Type\CreateSnapshotType;
 use Sonata\PageBundle\Model\SnapshotInterface;
+use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
- * Snapshot Admin Controller.
- *
- * @extends Controller<SnapshotInterface>
+ * @extends CRUDController<SnapshotInterface>
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-final class SnapshotAdminController extends Controller
+final class SnapshotAdminController extends CRUDController
 {
-    public function createAction(?Request $request = null)
+    public static function getSubscribedServices(): array
+    {
+        return [
+            'sonata.page.manager.page' => PageManagerInterface::class,
+            'sonata.page.manager.snapshot' => SnapshotManagerInterface::class,
+            'sonata.page.service.create_snapshot' => CreateSnapshotService::class,
+        ] + parent::getSubscribedServices();
+    }
+
+    public function createAction(Request $request): Response
     {
         $this->admin->checkAccess('create');
 
-        $class = $this->get('sonata.page.manager.snapshot')->getClass();
+        $class = $this->container->get('sonata.page.manager.snapshot')->getClass();
 
-        $pageManager = $this->get('sonata.page.manager.page');
+        $pageManager = $this->container->get('sonata.page.manager.page');
 
         $snapshot = new $class();
 
@@ -56,7 +65,7 @@ final class SnapshotAdminController extends Controller
 
             if ($form->isValid()) {
                 //NEXT_MAJOR: when you're going to inject this service use CreateSnapshotByPageInterface
-                $createSnapshot = $this->get('sonata.page.service.create_snapshot');
+                $createSnapshot = $this->container->get('sonata.page.service.create_snapshot');
                 $snapshot = $createSnapshot->createByPage($page);
 
                 $this->admin->create($snapshot);
@@ -75,14 +84,12 @@ final class SnapshotAdminController extends Controller
 
     /**
      * @throws AccessDeniedException
-     *
-     * @return RedirectResponse
      */
-    public function batchActionToggleEnabled($query)
+    public function batchActionToggleEnabled($query): Response
     {
         $this->admin->checkAccess('batchToggleEnabled');
 
-        $snapshotManager = $this->get('sonata.page.manager.snapshot');
+        $snapshotManager = $this->container->get('sonata.page.manager.snapshot');
         foreach ($query->getQuery()->iterate() as $snapshot) {
             $snapshot[0]->setEnabled(!$snapshot[0]->getEnabled());
             $snapshotManager->save($snapshot[0]);

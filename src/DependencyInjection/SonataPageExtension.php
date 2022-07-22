@@ -57,6 +57,7 @@ final class SonataPageExtension extends Extension implements PrependExtensionInt
 
         if (isset($bundles['SonataAdminBundle'])) {
             $loader->load('admin.xml');
+            $loader->load('controllers.xml');
 
             if (!$config['direct_publication']) {
                 $container->removeDefinition('sonata.page.admin.extension.snapshot');

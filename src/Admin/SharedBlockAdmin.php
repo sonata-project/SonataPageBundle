@@ -34,14 +34,14 @@ final class SharedBlockAdmin extends BaseBlockAdmin
      */
     protected $classnameLabel = 'shared_block';
 
-    public function getBaseRoutePattern()
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
     {
-        return sprintf('%s/%s', parent::getBaseRoutePattern(), 'shared');
+        return sprintf('%s/%s', parent::generateBaseRoutePattern(), 'shared');
     }
 
-    public function getBaseRouteName()
+    public function generateBaseRouteName(bool $isChildAdmin = false): string
     {
-        return sprintf('%s/%s', parent::getBaseRouteName(), 'shared');
+        return sprintf('%s/%s', parent::generateBaseRouteName(), 'shared');
     }
 
     protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
@@ -72,7 +72,7 @@ final class SharedBlockAdmin extends BaseBlockAdmin
 
         // New block
         if (null === $block->getId() && $this->hasRequest()) {
-            $block->setType($this->request->get('type'));
+            $block->setType($this->getRequest()->get('type'));
         }
 
         $form

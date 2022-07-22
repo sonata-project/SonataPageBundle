@@ -13,10 +13,17 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Controller;
 
-use Sonata\AdminBundle\Controller\CRUDController as Controller;
+use Sonata\AdminBundle\Controller\CRUDController;
+use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
+use Sonata\PageBundle\Admin\BlockAdmin;
+use Sonata\PageBundle\Admin\SnapshotAdmin;
+use Sonata\PageBundle\Model\BlockInteractorInterface;
 use Sonata\PageBundle\Model\PageInterface;
-use Symfony\Component\Form\FormRenderer;
-use Symfony\Component\Form\FormView;
+use Sonata\PageBundle\Model\PageManagerInterface;
+use Sonata\PageBundle\Model\SiteManagerInterface;
+use Sonata\PageBundle\Page\TemplateManagerInterface;
+use Sonata\PageBundle\Service\CreateSnapshotService;
+use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,14 +31,27 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
- * Page Admin Controller.
- *
- * @extends Controller<PageInterface>
+ * @extends CRUDController<PageInterface>
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-final class PageAdminController extends Controller
+final class PageAdminController extends CRUDController
 {
+    public static function getSubscribedServices(): array
+    {
+        return [
+            'sonata.page.admin.snapshot' => SnapshotAdmin::class,
+            'sonata.page.admin.block' => BlockAdmin::class,
+            'sonata.page.block_interactor' => BlockInteractorInterface::class,
+            'sonata.page.manager.site' => SiteManagerInterface::class,
+            'sonata.page.manager.page' => PageManagerInterface::class,
+            'sonata.page.service.create_snapshot' => CreateSnapshotService::class,
+            'sonata.page.site.selector' => SiteSelectorInterface::class,
+            'sonata.page.template_manager' => TemplateManagerInterface::class,
+            'sonata.block.manager' => BlockServiceManagerInterface::class,
+        ] + parent::getSubscribedServices();
+    }
+
     /**
      * @throws AccessDeniedException
      *
@@ -39,12 +59,12 @@ final class PageAdminController extends Controller
      */
     public function batchActionSnapshot($query)
     {
-        if (false === $this->get('sonata.page.admin.snapshot')->isGranted('CREATE')) {
+        if (false === $this->container->get('sonata.page.admin.snapshot')->isGranted('CREATE')) {
             throw new AccessDeniedException();
         }
 
         foreach ($query->execute() as $page) {
-            $this->get('sonata.page.service.create_snapshot')->createByPage($page);
+            $this->container->get('sonata.page.service.create_snapshot')->createByPage($page);
         }
 
         return new RedirectResponse($this->admin->generateUrl('list', [
@@ -52,24 +72,21 @@ final class PageAdminController extends Controller
         ]));
     }
 
-    public function listAction(?Request $request = null)
+    public function listAction(Request $request): Response
     {
         if (!$request->get('filter')) {
             return new RedirectResponse($this->admin->generateUrl('tree'));
         }
 
-        return parent::listAction();
+        return parent::listAction($request);
     }
 
-    /**
-     * @return Response
-     */
-    public function treeAction(?Request $request = null)
+    public function treeAction(Request $request): Response
     {
         $this->admin->checkAccess('tree');
 
-        $sites = $this->get('sonata.page.manager.site')->findBy([]);
-        $pageManager = $this->get('sonata.page.manager.page');
+        $sites = $this->container->get('sonata.page.manager.site')->findBy([]);
+        $pageManager = $this->container->get('sonata.page.manager.page');
 
         $currentSite = null;
         $siteId = (int) $request->get('site');
@@ -95,7 +112,7 @@ final class PageAdminController extends Controller
         $theme = $this->admin->getFilterTheme();
         $this->setFormTheme($formView, $theme);
 
-        return $this->render($this->admin->getTemplate('tree'), [
+        return $this->renderWithExtraParams($this->templateRegistry->getTemplate('tree'), [
             'action' => 'tree',
             'sites' => $sites,
             'currentSite' => $currentSite,
@@ -105,12 +122,12 @@ final class PageAdminController extends Controller
         ]);
     }
 
-    public function createAction(?Request $request = null)
+    public function createAction(Request $request): Response
     {
         $this->admin->checkAccess('create');
 
-        if ('GET' === $request->getMethod() && !$this->getRequest()->get('siteId')) {
-            $sites = $this->get('sonata.page.manager.site')->findBy([]);
+        if ('GET' === $request->getMethod() && !$request->get('siteId')) {
+            $sites = $this->container->get('sonata.page.manager.site')->findBy([]);
 
             if (1 === \count($sites)) {
                 return $this->redirect($this->admin->generateUrl('create', [
@@ -120,18 +137,18 @@ final class PageAdminController extends Controller
             }
 
             try {
-                $current = $this->get('sonata.page.site.selector')->retrieve();
+                $current = $this->container->get('sonata.page.site.selector')->retrieve();
             } catch (\RuntimeException $e) {
                 $current = false;
             }
 
-            return $this->render($this->admin->getTemplate('select_site'), [
+            return $this->renderWithExtraParams($this->templateRegistry->getTemplate('select_site'), [
                 'sites' => $sites,
                 'current' => $current,
             ]);
         }
 
-        return parent::createAction();
+        return parent::createAction($request);
     }
 
     /**
@@ -143,7 +160,7 @@ final class PageAdminController extends Controller
     public function composeAction(?Request $request = null)
     {
         $this->admin->checkAccess('compose');
-        if (false === $this->get('sonata.page.admin.block')->isGranted('LIST')) {
+        if (false === $this->container->get('sonata.page.admin.block')->isGranted('LIST')) {
             throw new AccessDeniedException();
         }
 
@@ -157,7 +174,7 @@ final class PageAdminController extends Controller
         $orphanContainers = [];
         $children = [];
 
-        $templateManager = $this->get('sonata.page.template_manager');
+        $templateManager = $this->container->get('sonata.page.template_manager');
         $template = $templateManager->get($page->getTemplateCode());
         $templateContainers = $template->getContainers();
 
@@ -183,7 +200,7 @@ final class PageAdminController extends Controller
         }
 
         // searching for block defined in template which are not created
-        $blockInteractor = $this->get('sonata.page.block_interactor');
+        $blockInteractor = $this->container->get('sonata.page.block_interactor');
 
         foreach ($containers as $id => $container) {
             if (false === $container['block'] && false === $templateContainers[$id]['shared']) {
@@ -197,7 +214,7 @@ final class PageAdminController extends Controller
             }
         }
 
-        return $this->render($this->admin->getTemplate('compose'), [
+        return $this->renderWithExtraParams($this->templateRegistry->getTemplate('compose'), [
             'object' => $page,
             'action' => 'edit',
             'template' => $template,
@@ -218,21 +235,21 @@ final class PageAdminController extends Controller
      */
     public function composeContainerShowAction(?Request $request = null)
     {
-        if (false === $this->get('sonata.page.admin.block')->isGranted('LIST')) {
+        if (false === $this->container->get('sonata.page.admin.block')->isGranted('LIST')) {
             throw new AccessDeniedException();
         }
 
         $id = $request->get($this->admin->getIdParameter());
-        $block = $this->get('sonata.page.admin.block')->getObject($id);
+        $block = $this->container->get('sonata.page.admin.block')->getObject($id);
         if (!$block) {
             throw new NotFoundHttpException(sprintf('unable to find the block with id : %s', $id));
         }
 
-        $blockServices = $this->get('sonata.block.manager')->getServicesByContext('sonata_page_bundle', false);
+        $blockServices = $this->container->get('sonata.block.manager')->getServicesByContext('sonata_page_bundle', false);
 
         // filter service using the template configuration
         if ($page = $block->getPage()) {
-            $template = $this->get('sonata.page.template_manager')->get($page->getTemplateCode());
+            $template = $this->container->get('sonata.page.template_manager')->get($page->getTemplateCode());
 
             $container = $template->getContainer($block->getSetting('code'));
 
@@ -247,20 +264,10 @@ final class PageAdminController extends Controller
             }
         }
 
-        return $this->render($this->admin->getTemplate('compose_container_show'), [
+        return $this->renderWithExtraParams($this->templateRegistry->getTemplate('compose_container_show'), [
             'blockServices' => $blockServices,
             'container' => $block,
             'page' => $block->getPage(),
         ]);
-    }
-
-    /**
-     * Sets the admin form theme to form view. Used for compatibility between Symfony versions.
-     */
-    private function setFormTheme(FormView $formView, $theme): void
-    {
-        $twig = $this->get('twig');
-
-        $twig->getRuntime(FormRenderer::class)->setTheme($formView, $theme);
     }
 }

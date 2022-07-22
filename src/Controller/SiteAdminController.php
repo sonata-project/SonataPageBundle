@@ -13,32 +13,38 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Controller;
 
-use Sonata\AdminBundle\Controller\CRUDController as Controller;
+use Sonata\AdminBundle\Controller\CRUDController;
+use Sonata\PageBundle\Admin\SnapshotAdmin;
 use Sonata\PageBundle\Model\SiteInterface;
+use Sonata\PageBundle\Service\CreateSnapshotService;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
- * Site Admin controller.
- *
- * @extends Controller<SiteInterface>
+ * @extends CRUDController<SiteInterface>
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-final class SiteAdminController extends Controller
+final class SiteAdminController extends CRUDController
 {
+    public static function getSubscribedServices(): array
+    {
+        return [
+            'sonata.page.admin.snapshot' => SnapshotAdmin::class,
+            'sonata.page.service.create_snapshot' => CreateSnapshotService::class,
+        ] + parent::getSubscribedServices();
+    }
+
     /**
      * @throws NotFoundHttpException
      * @throws AccessDeniedException
-     *
-     * @return RedirectResponse|Response
      */
-    public function snapshotsAction()
+    public function snapshotsAction(Request $request): Response
     {
-        $request = $this->getRequest();
-        if (false === $this->get('sonata.page.admin.snapshot')->isGranted('CREATE')) {
+        if (false === $this->container->get('sonata.page.admin.snapshot')->isGranted('CREATE')) {
             throw new AccessDeniedException();
         }
 
@@ -54,7 +60,7 @@ final class SiteAdminController extends Controller
 
         if ('POST' === $request->getMethod()) {
             //NEXT_MAJOR: inject CreateSnapshotBySiteInterface and remove this get.
-            $createSnapshot = $this->get('sonata.page.service.create_snapshot');
+            $createSnapshot = $this->container->get('sonata.page.service.create_snapshot');
             $createSnapshot->createBySite($object);
 
             $this->addFlash(

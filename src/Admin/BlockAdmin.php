@@ -15,7 +15,7 @@ namespace Sonata\PageBundle\Admin;
 
 use Doctrine\ORM\EntityRepository;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\BlockBundle\Block\Service\BlockServiceInterface;
 use Sonata\BlockBundle\Block\Service\EditableBlockService;
 use Sonata\BlockBundle\Form\Type\ServiceListType;
@@ -45,15 +45,8 @@ final class BlockAdmin extends BaseBlockAdmin
         'composePreview' => 'EDIT',
     ];
 
-    /**
-     * @param string $code
-     * @param string $class
-     * @param string $baseControllerName
-     */
-    public function __construct($code, $class, $baseControllerName, array $blocks = [])
+    public function __construct(array $blocks = [])
     {
-        parent::__construct($code, $class, $baseControllerName);
-
         $this->blocks = $blocks;
     }
 
@@ -72,7 +65,7 @@ final class BlockAdmin extends BaseBlockAdmin
         return $parameters;
     }
 
-    protected function configureRoutes(RouteCollection $collection): void
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         parent::configureRoutes($collection);
 
@@ -93,7 +86,7 @@ final class BlockAdmin extends BaseBlockAdmin
 
         $page = false;
 
-        if ($this->getParent()) {
+        if ($this->isChild()) {
             $page = $this->getParent()->getSubject();
 
             if (!$page instanceof PageInterface) {
@@ -101,7 +94,7 @@ final class BlockAdmin extends BaseBlockAdmin
             }
 
             if ($this->hasRequest() && null === $block->getId()) { // new block
-                $block->setType($this->request->get('type'));
+                $block->setType($this->getRequest()->get('type'));
                 $block->setPage($page);
             }
 

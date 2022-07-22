@@ -19,7 +19,7 @@ use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\CallbackFilter;
 use Sonata\PageBundle\Exception\InternalErrorException;
@@ -55,7 +55,7 @@ final class PageAdmin extends AbstractAdmin
         'compose' => 'EDIT',
     ];
 
-    public function configureRoutes(RouteCollection $collection): void
+    public function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection->add('compose', '{id}/compose', [
             'id' => null,
@@ -179,11 +179,13 @@ final class PageAdmin extends AbstractAdmin
             return $parameters;
         }
 
-        if ($site = $this->request->get('site', null)) {
-            $this->request->getSession()->set($key, $site);
+        $request = $this->getRequest();
+
+        if ($site = $request->get('site', null)) {
+            $request->getSession()->set($key, $site);
         }
 
-        if ($site = $this->request->getSession()->get($key, null)) {
+        if ($site = $request->getSession()->get($key, null)) {
             $parameters['site'] = $site;
         }
 
@@ -358,10 +360,6 @@ final class PageAdmin extends AbstractAdmin
                 ->add('stylesheet', null, ['required' => false])
                 ->add('rawHeaders', null, ['required' => false])
             ->end();
-
-        $form->setHelps([
-            'name' => 'help_page_name',
-        ]);
     }
 
     protected function configureTabMenu(MenuItemInterface $menu, $action, ?AdminInterface $childAdmin = null): void
