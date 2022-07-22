@@ -19,7 +19,7 @@ use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\CallbackFilter;
 use Sonata\PageBundle\Exception\InternalErrorException;
@@ -61,7 +61,8 @@ final class PageAdmin extends AbstractAdmin
         'compose' => 'EDIT',
     ];
 
-    public function configureRoutes(RouteCollection $collection): void
+
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection->add('compose', '{id}/compose', [
             'id' => null,
@@ -185,11 +186,11 @@ final class PageAdmin extends AbstractAdmin
             return $parameters;
         }
 
-        if ($site = $this->request->get('site', null)) {
-            $this->request->getSession()->set($key, $site);
+        if ($site = $this->getRequest()->get('site', null)) {
+            $this->getRequest()->getSession()->set($key, $site);
         }
 
-        if ($site = $this->request->getSession()->get($key, null)) {
+        if ($site = $this->getRequest()->getSession()->get($key, null)) {
             $parameters['site'] = $site;
         }
 
@@ -418,6 +419,7 @@ final class PageAdmin extends AbstractAdmin
                     ]),
                 ]);
             } catch (\Exception $e) {
+                //TODO should we add Log interface and add a log message here? it's hiding the problem.
                 // avoid crashing the admin if the route is not setup correctly
                 // throw $e;
             }

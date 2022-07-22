@@ -57,7 +57,7 @@ final class PageServiceManager implements PageServiceManagerInterface
         $this->services[$type] = $service;
     }
 
-    public function get($type)
+    public function get($type): ?PageServiceInterface
     {
         if ($type instanceof PageInterface) {
             $type = $type->getType();
@@ -74,7 +74,7 @@ final class PageServiceManager implements PageServiceManagerInterface
         return $this->services[$type];
     }
 
-    public function getAll()
+    public function getAll(): array
     {
         return $this->services;
     }
@@ -84,11 +84,11 @@ final class PageServiceManager implements PageServiceManagerInterface
         $this->default = $service;
     }
 
-    public function execute(PageInterface $page, Request $request, array $parameters = [], ?Response $response = null)
+    public function execute(PageInterface $page, Request $request, array $parameters = [], ?Response $response = null): Response
     {
         $service = $this->get($page);
 
-        $response = $response ?: $this->createResponse($page);
+        $response = $response ?: new Response('', 200, $page->getHeaders() ?: []);
 
         if ($response->isRedirection()) {
             return $response;
@@ -98,23 +98,6 @@ final class PageServiceManager implements PageServiceManagerInterface
         $parameters['site'] = $page->getSite();
 
         $response = $service->execute($page, $request, $parameters, $response);
-
-        return $response;
-    }
-
-    /**
-     * Creates a base response for given page.
-     *
-     * @return Response
-     */
-    private function createResponse(PageInterface $page)
-    {
-        if ($page->getTarget()) {
-            $page->addHeader('Location', $this->router->generate($page->getTarget()));
-            $response = new Response('', 302, $page->getHeaders() ?: []);
-        } else {
-            $response = new Response('', 200, $page->getHeaders() ?: []);
-        }
 
         return $response;
     }
