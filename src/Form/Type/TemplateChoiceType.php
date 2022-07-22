@@ -28,7 +28,7 @@ final class TemplateChoiceType extends AbstractType
     /**
      * @var TemplateManagerInterface
      */
-    private $manager;
+    protected $manager;
 
     public function __construct(TemplateManagerInterface $manager)
     {

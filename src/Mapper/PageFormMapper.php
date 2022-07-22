@@ -55,20 +55,6 @@ final class PageFormMapper implements FormMapper
         return $this;
     }
 
-    public function setHelps(array $helps = []): FormMapper
-    {
-        $this->adminFormMapper->setHelps($helps);
-
-        return $this;
-    }
-
-    public function addHelp(string $name, string $help): FormMapper
-    {
-        $this->adminFormMapper->addHelp($name, $help);
-
-        return $this;
-    }
-
     public function has(string $key): bool
     {
         return $this->adminFormMapper->has($key);

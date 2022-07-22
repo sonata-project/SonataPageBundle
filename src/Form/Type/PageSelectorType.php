@@ -31,7 +31,7 @@ final class PageSelectorType extends AbstractType
     /**
      * @var PageManagerInterface
      */
-    private $manager;
+    protected $manager;
 
     public function __construct(PageManagerInterface $manager)
     {
