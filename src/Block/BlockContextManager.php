@@ -13,34 +13,38 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Block;
 
-use Sonata\BlockBundle\Block\BlockContextManager as BaseBlockContextManager;
-use Sonata\BlockBundle\Model\BlockInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Sonata\BlockBundle\Block\BlockContextInterface;
+use Sonata\BlockBundle\Block\BlockContextManagerInterface;
 
-/**
- * NEXT_MAJOR: Do not extend from `BlockContextManager` since it will be final.
- *
- * @psalm-suppress InvalidExtendClass
- * @phpstan-ignore-next-line
- */
-final class BlockContextManager extends BaseBlockContextManager
+final class BlockContextManager implements BlockContextManagerInterface
 {
-    protected function configureSettings(OptionsResolver $optionsResolver, BlockInterface $block): void
-    {
-        parent::configureSettings($optionsResolver, $block);
+    private BlockContextManagerInterface $blockContextManager;
 
-        $optionsResolver->setDefaults([
+    public function __construct(BlockContextManagerInterface $blockContextManager)
+    {
+        $this->blockContextManager = $blockContextManager;
+    }
+
+    public function addSettingsByType(string $type, array $settings, bool $replace = false): void
+    {
+        $this->blockContextManager->addSettingsByType($type, $settings, $replace);
+    }
+
+    public function addSettingsByClass(string $class, array $settings, bool $replace = false): void
+    {
+        $this->blockContextManager->addSettingsByClass($class, $settings, $replace);
+    }
+
+    public function get($meta, array $settings = []): BlockContextInterface
+    {
+        return $this->blockContextManager->get($meta, [
             'manager' => false,
             'page_id' => false,
         ]);
+    }
 
-        $optionsResolver
-            ->addAllowedTypes('manager', ['string', 'bool'])
-            ->addAllowedTypes('page_id', ['int', 'string', 'bool']);
-
-        $optionsResolver->setRequired([
-            'manager',
-            'page_id',
-        ]);
+    public function exists(string $type): bool
+    {
+        return $this->blockContextManager->exists($type);
     }
 }

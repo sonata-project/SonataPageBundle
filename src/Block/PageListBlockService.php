@@ -13,12 +13,15 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Block;
 
-use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Block\Service\AbstractBlockService;
+use Sonata\BlockBundle\Block\Service\EditableBlockService;
+use Sonata\BlockBundle\Form\Mapper\FormMapper;
 use Sonata\BlockBundle\Meta\Metadata;
+use Sonata\BlockBundle\Meta\MetadataInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\Form\Type\ImmutableArrayType;
+use Sonata\Form\Validator\ErrorElement;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -27,50 +30,20 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Twig\Environment;
 
-final class PageListBlockService extends AbstractBlockService
+final class PageListBlockService extends AbstractBlockService implements EditableBlockService
 {
     private PageManagerInterface $pageManager;
 
-    public function __construct(Environment $twig, PageManagerInterface $pageManager)
-    {
+    public function __construct(
+        Environment $twig,
+        PageManagerInterface $pageManager
+    ) {
         parent::__construct($twig);
 
         $this->pageManager = $pageManager;
     }
 
-    public function buildEditForm(FormMapper $form, BlockInterface $block): void
-    {
-        $form->add('settings', ImmutableArrayType::class, [
-            'keys' => [
-                ['title', TextType::class, [
-                    'label' => 'form.label_title',
-                    'required' => false,
-                ]],
-                ['translation_domain', TextType::class, [
-                    'label' => 'form.label_translation_domain',
-                    'required' => false,
-                ]],
-                ['icon', TextType::class, [
-                    'label' => 'form.label_icon',
-                    'required' => false,
-                ]],
-                ['class', TextType::class, [
-                    'label' => 'form.label_class',
-                    'required' => false,
-                ]],
-                ['mode', ChoiceType::class, [
-                    'label' => 'form.label_mode',
-                    'choices' => [
-                        'public' => 'form.choice_public',
-                        'admin' => 'form.choice_admin',
-                    ],
-                ]],
-            ],
-            'translation_domain' => 'SonataPageBundle',
-        ]);
-    }
-
-    public function execute(BlockContextInterface $blockContext, ?Response $response = null)
+    public function execute(BlockContextInterface $blockContext, ?Response $response = null): Response
     {
         $pageList = $this->pageManager->findBy([
             'routeName' => PageInterface::PAGE_ROUTE_CMS_NAME,
@@ -102,10 +75,51 @@ final class PageListBlockService extends AbstractBlockService
         ]);
     }
 
-    public function getBlockMetadata($code = null)
+    public function getMetadata(): MetadataInterface
     {
-        return new Metadata($this->getName(), (null !== $code ? $code : $this->getName()), false, 'SonataPageBundle', [
+        return new Metadata('sonata.page.block.pagelist', null, null, 'SonataPageBundle', [
             'class' => 'fa fa-home',
         ]);
+    }
+
+    public function configureEditForm(FormMapper $form, BlockInterface $block): void
+    {
+        $form->add('settings', ImmutableArrayType::class, [
+            'keys' => [
+                ['title', TextType::class, [
+                    'label' => 'form.label_title',
+                    'required' => false,
+                ]],
+                ['translation_domain', TextType::class, [
+                    'label' => 'form.label_translation_domain',
+                    'required' => false,
+                ]],
+                ['icon', TextType::class, [
+                    'label' => 'form.label_icon',
+                    'required' => false,
+                ]],
+                ['class', TextType::class, [
+                    'label' => 'form.label_class',
+                    'required' => false,
+                ]],
+                ['mode', ChoiceType::class, [
+                    'label' => 'form.label_mode',
+                    'choices' => [
+                        'public' => 'form.choice_public',
+                        'admin' => 'form.choice_admin',
+                    ],
+                ]],
+            ],
+            'translation_domain' => 'SonataPageBundle',
+        ]);
+    }
+
+    public function configureCreateForm(FormMapper $form, BlockInterface $block): void
+    {
+        $this->configureEditForm($form, $block);
+    }
+
+    public function validate(ErrorElement $errorElement, BlockInterface $block): void
+    {
     }
 }

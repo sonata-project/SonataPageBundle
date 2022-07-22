@@ -16,8 +16,6 @@ framework:
         enabled: true
     csrf_protection:
         enabled: true
-    templating:
-        engines: [twig]
 
 twig:
     exception_controller: null

@@ -27,12 +27,16 @@ use Sonata\PageBundle\Tests\Model\Site;
 
 final class CmsBlock extends AbstractBlock
 {
+    private $id;
+
     public function setId($id): void
     {
+        $this->id = $id;
     }
 
-    public function getId(): void
+    public function getId()
     {
+        return $this->id;
     }
 }
 
