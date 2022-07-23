@@ -55,10 +55,7 @@ final class CmsPageManagerTest extends TestCase
      */
     private $pageManager;
 
-    /**
-     * @var CmsPageManager
-     */
-    private $manager;
+    private CmsPageManager $manager;
 
     /**
      * Setup manager object to test.

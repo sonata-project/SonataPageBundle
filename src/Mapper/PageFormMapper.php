@@ -19,10 +19,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 final class PageFormMapper implements FormMapper
 {
-    /**
-     * @var AdminFormMapper
-     */
-    private $adminFormMapper;
+    private AdminFormMapper $adminFormMapper;
 
     public function __construct(AdminFormMapper $adminFormMapper)
     {

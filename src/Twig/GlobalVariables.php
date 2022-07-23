@@ -22,10 +22,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 final class GlobalVariables
 {
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
+    private ContainerInterface $container;
 
     /**
      * @psalm-suppress ContainerDependency

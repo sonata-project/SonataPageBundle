@@ -28,10 +28,7 @@ final class BlockInteractorTest extends KernelTestCase
      */
     protected $entityManager;
 
-    /**
-     * @var BlockInteractor
-     */
-    protected $blockInteractor;
+    protected BlockInteractor $blockInteractor;
 
     protected function setUp(): void
     {

@@ -29,20 +29,11 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
  */
 final class RequestListener
 {
-    /**
-     * @var CmsManagerSelectorInterface
-     */
-    private $cmsSelector;
+    private CmsManagerSelectorInterface $cmsSelector;
 
-    /**
-     * @var SiteSelectorInterface
-     */
-    private $siteSelector;
+    private SiteSelectorInterface $siteSelector;
 
-    /**
-     * @var DecoratorStrategyInterface
-     */
-    private $decoratorStrategy;
+    private DecoratorStrategyInterface $decoratorStrategy;
 
     /**
      * @param CmsManagerSelectorInterface $cmsSelector       Cms manager selector

@@ -28,10 +28,7 @@ use Symfony\Component\Console\Tester\CommandTester;
  */
 final class CreateSiteCommandTest extends TestCase
 {
-    /**
-     * @var Application
-     */
-    private $application;
+    private Application $application;
 
     /**
      * @var MockObject&SiteManagerInterface

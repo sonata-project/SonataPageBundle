@@ -46,15 +46,9 @@ final class PageAdmin extends AbstractAdmin
 {
     protected $classnameLabel = 'Page';
 
-    /**
-     * @var PageManagerInterface
-     */
-    protected $pageManager;
+    protected ?PageManagerInterface $pageManager = null;
 
-    /**
-     * @var SiteManagerInterface
-     */
-    protected $siteManager;
+    protected ?SiteManagerInterface $siteManager = null;
 
     protected $accessMapping = [
         'tree' => 'LIST',
@@ -106,7 +100,7 @@ final class PageAdmin extends AbstractAdmin
             $siteId = $values['site'] ?? null;
         }
 
-        $siteId = (null !== $siteId) ? $siteId : $this->getRequest()->get('siteId');
+        $siteId ??= $this->getRequest()->get('siteId');
 
         if ($siteId) {
             $site = $this->siteManager->findOneBy(['id' => $siteId]);

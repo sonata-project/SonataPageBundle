@@ -55,10 +55,7 @@ final class ResponseListenerTest extends TestCase
      */
     private $twig;
 
-    /**
-     * @var ResponseListener
-     */
-    private $listener;
+    private ResponseListener $listener;
 
     /**
      * setup unit test.

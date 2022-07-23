@@ -32,17 +32,11 @@ final class PageServiceManager implements PageServiceManagerInterface
     /**
      * @var PageServiceInterface[]
      */
-    private $services = [];
+    private array $services = [];
 
-    /**
-     * @var PageServiceInterface|null
-     */
-    private $default;
+    private ?PageServiceInterface $default = null;
 
-    /**
-     * @var RouterInterface
-     */
-    private $router;
+    private RouterInterface $router;
 
     /**
      * @param RouterInterface $router Router

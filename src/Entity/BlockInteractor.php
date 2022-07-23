@@ -29,17 +29,11 @@ final class BlockInteractor implements BlockInteractorInterface
     /**
      * @var bool[]
      */
-    private $pageBlocksLoaded = [];
+    private array $pageBlocksLoaded = [];
 
-    /**
-     * @var ManagerRegistry
-     */
-    private $registry;
+    private ManagerRegistry $registry;
 
-    /**
-     * @var BlockManagerInterface
-     */
-    private $blockManager;
+    private BlockManagerInterface $blockManager;
 
     /**
      * @param ManagerRegistry       $registry     Doctrine registry

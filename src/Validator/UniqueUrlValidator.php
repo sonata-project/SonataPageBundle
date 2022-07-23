@@ -23,10 +23,7 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
 final class UniqueUrlValidator extends ConstraintValidator
 {
-    /**
-     * @var PageManagerInterface
-     */
-    protected $manager;
+    protected PageManagerInterface $manager;
 
     public function __construct(PageManagerInterface $manager)
     {

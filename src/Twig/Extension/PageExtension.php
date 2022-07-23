@@ -39,35 +39,17 @@ use Twig\TwigFunction;
  */
 final class PageExtension extends AbstractExtension
 {
-    /**
-     * @var CmsManagerSelectorInterface
-     */
-    private $cmsManagerSelector;
+    private CmsManagerSelectorInterface $cmsManagerSelector;
 
-    /**
-     * @var SiteSelectorInterface
-     */
-    private $siteSelector;
+    private SiteSelectorInterface $siteSelector;
 
-    /**
-     * @var RouterInterface
-     */
-    private $router;
+    private RouterInterface $router;
 
-    /**
-     * @var BlockHelper
-     */
-    private $blockHelper;
+    private BlockHelper $blockHelper;
 
-    /**
-     * @var RequestStack
-     */
-    private $requestStack;
+    private RequestStack $requestStack;
 
-    /**
-     * @var bool
-     */
-    private $hideDisabledBlocks;
+    private bool $hideDisabledBlocks;
 
     /**
      * @param CmsManagerSelectorInterface $cmsManagerSelector A CMS manager selector

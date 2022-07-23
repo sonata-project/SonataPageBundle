@@ -64,10 +64,7 @@ final class ExceptionListenerTest extends TestCase
      */
     private $logger;
 
-    /**
-     * @var ExceptionListener
-     */
-    private $listener;
+    private ExceptionListener $listener;
 
     /**
      * setup unit test.

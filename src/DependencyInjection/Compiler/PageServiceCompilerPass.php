@@ -24,15 +24,9 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 final class PageServiceCompilerPass implements CompilerPassInterface
 {
-    /**
-     * @var string
-     */
-    private $manager = 'sonata.page.page_service_manager';
+    private string $manager = 'sonata.page.page_service_manager';
 
-    /**
-     * @var string
-     */
-    private $tagName = 'sonata.page';
+    private string $tagName = 'sonata.page';
 
     public function process(ContainerBuilder $container): void
     {

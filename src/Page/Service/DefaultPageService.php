@@ -28,15 +28,9 @@ use Symfony\Component\HttpFoundation\Response;
  */
 final class DefaultPageService extends BasePageService
 {
-    /**
-     * @var TemplateManagerInterface
-     */
-    protected $templateManager;
+    protected TemplateManagerInterface $templateManager;
 
-    /**
-     * @var SeoPageInterface|null
-     */
-    protected $seoPage;
+    protected ?SeoPageInterface $seoPage;
 
     /**
      * @param string                   $name            Page service name

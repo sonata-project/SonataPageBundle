@@ -34,10 +34,7 @@ final class DefaultPageServiceTest extends TestCase
      */
     protected $seoPage;
 
-    /**
-     * @var DefaultPageService
-     */
-    protected $service;
+    protected DefaultPageService $service;
 
     protected function setUp(): void
     {

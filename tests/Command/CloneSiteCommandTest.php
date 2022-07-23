@@ -31,10 +31,7 @@ use Symfony\Component\Console\Tester\CommandTester;
  */
 final class CloneSiteCommandTest extends TestCase
 {
-    /**
-     * @var Application
-     */
-    private $application;
+    private Application $application;
 
     /**
      * @var Stub&SiteManagerInterface

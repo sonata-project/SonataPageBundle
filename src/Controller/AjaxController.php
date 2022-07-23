@@ -28,20 +28,11 @@ use Symfony\Component\HttpFoundation\Response;
  */
 final class AjaxController
 {
-    /**
-     * @var CmsManagerSelectorInterface
-     */
-    private $cmsManagerSelector;
+    private CmsManagerSelectorInterface $cmsManagerSelector;
 
-    /**
-     * @var BlockRendererInterface
-     */
-    private $blockRenderer;
+    private BlockRendererInterface $blockRenderer;
 
-    /**
-     * @var BlockContextManagerInterface
-     */
-    private $contextManager;
+    private BlockContextManagerInterface $contextManager;
 
     /**
      * @param CmsManagerSelectorInterface  $cmsManagerSelector CMS Manager selector

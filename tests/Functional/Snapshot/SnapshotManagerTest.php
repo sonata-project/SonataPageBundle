@@ -30,6 +30,7 @@ final class SnapshotManagerTest extends KernelTestCase
      * @var EntityManager|null
      */
     protected $entityManager;
+
     /**
      * @var SnapshotManager
      */

@@ -31,25 +31,13 @@ use Symfony\Component\Routing\RouterInterface;
 
 final class CmsPageRouter implements ChainedRouterInterface
 {
-    /**
-     * @var RequestContext|null
-     */
-    private $context;
+    private ?RequestContext $context = null;
 
-    /**
-     * @var CmsManagerSelectorInterface
-     */
-    private $cmsSelector;
+    private CmsManagerSelectorInterface $cmsSelector;
 
-    /**
-     * @var SiteSelectorInterface
-     */
-    private $siteSelector;
+    private SiteSelectorInterface $siteSelector;
 
-    /**
-     * @var RouterInterface
-     */
-    private $router;
+    private RouterInterface $router;
 
     /**
      * @param CmsManagerSelectorInterface $cmsSelector  Cms manager selector
@@ -291,7 +279,7 @@ final class CmsPageRouter implements ChainedRouterInterface
      *
      * @throws PageNotFoundException
      *
-     * @return \Sonata\PageBundle\Model\PageInterface|null
+     * @return PageInterface|null
      */
     private function getPageByPageAlias($alias)
     {

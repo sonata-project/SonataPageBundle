@@ -45,10 +45,7 @@ final class CmsPageRouterTest extends TestCase
      */
     protected $defaultRouter;
 
-    /**
-     * @var CmsPageRouter
-     */
-    protected $router;
+    protected CmsPageRouter $router;
 
     /**
      * Setup test object with its dependencies.

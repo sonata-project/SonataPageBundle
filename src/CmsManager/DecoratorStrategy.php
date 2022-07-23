@@ -25,20 +25,11 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
  */
 final class DecoratorStrategy implements DecoratorStrategyInterface
 {
-    /**
-     * @var array
-     */
-    private $ignoreRoutes;
+    private array $ignoreRoutes;
 
-    /**
-     * @var array
-     */
-    private $ignoreRoutePatterns;
+    private array $ignoreRoutePatterns;
 
-    /**
-     * @var array
-     */
-    private $ignoreUriPatterns;
+    private array $ignoreUriPatterns;
 
     public function __construct(array $ignoreRoutes, array $ignoreRoutePatterns, array $ignoreUriPatterns)
     {

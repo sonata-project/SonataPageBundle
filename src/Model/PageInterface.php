@@ -201,7 +201,7 @@ interface PageInterface
     public function getBlocks();
 
     /**
-     * @param pageInterface|null $target
+     * @param PageInterface|null $target
      *
      * NEXT_MAJOR: Remove this method
      *
@@ -210,7 +210,7 @@ interface PageInterface
     public function setTarget(?self $target = null);
 
     /**
-     * @return pageInterface|null
+     * @return PageInterface|null
      *
      * NEXT_MAJOR: Remove this method
      *

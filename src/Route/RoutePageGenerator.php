@@ -28,25 +28,13 @@ use Symfony\Component\Routing\RouterInterface;
  */
 final class RoutePageGenerator
 {
-    /**
-     * @var RouterInterface
-     */
-    private $router;
+    private RouterInterface $router;
 
-    /**
-     * @var PageManagerInterface
-     */
-    private $pageManager;
+    private PageManagerInterface $pageManager;
 
-    /**
-     * @var DecoratorStrategyInterface
-     */
-    private $decoratorStrategy;
+    private DecoratorStrategyInterface $decoratorStrategy;
 
-    /**
-     * @var ExceptionListener
-     */
-    private $exceptionListener;
+    private ExceptionListener $exceptionListener;
 
     /**
      * @param RouterInterface            $router            A Symfony router service

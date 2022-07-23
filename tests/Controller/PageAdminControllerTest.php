@@ -31,25 +31,16 @@ use Twig\Environment;
 
 class PageAdminControllerTest extends TestCase
 {
-    /**
-     * @var Container
-     */
-    private $container;
+    private Container $container;
 
     /**
      * @var MockObject&AdminInterface
      */
     private $admin;
 
-    /**
-     * @var Request
-     */
-    private $request;
+    private Request $request;
 
-    /**
-     * @var PageAdminController
-     */
-    private $controller;
+    private PageAdminController $controller;
 
     /**
      * @var MockObject&Environment

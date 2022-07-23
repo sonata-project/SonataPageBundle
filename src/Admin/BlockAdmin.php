@@ -35,10 +35,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 final class BlockAdmin extends BaseBlockAdmin
 {
-    /**
-     * @var array
-     */
-    protected $blocks;
+    protected array $blocks;
 
     protected $classnameLabel = 'Block';
 
@@ -144,14 +141,12 @@ final class BlockAdmin extends BaseBlockAdmin
             if ($isStandardBlock && $page && !empty($containerBlockTypes)) {
                 $form->add('parent', EntityType::class, [
                     'class' => $this->getClass(),
-                    'query_builder' => static function (EntityRepository $repository) use ($page, $containerBlockTypes) {
-                        return $repository->createQueryBuilder('a')
-                            ->andWhere('a.page = :page AND a.type IN (:types)')
-                            ->setParameters([
-                                    'page' => $page,
-                                    'types' => $containerBlockTypes,
-                                ]);
-                    },
+                    'query_builder' => static fn (EntityRepository $repository) => $repository->createQueryBuilder('a')
+                        ->andWhere('a.page = :page AND a.type IN (:types)')
+                        ->setParameters([
+                                'page' => $page,
+                                'types' => $containerBlockTypes,
+                            ]),
                 ], [
                     'admin_code' => $this->getCode(),
                 ]);

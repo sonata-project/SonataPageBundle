@@ -20,39 +20,25 @@ namespace Sonata\PageBundle\Model;
  */
 final class SnapshotPageProxy implements SnapshotPageProxyInterface
 {
-    /**
-     * @var SnapshotManagerInterface
-     */
-    private $manager;
+    private SnapshotManagerInterface $manager;
+
+    private SnapshotInterface $snapshot;
+
+    private ?PageInterface $page = null;
 
     /**
-     * @var SnapshotInterface
-     */
-    private $snapshot;
-
-    /**
-     * @var PageInterface|null
-     */
-    private $page;
-
-    /**
-     * @var pageInterface|null
-     *
-     * NEXT_MAJOR: Remove this method
+     * NEXT_MAJOR: Remove this method.
      *
      * @deprecated since 3.27 and it will be removed on 4.0
      */
-    private $target;
+    private ?PageInterface $target = null;
 
     /**
-     * @var PageInterface[]
+     * @var PageInterface[]|null
      */
-    private $parents;
+    private ?array $parents = null;
 
-    /**
-     * @var TransformerInterface
-     */
-    private $transformer;
+    private TransformerInterface $transformer;
 
     /**
      * @param SnapshotManagerInterface $manager     Snapshot manager

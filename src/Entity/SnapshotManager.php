@@ -33,20 +33,14 @@ use Sonata\PageBundle\Model\TransformerInterface;
  */
 final class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterface
 {
-    /**
-     * @var array
-     */
-    protected $children = [];
+    protected array $children = [];
 
     /**
      * @var array<string, string>
      */
-    protected $templates = [];
+    protected array $templates = [];
 
-    /**
-     * @var SnapshotPageProxyFactoryInterface
-     */
-    protected $snapshotPageProxyFactory;
+    protected SnapshotPageProxyFactoryInterface $snapshotPageProxyFactory;
 
     /**
      * @param string          $class     Namespace of entity class

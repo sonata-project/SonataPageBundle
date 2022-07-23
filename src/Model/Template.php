@@ -19,22 +19,13 @@ namespace Sonata\PageBundle\Model;
 final class Template
 {
     public const TYPE_STATIC = 1;
-
     public const TYPE_DYNAMIC = 2;
-    /**
-     * @var string
-     */
-    private $path;
 
-    /**
-     * @var string
-     */
-    private $name;
+    private string $path;
 
-    /**
-     * @var array
-     */
-    private $containers;
+    private string $name;
+
+    private array $containers;
 
     /**
      * @param string $name

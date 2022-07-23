@@ -52,10 +52,7 @@ final class SnapshotManagerTest extends TestCase
      */
     private $entityManager;
 
-    /**
-     * @var SnapshotManager
-     */
-    private $manager;
+    private SnapshotManager $manager;
 
     protected function setUp(): void
     {
@@ -90,7 +87,7 @@ final class SnapshotManagerTest extends TestCase
 
     public function testGetTemplatesException(): void
     {
-        $this->expectException('RuntimeException');
+        $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('No template references with the code : foo');
 
         $this->manager->getTemplate('foo');
@@ -153,9 +150,7 @@ final class SnapshotManagerTest extends TestCase
         });
 
         $metaDataFactory->method('hasMetadataFor')
-            ->willReturnCallback(static function ($class) {
-                return SonataPageSnapshot::class === $class;
-            });
+            ->willReturnCallback(static fn ($class) => SonataPageSnapshot::class === $class);
         $metaDataFactory->method('getMetadataFor')->with(SonataPageSnapshot::class)->willReturn($classMetadata);
 
         $this->entityManager->expects(static::once())->method('persist')->with($snapshot);

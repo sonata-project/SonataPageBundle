@@ -28,10 +28,7 @@ use Twig\Environment;
  */
 final class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
 {
-    /**
-     * @var CmsManagerSelectorInterface
-     */
-    private $cmsSelector;
+    private CmsManagerSelectorInterface $cmsSelector;
 
     public function __construct(
         Environment $twig,

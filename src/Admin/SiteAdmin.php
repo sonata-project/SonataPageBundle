@@ -36,10 +36,7 @@ final class SiteAdmin extends AbstractAdmin
 {
     protected $classnameLabel = 'Site';
 
-    /**
-     * @var RoutePageGenerator
-     */
-    protected $routePageGenerator;
+    protected RoutePageGenerator $routePageGenerator;
 
     /**
      * @param string             $code               A Sonata admin code

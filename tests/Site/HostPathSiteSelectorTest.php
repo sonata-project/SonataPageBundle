@@ -155,9 +155,11 @@ final class HostPathSiteSelector extends BaseSiteSelector
      */
     public static function _camelize($property): string
     {
-        return preg_replace_callback('/(^|[_. ])+(.)/', static function ($match) {
-            return ('.' === $match[1] ? '_' : '').strtoupper($match[2]);
-        }, $property);
+        return preg_replace_callback(
+            '/(^|[_. ])+(.)/',
+            static fn ($match) => ('.' === $match[1] ? '_' : '').strtoupper($match[2]),
+            $property
+        );
     }
 
     /**
