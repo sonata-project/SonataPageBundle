@@ -36,7 +36,11 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
     private $page;
 
     /**
-     * @var PageInterface|null
+     * @var pageInterface|null
+     *
+     * NEXT_MAJOR: Remove this method
+     *
+     * @deprecated since 3.27 and it will be removed on 4.0
      */
     private $target;
 
@@ -153,13 +157,35 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
         return $this->getPage()->getBlocks();
     }
 
+    /**
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @deprecated since 3.27 and it will be removed on 4.0
+     */
     public function setTarget(?PageInterface $target = null): void
     {
+        @trigger_error(
+            'target page is deprecate since sonata-project/page-bundle 3.27.0'.
+            ', and it will be removed in 4.0',
+            \E_USER_DEPRECATED
+        );
+
         $this->target = $target;
     }
 
+    /**
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @deprecated since 3.27 and it will be removed on 4.0
+     */
     public function getTarget()
     {
+        @trigger_error(
+            'target page is deprecate since sonata-project/page-bundle 3.27.0'.
+            ', and it will be removed in 4.0',
+            \E_USER_DEPRECATED
+        );
+
         if (null === $this->target) {
             $content = $this->snapshot->getContent();
 

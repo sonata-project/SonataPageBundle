@@ -112,11 +112,19 @@ abstract class Snapshot implements SnapshotInterface
 
     /**
      * @var PageInterface|null
+     *
+     * NEXT_MAJOR: Remove this method and remember to remove the field definition at "src/Resources/config/doctrine/BaseSnapshot.orm.xml"
+     *
+     * @deprecated since 3.27 and it will be removed on 4.0
      */
     protected $target;
 
     /**
      * @var int|null
+     *
+     * NEXT_MAJOR: Remove this method
+     *
+     * @deprecated since 3.27 and it will be removed on 4.0
      */
     protected $targetId;
 
@@ -296,6 +304,8 @@ abstract class Snapshot implements SnapshotInterface
     }
 
     /**
+     * NEXT_MAJOR: Remove this method.
+     *
      * @deprecated since sonata-project/page-bundle 2.4 and will be removed in 4.0
      */
     public function setSources($sources): void
@@ -306,6 +316,8 @@ abstract class Snapshot implements SnapshotInterface
     }
 
     /**
+     * NEXT_MAJOR: Remove this method.
+     *
      * @deprecated since sonata-project/page-bundle 2.4 and will be removed in 4.0
      */
     public function getSource()
@@ -315,23 +327,67 @@ abstract class Snapshot implements SnapshotInterface
         return $this->sources;
     }
 
+    /**
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @deprecated since 3.27 and it will be removed on 4.0
+     */
     public function setTarget($target): void
     {
+        @trigger_error(
+            'target page is deprecate since sonata-project/page-bundle 3.27.0'.
+            ', and it will be removed in 4.0',
+            \E_USER_DEPRECATED
+        );
+
         $this->target = $target;
     }
 
+    /**
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @deprecated since 3.27 and it will be removed on 4.0
+     */
     public function getTarget()
     {
+        @trigger_error(
+            'target page is deprecate since sonata-project/page-bundle 3.27.0'.
+            ', and it will be removed in 4.0',
+            \E_USER_DEPRECATED
+        );
+
         return $this->target;
     }
 
+    /**
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @deprecated since 3.27 and it will be removed on 4.0
+     */
     public function setTargetId($targetId): void
     {
+        @trigger_error(
+            'target page is deprecate since sonata-project/page-bundle 3.27.0'.
+            ', and it will be removed in 4.0',
+            \E_USER_DEPRECATED
+        );
+
         $this->targetId = $targetId;
     }
 
+    /**
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @deprecated since 3.27 and it will be removed on 4.0
+     */
     public function getTargetId()
     {
+        @trigger_error(
+            'target page is deprecate since sonata-project/page-bundle 3.27.0'.
+            ', and it will be removed in 4.0',
+            \E_USER_DEPRECATED
+        );
+
         return $this->targetId;
     }
 

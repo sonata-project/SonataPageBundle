@@ -18,13 +18,13 @@ namespace Sonata\PageBundle\Model;
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
- * @method int|null           getId()
- * @method int|null           getTargetId()
- * @method void               setTargetId(?int $targetId)
- * @method PageInterface|null getTarget()
- * @method void               setTarget(?PageInterface $target)
- * @method int|null           getParent()
- * @method void               setParentId(?int $parentId)
+ * @method int|null getId()
+ * @method int|null getTargetId()               NEXT_MAJOR: Remove this line.
+ * @method void     setTargetId(?int $targetId) NEXT_MAJOR: Remove this line.
+ * @method PageInterface|null getTarget(): NEXT_MAJOR: Remove this line.
+ * @method void     setTarget(?PageInterface $target) NEXT_MAJOR: Remove this line.
+ * @method int|null getParent()
+ * @method void     setParentId(?int $parentId)
  */
 interface SnapshotInterface
 {

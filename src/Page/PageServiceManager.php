@@ -106,10 +106,19 @@ final class PageServiceManager implements PageServiceManagerInterface
      * Creates a base response for given page.
      *
      * @return Response
+     *
+     * @deprecated since 3.27, and it will be removed in 4.0.
+     *
+     * NEXT_MAJOR: Remove this method, and move the response for the method above.
      */
     private function createResponse(PageInterface $page)
     {
         if ($page->getTarget()) {
+            @trigger_error(
+                'target page is deprecate since sonata-project/page-bundle 3.27.0'.
+                ', and it will be removed in 4.0',
+                \E_USER_DEPRECATED
+            );
             $page->addHeader('Location', $this->router->generate($page->getTarget()));
             $response = new Response('', 302, $page->getHeaders() ?: []);
         } else {
