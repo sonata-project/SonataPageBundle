@@ -64,33 +64,8 @@ final class SnapshotManagerTest extends TestCase
         $this->manager = new SnapshotManager(
             BaseSnapshot::class,
             $this->managerRegistry,
-            new SnapshotPageProxyFactory(SnapshotPageProxy::class),
-            []
+            new SnapshotPageProxyFactory(SnapshotPageProxy::class)
         );
-    }
-
-    public function testSetTemplates(): void
-    {
-        static::assertSame([], $this->manager->getTemplates());
-
-        $this->manager->setTemplates(['foo' => 'bar']);
-
-        static::assertSame(['foo' => 'bar'], $this->manager->getTemplates());
-    }
-
-    public function testGetTemplate(): void
-    {
-        $this->manager->setTemplates(['foo' => 'bar']);
-
-        static::assertSame('bar', $this->manager->getTemplate('foo'));
-    }
-
-    public function testGetTemplatesException(): void
-    {
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('No template references with the code : foo');
-
-        $this->manager->getTemplate('foo');
     }
 
     /**
@@ -182,7 +157,7 @@ final class SnapshotManagerTest extends TestCase
         $transformer = $this->createMock(TransformerInterface::class);
         $snapshot = $this->createMock(SnapshotInterface::class);
 
-        $manager = new SnapshotManager(BaseSnapshot::class, $registry, $snapshotProxyFactory, []);
+        $manager = new SnapshotManager(BaseSnapshot::class, $registry, $snapshotProxyFactory);
 
         $snapshotProxyFactory->expects(static::once())->method('create')
             ->with($manager, $transformer, $snapshot)

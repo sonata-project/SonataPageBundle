@@ -60,6 +60,9 @@ final class CloneSiteCommandTest extends TestCase
         $this->application->add($command);
     }
 
+    /**
+     * @group legacy
+     */
     public function testExecute(): void
     {
         $sourceSite = $this->createStub(SiteInterface::class);

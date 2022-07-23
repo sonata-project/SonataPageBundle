@@ -35,24 +35,17 @@ final class SnapshotManager extends BaseEntityManager implements SnapshotManager
 {
     protected array $children = [];
 
-    /**
-     * @var array<string, string>
-     */
-    protected array $templates = [];
-
     protected SnapshotPageProxyFactoryInterface $snapshotPageProxyFactory;
 
     /**
-     * @param string          $class     Namespace of entity class
-     * @param ManagerRegistry $registry  An entity manager instance
-     * @param array           $templates An array of templates
+     * @param string          $class    Namespace of entity class
+     * @param ManagerRegistry $registry An entity manager instance
      */
-    public function __construct($class, ManagerRegistry $registry, SnapshotPageProxyFactoryInterface $snapshotPageProxyFactory, $templates = [])
+    public function __construct($class, ManagerRegistry $registry, SnapshotPageProxyFactoryInterface $snapshotPageProxyFactory)
     {
         parent::__construct($class, $registry);
 
         $this->snapshotPageProxyFactory = $snapshotPageProxyFactory;
-        $this->templates = $templates;
     }
 
     public function enableSnapshots(array $snapshots, ?\DateTime $date = null): void
@@ -168,38 +161,6 @@ final class SnapshotManager extends BaseEntityManager implements SnapshotManager
         }
 
         return false;
-    }
-
-    /**
-     * @param array<string, string> $templates
-     */
-    public function setTemplates($templates): void
-    {
-        $this->templates = $templates;
-    }
-
-    /**
-     * @return array<string, string>
-     */
-    public function getTemplates()
-    {
-        return $this->templates;
-    }
-
-    /**
-     * @param string $code
-     *
-     * @throws \RuntimeException
-     *
-     * @return string
-     */
-    public function getTemplate($code)
-    {
-        if (!isset($this->templates[$code])) {
-            throw new \RuntimeException(sprintf('No template references with the code : %s', $code));
-        }
-
-        return $this->templates[$code];
     }
 
     public function cleanup(PageInterface $page, $keep)
