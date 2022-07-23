@@ -15,10 +15,7 @@ namespace Sonata\PageBundle\Model;
 
 final class SnapshotPageProxyFactory implements SnapshotPageProxyFactoryInterface
 {
-    /**
-     * @var string
-     */
-    private $snapshotPageProxyClass;
+    private string $snapshotPageProxyClass;
 
     /**
      * @param string $snapshotPageProxyClass class name

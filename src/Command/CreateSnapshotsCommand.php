@@ -47,7 +47,7 @@ class CreateSnapshotsCommand extends BaseCommand
             @trigger_error(sprintf(
                 'The %s class is final since sonata-project/page-bundle 3.27.0 and and it will be removed in 4.0'
                  .'release you won\'t be able to extend this class anymore.',
-                __CLASS__
+                self::class
             ), \E_USER_DEPRECATED);
             parent::__construct($createSnapshot);
         } else {

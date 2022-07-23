@@ -48,9 +48,7 @@ class PageSelectorType extends AbstractType
         $resolver->setDefaults([
             'page' => null,
             'site' => null,
-            'choices' => static function (Options $opts, $previousValue) use ($that) {
-                return $that->getChoices($opts);
-            },
+            'choices' => static fn (Options $opts, $previousValue) => $that->getChoices($opts),
             'choice_translation_domain' => false,
             'filter_choice' => [
                 'current_page' => false,

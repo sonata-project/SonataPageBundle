@@ -27,10 +27,7 @@ final class TemplateChoiceTypeTest extends TestCase
      */
     protected $manager;
 
-    /**
-     * @var TemplateChoiceType
-     */
-    protected $type;
+    protected TemplateChoiceType $type;
 
     /**
      * setup each unit test.

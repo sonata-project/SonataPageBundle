@@ -47,9 +47,7 @@ class Mustache
      */
     public static function replace($string, array $parameters)
     {
-        $replacer = static function ($match) use ($parameters) {
-            return $parameters[$match[1]] ?? $match[0];
-        };
+        $replacer = static fn ($match) => $parameters[$match[1]] ?? $match[0];
 
         return preg_replace_callback('/{{\s*(.+?)\s*}}/', $replacer, $string);
     }

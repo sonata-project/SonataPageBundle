@@ -29,10 +29,7 @@ final class PageServiceManagerTest extends TestCase
      */
     protected $router;
 
-    /**
-     * @var PageServiceManager
-     */
-    protected $manager;
+    protected PageServiceManager $manager;
 
     protected function setUp(): void
     {

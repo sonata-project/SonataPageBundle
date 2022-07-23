@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class RequestFactory
 {
-    private static $types = [
+    private static array $types = [
         'host' => Request::class,
         'host_with_path' => SiteRequest::class,
         'host_with_path_by_locale' => SiteRequest::class,
@@ -66,17 +66,7 @@ class RequestFactory
             return;
         }
 
-        Request::setFactory(static function (
-            array $query = [],
-            array $request = [],
-            array $attributes = [],
-            array $cookies = [],
-            array $files = [],
-            array $server = [],
-            $content = null
-        ) {
-            return new SiteRequest($query, $request, $attributes, $cookies, $files, $server, $content);
-        });
+        Request::setFactory(static fn (array $query = [], array $request = [], array $attributes = [], array $cookies = [], array $files = [], array $server = [], $content = null) => new SiteRequest($query, $request, $attributes, $cookies, $files, $server, $content));
     }
 
     /**

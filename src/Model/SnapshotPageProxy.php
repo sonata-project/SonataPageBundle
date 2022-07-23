@@ -22,20 +22,11 @@ namespace Sonata\PageBundle\Model;
  */
 class SnapshotPageProxy implements SnapshotPageProxyInterface
 {
-    /**
-     * @var SnapshotManagerInterface
-     */
-    private $manager;
+    private SnapshotManagerInterface $manager;
 
-    /**
-     * @var SnapshotInterface
-     */
-    private $snapshot;
+    private SnapshotInterface $snapshot;
 
-    /**
-     * @var PageInterface
-     */
-    private $page;
+    private ?PageInterface $page = null;
 
     /**
      * @var pageInterface|null
@@ -49,12 +40,9 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     /**
      * @var PageInterface[]
      */
-    private $parents;
+    private ?array $parents = null;
 
-    /**
-     * @var TransformerInterface
-     */
-    private $transformer;
+    private TransformerInterface $transformer;
 
     /**
      * @param SnapshotManagerInterface $manager     Snapshot manager

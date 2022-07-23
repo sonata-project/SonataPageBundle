@@ -102,7 +102,7 @@ final class SnapshotManagerTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->expectException('RuntimeException');
+        $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('No template references with the code : foo');
 
         $manager->getTemplate('foo');

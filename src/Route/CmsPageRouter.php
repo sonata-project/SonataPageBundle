@@ -196,7 +196,7 @@ class CmsPageRouter implements ChainedRouterInterface
         // NEXT_MAJOR: remove this if block
         if (!$this->context instanceof SiteRequestContextInterface) {
             @trigger_error(
-                sprintf('Since, 3.3 when calling %s, %s::$context should implement SiteRequestContextInterface. This will become mandatory in 4.0.', __METHOD__, __CLASS__),
+                sprintf('Since, 3.3 when calling %s, %s::$context should implement SiteRequestContextInterface. This will become mandatory in 4.0.', __METHOD__, self::class),
                 \E_USER_DEPRECATED
             );
 
@@ -300,7 +300,7 @@ class CmsPageRouter implements ChainedRouterInterface
      *
      * @throws PageNotFoundException
      *
-     * @return \Sonata\PageBundle\Model\PageInterface|null
+     * @return PageInterface|null
      */
     protected function getPageByPageAlias($alias)
     {

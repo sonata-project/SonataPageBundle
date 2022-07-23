@@ -29,25 +29,13 @@ use Symfony\Component\Routing\RouterInterface;
 
 final class CmsPageRouterTest extends TestCase
 {
-    /**
-     * @var CmsManagerSelectorInterface
-     */
-    protected $cmsSelector;
+    protected CmsManagerSelectorInterface $cmsSelector;
 
-    /**
-     * @var SiteSelectorInterface
-     */
-    protected $siteSelector;
+    protected SiteSelectorInterface $siteSelector;
 
-    /**
-     * @var RouterInterface
-     */
-    protected $defaultRouter;
+    protected RouterInterface $defaultRouter;
 
-    /**
-     * @var CmsPageRouter
-     */
-    protected $router;
+    protected CmsPageRouter $router;
 
     /**
      * Setup test object with its dependencies.

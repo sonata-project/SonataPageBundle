@@ -52,10 +52,7 @@ class ResponseListener
      */
     protected $templating;
 
-    /**
-     * @var bool
-     */
-    private $skipRedirection;
+    private bool $skipRedirection;
 
     /**
      * @param CmsManagerSelectorInterface $cmsSelector        CMS manager selector
