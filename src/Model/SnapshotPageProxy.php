@@ -38,7 +38,7 @@ class SnapshotPageProxy implements SnapshotPageProxyInterface
     private $target;
 
     /**
-     * @var PageInterface[]
+     * @var PageInterface[]|null
      */
     private ?array $parents = null;
 

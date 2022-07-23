@@ -66,7 +66,15 @@ class RequestFactory
             return;
         }
 
-        Request::setFactory(static fn (array $query = [], array $request = [], array $attributes = [], array $cookies = [], array $files = [], array $server = [], $content = null) => new SiteRequest($query, $request, $attributes, $cookies, $files, $server, $content));
+        Request::setFactory(static fn (
+            array $query = [],
+            array $request = [],
+            array $attributes = [],
+            array $cookies = [],
+            array $files = [],
+            array $server = [],
+            $content = null
+        ) => new SiteRequest($query, $request, $attributes, $cookies, $files, $server, $content));
     }
 
     /**
