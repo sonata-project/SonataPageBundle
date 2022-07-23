@@ -138,7 +138,7 @@ final class CloneSiteCommand extends Command
             }
         }
 
-        $output->writeln('Fixing page parents and targets');
+        $output->writeln('Fixing page parents');
         foreach ($pageClones as $page) {
             if ($page->getParent()) {
                 if (\array_key_exists($page->getParent()->getId(), $pageClones)) {
@@ -152,29 +152,6 @@ final class CloneSiteCommand extends Command
                     $page->setParent($pageClones[$page->getParent()->getId()]);
                 } else {
                     $page->setParent(null);
-                }
-            }
-
-            //NEXT_MAJOR: Remove this target condition block.
-            if ($page->getTarget()) {
-                @trigger_error(
-                    'target page is deprecate since sonata-project/page-bundle 3.27.0'.
-                    ', and it will be removed in 4.0',
-                    \E_USER_DEPRECATED
-                );
-
-                if (\array_key_exists($page->getTarget()->getId(), $pageClones)) {
-                    $output->writeln(
-                        sprintf(
-                            'new target: % 4s - % -70s - % 4s',
-                            $page->getId(),
-                            $page->getTitle(),
-                            $page->getParent() ? $page->getParent()->getId() : ''
-                        )
-                    );
-                    $page->setTarget($pageClones[$page->getTarget()->getId()]);
-                } else {
-                    $page->setTarget(null);
                 }
             }
 

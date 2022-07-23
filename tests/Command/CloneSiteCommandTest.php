@@ -60,9 +60,6 @@ final class CloneSiteCommandTest extends TestCase
         $this->application->add($command);
     }
 
-    /**
-     * @group legacy
-     */
     public function testExecute(): void
     {
         $sourceSite = $this->createStub(SiteInterface::class);
@@ -83,10 +80,7 @@ final class CloneSiteCommandTest extends TestCase
         $page2->method('getId')->willReturn(2);
         $page2->method('getTitle')->willReturn('Page 2');
         $page2->method('getParent')->willReturn($page1);
-        $page2->method('getTarget')->willReturn(null);
         $page2->method('isHybrid')->willReturn(true);
-
-        $page1->method('getTarget')->willReturn($page2);
 
         $page3 = $this->createStub(PageInterface::class);
         $page3->method('getId')->willReturn(3);
@@ -108,8 +102,6 @@ final class CloneSiteCommandTest extends TestCase
         $newPage2->expects(static::once())->method('setTitle')->with('Copy of Page 2');
         $newPage2->expects(static::once())->method('setSite')->with($destSite);
         $newPage2->expects(static::once())->method('setParent')->with($newPage1);
-
-        $newPage1->expects(static::once())->method('setTarget')->with($newPage2);
 
         $this->pageManager->expects(static::exactly(4))->method('save');
 

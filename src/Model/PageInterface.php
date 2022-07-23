@@ -201,24 +201,6 @@ interface PageInterface
     public function getBlocks();
 
     /**
-     * @param PageInterface|null $target
-     *
-     * NEXT_MAJOR: Remove this method
-     *
-     * @deprecated since 3.27 and it will be removed on 4.0
-     */
-    public function setTarget(?self $target = null);
-
-    /**
-     * @return PageInterface|null
-     *
-     * NEXT_MAJOR: Remove this method
-     *
-     * @deprecated since 3.27 and it will be removed on 4.0
-     */
-    public function getTarget();
-
-    /**
      * @param PageInterface|null $parent
      */
     public function setParent(?self $parent = null);

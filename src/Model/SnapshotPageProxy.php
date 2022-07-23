@@ -27,13 +27,6 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
     private ?PageInterface $page = null;
 
     /**
-     * NEXT_MAJOR: Remove this method.
-     *
-     * @deprecated since 3.27 and it will be removed on 4.0
-     */
-    private ?PageInterface $target = null;
-
-    /**
      * @var PageInterface[]|null
      */
     private ?array $parents = null;
@@ -141,54 +134,6 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
         }
 
         return $this->getPage()->getBlocks();
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this method.
-     *
-     * @deprecated since 3.27 and it will be removed on 4.0
-     */
-    public function setTarget(?PageInterface $target = null): void
-    {
-        @trigger_error(
-            'target page is deprecate since sonata-project/page-bundle 3.27.0'.
-            ', and it will be removed in 4.0',
-            \E_USER_DEPRECATED
-        );
-
-        $this->target = $target;
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this method.
-     *
-     * @deprecated since 3.27 and it will be removed on 4.0
-     */
-    public function getTarget()
-    {
-        @trigger_error(
-            'target page is deprecate since sonata-project/page-bundle 3.27.0'.
-            ', and it will be removed in 4.0',
-            \E_USER_DEPRECATED
-        );
-
-        if (null === $this->target) {
-            $content = $this->snapshot->getContent();
-
-            if (isset($content['target_id'])) {
-                $target = $this->manager->findEnableSnapshot([
-                    'pageId' => $content['target_id'],
-                ]);
-
-                if ($target) {
-                    $this->setTarget(new self($this->manager, $this->transformer, $target));
-                } else {
-                    $this->setTarget(null);
-                }
-            }
-        }
-
-        return $this->target ?: null;
     }
 
     public function getParent($level = -1)

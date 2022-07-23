@@ -97,9 +97,7 @@
             <argument type="service" id="twig"/>
             <argument type="collection"/>
         </service>
-        <service id="sonata.page.page_service_manager" class="%sonata.page.service.manager.class%" public="true">
-            <argument type="service" id="router"/>
-        </service>
+        <service id="sonata.page.page_service_manager" class="%sonata.page.service.manager.class%" public="true"/>
         <service id="sonata.page.service.default" class="%sonata.page.service.default.class%" public="true">
             <tag name="sonata.page"/>
             <argument>Default</argument>

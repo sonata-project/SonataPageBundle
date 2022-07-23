@@ -15,7 +15,6 @@ namespace Sonata\PageBundle\Tests\Model;
 
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Model\Block;
-use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SnapshotInterface;
 
 final class PageTest extends TestCase
@@ -154,11 +153,6 @@ final class PageTest extends TestCase
         static::assertFalse($page->hasRequestMethod('biloute'));
     }
 
-    /**
-     * NEXT_MAJOR: Remove legacy group.
-     *
-     * @group legacy
-     */
     public function testGetterSetter(): void
     {
         $page = new Page();
@@ -204,12 +198,6 @@ final class PageTest extends TestCase
         static::assertCount(2, $page->getSnapshots());
 
         static::assertInstanceOf(SnapshotInterface::class, $page->getSnapshot());
-
-        //NEXT_MAJOR remove those target code.
-        $page->setTarget($this->createMock(PageInterface::class));
-        static::assertInstanceOf(PageInterface::class, $page->getTarget());
-        $page->setTarget(null);
-        static::assertNull($page->getTarget());
 
         $page->setTemplateCode('template1');
         static::assertSame('template1', $page->getTemplateCode());
