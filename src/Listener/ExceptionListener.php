@@ -17,6 +17,7 @@ use Psr\Log\LoggerInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 use Sonata\PageBundle\Exception\InternalErrorException;
+use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Page\PageServiceManagerInterface;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -131,7 +132,7 @@ class ExceptionListener
      * @throws \RuntimeException      When site is not found, check your state database
      * @throws InternalErrorException When you do not configure page for http error code
      *
-     * @return \Sonata\PageBundle\Model\PageInterface
+     * @return PageInterface
      */
     public function getErrorCodePage($statusCode)
     {

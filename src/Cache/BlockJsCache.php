@@ -150,7 +150,7 @@ class BlockJsCache implements CacheAdapterInterface
             }
         }
     })();
-', $block->getId(), json_encode($response->getContent())));
+', $block->getId(), json_encode($response->getContent(), \JSON_THROW_ON_ERROR)));
 
         $response->headers->set('Content-Type', 'application/javascript');
 
@@ -236,7 +236,7 @@ class BlockJsCache implements CacheAdapterInterface
     {
         foreach (['block_id', 'page_id', 'manager', 'updated_at'] as $key) {
             if (!isset($keys[$key])) {
-                throw new \RuntimeException(sprintf('Please define a `%s` key, provided: %s', $key, json_encode(array_keys($keys))));
+                throw new \RuntimeException(sprintf('Please define a `%s` key, provided: %s', $key, json_encode(array_keys($keys), \JSON_THROW_ON_ERROR)));
             }
         }
     }

@@ -30,10 +30,7 @@ use Symfony\Component\Routing\RouterInterface;
  */
 final class RoutePageGeneratorTest extends TestCase
 {
-    /**
-     * @var RoutePageGenerator
-     */
-    protected $routePageGenerator;
+    protected RoutePageGenerator $routePageGenerator;
 
     /**
      * Set up dependencies.

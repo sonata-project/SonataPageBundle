@@ -40,10 +40,7 @@ final class SnapshotBlock extends Block
 
 final class CmsSnapshotManagerTest extends TestCase
 {
-    /**
-     * @var CmsSnapshotManager
-     */
-    protected $manager;
+    protected CmsSnapshotManager $manager;
 
     protected $blockInteractor;
 

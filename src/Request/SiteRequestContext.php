@@ -31,10 +31,7 @@ class SiteRequestContext extends RequestContext implements SiteRequestContextInt
      */
     protected $selector;
 
-    /**
-     * @var SiteInterface
-     */
-    private $site;
+    private ?SiteInterface $site = null;
 
     /**
      * @param string $baseUrl

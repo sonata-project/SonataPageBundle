@@ -55,10 +55,7 @@ final class ResponseListenerTest extends TestCase
      */
     private $templating;
 
-    /**
-     * @var ResponseListener
-     */
-    private $listener;
+    private ResponseListener $listener;
 
     /**
      * setup unit test.

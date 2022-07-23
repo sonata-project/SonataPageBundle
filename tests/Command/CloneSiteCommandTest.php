@@ -36,10 +36,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 final class CloneSiteCommandTest extends TestCase
 {
-    /**
-     * @var Application
-     */
-    private $application;
+    private Application $application;
 
     /**
      * @var Stub&SiteManagerInterface

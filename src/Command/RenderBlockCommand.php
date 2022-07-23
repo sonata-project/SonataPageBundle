@@ -69,14 +69,14 @@ HELP
         $output->writeln(sprintf('  > Id: %d - type: %s - name: %s', $block->getId(), $block->getType(), $block->getName()));
 
         foreach ($block->getSettings() as $name => $value) {
-            $output->writeln(sprintf('   >> %s: %s', $name, json_encode($value)));
+            $output->writeln(sprintf('   >> %s: %s', $name, json_encode($value, \JSON_THROW_ON_ERROR)));
         }
 
         $context = $this->getContainer()->get('sonata.block.context_manager')->get($block);
 
         $output->writeln("\n<info>BlockContext Information</info>");
         foreach ($context->getSettings() as $name => $value) {
-            $output->writeln(sprintf('   >> %s: %s', $name, json_encode($value)));
+            $output->writeln(sprintf('   >> %s: %s', $name, json_encode($value, \JSON_THROW_ON_ERROR)));
         }
 
         $output->writeln("\n<info>Response Output</info>");

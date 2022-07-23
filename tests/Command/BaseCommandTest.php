@@ -25,10 +25,7 @@ use Symfony\Component\Console\Input\InputInterface;
  */
 final class BaseCommandTest extends TestCase
 {
-    /**
-     * @var BaseCommand
-     */
-    private $command;
+    private BaseCommand $command;
 
     /**
      * Sets up a new BaseCommand instance.

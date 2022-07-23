@@ -33,10 +33,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 final class CreateSiteCommandTest extends TestCase
 {
-    /**
-     * @var Application
-     */
-    private $application;
+    private Application $application;
 
     /**
      * @var MockObject&SiteManagerInterface

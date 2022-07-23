@@ -102,7 +102,7 @@ final class SnapshotManagerTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->expectException('RuntimeException');
+        $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('No template references with the code : foo');
 
         $manager->getTemplate('foo');
@@ -189,9 +189,7 @@ final class SnapshotManagerTest extends TestCase
 
         $metaDataFactory = $this->createMock(ClassMetadataFactory::class);
         $metaDataFactory->method('hasMetadataFor')
-            ->willReturnCallback(static function ($class) {
-                return SonataPageSnapshot::class === $class;
-            });
+            ->willReturnCallback(static fn ($class) => SonataPageSnapshot::class === $class);
         $metaDataFactory->method('getMetadataFor')->with(SonataPageSnapshot::class)->willReturn($classMetadata);
         $em->method('getMetadataFactory')->willReturn($metaDataFactory);
 

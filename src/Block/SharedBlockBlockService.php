@@ -45,15 +45,9 @@ class SharedBlockBlockService extends AbstractAdminBlockService
      */
     private $sharedBlockAdmin;
 
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
+    private ContainerInterface $container;
 
-    /**
-     * @var BlockManagerInterface
-     */
-    private $blockManager;
+    private BlockManagerInterface $blockManager;
 
     /**
      * @param string $name

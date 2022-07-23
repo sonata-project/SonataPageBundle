@@ -39,45 +39,24 @@ use Twig\TwigFunction;
  */
 class PageExtension extends AbstractExtension implements InitRuntimeInterface
 {
-    /**
-     * @var CmsManagerSelectorInterface
-     */
-    private $cmsManagerSelector;
+    private CmsManagerSelectorInterface $cmsManagerSelector;
 
-    /**
-     * @var SiteSelectorInterface
-     */
-    private $siteSelector;
+    private SiteSelectorInterface $siteSelector;
 
     /**
      * @var array
      */
     private $resources;
 
-    /**
-     * @var Environment
-     */
-    private $environment;
+    private ?Environment $environment = null;
 
-    /**
-     * @var RouterInterface
-     */
-    private $router;
+    private RouterInterface $router;
 
-    /**
-     * @var BlockHelper
-     */
-    private $blockHelper;
+    private BlockHelper $blockHelper;
 
-    /**
-     * @var HttpKernelExtension
-     */
-    private $httpKernelExtension;
+    private HttpKernelExtension $httpKernelExtension;
 
-    /**
-     * @var bool
-     */
-    private $hideDisabledBlocks;
+    private bool $hideDisabledBlocks;
 
     /**
      * @param CmsManagerSelectorInterface $cmsManagerSelector A CMS manager selector
