@@ -112,7 +112,7 @@ final class PageAdminController extends CRUDController
         $theme = $this->admin->getFilterTheme();
         $this->setFormTheme($formView, $theme);
 
-        return $this->renderWithExtraParams($this->templateRegistry->getTemplate('tree'), [
+        return $this->renderWithExtraParams($this->admin->getTemplateRegistry()->getTemplate('tree'), [
             'action' => 'tree',
             'sites' => $sites,
             'currentSite' => $currentSite,
@@ -142,7 +142,7 @@ final class PageAdminController extends CRUDController
                 $current = false;
             }
 
-            return $this->renderWithExtraParams($this->templateRegistry->getTemplate('select_site'), [
+            return $this->renderWithExtraParams($this->admin->getTemplateRegistry()->getTemplate('select_site'), [
                 'sites' => $sites,
                 'current' => $current,
             ]);
@@ -214,7 +214,7 @@ final class PageAdminController extends CRUDController
             }
         }
 
-        return $this->renderWithExtraParams($this->templateRegistry->getTemplate('compose'), [
+        return $this->renderWithExtraParams($this->admin->getTemplateRegistry()->getTemplate('compose'), [
             'object' => $page,
             'action' => 'edit',
             'template' => $template,
@@ -264,7 +264,7 @@ final class PageAdminController extends CRUDController
             }
         }
 
-        return $this->renderWithExtraParams($this->templateRegistry->getTemplate('compose_container_show'), [
+        return $this->renderWithExtraParams($this->admin->getTemplateRegistry()->getTemplate('compose_container_show'), [
             'blockServices' => $blockServices,
             'container' => $block,
             'page' => $block->getPage(),

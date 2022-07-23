@@ -15,8 +15,10 @@ namespace Sonata\PageBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController;
 use Sonata\PageBundle\Form\Type\CreateSnapshotType;
+use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SnapshotInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
+use Sonata\PageBundle\Service\CreateSnapshotService;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
