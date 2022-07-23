@@ -31,7 +31,7 @@ class SonataPageSnapshot extends BaseSnapshot
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected int $id;
+    protected ?int $id = null;
 
     /**
      * @ORM\ManyToOne(

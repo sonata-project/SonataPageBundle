@@ -627,7 +627,7 @@ abstract class Page implements PageInterface
             $text = strtolower($text);
 
             // remove unwanted characters
-            $text = preg_replace('~[^\-\w]+~', '', $text);
+            $text = preg_replace('~[^\\-\w]+~', '', $text);
 
             return $text;
         }

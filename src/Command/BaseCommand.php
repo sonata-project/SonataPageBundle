@@ -117,7 +117,7 @@ abstract class BaseCommand extends ContainerAwareCommand
             @trigger_error(
                 sprintf(
                     'The %s class is deprecate since sonata-project/page-bundle 3.27.0 and it will be remove in 4.0',
-                    __CLASS__
+                    self::class
                 ),
                 \E_USER_DEPRECATED
             );
