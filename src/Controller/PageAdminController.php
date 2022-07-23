@@ -59,9 +59,7 @@ final class PageAdminController extends CRUDController
      */
     public function batchActionSnapshot($query)
     {
-        if (false === $this->container->get('sonata.page.admin.snapshot')->isGranted('CREATE')) {
-            throw new AccessDeniedException();
-        }
+        $this->container->get('sonata.page.admin.snapshot')->checkAccess('create');
 
         foreach ($query->execute() as $page) {
             $this->container->get('sonata.page.service.create_snapshot')->createByPage($page);
