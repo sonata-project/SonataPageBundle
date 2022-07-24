@@ -139,15 +139,6 @@ abstract class Page implements PageInterface
     protected $parents;
 
     /**
-     * @var PageInterface|null
-     *
-     * NEXT_MAJOR: Remove this property
-     *
-     * @deprecated since 3.27 and it will be removed on 4.0
-     */
-    protected $target;
-
-    /**
      * @var Collection<array-key, PageInterface>
      */
     protected $children;
@@ -434,36 +425,11 @@ abstract class Page implements PageInterface
         $this->snapshots = $snapshots;
     }
 
-    public function getTarget()
-    {
-        @trigger_error(
-            'target page is deprecate since sonata-project/page-bundle 3.27.0'.
-            ', and it will be removed in 4.0',
-            \E_USER_DEPRECATED
-        );
-
-        return $this->target;
-    }
-
     public function addSnapshot(SnapshotInterface $snapshot): void
     {
         $this->snapshots[] = $snapshot;
 
         $snapshot->setPage($this);
-    }
-
-    /**
-     * @param PageInterface $target
-     */
-    public function setTarget(?PageInterface $target = null): void
-    {
-        @trigger_error(
-            'target page is deprecate since sonata-project/page-bundle 3.27.0'.
-            ', and it will be removed in 4.0',
-            \E_USER_DEPRECATED
-        );
-
-        $this->target = $target;
     }
 
     public function addBlocks(PageBlockInterface $block): void

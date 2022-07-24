@@ -333,26 +333,6 @@ final class SonataPageExtension extends Extension implements PrependExtensionInt
         );
 
         $collector->addAssociation(
-            $config['class']['page'],
-            'mapOneToMany',
-            OptionsBuilder::createOneToMany('sources', $config['class']['page'])
-                ->mappedBy('target')
-        );
-
-        $collector->addAssociation(
-            $config['class']['page'],
-            'mapManyToOne',
-            OptionsBuilder::createManyToOne('target', $config['class']['page'])
-                ->cascade(['persist'])
-                ->inversedBy('sources')
-                ->addJoin([
-                    'name' => 'target_id',
-                    'referencedColumnName' => 'id',
-                    'onDelete' => 'CASCADE',
-                ])
-        );
-
-        $collector->addAssociation(
             $config['class']['block'],
             'mapOneToMany',
             OptionsBuilder::createOneToMany('children', $config['class']['block'])
