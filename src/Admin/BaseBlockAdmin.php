@@ -25,8 +25,6 @@ use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Abstract admin class for the Block model.
- *
  * @extends AbstractAdmin<PageBlockInterface>
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>

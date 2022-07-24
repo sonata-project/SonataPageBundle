@@ -29,8 +29,6 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Admin class for the Block model.
- *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 final class BlockAdmin extends BaseBlockAdmin
@@ -39,7 +37,7 @@ final class BlockAdmin extends BaseBlockAdmin
 
     protected $classnameLabel = 'Block';
 
-    protected $accessMapping = [
+    protected array $accessMapping = [
         'savePosition' => 'EDIT',
         'switchParent' => 'EDIT',
         'composePreview' => 'EDIT',

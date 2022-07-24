@@ -36,8 +36,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
- * Admin definition for the Page class.
- *
  * @extends AbstractAdmin<PageInterface>
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
@@ -50,7 +48,7 @@ final class PageAdmin extends AbstractAdmin
 
     protected ?SiteManagerInterface $siteManager = null;
 
-    protected $accessMapping = [
+    protected array $accessMapping = [
         'tree' => 'LIST',
         'compose' => 'EDIT',
     ];

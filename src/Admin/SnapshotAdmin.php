@@ -21,8 +21,6 @@ use Sonata\Form\Type\DateTimePickerType;
 use Sonata\PageBundle\Model\SnapshotInterface;
 
 /**
- * Admin definition for the Snapshot class.
- *
  * @extends AbstractAdmin<SnapshotInterface>
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
@@ -31,7 +29,7 @@ final class SnapshotAdmin extends AbstractAdmin
 {
     protected $classnameLabel = 'Snapshot';
 
-    protected $accessMapping = [
+    protected array $accessMapping = [
         'batchToggleEnabled' => 'EDIT',
     ];
 

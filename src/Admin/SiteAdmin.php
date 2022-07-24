@@ -26,8 +26,6 @@ use Symfony\Component\Form\Extension\Core\Type\LocaleType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 /**
- * Admin definition for the Site class.
- *
  * @extends AbstractAdmin<SiteInterface>
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
