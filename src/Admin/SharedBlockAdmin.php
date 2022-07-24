@@ -36,12 +36,12 @@ final class SharedBlockAdmin extends BaseBlockAdmin
 
     protected function generateBaseRoutePattern(bool $isChildAdmin = false): string
     {
-        return sprintf('%s/%s', parent::generateBaseRoutePattern(), 'shared');
+        return sprintf('%s/%s', parent::generateBaseRoutePattern($isChildAdmin), 'shared');
     }
 
     protected function generateBaseRouteName(bool $isChildAdmin = false): string
     {
-        return sprintf('%s/%s', parent::generateBaseRouteName(), 'shared');
+        return sprintf('%s/%s', parent::generateBaseRouteName($isChildAdmin), 'shared');
     }
 
     protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
