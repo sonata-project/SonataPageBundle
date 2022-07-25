@@ -1,5 +1,4 @@
 imports:
-    - security.yaml
     - doctrine.yaml
     - sonata.yaml
 
@@ -13,6 +12,15 @@ framework:
     csrf_protection:
         enabled: false
     http_method_override: false
+
+security:
+    role_hierarchy: null
+
+    firewalls:
+        test:
+            security: false
+
+    access_control: null
 
 twig:
     exception_controller: null
