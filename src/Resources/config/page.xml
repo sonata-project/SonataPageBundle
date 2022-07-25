@@ -62,6 +62,7 @@
         </service>
         <service id="sonata.page.cms_manager_selector" class="%sonata.page.cms_manager_selector.class%" public="true">
             <tag name="kernel.event_listener" event="security.interactive_login" method="onSecurityInteractiveLogin"/>
+            <tag name="kernel.event_listener" event="Symfony\Component\Security\Http\Event\LogoutEvent" method="onLogout"/>
             <argument type="service" id="service_container"/>
         </service>
         <service id="sonata.page.cms.page" class="%sonata.page.cms_manager.page.class%" public="true">
