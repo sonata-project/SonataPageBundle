@@ -84,7 +84,7 @@ interface PageInterface
     public function getEnabled();
 
     /**
-     * @param string $name
+     * @param string|null $name
      */
     public function setName($name);
 
@@ -292,10 +292,7 @@ interface PageInterface
      */
     public function addHeader($name, $value);
 
-    /**
-     * @return array
-     */
-    public function getHeaders();
+    public function getHeaders(): array;
 
     /**
      * @param PageInterface[] $parents

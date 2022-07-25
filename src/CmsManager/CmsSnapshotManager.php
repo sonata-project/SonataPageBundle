@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\CmsManager;
 
-use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\BlockBundle\Util\RecursiveBlockIterator;
 use Sonata\PageBundle\Exception\PageNotFoundException;
+use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
@@ -69,7 +69,7 @@ final class CmsSnapshotManager extends BaseCmsPageManager
         return $this->getPageByRouteName($site, sprintf('_page_internal_%s', $routeName));
     }
 
-    public function findContainer($name, PageInterface $page, ?BlockInterface $parentContainer = null)
+    public function findContainer($name, PageInterface $page, ?PageBlockInterface $parentContainer = null)
     {
         $container = null;
 

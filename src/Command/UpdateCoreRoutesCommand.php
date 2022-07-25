@@ -46,7 +46,7 @@ final class UpdateCoreRoutesCommand extends Command
     {
         $this->setDescription('Update core routes, from routing files to page manager');
         $this->addOption('clean', null, InputOption::VALUE_NONE, 'Removes all unused routes');
-        $this->addOption('site', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Site id');
+        $this->addOption('site', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Site id');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -64,7 +64,7 @@ final class UpdateCoreRoutesCommand extends Command
     }
 
     /**
-     * @param array<int> $ids
+     * @param array<string> $ids
      *
      * @return array<SiteInterface>
      */

@@ -220,8 +220,8 @@ MSG
     /**
      * Output a Symfony console message with writeln() function.
      *
-     * @param OutputInterface|null $output  A Symfony console output instance
-     * @param string               $message A string message to output
+     * @param OutputInterface|null    $output  A Symfony console output instance
+     * @param string|iterable<string> $message A string message to output
      */
     private function writeln(?OutputInterface $output, $message): void
     {

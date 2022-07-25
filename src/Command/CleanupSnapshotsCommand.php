@@ -42,7 +42,7 @@ final class CleanupSnapshotsCommand extends Command
         $this->setDescription('Cleanups the deprecated snapshots by a given site');
 
         $this->addOption('site', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Site id');
-        $this->addOption('keep-snapshots', null, InputOption::VALUE_OPTIONAL, 'Keep a given count of snapshots per page', 5);
+        $this->addOption('keep-snapshots', null, InputOption::VALUE_REQUIRED, 'Keep a given count of snapshots per page', 5);
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output): void
@@ -71,7 +71,7 @@ final class CleanupSnapshotsCommand extends Command
     }
 
     /**
-     * @param array<int> $ids
+     * @param array<string> $ids
      *
      * @return array<SiteInterface>
      */

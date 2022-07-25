@@ -101,7 +101,7 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
         $this->getPage()->addHeader($name, $value);
     }
 
-    public function getHeaders()
+    public function getHeaders(): array
     {
         return $this->getPage()->getHeaders();
     }

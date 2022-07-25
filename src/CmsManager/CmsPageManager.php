@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\CmsManager;
 
-use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Model\BlockInteractorInterface;
+use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteInterface;
@@ -89,7 +89,7 @@ final class CmsPageManager extends BaseCmsPageManager
         return $page;
     }
 
-    public function findContainer($name, PageInterface $page, ?BlockInterface $parentContainer = null)
+    public function findContainer($name, PageInterface $page, ?PageBlockInterface $parentContainer = null)
     {
         $container = null;
 

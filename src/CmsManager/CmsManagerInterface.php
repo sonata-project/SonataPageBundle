@@ -13,11 +13,9 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\CmsManager;
 
-use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SiteInterface;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * The CmsManagerInterface class is in charge of retrieving the correct page (cms page or action page).
@@ -31,9 +29,9 @@ interface CmsManagerInterface
     /**
      * @param string $name
      *
-     * @return BlockInterface|bool|null
+     * @return PageBlockInterface|null
      */
-    public function findContainer($name, PageInterface $page, ?BlockInterface $parentContainer = null);
+    public function findContainer($name, PageInterface $page, ?PageBlockInterface $parentContainer = null);
 
     /**
      * Returns a fully loaded page ( + blocks ) from a url.
@@ -106,12 +104,12 @@ interface CmsManagerInterface
     /**
      * Returns the list of loaded block from the current http request.
      *
-     * @return BlockInterface[]
+     * @return PageBlockInterface[]
      */
     public function getBlocks();
 
     /**
-     * @param string $page
+     * @param int|string|null $page
      *
      * @return PageInterface
      */

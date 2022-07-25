@@ -52,14 +52,14 @@ final class PageController extends Controller
     {
         $cms = $this->getCmsManager();
 
-        if (!$this->getExceptionListener()->hasErrorCode($code)) {
+        if (!$this->getExceptionListener()->hasErrorCode((int) $code)) {
             throw new InternalErrorException(sprintf('The error code "%s" is not set in the configuration', $code));
         }
 
         try {
-            $page = $this->getExceptionListener()->getErrorCodePage($code);
+            $page = $this->getExceptionListener()->getErrorCodePage((int) $code);
         } catch (PageNotFoundException $e) {
-            throw new InternalErrorException('The requested error page does not exist, please run the sonata:page:update-core-routes command', null, $e);
+            throw new InternalErrorException('The requested error page does not exist, please run the sonata:page:update-core-routes command', 0, $e);
         }
 
         $cms->setCurrentPage($page);

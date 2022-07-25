@@ -64,7 +64,7 @@ final class CreateSnapshotsCommand extends Command
     }
 
     /**
-     * @param array<int> $ids
+     * @param array<string> $ids
      *
      * @return array<SiteInterface>
      */

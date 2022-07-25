@@ -16,6 +16,7 @@ namespace Sonata\PageBundle\Entity;
 use Sonata\Doctrine\Entity\BaseEntityManager;
 use Sonata\PageBundle\Model\BlockManagerInterface;
 use Sonata\PageBundle\Model\PageBlockInterface;
+use Sonata\PageBundle\Model\PageInterface;
 
 /**
  * This class manages BlockInterface persistency with the Doctrine ORM.
@@ -34,10 +35,16 @@ final class BlockManager extends BaseEntityManager implements BlockManagerInterf
             // retrieve object references
             $block = $this->getEntityManager()->getReference($this->getClass(), $id);
             $pageRelation = $meta->getAssociationMapping('page');
-            $page = $this->getEntityManager()->getPartialReference($pageRelation['targetEntity'], $pageId);
+            /** @var class-string<PageInterface> */
+            $pageClassName = $pageRelation['targetEntity'];
+
+            $page = $this->getEntityManager()->getPartialReference($pageClassName, $pageId);
 
             $parentRelation = $meta->getAssociationMapping('parent');
-            $parent = $this->getEntityManager()->getPartialReference($parentRelation['targetEntity'], $parentId);
+            /** @var class-string<PageBlockInterface> */
+            $parentClassName = $pageRelation['targetEntity'];
+
+            $parent = $this->getEntityManager()->getPartialReference($parentClassName, $parentId);
 
             $block->setPage($page);
             $block->setParent($parent);
