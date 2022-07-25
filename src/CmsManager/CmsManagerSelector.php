@@ -83,7 +83,7 @@ final class CmsManagerSelector implements CmsManagerSelectorInterface
         if ($request->cookies->has('sonata_page_is_editor')) {
             $response = $event->getResponse();
 
-            if ($response !== null) {
+            if (null !== $response) {
                 $response->headers->clearCookie('sonata_page_is_editor');
             }
         }
