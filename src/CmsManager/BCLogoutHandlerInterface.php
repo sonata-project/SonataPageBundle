@@ -13,17 +13,17 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\CmsManager;
 
-use Symfony\Component\Security\Http\Logout\LogoutHandlerInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticatorManager;
 
 /* TODO: Simplify this when dropping support for Symfony 4 */
-if (interface_exists(LogoutHandlerInterface::class)) {
+if (class_exists(AuthenticatorManager::class)) {
     /** @psalm-suppress UnrecognizedStatement */
-    interface BCLogoutHandlerInterface extends LogoutHandlerInterface
+    interface BCLogoutHandlerInterface
     {
     }
 } else {
     /** @psalm-suppress UnrecognizedStatement */
-    interface BCLogoutHandlerInterface
+    interface BCLogoutHandlerInterface extends LogoutHandlerInterface
     {
     }
 }
