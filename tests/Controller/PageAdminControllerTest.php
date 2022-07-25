@@ -15,12 +15,11 @@ namespace Sonata\PageBundle\Tests\Controller;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\Pool;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Request\AdminFetcher;
-use Sonata\AdminBundle\Templating\TemplateRegistryInterface;
+use Sonata\AdminBundle\Templating\MutableTemplateRegistryInterface;
 use Sonata\PageBundle\Controller\PageAdminController;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Service\Contract\CreateSnapshotByPageInterface;
@@ -65,7 +64,8 @@ class PageAdminControllerTest extends TestCase
 
     public function testCreateSnapshotByPage(): void
     {
-        $adminSnapshot = $this->createMock(AbstractAdmin::class);
+        $adminSnapshot = $this->createMock(AdminInterface::class);
+
         $this->container->set('sonata.page.admin.snapshot', $adminSnapshot);
 
         $this->admin->method('generateUrl')->willReturn('https://fake.bar');
@@ -93,18 +93,18 @@ class PageAdminControllerTest extends TestCase
 
         $adminFetcher = new AdminFetcher($pool);
 
-        $templateRegistry = $this->createStub(TemplateRegistryInterface::class);
+        $templateRegistry = $this->createStub(MutableTemplateRegistryInterface::class);
 
         $this->configureGetCurrentRequest($this->request);
 
         $this->request->query->set('_sonata_admin', 'admin_code');
 
         $this->container->set('admin_code', $this->admin);
-        $this->container->set('sonata.admin.pool.do-not-use', $pool);
-        $this->container->set('admin_code.template_registry', $templateRegistry);
         $this->container->set('sonata.admin.request.fetcher', $adminFetcher);
 
         $this->admin->method('getCode')->willReturn('admin_code');
+        $this->admin->method('hasTemplateRegistry')->willReturn(true);
+        $this->admin->method('getTemplateRegistry')->willReturn($templateRegistry);
     }
 
     private function configureGetCurrentRequest(Request $request): void

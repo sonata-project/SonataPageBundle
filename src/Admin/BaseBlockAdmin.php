@@ -17,7 +17,7 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
 use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
@@ -25,8 +25,6 @@ use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Abstract admin class for the Block model.
- *
  * @extends AbstractAdmin<PageBlockInterface>
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
@@ -48,104 +46,6 @@ abstract class BaseBlockAdmin extends AbstractAdmin
      */
     protected $containerBlockTypes = [];
 
-    public function preUpdate($object): void
-    {
-        $block = $this->blockManager->get($object);
-
-        if (\is_callable([$block, 'preUpdate'])) {
-            $block->preUpdate($object);
-
-            @trigger_error(
-                'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.12.0 and will be removed in version 4.0.',
-                \E_USER_DEPRECATED
-            );
-        }
-
-        if ($object->getPage() instanceof PageInterface) {
-            $object->getPage()->setEdited(true);
-        }
-    }
-
-    public function postUpdate($object): void
-    {
-        $block = $this->blockManager->get($object);
-
-        if (\is_callable([$block, 'postUpdate'])) {
-            $block->postUpdate($object);
-
-            @trigger_error(
-                'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.12.0 and will be removed in version 4.0.',
-                \E_USER_DEPRECATED
-            );
-        }
-    }
-
-    public function prePersist($object): void
-    {
-        $block = $this->blockManager->get($object);
-
-        if (\is_callable([$block, 'prePersist'])) {
-            $block->prePersist($object);
-
-            @trigger_error(
-                'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.12.0 and will be removed in version 4.0.',
-                \E_USER_DEPRECATED
-            );
-        }
-
-        if ($object->getPage() instanceof PageInterface) {
-            $object->getPage()->setEdited(true);
-        }
-    }
-
-    public function postPersist($object): void
-    {
-        $block = $this->blockManager->get($object);
-
-        if (\is_callable([$block, 'postPersist'])) {
-            $block->postPersist($object);
-
-            @trigger_error(
-                'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.12.0 and will be removed in version 4.0.',
-                \E_USER_DEPRECATED
-            );
-        }
-    }
-
-    public function preRemove($object): void
-    {
-        $block = $this->blockManager->get($object);
-
-        if (\is_callable([$block, 'preRemove'])) {
-            $block->preRemove($object);
-
-            @trigger_error(
-                'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.12.0 and will be removed in version 4.0.',
-                \E_USER_DEPRECATED
-            );
-        }
-
-        $page = $object->getPage();
-
-        if ($page instanceof PageInterface) {
-            $page->setEdited(true);
-        }
-    }
-
-    public function postRemove($object): void
-    {
-        $block = $this->blockManager->get($object);
-
-        if (\is_callable([$block, 'postRemove'])) {
-            $block->postRemove($object);
-
-            @trigger_error(
-                'The '.__METHOD__.'() method is deprecated since sonata-project/block-bundle 3.12.0 and will be removed in version 4.0.',
-                \E_USER_DEPRECATED
-            );
-        }
-    }
-
     public function setBlockManager(BlockServiceManagerInterface $blockManager): void
     {
         $this->blockManager = $blockManager;
@@ -156,11 +56,10 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         $this->containerBlockTypes = $containerBlockTypes;
     }
 
-    public function preBatchAction($actionName, ProxyQueryInterface $query, array &$idx, $allElements): void
+    public function preBatchAction(string $actionName, ProxyQueryInterface $query, array &$idx, bool $allElements = false): void
     {
-        $parent = $this->getParent();
-
-        if ($parent && 'delete' === $actionName) {
+        if ($this->isChild() && 'delete' === $actionName) {
+            $parent = $this->getParent();
             $subject = $parent->getSubject();
 
             if ($subject instanceof PageInterface) {
@@ -169,6 +68,29 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         }
 
         parent::preBatchAction($actionName, $query, $idx, $allElements);
+    }
+
+    protected function preUpdate(object $object): void
+    {
+        if ($object->getPage() instanceof PageInterface) {
+            $object->getPage()->setEdited(true);
+        }
+    }
+
+    protected function prePersist(object $object): void
+    {
+        if ($object->getPage() instanceof PageInterface) {
+            $object->getPage()->setEdited(true);
+        }
+    }
+
+    protected function preRemove(object $object): void
+    {
+        $page = $object->getPage();
+
+        if ($page instanceof PageInterface) {
+            $page->setEdited(true);
+        }
     }
 
     protected function alterObject(object $object): void
@@ -194,7 +116,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         ];
     }
 
-    protected function configureRoutes(RouteCollection $collection): void
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection->add('view', $this->getRouterIdParameter().'/view');
     }

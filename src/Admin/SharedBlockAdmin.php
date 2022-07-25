@@ -23,8 +23,6 @@ use Sonata\PageBundle\Entity\BaseBlock;
 use Sonata\PageBundle\Mapper\PageFormMapper;
 
 /**
- * Admin class for shared Block model.
- *
  * @author Romain Mouillard <romain.mouillard@gmail.com>
  */
 final class SharedBlockAdmin extends BaseBlockAdmin
@@ -34,14 +32,14 @@ final class SharedBlockAdmin extends BaseBlockAdmin
      */
     protected $classnameLabel = 'shared_block';
 
-    public function getBaseRoutePattern()
+    protected function generateBaseRoutePattern(bool $isChildAdmin = false): string
     {
-        return sprintf('%s/%s', parent::getBaseRoutePattern(), 'shared');
+        return sprintf('%s/%s', parent::generateBaseRoutePattern($isChildAdmin), 'shared');
     }
 
-    public function getBaseRouteName()
+    protected function generateBaseRouteName(bool $isChildAdmin = false): string
     {
-        return sprintf('%s/%s', parent::getBaseRouteName(), 'shared');
+        return sprintf('%s/%s', parent::generateBaseRouteName($isChildAdmin), 'shared');
     }
 
     protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
@@ -72,7 +70,7 @@ final class SharedBlockAdmin extends BaseBlockAdmin
 
         // New block
         if (null === $block->getId() && $this->hasRequest()) {
-            $block->setType($this->request->get('type'));
+            $block->setType($this->getRequest()->get('type'));
         }
 
         $form

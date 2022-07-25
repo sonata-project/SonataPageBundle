@@ -13,13 +13,13 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Admin;
 
-use Knp\Menu\ItemInterface as MenuItemInterface;
+use Knp\Menu\ItemInterface;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\CallbackFilter;
 use Sonata\PageBundle\Exception\InternalErrorException;
@@ -36,8 +36,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
- * Admin definition for the Page class.
- *
  * @extends AbstractAdmin<PageInterface>
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
@@ -50,12 +48,12 @@ final class PageAdmin extends AbstractAdmin
 
     protected ?SiteManagerInterface $siteManager = null;
 
-    protected $accessMapping = [
+    protected array $accessMapping = [
         'tree' => 'LIST',
         'compose' => 'EDIT',
     ];
 
-    public function configureRoutes(RouteCollection $collection): void
+    public function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection->add('compose', '{id}/compose', [
             'id' => null,
@@ -128,7 +126,7 @@ final class PageAdmin extends AbstractAdmin
         return $this->siteManager->findBy([]);
     }
 
-    protected function configureBatchActions($actions): array
+    protected function configureBatchActions(array $actions): array
     {
         $actions = parent::configureBatchActions($actions);
 
@@ -179,11 +177,13 @@ final class PageAdmin extends AbstractAdmin
             return $parameters;
         }
 
-        if ($site = $this->request->get('site', null)) {
-            $this->request->getSession()->set($key, $site);
+        $request = $this->getRequest();
+
+        if ($site = $request->get('site', null)) {
+            $request->getSession()->set($key, $site);
         }
 
-        if ($site = $this->request->getSession()->get($key, null)) {
+        if ($site = $request->getSession()->get($key, null)) {
             $parameters['site'] = $site;
         }
 
@@ -274,7 +274,7 @@ final class PageAdmin extends AbstractAdmin
 
         $form
             ->with('form_page.group_main_label')
-                ->add('name')
+                ->add('name', null, ['help' => 'help_page_name'])
                 ->add('enabled', null, ['required' => false])
                 ->add('position')
             ->end();
@@ -358,13 +358,9 @@ final class PageAdmin extends AbstractAdmin
                 ->add('stylesheet', null, ['required' => false])
                 ->add('rawHeaders', null, ['required' => false])
             ->end();
-
-        $form->setHelps([
-            'name' => 'help_page_name',
-        ]);
     }
 
-    protected function configureTabMenu(MenuItemInterface $menu, $action, ?AdminInterface $childAdmin = null): void
+    protected function configureTabMenu(ItemInterface $menu, string $action, ?AdminInterface $childAdmin = null): void
     {
         if (!$childAdmin && !\in_array($action, ['edit'], true)) {
             return;
