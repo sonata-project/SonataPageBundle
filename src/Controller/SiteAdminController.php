@@ -59,9 +59,7 @@ final class SiteAdminController extends CRUDController
         $this->admin->setSubject($object);
 
         if ('POST' === $request->getMethod()) {
-            //NEXT_MAJOR: inject CreateSnapshotBySiteInterface and remove this get.
-            $createSnapshot = $this->container->get('sonata.page.service.create_snapshot');
-            $createSnapshot->createBySite($object);
+            $this->container->get('sonata.page.service.create_snapshot')->createBySite($object);
 
             $this->addFlash(
                 'sonata_flash_success',

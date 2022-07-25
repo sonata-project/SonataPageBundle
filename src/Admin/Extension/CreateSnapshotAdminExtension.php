@@ -15,7 +15,7 @@ namespace Sonata\PageBundle\Admin\Extension;
 
 use Sonata\AdminBundle\Admin\AbstractAdminExtension;
 use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Service\Contract\CreateSnapshotByPageInterface;
 
@@ -31,24 +31,24 @@ final class CreateSnapshotAdminExtension extends AbstractAdminExtension
         $this->createSnapshotByPage = $createSnapshotByPage;
     }
 
-    public function postUpdate(AdminInterface $admin, $object): void
+    public function postUpdate(AdminInterface $admin, object $object): void
     {
         $this->createByPage($object);
     }
 
-    public function postPersist(AdminInterface $admin, $object): void
+    public function postPersist(AdminInterface $admin, object $object): void
     {
         $this->createByPage($object);
     }
 
-    public function postRemove(AdminInterface $admin, $object): void
+    public function postRemove(AdminInterface $admin, object $object): void
     {
         $this->createByPage($object);
     }
 
     private function createByPage(object $object): void
     {
-        if ($object instanceof BlockInterface && method_exists($object, 'getPage')) {
+        if ($object instanceof PageBlockInterface) {
             $page = $object->getPage();
         } elseif ($object instanceof PageInterface) {
             $page = $object;

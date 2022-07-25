@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
 use Sonata\PageBundle\Admin\BlockAdmin;
 use Sonata\PageBundle\Admin\SnapshotAdmin;
@@ -54,10 +55,8 @@ final class PageAdminController extends CRUDController
 
     /**
      * @throws AccessDeniedException
-     *
-     * @return RedirectResponse
      */
-    public function batchActionSnapshot($query)
+    public function batchActionSnapshot(ProxyQueryInterface $query): RedirectResponse
     {
         $this->container->get('sonata.page.admin.snapshot')->checkAccess('create');
 
@@ -152,10 +151,8 @@ final class PageAdminController extends CRUDController
     /**
      * @throws AccessDeniedException
      * @throws NotFoundHttpException
-     *
-     * @return Response
      */
-    public function composeAction(?Request $request = null)
+    public function composeAction(Request $request): Response
     {
         $this->admin->checkAccess('compose');
         if (false === $this->container->get('sonata.page.admin.block')->isGranted('LIST')) {
@@ -228,10 +225,8 @@ final class PageAdminController extends CRUDController
     /**
      * @throws AccessDeniedException
      * @throws NotFoundHttpException
-     *
-     * @return Response
      */
-    public function composeContainerShowAction(?Request $request = null)
+    public function composeContainerShowAction(Request $request): Response
     {
         if (false === $this->container->get('sonata.page.admin.block')->isGranted('LIST')) {
             throw new AccessDeniedException();

@@ -36,15 +36,12 @@ final class SiteAdmin extends AbstractAdmin
 
     protected RoutePageGenerator $routePageGenerator;
 
-    /**
-     * @param RoutePageGenerator $routePageGenerator Sonata route page generator service
-     */
     public function __construct(RoutePageGenerator $routePageGenerator)
     {
         $this->routePageGenerator = $routePageGenerator;
     }
 
-    public function postPersist($object): void
+    protected function postPersist(object $object): void
     {
         $this->routePageGenerator->update($object);
     }

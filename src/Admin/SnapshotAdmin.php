@@ -33,7 +33,7 @@ final class SnapshotAdmin extends AbstractAdmin
         'batchToggleEnabled' => 'EDIT',
     ];
 
-    public function configureListFields(ListMapper $list): void
+    protected function configureListFields(ListMapper $list): void
     {
         $list
             ->addIdentifier('url')
@@ -42,13 +42,13 @@ final class SnapshotAdmin extends AbstractAdmin
             ->add('publicationDateEnd');
     }
 
-    public function configureDatagridFilters(DatagridMapper $filter): void
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
             ->add('routeName');
     }
 
-    public function configureFormFields(FormMapper $form): void
+    protected function configureFormFields(FormMapper $form): void
     {
         $form
             ->add('enabled', null, ['required' => false])
@@ -56,7 +56,7 @@ final class SnapshotAdmin extends AbstractAdmin
             ->add('publicationDateEnd', DateTimePickerType::class, ['required' => false, 'dp_side_by_side' => true]);
     }
 
-    protected function configureBatchActions($actions): array
+    protected function configureBatchActions(array $actions): array
     {
         $actions = parent::configureBatchActions($actions);
 

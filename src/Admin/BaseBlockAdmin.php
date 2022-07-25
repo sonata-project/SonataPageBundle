@@ -46,29 +46,6 @@ abstract class BaseBlockAdmin extends AbstractAdmin
      */
     protected $containerBlockTypes = [];
 
-    public function preUpdate($object): void
-    {
-        if ($object->getPage() instanceof PageInterface) {
-            $object->getPage()->setEdited(true);
-        }
-    }
-
-    public function prePersist($object): void
-    {
-        if ($object->getPage() instanceof PageInterface) {
-            $object->getPage()->setEdited(true);
-        }
-    }
-
-    public function preRemove($object): void
-    {
-        $page = $object->getPage();
-
-        if ($page instanceof PageInterface) {
-            $page->setEdited(true);
-        }
-    }
-
     public function setBlockManager(BlockServiceManagerInterface $blockManager): void
     {
         $this->blockManager = $blockManager;
@@ -91,6 +68,29 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         }
 
         parent::preBatchAction($actionName, $query, $idx, $allElements);
+    }
+
+    protected function preUpdate(object $object): void
+    {
+        if ($object->getPage() instanceof PageInterface) {
+            $object->getPage()->setEdited(true);
+        }
+    }
+
+    protected function prePersist(object $object): void
+    {
+        if ($object->getPage() instanceof PageInterface) {
+            $object->getPage()->setEdited(true);
+        }
+    }
+
+    protected function preRemove(object $object): void
+    {
+        $page = $object->getPage();
+
+        if ($page instanceof PageInterface) {
+            $page->setEdited(true);
+        }
     }
 
     protected function alterObject(object $object): void

@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\PageBundle\Form\Type\CreateSnapshotType;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SnapshotInterface;
@@ -66,9 +67,7 @@ final class SnapshotAdminController extends CRUDController
             $form->submit($request->request->get($form->getName()));
 
             if ($form->isValid()) {
-                //NEXT_MAJOR: when you're going to inject this service use CreateSnapshotByPageInterface
-                $createSnapshot = $this->container->get('sonata.page.service.create_snapshot');
-                $snapshot = $createSnapshot->createByPage($page);
+                $snapshot = $this->container->get('sonata.page.service.create_snapshot')->createByPage($page);
 
                 $this->admin->create($snapshot);
             }
@@ -87,7 +86,7 @@ final class SnapshotAdminController extends CRUDController
     /**
      * @throws AccessDeniedException
      */
-    public function batchActionToggleEnabled($query): Response
+    public function batchActionToggleEnabled(ProxyQueryInterface $query): RedirectResponse
     {
         $this->admin->checkAccess('batchToggleEnabled');
 

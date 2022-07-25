@@ -105,7 +105,7 @@ final class BlockAdminController extends CRUDController
         return parent::createAction($request);
     }
 
-    public function switchParentAction(?Request $request = null): Response
+    public function switchParentAction(Request $request): Response
     {
         $this->admin->checkAccess('switchParent');
 
@@ -135,7 +135,7 @@ final class BlockAdminController extends CRUDController
      * @throws AccessDeniedException
      * @throws PageNotFoundException
      */
-    public function composePreviewAction(?Request $request = null): Response
+    public function composePreviewAction(Request $request): Response
     {
         $this->admin->checkAccess('composePreview');
 

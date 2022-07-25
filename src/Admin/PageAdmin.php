@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Admin;
 
-use Knp\Menu\ItemInterface as MenuItemInterface;
+use Knp\Menu\ItemInterface;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -126,7 +126,7 @@ final class PageAdmin extends AbstractAdmin
         return $this->siteManager->findBy([]);
     }
 
-    protected function configureBatchActions($actions): array
+    protected function configureBatchActions(array $actions): array
     {
         $actions = parent::configureBatchActions($actions);
 
@@ -360,7 +360,7 @@ final class PageAdmin extends AbstractAdmin
             ->end();
     }
 
-    protected function configureTabMenu(MenuItemInterface $menu, $action, ?AdminInterface $childAdmin = null): void
+    protected function configureTabMenu(ItemInterface $menu, string $action, ?AdminInterface $childAdmin = null): void
     {
         if (!$childAdmin && !\in_array($action, ['edit'], true)) {
             return;
