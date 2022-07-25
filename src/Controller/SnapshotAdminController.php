@@ -91,7 +91,7 @@ final class SnapshotAdminController extends CRUDController
         $this->admin->checkAccess('batchToggleEnabled');
 
         $snapshotManager = $this->container->get('sonata.page.manager.snapshot');
-        foreach ($query->getQuery()->iterate() as $snapshot) {
+        foreach ($query->execute() as $snapshot) {
             $snapshot[0]->setEnabled(!$snapshot[0]->getEnabled());
             $snapshotManager->save($snapshot[0]);
         }

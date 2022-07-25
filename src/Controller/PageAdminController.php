@@ -60,8 +60,9 @@ final class PageAdminController extends CRUDController
     {
         $this->container->get('sonata.page.admin.snapshot')->checkAccess('create');
 
+        $createSnapshot = $this->container->get('sonata.page.service.create_snapshot');
         foreach ($query->execute() as $page) {
-            $this->container->get('sonata.page.service.create_snapshot')->createByPage($page);
+            $createSnapshot->createByPage($page);
         }
 
         return new RedirectResponse($this->admin->generateUrl('list', [
