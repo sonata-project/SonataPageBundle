@@ -15,6 +15,8 @@ namespace Sonata\PageBundle\CmsManager;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Security\Http\Event\LogoutEvent;
 
@@ -25,7 +27,7 @@ use Symfony\Component\Security\Http\Event\LogoutEvent;
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-final class CmsManagerSelector implements CmsManagerSelectorInterface
+final class CmsManagerSelector implements CmsManagerSelectorInterface, BCLogoutHandlerInterface
 {
     private ContainerInterface $container;
 
@@ -69,6 +71,14 @@ final class CmsManagerSelector implements CmsManagerSelectorInterface
             if ($request->hasSession()) {
                 $request->getSession()->set('sonata/page/isEditor', true);
             }
+        }
+    }
+
+    public function logout(Request $request, Response $response, TokenInterface $token): void
+    {
+        $request->getSession()->set('sonata/page/isEditor', false);
+        if ($request->cookies->has('sonata_page_is_editor')) {
+            $response->headers->clearCookie('sonata_page_is_editor');
         }
     }
 
