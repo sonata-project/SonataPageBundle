@@ -38,15 +38,15 @@ class CleanupSnapshotsCommandTest extends KernelTestCase
      */
     public function testKeepSnapshotIsANumberValue(): void
     {
-        //Assert
+        // Assert
         static::expectException(\InvalidArgumentException::class);
         static::expectExceptionMessage('Please provide an integer value for the option "keep-snapshots".');
 
-        //Setup command
+        // Setup command
         $command = $this->application->find('sonata:page:cleanup-snapshots');
         $commandTester = new CommandTester($command);
 
-        //Run code
+        // Run code
         $commandTester->execute([
             'command' => $command->getName(),
             '--site' => [1],
@@ -59,7 +59,7 @@ class CleanupSnapshotsCommandTest extends KernelTestCase
      */
     public function testCleanupSnapshot(): void
     {
-        //Mock
+        // Mock
         $siteManagerMock = $this->createMock(SiteManagerInterface::class);
         $siteManagerMock
             ->method('findAll')
@@ -74,11 +74,11 @@ class CleanupSnapshotsCommandTest extends KernelTestCase
 
         self::$container->set('sonata.page.service.cleanup_snapshot', $cleanupSnapshotMock);
 
-        //Setup command
+        // Setup command
         $command = $this->application->find('sonata:page:cleanup-snapshots');
         $commandTester = new CommandTester($command);
 
-        //Run code
+        // Run code
         $commandTester->execute([
             'command' => $command->getName(),
         ]);

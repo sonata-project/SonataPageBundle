@@ -27,7 +27,7 @@ class CleanupSnapshotServiceTest extends TestCase
      */
     public function testCallCleanupQuery(): void
     {
-        //Mock
+        // Mock
         $snapshotManagerMock = $this->createMock(SnapshotManagerInterface::class);
 
         $snapshotManagerMock
@@ -47,7 +47,7 @@ class CleanupSnapshotServiceTest extends TestCase
             ->method('getId')
             ->willReturn(2);
 
-        //Run code
+        // Run code
         $cleanupSnapshot = new CleanupSnapshotService($snapshotManagerMock, $pageManagerMock);
         $cleanupSnapshot->cleanupBySite($siteMock, 4);
     }

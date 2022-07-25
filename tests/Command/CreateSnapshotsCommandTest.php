@@ -29,7 +29,7 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        //Mocks
+        // Mocks
         $siteMock = $this->createMock(SiteInterface::class);
         $siteMock
             ->method('getId')
@@ -58,18 +58,18 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
 
     public function testCreateSnapshot(): void
     {
-        //Mocks
+        // Mocks
         $createSnapshotsMock = $this->createMock(CreateSnapshotBySiteInterface::class);
         $createSnapshotsMock
             ->expects(static::once())
             ->method('createBySite')
             ->with(static::isInstanceOf(SiteInterface::class));
 
-        //Set mock services
+        // Set mock services
         self::$container->set('sonata.page.manager.site', $this->siteManagerMock);
         self::$container->set('sonata.page.service.create_snapshot', $createSnapshotsMock);
 
-        //Command
+        // Command
         $command = $this->application->find('sonata:page:create-snapshots');
         $commandTester = new CommandTester($command);
 

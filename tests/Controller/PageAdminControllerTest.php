@@ -83,7 +83,7 @@ class PageAdminControllerTest extends TestCase
             ->method('execute')
             ->willReturn([$pageMock]);
 
-        //Run code
+        // Run code
         $this->controller->batchActionSnapshot($queryMock);
     }
 

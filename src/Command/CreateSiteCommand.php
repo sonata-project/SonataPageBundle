@@ -58,7 +58,7 @@ final class CreateSiteCommand extends Command
             ->addOption('default', null, InputOption::VALUE_OPTIONAL, 'Site.default', null)
             ->addOption('locale', null, InputOption::VALUE_OPTIONAL, 'Site.locale', null)
             ->setHelp(
-            <<<'EOT'
+                <<<'EOT'
 The <info>sonata:page:create-site</info> command create a new site entity.
 EOT
             );
