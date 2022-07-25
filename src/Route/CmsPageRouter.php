@@ -56,17 +56,17 @@ final class CmsPageRouter implements ChainedRouterInterface
         $this->context = $context;
     }
 
-    public function getContext()
+    public function getContext(): RequestContext
     {
         return $this->context;
     }
 
-    public function getRouteCollection()
+    public function getRouteCollection(): RouteCollection
     {
         return new RouteCollection();
     }
 
-    public function supports($name)
+    public function supports($name): bool
     {
         if (\is_string($name) && !$this->isPageAlias($name) && !$this->isPageSlug($name)) {
             return false;
@@ -79,7 +79,7 @@ final class CmsPageRouter implements ChainedRouterInterface
         return true;
     }
 
-    public function generate($name, $parameters = [], $referenceType = self::ABSOLUTE_PATH)
+    public function generate($name, $parameters = [], $referenceType = self::ABSOLUTE_PATH): string
     {
         try {
             $url = false;
@@ -106,7 +106,7 @@ final class CmsPageRouter implements ChainedRouterInterface
         return $url;
     }
 
-    public function getRouteDebugMessage($name, array $parameters = [])
+    public function getRouteDebugMessage($name, array $parameters = []): string
     {
         if ($this->router instanceof VersatileGeneratorInterface) {
             return $this->router->getRouteDebugMessage($name, $parameters);
@@ -115,7 +115,7 @@ final class CmsPageRouter implements ChainedRouterInterface
         return "Route '$name' not found";
     }
 
-    public function match($pathinfo)
+    public function match($pathinfo): array
     {
         $cms = $this->cmsSelector->retrieve();
         $site = $this->siteSelector->retrieve();

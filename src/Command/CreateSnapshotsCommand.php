@@ -16,6 +16,7 @@ namespace Sonata\PageBundle\Command;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Service\Contract\CreateSnapshotBySiteInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -26,9 +27,12 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
+#[AsCommand(name: 'sonata:page:create-snapshots', description: 'Create a snapshots of all pages available')]
 final class CreateSnapshotsCommand extends Command
 {
+    // TODO: Remove static properties when support for Symfony < 5.4 is dropped.
     protected static $defaultName = 'sonata:page:create-snapshots';
+    protected static $defaultDescription = 'Create a snapshots of all pages available';
 
     private CreateSnapshotBySiteInterface $createSnapshot;
     private SiteManagerInterface $siteManager;
@@ -43,8 +47,10 @@ final class CreateSnapshotsCommand extends Command
 
     public function configure(): void
     {
-        $this->setDescription('Create a snapshots of all pages available');
-        $this->addOption('site', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Site id');
+        $this
+            // TODO: Remove setDescription when support for Symfony < 5.4 is dropped.
+            ->setDescription(static::$defaultDescription)
+            ->addOption('site', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Site id');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

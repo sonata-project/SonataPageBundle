@@ -16,6 +16,7 @@ namespace Sonata\PageBundle\Command;
 use Sonata\PageBundle\Model\BlockInteractorInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,8 +27,13 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @author Christian Gripp <mail@core23.de>
  */
+#[AsCommand(name: 'sonata:page:create-block-container', description: 'Creates a block container in all pages for specified template code')]
 final class CreateBlockContainerCommand extends Command
 {
+    // TODO: Remove static properties when support for Symfony < 5.4 is dropped.
+    protected static $defaultName = 'sonata:page:create-block-container';
+    protected static $defaultDescription = 'Creates a block container in all pages for specified template code';
+
     private PageManagerInterface $pageManager;
     private BlockInteractorInterface $blockInteractor;
 
@@ -41,13 +47,12 @@ final class CreateBlockContainerCommand extends Command
 
     protected function configure(): void
     {
-        $this->setName('sonata:page:create-block-container');
-
-        $this->addArgument('templateCode', InputArgument::REQUIRED, 'Template name according to sonata_page.yml (e.g. default)');
-        $this->addArgument('blockCode', InputArgument::REQUIRED, 'Block alias (e.g. content_bottom)');
-        $this->addArgument('blockName', InputArgument::OPTIONAL, 'Block name (e.g. Bottom container)');
-
-        $this->setDescription('Creates a block container in all pages for specified template code');
+        $this
+            // TODO: Remove setDescription when support for Symfony < 5.4 is dropped.
+            ->setDescription(static::$defaultDescription)
+            ->addArgument('templateCode', InputArgument::REQUIRED, 'Template name according to sonata_page.yml (e.g. default)')
+            ->addArgument('blockCode', InputArgument::REQUIRED, 'Block alias (e.g. content_bottom)')
+            ->addArgument('blockName', InputArgument::OPTIONAL, 'Block name (e.g. Bottom container)');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

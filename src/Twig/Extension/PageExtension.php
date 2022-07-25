@@ -68,7 +68,7 @@ final class PageExtension extends AbstractExtension
         $this->hideDisabledBlocks = $hideDisabledBlocks;
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('sonata_page_ajax_url', [$this, 'ajaxUrl']),

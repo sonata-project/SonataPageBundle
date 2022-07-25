@@ -19,6 +19,7 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -30,9 +31,13 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @author Armin Weihbold <armin.weihbold@gmail.com>
  * @author Christian Gripp <mail@core23.de>
  */
+#[AsCommand(name: 'sonata:page:clone-site', description: 'Clone a complete site including all their pages')]
 final class CloneSiteCommand extends Command
 {
+    // TODO: Remove static properties when support for Symfony < 5.4 is dropped.
     protected static $defaultName = 'sonata:page:clone-site';
+    protected static $defaultDescription = 'Clone a complete site including all their pages';
+
     private SiteManagerInterface $siteManager;
     private PageManagerInterface $pageManager;
     private BlockManagerInterface $blockManager;
@@ -52,7 +57,8 @@ final class CloneSiteCommand extends Command
     public function configure(): void
     {
         $this
-            ->setDescription('Clone a complete site including all their pages')
+            // TODO: Remove setDescription when support for Symfony < 5.4 is dropped.
+            ->setDescription(static::$defaultDescription)
             ->addOption('source-id', 'so', InputOption::VALUE_REQUIRED, 'Source site id', null)
             ->addOption('dest-id', 'd', InputOption::VALUE_REQUIRED, 'Destination site id', null)
             ->addOption('prefix', 'p', InputOption::VALUE_REQUIRED, 'Title prefix', null)

@@ -16,14 +16,19 @@ namespace Sonata\PageBundle\Command;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Service\Contract\CleanupSnapshotBySiteInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(name: 'sonata:page:cleanup-snapshots', description: 'Cleanups the deprecated snapshots by a given site')]
 final class CleanupSnapshotsCommand extends Command
 {
+    // TODO: Remove static properties when support for Symfony < 5.4 is dropped.
     protected static $defaultName = 'sonata:page:cleanup-snapshots';
+    protected static $defaultDescription = 'Cleanups the deprecated snapshots by a given site';
+
     private CleanupSnapshotBySiteInterface $cleanupSnapshotBySite;
     private SiteManagerInterface $siteManager;
 
@@ -39,10 +44,11 @@ final class CleanupSnapshotsCommand extends Command
 
     public function configure(): void
     {
-        $this->setDescription('Cleanups the deprecated snapshots by a given site');
-
-        $this->addOption('site', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Site id');
-        $this->addOption('keep-snapshots', null, InputOption::VALUE_REQUIRED, 'Keep a given count of snapshots per page', 5);
+        $this
+            // TODO: Remove setDescription when support for Symfony < 5.4 is dropped.
+            ->setDescription(static::$defaultDescription)
+            ->addOption('site', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Site id')
+            ->addOption('keep-snapshots', null, InputOption::VALUE_REQUIRED, 'Keep a given count of snapshots per page', 5);
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output): void

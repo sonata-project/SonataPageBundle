@@ -19,7 +19,7 @@ use Sonata\PageBundle\Exception\InternalErrorException;
 use Sonata\PageBundle\Page\PageServiceManagerInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Twig\Environment;
 
 /**
@@ -62,11 +62,11 @@ final class ResponseListener
     }
 
     /**
-     * Filter the `core.response` event to decorate the action.
+     * Filter the `kernel.response` event to decorate the action.
      *
      * @throws InternalErrorException
      */
-    public function onCoreResponse(FilterResponseEvent $event): void
+    public function onCoreResponse(ResponseEvent $event): void
     {
         $cms = $this->cmsSelector->retrieve();
 

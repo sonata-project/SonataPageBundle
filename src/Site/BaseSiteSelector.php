@@ -82,7 +82,10 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
 
         $this->handleKernelRequest($event);
 
-        if ($event->isMasterRequest() && $this->site) {
+        // TODO: Simplify when dropping support for Symfony < 5.3.
+        $isMainRequest = method_exists($event, 'isMainRequest') ? $event->isMainRequest() : $event->isMasterRequest();
+
+        if ($isMainRequest && $this->site) {
             if ($this->site->getTitle()) {
                 $this->seoPage->setTitle($this->site->getTitle());
             }

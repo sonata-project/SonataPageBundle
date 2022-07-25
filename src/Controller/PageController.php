@@ -19,92 +19,65 @@ use Sonata\PageBundle\Exception\InternalErrorException;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Listener\ExceptionListener;
 use Sonata\PageBundle\Page\PageServiceManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
- * Page controller.
- *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-final class PageController extends Controller
+final class PageController extends AbstractController
 {
+    private ExceptionListener $exceptionListener;
+
+    private PageServiceManagerInterface $pageServiceManager;
+
+    private CmsManagerSelectorInterface $cmsSelector;
+
+    public function __construct(
+        ExceptionListener $exceptionListener,
+        PageServiceManagerInterface $pageServiceManager,
+        CmsManagerSelectorInterface $cmsSelector,
+    ) {
+        $this->exceptionListener = $exceptionListener;
+        $this->pageServiceManager = $pageServiceManager;
+        $this->cmsSelector = $cmsSelector;
+    }
+
     /**
      * @throws AccessDeniedException
      */
     public function exceptionsList(): Response
     {
-        if (!$this->getCmsManagerSelector()->isEditor()) {
+        if (!$this->cmsSelector->isEditor()) {
             throw new AccessDeniedException();
         }
 
         return $this->render('@SonataPage/Exceptions/list.html.twig', [
-            'httpErrorCodes' => $this->getExceptionListener()->getHttpErrorCodes(),
+            'httpErrorCodes' => $this->exceptionListener->getHttpErrorCodes(),
         ]);
     }
 
     /**
      * @throws InternalErrorException|AccessDeniedException
      */
-    public function exceptionEdit(string $code): Response
+    public function exceptionEdit(Request $request, string $code): Response
     {
-        $cms = $this->getCmsManager();
+        $cms = $this->cmsSelector->retrieve();
 
-        if (!$this->getExceptionListener()->hasErrorCode((int) $code)) {
+        if (!$this->exceptionListener->hasErrorCode((int) $code)) {
             throw new InternalErrorException(sprintf('The error code "%s" is not set in the configuration', $code));
         }
 
         try {
-            $page = $this->getExceptionListener()->getErrorCodePage((int) $code);
+            $page = $this->exceptionListener->getErrorCodePage((int) $code);
         } catch (PageNotFoundException $e) {
             throw new InternalErrorException('The requested error page does not exist, please run the sonata:page:update-core-routes command', 0, $e);
         }
 
         $cms->setCurrentPage($page);
 
-        // NEXT_MAJOR: remove the usage of $this->getRequestObject() by injecting the request action method in 4.0 (BC break)
-        return $this->getPageServiceManager()->execute($page, $this->getRequestObject());
-    }
-
-    /**
-     * @return ExceptionListener
-     */
-    public function getExceptionListener()
-    {
-        return $this->get('sonata.page.kernel.exception_listener');
-    }
-
-    /**
-     * @return PageServiceManagerInterface
-     */
-    protected function getPageServiceManager()
-    {
-        return $this->get('sonata.page.page_service_manager');
-    }
-
-    /**
-     * @return CmsManagerInterface
-     */
-    protected function getCmsManager()
-    {
-        return $this->getCmsManagerSelector()->retrieve();
-    }
-
-    /**
-     * @return CmsManagerSelectorInterface
-     */
-    protected function getCmsManagerSelector()
-    {
-        return $this->get('sonata.page.cms_manager_selector');
-    }
-
-    /**
-     * @return Request
-     */
-    private function getRequestObject()
-    {
-        return $this->container->get('request_stack')->getCurrentRequest();
+        return $this->pageServiceManager->execute($page, $request);
     }
 }

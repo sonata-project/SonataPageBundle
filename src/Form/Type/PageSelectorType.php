@@ -112,12 +112,12 @@ final class PageSelectorType extends AbstractType
         return $choices;
     }
 
-    public function getParent()
+    public function getParent(): string
     {
         return ModelType::class;
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'sonata_page_selector';
     }

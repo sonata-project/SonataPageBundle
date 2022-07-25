@@ -16,6 +16,7 @@ namespace Sonata\PageBundle\Command;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Route\RoutePageGenerator;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -26,9 +27,13 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
+#[AsCommand(name: 'sonata:page:update-core-routes', description: 'Update core routes, from routing files to page manager')]
 final class UpdateCoreRoutesCommand extends Command
 {
+    // TODO: Remove static properties when support for Symfony < 5.4 is dropped.
     protected static $defaultName = 'sonata:page:update-core-routes';
+    protected static $defaultDescription = 'Update core routes, from routing files to page manager';
+
     private SiteManagerInterface $siteManager;
     private RoutePageGenerator $pageGenerator;
 
@@ -44,9 +49,11 @@ final class UpdateCoreRoutesCommand extends Command
 
     public function configure(): void
     {
-        $this->setDescription('Update core routes, from routing files to page manager');
-        $this->addOption('clean', null, InputOption::VALUE_NONE, 'Removes all unused routes');
-        $this->addOption('site', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Site id');
+        $this
+            // TODO: Remove setDescription when support for Symfony < 5.4 is dropped.
+            ->setDescription(static::$defaultDescription)
+            ->addOption('clean', null, InputOption::VALUE_NONE, 'Removes all unused routes')
+            ->addOption('site', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Site id');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

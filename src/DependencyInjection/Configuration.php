@@ -28,7 +28,7 @@ use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
  */
 final class Configuration implements ConfigurationInterface
 {
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('sonata_page');
 

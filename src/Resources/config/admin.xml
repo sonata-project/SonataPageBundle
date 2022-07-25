@@ -5,15 +5,15 @@
         <parameter key="sonata.page.admin.groupicon"><![CDATA[<i class='fa fa-sitemap'></i>]]></parameter>
         <!-- PAGE -->
         <parameter key="sonata.page.admin.page.class">Sonata\PageBundle\Admin\PageAdmin</parameter>
-        <parameter key="sonata.page.admin.page.controller">sonata.page.controller.page</parameter>
+        <parameter key="sonata.page.admin.page.controller">sonata.page.controller.admin.page</parameter>
         <parameter key="sonata.page.admin.page.translation_domain">SonataPageBundle</parameter>
         <!-- SITE -->
         <parameter key="sonata.page.admin.site.class">Sonata\PageBundle\Admin\SiteAdmin</parameter>
-        <parameter key="sonata.page.admin.site.controller">sonata.page.controller.site</parameter>
+        <parameter key="sonata.page.admin.site.controller">sonata.page.controller.admin.site</parameter>
         <parameter key="sonata.page.admin.site.translation_domain">%sonata.page.admin.page.translation_domain%</parameter>
         <!-- BLOCK -->
         <parameter key="sonata.page.admin.block.class">Sonata\PageBundle\Admin\BlockAdmin</parameter>
-        <parameter key="sonata.page.admin.block.controller">sonata.page.controller.block</parameter>
+        <parameter key="sonata.page.admin.block.controller">sonata.page.controller.admin.block</parameter>
         <parameter key="sonata.page.admin.block.translation_domain">%sonata.page.admin.page.translation_domain%</parameter>
         <!-- SHARED BLOCK -->
         <parameter key="sonata.page.admin.shared_block.class">Sonata\PageBundle\Admin\SharedBlockAdmin</parameter>
@@ -21,7 +21,7 @@
         <parameter key="sonata.page.admin.shared_block.translation_domain">%sonata.page.admin.page.translation_domain%</parameter>
         <!-- SNAPSHOT -->
         <parameter key="sonata.page.admin.snapshot.class">Sonata\PageBundle\Admin\SnapshotAdmin</parameter>
-        <parameter key="sonata.page.admin.snapshot.controller">sonata.page.controller.snapshot</parameter>
+        <parameter key="sonata.page.admin.snapshot.controller">sonata.page.controller.admin.snapshot</parameter>
         <parameter key="sonata.page.admin.snapshot.translation_domain">%sonata.page.admin.page.translation_domain%</parameter>
     </parameters>
     <services>
