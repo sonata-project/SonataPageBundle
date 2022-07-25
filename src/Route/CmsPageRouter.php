@@ -234,7 +234,7 @@ final class CmsPageRouter implements ChainedRouterInterface
         }
 
         $schemeAuthority = '';
-        if ($this->context->getHost() && (self::ABSOLUTE_URL === $referenceType || self::NETWORK_PATH === $referenceType)) {
+        if ((self::ABSOLUTE_URL === $referenceType || self::NETWORK_PATH === $referenceType) && $this->context->getHost()) {
             $port = '';
             if ('http' === $this->context->getScheme() && 80 !== $this->context->getHttpPort()) {
                 $port = sprintf(':%s', $this->context->getHttpPort());

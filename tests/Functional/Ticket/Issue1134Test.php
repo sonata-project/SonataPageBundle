@@ -13,17 +13,19 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Functional\Ticket;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Sonata\PageBundle\Tests\App\AppKernel;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageSite;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 final class Issue1134Test extends WebTestCase
 {
     public function testLabelInShowAction(): void
     {
-        $client = static::createClient();
+        $client = self::createClient();
 
         $site = new SonataPageSite();
         $site->setId(1);
@@ -31,12 +33,15 @@ final class Issue1134Test extends WebTestCase
         $site->setHost('http://localhost');
         $site->setIsDefault(true);
 
-        $entityManager = $client->getContainer()->get('doctrine')->getManager();
-        $entityManager->persist($site);
-        $entityManager->flush();
+        // TODO: Simplify this when dropping support for Symfony 4.
+        // @phpstan-ignore-next-line
+        $container = method_exists($this, 'getContainer') ? self::getContainer() : self::$container;
 
-        $tokenManager = $client->getContainer()->get('security.csrf.token_manager');
-        $csrfToken = $tokenManager->getToken('sonata.batch');
+        $manager = $container->get('doctrine.orm.entity_manager');
+        \assert($manager instanceof EntityManagerInterface);
+
+        $manager->persist($site);
+        $manager->flush();
 
         $crawler = $client->request(
             Request::METHOD_POST,
@@ -44,7 +49,6 @@ final class Issue1134Test extends WebTestCase
             [
                 'all_elements' => '1',
                 'action' => 'snapshot',
-                '_sonata_csrf_token' => $csrfToken->getValue(),
             ]
         );
 

@@ -188,7 +188,7 @@ final class CmsPageRouterTest extends TestCase
         $page->expects(static::exactly(5))->method('isHybrid')->willReturn(false);
         $page->expects(static::exactly(5))->method('getCustomUrl')->willReturn('/test/path');
         $page->expects(static::exactly(5))->method('getSite')->willReturn($site);
-        $site->expects(static::exactly(7))->method('isLocalhost')->willReturn(true);
+        $site->expects(static::exactly(4))->method('isLocalhost')->willReturn(true);
 
         $this->siteSelector->method('retrieve')->willReturn($site);
         $this->router->setContext(new SiteRequestContext(
@@ -222,7 +222,7 @@ final class CmsPageRouterTest extends TestCase
         $page->expects(static::exactly(5))->method('isHybrid')->willReturn(false);
         $page->expects(static::exactly(5))->method('getCustomUrl')->willReturn('/test/path');
         $page->expects(static::exactly(5))->method('getSite')->willReturn($site);
-        $site->expects(static::exactly(7))->method('isLocalhost')->willReturn(true);
+        $site->expects(static::exactly(4))->method('isLocalhost')->willReturn(true);
 
         $this->siteSelector->method('retrieve')->willReturn($site);
         $this->router->setContext(new SiteRequestContext(
@@ -288,7 +288,7 @@ final class CmsPageRouterTest extends TestCase
         $page->expects(static::exactly(5))->method('isHybrid')->willReturn(false);
         $page->expects(static::exactly(5))->method('getUrl')->willReturn('/test/path');
         $page->expects(static::exactly(5))->method('getSite')->willReturn($site);
-        $site->expects(static::exactly(7))->method('isLocalhost')->willReturn(true);
+        $site->expects(static::exactly(4))->method('isLocalhost')->willReturn(true);
 
         $cmsManager = $this->createMock(CmsManagerInterface::class);
         $cmsManager->expects(static::exactly(5))->method('getPageByPageAlias')->willReturn($page);

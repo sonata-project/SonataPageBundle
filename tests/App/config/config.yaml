@@ -11,7 +11,8 @@ framework:
     form:
         enabled: true
     csrf_protection:
-        enabled: true
+        enabled: false
+    http_method_override: false
 
 twig:
     exception_controller: null
