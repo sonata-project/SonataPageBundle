@@ -66,8 +66,10 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
             ->with(static::isInstanceOf(SiteInterface::class));
 
         // Set mock services
-        self::$container->set('sonata.page.manager.site', $this->siteManagerMock);
-        self::$container->set('sonata.page.service.create_snapshot', $createSnapshotsMock);
+        // @phpstan-ignore-next-line
+        $container = method_exists($this, 'getcontainer') ? $this->getContainer() : self::$container;
+        $container->set('sonata.page.manager.site', $this->siteManagerMock);
+        $container->set('sonata.page.service.create_snapshot', $createSnapshotsMock);
 
         // Command
         $command = $this->application->find('sonata:page:create-snapshots');

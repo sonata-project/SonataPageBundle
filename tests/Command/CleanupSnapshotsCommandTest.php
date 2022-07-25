@@ -61,18 +61,16 @@ class CleanupSnapshotsCommandTest extends KernelTestCase
     {
         // Mock
         $siteManagerMock = $this->createMock(SiteManagerInterface::class);
-        $siteManagerMock
-            ->method('findAll')
-            ->willReturn([$this->createMock(SiteInterface::class)]);
-
-        self::$container->set('sonata.page.manager.site', $siteManagerMock);
-
         $cleanupSnapshotMock = $this->createMock(CleanupSnapshotBySiteInterface::class);
-        $cleanupSnapshotMock
-            ->expects(static::once())
-            ->method('cleanupBySite');
 
-        self::$container->set('sonata.page.service.cleanup_snapshot', $cleanupSnapshotMock);
+        // @phpstan-ignore-next-line
+        $container = method_exists($this, 'getcontainer') ? $this->getContainer() : self::$container;
+
+        $container->set('sonata.page.manager.site', $siteManagerMock);
+        $container->set('sonata.page.service.cleanup_snapshot', $cleanupSnapshotMock);
+
+        $siteManagerMock->method('findAll')->willReturn([$this->createMock(SiteInterface::class)]);
+        $cleanupSnapshotMock->expects(static::once())->method('cleanupBySite');
 
         // Setup command
         $command = $this->application->find('sonata:page:cleanup-snapshots');

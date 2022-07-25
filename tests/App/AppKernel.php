@@ -31,7 +31,7 @@ use Symfony\Cmf\Bundle\RoutingBundle\CmfRoutingBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
-use Symfony\Component\Routing\RouteCollectionBuilder;
+use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 final class AppKernel extends Kernel
 {
@@ -79,7 +79,12 @@ final class AppKernel extends Kernel
         return __DIR__;
     }
 
-    protected function configureRoutes(RouteCollectionBuilder $routes): void
+    /**
+     * TODO: add typehint when support for Symfony < 5.1 is dropped.
+     *
+     * @param RoutingConfigurator $routes
+     */
+    protected function configureRoutes($routes): void
     {
         $routes->import($this->getProjectDir().'/config/routes.yaml');
     }

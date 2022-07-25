@@ -83,6 +83,7 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
         $this->handleKernelRequest($event);
 
         // TODO: Simplify when dropping support for Symfony < 5.3.
+        // @phpstan-ignore-next-line
         $isMainRequest = method_exists($event, 'isMainRequest') ? $event->isMainRequest() : $event->isMasterRequest();
 
         if ($isMainRequest && $this->site) {
