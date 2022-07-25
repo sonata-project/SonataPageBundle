@@ -57,8 +57,8 @@ final class PageFormMapper implements FormMapper
         return $this->adminFormMapper->has($key);
     }
 
-    public function get(string $name): FormBuilderInterface
+    public function get(string $key): FormBuilderInterface
     {
-        return $this->adminFormMapper->get($name);
+        return $this->adminFormMapper->get($key);
     }
 }
