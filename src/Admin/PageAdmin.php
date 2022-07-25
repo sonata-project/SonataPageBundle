@@ -274,7 +274,7 @@ final class PageAdmin extends AbstractAdmin
 
         $form
             ->with('form_page.group_main_label')
-                ->add('name')
+                ->add('name', null, ['help' => 'help_page_name'])
                 ->add('enabled', null, ['required' => false])
                 ->add('position')
             ->end();
