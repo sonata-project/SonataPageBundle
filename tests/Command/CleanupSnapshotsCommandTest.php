@@ -63,6 +63,7 @@ class CleanupSnapshotsCommandTest extends KernelTestCase
         $siteManagerMock = $this->createMock(SiteManagerInterface::class);
         $cleanupSnapshotMock = $this->createMock(CleanupSnapshotBySiteInterface::class);
 
+        // TODO: Simplify this when dropping support for Symfony 4.
         // @phpstan-ignore-next-line
         $container = method_exists($this, 'getcontainer') ? $this->getContainer() : self::$container;
 

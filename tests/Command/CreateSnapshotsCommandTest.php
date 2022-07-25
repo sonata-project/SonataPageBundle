@@ -66,6 +66,7 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
             ->with(static::isInstanceOf(SiteInterface::class));
 
         // Set mock services
+        // TODO: Simplify this when dropping support for Symfony 4.
         // @phpstan-ignore-next-line
         $container = method_exists($this, 'getcontainer') ? $this->getContainer() : self::$container;
         $container->set('sonata.page.manager.site', $this->siteManagerMock);
