@@ -16,6 +16,7 @@ namespace Sonata\PageBundle\Admin;
 use Doctrine\ORM\EntityRepository;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
+use Sonata\AdminBundle\Security\Acl\Permission\AdminPermissionMap;
 use Sonata\BlockBundle\Block\Service\BlockServiceInterface;
 use Sonata\BlockBundle\Block\Service\EditableBlockService;
 use Sonata\BlockBundle\Form\Type\ServiceListType;
@@ -37,15 +38,18 @@ final class BlockAdmin extends BaseBlockAdmin
 
     protected $classnameLabel = 'Block';
 
-    protected array $accessMapping = [
-        'savePosition' => 'EDIT',
-        'switchParent' => 'EDIT',
-        'composePreview' => 'EDIT',
-    ];
-
     public function __construct(array $blocks = [])
     {
         $this->blocks = $blocks;
+    }
+
+    protected function getAccessMapping(): array
+    {
+        return [
+            'savePosition' => AdminPermissionMap::PERMISSION_EDIT,
+            'switchParent' => AdminPermissionMap::PERMISSION_EDIT,
+            'composePreview' => AdminPermissionMap::PERMISSION_EDIT,
+        ];
     }
 
     protected function configurePersistentParameters(): array
