@@ -35,7 +35,10 @@ class SonataPageSnapshot extends BaseSnapshot
      */
     protected $id;
 
-    public function setId($id)
+    /**
+     * @param int|null $id
+     */
+    public function setId($id): void
     {
         $this->id = $id;
     }

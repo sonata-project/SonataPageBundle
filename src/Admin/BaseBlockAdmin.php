@@ -42,7 +42,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
     protected $inValidate = false;
 
     /**
-     * @var array
+     * @var array<string>
      */
     protected $containerBlockTypes = [];
 
@@ -51,6 +51,9 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         $this->blockManager = $blockManager;
     }
 
+    /**
+     * @param array<string> $containerBlockTypes
+     */
     public function setContainerBlockTypes(array $containerBlockTypes): void
     {
         $this->containerBlockTypes = $containerBlockTypes;

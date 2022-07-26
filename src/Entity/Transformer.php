@@ -14,10 +14,12 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\Doctrine\Model\ManagerInterface;
+use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SnapshotInterface;
@@ -27,6 +29,9 @@ use Sonata\PageBundle\Model\TransformerInterface;
 
 /**
  * This class transform a SnapshotInterface into PageInterface.
+ *
+ * @phpstan-import-type PageContent from TransformerInterface
+ * @phpstan-import-type BlockContent from TransformerInterface
  */
 final class Transformer implements TransformerInterface
 {
@@ -34,17 +39,27 @@ final class Transformer implements TransformerInterface
 
     private PageManagerInterface $pageManager;
 
+    /**
+     * @var ManagerInterface<PageBlockInterface>
+     */
     private ManagerInterface $blockManager;
 
     /**
-     * @var BlockInterface[]
+     * @var array<Collection<array-key, PageInterface>>
      */
     private array $children = [];
 
     private ManagerRegistry $registry;
 
-    public function __construct(SnapshotManagerInterface $snapshotManager, PageManagerInterface $pageManager, ManagerInterface $blockManager, ManagerRegistry $registry)
-    {
+    /**
+     * @param ManagerInterface<PageBlockInterface> $blockManager
+     */
+    public function __construct(
+        SnapshotManagerInterface $snapshotManager,
+        PageManagerInterface $pageManager,
+        ManagerInterface $blockManager,
+        ManagerRegistry $registry
+    ) {
         $this->snapshotManager = $snapshotManager;
         $this->pageManager = $pageManager;
         $this->blockManager = $blockManager;
@@ -217,7 +232,12 @@ final class Transformer implements TransformerInterface
     }
 
     /**
-     * @return array
+     * @param array<string, mixed> $content
+     *
+     * @return array<string, mixed>
+     *
+     * @phpstan-param PageContent $content
+     * @phpstan-return PageContent
      */
     private function fixPageContent(array $content)
     {
@@ -229,7 +249,12 @@ final class Transformer implements TransformerInterface
     }
 
     /**
-     * @return array
+     * @param array<string, mixed> $content
+     *
+     * @return array<string, mixed>
+     *
+     * @phpstan-param BlockContent $content
+     * @phpstan-return BlockContent
      */
     private function fixBlockContent(array $content)
     {
@@ -241,7 +266,9 @@ final class Transformer implements TransformerInterface
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
+     *
+     * @phpstan-return BlockContent
      */
     private function createBlocks(BlockInterface $block)
     {

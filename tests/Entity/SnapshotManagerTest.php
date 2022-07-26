@@ -117,7 +117,7 @@ final class SnapshotManagerTest extends TestCase
         $connection->method('getDatabasePlatform')->willReturn($platform);
         $connection->method('getParams')->willReturn([]);
         $unit->method('getSingleIdentifierValue')->willReturnCallback(static function ($entity) {
-            if ($entity instanceof \DateTime) {
+            if ($entity instanceof \DateTimeInterface) {
                 throw new MappingException();
             }
 

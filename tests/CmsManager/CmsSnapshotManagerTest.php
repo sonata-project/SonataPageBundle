@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\CmsManager;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\CmsManager\CmsSnapshotManager;
 use Sonata\PageBundle\Exception\PageNotFoundException;
@@ -34,8 +35,14 @@ final class CmsSnapshotManagerTest extends TestCase
 {
     private CmsSnapshotManager $manager;
 
+    /**
+     * @var MockObject&SnapshotManagerInterface
+     */
     private $snapshotManager;
 
+    /**
+     * @var MockObject&TransformerInterface
+     */
     private $transformer;
 
     /**

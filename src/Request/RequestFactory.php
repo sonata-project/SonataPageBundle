@@ -17,6 +17,9 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class RequestFactory
 {
+    /**
+     * @var array<string, class-string<Request>>
+     */
     private static array $types = [
         'host' => Request::class,
         'host_with_path' => SiteRequest::class,
@@ -24,14 +27,14 @@ final class RequestFactory
     ];
 
     /**
-     * @param string $type
-     * @param string $uri
-     * @param string $method
-     * @param array  $parameters
-     * @param array  $cookies
-     * @param array  $files
-     * @param array  $server
-     * @param null   $content
+     * @param string               $type
+     * @param string               $uri
+     * @param string               $method
+     * @param array<string, mixed> $parameters
+     * @param array<string, mixed> $cookies
+     * @param array<string, mixed> $files
+     * @param array<string, mixed> $server
+     * @param string|resource|null $content
      *
      * @return Request|SiteRequest
      */

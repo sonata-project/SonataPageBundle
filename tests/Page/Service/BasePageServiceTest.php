@@ -47,7 +47,7 @@ final class BasePageServiceTest extends TestCase
  */
 final class ConcretePageService extends BasePageService
 {
-    public function execute(PageInterface $page, Request $request, array $parameters = [], ?Response $response = null)
+    public function execute(PageInterface $page, Request $request, array $parameters = [], ?Response $response = null): Response
     {
         // do nothing
         $response = new Response('ok');

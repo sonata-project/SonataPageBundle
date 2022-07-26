@@ -22,11 +22,19 @@ namespace Sonata\PageBundle\Template\Matrix;
 final class Parser
 {
     /**
-     * @param string $matrix
+     * @param string        $matrix
+     * @param array<string> $mapping
      *
      * @throws \InvalidArgumentException
      *
-     * @return array
+     * @return array<string, array{
+     *   x: int,
+     *   y: int,
+     *   width: int,
+     *   height: int|float,
+     *   right: int|float,
+     *   bottom: int|float
+     * }>
      */
     public static function parse($matrix, array $mapping)
     {
@@ -65,20 +73,22 @@ final class Parser
             }
         }
 
-        foreach ($areas as &$area) {
-            $area['x'] = $area['x'] / $colCount * 100;
-            $area['y'] = $area['y'] / $rowCount * 100;
-
-            $area['width'] = $area['width'] / $colCount * 100;
-            $area['height'] = $area['height'] / $rowCount * 100;
-
-            $area['right'] = 100 - ($area['width'] + $area['x']);
-            $area['bottom'] = 100 - ($area['height'] + $area['y']);
-        }
-
         $containers = [];
+
         foreach ($areas as $symbol => $config) {
-            $containers[$mapping[$symbol]] = $config;
+            $x = $config['x'] / $colCount * 100;
+            $y = $config['y'] / $rowCount * 100;
+            $width = $config['width'] / $colCount * 100;
+            $height = $config['height'] / $rowCount * 100;
+
+            $containers[$mapping[$symbol]] = [
+                'x' => $x,
+                'y' => $y,
+                'width' => $width,
+                'height' => $height,
+                'right' => 100 - ($width + $x),
+                'bottom' => 100 - ($height + $y),
+            ];
         }
 
         return $containers;

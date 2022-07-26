@@ -13,18 +13,24 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Form\Type;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Form\Type\PageSelectorType;
+use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
+use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Tests\Model\Page;
 use Sonata\PageBundle\Tests\Model\Site;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class PageSelectorTypeTest extends TestCase
 {
-    private $pages;
+    /**
+     * @var array<PageInterface>
+     */
+    private array $pages;
 
-    private $site;
+    private SiteInterface $site;
 
     protected function setUp(): void
     {
@@ -72,7 +78,10 @@ final class PageSelectorTypeTest extends TestCase
         $this->pages = $pages;
     }
 
-    public function getPageManager()
+    /**
+     * @return MockObject&PageManagerInterface
+     */
+    public function getPageManager(): PageManagerInterface
     {
         $manager = $this->createMock(PageManagerInterface::class);
 
@@ -203,7 +212,7 @@ final class PageSelectorTypeTest extends TestCase
         $this->assertRouteNameEquals('get-post', $views[4]);
     }
 
-    private function assertRouteNameEquals($expected, $choiceView): void
+    private function assertRouteNameEquals(string $expected, PageInterface $choiceView): void
     {
         static::assertSame($expected, $choiceView->getRouteName());
     }

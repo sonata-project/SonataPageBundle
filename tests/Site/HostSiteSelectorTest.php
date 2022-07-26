@@ -17,6 +17,7 @@ use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Exception\NoValueException;
 use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 use Sonata\PageBundle\Entity\BaseSite;
+use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Site\HostSiteSelector as BaseSiteSelector;
 use Sonata\SeoBundle\Seo\SeoPageInterface;
@@ -55,8 +56,10 @@ final class HostSiteSelectorTest extends TestCase
 
     /**
      * Perform the actual handleKernelRequest method test.
+     *
+     * @return array{SiteInterface|null, RequestEvent}
      */
-    protected function performHandleKernelRequestTest($url): array
+    protected function performHandleKernelRequestTest(string $url): array
     {
         $kernel = $this->createMock(HttpKernelInterface::class);
         $request = Request::create($url);
@@ -123,9 +126,9 @@ final class HostSiteSelector extends BaseSiteSelector
     }
 
     /**
-     * @return array
+     * @return array<SiteInterface>
      */
-    protected function getSites(Request $request)
+    protected function getSites(Request $request): array
     {
         return $this->_findSites(
             [
@@ -136,9 +139,11 @@ final class HostSiteSelector extends BaseSiteSelector
     }
 
     /**
-     * @param array $params
+     * @param array<string, mixed|array<mixed>> $params
+     *
+     * @return array<SiteInterface>
      */
-    protected function _findSites($params): array
+    protected function _findSites(array $params): array
     {
         $all_sites = $this->_getAllSites();
 
@@ -169,6 +174,9 @@ final class HostSiteSelector extends BaseSiteSelector
         return $matched_sites;
     }
 
+    /**
+     * @return array<SiteInterface>
+     */
     protected function _getAllSites(): array
     {
         $always = null;
@@ -265,6 +273,8 @@ final class HostSiteSelector extends BaseSiteSelector
     /**
      * @param object $object
      * @param string $fieldName
+     *
+     * @return mixed
      */
     protected function _getFieldValue($object, $fieldName)
     {

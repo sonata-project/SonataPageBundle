@@ -80,6 +80,8 @@ final class PageExtension extends AbstractExtension
     }
 
     /**
+     * @param array<string, mixed> $options
+     *
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
@@ -132,9 +134,9 @@ final class PageExtension extends AbstractExtension
     /**
      * Returns the URL for an ajax request for given block.
      *
-     * @param PageBlockInterface $block      Block service
-     * @param array              $parameters Provide absolute or relative url ?
-     * @param int                $absolute
+     * @param PageBlockInterface   $block      Block service
+     * @param array<string, mixed> $parameters Provide absolute or relative url ?
+     * @param int                  $absolute
      *
      * @return string
      */
@@ -150,8 +152,9 @@ final class PageExtension extends AbstractExtension
     }
 
     /**
-     * @param string $name
-     * @param null   $page
+     * @param string                    $name
+     * @param string|PageInterface|null $page
+     * @param array<string, mixed>      $options
      *
      * @return string
      */
@@ -188,6 +191,8 @@ final class PageExtension extends AbstractExtension
     }
 
     /**
+     * @param array<string, mixed> $options
+     *
      * @return string
      */
     public function renderBlock(PageBlockInterface $block, array $options = [])
@@ -218,9 +223,9 @@ final class PageExtension extends AbstractExtension
      * Forwards pathInfo to subrequests.
      * Allows HostPathSiteSelector to work.
      *
-     * @param string $controller
-     * @param array  $attributes
-     * @param array  $query
+     * @param string               $controller
+     * @param array<string, mixed> $attributes
+     * @param array<string, mixed> $query
      *
      * @return ControllerReference
      */

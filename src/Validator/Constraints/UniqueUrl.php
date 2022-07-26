@@ -20,7 +20,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class UniqueUrl extends Constraint
 {
-    public $message = 'error.uniq_url';
+    public string $message = 'error.uniq_url';
 
     public function validatedBy(): string
     {

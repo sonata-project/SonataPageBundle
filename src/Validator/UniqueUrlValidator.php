@@ -30,6 +30,9 @@ final class UniqueUrlValidator extends ConstraintValidator
         $this->manager = $manager;
     }
 
+    /**
+     * @param mixed $value
+     */
     public function validate($value, Constraint $constraint): void
     {
         if (!$constraint instanceof UniqueUrl) {

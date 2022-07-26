@@ -21,6 +21,7 @@ use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Sonata\PageBundle\Entity\BaseBlock;
 use Sonata\PageBundle\Mapper\PageFormMapper;
+use Sonata\PageBundle\Model\PageBlockInterface;
 
 /**
  * @author Romain Mouillard <romain.mouillard@gmail.com>
@@ -86,6 +87,9 @@ final class SharedBlockAdmin extends BaseBlockAdmin
         $form->end();
     }
 
+    /**
+     * @param FormMapper<PageBlockInterface> $form
+     */
     private function configureBlockFields(FormMapper $form, BlockInterface $block): void
     {
         $blockType = $block->getType();

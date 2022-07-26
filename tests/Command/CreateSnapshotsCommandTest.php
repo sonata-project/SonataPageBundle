@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Command;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Service\Contract\CreateSnapshotBySiteInterface;
@@ -23,8 +24,12 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 final class CreateSnapshotsCommandTest extends KernelTestCase
 {
+    /**
+     * @var MockObject&SiteManagerInterface
+     */
     private $siteManagerMock;
-    private $application;
+
+    private Application $application;
 
     protected function setUp(): void
     {

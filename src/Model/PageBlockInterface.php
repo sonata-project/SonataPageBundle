@@ -18,7 +18,7 @@ use Sonata\BlockBundle\Model\BlockInterface;
 interface PageBlockInterface extends BlockInterface
 {
     /**
-     * @return PageInterface
+     * @return PageInterface|null
      */
     public function getPage();
 

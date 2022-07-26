@@ -66,6 +66,9 @@ final class CmsPageRouter implements ChainedRouterInterface
         return new RouteCollection();
     }
 
+    /**
+     * @param mixed $name
+     */
     public function supports($name): bool
     {
         if (\is_string($name) && !$this->isPageAlias($name) && !$this->isPageSlug($name)) {
@@ -79,6 +82,11 @@ final class CmsPageRouter implements ChainedRouterInterface
         return true;
     }
 
+    /**
+     * @param mixed                $name
+     * @param array<string, mixed> $parameters
+     * @param int                  $referenceType
+     */
     public function generate($name, $parameters = [], $referenceType = self::ABSOLUTE_PATH): string
     {
         try {
@@ -106,6 +114,10 @@ final class CmsPageRouter implements ChainedRouterInterface
         return $url;
     }
 
+    /**
+     * @param string               $name
+     * @param array<string, mixed> $parameters
+     */
     public function getRouteDebugMessage($name, array $parameters = []): string
     {
         if ($this->router instanceof VersatileGeneratorInterface) {
@@ -115,6 +127,17 @@ final class CmsPageRouter implements ChainedRouterInterface
         return "Route '$name' not found";
     }
 
+    /**
+     * @param string $pathinfo
+     *
+     * @return array{
+     *   _controller: string,
+     *   _route: string,
+     *   page: PageInterface,
+     *   path: string,
+     *   params: array<string, mixed>
+     * }
+     */
     public function match($pathinfo): array
     {
         $cms = $this->cmsSelector->retrieve();
@@ -157,9 +180,9 @@ final class CmsPageRouter implements ChainedRouterInterface
      * Generates an URL from a Page object.
      * We swap site context to make sure the right context is used when generating the url.
      *
-     * @param PageInterface $page          Page object
-     * @param array         $parameters    An array of parameters
-     * @param int           $referenceType The type of reference to be generated (one of the constants)
+     * @param PageInterface        $page          Page object
+     * @param array<string, mixed> $parameters    An array of parameters
+     * @param int                  $referenceType The type of reference to be generated (one of the constants)
      *
      * @throws \RuntimeException
      *
@@ -197,8 +220,8 @@ final class CmsPageRouter implements ChainedRouterInterface
     /**
      * Generates an URL for a page slug.
      *
-     * @param array $parameters    An array of parameters
-     * @param int   $referenceType The type of reference to be generated (one of the constants)
+     * @param array<string, mixed> $parameters    An array of parameters
+     * @param int                  $referenceType The type of reference to be generated (one of the constants)
      *
      * @throws \RuntimeException
      *
@@ -219,9 +242,9 @@ final class CmsPageRouter implements ChainedRouterInterface
     /**
      * Decorates an URL with url context and query.
      *
-     * @param string $url           Relative URL
-     * @param array  $parameters    An array of parameters
-     * @param int    $referenceType The type of reference to be generated (one of the constants)
+     * @param string               $url           Relative URL
+     * @param array<string, mixed> $parameters    An array of parameters
+     * @param int                  $referenceType The type of reference to be generated (one of the constants)
      *
      * @throws \RuntimeException
      *

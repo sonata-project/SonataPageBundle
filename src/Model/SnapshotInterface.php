@@ -15,6 +15,8 @@ namespace Sonata\PageBundle\Model;
 
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * @phpstan-import-type PageContent from TransformerInterface
  */
 interface SnapshotInterface
 {
@@ -183,14 +185,16 @@ interface SnapshotInterface
     public function setSite(?SiteInterface $site = null);
 
     /**
-     * Serialized data of the current page.
+     * @return array<string, mixed>|null
      *
-     * @return array
+     * @phpstan-return PageContent|null
      */
     public function getContent();
 
     /**
-     * @param array $content
+     * @param array<string, mixed>|null $content
+     *
+     * @phpstan-param PageContent|null $content
      */
     public function setContent($content): void;
 
