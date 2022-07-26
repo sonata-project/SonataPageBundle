@@ -73,7 +73,7 @@ final class SiteAdmin extends AbstractAdmin
             ->add('locale')
             ->add('enabledFrom')
             ->add('enabledTo')
-            ->add('create_snapshots', 'string', ['template' => '@SonataPage/SiteAdmin/list_create_snapshots.html.twig']);
+            ->add('create_snapshots', 'string', ['template' => '@SonataPage/SiteAdmin/list_create_snapshots.html.twig', 'virtual_field' => true]);
     }
 
     protected function configureDatagridFilters(DatagridMapper $filter): void
