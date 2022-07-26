@@ -119,13 +119,17 @@ final class Transformer implements TransformerInterface
         $page->setSite($snapshot->getSite());
         $page->setEnabled($snapshot->getEnabled());
 
-        $content = $this->fixPageContent($snapshot->getContent());
+        $content = $snapshot->getContent();
 
         $page->setId($content['id']);
         $page->setJavascript($content['javascript']);
         $page->setStylesheet($content['stylesheet']);
         $page->setRawHeaders($content['raw_headers']);
-        $page->setTitle($content['title']);
+
+        if (isset($content['title'])) {
+            $page->setTitle($content['title']);
+        }
+
         $page->setMetaDescription($content['meta_description']);
         $page->setMetaKeyword($content['meta_keyword']);
         $page->setName($content['name']);
@@ -148,13 +152,19 @@ final class Transformer implements TransformerInterface
     {
         $block = $this->blockManager->create();
 
-        $content = $this->fixBlockContent($content);
-
         $block->setPage($page);
         $block->setId($content['id']);
-        $block->setName($content['name']);
+
+        if (isset($content['name'])) {
+            $block->setName($content['name']);
+        }
+
         $block->setEnabled($content['enabled']);
-        $block->setPosition($content['position']);
+
+        if (isset($content['position'])) {
+            $block->setPosition($content['position']);
+        }
+
         $block->setSettings($content['settings']);
         $block->setType($content['type']);
 
@@ -219,42 +229,19 @@ final class Transformer implements TransformerInterface
     /**
      * @return array
      */
-    private function fixPageContent(array $content)
-    {
-        if (!\array_key_exists('title', $content)) {
-            $content['title'] = null;
-        }
-
-        return $content;
-    }
-
-    /**
-     * @return array
-     */
-    private function fixBlockContent(array $content)
-    {
-        if (!\array_key_exists('name', $content)) {
-            $content['name'] = null;
-        }
-
-        return $content;
-    }
-
-    /**
-     * @return array
-     */
     private function createBlocks(BlockInterface $block)
     {
-        $content = [];
-        $content['id'] = $block->getId();
-        $content['name'] = $block->getName();
-        $content['enabled'] = $block->getEnabled();
-        $content['position'] = $block->getPosition();
-        $content['settings'] = $block->getSettings();
-        $content['type'] = $block->getType();
-        $content['created_at'] = $block->getCreatedAt()->format('U');
-        $content['updated_at'] = $block->getUpdatedAt()->format('U');
-        $content['blocks'] = [];
+        $content = [
+            'id' => $block->getId(),
+            'name' => $block->getName(),
+            'enabled' => $block->getEnabled(),
+            'position' => $block->getPosition(),
+            'settings' => $block->getSettings(),
+            'type' => $block->getType(),
+            'created_at' => $block->getCreatedAt()->format('U'),
+            'updated_at' => $block->getUpdatedAt()->format('U'),
+            'blocks' => [],
+        ];
 
         foreach ($block->getChildren() as $child) {
             $content['blocks'][] = $this->createBlocks($child);
