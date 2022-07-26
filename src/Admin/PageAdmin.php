@@ -20,6 +20,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
+use Sonata\AdminBundle\Security\Acl\Permission\AdminPermissionMap;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\CallbackFilter;
 use Sonata\PageBundle\Exception\InternalErrorException;
@@ -47,11 +48,6 @@ final class PageAdmin extends AbstractAdmin
     protected ?PageManagerInterface $pageManager = null;
 
     protected ?SiteManagerInterface $siteManager = null;
-
-    protected array $accessMapping = [
-        'tree' => 'LIST',
-        'compose' => 'EDIT',
-    ];
 
     public function configureRoutes(RouteCollectionInterface $collection): void
     {
@@ -124,6 +120,14 @@ final class PageAdmin extends AbstractAdmin
     public function getSites()
     {
         return $this->siteManager->findBy([]);
+    }
+
+    protected function getAccessMapping(): array
+    {
+        return [
+            'tree' => AdminPermissionMap::PERMISSION_LIST,
+            'compose' => AdminPermissionMap::PERMISSION_EDIT,
+        ];
     }
 
     protected function configureBatchActions(array $actions): array

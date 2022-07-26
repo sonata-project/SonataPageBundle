@@ -17,6 +17,7 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Security\Acl\Permission\AdminPermissionMap;
 use Sonata\Form\Type\DateTimePickerType;
 use Sonata\PageBundle\Model\SnapshotInterface;
 
@@ -29,9 +30,12 @@ final class SnapshotAdmin extends AbstractAdmin
 {
     protected $classnameLabel = 'Snapshot';
 
-    protected array $accessMapping = [
-        'batchToggleEnabled' => 'EDIT',
-    ];
+    protected function getAccessMapping(): array
+    {
+        return [
+            'batchToggleEnabled' => AdminPermissionMap::PERMISSION_EDIT,
+        ];
+    }
 
     protected function configureListFields(ListMapper $list): void
     {
