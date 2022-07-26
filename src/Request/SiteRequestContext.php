@@ -41,7 +41,7 @@ final class SiteRequestContext extends RequestContext implements SiteRequestCont
         parent::__construct($baseUrl, $method, $host, $scheme, $httpPort, $httpsPort);
     }
 
-    public function getHost()
+    public function getHost(): string
     {
         $site = $this->getSite();
 
@@ -52,7 +52,7 @@ final class SiteRequestContext extends RequestContext implements SiteRequestCont
         return parent::getHost();
     }
 
-    public function getBaseUrl()
+    public function getBaseUrl(): string
     {
         $site = $this->getSite();
 

@@ -16,6 +16,7 @@ namespace Sonata\PageBundle\Tests\App;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Knp\Bundle\MenuBundle\KnpMenuBundle;
 use Sonata\AdminBundle\SonataAdminBundle;
+use Sonata\BlockBundle\Cache\HttpCacheHandler;
 use Sonata\BlockBundle\SonataBlockBundle;
 use Sonata\Doctrine\Bridge\Symfony\SonataDoctrineBundle;
 use Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle;
@@ -31,7 +32,8 @@ use Symfony\Cmf\Bundle\RoutingBundle\CmfRoutingBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
-use Symfony\Component\Routing\RouteCollectionBuilder;
+use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
+use Symfony\Component\Security\Http\Authentication\AuthenticatorManager;
 
 final class AppKernel extends Kernel
 {
@@ -79,7 +81,12 @@ final class AppKernel extends Kernel
         return __DIR__;
     }
 
-    protected function configureRoutes(RouteCollectionBuilder $routes): void
+    /**
+     * TODO: add typehint when support for Symfony < 5.1 is dropped.
+     *
+     * @param RoutingConfigurator $routes
+     */
+    protected function configureRoutes($routes): void
     {
         $routes->import($this->getProjectDir().'/config/routes.yaml');
     }
@@ -87,6 +94,16 @@ final class AppKernel extends Kernel
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
     {
         $loader->load($this->getProjectDir().'/config/config.yaml');
+
+        if (class_exists(AuthenticatorManager::class)) {
+            $loader->load($this->getProjectDir().'/config/config_symfony_v5.yaml');
+        } else {
+            $loader->load($this->getProjectDir().'/config/config_symfony_v4.yaml');
+        }
+
+        if (class_exists(HttpCacheHandler::class)) {
+            $loader->load($this->getProjectDir().'/config/config_sonata_block_v4.yaml');
+        }
     }
 
     private function getBaseDir(): string

@@ -44,7 +44,7 @@ final class DecoratorStrategy implements DecoratorStrategyInterface
             return false;
         }
 
-        if ('text/html' !== (substr($response->headers->get('Content-Type') ?: 'text/html', 0, 9))) {
+        if ('text/html' !== substr($response->headers->get('Content-Type') ?: 'text/html', 0, 9)) {
             return false;
         }
 

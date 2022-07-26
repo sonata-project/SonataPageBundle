@@ -16,10 +16,9 @@ namespace Sonata\PageBundle\CmsManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
-use Symfony\Component\Security\Http\Logout\LogoutHandlerInterface;
+use Symfony\Component\Security\Http\Event\LogoutEvent;
 
 /**
  * This class return the correct manager instance :
@@ -28,7 +27,7 @@ use Symfony\Component\Security\Http\Logout\LogoutHandlerInterface;
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-final class CmsManagerSelector implements CmsManagerSelectorInterface, LogoutHandlerInterface
+final class CmsManagerSelector implements CmsManagerSelectorInterface, BCLogoutHandlerInterface
 {
     private ContainerInterface $container;
 
@@ -51,43 +50,53 @@ final class CmsManagerSelector implements CmsManagerSelectorInterface, LogoutHan
         return $manager;
     }
 
+    /**
+     * The current order of event is not suitable for the selector to be call
+     * by the router chain, so we need to use another mechanism. It is not perfect
+     * but do the job for now.
+     */
     public function isEditor()
     {
-        /*
-         * The current order of event is not suitable for the selector to be call
-         * by the router chain, so we need to use another mechanism. It is not perfect
-         * but do the job for now.
-         */
-
         $request = $this->getRequest();
-        $session = $this->getSession();
-        $sessionAvailable = ($request && $request->hasPreviousSession()) || $session->isStarted();
 
-        return $sessionAvailable && $session->get('sonata/page/isEditor', false);
+        return $request->hasSession() && $request->getSession()->get('sonata/page/isEditor', false);
     }
 
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event): void
     {
         if ($this->container->get('security.token_storage')->getToken() &&
             $this->container->get('sonata.page.admin.page')->isGranted('EDIT')) {
-            $this->getSession()->set('sonata/page/isEditor', true);
+            $request = $event->getRequest();
+
+            if ($request->hasSession()) {
+                $request->getSession()->set('sonata/page/isEditor', true);
+            }
         }
     }
 
     public function logout(Request $request, Response $response, TokenInterface $token): void
     {
-        $this->getSession()->set('sonata/page/isEditor', false);
+        $request->getSession()->set('sonata/page/isEditor', false);
         if ($request->cookies->has('sonata_page_is_editor')) {
             $response->headers->clearCookie('sonata_page_is_editor');
         }
     }
 
-    /**
-     * @return SessionInterface
-     */
-    private function getSession()
+    public function onLogout(LogoutEvent $event): void
     {
-        return $this->container->get('session');
+        $request = $event->getRequest();
+
+        if ($request->hasSession()) {
+            $request->getSession()->set('sonata/page/isEditor', false);
+        }
+
+        if ($request->cookies->has('sonata_page_is_editor')) {
+            $response = $event->getResponse();
+
+            if (null !== $response) {
+                $response->headers->clearCookie('sonata_page_is_editor');
+            }
+        }
     }
 
     /**

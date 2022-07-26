@@ -29,7 +29,7 @@ final class CreateBlockContainerCommandTest extends TestCase
      */
     public function testCreateBlock(): void
     {
-        //Mock
+        // Mock
         $pageManager = $this->createMock(PageManagerInterface::class);
         $blockInteractor = $this->createStub(BlockInteractorInterface::class);
 

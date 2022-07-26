@@ -24,7 +24,7 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Page\PageServiceManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Twig\Environment;
 
@@ -179,12 +179,12 @@ final class ResponseListenerTest extends TestCase
     /**
      * Returns a mocked event with given content data.
      */
-    protected function getMockEvent(string $content): FilterResponseEvent
+    protected function getMockEvent(string $content): ResponseEvent
     {
         $kernel = $this->createMock(HttpKernelInterface::class);
         $request = new Request();
         $response = new Response($content);
 
-        return new FilterResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST, $response);
+        return new ResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST, $response);
     }
 }

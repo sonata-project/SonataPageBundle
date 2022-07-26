@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Command;
 
 use Sonata\PageBundle\Model\SiteManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -26,9 +27,13 @@ use Symfony\Component\Console\Question\Question;
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
+#[AsCommand(name: 'sonata:page:create-site', description: 'Create a site')]
 final class CreateSiteCommand extends Command
 {
+    // TODO: Remove static properties when support for Symfony < 5.4 is dropped.
     protected static $defaultName = 'sonata:page:create-site';
+    protected static $defaultDescription = 'Create a site';
+
     private SiteManagerInterface $siteManager;
 
     public function __construct(SiteManagerInterface $siteManager)
@@ -40,24 +45,23 @@ final class CreateSiteCommand extends Command
 
     public function configure(): void
     {
-        $this->setName('sonata:page:create-site');
-        $this->setDescription('Create a site');
-
-        $this->addOption('no-confirmation', null, InputOption::VALUE_OPTIONAL, 'Ask confirmation before generating the site', false);
-        $this->addOption('enabled', null, InputOption::VALUE_OPTIONAL, 'Site.enabled', false);
-        $this->addOption('name', null, InputOption::VALUE_OPTIONAL, 'Site.name', null);
-        $this->addOption('relativePath', null, InputOption::VALUE_OPTIONAL, 'Site.relativePath', null);
-        $this->addOption('host', null, InputOption::VALUE_OPTIONAL, 'Site.host', null);
-        $this->addOption('enabledFrom', null, InputOption::VALUE_OPTIONAL, 'Site.enabledFrom', null);
-        $this->addOption('enabledTo', null, InputOption::VALUE_OPTIONAL, 'Site.enabledTo', null);
-        $this->addOption('default', null, InputOption::VALUE_OPTIONAL, 'Site.default', null);
-        $this->addOption('locale', null, InputOption::VALUE_OPTIONAL, 'Site.locale', null);
-
-        $this->setHelp(
-            <<<'EOT'
+        $this
+            // TODO: Remove setDescription when support for Symfony < 5.4 is dropped.
+            ->setDescription(static::$defaultDescription)
+            ->addOption('no-confirmation', null, InputOption::VALUE_OPTIONAL, 'Ask confirmation before generating the site', false)
+            ->addOption('enabled', null, InputOption::VALUE_OPTIONAL, 'Site.enabled', false)
+            ->addOption('name', null, InputOption::VALUE_OPTIONAL, 'Site.name', null)
+            ->addOption('relativePath', null, InputOption::VALUE_OPTIONAL, 'Site.relativePath', null)
+            ->addOption('host', null, InputOption::VALUE_OPTIONAL, 'Site.host', null)
+            ->addOption('enabledFrom', null, InputOption::VALUE_OPTIONAL, 'Site.enabledFrom', null)
+            ->addOption('enabledTo', null, InputOption::VALUE_OPTIONAL, 'Site.enabledTo', null)
+            ->addOption('default', null, InputOption::VALUE_OPTIONAL, 'Site.default', null)
+            ->addOption('locale', null, InputOption::VALUE_OPTIONAL, 'Site.locale', null)
+            ->setHelp(
+                <<<'EOT'
 The <info>sonata:page:create-site</info> command create a new site entity.
 EOT
-        );
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

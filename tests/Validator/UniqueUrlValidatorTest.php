@@ -21,6 +21,9 @@ use Sonata\PageBundle\Validator\Constraints\UniqueUrl;
 use Sonata\PageBundle\Validator\UniqueUrlValidator;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
+/**
+ * @extends ConstraintValidatorTestCase<UniqueUrlValidator>
+ */
 final class UniqueUrlValidatorTest extends ConstraintValidatorTestCase
 {
     /**

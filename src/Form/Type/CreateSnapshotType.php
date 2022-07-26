@@ -28,7 +28,7 @@ final class CreateSnapshotType extends AbstractType
         $builder->add('page');
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'sonata_page_create_snapshot';
     }

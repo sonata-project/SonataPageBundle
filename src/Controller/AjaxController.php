@@ -18,7 +18,6 @@ use Sonata\BlockBundle\Block\BlockRendererInterface;
 use Sonata\BlockBundle\Exception\BlockNotFoundException;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -49,13 +48,12 @@ final class AjaxController
     /**
      * Action for ajax route rendering a block by calling his executeAjax() method.
      *
-     * @param Request $request Symfony request object
-     * @param int     $pageId  Page identifier
-     * @param int     $blockId Block identifier
+     * @param int $pageId  Page identifier
+     * @param int $blockId Block identifier
      *
      * @return Response
      */
-    public function execute(Request $request, $pageId, $blockId)
+    public function execute($pageId, $blockId)
     {
         $cmsManager = $this->cmsManagerSelector->retrieve();
 

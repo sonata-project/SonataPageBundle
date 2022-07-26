@@ -38,15 +38,15 @@ class CleanupSnapshotsCommandTest extends KernelTestCase
      */
     public function testKeepSnapshotIsANumberValue(): void
     {
-        //Assert
+        // Assert
         static::expectException(\InvalidArgumentException::class);
         static::expectExceptionMessage('Please provide an integer value for the option "keep-snapshots".');
 
-        //Setup command
+        // Setup command
         $command = $this->application->find('sonata:page:cleanup-snapshots');
         $commandTester = new CommandTester($command);
 
-        //Run code
+        // Run code
         $commandTester->execute([
             'command' => $command->getName(),
             '--site' => [1],
@@ -59,26 +59,25 @@ class CleanupSnapshotsCommandTest extends KernelTestCase
      */
     public function testCleanupSnapshot(): void
     {
-        //Mock
+        // Mock
         $siteManagerMock = $this->createMock(SiteManagerInterface::class);
-        $siteManagerMock
-            ->method('findAll')
-            ->willReturn([$this->createMock(SiteInterface::class)]);
-
-        self::$container->set('sonata.page.manager.site', $siteManagerMock);
-
         $cleanupSnapshotMock = $this->createMock(CleanupSnapshotBySiteInterface::class);
-        $cleanupSnapshotMock
-            ->expects(static::once())
-            ->method('cleanupBySite');
 
-        self::$container->set('sonata.page.service.cleanup_snapshot', $cleanupSnapshotMock);
+        // TODO: Simplify this when dropping support for Symfony 4.
+        // @phpstan-ignore-next-line
+        $container = method_exists($this, 'getcontainer') ? $this->getContainer() : self::$container;
 
-        //Setup command
+        $container->set('sonata.page.manager.site', $siteManagerMock);
+        $container->set('sonata.page.service.cleanup_snapshot', $cleanupSnapshotMock);
+
+        $siteManagerMock->method('findAll')->willReturn([$this->createMock(SiteInterface::class)]);
+        $cleanupSnapshotMock->expects(static::once())->method('cleanupBySite');
+
+        // Setup command
         $command = $this->application->find('sonata:page:cleanup-snapshots');
         $commandTester = new CommandTester($command);
 
-        //Run code
+        // Run code
         $commandTester->execute([
             'command' => $command->getName(),
         ]);

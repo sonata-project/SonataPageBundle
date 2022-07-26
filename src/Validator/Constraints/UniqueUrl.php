@@ -22,12 +22,12 @@ class UniqueUrl extends Constraint
 {
     public $message = 'error.uniq_url';
 
-    public function validatedBy()
+    public function validatedBy(): string
     {
         return 'sonata.page.validator.unique_url';
     }
 
-    public function getTargets()
+    public function getTargets(): string
     {
         return self::CLASS_CONSTRAINT;
     }
