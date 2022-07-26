@@ -34,7 +34,7 @@ final class PageManagerTest extends TestCase
         $page2 = new Page();
         $page2->setName('Super! et toi ?');
 
-        $page1->addChildren($page2);
+        $page1->addChild($page2);
 
         $manager->fixUrl($page1);
 
@@ -43,7 +43,7 @@ final class PageManagerTest extends TestCase
 
         // if a parent page becomes a child page, then the slug and the url must be updated
         $parent = new Page();
-        $parent->addChildren($page1);
+        $parent->addChild($page1);
 
         $manager->fixUrl($parent);
 
@@ -83,8 +83,8 @@ final class PageManagerTest extends TestCase
         $child = new Page();
         $child->setName('foobar');
 
-        $bundle->addChildren($child);
-        $homepage->addChildren($bundle);
+        $bundle->addChild($child);
+        $homepage->addChild($bundle);
 
         $manager->fixUrl($child);
 

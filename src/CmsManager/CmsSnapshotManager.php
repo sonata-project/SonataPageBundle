@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\CmsManager;
 
-use Sonata\BlockBundle\Util\RecursiveBlockIterator;
+use Sonata\BlockBundle\Util\RecursiveBlockIteratorIterator;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
@@ -149,9 +149,9 @@ final class CmsSnapshotManager extends BaseCmsPageManager
      */
     private function loadBlocks(PageInterface $page): void
     {
-        $i = new \RecursiveIteratorIterator(new RecursiveBlockIterator($page->getBlocks()), \RecursiveIteratorIterator::SELF_FIRST);
+        $iterator = new RecursiveBlockIteratorIterator($page->getBlocks());
 
-        foreach ($i as $block) {
+        foreach ($iterator as $block) {
             $this->blocks[$block->getId()] = $block;
         }
     }

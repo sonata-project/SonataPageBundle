@@ -14,16 +14,17 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\CmsManager;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\PageBundle\CmsManager\CmsSnapshotManager;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Model\Block;
 use Sonata\PageBundle\Model\BlockInteractorInterface;
+use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SnapshotInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\SnapshotPageProxyInterface;
 use Sonata\PageBundle\Model\TransformerInterface;
+use Sonata\PageBundle\Tests\App\Entity\SonataPageBlock;
 use Sonata\PageBundle\Tests\Model\Page;
 
 final class SnapshotBlock extends Block
@@ -109,18 +110,16 @@ final class CmsSnapshotManagerTest extends TestCase
 
     public function testGetPageWithId(): void
     {
-        $cBlock = $this->createMock(BlockInterface::class);
-        $pBlock = $this->createMock(BlockInterface::class);
         $site = $this->createMock(SiteInterface::class);
         $page = $this->createMock(SnapshotPageProxyInterface::class);
         $snapshot = $this->createMock(SnapshotInterface::class);
 
-        $cBlock->method('hasChildren')->willReturn(false);
-        $cBlock->method('getId')->willReturn(2);
+        $cBlock = new SonataPageBlock();
+        $cBlock->setId(2);
 
-        $pBlock->method('getChildren')->willReturn([$cBlock]);
-        $pBlock->method('hasChildren')->willReturn(true);
-        $pBlock->method('getId')->willReturn(1);
+        $pBlock = new SonataPageBlock();
+        $pBlock->addChild($cBlock);
+        $pBlock->setId(1);
 
         $page->method('getBlocks')->willReturn([$pBlock]);
 
@@ -137,8 +136,8 @@ final class CmsSnapshotManagerTest extends TestCase
         $page = $this->manager->getPage($site, 1);
 
         static::assertInstanceOf(SnapshotPageProxyInterface::class, $page);
-        static::assertInstanceOf(BlockInterface::class, $this->manager->getBlock(1));
-        static::assertInstanceOf(BlockInterface::class, $this->manager->getBlock(2));
+        static::assertInstanceOf(PageBlockInterface::class, $this->manager->getBlock(1));
+        static::assertInstanceOf(PageBlockInterface::class, $this->manager->getBlock(2));
     }
 
     /**

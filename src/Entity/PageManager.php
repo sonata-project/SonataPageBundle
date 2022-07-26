@@ -132,7 +132,7 @@ final class PageManager extends BaseEntityManager implements PageManagerInterfac
                 continue;
             }
 
-            $pages[$parent->getId()]->addChildren($page);
+            $pages[$parent->getId()]->addChild($page);
         }
 
         return $pages;

@@ -184,9 +184,9 @@ interface PageInterface
     public function getUpdatedAt();
 
     /**
-     * @param PageInterface $children
+     * @param PageInterface $child
      */
-    public function addChildren(self $children);
+    public function addChild(self $child);
 
     /**
      * @return Collection<array-key, PageInterface>
