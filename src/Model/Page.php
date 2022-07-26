@@ -393,11 +393,11 @@ abstract class Page implements PageInterface
         return $this->updatedAt;
     }
 
-    public function addChildren(PageInterface $children): void
+    public function addChild(PageInterface $child): void
     {
-        $this->children[] = $children;
+        $this->children[] = $child;
 
-        $children->setParent($this);
+        $child->setParent($this);
     }
 
     public function getChildren()

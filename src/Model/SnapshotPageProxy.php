@@ -86,9 +86,9 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
         return $this->page;
     }
 
-    public function addChildren(PageInterface $children): void
+    public function addChild(PageInterface $child): void
     {
-        $this->getPage()->addChildren($children);
+        $this->getPage()->addChild($child);
     }
 
     public function setHeaders(array $headers = []): void

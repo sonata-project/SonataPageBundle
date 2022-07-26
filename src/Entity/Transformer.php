@@ -167,7 +167,7 @@ final class Transformer implements TransformerInterface
         $block->setUpdatedAt($updatedAt);
 
         foreach ($content['blocks'] as $child) {
-            $block->addChildren($this->loadBlock($child, $page));
+            $block->addChild($this->loadBlock($child, $page));
         }
 
         return $block;
