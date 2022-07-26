@@ -2,6 +2,57 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.27.0](https://github.com/sonata-project/SonataPageBundle/compare/3.26.0...3.27.0) - 2022-07-26
+### Added
+- [[#1418](https://github.com/sonata-project/SonataPageBundle/pull/1418)] Added `CreateSnapshotService` to create snapshots ([@eerison](https://github.com/eerison))
+- [[#1418](https://github.com/sonata-project/SonataPageBundle/pull/1418)] Added `CreateSnapshotBySiteInterface` ([@eerison](https://github.com/eerison))
+- [[#1418](https://github.com/sonata-project/SonataPageBundle/pull/1418)] Added `CreateSnapshotByPageInterface` ([@eerison](https://github.com/eerison))
+
+### Changed
+- [[#1446](https://github.com/sonata-project/SonataPageBundle/pull/1446)] Updated SnapshotManger to use QueryBuilder instead of native SQL ([@Hanmac](https://github.com/Hanmac))
+- [[#1427](https://github.com/sonata-project/SonataPageBundle/pull/1427)] Make Cache dependency optional ([@Hanmac](https://github.com/Hanmac))
+
+### Deprecated
+- [[#1461](https://github.com/sonata-project/SonataPageBundle/pull/1461)] Deprecated `DumpPageCommand::class` ([@eerison](https://github.com/eerison))
+- [[#1461](https://github.com/sonata-project/SonataPageBundle/pull/1461)] Deprecated `RenderBlockCommand::class` ([@eerison](https://github.com/eerison))
+- [[#1459](https://github.com/sonata-project/SonataPageBundle/pull/1459)] Deprecated `Mustache:class` generator ([@eerison](https://github.com/eerison))
+- [[#1434](https://github.com/sonata-project/SonataPageBundle/pull/1434)] Deprecated `CleanupSnapshotConsumer` class ([@eerison](https://github.com/eerison))
+- [[#1434](https://github.com/sonata-project/SonataPageBundle/pull/1434)] Deprecated `CleanupSnapshotsConsumer` class ([@eerison](https://github.com/eerison))
+- [[#1434](https://github.com/sonata-project/SonataPageBundle/pull/1434)] Deprecated `--mode` option for `sonata:page:cleanup-snapshots` ([@eerison](https://github.com/eerison))
+- [[#1434](https://github.com/sonata-project/SonataPageBundle/pull/1434)] Deprecated `--base-console` option for `sonata:page:cleanup-snapshots` ([@eerison](https://github.com/eerison))
+- [[#1434](https://github.com/sonata-project/SonataPageBundle/pull/1434)] Deprecated `--site=all` option  for `sonata:page:cleanup-snapshots` ([@eerison](https://github.com/eerison))
+- [[#1434](https://github.com/sonata-project/SonataPageBundle/pull/1434)] Deprecated `--base-console` option  for `sonata:page:create-snapshots` ([@eerison](https://github.com/eerison))
+- [[#1434](https://github.com/sonata-project/SonataPageBundle/pull/1434)] Deprecated `--site=all` option  for `sonata:page:create-snapshots` ([@eerison](https://github.com/eerison))
+- [[#1434](https://github.com/sonata-project/SonataPageBundle/pull/1434)] Deprecated `--site=all` option  for `sonata:page:update-core-routes` ([@eerison](https://github.com/eerison))
+- [[#1434](https://github.com/sonata-project/SonataPageBundle/pull/1434)] Deprecated `BaseCommand::class` ([@eerison](https://github.com/eerison))
+- [[#1482](https://github.com/sonata-project/SonataPageBundle/pull/1482)] Deprecated target page code from `src/Command/CloneSiteCommand.php` ([@eerison](https://github.com/eerison))
+- [[#1482](https://github.com/sonata-project/SonataPageBundle/pull/1482)] Deprecated target page code from `src/Entity/Transformer.php` ([@eerison](https://github.com/eerison))
+- [[#1482](https://github.com/sonata-project/SonataPageBundle/pull/1482)] Deprecated `src/Model/Page::target` property ([@eerison](https://github.com/eerison))
+- [[#1482](https://github.com/sonata-project/SonataPageBundle/pull/1482)] Deprecated `src/Model/Page::getTarget()` method ([@eerison](https://github.com/eerison))
+- [[#1482](https://github.com/sonata-project/SonataPageBundle/pull/1482)] Deprecated `src/Model/Page::setTarget()` method ([@eerison](https://github.com/eerison))
+- [[#1482](https://github.com/sonata-project/SonataPageBundle/pull/1482)] Deprecated `src/Model/PageInterface::getTarget()` method ([@eerison](https://github.com/eerison))
+- [[#1482](https://github.com/sonata-project/SonataPageBundle/pull/1482)] Deprecated `src/Model/PageInterface::setTarget()` method ([@eerison](https://github.com/eerison))
+- [[#1482](https://github.com/sonata-project/SonataPageBundle/pull/1482)] Deprecated `src/Model/Snapshot::target` property ([@eerison](https://github.com/eerison))
+- [[#1482](https://github.com/sonata-project/SonataPageBundle/pull/1482)] Deprecated `src/Model/Snapshot::targetId` property ([@eerison](https://github.com/eerison))
+- [[#1482](https://github.com/sonata-project/SonataPageBundle/pull/1482)] Deprecated `src/Model/Snapshot::getTarget()` method ([@eerison](https://github.com/eerison))
+- [[#1482](https://github.com/sonata-project/SonataPageBundle/pull/1482)] Deprecated `src/Model/Snapshot::setTarget()` method ([@eerison](https://github.com/eerison))
+- [[#1482](https://github.com/sonata-project/SonataPageBundle/pull/1482)] Deprecated `src/Model/Snapshot::getTargetId()` method ([@eerison](https://github.com/eerison))
+- [[#1482](https://github.com/sonata-project/SonataPageBundle/pull/1482)] Deprecated `src/Model/Snapshot::setTargetId()` method ([@eerison](https://github.com/eerison))
+- [[#1482](https://github.com/sonata-project/SonataPageBundle/pull/1482)] Deprecated `src/Model/SnapshotPageProxy::target` property ([@eerison](https://github.com/eerison))
+- [[#1482](https://github.com/sonata-project/SonataPageBundle/pull/1482)] Deprecated `src/Model/SnapshotPageProxy::getTargetId()` method ([@eerison](https://github.com/eerison))
+- [[#1482](https://github.com/sonata-project/SonataPageBundle/pull/1482)] Deprecated `src/Model/SnapshotPageProxy::setTargetId()` method ([@eerison](https://github.com/eerison))
+- [[#1482](https://github.com/sonata-project/SonataPageBundle/pull/1482)] Deprecated `src/Page/PageServiceManager::createResponse()` method ([@eerison](https://github.com/eerison))
+- [[#1476](https://github.com/sonata-project/SonataPageBundle/pull/1476)] Deprecated the command `MigrateToJsonTypeCommand::class` ([@eerison](https://github.com/eerison))
+- [[#1476](https://github.com/sonata-project/SonataPageBundle/pull/1476)] Deprecated the command `MigrateBlockNameSettingCommand::class` ([@eerison](https://github.com/eerison))
+- [[#1435](https://github.com/sonata-project/SonataPageBundle/pull/1435)] Deprecated `BlockEsiCache`, `BlockJsCache` and `BlockSsiCache`. ([@Hanmac](https://github.com/Hanmac))
+- [[#1418](https://github.com/sonata-project/SonataPageBundle/pull/1418)] Deprecated `async` mode in `CreateSnapshotsCommand` ([@eerison](https://github.com/eerison))
+- [[#1418](https://github.com/sonata-project/SonataPageBundle/pull/1418)] Deprecated `sonata.notification.backend` code into `SiteAdminController` ([@eerison](https://github.com/eerison))
+- [[#1418](https://github.com/sonata-project/SonataPageBundle/pull/1418)] Deprecated `sonata.notification.backend` code into `PageAdminController` ([@eerison](https://github.com/eerison))
+- [[#1418](https://github.com/sonata-project/SonataPageBundle/pull/1418)] Deprecated `sendMessage` and `$backend` property into the `CreateSnapshotAdminExtension` ([@eerison](https://github.com/eerison))
+
+### Removed
+- [[#1429](https://github.com/sonata-project/SonataPageBundle/pull/1429)] Remove `symfony/debug` dependency as it is deprecated. ([@Hanmac](https://github.com/Hanmac))
+
 ## [3.26.0](https://github.com/sonata-project/SonataPageBundle/compare/3.25.0...3.26.0) - 2021-12-28
 ### Added
 - [[#1392](https://github.com/sonata-project/SonataPageBundle/pull/1392)] Add `SnapshotInterface::getId()` method ([@core23](https://github.com/core23))
