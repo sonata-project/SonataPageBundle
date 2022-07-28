@@ -85,7 +85,7 @@ final class SiteAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $form): void
     {
         $form
-            ->with('form_site.label_general', ['class' => 'col-md-6'])
+            ->with('general', ['class' => 'col-md-6'])
                 ->add('name')
                 ->add('isDefault', null, ['required' => false])
                 ->add('enabled', null, ['required' => false])
@@ -99,7 +99,7 @@ final class SiteAdmin extends AbstractAdmin
                     ['required' => false, 'dp_side_by_side' => true]
                 )
             ->end()
-            ->with('form_site.label_seo', ['class' => 'col-md-6'])
+            ->with('seo', ['class' => 'col-md-6'])
                 ->add('title', null, ['required' => false])
                 ->add('metaDescription', TextareaType::class, ['required' => false])
                 ->add('metaKeywords', TextareaType::class, ['required' => false])

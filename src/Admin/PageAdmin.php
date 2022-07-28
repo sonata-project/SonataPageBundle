@@ -256,28 +256,28 @@ final class PageAdmin extends AbstractAdmin
     {
         // define group zoning
         $form
-             ->with('form_page.group_main_label', ['class' => 'col-md-6'])->end()
-             ->with('form_page.group_seo_label', ['class' => 'col-md-6'])->end()
-             ->with('form_page.group_advanced_label', ['class' => 'col-md-6'])->end();
+             ->with('main', ['class' => 'col-md-6'])->end()
+             ->with('seo', ['class' => 'col-md-6'])->end()
+             ->with('advanced', ['class' => 'col-md-6'])->end();
 
         $page = $this->hasSubject() ? $this->getSubject() : null;
 
         if (null === $page || (!$page->isInternal() && !$page->isError())) {
             $form
-                ->with('form_page.group_main_label')
+                ->with('main')
                     ->add('url', TextType::class, ['attr' => ['readonly' => true]])
                 ->end();
         }
 
         if (null !== $page && null === $page->getId()) {
             $form
-                ->with('form_page.group_main_label')
+                ->with('main')
                     ->add('site', null, ['required' => true, 'attr' => ['readonly' => true]])
                 ->end();
         }
 
         $form
-            ->with('form_page.group_main_label')
+            ->with('main')
                 ->add('name', null, ['help' => 'help_page_name'])
                 ->add('enabled', null, ['required' => false])
                 ->add('position')
@@ -285,19 +285,19 @@ final class PageAdmin extends AbstractAdmin
 
         if (null !== $page && !$page->isInternal()) {
             $form
-                ->with('form_page.group_main_label')
+                ->with('main')
                     ->add('type', PageTypeChoiceType::class, ['required' => false])
                 ->end();
         }
 
         $form
-            ->with('form_page.group_main_label')
+            ->with('main')
                 ->add('templateCode', TemplateChoiceType::class, ['required' => true])
             ->end();
 
         if (null === $page || null === $page->getParent() || null === $page->getId()) {
             $form
-                ->with('form_page.group_main_label')
+                ->with('main')
                     ->add('parent', PageSelectorType::class, [
                         'page' => $page ?: null,
                         'site' => $page ? $page->getSite() : null,
@@ -316,7 +316,7 @@ final class PageAdmin extends AbstractAdmin
 
         if (null === $page || !$page->isDynamic()) {
             $form
-                ->with('form_page.group_main_label')
+                ->with('main')
                     ->add('pageAlias', null, ['required' => false])
                     ->add('parent', PageSelectorType::class, [
                         'page' => $page ?: null,
@@ -336,14 +336,14 @@ final class PageAdmin extends AbstractAdmin
 
         if (null === $page || !$page->isHybrid()) {
             $form
-                ->with('form_page.group_seo_label')
+                ->with('seo')
                     ->add('slug', TextType::class, ['required' => false])
                     ->add('customUrl', TextType::class, ['required' => false])
                 ->end();
         }
 
         $form
-            ->with('form_page.group_seo_label', ['collapsed' => true])
+            ->with('seo', ['collapsed' => true])
                 ->add('title', null, ['required' => false])
                 ->add('metaKeyword', TextareaType::class, ['required' => false])
                 ->add('metaDescription', TextareaType::class, ['required' => false])
@@ -351,13 +351,13 @@ final class PageAdmin extends AbstractAdmin
 
         if (null !== $page && !$page->isCms()) {
             $form
-                ->with('form_page.group_advanced_label', ['collapsed' => true])
+                ->with('advanced', ['collapsed' => true])
                     ->add('decorate', null, ['required' => false])
                 ->end();
         }
 
         $form
-            ->with('form_page.group_advanced_label', ['collapsed' => true])
+            ->with('advanced', ['collapsed' => true])
                 ->add('javascript', null, ['required' => false])
                 ->add('stylesheet', null, ['required' => false])
                 ->add('rawHeaders', null, ['required' => false])
