@@ -130,16 +130,16 @@
         <source>filter.label_type</source>
         <target>Type</target>
       </trans-unit>
-      <trans-unit id="33" resname="form.group_advanced_label">
-        <source>form.group_advanced_label</source>
+      <trans-unit id="33" resname="form.group_advanced">
+        <source>form.group_advanced</source>
         <target>Geavanceerd</target>
       </trans-unit>
-      <trans-unit id="34" resname="form.group_main_label">
-        <source>form.group_main_label</source>
+      <trans-unit id="34" resname="form.group_main">
+        <source>form.group_main</source>
         <target>Algemeen</target>
       </trans-unit>
-      <trans-unit id="35" resname="form.group_seo_label">
-        <source>form.group_seo_label</source>
+      <trans-unit id="35" resname="form.group_seo">
+        <source>form.group_seo</source>
         <target>SEO</target>
       </trans-unit>
       <trans-unit id="36" resname="form.label_children">
@@ -522,8 +522,8 @@
         <source>form.label_locale</source>
         <target>Lokalisatie</target>
       </trans-unit>
-      <trans-unit id="131" resname="form_site.label_seo">
-        <source>form_site.label_seo</source>
+      <trans-unit id="131" resname="form.group_seo">
+        <source>form.group_seo</source>
         <target>SEO</target>
       </trans-unit>
       <trans-unit id="132" resname="form.label_title">
@@ -546,8 +546,8 @@
         <source>show.label_meta_keywords</source>
         <target>Meta trefwoorden</target>
       </trans-unit>
-      <trans-unit id="137" resname="form_site.label_general">
-        <source>form_site.label_general</source>
+      <trans-unit id="137" resname="form.group_general">
+        <source>form.group_general</source>
         <target>Algemeen</target>
       </trans-unit>
       <trans-unit id="138" resname="filter.label_site">
@@ -562,8 +562,8 @@
         <source>list.label_edited</source>
         <target>Gewijzigd</target>
       </trans-unit>
-      <trans-unit id="141" resname="show.label_site">
-        <source>show.label_site</source>
+      <trans-unit id="141" resname="show.group_site">
+        <source>show.group_site</source>
         <target>Website</target>
       </trans-unit>
       <trans-unit id="142" resname="show.label_edited">
@@ -615,12 +615,12 @@
         <source>title_select_block_type</source>
         <target>Selecteer een blok type</target>
       </trans-unit>
-      <trans-unit id="153" resname="form.field_group_general">
-        <source>form.field_group_general</source>
+      <trans-unit id="153" resname="form.group_general">
+        <source>form.group_general</source>
         <target>Algemeen</target>
       </trans-unit>
-      <trans-unit id="154" resname="form.field_group_options">
-        <source>form.field_group_options</source>
+      <trans-unit id="154" resname="form.group_options">
+        <source>form.group_options</source>
         <target>Instellingen</target>
       </trans-unit>
       <trans-unit id="155" resname="flash_snapshots_created_success">
