@@ -522,10 +522,6 @@
         <source>form.label_locale</source>
         <target>ロケール</target>
       </trans-unit>
-      <trans-unit id="131" resname="form.group_seo">
-        <source>form.group_seo</source>
-        <target>SEO</target>
-      </trans-unit>
       <trans-unit id="132" resname="form.label_title">
         <source>form.label_title</source>
         <target>タイトル</target>
@@ -614,10 +610,6 @@
       <trans-unit id="152" resname="title_select_block_type">
         <source>title_select_block_type</source>
         <target>ブロックタイプを選択してください。</target>
-      </trans-unit>
-      <trans-unit id="153" resname="form.group_general">
-        <source>form.group_general</source>
-        <target>一般</target>
       </trans-unit>
       <trans-unit id="154" resname="form.group_options">
         <source>form.group_options</source>
