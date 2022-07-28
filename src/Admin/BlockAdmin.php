@@ -114,7 +114,7 @@ final class BlockAdmin extends BaseBlockAdmin
             $optionsGroupOptions['name'] = '';
         }
 
-        $form->with('form.field_group_general', $generalGroupOptions);
+        $form->with('general', $generalGroupOptions);
 
         if (!$isComposer) {
             $form->add('name');
@@ -128,7 +128,7 @@ final class BlockAdmin extends BaseBlockAdmin
         $isStandardBlock = !\in_array($blockType, ['sonata.page.block.container', 'sonata.block.service.container'], true) && !$this->hasParentFieldDescription();
 
         if ($isContainerRoot || $isStandardBlock) {
-            $form->with('form.field_group_general', $generalGroupOptions);
+            $form->with('general', $generalGroupOptions);
 
             $containerBlockTypes = $this->containerBlockTypes;
 
@@ -159,14 +159,14 @@ final class BlockAdmin extends BaseBlockAdmin
 
             $form->end();
 
-            $form->with('form.field_group_options', $optionsGroupOptions);
+            $form->with('options', $optionsGroupOptions);
 
             $this->configureBlockFields($form, $block);
 
             $form->end();
         } else {
             $form
-                ->with('form.field_group_options', $optionsGroupOptions)
+                ->with('options', $optionsGroupOptions)
                 ->add('type', ServiceListType::class, ['context' => 'sonata_page_bundle'])
                 ->add('enabled')
                 ->add('position', IntegerType::class)

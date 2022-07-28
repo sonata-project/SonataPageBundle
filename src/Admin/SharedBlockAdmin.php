@@ -74,12 +74,12 @@ final class SharedBlockAdmin extends BaseBlockAdmin
         }
 
         $form
-            ->with('form.field_group_general')
+            ->with('general')
                 ->add('name', null, ['required' => true])
                 ->add('enabled')
             ->end();
 
-        $form->with('form.field_group_options');
+        $form->with('options');
 
         $this->configureBlockFields($form, $block);
 
