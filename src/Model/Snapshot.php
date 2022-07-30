@@ -106,11 +106,6 @@ abstract class Snapshot implements SnapshotInterface
     protected $parentId;
 
     /**
-     * @deprecated since sonata-project/page-bundle 2.4 and will be removed in 4.0
-     */
-    protected $sources;
-
-    /**
      * @var SiteInterface|null
      */
     protected $site;
