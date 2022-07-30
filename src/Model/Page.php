@@ -168,11 +168,6 @@ abstract class Page implements PageInterface
      */
     protected $edited;
 
-    /**
-     * @var \Closure|null
-     */
-    protected static $slugifyMethod;
-
     public function __construct()
     {
         $this->blocks = new ArrayCollection();
@@ -185,16 +180,6 @@ abstract class Page implements PageInterface
     public function __toString()
     {
         return $this->getName() ?: '-';
-    }
-
-    public static function getSlugifyMethod()
-    {
-        return self::$slugifyMethod;
-    }
-
-    public static function setSlugifyMethod(\Closure $slugifyMethod): void
-    {
-        self::$slugifyMethod = $slugifyMethod;
     }
 
     public function setId($id): void
