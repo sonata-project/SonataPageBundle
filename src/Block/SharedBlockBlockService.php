@@ -14,10 +14,13 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Block;
 
 use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Block\Service\AbstractBlockService;
+use Sonata\BlockBundle\Block\Service\EditableBlockService;
+use Sonata\BlockBundle\Form\Mapper\FormMapper;
+use Sonata\BlockBundle\Meta\Metadata;
+use Sonata\BlockBundle\Meta\MetadataInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\Doctrine\Model\ManagerInterface;
 use Sonata\Form\Type\ImmutableArrayType;
@@ -33,7 +36,7 @@ use Twig\Environment;
 /**
  * @author Romain Mouillard <romain.mouillard@gmail.com>
  */
-final class SharedBlockBlockService extends AbstractBlockService
+final class SharedBlockBlockService extends AbstractBlockService implements EditableBlockService
 {
     private ManagerInterface $blockManager;
 
@@ -71,7 +74,7 @@ final class SharedBlockBlockService extends AbstractBlockService
             ], $response);
     }
 
-    public function validateBlock(ErrorElement $errorElement, BlockInterface $block): void
+    public function validate(ErrorElement $errorElement, BlockInterface $block): void
     {
         $errorElement
             ->with('settings[blockId]')
@@ -79,7 +82,7 @@ final class SharedBlockBlockService extends AbstractBlockService
             ->end();
     }
 
-    public function buildEditForm(FormMapper $form, BlockInterface $block): void
+    public function configureEditForm(FormMapper $form, BlockInterface $block): void
     {
         if (!$block->getSetting('blockId') instanceof BlockInterface) {
             $this->load($block);
@@ -87,14 +90,14 @@ final class SharedBlockBlockService extends AbstractBlockService
 
         $form->add('settings', ImmutableArrayType::class, [
             'keys' => [
-                [$this->getBlockBuilder($form), null, []],
+                [$this->getBlockBuilder(), null, []],
             ],
         ]);
     }
 
-    public function getName()
+    public function configureCreateForm(FormMapper $form, BlockInterface $block): void
     {
-        return 'Shared Block';
+        $this->configureEditForm($form, $block);
     }
 
     public function configureSettings(OptionsResolver $resolver): void
@@ -102,6 +105,13 @@ final class SharedBlockBlockService extends AbstractBlockService
         $resolver->setDefaults([
             'template' => '@SonataPage/Block/block_shared_block.html.twig',
             'blockId' => null,
+        ]);
+    }
+
+    public function getMetadata(): MetadataInterface
+    {
+        return new Metadata('Shared Block', null, null, 'SonataPageBundle', [
+            'class' => 'fa fa-home',
         ]);
     }
 
@@ -126,14 +136,14 @@ final class SharedBlockBlockService extends AbstractBlockService
         $block->setSetting('blockId', \is_object($block->getSetting('blockId')) ? $block->getSetting('blockId')->getId() : null);
     }
 
-    protected function getBlockBuilder(FormMapper $form): FormBuilderInterface
+    protected function getBlockBuilder(): FormBuilderInterface
     {
         $fieldDescription = $this->sharedBlockAdmin->createFieldDescription('block', [
             'translation_domain' => 'SonataPageBundle',
             'edit' => 'list',
         ]);
 
-        return $form->create('blockId', ModelListType::class, [
+        return $this->sharedBlockAdmin->getFormBuilder()->create('blockId', ModelListType::class, [
             'sonata_field_description' => $fieldDescription,
             'class' => $this->sharedBlockAdmin->getClass(),
             'model_manager' => $this->sharedBlockAdmin->getModelManager(),
