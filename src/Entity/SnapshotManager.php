@@ -19,7 +19,6 @@ use Sonata\Doctrine\Entity\BaseEntityManager;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SnapshotInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
-use Sonata\PageBundle\Model\SnapshotPageProxy;
 use Sonata\PageBundle\Model\SnapshotPageProxyFactoryInterface;
 use Sonata\PageBundle\Model\SnapshotPageProxyInterface;
 use Sonata\PageBundle\Model\TransformerInterface;
@@ -122,45 +121,6 @@ final class SnapshotManager extends BaseEntityManager implements SnapshotManager
         $query->setParameters($parameters);
 
         return $query->getQuery()->getOneOrNullResult();
-    }
-
-    /**
-     * return a page with the given routeName.
-     *
-     * @param string $routeName
-     *
-     * @return PageInterface|false
-     *
-     * @deprecated since sonata-project/page-bundle 3.2, to be removed in 4.0
-     */
-    public function getPageByName($routeName)
-    {
-        @trigger_error(
-            'The '.__METHOD__.' method is deprecated since version 3.2 and will be removed in 4.0.',
-            \E_USER_DEPRECATED
-        );
-
-        $snapshots = $this->getEntityManager()->createQueryBuilder()
-            ->select('s')
-            ->from($this->class, 's')
-            ->where('s.routeName = :routeName')
-            ->setParameters([
-                'routeName' => $routeName,
-            ])
-            ->getQuery()
-            ->execute();
-
-        $snapshot = \count($snapshots) > 0 ? $snapshots[0] : false;
-
-        if ($snapshot) {
-            /**
-             * @phpstan-ignore-next-line
-             * @psalm-suppress TooFewArguments
-             */
-            return new SnapshotPageProxy($this, $snapshot);
-        }
-
-        return false;
     }
 
     public function cleanup(PageInterface $page, $keep)
