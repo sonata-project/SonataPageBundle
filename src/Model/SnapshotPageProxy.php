@@ -353,7 +353,7 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
         return $this->getPage()->setPageAlias($pageAlias);
     }
 
-    public function setCreatedAt(?\DateTime $createdAt = null): void
+    public function setCreatedAt(?\DateTimeInterface $createdAt = null): void
     {
         $this->getPage()->setCreatedAt($createdAt);
     }
@@ -363,7 +363,7 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
         return $this->getPage()->getCreatedAt();
     }
 
-    public function setUpdatedAt(?\DateTime $updatedAt = null): void
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt = null): void
     {
         $this->getPage()->setUpdatedAt($updatedAt);
     }

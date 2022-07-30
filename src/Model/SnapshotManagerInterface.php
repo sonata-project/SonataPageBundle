@@ -30,10 +30,9 @@ interface SnapshotManagerInterface extends ManagerInterface
     public function findEnableSnapshot(array $criteria);
 
     /**
-     * @param array          $snapshots A snapshots array to enable
-     * @param \DateTime|null $date      A date instance
+     * @param array $snapshots A snapshots array to enable
      */
-    public function enableSnapshots(array $snapshots, ?\DateTime $date = null);
+    public function enableSnapshots(array $snapshots, ?\DateTimeInterface $date = null);
 
     public function createSnapshotPageProxy(TransformerInterface $transformer, SnapshotInterface $snapshot): SnapshotPageProxyInterface;
 

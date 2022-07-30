@@ -181,7 +181,7 @@ final class SnapshotManagerTest extends KernelTestCase
         static::assertNull($repo->find(789));
     }
 
-    public static function assertDateTimeEquals(\DateTime $expected, \DateTime $actual)
+    public static function assertDateTimeEquals(\DateTimeInterface $expected, \DateTimeInterface $actual)
     {
         static::assertSame($expected->format('c'), $actual->format('c'));
     }

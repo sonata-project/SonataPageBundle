@@ -58,18 +58,18 @@ interface SiteInterface
     public function setLocale($locale);
 
     /**
-     * @return \DateTime|null
+     * @return \DateTimeInterface|null
      */
     public function getEnabledFrom();
 
-    public function setEnabledFrom(?\DateTime $enabledFrom = null);
+    public function setEnabledFrom(?\DateTimeInterface $enabledFrom = null);
 
     /**
-     * @return \DateTime|null
+     * @return \DateTimeInterface|null
      */
     public function getEnabledTo();
 
-    public function setEnabledTo(?\DateTime $enabledTo = null);
+    public function setEnabledTo(?\DateTimeInterface $enabledTo = null);
 
     /**
      * @return bool
@@ -108,17 +108,17 @@ interface SiteInterface
      */
     public function isEnabled();
 
-    public function setCreatedAt(?\DateTime $createdAt = null);
+    public function setCreatedAt(?\DateTimeInterface $createdAt = null);
 
     /**
-     * @return \DateTime $createdAt
+     * @return \DateTimeInterface|null
      */
     public function getCreatedAt();
 
-    public function setUpdatedAt(?\DateTime $updatedAt = null);
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt = null);
 
     /**
-     * @return \DateTime $updatedAt
+     * @return \DateTimeInterface|null
      */
     public function getUpdatedAt();
 

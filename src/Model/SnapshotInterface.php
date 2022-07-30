@@ -91,37 +91,31 @@ interface SnapshotInterface
      */
     public function getUrl();
 
-    public function setPublicationDateStart(?\DateTime $publicationDateStart = null);
+    public function setPublicationDateStart(?\DateTimeInterface $publicationDateStart = null);
 
     /**
-     * @return \DateTime|null $publicationDateStart
+     * @return \DateTimeInterface|null
      */
     public function getPublicationDateStart();
 
-    public function setPublicationDateEnd(?\DateTime $publicationDateEnd = null);
+    public function setPublicationDateEnd(?\DateTimeInterface $publicationDateEnd = null);
 
     /**
-     * @return \DateTime|null $publicationDateEnd
+     * @return \DateTimeInterface|null
      */
     public function getPublicationDateEnd();
 
-    /**
-     * @param \DateTime $createdAt
-     */
-    public function setCreatedAt(?\DateTime $createdAt = null);
+    public function setCreatedAt(?\DateTimeInterface $createdAt = null);
 
     /**
-     * @return \DateTime $createdAt
+     * @return \DateTimeInterface|null
      */
     public function getCreatedAt();
 
-    /**
-     * @param \DateTime $updatedAt
-     */
-    public function setUpdatedAt(?\DateTime $updatedAt = null);
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt = null);
 
     /**
-     * @return \DateTime $updatedAt
+     * @return \DateTimeInterface|null
      */
     public function getUpdatedAt();
 
