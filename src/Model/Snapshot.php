@@ -21,12 +21,12 @@ namespace Sonata\PageBundle\Model;
 abstract class Snapshot implements SnapshotInterface
 {
     /**
-     * @var \DateTime
+     * @var \DateTimeInterface|null
      */
     protected $createdAt;
 
     /**
-     * @var \DateTime
+     * @var \DateTimeInterface|null
      */
     protected $updatedAt;
 
@@ -61,12 +61,12 @@ abstract class Snapshot implements SnapshotInterface
     protected $enabled;
 
     /**
-     * @var \DateTime|null
+     * @var \DateTimeInterface|null
      */
     protected $publicationDateStart;
 
     /**
-     * @var \DateTime|null
+     * @var \DateTimeInterface|null
      */
     protected $publicationDateEnd;
 
@@ -170,7 +170,7 @@ abstract class Snapshot implements SnapshotInterface
         return $this->name;
     }
 
-    public function setPublicationDateStart(?\DateTime $publicationDateStart = null): void
+    public function setPublicationDateStart(?\DateTimeInterface $publicationDateStart = null): void
     {
         $this->publicationDateStart = $publicationDateStart;
     }
@@ -180,7 +180,7 @@ abstract class Snapshot implements SnapshotInterface
         return $this->publicationDateStart;
     }
 
-    public function setPublicationDateEnd(?\DateTime $publicationDateEnd = null): void
+    public function setPublicationDateEnd(?\DateTimeInterface $publicationDateEnd = null): void
     {
         $this->publicationDateEnd = $publicationDateEnd;
     }
@@ -190,7 +190,7 @@ abstract class Snapshot implements SnapshotInterface
         return $this->publicationDateEnd;
     }
 
-    public function setCreatedAt(?\DateTime $createdAt = null): void
+    public function setCreatedAt(?\DateTimeInterface $createdAt = null): void
     {
         $this->createdAt = $createdAt;
     }
@@ -200,7 +200,7 @@ abstract class Snapshot implements SnapshotInterface
         return $this->createdAt;
     }
 
-    public function setUpdatedAt(?\DateTime $updatedAt = null): void
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt = null): void
     {
         $this->updatedAt = $updatedAt;
     }

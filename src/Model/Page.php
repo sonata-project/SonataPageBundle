@@ -29,12 +29,12 @@ abstract class Page implements PageInterface
     protected $id;
 
     /**
-     * @var \DateTime
+     * @var \DateTimeInterface|null
      */
     protected $createdAt;
 
     /**
-     * @var \DateTime
+     * @var \DateTimeInterface|null
      */
     protected $updatedAt;
 
@@ -373,7 +373,7 @@ abstract class Page implements PageInterface
         return $this->headers;
     }
 
-    public function setCreatedAt(?\DateTime $createdAt = null): void
+    public function setCreatedAt(?\DateTimeInterface $createdAt = null): void
     {
         $this->createdAt = $createdAt;
     }
@@ -383,7 +383,7 @@ abstract class Page implements PageInterface
         return $this->createdAt;
     }
 
-    public function setUpdatedAt(?\DateTime $updatedAt = null): void
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt = null): void
     {
         $this->updatedAt = $updatedAt;
     }

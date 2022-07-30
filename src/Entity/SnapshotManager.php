@@ -48,7 +48,7 @@ final class SnapshotManager extends BaseEntityManager implements SnapshotManager
         $this->snapshotPageProxyFactory = $snapshotPageProxyFactory;
     }
 
-    public function enableSnapshots(array $snapshots, ?\DateTime $date = null): void
+    public function enableSnapshots(array $snapshots, ?\DateTimeInterface $date = null): void
     {
         if (0 === \count($snapshots)) {
             return;

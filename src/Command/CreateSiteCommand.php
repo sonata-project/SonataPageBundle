@@ -103,8 +103,8 @@ EOT
         $site->setLocale('-' === $values['locale'] ? null : $values['locale']);
         $site->setEnabled(\in_array($values['enabled'], ['true', 1, '1'], true));
 
-        $info_enabledFrom = $site->getEnabledFrom() instanceof \DateTime ? $site->getEnabledFrom()->format('r') : 'ALWAYS';
-        $info_enabledTo = $site->getEnabledTo() instanceof \DateTime ? $site->getEnabledTo()->format('r') : 'ALWAYS';
+        $info_enabledFrom = $site->getEnabledFrom() instanceof \DateTimeInterface ? $site->getEnabledFrom()->format('r') : 'ALWAYS';
+        $info_enabledTo = $site->getEnabledTo() instanceof \DateTimeInterface ? $site->getEnabledTo()->format('r') : 'ALWAYS';
 
         $output->writeln(
             <<<INFO
