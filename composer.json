@@ -60,7 +60,7 @@
         "phpunit/phpunit": "^9.5",
         "psalm/plugin-phpunit": "^0.17",
         "psalm/plugin-symfony": "^3.0",
-        "rector/rector": "dev-main",
+        "rector/rector": "^0.13",
         "symfony/browser-kit": "^4.4 || ^5.4 || ^6.0",
         "symfony/css-selector": "^4.4 || ^5.4 || ^6.0",
         "symfony/phpunit-bridge": "^6.1",
