@@ -243,7 +243,7 @@ abstract class Page implements PageInterface
 
     public function setSlug($slug): void
     {
-        $this->slug = self::slugify(trim((string) $slug));
+        $this->slug = $slug;
     }
 
     public function getSlug()
@@ -529,42 +529,6 @@ abstract class Page implements PageInterface
     public function getUrl()
     {
         return $this->url;
-    }
-
-    /**
-     * source : http://snipplr.com/view/22741/slugify-a-string-in-php/.
-     *
-     * @static
-     *
-     * @param string $text
-     *
-     * @return mixed|string
-     */
-    public static function slugify($text)
-    {
-        // this code is for BC
-        if (!self::$slugifyMethod) {
-            // replace non letter or digits by -
-            $text = preg_replace('~[^\\pL\d]+~u', '-', $text);
-
-            // trim
-            $text = trim($text, '-');
-
-            // transliterate
-            if (\function_exists('iconv')) {
-                $text = iconv('UTF-8', 'ASCII//TRANSLIT', $text);
-            }
-
-            // lowercase
-            $text = strtolower($text);
-
-            // remove unwanted characters
-            $text = preg_replace('~[^\\-\w]+~', '', $text);
-
-            return $text;
-        }
-
-        return \call_user_func(self::$slugifyMethod, $text);
     }
 
     /**

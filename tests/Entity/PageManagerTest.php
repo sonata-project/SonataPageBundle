@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Entity;
 
+use Cocur\Slugify\Slugify;
 use Doctrine\Persistence\ManagerRegistry;
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Entity\PageManager;
@@ -23,9 +24,9 @@ final class PageManagerTest extends TestCase
     public function testFixUrl(): void
     {
         $manager = new PageManager(
-            'Foo\Bar',
-            $this->createMock(ManagerRegistry::class),
-            []
+            Page::class,
+            $this->createStub(ManagerRegistry::class),
+            new Slugify()
         );
 
         $page1 = new Page();
@@ -67,9 +68,9 @@ final class PageManagerTest extends TestCase
     public function testWithSlashAtTheEnd(): void
     {
         $manager = new PageManager(
-            'Foo\Bar',
+            Page::class,
             $this->createMock(ManagerRegistry::class),
-            []
+            new Slugify()
         );
 
         $homepage = new Page();
@@ -96,6 +97,7 @@ final class PageManagerTest extends TestCase
         $manager = new PageManager(
             Page::class,
             $this->createMock(ManagerRegistry::class),
+            new Slugify(),
             [],
             ['my_route' => ['decorate' => false, 'name' => 'Salut!']]
         );
