@@ -45,11 +45,21 @@ final class PageAdmin extends AbstractAdmin
 {
     protected $classnameLabel = 'Page';
 
-    protected ?PageManagerInterface $pageManager = null;
+    private ?PageManagerInterface $pageManager = null;
 
-    protected ?SiteManagerInterface $siteManager = null;
+    private ?SiteManagerInterface $siteManager = null;
 
-    public function configureRoutes(RouteCollectionInterface $collection): void
+    public function setPageManager(PageManagerInterface $pageManager): void
+    {
+        $this->pageManager = $pageManager;
+    }
+
+    public function setSiteManager(SiteManagerInterface $siteManager): void
+    {
+        $this->siteManager = $siteManager;
+    }
+
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection->add('compose', '{id}/compose', [
             'id' => null,
@@ -61,65 +71,14 @@ final class PageAdmin extends AbstractAdmin
         $collection->add('tree', 'tree');
     }
 
-    public function preUpdate($object): void
+    protected function preUpdate($object): void
     {
         $object->setEdited(true);
     }
 
-    public function prePersist($object): void
+    protected function prePersist($object): void
     {
         $object->setEdited(true);
-    }
-
-    public function setPageManager(PageManagerInterface $pageManager): void
-    {
-        $this->pageManager = $pageManager;
-    }
-
-    /**
-     * @throws \RuntimeException
-     *
-     * @return SiteInterface|bool
-     */
-    public function getSite()
-    {
-        if (!$this->hasRequest()) {
-            return false;
-        }
-
-        $siteId = null;
-
-        if ('POST' === $this->getRequest()->getMethod()) {
-            $values = $this->getRequest()->get($this->getUniqid());
-            $siteId = $values['site'] ?? null;
-        }
-
-        $siteId ??= $this->getRequest()->get('siteId');
-
-        if ($siteId) {
-            $site = $this->siteManager->findOneBy(['id' => $siteId]);
-
-            if (!$site) {
-                throw new \RuntimeException('Unable to find the site with id='.$this->getRequest()->get('siteId'));
-            }
-
-            return $site;
-        }
-
-        return false;
-    }
-
-    public function setSiteManager(SiteManagerInterface $siteManager): void
-    {
-        $this->siteManager = $siteManager;
-    }
-
-    /**
-     * @return SiteInterface[]
-     */
-    public function getSites()
-    {
-        return $this->siteManager->findBy([]);
     }
 
     protected function getAccessMapping(): array
@@ -416,5 +375,38 @@ final class PageAdmin extends AbstractAdmin
                 // throw $e;
             }
         }
+    }
+
+    /**
+     * @throws \RuntimeException
+     *
+     * @return SiteInterface|bool
+     */
+    private function getSite()
+    {
+        if (!$this->hasRequest()) {
+            return false;
+        }
+
+        $siteId = null;
+
+        if ('POST' === $this->getRequest()->getMethod()) {
+            $values = $this->getRequest()->get($this->getUniqid());
+            $siteId = $values['site'] ?? null;
+        }
+
+        $siteId ??= $this->getRequest()->get('siteId');
+
+        if ($siteId) {
+            $site = $this->siteManager->findOneBy(['id' => $siteId]);
+
+            if (!$site) {
+                throw new \RuntimeException('Unable to find the site with id='.$this->getRequest()->get('siteId'));
+            }
+
+            return $site;
+        }
+
+        return false;
     }
 }

@@ -28,16 +28,16 @@ use Sonata\PageBundle\Model\TransformerInterface;
  */
 final class CmsSnapshotManager extends BaseCmsPageManager
 {
-    protected SnapshotManagerInterface $snapshotManager;
+    private SnapshotManagerInterface $snapshotManager;
 
-    protected TransformerInterface $transformer;
+    private TransformerInterface $transformer;
 
-    protected array $pageReferences = [];
+    private array $pageReferences = [];
 
     /**
      * @var PageInterface[]
      */
-    protected array $pages = [];
+    private array $pages = [];
 
     public function __construct(SnapshotManagerInterface $snapshotManager, TransformerInterface $transformer)
     {

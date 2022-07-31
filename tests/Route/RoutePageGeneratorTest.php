@@ -35,7 +35,7 @@ use Twig\Environment;
  */
 final class RoutePageGeneratorTest extends TestCase
 {
-    protected RoutePageGenerator $routePageGenerator;
+    private RoutePageGenerator $routePageGenerator;
 
     /**
      * Set up dependencies.
@@ -112,7 +112,7 @@ final class RoutePageGeneratorTest extends TestCase
     /**
      * Returns a mock of a site model.
      */
-    protected function getSiteMock(): SiteInterface
+    private function getSiteMock(): SiteInterface
     {
         $site = $this->createMock(SiteInterface::class);
         $site->method('getHost')->willReturn('sonata-project.org');
@@ -124,7 +124,7 @@ final class RoutePageGeneratorTest extends TestCase
     /**
      * Returns a mock of Symfony router.
      */
-    protected function getRouterMock(): RouterInterface
+    private function getRouterMock(): RouterInterface
     {
         $collection = new RouteCollection();
         $collection->add('route1', new Route('first_custom_route'));
@@ -153,7 +153,7 @@ final class RoutePageGeneratorTest extends TestCase
     /**
      * Returns Sonata route page generator service.
      */
-    protected function getRoutePageGenerator(): RoutePageGenerator
+    private function getRoutePageGenerator(): RoutePageGenerator
     {
         $router = $this->getRouterMock();
 

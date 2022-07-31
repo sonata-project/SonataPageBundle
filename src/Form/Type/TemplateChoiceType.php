@@ -25,7 +25,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 final class TemplateChoiceType extends AbstractType
 {
-    protected TemplateManagerInterface $manager;
+    private TemplateManagerInterface $manager;
 
     public function __construct(TemplateManagerInterface $manager)
     {

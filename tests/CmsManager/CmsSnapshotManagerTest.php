@@ -17,7 +17,6 @@ use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\CmsManager\CmsSnapshotManager;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Model\Block;
-use Sonata\PageBundle\Model\BlockInteractorInterface;
 use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SnapshotInterface;
@@ -44,20 +43,17 @@ final class SnapshotBlock extends Block
 
 final class CmsSnapshotManagerTest extends TestCase
 {
-    protected CmsSnapshotManager $manager;
+    private CmsSnapshotManager $manager;
 
-    protected $blockInteractor;
+    private $snapshotManager;
 
-    protected $snapshotManager;
-
-    protected $transformer;
+    private $transformer;
 
     /**
      * Setup manager object to test.
      */
     protected function setUp(): void
     {
-        $this->blockInteractor = $this->getMockBlockInteractor();
         $this->snapshotManager = $this->createMock(SnapshotManagerInterface::class);
         $this->transformer = $this->createMock(TransformerInterface::class);
         $this->manager = new CmsSnapshotManager($this->snapshotManager, $this->transformer);
@@ -138,25 +134,5 @@ final class CmsSnapshotManagerTest extends TestCase
         static::assertInstanceOf(SnapshotPageProxyInterface::class, $page);
         static::assertInstanceOf(PageBlockInterface::class, $this->manager->getBlock(1));
         static::assertInstanceOf(PageBlockInterface::class, $this->manager->getBlock(2));
-    }
-
-    /**
-     * Returns a mock block interactor.
-     */
-    protected function getMockBlockInteractor(): BlockInteractorInterface
-    {
-        $callback = static function ($options) {
-            $block = new SnapshotBlock();
-            $block->setSettings($options);
-
-            return $block;
-        };
-
-        $blockInteractor = $this->createMock(BlockInteractorInterface::class);
-        $blockInteractor
-            ->method('createNewContainer')
-            ->willReturnCallback($callback);
-
-        return $blockInteractor;
     }
 }

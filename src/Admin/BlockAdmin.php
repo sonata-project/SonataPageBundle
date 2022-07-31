@@ -34,9 +34,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 final class BlockAdmin extends BaseBlockAdmin
 {
-    protected array $blocks;
-
     protected $classnameLabel = 'Block';
+    private array $blocks;
 
     public function __construct(array $blocks = [])
     {

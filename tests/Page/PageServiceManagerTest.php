@@ -22,7 +22,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class PageServiceManagerTest extends TestCase
 {
-    protected PageServiceManager $manager;
+    private PageServiceManager $manager;
 
     protected function setUp(): void
     {

@@ -136,7 +136,7 @@ final class SharedBlockBlockService extends AbstractBlockService implements Edit
         $block->setSetting('blockId', \is_object($block->getSetting('blockId')) ? $block->getSetting('blockId')->getId() : null);
     }
 
-    protected function getBlockBuilder(): FormBuilderInterface
+    private function getBlockBuilder(): FormBuilderInterface
     {
         $fieldDescription = $this->sharedBlockAdmin->createFieldDescription('block', [
             'translation_domain' => 'SonataPageBundle',

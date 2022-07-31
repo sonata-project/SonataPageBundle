@@ -29,7 +29,7 @@ final class UniqueUrlValidatorTest extends ConstraintValidatorTestCase
     /**
      * @var MockObject&PageManagerInterface
      */
-    protected $manager;
+    private $manager;
 
     protected function setUp(): void
     {

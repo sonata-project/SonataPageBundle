@@ -191,7 +191,7 @@ final class ExceptionListenerTest extends TestCase
     /**
      * Returns a mocked event with given content data.
      */
-    protected function getMockEvent(\Exception $exception): ExceptionEvent
+    private function getMockEvent(\Exception $exception): ExceptionEvent
     {
         $kernel = $this->createMock(HttpKernelInterface::class);
         $request = new Request();

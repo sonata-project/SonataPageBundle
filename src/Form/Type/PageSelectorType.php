@@ -28,7 +28,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 final class PageSelectorType extends AbstractType
 {
-    protected PageManagerInterface $manager;
+    private PageManagerInterface $manager;
 
     public function __construct(PageManagerInterface $manager)
     {

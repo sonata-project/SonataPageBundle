@@ -22,7 +22,7 @@ use Symfony\Component\Routing\RequestContext;
  */
 final class SiteRequestContext extends RequestContext implements SiteRequestContextInterface
 {
-    protected SiteSelectorInterface $selector;
+    private SiteSelectorInterface $selector;
 
     private ?SiteInterface $site = null;
 

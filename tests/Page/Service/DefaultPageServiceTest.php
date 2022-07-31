@@ -27,14 +27,14 @@ final class DefaultPageServiceTest extends TestCase
     /**
      * @var MockObject&TemplateManagerInterface
      */
-    protected $templateManager;
+    private $templateManager;
 
     /**
      * @var MockObject&SeoPageInterface
      */
-    protected $seoPage;
+    private $seoPage;
 
-    protected DefaultPageService $service;
+    private DefaultPageService $service;
 
     protected function setUp(): void
     {

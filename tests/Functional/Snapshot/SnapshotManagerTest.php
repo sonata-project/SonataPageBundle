@@ -29,12 +29,12 @@ final class SnapshotManagerTest extends KernelTestCase
     /**
      * @var EntityManager|null
      */
-    protected $entityManager;
+    private $entityManager;
 
     /**
      * @var SnapshotManager
      */
-    protected $snapshotManager;
+    private $snapshotManager;
 
     protected function setUp(): void
     {
