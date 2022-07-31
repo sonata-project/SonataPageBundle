@@ -127,7 +127,7 @@ EOF;
 
                 ->setDeprecated(
                     ...$this->getDeprecationMessage(
-                        'The "slugify_service" option is deprecated since sonata-project/page-bundle 3.x and will be removed in 4.0. Use decoration of services instead.',
+                        'The "slugify_service" option is deprecated since sonata-project/page-bundle 3.28 and will be removed in 4.0. Use decoration of services instead.',
                         '3.x'
                     )
                 )
