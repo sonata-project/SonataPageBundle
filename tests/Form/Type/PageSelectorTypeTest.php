@@ -22,9 +22,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class PageSelectorTypeTest extends TestCase
 {
-    protected $pages;
+    private $pages;
 
-    protected $site;
+    private $site;
 
     protected function setUp(): void
     {

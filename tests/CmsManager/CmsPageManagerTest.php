@@ -269,7 +269,7 @@ final class CmsPageManagerTest extends TestCase
      *
      * @return MockObject&BlockInteractorInterface
      */
-    protected function getMockBlockInteractor(): BlockInteractorInterface
+    private function getMockBlockInteractor(): BlockInteractorInterface
     {
         $callback = static function ($options) {
             $block = new CmsBlock();

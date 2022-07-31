@@ -93,7 +93,7 @@ final class PageExtensionTest extends TestCase
         $extension->controller('bar');
     }
 
-    protected function getRequestStack(Request $request): RequestStack
+    private function getRequestStack(Request $request): RequestStack
     {
         $stack = new RequestStack();
         $stack->push($request);

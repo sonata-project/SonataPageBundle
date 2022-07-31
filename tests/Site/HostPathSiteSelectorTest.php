@@ -99,7 +99,7 @@ final class HostPathSiteSelectorTest extends TestCase
     /**
      * Perform the actual handleKernelSiteRequest method test.
      */
-    protected function performHandleKernelRequestTest($url): array
+    private function performHandleKernelRequestTest($url): array
     {
         $kernel = $this->createMock(HttpKernelInterface::class);
         $request = SiteRequest::create($url);

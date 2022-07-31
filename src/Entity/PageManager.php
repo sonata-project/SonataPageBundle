@@ -29,9 +29,9 @@ use Sonata\PageBundle\Model\SiteInterface;
  */
 final class PageManager extends BaseEntityManager implements PageManagerInterface
 {
-    protected array $pageDefaults;
+    private array $pageDefaults;
 
-    protected array $defaults;
+    private array $defaults;
 
     /**
      * @param string $class

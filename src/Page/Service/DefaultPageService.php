@@ -28,9 +28,9 @@ use Symfony\Component\HttpFoundation\Response;
  */
 final class DefaultPageService extends BasePageService
 {
-    protected TemplateManagerInterface $templateManager;
+    private TemplateManagerInterface $templateManager;
 
-    protected ?SeoPageInterface $seoPage;
+    private ?SeoPageInterface $seoPage;
 
     /**
      * @param string                   $name            Page service name
@@ -55,7 +55,7 @@ final class DefaultPageService extends BasePageService
     /**
      * Updates the SEO page values for given page instance.
      */
-    protected function updateSeoPage(PageInterface $page): void
+    private function updateSeoPage(PageInterface $page): void
     {
         if (!$this->seoPage) {
             return;

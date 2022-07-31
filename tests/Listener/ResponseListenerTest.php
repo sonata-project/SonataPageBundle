@@ -179,7 +179,7 @@ final class ResponseListenerTest extends TestCase
     /**
      * Returns a mocked event with given content data.
      */
-    protected function getMockEvent(string $content): ResponseEvent
+    private function getMockEvent(string $content): ResponseEvent
     {
         $kernel = $this->createMock(HttpKernelInterface::class);
         $request = new Request();
