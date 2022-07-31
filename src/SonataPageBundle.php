@@ -33,22 +33,4 @@ final class SonataPageBundle extends Bundle
         $container->addCompilerPass(new CmfRouterCompilerPass());
         $container->addCompilerPass(new TwigStringExtensionCompilerPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 1);
     }
-
-    public function boot(): void
-    {
-        $container = $this->container;
-        $class = $this->container->getParameter('sonata.page.page.class');
-
-        if (!class_exists($class)) {
-            // we only set the method if the class exist
-            return;
-        }
-
-        \call_user_func([$class, 'setSlugifyMethod'], static function ($text) use ($container) {
-            $id = $container->getParameter('sonata.page.slugify_service');
-            $service = $container->get($id);
-
-            return $service->slugify($text);
-        });
-    }
 }

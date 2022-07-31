@@ -33,7 +33,6 @@ Full configuration options:
                 # Defaults:
                 - /(.*)admin(.*)/
                 - /^_(.*)/
-            slugify_service: sonata.page.slugify.cocur
             ignore_uri_patterns:
                 # Default:
                 - /admin(.*)/

@@ -13,33 +13,46 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Entity;
 
+use Cocur\Slugify\SlugifyInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Sonata\Doctrine\Entity\BaseEntityManager;
-use Sonata\PageBundle\Model\Page;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 
 /**
- * This class manages PageInterface persistency with the Doctrine ORM.
- *
  * @extends BaseEntityManager<PageInterface>
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 final class PageManager extends BaseEntityManager implements PageManagerInterface
 {
+    private SlugifyInterface $slugify;
+
+    /**
+     * @var array<string, mixed>
+     */
     private array $pageDefaults;
 
+    /**
+     * @var array<string, mixed>
+     */
     private array $defaults;
 
     /**
-     * @param string $class
+     * @param array<string, mixed> $defaults
+     * @param array<string, mixed> $pageDefaults
      */
-    public function __construct($class, ManagerRegistry $registry, array $defaults = [], array $pageDefaults = [])
-    {
+    public function __construct(
+        string $class,
+        ManagerRegistry $registry,
+        SlugifyInterface $slugify,
+        array $defaults = [],
+        array $pageDefaults = []
+    ) {
         parent::__construct($class, $registry);
 
+        $this->slugify = $slugify;
         $this->defaults = $defaults;
         $this->pageDefaults = $pageDefaults;
     }
@@ -86,7 +99,7 @@ final class PageManager extends BaseEntityManager implements PageManagerInterfac
             // make sure Page has a valid url
             if ($page->getParent()) {
                 if (!$page->getSlug()) {
-                    $page->setSlug(Page::slugify($page->getName()));
+                    $page->setSlug($this->slugify->slugify($page->getName()));
                 }
 
                 if ('/' === $page->getParent()->getUrl()) {

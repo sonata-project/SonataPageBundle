@@ -83,7 +83,6 @@ final class SonataPageExtension extends Extension implements PrependExtensionInt
         $this->configurePageServices($container, $config);
 
         $container->setParameter('sonata.page.assets', $config['assets']);
-        $container->setParameter('sonata.page.slugify_service', $config['slugify_service']);
 
         $container->setParameter('sonata.page.skip_redirection', $config['skip_redirection']);
         $container->setParameter('sonata.page.hide_disabled_blocks', $config['hide_disabled_blocks']);
@@ -121,14 +120,14 @@ final class SonataPageExtension extends Extension implements PrependExtensionInt
         ];
 
         $container->getDefinition('sonata.page.manager.page')
-            ->replaceArgument(2, $defaults);
+            ->replaceArgument(3, $defaults);
 
         foreach ($config['page_defaults'] as $name => $pageDefaults) {
             $config['page_defaults'][$name] = array_merge($defaults, $pageDefaults);
         }
 
         $container->getDefinition('sonata.page.manager.page')
-            ->replaceArgument(3, $config['page_defaults']);
+            ->replaceArgument(4, $config['page_defaults']);
     }
 
     /**

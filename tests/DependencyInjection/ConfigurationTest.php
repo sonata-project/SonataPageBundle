@@ -115,7 +115,6 @@ final class ConfigurationTest extends TestCase
                 0 => '(.*)admin(.*)',
                 1 => '^_(.*)',
             ],
-            'slugify_service' => 'sonata.page.slugify.cocur',
             'ignore_routes' => [
             ],
             'ignore_uri_patterns' => [
@@ -185,7 +184,6 @@ final class ConfigurationTest extends TestCase
                 0 => '(.*)admin(.*)',
                 1 => '^_(.*)',
             ],
-            'slugify_service' => 'sonata.page.slugify.cocur',
             'ignore_routes' => [
             ],
             'ignore_uri_patterns' => [

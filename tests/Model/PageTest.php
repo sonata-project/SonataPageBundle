@@ -19,23 +19,6 @@ use Sonata\PageBundle\Model\SnapshotInterface;
 
 final class PageTest extends TestCase
 {
-    public function testSlugify(): void
-    {
-        setlocale(\LC_ALL, 'en_US.utf8');
-
-        $reflectionClass = new \ReflectionClass(Page::class);
-        $property = $reflectionClass->getProperty('slugifyMethod');
-        $property->setAccessible(true);
-        $property->setValue(null);
-
-        static::assertSame(Page::slugify('test'), 'test');
-        static::assertSame(Page::slugify('S§!@@#$#$alut'), 's-alut');
-        static::assertSame(Page::slugify('Symfony2'), 'symfony2');
-        static::assertSame(Page::slugify('test'), 'test');
-        static::assertSame(Page::slugify('c\'est bientôt l\'été'), 'c-est-bientot-l-ete');
-        static::assertSame(Page::slugify(urldecode('%2Fc\'est+bientôt+l\'été')), 'c-est-bientot-l-ete');
-    }
-
     public function testHeader(): void
     {
         $expectedHeaders = [
