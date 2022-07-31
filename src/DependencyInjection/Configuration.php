@@ -113,7 +113,15 @@ EOF;
                 ->prototype('scalar')->end()
             ->end()
             ->scalarNode('slugify_service')
+                // NEXT_MAJOR: reword this info message
+                ->info('You should use: sonata.page.slugify.cocur, but for BC we keep \'sonata.core.slugify.native\' as default')
                 ->defaultValue('sonata.page.slugify.cocur')
+                ->setDeprecated(
+                    ...$this->getDeprecationMessage(
+                        'The "slugify_service" option is deprecated since sonata-project/page-bundle 3.28 and will be removed in 4.0. Use decoration of services instead.',
+                        '3.x'
+                    )
+                )
             ->end()
             ->arrayNode('ignore_routes')
                 ->defaultValue([])
