@@ -16,8 +16,6 @@ namespace Sonata\PageBundle\Model;
 use Sonata\Doctrine\Model\ManagerInterface;
 
 /**
- * SiteManagerInterface.
- *
  * @extends ManagerInterface<SiteInterface>
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>

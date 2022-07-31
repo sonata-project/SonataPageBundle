@@ -83,7 +83,7 @@ final class BlockInteractorTest extends KernelTestCase
         $page = new SonataPagePage();
         $page->setName('Page name');
         $page->setEnabled(true);
-        $page->addBlocks($block);
+        $page->addBlock($block);
         $page->setTemplateCode('TemplateCode');
 
         $this->entityManager->persist($page);

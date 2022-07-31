@@ -13,9 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\App\Entity;
 
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\PageBundle\Entity\BaseBlock;
 
 /**
@@ -30,47 +28,9 @@ class SonataPageBlock extends BaseBlock
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      *
-     * @var int
+     * @var int|null
      */
-    protected $id;
-
-    /**
-     * @ORM\OneToMany(
-     *     targetEntity="Sonata\PageBundle\Tests\App\Entity\SonataPageBlock",
-     *     mappedBy="parent", cascade={"remove", "persist"}, orphanRemoval=true
-     * )
-     * @ORM\OrderBy({"position"="ASC"})
-     *
-     * @var Collection<array-key, BlockInterface>
-     */
-    protected $children;
-
-    /**
-     * @ORM\ManyToOne(
-     *     targetEntity="Sonata\PageBundle\Tests\App\Entity\SonataPageBlock",
-     *     inversedBy="children"
-     * )
-     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
-     *
-     * @var SonataPageBlock
-     */
-    protected $parent;
-
-    /**
-     * @ORM\ManyToOne(
-     *     targetEntity="Sonata\PageBundle\Tests\App\Entity\SonataPagePage",
-     *     inversedBy="blocks", cascade={"persist"}
-     * )
-     * @ORM\JoinColumn(name="page_id", referencedColumnName="id", onDelete="CASCADE")
-     *
-     * @var SonataPagePage
-     */
-    protected $page;
-
-    public function getId()
-    {
-        return $this->id;
-    }
+    protected $id = null;
 
     /**
      * @ORM\PrePersist

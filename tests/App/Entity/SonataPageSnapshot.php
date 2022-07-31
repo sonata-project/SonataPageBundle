@@ -20,8 +20,8 @@ use Sonata\PageBundle\Entity\BaseSnapshot;
  * @ORM\Entity
  * @ORM\Table(name="page__snapshot", indexes={
  *     @ORM\Index(
- *         name="idx_snapshot_dates_enabled", columns={"publication_date_start", "publication_date_end","enabled"
- *     })
+ *         name="idx_snapshot_dates_enabled", columns={"publication_date_start", "publication_date_end","enabled"}
+ *     )
  * })
  */
 class SonataPageSnapshot extends BaseSnapshot
@@ -34,33 +34,6 @@ class SonataPageSnapshot extends BaseSnapshot
      * @var int|null
      */
     protected $id;
-
-    /**
-     * @ORM\ManyToOne(
-     *     targetEntity="Sonata\PageBundle\Tests\App\Entity\SonataPageSite",
-     *     cascade={"persist"}
-     * )
-     * @ORM\JoinColumn(name="site_id", referencedColumnName="id", onDelete="CASCADE")
-     *
-     * @var SonataPageSite
-     */
-    protected $site;
-
-    /**
-     * @ORM\ManyToOne(
-     *     targetEntity="Sonata\PageBundle\Tests\App\Entity\SonataPagePage",
-     *     cascade={"persist"}
-     * )
-     * @ORM\JoinColumn(name="page_id", referencedColumnName="id", onDelete="CASCADE")
-     *
-     * @var SonataPagePage
-     */
-    protected $page;
-
-    public function getId()
-    {
-        return $this->id;
-    }
 
     public function setId($id)
     {

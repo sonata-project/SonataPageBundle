@@ -13,17 +13,12 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Model;
 
-final class Site extends \Sonata\PageBundle\Model\Site
-{
-    protected $id;
+use Sonata\PageBundle\Model\Site as BaseSite;
 
+final class Site extends BaseSite
+{
     public function setId($id): void
     {
         $this->id = $id;
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 }

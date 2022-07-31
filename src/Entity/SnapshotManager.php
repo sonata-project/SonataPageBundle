@@ -24,8 +24,6 @@ use Sonata\PageBundle\Model\SnapshotPageProxyInterface;
 use Sonata\PageBundle\Model\TransformerInterface;
 
 /**
- * This class manages SnapshotInterface persistency with the Doctrine ORM.
- *
  * @extends BaseEntityManager<SnapshotInterface>
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
@@ -34,10 +32,6 @@ final class SnapshotManager extends BaseEntityManager implements SnapshotManager
 {
     private SnapshotPageProxyFactoryInterface $snapshotPageProxyFactory;
 
-    /**
-     * @param string          $class    Namespace of entity class
-     * @param ManagerRegistry $registry An entity manager instance
-     */
     public function __construct($class, ManagerRegistry $registry, SnapshotPageProxyFactoryInterface $snapshotPageProxyFactory)
     {
         parent::__construct($class, $registry);

@@ -163,12 +163,8 @@ final class PageTest extends TestCase
         static::assertSame($time, $page->getCreatedAt());
         static::assertSame($time, $page->getUpdatedAt());
 
-        $children = [
-            new Page(),
-            new Page(),
-        ];
-
-        $page->setChildren($children);
+        $page->addChild(new Page());
+        $page->addChild(new Page());
         static::assertCount(2, $page->getChildren());
 
         $snapshots = [
@@ -301,9 +297,9 @@ final class PageTest extends TestCase
         $block3->method('getType')->willReturn('sonata.page.block.container');
         $block3->expects(static::once())->method('getSetting')->willReturn('gotcha');
 
-        $page->addBlocks($block1);
-        $page->addBlocks($block2);
-        $page->addBlocks($block3);
+        $page->addBlock($block1);
+        $page->addBlock($block2);
+        $page->addBlock($block3);
 
         static::assertSame($block3, $page->getContainerByCode('gotcha'));
     }
@@ -321,9 +317,9 @@ final class PageTest extends TestCase
         $block3 = $this->createMock(Block::class);
         $block3->expects(static::once())->method('getType')->willReturn('sonata.page.block.action');
 
-        $page->addBlocks($block1);
-        $page->addBlocks($block2);
-        $page->addBlocks($block3);
+        $page->addBlock($block1);
+        $page->addBlock($block2);
+        $page->addBlock($block3);
 
         $types = $page->getBlocksByType('sonata.page.block.action');
         static::assertCount(2, $types);

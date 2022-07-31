@@ -14,47 +14,60 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Model;
 
 /**
- * BlockInteractorInterface.
- *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 interface BlockInteractorInterface
 {
     /**
-     * return a block with the given id.
+     * Return a block with the given id.
+     *
+     * @param int|string $id
      *
      * @return PageBlockInterface
      */
     public function getBlock($id);
 
     /**
-     * return a flat list if page's blocks.
+     * Return a flat list if page's blocks.
      *
-     * @return PageBlockInterface[]
+     * @return array<PageBlockInterface>
      */
     public function getBlocksById(PageInterface $page);
 
     /**
-     * load blocks attached the given page.
+     * Load blocks attached the given page.
      *
-     * @return array $blocks
+     * @return array<PageBlockInterface>
      */
     public function loadPageBlocks(PageInterface $page);
 
     /**
-     * save the blocks positions.
+     * Save the blocks positions. Partial references are allowed.
+     * Better for performance, but can lead to query issues.
      *
-     * @param bool $partial Should we use partial references? (Better for performance, but can lead to query issues.)
+     * @param array<array{
+     *   id?: int|string|null,
+     *   position?: int,
+     *   parent_id?: int|string|null,
+     *   page_id?: int|string|null,
+     * }> $data
+     * @param bool $partial
      *
      * @return bool
      */
     public function saveBlocksPosition(array $data = [], $partial = true);
 
     /**
-     * @param array    $values An array of values for container creation
-     * @param \Closure $alter  A closure to alter container created
+     * @param array{
+     *   name?: string|null,
+     *   enabled?: boolean,
+     *   page?: PageInterface,
+     *   code: string,
+     *   position?: int,
+     *   parent?: PageBlockInterface,
+     * } $values An array of values for container creation
      *
      * @return PageBlockInterface
      */
-    public function createNewContainer(array $values = [], ?\Closure $alter = null);
+    public function createNewContainer(array $values);
 }

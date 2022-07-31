@@ -14,28 +14,29 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Model;
 
 /**
- * Defines methods to interact with the persistency layer of a SnapshotInterface.
- *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @method int|null getId()
- * @method int|null getParent()
- * @method void     setParentId(?int $parentId)
  */
 interface SnapshotInterface
 {
     /**
-     * @param string $routeName
+     * @return int|string|null
      */
-    public function setRouteName($routeName);
+    public function getId();
 
     /**
-     * @return string $routeName
+     * @return string|null
      */
     public function getRouteName();
 
     /**
-     * @return string|null $routeAlias
+     * @param string|null $routeName
+     *
+     * @return void
+     */
+    public function setRouteName($routeName);
+
+    /**
+     * @return string|null
      */
     public function getPageAlias();
 
@@ -44,27 +45,22 @@ interface SnapshotInterface
      * to an url. This feature must used with care to avoid to many generated queries.
      *
      * @param string|null $pageAlias
+     *
+     * @return void
      */
     public function setPageAlias($pageAlias);
 
     /**
-     * Returns the page type.
-     *
      * @return string|null
      */
     public function getType();
 
     /**
-     * Sets the page type.
-     *
      * @param string|null $type
+     *
+     * @return void
      */
     public function setType($type);
-
-    /**
-     * @param bool $enabled
-     */
-    public function setEnabled($enabled);
 
     /**
      * @return bool $enabled
@@ -72,47 +68,65 @@ interface SnapshotInterface
     public function getEnabled();
 
     /**
-     * @param string $name
+     * @param bool $enabled
+     *
+     * @return void
      */
-    public function setName($name);
+    public function setEnabled($enabled);
 
     /**
-     * @return string $name
+     * @return string|null
      */
     public function getName();
 
     /**
-     * @param string|null $url
+     * @param string|null $name
+     *
+     * @return void
      */
-    public function setUrl($url);
+    public function setName($name);
 
     /**
-     * @return string|null $url
+     * @return string|null
      */
     public function getUrl();
 
-    public function setPublicationDateStart(?\DateTimeInterface $publicationDateStart = null);
+    /**
+     * @param string|null $url
+     *
+     * @return void
+     */
+    public function setUrl($url);
 
     /**
      * @return \DateTimeInterface|null
      */
     public function getPublicationDateStart();
 
-    public function setPublicationDateEnd(?\DateTimeInterface $publicationDateEnd = null);
+    /**
+     * @return void
+     */
+    public function setPublicationDateStart(?\DateTimeInterface $publicationDateStart = null);
 
     /**
      * @return \DateTimeInterface|null
      */
     public function getPublicationDateEnd();
 
-    public function setCreatedAt(?\DateTimeInterface $createdAt = null);
+    /**
+     * @return void
+     */
+    public function setPublicationDateEnd(?\DateTimeInterface $publicationDateEnd = null);
 
     /**
      * @return \DateTimeInterface|null
      */
     public function getCreatedAt();
 
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt = null);
+    /**
+     * @return void
+     */
+    public function setCreatedAt(?\DateTimeInterface $createdAt = null);
 
     /**
      * @return \DateTimeInterface|null
@@ -120,9 +134,9 @@ interface SnapshotInterface
     public function getUpdatedAt();
 
     /**
-     * @param bool $decorate
+     * @return void
      */
-    public function setDecorate($decorate);
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt = null);
 
     /**
      * @return bool
@@ -130,14 +144,11 @@ interface SnapshotInterface
     public function getDecorate();
 
     /**
-     * return bool.
+     * @param bool $decorate
+     *
+     * @return void
      */
-    public function isHybrid();
-
-    /**
-     * @param int $position
-     */
-    public function setPosition($position);
+    public function setDecorate($decorate);
 
     /**
      * @return int
@@ -145,16 +156,21 @@ interface SnapshotInterface
     public function getPosition();
 
     /**
-     * @param PageInterface $page
+     * @param int $position
+     *
+     * @return void
      */
-    public function setPage(?PageInterface $page = null);
+    public function setPosition($position);
 
     /**
      * @return PageInterface|null
      */
     public function getPage();
 
-    public function setSite(?SiteInterface $site = null);
+    /**
+     * @return void
+     */
+    public function setPage(?PageInterface $page = null);
 
     /**
      * @return SiteInterface|null
@@ -162,9 +178,9 @@ interface SnapshotInterface
     public function getSite();
 
     /**
-     * @param array $content
+     * @return void
      */
-    public function setContent($content): void;
+    public function setSite(?SiteInterface $site = null);
 
     /**
      * Serialized data of the current page.
@@ -172,4 +188,24 @@ interface SnapshotInterface
      * @return array
      */
     public function getContent();
+
+    /**
+     * @param array $content
+     */
+    public function setContent($content): void;
+
+    /**
+     * @return int|string|null
+     */
+    public function getParentId();
+
+    /**
+     * @param int|string|null $parentId
+     */
+    public function setParentId($parentId): void;
+
+    /**
+     * @return bool
+     */
+    public function isHybrid();
 }

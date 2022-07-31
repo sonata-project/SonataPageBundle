@@ -19,8 +19,6 @@ use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 
 /**
- * This class manages BlockInterface persistency with the Doctrine ORM.
- *
  * @extends BaseEntityManager<PageBlockInterface>
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>

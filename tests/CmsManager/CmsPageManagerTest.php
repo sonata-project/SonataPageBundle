@@ -27,17 +27,6 @@ use Sonata\PageBundle\Tests\Model\Site;
 
 final class CmsBlock extends AbstractBlock
 {
-    private $id;
-
-    public function setId($id): void
-    {
-        $this->id = $id;
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
 }
 
 /**
@@ -76,7 +65,7 @@ final class CmsPageManagerTest extends TestCase
         $block->setSettings(['code' => 'findme']);
 
         $page = new Page();
-        $page->addBlocks($block);
+        $page->addBlock($block);
 
         $container = $this->manager->findContainer('findme', $page);
 

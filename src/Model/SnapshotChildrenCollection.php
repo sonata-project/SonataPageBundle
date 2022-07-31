@@ -16,8 +16,6 @@ namespace Sonata\PageBundle\Model;
 use Doctrine\Common\Collections\Collection;
 
 /**
- * SnapshotChildrenCollection.
- *
  * @implements \IteratorAggregate<PageInterface>
  * @implements \ArrayAccess<array-key, PageInterface>
  *

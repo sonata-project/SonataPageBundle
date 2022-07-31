@@ -20,8 +20,6 @@ use Sonata\PageBundle\Model\BlockManagerInterface;
 use Sonata\PageBundle\Model\PageInterface;
 
 /**
- * This class interacts with blocks.
- *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 final class BlockInteractor implements BlockInteractorInterface
@@ -97,7 +95,7 @@ final class BlockInteractor implements BlockInteractorInterface
         return true;
     }
 
-    public function createNewContainer(array $values = [], ?\Closure $alter = null)
+    public function createNewContainer(array $values)
     {
         $container = $this->blockManager->create();
         $container->setEnabled($values['enabled'] ?? true);
@@ -122,10 +120,6 @@ final class BlockInteractor implements BlockInteractorInterface
             $container->setParent($values['parent']);
         }
 
-        if ($alter) {
-            $alter($container);
-        }
-
         $this->blockManager->save($container);
 
         return $container;
@@ -143,7 +137,7 @@ final class BlockInteractor implements BlockInteractorInterface
             $parent = $block->getParent();
 
             if (!$parent) {
-                $page->addBlocks($block);
+                $page->addBlock($block);
 
                 continue;
             }

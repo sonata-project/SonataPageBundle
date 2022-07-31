@@ -23,7 +23,7 @@ interface PageBlockInterface extends BlockInterface
     public function getPage();
 
     /**
-     * @param PageInterface $page The related page
+     * @return void
      */
     public function setPage(?PageInterface $page = null);
 }

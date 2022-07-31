@@ -17,106 +17,94 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 /**
- * Page.
- *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 abstract class Page implements PageInterface
 {
     /**
-     * @var mixed
+     * @var int|string|null
      */
-    protected $id;
+    protected $id = null;
 
     /**
-     * @var \DateTimeInterface|null
+     * @var string|null
      */
-    protected $createdAt;
-
-    /**
-     * @var \DateTimeInterface|null
-     */
-    protected $updatedAt;
+    protected $title = null;
 
     /**
      * @var string
      */
-    protected $routeName;
+    protected $routeName = PageInterface::PAGE_ROUTE_CMS_NAME;
 
     /**
      * @var string|null
      */
-    protected $pageAlias;
+    protected $pageAlias = null;
 
     /**
      * @var string|null
      */
-    protected $type;
-
-    /**
-     * @var string
-     */
-    protected $name;
-
-    /**
-     * @var string|null
-     */
-    protected $title;
-
-    /**
-     * @var string|null
-     */
-    protected $slug;
-
-    /**
-     * @var string|null
-     */
-    protected $url;
-
-    /**
-     * @var string|null
-     */
-    protected $customUrl;
-
-    /**
-     * @var string|null
-     */
-    protected $requestMethod;
-
-    /**
-     * @var string|null
-     */
-    protected $metaKeyword;
-
-    /**
-     * @var string|null
-     */
-    protected $metaDescription;
-
-    /**
-     * @var string|null
-     */
-    protected $javascript;
-
-    /**
-     * @var string|null
-     */
-    protected $stylesheet;
-
-    /**
-     * @var string|null
-     */
-    protected $rawHeaders;
-
-    /**
-     * @var array
-     */
-    protected $headers;
+    protected $type = null;
 
     /**
      * @var bool
      */
-    protected $enabled;
+    protected $enabled = false;
+
+    /**
+     * @var string|null
+     */
+    protected $name = null;
+
+    /**
+     * @var string|null
+     */
+    protected $slug = null;
+
+    /**
+     * @var string|null
+     */
+    protected $url = null;
+
+    /**
+     * @var string|null
+     */
+    protected $customUrl = null;
+
+    /**
+     * @var string|null
+     */
+    protected $metaKeyword = null;
+
+    /**
+     * @var string|null
+     */
+    protected $metaDescription = null;
+
+    /**
+     * @var string|null
+     */
+    protected $javascript = null;
+
+    /**
+     * @var string|null
+     */
+    protected $stylesheet = null;
+
+    /**
+     * @var \DateTimeInterface|null
+     */
+    protected $createdAt = null;
+
+    /**
+     * @var \DateTimeInterface|null
+     */
+    protected $updatedAt = null;
+
+    /**
+     * @var Collection<array-key, PageInterface>
+     */
+    protected $children;
 
     /**
      * @var Collection<array-key, PageBlockInterface>
@@ -126,32 +114,17 @@ abstract class Page implements PageInterface
     /**
      * @var PageInterface|null
      */
-    protected $parent;
+    protected $parent = null;
 
     /**
-     * @var PageInterface[]
+     * @var array<PageInterface>|null
      */
-    protected $parents;
-
-    /**
-     * @var Collection<array-key, PageInterface>
-     */
-    protected $children;
-
-    /**
-     * @var SnapshotInterface[]
-     */
-    protected $snapshots = [];
+    protected $parents = null;
 
     /**
      * @var string|null
      */
-    protected $templateCode;
-
-    /**
-     * @var int
-     */
-    protected $position = 1;
+    protected $templateCode = null;
 
     /**
      * @var bool
@@ -159,27 +132,54 @@ abstract class Page implements PageInterface
     protected $decorate = true;
 
     /**
+     * @var int
+     */
+    protected $position = 1;
+
+    /**
+     * @var string
+     */
+    protected $requestMethod = 'GET|POST|HEAD|DELETE|PUT';
+
+    /**
+     * @var array<string, mixed>
+     */
+    protected $headers = [];
+
+    /**
+     * @var string|null
+     */
+    protected $rawHeaders = null;
+
+    /**
      * @var SiteInterface|null
      */
-    protected $site;
+    protected $site = null;
 
     /**
      * @var bool
      */
-    protected $edited;
+    protected $edited = true;
+
+    /**
+     * @var array<SnapshotInterface>
+     */
+    protected $snapshots = [];
 
     public function __construct()
     {
         $this->blocks = new ArrayCollection();
         $this->children = new ArrayCollection();
-        $this->routeName = PageInterface::PAGE_ROUTE_CMS_NAME;
-        $this->requestMethod = 'GET|POST|HEAD|DELETE|PUT';
-        $this->edited = true;
     }
 
     public function __toString()
     {
-        return $this->getName() ?: '-';
+        return $this->getName() ?? '-';
+    }
+
+    public function getId()
+    {
+        return $this->id;
     }
 
     public function setId($id): void
@@ -187,14 +187,29 @@ abstract class Page implements PageInterface
         $this->id = $id;
     }
 
-    public function setRouteName($routeName): void
+    public function getTitle()
     {
-        $this->routeName = $routeName;
+        return $this->title;
+    }
+
+    public function setTitle($title): void
+    {
+        $this->title = $title;
     }
 
     public function getRouteName()
     {
         return $this->routeName;
+    }
+
+    public function setRouteName($routeName): void
+    {
+        $this->routeName = $routeName;
+    }
+
+    public function getPageAlias()
+    {
+        return $this->pageAlias;
     }
 
     public function setPageAlias($pageAlias): void
@@ -206,9 +221,9 @@ abstract class Page implements PageInterface
         $this->pageAlias = $pageAlias;
     }
 
-    public function getPageAlias()
+    public function getType()
     {
-        return $this->pageAlias;
+        return $this->type;
     }
 
     public function setType($type): void
@@ -216,9 +231,9 @@ abstract class Page implements PageInterface
         $this->type = $type;
     }
 
-    public function getType()
+    public function getEnabled()
     {
-        return $this->type;
+        return $this->enabled;
     }
 
     public function setEnabled($enabled): void
@@ -226,9 +241,9 @@ abstract class Page implements PageInterface
         $this->enabled = $enabled;
     }
 
-    public function getEnabled()
+    public function getName()
     {
-        return $this->enabled;
+        return $this->name;
     }
 
     public function setName($name): void
@@ -236,9 +251,9 @@ abstract class Page implements PageInterface
         $this->name = $name;
     }
 
-    public function getName()
+    public function getSlug()
     {
-        return $this->name;
+        return $this->slug;
     }
 
     public function setSlug($slug): void
@@ -246,14 +261,14 @@ abstract class Page implements PageInterface
         $this->slug = $slug;
     }
 
-    public function getSlug()
+    public function getUrl()
     {
-        return $this->slug;
+        return $this->url;
     }
 
-    public function setCustomUrl($customUrl): void
+    public function setUrl($url): void
     {
-        $this->customUrl = $customUrl;
+        $this->url = $url;
     }
 
     public function getCustomUrl()
@@ -261,19 +276,9 @@ abstract class Page implements PageInterface
         return $this->customUrl;
     }
 
-    public function setRequestMethod($method): void
+    public function setCustomUrl($customUrl): void
     {
-        $this->requestMethod = $method;
-    }
-
-    public function getRequestMethod()
-    {
-        return $this->requestMethod;
-    }
-
-    public function setMetaKeyword($metaKeyword): void
-    {
-        $this->metaKeyword = $metaKeyword;
+        $this->customUrl = $customUrl;
     }
 
     public function getMetaKeyword()
@@ -281,9 +286,9 @@ abstract class Page implements PageInterface
         return $this->metaKeyword;
     }
 
-    public function setMetaDescription($metaDescription): void
+    public function setMetaKeyword($metaKeyword): void
     {
-        $this->metaDescription = $metaDescription;
+        $this->metaKeyword = $metaKeyword;
     }
 
     public function getMetaDescription()
@@ -291,9 +296,9 @@ abstract class Page implements PageInterface
         return $this->metaDescription;
     }
 
-    public function setJavascript($javascript): void
+    public function setMetaDescription($metaDescription): void
     {
-        $this->javascript = $javascript;
+        $this->metaDescription = $metaDescription;
     }
 
     public function getJavascript()
@@ -301,9 +306,9 @@ abstract class Page implements PageInterface
         return $this->javascript;
     }
 
-    public function setStylesheet($stylesheet): void
+    public function setJavascript($javascript): void
     {
-        $this->stylesheet = $stylesheet;
+        $this->javascript = $javascript;
     }
 
     public function getStylesheet()
@@ -311,51 +316,9 @@ abstract class Page implements PageInterface
         return $this->stylesheet;
     }
 
-    public function setRawHeaders($rawHeaders): void
+    public function setStylesheet($stylesheet): void
     {
-        $headers = $this->getHeadersAsArray($rawHeaders);
-
-        $this->setHeaders($headers);
-    }
-
-    public function getRawHeaders()
-    {
-        return $this->rawHeaders;
-    }
-
-    public function addHeader($name, $value): void
-    {
-        $headers = $this->getHeaders();
-
-        $headers[$name] = $value;
-
-        $this->headers = $headers;
-
-        $this->rawHeaders = $this->getHeadersAsString($headers);
-    }
-
-    public function setHeaders(array $headers = []): void
-    {
-        $this->headers = [];
-        $this->rawHeaders = null;
-        foreach ($headers as $name => $header) {
-            $this->addHeader($name, $header);
-        }
-    }
-
-    public function getHeaders(): array
-    {
-        if (null === $this->headers) {
-            $rawHeaders = $this->getRawHeaders();
-            $this->headers = $this->getHeadersAsArray($rawHeaders);
-        }
-
-        return $this->headers;
-    }
-
-    public function setCreatedAt(?\DateTimeInterface $createdAt = null): void
-    {
-        $this->createdAt = $createdAt;
+        $this->stylesheet = $stylesheet;
     }
 
     public function getCreatedAt()
@@ -363,9 +326,9 @@ abstract class Page implements PageInterface
         return $this->createdAt;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt = null): void
+    public function setCreatedAt(?\DateTimeInterface $createdAt = null): void
     {
-        $this->updatedAt = $updatedAt;
+        $this->createdAt = $createdAt;
     }
 
     public function getUpdatedAt()
@@ -373,11 +336,9 @@ abstract class Page implements PageInterface
         return $this->updatedAt;
     }
 
-    public function addChild(PageInterface $child): void
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt = null): void
     {
-        $this->children[] = $child;
-
-        $child->setParent($this);
+        $this->updatedAt = $updatedAt;
     }
 
     public function getChildren()
@@ -390,33 +351,11 @@ abstract class Page implements PageInterface
         $this->children = $children;
     }
 
-    public function getSnapshot()
+    public function addChild(PageInterface $child): void
     {
-        return $this->snapshots[0] ?? null;
-    }
+        $this->children[] = $child;
 
-    public function getSnapshots()
-    {
-        return $this->snapshots;
-    }
-
-    public function setSnapshots($snapshots): void
-    {
-        $this->snapshots = $snapshots;
-    }
-
-    public function addSnapshot(SnapshotInterface $snapshot): void
-    {
-        $this->snapshots[] = $snapshot;
-
-        $snapshot->setPage($this);
-    }
-
-    public function addBlocks(PageBlockInterface $block): void
-    {
-        $block->setPage($this);
-
-        $this->blocks[] = $block;
+        $child->setParent($this);
     }
 
     public function getBlocks()
@@ -424,9 +363,39 @@ abstract class Page implements PageInterface
         return $this->blocks;
     }
 
-    public function setParent(?PageInterface $parent = null): void
+    public function addBlock(PageBlockInterface $block): void
     {
-        $this->parent = $parent;
+        $block->setPage($this);
+
+        $this->blocks[] = $block;
+    }
+
+    public function getContainerByCode($code)
+    {
+        $block = null;
+
+        foreach ($this->getBlocks() as $blockTmp) {
+            if (\in_array($blockTmp->getType(), ['sonata.page.block.container', 'sonata.block.service.container'], true) && $blockTmp->getSetting('code') === $code) {
+                $block = $blockTmp;
+
+                break;
+            }
+        }
+
+        return $block;
+    }
+
+    public function getBlocksByType($type)
+    {
+        $blocks = [];
+
+        foreach ($this->getBlocks() as $block) {
+            if ($type === $block->getType()) {
+                $blocks[] = $block;
+            }
+        }
+
+        return $blocks;
     }
 
     public function getParent($level = -1)
@@ -444,9 +413,9 @@ abstract class Page implements PageInterface
         return $parents[$level] ?? null;
     }
 
-    public function setParents(array $parents): void
+    public function setParent(?PageInterface $parent = null): void
     {
-        $this->parents = $parents;
+        $this->parent = $parent;
     }
 
     public function getParents()
@@ -466,9 +435,9 @@ abstract class Page implements PageInterface
         return $this->parents;
     }
 
-    public function setTemplateCode($templateCode): void
+    public function setParents(array $parents): void
     {
-        $this->templateCode = $templateCode;
+        $this->parents = $parents;
     }
 
     public function getTemplateCode()
@@ -476,9 +445,9 @@ abstract class Page implements PageInterface
         return $this->templateCode;
     }
 
-    public function setDecorate($decorate): void
+    public function setTemplateCode($templateCode): void
     {
-        $this->decorate = $decorate;
+        $this->templateCode = $templateCode;
     }
 
     public function getDecorate()
@@ -486,34 +455,9 @@ abstract class Page implements PageInterface
         return $this->decorate;
     }
 
-    public function isHybrid()
+    public function setDecorate($decorate): void
     {
-        return PageInterface::PAGE_ROUTE_CMS_NAME !== $this->getRouteName() && !$this->isInternal();
-    }
-
-    public function isCms()
-    {
-        return PageInterface::PAGE_ROUTE_CMS_NAME === $this->getRouteName() && !$this->isInternal();
-    }
-
-    public function isInternal()
-    {
-        return '_page_internal_' === substr($this->getRouteName(), 0, 15);
-    }
-
-    public function isDynamic()
-    {
-        return $this->isHybrid() && false !== strpos($this->getUrl(), '{');
-    }
-
-    public function isError()
-    {
-        return '_page_internal_error_' === substr($this->getRouteName(), 0, 21);
-    }
-
-    public function setPosition($position): void
-    {
-        $this->position = $position;
+        $this->decorate = $decorate;
     }
 
     public function getPosition()
@@ -521,56 +465,19 @@ abstract class Page implements PageInterface
         return $this->position;
     }
 
-    public function setUrl($url): void
+    public function setPosition($position): void
     {
-        $this->url = $url;
+        $this->position = $position;
     }
 
-    public function getUrl()
+    public function getRequestMethod()
     {
-        return $this->url;
+        return $this->requestMethod;
     }
 
-    /**
-     * Retrieve a block by code.
-     *
-     * @param string $code
-     *
-     * @return PageBlockInterface
-     */
-    public function getContainerByCode($code)
+    public function setRequestMethod($method): void
     {
-        $block = null;
-
-        foreach ($this->getBlocks() as $blockTmp) {
-            if (\in_array($blockTmp->getType(), ['sonata.page.block.container', 'sonata.block.service.container'], true) && $blockTmp->getSetting('code') === $code) {
-                $block = $blockTmp;
-
-                break;
-            }
-        }
-
-        return $block;
-    }
-
-    /**
-     * Retrieve blocks by type.
-     *
-     * @param string $type
-     *
-     * @return array
-     */
-    public function getBlocksByType($type)
-    {
-        $blocks = [];
-
-        foreach ($this->getBlocks() as $block) {
-            if ($type === $block->getType()) {
-                $blocks[] = $block;
-            }
-        }
-
-        return $blocks;
+        $this->requestMethod = $method;
     }
 
     public function hasRequestMethod($method)
@@ -584,9 +491,46 @@ abstract class Page implements PageInterface
         return !$this->getRequestMethod() || false !== strpos($this->getRequestMethod(), $method);
     }
 
-    public function setSite(?SiteInterface $site = null): void
+    public function getHeaders(): array
     {
-        $this->site = $site;
+        if (null === $this->headers) {
+            $rawHeaders = $this->getRawHeaders();
+            $this->headers = $this->getHeadersAsArray($rawHeaders);
+        }
+
+        return $this->headers;
+    }
+
+    public function setHeaders(array $headers = []): void
+    {
+        $this->headers = [];
+        $this->rawHeaders = null;
+        foreach ($headers as $name => $header) {
+            $this->addHeader($name, $header);
+        }
+    }
+
+    public function addHeader($name, $value): void
+    {
+        $headers = $this->getHeaders();
+
+        $headers[$name] = $value;
+
+        $this->headers = $headers;
+
+        $this->rawHeaders = $this->getHeadersAsString($headers);
+    }
+
+    public function getRawHeaders()
+    {
+        return $this->rawHeaders;
+    }
+
+    public function setRawHeaders($rawHeaders): void
+    {
+        $headers = $this->getHeadersAsArray($rawHeaders);
+
+        $this->setHeaders($headers);
     }
 
     public function getSite()
@@ -594,9 +538,9 @@ abstract class Page implements PageInterface
         return $this->site;
     }
 
-    public function setEdited($edited): void
+    public function setSite(?SiteInterface $site = null): void
     {
-        $this->edited = $edited;
+        $this->site = $site;
     }
 
     public function getEdited()
@@ -604,24 +548,64 @@ abstract class Page implements PageInterface
         return $this->edited;
     }
 
-    public function setTitle($title): void
+    public function setEdited($edited): void
     {
-        $this->title = $title;
+        $this->edited = $edited;
     }
 
-    public function getTitle()
+    public function getSnapshots()
     {
-        return $this->title;
+        return $this->snapshots;
+    }
+
+    public function setSnapshots($snapshots): void
+    {
+        $this->snapshots = $snapshots;
+    }
+
+    public function getSnapshot()
+    {
+        return $this->snapshots[0] ?? null;
+    }
+
+    public function addSnapshot(SnapshotInterface $snapshot): void
+    {
+        $this->snapshots[] = $snapshot;
+
+        $snapshot->setPage($this);
+    }
+
+    public function isError()
+    {
+        return '_page_internal_error_' === substr($this->getRouteName(), 0, 21);
+    }
+
+    public function isHybrid()
+    {
+        return PageInterface::PAGE_ROUTE_CMS_NAME !== $this->getRouteName() && !$this->isInternal();
+    }
+
+    public function isDynamic()
+    {
+        return $this->isHybrid() && false !== strpos($this->getUrl(), '{');
+    }
+
+    public function isCms()
+    {
+        return PageInterface::PAGE_ROUTE_CMS_NAME === $this->getRouteName() && !$this->isInternal();
+    }
+
+    public function isInternal()
+    {
+        return '_page_internal_' === substr($this->getRouteName(), 0, 15);
     }
 
     /**
-     * Converts the headers passed as string to an array.
+     * @param string $rawHeaders
      *
-     * @param string $rawHeaders The headers
-     *
-     * @return array
+     * @return array<string, string>
      */
-    protected function getHeadersAsArray($rawHeaders)
+    private function getHeadersAsArray($rawHeaders)
     {
         $headers = [];
 
@@ -636,13 +620,11 @@ abstract class Page implements PageInterface
     }
 
     /**
-     * Converts the headers passed as an associative array to a string.
-     *
-     * @param array $headers The headers
+     * @param array<string, mixed> $headers
      *
      * @return string
      */
-    protected function getHeadersAsString(array $headers)
+    private function getHeadersAsString(array $headers)
     {
         $rawHeaders = [];
 

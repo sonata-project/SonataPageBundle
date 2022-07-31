@@ -26,15 +26,11 @@ class SonataPageSite extends BaseSite
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
      *
-     * @var int
+     * @var int|null
      */
-    protected $id;
-
-    public function getId()
-    {
-        return $this->id;
-    }
+    protected $id = null;
 
     /**
      * @ORM\PrePersist

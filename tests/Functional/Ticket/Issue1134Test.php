@@ -27,7 +27,6 @@ final class Issue1134Test extends WebTestCase
         $client = self::createClient();
 
         $site = new SonataPageSite();
-        $site->setId(1);
         $site->setName('name');
         $site->setHost('http://localhost');
         $site->setIsDefault(true);

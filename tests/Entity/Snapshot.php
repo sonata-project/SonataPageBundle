@@ -17,10 +17,4 @@ use Sonata\PageBundle\Entity\BaseSnapshot;
 
 final class Snapshot extends BaseSnapshot
 {
-    protected ?int $id = null;
-
-    public function getId(): int
-    {
-        return $this->id;
-    }
 }
