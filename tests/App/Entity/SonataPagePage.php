@@ -13,11 +13,8 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\App\Entity;
 
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Sonata\PageBundle\Entity\BasePage;
-use Sonata\PageBundle\Model\PageBlockInterface;
-use Sonata\PageBundle\Model\PageInterface;
 
 /**
  * @ORM\Entity
@@ -31,79 +28,9 @@ class SonataPagePage extends BasePage
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      *
-     * @var int
+     * @var int|null
      */
-    protected $id;
-
-    /**
-     * @ORM\OneToMany(
-     *     targetEntity="Sonata\PageBundle\Tests\App\Entity\SonataPagePage",
-     *     mappedBy="parent", cascade={"persist"}, orphanRemoval=false
-     * )
-     * @ORM\OrderBy({"position"="ASC"})
-     *
-     * @var Collection<array-key, PageInterface>
-     */
-    protected $children;
-
-    /**
-     * @ORM\OneToMany(
-     *     targetEntity="Sonata\PageBundle\Tests\App\Entity\SonataPageBlock",
-     *     mappedBy="page", cascade={"remove", "persist", "refresh", "merge", "detach"}, orphanRemoval=false
-     * )
-     * @ORM\OrderBy({"position"="ASC"})
-     *
-     * @var Collection<array-key, PageBlockInterface>
-     */
-    protected $blocks;
-
-    /**
-     * @ORM\ManyToOne(
-     *     targetEntity="Sonata\PageBundle\Tests\App\Entity\SonataPageSite",
-     *     cascade={"persist"}
-     * )
-     * @ORM\JoinColumn(name="site_id", referencedColumnName="id", onDelete="CASCADE")
-     *
-     * @var SonataPageSite
-     */
-    protected $site;
-
-    /**
-     * @ORM\ManyToOne(
-     *     targetEntity="Sonata\PageBundle\Tests\App\Entity\SonataPagePage",
-     *     inversedBy="children", cascade={"persist"}
-     * )
-     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
-     *
-     * @var SonataPagePage
-     */
-    protected $parent;
-
-    /**
-     * @ORM\OneToMany(
-     *     targetEntity="Sonata\PageBundle\Tests\App\Entity\SonataPagePage",
-     *     mappedBy="target", orphanRemoval=false
-     * )
-     *
-     * @var SonataPagePage[]
-     */
-    protected $sources;
-
-    /**
-     * @ORM\ManyToOne(
-     *     targetEntity="Sonata\PageBundle\Tests\App\Entity\SonataPagePage",
-     *     inversedBy="sources", cascade={"persist"}
-     * )
-     * @ORM\JoinColumn(name="target_id", referencedColumnName="id", onDelete="CASCADE")
-     *
-     * @var SonataPagePage
-     */
-    protected $target;
-
-    public function getId()
-    {
-        return $this->id;
-    }
+    protected $id = null;
 
     /**
      * @ORM\PrePersist

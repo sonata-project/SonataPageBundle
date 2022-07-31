@@ -18,8 +18,6 @@ use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 
 /**
- * This class manages SiteInterface persistency with the Doctrine ORM.
- *
  * @extends BaseEntityManager<SiteInterface>
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>

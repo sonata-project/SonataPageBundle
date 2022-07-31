@@ -16,8 +16,6 @@ namespace Sonata\PageBundle\Model;
 use Sonata\Doctrine\Model\ManagerInterface;
 
 /**
- * Defines methods to interact with the persistency layer of a SnapshotInterface.
- *
  * @extends ManagerInterface<SnapshotInterface>
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
@@ -25,24 +23,28 @@ use Sonata\Doctrine\Model\ManagerInterface;
 interface SnapshotManagerInterface extends ManagerInterface
 {
     /**
+     * @param array<string, mixed> $criteria
+     *
      * @return SnapshotInterface|null
      */
     public function findEnableSnapshot(array $criteria);
 
     /**
-     * @param array $snapshots A snapshots array to enable
+     * @param array<SnapshotInterface> $snapshots
+     *
+     * @return void
      */
     public function enableSnapshots(array $snapshots, ?\DateTimeInterface $date = null);
 
     public function createSnapshotPageProxy(TransformerInterface $transformer, SnapshotInterface $snapshot): SnapshotPageProxyInterface;
 
     /**
-     * Cleanups the deprecated snapshots.
+     * Cleanup old snapshots and keep only the $keep number of them.
+     * This method returns the number of deleted snapshots.
      *
-     * @param PageInterface $page A page instance
-     * @param int           $keep Number of snapshots to keep
+     * @param int $keep
      *
-     * @return int The number of deleted rows
+     * @return int
      */
     public function cleanup(PageInterface $page, $keep);
 }

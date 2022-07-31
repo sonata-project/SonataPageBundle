@@ -28,17 +28,6 @@ use Sonata\PageBundle\Tests\Model\Page;
 
 final class SnapshotBlock extends Block
 {
-    private $id;
-
-    public function setId($id): void
-    {
-        $this->id = $id;
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
 }
 
 final class CmsSnapshotManagerTest extends TestCase
@@ -68,7 +57,7 @@ final class CmsSnapshotManagerTest extends TestCase
         $block->setSettings(['code' => 'findme']);
 
         $page = new Page();
-        $page->addBlocks($block);
+        $page->addBlock($block);
 
         $container = $this->manager->findContainer('findme', $page);
 

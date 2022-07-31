@@ -13,24 +13,13 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Sonata\PageBundle\Model\Page;
 
 /**
- * The class stores Page information.
- *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 abstract class BasePage extends Page
 {
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->children = new ArrayCollection();
-        $this->blocks = new ArrayCollection();
-    }
-
     public function prePersist(): void
     {
         $this->createdAt = new \DateTime();

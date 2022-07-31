@@ -76,7 +76,7 @@ final class CreateBlockContainerCommand extends Command
                 'code' => $blockCode,
             ]);
 
-            $page->addBlocks($block);
+            $page->addBlock($block);
 
             $pageManager->save($page);
         }

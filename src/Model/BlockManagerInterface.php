@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Model;
 
-use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\Doctrine\Model\ManagerInterface;
 
 /**
@@ -24,13 +23,13 @@ interface BlockManagerInterface extends ManagerInterface
     /**
      * Updates position for given block.
      *
-     * @param int  $id       Block Id
-     * @param int  $position New Position
-     * @param int  $parentId Parent block Id (needed when partial = true)
-     * @param int  $pageId   Page Id (needed when partial = true)
-     * @param bool $partial  Should we use partial references? (Better for performance, but can lead to query issues.)
+     * @param int|string      $id       Block Id
+     * @param int             $position New Position
+     * @param int|string|null $parentId Parent block Id (needed when partial = true)
+     * @param int|string|null $pageId   Page Id (needed when partial = true)
+     * @param bool            $partial  Should we use partial references? (Better for performance, but can lead to query issues.)
      *
-     * @return BlockInterface
+     * @return PageBlockInterface
      */
     public function updatePosition($id, $position, $parentId = null, $pageId = null, $partial = true);
 }

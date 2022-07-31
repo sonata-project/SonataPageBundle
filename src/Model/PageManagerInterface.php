@@ -16,8 +16,6 @@ namespace Sonata\PageBundle\Model;
 use Sonata\Doctrine\Model\ManagerInterface;
 
 /**
- * Defines methods to interact with the persistency layer of a PageInterface.
- *
  * @extends ManagerInterface<PageInterface>
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
@@ -30,8 +28,6 @@ interface PageManagerInterface extends ManagerInterface
     public function createWithDefaults(array $defaults = []): PageInterface;
 
     /**
-     * Returns a page with the give slug.
-     *
      * @param string $url
      *
      * @return PageInterface|null
@@ -41,14 +37,17 @@ interface PageManagerInterface extends ManagerInterface
     /**
      * Returns an array of Pages Entity where the id is the key.
      *
-     * @return array
+     * @return array<PageInterface>
      */
     public function loadPages(SiteInterface $site);
 
     /**
-     * @return PageInterface[]
+     * @return array<PageInterface>
      */
     public function getHybridPages(SiteInterface $site);
 
+    /**
+     * @return void
+     */
     public function fixUrl(PageInterface $page);
 }

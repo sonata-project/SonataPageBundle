@@ -17,16 +17,36 @@ use Sonata\BlockBundle\Model\BaseBlock;
 use Sonata\BlockBundle\Model\BlockInterface;
 
 /**
- * Block.
- *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 abstract class Block extends BaseBlock implements PageBlockInterface
 {
     /**
-     * @var PageInterface
+     * @var int|string|null
      */
-    protected $page;
+    protected $id;
+
+    protected ?PageInterface $page = null;
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setId($id): void
+    {
+        $this->id = $id;
+    }
+
+    public function getPage()
+    {
+        return $this->page;
+    }
+
+    public function setPage(?PageInterface $page = null): void
+    {
+        $this->page = $page;
+    }
 
     public function addChild(BlockInterface $child): void
     {
@@ -37,15 +57,5 @@ abstract class Block extends BaseBlock implements PageBlockInterface
         if ($child instanceof PageBlockInterface) {
             $child->setPage($this->getPage());
         }
-    }
-
-    public function setPage(?PageInterface $page = null): void
-    {
-        $this->page = $page;
-    }
-
-    public function getPage()
-    {
-        return $this->page;
     }
 }

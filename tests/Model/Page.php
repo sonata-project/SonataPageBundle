@@ -13,17 +13,8 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Model;
 
-final class Page extends \Sonata\PageBundle\Model\Page
+use Sonata\PageBundle\Model\Page as BasePage;
+
+final class Page extends BasePage
 {
-    protected $id;
-
-    public function setId($id): void
-    {
-        $this->id = $id;
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
 }

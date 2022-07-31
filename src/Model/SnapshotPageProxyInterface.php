@@ -14,8 +14,6 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Model;
 
 /**
- * SnapshotPageProxyInterface.
- *
  * @author Fabien D. <fabien@myprod.net>
  */
 interface SnapshotPageProxyInterface extends PageInterface, \Serializable
