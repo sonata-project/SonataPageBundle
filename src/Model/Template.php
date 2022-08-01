@@ -87,9 +87,9 @@ final class Template
     /**
      * @param string $code
      *
-     * @return array<string, mixed>
+     * @return array<string, mixed>|null
      *
-     * @phpstan-return Container|array{}
+     * @phpstan-return Container|null
      */
     public function getContainer($code)
     {
