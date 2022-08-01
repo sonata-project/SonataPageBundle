@@ -62,7 +62,10 @@ final class SnapshotManagerTest extends KernelTestCase
         $this->entityManager = null;
     }
 
-    public function disableAutoIncrement($class)
+    /**
+     * @param class-string $class
+     */
+    public function disableAutoIncrement(string $class): void
     {
         $metadata = $this->entityManager->getClassMetadata($class);
         $metadata->setIdGeneratorType(ClassMetadataInfo::GENERATOR_TYPE_NONE);
@@ -73,7 +76,7 @@ final class SnapshotManagerTest extends KernelTestCase
      * @throws ORMException
      * @throws OptimisticLockException|ORMException
      */
-    public function testFunctionalEnableSnapshots()
+    public function testFunctionalEnableSnapshots(): void
     {
         // disable the auto increment id
         $this->disableAutoIncrement(SonataPagePage::class);
@@ -181,7 +184,7 @@ final class SnapshotManagerTest extends KernelTestCase
         static::assertNull($repo->find(789));
     }
 
-    public static function assertDateTimeEquals(\DateTimeInterface $expected, \DateTimeInterface $actual)
+    public static function assertDateTimeEquals(\DateTimeInterface $expected, \DateTimeInterface $actual): void
     {
         static::assertSame($expected->format('c'), $actual->format('c'));
     }

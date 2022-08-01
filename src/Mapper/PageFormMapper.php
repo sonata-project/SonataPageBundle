@@ -17,10 +17,19 @@ use Sonata\AdminBundle\Form\FormMapper as AdminFormMapper;
 use Sonata\BlockBundle\Form\Mapper\FormMapper;
 use Symfony\Component\Form\FormBuilderInterface;
 
+/**
+ * @phpstan-template T of object
+ */
 final class PageFormMapper implements FormMapper
 {
+    /**
+     * @var AdminFormMapper<T>
+     */
     private AdminFormMapper $adminFormMapper;
 
+    /**
+     * @param AdminFormMapper<T> $adminFormMapper
+     */
     public function __construct(AdminFormMapper $adminFormMapper)
     {
         $this->adminFormMapper = $adminFormMapper;
@@ -38,7 +47,7 @@ final class PageFormMapper implements FormMapper
         return $this;
     }
 
-    public function add($name, ?string $type = null, array $options = []): FormMapper
+    public function add(string $name, ?string $type = null, array $options = []): FormMapper
     {
         $this->adminFormMapper->add($name, $type, $options);
 

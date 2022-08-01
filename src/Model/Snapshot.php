@@ -15,6 +15,8 @@ namespace Sonata\PageBundle\Model;
 
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * @phpstan-import-type PageContent from TransformerInterface
  */
 abstract class Snapshot implements SnapshotInterface
 {
@@ -94,9 +96,11 @@ abstract class Snapshot implements SnapshotInterface
     protected $site = null;
 
     /**
-     * @var array
+     * @var array<string, mixed>|null
+     *
+     * @phpstan-var PageContent|null
      */
-    protected $content = [];
+    protected $content = null;
 
     /**
      * @var array<PageInterface>

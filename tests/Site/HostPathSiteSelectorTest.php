@@ -17,6 +17,7 @@ use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Exception\NoValueException;
 use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 use Sonata\PageBundle\Entity\BaseSite;
+use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Request\SiteRequest;
 use Sonata\PageBundle\Site\HostPathSiteSelector as BaseSiteSelector;
@@ -98,8 +99,10 @@ final class HostPathSiteSelectorTest extends TestCase
 
     /**
      * Perform the actual handleKernelSiteRequest method test.
+     *
+     * @return array{SiteInterface|null, RequestEvent}
      */
-    private function performHandleKernelRequestTest($url): array
+    private function performHandleKernelRequestTest(string $url): array
     {
         $kernel = $this->createMock(HttpKernelInterface::class);
         $request = SiteRequest::create($url);
@@ -163,9 +166,9 @@ final class HostPathSiteSelector extends BaseSiteSelector
     }
 
     /**
-     * @return array
+     * @return array<SiteInterface>
      */
-    protected function getSites(Request $request)
+    protected function getSites(Request $request): array
     {
         return $this->_findSites([
             'host' => [$request->getHost(), 'localhost'],
@@ -173,6 +176,11 @@ final class HostPathSiteSelector extends BaseSiteSelector
         ]);
     }
 
+    /**
+     * @param array<string, mixed|array<mixed>> $params
+     *
+     * @return array<SiteInterface>
+     */
     protected function _findSites(array $params): array
     {
         $all_sites = $this->_getAllSites();
@@ -204,6 +212,9 @@ final class HostPathSiteSelector extends BaseSiteSelector
         return $matched_sites;
     }
 
+    /**
+     * @return array<SiteInterface>
+     */
     protected function _getAllSites(): array
     {
         $always = null;
@@ -329,6 +340,8 @@ final class HostPathSiteSelector extends BaseSiteSelector
     /**
      * @param object $object
      * @param string $fieldName
+     *
+     * @return mixed
      */
     protected function _getFieldValue($object, $fieldName)
     {

@@ -141,8 +141,8 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
     /**
      * Gets the preferred site based on the given request.
      *
-     * @param array   $sites   An array of enabled sites
-     * @param Request $request A request instance
+     * @param array<SiteInterface> $sites   An array of enabled sites
+     * @param Request              $request A request instance
      *
      * @return SiteInterface|null
      */
@@ -166,5 +166,8 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
         return reset($sites);
     }
 
+    /**
+     * @return void
+     */
     abstract protected function handleKernelRequest(RequestEvent $event);
 }

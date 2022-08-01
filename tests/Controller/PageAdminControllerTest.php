@@ -33,7 +33,7 @@ class PageAdminControllerTest extends TestCase
     private Container $container;
 
     /**
-     * @var MockObject&AdminInterface
+     * @var MockObject&AdminInterface<object>
      */
     private $admin;
 

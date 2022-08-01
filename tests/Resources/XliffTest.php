@@ -34,7 +34,7 @@ final class XliffTest extends TestCase
     /**
      * @dataProvider getXliffPaths
      */
-    public function testXliff($path): void
+    public function testXliff(string $path): void
     {
         $this->validatePath($path);
 
@@ -50,7 +50,7 @@ final class XliffTest extends TestCase
     }
 
     /**
-     * @return array List all path to validate xliff
+     * @return array<array<string>> List all path to validate xliff
      */
     public function getXliffPaths(): array
     {

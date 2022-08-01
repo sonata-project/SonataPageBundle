@@ -51,6 +51,9 @@ final class ChildrenPagesBlockService extends AbstractBlockService implements Ed
      */
     private AdminInterface $pageAdmin;
 
+    /**
+     * @param AdminInterface<PageInterface> $pageAdmin
+     */
     public function __construct(
         Environment $twig,
         SiteSelectorInterface $siteSelector,

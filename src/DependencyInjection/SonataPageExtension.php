@@ -103,8 +103,8 @@ final class SonataPageExtension extends Extension implements PrependExtensionInt
     /**
      * Configure the page default settings.
      *
-     * @param ContainerBuilder $container Container builder
-     * @param array            $config    Array of configuration
+     * @param ContainerBuilder     $container Container builder
+     * @param array<string, mixed> $config    Array of configuration
      */
     public function configurePageDefaults(ContainerBuilder $container, array $config): void
     {
@@ -133,8 +133,8 @@ final class SonataPageExtension extends Extension implements PrependExtensionInt
     /**
      * Registers service parameters from bundle configuration.
      *
-     * @param ContainerBuilder $container Container builder
-     * @param array            $config    Array of configuration
+     * @param ContainerBuilder     $container Container builder
+     * @param array<string, mixed> $config    Array of configuration
      */
     public function registerParameters(ContainerBuilder $container, array $config): void
     {
@@ -155,8 +155,8 @@ final class SonataPageExtension extends Extension implements PrependExtensionInt
     /**
      * Configure the multi-site feature.
      *
-     * @param ContainerBuilder $container Container builder
-     * @param array            $config    Array of configuration
+     * @param ContainerBuilder     $container Container builder
+     * @param array<string, mixed> $config    Array of configuration
      */
     public function configureMultisite(ContainerBuilder $container, array $config): void
     {
@@ -203,8 +203,8 @@ final class SonataPageExtension extends Extension implements PrependExtensionInt
     /**
      * Configure the page templates.
      *
-     * @param ContainerBuilder $container Container builder
-     * @param array            $config    Array of configuration
+     * @param ContainerBuilder     $container Container builder
+     * @param array<string, mixed> $config    Array of configuration
      */
     public function configureTemplates(ContainerBuilder $container, array $config): void
     {
@@ -232,8 +232,8 @@ final class SonataPageExtension extends Extension implements PrependExtensionInt
     /**
      * Configure the page admin templates.
      *
-     * @param ContainerBuilder $container Container builder
-     * @param array            $config    Array of configuration
+     * @param ContainerBuilder     $container Container builder
+     * @param array<string, mixed> $config    Array of configuration
      */
     public function configureTemplatesAdmin(ContainerBuilder $container, array $config): void
     {
@@ -247,8 +247,8 @@ final class SonataPageExtension extends Extension implements PrependExtensionInt
     /**
      * Configures the page custom exceptions.
      *
-     * @param ContainerBuilder $container Container builder
-     * @param array            $config    An array of bundle configuration
+     * @param ContainerBuilder     $container Container builder
+     * @param array<string, mixed> $config    Array of configuration
      */
     public function configureExceptions(ContainerBuilder $container, array $config): void
     {
@@ -271,8 +271,8 @@ final class SonataPageExtension extends Extension implements PrependExtensionInt
     /**
      * Configures the page services.
      *
-     * @param ContainerBuilder $container Container builder
-     * @param array            $config    An array of bundle configuration
+     * @param ContainerBuilder     $container Container builder
+     * @param array<string, mixed> $config    Array of configuration
      */
     public function configurePageServices(ContainerBuilder $container, array $config): void
     {
@@ -281,6 +281,9 @@ final class SonataPageExtension extends Extension implements PrependExtensionInt
         $definition->addMethodCall('setDefault', [new Reference($config['default_page_service'])]);
     }
 
+    /**
+     * @param array<string, mixed> $config
+     */
     private function registerSonataDoctrineMapping(array $config): void
     {
         if (!class_exists($config['class']['page'])) {

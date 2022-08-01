@@ -26,9 +26,9 @@ interface TemplateManagerInterface
     /**
      * Renders a template code.
      *
-     * @param string   $code       Template code
-     * @param array    $parameters An array of view parameters
-     * @param Response $response   Response to update
+     * @param string               $code       Template code
+     * @param array<string, mixed> $parameters An array of view parameters
+     * @param Response             $response   Response to update
      */
     public function renderResponse(string $code, array $parameters = [], ?Response $response = null): Response;
 
@@ -37,6 +37,8 @@ interface TemplateManagerInterface
      *
      * @param string   $code     Code
      * @param Template $template Template object
+     *
+     * @return void
      */
     public function add($code, Template $template);
 
@@ -53,6 +55,8 @@ interface TemplateManagerInterface
      * Sets the default template code.
      *
      * @param string $code
+     *
+     * @return void
      */
     public function setDefaultTemplateCode($code);
 
@@ -67,6 +71,8 @@ interface TemplateManagerInterface
      * Sets the templates.
      *
      * @param Template[] $templates
+     *
+     * @return void
      */
     public function setAll($templates);
 

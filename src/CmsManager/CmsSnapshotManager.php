@@ -32,7 +32,20 @@ final class CmsSnapshotManager extends BaseCmsPageManager
 
     private TransformerInterface $transformer;
 
-    private array $pageReferences = [];
+    /**
+     * @var array{
+     *   url: array<string, int|string>,
+     *   routeName: array<string, int|string>,
+     *   pageAlias: array<string, int|string>,
+     *   name: array<string, int|string>,
+     * }
+     */
+    private array $pageReferences = [
+        'url' => [],
+        'routeName' => [],
+        'pageAlias' => [],
+        'name' => [],
+    ];
 
     /**
      * @var PageInterface[]

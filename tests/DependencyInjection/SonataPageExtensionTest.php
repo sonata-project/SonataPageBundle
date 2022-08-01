@@ -79,6 +79,9 @@ final class SonataPageExtensionTest extends AbstractExtensionTestCase
         return [new SonataPageExtension()];
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     protected function getMinimalConfiguration(): array
     {
         return [

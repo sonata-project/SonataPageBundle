@@ -99,6 +99,9 @@ interface CmsManagerInterface
      */
     public function getCurrentPage();
 
+    /**
+     * @return void
+     */
     public function setCurrentPage(PageInterface $page);
 
     /**

@@ -22,6 +22,7 @@ use Sonata\BlockBundle\Block\Service\EditableBlockService;
 use Sonata\BlockBundle\Form\Type\ServiceListType;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\PageBundle\Mapper\PageFormMapper;
+use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -35,8 +36,25 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 final class BlockAdmin extends BaseBlockAdmin
 {
     protected $classnameLabel = 'Block';
+
+    /**
+     * @var array<string, array{
+     *   templates?: array<array{
+     *     name: string,
+     *     template: string,
+     *   }>,
+     * }>
+     */
     private array $blocks;
 
+    /**
+     * @param array<string, array{
+     *   templates?: array<array{
+     *     name: string,
+     *     template: string,
+     *   }>,
+     * }> $blocks
+     */
     public function __construct(array $blocks = [])
     {
         $this->blocks = $blocks;
@@ -185,6 +203,9 @@ final class BlockAdmin extends BaseBlockAdmin
         return $options['template'] ?? null;
     }
 
+    /**
+     * @param FormMapper<PageBlockInterface> $form
+     */
     private function configureBlockFields(FormMapper $form, BlockInterface $block): void
     {
         $blockType = $block->getType();

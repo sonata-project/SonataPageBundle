@@ -81,6 +81,9 @@ final class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
         return $menu;
     }
 
+    /**
+     * @return string
+     */
     private function getName()
     {
         return 'sonata.page.block.breadcrumb';

@@ -54,7 +54,7 @@ final class PageSelectorType extends AbstractType
     }
 
     /**
-     * @return array
+     * @return array<PageInterface>
      */
     public function getChoices(Options $options)
     {
@@ -123,9 +123,9 @@ final class PageSelectorType extends AbstractType
     }
 
     /**
-     * @param PageInterface $currentPage
-     * @param array         $choices
-     * @param int           $level
+     * @param PageInterface        $currentPage
+     * @param array<PageInterface> $choices
+     * @param int                  $level
      */
     private function childWalker(PageInterface $page, ?PageInterface $currentPage, &$choices, $level = 1): void
     {

@@ -41,6 +41,12 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
         $this->transformer = $transformer;
     }
 
+    /**
+     * @param string       $method
+     * @param array<mixed> $arguments
+     *
+     * @return mixed
+     */
     public function __call($method, $arguments)
     {
         return \call_user_func_array([$this->getPage(), $method], $arguments);
@@ -493,7 +499,7 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
         return $this->getPage()->isInternal();
     }
 
-    private function getPage()
+    private function getPage(): PageInterface
     {
         $this->load();
 

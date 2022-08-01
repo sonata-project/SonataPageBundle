@@ -15,6 +15,21 @@ namespace Sonata\PageBundle\Model;
 
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * @phpstan-type Container array{
+ *   name: string,
+ *   type: int,
+ *   blocks: array<string>,
+ *   placement: array{
+ *     x?: int,
+ *     y?: int|float,
+ *     width?: int,
+ *     height?: int|float,
+ *     right?: int|float,
+ *     bottom?: int|float
+ *   },
+ *   shared: boolean
+ * }
  */
 final class Template
 {
@@ -25,26 +40,32 @@ final class Template
 
     private string $name;
 
-    private array $containers;
+    /**
+     * @var array<string, mixed>
+     *
+     * @phpstan-var array<Container>
+     */
+    private array $containers = [];
 
     /**
-     * @param string $name
-     * @param string $path
+     * @param string               $name
+     * @param string               $path
+     * @param array<string, mixed> $containers
      */
     public function __construct($name, $path, array $containers = [])
     {
         $this->name = $name;
         $this->path = $path;
-        $this->containers = $containers;
 
-        // force normalization of containers
-        foreach ($this->containers as &$container) {
-            $container = $this->normalize($container);
+        foreach ($containers as $code => $container) {
+            $this->containers[$code] = $this->normalize($container);
         }
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
+     *
+     * @phpstan-return array<string, Container>
      */
     public function getContainers()
     {
@@ -55,8 +76,8 @@ final class Template
      * The meta array is an array containing the
      *    - area name.
      *
-     * @param string $code
-     * @param array  $meta
+     * @param string               $code
+     * @param array<string, mixed> $meta
      */
     public function addContainer($code, $meta): void
     {
@@ -64,9 +85,11 @@ final class Template
     }
 
     /**
-     * @param $code
+     * @param string $code
      *
-     * @return array
+     * @return array<string, mixed>|null
+     *
+     * @phpstan-return Container|null
      */
     public function getContainer($code)
     {
@@ -74,7 +97,7 @@ final class Template
             return $this->containers[$code];
         }
 
-        return [];
+        return null;
     }
 
     /**
@@ -94,7 +117,11 @@ final class Template
     }
 
     /**
-     * @return array
+     * @param array<string, mixed> $meta
+     *
+     * @return array<string, mixed>
+     *
+     * @phpstan-return Container
      */
     private function normalize(array $meta)
     {

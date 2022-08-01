@@ -32,10 +32,15 @@ final class TemplateManager implements TemplateManagerInterface
      */
     private Environment $twig;
 
+    /**
+     * @var array<string, mixed>
+     */
     private array $defaultParameters;
 
     /**
      * Collection of available templates.
+     *
+     * @var array<string, Template>
      */
     private array $templates = [];
 
@@ -50,8 +55,8 @@ final class TemplateManager implements TemplateManagerInterface
     private string $defaultTemplatePath = '@SonataPage/layout.html.twig';
 
     /**
-     * @param Environment $twig              Templating twig
-     * @param array       $defaultParameters An array of default view parameters
+     * @param Environment          $twig              Templating twig
+     * @param array<string, mixed> $defaultParameters An array of default view parameters
      */
     public function __construct(Environment $twig, array $defaultParameters = [])
     {

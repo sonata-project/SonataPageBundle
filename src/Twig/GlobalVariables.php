@@ -77,7 +77,10 @@ final class GlobalVariables
     }
 
     /**
-     * @return array
+     * @return array{
+     *   javascript: array<string>,
+     *   stylesheet: array<string>
+     * }
      */
     public function getAssets()
     {

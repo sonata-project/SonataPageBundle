@@ -45,6 +45,9 @@ final class ExceptionListener
 
     private DecoratorStrategyInterface $decoratorStrategy;
 
+    /**
+     * @var array<int, string>
+     */
     private array $httpErrorCodes;
 
     private ?LoggerInterface $logger;
@@ -58,7 +61,7 @@ final class ExceptionListener
      * @param Environment                 $twig               Twig engine
      * @param PageServiceManagerInterface $pageServiceManager Page service manager
      * @param DecoratorStrategyInterface  $decoratorStrategy  Decorator strategy
-     * @param array                       $httpErrorCodes     An array of http error codes' routes
+     * @param array<int, string>          $httpErrorCodes     An array of http error codes' routes
      * @param LoggerInterface|null        $logger             Logger instance
      * @param bool                        $status             log status
      */
@@ -77,6 +80,8 @@ final class ExceptionListener
 
     /**
      * Returns list of http error codes managed.
+     *
+     * @return array<int, string>
      */
     public function getHttpErrorCodes(): array
     {
