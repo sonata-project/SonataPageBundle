@@ -144,13 +144,15 @@ class Transformer implements TransformerInterface
         $page->setSite($snapshot->getSite());
         $page->setEnabled($snapshot->getEnabled());
 
-        $content = $this->fixPageContent($snapshot->getContent());
+        $content = $snapshot->getContent();
 
         $page->setId($content['id']);
         $page->setJavascript($content['javascript']);
         $page->setStylesheet($content['stylesheet']);
         $page->setRawHeaders($content['raw_headers']);
-        $page->setTitle($content['title']);
+        if (isset($content['title'])) {
+            $page->setTitle($content['title']);
+        }
         $page->setMetaDescription($content['meta_description']);
         $page->setMetaKeyword($content['meta_keyword']);
         $page->setName($content['name']);
@@ -173,15 +175,19 @@ class Transformer implements TransformerInterface
     {
         $block = $this->blockManager->create();
 
-        $content = $this->fixBlockContent($content);
-
         $block->setPage($page);
         $block->setId($content['id']);
-        $block->setName($content['name']);
+        if (isset($content['name'])) {
+            $block->setName($content['name']);
+        }
         $block->setEnabled($content['enabled']);
-        $block->setPosition($content['position']);
+        if (isset($content['position'])) {
+            $block->setPosition($content['position']);
+        }
         $block->setSettings($content['settings']);
-        $block->setType($content['type']);
+        if (isset($content['type'])) {
+            $block->setType($content['type']);
+        }
 
         $createdAt = new \DateTime();
         $createdAt->setTimestamp((int) $content['created_at']);
@@ -242,31 +248,9 @@ class Transformer implements TransformerInterface
     }
 
     /**
-     * @return array
-     */
-    protected function fixPageContent(array $content)
-    {
-        if (!\array_key_exists('title', $content)) {
-            $content['title'] = null;
-        }
-
-        return $content;
-    }
-
-    /**
-     * @return array
-     */
-    protected function fixBlockContent(array $content)
-    {
-        if (!\array_key_exists('name', $content)) {
-            $content['name'] = null;
-        }
-
-        return $content;
-    }
-
-    /**
-     * @return array
+     * @return array<string, mixed>
+     *
+     * @phpstan-return BlockContent
      */
     protected function createBlocks(BlockInterface $block)
     {
