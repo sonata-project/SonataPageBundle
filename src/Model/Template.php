@@ -97,7 +97,7 @@ final class Template
             return $this->containers[$code];
         }
 
-        return [];
+        return null;
     }
 
     /**
