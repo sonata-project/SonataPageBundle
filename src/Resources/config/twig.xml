@@ -11,7 +11,11 @@
             <argument>%sonata.page.hide_disabled_blocks%</argument>
         </service>
         <service id="sonata.page.twig.global" class="Sonata\PageBundle\Twig\GlobalVariables">
-            <argument type="service" id="service_container"/>
+            <argument type="service" id="sonata.page.manager.site"/>
+            <argument type="service" id="sonata.page.cms_manager_selector"/>
+            <argument type="service" id="sonata.page.site.selector"/>
+            <argument type="service" id="sonata.page.template_manager"/>
+            <argument>%sonata.page.assets%</argument>
         </service>
     </services>
 </container>

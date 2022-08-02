@@ -33,6 +33,7 @@ final class SonataPageExtension extends Extension implements PrependExtensionInt
     public function prepend(ContainerBuilder $container): void
     {
         $bundles = $container->getParameter('kernel.bundles');
+        \assert(\is_array($bundles));
 
         // add custom form widgets
         if ($container->hasExtension('twig')) {
@@ -51,6 +52,7 @@ final class SonataPageExtension extends Extension implements PrependExtensionInt
         $config = $processor->processConfiguration($configuration, $configs);
 
         $bundles = $container->getParameter('kernel.bundles');
+        \assert(\is_array($bundles));
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('page.xml');

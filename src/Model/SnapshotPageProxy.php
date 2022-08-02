@@ -42,17 +42,6 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
     }
 
     /**
-     * @param string       $method
-     * @param array<mixed> $arguments
-     *
-     * @return mixed
-     */
-    public function __call($method, $arguments)
-    {
-        return \call_user_func_array([$this->getPage(), $method], $arguments);
-    }
-
-    /**
      * @return string
      */
     public function __toString()
@@ -338,7 +327,7 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
             while ($snapshot) {
                 $content = $snapshot->getContent();
 
-                if (!$content['parent_id']) {
+                if (!isset($content['parent_id'])) {
                     break;
                 }
 

@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Functional\Snapshot;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\OptimisticLockException;
-use Sonata\PageBundle\Entity\SnapshotManager;
+use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Tests\App\AppKernel;
 use Sonata\PageBundle\Tests\App\Entity\SonataPagePage;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageSnapshot;
@@ -26,27 +26,23 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class SnapshotManagerTest extends KernelTestCase
 {
-    /**
-     * @var EntityManager|null
-     */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    /**
-     * @var SnapshotManager
-     */
-    private $snapshotManager;
+    private SnapshotManagerInterface $snapshotManager;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $kernel = self::bootKernel();
-        $this->entityManager = $kernel->getContainer()
-            ->get('doctrine')
-            ->getManager();
 
-        $this->snapshotManager = $kernel->getContainer()
-            ->get('sonata.page.manager.snapshot');
+        $entityManager = $kernel->getContainer()->get('doctrine.orm.entity_manager');
+        \assert($entityManager instanceof EntityManagerInterface);
+        $snapshotManager = $kernel->getContainer()->get('sonata.page.manager.snapshot');
+        \assert($snapshotManager instanceof SnapshotManagerInterface);
+
+        $this->entityManager = $entityManager;
+        $this->snapshotManager = $snapshotManager;
     }
 
     protected function tearDown(): void
@@ -58,8 +54,8 @@ final class SnapshotManagerTest extends KernelTestCase
             ->createQueryBuilder('p')->delete()->getQuery()->execute();
 
         parent::tearDown();
+
         $this->entityManager->close();
-        $this->entityManager = null;
     }
 
     /**

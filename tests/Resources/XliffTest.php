@@ -77,6 +77,12 @@ final class XliffTest extends TestCase
     {
         $files = glob(sprintf('%s/*.xliff', $path));
 
+        if (false === $files) {
+            $this->errors[] = sprintf('Unable to find xliff files in %s', $path);
+
+            return;
+        }
+
         foreach ($files as $file) {
             $this->validateXliff($file);
         }

@@ -107,9 +107,8 @@ final class PageAdmin extends AbstractAdmin
             return;
         }
 
-        if ($site = $this->getSite()) {
-            $object->setSite($site);
-        }
+        $site = $this->getSite();
+        $object->setSite($site);
 
         if ($site && $this->getRequest()->get('url')) {
             $slugs = explode('/', $this->getRequest()->get('url'));
@@ -380,12 +379,12 @@ final class PageAdmin extends AbstractAdmin
     /**
      * @throws \RuntimeException
      *
-     * @return SiteInterface|bool
+     * @return SiteInterface|null
      */
     private function getSite()
     {
         if (!$this->hasRequest()) {
-            return false;
+            return null;
         }
 
         $siteId = null;
@@ -407,6 +406,6 @@ final class PageAdmin extends AbstractAdmin
             return $site;
         }
 
-        return false;
+        return null;
     }
 }

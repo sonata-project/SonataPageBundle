@@ -18,8 +18,6 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 
 /**
- * Base class CMS Manager.
- *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 abstract class BaseCmsPageManager implements CmsManagerInterface
@@ -79,6 +77,8 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
      * @param int|string $value
      *
      * @return PageInterface
+     *
+     * @phpstan-param 'id'|'url'|'routeName'|'pageAlias'|'name' $fieldName
      */
     abstract protected function getPageBy(?SiteInterface $site, $fieldName, $value);
 }
