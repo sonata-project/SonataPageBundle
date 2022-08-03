@@ -154,7 +154,7 @@ final class TransformerTest extends TestCase
 
     public function testLoadBlock(): void
     {
-        $this->blockManager->method('create')->willReturnCallback(static fn() => new SonataPageBlock());
+        $this->blockManager->method('create')->willReturnCallback(static fn () => new SonataPageBlock());
 
         $dateTime = new \DateTime();
 
