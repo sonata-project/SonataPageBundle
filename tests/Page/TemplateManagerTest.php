@@ -14,14 +14,18 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Page;
 
 use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Model\Template;
 use Sonata\PageBundle\Page\TemplateManager;
+use Sonata\PageBundle\Tests\App\AppKernel;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Templating\StreamingEngineInterface;
 
-final class TemplateManagerTest extends TestCase
+final class TemplateManagerTest extends KernelTestCase
 {
     /**
      * Test adding a new template.
@@ -162,6 +166,36 @@ final class TemplateManagerTest extends TestCase
             'should return the mocked response'
         );
     }
+
+    /**
+     * @testdox It's getting rendering the content block into the default layout.
+     */
+    public function testTemplateContent(): void
+    {
+        $kernel = self::bootKernel();
+        $container = $kernel->getContainer();
+
+        $requestStack = new RequestStack();
+        $requestStack->push(new Request());
+        $container->set('request_stack', $requestStack);
+
+        //NEXT_MAJOR: change for twig
+        $templating = $container->get('templating');
+
+        $manager = new TemplateManager($templating, []);
+        $response = $manager->renderResponse('test');
+        $crawler = new Crawler($response->getContent());
+
+        $this->assertEquals(1, $crawler->filter('#header')->count());
+        $this->assertEquals(1, $crawler->filter('#breadcrumb')->count());
+        $this->assertEquals(1, $crawler->filter('#content')->count());
+        $this->assertEquals(1, $crawler->filter('#footer')->count());
+    }
+
+   protected static function getKernelClass(): string
+   {
+       return AppKernel::class;
+   }
 
     /**
      * Returns the mock template.
