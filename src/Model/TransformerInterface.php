@@ -28,6 +28,7 @@ use Sonata\BlockBundle\Model\BlockInterface;
  *   created_at: int|string|null,
  *   updated_at: int|string|null,
  *   parent_id?: int|string|null,
+ *   target_id?: int|string|null,
  *   blocks: array<array{
  *     id: int|string|null,
  *     name?: string|null,
