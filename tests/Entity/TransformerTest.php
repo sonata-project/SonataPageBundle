@@ -26,7 +26,7 @@ use Sonata\PageBundle\Tests\App\Entity\SonataPagePage;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageSite;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageSnapshot;
 
-class TransformerTest extends TestCase
+final class TransformerTest extends TestCase
 {
     /**
      * @var MockObject|SnapshotManagerInterface
