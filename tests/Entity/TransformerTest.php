@@ -18,6 +18,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sonata\Doctrine\Model\ManagerInterface;
 use Sonata\PageBundle\Entity\Transformer;
+use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\TransformerInterface;
@@ -26,6 +27,10 @@ use Sonata\PageBundle\Tests\App\Entity\SonataPagePage;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageSite;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageSnapshot;
 
+/**
+ * @phpstan-import-type PageContent from TransformerInterface
+ * @phpstan-import-type BlockContent from TransformerInterface
+ */
 final class TransformerTest extends TestCase
 {
     /**
@@ -37,7 +42,7 @@ final class TransformerTest extends TestCase
      */
     protected $pageManager;
     /**
-     * @var MockObject|ManagerInterface
+     * @var MockObject|ManagerInterface<PageBlockInterface>
      */
     protected $blockManager;
 
@@ -60,7 +65,7 @@ final class TransformerTest extends TestCase
         );
     }
 
-    public function testAssertExceptionCreateOnPageWithoutSite()
+    public function testAssertExceptionCreateOnPageWithoutSite(): void
     {
         $this->snapshotManager->method('create')->willReturn(new SonataPageSnapshot());
         $this->snapshotManager->method('getClass')->willReturn(SonataPageSnapshot::class);
@@ -77,7 +82,7 @@ final class TransformerTest extends TestCase
         $this->transformer->create($page);
     }
 
-    public function testTransformerPageToSnapshot()
+    public function testTransformerPageToSnapshot(): void
     {
         $this->snapshotManager->method('create')->willReturn(new SonataPageSnapshot());
         $this->snapshotManager->method('getClass')->willReturn(SonataPageSnapshot::class);
@@ -149,9 +154,7 @@ final class TransformerTest extends TestCase
 
     public function testLoadBlock(): void
     {
-        $this->blockManager->method('create')->willReturnCallback(static function () {
-            return new SonataPageBlock();
-        });
+        $this->blockManager->method('create')->willReturnCallback(static fn() => new SonataPageBlock());
 
         $dateTime = new \DateTime();
 
@@ -162,7 +165,10 @@ final class TransformerTest extends TestCase
         static::assertSame('block123', $block->getId());
     }
 
-    protected function getTestContent($datetime): array
+    /**
+     * @phpstan-return PageContent
+     */
+    protected function getTestContent(\DateTimeInterface $datetime): array
     {
         return [
             'id' => 'page_child',
@@ -185,7 +191,10 @@ final class TransformerTest extends TestCase
         ];
     }
 
-    protected function getTestBlockArray($datetime): array
+    /**
+     * @phpstan-return BlockContent
+     */
+    protected function getTestBlockArray(\DateTimeInterface $datetime): array
     {
         return [
             'id' => 'block123',
