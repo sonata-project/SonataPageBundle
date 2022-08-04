@@ -84,7 +84,7 @@ final class TransformerTest extends TestCase
     }
 
     /**
-     * remove group legacy in next mayor
+     * remove group legacy in next mayor.
      *
      * @group legacy
      */
@@ -155,7 +155,7 @@ final class TransformerTest extends TestCase
     }
 
     /**
-     * remove group legacy in next mayor
+     * remove group legacy in next mayor.
      *
      * @group legacy
      */
