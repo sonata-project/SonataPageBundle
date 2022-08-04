@@ -147,7 +147,7 @@ class Transformer implements TransformerInterface
         $page->setSite($snapshot->getSite());
         $page->setEnabled($snapshot->getEnabled());
 
-        $content = $snapshot->getContent();
+        $content = $this->fixPageContent($snapshot->getContent());
 
         $page->setId($content['id']);
         $page->setJavascript($content['javascript']);
@@ -177,6 +177,8 @@ class Transformer implements TransformerInterface
     public function loadBlock(array $content, PageInterface $page)
     {
         $block = $this->blockManager->create();
+
+        $content = $this->fixBlockContent($content);
 
         $block->setPage($page);
         $block->setId($content['id']);
@@ -248,6 +250,34 @@ class Transformer implements TransformerInterface
         }
 
         return $this->children[$page->getId()];
+    }
+
+    /**
+     * NEXT_MAJOR: Remove this.
+     *
+     * @phpstan-return PageContent
+     */
+    protected function fixPageContent(array $content): array
+    {
+        if (!\array_key_exists('title', $content)) {
+            $content['title'] = null;
+        }
+
+        return $content;
+    }
+
+    /**
+     * NEXT_MAJOR: Remove this.
+     *
+     * @phpstan-return BlockContent
+     */
+    protected function fixBlockContent(array $content): array
+    {
+        if (!\array_key_exists('name', $content)) {
+            $content['name'] = null;
+        }
+
+        return $content;
     }
 
     /**
