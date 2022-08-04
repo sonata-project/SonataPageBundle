@@ -188,8 +188,8 @@ final class TransformerTest extends TestCase
             'meta_keyword' => null,
             'template_code' => null,
             'request_method' => 'GET|POST|HEAD|DELETE|PUT',
-            'created_at' => $datetime->format('U'),
-            'updated_at' => $datetime->format('U'),
+            'created_at' => (int) $datetime->format('U'),
+            'updated_at' => (int) $datetime->format('U'),
             'slug' => null,
             'parent_id' => 'page_parent',
             'blocks' => [
@@ -210,8 +210,8 @@ final class TransformerTest extends TestCase
             'position' => 0,
             'settings' => [],
             'type' => 'type',
-            'created_at' => $datetime->format('U'),
-            'updated_at' => $datetime->format('U'),
+            'created_at' => (int) $datetime->format('U'),
+            'updated_at' => (int) $datetime->format('U'),
             'blocks' => [
                 [
                     'id' => 'block234',
@@ -220,8 +220,8 @@ final class TransformerTest extends TestCase
                     'position' => 0,
                     'settings' => [],
                     'type' => 'type',
-                    'created_at' => $datetime->format('U'),
-                    'updated_at' => $datetime->format('U'),
+                    'created_at' => (int) $datetime->format('U'),
+                    'updated_at' => (int) $datetime->format('U'),
                     'blocks' => [],
                 ],
             ],

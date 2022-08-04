@@ -74,6 +74,9 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
     {
     }
 
+    /**
+     * @psalm-suppress UndefinedMethod
+     */
     final public function onKernelRequest(RequestEvent $event): void
     {
         if (!$this->decoratorStrategy->isRouteUriDecorable($event->getRequest()->getPathInfo())) {
@@ -158,7 +161,7 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
             $locale = $site->getLocale();
 
             if (null !== $locale) {
-                $sitesLocales[] = $site->getLocale();
+                $sitesLocales[] = $locale;
             }
         }
 

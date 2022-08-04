@@ -56,7 +56,7 @@ final class CmsPageRouterTest extends TestCase
         $this->siteSelector = $this->createMock(SiteSelectorInterface::class);
         $this->defaultRouter = $this->createMock(RouterInterface::class);
 
-        $this->router = new CmsPageRouter($this->cmsSelector, $this->siteSelector, $this->defaultRouter);
+        $this->router = new CmsPageRouter(new RequestContext(), $this->cmsSelector, $this->siteSelector, $this->defaultRouter);
     }
 
     public function testMatchToPageFound(): void
@@ -132,13 +132,6 @@ final class CmsPageRouterTest extends TestCase
         static::assertFalse($this->router->supports('foobar'));
         static::assertFalse($this->router->supports(new \stdClass()));
         static::assertTrue($this->router->supports($this->createMock(PageInterface::class)));
-    }
-
-    public function testGenerateWithPageSlugInvalidContext(): void
-    {
-        $this->expectException(\RuntimeException::class);
-
-        $this->router->generate('page_slug', ['path' => '/path/to/page']);
     }
 
     public function testGenerateWithPageSlugValid(): void

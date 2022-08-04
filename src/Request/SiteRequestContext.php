@@ -46,7 +46,13 @@ final class SiteRequestContext extends RequestContext implements SiteRequestCont
         $site = $this->getSite();
 
         if ($site && !$site->isLocalhost()) {
-            return $site->getHost();
+            $host = $site->getHost();
+
+            if (null === $host) {
+                throw new \LogicException('The host must be defined');
+            }
+
+            return $host;
         }
 
         return parent::getHost();

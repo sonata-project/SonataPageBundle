@@ -55,7 +55,7 @@ class CleanupSnapshotsCommandTest extends KernelTestCase
     }
 
     /**
-     * @testdox It's cleanup snapshots.
+     * @psalm-suppress UndefinedPropertyFetch
      */
     public function testCleanupSnapshot(): void
     {

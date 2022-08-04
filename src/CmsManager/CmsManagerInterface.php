@@ -92,9 +92,7 @@ interface CmsManagerInterface
     public function setCurrentPage(PageInterface $page);
 
     /**
-     * Returns the list of loaded block from the current http request.
-     *
-     * @return PageBlockInterface[]
+     * @return array<PageBlockInterface|null>
      */
     public function getBlocks();
 

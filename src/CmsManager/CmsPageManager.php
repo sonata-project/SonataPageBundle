@@ -136,7 +136,7 @@ final class CmsPageManager extends BaseCmsPageManager
 
     public function getBlock($id)
     {
-        if (!isset($this->blocks[$id])) {
+        if (!\array_key_exists($id, $this->blocks)) {
             $this->blocks[$id] = $this->blockInteractor->getBlock($id);
         }
 

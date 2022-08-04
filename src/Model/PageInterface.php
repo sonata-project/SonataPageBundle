@@ -249,7 +249,7 @@ interface PageInterface extends \Stringable
     /**
      * @param string $code
      *
-     * @return PageBlockInterface
+     * @return PageBlockInterface|null
      */
     public function getContainerByCode($code);
 

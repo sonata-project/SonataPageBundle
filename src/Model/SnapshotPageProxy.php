@@ -342,7 +342,7 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
                 $parents[] = new self($this->manager, $this->transformer, $snapshot);
             }
 
-            $this->setParents(array_reverse($parents));
+            $this->parents = array_reverse($parents);
         }
 
         return $this->parents;
@@ -490,15 +490,10 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
 
     private function getPage(): PageInterface
     {
-        $this->load();
-
-        return $this->page;
-    }
-
-    private function load(): void
-    {
         if (!$this->page) {
             $this->page = $this->transformer->load($this->snapshot);
         }
+
+        return $this->page;
     }
 }

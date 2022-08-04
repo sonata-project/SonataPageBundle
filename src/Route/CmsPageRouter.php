@@ -31,7 +31,7 @@ use Symfony\Component\Routing\RouterInterface;
 
 final class CmsPageRouter implements ChainedRouterInterface
 {
-    private ?RequestContext $context = null;
+    private RequestContext $context;
 
     private CmsManagerSelectorInterface $cmsSelector;
 
@@ -44,8 +44,13 @@ final class CmsPageRouter implements ChainedRouterInterface
      * @param SiteSelectorInterface       $siteSelector Sites selector
      * @param RouterInterface             $router       Router for hybrid pages
      */
-    public function __construct(CmsManagerSelectorInterface $cmsSelector, SiteSelectorInterface $siteSelector, RouterInterface $router)
-    {
+    public function __construct(
+        RequestContext $context,
+        CmsManagerSelectorInterface $cmsSelector,
+        SiteSelectorInterface $siteSelector,
+        RouterInterface $router
+    ) {
+        $this->context = $context;
         $this->cmsSelector = $cmsSelector;
         $this->siteSelector = $siteSelector;
         $this->router = $router;
@@ -83,9 +88,9 @@ final class CmsPageRouter implements ChainedRouterInterface
     }
 
     /**
-     * @param mixed                $name
-     * @param array<string, mixed> $parameters
-     * @param int                  $referenceType
+     * @param mixed        $name
+     * @param array<mixed> $parameters
+     * @param int          $referenceType
      */
     public function generate($name, $parameters = [], $referenceType = self::ABSOLUTE_PATH): string
     {
@@ -252,10 +257,6 @@ final class CmsPageRouter implements ChainedRouterInterface
      */
     private function decorateUrl($url, array $parameters = [], $referenceType = self::ABSOLUTE_PATH)
     {
-        if (!$this->context) {
-            throw new \RuntimeException('No context associated to the CmsPageRouter');
-        }
-
         $schemeAuthority = '';
         if ((self::ABSOLUTE_URL === $referenceType || self::NETWORK_PATH === $referenceType) && $this->context->getHost()) {
             $port = '';

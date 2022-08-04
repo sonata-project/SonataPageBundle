@@ -48,7 +48,7 @@ final class Parser
         }
 
         $rowCount = \count($rows);
-        if (0 === $rowCount || '' === $rows[0]) {
+        if ('' === $rows[0]) {
             throw new \InvalidArgumentException('Invalid template matrix, a matrix should contain at least one row');
         }
 
