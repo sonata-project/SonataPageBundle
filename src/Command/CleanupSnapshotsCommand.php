@@ -66,7 +66,7 @@ final class CleanupSnapshotsCommand extends Command
         foreach ($this->getSites($siteOption) as $site) {
             $output->write(sprintf('<info>%s</info> - Cleaning up snapshots ...', $site->getName()));
 
-            $this->cleanupSnapshotBySite->cleanupBySite($site, $keepSnapshots);
+            $this->cleanupSnapshotBySite->cleanupBySite($site, (int) $keepSnapshots);
 
             $output->writeln(' done!');
         }

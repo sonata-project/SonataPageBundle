@@ -80,7 +80,7 @@ final class RequestFactory
     /**
      * @param string $type
      *
-     * @return string
+     * @return class-string<Request>
      */
     private static function getClass($type)
     {

@@ -21,8 +21,6 @@ use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 
 /**
- * The CmsPageManager class is in charge of retrieving the correct page (cms page or action page).
- *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 final class CmsPageManager extends BaseCmsPageManager
@@ -33,10 +31,10 @@ final class CmsPageManager extends BaseCmsPageManager
 
     /**
      * @var array{
-     *   url: array<string, int|string>,
-     *   routeName: array<string, int|string>,
-     *   pageAlias: array<string, int|string>,
-     *   name: array<string, int|string>,
+     *   url: array<int|string|null>,
+     *   routeName: array<int|string|null>,
+     *   pageAlias: array<int|string|null>,
+     *   name: array<int|string|null>,
      * }
      */
     private array $pageReferences = [
@@ -156,8 +154,6 @@ final class CmsPageManager extends BaseCmsPageManager
         }
 
         if (null === $id || !isset($this->pages[$id])) {
-            $this->pages[$id] = false;
-
             $parameters = [
                 $fieldName => $value,
             ];
@@ -173,6 +169,7 @@ final class CmsPageManager extends BaseCmsPageManager
             }
 
             $this->loadBlocks($page);
+
             $id = $page->getId();
 
             if ('id' !== $fieldName) {
@@ -185,9 +182,6 @@ final class CmsPageManager extends BaseCmsPageManager
         return $this->pages[$id];
     }
 
-    /**
-     * load all the related nested blocks linked to one page.
-     */
     private function loadBlocks(PageInterface $page): void
     {
         $blocks = $this->blockInteractor->loadPageBlocks($page);

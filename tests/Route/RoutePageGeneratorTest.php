@@ -54,6 +54,10 @@ final class RoutePageGeneratorTest extends TestCase
 
         $tmpFile = tmpfile();
 
+        if (false === $tmpFile) {
+            static::fail('Unable to create temporary file');
+        }
+
         $this->routePageGenerator->update($site, new StreamOutput($tmpFile));
 
         fseek($tmpFile, 0);
@@ -64,16 +68,14 @@ final class RoutePageGeneratorTest extends TestCase
             $output = fread($tmpFile, 4096);
         }
 
+        static::assertIsString($output);
         static::assertMatchesRegularExpression('/CREATE(.*)route1(.*)\/first_custom_route/', $output);
         static::assertMatchesRegularExpression('/CREATE(.*)route1(.*)\/first_custom_route/', $output);
         static::assertMatchesRegularExpression('/CREATE(.*)test_hybrid_page_with_good_host(.*)\/third_custom_route/', $output);
         static::assertMatchesRegularExpression('/CREATE(.*)404/', $output);
         static::assertMatchesRegularExpression('/CREATE(.*)500/', $output);
-
         static::assertMatchesRegularExpression('/DISABLE(.*)test_hybrid_page_with_bad_host(.*)\/fourth_custom_route/', $output);
-
         static::assertMatchesRegularExpression('/UPDATE(.*)test_hybrid_page_with_bad_host(.*)\/fourth_custom_route/', $output);
-
         static::assertMatchesRegularExpression('/ERROR(.*)test_hybrid_page_not_exists/', $output);
     }
 
@@ -86,6 +88,10 @@ final class RoutePageGeneratorTest extends TestCase
 
         $tmpFile = tmpfile();
 
+        if (false === $tmpFile) {
+            static::fail('Unable to create temporary file');
+        }
+
         $this->routePageGenerator->update($site, new StreamOutput($tmpFile), true);
 
         fseek($tmpFile, 0);
@@ -96,16 +102,14 @@ final class RoutePageGeneratorTest extends TestCase
             $output = fread($tmpFile, 4096);
         }
 
+        static::assertIsString($output);
         static::assertMatchesRegularExpression('#CREATE(.*)route1(.*)/first_custom_route#', $output);
         static::assertMatchesRegularExpression('#CREATE(.*)route1(.*)/first_custom_route#', $output);
         static::assertMatchesRegularExpression('#CREATE(.*)test_hybrid_page_with_good_host(.*)/third_custom_route#', $output);
         static::assertMatchesRegularExpression('#CREATE(.*)404#', $output);
         static::assertMatchesRegularExpression('#CREATE(.*)500#', $output);
-
         static::assertMatchesRegularExpression('#DISABLE(.*)test_hybrid_page_with_bad_host(.*)/fourth_custom_route#', $output);
-
         static::assertMatchesRegularExpression('#UPDATE(.*)test_hybrid_page_with_bad_host(.*)/fourth_custom_route#', $output);
-
         static::assertMatchesRegularExpression('#REMOVED(.*)test_hybrid_page_not_exists#', $output);
     }
 

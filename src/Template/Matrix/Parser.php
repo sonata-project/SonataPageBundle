@@ -42,6 +42,11 @@ final class Parser
         $areas = [];
 
         $rows = preg_split("/\n/", $matrix);
+
+        if (false === $rows) {
+            throw new \InvalidArgumentException('Invalid template matrix.');
+        }
+
         $rowCount = \count($rows);
         if (0 === $rowCount || '' === $rows[0]) {
             throw new \InvalidArgumentException('Invalid template matrix, a matrix should contain at least one row');

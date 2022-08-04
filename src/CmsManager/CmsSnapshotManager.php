@@ -22,8 +22,6 @@ use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\TransformerInterface;
 
 /**
- * The CmsSnapshotManager class is in charge of retrieving the correct page (cms page or action page).
- *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 final class CmsSnapshotManager extends BaseCmsPageManager
@@ -34,10 +32,11 @@ final class CmsSnapshotManager extends BaseCmsPageManager
 
     /**
      * @var array{
-     *   url: array<string, int|string>,
-     *   routeName: array<string, int|string>,
-     *   pageAlias: array<string, int|string>,
-     *   name: array<string, int|string>,
+     *   url: array<int|string|null>,
+     *   routeName: array<int|string|null>,
+     *   pageAlias: array<int|string|null>,
+     *   name: array<int|string|null>,
+     *   pageId: array<int|string|null>,
      * }
      */
     private array $pageReferences = [
@@ -45,6 +44,7 @@ final class CmsSnapshotManager extends BaseCmsPageManager
         'routeName' => [],
         'pageAlias' => [],
         'name' => [],
+        'pageId' => [],
     ];
 
     /**
@@ -141,8 +141,6 @@ final class CmsSnapshotManager extends BaseCmsPageManager
 
             $page = $this->snapshotManager->createSnapshotPageProxy($this->transformer, $snapshot);
 
-            $this->pages[$id] = false;
-
             $this->loadBlocks($page);
 
             $id = $page->getId();
@@ -157,9 +155,6 @@ final class CmsSnapshotManager extends BaseCmsPageManager
         return $this->pages[$id];
     }
 
-    /**
-     * load the blocks of the $page.
-     */
     private function loadBlocks(PageInterface $page): void
     {
         $iterator = new RecursiveBlockIteratorIterator($page->getBlocks());

@@ -77,7 +77,7 @@ final class BlockInteractor implements BlockInteractorInterface
 
         try {
             foreach ($data as $block) {
-                if (!$block['id'] || !\array_key_exists('position', $block) || !$block['parent_id'] || !$block['page_id']) {
+                if (!isset($block['id'], $block['position'], $block['parent_id'], $block['page_id'])) {
                     continue;
                 }
 

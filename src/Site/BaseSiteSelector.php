@@ -122,7 +122,7 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
      * @param SiteInterface $site    A site instance
      * @param Request       $request A request instance
      *
-     * @return string|bool FALSE whether the site does not match
+     * @return string|false
      */
     protected function matchRequest(SiteInterface $site, Request $request)
     {
@@ -152,7 +152,15 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
             return null;
         }
 
-        $sitesLocales = array_map(static fn (SiteInterface $site) => $site->getLocale(), $sites);
+        $sitesLocales = [];
+
+        foreach ($sites as $site) {
+            $locale = $site->getLocale();
+
+            if (null !== $locale) {
+                $sitesLocales[] = $site->getLocale();
+            }
+        }
 
         $language = $request->getPreferredLanguage($sitesLocales);
         $host = $request->getHost();

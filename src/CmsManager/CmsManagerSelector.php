@@ -13,15 +13,18 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\CmsManager;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Sonata\AdminBundle\Admin\AdminInterface;
+use Sonata\PageBundle\Model\PageInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Security\Http\Event\LogoutEvent;
 
 /**
- * This class return the correct manager instance :
+ * This class return the correct manager instance:
  *   - sonata.page.cms.page if the user is an editor (ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT)
  *   - sonata.page.cms.snapshot if the user is a standard user.
  *
@@ -29,25 +32,37 @@ use Symfony\Component\Security\Http\Event\LogoutEvent;
  */
 final class CmsManagerSelector implements CmsManagerSelectorInterface, BCLogoutHandlerInterface
 {
-    private ContainerInterface $container;
+    private CmsPageManager $cmsPageManager;
+    private CmsSnapshotManager $cmsSnapshotManager;
 
     /**
-     * @psalm-suppress ContainerDependency
+     * @var AdminInterface<PageInterface>
      */
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
+    private AdminInterface $pageAdmin;
+
+    private TokenStorageInterface $tokenStorage;
+    private RequestStack $requestStack;
+
+    /**
+     * @param AdminInterface<PageInterface> $pageAdmin
+     */
+    public function __construct(
+        CmsPageManager $cmsPageManager,
+        CmsSnapshotManager $cmsSnapshotManager,
+        AdminInterface $pageAdmin,
+        TokenStorageInterface $tokenStorage,
+        RequestStack $requestStack
+    ) {
+        $this->cmsPageManager = $cmsPageManager;
+        $this->cmsSnapshotManager = $cmsSnapshotManager;
+        $this->pageAdmin = $pageAdmin;
+        $this->tokenStorage = $tokenStorage;
+        $this->requestStack = $requestStack;
     }
 
     public function retrieve()
     {
-        if ($this->isEditor()) {
-            $manager = $this->container->get('sonata.page.cms.page');
-        } else {
-            $manager = $this->container->get('sonata.page.cms.snapshot');
-        }
-
-        return $manager;
+        return $this->isEditor() ? $this->cmsPageManager : $this->cmsSnapshotManager;
     }
 
     /**
@@ -57,15 +72,17 @@ final class CmsManagerSelector implements CmsManagerSelectorInterface, BCLogoutH
      */
     public function isEditor()
     {
-        $request = $this->getRequest();
+        $request = $this->requestStack->getCurrentRequest();
 
-        return $request->hasSession() && $request->getSession()->get('sonata/page/isEditor', false);
+        return null !== $request &&
+            $request->hasSession() &&
+            $request->getSession()->get('sonata/page/isEditor', false);
     }
 
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event): void
     {
-        if ($this->container->get('security.token_storage')->getToken() &&
-            $this->container->get('sonata.page.admin.page')->isGranted('EDIT')) {
+        if ($this->tokenStorage->getToken() &&
+            $this->pageAdmin->isGranted('EDIT')) {
             $request = $event->getRequest();
 
             if ($request->hasSession()) {
@@ -76,7 +93,10 @@ final class CmsManagerSelector implements CmsManagerSelectorInterface, BCLogoutH
 
     public function logout(Request $request, Response $response, TokenInterface $token): void
     {
-        $request->getSession()->set('sonata/page/isEditor', false);
+        if ($request->hasSession()) {
+            $request->getSession()->set('sonata/page/isEditor', false);
+        }
+
         if ($request->cookies->has('sonata_page_is_editor')) {
             $response->headers->clearCookie('sonata_page_is_editor');
         }
@@ -97,13 +117,5 @@ final class CmsManagerSelector implements CmsManagerSelectorInterface, BCLogoutH
                 $response->headers->clearCookie('sonata_page_is_editor');
             }
         }
-    }
-
-    /**
-     * @return Request|null
-     */
-    private function getRequest()
-    {
-        return $this->container->get('request_stack')->getCurrentRequest();
     }
 }

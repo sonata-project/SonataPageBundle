@@ -14,22 +14,48 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Twig;
 
 use Sonata\PageBundle\CmsManager\CmsManagerInterface;
+use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Model\SiteInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Sonata\PageBundle\Model\SiteManagerInterface;
+use Sonata\PageBundle\Page\TemplateManagerInterface;
+use Sonata\PageBundle\Site\SiteSelectorInterface;
 
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 final class GlobalVariables
 {
-    private ContainerInterface $container;
+    private SiteManagerInterface $siteManager;
+    private CmsManagerSelectorInterface $cmsManagerSelector;
+    private SiteSelectorInterface $siteSelector;
+    private TemplateManagerInterface $templateManager;
 
     /**
-     * @psalm-suppress ContainerDependency
+     * @var array{
+     *   javascript: array<string>,
+     *   stylesheet: array<string>
+     * }
      */
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
+    private array $assets;
+
+    /**
+     * @param array{
+     *   javascript: array<string>,
+     *   stylesheet: array<string>
+     * } $assets
+     */
+    public function __construct(
+        SiteManagerInterface $siteManager,
+        CmsManagerSelectorInterface $cmsManagerSelector,
+        SiteSelectorInterface $siteSelector,
+        TemplateManagerInterface $templateManager,
+        array $assets
+    ) {
+        $this->siteManager = $siteManager;
+        $this->cmsManagerSelector = $cmsManagerSelector;
+        $this->siteSelector = $siteSelector;
+        $this->templateManager = $templateManager;
+        $this->assets = $assets;
     }
 
     /**
@@ -37,7 +63,7 @@ final class GlobalVariables
      */
     public function getSiteAvailables()
     {
-        return $this->container->get('sonata.page.manager.site')->findBy([
+        return $this->siteManager->findBy([
             'enabled' => true,
         ]);
     }
@@ -47,7 +73,7 @@ final class GlobalVariables
      */
     public function getCmsManager()
     {
-        return $this->container->get('sonata.page.cms_manager_selector')->retrieve();
+        return $this->cmsManagerSelector->retrieve();
     }
 
     /**
@@ -55,7 +81,7 @@ final class GlobalVariables
      */
     public function getCurrentSite()
     {
-        return $this->container->get('sonata.page.site.selector')->retrieve();
+        return $this->siteSelector->retrieve();
     }
 
     /**
@@ -63,7 +89,7 @@ final class GlobalVariables
      */
     public function isEditor()
     {
-        return $this->container->get('sonata.page.cms_manager_selector')->isEditor();
+        return $this->cmsManagerSelector->isEditor();
     }
 
     /**
@@ -71,9 +97,9 @@ final class GlobalVariables
      */
     public function getDefaultTemplate()
     {
-        $templateManager = $this->container->get('sonata.page.template_manager');
-
-        return $templateManager->get($templateManager->getDefaultTemplateCode())->getPath();
+        return $this->templateManager->get(
+            $this->templateManager->getDefaultTemplateCode()
+        )->getPath();
     }
 
     /**
@@ -84,6 +110,6 @@ final class GlobalVariables
      */
     public function getAssets()
     {
-        return $this->container->getParameter('sonata.page.assets');
+        return $this->assets;
     }
 }

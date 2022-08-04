@@ -24,7 +24,6 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SnapshotInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
-use Sonata\PageBundle\Model\SnapshotPageProxy;
 use Sonata\PageBundle\Model\TransformerInterface;
 
 /**
@@ -112,7 +111,7 @@ final class Transformer implements TransformerInterface
                 continue;
             }
 
-            $content['blocks'][] = $this->createBlocks($block);
+            $content['blocks'][] = $this->createBlock($block);
         }
 
         $snapshot->setContent($content);
@@ -134,13 +133,13 @@ final class Transformer implements TransformerInterface
         $page->setSite($snapshot->getSite());
         $page->setEnabled($snapshot->getEnabled());
 
-        $content = $this->fixPageContent($snapshot->getContent());
+        $content = $snapshot->getContent();
 
         $page->setId($content['id']);
         $page->setJavascript($content['javascript']);
         $page->setStylesheet($content['stylesheet']);
         $page->setRawHeaders($content['raw_headers']);
-        $page->setTitle($content['title']);
+        $page->setTitle($content['title'] ?? null);
         $page->setMetaDescription($content['meta_description']);
         $page->setMetaKeyword($content['meta_keyword']);
         $page->setName($content['name']);
@@ -163,11 +162,9 @@ final class Transformer implements TransformerInterface
     {
         $block = $this->blockManager->create();
 
-        $content = $this->fixBlockContent($content);
-
         $block->setPage($page);
         $block->setId($content['id']);
-        $block->setName($content['name']);
+        $block->setName($content['name'] ?? null);
         $block->setEnabled($content['enabled']);
         $block->setPosition($content['position']);
         $block->setSettings($content['settings']);
@@ -214,79 +211,41 @@ final class Transformer implements TransformerInterface
                 ->getQuery()
                 ->execute();
 
-            $pages = [];
+            $collection = new ArrayCollection();
 
             foreach ($snapshots as $snapshot) {
-                if (method_exists($this->snapshotManager, 'createSnapshotPageProxy')) {
-                    $page = $this->snapshotManager->createSnapshotPageProxy($this, $snapshot);
-                } else {
-                    $page = new SnapshotPageProxy($this->snapshotManager, $this, $snapshot);
-                }
-                $pages[$page->getId()] = $page;
+                $collection->add($this->snapshotManager->createSnapshotPageProxy($this, $snapshot));
             }
 
-            $this->children[$page->getId()] = new ArrayCollection($pages);
+            $this->children[$page->getId()] = $collection;
         }
 
         return $this->children[$page->getId()];
     }
 
     /**
-     * @param array<string, mixed> $content
-     *
-     * @return array<string, mixed>
-     *
-     * @phpstan-param PageContent $content
-     * @phpstan-return PageContent
-     */
-    private function fixPageContent(array $content)
-    {
-        if (!\array_key_exists('title', $content)) {
-            $content['title'] = null;
-        }
-
-        return $content;
-    }
-
-    /**
-     * @param array<string, mixed> $content
-     *
-     * @return array<string, mixed>
-     *
-     * @phpstan-param BlockContent $content
-     * @phpstan-return BlockContent
-     */
-    private function fixBlockContent(array $content)
-    {
-        if (!\array_key_exists('name', $content)) {
-            $content['name'] = null;
-        }
-
-        return $content;
-    }
-
-    /**
      * @return array<string, mixed>
      *
      * @phpstan-return BlockContent
      */
-    private function createBlocks(BlockInterface $block)
+    private function createBlock(BlockInterface $block)
     {
-        $content = [];
-        $content['id'] = $block->getId();
-        $content['name'] = $block->getName();
-        $content['enabled'] = $block->getEnabled();
-        $content['position'] = $block->getPosition();
-        $content['settings'] = $block->getSettings();
-        $content['type'] = $block->getType();
-        $content['created_at'] = $block->getCreatedAt()->format('U');
-        $content['updated_at'] = $block->getUpdatedAt()->format('U');
-        $content['blocks'] = [];
+        $childBlocks = [];
 
         foreach ($block->getChildren() as $child) {
-            $content['blocks'][] = $this->createBlocks($child);
+            $childBlocks[] = $this->createBlock($child);
         }
 
-        return $content;
+        return [
+            'id' => $block->getId(),
+            'name' => $block->getName(),
+            'enabled' => $block->getEnabled(),
+            'position' => $block->getPosition(),
+            'settings' => $block->getSettings(),
+            'type' => $block->getType(),
+            'created_at' => $block->getCreatedAt()->format('U'),
+            'updated_at' => $block->getUpdatedAt()->format('U'),
+            'blocks' => $childBlocks,
+        ];
     }
 }

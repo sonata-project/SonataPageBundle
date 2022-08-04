@@ -13,8 +13,10 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Entity;
 
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectManager;
 use Sonata\PageBundle\Entity\BlockInteractor;
+use Sonata\PageBundle\Model\BlockManagerInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Tests\App\AppKernel;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageBlock;
@@ -23,10 +25,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class BlockInteractorTest extends KernelTestCase
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
+    private ObjectManager $entityManager;
 
     private BlockInteractor $blockInteractor;
 
@@ -36,11 +35,13 @@ final class BlockInteractorTest extends KernelTestCase
 
         $kernel = self::bootKernel();
 
-        $managerRegistry = $kernel->getContainer()->get('doctrine');
+        $registry = $kernel->getContainer()->get('doctrine');
+        \assert($registry instanceof ManagerRegistry);
         $blockManager = $kernel->getContainer()->get('sonata.page.manager.block');
+        \assert($blockManager instanceof BlockManagerInterface);
 
-        $this->entityManager = $managerRegistry->getManager();
-        $this->blockInteractor = new BlockInteractor($managerRegistry, $blockManager);
+        $this->entityManager = $registry->getManager();
+        $this->blockInteractor = new BlockInteractor($registry, $blockManager);
     }
 
     /**

@@ -64,7 +64,7 @@ interface BlockInteractorInterface
      *   page?: PageInterface,
      *   code: string,
      *   position?: int,
-     *   parent?: PageBlockInterface,
+     *   parent?: PageBlockInterface|null,
      * } $values An array of values for container creation
      *
      * @return PageBlockInterface

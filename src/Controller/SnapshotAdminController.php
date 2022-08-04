@@ -45,11 +45,8 @@ final class SnapshotAdminController extends CRUDController
     {
         $this->admin->checkAccess('create');
 
-        $class = $this->container->get('sonata.page.manager.snapshot')->getClass();
-
         $pageManager = $this->container->get('sonata.page.manager.page');
-
-        $snapshot = new $class();
+        $snapshot = $this->container->get('sonata.page.manager.snapshot')->create();
 
         if ('GET' === $request->getMethod() && $request->get('pageId')) {
             $page = $pageManager->find($request->get('pageId'));
@@ -64,7 +61,7 @@ final class SnapshotAdminController extends CRUDController
         $form = $this->createForm(CreateSnapshotType::class, $snapshot);
 
         if ('POST' === $request->getMethod()) {
-            $form->submit($request->request->get($form->getName()));
+            $form->handleRequest($request);
 
             if ($form->isValid()) {
                 $snapshot = $this->container->get('sonata.page.service.create_snapshot')->createByPage($page);
@@ -92,8 +89,10 @@ final class SnapshotAdminController extends CRUDController
 
         $snapshotManager = $this->container->get('sonata.page.manager.snapshot');
         foreach ($query->execute() as $snapshot) {
-            $snapshot[0]->setEnabled(!$snapshot[0]->getEnabled());
-            $snapshotManager->save($snapshot[0]);
+            \assert($snapshot instanceof SnapshotInterface);
+
+            $snapshot->setEnabled(!$snapshot->getEnabled());
+            $snapshotManager->save($snapshot);
         }
 
         return new RedirectResponse($this->admin->generateUrl('list'));
