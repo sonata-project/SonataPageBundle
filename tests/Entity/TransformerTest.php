@@ -83,6 +83,10 @@ final class TransformerTest extends TestCase
         $this->transformer->create($page);
     }
 
+    /**
+     * remove group legacy in next mayor
+     * @group legacy
+     */
     public function testTransformerPageToSnapshot(): void
     {
         $this->snapshotManager->method('create')->willReturn(new SonataPageSnapshot());
@@ -149,6 +153,10 @@ final class TransformerTest extends TestCase
         static::assertSame($this->getTestContent($datetime), $snapshot->getContent());
     }
 
+    /**
+     * remove group legacy in next mayor
+     * @group legacy
+     */
     public function testLoadSnapshotToPage(): void
     {
         $method = method_exists($this->pageManager, 'createWithDefaults') ? 'createWithDefaults' : 'create';
@@ -200,7 +208,7 @@ final class TransformerTest extends TestCase
             'updated_at' => $datetime->format('U'),
             'slug' => null,
             'parent_id' => 'page_parent',
-            'target_id' => null,
+            'target_id' => null, // REMOVE NEXT_MAYOR
             'blocks' => [
                 $this->getTestBlockArray($datetime),
             ],
