@@ -372,17 +372,13 @@ abstract class Page implements PageInterface
 
     public function getContainerByCode($code)
     {
-        $block = null;
-
-        foreach ($this->getBlocks() as $blockTmp) {
-            if (\in_array($blockTmp->getType(), ['sonata.page.block.container', 'sonata.block.service.container'], true) && $blockTmp->getSetting('code') === $code) {
-                $block = $blockTmp;
-
-                break;
+        foreach ($this->getBlocks() as $block) {
+            if (\in_array($block->getType(), ['sonata.page.block.container', 'sonata.block.service.container'], true) && $block->getSetting('code') === $code) {
+                return $block;
             }
         }
 
-        return $block;
+        return null;
     }
 
     public function getBlocksByType($type)
@@ -421,15 +417,16 @@ abstract class Page implements PageInterface
     public function getParents()
     {
         if (!$this->parents) {
-            $page = $this;
+            $parent = $this->getParent();
             $parents = [];
 
-            while ($page->getParent()) {
-                $page = $page->getParent();
-                $parents[] = $page;
+            while (null !== $parent) {
+                $parents[] = $parent;
+
+                $parent = $parent->getParent();
             }
 
-            $this->setParents(array_reverse($parents));
+            $this->parents = array_reverse($parents);
         }
 
         return $this->parents;

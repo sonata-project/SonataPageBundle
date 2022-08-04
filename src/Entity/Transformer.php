@@ -100,8 +100,8 @@ final class Transformer implements TransformerInterface
         $content['meta_keyword'] = $page->getMetaKeyword();
         $content['template_code'] = $page->getTemplateCode();
         $content['request_method'] = $page->getRequestMethod();
-        $content['created_at'] = $page->getCreatedAt()->format('U');
-        $content['updated_at'] = $page->getUpdatedAt()->format('U');
+        $content['created_at'] = (int) $page->getCreatedAt()->format('U');
+        $content['updated_at'] = (int) $page->getUpdatedAt()->format('U');
         $content['slug'] = $page->getSlug();
         $content['parent_id'] = $page->getParent() ? $page->getParent()->getId() : null;
 
@@ -213,6 +213,9 @@ final class Transformer implements TransformerInterface
                 ->getQuery()
                 ->execute();
 
+            /**
+             * @var Collection<array-key, PageInterface>
+             */
             $collection = new ArrayCollection();
 
             foreach ($snapshots as $snapshot) {
@@ -245,8 +248,8 @@ final class Transformer implements TransformerInterface
             'position' => $block->getPosition(),
             'settings' => $block->getSettings(),
             'type' => $block->getType(),
-            'created_at' => $block->getCreatedAt()->format('U'),
-            'updated_at' => $block->getUpdatedAt()->format('U'),
+            'created_at' => (int) $block->getCreatedAt()->format('U'),
+            'updated_at' => (int) $block->getUpdatedAt()->format('U'),
             'blocks' => $childBlocks,
         ];
     }

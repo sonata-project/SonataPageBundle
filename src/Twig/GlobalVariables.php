@@ -77,7 +77,7 @@ final class GlobalVariables
     }
 
     /**
-     * @return SiteInterface
+     * @return SiteInterface|null
      */
     public function getCurrentSite()
     {

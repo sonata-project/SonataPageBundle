@@ -177,7 +177,7 @@ interface SiteInterface
     public function setMetaKeywords($metaKeywords);
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getUrl();
 

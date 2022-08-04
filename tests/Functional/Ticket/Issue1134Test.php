@@ -22,6 +22,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class Issue1134Test extends WebTestCase
 {
+    /**
+     * @psalm-suppress UndefinedPropertyFetch
+     */
     public function testLabelInShowAction(): void
     {
         $client = self::createClient();

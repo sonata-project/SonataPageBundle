@@ -23,7 +23,7 @@ interface BlockInteractorInterface
      *
      * @param int|string $id
      *
-     * @return PageBlockInterface
+     * @return PageBlockInterface|null
      */
     public function getBlock($id);
 

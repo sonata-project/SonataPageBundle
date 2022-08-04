@@ -55,7 +55,7 @@ final class BlockInteractor implements BlockInteractorInterface
             ->getQuery()
             ->execute();
 
-        return \count($blocks) > 0 ? $blocks[0] : false;
+        return $blocks[0] ?? null;
     }
 
     public function getBlocksById(PageInterface $page)

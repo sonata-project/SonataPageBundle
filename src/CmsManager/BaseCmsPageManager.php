@@ -28,7 +28,7 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
     protected $currentPage;
 
     /**
-     * @var PageBlockInterface[]
+     * @var array<PageBlockInterface|null>
      */
     protected $blocks = [];
 

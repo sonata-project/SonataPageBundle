@@ -61,6 +61,9 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
         $this->siteManagerMock = $siteManagerMock;
     }
 
+    /**
+     * @psalm-suppress UndefinedPropertyFetch
+     */
     public function testCreateSnapshot(): void
     {
         // Mocks
