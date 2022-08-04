@@ -28,10 +28,6 @@ use Sonata\PageBundle\Tests\App\Entity\SonataPagePage;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageSite;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageSnapshot;
 
-/**
- * @phpstan-import-type PageContent from TransformerInterface
- * @phpstan-import-type BlockContent from TransformerInterface
- */
 final class TransformerTest extends TestCase
 {
     /**
@@ -190,9 +186,6 @@ final class TransformerTest extends TestCase
         static::assertSame('block123', $block->getId());
     }
 
-    /**
-     * @phpstan-return PageContent
-     */
     protected function getTestContent(\DateTimeInterface $datetime): array
     {
         return [
@@ -217,9 +210,6 @@ final class TransformerTest extends TestCase
         ];
     }
 
-    /**
-     * @phpstan-return BlockContent
-     */
     protected function getTestBlockArray(\DateTimeInterface $datetime): array
     {
         return [

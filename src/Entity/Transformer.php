@@ -29,9 +29,6 @@ use Sonata\PageBundle\Model\TransformerInterface;
  * This class transform a SnapshotInterface into PageInterface.
  *
  * @final since sonata-project/page-bundle 3.26
- *
- * @phpstan-import-type PageContent from TransformerInterface
- * @phpstan-import-type BlockContent from TransformerInterface
  */
 class Transformer implements TransformerInterface
 {
@@ -254,8 +251,6 @@ class Transformer implements TransformerInterface
 
     /**
      * NEXT_MAJOR: Remove this.
-     *
-     * @phpstan-return PageContent
      */
     protected function fixPageContent(array $content): array
     {
@@ -268,8 +263,6 @@ class Transformer implements TransformerInterface
 
     /**
      * NEXT_MAJOR: Remove this.
-     *
-     * @phpstan-return BlockContent
      */
     protected function fixBlockContent(array $content): array
     {
@@ -282,8 +275,6 @@ class Transformer implements TransformerInterface
 
     /**
      * @return array<string, mixed>
-     *
-     * @phpstan-return BlockContent
      */
     protected function createBlocks(BlockInterface $block)
     {
