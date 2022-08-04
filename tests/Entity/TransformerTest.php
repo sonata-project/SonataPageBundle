@@ -85,6 +85,7 @@ final class TransformerTest extends TestCase
 
     /**
      * remove group legacy in next mayor
+     *
      * @group legacy
      */
     public function testTransformerPageToSnapshot(): void
@@ -155,6 +156,7 @@ final class TransformerTest extends TestCase
 
     /**
      * remove group legacy in next mayor
+     *
      * @group legacy
      */
     public function testLoadSnapshotToPage(): void
