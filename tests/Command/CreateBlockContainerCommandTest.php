@@ -38,7 +38,7 @@ final class CreateBlockContainerCommandTest extends TestCase
 
         $page = new Page();
         $pageManager->method('findBy')->with(['templateCode' => 'foo'])->willReturn([$page]);
-        $pageManager->method('save')->with($page)->willReturn($page);
+        $pageManager->method('save')->with($page);
 
         $command = new CreateBlockContainerCommand($pageManager, $blockInteractor);
 
