@@ -150,9 +150,7 @@ class Transformer implements TransformerInterface
         $page->setJavascript($content['javascript']);
         $page->setStylesheet($content['stylesheet']);
         $page->setRawHeaders($content['raw_headers']);
-        if (isset($content['title'])) {
-            $page->setTitle($content['title']);
-        }
+        $page->setTitle($content['title'] ?? null);
         $page->setMetaDescription($content['meta_description']);
         $page->setMetaKeyword($content['meta_keyword']);
         $page->setName($content['name']);
@@ -179,17 +177,13 @@ class Transformer implements TransformerInterface
 
         $block->setPage($page);
         $block->setId($content['id']);
-        if (isset($content['name'])) {
-            $block->setName($content['name']);
-        }
+        $block->setName($content['name'] ?? null);
         $block->setEnabled($content['enabled']);
         if (isset($content['position'])) {
             $block->setPosition($content['position']);
         }
         $block->setSettings($content['settings']);
-        if (isset($content['type'])) {
-            $block->setType($content['type']);
-        }
+        $block->setType($content['type'] ?? null);
 
         $createdAt = new \DateTime();
         $createdAt->setTimestamp((int) $content['created_at']);
