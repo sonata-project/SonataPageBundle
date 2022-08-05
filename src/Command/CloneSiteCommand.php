@@ -161,7 +161,7 @@ final class CloneSiteCommand extends Command
                 }
             }
 
-            $this->pageManager->save($page, true);
+            $this->pageManager->save($page);
         }
 
         $output->writeln('Fixing block parents');
@@ -183,7 +183,7 @@ final class CloneSiteCommand extends Command
                         $block->setParent(null);
                     }
 
-                    $this->blockManager->save($block, true);
+                    $this->blockManager->save($block);
                 }
             }
         }

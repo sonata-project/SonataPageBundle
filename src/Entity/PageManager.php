@@ -123,7 +123,10 @@ final class PageManager extends BaseEntityManager implements PageManagerInterfac
         }
     }
 
-    public function save($entity, $andFlush = true)
+    /**
+     * TODO: Add tyephinting once sonata-project/doctrine-extensions < 2 is dropped.
+     */
+    public function save($entity, $andFlush = true): void
     {
         if (!$entity->isHybrid()) {
             $this->fixUrl($entity);
