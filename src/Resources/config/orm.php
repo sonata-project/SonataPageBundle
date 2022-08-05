@@ -81,6 +81,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 service('sonata.page.manager.page'),
                 service('sonata.page.manager.block'),
                 service('doctrine'),
+                service('serializer'),
             ])
 
         ->alias(PageManagerInterface::class, 'sonata.page.manager.page')

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<serializer xmlns="http://symfony.com/schema/dic/serializer-mapping">
+    <class name="Sonata\PageBundle\Model\Block">
+        <attribute name="id" serialized-name="id">
+            <group>page_transformer</group>
+        </attribute>
+        <attribute name="name" serialized-name="name">
+            <group>page_transformer</group>
+        </attribute>
+        <attribute name="enabled" serialized-name="enabled">
+            <group>page_transformer</group>
+        </attribute>
+        <attribute name="position" serialized-name="position">
+            <group>page_transformer</group>
+        </attribute>
+        <attribute name="settings" serialized-name="settings">
+            <group>page_transformer</group>
+        </attribute>
+        <attribute name="type" serialized-name="type">
+            <group>page_transformer</group>
+        </attribute>
+        <attribute name="createdAt" serialized-name="created_at">
+            <group>page_transformer</group>
+        </attribute>
+        <attribute name="updatedAt" serialized-name="updated_at">
+            <group>page_transformer</group>
+        </attribute>
+        <attribute name="children" serialized-name="blocks">
+            <group>page_transformer</group>
+        </attribute>
+        <attribute name="parents">
+            <group>ignore</group>
+        </attribute>
+        <attribute name="page">
+            <group>ignore</group>
+        </attribute>
+        <attribute name="parent">
+            <group>ignore</group>
+        </attribute>
+        <attribute name="ttl">
+            <group>ignore</group>
+        </attribute>
+    </class>
+</serializer>

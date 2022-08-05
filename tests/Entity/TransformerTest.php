@@ -22,10 +22,21 @@ use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\TransformerInterface;
+use Sonata\PageBundle\Serializer\InterfaceDenormalizer;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageBlock;
 use Sonata\PageBundle\Tests\App\Entity\SonataPagePage;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageSite;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageSnapshot;
+use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
+use Symfony\Component\Serializer\Mapping\Loader\LoaderChain;
+use Symfony\Component\Serializer\Mapping\Loader\XmlFileLoader;
+use Symfony\Component\Serializer\NameConverter\MetadataAwareNameConverter;
+use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * @phpstan-import-type PageContent from TransformerInterface
@@ -56,14 +67,40 @@ final class TransformerTest extends TestCase
         $this->snapshotManager = $this->createMock(SnapshotManagerInterface::class);
 
         $this->pageManager = $this->createMock(PageManagerInterface::class);
+        $this->pageManager->method('createWithDefaults')->willReturn(new SonataPagePage());
+        $this->pageManager->method('getClass')->willReturn(SonataPagePage::class);
+
         $this->blockManager = $this->createMock(ManagerInterface::class);
+        $this->blockManager->method('create')->willReturnCallback(static fn () => new SonataPageBlock());
+        $this->blockManager->method('getClass')->willReturn(SonataPageBlock::class);
+
         $registry = $this->createMock(ManagerRegistry::class);
+
+        $loaders = new LoaderChain([
+            new XmlFileLoader(__DIR__.'/../../src/Resources/config/serialization/Model.Block.xml'),
+            new XmlFileLoader(__DIR__.'/../../src/Resources/config/serialization/Model.Page.xml'),
+        ]);
+
+        $classMetadataFactory = new ClassMetadataFactory($loaders);
+        $nameConverter = new MetadataAwareNameConverter($classMetadataFactory);
+
+        $objectNormalizer = new ObjectNormalizer($classMetadataFactory, $nameConverter, null, new ReflectionExtractor());
+
+        $encoders = [new JsonEncoder()];
+        $normalizers = [
+            new DateTimeNormalizer(),
+            new ArrayDenormalizer(),
+            new InterfaceDenormalizer(),
+            $objectNormalizer,
+        ];
+        $serializer = new Serializer($normalizers, $encoders);
 
         $this->transformer = new Transformer(
             $this->snapshotManager,
             $this->pageManager,
             $this->blockManager,
             $registry,
+            $serializer,
         );
     }
 
@@ -265,8 +302,8 @@ final class TransformerTest extends TestCase
             'meta_keyword' => null,
             'template_code' => null,
             'request_method' => 'GET|POST|HEAD|DELETE|PUT',
-            'created_at' => (int) $datetime->format('U'),
-            'updated_at' => (int) $datetime->format('U'),
+            'created_at' => $datetime->format('U'),
+            'updated_at' => $datetime->format('U'),
             'slug' => null,
             'parent_id' => 'page_parent',
             'blocks' => [
@@ -277,8 +314,8 @@ final class TransformerTest extends TestCase
                     'position' => 0,
                     'settings' => [],
                     'type' => 'type',
-                    'created_at' => (int) $datetime->format('U'),
-                    'updated_at' => (int) $datetime->format('U'),
+                    'created_at' => $datetime->format('U'),
+                    'updated_at' => $datetime->format('U'),
                     'blocks' => [
                         [
                             'id' => 'block234',
@@ -287,8 +324,8 @@ final class TransformerTest extends TestCase
                             'position' => 0,
                             'settings' => [],
                             'type' => 'type',
-                            'created_at' => (int) $datetime->format('U'),
-                            'updated_at' => (int) $datetime->format('U'),
+                            'created_at' => $datetime->format('U'),
+                            'updated_at' => $datetime->format('U'),
                             'blocks' => [],
                         ],
                     ],

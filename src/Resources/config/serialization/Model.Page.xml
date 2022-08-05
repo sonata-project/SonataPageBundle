@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<serializer xmlns="http://symfony.com/schema/dic/serializer-mapping">
+    <class name="Sonata\PageBundle\Model\Page">
+        <attribute name="id" serialized-name="id">
+            <group>page_transformer</group>
+        </attribute>
+        <attribute name="name" serialized-name="name">
+            <group>page_transformer</group>
+        </attribute>
+        <attribute name="javascript" serialized-name="javascript">
+            <group>page_transformer</group>
+        </attribute>
+        <attribute name="stylesheet" serialized-name="stylesheet">
+            <group>page_transformer</group>
+        </attribute>
+        <attribute name="rawHeaders" serialized-name="raw_headers">
+            <group>page_transformer</group>
+        </attribute>
+        <attribute name="title" serialized-name="title">
+            <group>page_transformer</group>
+        </attribute>
+        <attribute name="metaDescription" serialized-name="meta_description">
+            <group>page_transformer</group>
+        </attribute>
+        <attribute name="metaKeyword" serialized-name="meta_keyword">
+            <group>page_transformer</group>
+        </attribute>
+        <attribute name="templateCode" serialized-name="template_code">
+            <group>page_transformer</group>
+        </attribute>
+        <attribute name="requestMethod" serialized-name="request_method">
+            <group>page_transformer</group>
+        </attribute>
+        <attribute name="createdAt" serialized-name="created_at">
+            <group>page_transformer</group>
+        </attribute>
+        <attribute name="updatedAt" serialized-name="updated_at">
+            <group>page_transformer</group>
+        </attribute>
+        <attribute name="slug" serialized-name="slug">
+            <group>page_transformer</group>
+        </attribute>
+        <attribute name="parent" serialized-name="parent_id">
+            <group>page_transformer</group>
+        </attribute>
+        <attribute name="blocks" serialized-name="blocks">
+            <group>page_transformer</group>
+        </attribute>
+        <attribute name="routeName">
+            <group>ignore</group>
+        </attribute>
+        <attribute name="pageAlias">
+            <group>ignore</group>
+        </attribute>
+        <attribute name="customUrl">
+            <group>ignore</group>
+        </attribute>
+        <attribute name="site">
+            <group>ignore</group>
+        </attribute>
+        <attribute name="edited">
+            <group>ignore</group>
+        </attribute>
+    </class>
+</serializer>
