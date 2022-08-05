@@ -56,6 +56,8 @@ final class CloneSiteCommand extends Command
 
     public function configure(): void
     {
+        \assert(null !== static::$defaultDescription);
+
         $this
             // TODO: Remove setDescription when support for Symfony < 5.4 is dropped.
             ->setDescription(static::$defaultDescription)
@@ -147,15 +149,18 @@ final class CloneSiteCommand extends Command
         $output->writeln('Fixing page parents');
         foreach ($pageClones as $page) {
             if ($page->getParent()) {
-                if (\array_key_exists($page->getParent()->getId(), $pageClones)) {
+                $id = $page->getParent()->getId();
+                \assert(null !== $id);
+
+                if (\array_key_exists($id, $pageClones)) {
                     $output->writeln(sprintf(
                         'new parent: % 4s - % -70s - % 4s -> % 4s',
                         $page->getId(),
                         $page->getTitle(),
-                        $page->getParent()->getId(),
-                        $pageClones[$page->getParent()->getId()]->getId()
+                        $id,
+                        $pageClones[$id]->getId()
                     ));
-                    $page->setParent($pageClones[$page->getParent()->getId()]);
+                    $page->setParent($pageClones[$id]);
                 } else {
                     $page->setParent(null);
                 }
@@ -171,14 +176,17 @@ final class CloneSiteCommand extends Command
             ]);
             foreach ($blocks as $block) {
                 if ($block->getParent()) {
+                    $id = $block->getParent()->getId();
+                    \assert(null !== $id);
+
                     $output->writeln(sprintf(
                         'new block parent: % 4s - % 4s',
                         $block->getId(),
-                        $blockClones[$block->getParent()->getId()]->getId()
+                        $blockClones[$id]->getId()
                     ));
 
-                    if (\array_key_exists($block->getParent()->getId(), $blockClones)) {
-                        $block->setParent($blockClones[$block->getParent()->getId()]);
+                    if (\array_key_exists($id, $blockClones)) {
+                        $block->setParent($blockClones[$id]);
                     } else {
                         $block->setParent(null);
                     }

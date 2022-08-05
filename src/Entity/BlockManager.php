@@ -27,32 +27,40 @@ final class BlockManager extends BaseEntityManager implements BlockManagerInterf
 {
     public function updatePosition($id, $position, $parentId = null, $pageId = null, $partial = true)
     {
-        if ($partial) {
-            $meta = $this->getEntityManager()->getClassMetadata($this->getClass());
+        $entityManager = $this->getEntityManager();
 
-            // retrieve object references
-            $block = $this->getEntityManager()->getReference($this->getClass(), $id);
+        if ($partial) {
+            $meta = $entityManager->getClassMetadata($this->getClass());
+            $block = $entityManager->getReference($this->getClass(), $id);
+
+            if (null === $block) {
+                throw new \RuntimeException(sprintf('Unable to update position to block with id %s', $id));
+            }
+
             $pageRelation = $meta->getAssociationMapping('page');
             /** @var class-string<PageInterface> */
             $pageClassName = $pageRelation['targetEntity'];
 
-            $page = $this->getEntityManager()->getPartialReference($pageClassName, $pageId);
+            $page = $entityManager->getPartialReference($pageClassName, $pageId);
 
-            $parentRelation = $meta->getAssociationMapping('parent');
             /** @var class-string<PageBlockInterface> */
             $parentClassName = $pageRelation['targetEntity'];
 
-            $parent = $this->getEntityManager()->getPartialReference($parentClassName, $parentId);
+            $parent = $entityManager->getPartialReference($parentClassName, $parentId);
 
             $block->setPage($page);
             $block->setParent($parent);
         } else {
             $block = $this->find($id);
+
+            if (null === $block) {
+                throw new \RuntimeException(sprintf('Unable to update position to block with id %s', $id));
+            }
         }
 
         // set new values
         $block->setPosition($position);
-        $this->getEntityManager()->persist($block);
+        $entityManager->persist($block);
 
         return $block;
     }

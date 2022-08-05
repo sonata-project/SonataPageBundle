@@ -97,9 +97,15 @@ final class GlobalVariables
      */
     public function getDefaultTemplate()
     {
-        return $this->templateManager->get(
+        $template = $this->templateManager->get(
             $this->templateManager->getDefaultTemplateCode()
-        )->getPath();
+        );
+
+        if (null === $template) {
+            throw new \RuntimeException('Unable to find the default template');
+        }
+
+        return $template->getPath();
     }
 
     /**

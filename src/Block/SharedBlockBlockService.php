@@ -74,7 +74,10 @@ final class SharedBlockBlockService extends AbstractBlockService implements Edit
         /** @var Block $sharedBlock */
         $sharedBlock = $block->getSetting('blockId');
 
-        return $this->renderResponse($blockContext->getTemplate(), [
+        $template = $blockContext->getTemplate();
+        \assert(null !== $template);
+
+        return $this->renderResponse($template, [
                 'block' => $blockContext->getBlock(),
                 'settings' => $blockContext->getSettings(),
                 'sharedBlock' => $sharedBlock,

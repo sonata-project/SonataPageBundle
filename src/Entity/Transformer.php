@@ -89,32 +89,32 @@ final class Transformer implements TransformerInterface
             $snapshot->setParentId($page->getParent()->getId());
         }
 
-        $content = [];
-        $content['id'] = $page->getId();
-        $content['name'] = $page->getName();
-        $content['javascript'] = $page->getJavascript();
-        $content['stylesheet'] = $page->getStylesheet();
-        $content['raw_headers'] = $page->getRawHeaders();
-        $content['title'] = $page->getTitle();
-        $content['meta_description'] = $page->getMetaDescription();
-        $content['meta_keyword'] = $page->getMetaKeyword();
-        $content['template_code'] = $page->getTemplateCode();
-        $content['request_method'] = $page->getRequestMethod();
-        $content['created_at'] = (int) $page->getCreatedAt()->format('U');
-        $content['updated_at'] = (int) $page->getUpdatedAt()->format('U');
-        $content['slug'] = $page->getSlug();
-        $content['parent_id'] = $page->getParent() ? $page->getParent()->getId() : null;
-
-        $content['blocks'] = [];
+        $blocks = [];
         foreach ($page->getBlocks() as $block) {
             if ($block->getParent()) { // ignore block with a parent => must be a child of a main
                 continue;
             }
 
-            $content['blocks'][] = $this->createBlock($block);
+            $blocks[] = $this->createBlock($block);
         }
 
-        $snapshot->setContent($content);
+        $snapshot->setContent([
+            'id' => $page->getId(),
+            'name' => $page->getName(),
+            'javascript' => $page->getJavascript(),
+            'stylesheet' => $page->getStylesheet(),
+            'raw_headers' => $page->getRawHeaders(),
+            'title' => $page->getTitle(),
+            'meta_description' => $page->getMetaDescription(),
+            'meta_keyword' => $page->getMetaKeyword(),
+            'template_code' => $page->getTemplateCode(),
+            'request_method' => $page->getRequestMethod(),
+            'created_at' => null !== $page->getCreatedAt() ? (int) $page->getCreatedAt()->format('U') : null,
+            'updated_at' => null !== $page->getUpdatedAt() ? (int) $page->getUpdatedAt()->format('U') : null,
+            'slug' => $page->getSlug(),
+            'parent_id' => $page->getParent() ? $page->getParent()->getId() : null,
+            'blocks' => $blocks,
+        ]);
 
         return $snapshot;
     }
@@ -135,25 +135,27 @@ final class Transformer implements TransformerInterface
 
         $content = $snapshot->getContent();
 
-        $page->setId($content['id']);
-        $page->setJavascript($content['javascript']);
-        $page->setStylesheet($content['stylesheet']);
-        $page->setRawHeaders($content['raw_headers']);
-        $page->setTitle($content['title'] ?? null);
-        $page->setMetaDescription($content['meta_description']);
-        $page->setMetaKeyword($content['meta_keyword']);
-        $page->setName($content['name']);
-        $page->setSlug($content['slug']);
-        $page->setTemplateCode($content['template_code']);
-        $page->setRequestMethod($content['request_method']);
+        if (null !== $content) {
+            $page->setId($content['id']);
+            $page->setJavascript($content['javascript']);
+            $page->setStylesheet($content['stylesheet']);
+            $page->setRawHeaders($content['raw_headers']);
+            $page->setTitle($content['title'] ?? null);
+            $page->setMetaDescription($content['meta_description']);
+            $page->setMetaKeyword($content['meta_keyword']);
+            $page->setName($content['name']);
+            $page->setSlug($content['slug']);
+            $page->setTemplateCode($content['template_code']);
+            $page->setRequestMethod($content['request_method']);
 
-        $createdAt = new \DateTime();
-        $createdAt->setTimestamp((int) $content['created_at']);
-        $page->setCreatedAt($createdAt);
+            $createdAt = new \DateTime();
+            $createdAt->setTimestamp((int) $content['created_at']);
+            $page->setCreatedAt($createdAt);
 
-        $updatedAt = new \DateTime();
-        $updatedAt->setTimestamp((int) $content['updated_at']);
-        $page->setUpdatedAt($updatedAt);
+            $updatedAt = new \DateTime();
+            $updatedAt->setTimestamp((int) $content['updated_at']);
+            $page->setUpdatedAt($updatedAt);
+        }
 
         return $page;
     }
@@ -163,14 +165,26 @@ final class Transformer implements TransformerInterface
         $block = $this->blockManager->create();
 
         $block->setPage($page);
-        $block->setId($content['id']);
-        $block->setName($content['name'] ?? null);
+
+        if (isset($content['id'])) {
+            $block->setId($content['id']);
+        }
+
+        if (isset($content['name'])) {
+            $block->setName($content['name']);
+        }
+
         $block->setEnabled($content['enabled']);
+
         if (isset($content['position'])) {
             $block->setPosition($content['position']);
         }
+
         $block->setSettings($content['settings']);
-        $block->setType($content['type'] ?? null);
+
+        if (isset($content['type'])) {
+            $block->setType($content['type']);
+        }
 
         $createdAt = new \DateTime();
         $createdAt->setTimestamp((int) $content['created_at']);
@@ -248,8 +262,8 @@ final class Transformer implements TransformerInterface
             'position' => $block->getPosition(),
             'settings' => $block->getSettings(),
             'type' => $block->getType(),
-            'created_at' => (int) $block->getCreatedAt()->format('U'),
-            'updated_at' => (int) $block->getUpdatedAt()->format('U'),
+            'created_at' => null !== $block->getCreatedAt() ? (int) $block->getCreatedAt()->format('U') : null,
+            'updated_at' => null !== $block->getUpdatedAt() ? (int) $block->getUpdatedAt()->format('U') : null,
             'blocks' => $childBlocks,
         ];
     }

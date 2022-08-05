@@ -49,7 +49,12 @@ final class SnapshotManager extends BaseEntityManager implements SnapshotManager
         $pageIds = $snapshotIds = [];
 
         foreach ($snapshots as $snapshot) {
-            $pageIds[] = $snapshot->getPage()->getId();
+            $page = $snapshot->getPage();
+
+            if (null !== $page) {
+                $pageIds[] = $page->getId();
+            }
+
             $snapshotIds[] = $snapshot->getId();
 
             $snapshot->setPublicationDateStart($date);

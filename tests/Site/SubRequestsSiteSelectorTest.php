@@ -102,7 +102,7 @@ final class SubRequestsSiteSelectorTest extends BaseLocaleSiteSelectorTest
         $site = $this->siteSelector->retrieve();
 
         // Ensure /fr site was retrieved
-        static::assertNotEmpty($site);
+        static::assertNotNull($site);
         static::assertSame('/fr', $site->getRelativePath());
     }
 
@@ -161,7 +161,7 @@ final class SubRequestsSiteSelectorTest extends BaseLocaleSiteSelectorTest
         $site = $this->siteSelector->retrieve();
 
         // Ensure /fr site was retrieved
-        static::assertNotEmpty($site);
+        static::assertNotNull($site);
         static::assertSame('/fr', $site->getRelativePath());
     }
 }

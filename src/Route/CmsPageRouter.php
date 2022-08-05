@@ -197,7 +197,13 @@ final class CmsPageRouter implements ChainedRouterInterface
     {
         // hybrid pages use, by definition, the default routing mechanism
         if ($page->isHybrid()) {
-            return $this->router->generate($page->getRouteName(), $parameters, $referenceType);
+            $routeName = $page->getRouteName();
+
+            if (null === $routeName) {
+                throw new \RuntimeException('Page is hybrid but has no route name');
+            }
+
+            return $this->router->generate($routeName, $parameters, $referenceType);
         }
 
         $url = $this->getUrlFromPage($page);

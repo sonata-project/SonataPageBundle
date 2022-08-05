@@ -69,6 +69,7 @@ final class CmsPageManagerTest extends TestCase
 
         $container = $this->manager->findContainer('findme', $page);
 
+        static::assertNotNull($container);
         static::assertSame(
             spl_object_hash($block),
             spl_object_hash($container),

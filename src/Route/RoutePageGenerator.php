@@ -100,8 +100,8 @@ final class RoutePageGenerator
             if (
                 !$this->decoratorStrategy->isRouteNameDecorable($name)
                 || !$this->decoratorStrategy->isRouteUriDecorable($route->getPath())
-                || null !== $routeHostRegex
-                && !preg_match($routeHostRegex, $site->getHost())
+                || (null !== $routeHostRegex
+                && !preg_match($routeHostRegex, $site->getHost() ?? ''))
             ) {
                 if ($page) {
                     $page->setEnabled(false);

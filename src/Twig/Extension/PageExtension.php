@@ -33,8 +33,6 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 /**
- * PageExtension.
- *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 final class PageExtension extends AbstractExtension
@@ -201,11 +199,13 @@ final class PageExtension extends AbstractExtension
             return '';
         }
 
+        $page = $block->getPage();
+
         // defined extra default key for the cache
-        $pageCacheKeys = [
-            'manager' => $block->getPage() instanceof SnapshotPageProxy ? 'snapshot' : 'page',
-            'page_id' => $block->getPage()->getId(),
-        ];
+        $pageCacheKeys = null !== $page ? [
+            'manager' => $page instanceof SnapshotPageProxy ? 'snapshot' : 'page',
+            'page_id' => $page->getId(),
+        ] : [];
 
         // build the parameters array
         $options = array_merge([
@@ -233,11 +233,14 @@ final class PageExtension extends AbstractExtension
     {
         if (!isset($attributes['pathInfo'])) {
             $site = $this->siteSelector->retrieve();
+
             if ($site) {
                 $sitePath = $site->getRelativePath();
-                $currentPathInfo = $this->requestStack->getCurrentRequest()->getPathInfo();
+                $request = $this->requestStack->getCurrentRequest();
 
-                $attributes['pathInfo'] = $sitePath.$currentPathInfo;
+                if (null !== $sitePath && null !== $request) {
+                    $attributes['pathInfo'] = $sitePath.$request->getPathInfo();
+                }
             }
         }
 

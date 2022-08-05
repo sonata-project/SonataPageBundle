@@ -81,7 +81,7 @@ abstract class Snapshot implements SnapshotInterface
     protected $decorate = true;
 
     /**
-     * @var int
+     * @var int|null
      */
     protected $position = 1;
 

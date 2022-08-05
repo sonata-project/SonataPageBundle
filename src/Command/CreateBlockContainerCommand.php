@@ -47,6 +47,8 @@ final class CreateBlockContainerCommand extends Command
 
     protected function configure(): void
     {
+        \assert(null !== static::$defaultDescription);
+
         $this
             // TODO: Remove setDescription when support for Symfony < 5.4 is dropped.
             ->setDescription(static::$defaultDescription)

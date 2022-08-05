@@ -35,10 +35,8 @@ final class HostSiteSelectorTest extends TestCase
      */
     public function testSite(string $expectedName, string $url): void
     {
-        // Retrieve the site that would be matched from the request
         [$site, $event] = $this->performHandleKernelRequestTest($url);
 
-        // Ensure we retrieved the correct site.
         static::assertSame($expectedName, $site->getName());
     }
 
@@ -57,14 +55,13 @@ final class HostSiteSelectorTest extends TestCase
     /**
      * Perform the actual handleKernelRequest method test.
      *
-     * @return array{SiteInterface|null, RequestEvent}
+     * @return array{SiteInterface, RequestEvent}
      */
     protected function performHandleKernelRequestTest(string $url): array
     {
         $kernel = $this->createMock(HttpKernelInterface::class);
         $request = Request::create($url);
 
-        // Ensure request locale is null
         static::assertNull($request->attributes->get('_locale'));
 
         $event = new RequestEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
@@ -81,7 +78,7 @@ final class HostSiteSelectorTest extends TestCase
 
         $site = $siteSelector->retrieve();
 
-        // Ensure request locale matches site locale
+        static::assertNotNull($site);
         static::assertSame($site->getLocale(), $request->attributes->get('_locale'));
 
         return [
@@ -110,19 +107,20 @@ final class HostSite extends BaseSite
 final class HostSiteSelector extends BaseSiteSelector
 {
     /**
-     * Camelize a string.
-     *
      * @static
      *
      * @param string $property
      */
     public static function _camelize($property): string
     {
-        return preg_replace_callback(
+        $camelized = preg_replace_callback(
             '/(^|[_. ])+(.)/',
             static fn ($match) => ('.' === $match[1] ? '_' : '').strtoupper($match[2]),
             $property
         );
+        \assert(null !== $camelized);
+
+        return $camelized;
     }
 
     /**

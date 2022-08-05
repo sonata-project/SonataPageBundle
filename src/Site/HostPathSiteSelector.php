@@ -19,8 +19,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 /**
- * HostPathSiteSelector.
- *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class HostPathSiteSelector extends BaseSiteSelector
@@ -65,6 +63,7 @@ class HostPathSiteSelector extends BaseSiteSelector
 
         // no valid site, but on there is a default site for the current request
         if (!$this->site && $defaultSite) {
+            \assert(null !== $defaultSite->getUrl());
             $event->setResponse(new RedirectResponse($defaultSite->getUrl(), 301));
         } elseif ($this->site && $this->site->getLocale()) {
             $request->attributes->set('_locale', $this->site->getLocale());

@@ -117,7 +117,9 @@ final class BlockAdmin extends BaseBlockAdmin
                 $block->setPage($page);
             }
 
-            if ($block->getPage()->getId() !== $page->getId()) {
+            $blockPage = $block->getPage();
+
+            if (null === $blockPage || $blockPage->getId() !== $page->getId()) {
                 throw new \RuntimeException('The page reference on BlockAdmin and parent admin are not the same');
             }
         }

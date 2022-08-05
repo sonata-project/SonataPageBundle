@@ -96,18 +96,21 @@ final class PageManager extends BaseEntityManager implements PageManagerInterfac
 
         // hybrid page cannot be altered
         if (!$page->isHybrid()) {
-            // make sure Page has a valid url
-            if ($page->getParent()) {
+            $parent = $page->getParent();
+
+            if (null !== $parent) {
                 if (!$page->getSlug()) {
-                    $page->setSlug($this->slugify->slugify($page->getName()));
+                    $page->setSlug($this->slugify->slugify($page->getName() ?? ''));
                 }
 
-                if ('/' === $page->getParent()->getUrl()) {
+                $parentUrl = $parent->getUrl();
+
+                if ('/' === $parentUrl) {
                     $base = '/';
-                } elseif ('/' !== substr($page->getParent()->getUrl(), -1)) {
-                    $base = $page->getParent()->getUrl().'/';
+                } elseif ('/' !== substr($parentUrl ?? '', -1)) {
+                    $base = $parentUrl.'/';
                 } else {
-                    $base = $page->getParent()->getUrl();
+                    $base = $parentUrl;
                 }
 
                 $page->setUrl($base.$page->getSlug());
