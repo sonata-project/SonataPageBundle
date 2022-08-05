@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.16.1](https://github.com/sonata-project/SonataBlockBundle/compare/4.16.0...4.16.1) - 2022-08-05
+### Changed
+- [[#1093](https://github.com/sonata-project/SonataBlockBundle/pull/1093)] Change typehint of `addChild` to `BlockInterface` instead of `self`. ([@jordisala1991](https://github.com/jordisala1991))
+
+### Fixed
+- [[#1090](https://github.com/sonata-project/SonataBlockBundle/pull/1090)] Avoid deprecation for the `hasChildren` method. ([@jordisala1991](https://github.com/jordisala1991))
+
 ## [3.27.0](https://github.com/sonata-project/SonataPageBundle/compare/3.26.0...3.27.0) - 2022-07-26
 ### Added
 - [[#1418](https://github.com/sonata-project/SonataPageBundle/pull/1418)] Added `CreateSnapshotService` to create snapshots ([@eerison](https://github.com/eerison))
