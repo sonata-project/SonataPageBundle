@@ -150,7 +150,7 @@ class Transformer implements TransformerInterface
         $page->setJavascript($content['javascript']);
         $page->setStylesheet($content['stylesheet']);
         $page->setRawHeaders($content['raw_headers']);
-        $page->setTitle($content['title']);
+        $page->setTitle($content['title'] ?? null);
         $page->setMetaDescription($content['meta_description']);
         $page->setMetaKeyword($content['meta_keyword']);
         $page->setName($content['name']);
@@ -177,11 +177,13 @@ class Transformer implements TransformerInterface
 
         $block->setPage($page);
         $block->setId($content['id']);
-        $block->setName($content['name']);
+        $block->setName($content['name'] ?? null);
         $block->setEnabled($content['enabled']);
-        $block->setPosition($content['position']);
+        if (isset($content['position'])) {
+            $block->setPosition($content['position']);
+        }
         $block->setSettings($content['settings']);
-        $block->setType($content['type']);
+        $block->setType($content['type'] ?? null);
 
         $createdAt = new \DateTime();
         $createdAt->setTimestamp((int) $content['created_at']);
@@ -242,9 +244,9 @@ class Transformer implements TransformerInterface
     }
 
     /**
-     * @return array
+     * NEXT_MAJOR: Remove this.
      */
-    protected function fixPageContent(array $content)
+    protected function fixPageContent(array $content): array
     {
         if (!\array_key_exists('title', $content)) {
             $content['title'] = null;
@@ -254,9 +256,9 @@ class Transformer implements TransformerInterface
     }
 
     /**
-     * @return array
+     * NEXT_MAJOR: Remove this.
      */
-    protected function fixBlockContent(array $content)
+    protected function fixBlockContent(array $content): array
     {
         if (!\array_key_exists('name', $content)) {
             $content['name'] = null;
@@ -266,7 +268,7 @@ class Transformer implements TransformerInterface
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     protected function createBlocks(BlockInterface $block)
     {
