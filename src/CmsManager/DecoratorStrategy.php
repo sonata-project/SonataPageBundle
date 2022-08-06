@@ -100,7 +100,7 @@ final class DecoratorStrategy implements DecoratorStrategyInterface
         }
 
         foreach ($this->ignoreRoutePatterns as $routePattern) {
-            if (0 !== preg_match(sprintf('#%s#', $routePattern), $routeName)) {
+            if (1 === preg_match(sprintf('#%s#', $routePattern), $routeName)) {
                 return false;
             }
         }
