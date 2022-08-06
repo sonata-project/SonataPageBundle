@@ -38,6 +38,8 @@ final class SiteAdmin extends AbstractAdmin
 
     public function __construct(RoutePageGenerator $routePageGenerator)
     {
+        parent::__construct();
+
         $this->routePageGenerator = $routePageGenerator;
     }
 

@@ -108,11 +108,8 @@ final class TransformerTest extends TestCase
         $block2->setPosition(0);
         $block2->setCreatedAt($datetime);
         $block2->setUpdatedAt($datetime);
-        if (method_exists($block1, 'addChild')) {
-            $block1->addChild($block2);
-        } else {
-            $block1->addChildren($block2);
-        }
+
+        $block1->addChild($block2);
 
         $parentPage = new SonataPagePage();
         $parentPage->setId('page_parent');
@@ -135,16 +132,15 @@ final class TransformerTest extends TestCase
         $parentPage->addChild($page);
 
         $snapshot = $this->transformer->create($page);
+
         static::assertSame($page->getUrl(), $snapshot->getUrl());
         static::assertSame($page->getName(), $snapshot->getName());
-
         static::assertSame($this->getTestContent($datetime), $snapshot->getContent());
     }
 
     public function testLoadSnapshotToPage(): void
     {
-        $method = method_exists($this->pageManager, 'createWithDefaults') ? 'createWithDefaults' : 'create';
-        $this->pageManager->method($method)->willReturn(new SonataPagePage());
+        $this->pageManager->method('createWithDefaults')->willReturn(new SonataPagePage());
         $this->pageManager->method('getClass')->willReturn(SonataPagePage::class);
 
         $dateTime = new \DateTime();

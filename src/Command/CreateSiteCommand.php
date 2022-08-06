@@ -50,15 +50,15 @@ final class CreateSiteCommand extends Command
         $this
             // TODO: Remove setDescription when support for Symfony < 5.4 is dropped.
             ->setDescription(static::$defaultDescription)
-            ->addOption('no-confirmation', null, InputOption::VALUE_OPTIONAL, 'Ask confirmation before generating the site', false)
-            ->addOption('enabled', null, InputOption::VALUE_OPTIONAL, 'Site.enabled', false)
-            ->addOption('name', null, InputOption::VALUE_OPTIONAL, 'Site.name', null)
-            ->addOption('relativePath', null, InputOption::VALUE_OPTIONAL, 'Site.relativePath', null)
-            ->addOption('host', null, InputOption::VALUE_OPTIONAL, 'Site.host', null)
-            ->addOption('enabledFrom', null, InputOption::VALUE_OPTIONAL, 'Site.enabledFrom', null)
-            ->addOption('enabledTo', null, InputOption::VALUE_OPTIONAL, 'Site.enabledTo', null)
-            ->addOption('default', null, InputOption::VALUE_OPTIONAL, 'Site.default', null)
-            ->addOption('locale', null, InputOption::VALUE_OPTIONAL, 'Site.locale', null)
+            ->addOption('no-confirmation', null, InputOption::VALUE_NONE, 'Ask confirmation before generating the site')
+            ->addOption('enabled', null, InputOption::VALUE_NONE, 'Site.enabled')
+            ->addOption('name', null, InputOption::VALUE_OPTIONAL, 'Site.name')
+            ->addOption('relativePath', null, InputOption::VALUE_OPTIONAL, 'Site.relativePath')
+            ->addOption('host', null, InputOption::VALUE_OPTIONAL, 'Site.host')
+            ->addOption('enabledFrom', null, InputOption::VALUE_OPTIONAL, 'Site.enabledFrom')
+            ->addOption('enabledTo', null, InputOption::VALUE_OPTIONAL, 'Site.enabledTo')
+            ->addOption('default', null, InputOption::VALUE_OPTIONAL, 'Site.default')
+            ->addOption('locale', null, InputOption::VALUE_OPTIONAL, 'Site.locale')
             ->setHelp(
                 <<<'EOT'
 The <info>sonata:page:create-site</info> command create a new site entity.
@@ -126,7 +126,7 @@ INFO
             $confirmation = $helper->ask($input, $output, $question);
         }
 
-        if ($confirmation) {
+        if (true === $confirmation) {
             $siteManager->save($site);
 
             $output->writeln([

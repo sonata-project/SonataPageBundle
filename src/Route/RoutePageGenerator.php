@@ -78,7 +78,7 @@ final class RoutePageGenerator
         $root = $this->pageManager->getPageByUrl($site, '/');
 
         // no root url for the given website, create one
-        if (!$root) {
+        if (null === $root) {
             $root = $this->createRootPage($site);
             $this->pageManager->save($root);
         }
@@ -101,9 +101,9 @@ final class RoutePageGenerator
                 !$this->decoratorStrategy->isRouteNameDecorable($name)
                 || !$this->decoratorStrategy->isRouteUriDecorable($route->getPath())
                 || (null !== $routeHostRegex
-                && !preg_match($routeHostRegex, $site->getHost() ?? ''))
+                && 0 === preg_match($routeHostRegex, $site->getHost() ?? ''))
             ) {
-                if ($page) {
+                if (null !== $page) {
                     $page->setEnabled(false);
 
                     $this->writeln($output, sprintf(
@@ -118,7 +118,7 @@ final class RoutePageGenerator
 
             $update = true;
 
-            if (!$page) {
+            if (null === $page) {
                 $update = false;
 
                 $requirements = $route->getRequirements();
@@ -133,7 +133,7 @@ final class RoutePageGenerator
                 ]);
             }
 
-            if (!$page->getParent() && $page->getId() !== $root->getId()) {
+            if (null === $page->getParent() && $page->getId() !== $root->getId()) {
                 $page->setParent($root);
             }
 
@@ -154,7 +154,7 @@ final class RoutePageGenerator
 
         // Iterate over error pages
         foreach ($this->exceptionListener->getHttpErrorCodes() as $name) {
-            $name = trim((string) $name);
+            $name = trim($name);
             $displayName = $this->displayName($name);
 
             $knowRoutes[] = $name;
@@ -164,7 +164,7 @@ final class RoutePageGenerator
                 'site' => $site->getId(),
             ]);
 
-            if (!$page) {
+            if (null === $page) {
                 $page = $this->pageManager->createWithDefaults([
                     'routeName' => $name,
                     'name' => $displayName,

@@ -89,16 +89,16 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
         // @phpstan-ignore-next-line
         $isMainRequest = method_exists($event, 'isMainRequest') ? $event->isMainRequest() : $event->isMasterRequest();
 
-        if ($isMainRequest && $this->site) {
-            if ($this->site->getTitle()) {
+        if ($isMainRequest && null !== $this->site) {
+            if (null !== $this->site->getTitle()) {
                 $this->seoPage->setTitle($this->site->getTitle());
             }
 
-            if ($this->site->getMetaDescription()) {
+            if (null !== $this->site->getMetaDescription()) {
                 $this->seoPage->addMeta('name', 'description', $this->site->getMetaDescription());
             }
 
-            if ($this->site->getMetaKeywords()) {
+            if (null !== $this->site->getMetaKeywords()) {
                 $this->seoPage->addMeta('name', 'keywords', $this->site->getMetaKeywords());
             }
         }
@@ -134,11 +134,11 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
         // we read the value from the attribute to handle fragment support
         $requestPathInfo = $request->get('pathInfo', $request->getPathInfo());
 
-        if (!preg_match(sprintf('@^(%s)(/.*|$)@', $site->getRelativePath()), $requestPathInfo, $results)) {
+        if (0 === preg_match(sprintf('@^(%s)(/.*|$)@', $site->getRelativePath()), $requestPathInfo, $results)) {
             return false;
         }
 
-        return $results[2];
+        return '' !== $results[2] ? $results[2] : '/';
     }
 
     /**

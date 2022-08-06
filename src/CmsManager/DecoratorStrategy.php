@@ -58,7 +58,7 @@ final class DecoratorStrategy implements DecoratorStrategyInterface
             return false;
         }
 
-        if ('text/html' !== substr($response->headers->get('Content-Type') ?: 'text/html', 0, 9)) {
+        if ('text/html' !== substr($response->headers->get('Content-Type') ?? 'text/html', 0, 9)) {
             return false;
         }
 
@@ -89,7 +89,7 @@ final class DecoratorStrategy implements DecoratorStrategyInterface
 
     public function isRouteNameDecorable($routeName)
     {
-        if (!$routeName) {
+        if (null === $routeName) {
             return false;
         }
 
@@ -100,7 +100,7 @@ final class DecoratorStrategy implements DecoratorStrategyInterface
         }
 
         foreach ($this->ignoreRoutePatterns as $routePattern) {
-            if (preg_match(sprintf('#%s#', $routePattern), $routeName)) {
+            if (1 === preg_match(sprintf('#%s#', $routePattern), $routeName)) {
                 return false;
             }
         }
@@ -111,7 +111,7 @@ final class DecoratorStrategy implements DecoratorStrategyInterface
     public function isRouteUriDecorable($uri)
     {
         foreach ($this->ignoreUriPatterns as $uriPattern) {
-            if (preg_match(sprintf('#%s#', $uriPattern), $uri)) {
+            if (1 === preg_match(sprintf('#%s#', $uriPattern), $uri)) {
                 return false;
             }
         }

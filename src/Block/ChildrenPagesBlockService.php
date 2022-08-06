@@ -73,9 +73,9 @@ final class ChildrenPagesBlockService extends AbstractBlockService implements Ed
 
         $cmsManager = $this->cmsManagerSelector->retrieve();
 
-        if ($settings['current']) {
+        if (null !== $settings['current']) {
             $page = $cmsManager->getCurrentPage();
-        } elseif ($settings['pageId']) {
+        } elseif (null !== $settings['pageId']) {
             $page = $settings['pageId'];
         } else {
             $page = false;

@@ -99,7 +99,7 @@ final class PageManager extends BaseEntityManager implements PageManagerInterfac
             $parent = $page->getParent();
 
             if (null !== $parent) {
-                if (!$page->getSlug()) {
+                if (null === $page->getSlug()) {
                     $page->setSlug($this->slugify->slugify($page->getName() ?? ''));
                 }
 
@@ -116,7 +116,7 @@ final class PageManager extends BaseEntityManager implements PageManagerInterfac
                 $page->setUrl($base.$page->getSlug());
             } else {
                 // a parent page does not have any slug - can have a custom url ...
-                $page->setSlug('');
+                $page->setSlug(null);
                 $page->setUrl('/'.$page->getSlug());
             }
         }

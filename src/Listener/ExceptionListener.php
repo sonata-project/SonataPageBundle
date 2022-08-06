@@ -103,7 +103,7 @@ final class ExceptionListener
         $cms = $this->cmsManagerSelector->retrieve();
         $site = $this->siteSelector->retrieve();
 
-        if (!$site) {
+        if (null === $site) {
             throw new \RuntimeException('No site available');
         }
 
@@ -119,7 +119,7 @@ final class ExceptionListener
             $pathInfo = $event->getRequest()->getPathInfo();
 
             // can only create a CMS page, so the '_route' must be null
-            $creatable = !$event->getRequest()->get('_route') && $this->decoratorStrategy->isRouteUriDecorable($pathInfo);
+            $creatable = null === $event->getRequest()->get('_route') && $this->decoratorStrategy->isRouteUriDecorable($pathInfo);
 
             if ($creatable) {
                 $response = new Response($this->twig->render('@SonataPage/Page/create.html.twig', [
@@ -176,7 +176,7 @@ final class ExceptionListener
 
         $cmsManager = $this->cmsManagerSelector->retrieve();
 
-        if ($event->getRequest()->get('_route') && !$this->decoratorStrategy->isRouteNameDecorable($event->getRequest()->get('_route'))) {
+        if (null !== $event->getRequest()->get('_route') && !$this->decoratorStrategy->isRouteNameDecorable($event->getRequest()->get('_route'))) {
             return;
         }
 
@@ -227,7 +227,7 @@ final class ExceptionListener
      */
     private function logException(\Throwable $originalException, \Throwable $generatedException, $message = null): void
     {
-        if (!$message) {
+        if (null === $message) {
             $message = sprintf('Exception thrown when handling an exception (%s: %s)', \get_class($generatedException), $generatedException->getMessage());
         }
 

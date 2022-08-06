@@ -22,8 +22,6 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Select a page.
- *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 final class PageSelectorType extends AbstractType
@@ -85,8 +83,8 @@ final class PageSelectorType extends AbstractType
 
             if (
                 'all' !== $filter_choice['hierarchy'] && (
-                    ('root' !== $filter_choice['hierarchy'] || $page->getParent()) &&
-                    ('children' !== $filter_choice['hierarchy'] || !$page->getParent())
+                    ('root' !== $filter_choice['hierarchy'] || null !== $page->getParent()) &&
+                    ('children' !== $filter_choice['hierarchy'] || null === $page->getParent())
                 )
             ) {
                 continue;
@@ -130,7 +128,7 @@ final class PageSelectorType extends AbstractType
     private function childWalker(PageInterface $page, ?PageInterface $currentPage, &$choices, $level = 1): void
     {
         foreach ($page->getChildren() as $child) {
-            if ($currentPage && $currentPage->getId() === $child->getId()) {
+            if (null !== $currentPage && $currentPage->getId() === $child->getId()) {
                 continue;
             }
 

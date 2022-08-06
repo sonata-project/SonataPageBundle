@@ -53,6 +53,8 @@ final class PageAdmin extends AbstractAdmin
         PageManagerInterface $pageManager,
         SiteManagerInterface $siteManager
     ) {
+        parent::__construct();
+
         $this->pageManager = $pageManager;
         $this->siteManager = $siteManager;
     }
@@ -108,7 +110,7 @@ final class PageAdmin extends AbstractAdmin
         $site = $this->getSite();
         $object->setSite($site);
 
-        if ($site && $this->getRequest()->get('url')) {
+        if (null !== $site && null !== $this->getRequest()->get('url')) {
             $slugs = explode('/', $this->getRequest()->get('url'));
             $slug = array_pop($slugs);
 
@@ -123,7 +125,7 @@ final class PageAdmin extends AbstractAdmin
             }
 
             $object->setSlug(urldecode($slug));
-            $object->setParent($parent ?: null);
+            $object->setParent($parent);
             $object->setName(urldecode($slug));
         }
     }
@@ -139,11 +141,15 @@ final class PageAdmin extends AbstractAdmin
 
         $request = $this->getRequest();
 
-        if ($site = $request->get('site', null)) {
+        $site = $request->get('site', null);
+
+        if (null !== $site) {
             $request->getSession()->set($key, $site);
         }
 
-        if ($site = $request->getSession()->get($key, null)) {
+        $site = $request->getSession()->get($key, null);
+
+        if (null !== $site) {
             $parameters['site'] = $site;
         }
 
@@ -255,8 +261,8 @@ final class PageAdmin extends AbstractAdmin
             $form
                 ->with('main')
                     ->add('parent', PageSelectorType::class, [
-                        'page' => $page ?: null,
-                        'site' => $page ? $page->getSite() : null,
+                        'page' => $page,
+                        'site' => null !== $page ? $page->getSite() : null,
                         'model_manager' => $this->getModelManager(),
                         'class' => $this->getClass(),
                         'required' => false,
@@ -264,7 +270,7 @@ final class PageAdmin extends AbstractAdmin
                     ], [
                         'admin_code' => $this->getCode(),
                         'link_parameters' => [
-                            'siteId' => $page && $page->getSite() ? $page->getSite()->getId() : null,
+                            'siteId' => null !== $page && null !== $page->getSite() ? $page->getSite()->getId() : null,
                         ],
                     ])
                 ->end();
@@ -275,8 +281,8 @@ final class PageAdmin extends AbstractAdmin
                 ->with('main')
                     ->add('pageAlias', null, ['required' => false])
                     ->add('parent', PageSelectorType::class, [
-                        'page' => $page ?: null,
-                        'site' => $page ? $page->getSite() : null,
+                        'page' => $page,
+                        'site' => null !== $page ? $page->getSite() : null,
                         'model_manager' => $this->getModelManager(),
                         'class' => $this->getClass(),
                         'filter_choice' => ['request_method' => 'all'],
@@ -322,7 +328,7 @@ final class PageAdmin extends AbstractAdmin
 
     protected function configureTabMenu(ItemInterface $menu, string $action, ?AdminInterface $childAdmin = null): void
     {
-        if (!$childAdmin && !\in_array($action, ['edit'], true)) {
+        if (null === $childAdmin && 'edit' !== $action) {
             return;
         }
 
@@ -394,16 +400,16 @@ final class PageAdmin extends AbstractAdmin
         $siteId = null;
 
         if ('POST' === $this->getRequest()->getMethod()) {
-            $values = $this->getRequest()->get($this->getUniqid());
+            $values = $this->getRequest()->get($this->getUniqId());
             $siteId = $values['site'] ?? null;
         }
 
         $siteId ??= $this->getRequest()->get('siteId');
 
-        if ($siteId) {
+        if (null !== $siteId) {
             $site = $this->siteManager->findOneBy(['id' => $siteId]);
 
-            if (!$site) {
+            if (null === $site) {
                 throw new \RuntimeException('Unable to find the site with id='.$this->getRequest()->get('siteId'));
             }
 

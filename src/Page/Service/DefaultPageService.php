@@ -56,7 +56,7 @@ final class DefaultPageService extends BasePageService
 
     private function updateSeoPage(PageInterface $page): void
     {
-        if (!$this->seoPage) {
+        if (null === $this->seoPage) {
             return;
         }
 
@@ -64,15 +64,15 @@ final class DefaultPageService extends BasePageService
          * Always prefer the page title, if set.
          * Do not use the (internal) page name as a fallback
          */
-        if ($page->getTitle()) {
+        if (null !== $page->getTitle()) {
             $this->seoPage->setTitle($page->getTitle());
         }
 
-        if ($page->getMetaDescription()) {
+        if (null !== $page->getMetaDescription()) {
             $this->seoPage->addMeta('name', 'description', $page->getMetaDescription());
         }
 
-        if ($page->getMetaKeyword()) {
+        if (null !== $page->getMetaKeyword()) {
             $this->seoPage->addMeta('name', 'keywords', $page->getMetaKeyword());
         }
 

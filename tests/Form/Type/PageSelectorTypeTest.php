@@ -42,7 +42,7 @@ final class PageSelectorTypeTest extends TestCase
 
         $pageAll = new Page();
         $pageAll->setId($i);
-        $pageAll->setRequestMethod('');
+        $pageAll->setRequestMethod(null);
         $pageAll->setRouteName('all');
         $pageAll->setUrl('/all');
         $pageAll->setSite($this->site);

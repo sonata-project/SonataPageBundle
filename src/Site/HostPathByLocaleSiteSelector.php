@@ -54,18 +54,18 @@ final class HostPathByLocaleSiteSelector extends HostPathSiteSelector
             }
         }
 
-        if ($this->site) {
-            $request->setPathInfo($pathInfo ?: '/');
+        if (null !== $this->site) {
+            $request->setPathInfo($pathInfo ?? '/');
         }
 
         // no valid site, but try to find a default site for the current request
-        if (!$this->site && \count($enabledSites) > 0) {
+        if (null === $this->site && \count($enabledSites) > 0) {
             $defaultSite = $this->getPreferredSite($enabledSites, $request);
             \assert(null !== $defaultSite);
             \assert(null !== $defaultSite->getUrl());
 
             $event->setResponse(new RedirectResponse($defaultSite->getUrl()));
-        } elseif ($this->site && $this->site->getLocale()) {
+        } elseif (null !== $this->site && null !== $this->site->getLocale()) {
             $request->attributes->set('_locale', $this->site->getLocale());
         }
     }

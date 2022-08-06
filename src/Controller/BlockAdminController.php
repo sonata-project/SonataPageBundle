@@ -93,7 +93,7 @@ final class BlockAdminController extends CRUDController
 
         $parameters = $this->admin->getPersistentParameters();
 
-        if (!$parameters['type']) {
+        if (null === $parameters['type']) {
             return $this->renderWithExtraParams('@SonataPage/BlockAdmin/select_type.html.twig', [
                 'services' => $this->container->get('sonata.block.manager')->getServicesByContext('sonata_page_bundle'),
                 'base_template' => $this->getBaseTemplate(),
@@ -111,17 +111,20 @@ final class BlockAdminController extends CRUDController
 
         $blockId = $request->get('block_id');
         $parentId = $request->get('parent_id');
+
         if (null === $blockId || null === $parentId) {
             throw new HttpException(400, 'wrong parameters');
         }
 
         $block = $this->admin->getObject($blockId);
-        if (!$block) {
+
+        if (null === $block) {
             throw new PageNotFoundException(sprintf('Unable to find block with id %d', $blockId));
         }
 
         $parent = $this->admin->getObject($parentId);
-        if (!$parent) {
+
+        if (null === $parent) {
             throw new PageNotFoundException(sprintf('Unable to find parent block with id %d', $parentId));
         }
 
@@ -142,12 +145,14 @@ final class BlockAdminController extends CRUDController
         $blockId = $request->get('block_id');
 
         $block = $this->admin->getObject($blockId);
-        if (!$block) {
+
+        if (null === $block) {
             throw new PageNotFoundException(sprintf('Unable to find block with id %d', $blockId));
         }
 
         $container = $block->getParent();
-        if (!$container) {
+
+        if (null === $container) {
             throw new PageNotFoundException('No parent found, unable to preview an orphan block');
         }
 

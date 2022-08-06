@@ -61,27 +61,27 @@ final class CloneSiteCommand extends Command
         $this
             // TODO: Remove setDescription when support for Symfony < 5.4 is dropped.
             ->setDescription(static::$defaultDescription)
-            ->addOption('source-id', 'so', InputOption::VALUE_REQUIRED, 'Source site id', null)
-            ->addOption('dest-id', 'd', InputOption::VALUE_REQUIRED, 'Destination site id', null)
-            ->addOption('prefix', 'p', InputOption::VALUE_REQUIRED, 'Title prefix', null)
-            ->addOption('only-hybrid', 'oh', InputOption::VALUE_OPTIONAL, 'only clone hybrid pages', false);
+            ->addOption('source-id', 'so', InputOption::VALUE_REQUIRED, 'Source site id')
+            ->addOption('dest-id', 'd', InputOption::VALUE_REQUIRED, 'Destination site id')
+            ->addOption('prefix', 'p', InputOption::VALUE_REQUIRED, 'Title prefix')
+            ->addOption('only-hybrid', 'oh', InputOption::VALUE_NONE, 'only clone hybrid pages');
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
-        if (!$input->getOption('source-id')) {
+        if (null === $input->getOption('source-id')) {
             $this->listAllSites($output);
 
             throw new \InvalidArgumentException('Please provide a "--source-id=SITE_ID" option.');
         }
 
-        if (!$input->getOption('dest-id')) {
+        if (null === $input->getOption('dest-id')) {
             $this->listAllSites($output);
 
             throw new \InvalidArgumentException('Please provide a "--dest-id=SITE_ID" option.');
         }
 
-        if (!$input->getOption('prefix')) {
+        if (null === $input->getOption('prefix')) {
             throw new \InvalidArgumentException('Please provide a "--prefix=PREFIX" option.');
         }
     }
@@ -118,7 +118,7 @@ final class CloneSiteCommand extends Command
                 ' % 4s - % -70s - % 4s',
                 $page->getId(),
                 $page->getTitle(),
-                $page->getParent() ? $page->getParent()->getId() : ''
+                null !== $page->getParent() ? $page->getParent()->getId() : ''
             ));
 
             $newPage = clone $page;
@@ -148,7 +148,7 @@ final class CloneSiteCommand extends Command
 
         $output->writeln('Fixing page parents');
         foreach ($pageClones as $page) {
-            if ($page->getParent()) {
+            if (null !== $page->getParent()) {
                 $id = $page->getParent()->getId();
                 \assert(null !== $id);
 
@@ -175,7 +175,7 @@ final class CloneSiteCommand extends Command
                 'page' => $page,
             ]);
             foreach ($blocks as $block) {
-                if ($block->getParent()) {
+                if (null !== $block->getParent()) {
                     $id = $block->getParent()->getId();
                     \assert(null !== $id);
 

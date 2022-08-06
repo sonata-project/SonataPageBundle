@@ -27,8 +27,6 @@ class SonataPagePage extends BasePage
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
-     *
-     * @var int|null
      */
     protected $id = null;
 

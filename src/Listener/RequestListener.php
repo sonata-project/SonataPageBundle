@@ -70,11 +70,11 @@ final class RequestListener
 
         $site = $this->siteSelector->retrieve();
 
-        if (!$site) {
+        if (null === $site) {
             throw new InternalErrorException('No site available for the current request with uri '.htmlspecialchars($request->getUri(), \ENT_QUOTES));
         }
 
-        if ($site->getLocale() && $site->getLocale() !== $request->get('_locale')) {
+        if (null !== $site->getLocale() && $site->getLocale() !== $request->get('_locale')) {
             throw new PageNotFoundException(sprintf('Invalid locale - site.locale=%s - request._locale=%s', $site->getLocale(), $request->get('_locale')));
         }
 

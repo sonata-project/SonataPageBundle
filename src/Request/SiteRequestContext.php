@@ -45,7 +45,7 @@ final class SiteRequestContext extends RequestContext implements SiteRequestCont
     {
         $site = $this->getSite();
 
-        if ($site && !$site->isLocalhost()) {
+        if (null !== $site && !$site->isLocalhost()) {
             $host = $site->getHost();
 
             if (null === $host) {
@@ -62,7 +62,7 @@ final class SiteRequestContext extends RequestContext implements SiteRequestCont
     {
         $site = $this->getSite();
 
-        if ($site) {
+        if (null !== $site) {
             return parent::getBaseUrl().$site->getRelativePath();
         }
 
