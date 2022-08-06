@@ -88,7 +88,7 @@ final class CloneSiteCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (false !== $input->getOption('only-hybrid')) {
+        if ($input->getOption('only-hybrid')) {
             $output->writeln('Cloning hybrid pages only.');
             $hybridOnly = true;
         } else {
