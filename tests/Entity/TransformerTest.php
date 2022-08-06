@@ -16,7 +16,6 @@ namespace Sonata\PageBundle\Tests\Entity;
 use Doctrine\Persistence\ManagerRegistry;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Sonata\BlockBundle\Model\BlockManagerInterface;
 use Sonata\Doctrine\Model\ManagerInterface;
 use Sonata\PageBundle\Entity\Transformer;
 use Sonata\PageBundle\Model\PageBlockInterface;
@@ -28,18 +27,24 @@ use Sonata\PageBundle\Tests\App\Entity\SonataPagePage;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageSite;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageSnapshot;
 
+/**
+ * @phpstan-import-type PageContent from TransformerInterface
+ * @phpstan-import-type BlockContent from TransformerInterface
+ */
 final class TransformerTest extends TestCase
 {
     /**
-     * @var MockObject|SnapshotManagerInterface
+     * @var MockObject&SnapshotManagerInterface
      */
     protected $snapshotManager;
+
     /**
-     * @var MockObject|PageManagerInterface
+     * @var MockObject&PageManagerInterface
      */
     protected $pageManager;
+
     /**
-     * @var MockObject|BlockManagerInterface|ManagerInterface<PageBlockInterface>
+     * @var MockObject&ManagerInterface<PageBlockInterface>
      */
     protected $blockManager;
 
@@ -51,7 +56,7 @@ final class TransformerTest extends TestCase
         $this->snapshotManager = $this->createMock(SnapshotManagerInterface::class);
 
         $this->pageManager = $this->createMock(PageManagerInterface::class);
-        $this->blockManager = $this->createMock(BlockManagerInterface::class);
+        $this->blockManager = $this->createMock(ManagerInterface::class);
         $registry = $this->createMock(ManagerRegistry::class);
 
         $this->transformer = new Transformer(
@@ -79,11 +84,6 @@ final class TransformerTest extends TestCase
         $this->transformer->create($page);
     }
 
-    /**
-     * remove group legacy in next mayor.
-     *
-     * @group legacy
-     */
     public function testTransformerPageToSnapshot(): void
     {
         $this->snapshotManager->method('create')->willReturn(new SonataPageSnapshot());
@@ -130,18 +130,9 @@ final class TransformerTest extends TestCase
         $page->setSite($site);
         $page->setCreatedAt($datetime);
         $page->setUpdatedAt($datetime);
-        if (method_exists($page, 'addBlock')) {
-            $page->addBlock($block1);
-            $page->addBlock($block2);
-        } else {
-            $page->addBlocks($block1);
-            $page->addBlocks($block2);
-        }
-        if (method_exists($parentPage, 'addChild')) {
-            $parentPage->addChild($page);
-        } else {
-            $parentPage->addChildren($page);
-        }
+        $page->addBlock($block1);
+        $page->addBlock($block2);
+        $parentPage->addChild($page);
 
         $snapshot = $this->transformer->create($page);
         static::assertSame($page->getUrl(), $snapshot->getUrl());
@@ -150,11 +141,6 @@ final class TransformerTest extends TestCase
         static::assertSame($this->getTestContent($datetime), $snapshot->getContent());
     }
 
-    /**
-     * remove group legacy in next mayor.
-     *
-     * @group legacy
-     */
     public function testLoadSnapshotToPage(): void
     {
         $method = method_exists($this->pageManager, 'createWithDefaults') ? 'createWithDefaults' : 'create';
@@ -186,6 +172,9 @@ final class TransformerTest extends TestCase
         static::assertSame('block123', $block->getId());
     }
 
+    /**
+     * @phpstan-return PageContent
+     */
     protected function getTestContent(\DateTimeInterface $datetime): array
     {
         return [
@@ -203,13 +192,15 @@ final class TransformerTest extends TestCase
             'updated_at' => $datetime->format('U'),
             'slug' => null,
             'parent_id' => 'page_parent',
-            'target_id' => null, // REMOVE NEXT_MAYOR
             'blocks' => [
                 $this->getTestBlockArray($datetime),
             ],
         ];
     }
 
+    /**
+     * @phpstan-return BlockContent
+     */
     protected function getTestBlockArray(\DateTimeInterface $datetime): array
     {
         return [
