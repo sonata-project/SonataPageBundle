@@ -166,9 +166,11 @@ final class Transformer implements TransformerInterface
         $block->setId($content['id']);
         $block->setName($content['name'] ?? null);
         $block->setEnabled($content['enabled']);
-        $block->setPosition($content['position']);
+        if (isset($content['position'])) {
+            $block->setPosition($content['position']);
+        }
         $block->setSettings($content['settings']);
-        $block->setType($content['type']);
+        $block->setType($content['type'] ?? null);
 
         $createdAt = new \DateTime();
         $createdAt->setTimestamp((int) $content['created_at']);
