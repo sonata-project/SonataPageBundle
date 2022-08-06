@@ -328,7 +328,7 @@ final class PageAdmin extends AbstractAdmin
 
     protected function configureTabMenu(ItemInterface $menu, string $action, ?AdminInterface $childAdmin = null): void
     {
-        if (null === $childAdmin && !\in_array($action, ['edit'], true)) {
+        if (null === $childAdmin && 'edit' !== $action) {
             return;
         }
 
