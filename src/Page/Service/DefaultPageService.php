@@ -20,10 +20,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Default page service to render a page template.
- *
- * Note: this service is backward-compatible and functions like the old page renderer class.
- *
  * @author Olivier Paradis <paradis.olivier@gmail.com>
  */
 final class DefaultPageService extends BasePageService
@@ -49,12 +45,15 @@ final class DefaultPageService extends BasePageService
     {
         $this->updateSeoPage($page);
 
-        return $this->templateManager->renderResponse($page->getTemplateCode(), $parameters, $response);
+        $templateCode = $page->getTemplateCode();
+
+        if (null === $templateCode) {
+            throw new \RuntimeException('The page template is not defined');
+        }
+
+        return $this->templateManager->renderResponse($templateCode, $parameters, $response);
     }
 
-    /**
-     * Updates the SEO page values for given page instance.
-     */
     private function updateSeoPage(PageInterface $page): void
     {
         if (!$this->seoPage) {

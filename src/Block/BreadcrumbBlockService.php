@@ -110,7 +110,7 @@ final class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
             $extras['translation_domain'] = 'SonataPageBundle';
         }
 
-        $menu->addChild($label, [
+        $menu->addChild($label ?? '', [
             'route' => 'page_slug',
             'routeParameters' => [
                 'path' => $page->getUrl(),

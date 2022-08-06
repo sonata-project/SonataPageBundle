@@ -153,12 +153,12 @@ interface SnapshotInterface
     public function setDecorate($decorate);
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getPosition();
 
     /**
-     * @param int $position
+     * @param int|null $position
      *
      * @return void
      */

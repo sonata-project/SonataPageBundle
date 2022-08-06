@@ -54,7 +54,10 @@ final class PageListBlockService extends AbstractBlockService implements Editabl
             'parent' => null,
         ]);
 
-        return $this->renderResponse($blockContext->getTemplate(), [
+        $template = $blockContext->getTemplate();
+        \assert(null !== $template);
+
+        return $this->renderResponse($template, [
             'context' => $blockContext,
             'block' => $blockContext->getBlock(),
             'settings' => $blockContext->getSettings(),

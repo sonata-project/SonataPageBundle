@@ -69,7 +69,7 @@ final class SiteRequestContext extends RequestContext implements SiteRequestCont
         return parent::getBaseUrl();
     }
 
-    public function setSite(SiteInterface $site): void
+    public function setSite(?SiteInterface $site): void
     {
         $this->site = $site;
     }

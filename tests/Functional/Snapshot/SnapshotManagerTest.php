@@ -115,9 +115,11 @@ final class SnapshotManagerTest extends KernelTestCase
         static::assertNull($snapshot2->getPublicationDateEnd());
         $this->entityManager->refresh($snapshot2);
 
+        static::assertNotNull($snapshot->getPublicationDateStart());
         static::assertDateTimeEquals($date, $snapshot->getPublicationDateStart());
         static::assertNull($snapshot->getPublicationDateEnd());
 
+        static::assertNotNull($snapshot2->getPublicationDateEnd());
         static::assertDateTimeEquals($date, $snapshot2->getPublicationDateEnd());
     }
 

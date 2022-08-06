@@ -88,7 +88,10 @@ final class ChildrenPagesBlockService extends AbstractBlockService implements Ed
             }
         }
 
-        return $this->renderResponse($blockContext->getTemplate(), [
+        $template = $blockContext->getTemplate();
+        \assert(null !== $template);
+
+        return $this->renderResponse($template, [
             'page' => $page,
             'block' => $blockContext->getBlock(),
             'settings' => $settings,
@@ -107,6 +110,8 @@ final class ChildrenPagesBlockService extends AbstractBlockService implements Ed
         if (!$block instanceof PageBlockInterface) {
             return;
         }
+
+        $site = null !== $block->getPage() ? $block->getPage()->getSite() : null;
 
         $form->add('settings', ImmutableArrayType::class, [
             'keys' => [
@@ -129,7 +134,7 @@ final class ChildrenPagesBlockService extends AbstractBlockService implements Ed
                 ['pageId', PageSelectorType::class, [
                     'model_manager' => $this->pageAdmin->getModelManager(),
                     'class' => $this->pageAdmin->getClass(),
-                    'site' => $block->getPage()->getSite(),
+                    'site' => $site,
                     'required' => false,
                     'label' => 'form.label_page',
                 ]],
@@ -186,9 +191,13 @@ final class ChildrenPagesBlockService extends AbstractBlockService implements Ed
 
         if (is_numeric($block->getSetting('pageId', null))) {
             $cmsManager = $this->cmsManagerSelector->retrieve();
-            $site = $block->getPage()->getSite();
 
-            $block->setSetting('pageId', $cmsManager->getPage($site, $block->getSetting('pageId')));
+            if (null !== $block->getPage() && null !== $block->getPage()->getSite()) {
+                $block->setSetting('pageId', $cmsManager->getPage(
+                    $block->getPage()->getSite(),
+                    $block->getSetting('pageId')
+                ));
+            }
         }
     }
 }

@@ -32,7 +32,7 @@ abstract class Page implements PageInterface
     protected $title = null;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $routeName = PageInterface::PAGE_ROUTE_CMS_NAME;
 
@@ -132,12 +132,12 @@ abstract class Page implements PageInterface
     protected $decorate = true;
 
     /**
-     * @var int
+     * @var int|null
      */
     protected $position = 1;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $requestMethod = 'GET|POST|HEAD|DELETE|PUT';
 
@@ -492,6 +492,7 @@ abstract class Page implements PageInterface
     {
         if (null === $this->headers) {
             $rawHeaders = $this->getRawHeaders();
+
             $this->headers = $this->getHeadersAsArray($rawHeaders);
         }
 
@@ -574,7 +575,7 @@ abstract class Page implements PageInterface
 
     public function isError()
     {
-        return '_page_internal_error_' === substr($this->getRouteName(), 0, 21);
+        return '_page_internal_error_' === substr($this->getRouteName() ?? '', 0, 21);
     }
 
     public function isHybrid()
@@ -584,7 +585,7 @@ abstract class Page implements PageInterface
 
     public function isDynamic()
     {
-        return $this->isHybrid() && false !== strpos($this->getUrl(), '{');
+        return $this->isHybrid() && false !== strpos($this->getUrl() ?? '', '{');
     }
 
     public function isCms()
@@ -594,11 +595,11 @@ abstract class Page implements PageInterface
 
     public function isInternal()
     {
-        return '_page_internal_' === substr($this->getRouteName(), 0, 15);
+        return '_page_internal_' === substr($this->getRouteName() ?? '', 0, 15);
     }
 
     /**
-     * @param string $rawHeaders
+     * @param string|null $rawHeaders
      *
      * @return array<string, string>
      */

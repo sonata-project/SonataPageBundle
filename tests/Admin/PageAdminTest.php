@@ -19,7 +19,9 @@ use Sonata\AdminBundle\Route\RouteGeneratorInterface;
 use Sonata\PageBundle\Admin\PageAdmin;
 use Sonata\PageBundle\Controller\PageController;
 use Sonata\PageBundle\Model\PageInterface;
+use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\Site;
+use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Tests\Model\Page;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -29,7 +31,10 @@ final class PageAdminTest extends TestCase
     public function testTabMenuHasLinksWithSubSite(): void
     {
         $request = new Request(['id' => 42]);
-        $admin = new PageAdmin();
+        $admin = new PageAdmin(
+            $this->createStub(PageManagerInterface::class),
+            $this->createStub(SiteManagerInterface::class),
+        );
         $admin->setModelClass(Page::class);
         $admin->setBaseControllerName(PageController::class);
         $admin->setCode('admin.page');

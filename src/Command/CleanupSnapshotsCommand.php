@@ -44,6 +44,8 @@ final class CleanupSnapshotsCommand extends Command
 
     public function configure(): void
     {
+        \assert(null !== static::$defaultDescription);
+
         $this
             // TODO: Remove setDescription when support for Symfony < 5.4 is dropped.
             ->setDescription(static::$defaultDescription)

@@ -45,17 +45,15 @@ final class PageAdmin extends AbstractAdmin
 {
     protected $classnameLabel = 'Page';
 
-    private ?PageManagerInterface $pageManager = null;
+    private PageManagerInterface $pageManager;
 
-    private ?SiteManagerInterface $siteManager = null;
+    private SiteManagerInterface $siteManager;
 
-    public function setPageManager(PageManagerInterface $pageManager): void
-    {
+    public function __construct(
+        PageManagerInterface $pageManager,
+        SiteManagerInterface $siteManager
+    ) {
         $this->pageManager = $pageManager;
-    }
-
-    public function setSiteManager(SiteManagerInterface $siteManager): void
-    {
         $this->siteManager = $siteManager;
     }
 
@@ -360,10 +358,16 @@ final class PageAdmin extends AbstractAdmin
         if (!$page->isHybrid() && !$page->isInternal()) {
             try {
                 $path = $page->getUrl();
-                $siteRelativePath = $page->getSite()->getRelativePath();
-                if (!empty($siteRelativePath)) {
-                    $path = $siteRelativePath.$path;
+                $site = $page->getSite();
+
+                if (null !== $site) {
+                    $siteRelativePath = $site->getRelativePath();
+
+                    if (null !== $siteRelativePath) {
+                        $path = $siteRelativePath.$path;
+                    }
                 }
+
                 $menu->addChild('view_page', [
                     'uri' => $this->getRouteGenerator()->generate('page_slug', [
                         'path' => $path,

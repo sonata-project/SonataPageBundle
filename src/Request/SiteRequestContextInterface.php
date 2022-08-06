@@ -16,8 +16,6 @@ namespace Sonata\PageBundle\Request;
 use Sonata\PageBundle\Model\SiteInterface;
 
 /**
- * SiteRequestContext.
- *
  * @author Joeri Timmermans <info@pix-art.be>
  */
 interface SiteRequestContextInterface
@@ -25,7 +23,7 @@ interface SiteRequestContextInterface
     /**
      * @return void
      */
-    public function setSite(SiteInterface $site);
+    public function setSite(?SiteInterface $site);
 
     /**
      * @return SiteInterface|null

@@ -37,16 +37,11 @@ final class HostPathSiteSelectorTest extends TestCase
      */
     public function testSite(string $expectedName, string $url, string $expectedPath = '/'): void
     {
-        // Retrieve the site that would be matched from the request
         [$site, $event] = $this->performHandleKernelRequestTest($url);
 
-        // Ensure we retrieved the correct site.
+        static::assertNotNull($site);
         static::assertSame($expectedName, $site->getName());
-
-        // Ensure request path info
         static::assertSame($expectedPath, $event->getRequest()->getPathInfo());
-
-        // Ensure request locale matches site locale
         static::assertSame($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
     }
 
@@ -67,25 +62,15 @@ final class HostPathSiteSelectorTest extends TestCase
      */
     public function testSiteWithRedirect(string $expectedRedirectUri, string $url, string $path): void
     {
-        // Retrieve the site that would be matched from the request
         [$site, $event] = $this->performHandleKernelRequestTest($url);
 
-        // Ensure no site was retrieved
         static::assertNull($site);
 
-        // Retrieve the event's response object
         $response = $event->getResponse();
 
-        // Ensure the response was a redirect to the default site
         static::assertInstanceOf(RedirectResponse::class, $response);
-
-        // Ensure the redirect url
         static::assertSame($expectedRedirectUri, $response->getTargetUrl());
-
-        // Ensure request path info
         static::assertSame($path, $event->getRequest()->getPathInfo());
-
-        // Ensure request locale is null
         static::assertNull($event->getRequest()->attributes->get('_locale'));
     }
 
@@ -98,8 +83,6 @@ final class HostPathSiteSelectorTest extends TestCase
     }
 
     /**
-     * Perform the actual handleKernelSiteRequest method test.
-     *
      * @return array{SiteInterface|null, RequestEvent}
      */
     private function performHandleKernelRequestTest(string $url): array
@@ -107,7 +90,6 @@ final class HostPathSiteSelectorTest extends TestCase
         $kernel = $this->createMock(HttpKernelInterface::class);
         $request = SiteRequest::create($url);
 
-        // Ensure request locale is null
         static::assertNull($request->attributes->get('_locale'));
 
         $event = new RequestEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
@@ -150,19 +132,20 @@ final class HostPathSite extends BaseSite
 final class HostPathSiteSelector extends BaseSiteSelector
 {
     /**
-     * Camelize a string.
-     *
      * @static
      *
      * @param string $property
      */
     public static function _camelize($property): string
     {
-        return preg_replace_callback(
+        $camelized = preg_replace_callback(
             '/(^|[_. ])+(.)/',
             static fn ($match) => ('.' === $match[1] ? '_' : '').strtoupper($match[2]),
             $property
         );
+        \assert(null !== $camelized);
+
+        return $camelized;
     }
 
     /**

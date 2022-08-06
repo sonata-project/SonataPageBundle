@@ -211,11 +211,14 @@ final class PageTest extends TestCase
         $page->setParent($level2);
 
         $parent = $page->getParent();
+        static::assertNotNull($parent);
         static::assertSame('level 2', $parent->getName());
         $parent = $page->getParent(0);
+        static::assertNotNull($parent);
         static::assertSame('root', $parent->getName());
 
         $parent = $page->getParent(1);
+        static::assertNotNull($parent);
         static::assertSame('level 1', $parent->getName());
     }
 

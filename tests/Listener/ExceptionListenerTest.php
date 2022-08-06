@@ -150,7 +150,7 @@ final class ExceptionListenerTest extends TestCase
 
         // mock an error page
         $page = $this->createMock(PageInterface::class);
-        $page->expects(static::exactly(3))->method('getSite')->willReturn($site);
+        $page->expects(static::once())->method('getSite')->willReturn($site);
 
         // mock cms manager to return the mock error page and set it as current page
         $cmsManager = $this->createMock(CmsManagerInterface::class);

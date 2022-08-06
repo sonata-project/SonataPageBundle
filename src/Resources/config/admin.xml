@@ -27,6 +27,8 @@
     <services>
         <service id="sonata.page.admin.page" class="%sonata.page.admin.page.class%" public="true">
             <tag name="sonata.admin" model_class="%sonata.page.admin.page.entity%" controller="%sonata.page.admin.page.controller%" manager_type="orm" group="%sonata.page.admin.groupname%" translation_domain="%sonata.page.admin.page.translation_domain%" label="page" label_translator_strategy="sonata.admin.label.strategy.underscore" icon="%sonata.page.admin.groupicon%"/>
+            <argument type="service" id="sonata.page.manager.page"/>
+            <argument type="service" id="sonata.page.manager.site"/>
             <call method="addChild">
                 <argument type="service" id="sonata.page.admin.block"/>
                 <argument>page</argument>
@@ -34,12 +36,6 @@
             <call method="addChild">
                 <argument type="service" id="sonata.page.admin.snapshot"/>
                 <argument>page</argument>
-            </call>
-            <call method="setPageManager">
-                <argument type="service" id="sonata.page.manager.page"/>
-            </call>
-            <call method="setSiteManager">
-                <argument type="service" id="sonata.page.manager.site"/>
             </call>
             <call method="setTranslationDomain">
                 <argument>%sonata.page.admin.page.translation_domain%</argument>

@@ -52,12 +52,12 @@ interface PageInterface extends \Stringable
     public function setTitle($title);
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getRouteName();
 
     /**
-     * @param string $routeName
+     * @param string|null $routeName
      *
      * @return void
      */
@@ -323,12 +323,12 @@ interface PageInterface extends \Stringable
     public function setPosition($position);
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getRequestMethod();
 
     /**
-     * @param string $method
+     * @param string|null $method
      *
      * @return void
      */

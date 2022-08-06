@@ -56,8 +56,7 @@ final class Issue1134Test extends WebTestCase
         $form = $crawler->selectButton('Yes, execute')->form();
 
         $client->submit($form);
-
-        $client->request('GET', $client->getResponse()->headers->get('Location'));
+        $client->followRedirect();
 
         static::assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
     }

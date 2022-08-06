@@ -61,6 +61,8 @@ final class HostPathByLocaleSiteSelector extends HostPathSiteSelector
         // no valid site, but try to find a default site for the current request
         if (!$this->site && \count($enabledSites) > 0) {
             $defaultSite = $this->getPreferredSite($enabledSites, $request);
+            \assert(null !== $defaultSite);
+            \assert(null !== $defaultSite->getUrl());
 
             $event->setResponse(new RedirectResponse($defaultSite->getUrl()));
         } elseif ($this->site && $this->site->getLocale()) {

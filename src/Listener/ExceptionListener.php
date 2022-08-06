@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Listener;
 
 use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 use Sonata\PageBundle\Exception\InternalErrorException;
@@ -27,8 +28,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Twig\Environment;
 
 /**
- * ExceptionListener.
- *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 final class ExceptionListener
@@ -50,7 +49,7 @@ final class ExceptionListener
      */
     private array $httpErrorCodes;
 
-    private ?LoggerInterface $logger;
+    private LoggerInterface $logger;
 
     private bool $status;
 
@@ -74,13 +73,11 @@ final class ExceptionListener
         $this->pageServiceManager = $pageServiceManager;
         $this->decoratorStrategy = $decoratorStrategy;
         $this->httpErrorCodes = $httpErrorCodes;
-        $this->logger = $logger;
+        $this->logger = $logger ?? new NullLogger();
         $this->status = $status;
     }
 
     /**
-     * Returns list of http error codes managed.
-     *
      * @return array<int, string>
      */
     public function getHttpErrorCodes(): array
@@ -88,17 +85,12 @@ final class ExceptionListener
         return $this->httpErrorCodes;
     }
 
-    /**
-     * Returns true if the http error code is defined.
-     */
     public function hasErrorCode(int $statusCode): bool
     {
         return \array_key_exists($statusCode, $this->httpErrorCodes);
     }
 
     /**
-     * Returns a fully loaded page from a route name by the http error code throw.
-     *
      * @throws \RuntimeException      When site is not found, check your state database
      * @throws InternalErrorException When you do not configure page for http error code
      */
@@ -119,8 +111,6 @@ final class ExceptionListener
     }
 
     /**
-     * Handles a kernel exception.
-     *
      * @throws \Exception
      */
     public function onKernelException(ExceptionEvent $event): void
@@ -152,9 +142,6 @@ final class ExceptionListener
         }
     }
 
-    /**
-     * Handles an internal error.
-     */
     private function handleInternalError(ExceptionEvent $event): void
     {
         if (false === $this->debug) {
@@ -172,9 +159,6 @@ final class ExceptionListener
         $event->setResponse(new Response($content, 500));
     }
 
-    /**
-     * Handles a native error.
-     */
     private function handleNativeError(ExceptionEvent $event): void
     {
         if (true === $this->debug) {
@@ -210,16 +194,17 @@ final class ExceptionListener
 
         try {
             $page = $this->getErrorCodePage($statusCode);
+            $site = $page->getSite();
 
             $cmsManager->setCurrentPage($page);
 
-            if (null !== $page->getSite()->getLocale() && $page->getSite()->getLocale() !== $event->getRequest()->getLocale()) {
+            if (null !== $site && null !== $site->getLocale() && $site->getLocale() !== $event->getRequest()->getLocale()) {
                 // Compare locales because Request returns the default one if null.
 
                 // If 404, LocaleListener from HttpKernel component of Symfony is not called.
                 // It uses the "_locale" attribute set by SiteSelectorInterface to set the request locale.
                 // So in order to translate messages, force here the locale with the site.
-                $event->getRequest()->setLocale($page->getSite()->getLocale());
+                $event->getRequest()->setLocale($site->getLocale());
             }
 
             $response = $this->pageServiceManager->execute($page, $event->getRequest(), [], new Response('', $statusCode));
@@ -236,8 +221,6 @@ final class ExceptionListener
     }
 
     /**
-     * Logs exceptions.
-     *
      * @param \Throwable  $originalException  Original exception that called the listener
      * @param \Throwable  $generatedException Generated exception
      * @param string|null $message            Message to log
@@ -248,14 +231,10 @@ final class ExceptionListener
             $message = sprintf('Exception thrown when handling an exception (%s: %s)', \get_class($generatedException), $generatedException->getMessage());
         }
 
-        if (null !== $this->logger) {
-            if (!$originalException instanceof HttpExceptionInterface || $originalException->getStatusCode() >= 500) {
-                $this->logger->critical($message, ['exception' => $originalException]);
-            } else {
-                $this->logger->error($message, ['exception' => $originalException]);
-            }
+        if (!$originalException instanceof HttpExceptionInterface || $originalException->getStatusCode() >= 500) {
+            $this->logger->critical($message, ['exception' => $originalException]);
         } else {
-            error_log($message);
+            $this->logger->error($message, ['exception' => $originalException]);
         }
     }
 }

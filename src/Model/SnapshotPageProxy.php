@@ -275,11 +275,13 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
         if (!\count($this->getPage()->getBlocks())) {
             $content = $this->snapshot->getContent();
 
-            foreach ($content['blocks'] as $rawBlock) {
-                $block = $this->transformer->loadBlock($rawBlock, $this);
-                $this->addBlock($block);
+            if ($content) {
+                foreach ($content['blocks'] as $rawBlock) {
+                    $block = $this->transformer->loadBlock($rawBlock, $this);
+                    $this->addBlock($block);
 
-                $block->setPage($this);
+                    $block->setPage($this);
+                }
             }
         }
 
