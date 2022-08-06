@@ -64,7 +64,7 @@ final class CloneSiteCommand extends Command
             ->addOption('source-id', 'so', InputOption::VALUE_REQUIRED, 'Source site id')
             ->addOption('dest-id', 'd', InputOption::VALUE_REQUIRED, 'Destination site id')
             ->addOption('prefix', 'p', InputOption::VALUE_REQUIRED, 'Title prefix')
-            ->addOption('only-hybrid', 'oh', InputOption::VALUE_REQUIRED, 'only clone hybrid pages', false);
+            ->addOption('only-hybrid', 'oh', InputOption::VALUE_NONE, 'only clone hybrid pages', false);
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output): void
