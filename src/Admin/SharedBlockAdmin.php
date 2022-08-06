@@ -28,9 +28,6 @@ use Sonata\PageBundle\Model\PageBlockInterface;
  */
 final class SharedBlockAdmin extends BaseBlockAdmin
 {
-    /**
-     * @var string
-     */
     protected $classnameLabel = 'shared_block';
 
     protected function generateBaseRoutePattern(bool $isChildAdmin = false): string

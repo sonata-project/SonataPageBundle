@@ -90,18 +90,6 @@ final class HostSiteSelectorTest extends TestCase
 
 final class HostSite extends BaseSite
 {
-    /**
-     * @var int
-     */
-    protected $id;
-
-    /**
-     * @return int $id
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 }
 
 final class HostSiteSelector extends BaseSiteSelector

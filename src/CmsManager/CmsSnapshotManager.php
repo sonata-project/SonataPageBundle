@@ -66,7 +66,7 @@ final class CmsSnapshotManager extends BaseCmsPageManager
             $page = $this->getPageByRouteName($site, $page);
         } elseif (is_numeric($page)) {
             $page = $this->getPageById($page);
-        } elseif (!$page) { // get the current page
+        } elseif (null === $page) { // get the current page
             $page = $this->getCurrentPage();
         }
 
@@ -86,14 +86,14 @@ final class CmsSnapshotManager extends BaseCmsPageManager
     {
         $container = null;
 
-        if ($parentContainer) {
+        if (null !== $parentContainer) {
             // parent container is set, nothing to find, don't need to loop across the
             // name to find the correct container (main template level)
             $container = $parentContainer;
         }
 
         // first level blocks are containers
-        if (!$container) {
+        if (null === $container) {
             foreach ($page->getBlocks() as $block) {
                 if ($block->getSetting('code') === $name) {
                     $container = $block;
@@ -129,13 +129,13 @@ final class CmsSnapshotManager extends BaseCmsPageManager
         if (null === $id || !isset($this->pages[$id])) {
             $parameters = [$fieldName => $value];
 
-            if ($site) {
+            if (null !== $site) {
                 $parameters['site'] = $site->getId();
             }
 
             $snapshot = $this->snapshotManager->findEnableSnapshot($parameters);
 
-            if (!$snapshot) {
+            if (null === $snapshot) {
                 throw new PageNotFoundException();
             }
 
@@ -145,10 +145,7 @@ final class CmsSnapshotManager extends BaseCmsPageManager
 
             $id = $page->getId();
 
-            if ('id' !== $fieldName) {
-                $this->pageReferences[$fieldName][$value] = $id;
-            }
-
+            $this->pageReferences[$fieldName][$value] = $id;
             $this->pages[$id] = $page;
         }
 

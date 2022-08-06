@@ -47,7 +47,7 @@ final class PageServiceManager implements PageServiceManagerInterface
         }
 
         if (!isset($this->services[$type])) {
-            if (!$this->default) {
+            if (null === $this->default) {
                 throw new \RuntimeException(sprintf('unable to find a default service for type "%s"', $type));
             }
 
@@ -71,7 +71,7 @@ final class PageServiceManager implements PageServiceManagerInterface
     {
         $service = $this->get($page);
 
-        $response ??= new Response('', 200, $page->getHeaders() ?: []);
+        $response ??= new Response('', 200, $page->getHeaders());
 
         if ($response->isRedirection()) {
             return $response;

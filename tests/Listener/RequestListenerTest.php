@@ -69,7 +69,7 @@ final class RequestListenerTest extends TestCase
         $cmsSelector->expects(static::once())->method('retrieve')->willReturn($cmsManager);
 
         $siteSelector = $this->createMock(SiteSelectorInterface::class);
-        $siteSelector->expects(static::once())->method('retrieve')->willReturn(false);
+        $siteSelector->expects(static::once())->method('retrieve')->willReturn(null);
 
         $kernel = $this->createMock(HttpKernelInterface::class);
         $request = new Request();

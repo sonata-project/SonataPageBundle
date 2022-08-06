@@ -57,6 +57,8 @@ final class BlockAdmin extends BaseBlockAdmin
      */
     public function __construct(array $blocks = [])
     {
+        parent::__construct();
+
         $this->blocks = $blocks;
     }
 
@@ -77,7 +79,9 @@ final class BlockAdmin extends BaseBlockAdmin
             return $parameters;
         }
 
-        if ($composer = $this->getRequest()->get('composer')) {
+        $composer = $this->getRequest()->get('composer');
+
+        if (null !== $composer) {
             $parameters['composer'] = $composer;
         }
 
@@ -99,11 +103,11 @@ final class BlockAdmin extends BaseBlockAdmin
     {
         $block = $this->hasSubject() ? $this->getSubject() : null;
 
-        if (!$block) { // require to have a proper running test suite at the sandbox level
+        if (null === $block) { // require to have a proper running test suite at the sandbox level
             return;
         }
 
-        $page = false;
+        $page = null;
 
         if ($this->isChild()) {
             $page = $this->getParent()->getSubject();
@@ -128,14 +132,14 @@ final class BlockAdmin extends BaseBlockAdmin
 
         $isComposer = $this->hasRequest() ? $this->getRequest()->get('composer', false) : false;
         $generalGroupOptions = $optionsGroupOptions = [];
-        if ($isComposer) {
+        if (false !== $isComposer) {
             $generalGroupOptions['class'] = 'hidden';
             $optionsGroupOptions['name'] = '';
         }
 
         $form->with('general', $generalGroupOptions);
 
-        if (!$isComposer) {
+        if (false === $isComposer) {
             $form->add('name');
         } else {
             $form->add('name', HiddenType::class);
@@ -152,21 +156,21 @@ final class BlockAdmin extends BaseBlockAdmin
             $containerBlockTypes = $this->containerBlockTypes;
 
             // need to investigate on this case where $page == null ... this should not be possible
-            if ($isStandardBlock && $page && !empty($containerBlockTypes)) {
+            if ($isStandardBlock && null !== $page && [] === $containerBlockTypes) {
                 $form->add('parent', EntityType::class, [
                     'class' => $this->getClass(),
                     'query_builder' => static fn (EntityRepository $repository) => $repository->createQueryBuilder('a')
                         ->andWhere('a.page = :page AND a.type IN (:types)')
                         ->setParameters([
-                                'page' => $page,
-                                'types' => $containerBlockTypes,
-                            ]),
+                            'page' => $page,
+                            'types' => $containerBlockTypes,
+                        ]),
                 ], [
                     'admin_code' => $this->getCode(),
                 ]);
             }
 
-            if ($isComposer) {
+            if (false !== $isComposer) {
                 $form->add('enabled', HiddenType::class, ['data' => true]);
             } else {
                 $form->add('enabled');

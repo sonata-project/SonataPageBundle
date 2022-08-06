@@ -130,7 +130,7 @@ final class PageTest extends TestCase
         static::assertTrue($page->hasRequestMethod('POsT'));
         static::assertTrue($page->hasRequestMethod('GET'));
 
-        $page->setRequestMethod('');
+        $page->setRequestMethod(null);
         static::assertTrue($page->hasRequestMethod('GET'));
         static::assertTrue($page->hasRequestMethod('post'));
         static::assertFalse($page->hasRequestMethod('biloute'));

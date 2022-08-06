@@ -86,7 +86,7 @@ final class PageExtension extends AbstractExtension
      */
     public function breadcrumb(Environment $twig, ?PageInterface $page = null, array $options = []): string
     {
-        if (!$page) {
+        if (null === $page) {
             $page = $this->cmsManagerSelector->retrieve()->getCurrentPage();
         }
 
@@ -102,13 +102,13 @@ final class PageExtension extends AbstractExtension
 
         $breadcrumbs = [];
 
-        if ($page) {
+        if (null !== $page) {
             $breadcrumbs = $page->getParents();
 
-            if ($options['force_view_home_page'] && (!isset($breadcrumbs[0]) || 'homepage' !== $breadcrumbs[0]->getRouteName())) {
+            if (true === $options['force_view_home_page'] && (!isset($breadcrumbs[0]) || 'homepage' !== $breadcrumbs[0]->getRouteName())) {
                 $site = $this->siteSelector->retrieve();
 
-                $homePage = false;
+                $homePage = null;
                 try {
                     if (null !== $site) {
                         $homePage = $this->cmsManagerSelector->retrieve()->getPageByRouteName($site, 'homepage');
@@ -116,7 +116,7 @@ final class PageExtension extends AbstractExtension
                 } catch (PageNotFoundException $e) {
                 }
 
-                if ($homePage) {
+                if (null !== $homePage) {
                     array_unshift($breadcrumbs, $homePage);
                 }
             }
@@ -160,7 +160,7 @@ final class PageExtension extends AbstractExtension
     {
         $cms = $this->cmsManagerSelector->retrieve();
         $site = $this->siteSelector->retrieve();
-        $targetPage = false;
+        $targetPage = null;
 
         try {
             if (null === $page) {
@@ -172,16 +172,16 @@ final class PageExtension extends AbstractExtension
             }
         } catch (PageNotFoundException $e) {
             // the snapshot does not exist
-            $targetPage = false;
+            $targetPage = null;
         }
 
-        if (!$targetPage) {
+        if (null === $targetPage) {
             return '';
         }
 
         $container = $cms->findContainer($name, $targetPage);
 
-        if (!$container) {
+        if (null === $container) {
             return '';
         }
 
@@ -234,7 +234,7 @@ final class PageExtension extends AbstractExtension
         if (!isset($attributes['pathInfo'])) {
             $site = $this->siteSelector->retrieve();
 
-            if ($site) {
+            if (null !== $site) {
                 $sitePath = $site->getRelativePath();
                 $request = $this->requestStack->getCurrentRequest();
 

@@ -253,7 +253,7 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
 
     public function getChildren()
     {
-        if (!$this->getPage()->getChildren()->count()) {
+        if (0 === $this->getPage()->getChildren()->count()) {
             $this->getPage()->setChildren(new SnapshotChildrenCollection($this->transformer, $this->getPage()));
         }
 
@@ -272,10 +272,10 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
 
     public function getBlocks()
     {
-        if (!\count($this->getPage()->getBlocks())) {
+        if (0 === \count($this->getPage()->getBlocks())) {
             $content = $this->snapshot->getContent();
 
-            if ($content) {
+            if (null !== $content) {
                 foreach ($content['blocks'] as $rawBlock) {
                     $block = $this->transformer->loadBlock($rawBlock, $this);
                     $this->addBlock($block);
@@ -321,7 +321,7 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
 
     public function getParents()
     {
-        if (!$this->parents) {
+        if (null === $this->parents) {
             $parents = [];
 
             $snapshot = $this->snapshot;
@@ -337,7 +337,7 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
                     'pageId' => $content['parent_id'],
                 ]);
 
-                if (!$snapshot) {
+                if (null === $snapshot) {
                     break;
                 }
 
@@ -492,7 +492,7 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
 
     private function getPage(): PageInterface
     {
-        if (!$this->page) {
+        if (null === $this->page) {
             $this->page = $this->transformer->load($this->snapshot);
         }
 

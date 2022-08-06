@@ -45,7 +45,7 @@ final class SnapshotManager extends BaseEntityManager implements SnapshotManager
             return;
         }
 
-        $date = $date ?: new \DateTime();
+        $date ??= new \DateTime();
         $pageIds = $snapshotIds = [];
 
         foreach ($snapshots as $snapshot) {

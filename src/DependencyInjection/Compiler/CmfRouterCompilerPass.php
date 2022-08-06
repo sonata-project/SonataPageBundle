@@ -22,7 +22,7 @@ final class CmfRouterCompilerPass implements CompilerPassInterface
     public function process(ContainerBuilder $container): void
     {
         $enabled = 'sonata.page.router_auto_register.enabled';
-        if ($container->hasParameter($enabled) && $container->getParameter($enabled)) {
+        if ($container->hasParameter($enabled) && true === $container->getParameter($enabled)) {
             $container
                 ->getDefinition('cmf_routing.router')
                 ->addMethodCall('add', [

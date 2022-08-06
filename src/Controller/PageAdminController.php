@@ -72,7 +72,7 @@ final class PageAdminController extends CRUDController
 
     public function listAction(Request $request): Response
     {
-        if (!$request->get('filter')) {
+        if (null === $request->get('filter')) {
             return new RedirectResponse($this->admin->generateUrl('tree'));
         }
 
@@ -87,11 +87,11 @@ final class PageAdminController extends CRUDController
         $pageManager = $this->container->get('sonata.page.manager.page');
 
         $currentSite = null;
-        $siteId = (int) $request->get('site');
+        $siteId = $request->get('site');
         foreach ($sites as $site) {
-            if ($siteId && $site->getId() === $siteId) {
+            if (null !== $siteId && $site->getId() === (int) $siteId) {
                 $currentSite = $site;
-            } elseif (!$siteId && $site->getIsDefault()) {
+            } elseif (null === $siteId && $site->getIsDefault()) {
                 $currentSite = $site;
             }
         }
@@ -124,13 +124,13 @@ final class PageAdminController extends CRUDController
     {
         $this->admin->checkAccess('create');
 
-        if ('GET' === $request->getMethod() && !$request->get('siteId')) {
+        if ('GET' === $request->getMethod() && null === $request->get('siteId')) {
             $sites = $this->container->get('sonata.page.manager.site')->findBy([]);
 
             if (1 === \count($sites)) {
                 return $this->redirect($this->admin->generateUrl('create', [
                     'siteId' => $sites[0]->getId(),
-                    'uniqid' => $this->admin->getUniqid(),
+                    'uniqid' => $this->admin->getUniqId(),
                 ] + $request->query->all()));
             }
 
@@ -156,13 +156,15 @@ final class PageAdminController extends CRUDController
     public function composeAction(Request $request): Response
     {
         $this->admin->checkAccess('compose');
+
         if (false === $this->container->get('sonata.page.admin.block')->isGranted('LIST')) {
             throw new AccessDeniedException();
         }
 
         $id = $request->get($this->admin->getIdParameter());
         $page = $this->admin->getObject($id);
-        if (!$page) {
+
+        if (null === $page) {
             throw new NotFoundHttpException(sprintf('unable to find the page with id : %s', $id));
         }
 
@@ -174,8 +176,8 @@ final class PageAdminController extends CRUDController
         $template = $templateManager->get($page->getTemplateCode());
         $templateContainers = $template->getContainers();
 
-        foreach ($templateContainers as $id => $container) {
-            $containers[$id] = [
+        foreach ($templateContainers as $containerId => $container) {
+            $containers[$containerId] = [
                 'area' => $container,
                 'block' => false,
             ];
@@ -198,15 +200,15 @@ final class PageAdminController extends CRUDController
         // searching for block defined in template which are not created
         $blockInteractor = $this->container->get('sonata.page.block_interactor');
 
-        foreach ($containers as $id => $container) {
-            if (false === $container['block'] && false === $templateContainers[$id]['shared']) {
+        foreach ($containers as $containerId => $container) {
+            if (false === $container['block'] && false === $templateContainers[$containerId]['shared']) {
                 $blockContainer = $blockInteractor->createNewContainer([
                     'page' => $page,
-                    'name' => $templateContainers[$id]['name'],
-                    'code' => $id,
+                    'name' => $templateContainers[$containerId]['name'],
+                    'code' => $containerId,
                 ]);
 
-                $containers[$id]['block'] = $blockContainer;
+                $containers[$containerId]['block'] = $blockContainer;
             }
         }
 

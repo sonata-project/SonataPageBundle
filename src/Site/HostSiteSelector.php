@@ -16,8 +16,6 @@ namespace Sonata\PageBundle\Site;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 /**
- * HostSiteSelector.
- *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class HostSiteSelector extends BaseSiteSelector
@@ -36,7 +34,7 @@ class HostSiteSelector extends BaseSiteSelector
             }
         }
 
-        if ($this->site && $this->site->getLocale()) {
+        if (null !== $this->site && null !== $this->site->getLocale()) {
             $event->getRequest()->attributes->set('_locale', $this->site->getLocale());
         }
     }

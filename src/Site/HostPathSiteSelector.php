@@ -31,15 +31,15 @@ class HostPathSiteSelector extends BaseSiteSelector
             throw new \RuntimeException('You must change the main Request object in the front controller (app.php) in order to use the `host_with_path` strategy');
         }
 
-        $defaultSite = false;
-        $pathInfo = null;
+        $defaultSite = null;
+        $pathInfo = '/';
 
         foreach ($this->getSites($request) as $site) {
             if (!$site->isEnabled()) {
                 continue;
             }
 
-            if (!$this->site && $site->getIsDefault()) {
+            if (null === $this->site && $site->getIsDefault()) {
                 $defaultSite = $site;
             }
 
@@ -57,15 +57,15 @@ class HostPathSiteSelector extends BaseSiteSelector
             }
         }
 
-        if ($this->site) {
-            $request->setPathInfo($pathInfo ?: '/');
+        if (null !== $this->site) {
+            $request->setPathInfo($pathInfo);
         }
 
         // no valid site, but on there is a default site for the current request
-        if (!$this->site && $defaultSite) {
+        if (null === $this->site && null !== $defaultSite) {
             \assert(null !== $defaultSite->getUrl());
             $event->setResponse(new RedirectResponse($defaultSite->getUrl(), 301));
-        } elseif ($this->site && $this->site->getLocale()) {
+        } elseif (null !== $this->site && null !== $this->site->getLocale()) {
             $request->attributes->set('_locale', $this->site->getLocale());
         }
     }
@@ -74,7 +74,7 @@ class HostPathSiteSelector extends BaseSiteSelector
     {
         $request = $event->getRequest();
 
-        if (!$this->site) {
+        if (null === $this->site) {
             return;
         }
 

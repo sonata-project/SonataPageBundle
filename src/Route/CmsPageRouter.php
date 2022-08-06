@@ -13,11 +13,9 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Route;
 
-use Sonata\PageBundle\CmsManager\CmsManagerInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Model\PageInterface;
-use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Request\SiteRequestContextInterface;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Symfony\Cmf\Component\Routing\ChainedRouterInterface;
@@ -148,11 +146,7 @@ final class CmsPageRouter implements ChainedRouterInterface
         $cms = $this->cmsSelector->retrieve();
         $site = $this->siteSelector->retrieve();
 
-        if (!$cms instanceof CmsManagerInterface) {
-            throw new ResourceNotFoundException('No CmsManager defined');
-        }
-
-        if (!$site instanceof SiteInterface) {
+        if (null === $site) {
             throw new ResourceNotFoundException('No site defined');
         }
 
@@ -264,7 +258,7 @@ final class CmsPageRouter implements ChainedRouterInterface
     private function decorateUrl($url, array $parameters = [], $referenceType = self::ABSOLUTE_PATH)
     {
         $schemeAuthority = '';
-        if ((self::ABSOLUTE_URL === $referenceType || self::NETWORK_PATH === $referenceType) && $this->context->getHost()) {
+        if (self::ABSOLUTE_URL === $referenceType || self::NETWORK_PATH === $referenceType) {
             $port = '';
             if ('http' === $this->context->getScheme() && 80 !== $this->context->getHttpPort()) {
                 $port = sprintf(':%s', $this->context->getHttpPort());

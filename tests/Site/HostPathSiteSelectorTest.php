@@ -115,18 +115,6 @@ final class HostPathSiteSelectorTest extends TestCase
 
 final class HostPathSite extends BaseSite
 {
-    /**
-     * @var int
-     */
-    protected $id;
-
-    /**
-     * @return int $id
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 }
 
 final class HostPathSiteSelector extends BaseSiteSelector

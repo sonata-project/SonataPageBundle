@@ -48,16 +48,4 @@ abstract class BaseLocaleSiteSelectorTest extends TestCase
 
 final class Site extends BaseSite
 {
-    /**
-     * @var int
-     */
-    protected $id;
-
-    /**
-     * @return int $id
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 }

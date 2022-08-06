@@ -79,19 +79,19 @@ final class Transformer implements TransformerInterface
         $snapshot->setPosition($page->getPosition());
         $snapshot->setDecorate($page->getDecorate());
 
-        if (!$page->getSite()) {
+        if (null === $page->getSite()) {
             throw new \RuntimeException(sprintf('No site linked to the page.id=%s', $page->getId()));
         }
 
         $snapshot->setSite($page->getSite());
 
-        if ($page->getParent()) {
+        if (null !== $page->getParent()) {
             $snapshot->setParentId($page->getParent()->getId());
         }
 
         $blocks = [];
         foreach ($page->getBlocks() as $block) {
-            if ($block->getParent()) { // ignore block with a parent => must be a child of a main
+            if (null !== $block->getParent()) { // ignore block with a parent => must be a child of a main
                 continue;
             }
 
@@ -112,7 +112,7 @@ final class Transformer implements TransformerInterface
             'created_at' => null !== $page->getCreatedAt() ? (int) $page->getCreatedAt()->format('U') : null,
             'updated_at' => null !== $page->getUpdatedAt() ? (int) $page->getUpdatedAt()->format('U') : null,
             'slug' => $page->getSlug(),
-            'parent_id' => $page->getParent() ? $page->getParent()->getId() : null,
+            'parent_id' => null !== $page->getParent() ? $page->getParent()->getId() : null,
             'blocks' => $blocks,
         ]);
 

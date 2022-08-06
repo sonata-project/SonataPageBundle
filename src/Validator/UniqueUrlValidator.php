@@ -75,7 +75,7 @@ final class UniqueUrlValidator extends ConstraintValidator
                 continue;
             }
 
-            if ('/' === $value->getUrl() && !$value->getParent()) {
+            if ('/' === $value->getUrl() && null === $value->getParent()) {
                 $this->context->buildViolation('error.uniq_url.parent_unselect')
                     ->atPath('parent')
                     ->addViolation();

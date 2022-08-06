@@ -39,7 +39,7 @@ final class PageManagerTest extends TestCase
 
         $manager->fixUrl($page1);
 
-        static::assertSame('', $page1->getSlug());
+        static::assertNull($page1->getSlug());
         static::assertSame('/', $page1->getUrl());
 
         // if a parent page becomes a child page, then the slug and the url must be updated
@@ -48,7 +48,7 @@ final class PageManagerTest extends TestCase
 
         $manager->fixUrl($parent);
 
-        static::assertSame('', $parent->getSlug());
+        static::assertNull($parent->getSlug());
         static::assertSame('/', $parent->getUrl());
 
         static::assertSame('salut-comment-ca-va', $page1->getSlug());
@@ -61,7 +61,7 @@ final class PageManagerTest extends TestCase
         $page1->setParent(null);
         $manager->fixUrl($parent);
 
-        static::assertSame('', $page1->getSlug());
+        static::assertNull($page1->getSlug());
         static::assertSame('/', $page1->getUrl());
     }
 

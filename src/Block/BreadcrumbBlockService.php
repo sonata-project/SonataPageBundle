@@ -60,7 +60,7 @@ final class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
 
         $page = $this->getCurrentPage();
 
-        if (!$page) {
+        if (null === $page) {
             return $menu;
         }
 

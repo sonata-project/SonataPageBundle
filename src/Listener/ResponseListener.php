@@ -85,9 +85,9 @@ final class ResponseListener
 
         // display a validation page before redirecting, so the editor can edit the current page
         if (
-            $page && $response->isRedirection() &&
+            null !== $page && $response->isRedirection() &&
             $this->cmsSelector->isEditor() &&
-            !$request->get('_sonata_page_skip') &&
+            null === $request->get('_sonata_page_skip') &&
             !$this->skipRedirection
         ) {
             $response = new Response($this->twig->render('@SonataPage/Page/redirect.html.twig', [
@@ -110,7 +110,7 @@ final class ResponseListener
             $response->headers->clearCookie('sonata_page_is_editor');
         }
 
-        if (!$page) {
+        if (null === $page) {
             throw new InternalErrorException('No page instance available for the url, run the sonata:page:update-core-routes and sonata:page:create-snapshots commands');
         }
 

@@ -125,7 +125,7 @@ final class TemplateManagerTest extends TestCase
 
         static::assertSame(
             'response',
-            $manager->renderResponse('')->getContent(),
+            $manager->renderResponse(null)->getContent(),
             'should return the mocked response'
         );
     }

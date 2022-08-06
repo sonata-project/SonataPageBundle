@@ -52,7 +52,7 @@ final class SiteAdminController extends CRUDController
 
         $object = $this->admin->getObject($id);
 
-        if (!$object) {
+        if (null === $object) {
             throw new NotFoundHttpException(sprintf('unable to find the object with id : %s', $id));
         }
 

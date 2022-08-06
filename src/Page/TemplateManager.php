@@ -21,15 +21,10 @@ use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
 /**
- * Templates management and rendering.
- *
  * @author Olivier Paradis <paradis.olivier@gmail.com>
  */
 final class TemplateManager implements TemplateManagerInterface
 {
-    /**
-     * Templating twig.
-     */
     private Environment $twig;
 
     /**
@@ -38,20 +33,12 @@ final class TemplateManager implements TemplateManagerInterface
     private array $defaultParameters;
 
     /**
-     * Collection of available templates.
-     *
      * @var array<string, Template>
      */
     private array $templates = [];
 
-    /**
-     * Default template code.
-     */
     private string $defaultTemplateCode = 'default';
 
-    /**
-     * Default template path.
-     */
     private string $defaultTemplatePath = '@SonataPage/layout.html.twig';
 
     /**
@@ -103,7 +90,7 @@ final class TemplateManager implements TemplateManagerInterface
      * @throws RuntimeError
      * @throws LoaderError
      */
-    public function renderResponse(string $code, array $parameters = [], ?Response $response = null): Response
+    public function renderResponse(?string $code, array $parameters = [], ?Response $response = null): Response
     {
         $response ??= new Response();
 
@@ -115,14 +102,11 @@ final class TemplateManager implements TemplateManagerInterface
         );
     }
 
-    /**
-     * Returns the template path for given code.
-     */
     private function getTemplatePath(?string $code): string
     {
-        $code = $code ?: $this->getDefaultTemplateCode();
+        $code ??= $this->getDefaultTemplateCode();
         $template = $this->get($code);
 
-        return $template ? $template->getPath() : $this->defaultTemplatePath;
+        return null !== $template ? $template->getPath() : $this->defaultTemplatePath;
     }
 }

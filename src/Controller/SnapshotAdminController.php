@@ -48,7 +48,7 @@ final class SnapshotAdminController extends CRUDController
         $pageManager = $this->container->get('sonata.page.manager.page');
         $snapshot = $this->container->get('sonata.page.manager.snapshot')->create();
 
-        if ('GET' === $request->getMethod() && $request->get('pageId')) {
+        if ('GET' === $request->getMethod() && null !== $request->get('pageId')) {
             $page = $pageManager->find($request->get('pageId'));
         } elseif ($this->admin->isChild()) {
             $page = $this->admin->getParent()->getSubject();

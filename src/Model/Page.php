@@ -416,7 +416,7 @@ abstract class Page implements PageInterface
 
     public function getParents()
     {
-        if (!$this->parents) {
+        if (null === $this->parents) {
             $parent = $this->getParent();
             $parents = [];
 
@@ -485,7 +485,7 @@ abstract class Page implements PageInterface
             return false;
         }
 
-        return !$this->getRequestMethod() || false !== strpos($this->getRequestMethod(), $method);
+        return null === $this->getRequestMethod() || false !== strpos($this->getRequestMethod(), $method);
     }
 
     public function getHeaders(): array
