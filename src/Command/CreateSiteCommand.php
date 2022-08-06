@@ -50,8 +50,8 @@ final class CreateSiteCommand extends Command
         $this
             // TODO: Remove setDescription when support for Symfony < 5.4 is dropped.
             ->setDescription(static::$defaultDescription)
-            ->addOption('no-confirmation', null, InputOption::VALUE_NONE, 'Ask confirmation before generating the site', false)
-            ->addOption('enabled', null, InputOption::VALUE_NONE, 'Site.enabled', false)
+            ->addOption('no-confirmation', null, InputOption::VALUE_NONE, 'Ask confirmation before generating the site')
+            ->addOption('enabled', null, InputOption::VALUE_NONE, 'Site.enabled')
             ->addOption('name', null, InputOption::VALUE_OPTIONAL, 'Site.name')
             ->addOption('relativePath', null, InputOption::VALUE_OPTIONAL, 'Site.relativePath')
             ->addOption('host', null, InputOption::VALUE_OPTIONAL, 'Site.host')
