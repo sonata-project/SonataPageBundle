@@ -111,7 +111,7 @@ final class DecoratorStrategy implements DecoratorStrategyInterface
     public function isRouteUriDecorable($uri)
     {
         foreach ($this->ignoreUriPatterns as $uriPattern) {
-            if (0 !== preg_match(sprintf('#%s#', $uriPattern), $uri)) {
+            if (1 === preg_match(sprintf('#%s#', $uriPattern), $uri)) {
                 return false;
             }
         }
