@@ -121,7 +121,7 @@ INFO
 
         $confirmation = true;
 
-        if (false === $input->getOption('no-confirmation')) {
+        if (!$input->getOption('no-confirmation')) {
             $question = new ConfirmationQuestion('Confirm site creation (Y/N)', false, '/^(y)/i');
             $confirmation = $helper->ask($input, $output, $question);
         }
