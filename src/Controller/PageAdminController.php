@@ -89,7 +89,7 @@ final class PageAdminController extends CRUDController
         $currentSite = null;
         $siteId = $request->get('site');
         foreach ($sites as $site) {
-            if (null !== $siteId && $site->getId() === (int) $siteId) {
+            if (null !== $siteId && (string) $site->getId() === $siteId) {
                 $currentSite = $site;
             } elseif (null === $siteId && $site->getIsDefault()) {
                 $currentSite = $site;
