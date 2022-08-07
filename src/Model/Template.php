@@ -52,7 +52,7 @@ final class Template
      *   type?: int,
      *   blocks?: array<string>,
      *   placement?: Placement,
-     *   shared?: boolean
+     *   shared?: bool
      * }> $containers
      */
     public function __construct($name, $path, array $containers = [])
@@ -85,7 +85,7 @@ final class Template
      *   type?: int,
      *   blocks?: array<string>,
      *   placement?: Placement,
-     *   shared?: boolean
+     *   shared?: bool
      * } $meta
      */
     public function addContainer($code, $meta): void
@@ -131,7 +131,7 @@ final class Template
      *   type?: int,
      *   blocks?: array<string>,
      *   placement?: Placement,
-     *   shared?: boolean
+     *   shared?: bool
      * } $meta
      *
      * @return array<string, mixed>
