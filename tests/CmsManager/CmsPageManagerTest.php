@@ -97,15 +97,15 @@ final class CmsPageManagerTest extends TestCase
     {
         $pageManager = $this->createMock(PageManagerInterface::class);
 
-        $pageManager->method('findOneBy')->willReturn(new Page());
+        $page = new Page();
+        $page->setId(42);
+        $pageManager->method('findOneBy')->willReturn($page);
         $this->blockInteractor->method('loadPageBlocks')->willReturn([]);
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
-        $page = '/test';
         $site = new Site();
-
-        static::assertInstanceOf(PageInterface::class, $manager->getPage($site, $page));
+        static::assertInstanceOf(PageInterface::class, $manager->getPage($site, '/test'));
     }
 
     /**
@@ -138,15 +138,15 @@ final class CmsPageManagerTest extends TestCase
     {
         $pageManager = $this->createMock(PageManagerInterface::class);
 
-        $pageManager->method('findOneBy')->willReturn(new Page());
+        $page = new Page();
+        $page->setId(42);
+        $pageManager->method('findOneBy')->willReturn($page);
         $this->blockInteractor->method('loadPageBlocks')->willReturn([]);
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
-        $page = 'test';
         $site = new Site();
-
-        static::assertInstanceOf(PageInterface::class, $manager->getPage($site, $page));
+        static::assertInstanceOf(PageInterface::class, $manager->getPage($site, 'test'));
     }
 
     /**
@@ -179,15 +179,15 @@ final class CmsPageManagerTest extends TestCase
     {
         $pageManager = $this->createMock(PageManagerInterface::class);
 
-        $pageManager->method('findOneBy')->willReturn(new Page());
+        $page = new Page();
+        $page->setId(42);
+        $pageManager->method('findOneBy')->willReturn($page);
         $this->blockInteractor->method('loadPageBlocks')->willReturn([]);
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
 
-        $page = 1;
         $site = new Site();
-
-        static::assertInstanceOf(PageInterface::class, $manager->getPage($site, $page));
+        static::assertInstanceOf(PageInterface::class, $manager->getPage($site, 1));
     }
 
     /**
@@ -220,15 +220,16 @@ final class CmsPageManagerTest extends TestCase
     {
         $pageManager = $this->createMock(PageManagerInterface::class);
 
-        $pageManager->method('findOneBy')->willReturn(new Page());
+        $page = new Page();
+        $page->setId(42);
+        $pageManager->method('findOneBy')->willReturn($page);
         $this->blockInteractor->method('loadPageBlocks')->willReturn([]);
 
         $manager = $this->createManager($pageManager, $this->blockInteractor);
         $manager->setCurrentPage(new Page());
-        $page = null;
-        $site = new Site();
 
-        static::assertInstanceOf(PageInterface::class, $manager->getPage($site, $page));
+        $site = new Site();
+        static::assertInstanceOf(PageInterface::class, $manager->getPage($site, null));
     }
 
     /**
