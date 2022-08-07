@@ -36,7 +36,7 @@ interface PageServiceManagerInterface
     /**
      * Returns the page service for given page.
      *
-     * @param mixed $type A page type or page object
+     * @param string|PageInterface $type
      *
      * @return PageServiceInterface
      */

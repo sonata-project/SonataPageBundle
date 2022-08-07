@@ -28,7 +28,7 @@ final class TemplateTest extends TestCase
                 'name' => 'n/a',
                 'type' => Template::TYPE_STATIC,
                 'blocks' => [],
-                'placement' => [],
+                'placement' => null,
                 'shared' => false,
             ],
         ];
@@ -41,7 +41,7 @@ final class TemplateTest extends TestCase
             'name' => 'n/a',
             'type' => Template::TYPE_STATIC,
             'blocks' => [],
-            'placement' => [],
+            'placement' => null,
             'shared' => true,
         ];
         static::assertSame($template->getContainers(), $expected);
@@ -58,7 +58,7 @@ final class TemplateTest extends TestCase
             'name' => 'Header',
             'type' => Template::TYPE_STATIC,
             'blocks' => [],
-            'placement' => [],
+            'placement' => null,
             'shared' => false,
         ];
 

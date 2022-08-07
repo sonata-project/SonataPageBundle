@@ -223,6 +223,7 @@ final class PageAdmin extends AbstractAdmin
              ->with('advanced', ['class' => 'col-md-6'])->end();
 
         $page = $this->hasSubject() ? $this->getSubject() : null;
+        $site = null !== $page ? $page->getSite() : null;
 
         if (null === $page || (!$page->isInternal() && !$page->isError())) {
             $form
@@ -262,7 +263,7 @@ final class PageAdmin extends AbstractAdmin
                 ->with('main')
                     ->add('parent', PageSelectorType::class, [
                         'page' => $page,
-                        'site' => null !== $page ? $page->getSite() : null,
+                        'site' => $site,
                         'model_manager' => $this->getModelManager(),
                         'class' => $this->getClass(),
                         'required' => false,
@@ -270,7 +271,7 @@ final class PageAdmin extends AbstractAdmin
                     ], [
                         'admin_code' => $this->getCode(),
                         'link_parameters' => [
-                            'siteId' => null !== $page && null !== $page->getSite() ? $page->getSite()->getId() : null,
+                            'siteId' => null !== $site ? $site->getId() : null,
                         ],
                     ])
                 ->end();
@@ -282,7 +283,7 @@ final class PageAdmin extends AbstractAdmin
                     ->add('pageAlias', null, ['required' => false])
                     ->add('parent', PageSelectorType::class, [
                         'page' => $page,
-                        'site' => null !== $page ? $page->getSite() : null,
+                        'site' => $site,
                         'model_manager' => $this->getModelManager(),
                         'class' => $this->getClass(),
                         'filter_choice' => ['request_method' => 'all'],
@@ -290,7 +291,7 @@ final class PageAdmin extends AbstractAdmin
                     ], [
                         'admin_code' => $this->getCode(),
                         'link_parameters' => [
-                            'siteId' => null !== $page && null !== $page->getSite() ? $page->getSite()->getId() : null,
+                            'siteId' => null !== $site ? $site->getId() : null,
                         ],
                     ])
                 ->end();

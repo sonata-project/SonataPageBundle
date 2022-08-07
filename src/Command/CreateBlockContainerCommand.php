@@ -69,7 +69,7 @@ final class CreateBlockContainerCommand extends Command
 
         /** @var PageInterface $page */
         foreach ($pages as $page) {
-            $output->writeln(sprintf('Adding to page <info>%s</info>', $page->getName()));
+            $output->writeln(sprintf('Adding to page <info>%s</info>', $page->getName() ?? ''));
 
             $block = $this->blockInteractor->createNewContainer([
                 'name' => $input->getArgument('blockName'),

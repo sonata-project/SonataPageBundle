@@ -34,7 +34,7 @@ final class PageExtensionTest extends TestCase
 
         $block = $this->createMock(PageBlockInterface::class);
         $block
-            ->expects(static::exactly(2))
+            ->expects(static::once())
             ->method('getPage')
             ->willReturn($this->createMock(PageInterface::class));
 

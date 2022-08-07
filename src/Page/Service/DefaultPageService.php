@@ -64,16 +64,19 @@ final class DefaultPageService extends BasePageService
          * Always prefer the page title, if set.
          * Do not use the (internal) page name as a fallback
          */
-        if (null !== $page->getTitle()) {
-            $this->seoPage->setTitle($page->getTitle());
+        $title = $page->getTitle();
+        if (null !== $title) {
+            $this->seoPage->setTitle($title);
         }
 
-        if (null !== $page->getMetaDescription()) {
-            $this->seoPage->addMeta('name', 'description', $page->getMetaDescription());
+        $metaDescription = $page->getMetaDescription();
+        if (null !== $metaDescription) {
+            $this->seoPage->addMeta('name', 'description', $metaDescription);
         }
 
-        if (null !== $page->getMetaKeyword()) {
-            $this->seoPage->addMeta('name', 'keywords', $page->getMetaKeyword());
+        $metaKeywords = $page->getMetaKeyword();
+        if (null !== $metaKeywords) {
+            $this->seoPage->addMeta('name', 'keywords', $metaKeywords);
         }
 
         $this->seoPage->addMeta('property', 'og:type', 'article');

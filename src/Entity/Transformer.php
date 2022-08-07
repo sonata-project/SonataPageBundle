@@ -80,13 +80,14 @@ final class Transformer implements TransformerInterface
         $snapshot->setDecorate($page->getDecorate());
 
         if (null === $page->getSite()) {
-            throw new \RuntimeException(sprintf('No site linked to the page.id=%s', $page->getId()));
+            throw new \RuntimeException(sprintf('No site linked to the page.id=%s', $page->getId() ?? ''));
         }
 
         $snapshot->setSite($page->getSite());
 
-        if (null !== $page->getParent()) {
-            $snapshot->setParentId($page->getParent()->getId());
+        $parent = $page->getParent();
+        if (null !== $parent) {
+            $snapshot->setParentId($parent->getId());
         }
 
         $blocks = [];
@@ -97,6 +98,10 @@ final class Transformer implements TransformerInterface
 
             $blocks[] = $this->createBlock($block);
         }
+
+        $createdAt = $page->getCreatedAt();
+        $updatedAt = $page->getUpdatedAt();
+        $parent = $page->getParent();
 
         $snapshot->setContent([
             'id' => $page->getId(),
@@ -109,10 +114,10 @@ final class Transformer implements TransformerInterface
             'meta_keyword' => $page->getMetaKeyword(),
             'template_code' => $page->getTemplateCode(),
             'request_method' => $page->getRequestMethod(),
-            'created_at' => null !== $page->getCreatedAt() ? (int) $page->getCreatedAt()->format('U') : null,
-            'updated_at' => null !== $page->getUpdatedAt() ? (int) $page->getUpdatedAt()->format('U') : null,
+            'created_at' => null !== $createdAt ? (int) $createdAt->format('U') : null,
+            'updated_at' => null !== $updatedAt ? (int) $updatedAt->format('U') : null,
             'slug' => $page->getSlug(),
-            'parent_id' => null !== $page->getParent() ? $page->getParent()->getId() : null,
+            'parent_id' => null !== $parent ? $parent->getId() : null,
             'blocks' => $blocks,
         ]);
 
@@ -194,6 +199,9 @@ final class Transformer implements TransformerInterface
         $updatedAt->setTimestamp((int) $content['updated_at']);
         $block->setUpdatedAt($updatedAt);
 
+        /**
+         * @phpstan-var BlockContent $child
+         */
         foreach ($content['blocks'] as $child) {
             $block->addChild($this->loadBlock($child, $page));
         }
@@ -203,12 +211,15 @@ final class Transformer implements TransformerInterface
 
     public function getChildren(PageInterface $page)
     {
-        if (!isset($this->children[$page->getId()])) {
+        $id = $page->getId();
+        \assert(null !== $id);
+
+        if (!isset($this->children[$id])) {
             $date = new \DateTime();
             $parameters = [
                 'publicationDateStart' => $date,
                 'publicationDateEnd' => $date,
-                'parentId' => $page->getId(),
+                'parentId' => $id,
             ];
 
             $manager = $this->registry->getManagerForClass($this->snapshotManager->getClass());
@@ -236,10 +247,10 @@ final class Transformer implements TransformerInterface
                 $collection->add($this->snapshotManager->createSnapshotPageProxy($this, $snapshot));
             }
 
-            $this->children[$page->getId()] = $collection;
+            $this->children[$id] = $collection;
         }
 
-        return $this->children[$page->getId()];
+        return $this->children[$id];
     }
 
     /**
@@ -255,6 +266,9 @@ final class Transformer implements TransformerInterface
             $childBlocks[] = $this->createBlock($child);
         }
 
+        $createdAt = $block->getCreatedAt();
+        $updatedAt = $block->getUpdatedAt();
+
         return [
             'id' => $block->getId(),
             'name' => $block->getName(),
@@ -262,8 +276,8 @@ final class Transformer implements TransformerInterface
             'position' => $block->getPosition(),
             'settings' => $block->getSettings(),
             'type' => $block->getType(),
-            'created_at' => null !== $block->getCreatedAt() ? (int) $block->getCreatedAt()->format('U') : null,
-            'updated_at' => null !== $block->getUpdatedAt() ? (int) $block->getUpdatedAt()->format('U') : null,
+            'created_at' => null !== $createdAt ? (int) $createdAt->format('U') : null,
+            'updated_at' => null !== $updatedAt ? (int) $updatedAt->format('U') : null,
             'blocks' => $childBlocks,
         ];
     }

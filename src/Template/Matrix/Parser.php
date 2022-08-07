@@ -14,10 +14,18 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Template\Matrix;
 
 /**
- * Template Matrix Parser.
  * computes string based template matrix to position/sise.
  *
  * @author Raphaël Benitte <raphael.benitte@fullsix.com>
+ *
+ * @phpstan-type Placement array{
+ *   x: int|float,
+ *   y: int|float,
+ *   width: int|float,
+ *   height: int|float,
+ *   right: int|float,
+ *   bottom: int|float
+ * }
  */
 final class Parser
 {
@@ -27,14 +35,7 @@ final class Parser
      *
      * @throws \InvalidArgumentException
      *
-     * @return array<string, array{
-     *   x: int,
-     *   y: int,
-     *   width: int,
-     *   height: int|float,
-     *   right: int|float,
-     *   bottom: int|float
-     * }>
+     * @return array<string, Placement>
      */
     public static function parse($matrix, array $mapping)
     {

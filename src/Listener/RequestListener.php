@@ -74,15 +74,17 @@ final class RequestListener
             throw new InternalErrorException('No site available for the current request with uri '.htmlspecialchars($request->getUri(), \ENT_QUOTES));
         }
 
-        if (null !== $site->getLocale() && $site->getLocale() !== $request->get('_locale')) {
-            throw new PageNotFoundException(sprintf('Invalid locale - site.locale=%s - request._locale=%s', $site->getLocale(), $request->get('_locale')));
+        $locale = $site->getLocale();
+
+        if (null !== $locale && $locale !== $request->get('_locale')) {
+            throw new PageNotFoundException(sprintf('Invalid locale - site.locale=%s - request._locale=%s', $locale, $request->get('_locale')));
         }
 
         try {
             $page = $cms->getPageByRouteName($site, $request->get('_route'));
 
             if (!$page->getEnabled() && !$this->cmsSelector->isEditor()) {
-                throw new PageNotFoundException(sprintf('The page is not enabled : id=%s', $page->getId()));
+                throw new PageNotFoundException(sprintf('The page is not enabled : id=%s', $page->getId() ?? ''));
             }
 
             $cms->setCurrentPage($page);

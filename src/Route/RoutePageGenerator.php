@@ -61,8 +61,8 @@ final class RoutePageGenerator
     {
         $message = sprintf(
             ' > <info>Updating core routes for site</info> : <comment>%s - %s</comment>',
-            $site->getName(),
-            $site->getUrl()
+            $site->getName() ?? '',
+            $site->getUrl() ?? ''
         );
 
         $this->writeln($output, [
@@ -117,19 +117,17 @@ final class RoutePageGenerator
             }
 
             $update = true;
+            $requirements = $route->getRequirements();
 
             if (null === $page) {
                 $update = false;
-
-                $requirements = $route->getRequirements();
 
                 $page = $this->pageManager->createWithDefaults([
                     'routeName' => $name,
                     'name' => $displayName,
                     'url' => $route->getPath(),
                     'site' => $site,
-                    'requestMethod' => $requirements['_method'] ??
-                        'GET|POST|HEAD|DELETE|PUT',
+                    'requestMethod' => $requirements['_method'] ?? 'GET|POST|HEAD|DELETE|PUT',
                 ]);
             }
 
@@ -139,8 +137,7 @@ final class RoutePageGenerator
 
             $page->setSlug($route->getPath());
             $page->setUrl($route->getPath());
-            $page->setRequestMethod($requirements['_method'] ??
-                'GET|POST|HEAD|DELETE|PUT');
+            $page->setRequestMethod($requirements['_method'] ?? 'GET|POST|HEAD|DELETE|PUT');
 
             $this->pageManager->save($page);
 
@@ -197,9 +194,9 @@ final class RoutePageGenerator
                 if ($clean) {
                     $this->pageManager->delete($page);
 
-                    $this->writeln($output, sprintf('  <error>REMOVED</error>   %s', $page->getRouteName()));
+                    $this->writeln($output, sprintf('  <error>REMOVED</error>   %s', $page->getRouteName() ?? ''));
                 } else {
-                    $this->writeln($output, sprintf('  <error>ERROR</error>   %s', $page->getRouteName()));
+                    $this->writeln($output, sprintf('  <error>ERROR</error>   %s', $page->getRouteName() ?? ''));
                 }
             }
         }

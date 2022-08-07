@@ -75,15 +75,19 @@ abstract class BaseBlockAdmin extends AbstractAdmin
 
     protected function preUpdate(object $object): void
     {
-        if ($object->getPage() instanceof PageInterface) {
-            $object->getPage()->setEdited(true);
+        $page = $object->getPage();
+
+        if (null !== $page) {
+            $page->setEdited(true);
         }
     }
 
     protected function prePersist(object $object): void
     {
-        if ($object->getPage() instanceof PageInterface) {
-            $object->getPage()->setEdited(true);
+        $page = $object->getPage();
+
+        if (null !== $page) {
+            $page->setEdited(true);
         }
     }
 

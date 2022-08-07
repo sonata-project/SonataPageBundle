@@ -129,8 +129,10 @@ final class ExceptionListenerTest extends TestCase
 
         $this->listener->onKernelException($event);
 
-        static::assertInstanceOf(Response::class, $event->getResponse(), 'Should return a response in event');
-        static::assertSame(404, $event->getResponse()->getStatusCode(), 'Should return 404 status code');
+        $response = $event->getResponse();
+
+        static::assertNotNull($response);
+        static::assertSame(404, $response->getStatusCode(), 'Should return 404 status code');
     }
 
     /**
@@ -146,7 +148,7 @@ final class ExceptionListenerTest extends TestCase
 
         // mock a site
         $site = $this->createMock(SiteInterface::class);
-        $site->expects(static::exactly(3))->method('getLocale')->willReturn('fr');
+        $site->expects(static::once())->method('getLocale')->willReturn('fr');
 
         // mock an error page
         $page = $this->createMock(PageInterface::class);

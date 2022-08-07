@@ -86,16 +86,16 @@ final class CmsPageRouter implements ChainedRouterInterface
     }
 
     /**
-     * @param mixed        $name
-     * @param array<mixed> $parameters
-     * @param int          $referenceType
+     * @param string|PageInterface $name
+     * @param array<mixed>         $parameters
+     * @param int                  $referenceType
      */
     public function generate($name, $parameters = [], $referenceType = self::ABSOLUTE_PATH): string
     {
         try {
-            $url = false;
+            $url = null;
 
-            if ($this->isPageAlias($name)) {
+            if (\is_string($name) && $this->isPageAlias($name)) {
                 $name = $this->getPageByPageAlias($name);
             }
 
@@ -103,11 +103,11 @@ final class CmsPageRouter implements ChainedRouterInterface
                 $url = $this->generateFromPage($name, $parameters, $referenceType);
             }
 
-            if ($this->isPageSlug($name)) {
+            if (\is_string($name) && $this->isPageSlug($name)) {
                 $url = $this->generateFromPageSlug($parameters, $referenceType);
             }
 
-            if (false === $url) {
+            if (null === $url) {
                 throw new RouteNotFoundException('The Sonata CmsPageRouter cannot find url');
             }
         } catch (PageNotFoundException $exception) {
@@ -203,7 +203,7 @@ final class CmsPageRouter implements ChainedRouterInterface
         $url = $this->getUrlFromPage($page);
 
         if (null === $url) {
-            throw new \RuntimeException(sprintf('Page "%d" has no url or customUrl.', $page->getId()));
+            throw new \RuntimeException(sprintf('Page "%d" has no url or customUrl.', $page->getId() ?? ''));
         }
 
         if (!$this->context instanceof SiteRequestContextInterface) {

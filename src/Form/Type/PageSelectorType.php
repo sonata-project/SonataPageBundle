@@ -102,7 +102,10 @@ final class PageSelectorType extends AbstractType
                 continue;
             }
 
-            $choices[$page->getId()] = $page;
+            $id = $page->getId();
+            \assert(null !== $id);
+
+            $choices[$id] = $page;
 
             $this->childWalker($page, $options['page'], $choices);
         }
@@ -136,7 +139,10 @@ final class PageSelectorType extends AbstractType
                 continue;
             }
 
-            $choices[$child->getId()] = $child;
+            $id = $child->getId();
+            \assert(null !== $id);
+
+            $choices[$id] = $child;
 
             $this->childWalker($child, $currentPage, $choices, $level + 1);
         }

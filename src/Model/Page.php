@@ -485,7 +485,9 @@ abstract class Page implements PageInterface
             return false;
         }
 
-        return null === $this->getRequestMethod() || false !== strpos($this->getRequestMethod(), $method);
+        $requestMethod = $this->getRequestMethod();
+
+        return null === $requestMethod || false !== strpos($requestMethod, $method);
     }
 
     public function getHeaders(): array

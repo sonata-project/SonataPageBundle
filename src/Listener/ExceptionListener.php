@@ -198,13 +198,17 @@ final class ExceptionListener
 
             $cmsManager->setCurrentPage($page);
 
-            if (null !== $site && null !== $site->getLocale() && $site->getLocale() !== $event->getRequest()->getLocale()) {
-                // Compare locales because Request returns the default one if null.
+            if (null !== $site) {
+                $locale = $site->getLocale();
 
-                // If 404, LocaleListener from HttpKernel component of Symfony is not called.
-                // It uses the "_locale" attribute set by SiteSelectorInterface to set the request locale.
-                // So in order to translate messages, force here the locale with the site.
-                $event->getRequest()->setLocale($site->getLocale());
+                if (null !== $locale && $locale !== $event->getRequest()->getLocale()) {
+                    // Compare locales because Request returns the default one if null.
+
+                    // If 404, LocaleListener from HttpKernel component of Symfony is not called.
+                    // It uses the "_locale" attribute set by SiteSelectorInterface to set the request locale.
+                    // So in order to translate messages, force here the locale with the site.
+                    $event->getRequest()->setLocale($locale);
+                }
             }
 
             $response = $this->pageServiceManager->execute($page, $event->getRequest(), [], new Response('', $statusCode));

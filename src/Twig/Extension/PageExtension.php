@@ -141,9 +141,10 @@ final class PageExtension extends AbstractExtension
     public function ajaxUrl(PageBlockInterface $block, $parameters = [], $absolute = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
         $parameters['blockId'] = $block->getId();
+        $page = $block->getPage();
 
-        if ($block->getPage() instanceof PageInterface) {
-            $parameters['pageId'] = $block->getPage()->getId();
+        if (null !== $page) {
+            $parameters['pageId'] = $page->getId();
         }
 
         return $this->router->generate('sonata_page_ajax_block', $parameters, $absolute);

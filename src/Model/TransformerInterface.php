@@ -37,6 +37,7 @@ use Doctrine\Common\Collections\Collection;
  *     type: string|null,
  *     created_at: int|null,
  *     updated_at: int|null,
+ *     parent_id?: int|string|null,
  *     blocks: array<mixed>,
  *   }>,
  * }

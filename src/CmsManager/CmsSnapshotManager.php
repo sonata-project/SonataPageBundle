@@ -144,6 +144,7 @@ final class CmsSnapshotManager extends BaseCmsPageManager
             $this->loadBlocks($page);
 
             $id = $page->getId();
+            \assert(null !== $id);
 
             $this->pageReferences[$fieldName][$value] = $id;
             $this->pages[$id] = $page;
