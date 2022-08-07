@@ -66,7 +66,7 @@ final class CleanupSnapshotsCommand extends Command
         $keepSnapshots = $input->getOption('keep-snapshots');
 
         foreach ($this->getSites($siteOption) as $site) {
-            $output->write(sprintf('<info>%s</info> - Cleaning up snapshots ...', $site->getName()));
+            $output->write(sprintf('<info>%s</info> - Cleaning up snapshots ...', $site->getName() ?? ''));
 
             $this->cleanupSnapshotBySite->cleanupBySite($site, (int) $keepSnapshots);
 

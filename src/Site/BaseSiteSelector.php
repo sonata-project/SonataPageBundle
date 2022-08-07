@@ -90,16 +90,19 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
         $isMainRequest = method_exists($event, 'isMainRequest') ? $event->isMainRequest() : $event->isMasterRequest();
 
         if ($isMainRequest && null !== $this->site) {
-            if (null !== $this->site->getTitle()) {
-                $this->seoPage->setTitle($this->site->getTitle());
+            $title = $this->site->getTitle();
+            if (null !== $title) {
+                $this->seoPage->setTitle($title);
             }
 
-            if (null !== $this->site->getMetaDescription()) {
-                $this->seoPage->addMeta('name', 'description', $this->site->getMetaDescription());
+            $metaDescription = $this->site->getMetaDescription();
+            if (null !== $metaDescription) {
+                $this->seoPage->addMeta('name', 'description', $metaDescription);
             }
 
-            if (null !== $this->site->getMetaKeywords()) {
-                $this->seoPage->addMeta('name', 'keywords', $this->site->getMetaKeywords());
+            $metaKeywords = $this->site->getMetaKeywords();
+            if (null !== $metaKeywords) {
+                $this->seoPage->addMeta('name', 'keywords', $metaKeywords);
             }
         }
     }
@@ -134,7 +137,7 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
         // we read the value from the attribute to handle fragment support
         $requestPathInfo = $request->get('pathInfo', $request->getPathInfo());
 
-        if (0 === preg_match(sprintf('@^(%s)(/.*|$)@', $site->getRelativePath()), $requestPathInfo, $results)) {
+        if (0 === preg_match(sprintf('@^(%s)(/.*|$)@', $site->getRelativePath() ?? ''), $requestPathInfo, $results)) {
             return false;
         }
 

@@ -111,7 +111,8 @@ final class ChildrenPagesBlockService extends AbstractBlockService implements Ed
             return;
         }
 
-        $site = null !== $block->getPage() ? $block->getPage()->getSite() : null;
+        $page = $block->getPage();
+        $site = null !== $page ? $page->getSite() : null;
 
         $form->add('settings', ImmutableArrayType::class, [
             'keys' => [
@@ -189,14 +190,16 @@ final class ChildrenPagesBlockService extends AbstractBlockService implements Ed
             return;
         }
 
-        if (is_numeric($block->getSetting('pageId', null))) {
+        $pageId = $block->getSetting('pageId', null);
+
+        if (null !== $pageId && !$pageId instanceof PageInterface) {
             $cmsManager = $this->cmsManagerSelector->retrieve();
 
-            if (null !== $block->getPage() && null !== $block->getPage()->getSite()) {
-                $block->setSetting('pageId', $cmsManager->getPage(
-                    $block->getPage()->getSite(),
-                    $block->getSetting('pageId')
-                ));
+            $page = $block->getPage();
+            $site = null !== $page ? $page->getSite() : null;
+
+            if (null !== $site) {
+                $block->setSetting('pageId', $cmsManager->getPage($site, $pageId));
             }
         }
     }

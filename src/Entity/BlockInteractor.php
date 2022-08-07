@@ -142,13 +142,16 @@ final class BlockInteractor implements BlockInteractorInterface
                 continue;
             }
 
-            $id = $parent->getId();
-            \assert(null !== $id);
+            $parentId = $parent->getId();
+            \assert(null !== $parentId);
 
-            $blocks[$id]->addChild($block);
+            $blocks[$parentId]->addChild($block);
         }
 
-        $this->pageBlocksLoaded[$page->getId()] = true;
+        $id = $page->getId();
+        \assert(null !== $id);
+
+        $this->pageBlocksLoaded[$id] = true;
 
         return $blocks;
     }

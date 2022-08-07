@@ -234,18 +234,20 @@ abstract class Site implements SiteInterface
             return $this->getRelativePath();
         }
 
-        return sprintf('//%s%s', $this->getHost(), $this->getRelativePath());
+        return sprintf('//%s%s', $this->getHost() ?? '', $this->getRelativePath() ?? '');
     }
 
     public function isEnabled()
     {
         $now = new \DateTime();
 
-        if ($this->getEnabledFrom() instanceof \DateTimeInterface && $this->getEnabledFrom()->format('U') > $now->format('U')) {
+        $enabledFrom = $this->getEnabledFrom();
+        if (null !== $enabledFrom && $enabledFrom->format('U') > $now->format('U')) {
             return false;
         }
 
-        if ($this->getEnabledTo() instanceof \DateTimeInterface && $now->format('U') > $this->getEnabledTo()->format('U')) {
+        $enabledTo = $this->getEnabledTo();
+        if (null !== $enabledTo && $now->format('U') > $enabledTo->format('U')) {
             return false;
         }
 

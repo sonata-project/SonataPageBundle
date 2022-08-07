@@ -13,21 +13,18 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Model;
 
+use Sonata\PageBundle\Template\Matrix\Parser;
+
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * @phpstan-import-type Placement from Parser
  *
  * @phpstan-type Container array{
  *   name: string,
  *   type: int,
  *   blocks: array<string>,
- *   placement: array{
- *     x?: int,
- *     y?: int|float,
- *     width?: int,
- *     height?: int|float,
- *     right?: int|float,
- *     bottom?: int|float
- *   },
+ *   placement: Placement|null,
  *   shared: boolean
  * }
  */
@@ -48,9 +45,15 @@ final class Template
     private array $containers = [];
 
     /**
-     * @param string               $name
-     * @param string               $path
-     * @param array<string, mixed> $containers
+     * @param string $name
+     * @param string $path
+     * @param array<string, array{
+     *   name?: string,
+     *   type?: int,
+     *   blocks?: array<string>,
+     *   placement?: Placement,
+     *   shared?: boolean
+     * }> $containers
      */
     public function __construct($name, $path, array $containers = [])
     {
@@ -76,8 +79,14 @@ final class Template
      * The meta array is an array containing the
      *    - area name.
      *
-     * @param string               $code
-     * @param array<string, mixed> $meta
+     * @param string $code
+     * @param array{
+     *   name?: string,
+     *   type?: int,
+     *   blocks?: array<string>,
+     *   placement?: Placement,
+     *   shared?: boolean
+     * } $meta
      */
     public function addContainer($code, $meta): void
     {
@@ -117,7 +126,13 @@ final class Template
     }
 
     /**
-     * @param array<string, mixed> $meta
+     * @param array{
+     *   name?: string,
+     *   type?: int,
+     *   blocks?: array<string>,
+     *   placement?: Placement,
+     *   shared?: boolean
+     * } $meta
      *
      * @return array<string, mixed>
      *
@@ -128,8 +143,8 @@ final class Template
         return [
             'name' => $meta['name'] ?? 'n/a',
             'type' => $meta['type'] ?? self::TYPE_STATIC,
-            'blocks' => $meta['blocks'] ?? [],            // default block to be created
-            'placement' => $meta['placement'] ?? [],
+            'blocks' => $meta['blocks'] ?? [], // default block to be created
+            'placement' => $meta['placement'] ?? null,
             'shared' => $meta['shared'] ?? false,
         ];
     }

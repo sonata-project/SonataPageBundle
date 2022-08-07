@@ -171,6 +171,7 @@ final class CmsPageManager extends BaseCmsPageManager
             $this->loadBlocks($page);
 
             $id = $page->getId();
+            \assert(null !== $id);
 
             if ('id' !== $fieldName) {
                 $this->pageReferences[$fieldName][$value] = $id;
@@ -188,7 +189,10 @@ final class CmsPageManager extends BaseCmsPageManager
 
         // save a local cache
         foreach ($blocks as $block) {
-            $this->blocks[$block->getId()] = $block;
+            $id = $block->getId();
+            \assert(null !== $id);
+
+            $this->blocks[$id] = $block;
         }
     }
 }

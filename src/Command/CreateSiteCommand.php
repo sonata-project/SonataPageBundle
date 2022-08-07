@@ -91,13 +91,10 @@ EOT
         }
 
         // create the object
-        $siteManager = $this->siteManager;
-        $site = $siteManager->create();
+        $site = $this->siteManager->create();
 
         $site->setName($values['name']);
-
         $site->setRelativePath('/' === $values['relativePath'] ? '' : $values['relativePath']);
-
         $site->setHost($values['host']);
         $site->setEnabledFrom('-' === $values['enabledFrom'] ? null : new \DateTime($values['enabledFrom']));
         $site->setEnabledTo('-' === $values['enabledTo'] ? null : new \DateTime($values['enabledTo']));
@@ -105,8 +102,11 @@ EOT
         $site->setLocale('-' === $values['locale'] ? null : $values['locale']);
         $site->setEnabled(\in_array($values['enabled'], ['true', 1, '1'], true));
 
-        $info_enabledFrom = $site->getEnabledFrom() instanceof \DateTimeInterface ? $site->getEnabledFrom()->format('r') : 'ALWAYS';
-        $info_enabledTo = $site->getEnabledTo() instanceof \DateTimeInterface ? $site->getEnabledTo()->format('r') : 'ALWAYS';
+        $enabledFrom = $site->getEnabledFrom();
+        $enabledTo = $site->getEnabledTo();
+
+        $infoEnabledFrom = null !== $enabledFrom ? $enabledFrom->format('r') : 'ALWAYS';
+        $infoEnabledTo = null !== $enabledTo ? $enabledTo->format('r') : 'ALWAYS';
 
         $output->writeln(
             <<<INFO
@@ -114,7 +114,7 @@ EOT
 Creating website with the following information :
   <info>name</info> : {$site->getName()}
   <info>site</info> : http(s)://{$site->getHost()}{$site->getRelativePath()}
-  <info>enabled</info> :  <info>from</info> {$info_enabledFrom} => <info>to</info> {$info_enabledTo}
+  <info>enabled</info> :  <info>from</info> {$infoEnabledFrom} => <info>to</info> {$infoEnabledTo}
 
 INFO
         );
@@ -127,15 +127,15 @@ INFO
         }
 
         if (true === $confirmation) {
-            $siteManager->save($site);
+            $this->siteManager->save($site);
 
             $output->writeln([
                 '',
                 '<info>Site created !</info>',
                 '',
                 'You can now create the related pages and snapshots by running the followings commands:',
-                sprintf('  bin/console sonata:page:update-core-routes --site=%s', $site->getId()),
-                sprintf('  bin/console sonata:page:create-snapshots --site=%s', $site->getId()),
+                sprintf('  bin/console sonata:page:update-core-routes --site=%s', $site->getId() ?? ''),
+                sprintf('  bin/console sonata:page:create-snapshots --site=%s', $site->getId() ?? ''),
             ]);
         } else {
             $output->writeln('<error>Site creation cancelled !</error>');

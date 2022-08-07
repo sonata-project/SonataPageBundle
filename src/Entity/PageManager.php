@@ -40,8 +40,9 @@ final class PageManager extends BaseEntityManager implements PageManagerInterfac
     private array $defaults;
 
     /**
-     * @param array<string, mixed> $defaults
-     * @param array<string, mixed> $pageDefaults
+     * @param class-string<PageInterface> $class
+     * @param array<string, mixed>        $defaults
+     * @param array<string, mixed>        $pageDefaults
      */
     public function __construct(
         string $class,
@@ -140,18 +141,25 @@ final class PageManager extends BaseEntityManager implements PageManagerInterfac
 
     public function loadPages(SiteInterface $site)
     {
+        $siteId = $site->getId();
+        \assert(null !== $siteId);
+
+        /** @var array<PageInterface> */
         $pages = $this->getEntityManager()
-            ->createQuery(sprintf('SELECT p FROM %s p INDEX BY p.id WHERE p.site = %d ORDER BY p.position ASC', $this->class, $site->getId()))
+            ->createQuery(sprintf('SELECT p FROM %s p INDEX BY p.id WHERE p.site = %d ORDER BY p.position ASC', $this->class, $siteId))
             ->execute();
 
         foreach ($pages as $page) {
             $parent = $page->getParent();
 
-            if (!$parent) {
+            if (null === $parent) {
                 continue;
             }
 
-            $pages[$parent->getId()]->addChild($page);
+            $parentId = $parent->getId();
+            \assert(null !== $parentId);
+
+            $pages[$parentId]->addChild($page);
         }
 
         return $pages;

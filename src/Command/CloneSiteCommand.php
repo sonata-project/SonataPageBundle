@@ -105,20 +105,24 @@ final class CloneSiteCommand extends Command
         $blockClones = [];
 
         $output->writeln('Cloning pages');
+
         /** @var PageInterface[] $pages */
-        $pages = $this->pageManager->findBy([
-            'site' => $sourceSite,
-        ]);
+        $pages = $this->pageManager->findBy(['site' => $sourceSite]);
         foreach ($pages as $page) {
+            $pageId = $page->getId();
+            \assert(null !== $pageId);
+
             if ($hybridOnly && !$page->isHybrid()) {
                 continue;
             }
 
+            $parent = $page->getParent();
+
             $output->writeln(sprintf(
                 ' % 4s - % -70s - % 4s',
-                $page->getId(),
-                $page->getTitle(),
-                null !== $page->getParent() ? $page->getParent()->getId() : ''
+                $pageId,
+                $page->getTitle() ?? '',
+                null !== $parent ? $parent->getId() ?? '' : ''
             ));
 
             $newPage = clone $page;
@@ -130,37 +134,43 @@ final class CloneSiteCommand extends Command
             $newPage->setSite($destSite);
             $this->pageManager->save($newPage);
 
-            $pageClones[$page->getId()] = $newPage;
+            $pageClones[$pageId] = $newPage;
 
-            // Clone page blocks
             /** @var PageBlockInterface[] $blocks */
-            $blocks = $this->blockManager->findBy([
-                'page' => $page,
-            ]);
+            $blocks = $this->blockManager->findBy(['page' => $page]);
+
             foreach ($blocks as $block) {
-                $output->writeln(sprintf(' cloning block % 4s ', $block->getId()));
+                $blockId = $block->getId();
+                \assert(null !== $blockId);
+
+                $output->writeln(sprintf(' cloning block % 4s ', $blockId));
+
                 $newBlock = clone $block;
                 $newBlock->setPage($newPage);
-                $blockClones[$block->getId()] = $newBlock;
+
+                $blockClones[$blockId] = $newBlock;
+
                 $this->blockManager->save($newBlock);
             }
         }
 
         $output->writeln('Fixing page parents');
         foreach ($pageClones as $page) {
-            if (null !== $page->getParent()) {
-                $id = $page->getParent()->getId();
-                \assert(null !== $id);
+            $parentPage = $page->getParent();
+            if (null !== $parentPage) {
+                $parentId = $parentPage->getId();
+                \assert(null !== $parentId);
 
-                if (\array_key_exists($id, $pageClones)) {
+                if (\array_key_exists($parentId, $pageClones)) {
                     $output->writeln(sprintf(
                         'new parent: % 4s - % -70s - % 4s -> % 4s',
-                        $page->getId(),
-                        $page->getTitle(),
-                        $id,
-                        $pageClones[$id]->getId()
+                        $page->getId() ?? '',
+                        $page->getTitle() ?? '',
+                        $parentId,
+                        $pageClones[$parentId]->getId() ?? ''
                     ));
-                    $page->setParent($pageClones[$id]);
+
+                    $page->setParent($pageClones[$parentId]);
                 } else {
                     $page->setParent(null);
                 }
@@ -171,22 +181,22 @@ final class CloneSiteCommand extends Command
 
         $output->writeln('Fixing block parents');
         foreach ($pageClones as $page) {
-            $blocks = $this->blockManager->findBy([
-                'page' => $page,
-            ]);
+            $blocks = $this->blockManager->findBy(['page' => $page]);
             foreach ($blocks as $block) {
-                if (null !== $block->getParent()) {
-                    $id = $block->getParent()->getId();
-                    \assert(null !== $id);
+                $parentBlock = $block->getParent();
 
-                    $output->writeln(sprintf(
-                        'new block parent: % 4s - % 4s',
-                        $block->getId(),
-                        $blockClones[$id]->getId()
-                    ));
+                if (null !== $parentBlock) {
+                    $parentBlockId = $parentBlock->getId();
+                    \assert(null !== $parentBlockId);
 
-                    if (\array_key_exists($id, $blockClones)) {
-                        $block->setParent($blockClones[$id]);
+                    if (\array_key_exists($parentBlockId, $blockClones)) {
+                        $output->writeln(sprintf(
+                            'new block parent: % 4s - % 4s',
+                            $block->getId() ?? '',
+                            $blockClones[$parentBlockId]->getId() ?? ''
+                        ));
+
+                        $block->setParent($blockClones[$parentBlockId]);
                     } else {
                         $block->setParent(null);
                     }
@@ -211,7 +221,12 @@ final class CloneSiteCommand extends Command
         $sites = $this->siteManager->findAll();
 
         foreach ($sites as $site) {
-            $output->writeln(sprintf(' % 5s - % -30s - %s', $site->getId(), $site->getName(), $site->getUrl()));
+            $output->writeln(sprintf(
+                ' % 5s - % -30s - %s',
+                $site->getId() ?? '',
+                $site->getName() ?? '',
+                $site->getUrl() ?? ''
+            ));
         }
     }
 }
