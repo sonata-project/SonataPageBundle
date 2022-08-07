@@ -114,6 +114,7 @@ final class CmsSnapshotManagerTest extends TestCase
         $pBlock->addChild($cBlock);
         $pBlock->setId(1);
 
+        $page->method('getId')->willReturn(42);
         $page->method('getBlocks')->willReturn([$pBlock]);
 
         $this->snapshotManager
