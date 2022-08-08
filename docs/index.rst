@@ -20,5 +20,4 @@ Page Bundle
    reference/page_services
    reference/advanced_configuration
    reference/performance
-   reference/api
    reference/assets
