@@ -54,7 +54,10 @@ final class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
 
         static::assertNull($request->attributes->get('_locale'));
 
-        $event = new RequestEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
+        // TODO: Simplify this when dropping support for Symfony <  5.3
+        $mainRequestType = \defined(HttpKernelInterface::class.'::MAIN_REQUEST') ? HttpKernelInterface::MAIN_REQUEST : 1;
+
+        $event = new RequestEvent($kernel, $request, $mainRequestType);
 
         $this->siteManager
             ->expects(static::once())
@@ -80,7 +83,10 @@ final class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
 
         static::assertNull($request->attributes->get('_locale'));
 
-        $event = new RequestEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
+        // TODO: Simplify this when dropping support for Symfony <  5.3
+        $mainRequestType = \defined(HttpKernelInterface::class.'::MAIN_REQUEST') ? HttpKernelInterface::MAIN_REQUEST : 1;
+
+        $event = new RequestEvent($kernel, $request, $mainRequestType);
 
         $this->siteManager
             ->expects(static::once())

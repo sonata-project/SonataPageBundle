@@ -116,7 +116,7 @@ final class SnapshotManagerTest extends TestCase
         $platform->method('getDateTimeFormatString')->willReturn('Y-m-d H:i:s');
         $connection->method('getDatabasePlatform')->willReturn($platform);
         $connection->method('getParams')->willReturn([]);
-        $unit->method('getSingleIdentifierValue')->willReturnCallback(static function ($entity) {
+        $unit->method('getSingleIdentifierValue')->willReturnCallback(static function (object $entity) {
             if ($entity instanceof \DateTimeInterface) {
                 throw new MappingException();
             }
@@ -125,7 +125,7 @@ final class SnapshotManagerTest extends TestCase
         });
 
         $metaDataFactory->method('hasMetadataFor')
-            ->willReturnCallback(static fn ($class) => SonataPageSnapshot::class === $class);
+            ->willReturnCallback(static fn (string $class) => SonataPageSnapshot::class === $class);
         $metaDataFactory->method('getMetadataFor')->with(SonataPageSnapshot::class)->willReturn($classMetadata);
 
         $this->entityManager->expects(static::once())->method('persist')->with($snapshot);
@@ -134,7 +134,7 @@ final class SnapshotManagerTest extends TestCase
         $this->entityManager->expects(static::once())->method('createQueryBuilder')->willReturn(new QueryBuilder($this->entityManager));
         $this->entityManager->method('getConfiguration')->willReturn(new Configuration());
         $this->entityManager->method('getExpressionBuilder')->willReturn(new Expr());
-        $this->entityManager->expects(static::once())->method('createQuery')->willReturnCallback(function ($dql) {
+        $this->entityManager->expects(static::once())->method('createQuery')->willReturnCallback(function (string $dql) {
             $query = new Query($this->entityManager);
             $query->setDQL($dql);
 

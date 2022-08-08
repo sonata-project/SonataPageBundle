@@ -23,9 +23,9 @@ use Sonata\PageBundle\Model\SiteInterface;
 abstract class BaseCmsPageManager implements CmsManagerInterface
 {
     /**
-     * @var PageInterface
+     * @var PageInterface|null
      */
-    protected $currentPage;
+    protected $currentPage = null;
 
     /**
      * @var array<PageBlockInterface|null>

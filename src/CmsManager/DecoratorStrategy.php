@@ -54,7 +54,10 @@ final class DecoratorStrategy implements DecoratorStrategyInterface
 
     public function isDecorable(Request $request, $requestType, Response $response)
     {
-        if (HttpKernelInterface::MASTER_REQUEST !== $requestType) {
+        // TODO: Simplify this when dropping support for Symfony <  5.3
+        $mainRequestType = \defined(HttpKernelInterface::class.'::MAIN_REQUEST') ? HttpKernelInterface::MAIN_REQUEST : 1;
+
+        if ($mainRequestType !== $requestType) {
             return false;
         }
 

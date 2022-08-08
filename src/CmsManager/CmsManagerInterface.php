@@ -80,8 +80,6 @@ interface CmsManagerInterface
     public function getBlock($id);
 
     /**
-     * Returns the current page.
-     *
      * @return PageInterface|null
      */
     public function getCurrentPage();

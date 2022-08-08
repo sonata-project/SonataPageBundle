@@ -84,11 +84,11 @@ EOF;
                     ->defaultFalse()
                 ->end()
                 ->scalarNode('multisite')
-                    ->info('For more information, see https://sonata-project.org/bundles/page/master/doc/reference/multisite.html')
+                    ->info('For more information, see https://docs.sonata-project.org/projects/SonataPageBundle/en/4.x/reference/multisite/')
                     ->isRequired()
                     ->validate()
                         ->ifNotInArray(['host', 'host_by_locale', 'host_with_path', 'host_with_path_by_locale'])
-                        ->thenInvalid('Invalid multisite configuration %s. For more information, see https://sonata-project.org/bundles/page/master/doc/reference/multisite.html')
+                        ->thenInvalid('Invalid multisite configuration %s. For more information, see https://docs.sonata-project.org/projects/SonataPageBundle/en/4.x/reference/multisite/')
                     ->end()
                 ->end()
                 ->arrayNode('router_auto_register')
@@ -187,16 +187,14 @@ EOF;
                                 ->end()
                                 ->validate()
                                 ->always()
-                                    ->then(static function ($matrix) {
-                                        return Parser::parse($matrix['layout'], $matrix['mapping']);
-                                    })
+                                    ->then(static fn (array $matrix) => Parser::parse($matrix['layout'], $matrix['mapping']))
                                 ->end()
                             ->end()
                         ->end()
                     ->end()
                     ->validate()
                     ->always()
-                        ->then(static function ($templates) {
+                        ->then(static function (array $templates): array {
                             foreach ($templates as $id => &$template) {
                                 if (0 === \count($template['containers'])) {
                                     continue;

@@ -44,10 +44,8 @@
         <service id="%sonata.page.admin.page.class%" alias="sonata.page.admin.page"/>
         <service id="sonata.page.admin.block" class="%sonata.page.admin.block.class%" public="true">
             <tag name="sonata.admin" model_class="%sonata.page.admin.block.entity%" controller="%sonata.page.admin.block.controller%" manager_type="orm" show_in_dashboard="false" group="%sonata.page.admin.groupname%" translation_domain="%sonata.page.admin.page.translation_domain%" label="block" label_translator_strategy="sonata.admin.label.strategy.underscore" icon="%sonata.page.admin.groupicon%"/>
+            <argument type="service" id="sonata.block.manager"/>
             <argument>%sonata_block.blocks%</argument>
-            <call method="setBlockManager">
-                <argument type="service" id="sonata.block.manager"/>
-            </call>
             <call method="setTranslationDomain">
                 <argument>%sonata.page.admin.block.translation_domain%</argument>
             </call>
@@ -58,9 +56,7 @@
         <service id="%sonata.page.admin.block.class%" alias="sonata.page.admin.block"/>
         <service id="sonata.page.admin.shared_block" class="%sonata.page.admin.shared_block.class%" public="true">
             <tag name="sonata.admin" model_class="%sonata.page.admin.block.entity%" controller="%sonata.page.admin.shared_block.controller%" manager_type="orm" show_in_dashboard="true" group="%sonata.page.admin.groupname%" translation_domain="%sonata.page.admin.page.translation_domain%" label="shared_block" label_translator_strategy="sonata.admin.label.strategy.underscore" icon="%sonata.page.admin.groupicon%"/>
-            <call method="setBlockManager">
-                <argument type="service" id="sonata.block.manager"/>
-            </call>
+            <argument type="service" id="sonata.block.manager"/>
             <call method="setTranslationDomain">
                 <argument>%sonata.page.admin.shared_block.translation_domain%</argument>
             </call>
