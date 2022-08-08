@@ -175,7 +175,7 @@ final class RoutePageGeneratorTest extends TestCase
 
         $pageManager->expects(static::atLeastOnce())
             ->method('findOneBy')
-            ->willReturnCallback(static function ($criteria) use ($hybridPageWithBadHost) {
+            ->willReturnCallback(static function (array $criteria) use ($hybridPageWithBadHost) {
                 if ($criteria === ['routeName' => 'test_hybrid_page_with_bad_host', 'site' => 1]) {
                     return $hybridPageWithBadHost;
                 }

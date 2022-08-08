@@ -17,6 +17,7 @@ use Doctrine\ORM\EntityRepository;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Security\Acl\Permission\AdminPermissionMap;
+use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
 use Sonata\BlockBundle\Block\Service\BlockServiceInterface;
 use Sonata\BlockBundle\Block\Service\EditableBlockService;
 use Sonata\BlockBundle\Form\Type\ServiceListType;
@@ -55,9 +56,9 @@ final class BlockAdmin extends BaseBlockAdmin
      *   }>,
      * }> $blocks
      */
-    public function __construct(array $blocks = [])
+    public function __construct(BlockServiceManagerInterface $blockManager, array $blocks = [])
     {
-        parent::__construct();
+        parent::__construct($blockManager);
 
         $this->blocks = $blocks;
     }

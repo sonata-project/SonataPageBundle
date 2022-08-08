@@ -19,6 +19,10 @@ use Doctrine\Common\Collections\AbstractLazyCollection;
  * @extends AbstractLazyCollection<array-key, PageInterface>
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * @psalm-suppress PropertyNotSetInConstructor
+ *
+ * @see $collection property is initialized in the doInitialize method
  */
 final class SnapshotChildrenCollection extends AbstractLazyCollection
 {

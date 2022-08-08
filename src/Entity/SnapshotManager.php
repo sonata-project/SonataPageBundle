@@ -32,8 +32,14 @@ final class SnapshotManager extends BaseEntityManager implements SnapshotManager
 {
     private SnapshotPageProxyFactoryInterface $snapshotPageProxyFactory;
 
-    public function __construct($class, ManagerRegistry $registry, SnapshotPageProxyFactoryInterface $snapshotPageProxyFactory)
-    {
+    /**
+     * @param class-string<SnapshotInterface> $class
+     */
+    public function __construct(
+        string $class,
+        ManagerRegistry $registry,
+        SnapshotPageProxyFactoryInterface $snapshotPageProxyFactory
+    ) {
         parent::__construct($class, $registry);
 
         $this->snapshotPageProxyFactory = $snapshotPageProxyFactory;

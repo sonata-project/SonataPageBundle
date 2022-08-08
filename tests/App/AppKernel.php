@@ -35,6 +35,11 @@ use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 use Symfony\Component\Security\Http\Authentication\AuthenticatorManager;
 
+/**
+ * @psalm-suppress PropertyNotSetInConstructor
+ *
+ * @see https://github.com/psalm/psalm-plugin-symfony/pull/220
+ */
 final class AppKernel extends Kernel
 {
     use MicroKernelTrait;
@@ -91,6 +96,9 @@ final class AppKernel extends Kernel
         $routes->import($this->getProjectDir().'/config/routes.yaml');
     }
 
+    /**
+     * @psalm-suppress DeprecatedClass
+     */
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
     {
         $loader->load($this->getProjectDir().'/config/config.yaml');

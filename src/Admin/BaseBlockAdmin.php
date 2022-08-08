@@ -46,8 +46,10 @@ abstract class BaseBlockAdmin extends AbstractAdmin
      */
     protected $containerBlockTypes = [];
 
-    public function setBlockManager(BlockServiceManagerInterface $blockManager): void
+    public function __construct(BlockServiceManagerInterface $blockManager)
     {
+        parent::__construct();
+
         $this->blockManager = $blockManager;
     }
 

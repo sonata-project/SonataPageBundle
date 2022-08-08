@@ -47,10 +47,7 @@ final class SubRequestsSiteSelectorTest extends BaseLocaleSiteSelectorTest
         );
     }
 
-    /**
-     * Tests onKernelRequest method with Master request detect default site.
-     */
-    public function testOnKernelRequestWithMasterDetectEn(): void
+    public function testOnKernelRequestWithMainDetectEn(): void
     {
         $kernel = $this->createMock(HttpKernelInterface::class);
         $request = SiteRequest::create('http://www.example.com');
@@ -58,7 +55,10 @@ final class SubRequestsSiteSelectorTest extends BaseLocaleSiteSelectorTest
         // Ensure request locale is null
         static::assertNull($request->attributes->get('_locale'));
 
-        $event = new RequestEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
+        // TODO: Simplify this when dropping support for Symfony <  5.3
+        $mainRequestType = \defined(HttpKernelInterface::class.'::MAIN_REQUEST') ? HttpKernelInterface::MAIN_REQUEST : 1;
+
+        $event = new RequestEvent($kernel, $request, $mainRequestType);
 
         $this->siteManager
             ->expects(static::once())
@@ -76,10 +76,7 @@ final class SubRequestsSiteSelectorTest extends BaseLocaleSiteSelectorTest
         static::assertNull($site);
     }
 
-    /**
-     * Tests onKernelRequest method with Master request detect /fr site.
-     */
-    public function testOnKernelRequestWithMasterDetectFr(): void
+    public function testOnKernelRequestWithMainDetectFr(): void
     {
         $kernel = $this->createMock(HttpKernelInterface::class);
         $request = SiteRequest::create('http://www.example.com/fr');
@@ -87,7 +84,10 @@ final class SubRequestsSiteSelectorTest extends BaseLocaleSiteSelectorTest
         // Ensure request locale is null
         static::assertNull($request->attributes->get('_locale'));
 
-        $event = new RequestEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
+        // TODO: Simplify this when dropping support for Symfony <  5.3
+        $mainRequestType = \defined(HttpKernelInterface::class.'::MAIN_REQUEST') ? HttpKernelInterface::MAIN_REQUEST : 1;
+
+        $event = new RequestEvent($kernel, $request, $mainRequestType);
 
         $this->siteManager
             ->expects(static::once())

@@ -198,6 +198,9 @@ final class ExceptionListenerTest extends TestCase
         $kernel = $this->createMock(HttpKernelInterface::class);
         $request = new Request();
 
-        return new ExceptionEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST, $exception);
+        // TODO: Simplify this when dropping support for Symfony <  5.3
+        $mainRequestType = \defined(HttpKernelInterface::class.'::MAIN_REQUEST') ? HttpKernelInterface::MAIN_REQUEST : 1;
+
+        return new ExceptionEvent($kernel, $request, $mainRequestType, $exception);
     }
 }

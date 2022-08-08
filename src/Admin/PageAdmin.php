@@ -22,6 +22,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Security\Acl\Permission\AdminPermissionMap;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\CallbackFilter;
 use Sonata\PageBundle\Exception\InternalErrorException;
 use Sonata\PageBundle\Exception\PageNotFoundException;
@@ -196,10 +197,12 @@ final class PageAdmin extends AbstractAdmin
             ->add('parent')
             ->add('edited')
             ->add('hybrid', CallbackFilter::class, [
-                'callback' => static function ($queryBuilder, $alias, $field, $data): void {
+                'callback' => static function (ProxyQueryInterface $queryBuilder, string $alias, string $field, array $data): void {
+                    $builder = $queryBuilder->getQueryBuilder();
+
                     if (\in_array($data['value'], ['hybrid', 'cms'], true)) {
-                        $queryBuilder->andWhere(sprintf('%s.routeName %s :routeName', $alias, 'cms' === $data['value'] ? '=' : '!='));
-                        $queryBuilder->setParameter('routeName', PageInterface::PAGE_ROUTE_CMS_NAME);
+                        $builder->andWhere(sprintf('%s.routeName %s :routeName', $alias, 'cms' === $data['value'] ? '=' : '!='));
+                        $builder->setParameter('routeName', PageInterface::PAGE_ROUTE_CMS_NAME);
                     }
                 },
                 'field_options' => [
