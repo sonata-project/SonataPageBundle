@@ -19,8 +19,6 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Select a template.
- *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 final class TemplateChoiceType extends AbstractType
@@ -43,9 +41,9 @@ final class TemplateChoiceType extends AbstractType
     }
 
     /**
-     * @return string[]
+     * @return array<string>
      */
-    public function getTemplates()
+    public function getTemplates(): array
     {
         $templates = [];
         foreach ($this->manager->getAll() as $code => $template) {

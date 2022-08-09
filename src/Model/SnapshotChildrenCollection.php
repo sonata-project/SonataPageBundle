@@ -36,7 +36,7 @@ final class SnapshotChildrenCollection extends AbstractLazyCollection
         $this->page = $page;
     }
 
-    protected function doInitialize()
+    protected function doInitialize(): void
     {
         $this->collection = $this->transformer->getChildren($this->page);
     }

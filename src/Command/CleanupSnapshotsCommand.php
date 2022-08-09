@@ -30,6 +30,7 @@ final class CleanupSnapshotsCommand extends Command
     protected static $defaultDescription = 'Cleanups the deprecated snapshots by a given site';
 
     private CleanupSnapshotBySiteInterface $cleanupSnapshotBySite;
+
     private SiteManagerInterface $siteManager;
 
     public function __construct(

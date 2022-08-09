@@ -65,7 +65,7 @@ final class Transformer implements TransformerInterface
         $this->registry = $registry;
     }
 
-    public function create(PageInterface $page)
+    public function create(PageInterface $page): SnapshotInterface
     {
         $snapshot = $this->snapshotManager->create();
 
@@ -124,7 +124,7 @@ final class Transformer implements TransformerInterface
         return $snapshot;
     }
 
-    public function load(SnapshotInterface $snapshot)
+    public function load(SnapshotInterface $snapshot): PageInterface
     {
         $page = $this->pageManager->createWithDefaults();
 
@@ -165,7 +165,7 @@ final class Transformer implements TransformerInterface
         return $page;
     }
 
-    public function loadBlock(array $content, PageInterface $page)
+    public function loadBlock(array $content, PageInterface $page): PageBlockInterface
     {
         $block = $this->blockManager->create();
 
@@ -209,7 +209,7 @@ final class Transformer implements TransformerInterface
         return $block;
     }
 
-    public function getChildren(PageInterface $page)
+    public function getChildren(PageInterface $page): Collection
     {
         $id = $page->getId();
         \assert(null !== $id);
@@ -258,7 +258,7 @@ final class Transformer implements TransformerInterface
      *
      * @phpstan-return BlockContent
      */
-    private function createBlock(BlockInterface $block)
+    private function createBlock(BlockInterface $block): array
     {
         $childBlocks = [];
 

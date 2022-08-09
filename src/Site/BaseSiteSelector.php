@@ -22,50 +22,34 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Routing\RequestContext;
 
 /**
- * BaseSiteSelector.
- *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 abstract class BaseSiteSelector implements SiteSelectorInterface
 {
-    /**
-     * @var SiteManagerInterface
-     */
-    protected $siteManager;
+    protected SiteManagerInterface $siteManager;
 
-    /**
-     * @var DecoratorStrategyInterface
-     */
-    protected $decoratorStrategy;
+    protected DecoratorStrategyInterface $decoratorStrategy;
 
-    /**
-     * @var SeoPageInterface
-     */
-    protected $seoPage;
+    protected SeoPageInterface $seoPage;
 
-    /**
-     * @var SiteInterface|null
-     */
-    protected $site;
+    protected ?SiteInterface $site = null;
 
-    /**
-     * @param SiteManagerInterface       $siteManager       A site manager instance
-     * @param DecoratorStrategyInterface $decoratorStrategy A decorator strategy instance
-     * @param SeoPageInterface           $seoPage           A SEO page instance
-     */
-    public function __construct(SiteManagerInterface $siteManager, DecoratorStrategyInterface $decoratorStrategy, SeoPageInterface $seoPage)
-    {
+    public function __construct(
+        SiteManagerInterface $siteManager,
+        DecoratorStrategyInterface $decoratorStrategy,
+        SeoPageInterface $seoPage
+    ) {
         $this->siteManager = $siteManager;
         $this->decoratorStrategy = $decoratorStrategy;
         $this->seoPage = $seoPage;
     }
 
-    public function retrieve()
+    public function retrieve(): ?SiteInterface
     {
         return $this->site;
     }
 
-    public function getRequestContext()
+    public function getRequestContext(): RequestContext
     {
         return new RequestContext();
     }
@@ -108,9 +92,9 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
     }
 
     /**
-     * @return SiteInterface[]
+     * @return array<SiteInterface>
      */
-    protected function getSites(Request $request)
+    protected function getSites(Request $request): array
     {
         // sort by isDefault DESC in order to have default site in first position
         // which will be used if no site found for the current request
@@ -123,11 +107,6 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
     }
 
     /**
-     * Returns TRUE whether the given site matches the given request.
-     *
-     * @param SiteInterface $site    A site instance
-     * @param Request       $request A request instance
-     *
      * @return string|false
      */
     protected function matchRequest(SiteInterface $site, Request $request)
@@ -145,14 +124,9 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
     }
 
     /**
-     * Gets the preferred site based on the given request.
-     *
-     * @param array<SiteInterface> $sites   An array of enabled sites
-     * @param Request              $request A request instance
-     *
-     * @return SiteInterface|null
+     * @param array<SiteInterface> $sites
      */
-    protected function getPreferredSite(array $sites, Request $request)
+    protected function getPreferredSite(array $sites, Request $request): ?SiteInterface
     {
         if (0 === \count($sites)) {
             return null;
@@ -180,8 +154,5 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
         return reset($sites);
     }
 
-    /**
-     * @return void
-     */
-    abstract protected function handleKernelRequest(RequestEvent $event);
+    abstract protected function handleKernelRequest(RequestEvent $event): void;
 }

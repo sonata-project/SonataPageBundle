@@ -17,13 +17,7 @@ use Sonata\BlockBundle\Model\BlockInterface;
 
 interface PageBlockInterface extends BlockInterface
 {
-    /**
-     * @return PageInterface|null
-     */
-    public function getPage();
+    public function getPage(): ?PageInterface;
 
-    /**
-     * @return void
-     */
-    public function setPage(?PageInterface $page = null);
+    public function setPage(?PageInterface $page = null): void;
 }

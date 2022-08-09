@@ -22,17 +22,14 @@ use Sonata\PageBundle\Model\SiteInterface;
  */
 abstract class BaseCmsPageManager implements CmsManagerInterface
 {
-    /**
-     * @var PageInterface|null
-     */
-    protected $currentPage = null;
+    protected ?PageInterface $currentPage = null;
 
     /**
      * @var array<PageBlockInterface|null>
      */
-    protected $blocks = [];
+    protected array $blocks = [];
 
-    public function getCurrentPage()
+    public function getCurrentPage(): ?PageInterface
     {
         return $this->currentPage;
     }
@@ -42,43 +39,40 @@ abstract class BaseCmsPageManager implements CmsManagerInterface
         $this->currentPage = $page;
     }
 
-    public function getBlocks()
+    public function getBlocks(): array
     {
         return $this->blocks;
     }
 
-    public function getPageByUrl(SiteInterface $site, $slug): PageInterface
+    public function getPageByUrl(SiteInterface $site, string $slug): PageInterface
     {
         return $this->getPageBy($site, 'url', $slug);
     }
 
-    public function getPageByRouteName(SiteInterface $site, $routeName)
+    public function getPageByRouteName(SiteInterface $site, string $routeName): PageInterface
     {
         return $this->getPageBy($site, 'routeName', $routeName);
     }
 
-    public function getPageByPageAlias(SiteInterface $site, $pageAlias)
+    public function getPageByPageAlias(SiteInterface $site, string $pageAlias): PageInterface
     {
         return $this->getPageBy($site, 'pageAlias', $pageAlias);
     }
 
-    public function getPageByName(SiteInterface $site, $name)
+    public function getPageByName(SiteInterface $site, string $name): PageInterface
     {
         return $this->getPageBy($site, 'name', $name);
     }
 
-    public function getPageById($id)
+    public function getPageById($id): PageInterface
     {
         return $this->getPageBy(null, 'id', $id);
     }
 
     /**
-     * @param string     $fieldName
      * @param int|string $value
-     *
-     * @return PageInterface
      *
      * @phpstan-param 'id'|'url'|'routeName'|'pageAlias'|'name' $fieldName
      */
-    abstract protected function getPageBy(?SiteInterface $site, $fieldName, $value);
+    abstract protected function getPageBy(?SiteInterface $site, string $fieldName, $value): PageInterface;
 }

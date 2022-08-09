@@ -106,9 +106,6 @@ final class SubRequestsSiteSelectorTest extends BaseLocaleSiteSelectorTest
         static::assertSame('/fr', $site->getRelativePath());
     }
 
-    /**
-     * Tests onKernelRequest method with Sub request detect default site.
-     */
     public function testOnKernelRequestWithSubDetectEn(): void
     {
         $kernel = $this->createMock(HttpKernelInterface::class);
@@ -135,9 +132,6 @@ final class SubRequestsSiteSelectorTest extends BaseLocaleSiteSelectorTest
         static::assertNull($site);
     }
 
-    /**
-     * Tests onKernelRequest method with Sub request detect /fr site.
-     */
     public function testOnKernelRequestWithSubDetectFr(): void
     {
         $kernel = $this->createMock(HttpKernelInterface::class);

@@ -25,7 +25,6 @@ use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\Doctrine\Model\ManagerInterface;
 use Sonata\Form\Type\ImmutableArrayType;
 use Sonata\Form\Validator\ErrorElement;
-use Sonata\PageBundle\Model\Block;
 use Sonata\PageBundle\Model\PageBlockInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -71,7 +70,6 @@ final class SharedBlockBlockService extends AbstractBlockService implements Edit
             $this->load($block);
         }
 
-        /** @var Block $sharedBlock */
         $sharedBlock = $block->getSetting('blockId');
 
         $template = $blockContext->getTemplate();

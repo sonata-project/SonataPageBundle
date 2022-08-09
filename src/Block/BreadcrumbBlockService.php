@@ -81,18 +81,12 @@ final class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
         return $menu;
     }
 
-    /**
-     * @return string
-     */
-    private function getName()
+    private function getName(): string
     {
         return 'sonata.page.block.breadcrumb';
     }
 
-    /**
-     * @return PageInterface|null
-     */
-    private function getCurrentPage()
+    private function getCurrentPage(): ?PageInterface
     {
         $cms = $this->cmsSelector->retrieve();
 

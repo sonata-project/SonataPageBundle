@@ -27,40 +27,35 @@ final class RequestFactory
     ];
 
     /**
-     * @param string               $type
-     * @param string               $uri
-     * @param string               $method
      * @param array<string, mixed> $parameters
      * @param array<string, mixed> $cookies
      * @param array<string, mixed> $files
      * @param array<string, mixed> $server
      * @param string|resource|null $content
-     *
-     * @return Request|SiteRequest
      */
-    public static function create($type, $uri, $method = 'GET', $parameters = [], $cookies = [], $files = [], $server = [], $content = null)
-    {
+    public static function create(
+        string $type,
+        string $uri,
+        string $method = 'GET',
+        array $parameters = [],
+        array $cookies = [],
+        array $files = [],
+        array $server = [],
+        $content = null
+    ): Request {
         self::configureFactory($type);
 
         return \call_user_func_array([self::getClass($type), 'create'], [$uri, $method, $parameters, $cookies, $files, $server, $content]);
     }
 
-    /**
-     * @param string $type
-     *
-     * @return Request|SiteRequest
-     */
-    public static function createFromGlobals($type)
+    public static function createFromGlobals(string $type): Request
     {
         self::configureFactory($type);
 
         return \call_user_func_array([self::getClass($type), 'createFromGlobals'], []);
     }
 
-    /**
-     * @param string $type
-     */
-    private static function configureFactory($type): void
+    private static function configureFactory(string $type): void
     {
         if (!\in_array($type, ['host_with_path', 'host_with_path_by_locale'], true)) {
             return;
@@ -83,11 +78,9 @@ final class RequestFactory
     }
 
     /**
-     * @param string $type
-     *
      * @return class-string<Request>
      */
-    private static function getClass($type)
+    private static function getClass(string $type): string
     {
         if (!\array_key_exists($type, self::$types)) {
             throw new \RuntimeException('invalid type');

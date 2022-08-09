@@ -14,8 +14,6 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Exception;
 
 /**
- * Exception used to raise an internal error.
- *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 final class InternalErrorException extends \RuntimeException

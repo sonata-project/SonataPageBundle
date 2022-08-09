@@ -54,18 +54,19 @@ final class ExceptionListener
     private bool $status;
 
     /**
-     * @param SiteSelectorInterface       $siteSelector       Site selector
-     * @param CmsManagerSelectorInterface $cmsManagerSelector CMS Manager selector
-     * @param bool                        $debug              Debug mode
-     * @param Environment                 $twig               Twig engine
-     * @param PageServiceManagerInterface $pageServiceManager Page service manager
-     * @param DecoratorStrategyInterface  $decoratorStrategy  Decorator strategy
-     * @param array<int, string>          $httpErrorCodes     An array of http error codes' routes
-     * @param LoggerInterface|null        $logger             Logger instance
-     * @param bool                        $status             log status
+     * @param array<int, string> $httpErrorCodes An array of http error code routes
      */
-    public function __construct(SiteSelectorInterface $siteSelector, CmsManagerSelectorInterface $cmsManagerSelector, bool $debug, Environment $twig, PageServiceManagerInterface $pageServiceManager, DecoratorStrategyInterface $decoratorStrategy, array $httpErrorCodes, ?LoggerInterface $logger = null, bool $status = false)
-    {
+    public function __construct(
+        SiteSelectorInterface $siteSelector,
+        CmsManagerSelectorInterface $cmsManagerSelector,
+        bool $debug,
+        Environment $twig,
+        PageServiceManagerInterface $pageServiceManager,
+        DecoratorStrategyInterface $decoratorStrategy,
+        array $httpErrorCodes,
+        ?LoggerInterface $logger = null,
+        bool $status = false
+    ) {
         $this->siteSelector = $siteSelector;
         $this->cmsManagerSelector = $cmsManagerSelector;
         $this->debug = $debug;
@@ -224,12 +225,7 @@ final class ExceptionListener
         $event->setResponse($response);
     }
 
-    /**
-     * @param \Throwable  $originalException  Original exception that called the listener
-     * @param \Throwable  $generatedException Generated exception
-     * @param string|null $message            Message to log
-     */
-    private function logException(\Throwable $originalException, \Throwable $generatedException, $message = null): void
+    private function logException(\Throwable $originalException, \Throwable $generatedException, ?string $message = null): void
     {
         if (null === $message) {
             $message = sprintf('Exception thrown when handling an exception (%s: %s)', \get_class($generatedException), $generatedException->getMessage());

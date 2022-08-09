@@ -29,18 +29,18 @@ use Symfony\Component\HttpFoundation\Response;
 final class PageServiceManager implements PageServiceManagerInterface
 {
     /**
-     * @var PageServiceInterface[]
+     * @var array<PageServiceInterface>
      */
     private array $services = [];
 
     private ?PageServiceInterface $default = null;
 
-    public function add($type, PageServiceInterface $service): void
+    public function add(string $type, PageServiceInterface $service): void
     {
         $this->services[$type] = $service;
     }
 
-    public function get($type)
+    public function get($type): PageServiceInterface
     {
         if ($type instanceof PageInterface) {
             $type = $type->getType();
@@ -57,7 +57,7 @@ final class PageServiceManager implements PageServiceManagerInterface
         return $this->services[$type];
     }
 
-    public function getAll()
+    public function getAll(): array
     {
         return $this->services;
     }
@@ -67,7 +67,7 @@ final class PageServiceManager implements PageServiceManagerInterface
         $this->default = $service;
     }
 
-    public function execute(PageInterface $page, Request $request, array $parameters = [], ?Response $response = null)
+    public function execute(PageInterface $page, Request $request, array $parameters = [], ?Response $response = null): Response
     {
         $service = $this->get($page);
 

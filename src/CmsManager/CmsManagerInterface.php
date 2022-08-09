@@ -25,79 +25,39 @@ use Sonata\PageBundle\Model\SiteInterface;
  */
 interface CmsManagerInterface
 {
-    /**
-     * @param string $name
-     *
-     * @return PageBlockInterface|null
-     */
-    public function findContainer($name, PageInterface $page, ?PageBlockInterface $parentContainer = null);
+    public function findContainer(string $name, PageInterface $page, ?PageBlockInterface $parentContainer = null): ?PageBlockInterface;
 
-    /**
-     * @param string $slug
-     */
-    public function getPageByUrl(SiteInterface $site, $slug): PageInterface;
+    public function getPageByUrl(SiteInterface $site, string $slug): PageInterface;
 
-    /**
-     * @param string $routeName
-     *
-     * @return PageInterface
-     */
-    public function getPageByRouteName(SiteInterface $site, $routeName);
+    public function getPageByRouteName(SiteInterface $site, string $routeName): PageInterface;
 
-    /**
-     * @param string $pageAlias
-     *
-     * @return PageInterface
-     */
-    public function getPageByPageAlias(SiteInterface $site, $pageAlias);
+    public function getPageByPageAlias(SiteInterface $site, string $pageAlias): PageInterface;
 
-    /**
-     * @param string $routeName
-     *
-     * @return PageInterface
-     */
-    public function getInternalRoute(SiteInterface $site, $routeName);
+    public function getInternalRoute(SiteInterface $site, string $routeName): PageInterface;
 
-    /**
-     * @param string $name
-     *
-     * @return PageInterface
-     */
-    public function getPageByName(SiteInterface $site, $name);
+    public function getPageByName(SiteInterface $site, string $name): PageInterface;
 
     /**
      * @param int|string $id
-     *
-     * @return PageInterface
      */
-    public function getPageById($id);
+    public function getPageById($id): PageInterface;
 
     /**
      * @param int|string $id
-     *
-     * @return PageBlockInterface|null
      */
-    public function getBlock($id);
+    public function getBlock($id): ?PageBlockInterface;
 
-    /**
-     * @return PageInterface|null
-     */
-    public function getCurrentPage();
+    public function getCurrentPage(): ?PageInterface;
 
-    /**
-     * @return void
-     */
-    public function setCurrentPage(PageInterface $page);
+    public function setCurrentPage(PageInterface $page): void;
 
     /**
      * @return array<PageBlockInterface|null>
      */
-    public function getBlocks();
+    public function getBlocks(): array;
 
     /**
      * @param int|string|null $page
-     *
-     * @return PageInterface
      */
-    public function getPage(SiteInterface $site, $page);
+    public function getPage(SiteInterface $site, $page): PageInterface;
 }

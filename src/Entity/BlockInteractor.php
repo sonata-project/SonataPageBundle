@@ -17,6 +17,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Sonata\PageBundle\Model\BlockInteractorInterface;
 use Sonata\PageBundle\Model\BlockManagerInterface;
+use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 
 /**
@@ -25,7 +26,7 @@ use Sonata\PageBundle\Model\PageInterface;
 final class BlockInteractor implements BlockInteractorInterface
 {
     /**
-     * @var bool[]
+     * @var array<bool>
      */
     private array $pageBlocksLoaded = [];
 
@@ -33,17 +34,13 @@ final class BlockInteractor implements BlockInteractorInterface
 
     private BlockManagerInterface $blockManager;
 
-    /**
-     * @param ManagerRegistry       $registry     Doctrine registry
-     * @param BlockManagerInterface $blockManager Block manager
-     */
     public function __construct(ManagerRegistry $registry, BlockManagerInterface $blockManager)
     {
         $this->blockManager = $blockManager;
         $this->registry = $registry;
     }
 
-    public function getBlock($id)
+    public function getBlock($id): ?PageBlockInterface
     {
         $blocks = $this->getEntityManager()->createQueryBuilder()
             ->select('b')
@@ -58,7 +55,7 @@ final class BlockInteractor implements BlockInteractorInterface
         return $blocks[0] ?? null;
     }
 
-    public function getBlocksById(PageInterface $page)
+    public function getBlocksById(PageInterface $page): array
     {
         $blocks = $this->getEntityManager()
             ->createQuery(sprintf('SELECT b FROM %s b INDEX BY b.id WHERE b.page = :page ORDER BY b.position ASC', $this->blockManager->getClass()))
@@ -70,7 +67,7 @@ final class BlockInteractor implements BlockInteractorInterface
         return $blocks;
     }
 
-    public function saveBlocksPosition(array $data = [], $partial = true)
+    public function saveBlocksPosition(array $data = [], bool $partial = true): bool
     {
         $em = $this->getEntityManager();
         $em->getConnection()->beginTransaction();
@@ -95,7 +92,7 @@ final class BlockInteractor implements BlockInteractorInterface
         return true;
     }
 
-    public function createNewContainer(array $values)
+    public function createNewContainer(array $values): PageBlockInterface
     {
         $container = $this->blockManager->create();
         $container->setEnabled($values['enabled'] ?? true);
@@ -125,7 +122,7 @@ final class BlockInteractor implements BlockInteractorInterface
         return $container;
     }
 
-    public function loadPageBlocks(PageInterface $page)
+    public function loadPageBlocks(PageInterface $page): array
     {
         if (isset($this->pageBlocksLoaded[$page->getId()])) {
             return [];
@@ -156,10 +153,7 @@ final class BlockInteractor implements BlockInteractorInterface
         return $blocks;
     }
 
-    /**
-     * @return EntityManagerInterface
-     */
-    private function getEntityManager()
+    private function getEntityManager(): EntityManagerInterface
     {
         $entityManager = $this->registry->getManagerForClass($this->blockManager->getClass());
         \assert($entityManager instanceof EntityManagerInterface);

@@ -15,8 +15,5 @@ namespace Sonata\PageBundle\Model;
 
 interface SnapshotPageProxyFactoryInterface
 {
-    /**
-     * @return SnapshotPageProxyInterface
-     */
-    public function create(SnapshotManagerInterface $manager, TransformerInterface $transformer, SnapshotInterface $snapshot);
+    public function create(SnapshotManagerInterface $manager, TransformerInterface $transformer, SnapshotInterface $snapshot): SnapshotPageProxyInterface;
 }

@@ -29,9 +29,6 @@ final class CmsBlock extends AbstractBlock
 {
 }
 
-/**
- * Test CmsPageManager.
- */
 final class CmsPageManagerTest extends TestCase
 {
     /**
@@ -46,9 +43,6 @@ final class CmsPageManagerTest extends TestCase
 
     private CmsPageManager $manager;
 
-    /**
-     * Setup manager object to test.
-     */
     protected function setUp(): void
     {
         $this->blockInteractor = $this->getMockBlockInteractor();
@@ -56,9 +50,6 @@ final class CmsPageManagerTest extends TestCase
         $this->manager = new CmsPageManager($this->pageManager, $this->blockInteractor);
     }
 
-    /**
-     * Test finding an existing container in a page.
-     */
     public function testFindExistingContainer(): void
     {
         $block = new CmsBlock();
@@ -77,9 +68,6 @@ final class CmsPageManagerTest extends TestCase
         );
     }
 
-    /**
-     * Test finding an non-existing container in a page does create a new block.
-     */
     public function testFindNonExistingContainerCreatesNewBlock(): void
     {
         $page = new Page();
@@ -90,9 +78,6 @@ final class CmsPageManagerTest extends TestCase
         static::assertSame('newcontainer', $container->getSetting('code'));
     }
 
-    /**
-     * Test get Page method with url return Page.
-     */
     public function testGetPageWithUrl(): void
     {
         $pageManager = $this->createMock(PageManagerInterface::class);
@@ -108,9 +93,6 @@ final class CmsPageManagerTest extends TestCase
         static::assertInstanceOf(PageInterface::class, $manager->getPage($site, '/test'));
     }
 
-    /**
-     * Test get Page method with url throw Exception.
-     */
     public function testGetPageWithUrlException(): void
     {
         $this->expectException(PageNotFoundException::class);
@@ -131,9 +113,6 @@ final class CmsPageManagerTest extends TestCase
         $manager->getPage($site, $page);
     }
 
-    /**
-     * Test get Page method with url return Page.
-     */
     public function testGetPageWithRouteName(): void
     {
         $pageManager = $this->createMock(PageManagerInterface::class);
@@ -149,9 +128,6 @@ final class CmsPageManagerTest extends TestCase
         static::assertInstanceOf(PageInterface::class, $manager->getPage($site, 'test'));
     }
 
-    /**
-     * Test get Page method with url throw Exception.
-     */
     public function testGetPageWithRouteNameException(): void
     {
         $this->expectException(PageNotFoundException::class);
@@ -172,9 +148,6 @@ final class CmsPageManagerTest extends TestCase
         $manager->getPage($site, $page);
     }
 
-    /**
-     * Test get Page method with url return Page.
-     */
     public function testGetPageWithId(): void
     {
         $pageManager = $this->createMock(PageManagerInterface::class);
@@ -190,9 +163,6 @@ final class CmsPageManagerTest extends TestCase
         static::assertInstanceOf(PageInterface::class, $manager->getPage($site, 1));
     }
 
-    /**
-     * Test get Page method with url throw Exception.
-     */
     public function testGetPageWithIdException(): void
     {
         $this->expectException(PageNotFoundException::class);
@@ -213,9 +183,6 @@ final class CmsPageManagerTest extends TestCase
         $manager->getPage($site, $page);
     }
 
-    /**
-     * Test get Page method with url return Page.
-     */
     public function testGetPageWithoutParam(): void
     {
         $pageManager = $this->createMock(PageManagerInterface::class);
@@ -232,9 +199,6 @@ final class CmsPageManagerTest extends TestCase
         static::assertInstanceOf(PageInterface::class, $manager->getPage($site, null));
     }
 
-    /**
-     * Test get Page method with url throw Exception.
-     */
     public function testGetPageWithoutParamException(): void
     {
         $this->expectException(PageNotFoundException::class);
@@ -256,8 +220,6 @@ final class CmsPageManagerTest extends TestCase
     }
 
     /**
-     * Returns a mock block interactor.
-     *
      * @return MockObject&BlockInteractorInterface
      */
     private function getMockBlockInteractor(): BlockInteractorInterface

@@ -23,72 +23,33 @@ abstract class Site implements SiteInterface
      */
     protected $id = null;
 
-    /**
-     * @var string|null
-     */
-    protected $name = null;
+    protected ?string $name = null;
 
-    /**
-     * @var string|null
-     */
-    protected $title = null;
+    protected ?string $title = null;
 
-    /**
-     * @var string|null
-     */
-    protected $host = null;
+    protected ?string $host = null;
 
-    /**
-     * @var string|null
-     */
-    protected $locale;
+    protected ?string $locale = null;
 
-    /**
-     * @var \DateTimeInterface|null
-     */
-    protected $enabledFrom = null;
+    protected ?\DateTimeInterface $enabledFrom = null;
 
-    /**
-     * @var \DateTimeInterface|null
-     */
-    protected $enabledTo = null;
+    protected ?\DateTimeInterface $enabledTo = null;
 
-    /**
-     * @var bool
-     */
-    protected $isDefault = false;
+    protected bool $isDefault = false;
 
-    /**
-     * @var string|null
-     */
-    protected $relativePath = null;
+    protected ?string $relativePath = null;
 
-    /**
-     * @var bool
-     */
-    protected $enabled = false;
+    protected bool $enabled = false;
 
-    /**
-     * @var \DateTimeInterface|null
-     */
-    protected $createdAt = null;
+    protected ?\DateTimeInterface $createdAt = null;
 
-    /**
-     * @var \DateTimeInterface|null
-     */
-    protected $updatedAt = null;
+    protected ?\DateTimeInterface $updatedAt = null;
 
-    /**
-     * @var string|null
-     */
-    protected $metaDescription = null;
+    protected ?string $metaDescription = null;
 
-    /**
-     * @var string|null
-     */
-    protected $metaKeywords = null;
+    protected ?string $metaKeywords = null;
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getName() ?? 'n/a';
     }
@@ -98,47 +59,47 @@ abstract class Site implements SiteInterface
         return $this->id;
     }
 
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function setName($name): void
+    public function setName(?string $name): void
     {
         $this->name = $name;
     }
 
-    public function getTitle()
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    public function setTitle($title): void
+    public function setTitle(?string $title): void
     {
         $this->title = $title;
     }
 
-    public function getHost()
+    public function getHost(): ?string
     {
         return $this->host;
     }
 
-    public function setHost($host): void
+    public function setHost(?string $host): void
     {
         $this->host = $host;
     }
 
-    public function getLocale()
+    public function getLocale(): ?string
     {
         return $this->locale;
     }
 
-    public function setLocale($locale): void
+    public function setLocale(?string $locale): void
     {
         $this->locale = $locale;
     }
 
-    public function getEnabledFrom()
+    public function getEnabledFrom(): ?\DateTimeInterface
     {
         return $this->enabledFrom;
     }
@@ -148,7 +109,7 @@ abstract class Site implements SiteInterface
         $this->enabledFrom = $enabledFrom;
     }
 
-    public function getEnabledTo()
+    public function getEnabledTo(): ?\DateTimeInterface
     {
         return $this->enabledTo;
     }
@@ -158,37 +119,37 @@ abstract class Site implements SiteInterface
         $this->enabledTo = $enabledTo;
     }
 
-    public function getIsDefault()
+    public function getIsDefault(): bool
     {
         return $this->isDefault;
     }
 
-    public function setIsDefault($default): void
+    public function setIsDefault(bool $default): void
     {
         $this->isDefault = $default;
     }
 
-    public function getRelativePath()
+    public function getRelativePath(): ?string
     {
         return $this->relativePath;
     }
 
-    public function setRelativePath($path): void
+    public function setRelativePath(?string $path): void
     {
         $this->relativePath = $path;
     }
 
-    public function getEnabled()
+    public function getEnabled(): bool
     {
         return $this->enabled;
     }
 
-    public function setEnabled($enabled): void
+    public function setEnabled(bool $enabled): void
     {
         $this->enabled = $enabled;
     }
 
-    public function getCreatedAt()
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
@@ -198,7 +159,7 @@ abstract class Site implements SiteInterface
         $this->createdAt = $createdAt;
     }
 
-    public function getUpdatedAt()
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
@@ -208,27 +169,27 @@ abstract class Site implements SiteInterface
         $this->updatedAt = $updatedAt;
     }
 
-    public function getMetaDescription()
+    public function getMetaDescription(): ?string
     {
         return $this->metaDescription;
     }
 
-    public function setMetaDescription($metaDescription): void
+    public function setMetaDescription(?string $metaDescription): void
     {
         $this->metaDescription = $metaDescription;
     }
 
-    public function getMetaKeywords()
+    public function getMetaKeywords(): ?string
     {
         return $this->metaKeywords;
     }
 
-    public function setMetaKeywords($metaKeywords): void
+    public function setMetaKeywords(?string $metaKeywords): void
     {
         $this->metaKeywords = $metaKeywords;
     }
 
-    public function getUrl()
+    public function getUrl(): ?string
     {
         if ($this->isLocalhost()) {
             return $this->getRelativePath();
@@ -237,7 +198,7 @@ abstract class Site implements SiteInterface
         return sprintf('//%s%s', $this->getHost() ?? '', $this->getRelativePath() ?? '');
     }
 
-    public function isEnabled()
+    public function isEnabled(): bool
     {
         $now = new \DateTime();
 
@@ -254,7 +215,7 @@ abstract class Site implements SiteInterface
         return $this->enabled;
     }
 
-    public function isLocalhost()
+    public function isLocalhost(): bool
     {
         return 'localhost' === $this->getHost();
     }

@@ -17,6 +17,7 @@ use Sonata\PageBundle\Request\SiteRequestContext;
 use Sonata\PageBundle\Request\SiteRequestInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\Routing\RequestContext;
 
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
@@ -85,7 +86,7 @@ class HostPathSiteSelector extends BaseSiteSelector
         }
     }
 
-    public function getRequestContext()
+    public function getRequestContext(): RequestContext
     {
         return new SiteRequestContext($this);
     }

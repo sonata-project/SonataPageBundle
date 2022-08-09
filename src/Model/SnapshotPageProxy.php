@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Model;
 
+use Doctrine\Common\Collections\Collection;
+
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
@@ -41,10 +43,7 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
         $this->transformer = $transformer;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->getPage();
     }
@@ -70,10 +69,8 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
 
     /**
      * Serialize a snapshot page proxy.
-     *
-     * @return string
      */
-    public function serialize()
+    public function serialize(): string
     {
         return serialize([
             'pageId' => $this->getPage()->getId(),
@@ -83,10 +80,8 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
 
     /**
      * Unserialize a snapshot page proxy.
-     *
-     * @param string $serialized
      */
-    public function unserialize($serialized)
+    public function unserialize($data): void
     {
         // TODO: Implement unserialize() method.
     }
@@ -101,137 +96,137 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
         $this->getPage()->setId($id);
     }
 
-    public function getTitle()
+    public function getTitle(): ?string
     {
         return $this->getPage()->getTitle();
     }
 
-    public function setTitle($title): void
+    public function setTitle(?string $title): void
     {
         $this->getPage()->setTitle($title);
     }
 
-    public function getRouteName()
+    public function getRouteName(): ?string
     {
         return $this->getPage()->getRouteName();
     }
 
-    public function setRouteName($routeName): void
+    public function setRouteName(?string $routeName): void
     {
         $this->getPage()->setRouteName($routeName);
     }
 
-    public function getPageAlias()
+    public function getPageAlias(): ?string
     {
         return $this->getPage()->getPageAlias();
     }
 
-    public function setPageAlias($pageAlias)
+    public function setPageAlias(?string $pageAlias): void
     {
         $this->getPage()->setPageAlias($pageAlias);
     }
 
-    public function getType()
+    public function getType(): ?string
     {
         return $this->getPage()->getType();
     }
 
-    public function setType($type): void
+    public function setType(?string $type): void
     {
         $this->getPage()->setType($type);
     }
 
-    public function getEnabled()
+    public function getEnabled(): bool
     {
         return $this->getPage()->getEnabled();
     }
 
-    public function setEnabled($enabled): void
+    public function setEnabled(bool $enabled): void
     {
         $this->getPage()->setEnabled($enabled);
     }
 
-    public function getName()
+    public function getName(): ?string
     {
         return $this->getPage()->getName();
     }
 
-    public function setName($name): void
+    public function setName(?string $name): void
     {
         $this->getPage()->setName($name);
     }
 
-    public function getSlug()
+    public function getSlug(): ?string
     {
         return $this->getPage()->getSlug();
     }
 
-    public function setSlug($slug): void
+    public function setSlug(?string $slug): void
     {
         $this->getPage()->setSlug($slug);
     }
 
-    public function getUrl()
+    public function getUrl(): ?string
     {
         return $this->getPage()->getUrl();
     }
 
-    public function setUrl($url): void
+    public function setUrl(?string $url): void
     {
         $this->getPage()->setUrl($url);
     }
 
-    public function getCustomUrl()
+    public function getCustomUrl(): ?string
     {
         return $this->getPage()->getCustomUrl();
     }
 
-    public function setCustomUrl($customUrl): void
+    public function setCustomUrl(?string $customUrl): void
     {
         $this->getPage()->setCustomUrl($customUrl);
     }
 
-    public function getMetaKeyword()
+    public function getMetaKeyword(): ?string
     {
         return $this->getPage()->getMetaKeyword();
     }
 
-    public function setMetaKeyword($metaKeyword): void
+    public function setMetaKeyword(?string $metaKeyword): void
     {
         $this->getPage()->setMetaKeyword($metaKeyword);
     }
 
-    public function getMetaDescription()
+    public function getMetaDescription(): ?string
     {
         return $this->getPage()->getMetaDescription();
     }
 
-    public function setMetaDescription($metaDescription): void
+    public function setMetaDescription(?string $metaDescription): void
     {
         $this->getPage()->setMetaDescription($metaDescription);
     }
 
-    public function getJavascript()
+    public function getJavascript(): ?string
     {
         return $this->getPage()->getJavascript();
     }
 
-    public function setJavascript($javascript): void
+    public function setJavascript(?string $javascript): void
     {
         $this->getPage()->setJavascript($javascript);
     }
 
-    public function getStylesheet()
+    public function getStylesheet(): ?string
     {
         return $this->getPage()->getStylesheet();
     }
 
-    public function setStylesheet($stylesheet): void
+    public function setStylesheet(?string $stylesheet): void
     {
         $this->getPage()->setStylesheet($stylesheet);
     }
 
-    public function getCreatedAt()
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->getPage()->getCreatedAt();
     }
@@ -241,7 +236,7 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
         $this->getPage()->setCreatedAt($createdAt);
     }
 
-    public function getUpdatedAt()
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->getPage()->getUpdatedAt();
     }
@@ -251,7 +246,7 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
         $this->getPage()->setUpdatedAt($updatedAt);
     }
 
-    public function getChildren()
+    public function getChildren(): Collection
     {
         if (0 === $this->getPage()->getChildren()->count()) {
             $this->getPage()->setChildren(new SnapshotChildrenCollection($this->transformer, $this->getPage()));
@@ -260,7 +255,7 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
         return $this->getPage()->getChildren();
     }
 
-    public function setChildren($children): void
+    public function setChildren(Collection $children): void
     {
         $this->getPage()->setChildren($children);
     }
@@ -270,7 +265,7 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
         $this->getPage()->addChild($child);
     }
 
-    public function getBlocks()
+    public function getBlocks(): Collection
     {
         if (0 === \count($this->getPage()->getBlocks())) {
             $content = $this->snapshot->getContent();
@@ -293,17 +288,17 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
         $this->getPage()->addBlock($block);
     }
 
-    public function getContainerByCode($code)
+    public function getContainerByCode(string $code): ?PageBlockInterface
     {
         return $this->getPage()->getContainerByCode($code);
     }
 
-    public function getBlocksByType($type)
+    public function getBlocksByType(string $type): array
     {
         return $this->getPage()->getBlocksByType($type);
     }
 
-    public function getParent($level = -1)
+    public function getParent(int $level = -1): ?PageInterface
     {
         $parents = $this->getParents();
 
@@ -319,7 +314,7 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
         $this->getPage()->setParent($parent);
     }
 
-    public function getParents()
+    public function getParents(): array
     {
         if (null === $this->parents) {
             $parents = [];
@@ -355,47 +350,47 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
         $this->parents = $parents;
     }
 
-    public function getTemplateCode()
+    public function getTemplateCode(): ?string
     {
         return $this->getPage()->getTemplateCode();
     }
 
-    public function setTemplateCode($templateCode): void
+    public function setTemplateCode(?string $templateCode): void
     {
         $this->getPage()->setTemplateCode($templateCode);
     }
 
-    public function getDecorate()
+    public function getDecorate(): bool
     {
         return $this->getPage()->getDecorate();
     }
 
-    public function setDecorate($decorate): void
+    public function setDecorate(bool $decorate): void
     {
         $this->getPage()->setDecorate($decorate);
     }
 
-    public function getPosition()
+    public function getPosition(): ?int
     {
         return $this->getPage()->getPosition();
     }
 
-    public function setPosition($position): void
+    public function setPosition(?int $position): void
     {
         $this->getPage()->setPosition($position);
     }
 
-    public function getRequestMethod()
+    public function getRequestMethod(): ?string
     {
         return $this->getPage()->getRequestMethod();
     }
 
-    public function setRequestMethod($method): void
+    public function setRequestMethod(?string $method): void
     {
         $this->getPage()->setRequestMethod($method);
     }
 
-    public function hasRequestMethod($method)
+    public function hasRequestMethod(string $method): bool
     {
         return $this->getPage()->hasRequestMethod($method);
     }
@@ -410,22 +405,22 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
         $this->getPage()->setHeaders($headers);
     }
 
-    public function addHeader($name, $value): void
+    public function addHeader(string $name, $value): void
     {
         $this->getPage()->addHeader($name, $value);
     }
 
-    public function getRawHeaders()
+    public function getRawHeaders(): ?string
     {
         return $this->getPage()->getRawHeaders();
     }
 
-    public function setRawHeaders($rawHeaders): void
+    public function setRawHeaders(?string $rawHeaders): void
     {
         $this->getPage()->setRawHeaders($rawHeaders);
     }
 
-    public function getSite()
+    public function getSite(): ?SiteInterface
     {
         return $this->getPage()->getSite();
     }
@@ -435,27 +430,27 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
         $this->getPage()->setSite($site);
     }
 
-    public function getEdited()
+    public function getEdited(): bool
     {
         return $this->getPage()->getEdited();
     }
 
-    public function setEdited($edited): void
+    public function setEdited(bool $edited): void
     {
         $this->getPage()->setEdited($edited);
     }
 
-    public function getSnapshots()
+    public function getSnapshots(): array
     {
         return $this->getPage()->getSnapshots();
     }
 
-    public function setSnapshots($snapshots): void
+    public function setSnapshots(array $snapshots): void
     {
         $this->getPage()->setSnapshots($snapshots);
     }
 
-    public function getSnapshot()
+    public function getSnapshot(): ?SnapshotInterface
     {
         return $this->getPage()->getSnapshot();
     }
@@ -465,27 +460,27 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
         $this->getPage()->addSnapshot($snapshot);
     }
 
-    public function isError()
+    public function isError(): bool
     {
         return $this->getPage()->isError();
     }
 
-    public function isHybrid()
+    public function isHybrid(): bool
     {
         return $this->getPage()->isHybrid();
     }
 
-    public function isDynamic()
+    public function isDynamic(): bool
     {
         return $this->getPage()->isDynamic();
     }
 
-    public function isCms()
+    public function isCms(): bool
     {
         return $this->getPage()->isCms();
     }
 
-    public function isInternal()
+    public function isInternal(): bool
     {
         return $this->getPage()->isInternal();
     }

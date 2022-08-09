@@ -24,9 +24,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class CreateBlockContainerCommandTest extends TestCase
 {
-    /**
-     * Tests that Block is added into Page's blocks field.
-     */
     public function testCreateBlock(): void
     {
         // Mock

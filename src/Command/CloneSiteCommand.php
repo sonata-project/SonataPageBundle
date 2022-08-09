@@ -14,10 +14,7 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Command;
 
 use Sonata\PageBundle\Model\BlockManagerInterface;
-use Sonata\PageBundle\Model\PageBlockInterface;
-use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
-use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -39,7 +36,9 @@ final class CloneSiteCommand extends Command
     protected static $defaultDescription = 'Clone a complete site including all their pages';
 
     private SiteManagerInterface $siteManager;
+
     private PageManagerInterface $pageManager;
+
     private BlockManagerInterface $blockManager;
 
     public function __construct(
@@ -95,10 +94,7 @@ final class CloneSiteCommand extends Command
             $hybridOnly = false;
         }
 
-        /** @var SiteInterface $sourceSite */
         $sourceSite = $this->siteManager->find($input->getOption('source-id'));
-
-        /** @var SiteInterface $destSite */
         $destSite = $this->siteManager->find($input->getOption('dest-id'));
 
         $pageClones = [];
@@ -106,7 +102,6 @@ final class CloneSiteCommand extends Command
 
         $output->writeln('Cloning pages');
 
-        /** @var PageInterface[] $pages */
         $pages = $this->pageManager->findBy(['site' => $sourceSite]);
         foreach ($pages as $page) {
             $pageId = $page->getId();
@@ -136,7 +131,6 @@ final class CloneSiteCommand extends Command
 
             $pageClones[$pageId] = $newPage;
 
-            /** @var PageBlockInterface[] $blocks */
             $blocks = $this->blockManager->findBy(['page' => $page]);
 
             foreach ($blocks as $block) {

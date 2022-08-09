@@ -22,10 +22,7 @@ interface PageInterface extends \Stringable
 {
     public const PAGE_ROUTE_CMS_NAME = 'page_slug';
 
-    /**
-     * @return string
-     */
-    public function __toString();
+    public function __toString(): string;
 
     /**
      * @return int|string|null
@@ -34,39 +31,18 @@ interface PageInterface extends \Stringable
 
     /**
      * @param int|string|null $id
-     *
-     * @return void
      */
-    public function setId($id);
+    public function setId($id): void;
 
-    /**
-     * @return string|null
-     */
-    public function getTitle();
+    public function getTitle(): ?string;
 
-    /**
-     * @param string|null $title
-     *
-     * @return void
-     */
-    public function setTitle($title);
+    public function setTitle(?string $title): void;
 
-    /**
-     * @return string|null
-     */
-    public function getRouteName();
+    public function getRouteName(): ?string;
 
-    /**
-     * @param string|null $routeName
-     *
-     * @return void
-     */
-    public function setRouteName($routeName);
+    public function setRouteName(?string $routeName): void;
 
-    /**
-     * @return string|null
-     */
-    public function getPageAlias();
+    public function getPageAlias(): ?string;
 
     /**
      * The route alias defines an internal url code that user can use to point
@@ -74,272 +50,117 @@ interface PageInterface extends \Stringable
      *
      * For performance, all pageAlias must be prefixed by _page_alias_ this will avoid
      * database lookup to load non existent alias
-     *
-     * @param string|null $pageAlias
-     *
-     * @return void
      */
-    public function setPageAlias($pageAlias);
+    public function setPageAlias(?string $pageAlias): void;
 
-    /**
-     * @return string|null
-     */
-    public function getType();
+    public function getType(): ?string;
 
-    /**
-     * @param string|null $type
-     *
-     * @return void
-     */
-    public function setType($type);
+    public function setType(?string $type): void;
 
-    /**
-     * @return bool $enabled
-     */
-    public function getEnabled();
+    public function getEnabled(): bool;
 
-    /**
-     * @param bool $enabled
-     *
-     * @return void
-     */
-    public function setEnabled($enabled);
+    public function setEnabled(bool $enabled): void;
 
-    /**
-     * @return string|null $name
-     */
-    public function getName();
+    public function getName(): ?string;
 
-    /**
-     * @param string|null $name
-     *
-     * @return void
-     */
-    public function setName($name);
+    public function setName(?string $name): void;
 
-    /**
-     * @return string|null
-     */
-    public function getSlug();
+    public function getSlug(): ?string;
 
-    /**
-     * @param string|null $slug
-     *
-     * @return void
-     */
-    public function setSlug($slug);
+    public function setSlug(?string $slug): void;
 
-    /**
-     * @return string|null
-     */
-    public function getUrl();
+    public function getUrl(): ?string;
 
-    /**
-     * @param string|null $url
-     *
-     * @return void
-     */
-    public function setUrl($url);
+    public function setUrl(?string $url): void;
 
-    /**
-     * @return string|null
-     */
-    public function getCustomUrl();
+    public function getCustomUrl(): ?string;
 
-    /**
-     * @param string|null $customUrl
-     *
-     * @return void
-     */
-    public function setCustomUrl($customUrl);
+    public function setCustomUrl(?string $customUrl): void;
 
-    /**
-     * @return string|null
-     */
-    public function getMetaKeyword();
+    public function getMetaKeyword(): ?string;
 
-    /**
-     * @param string|null $metaKeyword
-     *
-     * @return void
-     */
-    public function setMetaKeyword($metaKeyword);
+    public function setMetaKeyword(?string $metaKeyword): void;
 
-    /**
-     * @return string|null
-     */
-    public function getMetaDescription();
+    public function getMetaDescription(): ?string;
 
-    /**
-     * @param string|null $metaDescription
-     *
-     * @return void
-     */
-    public function setMetaDescription($metaDescription);
+    public function setMetaDescription(?string $metaDescription): void;
 
-    /**
-     * @return string|null
-     */
-    public function getJavascript();
+    public function getJavascript(): ?string;
 
-    /**
-     * @param string|null $javascript
-     *
-     * @return void
-     */
-    public function setJavascript($javascript);
+    public function setJavascript(?string $javascript): void;
 
-    /**
-     * @return string|null
-     */
-    public function getStylesheet();
+    public function getStylesheet(): ?string;
 
-    /**
-     * @param string|null $stylesheet
-     *
-     * @return void
-     */
-    public function setStylesheet($stylesheet);
+    public function setStylesheet(?string $stylesheet): void;
 
-    /**
-     * @return \DateTimeInterface|null
-     */
-    public function getCreatedAt();
+    public function getCreatedAt(): ?\DateTimeInterface;
 
-    /**
-     * @return void
-     */
-    public function setCreatedAt(?\DateTimeInterface $createdAt = null);
+    public function setCreatedAt(?\DateTimeInterface $createdAt = null): void;
 
-    /**
-     * @return \DateTimeInterface|null
-     */
-    public function getUpdatedAt();
+    public function getUpdatedAt(): ?\DateTimeInterface;
 
-    /**
-     * @return void
-     */
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt = null);
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt = null): void;
 
     /**
      * @return Collection<array-key, PageInterface>
      */
-    public function getChildren();
+    public function getChildren(): Collection;
 
     /**
      * @param Collection<array-key, PageInterface> $children
      */
-    public function setChildren($children): void;
+    public function setChildren(Collection $children): void;
 
-    /**
-     * @return void
-     */
-    public function addChild(self $child);
+    public function addChild(self $child): void;
 
     /**
      * @return Collection<array-key, PageBlockInterface>
      */
-    public function getBlocks();
+    public function getBlocks(): Collection;
+
+    public function addBlock(PageBlockInterface $block): void;
+
+    public function getContainerByCode(string $code): ?PageBlockInterface;
 
     /**
-     * @return void
-     */
-    public function addBlock(PageBlockInterface $block);
-
-    /**
-     * @param string $code
-     *
-     * @return PageBlockInterface|null
-     */
-    public function getContainerByCode($code);
-
-    /**
-     * @param string $type
-     *
      * @return array<PageBlockInterface>
      */
-    public function getBlocksByType($type);
+    public function getBlocksByType(string $type): array;
 
-    /**
-     * @param int $level
-     *
-     * @return PageInterface|null
-     */
-    public function getParent($level = -1);
+    public function getParent(int $level = -1): ?self;
 
-    /**
-     * @return void
-     */
-    public function setParent(?self $parent = null);
+    public function setParent(?self $parent = null): void;
 
     /**
      * @return array<PageInterface>
      */
-    public function getParents();
+    public function getParents(): array;
 
     /**
      * @param array<PageInterface> $parents
-     *
-     * @return void
      */
-    public function setParents(array $parents);
+    public function setParents(array $parents): void;
 
-    /**
-     * @return string|null
-     */
-    public function getTemplateCode();
+    public function getTemplateCode(): ?string;
 
-    /**
-     * @param string|null $templateCode
-     *
-     * @return void
-     */
-    public function setTemplateCode($templateCode);
+    public function setTemplateCode(?string $templateCode): void;
 
-    /**
-     * @return bool
-     */
-    public function getDecorate();
+    public function getDecorate(): bool;
 
     /**
      * Indicates if the page should be decorated with the CMS outer layout.
-     *
-     * @param bool $decorate
-     *
-     * @return void
      */
-    public function setDecorate($decorate);
+    public function setDecorate(bool $decorate): void;
 
-    /**
-     * @return int|null
-     */
-    public function getPosition();
+    public function getPosition(): ?int;
 
-    /**
-     * @param int|null $position
-     *
-     * @return void
-     */
-    public function setPosition($position);
+    public function setPosition(?int $position): void;
 
-    /**
-     * @return string|null
-     */
-    public function getRequestMethod();
+    public function getRequestMethod(): ?string;
 
-    /**
-     * @param string|null $method
-     *
-     * @return void
-     */
-    public function setRequestMethod($method);
+    public function setRequestMethod(?string $method): void;
 
-    /**
-     * @param string $method
-     *
-     * @return bool
-     */
-    public function hasRequestMethod($method);
+    public function hasRequestMethod(string $method): bool;
 
     /**
      * @return array<string, mixed>
@@ -348,101 +169,60 @@ interface PageInterface extends \Stringable
 
     /**
      * @param array<string, mixed> $headers
-     *
-     * @return void
      */
-    public function setHeaders(array $headers = []);
+    public function setHeaders(array $headers = []): void;
 
     /**
-     * @param string $name
-     * @param mixed  $value
-     *
-     * @return void
+     * @param mixed $value
      */
-    public function addHeader($name, $value);
+    public function addHeader(string $name, $value): void;
 
-    /**
-     * @return string|null
-     */
-    public function getRawHeaders();
+    public function getRawHeaders(): ?string;
 
-    /**
-     * @param string|null $rawHeaders
-     *
-     * @return void
-     */
-    public function setRawHeaders($rawHeaders);
+    public function setRawHeaders(?string $rawHeaders): void;
 
-    /**
-     * @return SiteInterface|null
-     */
-    public function getSite();
+    public function getSite(): ?SiteInterface;
 
-    /**
-     * @return void
-     */
-    public function setSite(?SiteInterface $site = null);
+    public function setSite(?SiteInterface $site = null): void;
 
-    /**
-     * @return bool
-     */
-    public function getEdited();
+    public function getEdited(): bool;
 
-    /**
-     * @param bool $edited
-     *
-     * @return void
-     */
-    public function setEdited($edited);
+    public function setEdited(bool $edited): void;
 
     /**
      * @return array<SnapshotInterface>
      */
-    public function getSnapshots();
+    public function getSnapshots(): array;
 
     /**
      * @param array<SnapshotInterface> $snapshots
      */
-    public function setSnapshots($snapshots): void;
+    public function setSnapshots(array $snapshots): void;
 
-    /**
-     * @return SnapshotInterface|null
-     */
-    public function getSnapshot();
+    public function getSnapshot(): ?SnapshotInterface;
 
     public function addSnapshot(SnapshotInterface $snapshot): void;
 
-    /**
-     * @return bool
-     */
-    public function isError();
+    public function isError(): bool;
 
     /**
      * Returns true if the page is hybrid (symfony action with no parameter).
-     *
-     * @return bool
      */
-    public function isHybrid();
+    public function isHybrid(): bool;
 
     /**
      * Returns true if the page is dynamic (symfony action with parameter).
-     *
-     * @return bool
      */
-    public function isDynamic();
+    public function isDynamic(): bool;
 
     /**
      * Returns true if the page is static.
-     *
-     * @return bool
      */
-    public function isCms();
+    public function isCms(): bool;
 
     /**
      * Returns true if the page is internal (no direct access with an url)
      * This is used to define transversal page.
-     *
-     * @return bool
      */
-    public function isInternal();
+    public function isInternal(): bool;
 }

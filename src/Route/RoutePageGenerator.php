@@ -22,8 +22,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
- * This is the page generator service from existing routes.
- *
  * @author Vincent Composieux <vincent.composieux@gmail.com>
  */
 final class RoutePageGenerator
@@ -36,28 +34,19 @@ final class RoutePageGenerator
 
     private ExceptionListener $exceptionListener;
 
-    /**
-     * @param RouterInterface            $router            A Symfony router service
-     * @param PageManagerInterface       $pageManager       A Sonata Page manager
-     * @param DecoratorStrategyInterface $decoratorStrategy A Sonata page decorator strategy service
-     * @param ExceptionListener          $exceptionListener A Sonata page bundle exception listener
-     */
-    public function __construct(RouterInterface $router, PageManagerInterface $pageManager, DecoratorStrategyInterface $decoratorStrategy, ExceptionListener $exceptionListener)
-    {
+    public function __construct(
+        RouterInterface $router,
+        PageManagerInterface $pageManager,
+        DecoratorStrategyInterface $decoratorStrategy,
+        ExceptionListener $exceptionListener
+    ) {
         $this->router = $router;
         $this->pageManager = $pageManager;
         $this->decoratorStrategy = $decoratorStrategy;
         $this->exceptionListener = $exceptionListener;
     }
 
-    /**
-     * Updates site page routes with all routes available in Symfony router service.
-     *
-     * @param SiteInterface   $site   A page bundle site instance
-     * @param OutputInterface $output A Symfony console output
-     * @param bool            $clean  clean orphaned pages
-     */
-    public function update(SiteInterface $site, ?OutputInterface $output = null, $clean = false): void
+    public function update(SiteInterface $site, ?OutputInterface $output = null, bool $clean = false): void
     {
         $message = sprintf(
             ' > <info>Updating core routes for site</info> : <comment>%s - %s</comment>',
@@ -215,14 +204,11 @@ MSG
     }
 
     /**
-     * Output a Symfony console message with writeln() function.
-     *
-     * @param OutputInterface|null    $output  A Symfony console output instance
      * @param string|iterable<string> $message A string message to output
      */
     private function writeln(?OutputInterface $output, $message): void
     {
-        if ($output instanceof OutputInterface) {
+        if (null !== $output) {
             $output->writeln($message);
         }
     }

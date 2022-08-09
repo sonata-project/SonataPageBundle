@@ -42,9 +42,6 @@ final class BasePageServiceTest extends TestCase
     }
 }
 
-/**
- * Concrete page service implementation for test purposes; Should only implement the execute method.
- */
 final class ConcretePageService extends BasePageService
 {
     public function execute(PageInterface $page, Request $request, array $parameters = [], ?Response $response = null): Response

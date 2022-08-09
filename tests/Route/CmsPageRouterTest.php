@@ -47,9 +47,6 @@ final class CmsPageRouterTest extends TestCase
 
     private CmsPageRouter $router;
 
-    /**
-     * Setup test object with its dependencies.
-     */
     protected function setUp(): void
     {
         $this->cmsSelector = $this->createMock(CmsManagerSelectorInterface::class);

@@ -37,11 +37,6 @@ final class CmsPageRouter implements ChainedRouterInterface
 
     private RouterInterface $router;
 
-    /**
-     * @param CmsManagerSelectorInterface $cmsSelector  Cms manager selector
-     * @param SiteSelectorInterface       $siteSelector Sites selector
-     * @param RouterInterface             $router       Router for hybrid pages
-     */
     public function __construct(
         RequestContext $context,
         CmsManagerSelectorInterface $cmsSelector,
@@ -179,15 +174,11 @@ final class CmsPageRouter implements ChainedRouterInterface
      * Generates an URL from a Page object.
      * We swap site context to make sure the right context is used when generating the url.
      *
-     * @param PageInterface        $page          Page object
-     * @param array<string, mixed> $parameters    An array of parameters
-     * @param int                  $referenceType The type of reference to be generated (one of the constants)
+     * @param array<string, mixed> $parameters
      *
      * @throws \RuntimeException
-     *
-     * @return string
      */
-    private function generateFromPage(PageInterface $page, array $parameters = [], $referenceType = self::ABSOLUTE_PATH)
+    private function generateFromPage(PageInterface $page, array $parameters = [], int $referenceType = self::ABSOLUTE_PATH): string
     {
         // hybrid pages use, by definition, the default routing mechanism
         if ($page->isHybrid()) {
@@ -223,16 +214,11 @@ final class CmsPageRouter implements ChainedRouterInterface
     }
 
     /**
-     * Generates an URL for a page slug.
-     *
-     * @param array<string, mixed> $parameters    An array of parameters
-     * @param int                  $referenceType The type of reference to be generated (one of the constants)
+     * @param array<string, mixed> $parameters
      *
      * @throws \RuntimeException
-     *
-     * @return string
      */
-    private function generateFromPageSlug(array $parameters = [], $referenceType = self::ABSOLUTE_PATH)
+    private function generateFromPageSlug(array $parameters = [], int $referenceType = self::ABSOLUTE_PATH): string
     {
         if (!isset($parameters['path'])) {
             throw new \RuntimeException('Please provide a `path` parameters');
@@ -245,17 +231,11 @@ final class CmsPageRouter implements ChainedRouterInterface
     }
 
     /**
-     * Decorates an URL with url context and query.
-     *
-     * @param string               $url           Relative URL
-     * @param array<string, mixed> $parameters    An array of parameters
-     * @param int                  $referenceType The type of reference to be generated (one of the constants)
+     * @param array<string, mixed> $parameters
      *
      * @throws \RuntimeException
-     *
-     * @return string
      */
-    private function decorateUrl($url, array $parameters = [], $referenceType = self::ABSOLUTE_PATH)
+    private function decorateUrl(string $url, array $parameters = [], int $referenceType = self::ABSOLUTE_PATH): string
     {
         $schemeAuthority = '';
         if (self::ABSOLUTE_URL === $referenceType || self::NETWORK_PATH === $referenceType) {
@@ -283,29 +263,15 @@ final class CmsPageRouter implements ChainedRouterInterface
         return $url;
     }
 
-    /**
-     * Returns the target path as relative reference from the base path.
-     *
-     * @param string $basePath   The base path
-     * @param string $targetPath The target path
-     *
-     * @return string The relative target path
-     */
-    private function getRelativePath($basePath, $targetPath)
+    private function getRelativePath(string $basePath, string $targetPath): string
     {
         return UrlGenerator::getRelativePath($basePath, $targetPath);
     }
 
     /**
-     * Retrieves a page object from a page alias.
-     *
-     * @param string $alias
-     *
      * @throws PageNotFoundException
-     *
-     * @return PageInterface|null
      */
-    private function getPageByPageAlias($alias)
+    private function getPageByPageAlias(string $alias): ?PageInterface
     {
         $site = $this->siteSelector->retrieve();
 
@@ -318,37 +284,18 @@ final class CmsPageRouter implements ChainedRouterInterface
         return $page;
     }
 
-    /**
-     * Returns the Url from a Page object.
-     *
-     * @return string|null
-     */
-    private function getUrlFromPage(PageInterface $page)
+    private function getUrlFromPage(PageInterface $page): ?string
     {
         return $page->getCustomUrl() ?? $page->getUrl();
     }
 
-    /**
-     * Returns whether this name is a page alias or not.
-     *
-     * @param string $name
-     *
-     * @return bool
-     */
-    private function isPageAlias($name)
+    private function isPageAlias(string $name): bool
     {
-        return \is_string($name) && '_page_alias_' === substr($name, 0, 12);
+        return '_page_alias_' === substr($name, 0, 12);
     }
 
-    /**
-     * Returns whether this name is a page slug route or not.
-     *
-     * @param string $name
-     *
-     * @return bool
-     */
-    private function isPageSlug($name)
+    private function isPageSlug(string $name): bool
     {
-        return \is_string($name) && PageInterface::PAGE_ROUTE_CMS_NAME === $name;
+        return PageInterface::PAGE_ROUTE_CMS_NAME === $name;
     }
 }

@@ -58,7 +58,7 @@ final class PageManager extends BaseEntityManager implements PageManagerInterfac
         $this->pageDefaults = $pageDefaults;
     }
 
-    public function getPageByUrl(SiteInterface $site, $url)
+    public function getPageByUrl(SiteInterface $site, string $url): ?PageInterface
     {
         return $this->findOneBy([
             'url' => $url,
@@ -139,7 +139,7 @@ final class PageManager extends BaseEntityManager implements PageManagerInterfac
         parent::save($entity, $andFlush);
     }
 
-    public function loadPages(SiteInterface $site)
+    public function loadPages(SiteInterface $site): array
     {
         $siteId = $site->getId();
         \assert(null !== $siteId);
@@ -165,7 +165,7 @@ final class PageManager extends BaseEntityManager implements PageManagerInterfac
         return $pages;
     }
 
-    public function getHybridPages(SiteInterface $site)
+    public function getHybridPages(SiteInterface $site): array
     {
         return $this->getEntityManager()->createQueryBuilder()
             ->select('p')

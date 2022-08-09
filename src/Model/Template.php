@@ -45,8 +45,6 @@ final class Template
     private array $containers = [];
 
     /**
-     * @param string $name
-     * @param string $path
      * @param array<string, array{
      *   name?: string,
      *   type?: int,
@@ -55,7 +53,7 @@ final class Template
      *   shared?: bool
      * }> $containers
      */
-    public function __construct($name, $path, array $containers = [])
+    public function __construct(string $name, string $path, array $containers = [])
     {
         $this->name = $name;
         $this->path = $path;
@@ -70,7 +68,7 @@ final class Template
      *
      * @phpstan-return array<string, Container>
      */
-    public function getContainers()
+    public function getContainers(): array
     {
         return $this->containers;
     }
@@ -79,7 +77,6 @@ final class Template
      * The meta array is an array containing the
      *    - area name.
      *
-     * @param string $code
      * @param array{
      *   name?: string,
      *   type?: int,
@@ -88,19 +85,17 @@ final class Template
      *   shared?: bool
      * } $meta
      */
-    public function addContainer($code, $meta): void
+    public function addContainer(string $code, array $meta): void
     {
         $this->containers[$code] = $this->normalize($meta);
     }
 
     /**
-     * @param string $code
-     *
      * @return array<string, mixed>|null
      *
      * @phpstan-return Container|null
      */
-    public function getContainer($code)
+    public function getContainer(string $code): ?array
     {
         if (isset($this->containers[$code])) {
             return $this->containers[$code];
@@ -109,18 +104,12 @@ final class Template
         return null;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
@@ -138,7 +127,7 @@ final class Template
      *
      * @phpstan-return Container
      */
-    private function normalize(array $meta)
+    private function normalize(array $meta): array
     {
         return [
             'name' => $meta['name'] ?? 'n/a',

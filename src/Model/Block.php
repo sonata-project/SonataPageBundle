@@ -38,7 +38,7 @@ abstract class Block extends BaseBlock implements PageBlockInterface
         $this->id = $id;
     }
 
-    public function getPage()
+    public function getPage(): ?PageInterface
     {
         return $this->page;
     }

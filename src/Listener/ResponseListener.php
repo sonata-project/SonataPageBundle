@@ -40,13 +40,6 @@ final class ResponseListener
 
     private bool $skipRedirection;
 
-    /**
-     * @param CmsManagerSelectorInterface $cmsSelector        CMS manager selector
-     * @param PageServiceManagerInterface $pageServiceManager Page service manager
-     * @param DecoratorStrategyInterface  $decoratorStrategy  Decorator strategy
-     * @param Environment                 $twig               Twig engine
-     * @param bool                        $skipRedirection    To skip the redirection by configuration
-     */
     public function __construct(
         CmsManagerSelectorInterface $cmsSelector,
         PageServiceManagerInterface $pageServiceManager,
@@ -62,8 +55,6 @@ final class ResponseListener
     }
 
     /**
-     * Filter the `kernel.response` event to decorate the action.
-     *
      * @throws InternalErrorException
      */
     public function onCoreResponse(ResponseEvent $event): void

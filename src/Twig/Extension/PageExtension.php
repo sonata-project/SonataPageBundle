@@ -49,15 +49,14 @@ final class PageExtension extends AbstractExtension
 
     private bool $hideDisabledBlocks;
 
-    /**
-     * @param CmsManagerSelectorInterface $cmsManagerSelector A CMS manager selector
-     * @param SiteSelectorInterface       $siteSelector       A site selector
-     * @param RouterInterface             $router             The Router
-     * @param BlockHelper                 $blockHelper        The Block Helper
-     * @param bool                        $hideDisabledBlocks
-     */
-    public function __construct(CmsManagerSelectorInterface $cmsManagerSelector, SiteSelectorInterface $siteSelector, RouterInterface $router, BlockHelper $blockHelper, RequestStack $requestStack, $hideDisabledBlocks = false)
-    {
+    public function __construct(
+        CmsManagerSelectorInterface $cmsManagerSelector,
+        SiteSelectorInterface $siteSelector,
+        RouterInterface $router,
+        BlockHelper $blockHelper,
+        RequestStack $requestStack,
+        bool $hideDisabledBlocks = false
+    ) {
         $this->cmsManagerSelector = $cmsManagerSelector;
         $this->siteSelector = $siteSelector;
         $this->router = $router;
@@ -130,15 +129,9 @@ final class PageExtension extends AbstractExtension
     }
 
     /**
-     * Returns the URL for an ajax request for given block.
-     *
-     * @param PageBlockInterface   $block      Block service
-     * @param array<string, mixed> $parameters Provide absolute or relative url ?
-     * @param int                  $absolute
-     *
-     * @return string
+     * @param array<string, mixed> $parameters
      */
-    public function ajaxUrl(PageBlockInterface $block, $parameters = [], $absolute = UrlGeneratorInterface::ABSOLUTE_PATH)
+    public function ajaxUrl(PageBlockInterface $block, array $parameters = [], int $absolute = UrlGeneratorInterface::ABSOLUTE_PATH): string
     {
         $parameters['blockId'] = $block->getId();
         $page = $block->getPage();
@@ -151,13 +144,10 @@ final class PageExtension extends AbstractExtension
     }
 
     /**
-     * @param string                    $name
      * @param string|PageInterface|null $page
      * @param array<string, mixed>      $options
-     *
-     * @return string
      */
-    public function renderContainer($name, $page = null, array $options = [])
+    public function renderContainer(string $name, $page = null, array $options = []): string
     {
         $cms = $this->cmsManagerSelector->retrieve();
         $site = $this->siteSelector->retrieve();
@@ -191,10 +181,8 @@ final class PageExtension extends AbstractExtension
 
     /**
      * @param array<string, mixed> $options
-     *
-     * @return string
      */
-    public function renderBlock(PageBlockInterface $block, array $options = [])
+    public function renderBlock(PageBlockInterface $block, array $options = []): string
     {
         if (false === $block->getEnabled() && !$this->cmsManagerSelector->isEditor() && $this->hideDisabledBlocks) {
             return '';
@@ -224,13 +212,10 @@ final class PageExtension extends AbstractExtension
      * Forwards pathInfo to subrequests.
      * Allows HostPathSiteSelector to work.
      *
-     * @param string               $controller
      * @param array<string, mixed> $attributes
      * @param array<string, mixed> $query
-     *
-     * @return ControllerReference
      */
-    public function controller($controller, $attributes = [], $query = [])
+    public function controller(string $controller, array $attributes = [], array $query = []): ControllerReference
     {
         if (!isset($attributes['pathInfo'])) {
             $site = $this->siteSelector->retrieve();

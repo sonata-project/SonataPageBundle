@@ -33,6 +33,7 @@ use Symfony\Component\Security\Http\Event\LogoutEvent;
 final class CmsManagerSelector implements CmsManagerSelectorInterface, BCLogoutHandlerInterface
 {
     private CmsPageManager $cmsPageManager;
+
     private CmsSnapshotManager $cmsSnapshotManager;
 
     /**
@@ -41,6 +42,7 @@ final class CmsManagerSelector implements CmsManagerSelectorInterface, BCLogoutH
     private AdminInterface $pageAdmin;
 
     private TokenStorageInterface $tokenStorage;
+
     private RequestStack $requestStack;
 
     /**
@@ -60,7 +62,7 @@ final class CmsManagerSelector implements CmsManagerSelectorInterface, BCLogoutH
         $this->requestStack = $requestStack;
     }
 
-    public function retrieve()
+    public function retrieve(): CmsManagerInterface
     {
         return $this->isEditor() ? $this->cmsPageManager : $this->cmsSnapshotManager;
     }
@@ -70,7 +72,7 @@ final class CmsManagerSelector implements CmsManagerSelectorInterface, BCLogoutH
      * by the router chain, so we need to use another mechanism. It is not perfect
      * but do the job for now.
      */
-    public function isEditor()
+    public function isEditor(): bool
     {
         $request = $this->requestStack->getCurrentRequest();
 

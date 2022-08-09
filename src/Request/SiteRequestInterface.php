@@ -14,23 +14,11 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Request;
 
 /**
- * SiteRequestInterface.
- *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 interface SiteRequestInterface
 {
-    /**
-     * @param string $pathInfo
-     *
-     * @return void
-     */
-    public function setPathInfo($pathInfo);
+    public function setPathInfo(string $pathInfo): void;
 
-    /**
-     * @param string $baseUrl
-     *
-     * @return void
-     */
-    public function setBaseUrl($baseUrl);
+    public function setBaseUrl(string $baseUrl): void;
 }

@@ -18,13 +18,7 @@ namespace Sonata\PageBundle\CmsManager;
  */
 interface CmsManagerSelectorInterface
 {
-    /**
-     * @return CmsManagerInterface
-     */
-    public function retrieve();
+    public function retrieve(): CmsManagerInterface;
 
-    /**
-     * @return bool
-     */
-    public function isEditor();
+    public function isEditor(): bool;
 }

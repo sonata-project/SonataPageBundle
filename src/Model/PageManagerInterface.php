@@ -27,27 +27,19 @@ interface PageManagerInterface extends ManagerInterface
      */
     public function createWithDefaults(array $defaults = []): PageInterface;
 
-    /**
-     * @param string $url
-     *
-     * @return PageInterface|null
-     */
-    public function getPageByUrl(SiteInterface $site, $url);
+    public function getPageByUrl(SiteInterface $site, string $url): ?PageInterface;
 
     /**
      * Returns an array of Pages Entity where the id is the key.
      *
      * @return array<PageInterface>
      */
-    public function loadPages(SiteInterface $site);
+    public function loadPages(SiteInterface $site): array;
 
     /**
      * @return array<PageInterface>
      */
-    public function getHybridPages(SiteInterface $site);
+    public function getHybridPages(SiteInterface $site): array;
 
-    /**
-     * @return void
-     */
-    public function fixUrl(PageInterface $page);
+    public function fixUrl(PageInterface $page): void;
 }

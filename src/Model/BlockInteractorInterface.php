@@ -19,27 +19,19 @@ namespace Sonata\PageBundle\Model;
 interface BlockInteractorInterface
 {
     /**
-     * Return a block with the given id.
-     *
      * @param int|string $id
-     *
-     * @return PageBlockInterface|null
      */
-    public function getBlock($id);
+    public function getBlock($id): ?PageBlockInterface;
 
     /**
-     * Return a flat list if page's blocks.
-     *
      * @return array<PageBlockInterface>
      */
-    public function getBlocksById(PageInterface $page);
+    public function getBlocksById(PageInterface $page): array;
 
     /**
-     * Load blocks attached the given page.
-     *
      * @return array<PageBlockInterface>
      */
-    public function loadPageBlocks(PageInterface $page);
+    public function loadPageBlocks(PageInterface $page): array;
 
     /**
      * Save the blocks positions. Partial references are allowed.
@@ -51,11 +43,8 @@ interface BlockInteractorInterface
      *   parent_id?: int|string|null,
      *   page_id?: int|string|null,
      * }> $data
-     * @param bool $partial
-     *
-     * @return bool
      */
-    public function saveBlocksPosition(array $data = [], $partial = true);
+    public function saveBlocksPosition(array $data = [], bool $partial = true): bool;
 
     /**
      * @param array{
@@ -66,8 +55,6 @@ interface BlockInteractorInterface
      *   position?: int,
      *   parent?: PageBlockInterface|null,
      * } $values An array of values for container creation
-     *
-     * @return PageBlockInterface
      */
-    public function createNewContainer(array $values);
+    public function createNewContainer(array $values): PageBlockInterface;
 }

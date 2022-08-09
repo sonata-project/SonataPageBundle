@@ -35,6 +35,7 @@ final class CreateSnapshotsCommand extends Command
     protected static $defaultDescription = 'Create a snapshots of all pages available';
 
     private CreateSnapshotBySiteInterface $createSnapshot;
+
     private SiteManagerInterface $siteManager;
 
     public function __construct(CreateSnapshotBySiteInterface $createSnapshot, SiteManagerInterface $siteManager)

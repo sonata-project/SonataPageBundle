@@ -53,8 +53,6 @@ final class HostSiteSelectorTest extends TestCase
     }
 
     /**
-     * Perform the actual handleKernelRequest method test.
-     *
      * @return array{SiteInterface, RequestEvent}
      */
     protected function performHandleKernelRequestTest(string $url): array
@@ -97,12 +95,7 @@ final class HostSite extends BaseSite
 
 final class HostSiteSelector extends BaseSiteSelector
 {
-    /**
-     * @static
-     *
-     * @param string $property
-     */
-    public static function _camelize($property): string
+    public static function _camelize(string $property): string
     {
         $camelized = preg_replace_callback(
             '/(^|[_. ])+(.)/',
@@ -260,12 +253,9 @@ final class HostSiteSelector extends BaseSiteSelector
     }
 
     /**
-     * @param object $object
-     * @param string $fieldName
-     *
      * @return mixed
      */
-    protected function _getFieldValue($object, $fieldName)
+    protected function _getFieldValue(object $object, string $fieldName)
     {
         $camelizedFieldName = self::_camelize($fieldName);
 

@@ -20,13 +20,7 @@ use Sonata\PageBundle\Model\SiteInterface;
  */
 interface SiteRequestContextInterface
 {
-    /**
-     * @return void
-     */
-    public function setSite(?SiteInterface $site);
+    public function setSite(?SiteInterface $site): void;
 
-    /**
-     * @return SiteInterface|null
-     */
-    public function getSite();
+    public function getSite(): ?SiteInterface;
 }

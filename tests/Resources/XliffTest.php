@@ -57,10 +57,7 @@ final class XliffTest extends TestCase
         return [[__DIR__.'/../../Resources/translations']];
     }
 
-    /**
-     * @param string $file The path to the xliff file
-     */
-    private function validateXliff($file): void
+    private function validateXliff(string $file): void
     {
         try {
             $this->loader->load($file, 'en');
@@ -70,10 +67,7 @@ final class XliffTest extends TestCase
         }
     }
 
-    /**
-     * @param string $path The path to lookup for Xliff file
-     */
-    private function validatePath($path): void
+    private function validatePath(string $path): void
     {
         $files = glob(sprintf('%s/*.xliff', $path));
 

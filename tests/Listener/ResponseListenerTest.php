@@ -78,9 +78,6 @@ final class ResponseListenerTest extends TestCase
         );
     }
 
-    /**
-     * Test the listener without a page.
-     */
     public function testWithoutPage(): void
     {
         $this->expectException(InternalErrorException::class);
@@ -96,9 +93,6 @@ final class ResponseListenerTest extends TestCase
         );
     }
 
-    /**
-     * Test that the  listener does not mess up with response when a page is non decorable.
-     */
     public function testPageIsNonDecorable(): void
     {
         $this->decoratorStrategy->expects(static::once())->method('isDecorable')->willReturn(false);
@@ -114,9 +108,6 @@ final class ResponseListenerTest extends TestCase
         );
     }
 
-    /**
-     * Test that the listener correctly decorates the response content when a page is decorable.
-     */
     public function testPageIsDecorable(): void
     {
         // a response content
@@ -151,9 +142,6 @@ final class ResponseListenerTest extends TestCase
         static::assertSame('outer "inner" outer', $event->getResponse()->getContent());
     }
 
-    /**
-     * Test that the listener correctly alters the http headers when the editor is enabled.
-     */
     public function testPageIsEditor(): void
     {
         $this->cmsSelector->expects(static::once())->method('isEditor')->willReturn(true);
@@ -176,9 +164,6 @@ final class ResponseListenerTest extends TestCase
         static::assertTrue($foundCookie, 'Should have found the editor mode cookie');
     }
 
-    /**
-     * Returns a mocked event with given content data.
-     */
     private function getMockEvent(string $content): ResponseEvent
     {
         $kernel = $this->createMock(HttpKernelInterface::class);

@@ -30,14 +30,13 @@ namespace Sonata\PageBundle\Template\Matrix;
 final class Parser
 {
     /**
-     * @param string        $matrix
      * @param array<string> $mapping
      *
      * @throws \InvalidArgumentException
      *
      * @return array<string, Placement>
      */
-    public static function parse($matrix, array $mapping)
+    public static function parse(string $matrix, array $mapping): array
     {
         $matrix = trim($matrix);
         $areas = [];

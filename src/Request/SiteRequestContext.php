@@ -26,16 +26,15 @@ final class SiteRequestContext extends RequestContext implements SiteRequestCont
 
     private ?SiteInterface $site = null;
 
-    /**
-     * @param string $baseUrl
-     * @param string $method
-     * @param string $host
-     * @param string $scheme
-     * @param int    $httpPort
-     * @param int    $httpsPort
-     */
-    public function __construct(SiteSelectorInterface $selector, $baseUrl = '', $method = 'GET', $host = 'localhost', $scheme = 'http', $httpPort = 80, $httpsPort = 443)
-    {
+    public function __construct(
+        SiteSelectorInterface $selector,
+        string $baseUrl = '',
+        string $method = 'GET',
+        string $host = 'localhost',
+        string $scheme = 'http',
+        int $httpPort = 80,
+        int $httpsPort = 443
+    ) {
         $this->selector = $selector;
 
         parent::__construct($baseUrl, $method, $host, $scheme, $httpPort, $httpsPort);
@@ -74,7 +73,7 @@ final class SiteRequestContext extends RequestContext implements SiteRequestCont
         $this->site = $site;
     }
 
-    public function getSite()
+    public function getSite(): ?SiteInterface
     {
         if (!$this->site instanceof SiteInterface) {
             $this->site = $this->selector->retrieve();
