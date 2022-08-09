@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Command;
 
 use Sonata\PageBundle\Model\BlockInteractorInterface;
-use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -35,6 +34,7 @@ final class CreateBlockContainerCommand extends Command
     protected static $defaultDescription = 'Creates a block container in all pages for specified template code';
 
     private PageManagerInterface $pageManager;
+
     private BlockInteractorInterface $blockInteractor;
 
     public function __construct(PageManagerInterface $pageManager, BlockInteractorInterface $blockInteractor)
@@ -67,7 +67,6 @@ final class CreateBlockContainerCommand extends Command
             'templateCode' => $input->getArgument('templateCode'),
         ]);
 
-        /** @var PageInterface $page */
         foreach ($pages as $page) {
             $output->writeln(sprintf('Adding to page <info>%s</info>', $page->getName() ?? ''));
 

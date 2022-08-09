@@ -25,7 +25,7 @@ use Sonata\PageBundle\Model\PageInterface;
  */
 final class BlockManager extends BaseEntityManager implements BlockManagerInterface
 {
-    public function updatePosition($id, $position, $parentId = null, $pageId = null, $partial = true)
+    public function updatePosition($id, int $position, $parentId = null, $pageId = null, bool $partial = true): PageBlockInterface
     {
         $entityManager = $this->getEntityManager();
 

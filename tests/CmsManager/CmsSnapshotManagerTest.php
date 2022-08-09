@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\CmsManager;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\CmsManager\CmsSnapshotManager;
@@ -115,7 +116,7 @@ final class CmsSnapshotManagerTest extends TestCase
         $pBlock->setId(1);
 
         $page->method('getId')->willReturn(42);
-        $page->method('getBlocks')->willReturn([$pBlock]);
+        $page->method('getBlocks')->willReturn(new ArrayCollection([$pBlock]));
 
         $this->snapshotManager
             ->expects(static::once())

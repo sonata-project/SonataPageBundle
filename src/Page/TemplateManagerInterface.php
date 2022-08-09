@@ -22,48 +22,25 @@ use Symfony\Component\HttpFoundation\Response;
 interface TemplateManagerInterface
 {
     /**
-     * @param string|null          $code       Template code
-     * @param array<string, mixed> $parameters An array of view parameters
-     * @param Response             $response   Response to update
+     * @param array<string, mixed> $parameters
      */
     public function renderResponse(?string $code, array $parameters = [], ?Response $response = null): Response;
 
-    /**
-     * @param string   $code     Code
-     * @param Template $template Template object
-     *
-     * @return void
-     */
-    public function add($code, Template $template);
+    public function add(string $code, Template $template): void;
+
+    public function get(string $code): ?Template;
+
+    public function setDefaultTemplateCode(string $code): void;
+
+    public function getDefaultTemplateCode(): string;
 
     /**
-     * @param string $code
-     *
-     * @return Template|null
+     * @param array<Template> $templates
      */
-    public function get($code);
+    public function setAll(array $templates): void;
 
     /**
-     * @param string $code
-     *
-     * @return void
+     * @return array<Template>
      */
-    public function setDefaultTemplateCode($code);
-
-    /**
-     * @return string
-     */
-    public function getDefaultTemplateCode();
-
-    /**
-     * @param Template[] $templates
-     *
-     * @return void
-     */
-    public function setAll($templates);
-
-    /**
-     * @return Template[]
-     */
-    public function getAll();
+    public function getAll(): array;
 }

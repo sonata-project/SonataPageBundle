@@ -24,29 +24,11 @@ use Symfony\Component\HttpFoundation\Response;
  */
 interface DecoratorStrategyInterface
 {
-    /**
-     * @param int $requestType
-     *
-     * @return bool
-     */
-    public function isDecorable(Request $request, $requestType, Response $response);
+    public function isDecorable(Request $request, int $requestType, Response $response): bool;
 
-    /**
-     * @return bool
-     */
-    public function isRequestDecorable(Request $request);
+    public function isRequestDecorable(Request $request): bool;
 
-    /**
-     * @param string $routeName
-     *
-     * @return bool
-     */
-    public function isRouteNameDecorable($routeName);
+    public function isRouteNameDecorable(string $routeName): bool;
 
-    /**
-     * @param string $uri
-     *
-     * @return bool
-     */
-    public function isRouteUriDecorable($uri);
+    public function isRouteUriDecorable(string $uri): bool;
 }

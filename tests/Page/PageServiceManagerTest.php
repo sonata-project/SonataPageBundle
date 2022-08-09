@@ -29,9 +29,6 @@ final class PageServiceManagerTest extends TestCase
         $this->manager = new PageServiceManager();
     }
 
-    /**
-     * Test adding a new page service.
-     */
     public function testAdd(): void
     {
         $service = $this->createMock(PageServiceInterface::class);
@@ -42,8 +39,6 @@ final class PageServiceManagerTest extends TestCase
     }
 
     /**
-     * Test getting a service using a page object.
-     *
      * @depends testAdd
      */
     public function testGetByPage(): void
@@ -62,8 +57,6 @@ final class PageServiceManagerTest extends TestCase
     }
 
     /**
-     * Test getting all page services.
-     *
      * @depends testAdd
      */
     public function testGetAll(): void
@@ -94,8 +87,6 @@ final class PageServiceManagerTest extends TestCase
     }
 
     /**
-     * Test the page execution through a service.
-     *
      * @depends testDefault
      */
     public function testExecute(): void

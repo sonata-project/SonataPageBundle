@@ -17,10 +17,7 @@ use Sonata\PageBundle\Model\Site as BaseSite;
 
 final class Site extends BaseSite
 {
-    /**
-     * @param int|null $id
-     */
-    public function setId($id): void
+    public function setId(?int $id): void
     {
         $this->id = $id;
     }

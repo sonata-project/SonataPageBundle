@@ -51,10 +51,20 @@ final class PageSelectorType extends AbstractType
         ]);
     }
 
+    public function getParent(): string
+    {
+        return ModelType::class;
+    }
+
+    public function getBlockPrefix(): string
+    {
+        return 'sonata_page_selector';
+    }
+
     /**
      * @return array<PageInterface>
      */
-    public function getChoices(Options $options)
+    private function getChoices(Options $options): array
     {
         if (!$options['site'] instanceof SiteInterface) {
             return [];
@@ -113,22 +123,10 @@ final class PageSelectorType extends AbstractType
         return $choices;
     }
 
-    public function getParent(): string
-    {
-        return ModelType::class;
-    }
-
-    public function getBlockPrefix(): string
-    {
-        return 'sonata_page_selector';
-    }
-
     /**
-     * @param PageInterface        $currentPage
      * @param array<PageInterface> $choices
-     * @param int                  $level
      */
-    private function childWalker(PageInterface $page, ?PageInterface $currentPage, &$choices, $level = 1): void
+    private function childWalker(PageInterface $page, ?PageInterface $currentPage, array &$choices, int $level = 1): void
     {
         foreach ($page->getChildren() as $child) {
             if (null !== $currentPage && $currentPage->getId() === $child->getId()) {

@@ -21,14 +21,8 @@ use Sonata\BlockBundle\Test\BlockServiceTestCase;
 use Sonata\PageBundle\Block\ContainerBlockService;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * Test Container Block service.
- */
 final class ContainerBlockServiceTest extends BlockServiceTestCase
 {
-    /**
-     * test the block execute() method.
-     */
     public function testExecute(): void
     {
         $block = new Block();
@@ -59,9 +53,6 @@ final class ContainerBlockServiceTest extends BlockServiceTestCase
         static::assertSame(200, $response->getStatusCode());
     }
 
-    /**
-     * test the block's form builders.
-     */
     public function testFormBuilder(): void
     {
         $block = new Block();

@@ -25,178 +25,79 @@ interface SnapshotInterface
      */
     public function getId();
 
-    /**
-     * @return string|null
-     */
-    public function getRouteName();
+    public function getRouteName(): ?string;
 
-    /**
-     * @param string|null $routeName
-     *
-     * @return void
-     */
-    public function setRouteName($routeName);
+    public function setRouteName(?string $routeName): void;
 
-    /**
-     * @return string|null
-     */
-    public function getPageAlias();
+    public function getPageAlias(): ?string;
 
     /**
      * The route alias defines an internal url code that user can use to point
      * to an url. This feature must used with care to avoid to many generated queries.
-     *
-     * @param string|null $pageAlias
-     *
-     * @return void
      */
-    public function setPageAlias($pageAlias);
+    public function setPageAlias(?string $pageAlias): void;
 
-    /**
-     * @return string|null
-     */
-    public function getType();
+    public function getType(): ?string;
 
-    /**
-     * @param string|null $type
-     *
-     * @return void
-     */
-    public function setType($type);
+    public function setType(?string $type): void;
 
-    /**
-     * @return bool $enabled
-     */
-    public function getEnabled();
+    public function getEnabled(): bool;
 
-    /**
-     * @param bool $enabled
-     *
-     * @return void
-     */
-    public function setEnabled($enabled);
+    public function setEnabled(bool $enabled): void;
 
-    /**
-     * @return string|null
-     */
-    public function getName();
+    public function getName(): ?string;
 
-    /**
-     * @param string|null $name
-     *
-     * @return void
-     */
-    public function setName($name);
+    public function setName(?string $name): void;
 
-    /**
-     * @return string|null
-     */
-    public function getUrl();
+    public function getUrl(): ?string;
 
-    /**
-     * @param string|null $url
-     *
-     * @return void
-     */
-    public function setUrl($url);
+    public function setUrl(?string $url): void;
 
-    /**
-     * @return \DateTimeInterface|null
-     */
-    public function getPublicationDateStart();
+    public function getPublicationDateStart(): ?\DateTimeInterface;
 
-    /**
-     * @return void
-     */
-    public function setPublicationDateStart(?\DateTimeInterface $publicationDateStart = null);
+    public function setPublicationDateStart(?\DateTimeInterface $publicationDateStart = null): void;
 
-    /**
-     * @return \DateTimeInterface|null
-     */
-    public function getPublicationDateEnd();
+    public function getPublicationDateEnd(): ?\DateTimeInterface;
 
-    /**
-     * @return void
-     */
-    public function setPublicationDateEnd(?\DateTimeInterface $publicationDateEnd = null);
+    public function setPublicationDateEnd(?\DateTimeInterface $publicationDateEnd = null): void;
 
-    /**
-     * @return \DateTimeInterface|null
-     */
-    public function getCreatedAt();
+    public function getCreatedAt(): ?\DateTimeInterface;
 
-    /**
-     * @return void
-     */
-    public function setCreatedAt(?\DateTimeInterface $createdAt = null);
+    public function setCreatedAt(?\DateTimeInterface $createdAt = null): void;
 
-    /**
-     * @return \DateTimeInterface|null
-     */
-    public function getUpdatedAt();
+    public function getUpdatedAt(): ?\DateTimeInterface;
 
-    /**
-     * @return void
-     */
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt = null);
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt = null): void;
 
-    /**
-     * @return bool
-     */
-    public function getDecorate();
+    public function getDecorate(): bool;
 
-    /**
-     * @param bool $decorate
-     *
-     * @return void
-     */
-    public function setDecorate($decorate);
+    public function setDecorate(bool $decorate): void;
 
-    /**
-     * @return int|null
-     */
-    public function getPosition();
+    public function getPosition(): ?int;
 
-    /**
-     * @param int|null $position
-     *
-     * @return void
-     */
-    public function setPosition($position);
+    public function setPosition(?int $position): void;
 
-    /**
-     * @return PageInterface|null
-     */
-    public function getPage();
+    public function getPage(): ?PageInterface;
 
-    /**
-     * @return void
-     */
-    public function setPage(?PageInterface $page = null);
+    public function setPage(?PageInterface $page = null): void;
 
-    /**
-     * @return SiteInterface|null
-     */
-    public function getSite();
+    public function getSite(): ?SiteInterface;
 
-    /**
-     * @return void
-     */
-    public function setSite(?SiteInterface $site = null);
+    public function setSite(?SiteInterface $site = null): void;
 
     /**
      * @return array<string, mixed>|null
      *
      * @phpstan-return PageContent|null
      */
-    public function getContent();
+    public function getContent(): ?array;
 
     /**
      * @param array<string, mixed>|null $content
      *
      * @phpstan-param PageContent|null $content
      */
-    public function setContent($content): void;
+    public function setContent(?array $content): void;
 
     /**
      * @return int|string|null
@@ -208,8 +109,5 @@ interface SnapshotInterface
      */
     public function setParentId($parentId): void;
 
-    /**
-     * @return bool
-     */
-    public function isHybrid();
+    public function isHybrid(): bool;
 }

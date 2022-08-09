@@ -31,24 +31,14 @@ use Symfony\Component\HttpFoundation\Response;
  */
 interface PageServiceInterface
 {
-    /**
-     * Returns the page service name.
-     *
-     * @return string
-     */
-    public function getName();
+    public function getName(): string;
 
     /**
      * Executes the page. This method acts as a controller's action for a specific page and is therefor expected
      * to return a Response object.
      *
-     * @param PageInterface        $page       Page to execute
-     * @param Request              $request    Request object
      * @param array<string, mixed> $parameters An array of view parameters. In the case of hybrid pages, it may have a
      *                                         parameter "content" that contains the view result of the controller
-     * @param Response|null        $response   Response object
-     *
-     * @return Response
      */
-    public function execute(PageInterface $page, Request $request, array $parameters = [], ?Response $response = null);
+    public function execute(PageInterface $page, Request $request, array $parameters = [], ?Response $response = null): Response;
 }

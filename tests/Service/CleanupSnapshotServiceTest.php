@@ -22,9 +22,6 @@ use Sonata\PageBundle\Service\CleanupSnapshotService;
 
 class CleanupSnapshotServiceTest extends TestCase
 {
-    /**
-     * @testdox it is calling the code that clean up snapshots into the database.
-     */
     public function testCallCleanupQuery(): void
     {
         // Mock

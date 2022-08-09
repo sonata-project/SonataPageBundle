@@ -20,9 +20,6 @@ use Twig\Environment;
 
 final class TemplateManagerTest extends TestCase
 {
-    /**
-     * Test adding a new template.
-     */
     public function testAddSingleTemplate(): void
     {
         $template = $this->getTemplate('template');
@@ -34,9 +31,6 @@ final class TemplateManagerTest extends TestCase
         static::assertSame($template, $manager->get('code'));
     }
 
-    /**
-     * Test setting all templates.
-     */
     public function testSetAllTemplates(): void
     {
         $twig = $this->createMock(Environment::class);
@@ -54,9 +48,6 @@ final class TemplateManagerTest extends TestCase
         static::assertSame($templates, $manager->getAll());
     }
 
-    /**
-     * Test setting the default template code.
-     */
     public function testSetDefaultTemplateCode(): void
     {
         $twig = $this->createMock(Environment::class);
@@ -67,9 +58,6 @@ final class TemplateManagerTest extends TestCase
         static::assertSame('test', $manager->getDefaultTemplateCode());
     }
 
-    /**
-     * test the rendering of a response.
-     */
     public function testRenderResponse(): void
     {
         $template = $this->getTemplate('template', 'path/to/template');
@@ -91,9 +79,6 @@ final class TemplateManagerTest extends TestCase
         );
     }
 
-    /**
-     * test the rendering of a response with a non existing template code.
-     */
     public function testRenderResponseWithNonExistingCode(): void
     {
         $twig = $this->createMock(Environment::class);
@@ -106,9 +91,6 @@ final class TemplateManagerTest extends TestCase
         $manager->renderResponse('test');
     }
 
-    /**
-     * test the rendering of a response with no template code.
-     */
     public function testRenderResponseWithoutCode(): void
     {
         $twig = $this->createMock(Environment::class);
@@ -130,9 +112,6 @@ final class TemplateManagerTest extends TestCase
         );
     }
 
-    /**
-     * test the rendering of a response with default parameters.
-     */
     public function testRenderResponseWithDefaultParameters(): void
     {
         $template = $this->getTemplate('template', 'path/to/template');

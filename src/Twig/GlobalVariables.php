@@ -26,8 +26,11 @@ use Sonata\PageBundle\Site\SiteSelectorInterface;
 final class GlobalVariables
 {
     private SiteManagerInterface $siteManager;
+
     private CmsManagerSelectorInterface $cmsManagerSelector;
+
     private SiteSelectorInterface $siteSelector;
+
     private TemplateManagerInterface $templateManager;
 
     /**
@@ -59,43 +62,31 @@ final class GlobalVariables
     }
 
     /**
-     * @return SiteInterface[]
+     * @return array<SiteInterface>
      */
-    public function getSiteAvailables()
+    public function getSiteAvailables(): array
     {
         return $this->siteManager->findBy([
             'enabled' => true,
         ]);
     }
 
-    /**
-     * @return CmsManagerInterface
-     */
-    public function getCmsManager()
+    public function getCmsManager(): CmsManagerInterface
     {
         return $this->cmsManagerSelector->retrieve();
     }
 
-    /**
-     * @return SiteInterface|null
-     */
-    public function getCurrentSite()
+    public function getCurrentSite(): ?SiteInterface
     {
         return $this->siteSelector->retrieve();
     }
 
-    /**
-     * @return bool
-     */
-    public function isEditor()
+    public function isEditor(): bool
     {
         return $this->cmsManagerSelector->isEditor();
     }
 
-    /**
-     * @return string
-     */
-    public function getDefaultTemplate()
+    public function getDefaultTemplate(): string
     {
         $template = $this->templateManager->get(
             $this->templateManager->getDefaultTemplateCode()
@@ -114,7 +105,7 @@ final class GlobalVariables
      *   stylesheet: array<string>
      * }
      */
-    public function getAssets()
+    public function getAssets(): array
     {
         return $this->assets;
     }

@@ -42,8 +42,7 @@ final class TemplateManager implements TemplateManagerInterface
     private string $defaultTemplatePath = '@SonataPage/layout.html.twig';
 
     /**
-     * @param Environment          $twig              Templating twig
-     * @param array<string, mixed> $defaultParameters An array of default view parameters
+     * @param array<string, mixed> $defaultParameters
      */
     public function __construct(Environment $twig, array $defaultParameters = [])
     {
@@ -51,12 +50,12 @@ final class TemplateManager implements TemplateManagerInterface
         $this->defaultParameters = $defaultParameters;
     }
 
-    public function add($code, Template $template): void
+    public function add(string $code, Template $template): void
     {
         $this->templates[$code] = $template;
     }
 
-    public function get($code)
+    public function get(string $code): ?Template
     {
         if (!isset($this->templates[$code])) {
             return null;
@@ -65,22 +64,22 @@ final class TemplateManager implements TemplateManagerInterface
         return $this->templates[$code];
     }
 
-    public function setDefaultTemplateCode($code): void
+    public function setDefaultTemplateCode(string $code): void
     {
         $this->defaultTemplateCode = $code;
     }
 
-    public function getDefaultTemplateCode()
+    public function getDefaultTemplateCode(): string
     {
         return $this->defaultTemplateCode;
     }
 
-    public function setAll($templates): void
+    public function setAll(array $templates): void
     {
         $this->templates = $templates;
     }
 
-    public function getAll()
+    public function getAll(): array
     {
         return $this->templates;
     }

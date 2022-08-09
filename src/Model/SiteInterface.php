@@ -18,176 +18,68 @@ namespace Sonata\PageBundle\Model;
  */
 interface SiteInterface
 {
-    /**
-     * @return string
-     */
-    public function __toString();
+    public function __toString(): string;
 
     /**
      * @return int|string|null
      */
     public function getId();
 
-    /**
-     * @return string|null
-     */
-    public function getName();
+    public function getName(): ?string;
 
-    /**
-     * @param string|null $name
-     *
-     * @return void
-     */
-    public function setName($name);
+    public function setName(?string $name): void;
 
-    /**
-     * @return string|null
-     */
-    public function getTitle();
+    public function getTitle(): ?string;
 
-    /**
-     * @param string|null $title
-     *
-     * @return void
-     */
-    public function setTitle($title);
+    public function setTitle(?string $title): void;
 
-    /**
-     * @return string|null
-     */
-    public function getHost();
+    public function getHost(): ?string;
 
-    /**
-     * @param string|null $host
-     *
-     * @return void
-     */
-    public function setHost($host);
+    public function setHost(?string $host): void;
 
-    /**
-     * @return string|null
-     */
-    public function getLocale();
+    public function getLocale(): ?string;
 
-    /**
-     * @param string|null $locale
-     *
-     * @return void
-     */
-    public function setLocale($locale);
+    public function setLocale(?string $locale): void;
 
-    /**
-     * @return \DateTimeInterface|null
-     */
-    public function getEnabledFrom();
+    public function getEnabledFrom(): ?\DateTimeInterface;
 
-    /**
-     * @return void
-     */
-    public function setEnabledFrom(?\DateTimeInterface $enabledFrom = null);
+    public function setEnabledFrom(?\DateTimeInterface $enabledFrom = null): void;
 
-    /**
-     * @return \DateTimeInterface|null
-     */
-    public function getEnabledTo();
+    public function getEnabledTo(): ?\DateTimeInterface;
 
-    /**
-     * @return void
-     */
-    public function setEnabledTo(?\DateTimeInterface $enabledTo = null);
+    public function setEnabledTo(?\DateTimeInterface $enabledTo = null): void;
 
-    /**
-     * @return bool
-     */
-    public function getIsDefault();
+    public function getIsDefault(): bool;
 
-    /**
-     * @param bool $default
-     *
-     * @return void
-     */
-    public function setIsDefault($default);
+    public function setIsDefault(bool $default): void;
 
-    /**
-     * @return string|null
-     */
-    public function getRelativePath();
+    public function getRelativePath(): ?string;
 
-    /**
-     * @param string|null $path
-     *
-     * @return void
-     */
-    public function setRelativePath($path);
+    public function setRelativePath(?string $path): void;
 
-    /**
-     * @return bool $enabled
-     */
-    public function getEnabled();
+    public function getEnabled(): bool;
 
-    /**
-     * @param bool $enabled
-     *
-     * @return void
-     */
-    public function setEnabled($enabled);
+    public function setEnabled(bool $enabled): void;
 
-    /**
-     * @return \DateTimeInterface|null
-     */
-    public function getCreatedAt();
+    public function getCreatedAt(): ?\DateTimeInterface;
 
-    /**
-     * @return void
-     */
-    public function setCreatedAt(?\DateTimeInterface $createdAt = null);
+    public function setCreatedAt(?\DateTimeInterface $createdAt = null): void;
 
-    /**
-     * @return \DateTimeInterface|null
-     */
-    public function getUpdatedAt();
+    public function getUpdatedAt(): ?\DateTimeInterface;
 
-    /**
-     * @return void
-     */
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt = null);
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt = null): void;
 
-    /**
-     * @return string|null
-     */
-    public function getMetaDescription();
+    public function getMetaDescription(): ?string;
 
-    /**
-     * @param string|null $metaDescription
-     *
-     * @return void
-     */
-    public function setMetaDescription($metaDescription);
+    public function setMetaDescription(?string $metaDescription): void;
 
-    /**
-     * @return string|null
-     */
-    public function getMetaKeywords();
+    public function getMetaKeywords(): ?string;
 
-    /**
-     * @param string|null $metaKeywords
-     *
-     * @return void
-     */
-    public function setMetaKeywords($metaKeywords);
+    public function setMetaKeywords(?string $metaKeywords): void;
 
-    /**
-     * @return string|null
-     */
-    public function getUrl();
+    public function getUrl(): ?string;
 
-    /**
-     * @return bool
-     */
-    public function isEnabled();
+    public function isEnabled(): bool;
 
-    /**
-     * @return bool
-     */
-    public function isLocalhost();
+    public function isLocalhost(): bool;
 }

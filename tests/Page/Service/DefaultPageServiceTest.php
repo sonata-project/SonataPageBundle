@@ -45,9 +45,6 @@ final class DefaultPageServiceTest extends TestCase
         $this->service = new DefaultPageService($name, $this->templateManager, $this->seoPage);
     }
 
-    /**
-     * Test the default page service execution.
-     */
     public function testExecute(): void
     {
         // mock a http request

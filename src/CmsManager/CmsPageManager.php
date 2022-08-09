@@ -45,7 +45,7 @@ final class CmsPageManager extends BaseCmsPageManager
     ];
 
     /**
-     * @var PageInterface[]
+     * @var array<PageInterface>
      */
     private array $pages = [];
 
@@ -55,7 +55,7 @@ final class CmsPageManager extends BaseCmsPageManager
         $this->blockInteractor = $blockInteractor;
     }
 
-    public function getPage(SiteInterface $site, $page)
+    public function getPage(SiteInterface $site, $page): PageInterface
     {
         if (\is_string($page) && '/' === substr($page, 0, 1)) {
             $page = $this->getPageByUrl($site, $page);
@@ -74,7 +74,7 @@ final class CmsPageManager extends BaseCmsPageManager
         return $page;
     }
 
-    public function getInternalRoute(SiteInterface $site, $routeName)
+    public function getInternalRoute(SiteInterface $site, string $routeName): PageInterface
     {
         if ('error' === substr($routeName, 0, 5)) {
             throw new \RuntimeException(sprintf('Illegal internal route name : %s, an internal page cannot start with `error`', $routeName));
@@ -100,7 +100,7 @@ final class CmsPageManager extends BaseCmsPageManager
         return $page;
     }
 
-    public function findContainer($name, PageInterface $page, ?PageBlockInterface $parentContainer = null)
+    public function findContainer(string $name, PageInterface $page, ?PageBlockInterface $parentContainer = null): ?PageBlockInterface
     {
         $container = null;
 
@@ -134,7 +134,7 @@ final class CmsPageManager extends BaseCmsPageManager
         return $container;
     }
 
-    public function getBlock($id)
+    public function getBlock($id): ?PageBlockInterface
     {
         if (!\array_key_exists($id, $this->blocks)) {
             $this->blocks[$id] = $this->blockInteractor->getBlock($id);
@@ -143,7 +143,7 @@ final class CmsPageManager extends BaseCmsPageManager
         return $this->blocks[$id];
     }
 
-    protected function getPageBy(?SiteInterface $site, $fieldName, $value)
+    protected function getPageBy(?SiteInterface $site, string $fieldName, $value): PageInterface
     {
         if ('id' === $fieldName) {
             $id = $value;

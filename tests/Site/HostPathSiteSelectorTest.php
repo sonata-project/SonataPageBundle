@@ -122,12 +122,7 @@ final class HostPathSite extends BaseSite
 
 final class HostPathSiteSelector extends BaseSiteSelector
 {
-    /**
-     * @static
-     *
-     * @param string $property
-     */
-    public static function _camelize($property): string
+    public static function _camelize(string $property): string
     {
         $camelized = preg_replace_callback(
             '/(^|[_. ])+(.)/',
@@ -312,12 +307,9 @@ final class HostPathSiteSelector extends BaseSiteSelector
     }
 
     /**
-     * @param object $object
-     * @param string $fieldName
-     *
      * @return mixed
      */
-    protected function _getFieldValue($object, $fieldName)
+    protected function _getFieldValue(object $object, string $fieldName)
     {
         $camelizedFieldName = self::_camelize($fieldName);
 

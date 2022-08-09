@@ -48,7 +48,9 @@ final class RequestListenerTest extends TestCase
         $siteSelector->expects(static::once())->method('retrieve')->willReturn($site);
 
         $kernel = $this->createMock(HttpKernelInterface::class);
-        $request = new Request();
+        $request = new Request([], [], [
+            '_route' => 'some-random-route',
+        ]);
 
         // TODO: Simplify this when dropping support for Symfony <  5.3
         $mainRequestType = \defined(HttpKernelInterface::class.'::MAIN_REQUEST') ? HttpKernelInterface::MAIN_REQUEST : 1;

@@ -35,28 +35,23 @@ final class RequestListener
 
     private DecoratorStrategyInterface $decoratorStrategy;
 
-    /**
-     * @param CmsManagerSelectorInterface $cmsSelector       Cms manager selector
-     * @param SiteSelectorInterface       $siteSelector      Site selector
-     * @param DecoratorStrategyInterface  $decoratorStrategy Decorator strategy
-     */
-    public function __construct(CmsManagerSelectorInterface $cmsSelector, SiteSelectorInterface $siteSelector, DecoratorStrategyInterface $decoratorStrategy)
-    {
+    public function __construct(
+        CmsManagerSelectorInterface $cmsSelector,
+        SiteSelectorInterface $siteSelector,
+        DecoratorStrategyInterface $decoratorStrategy
+    ) {
         $this->cmsSelector = $cmsSelector;
         $this->siteSelector = $siteSelector;
         $this->decoratorStrategy = $decoratorStrategy;
     }
 
     /**
-     * Filter the `core.request` event to decorated the action.
-     *
      * @throws InternalErrorException
      * @throws PageNotFoundException
      */
     public function onCoreRequest(RequestEvent $event): void
     {
         $request = $event->getRequest();
-
         $cms = $this->cmsSelector->retrieve();
 
         // true cms page

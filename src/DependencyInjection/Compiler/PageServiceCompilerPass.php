@@ -18,8 +18,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Inject page services into page service manager.
- *
  * @author Olivier Paradis <paradis@ekino.com>
  */
 final class PageServiceCompilerPass implements CompilerPassInterface

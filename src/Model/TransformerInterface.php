@@ -62,27 +62,19 @@ use Doctrine\Common\Collections\Collection;
  */
 interface TransformerInterface
 {
-    /**
-     * @return PageInterface
-     */
-    public function load(SnapshotInterface $snapshot);
+    public function load(SnapshotInterface $snapshot): PageInterface;
 
-    /**
-     * @return SnapshotInterface
-     */
-    public function create(PageInterface $page);
+    public function create(PageInterface $page): SnapshotInterface;
 
     /**
      * @return Collection<array-key, PageInterface>
      */
-    public function getChildren(PageInterface $page);
+    public function getChildren(PageInterface $page): Collection;
 
     /**
      * @param array<string, mixed> $content
      *
-     * @return PageBlockInterface
-     *
      * @phpstan-param BlockContent $content
      */
-    public function loadBlock(array $content, PageInterface $page);
+    public function loadBlock(array $content, PageInterface $page): PageBlockInterface;
 }

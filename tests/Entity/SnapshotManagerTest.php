@@ -68,9 +68,6 @@ final class SnapshotManagerTest extends TestCase
         );
     }
 
-    /**
-     * Tests the enableSnapshots() method to ensure execute queries are correct.
-     */
     public function testEnableSnapshots(): void
     {
         $platform = $this->createMock(AbstractPlatform::class);
@@ -166,9 +163,6 @@ final class SnapshotManagerTest extends TestCase
         static::assertSame($proxyInterface, $manager->createSnapshotPageProxy($transformer, $snapshot));
     }
 
-    /**
-     * Tests the enableSnapshots() method to ensure execute queries are not executed when no snapshots are given.
-     */
     public function testEnableSnapshotsWhenNoSnapshots(): void
     {
         $connection = $this->createMock(Connection::class);

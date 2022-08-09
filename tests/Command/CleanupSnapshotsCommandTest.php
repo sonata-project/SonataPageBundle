@@ -33,9 +33,6 @@ class CleanupSnapshotsCommandTest extends KernelTestCase
         $this->application = new Application($kernel);
     }
 
-    /**
-     * @testdox It's checking if the "Keep-snapshots" option is a number.
-     */
     public function testKeepSnapshotIsANumberValue(): void
     {
         // Assert

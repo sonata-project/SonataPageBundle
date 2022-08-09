@@ -17,8 +17,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Select a Page.
- *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 final class CreateSnapshotType extends AbstractType

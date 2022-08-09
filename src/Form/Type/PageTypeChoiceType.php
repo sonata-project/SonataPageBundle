@@ -19,8 +19,6 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Select a page type.
- *
  * @author Olivier Paradis <paradis.olivier@gmail.com>
  */
 final class PageTypeChoiceType extends AbstractType
@@ -42,10 +40,20 @@ final class PageTypeChoiceType extends AbstractType
         $resolver->setDefaults($defaults);
     }
 
+    public function getParent(): string
+    {
+        return ChoiceType::class;
+    }
+
+    public function getBlockPrefix(): string
+    {
+        return 'sonata_page_type_choice';
+    }
+
     /**
-     * @return string[]
+     * @return array<string>
      */
-    public function getPageTypes()
+    private function getPageTypes(): array
     {
         $services = $this->manager->getAll();
         $types = [];
@@ -56,15 +64,5 @@ final class PageTypeChoiceType extends AbstractType
         ksort($types);
 
         return $types;
-    }
-
-    public function getParent(): string
-    {
-        return ChoiceType::class;
-    }
-
-    public function getBlockPrefix(): string
-    {
-        return 'sonata_page_type_choice';
     }
 }

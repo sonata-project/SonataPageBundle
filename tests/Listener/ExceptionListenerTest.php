@@ -96,9 +96,6 @@ final class ExceptionListenerTest extends TestCase
         );
     }
 
-    /**
-     * Test an internal exception.
-     */
     public function testInternalException(): void
     {
         $exception = new InternalErrorException();
@@ -109,9 +106,6 @@ final class ExceptionListenerTest extends TestCase
         $this->listener->onKernelException($event);
     }
 
-    /**
-     * Test the not found exception in editor mode.
-     */
     public function testNotFoundExceptionInEditorMode(): void
     {
         $exception = new NotFoundHttpException();
@@ -135,9 +129,6 @@ final class ExceptionListenerTest extends TestCase
         static::assertSame(404, $response->getStatusCode(), 'Should return 404 status code');
     }
 
-    /**
-     * Test the not found exception rendering.
-     */
     public function testNotFoundException(): void
     {
         $exception = $this->createMock(NotFoundHttpException::class);
@@ -190,9 +181,6 @@ final class ExceptionListenerTest extends TestCase
         static::assertSame('fr', $event->getRequest()->getLocale());
     }
 
-    /**
-     * Returns a mocked event with given content data.
-     */
     private function getMockEvent(\Exception $exception): ExceptionEvent
     {
         $kernel = $this->createMock(HttpKernelInterface::class);

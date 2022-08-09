@@ -198,10 +198,7 @@ final class BlockAdmin extends BaseBlockAdmin
         }
     }
 
-    /**
-     * @return string|null
-     */
-    private function getDefaultTemplate(BlockServiceInterface $blockService)
+    private function getDefaultTemplate(BlockServiceInterface $blockService): ?string
     {
         $resolver = new OptionsResolver();
         $blockService->configureSettings($resolver);

@@ -31,20 +31,14 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 abstract class BaseBlockAdmin extends AbstractAdmin
 {
-    /**
-     * @var BlockServiceManagerInterface
-     */
-    protected $blockManager;
+    protected BlockServiceManagerInterface $blockManager;
 
-    /**
-     * @var bool
-     */
-    protected $inValidate = false;
+    protected bool $inValidate = false;
 
     /**
      * @var array<string>
      */
-    protected $containerBlockTypes = [];
+    protected array $containerBlockTypes = [];
 
     public function __construct(BlockServiceManagerInterface $blockManager)
     {

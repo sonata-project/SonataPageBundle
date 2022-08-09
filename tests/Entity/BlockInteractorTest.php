@@ -44,9 +44,6 @@ final class BlockInteractorTest extends KernelTestCase
         $this->blockInteractor = new BlockInteractor($registry, $blockManager);
     }
 
-    /**
-     * @testdox It is returning a block list.
-     */
     public function testLoadPageBlocks(): void
     {
         $page = $this->prepareData();
@@ -54,12 +51,10 @@ final class BlockInteractorTest extends KernelTestCase
 
         $blocks = $this->blockInteractor->loadPageBlocks($page);
 
+        static::assertNotFalse($block);
         static::assertSame([1 => $block], $blocks);
     }
 
-    /**
-     * @testdox it'll return an empty array for blocks that are already loaded.
-     */
     public function testNotLoadBlocks(): void
     {
         $page = $this->prepareData();

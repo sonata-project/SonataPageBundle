@@ -20,12 +20,12 @@ use Symfony\Component\HttpFoundation\Request as BaseRequest;
  */
 final class SiteRequest extends BaseRequest implements SiteRequestInterface
 {
-    public function setPathInfo($pathInfo): void
+    public function setPathInfo(string $pathInfo): void
     {
         $this->pathInfo = $pathInfo;
     }
 
-    public function setBaseUrl($baseUrl): void
+    public function setBaseUrl(string $baseUrl): void
     {
         $this->baseUrl = $baseUrl;
     }

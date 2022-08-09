@@ -26,145 +26,76 @@ abstract class Page implements PageInterface
      */
     protected $id = null;
 
-    /**
-     * @var string|null
-     */
-    protected $title = null;
+    protected ?string $title = null;
 
-    /**
-     * @var string|null
-     */
-    protected $routeName = PageInterface::PAGE_ROUTE_CMS_NAME;
+    protected ?string $routeName = PageInterface::PAGE_ROUTE_CMS_NAME;
 
-    /**
-     * @var string|null
-     */
-    protected $pageAlias = null;
+    protected ?string $pageAlias = null;
 
-    /**
-     * @var string|null
-     */
-    protected $type = null;
+    protected ?string $type = null;
 
-    /**
-     * @var bool
-     */
-    protected $enabled = false;
+    protected bool $enabled = false;
 
-    /**
-     * @var string|null
-     */
-    protected $name = null;
+    protected ?string $name = null;
 
-    /**
-     * @var string|null
-     */
-    protected $slug = null;
+    protected ?string $slug = null;
 
-    /**
-     * @var string|null
-     */
-    protected $url = null;
+    protected ?string $url = null;
 
-    /**
-     * @var string|null
-     */
-    protected $customUrl = null;
+    protected ?string $customUrl = null;
 
-    /**
-     * @var string|null
-     */
-    protected $metaKeyword = null;
+    protected ?string $metaKeyword = null;
 
-    /**
-     * @var string|null
-     */
-    protected $metaDescription = null;
+    protected ?string $metaDescription = null;
 
-    /**
-     * @var string|null
-     */
-    protected $javascript = null;
+    protected ?string $javascript = null;
 
-    /**
-     * @var string|null
-     */
-    protected $stylesheet = null;
+    protected ?string $stylesheet = null;
 
-    /**
-     * @var \DateTimeInterface|null
-     */
-    protected $createdAt = null;
+    protected ?\DateTimeInterface $createdAt = null;
 
-    /**
-     * @var \DateTimeInterface|null
-     */
-    protected $updatedAt = null;
+    protected ?\DateTimeInterface $updatedAt = null;
 
     /**
      * @var Collection<array-key, PageInterface>
      */
-    protected $children;
+    protected Collection $children;
 
     /**
      * @var Collection<array-key, PageBlockInterface>
      */
-    protected $blocks;
+    protected Collection $blocks;
 
-    /**
-     * @var PageInterface|null
-     */
-    protected $parent = null;
+    protected ?PageInterface $parent = null;
 
     /**
      * @var array<PageInterface>|null
      */
-    protected $parents = null;
+    protected ?array $parents = null;
+
+    protected ?string $templateCode = null;
+
+    protected bool $decorate = true;
+
+    protected ?int $position = 1;
+
+    protected ?string $requestMethod = 'GET|POST|HEAD|DELETE|PUT';
 
     /**
-     * @var string|null
+     * @var array<string, mixed>|null
      */
-    protected $templateCode = null;
+    protected ?array $headers = null;
 
-    /**
-     * @var bool
-     */
-    protected $decorate = true;
+    protected ?string $rawHeaders = null;
 
-    /**
-     * @var int|null
-     */
-    protected $position = 1;
+    protected ?SiteInterface $site = null;
 
-    /**
-     * @var string|null
-     */
-    protected $requestMethod = 'GET|POST|HEAD|DELETE|PUT';
-
-    /**
-     * @var array<string, mixed>
-     */
-    protected $headers = [];
-
-    /**
-     * @var string|null
-     */
-    protected $rawHeaders = null;
-
-    /**
-     * @var SiteInterface|null
-     */
-    protected $site = null;
-
-    /**
-     * @var bool
-     */
-    protected $edited = true;
+    protected bool $edited = true;
 
     /**
      * @var array<SnapshotInterface>
      */
-    protected $snapshots = [];
+    protected array $snapshots = [];
 
     public function __construct()
     {
@@ -172,7 +103,7 @@ abstract class Page implements PageInterface
         $this->children = new ArrayCollection();
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getName() ?? '-';
     }
@@ -187,32 +118,32 @@ abstract class Page implements PageInterface
         $this->id = $id;
     }
 
-    public function getTitle()
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    public function setTitle($title): void
+    public function setTitle(?string $title): void
     {
         $this->title = $title;
     }
 
-    public function getRouteName()
+    public function getRouteName(): ?string
     {
         return $this->routeName;
     }
 
-    public function setRouteName($routeName): void
+    public function setRouteName(?string $routeName): void
     {
         $this->routeName = $routeName;
     }
 
-    public function getPageAlias()
+    public function getPageAlias(): ?string
     {
         return $this->pageAlias;
     }
 
-    public function setPageAlias($pageAlias): void
+    public function setPageAlias(?string $pageAlias): void
     {
         if ('_page_alias_' !== substr((string) $pageAlias, 0, 12)) {
             $pageAlias = '_page_alias_'.$pageAlias;
@@ -221,107 +152,107 @@ abstract class Page implements PageInterface
         $this->pageAlias = $pageAlias;
     }
 
-    public function getType()
+    public function getType(): ?string
     {
         return $this->type;
     }
 
-    public function setType($type): void
+    public function setType(?string $type): void
     {
         $this->type = $type;
     }
 
-    public function getEnabled()
+    public function getEnabled(): bool
     {
         return $this->enabled;
     }
 
-    public function setEnabled($enabled): void
+    public function setEnabled(bool $enabled): void
     {
         $this->enabled = $enabled;
     }
 
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function setName($name): void
+    public function setName(?string $name): void
     {
         $this->name = $name;
     }
 
-    public function getSlug()
+    public function getSlug(): ?string
     {
         return $this->slug;
     }
 
-    public function setSlug($slug): void
+    public function setSlug(?string $slug): void
     {
         $this->slug = $slug;
     }
 
-    public function getUrl()
+    public function getUrl(): ?string
     {
         return $this->url;
     }
 
-    public function setUrl($url): void
+    public function setUrl(?string $url): void
     {
         $this->url = $url;
     }
 
-    public function getCustomUrl()
+    public function getCustomUrl(): ?string
     {
         return $this->customUrl;
     }
 
-    public function setCustomUrl($customUrl): void
+    public function setCustomUrl(?string $customUrl): void
     {
         $this->customUrl = $customUrl;
     }
 
-    public function getMetaKeyword()
+    public function getMetaKeyword(): ?string
     {
         return $this->metaKeyword;
     }
 
-    public function setMetaKeyword($metaKeyword): void
+    public function setMetaKeyword(?string $metaKeyword): void
     {
         $this->metaKeyword = $metaKeyword;
     }
 
-    public function getMetaDescription()
+    public function getMetaDescription(): ?string
     {
         return $this->metaDescription;
     }
 
-    public function setMetaDescription($metaDescription): void
+    public function setMetaDescription(?string $metaDescription): void
     {
         $this->metaDescription = $metaDescription;
     }
 
-    public function getJavascript()
+    public function getJavascript(): ?string
     {
         return $this->javascript;
     }
 
-    public function setJavascript($javascript): void
+    public function setJavascript(?string $javascript): void
     {
         $this->javascript = $javascript;
     }
 
-    public function getStylesheet()
+    public function getStylesheet(): ?string
     {
         return $this->stylesheet;
     }
 
-    public function setStylesheet($stylesheet): void
+    public function setStylesheet(?string $stylesheet): void
     {
         $this->stylesheet = $stylesheet;
     }
 
-    public function getCreatedAt()
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
@@ -331,7 +262,7 @@ abstract class Page implements PageInterface
         $this->createdAt = $createdAt;
     }
 
-    public function getUpdatedAt()
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
@@ -341,12 +272,12 @@ abstract class Page implements PageInterface
         $this->updatedAt = $updatedAt;
     }
 
-    public function getChildren()
+    public function getChildren(): Collection
     {
         return $this->children;
     }
 
-    public function setChildren($children): void
+    public function setChildren(Collection $children): void
     {
         $this->children = $children;
     }
@@ -358,7 +289,7 @@ abstract class Page implements PageInterface
         $child->setParent($this);
     }
 
-    public function getBlocks()
+    public function getBlocks(): Collection
     {
         return $this->blocks;
     }
@@ -370,7 +301,7 @@ abstract class Page implements PageInterface
         $this->blocks[] = $block;
     }
 
-    public function getContainerByCode($code)
+    public function getContainerByCode(string $code): ?PageBlockInterface
     {
         foreach ($this->getBlocks() as $block) {
             if (\in_array($block->getType(), ['sonata.page.block.container', 'sonata.block.service.container'], true) && $block->getSetting('code') === $code) {
@@ -381,7 +312,7 @@ abstract class Page implements PageInterface
         return null;
     }
 
-    public function getBlocksByType($type)
+    public function getBlocksByType(string $type): array
     {
         $blocks = [];
 
@@ -394,7 +325,7 @@ abstract class Page implements PageInterface
         return $blocks;
     }
 
-    public function getParent($level = -1)
+    public function getParent(int $level = -1): ?PageInterface
     {
         if (-1 === $level) {
             return $this->parent;
@@ -414,7 +345,7 @@ abstract class Page implements PageInterface
         $this->parent = $parent;
     }
 
-    public function getParents()
+    public function getParents(): array
     {
         if (null === $this->parents) {
             $parent = $this->getParent();
@@ -437,47 +368,47 @@ abstract class Page implements PageInterface
         $this->parents = $parents;
     }
 
-    public function getTemplateCode()
+    public function getTemplateCode(): ?string
     {
         return $this->templateCode;
     }
 
-    public function setTemplateCode($templateCode): void
+    public function setTemplateCode(?string $templateCode): void
     {
         $this->templateCode = $templateCode;
     }
 
-    public function getDecorate()
+    public function getDecorate(): bool
     {
         return $this->decorate;
     }
 
-    public function setDecorate($decorate): void
+    public function setDecorate(bool $decorate): void
     {
         $this->decorate = $decorate;
     }
 
-    public function getPosition()
+    public function getPosition(): ?int
     {
         return $this->position;
     }
 
-    public function setPosition($position): void
+    public function setPosition(?int $position): void
     {
         $this->position = $position;
     }
 
-    public function getRequestMethod()
+    public function getRequestMethod(): ?string
     {
         return $this->requestMethod;
     }
 
-    public function setRequestMethod($method): void
+    public function setRequestMethod(?string $method): void
     {
         $this->requestMethod = $method;
     }
 
-    public function hasRequestMethod($method)
+    public function hasRequestMethod(string $method): bool
     {
         $method = strtoupper($method);
 
@@ -495,7 +426,7 @@ abstract class Page implements PageInterface
         if (null === $this->headers) {
             $rawHeaders = $this->getRawHeaders();
 
-            $this->headers = $this->getHeadersAsArray($rawHeaders);
+            $this->headers = null !== $rawHeaders ? $this->getHeadersAsArray($rawHeaders) : [];
         }
 
         return $this->headers;
@@ -505,12 +436,13 @@ abstract class Page implements PageInterface
     {
         $this->headers = [];
         $this->rawHeaders = null;
+
         foreach ($headers as $name => $header) {
             $this->addHeader($name, $header);
         }
     }
 
-    public function addHeader($name, $value): void
+    public function addHeader(string $name, $value): void
     {
         $headers = $this->getHeaders();
 
@@ -521,19 +453,17 @@ abstract class Page implements PageInterface
         $this->rawHeaders = $this->getHeadersAsString($headers);
     }
 
-    public function getRawHeaders()
+    public function getRawHeaders(): ?string
     {
         return $this->rawHeaders;
     }
 
-    public function setRawHeaders($rawHeaders): void
+    public function setRawHeaders(?string $rawHeaders): void
     {
-        $headers = $this->getHeadersAsArray($rawHeaders);
-
-        $this->setHeaders($headers);
+        $this->setHeaders(null !== $rawHeaders ? $this->getHeadersAsArray($rawHeaders) : []);
     }
 
-    public function getSite()
+    public function getSite(): ?SiteInterface
     {
         return $this->site;
     }
@@ -543,27 +473,27 @@ abstract class Page implements PageInterface
         $this->site = $site;
     }
 
-    public function getEdited()
+    public function getEdited(): bool
     {
         return $this->edited;
     }
 
-    public function setEdited($edited): void
+    public function setEdited(bool $edited): void
     {
         $this->edited = $edited;
     }
 
-    public function getSnapshots()
+    public function getSnapshots(): array
     {
         return $this->snapshots;
     }
 
-    public function setSnapshots($snapshots): void
+    public function setSnapshots(array $snapshots): void
     {
         $this->snapshots = $snapshots;
     }
 
-    public function getSnapshot()
+    public function getSnapshot(): ?SnapshotInterface
     {
         return $this->snapshots[0] ?? null;
     }
@@ -575,41 +505,39 @@ abstract class Page implements PageInterface
         $snapshot->setPage($this);
     }
 
-    public function isError()
+    public function isError(): bool
     {
         return '_page_internal_error_' === substr($this->getRouteName() ?? '', 0, 21);
     }
 
-    public function isHybrid()
+    public function isHybrid(): bool
     {
         return PageInterface::PAGE_ROUTE_CMS_NAME !== $this->getRouteName() && !$this->isInternal();
     }
 
-    public function isDynamic()
+    public function isDynamic(): bool
     {
         return $this->isHybrid() && false !== strpos($this->getUrl() ?? '', '{');
     }
 
-    public function isCms()
+    public function isCms(): bool
     {
         return PageInterface::PAGE_ROUTE_CMS_NAME === $this->getRouteName() && !$this->isInternal();
     }
 
-    public function isInternal()
+    public function isInternal(): bool
     {
         return '_page_internal_' === substr($this->getRouteName() ?? '', 0, 15);
     }
 
     /**
-     * @param string|null $rawHeaders
-     *
      * @return array<string, string>
      */
-    private function getHeadersAsArray($rawHeaders)
+    private function getHeadersAsArray(string $rawHeaders): array
     {
         $headers = [];
 
-        foreach (explode("\r\n", (string) $rawHeaders) as $header) {
+        foreach (explode("\r\n", $rawHeaders) as $header) {
             if (false !== strpos($header, ':')) {
                 [$name, $headerStr] = explode(':', $header, 2);
                 $headers[trim($name)] = trim($headerStr);
@@ -621,10 +549,8 @@ abstract class Page implements PageInterface
 
     /**
      * @param array<string, mixed> $headers
-     *
-     * @return string
      */
-    private function getHeadersAsString(array $headers)
+    private function getHeadersAsString(array $headers): string
     {
         $rawHeaders = [];
 

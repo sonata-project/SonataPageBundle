@@ -28,21 +28,23 @@ final class DefaultPageService extends BasePageService
 
     private ?SeoPageInterface $seoPage;
 
-    /**
-     * @param string                   $name            Page service name
-     * @param TemplateManagerInterface $templateManager Template manager
-     * @param SeoPageInterface|null    $seoPage         SEO page object
-     */
-    public function __construct($name, TemplateManagerInterface $templateManager, ?SeoPageInterface $seoPage = null)
-    {
+    public function __construct(
+        string $name,
+        TemplateManagerInterface $templateManager,
+        ?SeoPageInterface $seoPage = null
+    ) {
         parent::__construct($name);
 
         $this->templateManager = $templateManager;
         $this->seoPage = $seoPage;
     }
 
-    public function execute(PageInterface $page, Request $request, array $parameters = [], ?Response $response = null)
-    {
+    public function execute(
+        PageInterface $page,
+        Request $request,
+        array $parameters = [],
+        ?Response $response = null
+    ): Response {
         $this->updateSeoPage($page);
 
         $templateCode = $page->getTemplateCode();

@@ -37,17 +37,11 @@ final class RoutePageGeneratorTest extends TestCase
 {
     private RoutePageGenerator $routePageGenerator;
 
-    /**
-     * Set up dependencies.
-     */
     protected function setUp(): void
     {
         $this->routePageGenerator = $this->getRoutePageGenerator();
     }
 
-    /**
-     * Tests site update route method with.
-     */
     public function testUpdateRoutes(): void
     {
         $site = $this->getSiteMock();
@@ -79,9 +73,6 @@ final class RoutePageGeneratorTest extends TestCase
         static::assertMatchesRegularExpression('/ERROR(.*)test_hybrid_page_not_exists/', $output);
     }
 
-    /**
-     * Tests site update route method with.
-     */
     public function testUpdateRoutesClean(): void
     {
         $site = $this->getSiteMock();
@@ -113,9 +104,6 @@ final class RoutePageGeneratorTest extends TestCase
         static::assertMatchesRegularExpression('#REMOVED(.*)test_hybrid_page_not_exists#', $output);
     }
 
-    /**
-     * Returns a mock of a site model.
-     */
     private function getSiteMock(): SiteInterface
     {
         $site = $this->createMock(SiteInterface::class);
@@ -125,9 +113,6 @@ final class RoutePageGeneratorTest extends TestCase
         return $site;
     }
 
-    /**
-     * Returns a mock of Symfony router.
-     */
     private function getRouterMock(): RouterInterface
     {
         $collection = new RouteCollection();
@@ -154,9 +139,6 @@ final class RoutePageGeneratorTest extends TestCase
         return $router;
     }
 
-    /**
-     * Returns Sonata route page generator service.
-     */
     private function getRoutePageGenerator(): RoutePageGenerator
     {
         $router = $this->getRouterMock();

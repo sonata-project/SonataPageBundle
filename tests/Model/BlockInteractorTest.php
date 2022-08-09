@@ -15,25 +15,22 @@ namespace Sonata\PageBundle\Tests\Model;
 
 use Doctrine\Persistence\ManagerRegistry;
 use PHPUnit\Framework\TestCase;
-use Sonata\BlockBundle\Model\Block;
-use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\PageBundle\Entity\BlockInteractor;
 use Sonata\PageBundle\Model\BlockManagerInterface;
+use Sonata\PageBundle\Model\PageBlockInterface;
+use Sonata\PageBundle\Tests\App\Entity\SonataPageBlock;
 
 /**
  * @author Vincent Composieux <composieux@ekino.com>
  */
 final class BlockInteractorTest extends TestCase
 {
-    /**
-     * Test createNewContainer() method with some values.
-     */
     public function testCreateNewContainer(): void
     {
         $registry = $this->createMock(ManagerRegistry::class);
 
         $blockManager = $this->createMock(BlockManagerInterface::class);
-        $blockManager->method('create')->willReturn(new Block());
+        $blockManager->method('create')->willReturn(new SonataPageBlock());
 
         $blockInteractor = new BlockInteractor($registry, $blockManager);
 
@@ -42,7 +39,7 @@ final class BlockInteractorTest extends TestCase
             'code' => 'my-code',
         ]);
 
-        static::assertInstanceOf(BlockInterface::class, $container);
+        static::assertInstanceOf(PageBlockInterface::class, $container);
 
         $settings = $container->getSettings();
 

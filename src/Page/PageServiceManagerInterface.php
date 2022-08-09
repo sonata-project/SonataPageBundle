@@ -18,55 +18,28 @@ use Sonata\PageBundle\Page\Service\PageServiceInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * Interface to manage page services.
- */
 interface PageServiceManagerInterface
 {
-    /**
-     * Adds a page service for given page type.
-     *
-     * @param string               $type    Page type
-     * @param PageServiceInterface $service Service
-     *
-     * @return void
-     */
-    public function add($type, PageServiceInterface $service);
+    public function add(string $type, PageServiceInterface $service): void;
 
     /**
-     * Returns the page service for given page.
-     *
      * @param string|PageInterface $type
-     *
-     * @return PageServiceInterface
      */
-    public function get($type);
+    public function get($type): PageServiceInterface;
 
     /**
-     * Returns all page services.
-     *
-     * @return PageServiceInterface[]
+     * @return array<PageServiceInterface>
      */
-    public function getAll();
+    public function getAll(): array;
 
-    /**
-     * Sets the default page service.
-     *
-     * @return void
-     */
-    public function setDefault(PageServiceInterface $service);
+    public function setDefault(PageServiceInterface $service): void;
 
     /**
      * Executes the page. This method acts as a controller's action for a specific page and is therefor expected
      * to return a Response object.
      *
-     * @param PageInterface        $page       Page to execute
-     * @param Request              $request    Request object
      * @param array<string, mixed> $parameters An array of view parameters. In the case of hybrid pages, it may have a
      *                                         parameter "content" that contains the view result of the controller
-     * @param Response|null        $response   Response object
-     *
-     * @return Response
      */
-    public function execute(PageInterface $page, Request $request, array $parameters = [], ?Response $response = null);
+    public function execute(PageInterface $page, Request $request, array $parameters = [], ?Response $response = null): Response;
 }

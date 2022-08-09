@@ -83,7 +83,7 @@ final class SnapshotManager extends BaseEntityManager implements SnapshotManager
         $q->execute();
     }
 
-    public function findEnableSnapshot(array $criteria)
+    public function findEnableSnapshot(array $criteria): ?SnapshotInterface
     {
         $date = new \DateTime();
         $parameters = [
@@ -126,12 +126,8 @@ final class SnapshotManager extends BaseEntityManager implements SnapshotManager
         return $query->getQuery()->getOneOrNullResult();
     }
 
-    public function cleanup(PageInterface $page, $keep)
+    public function cleanup(PageInterface $page, int $keep): int
     {
-        if (!is_numeric($keep)) {
-            throw new \RuntimeException(sprintf('Please provide an integer value, %s given', \gettype($keep)));
-        }
-
         $innerQb = $this->getRepository()->createQueryBuilder('i');
         $expr = $innerQb->expr();
 

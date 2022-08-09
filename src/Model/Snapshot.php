@@ -25,94 +25,52 @@ abstract class Snapshot implements SnapshotInterface
      */
     protected $id = null;
 
-    /**
-     * @var string|null
-     */
-    protected $routeName = null;
+    protected ?string $routeName = null;
 
-    /**
-     * @var string|null
-     */
-    protected $pageAlias = null;
+    protected ?string $pageAlias = null;
 
-    /**
-     * @var string|null
-     */
-    protected $type = null;
+    protected ?string $type = null;
 
-    /**
-     * @var bool
-     */
-    protected $enabled = false;
+    protected bool $enabled = false;
 
-    /**
-     * @var string|null
-     */
-    protected $name = null;
+    protected ?string $name = null;
 
-    /**
-     * @var string|null
-     */
-    protected $url = null;
+    protected ?string $url = null;
 
-    /**
-     * @var \DateTimeInterface|null
-     */
-    protected $publicationDateStart = null;
+    protected ?\DateTimeInterface $publicationDateStart = null;
 
-    /**
-     * @var \DateTimeInterface|null
-     */
-    protected $publicationDateEnd = null;
+    protected ?\DateTimeInterface $publicationDateEnd = null;
 
-    /**
-     * @var \DateTimeInterface|null
-     */
-    protected $createdAt = null;
+    protected ?\DateTimeInterface $createdAt = null;
 
-    /**
-     * @var \DateTimeInterface|null
-     */
-    protected $updatedAt = null;
+    protected ?\DateTimeInterface $updatedAt = null;
 
-    /**
-     * @var bool
-     */
-    protected $decorate = true;
+    protected bool $decorate = true;
 
-    /**
-     * @var int|null
-     */
-    protected $position = 1;
+    protected ?int $position = 1;
 
-    /**
-     * @var PageInterface|null
-     */
-    protected $page = null;
+    protected ?PageInterface $page = null;
 
-    /**
-     * @var SiteInterface|null
-     */
-    protected $site = null;
+    protected ?SiteInterface $site = null;
 
     /**
      * @var array<string, mixed>|null
      *
      * @phpstan-var PageContent|null
      */
-    protected $content = null;
+    protected ?array $content = null;
 
     /**
      * @var array<PageInterface>
      */
-    protected $children = [];
+    protected array $children = [];
 
     /**
      * @var int|string|null
      */
     protected $parentId = null;
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getName() ?? '-';
     }
@@ -122,67 +80,67 @@ abstract class Snapshot implements SnapshotInterface
         return $this->id;
     }
 
-    public function getRouteName()
+    public function getRouteName(): ?string
     {
         return $this->routeName;
     }
 
-    public function setRouteName($routeName): void
+    public function setRouteName(?string $routeName): void
     {
         $this->routeName = $routeName;
     }
 
-    public function getPageAlias()
+    public function getPageAlias(): ?string
     {
         return $this->pageAlias;
     }
 
-    public function setPageAlias($pageAlias): void
+    public function setPageAlias(?string $pageAlias): void
     {
         $this->pageAlias = $pageAlias;
     }
 
-    public function getType()
+    public function getType(): ?string
     {
         return $this->type;
     }
 
-    public function setType($type): void
+    public function setType(?string $type): void
     {
         $this->type = $type;
     }
 
-    public function getEnabled()
+    public function getEnabled(): bool
     {
         return $this->enabled;
     }
 
-    public function setEnabled($enabled): void
+    public function setEnabled(bool $enabled): void
     {
         $this->enabled = $enabled;
     }
 
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function setName($name): void
+    public function setName(?string $name): void
     {
         $this->name = $name;
     }
 
-    public function getUrl()
+    public function getUrl(): ?string
     {
         return $this->url;
     }
 
-    public function setUrl($url): void
+    public function setUrl(?string $url): void
     {
         $this->url = $url;
     }
 
-    public function getPublicationDateStart()
+    public function getPublicationDateStart(): ?\DateTimeInterface
     {
         return $this->publicationDateStart;
     }
@@ -192,7 +150,7 @@ abstract class Snapshot implements SnapshotInterface
         $this->publicationDateStart = $publicationDateStart;
     }
 
-    public function getPublicationDateEnd()
+    public function getPublicationDateEnd(): ?\DateTimeInterface
     {
         return $this->publicationDateEnd;
     }
@@ -202,7 +160,7 @@ abstract class Snapshot implements SnapshotInterface
         $this->publicationDateEnd = $publicationDateEnd;
     }
 
-    public function getCreatedAt()
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
@@ -212,7 +170,7 @@ abstract class Snapshot implements SnapshotInterface
         $this->createdAt = $createdAt;
     }
 
-    public function getUpdatedAt()
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
@@ -222,27 +180,27 @@ abstract class Snapshot implements SnapshotInterface
         $this->updatedAt = $updatedAt;
     }
 
-    public function getDecorate()
+    public function getDecorate(): bool
     {
         return $this->decorate;
     }
 
-    public function setDecorate($decorate): void
+    public function setDecorate(bool $decorate): void
     {
         $this->decorate = $decorate;
     }
 
-    public function getPosition()
+    public function getPosition(): ?int
     {
         return $this->position;
     }
 
-    public function setPosition($position): void
+    public function setPosition(?int $position): void
     {
         $this->position = $position;
     }
 
-    public function getPage()
+    public function getPage(): ?PageInterface
     {
         return $this->page;
     }
@@ -252,7 +210,7 @@ abstract class Snapshot implements SnapshotInterface
         $this->page = $page;
     }
 
-    public function getSite()
+    public function getSite(): ?SiteInterface
     {
         return $this->site;
     }
@@ -262,12 +220,12 @@ abstract class Snapshot implements SnapshotInterface
         $this->site = $site;
     }
 
-    public function getContent()
+    public function getContent(): ?array
     {
         return $this->content;
     }
 
-    public function setContent($content): void
+    public function setContent(?array $content): void
     {
         $this->content = $content;
     }
@@ -282,7 +240,7 @@ abstract class Snapshot implements SnapshotInterface
         $this->parentId = $parentId;
     }
 
-    public function isHybrid()
+    public function isHybrid(): bool
     {
         return PageInterface::PAGE_ROUTE_CMS_NAME !== $this->getRouteName();
     }

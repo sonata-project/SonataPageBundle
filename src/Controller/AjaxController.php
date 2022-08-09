@@ -21,8 +21,6 @@ use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Render a block in ajax.
- *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 final class AjaxController
@@ -33,27 +31,21 @@ final class AjaxController
 
     private BlockContextManagerInterface $contextManager;
 
-    /**
-     * @param CmsManagerSelectorInterface  $cmsManagerSelector CMS Manager selector
-     * @param BlockRendererInterface       $blockRenderer      Block renderer
-     * @param BlockContextManagerInterface $contextManager     Context Manager
-     */
-    public function __construct(CmsManagerSelectorInterface $cmsManagerSelector, BlockRendererInterface $blockRenderer, BlockContextManagerInterface $contextManager)
-    {
+    public function __construct(
+        CmsManagerSelectorInterface $cmsManagerSelector,
+        BlockRendererInterface $blockRenderer,
+        BlockContextManagerInterface $contextManager
+    ) {
         $this->cmsManagerSelector = $cmsManagerSelector;
         $this->blockRenderer = $blockRenderer;
         $this->contextManager = $contextManager;
     }
 
     /**
-     * Action for ajax route rendering a block by calling his executeAjax() method.
-     *
-     * @param int $pageId  Page identifier
-     * @param int $blockId Block identifier
-     *
-     * @return Response
+     * @param int|string $pageId
+     * @param int|string $blockId
      */
-    public function execute($pageId, $blockId)
+    public function execute($pageId, $blockId): Response
     {
         $cmsManager = $this->cmsManagerSelector->retrieve();
 

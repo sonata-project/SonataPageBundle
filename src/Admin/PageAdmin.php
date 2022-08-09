@@ -72,12 +72,12 @@ final class PageAdmin extends AbstractAdmin
         $collection->add('tree', 'tree');
     }
 
-    protected function preUpdate($object): void
+    protected function preUpdate(object $object): void
     {
         $object->setEdited(true);
     }
 
-    protected function prePersist($object): void
+    protected function prePersist(object $object): void
     {
         $object->setEdited(true);
     }
@@ -392,10 +392,8 @@ final class PageAdmin extends AbstractAdmin
 
     /**
      * @throws \RuntimeException
-     *
-     * @return SiteInterface|null
      */
-    private function getSite()
+    private function getSite(): ?SiteInterface
     {
         if (!$this->hasRequest()) {
             return null;

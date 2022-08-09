@@ -52,7 +52,7 @@ final class DecoratorStrategy implements DecoratorStrategyInterface
         $this->ignoreUriPatterns = $ignoreUriPatterns;
     }
 
-    public function isDecorable(Request $request, $requestType, Response $response)
+    public function isDecorable(Request $request, int $requestType, Response $response): bool
     {
         // TODO: Simplify this when dropping support for Symfony <  5.3
         $mainRequestType = \defined(HttpKernelInterface::class.'::MAIN_REQUEST') ? HttpKernelInterface::MAIN_REQUEST : 1;
@@ -85,17 +85,15 @@ final class DecoratorStrategy implements DecoratorStrategyInterface
         return $this->isRequestDecorable($request);
     }
 
-    public function isRequestDecorable(Request $request)
+    public function isRequestDecorable(Request $request): bool
     {
-        return $this->isRouteNameDecorable($request->get('_route')) && $this->isRouteUriDecorable($request->getPathInfo());
+        $route = $request->get('_route');
+
+        return null !== $route && $this->isRouteNameDecorable($route) && $this->isRouteUriDecorable($request->getPathInfo());
     }
 
-    public function isRouteNameDecorable($routeName)
+    public function isRouteNameDecorable(string $routeName): bool
     {
-        if (null === $routeName) {
-            return false;
-        }
-
         foreach ($this->ignoreRoutes as $route) {
             if ($routeName === $route) {
                 return false;
@@ -111,7 +109,7 @@ final class DecoratorStrategy implements DecoratorStrategyInterface
         return true;
     }
 
-    public function isRouteUriDecorable($uri)
+    public function isRouteUriDecorable(string $uri): bool
     {
         foreach ($this->ignoreUriPatterns as $uriPattern) {
             if (1 === preg_match(sprintf('#%s#', $uriPattern), $uri)) {

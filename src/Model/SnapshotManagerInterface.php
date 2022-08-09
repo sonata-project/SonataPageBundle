@@ -24,27 +24,19 @@ interface SnapshotManagerInterface extends ManagerInterface
 {
     /**
      * @param array<string, mixed> $criteria
-     *
-     * @return SnapshotInterface|null
      */
-    public function findEnableSnapshot(array $criteria);
+    public function findEnableSnapshot(array $criteria): ?SnapshotInterface;
 
     /**
      * @param array<SnapshotInterface> $snapshots
-     *
-     * @return void
      */
-    public function enableSnapshots(array $snapshots, ?\DateTimeInterface $date = null);
+    public function enableSnapshots(array $snapshots, ?\DateTimeInterface $date = null): void;
 
     public function createSnapshotPageProxy(TransformerInterface $transformer, SnapshotInterface $snapshot): SnapshotPageProxyInterface;
 
     /**
      * Cleanup old snapshots and keep only the $keep number of them.
      * This method returns the number of deleted snapshots.
-     *
-     * @param int $keep
-     *
-     * @return int
      */
-    public function cleanup(PageInterface $page, $keep);
+    public function cleanup(PageInterface $page, int $keep): int;
 }

@@ -19,7 +19,6 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\BlockBundle\Block\Service\EditableBlockService;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
-use Sonata\PageBundle\Entity\BaseBlock;
 use Sonata\PageBundle\Mapper\PageFormMapper;
 use Sonata\PageBundle\Model\PageBlockInterface;
 
@@ -63,7 +62,6 @@ final class SharedBlockAdmin extends BaseBlockAdmin
 
     protected function configureFormFields(FormMapper $form): void
     {
-        /** @var BaseBlock $block */
         $block = $this->getSubject();
 
         // New block

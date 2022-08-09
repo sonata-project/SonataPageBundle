@@ -23,13 +23,16 @@ final class SnapshotPageProxyFactory implements SnapshotPageProxyFactoryInterfac
     /**
      * @param class-string<SnapshotPageProxyInterface> $snapshotPageProxyClass
      */
-    public function __construct($snapshotPageProxyClass)
+    public function __construct(string $snapshotPageProxyClass)
     {
         $this->snapshotPageProxyClass = $snapshotPageProxyClass;
     }
 
-    public function create(SnapshotManagerInterface $manager, TransformerInterface $transformer, SnapshotInterface $snapshot)
-    {
+    public function create(
+        SnapshotManagerInterface $manager,
+        TransformerInterface $transformer,
+        SnapshotInterface $snapshot
+    ): SnapshotPageProxyInterface {
         return new $this->snapshotPageProxyClass($manager, $transformer, $snapshot);
     }
 }

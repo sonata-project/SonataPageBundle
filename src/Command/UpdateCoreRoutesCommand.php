@@ -35,6 +35,7 @@ final class UpdateCoreRoutesCommand extends Command
     protected static $defaultDescription = 'Update core routes, from routing files to page manager';
 
     private SiteManagerInterface $siteManager;
+
     private RoutePageGenerator $pageGenerator;
 
     public function __construct(
