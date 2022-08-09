@@ -22,12 +22,14 @@ use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\TransformerInterface;
+use Sonata\PageBundle\Serializer\BlockTypeExtractor;
 use Sonata\PageBundle\Serializer\InterfaceDenormalizer;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageBlock;
 use Sonata\PageBundle\Tests\App\Entity\SonataPagePage;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageSite;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageSnapshot;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
+use Symfony\Component\PropertyInfo\PropertyInfoExtractor;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
 use Symfony\Component\Serializer\Mapping\Loader\LoaderChain;
@@ -84,7 +86,12 @@ final class TransformerTest extends TestCase
         $classMetadataFactory = new ClassMetadataFactory($loaders);
         $nameConverter = new MetadataAwareNameConverter($classMetadataFactory);
 
-        $objectNormalizer = new ObjectNormalizer($classMetadataFactory, $nameConverter, null, new ReflectionExtractor());
+        $extractor = new PropertyInfoExtractor([], [
+            new BlockTypeExtractor($this->blockManager),
+            new ReflectionExtractor(),
+        ]);
+
+        $objectNormalizer = new ObjectNormalizer($classMetadataFactory, $nameConverter, null, $extractor);
 
         $encoders = [new JsonEncoder()];
         $normalizers = [
@@ -294,17 +301,17 @@ final class TransformerTest extends TestCase
         return [
             'id' => 'page_child',
             'name' => 'Page Child',
-            'javascript' => null,
-            'stylesheet' => null,
-            'raw_headers' => null,
+//            'javascript' => null,
+//            'stylesheet' => null,
+//            'raw_headers' => null,
             'title' => 'Page Child Title',
-            'meta_description' => null,
-            'meta_keyword' => null,
-            'template_code' => null,
+//            'meta_description' => null,
+//            'meta_keyword' => null,
+//            'template_code' => null,
             'request_method' => 'GET|POST|HEAD|DELETE|PUT',
             'created_at' => $datetime->format('U'),
             'updated_at' => $datetime->format('U'),
-            'slug' => null,
+//            'slug' => null,
             'parent_id' => 'page_parent',
             'blocks' => [
                 [

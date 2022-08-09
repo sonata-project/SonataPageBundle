@@ -27,7 +27,11 @@ class InterfaceDenormalizer implements DenormalizerInterface, DenormalizerAwareI
     public const SUPPORTED_INTERFACES_KEY = 'supported_interfaces';
 
     /**
-     * @return mixed
+     * @param mixed       $data
+     * @param string      $type
+     * @param string|null $format
+     *
+     * @return object
      */
     public function denormalize($data, $type, $format = null, array $context = [])
     {
@@ -43,6 +47,9 @@ class InterfaceDenormalizer implements DenormalizerInterface, DenormalizerAwareI
     }
 
     /**
+     * @param mixed                $data
+     * @param string               $type
+     * @param string|null          $format
      * @param array<string, mixed> $context
      */
     public function supportsDenormalization($data, $type, $format = null, array $context = []): bool

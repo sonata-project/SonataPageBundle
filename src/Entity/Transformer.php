@@ -25,8 +25,10 @@ use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SnapshotInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\TransformerInterface;
+use Sonata\PageBundle\Serializer\BlockTypeExtractor;
 use Sonata\PageBundle\Serializer\InterfaceDenormalizer;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -95,11 +97,10 @@ final class Transformer implements TransformerInterface
         $content = $this->serializer->normalize($page, null, [
             DateTimeNormalizer::FORMAT_KEY => 'U',
             AbstractNormalizer::GROUPS => ['page_transformer'],
+            AbstractObjectNormalizer::SKIP_NULL_VALUES => true,
             AbstractNormalizer::CALLBACKS => [
                 'blocks' => static fn (Collection $innerObject, PageInterface $outerObject, string $attributeName, ?string $format = null, array $context = []) => $innerObject->filter(static fn (BlockInterface $block) => !$block->hasParent()),
-                'parent' => static fn ($innerObject, $outerObject, string $attributeName, ?string $format = null, array $context = []) => $innerObject instanceof PageInterface ? $innerObject->getId() : $innerObject,
-                // remove NEXT_MAYOR
-                'target' => static fn ($innerObject, $outerObject, string $attributeName, ?string $format = null, array $context = []) => $innerObject instanceof PageInterface ? $innerObject->getId() : $innerObject,
+                'parent' => static fn (?PageInterface $innerObject, PageInterface $outerObject, string $attributeName, ?string $format = null, array $context = []) => $innerObject instanceof PageInterface ? $innerObject->getId() : $innerObject,
             ],
         ]);
 
@@ -135,6 +136,7 @@ final class Transformer implements TransformerInterface
                 BlockInterface::class => $blockClass,
                 PageBlockInterface::class => $blockClass,
             ],
+            AbstractNormalizer::CALLBACKS => $this->getDenormalizeCallbacks(),
         ]);
 
         return $page;
@@ -156,6 +158,7 @@ final class Transformer implements TransformerInterface
                 BlockInterface::class => $blockClass,
                 PageBlockInterface::class => $blockClass,
             ],
+            AbstractNormalizer::CALLBACKS => $this->getDenormalizeCallbacks(),
         ]);
 
         return $block;
@@ -203,5 +206,22 @@ final class Transformer implements TransformerInterface
         }
 
         return $this->children[$id];
+    }
+
+    /**
+     * @return \Closure[]
+     */
+    protected function getDenormalizeCallbacks(): array
+    {
+        $result = [
+            'position' => static fn (/* string|int|null */ $innerObject, string $outerObject, string $attributeName, ?string $format = null, array $context = []) => null === $innerObject ? 0 : (int) $innerObject,
+        ];
+
+        $nullableStringCallback = static fn (?string $innerObject, string $outerObject, string $attributeName, ?string $format = null, array $context = []) => (string) $innerObject;
+
+        foreach (BlockTypeExtractor::NULLABLE_STRINGS as $key) {
+            $result[$key] = $nullableStringCallback;
+        }
+        return $result;
     }
 }
