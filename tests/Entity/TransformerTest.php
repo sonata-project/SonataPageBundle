@@ -36,19 +36,19 @@ final class TransformerTest extends TestCase
     /**
      * @var MockObject&SnapshotManagerInterface
      */
-    protected $snapshotManager;
+    private $snapshotManager;
 
     /**
      * @var MockObject&PageManagerInterface
      */
-    protected $pageManager;
+    private $pageManager;
 
     /**
      * @var MockObject&ManagerInterface<PageBlockInterface>
      */
-    protected $blockManager;
+    private $blockManager;
 
-    protected TransformerInterface $transformer;
+    private TransformerInterface $transformer;
 
     protected function setUp(): void
     {
@@ -147,6 +147,7 @@ final class TransformerTest extends TestCase
         $snapshot = new SonataPageSnapshot();
         $snapshot->setContent($this->getTestContent($dateTime));
         $snapshot->setUrl('/get-child');
+
         $page = $this->transformer->load($snapshot);
 
         static::assertSame('page_child', $page->getId());
@@ -155,23 +156,94 @@ final class TransformerTest extends TestCase
         static::assertSame('/get-child', $page->getUrl());
     }
 
-    public function testLoadBlock(): void
+    /**
+     * @dataProvider blockProvider
+     *
+     * @param array<string, mixed> $content
+     *
+     * @phpstan-param BlockContent $content
+     */
+    public function testLoadBlock(array $content): void
     {
         $this->blockManager->method('create')->willReturnCallback(static fn () => new SonataPageBlock());
 
-        $dateTime = new \DateTime();
+        $block = $this->transformer->loadBlock($content, new SonataPagePage());
 
-        $page = new SonataPagePage();
+        static::assertSame($content['id'], $block->getId());
+    }
 
-        $block = $this->transformer->loadBlock($this->getTestBlockArray($dateTime), $page);
+    /**
+     * @phpstan-return iterable<array{BlockContent}>
+     */
+    public function blockProvider(): iterable
+    {
+        $datetime = new \DateTime();
 
-        static::assertSame('block123', $block->getId());
+        // Normal block
+        yield [[
+            'id' => 1,
+            'name' => 'block1',
+            'enabled' => true,
+            'position' => 0,
+            'settings' => [],
+            'type' => 'type',
+            'created_at' => (int) $datetime->format('U'),
+            'updated_at' => (int) $datetime->format('U'),
+            'blocks' => [[
+                'id' => 2,
+                'name' => 'block2',
+                'enabled' => true,
+                'position' => 1,
+                'settings' => [],
+                'type' => 'type',
+                'created_at' => (int) $datetime->format('U'),
+                'updated_at' => (int) $datetime->format('U'),
+                'blocks' => [],
+            ]],
+        ]];
+
+        // Minimal block block
+        yield [[
+            'id' => null,
+            'enabled' => false,
+            'position' => null,
+            'settings' => [],
+            'type' => null,
+            'created_at' => null,
+            'updated_at' => null,
+            'blocks' => [],
+        ]];
+
+        // Weird block data
+        yield [[
+            'id' => 'random_string',
+            'name' => 'block1',
+            'enabled' => true,
+            'position' => '',
+            'settings' => [],
+            'type' => 'type',
+            'created_at' => null,
+            'updated_at' => null,
+            'blocks' => [],
+        ]];
+
+        // Numeric string position block data
+        yield [[
+            'id' => 'block123',
+            'enabled' => false,
+            'position' => '0',
+            'settings' => [],
+            'type' => null,
+            'created_at' => null,
+            'updated_at' => null,
+            'blocks' => [],
+        ]];
     }
 
     /**
      * @phpstan-return PageContent
      */
-    protected function getTestContent(\DateTimeInterface $datetime): array
+    private function getTestContent(\DateTimeInterface $datetime): array
     {
         return [
             'id' => 'page_child',
@@ -189,36 +261,28 @@ final class TransformerTest extends TestCase
             'slug' => null,
             'parent_id' => 'page_parent',
             'blocks' => [
-                $this->getTestBlockArray($datetime),
-            ],
-        ];
-    }
-
-    /**
-     * @phpstan-return BlockContent
-     */
-    protected function getTestBlockArray(\DateTimeInterface $datetime): array
-    {
-        return [
-            'id' => 'block123',
-            'name' => 'block1',
-            'enabled' => false,
-            'position' => 0,
-            'settings' => [],
-            'type' => 'type',
-            'created_at' => (int) $datetime->format('U'),
-            'updated_at' => (int) $datetime->format('U'),
-            'blocks' => [
                 [
-                    'id' => 'block234',
-                    'name' => 'block2',
+                    'id' => 'block123',
+                    'name' => 'block1',
                     'enabled' => false,
                     'position' => 0,
                     'settings' => [],
                     'type' => 'type',
                     'created_at' => (int) $datetime->format('U'),
                     'updated_at' => (int) $datetime->format('U'),
-                    'blocks' => [],
+                    'blocks' => [
+                        [
+                            'id' => 'block234',
+                            'name' => 'block2',
+                            'enabled' => false,
+                            'position' => 0,
+                            'settings' => [],
+                            'type' => 'type',
+                            'created_at' => (int) $datetime->format('U'),
+                            'updated_at' => (int) $datetime->format('U'),
+                            'blocks' => [],
+                        ],
+                    ],
                 ],
             ],
         ];
