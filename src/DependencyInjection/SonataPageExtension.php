@@ -21,7 +21,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
@@ -54,12 +54,12 @@ final class SonataPageExtension extends Extension implements PrependExtensionInt
         $bundles = $container->getParameter('kernel.bundles');
         \assert(\is_array($bundles));
 
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('page.xml');
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('page.php');
 
         if (isset($bundles['SonataAdminBundle'])) {
-            $loader->load('admin.xml');
-            $loader->load('controllers.xml');
+            $loader->load('admin.php');
+            $loader->load('controllers.php');
 
             if (!$config['direct_publication']) {
                 $container->removeDefinition('sonata.page.admin.extension.snapshot');
@@ -68,15 +68,15 @@ final class SonataPageExtension extends Extension implements PrependExtensionInt
             $this->configureTemplatesAdmin($container, $config);
         }
 
-        $loader->load('block.xml');
-        $loader->load('orm.xml');
-        $loader->load('form.xml');
-        $loader->load('twig.xml');
-        $loader->load('http_kernel.xml');
-        $loader->load('service.xml');
-        $loader->load('validators.xml');
-        $loader->load('command.xml');
-        $loader->load('slugify.xml');
+        $loader->load('block.php');
+        $loader->load('orm.php');
+        $loader->load('form.php');
+        $loader->load('twig.php');
+        $loader->load('http_kernel.php');
+        $loader->load('service.php');
+        $loader->load('validators.php');
+        $loader->load('command.php');
+        $loader->load('slugify.php');
 
         $this->configureMultisite($container, $config);
         $this->configureTemplates($container, $config);
