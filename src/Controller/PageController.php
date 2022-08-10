@@ -37,7 +37,7 @@ final class PageController extends AbstractController
     public function __construct(
         ExceptionListener $exceptionListener,
         PageServiceManagerInterface $pageServiceManager,
-        CmsManagerSelectorInterface $cmsSelector,
+        CmsManagerSelectorInterface $cmsSelector
     ) {
         $this->exceptionListener = $exceptionListener;
         $this->pageServiceManager = $pageServiceManager;
@@ -61,16 +61,16 @@ final class PageController extends AbstractController
     /**
      * @throws InternalErrorException|AccessDeniedException
      */
-    public function exceptionEdit(Request $request, string $code): Response
+    public function exceptionEdit(Request $request, int $code): Response
     {
         $cms = $this->cmsSelector->retrieve();
 
-        if (!$this->exceptionListener->hasErrorCode((int) $code)) {
+        if (!$this->exceptionListener->hasErrorCode($code)) {
             throw new InternalErrorException(sprintf('The error code "%s" is not set in the configuration', $code));
         }
 
         try {
-            $page = $this->exceptionListener->getErrorCodePage((int) $code);
+            $page = $this->exceptionListener->getErrorCodePage($code);
         } catch (PageNotFoundException $e) {
             throw new InternalErrorException('The requested error page does not exist, please run the sonata:page:update-core-routes command', 0, $e);
         }
