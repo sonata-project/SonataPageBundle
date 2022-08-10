@@ -157,7 +157,9 @@ final class PageAdminController extends CRUDController
     {
         $this->admin->checkAccess('compose');
 
-        if (false === $this->container->get('sonata.page.admin.block')->isGranted('LIST')) {
+        $blockAdmin = $this->container->get('sonata.page.admin.block');
+
+        if (false === $blockAdmin->isGranted('LIST')) {
             throw new AccessDeniedException();
         }
 
@@ -219,6 +221,7 @@ final class PageAdminController extends CRUDController
             'page' => $page,
             'containers' => $containers,
             'orphanContainers' => $orphanContainers,
+            'blockAdmin' => $blockAdmin,
             'csrfTokens' => [
                 'remove' => $this->getCsrfToken('sonata.delete'),
             ],
@@ -231,20 +234,24 @@ final class PageAdminController extends CRUDController
      */
     public function composeContainerShowAction(Request $request): Response
     {
-        if (false === $this->container->get('sonata.page.admin.block')->isGranted('LIST')) {
+        $blockAdmin = $this->container->get('sonata.page.admin.block');
+
+        if (false === $blockAdmin->isGranted('LIST')) {
             throw new AccessDeniedException();
         }
 
         $id = $request->get($this->admin->getIdParameter());
-        $block = $this->container->get('sonata.page.admin.block')->getObject($id);
+        $block = $blockAdmin->getObject($id);
         if (!$block) {
             throw new NotFoundHttpException(sprintf('unable to find the block with id : %s', $id));
         }
 
         $blockServices = $this->container->get('sonata.block.manager')->getServicesByContext('sonata_page_bundle', false);
 
+        $page = $block->getPage();
+
         // filter service using the template configuration
-        if ($page = $block->getPage()) {
+        if (null !== $page) {
             $template = $this->container->get('sonata.page.template_manager')->get($page->getTemplateCode());
 
             $container = $template->getContainer($block->getSetting('code'));
@@ -262,8 +269,9 @@ final class PageAdminController extends CRUDController
 
         return $this->renderWithExtraParams($this->admin->getTemplateRegistry()->getTemplate('compose_container_show'), [
             'blockServices' => $blockServices,
+            'blockAdmin' => $blockAdmin,
             'container' => $block,
-            'page' => $block->getPage(),
+            'page' => $page,
         ]);
     }
 }
