@@ -256,11 +256,14 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
         $qb = $this->getRepository()->createQueryBuilder('s');
         $expr = $qb->expr();
         $qb->delete()
-            ->where($expr->eq('s.page', $page->getId()))
-            ->andWhere($expr->notIn(
+            ->where($expr->eq('s.page', $page->getId()));
+
+        if ([] !== $innerArray) {
+            $qb->andWhere($expr->notIn(
                 's.id',
                 $innerArray
             ));
+        }
 
         return $qb->getQuery()->execute();
     }
