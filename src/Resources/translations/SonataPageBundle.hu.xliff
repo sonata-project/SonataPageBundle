@@ -359,7 +359,7 @@
         <target>Publikációk</target>
       </trans-unit>
       <trans-unit id="90" resname="form.group_snapshot">
-        <source>snapshot</source>
+        <source>form.group_snapshot</source>
         <target>Publikációk</target>
       </trans-unit>
       <trans-unit id="91" resname="sonata_page">
