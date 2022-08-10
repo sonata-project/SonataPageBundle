@@ -44,9 +44,9 @@ file that was distributed with this source code.
                             composer_status_error: 'page.composer_status_error'|trans({}, 'SonataPageBundle')
                         },
                         routes: {
-                            save_blocks_positions: blockAdmin.generateUrl('savePosition', { 'id': page.id }),
-                            block_switch_parent: blockAdmin.generateUrl('switchParent'),
-                            block_preview: blockAdmin.generateUrl('composePreview', { 'block_id': 'BLOCK_ID' })
+                            save_blocks_positions: blockAdmin.generateUrl('save_position', { 'id': page.id }),
+                            block_switch_parent: blockAdmin.generateUrl('switch_parent'),
+                            block_preview: blockAdmin.generateUrl('compose_preview', { 'block_id': 'BLOCK_ID' })
                         }
                     }|json_encode()|raw }}'>
                         <div class="page-composer__page-preview__containers">

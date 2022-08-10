@@ -17,7 +17,6 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
 use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
@@ -117,11 +116,6 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         return [
             'type' => $this->getRequest()->get('type'),
         ];
-    }
-
-    protected function configureRoutes(RouteCollectionInterface $collection): void
-    {
-        $collection->add('view', $this->getRouterIdParameter().'/view');
     }
 
     protected function configureListFields(ListMapper $list): void

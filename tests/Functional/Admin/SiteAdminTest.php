@@ -47,6 +47,7 @@ final class SiteAdminTest extends WebTestCase
         yield 'List Site' => ['/admin/tests/app/sonatapagesite/list'];
         yield 'Create Site' => ['/admin/tests/app/sonatapagesite/create'];
         yield 'Edit Site' => ['/admin/tests/app/sonatapagesite/1/edit'];
+        yield 'Show Page' => ['/admin/tests/app/sonatapagesite/1/show'];
         yield 'Remove Site' => ['/admin/tests/app/sonatapagesite/1/delete'];
         yield 'Snaphosts Site' => ['/admin/tests/app/sonatapagesite/1/snapshots'];
     }

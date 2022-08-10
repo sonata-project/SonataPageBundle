@@ -23,3 +23,11 @@ sonata_block:
         context_manager: sonata.page.block.context_manager
 ```
 won't work anymore then. You should rely on the default value instead.
+
+## Route name and url changes
+
+The following routes were changed:
+
+* Remove non working `/view` route for Block Admin
+* Rename compose preview url for Blocks from `compose_preview` to `compose-preview`
+* Rename shared block route name from `block/shared` to `block_shared`

@@ -17,6 +17,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Sonata\PageBundle\Tests\App\AppKernel;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageBlock;
 use Sonata\PageBundle\Tests\App\Entity\SonataPagePage;
+use Sonata\PageBundle\Tests\App\Entity\SonataPageSnapshot;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpKernel\KernelInterface;
 
@@ -53,9 +54,23 @@ final class PageAdminTest extends WebTestCase
 
         yield 'Create Page' => ['/admin/tests/app/sonatapagepage/create'];
         yield 'Edit Page' => ['/admin/tests/app/sonatapagepage/1/edit'];
+        yield 'Show Page' => ['/admin/tests/app/sonatapagepage/1/show'];
         yield 'Remove Page' => ['/admin/tests/app/sonatapagepage/1/delete'];
         yield 'Compose Page' => ['/admin/tests/app/sonatapagepage/1/compose'];
         yield 'Compose Show Page' => ['/admin/tests/app/sonatapagepage/compose/container/1'];
+
+        // Snapshot child pages
+        yield 'List Snapshot Page' => ['/admin/tests/app/sonatapagepage/1/sonatapagesnapshot/list'];
+        yield 'Create Snapshot Page' => ['/admin/tests/app/sonatapagepage/1/sonatapagesnapshot/create'];
+        yield 'Edit Snapshot Page' => ['/admin/tests/app/sonatapagepage/1/sonatapagesnapshot/1/edit'];
+        yield 'Remove Snapshot Page' => ['/admin/tests/app/sonatapagepage/1/sonatapagesnapshot/1/delete'];
+
+        // Block child pages
+        yield 'List Block' => ['/admin/tests/app/sonatapagepage/1/sonatapageblock/list'];
+        yield 'Create Block' => ['/admin/tests/app/sonatapagepage/1/sonatapageblock/create'];
+        yield 'Edit Block' => ['/admin/tests/app/sonatapagepage/1/sonatapageblock/1/edit'];
+        yield 'Remove Block' => ['/admin/tests/app/sonatapagepage/1/sonatapageblock/1/delete'];
+        yield 'Compose preview Block' => ['/admin/tests/app/sonatapagepage/1/sonatapageblock/2/compose-preview'];
     }
 
     /**
@@ -81,11 +96,22 @@ final class PageAdminTest extends WebTestCase
         $page->setName('name');
         $page->setTemplateCode('default');
 
+        $snapshot = new SonataPageSnapshot();
+        $snapshot->setName('name');
+        $snapshot->setRouteName('sonata_page_test_route');
+        $snapshot->setPage($page);
+
+        $parentBlock = new SonataPageBlock();
+        $parentBlock->setType('sonata.page.block.container');
+        $parentBlock->setPage($page);
+
         $block = new SonataPageBlock();
-        $block->setType('sonata.page.block.container');
-        $block->setPage($page);
+        $block->setType('sonata.block.service.text');
+        $block->setParent($parentBlock);
 
         $manager->persist($page);
+        $manager->persist($snapshot);
+        $manager->persist($parentBlock);
         $manager->persist($block);
 
         $manager->flush();

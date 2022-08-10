@@ -93,9 +93,9 @@ final class BlockAdmin extends BaseBlockAdmin
     {
         parent::configureRoutes($collection);
 
-        $collection->add('savePosition', 'save-position');
-        $collection->add('switchParent', 'switch-parent');
-        $collection->add('composePreview', '{block_id}/compose_preview', [
+        $collection->add('save_position', 'save-position');
+        $collection->add('switch_parent', 'switch-parent');
+        $collection->add('compose_preview', '{block_id}/compose-preview', [
             'block_id' => null,
         ]);
 
