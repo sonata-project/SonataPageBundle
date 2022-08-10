@@ -15,15 +15,15 @@ namespace Sonata\PageBundle\Tests\Functional\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Sonata\PageBundle\Tests\App\AppKernel;
+use Sonata\PageBundle\Tests\App\Entity\SonataPageBlock;
 use Sonata\PageBundle\Tests\App\Entity\SonataPagePage;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageSite;
-use Sonata\PageBundle\Tests\App\Entity\SonataPageSnapshot;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\HttpKernel\KernelInterface;
 
-final class CleanupSnapshotsCommandTest extends KernelTestCase
+final class CloneSiteCommandTest extends KernelTestCase
 {
     private CommandTester $commandTester;
 
@@ -32,55 +32,72 @@ final class CleanupSnapshotsCommandTest extends KernelTestCase
         static::bootKernel();
 
         $this->commandTester = new CommandTester(
-            (new Application(static::createKernel()))->find('sonata:page:cleanup-snapshots')
+            (new Application(static::createKernel()))->find('sonata:page:clone-site')
         );
     }
 
-    public function testThrowExceptionOnInvalidValue(): void
-    {
-        static::expectException(\InvalidArgumentException::class);
-        static::expectExceptionMessage('Please provide an integer value for the option "keep-snapshots".');
-
-        $this->commandTester->execute(['--keep-snapshots' => 'invalid']);
-    }
-
-    /**
-     * @dataProvider provideKeepSnapshotsCases
-     *
-     * @param array{'--site'?: array<int>, '--keep-snapshots'?: int} $input
-     */
-    public function testDoCleanups(array $input, int $snapshotCount): void
+    public function testThrowExceptionOnInvalidSourceId(): void
     {
         $this->prepareData();
 
-        static::assertSame(2, $this->countSnapshots());
+        static::expectException(\InvalidArgumentException::class);
+        static::expectExceptionMessage('Please provide a "--source-id=SITE_ID" option.');
 
-        $this->commandTester->execute($input);
+        $this->commandTester->execute([]);
+    }
 
-        static::assertSame($snapshotCount, $this->countSnapshots());
+    public function testThrowExceptionOnInvalidDestId(): void
+    {
+        static::expectException(\InvalidArgumentException::class);
+        static::expectExceptionMessage('Please provide a "--dest-id=SITE_ID" option.');
+
+        $this->commandTester->execute(['--source-id' => 1]);
+    }
+
+    public function testThrowExceptionOnInvalidPrefix(): void
+    {
+        static::expectException(\InvalidArgumentException::class);
+        static::expectExceptionMessage('Please provide a "--prefix=PREFIX" option.');
+
+        $this->commandTester->execute([
+            '--source-id' => 1,
+            '--dest-id' => 2,
+        ]);
+    }
+
+    public function testCloneSite(): void
+    {
+        $this->prepareData();
+
+        static::assertSame(2, $this->countPages());
+
+        $this->commandTester->execute([
+            '--source-id' => 1,
+            '--dest-id' => 2,
+            '--prefix' => '[CLONED] ',
+        ]);
+
+        static::assertSame(4, $this->countPages());
 
         static::assertStringContainsString('done!', $this->commandTester->getDisplay());
     }
 
-    /**
-     * @return iterable<array<string|array<string, mixed>>>
-     *
-     * @phpstan-return iterable<array{0: array{'--site'?: array<int>, '--keep-snapshots'?: int}, 1: int}>
-     */
-    public static function provideKeepSnapshotsCases(): iterable
+    public function testCloneOnlyHybridPagesFromSite(): void
     {
-        yield 'Keep no snapshots' => [[
-            '--keep-snapshots' => 0,
-        ], 0];
+        $this->prepareData();
 
-        yield 'Keep one snapshot' => [[
-            '--keep-snapshots' => 1,
-        ], 2];
+        static::assertSame(2, $this->countPages());
 
-        yield 'Only one site' => [[
-            '--site' => [1],
-            '--keep-snapshots' => 0,
-        ], 1];
+        $this->commandTester->execute([
+            '--source-id' => 1,
+            '--dest-id' => 2,
+            '--prefix' => '[CLONED] ',
+            '--only-hybrid' => true,
+        ]);
+
+        static::assertSame(2, $this->countPages());
+
+        static::assertStringContainsString('done!', $this->commandTester->getDisplay());
     }
 
     /**
@@ -107,7 +124,7 @@ final class CleanupSnapshotsCommandTest extends KernelTestCase
         $site->setHost('localhost');
 
         $site2 = new SonataPageSite();
-        $site2->setName('another_site');
+        $site2->setName('cloned_site');
         $site2->setHost('sonata-project.org');
 
         $page = new SonataPagePage();
@@ -116,26 +133,26 @@ final class CleanupSnapshotsCommandTest extends KernelTestCase
         $page->setSite($site);
 
         $page2 = new SonataPagePage();
-        $page2->setName('another_page');
+        $page2->setName('child_page');
         $page2->setTemplateCode('default');
-        $page2->setSite($site2);
+        $page2->setParent($page);
+        $page2->setSite($site);
 
-        $snapshot = new SonataPageSnapshot();
-        $snapshot->setName('name');
-        $snapshot->setRouteName('sonata_page_test_route');
-        $snapshot->setPage($page);
+        $parentBlock = new SonataPageBlock();
+        $parentBlock->setType('sonata.page.block.container');
+        $parentBlock->setPage($page);
 
-        $snapshot2 = new SonataPageSnapshot();
-        $snapshot2->setName('another_snapshot');
-        $snapshot2->setRouteName('sonata_page_test_route');
-        $snapshot2->setPage($page2);
+        $block = new SonataPageBlock();
+        $block->setType('sonata.block.service.text');
+        $block->setParent($parentBlock);
+        $block->setPage($page);
 
         $manager->persist($site);
         $manager->persist($site2);
         $manager->persist($page);
         $manager->persist($page2);
-        $manager->persist($snapshot);
-        $manager->persist($snapshot2);
+        $manager->persist($parentBlock);
+        $manager->persist($block);
 
         $manager->flush();
     }
@@ -143,7 +160,7 @@ final class CleanupSnapshotsCommandTest extends KernelTestCase
     /**
      * @psalm-suppress UndefinedPropertyFetch
      */
-    private function countSnapshots(): int
+    private function countPages(): int
     {
         // TODO: Simplify this when dropping support for Symfony 4.
         // @phpstan-ignore-next-line
@@ -151,6 +168,6 @@ final class CleanupSnapshotsCommandTest extends KernelTestCase
         $manager = $container->get('doctrine.orm.entity_manager');
         \assert($manager instanceof EntityManagerInterface);
 
-        return $manager->getRepository(SonataPageSnapshot::class)->count([]);
+        return $manager->getRepository(SonataPagePage::class)->count([]);
     }
 }
