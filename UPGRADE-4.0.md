@@ -31,3 +31,10 @@ The following routes were changed:
 * Remove non working `/view` route for Block Admin
 * Rename compose preview url for Blocks from `compose_preview` to `compose-preview`
 * Rename shared block route name from `block/shared` to `block_shared`
+
+## Remove unused code
+
+The following code has been removed since it is not used:
+
+* `Sonata\PageBundle\Controller\AjaxController`
+* `Sonata\PageBundle\Controller\BlockController`
