@@ -16,11 +16,10 @@ namespace Sonata\PageBundle\Tests\Functional\Admin;
 use Doctrine\ORM\EntityManagerInterface;
 use Sonata\PageBundle\Tests\App\AppKernel;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageBlock;
-use Sonata\PageBundle\Tests\App\Entity\SonataPagePage;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpKernel\KernelInterface;
 
-final class BlockAdminTest extends WebTestCase
+final class SharedBlockAdminTest extends WebTestCase
 {
     /**
      * @dataProvider provideCrudUrlsCases
@@ -45,10 +44,10 @@ final class BlockAdminTest extends WebTestCase
      */
     public static function provideCrudUrlsCases(): iterable
     {
-        yield 'List Block' => ['/admin/tests/app/sonatapageblock/list'];
-        yield 'Edit Block' => ['/admin/tests/app/sonatapageblock/1/edit'];
-        yield 'Remove Block' => ['/admin/tests/app/sonatapageblock/1/delete'];
-        yield 'Compose preview Block' => ['/admin/tests/app/sonatapageblock/2/compose-preview'];
+        yield 'List Block' => ['/admin/tests/app/sonatapageblock/shared/list'];
+        yield 'Create Block' => ['/admin/tests/app/sonatapageblock/shared/create'];
+        yield 'Edit Block' => ['/admin/tests/app/sonatapageblock/shared/1/edit'];
+        yield 'Remove Block' => ['/admin/tests/app/sonatapageblock/shared/1/delete'];
     }
 
     /**
@@ -70,20 +69,9 @@ final class BlockAdminTest extends WebTestCase
         $manager = $container->get('doctrine.orm.entity_manager');
         \assert($manager instanceof EntityManagerInterface);
 
-        $page = new SonataPagePage();
-        $page->setName('name');
-        $page->setTemplateCode('default');
-
-        $parentBlock = new SonataPageBlock();
-        $parentBlock->setType('sonata.page.block.container');
-        $parentBlock->setPage($page);
-
         $block = new SonataPageBlock();
         $block->setType('sonata.block.service.text');
-        $block->setParent($parentBlock);
 
-        $manager->persist($page);
-        $manager->persist($parentBlock);
         $manager->persist($block);
 
         $manager->flush();
