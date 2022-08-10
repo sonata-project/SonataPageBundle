@@ -258,7 +258,7 @@ class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterf
         $qb->delete()
             ->where($expr->eq('s.page', $page->getId()));
 
-        if (!empty($innerArray)) {
+        if ([] !== $innerArray) {
             $qb->andWhere($expr->notIn(
                 's.id',
                 $innerArray
