@@ -62,11 +62,11 @@ final class PageAdmin extends AbstractAdmin
 
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
-        $collection->add('compose', '{id}/compose', [
-            'id' => null,
+        $collection->add('compose', $this->getRouterIdParameter().'/compose', [
+            $this->getIdParameter() => null,
         ]);
-        $collection->add('compose_container_show', 'compose/container/{id}', [
-            'id' => null,
+        $collection->add('compose_container_show', 'compose/container/'.$this->getRouterIdParameter(), [
+            $this->getIdParameter() => null,
         ]);
 
         $collection->add('tree', 'tree');
