@@ -18,7 +18,6 @@ use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
-use Sonata\PageBundle\Model\SnapshotPageProxy;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Symfony\Bridge\Twig\Extension\HttpKernelExtension;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -184,26 +183,13 @@ final class PageExtension extends AbstractExtension
      */
     public function renderBlock(PageBlockInterface $block, array $options = []): string
     {
-        if (false === $block->getEnabled() && !$this->cmsManagerSelector->isEditor() && $this->hideDisabledBlocks) {
+        if (
+            false === $block->getEnabled()
+            && !$this->cmsManagerSelector->isEditor()
+            && $this->hideDisabledBlocks
+        ) {
             return '';
         }
-
-        $page = $block->getPage();
-
-        // defined extra default key for the cache
-        $pageCacheKeys = null !== $page ? [
-            'manager' => $page instanceof SnapshotPageProxy ? 'snapshot' : 'page',
-            'page_id' => $page->getId(),
-        ] : [];
-
-        // build the parameters array
-        $options = array_merge([
-            'use_cache' => $options['use_cache'] ?? true,
-            'extra_cache_keys' => [],
-        ], $pageCacheKeys, $options);
-
-        // make sure the parameters array contains all valid keys
-        $options['extra_cache_keys'] = array_merge($options['extra_cache_keys'], $pageCacheKeys);
 
         return $this->blockHelper->render($block, $options);
     }

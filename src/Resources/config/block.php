@@ -12,7 +12,6 @@ declare(strict_types=1);
  */
 
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
-use Sonata\PageBundle\Block\BlockContextManager;
 use Sonata\PageBundle\Block\BreadcrumbBlockService;
 use Sonata\PageBundle\Block\ChildrenPagesBlockService;
 use Sonata\PageBundle\Block\ContainerBlockService;
@@ -46,11 +45,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                     new ReferenceConfigurator('sonata.page.cms_manager_selector'),
                 new ReferenceConfigurator('sonata.block.renderer'),
                 new ReferenceConfigurator('sonata.block.context_manager'),
-            ])
-
-        ->set('sonata.page.block.context_manager', BlockContextManager::class)
-            ->args([
-                new ReferenceConfigurator('sonata.block.context_manager.default'),
             ])
 
         ->set('sonata.page.block.breadcrumb', BreadcrumbBlockService::class)

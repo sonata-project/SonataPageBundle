@@ -3,7 +3,6 @@ sonata_block:
     blocks:
         sonata.admin.block.admin_list:
             contexts: [admin]
-    context_manager: sonata.page.block.context_manager
     default_contexts: [sonata_page_bundle]
 
 sonata_page:
