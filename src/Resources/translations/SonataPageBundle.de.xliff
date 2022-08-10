@@ -358,7 +358,7 @@
         <source>sidemenu.link_list_snapshots</source>
         <target>Publikationen</target>
       </trans-unit>
-      <trans-unit id="90" resname="snapshot">
+      <trans-unit id="90" resname="form.group_snapshot">
         <source>snapshot</source>
         <target>Publikationen</target>
       </trans-unit>
