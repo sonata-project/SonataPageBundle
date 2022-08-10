@@ -74,7 +74,7 @@ final class FTransformerTest extends KernelTestCase
     }
 
     /**
-     * @return array{\DateTime, int, array<string, mixed>}[]
+     * @return array{\DateTime, ?int, array<string, mixed>}[]
      */
     public function createProvider(): array
     {
@@ -95,6 +95,39 @@ final class FTransformerTest extends KernelTestCase
         return [
             [$datetime, 0, []],
             [$datetime, 0, $settings],
+            [$datetime, null, []],
+            [$datetime, null, $settings],
+        ];
+    }
+
+    /**
+     * @return array{\DateTime, int|string|null, array<string, mixed>}[]
+     */
+    public function loadProvider(): array
+    {
+        $datetime = new \DateTime();
+
+        $settings = [
+            'url' => 'https://facebook.com',
+            'title' => 'RSS feed',
+            'translation_domain' => null,
+            'icon' => 'fa fa-rss-square',
+            'class' => null,
+            'template' => '@SonataBlock/Block/block_core_rss.html.twig',
+            'safe_labels' => false,
+            'include_homepage_link' => true,
+            'context' => false,
+        ];
+
+        return [
+            [$datetime, 0, []],
+            [$datetime, 0, $settings],
+            [$datetime, null, []],
+            [$datetime, null, $settings],
+            [$datetime, '0', []],
+            [$datetime, '0', $settings],
+            [$datetime, '', []],
+            [$datetime, '', $settings],
         ];
     }
 
@@ -155,15 +188,25 @@ final class FTransformerTest extends KernelTestCase
 
         static::assertSame($page->getUrl(), $snapshot->getUrl());
         static::assertSame($page->getName(), $snapshot->getName());
-        static::assertSameArray($this->getTestContent($datetime, $position, $settings), $snapshot->getContent());
+
+        $testContent = $this->getTestContent($datetime, $position, $settings);
+
+        // if position is null for some reason, it isn't serialized because of null,
+        // so I need to remove it from expected data again
+        if (null === $position) {
+            unset($testContent['blocks'][0]['position'], $testContent['blocks'][0]['blocks'][0]['position']);
+        }
+
+        static::assertSameArray($testContent, $snapshot->getContent());
     }
 
     /**
-     * @dataProvider createProvider
+     * @dataProvider loadProvider
      *
+     * @param int|string|null       $position
      * @param array<string, ?mixed> $settings
      */
-    public function testLoadSnapshotToPage(\DateTimeInterface $datetime, ?int $position, array $settings): void
+    public function testLoadSnapshotToPage(\DateTimeInterface $datetime, $position, array $settings): void
     {
         $snapshot = new SonataPageSnapshot();
         $snapshot->setContent($this->getTestContent($datetime, $position, $settings));
@@ -177,11 +220,12 @@ final class FTransformerTest extends KernelTestCase
     }
 
     /**
-     * @dataProvider createProvider
+     * @dataProvider loadProvider
      *
+     * @param int|string|null       $position
      * @param array<string, ?mixed> $settings
      */
-    public function testLoadBlock(\DateTimeInterface $datetime, ?int $position, array $settings): void
+    public function testLoadBlock(\DateTimeInterface $datetime, $position, array $settings): void
     {
         $page = new SonataPagePage();
 
@@ -191,11 +235,12 @@ final class FTransformerTest extends KernelTestCase
     }
 
     /**
+     * @param int|string|null       $position
      * @param array<string, ?mixed> $settings
      *
      * @return PageContent
      */
-    protected function getTestContent(\DateTimeInterface $datetime, ?int $position, array $settings): array
+    protected function getTestContent(\DateTimeInterface $datetime, $position, array $settings): array
     {
         // for some reason, the order is different on the functional tests
         return [
@@ -220,11 +265,12 @@ final class FTransformerTest extends KernelTestCase
     }
 
     /**
+     * @param int|string|null       $position
      * @param array<string, ?mixed> $settings
      *
      * @return BlockContent
      */
-    protected function getTestBlockArray(\DateTimeInterface $datetime, ?int $position, array $settings): array
+    protected function getTestBlockArray(\DateTimeInterface $datetime, $position, array $settings): array
     {
         // for some reason, the order is different on the functional tests
         return [

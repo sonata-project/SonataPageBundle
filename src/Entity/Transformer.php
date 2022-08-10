@@ -211,17 +211,20 @@ final class Transformer implements TransformerInterface
     /**
      * @return \Closure[]
      */
-    protected function getDenormalizeCallbacks(): array
+    private function getDenormalizeCallbacks(): array
     {
         $result = [
-            'position' => static fn (/* string|int|null */ $innerObject, string $outerObject, string $attributeName, ?string $format = null, array $context = []) => null === $innerObject ? 0 : (int) $innerObject,
+            'position' =>
+                /** @param string|int|null $innerObject */
+                static fn ($innerObject, string $outerObject, string $attributeName, ?string $format = null, array $context = []): int => null === $innerObject ? 0 : (int) $innerObject,
         ];
 
-        $nullableStringCallback = static fn (?string $innerObject, string $outerObject, string $attributeName, ?string $format = null, array $context = []) => (string) $innerObject;
+        $nullableStringCallback = static fn (?string $innerObject, string $outerObject, string $attributeName, ?string $format = null, array $context = []): string => (string) $innerObject;
 
         foreach (BlockTypeExtractor::NULLABLE_STRINGS as $key) {
             $result[$key] = $nullableStringCallback;
         }
+
         return $result;
     }
 }

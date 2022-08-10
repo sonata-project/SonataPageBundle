@@ -48,9 +48,11 @@ class BlockTypeExtractor implements PropertyTypeExtractorInterface
     }
 
     /**
+     * @param array<array-key, mixed> $context
+     *
      * @return Type[]|null
      */
-    public function getTypes(string $class, string $property, array $context = [])
+    public function getTypes(string $class, string $property, array $context = []): ?array
     {
         if ($class === $this->blockManager->getClass()) {
             if ('position' === $property) {
@@ -58,10 +60,11 @@ class BlockTypeExtractor implements PropertyTypeExtractorInterface
                     new Type(Type::BUILTIN_TYPE_INT, true),
                     new Type(Type::BUILTIN_TYPE_STRING, true),
                 ];
-            } else if (in_array($property, self::NULLABLE_STRINGS)) {
+            } elseif (\in_array($property, self::NULLABLE_STRINGS, true)) {
                 return [new Type(Type::BUILTIN_TYPE_STRING, true)];
             }
         }
+
         return null;
     }
 }
