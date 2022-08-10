@@ -358,8 +358,8 @@
         <source>sidemenu.link_list_snapshots</source>
         <target>Članki</target>
       </trans-unit>
-      <trans-unit id="90" resname="snapshot">
-        <source>snapshot</source>
+      <trans-unit id="90" resname="form.group_snapshot">
+        <source>form.group_snapshot</source>
         <target>Članki</target>
       </trans-unit>
       <trans-unit id="91" resname="sonata_page">
