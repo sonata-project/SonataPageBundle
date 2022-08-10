@@ -86,10 +86,6 @@ final class BlockAdminController extends CRUDController
     {
         $this->admin->checkAccess('create');
 
-        if (!$this->admin->isChild()) {
-            throw new PageNotFoundException('You cannot create a block without a page');
-        }
-
         $parameters = $this->admin->getPersistentParameters();
 
         if (null === $parameters['type']) {
