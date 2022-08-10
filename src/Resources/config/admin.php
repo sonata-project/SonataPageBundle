@@ -58,6 +58,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 'controller' => 'sonata.page.controller.admin.block',
                 'manager_type' => 'orm',
                 'show_in_dashboard' => false,
+                'default' => true,
                 'group' => 'sonata_page',
                 'translation_domain' => 'SonataPageBundle',
                 'label' => 'block',
