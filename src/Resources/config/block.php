@@ -17,7 +17,6 @@ use Sonata\PageBundle\Block\ChildrenPagesBlockService;
 use Sonata\PageBundle\Block\ContainerBlockService;
 use Sonata\PageBundle\Block\PageListBlockService;
 use Sonata\PageBundle\Block\SharedBlockBlockService;
-use Sonata\PageBundle\Controller\AjaxController;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ReferenceConfigurator;
 
@@ -38,13 +37,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 new ReferenceConfigurator('sonata.page.site.selector'),
                 new ReferenceConfigurator('sonata.page.cms_manager_selector'),
                 new ReferenceConfigurator('sonata.page.admin.page'),
-            ])
-
-        ->set('sonata.page.block.ajax', AjaxController::class)
-            ->args([
-                    new ReferenceConfigurator('sonata.page.cms_manager_selector'),
-                new ReferenceConfigurator('sonata.block.renderer'),
-                new ReferenceConfigurator('sonata.block.context_manager'),
             ])
 
         ->set('sonata.page.block.breadcrumb', BreadcrumbBlockService::class)

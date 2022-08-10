@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 use Psr\Container\ContainerInterface;
 use Sonata\PageBundle\Controller\BlockAdminController;
-use Sonata\PageBundle\Controller\BlockController;
 use Sonata\PageBundle\Controller\PageAdminController;
 use Sonata\PageBundle\Controller\PageController;
 use Sonata\PageBundle\Controller\SiteAdminController;
@@ -24,9 +23,6 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ReferenceConfigura
 return static function (ContainerConfigurator $containerConfigurator): void {
     // Use "service" function for creating references to services when dropping support for Symfony 4.4
     $containerConfigurator->services()
-
-        ->set('sonata.page.controller.block', BlockController::class)
-            ->public()
 
         ->set('sonata.page.controller.page', PageController::class)
             ->public()
