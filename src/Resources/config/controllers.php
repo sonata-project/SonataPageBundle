@@ -15,6 +15,7 @@ use Psr\Container\ContainerInterface;
 use Sonata\PageBundle\Controller\BlockAdminController;
 use Sonata\PageBundle\Controller\BlockController;
 use Sonata\PageBundle\Controller\PageAdminController;
+use Sonata\PageBundle\Controller\PageController;
 use Sonata\PageBundle\Controller\SiteAdminController;
 use Sonata\PageBundle\Controller\SnapshotAdminController;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -26,6 +27,18 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
         ->set('sonata.page.controller.block', BlockController::class)
             ->public()
+
+        ->set('sonata.page.controller.page', PageController::class)
+            ->public()
+            ->tag('container.service_subscriber')
+            ->args([
+                new ReferenceConfigurator('sonata.page.kernel.exception_listener'),
+                new ReferenceConfigurator('sonata.page.page_service_manager'),
+                new ReferenceConfigurator('sonata.page.cms_manager_selector'),
+            ])
+            ->call('setContainer', [
+                new ReferenceConfigurator(ContainerInterface::class),
+            ])
 
         ->set('sonata.page.controller.admin.block', BlockAdminController::class)
             ->public()
