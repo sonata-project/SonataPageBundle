@@ -86,8 +86,7 @@ final class BlockAdminController extends CRUDController
     {
         $this->admin->checkAccess('create');
 
-        $sharedBlockAdminClass = $this->getParameter('sonata.page.admin.shared_block.class');
-        if (!$this->admin->isChild() && \get_class($this->admin) !== $sharedBlockAdminClass) {
+        if (!$this->admin->isChild()) {
             throw new PageNotFoundException('You cannot create a block without a page');
         }
 
@@ -162,6 +161,7 @@ final class BlockAdminController extends CRUDController
             'container' => $container,
             'child' => $block,
             'blockServices' => $blockServices,
+            'blockAdmin' => $this->admin,
         ]);
     }
 }

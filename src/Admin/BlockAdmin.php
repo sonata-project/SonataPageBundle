@@ -98,6 +98,10 @@ final class BlockAdmin extends BaseBlockAdmin
         $collection->add('composePreview', '{block_id}/compose_preview', [
             'block_id' => null,
         ]);
+
+        if (!$this->isChild()) {
+            $collection->remove('create');
+        }
     }
 
     protected function configureFormFields(FormMapper $form): void
@@ -171,12 +175,6 @@ final class BlockAdmin extends BaseBlockAdmin
                 ]);
             }
 
-            if (false !== $isComposer) {
-                $form->add('enabled', HiddenType::class, ['data' => true]);
-            } else {
-                $form->add('enabled');
-            }
-
             if ($isStandardBlock) {
                 $form->add('position', IntegerType::class);
             }
@@ -186,6 +184,12 @@ final class BlockAdmin extends BaseBlockAdmin
             $form->with('options', $optionsGroupOptions);
 
             $this->configureBlockFields($form, $block);
+
+            if (false !== $isComposer) {
+                $form->add('enabled', HiddenType::class, ['data' => true]);
+            } else {
+                $form->add('enabled');
+            }
 
             $form->end();
         } else {

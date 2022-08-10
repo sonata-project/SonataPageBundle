@@ -14,7 +14,7 @@
             {% set metadata = service.blockMetadata %}
         {% endif %}
         <h4 class="page-composer__container__child__name">
-            {{ child.name|default(service.name)|trans({}, service.blockMetadata.domain|default('SonataPageBundle')) }}
+            {{ child.name|default(metadata.title)|trans({}, metadata.domain|default('SonataPageBundle')) }}
         </h4>
         {% if not metadata.image %}
             <i class="{{ metadata.option('class') }}" ></i>
