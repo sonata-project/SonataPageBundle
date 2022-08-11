@@ -21,6 +21,7 @@ use Symfony\Component\PropertyInfo\Type;
 class BlockTypeExtractor implements PropertyTypeExtractorInterface
 {
     public const NULLABLE_STRINGS = [
+        'name',
         'type',
         'javascript',
         'stylesheet',
@@ -48,17 +49,31 @@ class BlockTypeExtractor implements PropertyTypeExtractorInterface
     }
 
     /**
+     * @param string                  $class
+     * @param string                  $property
      * @param array<array-key, mixed> $context
      *
      * @return Type[]|null
      */
-    public function getTypes(string $class, string $property, array $context = []): ?array
+    public function getTypes($class, $property, array $context = []): ?array
     {
         if ($class === $this->blockManager->getClass()) {
             if ('position' === $property) {
                 return [
                     new Type(Type::BUILTIN_TYPE_INT, true),
                     new Type(Type::BUILTIN_TYPE_STRING, true),
+                ];
+            } elseif ('settings' === $property) {
+                // fix for faulty property-info in 4.4, it didn't understand arrays with keys
+                return [
+                    new Type(
+                        Type::BUILTIN_TYPE_ARRAY,
+                        false,
+                        null,
+                        true,
+                        new Type(Type::BUILTIN_TYPE_STRING),
+                        null
+                    ),
                 ];
             } elseif (\in_array($property, self::NULLABLE_STRINGS, true)) {
                 return [new Type(Type::BUILTIN_TYPE_STRING, true)];
