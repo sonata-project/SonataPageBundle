@@ -65,9 +65,9 @@ final class Transformer implements TransformerInterface
         $this->registry = $registry;
     }
 
-    public function create(PageInterface $page): SnapshotInterface
+    public function create(PageInterface $page, ?SnapshotInterface $snapshot = null): SnapshotInterface
     {
-        $snapshot = $this->snapshotManager->create();
+        $snapshot ??= $this->snapshotManager->create();
 
         $snapshot->setPage($page);
         $snapshot->setUrl($page->getUrl());
