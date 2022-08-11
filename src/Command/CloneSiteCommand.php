@@ -87,18 +87,16 @@ final class CloneSiteCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if ($input->getOption('only-hybrid')) {
-            $output->writeln('Cloning hybrid pages only.');
-            $hybridOnly = true;
-        } else {
-            $hybridOnly = false;
-        }
-
+        $hybridOnly = $input->getOption('only-hybrid');
         $sourceSite = $this->siteManager->find($input->getOption('source-id'));
         $destSite = $this->siteManager->find($input->getOption('dest-id'));
 
         $pageClones = [];
         $blockClones = [];
+
+        if ($hybridOnly) {
+            $output->writeln('Cloning hybrid pages only.');
+        }
 
         $output->writeln('Cloning pages');
 
