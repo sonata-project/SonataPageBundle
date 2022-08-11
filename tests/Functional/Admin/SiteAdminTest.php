@@ -53,6 +53,43 @@ final class SiteAdminTest extends WebTestCase
     }
 
     /**
+     * @dataProvider provideFormUrlsCases
+     *
+     * @param array<string, mixed> $parameters
+     * @param array<string, mixed> $fieldValues
+     */
+    public function testFormsUrls(string $url, array $parameters, string $button, array $fieldValues = []): void
+    {
+        $client = self::createClient();
+
+        $this->prepareData();
+
+        $client->request('GET', $url, $parameters);
+        $client->submitForm($button, $fieldValues);
+        $client->followRedirect();
+
+        self::assertResponseIsSuccessful();
+    }
+
+    /**
+     * @return iterable<array<string|array<string, mixed>>>
+     *
+     * @phpstan-return iterable<array{0: string, 1: array<string, mixed>, 2: string, 3?: array<string, mixed>}>
+     */
+    public static function provideFormUrlsCases(): iterable
+    {
+        yield 'Create Site' => ['/admin/tests/app/sonatapagesite/create', [
+            'uniqid' => 'site',
+        ], 'btn_create_and_list', [
+            'site[name]' => 'Name',
+            'site[host]' => 'localhost',
+        ]];
+
+        yield 'Edit Site' => ['/admin/tests/app/sonatapagesite/1/edit', [], 'btn_update_and_list', []];
+        yield 'Remove Site' => ['/admin/tests/app/sonatapagesite/1/delete', [], 'btn_delete'];
+    }
+
+    /**
      * @return class-string<KernelInterface>
      */
     protected static function getKernelClass(): string
