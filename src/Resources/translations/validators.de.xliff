@@ -3,17 +3,17 @@
   <file source-language="en" target-language="de" datatype="plaintext" original="file.ext">
     <header/>
     <body>
-      <trans-unit id="error.uniq_url" resname="error.uniq_url">
+      <trans-unit id="error.uniq_url">
         <source>error.uniq_url</source>
         <target>Die URL '%url%' ist bereits mit einer anderen Seite verknüpft.</target>
       </trans-unit>
-      <trans-unit id="error.uniq_url.parent_unselect" resname="error.uniq_url.parent_unselect">
+      <trans-unit id="error.uniq_url.parent_unselect">
         <source>error.uniq_url.parent_unselect</source>
         <target>Die Basis-URL '/' ist bereits mit einer anderen Seite verknüpft.
                 Bitte wählen Sie eine übergeordnete Seite.
                 </target>
       </trans-unit>
-      <trans-unit id="error.uniq_url.no_site" resname="error.uniq_url.no_site">
+      <trans-unit id="error.uniq_url.no_site">
         <source>error.uniq_url.no_site</source>
         <target>Der Seite ist muss eine Webseite zugeordnet sein.</target>
       </trans-unit>
