@@ -154,8 +154,12 @@ final class SharedBlockBlockService extends AbstractBlockService implements Edit
             'translation_domain' => 'SonataPageBundle',
             'edit' => 'list',
         ]);
+        $fieldDescription->setAssociationAdmin($this->sharedBlockAdmin);
 
-        return $this->sharedBlockAdmin->getFormBuilder()->create('blockId', ModelListType::class, [
+        return $this->sharedBlockAdmin->getFormContractor()->getFormBuilder(
+            $this->sharedBlockAdmin->getUniqId(),
+            ['data_class' => $this->sharedBlockAdmin->getClass()]
+        )->create('blockId', ModelListType::class, [
             'sonata_field_description' => $fieldDescription,
             'class' => $this->sharedBlockAdmin->getClass(),
             'model_manager' => $this->sharedBlockAdmin->getModelManager(),
