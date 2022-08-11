@@ -54,7 +54,7 @@ final class CreateSnapshotService implements CreateSnapshotBySiteInterface, Crea
         }
 
         if ($this->snapshotManager instanceof BaseEntityManager) {
-            $this->snapshotManager->getEntityManager()->beginTransaction();
+            $this->snapshotManager->getEntityManager()->commit();
         }
     }
 
