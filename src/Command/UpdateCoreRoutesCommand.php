@@ -51,14 +51,14 @@ class UpdateCoreRoutesCommand extends BaseCommand
 
         $siteOption = $input->getOption('site');
 
-        //NEXT_MAJOR: Remove this condition, because site will be optional
+        // NEXT_MAJOR: Remove this condition, because site will be optional
         if ([] === $siteOption) {
             $output->writeln('Please provide an <info>--site=SITE_ID</info> option or the <info>--site=all</info> directive');
 
             return 1;
         }
 
-        //NEXT_MAJOR: Remove this block condition.
+        // NEXT_MAJOR: Remove this block condition.
         if (['all'] === $siteOption) {
             @trigger_error(
                 sprintf(
@@ -108,7 +108,7 @@ class UpdateCoreRoutesCommand extends BaseCommand
      */
     protected function getSites($ids): array
     {
-        //NEXT_MAJOR: Inject this on the __construct.
+        // NEXT_MAJOR: Inject this on the __construct.
         $siteManager = $this->getContainer()->get('sonata.page.manager.site');
 
         if ([] === $ids) {

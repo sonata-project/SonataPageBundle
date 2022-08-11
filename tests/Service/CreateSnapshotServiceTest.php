@@ -27,7 +27,7 @@ final class CreateSnapshotServiceTest extends TestCase
 {
     public function testCreateBySite(): void
     {
-        //Mocks
+        // Mocks
         $snapshotManagerMock = $this->createMock(SnapshotManager::class);
         $snapshotManagerMock
             ->method('getEntityManager')
@@ -45,12 +45,12 @@ final class CreateSnapshotServiceTest extends TestCase
 
         $siteMock = $this->createMock(SiteInterface::class);
 
-        //Asserts mocks
+        // Asserts mocks
         $transformerMock
             ->expects(static::once())
             ->method('create');
 
-        //Execute code
+        // Execute code
         $createSnapshotService = new CreateSnapshotService(
             $snapshotManagerMock,
             $pageManagerMock,

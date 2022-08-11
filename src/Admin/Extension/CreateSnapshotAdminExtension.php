@@ -34,7 +34,7 @@ class CreateSnapshotAdminExtension extends AbstractAdminExtension
      */
     protected $backend;
 
-    //NEXT_MAJOR: restrict type to CreateSnapshotByPageInterface
+    // NEXT_MAJOR: restrict type to CreateSnapshotByPageInterface
     public function __construct($backend)
     {
         $this->backend = $backend;
@@ -65,15 +65,15 @@ class CreateSnapshotAdminExtension extends AbstractAdminExtension
     {
         if ($object instanceof BlockInterface && method_exists($object, 'getPage')) {
             $page = $object->getPage();
-            $pageId = $page->getId(); //NEXT_MAJOR: Remove this line.
+            $pageId = $page->getId(); // NEXT_MAJOR: Remove this line.
         } elseif ($object instanceof PageInterface) {
             $page = $object;
-            $pageId = $page->getId(); //NEXT_MAJOR: Remove this line.
+            $pageId = $page->getId(); // NEXT_MAJOR: Remove this line.
         } else {
             return;
         }
 
-        //NEXT_MAJOR: Remove the if code and all code related with BackendInterface
+        // NEXT_MAJOR: Remove the if code and all code related with BackendInterface
         if ($this->backend instanceof BackendInterface) {
             @trigger_error(
                 sprintf(

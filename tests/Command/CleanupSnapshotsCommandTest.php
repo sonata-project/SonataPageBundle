@@ -41,7 +41,7 @@ class CleanupSnapshotsCommandTest extends KernelTestCase
 
     public function testRequireSiteOption(): void
     {
-        //Command
+        // Command
         $command = $this->application->find('sonata:page:cleanup-snapshots');
         $commandTester = new CommandTester($command);
 
@@ -62,15 +62,15 @@ class CleanupSnapshotsCommandTest extends KernelTestCase
      */
     public function testInvalidSiteModeValue(): void
     {
-        //Assert
+        // Assert
         static::expectException(\InvalidArgumentException::class);
         static::expectExceptionMessage('Option "mode" is not valid (async|sync).');
 
-        //Setup command
+        // Setup command
         $command = $this->application->find('sonata:page:cleanup-snapshots');
         $commandTester = new CommandTester($command);
 
-        //Run code
+        // Run code
         $commandTester->execute([
             'command' => $command->getName(),
             '--site' => [1],
@@ -83,30 +83,31 @@ class CleanupSnapshotsCommandTest extends KernelTestCase
      */
     public function testKeepSnapshotIsANumberValue(): void
     {
-        //Assert
+        // Assert
         static::expectException(\InvalidArgumentException::class);
         static::expectExceptionMessage('Please provide an integer value for the option "keep-snapshots".');
 
-        //Setup command
+        // Setup command
         $command = $this->application->find('sonata:page:cleanup-snapshots');
         $commandTester = new CommandTester($command);
 
-        //Run code
+        // Run code
         $commandTester->execute([
             'command' => $command->getName(),
             '--site' => [1],
-            '--mode' => 'sync', //NEXT_MAJOR: Remove this argument.
+            '--mode' => 'sync', // NEXT_MAJOR: Remove this argument.
             '--keep-snapshots' => '5a',
         ]);
     }
 
     /**
-     * @test it's cleanup for all sites using notification bundle.
+     * it's cleanup for all sites using notification bundle.
+     *
      * @group legacy
      */
     public function testCleanupSnapshotAsync(): void
     {
-        //Mock
+        // Mock
         $siteManagerMock = $this->createMock(SiteManagerInterface::class);
         $siteManagerMock
             ->method('findAll')
@@ -120,15 +121,15 @@ class CleanupSnapshotsCommandTest extends KernelTestCase
             ->method('createAndPublish');
         self::$container->set('sonata.notification.backend', $notificationBackend);
 
-        //Setup command
+        // Setup command
         $command = $this->application->find('sonata:page:cleanup-snapshots');
         $commandTester = new CommandTester($command);
 
-        //Run code
+        // Run code
         $commandTester->execute([
             'command' => $command->getName(),
-            '--mode' => 'async', //NEXT_MAJOR: Remove this option.
-            '--site' => ['all'], //NEXT_MAJOR: Remove this option.
+            '--mode' => 'async', // NEXT_MAJOR: Remove this option.
+            '--site' => ['all'], // NEXT_MAJOR: Remove this option.
         ]);
 
         $output = $commandTester->getDisplay();
@@ -142,7 +143,7 @@ class CleanupSnapshotsCommandTest extends KernelTestCase
      */
     public function testCleanupSnapshot(): void
     {
-        //Mock
+        // Mock
         $siteManagerMock = $this->createMock(SiteManagerInterface::class);
         $siteManagerMock
             ->method('findAll')
@@ -157,14 +158,14 @@ class CleanupSnapshotsCommandTest extends KernelTestCase
 
         self::$container->set('sonata.page.service.cleanup_snapshot', $cleanupSnapshotMock);
 
-        //Setup command
+        // Setup command
         $command = $this->application->find('sonata:page:cleanup-snapshots');
         $commandTester = new CommandTester($command);
 
-        //Run code
+        // Run code
         $commandTester->execute([
             'command' => $command->getName(),
-            '--site' => ['all'], //NEXT_MAJOR: Remove this option.
+            '--site' => ['all'], // NEXT_MAJOR: Remove this option.
         ]);
 
         $output = $commandTester->getDisplay();

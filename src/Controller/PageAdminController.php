@@ -46,12 +46,12 @@ class PageAdminController extends Controller
         }
 
         foreach ($query->execute() as $page) {
-            //NEXT_MAJOR: Remove the $notificationBackend variable
+            // NEXT_MAJOR: Remove the $notificationBackend variable
             $notificationBackend = $this->get('sonata.notification.backend');
 
-            //NEXT_MAJOR: Remove the "if" condition and use only "createByPage"
+            // NEXT_MAJOR: Remove the "if" condition and use only "createByPage"
             if ($notificationBackend instanceof RuntimeBackend) {
-                //NEXT_MAJOR: Inject CreateSnapshotByPageInterface type and remove this "get" call.
+                // NEXT_MAJOR: Inject CreateSnapshotByPageInterface type and remove this "get" call.
                 $this->get('sonata.page.service.create_snapshot')->createByPage($page);
             } else {
                 @trigger_error(

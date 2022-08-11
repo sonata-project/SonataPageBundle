@@ -136,7 +136,7 @@ final class CloneSiteCommand extends BaseCommand
                 }
             }
 
-            //NEXT_MAJOR: Remove this target condition block.
+            // NEXT_MAJOR: Remove this target condition block.
             if ($page->getTarget()) {
                 @trigger_error(
                     'target page is deprecate since sonata-project/page-bundle 3.27.0'.

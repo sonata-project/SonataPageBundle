@@ -32,16 +32,16 @@ class CleanupSnapshotsCommand extends BaseCommand
         $this->setDescription('Cleanups the deprecated snapshots by a given site');
 
         $this->addOption('site', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Site id');
-        //NEXT_MAJOR: Remove the "base-console" option.
+        // NEXT_MAJOR: Remove the "base-console" option.
         $this->addOption('base-console', null, InputOption::VALUE_OPTIONAL, 'Base Symfony console command', 'app/console');
-        //NEXT_MAJOR: Remove the "mode" option.
+        // NEXT_MAJOR: Remove the "mode" option.
         $this->addOption('mode', null, InputOption::VALUE_OPTIONAL, 'Run the command asynchronously', 'sync');
         $this->addOption('keep-snapshots', null, InputOption::VALUE_OPTIONAL, 'Keep a given count of snapshots per page', 5);
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
-        //NEXT_MAJOR: Remove this condition.
+        // NEXT_MAJOR: Remove this condition.
         if ('app/console' !== $input->getOption('base-console')) {
             @trigger_error(
                 'The "base-console" is deprecated since sonata-project/page-bundle 3.27.0 and will be removed in 4.0',
@@ -49,7 +49,7 @@ class CleanupSnapshotsCommand extends BaseCommand
             );
         }
 
-        //NEXT_MAJOR: Remove this condition.
+        // NEXT_MAJOR: Remove this condition.
         if (!\in_array($input->getOption('mode'), ['async', 'sync'], true)) {
             throw new \InvalidArgumentException('Option "mode" is not valid (async|sync).');
         }
@@ -66,14 +66,14 @@ class CleanupSnapshotsCommand extends BaseCommand
         $siteOption = $input->getOption('site');
         $keepSnapshots = $input->getOption('keep-snapshots');
 
-        //NEXT_MAJOR: Remove this condition, because site will be optional.
+        // NEXT_MAJOR: Remove this condition, because site will be optional.
         if ([] === $siteOption) {
             $output->writeln('Please provide an <info>--site=SITE_ID</info> option or the <info>--site=all</info> directive');
 
             return 1;
         }
 
-        //NEXT_MAJOR: Remove this block condition.
+        // NEXT_MAJOR: Remove this block condition.
         if (['all'] === $siteOption) {
             @trigger_error(
                 sprintf(
@@ -88,7 +88,7 @@ class CleanupSnapshotsCommand extends BaseCommand
         }
 
         foreach ($this->getSites($siteOption) as $site) {
-            //NEXT_MAJOR: Remove this "async" block condition.
+            // NEXT_MAJOR: Remove this "async" block condition.
             if ('async' === $input->getOption('mode')) {
                 @trigger_error(
                     'The async mode is deprecated since sonata-project/page-bundle 3.27.0 and will be removed in 4.0',
@@ -108,7 +108,7 @@ class CleanupSnapshotsCommand extends BaseCommand
 
             $output->write(sprintf('<info>%s</info> - Cleaning up snapshots ...', $site->getName()));
 
-            //NEXT_MAJOR: inject this class in the constructor CleanupSnapshotBySiteInterface $cleanupSnapshot
+            // NEXT_MAJOR: inject this class in the constructor CleanupSnapshotBySiteInterface $cleanupSnapshot
             $cleanupSnapshot = $this->getContainer()->get('sonata.page.service.cleanup_snapshot');
             $cleanupSnapshot->cleanupBySite($site, $keepSnapshots);
 
@@ -129,7 +129,7 @@ class CleanupSnapshotsCommand extends BaseCommand
      */
     protected function getSites($ids): array
     {
-        //NEXT_MAJOR: Inject this on the __construct.
+        // NEXT_MAJOR: Inject this on the __construct.
         $siteManager = $this->getContainer()->get('sonata.page.manager.site');
 
         if ([] === $ids) {

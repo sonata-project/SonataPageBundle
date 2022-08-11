@@ -89,7 +89,7 @@ class PageAdminControllerTest extends TestCase
             ->method('execute')
             ->willReturn([$pageMock]);
 
-        //Run code
+        // Run code
         $this->controller->batchActionSnapshot($queryMock);
     }
 
@@ -100,7 +100,7 @@ class PageAdminControllerTest extends TestCase
 
         $this->admin->method('generateUrl')->willReturn('https://fake.bar');
 
-        //NEXT_MAJOR: Remove the RuntimeBackend mock
+        // NEXT_MAJOR: Remove the RuntimeBackend mock
         $backend = $this->createMock(RuntimeBackend::class);
         $backend
             ->expects(static::exactly(0))
@@ -120,7 +120,7 @@ class PageAdminControllerTest extends TestCase
             ->method('execute')
             ->willReturn([$pageMock]);
 
-        //Run code
+        // Run code
         $this->controller->batchActionSnapshot($queryMock);
     }
 

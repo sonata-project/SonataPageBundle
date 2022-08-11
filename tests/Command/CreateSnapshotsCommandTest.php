@@ -38,7 +38,7 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        //Mocks
+        // Mocks
         $siteMock = $this->createMock(SiteInterface::class);
         $siteMock
             ->method('getId')
@@ -72,17 +72,17 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
      */
     public function testCreateOneSnapshotAsync(): void
     {
-        //Mock
+        // Mock
         $backendMock = $this->createMock(BackendInterface::class);
         $backendMock
             ->expects(static::once())
             ->method('createAndPublish');
 
-        //Set mock services
+        // Set mock services
         self::$container->set('sonata.page.manager.site', $this->siteManagerMock);
         self::$container->set('sonata.notification.backend', $backendMock);
 
-        //Command
+        // Command
         $command = $this->application->find('sonata:page:create-snapshots');
         $commandTester = new CommandTester($command);
 
@@ -99,7 +99,7 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
 
     public function testCreateSnapshot()
     {
-        //Mocks
+        // Mocks
         $createSnapshotsMock = $this->createMock(CreateSnapshotBySiteInterface::class);
         $createSnapshotsMock
             ->expects(static::once())
@@ -117,12 +117,12 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
         $inputMock = $this->createMock(InputInterface::class);
         $inputMock
             ->method('getOption')
-            //NEXT_MAJOR: Change to ->willReturnOnConsecutiveCalls(['all'], 'sync')
+            // NEXT_MAJOR: Change to ->willReturnOnConsecutiveCalls(['all'], 'sync')
             ->willReturnOnConsecutiveCalls('php app/console', ['all'], 'sync');
 
         $outputMock = $this->createMock(OutputInterface::class);
 
-        //Run code
+        // Run code
         $createSnapshotCommandMock->execute($inputMock, $outputMock);
     }
 
@@ -163,7 +163,7 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
         $inputMock = $this->createMock(InputInterface::class);
         $inputMock
             ->method('getOption')
-            //NEXT_MAJOR: Change to ->willReturnOnConsecutiveCalls(['all'], $mode)
+            // NEXT_MAJOR: Change to ->willReturnOnConsecutiveCalls(['all'], $mode)
             ->willReturnOnConsecutiveCalls('php app/console', ['all'], $mode);
 
         $outputMock = $this->createMock(OutputInterface::class);
