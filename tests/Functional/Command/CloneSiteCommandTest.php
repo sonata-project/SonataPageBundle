@@ -69,7 +69,7 @@ final class CloneSiteCommandTest extends KernelTestCase
     {
         $this->prepareData();
 
-        static::assertSame(2, $this->countPages());
+        static::assertSame(3, $this->countPages());
 
         $this->commandTester->execute([
             '--source-id' => 1,
@@ -77,7 +77,7 @@ final class CloneSiteCommandTest extends KernelTestCase
             '--prefix' => '[CLONED] ',
         ]);
 
-        static::assertSame(4, $this->countPages());
+        static::assertSame(6, $this->countPages());
 
         static::assertStringContainsString('done!', $this->commandTester->getDisplay());
     }
@@ -86,7 +86,7 @@ final class CloneSiteCommandTest extends KernelTestCase
     {
         $this->prepareData();
 
-        static::assertSame(2, $this->countPages());
+        static::assertSame(3, $this->countPages());
 
         $this->commandTester->execute([
             '--source-id' => 1,
@@ -95,7 +95,7 @@ final class CloneSiteCommandTest extends KernelTestCase
             '--only-hybrid' => true,
         ]);
 
-        static::assertSame(2, $this->countPages());
+        static::assertSame(4, $this->countPages());
 
         static::assertStringContainsString('done!', $this->commandTester->getDisplay());
     }
@@ -138,6 +138,12 @@ final class CloneSiteCommandTest extends KernelTestCase
         $page2->setParent($page);
         $page2->setSite($site);
 
+        $page3 = new SonataPagePage();
+        $page3->setName('hybrid_page');
+        $page3->setRouteName('random_route');
+        $page3->setTemplateCode('default');
+        $page3->setSite($site);
+
         $parentBlock = new SonataPageBlock();
         $parentBlock->setType('sonata.page.block.container');
         $parentBlock->setPage($page);
@@ -151,6 +157,7 @@ final class CloneSiteCommandTest extends KernelTestCase
         $manager->persist($site2);
         $manager->persist($page);
         $manager->persist($page2);
+        $manager->persist($page3);
         $manager->persist($parentBlock);
         $manager->persist($block);
 
