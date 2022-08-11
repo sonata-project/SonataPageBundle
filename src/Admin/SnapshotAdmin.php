@@ -75,20 +75,7 @@ final class SnapshotAdmin extends AbstractAdmin
         $page = $this->isChild() ? $this->getParent()->getSubject() : $object->getPage();
         \assert($page instanceof PageInterface);
 
-        $snapshot = $this->transformer->create($page);
-
-        $object->setPage($snapshot->getPage());
-        $object->setUrl($snapshot->getUrl());
-        $object->setEnabled($snapshot->getEnabled());
-        $object->setRouteName($snapshot->getRouteName());
-        $object->setPageAlias($snapshot->getPageAlias());
-        $object->setType($snapshot->getType());
-        $object->setName($snapshot->getName());
-        $object->setPosition($snapshot->getPosition());
-        $object->setDecorate($snapshot->getDecorate());
-        $object->setSite($snapshot->getSite());
-        $object->setParentId($snapshot->getParentId());
-        $object->setContent($snapshot->getContent());
+        $this->transformer->create($page, $object);
     }
 
     protected function configureListFields(ListMapper $list): void
