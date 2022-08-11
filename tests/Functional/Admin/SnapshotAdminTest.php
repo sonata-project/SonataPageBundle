@@ -88,7 +88,14 @@ final class SnapshotAdminTest extends WebTestCase
             'pageId' => 1,
         ], 'btn_create_and_list', []];
 
-        yield 'Edit Snapshot' => ['/admin/tests/app/sonatapagesnapshot/1/edit', [], 'btn_update_and_list'];
+        yield 'Edit Snapshot' => ['/admin/tests/app/sonatapagesnapshot/1/edit', [
+            'uniqid' => 'snapshot',
+        ], 'btn_update_and_list', [
+            'snapshot[enabled]' => false,
+            'snapshot[publicationDateStart]' => 'May 4, 2022, 8:00:00 AM',
+            'snapshot[publicationDateEnd]' => 'May 4, 2022, 9:00:00 AM',
+        ]];
+
         yield 'Remove Snapshot' => ['/admin/tests/app/sonatapagesnapshot/1/delete', [], 'btn_delete'];
     }
 
