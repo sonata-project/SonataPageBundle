@@ -42,7 +42,7 @@ class CreateSnapshotsCommand extends BaseCommand
      */
     public function __construct($createSnapshot = null)
     {
-        //NEXT_MAJOR: Remove the "if" condition and let only the "else" code.
+        // NEXT_MAJOR: Remove the "if" condition and let only the "else" code.
         if (\is_string($createSnapshot) || null === $createSnapshot) {
             @trigger_error(sprintf(
                 'The %s class is final since sonata-project/page-bundle 3.27.0 and and it will be removed in 4.0'
@@ -60,9 +60,9 @@ class CreateSnapshotsCommand extends BaseCommand
     {
         $this->setDescription('Create a snapshots of all pages available');
         $this->addOption('site', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Site id');
-        //NEXT_MAJOR: Remove the "base-console" option.
+        // NEXT_MAJOR: Remove the "base-console" option.
         $this->addOption('base-console', null, InputOption::VALUE_OPTIONAL, 'Base symfony console command', 'php app/console');
-        //NEXT_MAJOR: Remove the "mode" option.
+        // NEXT_MAJOR: Remove the "mode" option.
         $this->addOption('mode', null, InputOption::VALUE_OPTIONAL, 'Run the command asynchronously', 'sync');
     }
 
@@ -70,7 +70,7 @@ class CreateSnapshotsCommand extends BaseCommand
     {
         $siteOption = $input->getOption('site');
 
-        //NEXT_MAJOR: Remove this condition.
+        // NEXT_MAJOR: Remove this condition.
         if ('php app/console' !== $input->getOption('base-console')) {
             @trigger_error(
                 'The "base-console" is deprecated since sonata-project/page-bundle 3.27.0 and will be removed in 4.0',
@@ -78,14 +78,14 @@ class CreateSnapshotsCommand extends BaseCommand
             );
         }
 
-        //NEXT_MAJOR: Remove this condition, because site will be optional
+        // NEXT_MAJOR: Remove this condition, because site will be optional
         if ([] === $siteOption) {
             $output->writeln('Please provide an <info>--site=SITE_ID</info> option or the <info>--site=all</info> directive');
 
             return 1;
         }
 
-        //NEXT_MAJOR: Remove this block condition.
+        // NEXT_MAJOR: Remove this block condition.
         if (['all'] === $siteOption) {
             @trigger_error(
                 sprintf(
@@ -138,7 +138,7 @@ class CreateSnapshotsCommand extends BaseCommand
      */
     protected function getSites($ids): array
     {
-        //NEXT_MAJOR: Inject this on the __construct.
+        // NEXT_MAJOR: Inject this on the __construct.
         $siteManager = $this->getContainer()->get('sonata.page.manager.site');
 
         if ([] === $ids) {

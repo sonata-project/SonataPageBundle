@@ -76,7 +76,6 @@ final class PageTest extends TestCase
                     'Expires' => '0',
                 ],
                 [
-
                     ' Location ' => ' http://www.google.fr ',
                     "\r\nExpires " => " 0\r\n",
                 ],
@@ -210,7 +209,7 @@ final class PageTest extends TestCase
 
         static::assertInstanceOf(SnapshotInterface::class, $page->getSnapshot());
 
-        //NEXT_MAJOR remove those target code.
+        // NEXT_MAJOR remove those target code.
         $page->setTarget($this->createMock(PageInterface::class));
         static::assertInstanceOf(PageInterface::class, $page->getTarget());
         $page->setTarget(null);

@@ -28,12 +28,12 @@ final class BlockInteractorTest extends TestCase
      */
     public function testLoadPageBlocks(): void
     {
-        //Mock
+        // Mock
         $managerRegistryMock = $this->createMock(ManagerRegistry::class);
         $blockManagerInterfaceMock = $this->createMock(BlockManagerInterface::class);
-        //NEXT_MAJOR: use PageInterface
+        // NEXT_MAJOR: use PageInterface
         $pageMock = $this->createMock(Page::class);
-        //NEXT_MAJOR: use BlockInterface
+        // NEXT_MAJOR: use BlockInterface
         $blockMock = $this->createMock(Block::class);
 
         $blockInteractorMock = $this
@@ -47,10 +47,10 @@ final class BlockInteractorTest extends TestCase
             ->method('getBlocksById')
             ->willReturn([$blockMock]);
 
-        //Run
+        // Run
         $blocks = $blockInteractorMock->loadPageBlocks($pageMock);
 
-        //Asserts
+        // Asserts
         static::assertSame([$blockMock], $blocks);
     }
 
@@ -59,7 +59,7 @@ final class BlockInteractorTest extends TestCase
      */
     public function testNotLoadBlocks(): void
     {
-        //Mock
+        // Mock
         $managerRegistryMock = $this->createMock(ManagerRegistry::class);
         $blockManagerInterfaceMock = $this->createMock(BlockManagerInterface::class);
         $pageMock = $this->createMock(PageInterface::class);
@@ -70,16 +70,16 @@ final class BlockInteractorTest extends TestCase
 
         $blockInteractor = new BlockInteractor($managerRegistryMock, $blockManagerInterfaceMock);
 
-        //Change property visibility
+        // Change property visibility
         $reflection = new \ReflectionClass($blockInteractor);
         $reflection_property = $reflection->getProperty('pageBlocksLoaded');
         $reflection_property->setAccessible(true);
         $reflection_property->setValue($blockInteractor, [1 => 'fake_value(block already loaded).']);
 
-        //Run
+        // Run
         $result = $blockInteractor->loadPageBlocks($pageMock);
 
-        //Assert
+        // Assert
         static::assertSame([], $result);
     }
 
@@ -91,25 +91,25 @@ final class BlockInteractorTest extends TestCase
      */
     public function testDisableAndAddChildrenBlocks(): void
     {
-        //Mock
+        // Mock
         $managerRegistryMock = $this->createMock(ManagerRegistry::class);
         $blockManagerInterfaceMock = $this->createMock(BlockManagerInterface::class);
 
-        //NEXT_MAJOR: use PageInterface
+        // NEXT_MAJOR: use PageInterface
         $pageMock = $this->createMock(Page::class);
         $containerBlockMock = $this->createMock(Block::class);
         $containerBlockMock
-            ->expects(static::exactly(2))//NEXT_MAJOR: change this to static::once()
+            ->expects(static::exactly(2))// NEXT_MAJOR: change this to static::once()
             ->method('getId')
             ->willReturn(22);
 
         $emailButtonMock = $this->createMock(Block::class);
         $emailButtonMock
-            ->expects(static::exactly(3))//NEXT_MAJOR: change this to static::once()
+            ->expects(static::exactly(3))// NEXT_MAJOR: change this to static::once()
             ->method('getParent')
             ->willReturn($containerBlockMock);
 
-        //Run
+        // Run
         $blockInteractorMock = $this
             ->getMockBuilder(BlockInteractor::class)
             ->setConstructorArgs([$managerRegistryMock, $blockManagerInterfaceMock])
@@ -120,7 +120,7 @@ final class BlockInteractorTest extends TestCase
             ->method('getBlocksById')
             ->willReturn([22 => $containerBlockMock, $emailButtonMock]);
 
-        //Assert
+        // Assert
         $blockInteractorMock->loadPageBlocks($pageMock);
     }
 }

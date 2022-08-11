@@ -89,22 +89,22 @@ final class BlockJsCacheTest extends TestCase
         static::assertInstanceOf(CacheElement::class, $cacheElement);
 
         $expected = <<<'EXPECTED'
-<div id="block-cms-4" >
-    <script>
-        /*<![CDATA[*/
-            (function() {
-                var b = document.createElement("script");
-                b.type = "text/javascript";
-                b.async = true;
-                b.src = "https://sonata-project.org/page/cache/js/block.js";
-                var s = document.getElementsByTagName("script")[0];
-                s.parentNode.insertBefore(b, s);
-            })();
+            <div id="block-cms-4" >
+                <script>
+                    /*<![CDATA[*/
+                        (function() {
+                            var b = document.createElement("script");
+                            b.type = "text/javascript";
+                            b.async = true;
+                            b.src = "https://sonata-project.org/page/cache/js/block.js";
+                            var s = document.getElementsByTagName("script")[0];
+                            s.parentNode.insertBefore(b, s);
+                        })();
 
-        /*]]>*/
-    </script>
-</div>
-EXPECTED;
+                    /*]]>*/
+                </script>
+            </div>
+            EXPECTED;
 
         static::assertSame($expected, $cacheElement->getData()->getContent());
     }

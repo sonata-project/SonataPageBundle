@@ -49,9 +49,9 @@ class CreateSiteCommand extends BaseCommand
 
         $this->setHelp(
             <<<'EOT'
-The <info>sonata:page:create-site</info> command create a new site entity.
+                The <info>sonata:page:create-site</info> command create a new site entity.
 
-EOT
+                EOT
         );
     }
 
@@ -100,12 +100,12 @@ EOT
         $output->writeln(
             <<<INFO
 
-Creating website with the following information :
-  <info>name</info> : {$site->getName()}
-  <info>site</info> : http(s)://{$site->getHost()}{$site->getRelativePath()}
-  <info>enabled</info> :  <info>from</info> {$info_enabledFrom} => <info>to</info> {$info_enabledTo}
+                Creating website with the following information :
+                  <info>name</info> : {$site->getName()}
+                  <info>site</info> : http(s)://{$site->getHost()}{$site->getRelativePath()}
+                  <info>enabled</info> :  <info>from</info> {$info_enabledFrom} => <info>to</info> {$info_enabledTo}
 
-INFO
+                INFO
         );
 
         $confirmation = true;

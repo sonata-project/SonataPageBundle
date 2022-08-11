@@ -53,12 +53,11 @@ class SiteAdminController extends Controller
         $this->admin->setSubject($object);
 
         if ('POST' === $request->getMethod()) {
-
-            //NEXT_MAJOR: remove notificationBackend and else block.
+            // NEXT_MAJOR: remove notificationBackend and else block.
             $notificationBacked = $this->get('sonata.notification.backend');
 
             if ($notificationBacked instanceof RuntimeBackend) {
-                //NEXT_MAJOR: inject CreateSnapshotBySiteInterface and remove this get.
+                // NEXT_MAJOR: inject CreateSnapshotBySiteInterface and remove this get.
                 $createSnapshot = $this->get('sonata.page.service.create_snapshot');
                 $createSnapshot->createBySite($object);
             } else {

@@ -37,14 +37,14 @@ class DumpPageCommand extends BaseCommand
         $this->setDescription('Dump page information');
         $this->setHelp(
             <<<HELP
-Dump page information
+                Dump page information
 
-Available managers:
- - sonata.page.cms.snapshot
- - sonata.page.cms.page
+                Available managers:
+                 - sonata.page.cms.snapshot
+                 - sonata.page.cms.page
 
-You can use the --extended option to dump block configuration
-HELP
+                You can use the --extended option to dump block configuration
+                HELP
         );
 
         $this->addArgument('manager', InputArgument::REQUIRED, 'The manager service id');

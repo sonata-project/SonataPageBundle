@@ -55,7 +55,7 @@ class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
 
     public function getBlockMetadata($code = null)
     {
-        return new Metadata($this->getName(), ($code ?? $this->getName()), false, 'SonataPageBundle', [
+        return new Metadata($this->getName(), $code ?? $this->getName(), false, 'SonataPageBundle', [
             'class' => 'fa fa-bars',
         ]);
     }
