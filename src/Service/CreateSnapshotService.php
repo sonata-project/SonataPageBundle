@@ -45,6 +45,7 @@ final class CreateSnapshotService implements CreateSnapshotBySiteInterface, Crea
     {
         $pages = $this->pageManager->findBy(['site' => $site->getId()]);
 
+        //I guess it's the problem
         if ($this->snapshotManager instanceof BaseEntityManager) {
             $this->snapshotManager->getEntityManager()->beginTransaction();
         }
