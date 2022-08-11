@@ -151,25 +151,25 @@ final class CloneSiteCommand extends Command
         $output->writeln('Fixing page parents');
         foreach ($pageClones as $page) {
             $parentPage = $page->getParent();
-            if (null !== $parentPage) {
-                $parentId = $parentPage->getId();
-                \assert(null !== $parentId);
 
-                if (\array_key_exists($parentId, $pageClones)) {
-                    $output->writeln(sprintf(
-                        'new parent: % 4s - % -70s - % 4s -> % 4s',
-                        $page->getId() ?? '',
-                        $page->getTitle() ?? '',
-                        $parentId,
-                        $pageClones[$parentId]->getId() ?? ''
-                    ));
-
-                    $page->setParent($pageClones[$parentId]);
-                } else {
-                    $page->setParent(null);
-                }
+            if (null === $parentPage) {
+                continue;
             }
 
+            $parentId = $parentPage->getId();
+            \assert(null !== $parentId);
+
+            if (\array_key_exists($parentId, $pageClones)) {
+                $output->writeln(sprintf(
+                    'new parent: % 4s - % -70s - % 4s -> % 4s',
+                    $page->getId() ?? '',
+                    $page->getTitle() ?? '',
+                    $parentId,
+                    $pageClones[$parentId]->getId() ?? ''
+                ));
+            }
+
+            $page->setParent($pageClones[$parentId] ?? null);
             $this->pageManager->save($page);
         }
 
@@ -179,24 +179,23 @@ final class CloneSiteCommand extends Command
             foreach ($blocks as $block) {
                 $parentBlock = $block->getParent();
 
-                if (null !== $parentBlock) {
-                    $parentBlockId = $parentBlock->getId();
-                    \assert(null !== $parentBlockId);
-
-                    if (\array_key_exists($parentBlockId, $blockClones)) {
-                        $output->writeln(sprintf(
-                            'new block parent: % 4s - % 4s',
-                            $block->getId() ?? '',
-                            $blockClones[$parentBlockId]->getId() ?? ''
-                        ));
-
-                        $block->setParent($blockClones[$parentBlockId]);
-                    } else {
-                        $block->setParent(null);
-                    }
-
-                    $this->blockManager->save($block);
+                if (null === $parentBlock) {
+                    continue;
                 }
+
+                $parentBlockId = $parentBlock->getId();
+                \assert(null !== $parentBlockId);
+
+                if (\array_key_exists($parentBlockId, $blockClones)) {
+                    $output->writeln(sprintf(
+                        'new block parent: % 4s - % 4s',
+                        $block->getId() ?? '',
+                        $blockClones[$parentBlockId]->getId() ?? ''
+                    ));
+                }
+
+                $block->setParent($blockClones[$parentBlockId] ?? null);
+                $this->blockManager->save($block);
             }
         }
 
