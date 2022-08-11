@@ -28,6 +28,13 @@ final class CreateSnapshotServiceTest extends TestCase
     {
         // Mocks
         $snapshotManagerMock = $this->createMock(SnapshotManagerInterface::class);
+        $snapshotManagerMock
+            ->expects(static::once())
+            ->method('beginTransaction');
+
+        $snapshotManagerMock
+            ->expects(static::once())
+            ->method('commit');
 
         $pageManagerMock = $this->createMock(PageManagerInterface::class);
         $pageManagerMock

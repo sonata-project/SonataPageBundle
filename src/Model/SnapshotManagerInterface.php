@@ -14,13 +14,14 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Model;
 
 use Sonata\Doctrine\Model\ManagerInterface;
+use Sonata\Doctrine\Model\TransactionalManagerInterface;
 
 /**
  * @extends ManagerInterface<SnapshotInterface>
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-interface SnapshotManagerInterface extends ManagerInterface
+interface SnapshotManagerInterface extends ManagerInterface, TransactionalManagerInterface
 {
     /**
      * @param array<string, mixed> $criteria

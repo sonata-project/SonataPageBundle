@@ -26,6 +26,13 @@ class CleanupSnapshotServiceTest extends TestCase
     {
         // Mock
         $snapshotManagerMock = $this->createMock(SnapshotManagerInterface::class);
+        $snapshotManagerMock
+            ->expects(static::once())
+            ->method('beginTransaction');
+
+        $snapshotManagerMock
+            ->expects(static::once())
+            ->method('commit');
 
         $snapshotManagerMock
             ->expects(static::once())
