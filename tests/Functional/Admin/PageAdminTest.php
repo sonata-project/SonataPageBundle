@@ -180,6 +180,53 @@ final class PageAdminTest extends WebTestCase
     }
 
     /**
+     * @dataProvider provideDispositionCases
+     *
+     * @param array{disposition?: array<array{id: int|string, position: int|numeric-string}>} $parameters
+     */
+    public function testSavePositionForBlock(array $parameters, bool $success): void
+    {
+        $client = self::createClient();
+
+        $this->prepareData();
+
+        $client->request(
+            'POST',
+            '/admin/tests/app/sonatapagepage/1/sonatapageblock/save-position',
+            $parameters,
+            [],
+            ['HTTP_Content-type' => 'application/json']
+        );
+
+        if ($success) {
+            self::assertResponseIsSuccessful();
+        } else {
+            self::assertResponseStatusCodeSame(400);
+        }
+    }
+
+    /**
+     * @return iterable<array<bool|array<string, mixed>>>
+     *
+     * @phpstan-return iterable<array{0: array{disposition?: array<array{id: int|string, position: int|numeric-string}>}, 1: bool}>
+     */
+    public static function provideDispositionCases(): iterable
+    {
+        yield 'Missing disposition' => [[], false];
+
+        yield 'Empty disposition' => [[
+            'disposition' => [],
+        ], false];
+
+        yield 'Update block disposition' => [[
+            'disposition' => [
+                ['id' => 1, 'position' => 1],
+                ['id' => 2, 'position' => '2'],
+            ],
+        ], true];
+    }
+
+    /**
      * @dataProvider provideBatchActionsCases
      */
     public function testBatchActions(string $action): void
