@@ -100,6 +100,37 @@ final class SnapshotAdminTest extends WebTestCase
     }
 
     /**
+     * @dataProvider provideBatchActionsCases
+     */
+    public function testBatchActions(string $action): void
+    {
+        $client = self::createClient();
+
+        $this->prepareData();
+
+        $client->request('GET', '/admin/tests/app/sonatapagesnapshot/list');
+        $client->submitForm('OK', [
+            'all_elements' => true,
+            'action' => $action,
+        ]);
+        $client->submitForm('Yes, execute');
+        $client->followRedirect();
+
+        self::assertResponseIsSuccessful();
+    }
+
+    /**
+     * @return iterable<array<string>>
+     *
+     * @phpstan-return iterable<array{0: string}>
+     */
+    public static function provideBatchActionsCases(): iterable
+    {
+        yield 'Delete Snapshots' => ['delete'];
+        yield 'Toggle Snapshots' => ['toggle_enabled'];
+    }
+
+    /**
      * @return class-string<KernelInterface>
      */
     protected static function getKernelClass(): string
