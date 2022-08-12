@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Block;
 
 use Sonata\AdminBundle\Admin\AdminInterface;
+use Sonata\AdminBundle\Form\FormMapper as AdminFormMapper;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Block\Service\AbstractBlockService;
@@ -98,7 +99,7 @@ final class SharedBlockBlockService extends AbstractBlockService implements Edit
 
         $form->add('settings', ImmutableArrayType::class, [
             'keys' => [
-                [$this->getBlockBuilder(), null, []],
+                [$this->getBlockBuilder($form), null, []],
             ],
         ]);
     }
@@ -134,7 +135,7 @@ final class SharedBlockBlockService extends AbstractBlockService implements Edit
         $block->setSetting('blockId', $sharedBlock);
     }
 
-    private function getBlockBuilder(): FormBuilderInterface
+    private function getBlockBuilder(FormMapper $form): FormBuilderInterface
     {
         $fieldDescription = $this->sharedBlockAdmin->createFieldDescription('block', [
             'translation_domain' => 'SonataPageBundle',
@@ -142,10 +143,9 @@ final class SharedBlockBlockService extends AbstractBlockService implements Edit
         ]);
         $fieldDescription->setAssociationAdmin($this->sharedBlockAdmin);
 
-        return $this->sharedBlockAdmin->getFormContractor()->getFormBuilder(
-            $this->sharedBlockAdmin->getUniqId(),
-            ['data_class' => $this->sharedBlockAdmin->getClass()]
-        )->create('blockId', ModelListType::class, [
+        \assert($form instanceof AdminFormMapper);
+
+        return $form->getFormBuilder()->create('blockId', ModelListType::class, [
             'sonata_field_description' => $fieldDescription,
             'class' => $this->sharedBlockAdmin->getClass(),
             'model_manager' => $this->sharedBlockAdmin->getModelManager(),
