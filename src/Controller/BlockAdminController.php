@@ -49,14 +49,14 @@ final class BlockAdminController extends CRUDController
         $this->admin->checkAccess('savePosition');
 
         try {
-            $params = $request->get('disposition');
+            // TODO: Change to $request->query->all('filter') when support for Symfony < 5.1 is dropped.
+            $params = $request->request->all()['disposition'] ?? [];
 
-            if (!\is_array($params)) {
+            if ([] === $params) {
                 throw new HttpException(400, 'wrong parameters');
             }
 
             $result = $this->container->get('sonata.page.block_interactor')->saveBlocksPosition($params, false);
-
             $status = 200;
 
             $pageAdmin = $this->container->get('sonata.page.admin.page');

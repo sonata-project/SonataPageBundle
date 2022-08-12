@@ -38,10 +38,10 @@ interface BlockInteractorInterface
      * Better for performance, but can lead to query issues.
      *
      * @param array<array{
-     *   id?: int|string|null,
-     *   position?: int,
-     *   parent_id?: int|string|null,
-     *   page_id?: int|string|null,
+     *   id?: int|string,
+     *   position?: string,
+     *   parent_id?: int|string,
+     *   page_id?: int|string,
      * }> $data
      */
     public function saveBlocksPosition(array $data = [], bool $partial = true): bool;

@@ -74,11 +74,17 @@ final class BlockInteractor implements BlockInteractorInterface
 
         try {
             foreach ($data as $block) {
-                if (!isset($block['id'], $block['position'], $block['parent_id'], $block['page_id'])) {
+                if (!isset($block['id'], $block['position']) || !is_numeric($block['position'])) {
                     continue;
                 }
 
-                $this->blockManager->updatePosition($block['id'], $block['position'], $block['parent_id'], $block['page_id'], $partial);
+                $this->blockManager->updatePosition(
+                    $block['id'],
+                    (int) $block['position'],
+                    $block['parent_id'] ?? null,
+                    $block['page_id'] ?? null,
+                    $partial
+                );
             }
 
             $em->flush();
