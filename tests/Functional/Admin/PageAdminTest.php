@@ -156,6 +156,12 @@ final class PageAdminTest extends WebTestCase
             'page[rawHeaders]' => 'X-powered-by: PHP',
         ]];
 
+        yield 'Create Page With Url' => ['/admin/tests/app/sonatapagepage/create', [
+            'uniqid' => 'page',
+            'siteId' => 1,
+            'url' => '/some/random/url',
+        ], 'btn_create_and_list', []];
+
         yield 'Edit Page' => ['/admin/tests/app/sonatapagepage/1/edit', [], 'btn_update_and_list', []];
         yield 'Remove Page' => ['/admin/tests/app/sonatapagepage/1/delete', [], 'btn_delete'];
 
@@ -235,6 +241,7 @@ final class PageAdminTest extends WebTestCase
 
         $page = new SonataPagePage();
         $page->setName('name');
+        $page->setUrl('/');
         $page->setTemplateCode('default');
         $page->setSite($site);
 
@@ -250,6 +257,7 @@ final class PageAdminTest extends WebTestCase
         $block = new SonataPageBlock();
         $block->setType('sonata.block.service.text');
         $block->setParent($parentBlock);
+        $block->setPage($page);
 
         $manager->persist($site);
         $manager->persist($site2);
