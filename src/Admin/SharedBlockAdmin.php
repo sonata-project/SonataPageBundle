@@ -19,7 +19,6 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\BlockBundle\Block\Service\EditableBlockService;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
-use Sonata\PageBundle\Mapper\PageFormMapper;
 use Sonata\PageBundle\Model\PageBlockInterface;
 
 /**
@@ -103,12 +102,10 @@ final class SharedBlockAdmin extends BaseBlockAdmin
             ));
         }
 
-        $blockMapper = new PageFormMapper($form);
-
         if ($block->getId() > 0) {
-            $service->configureEditForm($blockMapper, $block);
+            $service->configureEditForm($form, $block);
         } else {
-            $service->configureCreateForm($blockMapper, $block);
+            $service->configureCreateForm($form, $block);
         }
     }
 }

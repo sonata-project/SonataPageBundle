@@ -45,9 +45,149 @@ final class SharedBlockAdminTest extends WebTestCase
     public static function provideCrudUrlsCases(): iterable
     {
         yield 'List Block' => ['/admin/tests/app/sonatapageblock/shared/list'];
-        yield 'Create Block' => ['/admin/tests/app/sonatapageblock/shared/create'];
+        yield 'List Block types' => ['/admin/tests/app/sonatapageblock/shared/create'];
+
+        yield 'Create Block' => ['/admin/tests/app/sonatapageblock/shared/create', [
+            'type' => 'sonata.page.block.shared_block',
+        ]];
+
         yield 'Edit Block' => ['/admin/tests/app/sonatapageblock/shared/1/edit'];
         yield 'Remove Block' => ['/admin/tests/app/sonatapageblock/shared/1/delete'];
+    }
+
+    /**
+     * @dataProvider provideFormUrlsCases
+     *
+     * @param array<string, mixed> $parameters
+     * @param array<string, mixed> $fieldValues
+     */
+    public function testFormsUrls(string $url, array $parameters, string $button, array $fieldValues = []): void
+    {
+        $client = self::createClient();
+
+        $this->prepareData();
+
+        $client->request('GET', $url, $parameters);
+        $client->submitForm($button, $fieldValues);
+        $client->followRedirect();
+
+        self::assertResponseIsSuccessful();
+    }
+
+    /**
+     * @return iterable<array<string|array<string, mixed>>>
+     *
+     * @phpstan-return iterable<array{0: string, 1: array<string, mixed>, 2: string, 3?: array<string, mixed>}>
+     */
+    public static function provideFormUrlsCases(): iterable
+    {
+        // Blocks From SonataBlockBundle
+        // yield 'Create Shared Block - Container' => ['/admin/tests/app/sonatapageblock/shared/create', [
+        //     'uniqid' => 'shared_block',
+        //     'type' => 'sonata.block.service.container',
+        // ], 'btn_create_and_list', [
+        //     'shared_block[name]' => 'Name',
+        //     'shared_block[enabled]' => 1,
+        //     'shared_block[settings][code]' => 'code',
+        //     'shared_block[settings][layout]' => '{{ CONTENT }}',
+        //     'shared_block[settings][class]' => 'custom_class',
+        //     'shared_block[settings][template]' => '@SonataPage/Block/block_container.html.twig',
+        //     'shared_block[children]' => '',
+        // ]];
+
+        yield 'Create Shared Block - Text' => ['/admin/tests/app/sonatapageblock/shared/create', [
+            'uniqid' => 'shared_block',
+            'type' => 'sonata.block.service.text',
+        ], 'btn_create_and_list', [
+            'shared_block[name]' => 'Name',
+            'shared_block[enabled]' => 1,
+            'shared_block[settings][content]' => 'Text',
+        ]];
+
+        yield 'Create Shared Block - Template' => ['/admin/tests/app/sonatapageblock/shared/create', [
+            'uniqid' => 'shared_block',
+            'type' => 'sonata.block.service.template',
+        ], 'btn_create_and_list', [
+            'shared_block[name]' => 'Name',
+            'shared_block[enabled]' => 1,
+            'shared_block[settings][template]' => '@SonataBlock/Block/block_template.html.twig',
+        ]];
+
+        yield 'Create Shared Block - Menu' => ['/admin/tests/app/sonatapageblock/shared/create', [
+            'uniqid' => 'shared_block',
+            'type' => 'sonata.block.service.menu',
+        ], 'btn_create_and_list', [
+            'shared_block[name]' => 'Name',
+            'shared_block[enabled]' => 1,
+            'shared_block[settings][title]' => 'Title',
+            'shared_block[settings][menu_name]' => 'sonata_admin_sidebar',
+            'shared_block[settings][safe_labels]' => 1,
+            'shared_block[settings][current_class]' => 'active',
+            'shared_block[settings][first_class]' => 'first',
+            'shared_block[settings][last_class]' => 'last',
+            'shared_block[settings][menu_class]' => 'menu_sonata',
+            'shared_block[settings][children_class]' => 'children',
+            'shared_block[settings][menu_template]' => '@SonataBlock/Block/block_core_menu.html.twig',
+        ]];
+
+        yield 'Create Shared Block - RSS' => ['/admin/tests/app/sonatapageblock/shared/create', [
+            'uniqid' => 'shared_block',
+            'type' => 'sonata.block.service.rss',
+        ], 'btn_create_and_list', [
+            'shared_block[name]' => 'Name',
+            'shared_block[enabled]' => 1,
+            'shared_block[settings][url]' => 'https://sonata-project.org',
+            'shared_block[settings][title]' => 'Title',
+            'shared_block[settings][translation_domain]' => 'SonataPageBundle',
+            'shared_block[settings][icon]' => 'fa fa-home',
+            'shared_block[settings][class]' => 'custom_class',
+        ]];
+
+        // Blocks From SonataPageBundle
+        yield 'Create Shared Block - Children Pages' => ['/admin/tests/app/sonatapageblock/shared/create', [
+            'uniqid' => 'shared_block',
+            'type' => 'sonata.page.block.children_pages',
+        ], 'btn_create_and_list', [
+            'shared_block[name]' => 'Name',
+            'shared_block[enabled]' => 1,
+            'shared_block[settings][title]' => 'Title',
+            'shared_block[settings][translation_domain]' => 'SonataPageBundle',
+            'shared_block[settings][icon]' => 'fa fa-home',
+            'shared_block[settings][current]' => 1,
+            // 'shared_block[settings][pageId]' => 1,
+            'shared_block[settings][class]' => 'custom_class',
+        ]];
+
+        // yield 'Create Shared Block - Breadcrumb' => ['/admin/tests/app/sonatapageblock/shared/create', [
+        //     'uniqid' => 'shared_block',
+        //     'type' => 'sonata.page.block.breadcrumb',
+        // ], 'btn_create_and_list', [
+        // ]];
+
+        yield 'Create Shared Block - Shared Block' => ['/admin/tests/app/sonatapageblock/shared/create', [
+            'uniqid' => 'shared_block',
+            'type' => 'sonata.page.block.shared_block',
+        ], 'btn_create_and_list', [
+            'shared_block[name]' => 'Name',
+            'shared_block[enabled]' => 1,
+            'shared_block[settings][blockId]' => 1,
+        ]];
+
+        yield 'Create Shared Block - Page List' => ['/admin/tests/app/sonatapageblock/shared/create', [
+            'uniqid' => 'shared_block',
+            'type' => 'sonata.page.block.pagelist',
+        ], 'btn_create_and_list', [
+            'shared_block[name]' => 'Name',
+            'shared_block[enabled]' => 1,
+            'shared_block[settings][title]' => 'Title',
+            'shared_block[settings][translation_domain]' => 'SonataPageBundle',
+            'shared_block[settings][icon]' => 'fa fa-home',
+            'shared_block[settings][class]' => 'custom_class',
+            'shared_block[settings][mode]' => 'form.choice_public',
+        ]];
+
+        yield 'Edit Shared Block' => ['/admin/tests/app/sonatapageblock/shared/1/edit', [], 'btn_update_and_list', []];
+        yield 'Remove Shared Block' => ['/admin/tests/app/sonatapageblock/shared/1/delete', [], 'btn_delete'];
     }
 
     /**

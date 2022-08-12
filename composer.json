@@ -54,6 +54,7 @@
         "dama/doctrine-test-bundle": "^6.7",
         "doctrine/annotations": "^1.13.3",
         "friendsofphp/php-cs-fixer": "^3.4",
+        "masterminds/html5": "^2.7",
         "matthiasnoback/symfony-dependency-injection-test": "^4.1.1",
         "phpstan/extension-installer": "^1.0",
         "phpstan/phpstan": "^1.0",
