@@ -134,20 +134,6 @@ final class SharedBlockBlockService extends AbstractBlockService implements Edit
         $block->setSetting('blockId', $sharedBlock);
     }
 
-    public function prePersist(BlockInterface $block): void
-    {
-        $block = $block->getSetting('blockId');
-
-        $block->setSetting('blockId', $block instanceof BlockInterface ? $block->getId() : null);
-    }
-
-    public function preUpdate(BlockInterface $block): void
-    {
-        $block = $block->getSetting('blockId');
-
-        $block->setSetting('blockId', $block instanceof BlockInterface ? $block->getId() : null);
-    }
-
     private function getBlockBuilder(): FormBuilderInterface
     {
         $fieldDescription = $this->sharedBlockAdmin->createFieldDescription('block', [
