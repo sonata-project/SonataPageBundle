@@ -66,7 +66,7 @@ final class ContainerBlockServiceTest extends BlockServiceTestCase
         $service = new ContainerBlockService($baseContainerBlockService);
 
         $form = $this->createMock(FormMapper::class);
-        $form->expects(static::exactly(3))->method('add');
+        $form->expects(static::exactly(2))->method('add');
 
         $service->configureCreateForm($form, $block);
     }
