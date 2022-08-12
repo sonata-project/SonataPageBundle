@@ -52,6 +52,36 @@ final class BlockAdminTest extends WebTestCase
     }
 
     /**
+     * @dataProvider provideFormUrlsCases
+     *
+     * @param array<string, mixed> $parameters
+     * @param array<string, mixed> $fieldValues
+     */
+    public function testFormsUrls(string $url, array $parameters, string $button, array $fieldValues = []): void
+    {
+        $client = self::createClient();
+
+        $this->prepareData();
+
+        $client->request('GET', $url, $parameters);
+        $client->submitForm($button, $fieldValues);
+        $client->followRedirect();
+
+        self::assertResponseIsSuccessful();
+    }
+
+    /**
+     * @return iterable<array<string|array<string, mixed>>>
+     *
+     * @phpstan-return iterable<array{0: string, 1: array<string, mixed>, 2: string, 3?: array<string, mixed>}>
+     */
+    public static function provideFormUrlsCases(): iterable
+    {
+        yield 'Edit Block' => ['/admin/tests/app/sonatapageblock/1/edit', [], 'btn_update_and_list', []];
+        yield 'Remove Block' => ['/admin/tests/app/sonatapageblock/1/delete', [], 'btn_delete'];
+    }
+
+    /**
      * @return class-string<KernelInterface>
      */
     protected static function getKernelClass(): string
