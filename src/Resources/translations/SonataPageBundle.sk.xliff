@@ -522,10 +522,6 @@
         <source>form.label_locale</source>
         <target>Jazyk</target>
       </trans-unit>
-      <trans-unit id="form.label_title">
-        <source>form.label_title</source>
-        <target>Názov</target>
-      </trans-unit>
       <trans-unit id="form.label_meta_keywords">
         <source>form.label_meta_keywords</source>
         <target>Meta kľúčové slová</target>
@@ -569,10 +565,6 @@
       <trans-unit id="breadcrumb.link_page_show">
         <source>breadcrumb.link_page_show</source>
         <target>Stránka</target>
-      </trans-unit>
-      <trans-unit id="sonata_page">
-        <source>sonata_page</source>
-        <target>Stránky</target>
       </trans-unit>
       <trans-unit id="form.label_page_alias">
         <source>form.label_page_alias</source>

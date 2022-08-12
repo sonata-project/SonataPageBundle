@@ -522,10 +522,6 @@
         <source>form.label_locale</source>
         <target>Локаль</target>
       </trans-unit>
-      <trans-unit id="form.label_title">
-        <source>form.label_title</source>
-        <target>Заголовок</target>
-      </trans-unit>
       <trans-unit id="form.label_meta_keywords">
         <source>form.label_meta_keywords</source>
         <target>Meta ключевые слова</target>
@@ -569,10 +565,6 @@
       <trans-unit id="breadcrumb.link_page_show">
         <source>breadcrumb.link_page_show</source>
         <target>Страница</target>
-      </trans-unit>
-      <trans-unit id="sonata_page">
-        <source>sonata_page</source>
-        <target>Страницы</target>
       </trans-unit>
       <trans-unit id="form.label_page_alias">
         <source>form.label_page_alias</source>

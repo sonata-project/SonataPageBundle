@@ -522,10 +522,6 @@
         <source>form.label_locale</source>
         <target>Localidade</target>
       </trans-unit>
-      <trans-unit id="form.label_title">
-        <source>form.label_title</source>
-        <target>Título</target>
-      </trans-unit>
       <trans-unit id="form.label_meta_keywords">
         <source>form.label_meta_keywords</source>
         <target>Palavras chaves</target>
@@ -568,10 +564,6 @@
       </trans-unit>
       <trans-unit id="breadcrumb.link_page_show">
         <source>breadcrumb.link_page_show</source>
-        <target>Página</target>
-      </trans-unit>
-      <trans-unit id="sonata_page">
-        <source>sonata_page</source>
         <target>Página</target>
       </trans-unit>
       <trans-unit id="form.label_page_alias">
