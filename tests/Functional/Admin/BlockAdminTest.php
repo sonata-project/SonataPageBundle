@@ -48,7 +48,7 @@ final class BlockAdminTest extends WebTestCase
         yield 'List Block' => ['/admin/tests/app/sonatapageblock/list'];
         yield 'Edit Block' => ['/admin/tests/app/sonatapageblock/1/edit'];
         yield 'Remove Block' => ['/admin/tests/app/sonatapageblock/1/delete'];
-        yield 'Compose preview Block' => ['/admin/tests/app/sonatapageblock/2/compose-preview'];
+        yield 'Compose preview Block' => ['/admin/tests/app/sonatapageblock/3/compose-preview'];
     }
 
     /**
@@ -79,6 +79,55 @@ final class BlockAdminTest extends WebTestCase
     {
         yield 'Edit Block' => ['/admin/tests/app/sonatapageblock/1/edit', [], 'btn_update_and_list', []];
         yield 'Remove Block' => ['/admin/tests/app/sonatapageblock/1/delete', [], 'btn_delete'];
+    }
+
+    /**
+     * @dataProvider provideSwitchParentCases
+     *
+     * @param array{block_id?: int|string|null, parent_id?: int|string|null} $parameters
+     */
+    public function testSwitchParentForBlock(array $parameters, bool $success): void
+    {
+        $client = self::createClient();
+
+        $this->prepareData();
+
+        $client->request('GET', '/admin/tests/app/sonatapageblock/switch-parent', $parameters);
+
+        if ($success) {
+            self::assertResponseIsSuccessful();
+        } else {
+            self::assertResponseStatusCodeSame(400);
+        }
+    }
+
+    /**
+     * @return iterable<array<string|array<string, mixed>>>
+     *
+     * @phpstan-return iterable<array{0: array{block_id?: int|string|null, parent_id?: int|string|null}, 1: bool}>
+     */
+    public static function provideSwitchParentCases(): iterable
+    {
+        yield 'Missing all parameters' => [[], false];
+
+        yield 'Missing parent_id' => [[
+            'block_id' => 3,
+        ], false];
+
+        yield 'Unable to find block' => [[
+            'block_id' => 'foo',
+            'parent_id' => 2,
+        ], false];
+
+        yield 'Unable to find parent block' => [[
+            'block_id' => 3,
+            'parent_id' => 'foo',
+        ], false];
+
+        yield 'Switch parent Block' => [[
+            'block_id' => 3,
+            'parent_id' => 2,
+        ], true];
     }
 
     /**
@@ -138,12 +187,17 @@ final class BlockAdminTest extends WebTestCase
         $parentBlock->setType('sonata.page.block.container');
         $parentBlock->setPage($page);
 
+        $parentBlock2 = new SonataPageBlock();
+        $parentBlock2->setType('sonata.page.block.container');
+        $parentBlock2->setPage($page);
+
         $block = new SonataPageBlock();
         $block->setType('sonata.block.service.text');
         $block->setParent($parentBlock);
 
         $manager->persist($page);
         $manager->persist($parentBlock);
+        $manager->persist($parentBlock2);
         $manager->persist($block);
 
         $manager->flush();
