@@ -94,9 +94,7 @@ final class BlockAdmin extends BaseBlockAdmin
 
         $collection->add('save_position', 'save-position');
         $collection->add('switch_parent', 'switch-parent');
-        $collection->add('compose_preview', '{block_id}/compose-preview', [
-            'block_id' => null,
-        ]);
+        $collection->add('compose_preview', $this->getRouterIdParameter().'/compose-preview');
 
         if (!$this->isChild()) {
             $collection->remove('create');

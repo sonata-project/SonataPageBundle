@@ -25,7 +25,6 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\CallbackFilter;
 use Sonata\PageBundle\Exception\InternalErrorException;
-use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Form\Type\PageSelectorType;
 use Sonata\PageBundle\Form\Type\PageTypeChoiceType;
 use Sonata\PageBundle\Form\Type\TemplateChoiceType;
@@ -62,13 +61,8 @@ final class PageAdmin extends AbstractAdmin
 
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
-        $collection->add('compose', $this->getRouterIdParameter().'/compose', [
-            $this->getIdParameter() => null,
-        ]);
-        $collection->add('compose_container_show', 'compose/container/'.$this->getRouterIdParameter(), [
-            $this->getIdParameter() => null,
-        ]);
-
+        $collection->add('compose', $this->getRouterIdParameter().'/compose');
+        $collection->add('compose_container_show', 'compose/container/'.$this->getRouterIdParameter());
         $collection->add('tree', 'tree');
     }
 
@@ -115,14 +109,11 @@ final class PageAdmin extends AbstractAdmin
             $slugs = explode('/', $this->getRequest()->get('url'));
             $slug = array_pop($slugs);
 
-            try {
-                $parent = $this->pageManager->getPageByUrl($site, implode('/', $slugs));
-            } catch (PageNotFoundException $e) {
-                try {
-                    $parent = $this->pageManager->getPageByUrl($site, '/');
-                } catch (PageNotFoundException $e) {
-                    throw new InternalErrorException('Unable to find the root url, please create a route with url = /');
-                }
+            $parent = $this->pageManager->getPageByUrl($site, implode('/', $slugs)) ??
+                $this->pageManager->getPageByUrl($site, '/');
+
+            if (null === $parent) {
+                throw new InternalErrorException('Unable to find the root url, please create a route with url = /');
             }
 
             $object->setSlug(urldecode($slug));
