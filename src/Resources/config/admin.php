@@ -132,8 +132,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 new ReferenceConfigurator('sonata.page.service.create_snapshot'),
             ])
 
-        ->alias(PageAdmin::class, 'sonata.page.admin.page')
-
         ->alias(BlockAdmin::class, 'sonata.page.admin.block')
 
         ->alias(SnapshotAdmin::class, 'sonata.page.admin.snapshot');

@@ -16,7 +16,6 @@ namespace Sonata\PageBundle\Controller;
 use Sonata\AdminBundle\Controller\CRUDController;
 use Sonata\AdminBundle\Exception\BadRequestParamHttpException;
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
-use Sonata\PageBundle\Admin\PageAdmin;
 use Sonata\PageBundle\Model\BlockInteractorInterface;
 use Sonata\PageBundle\Model\PageBlockInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,7 +35,6 @@ final class BlockAdminController extends CRUDController
     {
         return [
             'sonata.page.block_interactor' => BlockInteractorInterface::class,
-            'sonata.page.admin.page' => PageAdmin::class,
             'sonata.block.manager' => BlockServiceManagerInterface::class,
         ] + parent::getSubscribedServices();
     }
@@ -49,19 +47,15 @@ final class BlockAdminController extends CRUDController
         $this->admin->checkAccess('savePosition');
 
         try {
-            $params = $request->get('disposition');
+            // TODO: Change to $request->query->all('filter') when support for Symfony < 5.1 is dropped.
+            $params = $request->request->all()['disposition'] ?? [];
 
-            if (!\is_array($params)) {
+            if ([] === $params) {
                 throw new HttpException(400, 'wrong parameters');
             }
 
-            $result = $this->container->get('sonata.page.block_interactor')->saveBlocksPosition($params, false);
-
+            $result = $this->container->get('sonata.page.block_interactor')->saveBlocksPosition($params);
             $status = 200;
-
-            $pageAdmin = $this->container->get('sonata.page.admin.page');
-            $pageAdmin->setRequest($request);
-            $pageAdmin->update($pageAdmin->getSubject());
         } catch (HttpException $e) {
             $status = $e->getStatusCode();
             $result = [

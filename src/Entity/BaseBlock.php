@@ -24,10 +24,22 @@ abstract class BaseBlock extends Block
     {
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
+
+        $page = $this->getPage();
+
+        if (null !== $page) {
+            $page->setEdited(true);
+        }
     }
 
     public function preUpdate(): void
     {
         $this->updatedAt = new \DateTime();
+
+        $page = $this->getPage();
+
+        if (null !== $page) {
+            $page->setEdited(true);
+        }
     }
 }

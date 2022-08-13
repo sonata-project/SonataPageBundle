@@ -67,18 +67,18 @@ final class BlockInteractor implements BlockInteractorInterface
         return $blocks;
     }
 
-    public function saveBlocksPosition(array $data = [], bool $partial = true): bool
+    public function saveBlocksPosition(array $data = []): bool
     {
         $em = $this->getEntityManager();
         $em->getConnection()->beginTransaction();
 
         try {
             foreach ($data as $block) {
-                if (!isset($block['id'], $block['position'], $block['parent_id'], $block['page_id'])) {
+                if (!isset($block['id'], $block['position']) || !is_numeric($block['position'])) {
                     continue;
                 }
 
-                $this->blockManager->updatePosition($block['id'], $block['position'], $block['parent_id'], $block['page_id'], $partial);
+                $this->blockManager->updatePosition($block['id'], (int) $block['position']);
             }
 
             $em->flush();

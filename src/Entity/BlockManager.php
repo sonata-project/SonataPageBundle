@@ -16,7 +16,6 @@ namespace Sonata\PageBundle\Entity;
 use Sonata\Doctrine\Entity\BaseEntityManager;
 use Sonata\PageBundle\Model\BlockManagerInterface;
 use Sonata\PageBundle\Model\PageBlockInterface;
-use Sonata\PageBundle\Model\PageInterface;
 
 /**
  * @extends BaseEntityManager<PageBlockInterface>
@@ -25,42 +24,17 @@ use Sonata\PageBundle\Model\PageInterface;
  */
 final class BlockManager extends BaseEntityManager implements BlockManagerInterface
 {
-    public function updatePosition($id, int $position, $parentId = null, $pageId = null, bool $partial = true): PageBlockInterface
+    public function updatePosition($id, int $position): PageBlockInterface
     {
-        $entityManager = $this->getEntityManager();
+        $block = $this->find($id);
 
-        if ($partial) {
-            $meta = $entityManager->getClassMetadata($this->getClass());
-            $block = $entityManager->getReference($this->getClass(), $id);
-
-            if (null === $block) {
-                throw new \RuntimeException(sprintf('Unable to update position to block with id %s', $id));
-            }
-
-            $pageRelation = $meta->getAssociationMapping('page');
-            /** @var class-string<PageInterface> */
-            $pageClassName = $pageRelation['targetEntity'];
-
-            $page = $entityManager->getPartialReference($pageClassName, $pageId);
-
-            /** @var class-string<PageBlockInterface> */
-            $parentClassName = $pageRelation['targetEntity'];
-
-            $parent = $entityManager->getPartialReference($parentClassName, $parentId);
-
-            $block->setPage($page);
-            $block->setParent($parent);
-        } else {
-            $block = $this->find($id);
-
-            if (null === $block) {
-                throw new \RuntimeException(sprintf('Unable to update position to block with id %s', $id));
-            }
+        if (null === $block) {
+            throw new \RuntimeException(sprintf('Unable to update position to block with id %s', $id));
         }
 
-        // set new values
         $block->setPosition($position);
-        $entityManager->persist($block);
+
+        $this->save($block, false);
 
         return $block;
     }
