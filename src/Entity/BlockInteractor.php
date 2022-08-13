@@ -67,7 +67,7 @@ final class BlockInteractor implements BlockInteractorInterface
         return $blocks;
     }
 
-    public function saveBlocksPosition(array $data = [], bool $partial = true): bool
+    public function saveBlocksPosition(array $data = []): bool
     {
         $em = $this->getEntityManager();
         $em->getConnection()->beginTransaction();
@@ -80,10 +80,7 @@ final class BlockInteractor implements BlockInteractorInterface
 
                 $this->blockManager->updatePosition(
                     $block['id'],
-                    (int) $block['position'],
-                    $block['parent_id'] ?? null,
-                    $block['page_id'] ?? null,
-                    $partial
+                    (int) $block['position']
                 );
             }
 

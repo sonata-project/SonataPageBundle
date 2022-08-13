@@ -34,9 +34,6 @@ interface BlockInteractorInterface
     public function loadPageBlocks(PageInterface $page): array;
 
     /**
-     * Save the blocks positions. Partial references are allowed.
-     * Better for performance, but can lead to query issues.
-     *
      * @param array<array{
      *   id?: int|string,
      *   position?: string,
@@ -44,7 +41,7 @@ interface BlockInteractorInterface
      *   page_id?: int|string,
      * }> $data
      */
-    public function saveBlocksPosition(array $data = [], bool $partial = true): bool;
+    public function saveBlocksPosition(array $data = []): bool;
 
     /**
      * @param array{
