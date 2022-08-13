@@ -23,11 +23,18 @@ abstract class BaseBlock extends Block
     public function prePersist(): void
     {
         $this->createdAt = new \DateTime();
-        $this->updatedAt = new \DateTime();
+
+        $this->preUpdate();
     }
 
     public function preUpdate(): void
     {
         $this->updatedAt = new \DateTime();
+
+        $page = $this->getPage();
+
+        if (null !== $page) {
+            $page->setEdited(true);
+        }
     }
 }
