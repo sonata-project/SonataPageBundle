@@ -78,10 +78,7 @@ final class BlockInteractor implements BlockInteractorInterface
                     continue;
                 }
 
-                $this->blockManager->updatePosition(
-                    $block['id'],
-                    (int) $block['position']
-                );
+                $this->blockManager->updatePosition($block['id'], (int) $block['position']);
             }
 
             $em->flush();
