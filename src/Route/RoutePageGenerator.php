@@ -194,11 +194,11 @@ final class RoutePageGenerator
             $this->writeln(
                 $output,
                 <<<'MSG'
-<error>
-  *WARNING* : Pages has been updated however some pages do not exist anymore.
-              You must remove them manually.
-</error>
-MSG
+                    <error>
+                      *WARNING* : Pages has been updated however some pages do not exist anymore.
+                                  You must remove them manually.
+                    </error>
+                    MSG
             );
         }
     }

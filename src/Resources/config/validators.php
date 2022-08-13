@@ -12,7 +12,6 @@ declare(strict_types=1);
  */
 
 use Sonata\PageBundle\Validator\UniqueUrlValidator;
-
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ReferenceConfigurator;
 

@@ -61,8 +61,8 @@ final class CreateSiteCommand extends Command
             ->addOption('locale', null, InputOption::VALUE_OPTIONAL, 'Site.locale')
             ->setHelp(
                 <<<'EOT'
-The <info>sonata:page:create-site</info> command create a new site entity.
-EOT
+                    The <info>sonata:page:create-site</info> command create a new site entity.
+                    EOT
             );
     }
 
@@ -109,12 +109,12 @@ EOT
         $output->writeln(
             <<<INFO
 
-Creating website with the following information :
-  <info>name</info> : {$site->getName()}
-  <info>site</info> : http(s)://{$site->getHost()}{$site->getRelativePath()}
-  <info>enabled</info> :  <info>from</info> {$infoEnabledFrom} => <info>to</info> {$infoEnabledTo}
+                Creating website with the following information :
+                  <info>name</info> : {$site->getName()}
+                  <info>site</info> : http(s)://{$site->getHost()}{$site->getRelativePath()}
+                  <info>enabled</info> :  <info>from</info> {$infoEnabledFrom} => <info>to</info> {$infoEnabledTo}
 
-INFO
+                INFO
         );
 
         $confirmation = true;

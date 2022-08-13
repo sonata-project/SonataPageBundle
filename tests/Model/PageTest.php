@@ -53,7 +53,6 @@ final class PageTest extends TestCase
                     'Expires' => '0',
                 ],
                 [
-
                     ' Location ' => ' http://www.google.fr ',
                     "\r\nExpires " => " 0\r\n",
                 ],

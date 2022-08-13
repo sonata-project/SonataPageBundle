@@ -35,40 +35,40 @@ final class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->getRootNode();
 
         $routerAutoRegisterInfo = <<<'EOF'
-Automatically add 'sonata.page.router' service to the index of 'cmf_routing.router' chain router
+            Automatically add 'sonata.page.router' service to the index of 'cmf_routing.router' chain router
 
-Examples:
-enabled:  true      Enable auto-registration
-priority: 150       The priority
-EOF;
+            Examples:
+            enabled:  true      Enable auto-registration
+            priority: 150       The priority
+            EOF;
 
         $ignoreRoutePatternsInfo = <<<'EOF'
-(.*)admin(.*)       ignore admin route, i.e. route containing 'admin'
-^_(.*)              ignore Symfony routes
-EOF;
+            (.*)admin(.*)       ignore admin route, i.e. route containing 'admin'
+            ^_(.*)              ignore Symfony routes
+            EOF;
 
         $ignoreUriPatternsInfo = <<<'EOF'
-admin(.*)           ignore admin route, i.e. route containing 'admin'
-EOF;
+            admin(.*)           ignore admin route, i.e. route containing 'admin'
+            EOF;
 
         $pageDefaultsInfo = <<<'EOF'
-Example:
-homepage: { decorate: false }       disable decoration for 'homepage', key is a page route
-EOF;
+            Example:
+            homepage: { decorate: false }       disable decoration for 'homepage', key is a page route
+            EOF;
 
         $catchExceptionsInfo = <<<'EOF'
-Manage the HTTP errors
+            Manage the HTTP errors
 
-Examples:
-not_found: [404]    render 404 page with "not_found" key (name generated: _page_internal_error_not_found)
-fatal:     [500]    render 500 page with "fatal" key (name generated: _page_internal_error_fatal)
-EOF;
+            Examples:
+            not_found: [404]    render 404 page with "not_found" key (name generated: _page_internal_error_not_found)
+            fatal:     [500]    render 500 page with "fatal" key (name generated: _page_internal_error_fatal)
+            EOF;
 
         $directPublicationInfo = <<<'EOF'
-Generates a snapshot when a page is saved from the admin.
+            Generates a snapshot when a page is saved from the admin.
 
-You can use %kernel.debug%, if you want to publish in dev mode, but not in prod.
-EOF;
+            You can use %kernel.debug%, if you want to publish in dev mode, but not in prod.
+            EOF;
 
         $rootNode
             ->children()
