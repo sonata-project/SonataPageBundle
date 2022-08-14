@@ -82,7 +82,7 @@ final class SharedBlockAdminTest extends WebTestCase
     public static function provideFormUrlsCases(): iterable
     {
         // Blocks From SonataBlockBundle
-        yield 'Create Shared Block - Container' => ['/admin/tests/app/sonatapageblock/shared/create', [
+        yield 'Create Shared Block - Block Container' => ['/admin/tests/app/sonatapageblock/shared/create', [
             'uniqid' => 'shared_block',
             'type' => 'sonata.block.service.container',
         ], 'btn_create_and_list', [
@@ -156,6 +156,19 @@ final class SharedBlockAdminTest extends WebTestCase
             'shared_block[settings][current]' => 1,
             // 'shared_block[settings][pageId]' => 1,
             'shared_block[settings][class]' => 'custom_class',
+        ]];
+
+        yield 'Create Shared Block - Page Container' => ['/admin/tests/app/sonatapageblock/shared/create', [
+            'uniqid' => 'shared_block',
+            'type' => 'sonata.page.block.container',
+        ], 'btn_create_and_list', [
+            'shared_block[name]' => 'Name',
+            'shared_block[enabled]' => 1,
+            'shared_block[settings][code]' => 'code',
+            'shared_block[settings][layout]' => '{{ CONTENT }}',
+            'shared_block[settings][class]' => 'custom_class',
+            'shared_block[settings][template]' => '@SonataPage/Block/block_container.html.twig',
+            // 'shared_block[children]' => '',
         ]];
 
         // yield 'Create Shared Block - Breadcrumb' => ['/admin/tests/app/sonatapageblock/shared/create', [
