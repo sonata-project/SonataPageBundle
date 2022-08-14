@@ -171,9 +171,19 @@ final class PageAdminTest extends WebTestCase
         yield 'Remove Snapshot Page' => ['/admin/tests/app/sonatapagesnapshot/1/delete', [], 'btn_delete'];
 
         // Block child pages
-        yield 'Create Block Page' => ['/admin/tests/app/sonatapagepage/1/sonatapageblock/create', [
-            'type' => 'sonata.block.service.text',
-        ], 'btn_create_and_list', []];
+        yield 'Create Block Page - Children Pages' => ['/admin/tests/app/sonatapagepage/1/sonatapageblock/create', [
+            'uniqid' => 'block',
+            'type' => 'sonata.page.block.children_pages',
+        ], 'btn_create_and_list', [
+            'block[name]' => 'Name',
+            'block[enabled]' => 1,
+            'block[settings][title]' => 'Title',
+            'block[settings][translation_domain]' => 'SonataPageBundle',
+            'block[settings][icon]' => 'fa fa-home',
+            'block[settings][current]' => 1,
+            'block[settings][pageId]' => 1,
+            'block[settings][class]' => 'custom_class',
+        ]];
 
         yield 'Edit Block Page' => ['/admin/tests/app/sonatapageblock/1/edit', [], 'btn_update_and_list', []];
         yield 'Remove Block Page' => ['/admin/tests/app/sonatapageblock/1/delete', [], 'btn_delete'];
