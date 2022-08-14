@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\PageBundle\Tests\Frontend\Admin;
+namespace Sonata\PageBundle\Tests\Frontend;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Sonata\PageBundle\Tests\App\AppKernel;
