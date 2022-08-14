@@ -28,8 +28,13 @@ final class SnapshotTest extends WebTestCase
 
         $this->prepareData();
 
+        $client->request('GET', '/');
+
+        self::assertResponseStatusCodeSame(404);
+
         $client->request('GET', '/admin/tests/app/sonatapagesite/1/snapshots');
         $client->submitForm('create');
+
         $client->request('GET', '/');
 
         self::assertResponseIsSuccessful();
