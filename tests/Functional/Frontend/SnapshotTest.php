@@ -15,6 +15,7 @@ namespace Sonata\PageBundle\Tests\Frontend;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Sonata\PageBundle\Tests\App\AppKernel;
+use Sonata\PageBundle\Tests\App\Entity\SonataPageBlock;
 use Sonata\PageBundle\Tests\App\Entity\SonataPagePage;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageSite;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -71,8 +72,15 @@ final class SnapshotTest extends WebTestCase
         $page->setEnabled(true);
         $page->setSite($site);
 
+        $containerBlock = new SonataPageBlock();
+        $containerBlock->setType('sonata.page.block.container');
+        $containerBlock->setSetting('code', 'content');
+        $containerBlock->setEnabled(true);
+        $containerBlock->setPage($page);
+
         $manager->persist($site);
         $manager->persist($page);
+        $manager->persist($containerBlock);
 
         $manager->flush();
     }
