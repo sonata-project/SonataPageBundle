@@ -144,20 +144,6 @@ final class SharedBlockAdminTest extends WebTestCase
         ]];
 
         // Blocks From SonataPageBundle
-        yield 'Create Shared Block - Children Pages' => ['/admin/tests/app/sonatapageblock/shared/create', [
-            'uniqid' => 'shared_block',
-            'type' => 'sonata.page.block.children_pages',
-        ], 'btn_create_and_list', [
-            'shared_block[name]' => 'Name',
-            'shared_block[enabled]' => 1,
-            'shared_block[settings][title]' => 'Title',
-            'shared_block[settings][translation_domain]' => 'SonataPageBundle',
-            'shared_block[settings][icon]' => 'fa fa-home',
-            'shared_block[settings][current]' => 1,
-            // 'shared_block[settings][pageId]' => 1,
-            'shared_block[settings][class]' => 'custom_class',
-        ]];
-
         yield 'Create Shared Block - Page Container' => ['/admin/tests/app/sonatapageblock/shared/create', [
             'uniqid' => 'shared_block',
             'type' => 'sonata.page.block.container',
