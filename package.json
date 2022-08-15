@@ -1,7 +1,5 @@
 {
   "dependencies": {
-    "bootstrap": "^3.3",
-    "jquery": "^3.6",
     "jquery-ui": "^1.13"
   },
   "devDependencies": {
