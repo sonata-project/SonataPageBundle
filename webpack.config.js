@@ -23,6 +23,10 @@ Encore.setOutputPath('./src/Resources/public')
   .autoProvidejQuery()
   .disableSingleRuntimeChunk()
 
+  .addExternals({
+    jquery: 'jQuery',
+  })
+
   .configureCssMinimizerPlugin((options) => {
     options.minimizerOptions = {
       preset: ['default', { discardComments: { removeAll: true } }],

@@ -763,8 +763,7 @@ PageComposer.prototype = {
       connectToSortable: '.page-composer__container__children',
 
       accept(source) {
-        // NEXT_MAJOR: Remove the 'data-block-whitelist'
-        let blockAllowlist = jQuery(this).attr('data-block-allowlist') || jQuery(this).attr('data-block-whitelist');
+        let blockAllowlist = jQuery(this).attr('data-block-allowlist');
 
         if (blockAllowlist === '') {
           return true;
