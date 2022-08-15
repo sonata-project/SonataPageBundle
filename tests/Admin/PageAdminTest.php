@@ -15,6 +15,7 @@ namespace Sonata\PageBundle\Tests\Admin;
 
 use Knp\Menu\MenuFactory;
 use PHPUnit\Framework\TestCase;
+use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Sonata\AdminBundle\Route\RouteGeneratorInterface;
 use Sonata\PageBundle\Admin\PageAdmin;
 use Sonata\PageBundle\Controller\PageController;
@@ -35,6 +36,7 @@ final class PageAdminTest extends TestCase
             $this->createStub(PageManagerInterface::class),
             $this->createStub(SiteManagerInterface::class),
         );
+        $admin->setModelManager($this->createStub(ModelManagerInterface::class));
         $admin->setModelClass(Page::class);
         $admin->setBaseControllerName(PageController::class);
         $admin->setCode('admin.page');
