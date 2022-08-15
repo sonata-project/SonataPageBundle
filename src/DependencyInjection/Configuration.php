@@ -137,7 +137,7 @@ final class Configuration implements ConfigurationInterface
                     ->children()
                         ->arrayNode('stylesheets')
                             ->defaultValue([
-                                'bundles/sonatapage/sonata-page.front.css',
+                                'bundles/sonatapage/app.css',
                             ])
                             ->prototype('scalar')->end()
                         ->end()

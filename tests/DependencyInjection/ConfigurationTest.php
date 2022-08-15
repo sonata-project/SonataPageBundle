@@ -123,7 +123,7 @@ final class ConfigurationTest extends TestCase
             'default_page_service' => 'sonata.page.service.default',
             'assets' => [
                 'stylesheets' => [
-                    'bundles/sonatapage/sonata-page.front.css',
+                    'bundles/sonatapage/app.css',
                 ],
                 'javascripts' => [],
             ],
@@ -192,7 +192,7 @@ final class ConfigurationTest extends TestCase
             'default_page_service' => 'sonata.page.service.default',
             'assets' => [
                 'stylesheets' => [
-                    'bundles/sonatapage/sonata-page.front.css',
+                    'bundles/sonatapage/app.css',
                 ],
                 'javascripts' => [],
             ],
