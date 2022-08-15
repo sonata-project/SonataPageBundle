@@ -398,11 +398,11 @@ PageComposer.prototype = {
       }
 
       jQuery.ajax({
-        url: `${formAction}&${jQuery.param({ composer: 1 })}`,
+        url: formAction,
         data: $form.serialize(),
         type: formMethod,
         headers: {
-          Accept: 'text/html, application/xhtml+xml;',
+          Accept: 'application/json',
         },
         success(resp) {
           if (resp.result && resp.result === 'ok' && resp.objectId) {
