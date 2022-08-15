@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Page;
 
 use PHPUnit\Framework\MockObject\MockObject;
+use Sonata\PageBundle\CmsManager\CmsSnapshotManager;
+use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\Template;
 use Sonata\PageBundle\Page\TemplateManager;
 use Sonata\PageBundle\Tests\App\AppKernel;
@@ -168,9 +170,11 @@ final class TemplateManagerTest extends KernelTestCase
     }
 
     /**
-     * @testdox It's getting rendering the content block into the default layout.
+     * NEXT_MAJOR: Remove the legacy group.
+     *
+     * @group legacy
      */
-    public function testTemplateContent(): void
+    public function testTemplateShowingBreadcrumbIntoThePage(): void
     {
         $kernel = self::bootKernel();
         $container = $kernel->getContainer();
@@ -179,6 +183,16 @@ final class TemplateManagerTest extends KernelTestCase
         $requestStack->push(new Request());
         $container->set('request_stack', $requestStack);
 
+        //Mocking snapshot
+        $pageMock = $this->createMock(PageInterface::class);
+        $pageMock->method('getName')->willReturn('Foo');
+        $pageMock->method('getParents')->willReturn([]);
+        $pageMock->method('getUrl')->willReturn('/');
+
+        $cmsSnapshotManagerMock = $this->createMock(CmsSnapshotManager::class);
+        $cmsSnapshotManagerMock->method('getCurrentPage')->willReturn($pageMock);
+        $container->set('sonata.page.cms.snapshot', $cmsSnapshotManagerMock);
+
         //NEXT_MAJOR: change for twig
         $templating = $container->get('templating');
 
@@ -186,16 +200,17 @@ final class TemplateManagerTest extends KernelTestCase
         $response = $manager->renderResponse('test');
         $crawler = new Crawler($response->getContent());
 
-        $this->assertEquals(1, $crawler->filter('#header')->count());
-        $this->assertEquals(1, $crawler->filter('#breadcrumb')->count());
-        $this->assertEquals(1, $crawler->filter('#content')->count());
-        $this->assertEquals(1, $crawler->filter('#footer')->count());
+        static::assertCount(1, $crawler->filter('.page-breadcrumb'));
+
+        $breadcrumbFoo = $crawler->filter('.page-breadcrumb')->filter('a');
+        static::assertSame('/', $breadcrumbFoo->attr('href'));
+        static::assertStringContainsString('Foo', $breadcrumbFoo->text());
     }
 
-   protected static function getKernelClass(): string
-   {
-       return AppKernel::class;
-   }
+    protected static function getKernelClass(): string
+    {
+        return AppKernel::class;
+    }
 
     /**
      * Returns the mock template.
