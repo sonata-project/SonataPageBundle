@@ -8,69 +8,6 @@
  */
 
 /**
- * Update child count for the given container block id.
- *
- * @param blockId
- * @param count
- */
-function updateChildCount(blockId, count) {
-  const $previewCount = jQuery(`.block-preview-${blockId}`);
-  const $viewCount = jQuery(`.block-view-${blockId}`);
-
-  if ($previewCount.length > 0) {
-    $previewCount.find('.child-count').text(count);
-  }
-
-  if ($viewCount.length > 0) {
-    $viewCount.find('.page-composer__container__child-count span').text(count);
-  }
-}
-
-/**
- * Check if the given form element name attribute match specific type.
- * Used because form element names are 'hashes' (s5311aef39e552[name]).
- *
- * @param name
- * @param type
- * @returns {boolean}
- */
-function isFormControlTypeByName(name, type) {
-  if (typeof name !== 'undefined') {
-    let position = name.length;
-    const search = `[${type}]`;
-    const lastIndex = name.lastIndexOf(search);
-
-    position -= search.length;
-
-    return lastIndex !== -1 && lastIndex === position;
-  }
-
-  return false;
-}
-
-/**
- * Called when a block parent has changed (typically on drag n' drop).
- * The event has the following properties:
- *
- *    previousParentId
- *    newParentId
- *    blockId
- *
- * @param event
- */
-function handleBlockParentSwitched(event) {
-  const $previousParentPreview = jQuery(`.block-preview-${event.previousParentId}`);
-  const $oldChildCountIndicator = $previousParentPreview.find('.child-count');
-  const oldChildCount = parseInt($oldChildCountIndicator.text().trim(), 10);
-  const $newParentPreview = jQuery(`.block-preview-${event.newParentId}`);
-  const $newChildCountIndicator = $newParentPreview.find('.child-count');
-  const newChildCount = parseInt($newChildCountIndicator.text().trim(), 10);
-
-  updateChildCount(event.previousParentId, oldChildCount - 1);
-  updateChildCount(event.newParentId, newChildCount + 1);
-}
-
-/**
  * Apply all Admin required functions.
  *
  * @param $context
@@ -83,19 +20,21 @@ function applyAdmin($context) {
   window.Admin.shared_setup($context);
 }
 
-class PageComposer {
-  constructor(pageId, options) {
-    const settings = options || {};
+function PageComposer(pageId, options) {
+  const settings = options || {};
 
-    this.pageId = pageId;
-    this.$container = jQuery('.page-composer');
-    this.$dynamicArea = jQuery('.page-composer__dyn-content');
-    this.$pagePreview = jQuery('.page-composer__page-preview');
-    this.$containerPreviews = this.$pagePreview.find('.page-composer__page-preview__container');
-    this.routes = jQuery.extend({}, settings.routes || {});
-    this.translations = jQuery.extend({}, settings.translations || {});
-    this.csrfTokens = jQuery.extend({}, settings.csrfTokens || {});
+  this.pageId = pageId;
+  this.$container = jQuery('.page-composer');
+  this.$dynamicArea = jQuery('.page-composer__dyn-content');
+  this.$pagePreview = jQuery('.page-composer__page-preview');
+  this.$containerPreviews = this.$pagePreview.find('.page-composer__page-preview__container');
+  this.routes = jQuery.extend({}, settings.routes || {});
+  this.translations = jQuery.extend({}, settings.translations || {});
+  this.csrfTokens = jQuery.extend({}, settings.csrfTokens || {});
+}
 
+PageComposer.prototype = {
+  init() {
     this.bindPagePreviewHandlers();
     this.bindOrphansHandlers();
 
@@ -112,8 +51,8 @@ class PageComposer {
     $this.on('blockcreateformloaded', this.handleBlockCreateFormLoaded);
     $this.on('blockpositionsupdate', this.handleBlockPositionsUpdate);
     $this.on('blockeditformloaded', this.handleBlockEditFormLoaded);
-    $this.on('blockparentswitched', handleBlockParentSwitched);
-  }
+    $this.on('blockparentswitched', this.handleBlockParentSwitched);
+  },
 
   /**
    * Translates given label.
@@ -127,7 +66,7 @@ class PageComposer {
     }
 
     return label;
-  }
+  },
 
   /**
    * @param id
@@ -147,7 +86,29 @@ class PageComposer {
     }
 
     return url;
-  }
+  },
+
+  /**
+   * Check if the given form element name attribute match specific type.
+   * Used because form element names are 'hashes' (s5311aef39e552[name]).
+   *
+   * @param name
+   * @param type
+   * @returns {boolean}
+   */
+  isFormControlTypeByName(name, type) {
+    if (typeof name !== 'undefined') {
+      let position = name.length;
+      const search = `[${type}]`;
+      const lastIndex = name.lastIndexOf(search);
+
+      position -= search.length;
+
+      return lastIndex !== -1 && lastIndex === position;
+    }
+
+    return false;
+  },
 
   /**
    * Called when a child block has been created.
@@ -181,7 +142,7 @@ class PageComposer {
         self.containerNotification('composer_preview_error', 'error', true);
       },
     });
-  }
+  },
 
   /**
    * Remove given block.
@@ -192,9 +153,9 @@ class PageComposer {
     // refresh parent block child count
     const newChildCount = this.getContainerChildCountFromList(event.parentId);
     if (newChildCount !== null) {
-      updateChildCount(event.parentId, newChildCount);
+      this.updateChildCount(event.parentId, newChildCount);
     }
-  }
+  },
 
   /**
    * Display notification for current block container.
@@ -228,7 +189,7 @@ class PageComposer {
         $notice.append($close);
       }
     }
-  }
+  },
 
   /**
    * Save block positions.
@@ -258,7 +219,29 @@ class PageComposer {
         self.containerNotification('composer_update_error', 'error', true);
       },
     });
-  }
+  },
+
+  /**
+   * Called when a block parent has changed (typically on drag n' drop).
+   * The event has the following properties:
+   *
+   *    previousParentId
+   *    newParentId
+   *    blockId
+   *
+   * @param event
+   */
+  handleBlockParentSwitched(event) {
+    const $previousParentPreview = jQuery(`.block-preview-${event.previousParentId}`);
+    const $oldChildCountIndicator = $previousParentPreview.find('.child-count');
+    const oldChildCount = parseInt($oldChildCountIndicator.text().trim(), 10);
+    const $newParentPreview = jQuery(`.block-preview-${event.newParentId}`);
+    const $newChildCountIndicator = $newParentPreview.find('.child-count');
+    const newChildCount = parseInt($newChildCountIndicator.text().trim(), 10);
+
+    this.updateChildCount(event.previousParentId, oldChildCount - 1);
+    this.updateChildCount(event.newParentId, newChildCount + 1);
+  },
 
   /**
    * Compute child count for the given block container id.
@@ -285,7 +268,26 @@ class PageComposer {
     });
 
     return childCount;
-  }
+  },
+
+  /**
+   * Update child count for the given container block id.
+   *
+   * @param blockId
+   * @param count
+   */
+  updateChildCount(blockId, count) {
+    const $previewCount = jQuery(`.block-preview-${blockId}`);
+    const $viewCount = jQuery(`.block-view-${blockId}`);
+
+    if ($previewCount.length > 0) {
+      $previewCount.find('.child-count').text(count);
+    }
+
+    if ($viewCount.length > 0) {
+      $viewCount.find('.page-composer__container__child-count span').text(count);
+    }
+  },
 
   /**
    * Handler called when block creation form is received.
@@ -353,18 +355,18 @@ class PageComposer {
       const $formControl = jQuery(this);
       const formControlName = $formControl.attr('name');
 
-      if (isFormControlTypeByName(formControlName, 'name')) {
+      if (self.isFormControlTypeByName(formControlName, 'name')) {
         $nameFormControl = $formControl;
         $childName
           .find('.page-composer__container__child__name__input')
           .on('propertychange keyup input paste', function onChange() {
             $nameFormControl.val(jQuery(this).val());
           });
-      } else if (isFormControlTypeByName(formControlName, 'parent')) {
+      } else if (self.isFormControlTypeByName(formControlName, 'parent')) {
         $parentFormControl = $formControl;
         $parentFormControl.val(event.containerId);
         $parentFormControl.parent().parent().hide();
-      } else if (isFormControlTypeByName(formControlName, 'position')) {
+      } else if (self.isFormControlTypeByName(formControlName, 'position')) {
         $positionFormControl = $formControl;
         $positionFormControl.val($containerChildren.find('> *').length - 1);
         $positionFormControl.closest('.form-group').hide();
@@ -426,7 +428,7 @@ class PageComposer {
 
       return false;
     });
-  }
+  },
 
   /**
    * Toggle a child block using '--expanded' class check.
@@ -448,7 +450,7 @@ class PageComposer {
       $children.not($childBlock).removeClass(expandedClass);
       $childBlock.addClass(expandedClass);
     }
-  }
+  },
 
   /**
    * Called when a block edit form has been loaded.
@@ -474,7 +476,7 @@ class PageComposer {
       const $formControl = jQuery(this);
       const formControlName = $formControl.attr('name');
 
-      if (isFormControlTypeByName(formControlName, 'name')) {
+      if (self.isFormControlTypeByName(formControlName, 'name')) {
         $nameFormControl = $formControl;
         $title.html(
           `<input type="text" class="page-composer__container__child__name__input" value="${$title
@@ -489,7 +491,7 @@ class PageComposer {
           e.stopPropagation();
           e.preventDefault();
         });
-      } else if (isFormControlTypeByName(formControlName, 'position')) {
+      } else if (self.isFormControlTypeByName(formControlName, 'position')) {
         $positionFormControl = $formControl;
         $positionFormControl.closest('.form-group').hide();
       }
@@ -529,7 +531,7 @@ class PageComposer {
 
       return false;
     });
-  }
+  },
 
   /**
    * Takes control of a container child block.
@@ -614,7 +616,7 @@ class PageComposer {
               const $formControl = jQuery(this);
               const formControlName = $formControl.attr('name');
 
-              if (isFormControlTypeByName(formControlName, 'enabled')) {
+              if (self.isFormControlTypeByName(formControlName, 'enabled')) {
                 $formControl.val(parseInt(!enabled, 10));
               }
             });
@@ -630,7 +632,7 @@ class PageComposer {
       e.preventDefault();
       self.confirmRemoveContainer($childBlock);
     });
-  }
+  },
 
   /**
    * Shows a confirm dialog for a child removal request
@@ -700,7 +702,7 @@ class PageComposer {
     });
 
     $removeDialog.modal('show');
-  }
+  },
 
   /**
    * Handler called when a container block has been loaded.
@@ -799,7 +801,7 @@ class PageComposer {
     $children.each(function child() {
       self.controlChildBlock(jQuery(this));
     });
-  }
+  },
 
   /**
    * Bind click handlers to template layout preview blocks.
@@ -879,7 +881,7 @@ class PageComposer {
     if (this.$containerPreviews.length > 0) {
       this.loadContainer(this.$containerPreviews.eq(0));
     }
-  }
+  },
 
   bindOrphansHandlers() {
     const self = this;
@@ -893,7 +895,7 @@ class PageComposer {
         jQuery(self).trigger(event);
       });
     });
-  }
+  },
 
   /**
    * Loads the container detailed view trough ajax.
@@ -925,15 +927,14 @@ class PageComposer {
         jQuery(self).trigger(event);
       },
     });
-  }
-}
+  },
+};
 
-window.PageComposer = PageComposer;
-
-// auto-initialize plugin
 jQuery(() => {
-  jQuery('[data-page-composer]').each(function pageComposer() {
+  jQuery('[data-page-composer]').each(function dataPageComposer() {
     const attr = jQuery(this).data('page-composer');
-    PageComposer(attr.pageId, attr);
+    const pageComposer = new PageComposer(attr.pageId, attr);
+
+    pageComposer.init();
   });
 });

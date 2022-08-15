@@ -18,7 +18,6 @@ function TreeView(element, options) {
   this.options = jQuery.extend({}, defaults, options);
   this.defaults = defaults;
   this.name = pluginName;
-  this.init();
 }
 
 TreeView.prototype = {
@@ -62,7 +61,11 @@ TreeView.prototype = {
 jQuery.fn[pluginName] = function plugin(options) {
   return this.each(function plugins() {
     if (!jQuery.data(this, `plugin_${pluginName}`)) {
-      jQuery.data(this, `plugin_${pluginName}`, new TreeView(this, options));
+      const treeView = new TreeView(this, options);
+
+      treeView.init();
+
+      jQuery.data(this, `plugin_${pluginName}`, treeView);
     }
   });
 };
