@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.28.0](https://github.com/sonata-project/SonataPageBundle/compare/3.27.0...3.28.0) - 2022-08-15
+### Deprecated
+- [[#1511](https://github.com/sonata-project/SonataPageBundle/pull/1511)] Deprecate `slugify_service` configuration option. ([@jordisala1991](https://github.com/jordisala1991))
+
+### Fixed
+- [[#1536](https://github.com/sonata-project/SonataPageBundle/pull/1536)] SnapshotManager Cleanup Query if there are no Snapshots to keep ([@Hanmac](https://github.com/Hanmac))
+
 ## [3.27.0](https://github.com/sonata-project/SonataPageBundle/compare/3.26.0...3.27.0) - 2022-07-26
 ### Added
 - [[#1418](https://github.com/sonata-project/SonataPageBundle/pull/1418)] Added `CreateSnapshotService` to create snapshots ([@eerison](https://github.com/eerison))
