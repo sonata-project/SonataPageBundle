@@ -44,15 +44,15 @@ final class SharedBlockAdminTest extends WebTestCase
      */
     public static function provideCrudUrlsCases(): iterable
     {
-        yield 'List Block' => ['/admin/tests/app/sonatapageblock/shared/list'];
-        yield 'List Block types' => ['/admin/tests/app/sonatapageblock/shared/create'];
+        yield 'List Shared Block' => ['/admin/tests/app/sonatapageblock/shared/list'];
+        yield 'List Shared Block types' => ['/admin/tests/app/sonatapageblock/shared/create'];
 
-        yield 'Create Block' => ['/admin/tests/app/sonatapageblock/shared/create', [
+        yield 'Create Shared Block' => ['/admin/tests/app/sonatapageblock/shared/create', [
             'type' => 'sonata.page.block.shared_block',
         ]];
 
-        yield 'Edit Block' => ['/admin/tests/app/sonatapageblock/shared/1/edit'];
-        yield 'Remove Block' => ['/admin/tests/app/sonatapageblock/shared/1/delete'];
+        yield 'Edit Shared Block' => ['/admin/tests/app/sonatapageblock/shared/1/edit'];
+        yield 'Remove Shared Block' => ['/admin/tests/app/sonatapageblock/shared/1/delete'];
     }
 
     /**

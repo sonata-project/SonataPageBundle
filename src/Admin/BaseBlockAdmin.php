@@ -84,7 +84,11 @@ abstract class BaseBlockAdmin extends AbstractAdmin
 
     protected function alterNewInstance(object $object): void
     {
-        $object->setType($this->getPersistentParameter('type'));
+        $type = $this->getPersistentParameter('type');
+
+        if (null !== $type) {
+            $object->setType($type);
+        }
 
         $this->loadBlockDefaults($object);
     }

@@ -45,7 +45,13 @@ final class BlockAdminTest extends WebTestCase
      */
     public static function provideCrudUrlsCases(): iterable
     {
-        yield 'List Block' => ['/admin/tests/app/sonatapageblock/list'];
+        yield 'List Block' => ['/admin/tests/app/sonatapageblock/create'];
+        yield 'List Block types' => ['/admin/tests/app/sonatapageblock/create'];
+
+        yield 'Create Block' => ['/admin/tests/app/sonatapageblock/create', [
+            'type' => 'sonata.page.block.shared_block',
+        ]];
+
         yield 'Edit Block' => ['/admin/tests/app/sonatapageblock/1/edit'];
         yield 'Remove Block' => ['/admin/tests/app/sonatapageblock/1/delete'];
         yield 'Compose preview Block' => ['/admin/tests/app/sonatapageblock/3/compose-preview'];
@@ -77,6 +83,11 @@ final class BlockAdminTest extends WebTestCase
      */
     public static function provideFormUrlsCases(): iterable
     {
+        yield 'Create Block - Text' => ['/admin/tests/app/sonatapageblock/create', [
+            'uniqid' => 'block',
+            'type' => 'sonata.block.service.text',
+        ], 'btn_create_and_list', []];
+
         yield 'Edit Block' => ['/admin/tests/app/sonatapageblock/1/edit', [], 'btn_update_and_list', []];
         yield 'Remove Block' => ['/admin/tests/app/sonatapageblock/1/delete', [], 'btn_delete'];
     }
