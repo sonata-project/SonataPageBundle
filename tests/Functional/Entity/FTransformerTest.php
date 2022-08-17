@@ -34,6 +34,10 @@ final class FTransformerTest extends KernelTestCase
 
     private TransformerInterface $transformer;
 
+    private array $storedIdGenerators = [];
+    private array $storedIdGeneratorTypes = [];
+    private array $storedLifeCycles = [];
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -62,6 +66,17 @@ final class FTransformerTest extends KernelTestCase
 
         parent::tearDown();
 
+        // need to restore the lifecycles, these aren't reset by mapping
+        foreach ($this->storedIdGenerators as $key => $generator) {
+            $this->entityManager->getClassMetadata($key)->setIdGenerator($generator);
+        }
+        foreach ($this->storedIdGeneratorTypes as $key => $generatorType) {
+            $this->entityManager->getClassMetadata($key)->setIdGeneratorType($generatorType);
+        }
+        foreach ($this->storedLifeCycles as $key => $cycle) {
+            $this->entityManager->getClassMetadata($key)->setLifecycleCallbacks($cycle);
+        }
+
         $this->entityManager->close();
     }
 
@@ -71,9 +86,12 @@ final class FTransformerTest extends KernelTestCase
     public function disableAutoIncrement(string $class): void
     {
         $metadata = $this->entityManager->getClassMetadata($class);
+        $this->storedIdGeneratorTypes[$class] = $metadata->generatorType;
         $metadata->setIdGeneratorType(ClassMetadataInfo::GENERATOR_TYPE_NONE);
+        $this->storedIdGenerators[$class] = $metadata->idGenerator;
         $metadata->setIdGenerator(new AssignedGenerator());
         // disable lifecycle to not update created and updated
+        $this->storedLifeCycles[$class] = $metadata->lifecycleCallbacks;
         $metadata->setLifecycleCallbacks([]);
     }
 
@@ -282,7 +300,7 @@ final class FTransformerTest extends KernelTestCase
 
         $this->entityManager->clear();
         /**
-         * @var $page SonataPagePage
+         * @var SonataPagePage $page
          */
         $page = $this->entityManager->find(sonataPagePage::class, 123);
 
