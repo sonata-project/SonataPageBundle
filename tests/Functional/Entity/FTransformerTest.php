@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Functional\Entity;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Id\AbstractIdGenerator;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Sonata\PageBundle\Model\TransformerInterface;
@@ -34,8 +35,19 @@ final class FTransformerTest extends KernelTestCase
 
     private TransformerInterface $transformer;
 
+    /**
+     * @var array<string, AbstractIdGenerator>
+     */
     private array $storedIdGenerators = [];
+
+    /**
+     * @var array<string, int>
+     */
     private array $storedIdGeneratorTypes = [];
+
+    /**
+     * @var array<string, array<string, list<string>>>
+     */
     private array $storedLifeCycles = [];
 
     protected function setUp(): void
@@ -213,7 +225,10 @@ final class FTransformerTest extends KernelTestCase
         static::assertSame($page->getUrl(), $snapshot->getUrl());
         static::assertSame($page->getName(), $snapshot->getName());
         // check the blocks array only containing integer
-        static::assertContainsOnly('int', array_keys($snapshot->getContent()['blocks']));
+        $snapshotContent = $snapshot->getContent();
+        static::assertNotNull($snapshotContent);
+        static::assertArrayHasKey('blocks', $snapshotContent);
+        static::assertContainsOnly('int', array_keys($snapshotContent['blocks']));
 
         $testContent = $this->getTestContent($datetime, $position, $settings);
 
@@ -223,7 +238,7 @@ final class FTransformerTest extends KernelTestCase
             unset($testContent['blocks'][0]['position'], $testContent['blocks'][0]['blocks'][0]['position']);
         }
 
-        static::assertSameArray($testContent, $snapshot->getContent());
+        static::assertSameArray($testContent, $snapshotContent);
     }
 
     /**
@@ -309,7 +324,10 @@ final class FTransformerTest extends KernelTestCase
         static::assertSame($page->getUrl(), $snapshot->getUrl());
         static::assertSame($page->getName(), $snapshot->getName());
         // check the blocks array only containing integer
-        static::assertContainsOnly('int', array_keys($snapshot->getContent()['blocks']));
+        $snapshotContent = $snapshot->getContent();
+        static::assertNotNull($snapshotContent);
+        static::assertArrayHasKey('blocks', $snapshotContent);
+        static::assertContainsOnly('int', array_keys($snapshotContent['blocks']));
 
         $testContent = $this->getTestContent($datetime, $position, $settings);
 
@@ -319,7 +337,7 @@ final class FTransformerTest extends KernelTestCase
             unset($testContent['blocks'][0]['position'], $testContent['blocks'][0]['blocks'][0]['position']);
         }
 
-        static::assertSameArray($testContent, $snapshot->getContent());
+        static::assertSameArray($testContent, $snapshotContent);
     }
 
     /**
