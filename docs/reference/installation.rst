@@ -131,9 +131,9 @@ SonataAdminBundle Configuration
     sonata_admin:
         assets:
             extra_javascripts:
-                - bundles/sonatapage/sonata-page.back.min.js
+                - bundles/sonatapage/app.js
             extra_stylesheets:
-                - bundles/sonatapage/sonata-page.back.min.css
+                - bundles/sonatapage/app.css
 
 SonataBlockBundle Configuration
 -------------------------------

@@ -68,29 +68,11 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         parent::preBatchAction($actionName, $query, $idx, $allElements);
     }
 
-    protected function preUpdate(object $object): void
-    {
-        $page = $object->getPage();
-
-        if (null !== $page) {
-            $page->setEdited(true);
-        }
-    }
-
-    protected function prePersist(object $object): void
-    {
-        $page = $object->getPage();
-
-        if (null !== $page) {
-            $page->setEdited(true);
-        }
-    }
-
     protected function preRemove(object $object): void
     {
         $page = $object->getPage();
 
-        if ($page instanceof PageInterface) {
+        if (null !== $page) {
             $page->setEdited(true);
         }
     }

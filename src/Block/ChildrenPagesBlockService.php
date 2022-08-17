@@ -170,20 +170,6 @@ final class ChildrenPagesBlockService extends AbstractBlockService implements Ed
         ]);
     }
 
-    public function prePersist(BlockInterface $block): void
-    {
-        $page = $block->getSetting('pageId');
-
-        $block->setSetting('pageId', $page instanceof PageInterface ? $page->getId() : null);
-    }
-
-    public function preUpdate(BlockInterface $block): void
-    {
-        $page = $block->getSetting('pageId');
-
-        $block->setSetting('pageId', $page instanceof PageInterface ? $page->getId() : null);
-    }
-
     public function load(BlockInterface $block): void
     {
         if (!$block instanceof PageBlockInterface) {

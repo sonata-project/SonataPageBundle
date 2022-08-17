@@ -3,16 +3,16 @@
   <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
     <header/>
     <body>
-      <trans-unit id="error.uniq_url" resname="error.uniq_url">
+      <trans-unit id="error.uniq_url">
         <source>error.uniq_url</source>
         <target>The URL '%url%' is already associated with another page.</target>
       </trans-unit>
-      <trans-unit id="error.uniq_url.parent_unselect" resname="error.uniq_url.parent_unselect">
+      <trans-unit id="error.uniq_url.parent_unselect">
         <source>error.uniq_url.parent_unselect</source>
         <target>The root URL '/' is already associated with another page of this site, please select a parent.
                 </target>
       </trans-unit>
-      <trans-unit id="error.uniq_url.no_site" resname="error.uniq_url.no_site">
+      <trans-unit id="error.uniq_url.no_site">
         <source>error.uniq_url.no_site</source>
         <target>A website must be assigned to the page.</target>
       </trans-unit>

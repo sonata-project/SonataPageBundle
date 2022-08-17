@@ -22,7 +22,6 @@ use Sonata\BlockBundle\Block\Service\BlockServiceInterface;
 use Sonata\BlockBundle\Block\Service\EditableBlockService;
 use Sonata\BlockBundle\Form\Type\ServiceListType;
 use Sonata\BlockBundle\Model\BlockInterface;
-use Sonata\PageBundle\Mapper\PageFormMapper;
 use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -95,9 +94,7 @@ final class BlockAdmin extends BaseBlockAdmin
 
         $collection->add('save_position', 'save-position');
         $collection->add('switch_parent', 'switch-parent');
-        $collection->add('compose_preview', '{block_id}/compose-preview', [
-            'block_id' => null,
-        ]);
+        $collection->add('compose_preview', $this->getRouterIdParameter().'/compose-preview');
 
         if (!$this->isChild()) {
             $collection->remove('create');
@@ -232,12 +229,10 @@ final class BlockAdmin extends BaseBlockAdmin
             ));
         }
 
-        $blockMapper = new PageFormMapper($form);
-
         if ($block->getId() > 0) {
-            $service->configureEditForm($blockMapper, $block);
+            $service->configureEditForm($form, $block);
         } else {
-            $service->configureCreateForm($blockMapper, $block);
+            $service->configureCreateForm($form, $block);
         }
 
         if ($form->has('settings') && isset($this->blocks[$blockType]['templates'])) {

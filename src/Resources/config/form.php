@@ -11,7 +11,6 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-use Sonata\PageBundle\Form\Type\CreateSnapshotType;
 use Sonata\PageBundle\Form\Type\PageSelectorType;
 use Sonata\PageBundle\Form\Type\PageTypeChoiceType;
 use Sonata\PageBundle\Form\Type\TemplateChoiceType;
@@ -27,9 +26,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             ->args([
                 new ReferenceConfigurator('sonata.page.manager.page'),
             ])
-
-        ->set('sonata.page.form.create_snapshot', CreateSnapshotType::class)
-            ->tag('form.type', ['alias' => 'sonata_page_create_snapshot'])
 
         ->set('sonata.page.form.template_choice', TemplateChoiceType::class)
             ->tag('form.type', ['alias' => 'sonata_page_template'])

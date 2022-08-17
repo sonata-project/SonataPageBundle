@@ -14,13 +14,13 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController;
+use Sonata\AdminBundle\Exception\BadRequestParamHttpException;
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
-use Sonata\PageBundle\Admin\PageAdmin;
-use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Model\BlockInteractorInterface;
 use Sonata\PageBundle\Model\PageBlockInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
@@ -35,7 +35,6 @@ final class BlockAdminController extends CRUDController
     {
         return [
             'sonata.page.block_interactor' => BlockInteractorInterface::class,
-            'sonata.page.admin.page' => PageAdmin::class,
             'sonata.block.manager' => BlockServiceManagerInterface::class,
         ] + parent::getSubscribedServices();
     }
@@ -48,19 +47,15 @@ final class BlockAdminController extends CRUDController
         $this->admin->checkAccess('savePosition');
 
         try {
-            $params = $request->get('disposition');
+            // TODO: Change to $request->query->all('filter') when support for Symfony < 5.1 is dropped.
+            $params = $request->request->all()['disposition'] ?? [];
 
-            if (!\is_array($params)) {
+            if ([] === $params) {
                 throw new HttpException(400, 'wrong parameters');
             }
 
-            $result = $this->container->get('sonata.page.block_interactor')->saveBlocksPosition($params, false);
-
+            $result = $this->container->get('sonata.page.block_interactor')->saveBlocksPosition($params);
             $status = 200;
-
-            $pageAdmin = $this->container->get('sonata.page.admin.page');
-            $pageAdmin->setRequest($request);
-            $pageAdmin->update($pageAdmin->getSubject());
         } catch (HttpException $e) {
             $status = $e->getStatusCode();
             $result = [
@@ -102,26 +97,31 @@ final class BlockAdminController extends CRUDController
 
     public function switchParentAction(Request $request): Response
     {
-        $this->admin->checkAccess('switchParent');
-
         $blockId = $request->get('block_id');
+
+        if (null === $blockId) {
+            throw new BadRequestParamHttpException('block_id', ['int', 'string'], $blockId);
+        }
+
         $parentId = $request->get('parent_id');
 
-        if (null === $blockId || null === $parentId) {
-            throw new HttpException(400, 'wrong parameters');
+        if (null === $parentId) {
+            throw new BadRequestParamHttpException('parent_id', ['int', 'string'], $parentId);
         }
 
         $block = $this->admin->getObject($blockId);
 
         if (null === $block) {
-            throw new PageNotFoundException(sprintf('Unable to find block with id %d', $blockId));
+            throw new BadRequestHttpException(sprintf('Unable to find block with id: "%s"', $blockId));
         }
 
         $parent = $this->admin->getObject($parentId);
 
         if (null === $parent) {
-            throw new PageNotFoundException(sprintf('Unable to find parent block with id %d', $parentId));
+            throw new BadRequestHttpException(sprintf('Unable to find parent block with id: "%s"', $parentId));
         }
+
+        $this->admin->checkAccess('switchParent', $block);
 
         $block->setParent($parent);
         $this->admin->update($block);
@@ -131,31 +131,30 @@ final class BlockAdminController extends CRUDController
 
     /**
      * @throws AccessDeniedException
-     * @throws PageNotFoundException
+     * @throws BadRequestHttpException
      */
     public function composePreviewAction(Request $request): Response
     {
-        $this->admin->checkAccess('composePreview');
+        $existingObject = $this->assertObjectExists($request, true);
+        \assert(null !== $existingObject);
 
-        $blockId = $request->get('block_id');
+        $this->checkParentChildAssociation($request, $existingObject);
 
-        $block = $this->admin->getObject($blockId);
+        $this->admin->checkAccess('composePreview', $existingObject);
 
-        if (null === $block) {
-            throw new PageNotFoundException(sprintf('Unable to find block with id %d', $blockId));
-        }
-
-        $container = $block->getParent();
+        $container = $existingObject->getParent();
 
         if (null === $container) {
-            throw new PageNotFoundException('No parent found, unable to preview an orphan block');
+            throw new BadRequestHttpException('No parent found, unable to preview an orphan block');
         }
+
+        $this->admin->setSubject($existingObject);
 
         $blockServices = $this->container->get('sonata.block.manager')->getServicesByContext('sonata_page_bundle', false);
 
         return $this->renderWithExtraParams('@SonataPage/BlockAdmin/compose_preview.html.twig', [
             'container' => $container,
-            'child' => $block,
+            'child' => $existingObject,
             'blockServices' => $blockServices,
             'blockAdmin' => $this->admin,
         ]);

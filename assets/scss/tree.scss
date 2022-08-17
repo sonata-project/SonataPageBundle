@@ -1,0 +1,124 @@
+/*!
+ * This file is part of the Sonata Project package.
+ *
+ * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+.page-tree {
+  list-style: none;
+  margin-left: 15px;
+  margin-right: 15px;
+  padding-bottom: 10px;
+  padding-left: 0;
+}
+
+.page-tree ul {
+  list-style: none;
+  padding-left: 30px;
+}
+
+.page-tree__item {
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  color: #444;
+  display: block;
+  margin-bottom: 5px;
+  padding: 7px 15px 7px 7px;
+  position: relative;
+}
+
+.page-tree__item .label {
+  border-radius: 2px;
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.page-tree__item .label-warning {
+  margin-right: 5px;
+}
+
+.page-tree__item .fa-caret-right {
+  color: #3c8dbc;
+  left: -22px;
+  position: absolute;
+  top: 9px;
+}
+
+.page-tree__item:hover {
+  background: #eee;
+  color: #000;
+}
+
+.page-tree__item__is-hybrid {
+  margin-right: 5px;
+}
+
+.page-tree__item.is-active {
+  border: 1px solid #3c8dbc;
+}
+
+.page-tree__item.is-active::after,
+.page-tree__item.is-active::before {
+  border: solid transparent;
+  content: ' ';
+  height: 0;
+  left: 100%;
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  width: 0;
+}
+
+.page-tree__item.is-active::after {
+  border-color: rgb(255 255 255 / 0%);
+  border-left-color: #fff;
+  border-width: 8px;
+  margin-top: -8px;
+}
+
+.page-tree__item.is-active::before {
+  border-color: rgb(255 255 255 / 0%);
+  border-left-color: #3c8dbc;
+  border-width: 9px;
+  margin-top: -9px;
+}
+
+.page-tree__item.is-active:hover::after {
+  border-left-color: #eee;
+}
+
+.page-tree__item.is-toggled .fa-caret-right {
+  transform: rotate(90deg);
+}
+
+.page-tree__item__edit {
+  font-weight: bold;
+}
+
+.page-tree__item__edit:hover {
+  text-decoration: underline;
+}
+
+.page-tree--toggleable li > ul {
+  display: none;
+}
+
+.page-tree--toggleable .page-tree__item {
+  margin-left: 25px;
+}
+
+.page-tree--toggleable .page-tree__item .fa-caret-right {
+  cursor: pointer;
+}
+
+.page-tree--toggleable .page-tree__item .fa-caret-right::after {
+  bottom: -5px;
+  content: '';
+  left: -10px;
+  position: absolute;
+  right: -10px;
+  top: -5px;
+}

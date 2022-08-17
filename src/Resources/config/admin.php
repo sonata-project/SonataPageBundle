@@ -102,6 +102,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 'label_translator_strategy' => 'sonata.admin.label.strategy.underscore',
                 'icon' => '<i class=\'fa fa-sitemap\'></i>',
             ])
+            ->args([
+                new ReferenceConfigurator('sonata.page.transformer'),
+                new ReferenceConfigurator('sonata.page.manager.page'),
+            ])
             ->call('setTranslationDomain', ['SonataPageBundle'])
 
         ->set('sonata.page.admin.site', SiteAdmin::class)
@@ -127,8 +131,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             ->args([
                 new ReferenceConfigurator('sonata.page.service.create_snapshot'),
             ])
-
-        ->alias(PageAdmin::class, 'sonata.page.admin.page')
 
         ->alias(BlockAdmin::class, 'sonata.page.admin.block')
 

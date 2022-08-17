@@ -104,7 +104,7 @@ final class CmsPageRouterTest extends TestCase
 
         $route = $this->router->match('/');
 
-        static::assertSame('sonata.page.page_service_manager:execute', $route['_controller']);
+        static::assertSame('sonata.page.page_service_manager::execute', $route['_controller']);
         static::assertSame('page_slug', $route['_route']);
     }
 

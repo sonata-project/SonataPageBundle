@@ -46,7 +46,7 @@ file that was distributed with this source code.
                         routes: {
                             save_blocks_positions: blockAdmin.generateUrl('save_position', { 'id': page.id }),
                             block_switch_parent: blockAdmin.generateUrl('switch_parent'),
-                            block_preview: blockAdmin.generateUrl('compose_preview', { 'block_id': 'BLOCK_ID' })
+                            block_preview: blockAdmin.generateUrl('compose_preview', { 'id': 'BLOCK_ID' })
                         }
                     }|json_encode()|raw }}'>
                         <div class="page-composer__page-preview__containers">

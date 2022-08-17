@@ -38,3 +38,9 @@ The following code has been removed since it is not used:
 
 * `Sonata\PageBundle\Controller\AjaxController`
 * `Sonata\PageBundle\Controller\BlockController`
+
+## Migration to Webpack
+
+Please check the src/Resources/public and the documentation to see the used CSS and JavaScript.
+
+If you are customising (specially removing standard JavaScript or CSS) assets, this will affect you.

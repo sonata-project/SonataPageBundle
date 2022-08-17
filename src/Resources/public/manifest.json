@@ -1,0 +1,4 @@
+{
+  "bundles/sonatapage/app.css": "./app.css",
+  "bundles/sonatapage/app.js": "./app.js"
+}

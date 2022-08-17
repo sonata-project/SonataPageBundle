@@ -17,9 +17,13 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Form\Type\ModelHiddenType;
 use Sonata\AdminBundle\Security\Acl\Permission\AdminPermissionMap;
 use Sonata\Form\Type\DateTimePickerType;
+use Sonata\PageBundle\Model\PageInterface;
+use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SnapshotInterface;
+use Sonata\PageBundle\Model\TransformerInterface;
 
 /**
  * @extends AbstractAdmin<SnapshotInterface>
@@ -30,11 +34,48 @@ final class SnapshotAdmin extends AbstractAdmin
 {
     protected $classnameLabel = 'Snapshot';
 
+    private TransformerInterface $transformer;
+
+    private PageManagerInterface $pageManager;
+
+    public function __construct(
+        TransformerInterface $transformer,
+        PageManagerInterface $pageManager
+    ) {
+        parent::__construct();
+
+        $this->transformer = $transformer;
+        $this->pageManager = $pageManager;
+    }
+
     protected function getAccessMapping(): array
     {
         return [
             'batchToggleEnabled' => AdminPermissionMap::PERMISSION_EDIT,
         ];
+    }
+
+    protected function alterNewInstance(object $object): void
+    {
+        if (!$this->hasRequest()) {
+            return;
+        }
+
+        $pageId = $this->getRequest()->query->get('pageId');
+
+        if (null === $pageId) {
+            return;
+        }
+
+        $object->setPage($this->pageManager->find($pageId));
+    }
+
+    protected function prePersist(object $object): void
+    {
+        $page = $this->isChild() ? $this->getParent()->getSubject() : $object->getPage();
+        \assert($page instanceof PageInterface);
+
+        $this->transformer->create($page, $object);
     }
 
     protected function configureListFields(ListMapper $list): void
@@ -54,10 +95,16 @@ final class SnapshotAdmin extends AbstractAdmin
 
     protected function configureFormFields(FormMapper $form): void
     {
-        $form
-            ->add('enabled', null, ['required' => false])
-            ->add('publicationDateStart', DateTimePickerType::class, ['dp_side_by_side' => true])
-            ->add('publicationDateEnd', DateTimePickerType::class, ['required' => false, 'dp_side_by_side' => true]);
+        if ($this->isCurrentRoute('create')) {
+            $hasPage = $this->hasSubject() && null !== $this->getSubject()->getPage();
+
+            $form->add('page', $hasPage ? ModelHiddenType::class : null);
+        } else {
+            $form
+                ->add('enabled', null, ['required' => false])
+                ->add('publicationDateStart', DateTimePickerType::class, ['dp_side_by_side' => true])
+                ->add('publicationDateEnd', DateTimePickerType::class, ['required' => false, 'dp_side_by_side' => true]);
+        }
     }
 
     protected function configureBatchActions(array $actions): array

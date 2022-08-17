@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Block;
 
-use Sonata\AdminBundle\Admin\AdminInterface;
+use Sonata\AdminBundle\Form\FormMapper as AdminFormMapper;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Block\Service\AbstractBlockService;
@@ -43,23 +43,15 @@ final class SharedBlockBlockService extends AbstractBlockService implements Edit
     private ManagerInterface $blockManager;
 
     /**
-     * @var AdminInterface<PageBlockInterface>
-     */
-    private AdminInterface $sharedBlockAdmin;
-
-    /**
      * @param ManagerInterface<PageBlockInterface> $blockManager
-     * @param AdminInterface<PageBlockInterface>   $sharedBlockAdmin
      */
     public function __construct(
         Environment $twig,
-        ManagerInterface $blockManager,
-        AdminInterface $sharedBlockAdmin
+        ManagerInterface $blockManager
     ) {
         parent::__construct($twig);
 
         $this->blockManager = $blockManager;
-        $this->sharedBlockAdmin = $sharedBlockAdmin;
     }
 
     public function execute(BlockContextInterface $blockContext, ?Response $response = null): Response
@@ -76,10 +68,10 @@ final class SharedBlockBlockService extends AbstractBlockService implements Edit
         \assert(null !== $template);
 
         return $this->renderResponse($template, [
-                'block' => $blockContext->getBlock(),
-                'settings' => $blockContext->getSettings(),
-                'sharedBlock' => $sharedBlock,
-            ], $response);
+            'block' => $blockContext->getBlock(),
+            'settings' => $blockContext->getSettings(),
+            'sharedBlock' => $sharedBlock,
+        ], $response);
     }
 
     public function validate(ErrorElement $errorElement, BlockInterface $block): void
@@ -92,13 +84,17 @@ final class SharedBlockBlockService extends AbstractBlockService implements Edit
 
     public function configureEditForm(FormMapper $form, BlockInterface $block): void
     {
+        if (!$form instanceof AdminFormMapper) {
+            throw new \InvalidArgumentException('Shared Block requires to be used in the Admin context');
+        }
+
         if (!$block->getSetting('blockId') instanceof BlockInterface) {
             $this->load($block);
         }
 
         $form->add('settings', ImmutableArrayType::class, [
             'keys' => [
-                [$this->getBlockBuilder(), null, []],
+                [$this->getBlockBuilder($form), null, []],
             ],
         ]);
     }
@@ -134,31 +130,23 @@ final class SharedBlockBlockService extends AbstractBlockService implements Edit
         $block->setSetting('blockId', $sharedBlock);
     }
 
-    public function prePersist(BlockInterface $block): void
+    /**
+     * @param AdminFormMapper<object> $form
+     */
+    private function getBlockBuilder(AdminFormMapper $form): FormBuilderInterface
     {
-        $block = $block->getSetting('blockId');
+        $admin = $form->getAdmin();
 
-        $block->setSetting('blockId', $block instanceof BlockInterface ? $block->getId() : null);
-    }
-
-    public function preUpdate(BlockInterface $block): void
-    {
-        $block = $block->getSetting('blockId');
-
-        $block->setSetting('blockId', $block instanceof BlockInterface ? $block->getId() : null);
-    }
-
-    private function getBlockBuilder(): FormBuilderInterface
-    {
-        $fieldDescription = $this->sharedBlockAdmin->createFieldDescription('block', [
+        $fieldDescription = $admin->createFieldDescription('block', [
             'translation_domain' => 'SonataPageBundle',
             'edit' => 'list',
         ]);
+        $fieldDescription->setAssociationAdmin($admin);
 
-        return $this->sharedBlockAdmin->getFormBuilder()->create('blockId', ModelListType::class, [
+        return $form->getFormBuilder()->create('blockId', ModelListType::class, [
             'sonata_field_description' => $fieldDescription,
-            'class' => $this->sharedBlockAdmin->getClass(),
-            'model_manager' => $this->sharedBlockAdmin->getModelManager(),
+            'class' => $admin->getClass(),
+            'model_manager' => $admin->getModelManager(),
             'label' => 'form.label_block',
             'required' => false,
         ]);

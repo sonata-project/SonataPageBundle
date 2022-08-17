@@ -64,7 +64,7 @@ interface TransformerInterface
 {
     public function load(SnapshotInterface $snapshot): PageInterface;
 
-    public function create(PageInterface $page): SnapshotInterface;
+    public function create(PageInterface $page, ?SnapshotInterface $snapshot = null): SnapshotInterface;
 
     /**
      * @return Collection<array-key, PageInterface>

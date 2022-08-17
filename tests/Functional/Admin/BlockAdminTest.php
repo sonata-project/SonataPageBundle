@@ -48,7 +48,163 @@ final class BlockAdminTest extends WebTestCase
         yield 'List Block' => ['/admin/tests/app/sonatapageblock/list'];
         yield 'Edit Block' => ['/admin/tests/app/sonatapageblock/1/edit'];
         yield 'Remove Block' => ['/admin/tests/app/sonatapageblock/1/delete'];
-        yield 'Compose preview Block' => ['/admin/tests/app/sonatapageblock/2/compose-preview'];
+        yield 'Compose preview Block' => ['/admin/tests/app/sonatapageblock/3/compose-preview'];
+    }
+
+    /**
+     * @dataProvider provideFormUrlsCases
+     *
+     * @param array<string, mixed> $parameters
+     * @param array<string, mixed> $fieldValues
+     */
+    public function testFormsUrls(string $url, array $parameters, string $button, array $fieldValues = []): void
+    {
+        $client = self::createClient();
+
+        $this->prepareData();
+
+        $client->request('GET', $url, $parameters);
+        $client->submitForm($button, $fieldValues);
+        $client->followRedirect();
+
+        self::assertResponseIsSuccessful();
+    }
+
+    /**
+     * @return iterable<array<string|array<string, mixed>>>
+     *
+     * @phpstan-return iterable<array{0: string, 1: array<string, mixed>, 2: string, 3?: array<string, mixed>}>
+     */
+    public static function provideFormUrlsCases(): iterable
+    {
+        yield 'Edit Block' => ['/admin/tests/app/sonatapageblock/1/edit', [], 'btn_update_and_list', []];
+        yield 'Remove Block' => ['/admin/tests/app/sonatapageblock/1/delete', [], 'btn_delete'];
+    }
+
+    /**
+     * @dataProvider provideSwitchParentCases
+     *
+     * @param array{block_id?: int|string|null, parent_id?: int|string|null} $parameters
+     */
+    public function testSwitchParentForBlock(array $parameters, bool $success): void
+    {
+        $client = self::createClient();
+
+        $this->prepareData();
+
+        $client->request('GET', '/admin/tests/app/sonatapageblock/switch-parent', $parameters);
+
+        if ($success) {
+            self::assertResponseIsSuccessful();
+        } else {
+            self::assertResponseStatusCodeSame(400);
+        }
+    }
+
+    /**
+     * @return iterable<array<string|array<string, mixed>>>
+     *
+     * @phpstan-return iterable<array{0: array{block_id?: int|string|null, parent_id?: int|string|null}, 1: bool}>
+     */
+    public static function provideSwitchParentCases(): iterable
+    {
+        yield 'Missing all parameters' => [[], false];
+
+        yield 'Missing parent_id' => [[
+            'block_id' => 3,
+        ], false];
+
+        yield 'Unable to find block' => [[
+            'block_id' => 'foo',
+            'parent_id' => 2,
+        ], false];
+
+        yield 'Unable to find parent block' => [[
+            'block_id' => 3,
+            'parent_id' => 'foo',
+        ], false];
+
+        yield 'Switch parent Block' => [[
+            'block_id' => 3,
+            'parent_id' => 2,
+        ], true];
+    }
+
+    /**
+     * @dataProvider provideDispositionCases
+     *
+     * @param array{disposition?: array<array{id: int|string, position: int|numeric-string}>} $parameters
+     */
+    public function testSavePositionForBlock(array $parameters, bool $success): void
+    {
+        $client = self::createClient();
+
+        $this->prepareData();
+
+        $client->request(
+            'POST',
+            '/admin/tests/app/sonatapageblock/save-position',
+            $parameters,
+            [],
+            ['HTTP_Content-type' => 'application/json']
+        );
+
+        if ($success) {
+            self::assertResponseIsSuccessful();
+        } else {
+            self::assertResponseStatusCodeSame(400);
+        }
+    }
+
+    /**
+     * @return iterable<array<bool|array<string, mixed>>>
+     *
+     * @phpstan-return iterable<array{0: array{disposition?: array<array{id: int|string, position: int|numeric-string}>}, 1: bool}>
+     */
+    public static function provideDispositionCases(): iterable
+    {
+        yield 'Missing disposition' => [[], false];
+
+        yield 'Empty disposition' => [[
+            'disposition' => [],
+        ], false];
+
+        yield 'Update block disposition' => [[
+            'disposition' => [
+                ['id' => 1, 'position' => 1],
+                ['id' => 2, 'position' => '2'],
+            ],
+        ], true];
+    }
+
+    /**
+     * @dataProvider provideBatchActionsCases
+     */
+    public function testBatchActions(string $action): void
+    {
+        $client = self::createClient();
+
+        $this->prepareData();
+
+        $client->request('GET', '/admin/tests/app/sonatapageblock/list');
+        $client->submitForm('OK', [
+            'all_elements' => true,
+            'action' => $action,
+        ]);
+        $client->submitForm('Yes, execute');
+        $client->followRedirect();
+
+        self::assertResponseIsSuccessful();
+    }
+
+    /**
+     * @return iterable<array<string>>
+     *
+     * @phpstan-return iterable<array{0: string}>
+     */
+    public static function provideBatchActionsCases(): iterable
+    {
+        yield 'Delete Blocks' => ['delete'];
     }
 
     /**
@@ -78,12 +234,17 @@ final class BlockAdminTest extends WebTestCase
         $parentBlock->setType('sonata.page.block.container');
         $parentBlock->setPage($page);
 
+        $parentBlock2 = new SonataPageBlock();
+        $parentBlock2->setType('sonata.page.block.container');
+        $parentBlock2->setPage($page);
+
         $block = new SonataPageBlock();
         $block->setType('sonata.block.service.text');
         $block->setParent($parentBlock);
 
         $manager->persist($page);
         $manager->persist($parentBlock);
+        $manager->persist($parentBlock2);
         $manager->persist($block);
 
         $manager->flush();
