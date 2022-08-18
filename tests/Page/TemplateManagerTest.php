@@ -13,9 +13,17 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Page;
 
+use Sonata\PageBundle\CmsManager\CmsSnapshotManager;
+use Sonata\PageBundle\Model\PageInterface;
+use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\Template;
+use Sonata\PageBundle\Model\TransformerInterface;
 use Sonata\PageBundle\Page\TemplateManager;
 use Sonata\PageBundle\Tests\App\AppKernel;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Environment;
 
 final class TemplateManagerTest extends KernelTestCase
@@ -136,11 +144,6 @@ final class TemplateManagerTest extends KernelTestCase
         );
     }
 
-    /**
-     * NEXT_MAJOR: Remove the legacy group.
-     *
-     * @group legacy
-     */
     public function testTemplateShowingBreadcrumbIntoThePage(): void
     {
         $kernel = self::bootKernel();
@@ -150,20 +153,22 @@ final class TemplateManagerTest extends KernelTestCase
         $requestStack->push(new Request());
         $container->set('request_stack', $requestStack);
 
-        //Mocking snapshot
+        // Mocking snapshot
         $pageMock = $this->createMock(PageInterface::class);
         $pageMock->method('getName')->willReturn('Foo');
         $pageMock->method('getParents')->willReturn([]);
         $pageMock->method('getUrl')->willReturn('/');
 
-        $cmsSnapshotManagerMock = $this->createMock(CmsSnapshotManager::class);
-        $cmsSnapshotManagerMock->method('getCurrentPage')->willReturn($pageMock);
+        // Mock Snapshot manager
+        $snapshotManagerMock = $this->createMock(SnapshotManagerInterface::class);
+        $transformerMock = $this->createMock(TransformerInterface::class);
+        $cmsSnapshotManagerMock = new CmsSnapshotManager($snapshotManagerMock, $transformerMock);
+        $cmsSnapshotManagerMock->setCurrentPage($pageMock);
         $container->set('sonata.page.cms.snapshot', $cmsSnapshotManagerMock);
 
-        //NEXT_MAJOR: change for twig
-        $templating = $container->get('templating');
+        $twig = $container->get('twig');
 
-        $manager = new TemplateManager($templating, []);
+        $manager = new TemplateManager($twig, []);
         $response = $manager->renderResponse('test');
         $crawler = new Crawler($response->getContent());
 
@@ -179,9 +184,6 @@ final class TemplateManagerTest extends KernelTestCase
         return AppKernel::class;
     }
 
-    /**
-     * Returns the mock template.
-     */
     private function getTemplate(string $name, string $path = 'path/to/file'): Template
     {
         return new Template($name, $path);
