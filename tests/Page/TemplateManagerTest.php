@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Page;
 
-use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Model\Template;
 use Sonata\PageBundle\Page\TemplateManager;
+use Sonata\PageBundle\Tests\App\AppKernel;
 use Twig\Environment;
 
-final class TemplateManagerTest extends TestCase
+final class TemplateManagerTest extends KernelTestCase
 {
     public function testAddSingleTemplate(): void
     {
@@ -136,6 +136,52 @@ final class TemplateManagerTest extends TestCase
         );
     }
 
+    /**
+     * NEXT_MAJOR: Remove the legacy group.
+     *
+     * @group legacy
+     */
+    public function testTemplateShowingBreadcrumbIntoThePage(): void
+    {
+        $kernel = self::bootKernel();
+        $container = $kernel->getContainer();
+
+        $requestStack = new RequestStack();
+        $requestStack->push(new Request());
+        $container->set('request_stack', $requestStack);
+
+        //Mocking snapshot
+        $pageMock = $this->createMock(PageInterface::class);
+        $pageMock->method('getName')->willReturn('Foo');
+        $pageMock->method('getParents')->willReturn([]);
+        $pageMock->method('getUrl')->willReturn('/');
+
+        $cmsSnapshotManagerMock = $this->createMock(CmsSnapshotManager::class);
+        $cmsSnapshotManagerMock->method('getCurrentPage')->willReturn($pageMock);
+        $container->set('sonata.page.cms.snapshot', $cmsSnapshotManagerMock);
+
+        //NEXT_MAJOR: change for twig
+        $templating = $container->get('templating');
+
+        $manager = new TemplateManager($templating, []);
+        $response = $manager->renderResponse('test');
+        $crawler = new Crawler($response->getContent());
+
+        static::assertCount(1, $crawler->filter('.page-breadcrumb'));
+
+        $breadcrumbFoo = $crawler->filter('.page-breadcrumb')->filter('a');
+        static::assertSame('/', $breadcrumbFoo->attr('href'));
+        static::assertStringContainsString('Foo', $breadcrumbFoo->text());
+    }
+
+    protected static function getKernelClass(): string
+    {
+        return AppKernel::class;
+    }
+
+    /**
+     * Returns the mock template.
+     */
     private function getTemplate(string $name, string $path = 'path/to/file'): Template
     {
         return new Template($name, $path);
