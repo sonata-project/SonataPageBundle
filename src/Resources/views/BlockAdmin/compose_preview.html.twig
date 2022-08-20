@@ -33,10 +33,26 @@
             <a class="badge" href="{{ blockAdmin.generateUrl('delete', { 'id': child.id }) }}">{{ 'composer.remove'|trans({}, 'SonataPageBundle') }} <i class="fa fa-times"></i> </a>
         </div>
 
-        <div class="page-composer__container__child__switch-enabled"
-             data-label-enable="{{ ('composer.enable'|trans({}, 'SonataPageBundle') ~ ' <i class="fa fa-toggle-on"></i>')|e }}"
-             data-label-disable="{{ ('composer.disable'|trans({}, 'SonataPageBundle') ~ ' <i class="fa fa-toggle-off"></i>')|e }}">
-            <a class="badge bg-{{ child.enabled ? 'yellow' : 'green' }}" href="{{ path('sonata_admin_set_object_field_value', {'objectId': child.id, 'context': 'list', 'field': 'enabled', 'code': 'sonata.page.admin.block'}) }}">{% if child.enabled %}{{ 'composer.disable'|trans({}, 'SonataPageBundle') }} <i class="fa fa-toggle-off"></i>{% else %}{{ 'composer.enable'|trans({}, 'SonataPageBundle') }} <i class="fa fa-toggle-on"></i>{% endif %}</a>
+        <div
+            class="page-composer__container__child__switch-enabled"
+            data-label-enable="{{ ('composer.enable'|trans({}, 'SonataPageBundle') ~ ' <i class="fa fa-toggle-on"></i>')|e }}"
+            data-label-disable="{{ ('composer.disable'|trans({}, 'SonataPageBundle') ~ ' <i class="fa fa-toggle-off"></i>')|e }}"
+        >
+            <a
+                class="badge bg-{{ child.enabled ? 'yellow' : 'green' }}"
+                href="{{ path('sonata_admin_set_object_field_value', {
+                    'objectId': child.id,
+                    'context': 'list',
+                    'field': 'enabled',
+                    '_sonata_admin': 'sonata.page.admin.block'
+                }) }}">
+                    {% if child.enabled %}{{ 'composer.disable'|trans({}, 'SonataPageBundle') }}
+                        <i class="fa fa-toggle-off"></i>
+                    {% else %}
+                        {{ 'composer.enable'|trans({}, 'SonataPageBundle') }}
+                        <i class="fa fa-toggle-on"></i>
+                    {% endif %}
+            </a>
         </div>
 
         <div class="page-composer__container__child__enabled">
