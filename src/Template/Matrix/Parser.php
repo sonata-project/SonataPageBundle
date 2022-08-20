@@ -32,9 +32,9 @@ final class Parser
     /**
      * @param array<string> $mapping
      *
-     * @throws \InvalidArgumentException
-     *
      * @return array<string, Placement>
+     *
+     * @throws \InvalidArgumentException
      */
     public static function parse(string $matrix, array $mapping): array
     {
