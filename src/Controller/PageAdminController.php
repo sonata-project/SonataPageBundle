@@ -253,10 +253,10 @@ final class PageAdminController extends CRUDController
         // filter service using the template configuration
         if (null !== $page) {
             $template = $this->container->get('sonata.page.template_manager')->get($page->getTemplateCode());
-            $code = $block->getSetting('code');
+            $blockCode = $block->getSetting('code');
 
-            if (null !== $code) {
-                $container = $template->getContainer($code);
+            if (null !== $blockCode) {
+                $container = $template->getContainer($blockCode);
 
                 if (null !== $container) {
                     foreach ($blockServices as $code => $service) {
