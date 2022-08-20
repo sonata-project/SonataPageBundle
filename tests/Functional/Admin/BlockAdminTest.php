@@ -249,15 +249,16 @@ final class BlockAdminTest extends WebTestCase
 
         $parentBlock = new SonataPageBlock();
         $parentBlock->setType('sonata.page.block.container');
-        $parentBlock->setPage($page);
 
         $parentBlock2 = new SonataPageBlock();
         $parentBlock2->setType('sonata.page.block.container');
-        $parentBlock2->setPage($page);
 
         $block = new SonataPageBlock();
         $block->setType('sonata.block.service.text');
         $block->setParent($parentBlock);
+
+        $page->addBlock($parentBlock);
+        $page->addBlock($parentBlock2);
 
         $manager->persist($page);
         $manager->persist($parentBlock);
