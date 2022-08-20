@@ -79,11 +79,38 @@ final class PageTest extends WebTestCase
         $containerBlock->setType('sonata.page.block.container');
         $containerBlock->setSetting('code', 'content');
         $containerBlock->setEnabled(true);
-        $containerBlock->setPage($page);
+
+        $block = new SonataPageBlock();
+        $block->setType('sonata.page.block.shared_block');
+        $block->setSetting('blockId', 3);
+        $block->setParent($containerBlock);
+
+        $block2 = new SonataPageBlock();
+        $block2->setType('sonata.page.block.pagelist');
+        $block2->setParent($containerBlock);
+
+        $block3 = new SonataPageBlock();
+        $block3->setType('sonata.page.block.children_pages');
+        $block3->setSetting('pageId', 1);
+        $block3->setParent($containerBlock);
+
+        $block4 = new SonataPageBlock();
+        $block4->setType('sonata.page.block.breadcrumb');
+        $block4->setParent($containerBlock);
+
+        $page->addBlock($containerBlock);
+        $page->addBlock($block);
+        $page->addBlock($block2);
+        $page->addBlock($block3);
+        $page->addBlock($block4);
 
         $manager->persist($site);
         $manager->persist($page);
         $manager->persist($containerBlock);
+        $manager->persist($block);
+        $manager->persist($block2);
+        $manager->persist($block3);
+        $manager->persist($block4);
 
         $manager->flush();
     }

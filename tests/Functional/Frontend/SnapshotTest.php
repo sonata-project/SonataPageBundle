@@ -76,7 +76,8 @@ final class SnapshotTest extends WebTestCase
         $containerBlock->setType('sonata.page.block.container');
         $containerBlock->setSetting('code', 'content');
         $containerBlock->setEnabled(true);
-        $containerBlock->setPage($page);
+
+        $page->addBlock($containerBlock);
 
         $manager->persist($site);
         $manager->persist($page);
