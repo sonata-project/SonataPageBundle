@@ -88,6 +88,12 @@ final class BlockAdminTest extends WebTestCase
             'type' => 'sonata.block.service.text',
         ], 'btn_create_and_list', []];
 
+        yield 'Create Block compose mode - Text' => ['/admin/tests/app/sonatapageblock/create', [
+            'composer' => '1',
+            'uniqid' => 'block',
+            'type' => 'sonata.block.service.text',
+        ], 'btn_create_and_list', []];
+
         yield 'Edit Block' => ['/admin/tests/app/sonatapageblock/1/edit', [], 'btn_update_and_list', []];
         yield 'Remove Block' => ['/admin/tests/app/sonatapageblock/1/delete', [], 'btn_delete'];
     }

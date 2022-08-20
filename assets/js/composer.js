@@ -507,7 +507,7 @@ PageComposer.prototype = {
         data: $form.serialize(),
         type: method,
         headers: {
-          Accept: 'text/html, application/xhtml+xml;',
+          Accept: 'application/json',
         },
         success(resp) {
           $loader.hide();
