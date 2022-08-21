@@ -18,7 +18,6 @@ use Doctrine\Persistence\ObjectManager;
 use Sonata\PageBundle\Entity\BlockInteractor;
 use Sonata\PageBundle\Model\BlockManagerInterface;
 use Sonata\PageBundle\Model\PageInterface;
-use Sonata\PageBundle\Tests\App\AppKernel;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageBlock;
 use Sonata\PageBundle\Tests\App\Entity\SonataPagePage;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -61,11 +60,6 @@ final class BlockInteractorTest extends KernelTestCase
 
         static::assertCount(1, $this->blockInteractor->loadPageBlocks($page));
         static::assertCount(0, $this->blockInteractor->loadPageBlocks($page));
-    }
-
-    protected static function getKernelClass(): string
-    {
-        return AppKernel::class;
     }
 
     private function prepareData(): PageInterface

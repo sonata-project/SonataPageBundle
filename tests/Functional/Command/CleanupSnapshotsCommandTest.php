@@ -14,14 +14,12 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Functional\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Sonata\PageBundle\Tests\App\AppKernel;
 use Sonata\PageBundle\Tests\App\Entity\SonataPagePage;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageSite;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageSnapshot;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
-use Symfony\Component\HttpKernel\KernelInterface;
 
 final class CleanupSnapshotsCommandTest extends KernelTestCase
 {
@@ -81,14 +79,6 @@ final class CleanupSnapshotsCommandTest extends KernelTestCase
             '--site' => [1],
             '--keep-snapshots' => 0,
         ], 1];
-    }
-
-    /**
-     * @return class-string<KernelInterface>
-     */
-    protected static function getKernelClass(): string
-    {
-        return AppKernel::class;
     }
 
     /**

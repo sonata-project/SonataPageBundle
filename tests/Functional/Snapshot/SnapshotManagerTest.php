@@ -19,7 +19,6 @@ use Doctrine\ORM\Id\AssignedGenerator;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\OptimisticLockException;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
-use Sonata\PageBundle\Tests\App\AppKernel;
 use Sonata\PageBundle\Tests\App\Entity\SonataPagePage;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageSnapshot;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -249,10 +248,5 @@ final class SnapshotManagerTest extends KernelTestCase
     public static function assertDateTimeEquals(\DateTimeInterface $expected, \DateTimeInterface $actual): void
     {
         static::assertSame($expected->format('c'), $actual->format('c'));
-    }
-
-    protected static function getKernelClass(): string
-    {
-        return AppKernel::class;
     }
 }

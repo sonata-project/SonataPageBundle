@@ -14,12 +14,10 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Functional\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Sonata\PageBundle\Tests\App\AppKernel;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageSite;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
-use Symfony\Component\HttpKernel\KernelInterface;
 
 final class CreateSiteCommandTest extends KernelTestCase
 {
@@ -162,14 +160,6 @@ final class CreateSiteCommandTest extends KernelTestCase
             [],
             true,
         ];
-    }
-
-    /**
-     * @return class-string<KernelInterface>
-     */
-    protected static function getKernelClass(): string
-    {
-        return AppKernel::class;
     }
 
     /**

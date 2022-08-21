@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Functional\Ticket;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Sonata\PageBundle\Tests\App\AppKernel;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageSite;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -59,10 +58,5 @@ final class Issue1134Test extends WebTestCase
         $client->followRedirect();
 
         static::assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
-    }
-
-    protected static function getKernelClass(): string
-    {
-        return AppKernel::class;
     }
 }
