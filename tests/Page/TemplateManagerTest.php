@@ -172,7 +172,9 @@ final class TemplateManagerTest extends KernelTestCase
 
         $manager = new TemplateManager($twig, []);
         $response = $manager->renderResponse('test');
-        $crawler = new Crawler($response->getContent());
+        /** @var string $content */
+        $content = $response->getContent();
+        $crawler = new Crawler($content);
 
         static::assertCount(1, $crawler->filter('.page-breadcrumb'));
 
