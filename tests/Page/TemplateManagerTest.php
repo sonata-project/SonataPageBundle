@@ -147,7 +147,9 @@ final class TemplateManagerTest extends KernelTestCase
     public function testTemplateShowingBreadcrumbIntoThePage(): void
     {
         $kernel = self::bootKernel();
-        $container = $kernel->getContainer();
+        // TODO: Simplify this when dropping support for Symfony 4.
+        // @phpstan-ignore-next-line
+        $container = method_exists($this, 'getContainer') ? self::getContainer() : $kernel->getContainer();
 
         $requestStack = new RequestStack();
         $requestStack->push(new Request());
