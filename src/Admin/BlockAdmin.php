@@ -137,10 +137,10 @@ final class BlockAdmin extends BaseBlockAdmin
 
         $form->with('general', $generalGroupOptions);
 
-        if (false === $isComposer) {
-            $form->add('name');
-        } else {
+        if (false !== $isComposer) {
             $form->add('name', HiddenType::class);
+        } else {
+            $form->add('name');
         }
 
         $form->end();
@@ -154,7 +154,7 @@ final class BlockAdmin extends BaseBlockAdmin
             $containerBlockTypes = $this->containerBlockTypes;
 
             // need to investigate on this case where $page == null ... this should not be possible
-            if ($isStandardBlock && null !== $page && [] === $containerBlockTypes) {
+            if ($isStandardBlock && null !== $page && [] !== $containerBlockTypes) {
                 $form->add('parent', EntityType::class, [
                     'class' => $this->getClass(),
                     'query_builder' => static fn (EntityRepository $repository) => $repository->createQueryBuilder('a')

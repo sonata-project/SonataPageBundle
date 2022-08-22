@@ -88,6 +88,12 @@ final class BlockAdminTest extends WebTestCase
             'type' => 'sonata.block.service.text',
         ], 'btn_create_and_list', []];
 
+        yield 'Create Block compose mode - Text' => ['/admin/tests/app/sonatapageblock/create', [
+            'composer' => '1',
+            'uniqid' => 'block',
+            'type' => 'sonata.block.service.text',
+        ], 'btn_create_and_list', []];
+
         yield 'Edit Block' => ['/admin/tests/app/sonatapageblock/1/edit', [], 'btn_update_and_list', []];
         yield 'Remove Block' => ['/admin/tests/app/sonatapageblock/1/delete', [], 'btn_delete'];
     }
@@ -243,15 +249,16 @@ final class BlockAdminTest extends WebTestCase
 
         $parentBlock = new SonataPageBlock();
         $parentBlock->setType('sonata.page.block.container');
-        $parentBlock->setPage($page);
 
         $parentBlock2 = new SonataPageBlock();
         $parentBlock2->setType('sonata.page.block.container');
-        $parentBlock2->setPage($page);
 
         $block = new SonataPageBlock();
         $block->setType('sonata.block.service.text');
         $block->setParent($parentBlock);
+
+        $page->addBlock($parentBlock);
+        $page->addBlock($parentBlock2);
 
         $manager->persist($page);
         $manager->persist($parentBlock);
