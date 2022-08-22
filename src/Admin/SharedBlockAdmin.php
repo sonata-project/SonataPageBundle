@@ -18,7 +18,7 @@ use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\BlockBundle\Block\Service\EditableBlockService;
 use Sonata\BlockBundle\Model\BlockInterface;
-use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
+use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQueryInterface as ORMProxyQueryInterface;
 use Sonata\PageBundle\Model\PageBlockInterface;
 
 /**
@@ -38,14 +38,20 @@ final class SharedBlockAdmin extends BaseBlockAdmin
         return sprintf('%s_%s', parent::generateBaseRouteName($isChildAdmin), 'shared');
     }
 
+    /**
+     * @psalm-suppress LessSpecificReturnStatement, MoreSpecificReturnType
+     *
+     * @see https://github.com/vimeo/psalm/issues/8429
+     */
     protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        \assert($query instanceof ProxyQuery);
+        \assert($query instanceof ORMProxyQueryInterface);
 
         // Filter on blocks without page and parents
-        $rootAlias = current($query->getRootAliases());
-        $query->andWhere($query->expr()->isNull($rootAlias.'.page'));
-        $query->andWhere($query->expr()->isNull($rootAlias.'.parent'));
+        $queryBuilder = $query->getQueryBuilder();
+        $rootAlias = current($queryBuilder->getRootAliases());
+        $queryBuilder->andWhere($queryBuilder->expr()->isNull($rootAlias.'.page'));
+        $queryBuilder->andWhere($queryBuilder->expr()->isNull($rootAlias.'.parent'));
 
         return $query;
     }

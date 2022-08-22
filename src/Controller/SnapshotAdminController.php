@@ -35,6 +35,8 @@ final class SnapshotAdminController extends CRUDController
     }
 
     /**
+     * @param ProxyQueryInterface<object> $query
+     *
      * @throws AccessDeniedException
      */
     public function batchActionToggleEnabled(ProxyQueryInterface $query): RedirectResponse
