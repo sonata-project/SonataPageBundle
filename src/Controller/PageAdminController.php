@@ -54,6 +54,8 @@ final class PageAdminController extends CRUDController
     }
 
     /**
+     * @param ProxyQueryInterface<object> $query
+     *
      * @throws AccessDeniedException
      */
     public function batchActionSnapshot(ProxyQueryInterface $query): RedirectResponse

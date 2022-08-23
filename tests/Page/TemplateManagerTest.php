@@ -13,12 +13,20 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Page;
 
-use PHPUnit\Framework\TestCase;
+use Sonata\PageBundle\CmsManager\CmsSnapshotManager;
+use Sonata\PageBundle\Model\PageInterface;
+use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\Template;
+use Sonata\PageBundle\Model\TransformerInterface;
 use Sonata\PageBundle\Page\TemplateManager;
+use Sonata\PageBundle\Tests\App\AppKernel;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Environment;
 
-final class TemplateManagerTest extends TestCase
+final class TemplateManagerTest extends KernelTestCase
 {
     public function testAddSingleTemplate(): void
     {
@@ -134,6 +142,51 @@ final class TemplateManagerTest extends TestCase
             $manager->renderResponse('test', ['parameter2' => 'value'])->getContent(),
             'should return the mocked response'
         );
+    }
+
+    public function testTemplateShowingBreadcrumbIntoThePage(): void
+    {
+        $kernel = self::bootKernel();
+        // TODO: Simplify this when dropping support for Symfony 4.
+        // @phpstan-ignore-next-line
+        $container = method_exists($this, 'getContainer') ? self::getContainer() : $kernel->getContainer();
+
+        $requestStack = new RequestStack();
+        $requestStack->push(new Request());
+        $container->set('request_stack', $requestStack);
+
+        // Mocking snapshot
+        $pageMock = $this->createMock(PageInterface::class);
+        $pageMock->method('getName')->willReturn('Foo');
+        $pageMock->method('getParents')->willReturn([]);
+        $pageMock->method('getUrl')->willReturn('/');
+
+        // Mock Snapshot manager
+        $snapshotManagerMock = $this->createMock(SnapshotManagerInterface::class);
+        $transformerMock = $this->createMock(TransformerInterface::class);
+        $cmsSnapshotManagerMock = new CmsSnapshotManager($snapshotManagerMock, $transformerMock);
+        $cmsSnapshotManagerMock->setCurrentPage($pageMock);
+        $container->set('sonata.page.cms.snapshot', $cmsSnapshotManagerMock);
+
+        $twig = $container->get('twig');
+        \assert($twig instanceof Environment);
+
+        $manager = new TemplateManager($twig, []);
+        $response = $manager->renderResponse('test');
+        /** @var string $content */
+        $content = $response->getContent();
+        $crawler = new Crawler($content);
+
+        static::assertCount(1, $crawler->filter('.page-breadcrumb'));
+
+        $breadcrumbFoo = $crawler->filter('.page-breadcrumb')->filter('a');
+        static::assertSame('/', $breadcrumbFoo->attr('href'));
+        static::assertStringContainsString('Foo', $breadcrumbFoo->text());
+    }
+
+    protected static function getKernelClass(): string
+    {
+        return AppKernel::class;
     }
 
     private function getTemplate(string $name, string $path = 'path/to/file'): Template
