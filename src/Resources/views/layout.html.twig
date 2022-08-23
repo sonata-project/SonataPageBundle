@@ -19,7 +19,7 @@ file that was distributed with this source code.
 
             {% block sonata_page_breadcrumb %}
                 <div class="row page-breadcrumb">
-                    {{ sonata_block_render_event('breadcrumb', { 'context': 'sonata.page.block.breadcrumb', 'current_uri': app.request.requestUri }) }}
+                    {{ sonata_block_render_event('breadcrumb', { 'context': 'page', 'current_uri': app.request.requestUri }) }}
                 </div>
             {% endblock %}
 

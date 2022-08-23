@@ -42,14 +42,14 @@ final class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
 
     public function getMetadata(): MetadataInterface
     {
-        return new Metadata($this->getName(), null, null, 'SonataPageBundle', [
+        return new Metadata('sonata.page.block.breadcrumb', null, null, 'SonataPageBundle', [
             'class' => 'fa fa-bars',
         ]);
     }
 
     public function handleContext(string $context): bool
     {
-        return $this->getName() === $context;
+        return 'page' === $context;
     }
 
     protected function getMenu(BlockContextInterface $blockContext): ItemInterface
@@ -79,11 +79,6 @@ final class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
         }
 
         return $menu;
-    }
-
-    private function getName(): string
-    {
-        return 'sonata.page.block.breadcrumb';
     }
 
     private function getCurrentPage(): ?PageInterface
