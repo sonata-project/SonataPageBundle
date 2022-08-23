@@ -35,7 +35,7 @@ final class SnapshotAdminController extends CRUDController
     }
 
     /**
-     * @param ProxyQueryInterface<object> $query
+     * @param ProxyQueryInterface<SnapshotInterface> $query
      *
      * @throws AccessDeniedException
      */
@@ -44,9 +44,8 @@ final class SnapshotAdminController extends CRUDController
         $this->admin->checkAccess('batchToggleEnabled');
 
         $snapshotManager = $this->container->get('sonata.page.manager.snapshot');
+        \assert($snapshotManager instanceof SnapshotManagerInterface);
         foreach ($query->execute() as $snapshot) {
-            \assert($snapshot instanceof SnapshotInterface);
-
             $snapshot->setEnabled(!$snapshot->getEnabled());
             $snapshotManager->save($snapshot);
         }

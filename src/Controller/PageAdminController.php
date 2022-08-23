@@ -54,15 +54,18 @@ final class PageAdminController extends CRUDController
     }
 
     /**
-     * @param ProxyQueryInterface<object> $query
+     * @param ProxyQueryInterface<PageInterface> $query
      *
      * @throws AccessDeniedException
      */
     public function batchActionSnapshot(ProxyQueryInterface $query): RedirectResponse
     {
-        $this->container->get('sonata.page.admin.snapshot')->checkAccess('create');
+        $snapShotAdmin = $this->container->get('sonata.page.admin.snapshot');
+        \assert($snapShotAdmin instanceof SnapshotAdmin);
+        $snapShotAdmin->checkAccess('create');
 
         $createSnapshot = $this->container->get('sonata.page.service.create_snapshot');
+        \assert($createSnapshot instanceof CreateSnapshotService);
         foreach ($query->execute() as $page) {
             $createSnapshot->createByPage($page);
         }
@@ -85,8 +88,11 @@ final class PageAdminController extends CRUDController
     {
         $this->admin->checkAccess('tree');
 
-        $sites = $this->container->get('sonata.page.manager.site')->findBy([]);
+        $siteManager = $this->container->get('sonata.page.manager.site');
+        \assert($siteManager instanceof SiteManagerInterface);
+        $sites = $siteManager->findBy([]);
         $pageManager = $this->container->get('sonata.page.manager.page');
+        \assert($pageManager instanceof PageManagerInterface);
 
         $currentSite = null;
         $siteId = $request->get('site');
@@ -127,7 +133,9 @@ final class PageAdminController extends CRUDController
         $this->admin->checkAccess('create');
 
         if ('GET' === $request->getMethod() && null === $request->get('siteId')) {
-            $sites = $this->container->get('sonata.page.manager.site')->findBy([]);
+            $siteManager = $this->container->get('sonata.page.manager.site');
+            \assert($siteManager instanceof SiteManagerInterface);
+            $sites = $siteManager->findBy([]);
 
             if (1 === \count($sites)) {
                 return $this->redirect($this->admin->generateUrl('create', [
@@ -137,7 +145,9 @@ final class PageAdminController extends CRUDController
             }
 
             try {
-                $current = $this->container->get('sonata.page.site.selector')->retrieve();
+                $siteSelector = $this->container->get('sonata.page.site.selector');
+                \assert($siteSelector instanceof SiteSelectorInterface);
+                $current = $siteSelector->retrieve();
             } catch (\RuntimeException $e) {
                 $current = false;
             }
@@ -160,6 +170,7 @@ final class PageAdminController extends CRUDController
         $this->admin->checkAccess('compose');
 
         $blockAdmin = $this->container->get('sonata.page.admin.block');
+        \assert($blockAdmin instanceof BlockAdmin);
 
         if (false === $blockAdmin->isGranted('LIST')) {
             throw new AccessDeniedException();
@@ -167,9 +178,12 @@ final class PageAdminController extends CRUDController
 
         $id = $request->get($this->admin->getIdParameter());
         $page = $this->admin->getObject($id);
-
         if (null === $page) {
             throw new NotFoundHttpException(sprintf('unable to find the page with id : %s', $id));
+        }
+        $templateCode = $page->getTemplateCode();
+        if (null === $templateCode) {
+            throw new NotFoundHttpException(sprintf('The page with id "%s" has no template code', $id));
         }
 
         $containers = [];
@@ -177,7 +191,12 @@ final class PageAdminController extends CRUDController
         $children = [];
 
         $templateManager = $this->container->get('sonata.page.template_manager');
-        $template = $templateManager->get($page->getTemplateCode());
+        \assert($templateManager instanceof TemplateManagerInterface);
+        $template = $templateManager->get($templateCode);
+        if (null === $template) {
+            throw new NotFoundHttpException(sprintf('unable to find the template with code : %s', $templateCode));
+        }
+
         $templateContainers = $template->getContainers();
 
         foreach ($templateContainers as $containerId => $container) {
@@ -203,6 +222,7 @@ final class PageAdminController extends CRUDController
 
         // searching for block defined in template which are not created
         $blockInteractor = $this->container->get('sonata.page.block_interactor');
+        \assert($blockInteractor instanceof BlockInteractorInterface);
 
         foreach ($containers as $containerId => $container) {
             if (false === $container['block'] && false === $templateContainers[$containerId]['shared']) {
@@ -237,6 +257,7 @@ final class PageAdminController extends CRUDController
     public function composeContainerShowAction(Request $request): Response
     {
         $blockAdmin = $this->container->get('sonata.page.admin.block');
+        \assert($blockAdmin instanceof BlockAdmin);
 
         if (false === $blockAdmin->isGranted('LIST')) {
             throw new AccessDeniedException();
@@ -244,30 +265,42 @@ final class PageAdminController extends CRUDController
 
         $id = $request->get($this->admin->getIdParameter());
         $block = $blockAdmin->getObject($id);
-        if (!$block) {
+        if (null === $block) {
             throw new NotFoundHttpException(sprintf('unable to find the block with id : %s', $id));
         }
 
-        $blockServices = $this->container->get('sonata.block.manager')->getServicesByContext('sonata_page_bundle', false);
+        $blockManager = $this->container->get('sonata.block.manager');
+        \assert($blockManager instanceof BlockServiceManagerInterface);
+        $blockServices = $blockManager->getServicesByContext('sonata_page_bundle', false);
 
         $page = $block->getPage();
+        $blockCode = $block->getSetting('code');
 
         // filter service using the template configuration
-        if (null !== $page) {
-            $template = $this->container->get('sonata.page.template_manager')->get($page->getTemplateCode());
-            $blockCode = $block->getSetting('code');
+        if (null !== $page && null !== $blockCode) {
+            $templateCode = $page->getTemplateCode();
+            if (null === $templateCode) {
+                throw new NotFoundHttpException(sprintf('The page with id "%s" has no template code', $id));
+            }
 
-            if (null !== $blockCode) {
-                $container = $template->getContainer($blockCode);
+            $templateManager = $this->container->get('sonata.page.template_manager');
+            \assert($templateManager instanceof TemplateManagerInterface);
 
-                if (null !== $container) {
-                    foreach ($blockServices as $code => $service) {
-                        if (\in_array($code, $container['blocks'], true)) {
-                            continue;
-                        }
+            $template = $templateManager->get($page->getTemplateCode());
+            if (null === $template) {
+                throw new NotFoundHttpException(
+                    sprintf('unable to find the template with code : %s', $templateCode)
+                );
+            }
+            $container = $template->getContainer($blockCode);
 
-                        unset($blockServices[$code]);
+            if (null !== $container) {
+                foreach ($blockServices as $code => $service) {
+                    if (\in_array($code, $container['blocks'], true)) {
+                        continue;
                     }
+
+                    unset($blockServices[$code]);
                 }
             }
         }

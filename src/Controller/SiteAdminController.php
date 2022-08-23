@@ -44,7 +44,9 @@ final class SiteAdminController extends CRUDController
      */
     public function snapshotsAction(Request $request): Response
     {
-        if (false === $this->container->get('sonata.page.admin.snapshot')->isGranted('CREATE')) {
+        $adminSnapshot = $this->container->get('sonata.page.admin.snapshot');
+        \assert($adminSnapshot instanceof SnapshotAdmin);
+        if (false === $adminSnapshot->isGranted('CREATE')) {
             throw new AccessDeniedException();
         }
 
@@ -59,7 +61,9 @@ final class SiteAdminController extends CRUDController
         $this->admin->setSubject($object);
 
         if ('POST' === $request->getMethod()) {
-            $this->container->get('sonata.page.service.create_snapshot')->createBySite($object);
+            $createSnapshot = $this->container->get('sonata.page.service.create_snapshot');
+            \assert($createSnapshot instanceof CreateSnapshotService);
+            $createSnapshot->createBySite($object);
 
             $this->addFlash(
                 'sonata_flash_success',
