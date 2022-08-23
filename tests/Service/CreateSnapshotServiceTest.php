@@ -27,31 +27,31 @@ final class CreateSnapshotServiceTest extends TestCase
     public function testCreateBySite(): void
     {
         // Mocks
-        $snapshotManagerMock = $this->createMock(SnapshotManagerInterface::class);
+        $snapshotManager = $this->createMock(SnapshotManagerInterface::class);
 
-        $pageManagerMock = $this->createMock(PageManagerInterface::class);
-        $pageManagerMock
+        $pageManager = $this->createMock(PageManagerInterface::class);
+        $pageManager
             ->method('findBy')
             ->willReturn([$this->createMock(PageInterface::class)]);
 
-        $transformerMock = $this->createMock(TransformerInterface::class);
-        $transformerMock
+        $transformer = $this->createMock(TransformerInterface::class);
+        $transformer
             ->method('create')
             ->willReturn($this->createMock(SnapshotInterface::class));
 
-        $siteMock = $this->createMock(SiteInterface::class);
+        $site = $this->createMock(SiteInterface::class);
 
         // Asserts mocks
-        $transformerMock
+        $transformer
             ->expects(static::once())
             ->method('create');
 
         // Execute code
         $createSnapshotService = new CreateSnapshotService(
-            $snapshotManagerMock,
-            $pageManagerMock,
-            $transformerMock
+            $snapshotManager,
+            $pageManager,
+            $transformer
         );
-        $createSnapshotService->createBySite($siteMock);
+        $createSnapshotService->createBySite($site);
     }
 }

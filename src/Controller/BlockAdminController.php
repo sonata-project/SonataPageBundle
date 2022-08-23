@@ -48,13 +48,17 @@ final class BlockAdminController extends CRUDController
 
         try {
             // TODO: Change to $request->query->all('filter') when support for Symfony < 5.1 is dropped.
+            /** @var array<array{id?: int|string, position?: string, parent_id?: int|string, page_id?: int|string}> $params */
             $params = $request->request->all()['disposition'] ?? [];
 
             if ([] === $params) {
                 throw new HttpException(400, 'wrong parameters');
             }
 
-            $result = $this->container->get('sonata.page.block_interactor')->saveBlocksPosition($params);
+            $blockInteractor = $this->container->get('sonata.page.block_interactor');
+            \assert($blockInteractor instanceof BlockInteractorInterface);
+
+            $result = $blockInteractor->saveBlocksPosition($params);
             $status = 200;
         } catch (HttpException $e) {
             $status = $e->getStatusCode();
@@ -83,9 +87,12 @@ final class BlockAdminController extends CRUDController
 
         $parameters = $this->admin->getPersistentParameters();
 
+        $blockManager = $this->container->get('sonata.block.manager');
+        \assert($blockManager instanceof BlockServiceManagerInterface);
+
         if (null === $parameters['type']) {
             return $this->renderWithExtraParams('@SonataPage/BlockAdmin/select_type.html.twig', [
-                'services' => $this->container->get('sonata.block.manager')->getServicesByContext('sonata_page_bundle'),
+                'services' => $blockManager->getServicesByContext('sonata_page_bundle'),
                 'base_template' => $this->getBaseTemplate(),
                 'admin' => $this->admin,
                 'action' => 'create',
@@ -150,7 +157,9 @@ final class BlockAdminController extends CRUDController
 
         $this->admin->setSubject($existingObject);
 
-        $blockServices = $this->container->get('sonata.block.manager')->getServicesByContext('sonata_page_bundle', false);
+        $blockManager = $this->container->get('sonata.block.manager');
+        \assert($blockManager instanceof BlockServiceManagerInterface);
+        $blockServices = $blockManager->getServicesByContext('sonata_page_bundle', false);
 
         return $this->renderWithExtraParams('@SonataPage/BlockAdmin/compose_preview.html.twig', [
             'container' => $container,

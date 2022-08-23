@@ -156,17 +156,17 @@ final class TemplateManagerTest extends KernelTestCase
         $container->set('request_stack', $requestStack);
 
         // Mocking snapshot
-        $pageMock = $this->createMock(PageInterface::class);
-        $pageMock->method('getName')->willReturn('Foo');
-        $pageMock->method('getParents')->willReturn([]);
-        $pageMock->method('getUrl')->willReturn('/');
+        $page = $this->createMock(PageInterface::class);
+        $page->method('getName')->willReturn('Foo');
+        $page->method('getParents')->willReturn([]);
+        $page->method('getUrl')->willReturn('/');
 
         // Mock Snapshot manager
-        $snapshotManagerMock = $this->createMock(SnapshotManagerInterface::class);
-        $transformerMock = $this->createMock(TransformerInterface::class);
-        $cmsSnapshotManagerMock = new CmsSnapshotManager($snapshotManagerMock, $transformerMock);
-        $cmsSnapshotManagerMock->setCurrentPage($pageMock);
-        $container->set('sonata.page.cms.snapshot', $cmsSnapshotManagerMock);
+        $snapshotManager = $this->createMock(SnapshotManagerInterface::class);
+        $transformer = $this->createMock(TransformerInterface::class);
+        $cmsSnapshotManager = new CmsSnapshotManager($snapshotManager, $transformer);
+        $cmsSnapshotManager->setCurrentPage($page);
+        $container->set('sonata.page.cms.snapshot', $cmsSnapshotManager);
 
         $twig = $container->get('twig');
         \assert($twig instanceof Environment);

@@ -25,27 +25,27 @@ class CleanupSnapshotServiceTest extends TestCase
     public function testCallCleanupQuery(): void
     {
         // Mock
-        $snapshotManagerMock = $this->createMock(SnapshotManagerInterface::class);
+        $snapshotManager = $this->createMock(SnapshotManagerInterface::class);
 
-        $snapshotManagerMock
+        $snapshotManager
             ->expects(static::once())
             ->method('cleanup')
             ->with(static::isInstanceOf(PageInterface::class), static::equalTo(4));
 
-        $pageManagerMock = $this->createMock(PageManagerInterface::class);
-        $pageManagerMock
+        $pageManager = $this->createMock(PageManagerInterface::class);
+        $pageManager
             ->expects(static::once())
             ->method('findBy')
             ->with(['site' => 2])
             ->willReturn([$this->createMock(PageInterface::class)]);
 
-        $siteMock = $this->createMock(Site::class);
-        $siteMock
+        $site = $this->createMock(Site::class);
+        $site
             ->method('getId')
             ->willReturn(2);
 
         // Run code
-        $cleanupSnapshot = new CleanupSnapshotService($snapshotManagerMock, $pageManagerMock);
-        $cleanupSnapshot->cleanupBySite($siteMock, 4);
+        $cleanupSnapshot = new CleanupSnapshotService($snapshotManager, $pageManager);
+        $cleanupSnapshot->cleanupBySite($site, 4);
     }
 }
