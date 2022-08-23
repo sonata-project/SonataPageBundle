@@ -83,7 +83,7 @@ final class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
 
     private function getName(): string
     {
-        return 'sonata.page.block.breadcrumb';
+        return 'page';
     }
 
     private function getCurrentPage(): ?PageInterface

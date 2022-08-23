@@ -54,7 +54,7 @@ final class PageAdminController extends CRUDController
     }
 
     /**
-     * @param ProxyQueryInterface<object> $query
+     * @param ProxyQueryInterface<PageInterface> $query
      *
      * @throws AccessDeniedException
      */

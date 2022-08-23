@@ -35,7 +35,7 @@ final class SnapshotAdminController extends CRUDController
     }
 
     /**
-     * @param ProxyQueryInterface<object> $query
+     * @param ProxyQueryInterface<SnapshotInterface> $query
      *
      * @throws AccessDeniedException
      */
