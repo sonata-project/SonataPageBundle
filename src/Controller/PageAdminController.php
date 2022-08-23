@@ -103,11 +103,11 @@ final class PageAdminController extends CRUDController
                 $currentSite = $site;
             }
         }
-        if (!$currentSite && 1 === \count($sites)) {
+        if (null === $currentSite && 1 === \count($sites)) {
             $currentSite = $sites[0];
         }
 
-        if ($currentSite) {
+        if (null !== $currentSite) {
             $pages = $pageManager->loadPages($currentSite);
         } else {
             $pages = [];
@@ -179,7 +179,7 @@ final class PageAdminController extends CRUDController
         $id = $request->get($this->admin->getIdParameter());
         $page = $this->admin->getObject($id);
         if (null === $page) {
-            throw new NotFoundHttpException(sprintf('unable to find the page with id : %s', $id));
+            throw new NotFoundHttpException(sprintf('Unable to find the page with id : %s', $id));
         }
         $templateCode = $page->getTemplateCode();
         if (null === $templateCode) {
@@ -194,7 +194,7 @@ final class PageAdminController extends CRUDController
         \assert($templateManager instanceof TemplateManagerInterface);
         $template = $templateManager->get($templateCode);
         if (null === $template) {
-            throw new NotFoundHttpException(sprintf('unable to find the template with code : %s', $templateCode));
+            throw new NotFoundHttpException(sprintf('Unable to find the template with code : %s', $templateCode));
         }
 
         $templateContainers = $template->getContainers();
@@ -229,7 +229,7 @@ final class PageAdminController extends CRUDController
                 $blockContainer = $blockInteractor->createNewContainer([
                     'page' => $page,
                     'name' => $templateContainers[$containerId]['name'],
-                    'code' => $containerId,
+                    'code' => (string) $containerId,
                 ]);
 
                 $containers[$containerId]['block'] = $blockContainer;
@@ -266,7 +266,7 @@ final class PageAdminController extends CRUDController
         $id = $request->get($this->admin->getIdParameter());
         $block = $blockAdmin->getObject($id);
         if (null === $block) {
-            throw new NotFoundHttpException(sprintf('unable to find the block with id : %s', $id));
+            throw new NotFoundHttpException(sprintf('Unable to find the block with id : %s', $id));
         }
 
         $blockManager = $this->container->get('sonata.block.manager');
@@ -286,10 +286,10 @@ final class PageAdminController extends CRUDController
             $templateManager = $this->container->get('sonata.page.template_manager');
             \assert($templateManager instanceof TemplateManagerInterface);
 
-            $template = $templateManager->get($page->getTemplateCode());
+            $template = $templateManager->get($templateCode);
             if (null === $template) {
                 throw new NotFoundHttpException(
-                    sprintf('unable to find the template with code : %s', $templateCode)
+                    sprintf('Unable to find the template with code : %s', $templateCode)
                 );
             }
             $container = $template->getContainer($blockCode);

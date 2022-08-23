@@ -48,6 +48,7 @@ final class BlockAdminController extends CRUDController
 
         try {
             // TODO: Change to $request->query->all('filter') when support for Symfony < 5.1 is dropped.
+            /** @var array<array{id?: int|string, position?: string, parent_id?: int|string, page_id?: int|string}> $params */
             $params = $request->request->all()['disposition'] ?? [];
 
             if ([] === $params) {
