@@ -17,6 +17,7 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
 use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
@@ -68,6 +69,11 @@ abstract class BaseBlockAdmin extends AbstractAdmin
         parent::preBatchAction($actionName, $query, $idx, $allElements);
     }
 
+    protected function configureRoutes(RouteCollectionInterface $collection): void
+    {
+        $collection->remove('show');
+    }
+
     protected function preRemove(object $object): void
     {
         $page = $object->getPage();
@@ -107,7 +113,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->addIdentifier('type')
+            ->addIdentifier('type', null, ['route' => ['name' => 'edit']])
             ->add('name')
             ->add('enabled', null, ['editable' => true])
             ->add('updatedAt')

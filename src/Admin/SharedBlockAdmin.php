@@ -59,7 +59,7 @@ final class SharedBlockAdmin extends BaseBlockAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->addIdentifier('name')
+            ->addIdentifier('name', null, ['route' => ['name' => 'edit']])
             ->add('type')
             ->add('enabled', null, ['editable' => true])
             ->add('updatedAt');
