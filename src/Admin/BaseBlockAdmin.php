@@ -113,7 +113,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->addIdentifier('type')
+            ->addIdentifier('type', null, ['route' => ['name' => 'edit']])
             ->add('name')
             ->add('enabled', null, ['editable' => true])
             ->add('updatedAt')
