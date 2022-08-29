@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Frontend;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Sonata\PageBundle\Tests\App\AppKernel;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageBlock;
 use Sonata\PageBundle\Tests\App\Entity\SonataPagePage;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageSite;
@@ -23,7 +22,6 @@ use Symfony\Component\BrowserKit\AbstractBrowser;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\HttpFoundation\Session\SessionFactoryInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\HttpKernel\KernelInterface;
 
 final class PageTest extends WebTestCase
 {
@@ -42,14 +40,6 @@ final class PageTest extends WebTestCase
         $client->request('GET', '/');
 
         self::assertResponseIsSuccessful();
-    }
-
-    /**
-     * @return class-string<KernelInterface>
-     */
-    protected static function getKernelClass(): string
-    {
-        return AppKernel::class;
     }
 
     /**

@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Frontend;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Sonata\PageBundle\Tests\App\AppKernel;
 use Sonata\PageBundle\Tests\App\Entity\SonataPagePage;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageSite;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -22,7 +21,6 @@ use Symfony\Component\BrowserKit\AbstractBrowser;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\HttpFoundation\Session\SessionFactoryInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\HttpKernel\KernelInterface;
 
 final class ExceptionsTest extends WebTestCase
 {
@@ -59,14 +57,6 @@ final class ExceptionsTest extends WebTestCase
         $client->request('GET', '/exceptions/edit/404');
 
         self::assertResponseIsSuccessful();
-    }
-
-    /**
-     * @return class-string<KernelInterface>
-     */
-    protected static function getKernelClass(): string
-    {
-        return AppKernel::class;
     }
 
     /**
