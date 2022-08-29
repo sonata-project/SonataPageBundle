@@ -294,6 +294,7 @@ final class PageAdminController extends CRUDController
             }
             $container = $template->getContainer($blockCode);
 
+            //TODO here is the problem, for some reason blockServices are empty, but in 3.x it isn't!
             if (null !== $container) {
                 foreach ($blockServices as $code => $service) {
                     if (\in_array($code, $container['blocks'], true)) {
