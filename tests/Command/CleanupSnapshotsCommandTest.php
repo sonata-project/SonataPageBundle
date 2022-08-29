@@ -17,7 +17,6 @@ use Sonata\NotificationBundle\Backend\BackendInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Service\Contract\CleanupSnapshotBySiteInterface;
-use Sonata\PageBundle\Tests\App\AppKernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -173,10 +172,5 @@ class CleanupSnapshotsCommandTest extends KernelTestCase
         static::assertStringNotContainsString('- Publish a notification command ...', $output);
         static::assertStringContainsString('- Cleaning up snapshots ...', $output);
         static::assertStringContainsString('done!', $output);
-    }
-
-    protected static function getKernelClass(): string
-    {
-        return AppKernel::class;
     }
 }
