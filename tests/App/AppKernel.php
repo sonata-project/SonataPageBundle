@@ -40,11 +40,6 @@ final class AppKernel extends Kernel
 {
     use MicroKernelTrait;
 
-    public function __construct()
-    {
-        parent::__construct('test', false);
-    }
-
     public function registerBundles(): array
     {
         $bundles = [
@@ -95,6 +90,8 @@ final class AppKernel extends Kernel
 
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
     {
+        $container->setParameter('app.base_dir', $this->getBaseDir());
+
         $loader->load($this->getProjectDir().'/config/config.yaml');
     }
 
