@@ -13,12 +13,14 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Block;
 
+use Sonata\AdminBundle\Admin\AdminInterface;
+use Sonata\AdminBundle\Builder\FormContractorInterface;
+use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\BlockBundle\Block\BlockContext;
-use Sonata\BlockBundle\Block\Service\ContainerBlockService as BaseContainerBlockService;
-use Sonata\BlockBundle\Form\Mapper\FormMapper;
 use Sonata\BlockBundle\Model\Block;
 use Sonata\BlockBundle\Test\BlockServiceTestCase;
 use Sonata\PageBundle\Block\ContainerBlockService;
+use Symfony\Component\Form\Test\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 final class ContainerBlockServiceTest extends BlockServiceTestCase
@@ -37,8 +39,7 @@ final class ContainerBlockServiceTest extends BlockServiceTestCase
             ->with('@SonataPage/Block/block_container.html.twig')
             ->willReturn('<p> {{ settings.title }} test </p>');
 
-        $baseContainerBlockService = new BaseContainerBlockService($this->twig);
-        $service = new ContainerBlockService($baseContainerBlockService);
+        $service = new ContainerBlockService($this->twig);
         $blockContext = new BlockContext($block, [
             'code' => '',
             'layout' => '{{ CONTENT }}',
@@ -62,11 +63,16 @@ final class ContainerBlockServiceTest extends BlockServiceTestCase
             'name' => 'block.code',
         ]);
 
-        $baseContainerBlockService = new BaseContainerBlockService($this->twig);
-        $service = new ContainerBlockService($baseContainerBlockService);
+        $service = new ContainerBlockService($this->twig);
 
-        $form = $this->createMock(FormMapper::class);
-        $form->expects(static::exactly(2))->method('add');
+        $formBuilder = $this->createMock(FormBuilderInterface::class);
+        $form = new FormMapper(
+            $this->createStub(FormContractorInterface::class),
+            $formBuilder,
+            $this->createStub(AdminInterface::class)
+        );
+
+        $formBuilder->expects(static::exactly(2))->method('add');
 
         $service->configureCreateForm($form, $block);
     }

@@ -27,7 +27,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->set('sonata.page.block.container', ContainerBlockService::class)
             ->tag('sonata.block', ['context' => 'internal'])
             ->args([
-                new ReferenceConfigurator('sonata.block.service.container'),
+                new ReferenceConfigurator('twig'),
             ])
 
         ->set('sonata.page.block.children_pages', ChildrenPagesBlockService::class)

@@ -13,65 +13,80 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Block;
 
+use Sonata\AdminBundle\Form\FormMapper as AdminFormMapper;
 use Sonata\BlockBundle\Block\BlockContextInterface;
-use Sonata\BlockBundle\Block\Service\BlockServiceInterface;
-use Sonata\BlockBundle\Block\Service\ContainerBlockService as BaseContainerBlockService;
+use Sonata\BlockBundle\Block\Service\AbstractBlockService;
 use Sonata\BlockBundle\Block\Service\EditableBlockService;
 use Sonata\BlockBundle\Form\Mapper\FormMapper;
+use Sonata\BlockBundle\Form\Type\ContainerTemplateType;
 use Sonata\BlockBundle\Meta\Metadata;
 use Sonata\BlockBundle\Meta\MetadataInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\Form\Type\CollectionType;
+use Sonata\Form\Type\ImmutableArrayType;
 use Sonata\Form\Validator\ErrorElement;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-final class ContainerBlockService implements BlockServiceInterface, EditableBlockService
+final class ContainerBlockService extends AbstractBlockService implements EditableBlockService
 {
-    private BaseContainerBlockService $containerBlockService;
-
-    public function __construct(BaseContainerBlockService $containerBlockService)
+    public function configureCreateForm(FormMapper $form, BlockInterface $block): void
     {
-        $this->containerBlockService = $containerBlockService;
-    }
-
-    public function execute(BlockContextInterface $blockContext, ?Response $response = null): Response
-    {
-        return $this->containerBlockService->execute($blockContext, $response);
-    }
-
-    public function load(BlockInterface $block): void
-    {
-        $this->containerBlockService->load($block);
-    }
-
-    public function getCacheKeys(BlockInterface $block): array
-    {
-        return $this->containerBlockService->getCacheKeys($block);
+        $this->configureEditForm($form, $block);
     }
 
     public function configureEditForm(FormMapper $form, BlockInterface $block): void
     {
-        $this->containerBlockService->configureEditForm($form, $block);
+        if (!$form instanceof AdminFormMapper) {
+            throw new \InvalidArgumentException('This block can only be edited through SonataAdmin');
+        }
+
+        $form->add('settings', ImmutableArrayType::class, [
+            'keys' => [
+                ['code', TextType::class, [
+                    'required' => false,
+                    'label' => 'form.label_code',
+                ]],
+                ['layout', TextareaType::class, [
+                    'label' => 'form.label_layout',
+                ]],
+                ['class', TextType::class, [
+                    'required' => false,
+                    'label' => 'form.label_class',
+                ]],
+                ['template', ContainerTemplateType::class, [
+                    'label' => 'form.label_template',
+                ]],
+            ],
+            'translation_domain' => 'SonataBlockBundle',
+        ]);
+
+        $form->add('children', CollectionType::class, [], [
+            'edit' => 'inline',
+            'inline' => 'table',
+            'sortable' => 'position',
+        ]);
     }
 
-    public function configureCreateForm(FormMapper $form, BlockInterface $block): void
+    public function execute(BlockContextInterface $blockContext, ?Response $response = null): Response
     {
-        $this->containerBlockService->configureCreateForm($form, $block);
+        $template = $blockContext->getTemplate();
+        \assert(null !== $template);
+
+        return $this->renderResponse($template, [
+            'block' => $blockContext->getBlock(),
+            'decorator' => $this->getDecorator($blockContext->getSetting('layout')),
+            'settings' => $blockContext->getSettings(),
+        ], $response);
     }
 
     public function validate(ErrorElement $errorElement, BlockInterface $block): void
     {
-        $this->containerBlockService->validate($errorElement, $block);
-    }
-
-    public function getMetadata(): MetadataInterface
-    {
-        return new Metadata('sonata.page.block.container', null, null, 'SonataPageBundle', [
-            'class' => 'fa fa-square-o',
-        ]);
     }
 
     public function configureSettings(OptionsResolver $resolver): void
@@ -82,5 +97,33 @@ final class ContainerBlockService implements BlockServiceInterface, EditableBloc
             'class' => '',
             'template' => '@SonataPage/Block/block_container.html.twig',
         ]);
+    }
+
+    public function getMetadata(): MetadataInterface
+    {
+        return new Metadata('sonata.page.block.container', null, null, 'SonataPageBundle', [
+            'class' => 'fa fa-square-o',
+        ]);
+    }
+
+    /**
+     * Returns a decorator object/array from the container layout setting.
+     *
+     * @return array{pre?: string, post?: string}
+     */
+    private function getDecorator(string $layout): array
+    {
+        $key = '{{ CONTENT }}';
+        if (false === strpos($layout, $key)) {
+            return [];
+        }
+
+        $segments = explode($key, $layout);
+        $decorator = [
+            'pre' => $segments[0] ?? '',
+            'post' => $segments[1] ?? '',
+        ];
+
+        return $decorator;
     }
 }
