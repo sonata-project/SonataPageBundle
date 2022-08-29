@@ -19,7 +19,6 @@ use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\Template;
 use Sonata\PageBundle\Model\TransformerInterface;
 use Sonata\PageBundle\Page\TemplateManager;
-use Sonata\PageBundle\Tests\App\AppKernel;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\Request;
@@ -182,11 +181,6 @@ final class TemplateManagerTest extends KernelTestCase
         $breadcrumbFoo = $crawler->filter('.page-breadcrumb')->filter('a');
         static::assertSame('/', $breadcrumbFoo->attr('href'));
         static::assertStringContainsString('Foo', $breadcrumbFoo->text());
-    }
-
-    protected static function getKernelClass(): string
-    {
-        return AppKernel::class;
     }
 
     private function getTemplate(string $name, string $path = 'path/to/file'): Template
