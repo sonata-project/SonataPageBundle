@@ -9,6 +9,8 @@ parameters:
     paths:
         - src
         - tests
+    excludePaths:
+        - tests/App/var
     treatPhpDocTypesAsCertain: false
     checkGenericClassInNonGenericObjectType: true
     checkInternalClassCaseSensitivity: true

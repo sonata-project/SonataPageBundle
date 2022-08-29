@@ -63,16 +63,6 @@ final class AppKernel extends Kernel
         return $bundles;
     }
 
-    public function getCacheDir(): string
-    {
-        return $this->getBaseDir().'cache';
-    }
-
-    public function getLogDir(): string
-    {
-        return $this->getBaseDir().'log';
-    }
-
     public function getProjectDir(): string
     {
         return __DIR__;
@@ -93,8 +83,6 @@ final class AppKernel extends Kernel
      */
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
     {
-        $container->setParameter('app.base_dir', $this->getBaseDir());
-
         $loader->load($this->getProjectDir().'/config/config.yaml');
 
         if (class_exists(AuthenticatorManager::class)) {
@@ -106,10 +94,5 @@ final class AppKernel extends Kernel
         if (class_exists(HttpCacheHandler::class)) {
             $loader->load($this->getProjectDir().'/config/config_sonata_block_v4.yaml');
         }
-    }
-
-    private function getBaseDir(): string
-    {
-        return sys_get_temp_dir().'/sonata-page-bundle/var/';
     }
 }

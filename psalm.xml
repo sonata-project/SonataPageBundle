@@ -3,8 +3,9 @@
     <projectFiles>
         <directory name="src"/>
         <directory name="tests"/>
-        <ignoreFiles>
+        <ignoreFiles allowMissingFiles="true">
             <directory name="vendor"/>
+            <directory name="tests/App/var"/>
         </ignoreFiles>
     </projectFiles>
     <plugins>
