@@ -60,10 +60,10 @@ final class ContainerBlockService extends AbstractBlockService implements Editab
                     'label' => 'form.label_class',
                 ]],
                 ['template', ContainerTemplateType::class, [
-                    'label' => 'form.label_template',
+                    'label' => 'form.label_template_code',
                 ]],
             ],
-            'translation_domain' => 'SonataBlockBundle',
+            'translation_domain' => 'SonataPageBundle',
         ]);
 
         $form->add('children', CollectionType::class, [], [
