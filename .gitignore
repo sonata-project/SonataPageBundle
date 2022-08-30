@@ -12,3 +12,4 @@ phpstan.neon
 /.phpunit.result.cache
 /docs/_build/
 npm-debug.log
+/tests/App/public/bundles
