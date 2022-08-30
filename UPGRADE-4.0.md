@@ -21,6 +21,9 @@ Please be aware the config
 ```
 sonata_block:
         context_manager: sonata.page.block.context_manager
+
+sonata_page:
+    slugify_service: sonata.page.slugify.cocur 
 ```
 won't work anymore then. You should rely on the default value instead.
 
