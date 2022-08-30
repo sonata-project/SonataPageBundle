@@ -294,7 +294,7 @@ final class PageAdminController extends CRUDController
             }
             $container = $template->getContainer($blockCode);
 
-            if (null !== $container) {
+            if (null !== $container && \count($container['blocks']) > 0) {
                 foreach ($blockServices as $code => $service) {
                     if (\in_array($code, $container['blocks'], true)) {
                         continue;
