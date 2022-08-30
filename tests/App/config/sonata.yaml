@@ -1,5 +1,11 @@
+sonata_admin:
+    assets:
+        extra_stylesheets:
+            - bundles/sonatapage/app.css
+        extra_javascripts:
+            - bundles/sonatapage/app.js
+
 sonata_block:
-    http_cache: false
     blocks:
         sonata.admin.block.admin_list:
             contexts: [admin]
@@ -13,10 +19,10 @@ sonata_page:
         enabled: true
         priority: 150
     ignore_route_patterns:
-        - ^(.*)admin(.*)   # ignore admin route, ie route containing 'admin'
-        - ^_(.*)          # ignore symfony routes
+        - ^(.*)admin(.*) # ignore admin route, ie route containing 'admin'
+        - ^_(.*) # ignore symfony routes
     ignore_uri_patterns:
-        - ^/admin\/   # ignore admin route, ie route containing 'admin'
+        - ^/admin\/ # ignore admin route, ie route containing 'admin'
 
     default_template: default
     templates:

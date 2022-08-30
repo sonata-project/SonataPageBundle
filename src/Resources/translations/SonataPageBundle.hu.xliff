@@ -222,6 +222,14 @@
         <source>form.label_url</source>
         <target>Url</target>
       </trans-unit>
+      <trans-unit id="form.label_code">
+        <source>form.label_code</source>
+        <target>Kód</target>
+      </trans-unit>
+      <trans-unit id="form.label_layout">
+        <source>form.label_layout</source>
+        <target>Elrendezés</target>
+      </trans-unit>
       <trans-unit id="form_page.group_advanced_label">
         <source>form_page.group_advanced_label</source>
         <target>Fejlett</target>
