@@ -13,17 +13,22 @@ Please read [3.x](https://github.com/sonata-project/SonataPageBundle/tree/3.x) u
 
 See also the [diff code](https://github.com/sonata-project/SonataPageBundle/compare/3.x...4.0.0).
 
+## Slugify Service
+
+This config was removed from sonata page configuration, make sure that, you do not have this anymore into your configs.
+```diff
+- sonata_page:
+-    slugify_service: sonata.page.slugify.cocur
+```
+
 ## BlockContextManager
 
 The class `Sonata\PageBundle\Block\BlockContextManager` was removed.
 
 Please be aware the config
-```
-sonata_block:
-        context_manager: sonata.page.block.context_manager
-
-sonata_page:
-    slugify_service: sonata.page.slugify.cocur 
+```diff
+- sonata_block:
+-        context_manager: sonata.page.block.context_manager 
 ```
 won't work anymore then. You should rely on the default value instead.
 
