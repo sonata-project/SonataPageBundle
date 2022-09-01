@@ -17,7 +17,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Sonata\PageBundle\Tests\App\Entity\SonataPagePage;
 use Sonata\PageBundle\Tests\Functional\BasePantherTestCase;
 
-final class Browser extends BasePantherTestCase
+final class BrowserTest extends BasePantherTestCase
 {
     public function testComposePage(): void
     {
