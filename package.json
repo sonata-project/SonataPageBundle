@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "jquery-ui": "^1.13"
+    "jquery-ui": "^1.13",
+    "bootstrap": "^3.3"
   },
   "devDependencies": {
     "@babel/core": "^7.17",
