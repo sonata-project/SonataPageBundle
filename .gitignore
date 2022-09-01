@@ -11,5 +11,6 @@ phpunit.xml
 phpstan.neon
 /.phpunit.result.cache
 /docs/_build/
-npm-debug.log
+/drivers
 /tests/App/public/bundles
+npm-debug.log
