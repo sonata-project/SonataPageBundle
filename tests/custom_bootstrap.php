@@ -38,4 +38,10 @@ $input = new ArrayInput([
 ]);
 $application->run($input, new NullOutput());
 
+$input = new ArrayInput([
+    'command' => 'assets:install',
+    'target' => __DIR__.'/App/public',
+]);
+$application->run($input, new NullOutput());
+
 (new Filesystem())->remove([$kernel->getCacheDir()]);
