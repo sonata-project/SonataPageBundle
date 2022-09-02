@@ -124,6 +124,7 @@ final class ConfigurationTest extends TestCase
             'assets' => [
                 'stylesheets' => [
                     'bundles/sonatapage/app.css',
+                    'bundles/sonatapage/frontend.css',
                 ],
                 'javascripts' => [],
             ],
@@ -193,6 +194,7 @@ final class ConfigurationTest extends TestCase
             'assets' => [
                 'stylesheets' => [
                     'bundles/sonatapage/app.css',
+                    'bundles/sonatapage/frontend.css',
                 ],
                 'javascripts' => [],
             ],

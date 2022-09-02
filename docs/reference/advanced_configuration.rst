@@ -42,6 +42,7 @@ Full configuration options:
                 stylesheets:
                     # Defaults:
                     - bundles/sonatapage/app.css
+                    - bundles/sonatapage/frontend.css
                 javascripts:
             templates: # Required
                 # Prototype
