@@ -21,24 +21,13 @@ file that was distributed with this source code.
 
             {% block sonata_page_stylesheets %}
                 {% block page_stylesheets %} {# Deprecated block #}
-                    {% for stylesheet in sonata_page.assets.stylesheets %}
-                        <link rel="stylesheet" href="{{ asset(stylesheet) }}" media="all">
-                    {% endfor %}
+                        <link rel="stylesheet" href="{{ asset('bundles/sonatapage/frontend.css') }}" media="all">
                 {% endblock %}
             {% endblock %}
 
             {% block sonata_page_javascripts %}
                 {% block page_javascripts %} {# Deprecated block #}
-                    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
-                    <!--[if lt IE 9]>
-                        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-                    <![endif]-->
-
-                    {% for js in sonata_page.assets.javascripts %}
-                        <script src="{{ asset(js) }}"></script>
-                    {% endfor %}
                 {% endblock %}
-
             {% endblock %}
         </head>
     {% endblock %}
