@@ -265,8 +265,6 @@ final class PageAdminTest extends WebTestCase
         $manager->persist($site2);
         $manager->persist($page);
         $manager->persist($snapshot);
-        $manager->persist($parentBlock);
-        $manager->persist($block);
 
         $manager->flush();
     }

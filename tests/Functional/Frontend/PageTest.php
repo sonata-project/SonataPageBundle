@@ -178,6 +178,24 @@ final class PageTest extends WebTestCase
         })(), '/random_route', 404, ['Footer content'], []];
     }
 
+    public function testGlobalPage(): void
+    {
+        $client = self::createClient();
+
+        $this->prepareGlobalPageData();
+        $this->becomeEditor($client);
+
+        $client->request('GET', '/');
+
+        self::assertResponseIsSuccessful();
+
+        $content = $client->getResponse()->getContent();
+        \assert(false !== $content);
+
+        static::assertStringContainsString('Page content', $content);
+        static::assertStringContainsString('Footer content', $content);
+    }
+
     /**
      * @psalm-suppress UndefinedPropertyFetch
      */
@@ -232,11 +250,6 @@ final class PageTest extends WebTestCase
 
         $manager->persist($site);
         $manager->persist($page);
-        $manager->persist($containerBlock);
-        $manager->persist($block);
-        $manager->persist($block2);
-        $manager->persist($block3);
-        $manager->persist($block4);
 
         $manager->flush();
     }
@@ -273,8 +286,68 @@ final class PageTest extends WebTestCase
 
         $manager->persist($site);
         $manager->persist($page);
-        $manager->persist($containerBlock);
-        $manager->persist($block);
+
+        $manager->flush();
+    }
+
+    /**
+     * @psalm-suppress UndefinedPropertyFetch
+     */
+    private function prepareGlobalPageData(): void
+    {
+        // TODO: Simplify this when dropping support for Symfony 4.
+        // @phpstan-ignore-next-line
+        $container = method_exists($this, 'getContainer') ? self::getContainer() : self::$container;
+        $manager = $container->get('doctrine.orm.entity_manager');
+        \assert($manager instanceof EntityManagerInterface);
+
+        $site = new SonataPageSite();
+        $site->setName('name');
+        $site->setHost('localhost');
+        $site->setEnabled(true);
+
+        $page = new SonataPagePage();
+        $page->setName('name');
+        $page->setUrl('/');
+        $page->setTemplateCode('default');
+        $page->setEnabled(true);
+        $page->setSite($site);
+
+        $page2 = new SonataPagePage();
+        $page2->setName('global');
+        $page2->setTemplateCode('default');
+        $page2->setEnabled(true);
+        $page2->setRouteName('_page_internal_global');
+        $page2->setSite($site);
+
+        $containerBlock = new SonataPageBlock();
+        $containerBlock->setType('sonata.page.block.container');
+        $containerBlock->setSetting('code', 'content_top');
+        $containerBlock->setEnabled(true);
+
+        $containerBlock2 = new SonataPageBlock();
+        $containerBlock2->setType('sonata.page.block.container');
+        $containerBlock2->setSetting('code', 'footer');
+        $containerBlock2->setEnabled(true);
+
+        $block = new SonataPageBlock();
+        $block->setType('sonata.block.service.text');
+        $block->setSetting('content', 'Footer content');
+        $block->setParent($containerBlock);
+
+        $block2 = new SonataPageBlock();
+        $block2->setType('sonata.block.service.text');
+        $block2->setSetting('content', 'Page content');
+        $block2->setParent($containerBlock2);
+
+        $page->addBlock($containerBlock);
+        $page->addBlock($block);
+        $page2->addBlock($containerBlock2);
+        $page2->addBlock($block2);
+
+        $manager->persist($site);
+        $manager->persist($page);
+        $manager->persist($page2);
 
         $manager->flush();
     }
