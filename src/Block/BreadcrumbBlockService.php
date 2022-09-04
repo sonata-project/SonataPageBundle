@@ -16,6 +16,8 @@ namespace Sonata\PageBundle\Block;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
 use Sonata\BlockBundle\Block\BlockContextInterface;
+use Sonata\BlockBundle\Block\Service\BlockServiceInterface;
+use Sonata\BlockBundle\Block\Service\EditableBlockService;
 use Sonata\BlockBundle\Meta\Metadata;
 use Sonata\BlockBundle\Meta\MetadataInterface;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
@@ -30,12 +32,16 @@ final class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
 {
     private CmsManagerSelectorInterface $cmsSelector;
 
+    /**
+     * @param BlockServiceInterface&EditableBlockService $menuBlock
+     */
     public function __construct(
         Environment $twig,
+        object $menuBlock,
         FactoryInterface $factory,
         CmsManagerSelectorInterface $cmsSelector
     ) {
-        parent::__construct($twig, $factory);
+        parent::__construct($twig, $menuBlock, $factory);
 
         $this->cmsSelector = $cmsSelector;
     }
