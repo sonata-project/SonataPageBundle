@@ -12,6 +12,7 @@ declare(strict_types=1);
  */
 
 use Psr\Container\ContainerInterface;
+use Psr\Log\NullLogger;
 use Sonata\PageBundle\Tests\App\Controller\DynamicController;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ReferenceConfigurator;
@@ -23,5 +24,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->set(DynamicController::class)
             ->public()
             ->tag('container.service_subscriber')
-            ->call('setContainer', [new ReferenceConfigurator(ContainerInterface::class)]);
+            ->call('setContainer', [new ReferenceConfigurator(ContainerInterface::class)])
+
+        ->set('logger', NullLogger::class);
 };
