@@ -144,6 +144,29 @@ final class PageTest extends WebTestCase
 
             return $page;
         })(), '/dynamic/25', 200, ['Original content 25', 'Page content'], []];
+
+        yield 'Page with footer' => [(static function () {
+            $page = new SonataPagePage();
+            $page->setName('name');
+            $page->setTemplateCode('default');
+            $page->setEnabled(true);
+            $page->setRouteName('_page_internal_global');
+
+            $containerBlock = new SonataPageBlock();
+            $containerBlock->setType('sonata.page.block.container');
+            $containerBlock->setSetting('code', 'footer');
+            $containerBlock->setEnabled(true);
+
+            $block = new SonataPageBlock();
+            $block->setType('sonata.block.service.text');
+            $block->setSetting('content', 'Footer content');
+            $block->setParent($containerBlock);
+
+            $page->addBlock($containerBlock);
+            $page->addBlock($block);
+
+            return $page;
+        })(), '/random_route', 404, ['Footer content'], []];
     }
 
     /**
