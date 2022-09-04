@@ -106,6 +106,8 @@ final class AppKernel extends Kernel
         if (class_exists(HttpCacheHandler::class)) {
             $loader->load($this->getProjectDir().'/config/config_sonata_block_v4.yaml');
         }
+
+        $loader->load($this->getProjectDir().'/config/services.php');
     }
 
     private function getBaseDir(): string

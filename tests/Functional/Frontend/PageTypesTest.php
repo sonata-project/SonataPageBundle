@@ -32,15 +32,12 @@ final class PageTypesTest extends WebTestCase
      * @param array<string> $shouldContain
      * @param array<string> $shouldNotContain
      */
-    public function testPageRender(PageInterface $page, array $shouldContain, array $shouldNotContain): void
+    public function testPageRender(PageInterface $page, string $url, array $shouldContain, array $shouldNotContain): void
     {
         $client = self::createClient();
 
         $this->prepareData($page);
         $this->becomeEditor($client);
-
-        $url = $page->getUrl();
-        \assert(null !== $url);
 
         $client->request('GET', $url);
 
@@ -59,9 +56,9 @@ final class PageTypesTest extends WebTestCase
     }
 
     /**
-     * @return iterable<array<PageInterface|array<string>>>
+     * @return iterable<array<PageInterface|array<string>|string>>
      *
-     * @phpstan-return iterable<array{0: PageInterface, 1: array<string>, 2: array<string>}>
+     * @phpstan-return iterable<array{0: PageInterface, 1: string, 2: array<string>, 3: array<string>}>
      */
     public static function providePages(): iterable
     {
@@ -73,7 +70,7 @@ final class PageTypesTest extends WebTestCase
             $page->setUrl('/hybrid');
 
             return $page;
-        })(), ['Page content'], ['Original content']];
+        })(), '/hybrid', ['Page content'], ['Original content']];
 
         yield 'Hybrid Page without decoration' => [(static function () {
             $page = new SonataPagePage();
@@ -85,7 +82,7 @@ final class PageTypesTest extends WebTestCase
             $page->setDecorate(false);
 
             return $page;
-        })(), ['Original content'], ['Page content']];
+        })(), '/hybrid', ['Original content'], ['Page content']];
 
         yield 'Hybrid Page' => [(static function () {
             $page = new SonataPagePage();
@@ -96,7 +93,30 @@ final class PageTypesTest extends WebTestCase
             $page->setRouteName('hybrid_route');
 
             return $page;
-        })(), ['Original content', 'Page content'], []];
+        })(), '/hybrid', ['Original content', 'Page content'], []];
+
+        yield 'Dynamic Page without decoration' => [(static function () {
+            $page = new SonataPagePage();
+            $page->setName('name');
+            $page->setTemplateCode('default');
+            $page->setEnabled(true);
+            $page->setUrl('/dynamic/{id}');
+            $page->setRouteName('dynamic_route');
+            $page->setDecorate(false);
+
+            return $page;
+        })(), '/dynamic/20', ['Original content 20'], ['Page content']];
+
+        yield 'Dynamic Page' => [(static function () {
+            $page = new SonataPagePage();
+            $page->setName('name');
+            $page->setTemplateCode('default');
+            $page->setEnabled(true);
+            $page->setUrl('/dynamic/{id}');
+            $page->setRouteName('dynamic_route');
+
+            return $page;
+        })(), '/dynamic/25', ['Original content 25', 'Page content'], []];
     }
 
     /**
