@@ -32,7 +32,7 @@ final class PageTypesTest extends WebTestCase
      * @param array<string> $shouldContain
      * @param array<string> $shouldNotContain
      */
-    public function testPageRender(PageInterface $page, string $url, array $shouldContain, array $shouldNotContain): void
+    public function testPageRender(PageInterface $page, string $url, int $statusCode, array $shouldContain, array $shouldNotContain): void
     {
         $client = self::createClient();
 
@@ -41,7 +41,7 @@ final class PageTypesTest extends WebTestCase
 
         $client->request('GET', $url);
 
-        self::assertResponseIsSuccessful();
+        self::assertResponseStatusCodeSame($statusCode);
 
         $content = $client->getResponse()->getContent();
         \assert(false !== $content);
@@ -56,9 +56,9 @@ final class PageTypesTest extends WebTestCase
     }
 
     /**
-     * @return iterable<array<PageInterface|array<string>|string>>
+     * @return iterable<array<PageInterface|array<string>|string|int>>
      *
-     * @phpstan-return iterable<array{0: PageInterface, 1: string, 2: array<string>, 3: array<string>}>
+     * @phpstan-return iterable<array{0: PageInterface, 1: string, 2: int, 3: array<string>, 4: array<string>}>
      */
     public static function providePages(): iterable
     {
@@ -70,7 +70,7 @@ final class PageTypesTest extends WebTestCase
             $page->setUrl('/hybrid');
 
             return $page;
-        })(), '/hybrid', ['Page content'], ['Original content']];
+        })(), '/hybrid', 200, ['Page content'], ['Original content']];
 
         yield 'Hybrid Page without decoration' => [(static function () {
             $page = new SonataPagePage();
@@ -82,7 +82,7 @@ final class PageTypesTest extends WebTestCase
             $page->setDecorate(false);
 
             return $page;
-        })(), '/hybrid', ['Original content'], ['Page content']];
+        })(), '/hybrid', 200, ['Original content'], ['Page content']];
 
         yield 'Hybrid Page' => [(static function () {
             $page = new SonataPagePage();
@@ -93,7 +93,7 @@ final class PageTypesTest extends WebTestCase
             $page->setRouteName('hybrid_route');
 
             return $page;
-        })(), '/hybrid', ['Original content', 'Page content'], []];
+        })(), '/hybrid', 200, ['Original content', 'Page content'], []];
 
         yield 'Dynamic Page without decoration' => [(static function () {
             $page = new SonataPagePage();
@@ -105,7 +105,7 @@ final class PageTypesTest extends WebTestCase
             $page->setDecorate(false);
 
             return $page;
-        })(), '/dynamic/20', ['Original content 20'], ['Page content']];
+        })(), '/dynamic/20', 200, ['Original content 20'], ['Page content']];
 
         yield 'Dynamic Page' => [(static function () {
             $page = new SonataPagePage();
@@ -116,7 +116,18 @@ final class PageTypesTest extends WebTestCase
             $page->setRouteName('dynamic_route');
 
             return $page;
-        })(), '/dynamic/25', ['Original content 25', 'Page content'], []];
+        })(), '/dynamic/25', 200, ['Original content 25', 'Page content'], []];
+
+        yield 'Non existent hybrid Page' => [(static function () {
+            $page = new SonataPagePage();
+            $page->setName('name');
+            $page->setTemplateCode('default');
+            $page->setEnabled(true);
+            $page->setUrl('/random_route');
+            $page->setRouteName('random_route');
+
+            return $page;
+        })(), '/random_route', 404, ['The page does not exist'], ['Page content']];
     }
 
     /**
