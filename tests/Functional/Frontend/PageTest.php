@@ -89,6 +89,15 @@ final class PageTest extends WebTestCase
             return $page;
         })(), '/hybrid', 200, ['Page content'], ['Original content']];
 
+        yield 'Disabled Page' => [(static function () {
+            $page = new SonataPagePage();
+            $page->setName('name');
+            $page->setTemplateCode('default');
+            $page->setUrl('/hybrid');
+
+            return $page;
+        })(), '/hybrid', 200, ['Page content'], ['Original content']];
+
         yield 'Hybrid Page without decoration' => [(static function () {
             $page = new SonataPagePage();
             $page->setName('name');
