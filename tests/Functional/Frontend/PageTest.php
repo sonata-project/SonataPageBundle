@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Frontend;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageBlock;
 use Sonata\PageBundle\Tests\App\Entity\SonataPagePage;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageSite;
@@ -40,6 +41,141 @@ final class PageTest extends WebTestCase
         $client->request('GET', '/');
 
         self::assertResponseIsSuccessful();
+    }
+
+    /**
+     * @dataProvider providePages
+     *
+     * @param array<string> $shouldContain
+     * @param array<string> $shouldNotContain
+     */
+    public function testPageRender(PageInterface $page, string $url, int $statusCode, array $shouldContain, array $shouldNotContain): void
+    {
+        $client = self::createClient();
+
+        $this->preparePageTypesData($page);
+        $this->becomeEditor($client);
+
+        $client->request('GET', $url);
+
+        self::assertResponseStatusCodeSame($statusCode);
+
+        $content = $client->getResponse()->getContent();
+        \assert(false !== $content);
+
+        foreach ($shouldContain as $string) {
+            static::assertStringContainsString($string, $content);
+        }
+
+        foreach ($shouldNotContain as $string) {
+            static::assertStringNotContainsString($string, $content);
+        }
+    }
+
+    /**
+     * @return iterable<array<PageInterface|array<string>|string|int>>
+     *
+     * @phpstan-return iterable<array{0: PageInterface, 1: string, 2: int, 3: array<string>, 4: array<string>}>
+     */
+    public static function providePages(): iterable
+    {
+        yield 'CMS Page' => [(static function () {
+            $page = new SonataPagePage();
+            $page->setName('name');
+            $page->setTemplateCode('default');
+            $page->setEnabled(true);
+            $page->setUrl('/hybrid');
+
+            return $page;
+        })(), '/hybrid', 200, ['Page content'], ['Original content']];
+
+        yield 'Disabled Page' => [(static function () {
+            $page = new SonataPagePage();
+            $page->setName('name');
+            $page->setTemplateCode('default');
+            $page->setUrl('/hybrid');
+
+            return $page;
+        })(), '/hybrid', 200, ['Page content'], ['Original content']];
+
+        yield 'Hybrid Page without decoration' => [(static function () {
+            $page = new SonataPagePage();
+            $page->setName('name');
+            $page->setTemplateCode('default');
+            $page->setEnabled(true);
+            $page->setUrl('/hybrid');
+            $page->setRouteName('hybrid_route');
+            $page->setDecorate(false);
+
+            return $page;
+        })(), '/hybrid', 200, ['Original content'], ['Page content']];
+
+        yield 'Hybrid Page' => [(static function () {
+            $page = new SonataPagePage();
+            $page->setName('name');
+            $page->setTemplateCode('default');
+            $page->setEnabled(true);
+            $page->setUrl('/hybrid');
+            $page->setRouteName('hybrid_route');
+
+            return $page;
+        })(), '/hybrid', 200, ['Original content', 'Page content'], []];
+
+        yield 'Non existent hybrid Page' => [(static function () {
+            $page = new SonataPagePage();
+            $page->setName('name');
+            $page->setTemplateCode('default');
+            $page->setEnabled(true);
+            $page->setRouteName('random_route');
+
+            return $page;
+        })(), '/random_route', 404, ['The page does not exist'], ['Page content']];
+
+        yield 'Dynamic Page without decoration' => [(static function () {
+            $page = new SonataPagePage();
+            $page->setName('name');
+            $page->setTemplateCode('default');
+            $page->setEnabled(true);
+            $page->setUrl('/dynamic/{id}');
+            $page->setRouteName('dynamic_route');
+            $page->setDecorate(false);
+
+            return $page;
+        })(), '/dynamic/20', 200, ['Original content 20'], ['Page content']];
+
+        yield 'Dynamic Page' => [(static function () {
+            $page = new SonataPagePage();
+            $page->setName('name');
+            $page->setTemplateCode('default');
+            $page->setEnabled(true);
+            $page->setUrl('/dynamic/{id}');
+            $page->setRouteName('dynamic_route');
+
+            return $page;
+        })(), '/dynamic/25', 200, ['Original content 25', 'Page content'], []];
+
+        yield 'Page with footer' => [(static function () {
+            $page = new SonataPagePage();
+            $page->setName('name');
+            $page->setTemplateCode('default');
+            $page->setEnabled(true);
+            $page->setRouteName('_page_internal_global');
+
+            $containerBlock = new SonataPageBlock();
+            $containerBlock->setType('sonata.page.block.container');
+            $containerBlock->setSetting('code', 'footer');
+            $containerBlock->setEnabled(true);
+
+            $block = new SonataPageBlock();
+            $block->setType('sonata.block.service.text');
+            $block->setSetting('content', 'Footer content');
+            $block->setParent($containerBlock);
+
+            $page->addBlock($containerBlock);
+            $page->addBlock($block);
+
+            return $page;
+        })(), '/random_route', 404, ['Footer content'], []];
     }
 
     /**
@@ -101,6 +237,44 @@ final class PageTest extends WebTestCase
         $manager->persist($block2);
         $manager->persist($block3);
         $manager->persist($block4);
+
+        $manager->flush();
+    }
+
+    /**
+     * @psalm-suppress UndefinedPropertyFetch
+     */
+    private function preparePageTypesData(PageInterface $page): void
+    {
+        // TODO: Simplify this when dropping support for Symfony 4.
+        // @phpstan-ignore-next-line
+        $container = method_exists($this, 'getContainer') ? self::getContainer() : self::$container;
+        $manager = $container->get('doctrine.orm.entity_manager');
+        \assert($manager instanceof EntityManagerInterface);
+
+        $site = new SonataPageSite();
+        $site->setName('name');
+        $site->setHost('localhost');
+        $site->setEnabled(true);
+
+        $containerBlock = new SonataPageBlock();
+        $containerBlock->setType('sonata.page.block.container');
+        $containerBlock->setSetting('code', 'content_top');
+        $containerBlock->setEnabled(true);
+
+        $block = new SonataPageBlock();
+        $block->setType('sonata.block.service.text');
+        $block->setSetting('content', 'Page content');
+        $block->setParent($containerBlock);
+
+        $page->setSite($site);
+        $page->addBlock($containerBlock);
+        $page->addBlock($block);
+
+        $manager->persist($site);
+        $manager->persist($page);
+        $manager->persist($containerBlock);
+        $manager->persist($block);
 
         $manager->flush();
     }
