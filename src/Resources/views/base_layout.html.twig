@@ -14,32 +14,16 @@ file that was distributed with this source code.
 {% endblock %}
     {% block sonata_page_head %}
         <head {{ sonata_seo_head_attributes() }}>
-
-            <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
             {{ sonata_seo_title() }}
             {{ sonata_seo_metadatas() }}
 
             {% block sonata_page_stylesheets %}
-                {% block page_stylesheets %} {# Deprecated block #}
                     {% for stylesheet in sonata_page.assets.stylesheets %}
                         <link rel="stylesheet" href="{{ asset(stylesheet) }}" media="all">
                     {% endfor %}
-                {% endblock %}
             {% endblock %}
 
-            {% block sonata_page_javascripts %}
-                {% block page_javascripts %} {# Deprecated block #}
-                    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
-                    <!--[if lt IE 9]>
-                        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-                    <![endif]-->
-
-                    {% for js in sonata_page.assets.javascripts %}
-                        <script src="{{ asset(js) }}"></script>
-                    {% endfor %}
-                {% endblock %}
-
-            {% endblock %}
+            {% block ('sonata_page_javascripts') %}
         </head>
     {% endblock %}
 
@@ -47,8 +31,9 @@ file that was distributed with this source code.
         <body class="sonata-bc">
     {% endblock %}
 
+    {% block sonata_page_body %}
+
         {% block sonata_page_top_bar %}
-            {% block page_top_bar %} {# Deprecated block #}
                 {% if sonata_page.isEditor or ( app.user and is_granted('ROLE_PREVIOUS_ADMIN') ) %}
                     <header class="sonata-bc sonata-page-top-bar navbar navbar-inverse navbar-fixed-top" role="banner">
                         <div class="container">
@@ -110,15 +95,11 @@ file that was distributed with this source code.
                         </div>
                     </header>
                 {% endif %}
-            {% endblock %}
         {% endblock %}
 
-        {% block sonata_page_container %}
-            {% block page_container %}{% endblock %} {# Deprecated block #}
-        {% endblock %}
+        {% block ('sonata_page_container') %}
 
         {% block sonata_page_asset_footer %}
-            {% block page_asset_footer %} {# Deprecated block #}
                 {% if page is defined %}
                     {% if page.javascript is not empty %}
                         <script>
@@ -137,9 +118,8 @@ file that was distributed with this source code.
                 #}
                 {{ sonata_block_include_stylesheets('screen', app.request.basePath) }}
                 {{ sonata_block_include_javascripts('screen', app.request.basePath) }}
-            {% endblock %}
         {% endblock %}
 
-        <!-- monitoring:3e9fda56df2cdd3b039f189693ab7844fbb2d4f6 -->
+    {% endblock %}
     </body>
 </html>
