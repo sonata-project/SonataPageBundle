@@ -251,8 +251,6 @@ final class BlockAdminTest extends WebTestCase
         $page->addBlock($parentBlock2);
 
         $manager->persist($page);
-        $manager->persist($parentBlock);
-        $manager->persist($parentBlock2);
         $manager->persist($block);
 
         $manager->flush();

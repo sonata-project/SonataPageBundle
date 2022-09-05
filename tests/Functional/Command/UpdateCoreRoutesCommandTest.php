@@ -41,7 +41,7 @@ final class UpdateCoreRoutesCommandTest extends KernelTestCase
 
         $this->commandTester->execute([]);
 
-        static::assertSame(12, $this->countPages());
+        static::assertSame(16, $this->countPages());
 
         static::assertStringContainsString('done!', $this->commandTester->getDisplay());
     }
@@ -54,7 +54,7 @@ final class UpdateCoreRoutesCommandTest extends KernelTestCase
 
         $this->commandTester->execute(['--site' => [1]]);
 
-        static::assertSame(7, $this->countPages());
+        static::assertSame(9, $this->countPages());
 
         static::assertStringContainsString('done!', $this->commandTester->getDisplay());
     }
@@ -70,7 +70,7 @@ final class UpdateCoreRoutesCommandTest extends KernelTestCase
             '--clean' => true,
         ]);
 
-        static::assertSame(6, $this->countPages());
+        static::assertSame(8, $this->countPages());
 
         static::assertStringContainsString('done!', $this->commandTester->getDisplay());
     }

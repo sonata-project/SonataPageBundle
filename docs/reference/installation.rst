@@ -121,13 +121,6 @@ SonataPageBundle Configuration
             not_found: [404] # render 404 page with "not_found" key (name generated: _page_internal_error_{key})
             fatal: [500] # so you can use the same page for different http errors or specify specific page for each error
 
-        # Add custom css and js for your pages.
-        # assets:
-        #    frontend_javascripts:
-        #        - js/your.js
-        #    frontend_stylesheets:
-        #        - css/your.css
-
 SonataAdminBundle Configuration
 -------------------------------
 
