@@ -10,3 +10,13 @@ _sonata_admin:
 sonata_page_exceptions:
     resource: '@SonataPageBundle/Resources/config/routing/exceptions.xml'
     prefix: /
+
+hybrid_route:
+    path: /hybrid
+    controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController
+    defaults:
+        template: hybrid.html.twig
+
+dynamic_route:
+    path: /dynamic/{id}
+    controller: Sonata\PageBundle\Tests\App\Controller\DynamicController

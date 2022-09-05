@@ -41,7 +41,6 @@ use Doctrine\Common\Collections\Collection;
  *     blocks: array<mixed>,
  *   }>,
  * }
- *
  * @phpstan-type PageContent array{
  *   id: int|string|null,
  *   parent_id?: int|string|null,
