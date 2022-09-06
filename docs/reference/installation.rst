@@ -138,7 +138,12 @@ SonataAdminBundle Configuration
 SonataBlockBundle Configuration
 -------------------------------
 
-You need to use the context ``sonata_page_bundle`` in the SonataBlockBundle to add block into a Page.
+.. code-block:: yaml
+
+    # config/packages/sonata_block.yaml
+
+    sonata_block:
+        default_contexts: [sonata_page_bundle]
 
 Security Configuration
 ----------------------
