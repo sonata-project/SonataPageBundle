@@ -30,90 +30,90 @@ file that was distributed with this source code.
     {% endblock %}
 
         {% block sonata_page_top_bar %}
-                {% if sonata_page.isEditor or ( app.user and is_granted('ROLE_PREVIOUS_ADMIN') ) %}
-                    <header class="sonata-bc sonata-page-top-bar navbar navbar-inverse navbar-fixed-top" role="banner">
-                        <div class="container">
-                            <ul class="nav navbar-nav">
-                                {% if app.user and is_granted('ROLE_SONATA_ADMIN') %}
-                                    <li><a href="{{ path('sonata_admin_dashboard') }}">{{ "header.sonata_admin_dashboard"|trans({}, 'SonataPageBundle') }}</a></li>
-                                {% endif %}
+            {% if sonata_page.isEditor or ( app.user and is_granted('ROLE_PREVIOUS_ADMIN') ) %}
+                <header class="sonata-bc sonata-page-top-bar navbar navbar-inverse navbar-fixed-top" role="banner">
+                    <div class="container">
+                        <ul class="nav navbar-nav">
+                            {% if app.user and is_granted('ROLE_SONATA_ADMIN') %}
+                                <li><a href="{{ path('sonata_admin_dashboard') }}">{{ "header.sonata_admin_dashboard"|trans({}, 'SonataPageBundle') }}</a></li>
+                            {% endif %}
 
-                                {% if sonata_page.isEditor %}
-                                    {% set sites = sonata_page.siteavailables %}
+                            {% if sonata_page.isEditor %}
+                                {% set sites = sonata_page.siteavailables %}
 
-                                    {% if sites|length > 1 and site is defined %}
-                                        <li class="dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ site.name }} <span class="caret"></span></a>
-                                            <ul class="dropdown-menu">
-                                                {% for site in sites %}
-                                                    <li><a href="{{ site.url }}">{{ site.name }}</a></li>
-                                                {% endfor %}
-                                            </ul>
-                                        </li>
-                                    {% endif %}
-
+                                {% if sites|length > 1 and site is defined %}
                                     <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Page <span class="caret"></span></a>
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ site.name }} <span class="caret"></span></a>
                                         <ul class="dropdown-menu">
-                                            {% if page is defined %}
-                                                <li><a href="{{ sonata_page_admin.generateUrl('edit', {(sonata_page_admin.idParameter): page.id}) }}" target="_blank">{{ "header.edit_page"|trans({}, 'SonataPageBundle') }}</a></li>
-                                                <li><a href="{{ sonata_page_admin.generateUrl('sonata.page.admin.page|sonata.page.admin.snapshot.list', {(sonata_page_admin.idParameter): page.id}) }}" target="_blank">{{ "header.create_snapshot"|trans({}, 'SonataPageBundle') }}</a></li>
-                                                <li class="divider"></li>
-                                            {% endif %}
-
-                                            <li><a href="{{ sonata_page_admin.generateUrl('list') }}" target="_blank">{{ "header.view_all_pages"|trans({}, 'SonataPageBundle') }}</a></li>
-
-                                            {% if error_codes is defined and error_codes|length %}
-                                                <li class="divider"></li>
-                                                <li><a href="{{ path('sonata_page_exceptions_list') }}" target="_blank">{{ "header.view_all_exceptions"|trans({}, 'SonataPageBundle') }}</a></li>
-                                            {% endif %}
+                                            {% for site in sites %}
+                                                <li><a href="{{ site.url }}">{{ site.name }}</a></li>
+                                            {% endfor %}
                                         </ul>
                                     </li>
-
-                                    {% if page is defined %}
-                                        <li>
-                                            <a href="{{ sonata_page_admin.generateUrl('compose', {(sonata_page_admin.idParameter): page.id}) }}">
-                                                <i class="fa fa-magic"></i>
-                                                {{ 'header.compose_page'|trans({}, 'SonataPageBundle')}}
-                                            </a>
-                                        </li>
-                                    {% endif %}
-
-                                    {% if page is defined and not page.enabled %}
-                                        <li><span style="padding-left: 20px; background: red;"><strong><em>{{ 'header.page_is_disabled'|trans([], 'SonataPageBundle') }}</em></strong></span></li>
-                                    {% endif %}
                                 {% endif %}
 
-                                {% if app.user and is_granted('ROLE_PREVIOUS_ADMIN') %}
-                                    <li><a href="{{ url('homepage', {'_switch_user': '_exit'}) }}">{{ "header.switch_user_exit"|trans({}, 'SonataPageBundle')}}</a></li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Page <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        {% if page is defined %}
+                                            <li><a href="{{ sonata_page_admin.generateUrl('edit', {(sonata_page_admin.idParameter): page.id}) }}" target="_blank">{{ "header.edit_page"|trans({}, 'SonataPageBundle') }}</a></li>
+                                            <li><a href="{{ sonata_page_admin.generateUrl('sonata.page.admin.page|sonata.page.admin.snapshot.list', {(sonata_page_admin.idParameter): page.id}) }}" target="_blank">{{ "header.create_snapshot"|trans({}, 'SonataPageBundle') }}</a></li>
+                                            <li class="divider"></li>
+                                        {% endif %}
+
+                                        <li><a href="{{ sonata_page_admin.generateUrl('list') }}" target="_blank">{{ "header.view_all_pages"|trans({}, 'SonataPageBundle') }}</a></li>
+
+                                        {% if error_codes is defined and error_codes|length %}
+                                            <li class="divider"></li>
+                                            <li><a href="{{ path('sonata_page_exceptions_list') }}" target="_blank">{{ "header.view_all_exceptions"|trans({}, 'SonataPageBundle') }}</a></li>
+                                        {% endif %}
+                                    </ul>
+                                </li>
+
+                                {% if page is defined %}
+                                    <li>
+                                        <a href="{{ sonata_page_admin.generateUrl('compose', {(sonata_page_admin.idParameter): page.id}) }}">
+                                            <i class="fa fa-magic"></i>
+                                            {{ 'header.compose_page'|trans({}, 'SonataPageBundle')}}
+                                        </a>
+                                    </li>
                                 {% endif %}
-                            </ul>
-                        </div>
-                    </header>
-                {% endif %}
+
+                                {% if page is defined and not page.enabled %}
+                                    <li><span style="padding-left: 20px; background: red;"><strong><em>{{ 'header.page_is_disabled'|trans([], 'SonataPageBundle') }}</em></strong></span></li>
+                                {% endif %}
+                            {% endif %}
+
+                            {% if app.user and is_granted('ROLE_PREVIOUS_ADMIN') %}
+                                <li><a href="{{ url('homepage', {'_switch_user': '_exit'}) }}">{{ "header.switch_user_exit"|trans({}, 'SonataPageBundle')}}</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </header>
+            {% endif %}
         {% endblock %}
 
         {% block sonata_page_container %}{% endblock %}
 
         {% block sonata_page_asset_footer %}
-                {% if page is defined %}
-                    {% if page.javascript is not empty %}
-                        <script>
-                            {{ page.javascript|raw }}
-                        </script>
-                    {% endif %}
-                    {% if page.stylesheet is not empty %}
-                        <style>
-                            {{ page.stylesheet|raw }}
-                        </style>
-                    {% endif %}
+            {% if page is defined %}
+                {% if page.javascript is not empty %}
+                    <script>
+                        {{ page.javascript|raw }}
+                    </script>
                 {% endif %}
-                {#
-                    These includes can be done only at this point as all blocks are loaded,
-                    Limition : this does not work if a global page is loaded from an ESI tag inside a container block
-                #}
-                {{ sonata_block_include_stylesheets('screen', app.request.basePath) }}
-                {{ sonata_block_include_javascripts('screen', app.request.basePath) }}
+                {% if page.stylesheet is not empty %}
+                    <style>
+                        {{ page.stylesheet|raw }}
+                    </style>
+                {% endif %}
+            {% endif %}
+            {#
+                These includes can be done only at this point as all blocks are loaded,
+                Limition : this does not work if a global page is loaded from an ESI tag inside a container block
+            #}
+            {{ sonata_block_include_stylesheets('screen', app.request.basePath) }}
+            {{ sonata_block_include_javascripts('screen', app.request.basePath) }}
         {% endblock %}
     </body>
 </html>
