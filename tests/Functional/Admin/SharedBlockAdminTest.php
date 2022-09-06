@@ -141,11 +141,22 @@ final class SharedBlockAdminTest extends WebTestCase
             'shared_block[settings][template]' => '@SonataPage/Block/block_container.html.twig',
         ]];
 
-        // yield 'Create Shared Block - Breadcrumb' => ['/admin/tests/app/sonatapageblock/shared/create', [
-        //     'uniqid' => 'shared_block',
-        //     'type' => 'sonata.page.block.breadcrumb',
-        // ], 'btn_create_and_list', [
-        // ]];
+        yield 'Create Shared Block - Breadcrumb' => ['/admin/tests/app/sonatapageblock/shared/create', [
+            'uniqid' => 'shared_block',
+            'type' => 'sonata.page.block.breadcrumb',
+        ], 'btn_create_and_list', [
+            'shared_block[name]' => 'Name',
+            'shared_block[enabled]' => 1,
+            'shared_block[settings][title]' => 'Title',
+            'shared_block[settings][menu_name]' => 'sonata_admin_sidebar',
+            'shared_block[settings][safe_labels]' => 1,
+            'shared_block[settings][current_class]' => 'current',
+            'shared_block[settings][first_class]' => 'first',
+            'shared_block[settings][last_class]' => 'last',
+            'shared_block[settings][menu_class]' => 'menu',
+            'shared_block[settings][children_class]' => 'children',
+            'shared_block[settings][menu_template]' => 'default',
+        ]];
 
         yield 'Create Shared Block - Shared Block' => ['/admin/tests/app/sonatapageblock/shared/create', [
             'uniqid' => 'shared_block',
