@@ -7,6 +7,11 @@
       "js": [
         "./app.js"
       ]
+    },
+    "frontend": {
+      "css": [
+        "./frontend.css"
+      ]
     }
   }
 }

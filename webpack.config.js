@@ -47,6 +47,7 @@ Encore.setOutputPath('./src/Resources/public')
     options.extractComments = false;
   })
 
+  .addStyleEntry('frontend', './assets/scss/frontend.scss')
   .addEntry('app', './assets/js/app.js');
 
 module.exports = Encore.getWebpackConfig();

@@ -1,4 +1,10 @@
 {
   "bundles/sonatapage/app.css": "./app.css",
-  "bundles/sonatapage/app.js": "./app.js"
+  "bundles/sonatapage/app.js": "./app.js",
+  "bundles/sonatapage/frontend.css": "./frontend.css",
+  "bundles/sonatapage/images/glyphicons-halflings-regular.svg": "./images/glyphicons-halflings-regular.060b2710.svg",
+  "bundles/sonatapage/fonts/glyphicons-halflings-regular.ttf": "./fonts/glyphicons-halflings-regular.4692b9ec.ttf",
+  "bundles/sonatapage/fonts/glyphicons-halflings-regular.woff": "./fonts/glyphicons-halflings-regular.82b1212e.woff",
+  "bundles/sonatapage/fonts/glyphicons-halflings-regular.eot": "./fonts/glyphicons-halflings-regular.5be1347c.eot",
+  "bundles/sonatapage/fonts/glyphicons-halflings-regular.woff2": "./fonts/glyphicons-halflings-regular.be810be3.woff2"
 }
