@@ -18,7 +18,6 @@ use Sonata\PageBundle\CmsManager\CmsSnapshotManager;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\Template;
 use Sonata\PageBundle\Page\TemplateManager;
-use Sonata\PageBundle\Tests\App\AppKernel;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DomCrawler\Crawler;
@@ -205,11 +204,6 @@ final class TemplateManagerTest extends KernelTestCase
         $breadcrumbFoo = $crawler->filter('.page-breadcrumb')->filter('a');
         static::assertSame('/', $breadcrumbFoo->attr('href'));
         static::assertStringContainsString('Foo', $breadcrumbFoo->text());
-    }
-
-    protected static function getKernelClass(): string
-    {
-        return AppKernel::class;
     }
 
     /**

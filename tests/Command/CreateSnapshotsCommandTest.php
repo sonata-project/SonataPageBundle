@@ -18,7 +18,6 @@ use Sonata\PageBundle\Command\CreateSnapshotsCommand;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Service\Contract\CreateSnapshotBySiteInterface;
-use Sonata\PageBundle\Tests\App\AppKernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Input\InputInterface;
@@ -201,10 +200,5 @@ final class CreateSnapshotsCommandTest extends KernelTestCase
         $output = $commandTester->getDisplay();
 
         static::assertStringContainsString('Please provide an --site=SITE_ID option or the --site=all directive', $output);
-    }
-
-    protected static function getKernelClass(): string
-    {
-        return AppKernel::class;
     }
 }
