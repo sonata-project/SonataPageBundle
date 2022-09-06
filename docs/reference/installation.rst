@@ -126,7 +126,7 @@ SonataAdminBundle Configuration
 
 .. code-block:: yaml
 
-    # config/packages/sonata_page.yaml
+    # config/packages/sonata_admin.yaml
 
     sonata_admin:
         assets:
@@ -140,7 +140,7 @@ SonataBlockBundle Configuration
 
 .. code-block:: yaml
 
-    # config/packages/sonata_page.yaml
+    # config/packages/sonata_block.yaml
 
     sonata_block:
         default_contexts: [sonata_page_bundle]
