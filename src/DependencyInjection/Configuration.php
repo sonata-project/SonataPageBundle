@@ -181,6 +181,12 @@ class Configuration implements ConfigurationInterface
             ->end()
 
             ->arrayNode('assets')
+                ->setDeprecated(
+                    ...$this->getDeprecationMessage(
+                        'The "assets" option is deprecated since sonata-project/page-bundle 3.28.0 and will be removed in 4.0',
+                        '3.29'
+                    )
+                )
                 ->addDefaultsIfNotSet()
                 ->children()
                     ->arrayNode('stylesheets')
