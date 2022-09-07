@@ -21,7 +21,7 @@ use Doctrine\Common\Collections\Collection;
  * @phpstan-type BlockContent array{
  *   id: int|string|null,
  *   name?: string|null,
- *   enabled: boolean,
+ *   enabled: boolean|'1'|'0',
  *   position: int|string|null,
  *   settings: array<string, mixed>,
  *   type: string|null,
@@ -31,7 +31,7 @@ use Doctrine\Common\Collections\Collection;
  *   blocks: array<array{
  *     id: int|string|null,
  *     name?: string|null,
- *     enabled: boolean,
+ *     enabled: boolean|'1'|'0',
  *     position: int|string|null,
  *     settings: array<string, mixed>,
  *     type: string|null,

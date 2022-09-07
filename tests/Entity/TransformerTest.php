@@ -218,7 +218,7 @@ final class TransformerTest extends TestCase
         yield [[
             'id' => 'random_string',
             'name' => 'block1',
-            'enabled' => true,
+            'enabled' => '1',
             'position' => '',
             'settings' => [],
             'type' => 'type',

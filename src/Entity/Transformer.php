@@ -179,7 +179,7 @@ final class Transformer implements TransformerInterface
             $block->setName($content['name']);
         }
 
-        $block->setEnabled($content['enabled']);
+        $block->setEnabled(\in_array($content['enabled'], ['1', true], true));
 
         if (isset($content['position']) && is_numeric($content['position'])) {
             $block->setPosition((int) $content['position']);
