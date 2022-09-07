@@ -117,7 +117,7 @@ final class SnapshotManager extends BaseEntityManager implements SnapshotManager
             $query->andWhere('s.name = :name');
             $parameters['name'] = $criteria['name'];
         } else {
-            throw new \RuntimeException('please provide a `pageId`, `url`, `routeName` or `name` as criteria key');
+            throw new \RuntimeException('please provide a `pageId`, `url`, `routeName`, `pageAlias` or `name` as criteria key');
         }
 
         $query->setMaxResults(1);
