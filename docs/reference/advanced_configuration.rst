@@ -38,11 +38,6 @@ Full configuration options:
                 - /admin(.*)/
             default_page_service: sonata.page.service.default
             default_template: ~ # Required
-            assets:
-                stylesheets:
-                    # Defaults:
-                    - bundles/sonatapage/app.css
-                javascripts:
             templates: # Required
                 # Prototype
                 id:

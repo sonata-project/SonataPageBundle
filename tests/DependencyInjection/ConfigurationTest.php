@@ -121,12 +121,6 @@ final class ConfigurationTest extends TestCase
                 0 => 'admin(.*)',
             ],
             'default_page_service' => 'sonata.page.service.default',
-            'assets' => [
-                'stylesheets' => [
-                    'bundles/sonatapage/app.css',
-                ],
-                'javascripts' => [],
-            ],
             'templates_admin' => [
                 'list' => '@SonataPage/PageAdmin/list.html.twig',
                 'tree' => '@SonataPage/PageAdmin/tree.html.twig',
@@ -190,12 +184,6 @@ final class ConfigurationTest extends TestCase
                 0 => 'admin(.*)',
             ],
             'default_page_service' => 'sonata.page.service.default',
-            'assets' => [
-                'stylesheets' => [
-                    'bundles/sonatapage/app.css',
-                ],
-                'javascripts' => [],
-            ],
             'templates_admin' => [
                 'list' => '@SonataPage/PageAdmin/list.html.twig',
                 'tree' => '@SonataPage/PageAdmin/tree.html.twig',

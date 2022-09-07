@@ -180,7 +180,7 @@ Before adding a new block, please look to the default layout
   container ``content_bottom`` of the global page.
 
   A global page does not belong to the current url but it can be used on different pages.
-* ``page_include_stylesheets`` and ``page_include_javascripts`` : insert the
+* ``sonata_page_include_stylesheets`` and ``sonata_page_include_javascripts`` : insert the
   stylesheets and javascripts used on the page by the related blocks.
 
 The block management is done from the front end. A block can be moved and
