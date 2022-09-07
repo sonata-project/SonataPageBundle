@@ -105,6 +105,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             ->args([
                 new ReferenceConfigurator('sonata.page.transformer'),
                 new ReferenceConfigurator('sonata.page.manager.page'),
+                new ReferenceConfigurator('sonata.page.manager.snapshot'),
             ])
             ->call('setTranslationDomain', ['SonataPageBundle'])
 
