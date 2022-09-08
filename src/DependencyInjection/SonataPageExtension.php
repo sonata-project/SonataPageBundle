@@ -84,8 +84,6 @@ final class SonataPageExtension extends Extension implements PrependExtensionInt
         $this->configurePageDefaults($container, $config);
         $this->configurePageServices($container, $config);
 
-        $container->setParameter('sonata.page.assets', $config['assets']);
-
         $container->setParameter('sonata.page.skip_redirection', $config['skip_redirection']);
         $container->setParameter('sonata.page.hide_disabled_blocks', $config['hide_disabled_blocks']);
         $container->getDefinition('sonata.page.decorator_strategy')

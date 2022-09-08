@@ -33,32 +33,16 @@ final class GlobalVariables
 
     private TemplateManagerInterface $templateManager;
 
-    /**
-     * @var array{
-     *   javascript: array<string>,
-     *   stylesheet: array<string>
-     * }
-     */
-    private array $assets;
-
-    /**
-     * @param array{
-     *   javascript: array<string>,
-     *   stylesheet: array<string>
-     * } $assets
-     */
     public function __construct(
         SiteManagerInterface $siteManager,
         CmsManagerSelectorInterface $cmsManagerSelector,
         SiteSelectorInterface $siteSelector,
-        TemplateManagerInterface $templateManager,
-        array $assets
+        TemplateManagerInterface $templateManager
     ) {
         $this->siteManager = $siteManager;
         $this->cmsManagerSelector = $cmsManagerSelector;
         $this->siteSelector = $siteSelector;
         $this->templateManager = $templateManager;
-        $this->assets = $assets;
     }
 
     /**
@@ -97,16 +81,5 @@ final class GlobalVariables
         }
 
         return $template->getPath();
-    }
-
-    /**
-     * @return array{
-     *   javascript: array<string>,
-     *   stylesheet: array<string>
-     * }
-     */
-    public function getAssets(): array
-    {
-        return $this->assets;
     }
 }
