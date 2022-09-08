@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\PageBundle\Tests\Route;
+namespace Sonata\PageBundle\Tests\Template\Matrix;
 
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Template\Matrix\Parser;
