@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Block;
 
 use Sonata\AdminBundle\Admin\AdminInterface;
+use Sonata\AdminBundle\Form\FormMapper as AdminFormMapper;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Block\Service\AbstractBlockService;
 use Sonata\BlockBundle\Block\Service\EditableBlockService;
@@ -29,8 +30,10 @@ use Sonata\PageBundle\Form\Type\PageSelectorType;
 use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Twig\Environment;
@@ -111,8 +114,9 @@ final class ChildrenPagesBlockService extends AbstractBlockService implements Ed
             return;
         }
 
-        $page = $block->getPage();
-        $site = null !== $page ? $page->getSite() : null;
+        if (!$form instanceof AdminFormMapper) {
+            return;
+        }
 
         $form->add('settings', ImmutableArrayType::class, [
             'keys' => [
@@ -132,13 +136,7 @@ final class ChildrenPagesBlockService extends AbstractBlockService implements Ed
                   'required' => false,
                   'label' => 'form.label_current',
                 ]],
-                ['pageId', PageSelectorType::class, [
-                    'model_manager' => $this->pageAdmin->getModelManager(),
-                    'class' => $this->pageAdmin->getClass(),
-                    'site' => $site,
-                    'required' => false,
-                    'label' => 'form.label_page',
-                ]],
+                $this->getPageSelectorBuilder($form, $block),
                 ['class', TextType::class, [
                   'required' => false,
                   'label' => 'form.label_class',
@@ -178,15 +176,30 @@ final class ChildrenPagesBlockService extends AbstractBlockService implements Ed
 
         $pageId = $block->getSetting('pageId', null);
 
-        if (null !== $pageId && !$pageId instanceof PageInterface) {
-            $cmsManager = $this->cmsManagerSelector->retrieve();
-
-            $page = $block->getPage();
-            $site = null !== $page ? $page->getSite() : null;
-
-            if (null !== $site) {
-                $block->setSetting('pageId', $cmsManager->getPage($site, $pageId));
-            }
+        if (!$pageId instanceof PageInterface) {
+            $block->setSetting('pageId', $this->pageAdmin->getObject($pageId));
         }
+    }
+
+    /**
+     * @param AdminFormMapper<object> $form
+     */
+    private function getPageSelectorBuilder(AdminFormMapper $form, PageBlockInterface $block): FormBuilderInterface
+    {
+        $page = $block->getPage();
+
+        $formBuilder = $form->getFormBuilder()->create('pageId', PageSelectorType::class, [
+            'model_manager' => $this->pageAdmin->getModelManager(),
+            'class' => $this->pageAdmin->getClass(),
+            'site' => null !== $page ? $page->getSite() : null,
+            'required' => false,
+            'label' => 'form.label_page',
+        ]);
+        $formBuilder->addModelTransformer(new CallbackTransformer(
+            static fn (?PageInterface $value): ?PageInterface => $value,
+            static fn (?PageInterface $value) => $value instanceof PageInterface ? $value->getId() : $value
+        ));
+
+        return $formBuilder;
     }
 }
