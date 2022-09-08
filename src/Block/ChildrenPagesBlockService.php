@@ -115,7 +115,7 @@ final class ChildrenPagesBlockService extends AbstractBlockService implements Ed
         }
 
         if (!$form instanceof AdminFormMapper) {
-            throw new \InvalidArgumentException('Shared Block requires to be used in the Admin context');
+            throw new \InvalidArgumentException('Children Pages Block requires to be used in the Admin context');
         }
 
         $form->add('settings', ImmutableArrayType::class, [
