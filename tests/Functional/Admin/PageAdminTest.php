@@ -172,7 +172,7 @@ final class PageAdminTest extends WebTestCase
         yield 'Create Block Page - Children Pages' => ['/admin/tests/app/sonatapagepage/1/sonatapageblock/create', [
             'uniqid' => 'block',
             'type' => 'sonata.page.block.children_pages',
-        ], 'btn_create_and_list', [
+        ], 'btn_create_and_edit', [
             'block[name]' => 'Name',
             'block[enabled]' => 1,
             'block[settings][title]' => 'Title',
