@@ -13,6 +13,18 @@ Please read [3.x](https://github.com/sonata-project/SonataPageBundle/tree/3.x) u
 
 See also the [diff code](https://github.com/sonata-project/SonataPageBundle/compare/3.x...4.0.0).
 
+## Assets
+Removed `assets.stylesheets` and `assets.javascripts` from sonata_page configuration
+
+```diff
+sonata_page:
+-    assets:
+-        stylesheets:
+-            # Defaults:
+-            - bundles/sonatapage/app.css
+-        javascripts:
+```
+
 ### Template
 
 Remove deprecate blocks from `base_layout.html.twig`

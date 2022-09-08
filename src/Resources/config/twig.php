@@ -38,6 +38,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 new ReferenceConfigurator('sonata.page.cms_manager_selector'),
                 new ReferenceConfigurator('sonata.page.site.selector'),
                 new ReferenceConfigurator('sonata.page.template_manager'),
-                '%sonata.page.assets%',
             ]);
 };
