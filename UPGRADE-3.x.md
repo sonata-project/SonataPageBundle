@@ -1,6 +1,13 @@
 UPGRADE 3.x
 ===========
 
+UPGRADE FROM 3.28 to 3.29
+=========================
+
+### Deprecate assets config
+
+The `sonata_page.assets` option was deprecated, and it will be removed on 4.x
+
 UPGRADE FROM 3.25 to 3.26
 =========================
 
