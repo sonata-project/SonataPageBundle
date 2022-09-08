@@ -83,7 +83,7 @@ final class SharedBlockAdminTest extends WebTestCase
         yield 'Create Shared Block - Text' => ['/admin/tests/app/sonatapageblock/shared/create', [
             'uniqid' => 'shared_block',
             'type' => 'sonata.block.service.text',
-        ], 'btn_create_and_list', [
+        ], 'btn_create_and_edit', [
             'shared_block[name]' => 'Name',
             'shared_block[enabled]' => 1,
             'shared_block[settings][content]' => 'Text',
@@ -92,7 +92,7 @@ final class SharedBlockAdminTest extends WebTestCase
         yield 'Create Shared Block - Template' => ['/admin/tests/app/sonatapageblock/shared/create', [
             'uniqid' => 'shared_block',
             'type' => 'sonata.block.service.template',
-        ], 'btn_create_and_list', [
+        ], 'btn_create_and_edit', [
             'shared_block[name]' => 'Name',
             'shared_block[enabled]' => 1,
             'shared_block[settings][template]' => '@SonataBlock/Block/block_template.html.twig',
@@ -101,7 +101,7 @@ final class SharedBlockAdminTest extends WebTestCase
         yield 'Create Shared Block - Menu' => ['/admin/tests/app/sonatapageblock/shared/create', [
             'uniqid' => 'shared_block',
             'type' => 'sonata.block.service.menu',
-        ], 'btn_create_and_list', [
+        ], 'btn_create_and_edit', [
             'shared_block[name]' => 'Name',
             'shared_block[enabled]' => 1,
             'shared_block[settings][title]' => 'Title',
@@ -118,7 +118,7 @@ final class SharedBlockAdminTest extends WebTestCase
         yield 'Create Shared Block - RSS' => ['/admin/tests/app/sonatapageblock/shared/create', [
             'uniqid' => 'shared_block',
             'type' => 'sonata.block.service.rss',
-        ], 'btn_create_and_list', [
+        ], 'btn_create_and_edit', [
             'shared_block[name]' => 'Name',
             'shared_block[enabled]' => 1,
             'shared_block[settings][url]' => 'https://sonata-project.org',
@@ -132,7 +132,7 @@ final class SharedBlockAdminTest extends WebTestCase
         yield 'Create Shared Block - Page Container' => ['/admin/tests/app/sonatapageblock/shared/create', [
             'uniqid' => 'shared_block',
             'type' => 'sonata.page.block.container',
-        ], 'btn_create_and_list', [
+        ], 'btn_create_and_edit', [
             'shared_block[name]' => 'Name',
             'shared_block[enabled]' => 1,
             'shared_block[settings][code]' => 'code',
@@ -144,7 +144,7 @@ final class SharedBlockAdminTest extends WebTestCase
         yield 'Create Shared Block - Breadcrumb' => ['/admin/tests/app/sonatapageblock/shared/create', [
             'uniqid' => 'shared_block',
             'type' => 'sonata.page.block.breadcrumb',
-        ], 'btn_create_and_list', [
+        ], 'btn_create_and_edit', [
             'shared_block[name]' => 'Name',
             'shared_block[enabled]' => 1,
             'shared_block[settings][title]' => 'Title',
@@ -161,7 +161,7 @@ final class SharedBlockAdminTest extends WebTestCase
         yield 'Create Shared Block - Shared Block' => ['/admin/tests/app/sonatapageblock/shared/create', [
             'uniqid' => 'shared_block',
             'type' => 'sonata.page.block.shared_block',
-        ], 'btn_create_and_list', [
+        ], 'btn_create_and_edit', [
             'shared_block[name]' => 'Name',
             'shared_block[enabled]' => 1,
             'shared_block[settings][blockId]' => 1,
@@ -170,7 +170,7 @@ final class SharedBlockAdminTest extends WebTestCase
         yield 'Create Shared Block - Page List' => ['/admin/tests/app/sonatapageblock/shared/create', [
             'uniqid' => 'shared_block',
             'type' => 'sonata.page.block.pagelist',
-        ], 'btn_create_and_list', [
+        ], 'btn_create_and_edit', [
             'shared_block[name]' => 'Name',
             'shared_block[enabled]' => 1,
             'shared_block[settings][title]' => 'Title',

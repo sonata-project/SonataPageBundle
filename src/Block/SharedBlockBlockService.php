@@ -26,6 +26,7 @@ use Sonata\Doctrine\Model\ManagerInterface;
 use Sonata\Form\Type\ImmutableArrayType;
 use Sonata\Form\Validator\ErrorElement;
 use Sonata\PageBundle\Model\PageBlockInterface;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -88,13 +89,9 @@ final class SharedBlockBlockService extends AbstractBlockService implements Edit
             throw new \InvalidArgumentException('Shared Block requires to be used in the Admin context');
         }
 
-        if (!$block->getSetting('blockId') instanceof BlockInterface) {
-            $this->load($block);
-        }
-
         $form->add('settings', ImmutableArrayType::class, [
             'keys' => [
-                [$this->getBlockBuilder($form), null, []],
+                $this->getBlockBuilder($form),
             ],
         ]);
     }
@@ -121,13 +118,11 @@ final class SharedBlockBlockService extends AbstractBlockService implements Edit
 
     public function load(BlockInterface $block): void
     {
-        $sharedBlock = $block->getSetting('blockId', null);
+        $blockId = $block->getSetting('blockId', null);
 
-        if (\is_int($sharedBlock)) {
-            $sharedBlock = $this->blockManager->findOneBy(['id' => $sharedBlock]);
+        if (!$blockId instanceof PageBlockInterface) {
+            $block->setSetting('blockId', $this->blockManager->findOneBy(['id' => $blockId]));
         }
-
-        $block->setSetting('blockId', $sharedBlock);
     }
 
     /**
@@ -143,12 +138,18 @@ final class SharedBlockBlockService extends AbstractBlockService implements Edit
         ]);
         $fieldDescription->setAssociationAdmin($admin);
 
-        return $form->getFormBuilder()->create('blockId', ModelListType::class, [
+        $formBuilder = $form->getFormBuilder()->create('blockId', ModelListType::class, [
             'sonata_field_description' => $fieldDescription,
             'class' => $admin->getClass(),
             'model_manager' => $admin->getModelManager(),
             'label' => 'form.label_block',
             'required' => false,
         ]);
+        $formBuilder->addModelTransformer(new CallbackTransformer(
+            static fn (?PageBlockInterface $value): ?PageBlockInterface => $value,
+            static fn (?PageBlockInterface $value) => $value instanceof PageBlockInterface ? $value->getId() : $value
+        ));
+
+        return $formBuilder;
     }
 }
