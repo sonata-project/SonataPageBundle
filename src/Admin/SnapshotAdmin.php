@@ -23,6 +23,7 @@ use Sonata\Form\Type\DateTimePickerType;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SnapshotInterface;
+use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\TransformerInterface;
 
 /**
@@ -38,14 +39,18 @@ final class SnapshotAdmin extends AbstractAdmin
 
     private PageManagerInterface $pageManager;
 
+    private SnapshotManagerInterface $snapshotManager;
+
     public function __construct(
         TransformerInterface $transformer,
-        PageManagerInterface $pageManager
+        PageManagerInterface $pageManager,
+        SnapshotManagerInterface $snapshotManager
     ) {
         parent::__construct();
 
         $this->transformer = $transformer;
         $this->pageManager = $pageManager;
+        $this->snapshotManager = $snapshotManager;
     }
 
     protected function getAccessMapping(): array
@@ -73,9 +78,23 @@ final class SnapshotAdmin extends AbstractAdmin
     protected function prePersist(object $object): void
     {
         $page = $this->isChild() ? $this->getParent()->getSubject() : $object->getPage();
-        \assert($page instanceof PageInterface);
 
-        $this->transformer->create($page, $object);
+        if (null !== $page) {
+            \assert($page instanceof PageInterface);
+            $this->transformer->create($page, $object);
+        }
+    }
+
+    protected function postPersist(object $object): void
+    {
+        $page = $object->getPage();
+
+        if (null !== $page) {
+            $page->setEdited(false);
+            $this->pageManager->save($page);
+        }
+
+        $this->snapshotManager->enableSnapshots([$object]);
     }
 
     protected function configureListFields(ListMapper $list): void

@@ -25,6 +25,27 @@ sonata_page:
 -        javascripts:
 ```
 
+### Template
+
+Remove deprecate blocks from `base_layout.html.twig`
+
+```diff
+- {% block page_stylesheets %}
++ {% block sonata_page_stylesheets %}
+...
+- {% block page_javascripts  %}
++ {% block sonata_page_javascripts  %}
+...
+- {% block page_top_bar  %}
++ {% block sonata_page_top_bar  %}
+...
+- {% block page_container  %}
++ {% block sonata_page_container  %}
+...
+- {% block page_asset_footer  %}
++ {% block sonata_page_asset_footer  %}
+```
+
 ## Slugify Service
 
 This config was removed from sonata page configuration, make sure that, you do not have this anymore into your configs.

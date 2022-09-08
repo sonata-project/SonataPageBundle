@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Functional\Admin;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Tests\App\Entity\SonataPagePage;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageSite;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageSnapshot;
@@ -98,6 +99,33 @@ final class SnapshotAdminTest extends WebTestCase
     }
 
     /**
+     * @psalm-suppress UndefinedPropertyFetch
+     */
+    public function testCreatedSnapshotsAreEnabled(): void
+    {
+        $client = self::createClient();
+
+        // TODO: Simplify this when dropping support for Symfony 4.
+        // @phpstan-ignore-next-line
+        $container = method_exists(static::class, 'getContainer') ? static::getContainer() : static::$container;
+        $manager = $container->get('sonata.page.manager.snapshot');
+        \assert($manager instanceof SnapshotManagerInterface);
+
+        $this->prepareData();
+
+        static::assertNull($manager->findEnableSnapshot(['pageId' => 1]));
+
+        $client->request('GET', '/admin/tests/app/sonatapagesnapshot/create', [
+            'pageId' => 1,
+        ]);
+        $client->submitForm('btn_create_and_list');
+        $client->followRedirect();
+
+        self::assertResponseIsSuccessful();
+        static::assertNotNull($manager->findEnableSnapshot(['pageId' => 1]));
+    }
+
+    /**
      * @dataProvider provideBatchActionsCases
      */
     public function testBatchActions(string $action): void
@@ -146,6 +174,7 @@ final class SnapshotAdminTest extends WebTestCase
         $page = new SonataPagePage();
         $page->setName('name');
         $page->setTemplateCode('default');
+        $page->setEnabled(true);
         $page->setSite($site);
 
         $snapshot = new SonataPageSnapshot();
