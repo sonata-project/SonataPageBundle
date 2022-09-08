@@ -70,10 +70,6 @@ final class SharedBlockAdminTest extends WebTestCase
         $client->followRedirect();
 
         self::assertResponseIsSuccessful();
-
-        $client->request('GET', '/admin/tests/app/sonatapageblock/shared/2/edit');
-
-        self::assertResponseIsSuccessful();
     }
 
     /**
