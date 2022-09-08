@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.29.0](https://github.com/sonata-project/SonataPageBundle/compare/3.28.0...3.29.0) - 2022-09-08
+### Deprecated
+- [[#1595](https://github.com/sonata-project/SonataPageBundle/pull/1595)] Deprecated `assets` option from sonata_page config file ([@eerison](https://github.com/eerison))
+
 ## [3.28.0](https://github.com/sonata-project/SonataPageBundle/compare/3.27.0...3.28.0) - 2022-08-15
 ### Deprecated
 - [[#1511](https://github.com/sonata-project/SonataPageBundle/pull/1511)] Deprecate `slugify_service` configuration option. ([@jordisala1991](https://github.com/jordisala1991))
