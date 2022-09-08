@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Service;
 
 use PHPUnit\Framework\TestCase;
+use Sonata\Doctrine\Model\TransactionalManagerInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteInterface;
@@ -54,4 +55,46 @@ final class CreateSnapshotServiceTest extends TestCase
         );
         $createSnapshotService->createBySite($site);
     }
+
+    public function testTransactionalCreateBySite(): void
+    {
+        // Mocks
+        $snapshotManager = $this->createMock(TransactionSnapshotManagerInterfaceForCreateSnapshotService::class);
+        $snapshotManager
+            ->expects(static::once())
+            ->method('beginTransaction');
+
+        $snapshotManager
+            ->expects(static::once())
+            ->method('commit');
+
+        $pageManager = $this->createMock(PageManagerInterface::class);
+        $pageManager
+            ->method('findBy')
+            ->willReturn([$this->createMock(PageInterface::class)]);
+
+        $transformer = $this->createMock(TransformerInterface::class);
+        $transformer
+            ->method('create')
+            ->willReturn($this->createMock(SnapshotInterface::class));
+
+        $site = $this->createMock(SiteInterface::class);
+
+        // Asserts mocks
+        $transformer
+            ->expects(static::once())
+            ->method('create');
+
+        // Execute code
+        $createSnapshotService = new CreateSnapshotService(
+            $snapshotManager,
+            $pageManager,
+            $transformer
+        );
+        $createSnapshotService->createBySite($site);
+    }
+}
+
+interface TransactionSnapshotManagerInterfaceForCreateSnapshotService extends TransactionalManagerInterface, SnapshotManagerInterface
+{
 }
