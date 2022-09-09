@@ -179,6 +179,7 @@ final class Transformer implements TransformerInterface
             $block->setName($content['name']);
         }
 
+        // NEXT_MAJOR: Simplify this code by removing the in_array function and assign directly.
         $block->setEnabled(\in_array($content['enabled'], ['1', true], true));
 
         if (isset($content['position']) && is_numeric($content['position'])) {
