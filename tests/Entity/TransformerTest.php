@@ -218,13 +218,22 @@ final class TransformerTest extends TestCase
         yield [[
             'id' => 'random_string',
             'name' => 'block1',
-            'enabled' => true,
+            'enabled' => '1',
             'position' => '',
             'settings' => [],
             'type' => 'type',
             'created_at' => null,
             'updated_at' => null,
-            'blocks' => [],
+            'blocks' => [[
+                'id' => null,
+                'enabled' => '0',
+                'position' => null,
+                'settings' => [],
+                'type' => null,
+                'created_at' => null,
+                'updated_at' => null,
+                'blocks' => [],
+            ]],
         ]];
 
         // Numeric string position block data
