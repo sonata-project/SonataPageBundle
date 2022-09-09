@@ -57,27 +57,34 @@ class BlockTypeExtractor implements PropertyTypeExtractorInterface
      */
     public function getTypes($class, $property, array $context = []): ?array
     {
-        if ($class === $this->blockManager->getClass()) {
-            if ('position' === $property) {
-                return [
-                    new Type(Type::BUILTIN_TYPE_INT, true),
-                    new Type(Type::BUILTIN_TYPE_STRING, true),
-                ];
-            } elseif ('settings' === $property) {
-                // fix for faulty property-info in 4.4, it didn't understand arrays with keys
-                return [
-                    new Type(
-                        Type::BUILTIN_TYPE_ARRAY,
-                        false,
-                        null,
-                        true,
-                        new Type(Type::BUILTIN_TYPE_STRING),
-                        null
-                    ),
-                ];
-            } elseif (\in_array($property, self::NULLABLE_STRINGS, true)) {
-                return [new Type(Type::BUILTIN_TYPE_STRING, true)];
-            }
+        if ($class !== $this->blockManager->getClass()) {
+            return null;
+        }
+        if ('position' === $property) {
+            return [
+                new Type(Type::BUILTIN_TYPE_INT, true),
+                new Type(Type::BUILTIN_TYPE_STRING, true),
+            ];
+        } elseif ('enabled' === $property) {
+            return [
+                new Type(Type::BUILTIN_TYPE_BOOL, true),
+                new Type(Type::BUILTIN_TYPE_INT, true),
+                new Type(Type::BUILTIN_TYPE_STRING, true),
+            ];
+        } elseif ('settings' === $property) {
+            // fix for faulty property-info in 4.4, it didn't understand arrays with keys
+            return [
+                new Type(
+                    Type::BUILTIN_TYPE_ARRAY,
+                    false,
+                    null,
+                    true,
+                    new Type(Type::BUILTIN_TYPE_STRING),
+                    null
+                ),
+            ];
+        } elseif (\in_array($property, self::NULLABLE_STRINGS, true)) {
+            return [new Type(Type::BUILTIN_TYPE_STRING, true)];
         }
 
         return null;
