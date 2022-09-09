@@ -18,6 +18,10 @@ use Doctrine\Common\Collections\Collection;
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
+ * NEXT_MAJOR: Restrict and simplify BlockContent type:
+ *   - position: int|null
+ *   - enabled: boolean
+ *
  * @phpstan-type BlockContent array{
  *   id: int|string|null,
  *   name?: string|null,
