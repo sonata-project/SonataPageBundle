@@ -166,7 +166,7 @@ final class PageAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->add('hybrid', 'text', ['template' => '@SonataPage/PageAdmin/field_hybrid.html.twig'])
+            ->add('hybrid', null, ['template' => '@SonataPage/PageAdmin/field_hybrid.html.twig'])
             ->addIdentifier('name')
             ->add('type')
             ->add('pageAlias')
@@ -175,7 +175,13 @@ final class PageAdmin extends AbstractAdmin
             ])
             ->add('decorate', null, ['editable' => true])
             ->add('enabled', null, ['editable' => true])
-            ->add('edited', null, ['editable' => true]);
+            ->add('edited', null, ['editable' => true])
+            ->add(ListMapper::NAME_ACTIONS, ListMapper::TYPE_ACTIONS, [
+                'translation_domain' => 'SonataAdminBundle',
+                'actions' => [
+                    'edit' => [],
+                ],
+            ]);
     }
 
     protected function configureDatagridFilters(DatagridMapper $filter): void

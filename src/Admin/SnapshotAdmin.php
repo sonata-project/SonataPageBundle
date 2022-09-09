@@ -18,6 +18,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelHiddenType;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Security\Acl\Permission\AdminPermissionMap;
 use Sonata\Form\Type\DateTimePickerType;
 use Sonata\PageBundle\Model\PageInterface;
@@ -97,10 +98,15 @@ final class SnapshotAdmin extends AbstractAdmin
         $this->snapshotManager->enableSnapshots([$object]);
     }
 
+    protected function configureRoutes(RouteCollectionInterface $collection): void
+    {
+        $collection->remove('show');
+    }
+
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->addIdentifier('url')
+            ->addIdentifier('url', null, ['route' => ['name' => 'edit']])
             ->add('enabled')
             ->add('publicationDateStart')
             ->add('publicationDateEnd');
