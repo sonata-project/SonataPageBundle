@@ -256,6 +256,11 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
         $this->getPage()->addChild($child);
     }
 
+    public function removeChild(PageInterface $child): void
+    {
+        $this->getPage()->removeChild($child);
+    }
+
     public function getBlocks(): Collection
     {
         if (0 === \count($this->getPage()->getBlocks())) {
@@ -277,6 +282,11 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
     public function addBlock(PageBlockInterface $block): void
     {
         $this->getPage()->addBlock($block);
+    }
+
+    public function removeBlock(PageBlockInterface $block): void
+    {
+        $this->getPage()->removeBlock($block);
     }
 
     public function getContainerByCode(string $code): ?PageBlockInterface

@@ -372,6 +372,7 @@ final class FTransformerTest extends KernelTestCase
         $block = $this->transformer->loadBlock($this->getTestBlockArray($datetime, $position, $settings), $page);
 
         static::assertSame(123, $block->getId());
+        static::assertCount(1, $block->getChildren());
     }
 
     /**

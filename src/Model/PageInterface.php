@@ -113,12 +113,16 @@ interface PageInterface extends \Stringable
 
     public function addChild(self $child): void;
 
+    public function removeChild(self $child): void;
+
     /**
      * @return Collection<array-key, PageBlockInterface>
      */
     public function getBlocks(): Collection;
 
     public function addBlock(PageBlockInterface $block): void;
+
+    public function removeBlock(PageBlockInterface $block): void;
 
     public function getContainerByCode(string $code): ?PageBlockInterface;
 
