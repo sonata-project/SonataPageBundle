@@ -191,10 +191,10 @@ final class CmsPageRouter implements ChainedRouterInterface
             return $this->router->generate($routeName, $parameters, $referenceType);
         }
 
-        $url = $this->getUrlFromPage($page);
+        $url = $page->getUrl();
 
         if (null === $url) {
-            throw new \RuntimeException(sprintf('Page "%d" has no url or customUrl.', $page->getId() ?? ''));
+            throw new \RuntimeException(sprintf('Page "%d" has no url.', $page->getId() ?? ''));
         }
 
         if (!$this->context instanceof SiteRequestContextInterface) {
@@ -282,11 +282,6 @@ final class CmsPageRouter implements ChainedRouterInterface
         $page = $this->cmsSelector->retrieve()->getPageByPageAlias($site, $alias);
 
         return $page;
-    }
-
-    private function getUrlFromPage(PageInterface $page): ?string
-    {
-        return $page->getCustomUrl() ?? $page->getUrl();
     }
 
     private function isPageAlias(string $name): bool
