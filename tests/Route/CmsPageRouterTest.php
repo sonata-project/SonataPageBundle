@@ -201,9 +201,6 @@ final class CmsPageRouterTest extends TestCase
         static::assertSame('//localhost/test/path?key=value', $url);
     }
 
-    /**
-     * @group legacy
-     */
     public function testGenerateWithPageCustomUrl(): void
     {
         $page = $this->createMock(PageInterface::class);
@@ -235,9 +232,6 @@ final class CmsPageRouterTest extends TestCase
         static::assertSame('//localhost/test/path?key=value', $url);
     }
 
-    /**
-     * @group legacy
-     */
     public function testGenerateWithHybridPage(): void
     {
         $page = $this->createMock(PageInterface::class);
@@ -267,9 +261,6 @@ final class CmsPageRouterTest extends TestCase
         static::assertSame('//localhost/test/path?key=value', $url);
     }
 
-    /**
-     * @group legacy
-     */
     public function testGenerateWithPageAlias(): void
     {
         $page = $this->createMock(PageInterface::class);

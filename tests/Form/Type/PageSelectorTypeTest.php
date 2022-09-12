@@ -92,9 +92,6 @@ final class PageSelectorTypeTest extends TestCase
         return $manager;
     }
 
-    /**
-     * @group legacy
-     */
     public function testNoSite(): void
     {
         $pageSelector = new PageSelectorType($this->getPageManager());
@@ -108,9 +105,6 @@ final class PageSelectorTypeTest extends TestCase
         static::assertSame([], $options['choices']);
     }
 
-    /**
-     * @group legacy
-     */
     public function testAllRequestMethodChoices(): void
     {
         $pageSelector = new PageSelectorType($this->getPageManager());

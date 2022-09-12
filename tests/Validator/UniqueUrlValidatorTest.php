@@ -54,9 +54,6 @@ final class UniqueUrlValidatorTest extends ConstraintValidatorTestCase
             ->assertRaised();
     }
 
-    /**
-     * @group legacy
-     */
     public function testValidateWithNoPageFound(): void
     {
         $site = $this->createMock(SiteInterface::class);
