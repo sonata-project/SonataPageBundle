@@ -368,10 +368,10 @@ final class PageAdmin extends AbstractAdmin
                 $site = $page->getSite();
 
                 if (null !== $site) {
-                    $siteRelativePath = $site->getRelativePath();
+                    $relativePath = $site->getRelativePath();
 
-                    if (null !== $siteRelativePath) {
-                        $path = $siteRelativePath.$path;
+                    if (!\in_array($relativePath, [null, '/'], true)) {
+                        $path = $relativePath.$path;
                     }
                 }
 
