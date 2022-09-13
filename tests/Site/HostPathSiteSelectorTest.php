@@ -55,6 +55,7 @@ final class HostPathSiteSelectorTest extends TestCase
         yield ['Site 8', 'http://www.example.com/test'];
         yield ['Site 8', 'http://www.example.com/test/abc', '/abc'];
         yield ['Site 9', 'http://www.example.org/abc', '/abc'];
+        yield ['Site 10', 'http://www.example.es/abc', '/abc'];
     }
 
     /**
@@ -302,6 +303,17 @@ final class HostPathSiteSelector extends BaseSiteSelector
         $sites[9]->setEnabledTo($always);
         $sites[9]->setIsDefault(false);
         $sites[9]->setLocale('en_GB');
+
+        /* Site 10 - www.example.es and / as relative path */
+        $sites[10] = new HostPathSite();
+        $sites[10]->setEnabled(true);
+        $sites[10]->setName('Site 10');
+        $sites[10]->setRelativePath('/');
+        $sites[10]->setHost('www.example.es');
+        $sites[10]->setEnabledFrom($always);
+        $sites[10]->setEnabledTo($always);
+        $sites[10]->setIsDefault(false);
+        $sites[10]->setLocale('en_GB');
 
         return $sites;
     }

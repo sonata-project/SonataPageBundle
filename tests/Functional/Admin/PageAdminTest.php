@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Functional\Admin;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageBlock;
 use Sonata\PageBundle\Tests\App\Entity\SonataPagePage;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageSite;
@@ -221,6 +222,39 @@ final class PageAdminTest extends WebTestCase
     }
 
     /**
+     * @dataProvider provideTabMenuCases
+     */
+    public function testTabMenu(string $link, string $location): void
+    {
+        $client = self::createClient();
+
+        $this->prepareData();
+
+        $client->request('GET', '/admin/tests/app/sonatapagepage/1/edit');
+        $crawler = $client->getCrawler();
+
+        $link = $crawler->selectLink($link)->link();
+        $client->click($link);
+
+        static::assertSame($client->getHistory()->current()->getUri(), 'http://localhost'.$location);
+        self::assertResponseIsSuccessful();
+    }
+
+    /**
+     * @return iterable<array<string>>
+     *
+     * @phpstan-return iterable<array{0: string, 1: string}>
+     */
+    public static function provideTabMenuCases(): iterable
+    {
+        yield 'Edit page link' => ['Edit page', '/admin/tests/app/sonatapagepage/1/edit'];
+        yield 'Composer link' => ['Composer', '/admin/tests/app/sonatapagepage/1/compose'];
+        yield 'Block list link' => ['Block List', '/admin/tests/app/sonatapagepage/1/sonatapageblock/list'];
+        yield 'Publications link' => ['Publications', '/admin/tests/app/sonatapagepage/1/sonatapagesnapshot/list'];
+        yield 'View page link' => ['View page', '/'];
+    }
+
+    /**
      * @psalm-suppress UndefinedPropertyFetch
      */
     private function prepareData(): void
@@ -232,8 +266,10 @@ final class PageAdminTest extends WebTestCase
         \assert($manager instanceof EntityManagerInterface);
 
         $site = new SonataPageSite();
+        $site->setRelativePath('/');
         $site->setName('name');
         $site->setHost('localhost');
+        $site->setEnabled(true);
 
         $site2 = new SonataPageSite();
         $site2->setName('name');
@@ -243,12 +279,17 @@ final class PageAdminTest extends WebTestCase
         $page->setName('name');
         $page->setUrl('/');
         $page->setTemplateCode('default');
+        $page->setEnabled(true);
         $page->setSite($site);
 
         $snapshot = new SonataPageSnapshot();
         $snapshot->setName('name');
-        $snapshot->setRouteName('sonata_page_test_route');
+        $snapshot->setUrl('/');
+        $snapshot->setRouteName(PageInterface::PAGE_ROUTE_CMS_NAME);
+        $snapshot->setEnabled(true);
+        $snapshot->setPublicationDateStart(new \DateTimeImmutable());
         $snapshot->setPage($page);
+        $snapshot->setSite($site);
 
         $parentBlock = new SonataPageBlock();
         $parentBlock->setType('sonata.page.block.container');
