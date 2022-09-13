@@ -22,6 +22,37 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class SnapshotTest extends WebTestCase
 {
+    public function testCreatePageAndRender(): void
+    {
+        $client = self::createClient();
+
+        $this->prepareData();
+
+        $client->request('GET', '/admin/tests/app/sonatapagepage/create', [
+            'uniqid' => 'page',
+            'siteId' => 1,
+        ]);
+
+        $client->submitForm('btn_create_and_list', [
+            'page[name]' => 'Name',
+            'page[enabled]' => 1,
+            'page[templateCode]' => 'default',
+            'page[customUrl]' => '/custom-url',
+        ]);
+        $client->followRedirect();
+
+        $client->request('GET', '/custom-url');
+
+        self::assertResponseStatusCodeSame(404);
+
+        $client->request('GET', '/admin/tests/app/sonatapagesite/1/snapshots');
+        $client->submitForm('create');
+
+        $client->request('GET', '/custom-url');
+
+        self::assertResponseIsSuccessful();
+    }
+
     public function testPageRenderFromSnapshot(): void
     {
         $client = self::createClient();

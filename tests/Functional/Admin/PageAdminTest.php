@@ -136,7 +136,6 @@ final class PageAdminTest extends WebTestCase
             'uniqid' => 'page',
             'siteId' => 1,
         ], 'btn_create_and_list', [
-            'page[url]' => '/',
             'page[site]' => 1,
             'page[name]' => 'Name',
             'page[enabled]' => 1,
@@ -146,7 +145,7 @@ final class PageAdminTest extends WebTestCase
             'page[parent]' => 1,
             'page[pageAlias]' => 'alias',
             'page[slug]' => 'name',
-            'page[customUrl]' => '/custom_url',
+            'page[customUrl]' => '/custom-url',
             'page[title]' => 'Title',
             'page[metaKeyword]' => 'name, name2',
             'page[metaDescription]' => 'Name is a good name.',
