@@ -26,6 +26,36 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 final class PageTest extends WebTestCase
 {
+    public function testCreatePageAndRender(): void
+    {
+        $client = self::createClient();
+
+        $this->prepareData();
+
+        $client->request('GET', '/admin/tests/app/sonatapagepage/create', [
+            'uniqid' => 'page',
+            'siteId' => 1,
+        ]);
+
+        $client->submitForm('btn_create_and_list', [
+            'page[name]' => 'Name',
+            'page[enabled]' => 1,
+            'page[templateCode]' => 'default',
+            'page[customUrl]' => '/custom-url',
+        ]);
+        $client->followRedirect();
+
+        $client->request('GET', '/custom-url');
+
+        self::assertResponseStatusCodeSame(404);
+
+        $this->becomeEditor($client);
+
+        $client->request('GET', '/custom-url');
+
+        self::assertResponseIsSuccessful();
+    }
+
     public function testPageRenderFromPageWhenUserIsAnEditor(): void
     {
         $client = self::createClient();

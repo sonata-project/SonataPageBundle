@@ -176,38 +176,7 @@ final class CmsPageRouterTest extends TestCase
         $site = $this->createMock(SiteInterface::class);
 
         $page->expects(static::exactly(5))->method('isHybrid')->willReturn(false);
-        $page->expects(static::exactly(5))->method('getCustomUrl')->willReturn('/test/path');
-        $page->expects(static::exactly(5))->method('getSite')->willReturn($site);
-        $site->expects(static::exactly(2))->method('isLocalhost')->willReturn(true);
-
-        $this->siteSelector->method('retrieve')->willReturn($site);
-        $this->router->setContext(new SiteRequestContext(
-            $this->siteSelector
-        ));
-
-        $url = $this->router->generate($page, ['key' => 'value']);
-        static::assertSame('/test/path?key=value', $url);
-
-        $url = $this->router->generate($page, ['key' => 'value'], UrlGeneratorInterface::ABSOLUTE_PATH);
-        static::assertSame('/test/path?key=value', $url);
-
-        $url = $this->router->generate($page, ['key' => 'value'], UrlGeneratorInterface::RELATIVE_PATH);
-        static::assertSame('test/path?key=value', $url);
-
-        $url = $this->router->generate($page, ['key' => 'value'], UrlGeneratorInterface::ABSOLUTE_URL);
-        static::assertSame('http://localhost/test/path?key=value', $url);
-
-        $url = $this->router->generate($page, ['key' => 'value'], UrlGeneratorInterface::NETWORK_PATH);
-        static::assertSame('//localhost/test/path?key=value', $url);
-    }
-
-    public function testGenerateWithPageCustomUrl(): void
-    {
-        $page = $this->createMock(PageInterface::class);
-        $site = $this->createMock(SiteInterface::class);
-
-        $page->expects(static::exactly(5))->method('isHybrid')->willReturn(false);
-        $page->expects(static::exactly(5))->method('getCustomUrl')->willReturn('/test/path');
+        $page->expects(static::exactly(5))->method('getUrl')->willReturn('/test/path');
         $page->expects(static::exactly(5))->method('getSite')->willReturn($site);
         $site->expects(static::exactly(2))->method('isLocalhost')->willReturn(true);
 

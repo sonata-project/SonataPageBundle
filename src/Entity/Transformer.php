@@ -131,7 +131,6 @@ final class Transformer implements TransformerInterface
         $page->setRouteName($snapshot->getRouteName());
         $page->setPageAlias($snapshot->getPageAlias());
         $page->setType($snapshot->getType());
-        $page->setCustomUrl($snapshot->getUrl());
         $page->setUrl($snapshot->getUrl());
         $page->setPosition($snapshot->getPosition());
         $page->setDecorate($snapshot->getDecorate());
