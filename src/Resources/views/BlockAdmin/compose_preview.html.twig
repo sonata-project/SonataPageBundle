@@ -7,25 +7,29 @@
     <a class="page-composer__container__child__edit"
        href="{{ blockAdmin.generateUrl('edit', { 'id': child.id, 'composer': true }) }}"
     >
-        {% set service = attribute(blockServices, child.type) %}
-        {% if service.metadata is defined %}
-            {% set metadata = service.metadata %}
+        {% set service = attribute(blockServices, child.type) ?? null %}
+        {% if service is not null %}
+            {% if service.metadata is defined %}
+                {% set metadata = service.metadata %}
+            {% else %}
+                {% set metadata = service.blockMetadata %}
+            {% endif %}
+            <h4 class="page-composer__container__child__name">
+                {{ child.name|default(metadata.title)|trans({}, metadata.domain|default('SonataPageBundle')) }}
+            </h4>
+            {% if not metadata.image %}
+                <i class="{{ metadata.option('class') }}" ></i>
+            {% else %}
+                <img src="{{ asset(metadata.image) }}" style="max-height: 20px; max-width: 100px;"/>
+            {% endif %}
+            <small>{{ metadata.title|trans({}, metadata.domain|default('SonataPageBundle')) }}</small>
+            <span class="page-composer__container__child__toggle">
+                <i class="fa fa-chevron-down"></i>
+                <i class="fa fa-chevron-up"></i>
+            </span>
         {% else %}
-            {% set metadata = service.blockMetadata %}
+            {{ child.type }}
         {% endif %}
-        <h4 class="page-composer__container__child__name">
-            {{ child.name|default(metadata.title)|trans({}, metadata.domain|default('SonataPageBundle')) }}
-        </h4>
-        {% if not metadata.image %}
-            <i class="{{ metadata.option('class') }}" ></i>
-        {% else %}
-            <img src="{{ asset(metadata.image) }}" style="max-height: 20px; max-width: 100px;"/>
-        {% endif %}
-        <small>{{ metadata.title|trans({}, metadata.domain|default('SonataPageBundle')) }}</small>
-        <span class="page-composer__container__child__toggle">
-            <i class="fa fa-chevron-down"></i>
-            <i class="fa fa-chevron-up"></i>
-        </span>
     </a>
 
     <div class="page-composer__container__child__right">
@@ -33,37 +37,45 @@
             <a class="badge" href="{{ blockAdmin.generateUrl('delete', { 'id': child.id }) }}">{{ 'composer.remove'|trans({}, 'SonataPageBundle') }} <i class="fa fa-times"></i> </a>
         </div>
 
-        <div
-            class="page-composer__container__child__switch-enabled"
-            data-label-enable="{{ ('composer.enable'|trans({}, 'SonataPageBundle') ~ ' <i class="fa fa-toggle-on"></i>')|e }}"
-            data-label-disable="{{ ('composer.disable'|trans({}, 'SonataPageBundle') ~ ' <i class="fa fa-toggle-off"></i>')|e }}"
-        >
-            <a
-                class="badge bg-{{ child.enabled ? 'yellow' : 'green' }}"
-                href="{{ path('sonata_admin_set_object_field_value', {
-                    'objectId': child.id,
-                    'context': 'list',
-                    'field': 'enabled',
-                    '_sonata_admin': 'sonata.page.admin.block'
-                }) }}">
-                    {% if child.enabled %}{{ 'composer.disable'|trans({}, 'SonataPageBundle') }}
-                        <i class="fa fa-toggle-off"></i>
-                    {% else %}
-                        {{ 'composer.enable'|trans({}, 'SonataPageBundle') }}
-                        <i class="fa fa-toggle-on"></i>
-                    {% endif %}
-            </a>
-        </div>
+        {% if service is not null %}
+
+            <div
+                class="page-composer__container__child__switch-enabled"
+                data-label-enable="{{ ('composer.enable'|trans({}, 'SonataPageBundle') ~ ' <i class="fa fa-toggle-on"></i>')|e }}"
+                data-label-disable="{{ ('composer.disable'|trans({}, 'SonataPageBundle') ~ ' <i class="fa fa-toggle-off"></i>')|e }}"
+            >
+                <a
+                    class="badge bg-{{ child.enabled ? 'yellow' : 'green' }}"
+                    href="{{ path('sonata_admin_set_object_field_value', {
+                        'objectId': child.id,
+                        'context': 'list',
+                        'field': 'enabled',
+                        '_sonata_admin': 'sonata.page.admin.block'
+                    }) }}">
+                        {% if child.enabled %}{{ 'composer.disable'|trans({}, 'SonataPageBundle') }}
+                            <i class="fa fa-toggle-off"></i>
+                        {% else %}
+                            {{ 'composer.enable'|trans({}, 'SonataPageBundle') }}
+                            <i class="fa fa-toggle-on"></i>
+                        {% endif %}
+                </a>
+            </div>
+
+        {% endif %}
 
         <div class="page-composer__container__child__enabled">
             <small class="badge bg-{{ child.enabled ? 'green' : 'yellow' }}"><i class="fa fa-{{ child.enabled ? 'check' : 'times' }}"></i></small>
         </div>
     </div>
 
-    <div class="page-composer__container__child__content">
-    </div>
+    {% if service is not null %}
 
-    <div class="page-composer__container__child__loader">
-        <span>{{ 'loading'|trans({}, 'SonataPageBundle') }}</span>
-    </div>
+        <div class="page-composer__container__child__content">
+        </div>
+
+        <div class="page-composer__container__child__loader">
+            <span>{{ 'loading'|trans({}, 'SonataPageBundle') }}</span>
+        </div>
+
+    {% endif %}
 </li>
