@@ -109,8 +109,6 @@ final class SharedBlockAdminTest extends WebTestCase
             'shared_block[settings][current_class]' => 'active',
             'shared_block[settings][first_class]' => 'first',
             'shared_block[settings][last_class]' => 'last',
-            'shared_block[settings][menu_class]' => 'menu_sonata',
-            'shared_block[settings][children_class]' => 'children',
             'shared_block[settings][menu_template]' => '@SonataBlock/Block/block_core_menu.html.twig',
         ]];
 
@@ -151,8 +149,6 @@ final class SharedBlockAdminTest extends WebTestCase
             'shared_block[settings][current_class]' => 'current',
             'shared_block[settings][first_class]' => 'first',
             'shared_block[settings][last_class]' => 'last',
-            'shared_block[settings][menu_class]' => 'menu',
-            'shared_block[settings][children_class]' => 'children',
             'shared_block[settings][menu_template]' => 'default',
         ]];
 
