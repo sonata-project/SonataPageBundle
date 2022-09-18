@@ -51,16 +51,20 @@ final class ContainerBlockService extends AbstractBlockService implements Editab
                 ['code', TextType::class, [
                     'required' => false,
                     'label' => 'form.label_code',
+                    'translation_domain' => 'SonataPageBundle',
                 ]],
                 ['layout', TextareaType::class, [
                     'label' => 'form.label_layout',
+                    'translation_domain' => 'SonataPageBundle',
                 ]],
                 ['class', TextType::class, [
                     'required' => false,
                     'label' => 'form.label_class',
+                    'translation_domain' => 'SonataPageBundle',
                 ]],
                 ['template', ContainerTemplateType::class, [
                     'label' => 'form.label_template_code',
+                    'translation_domain' => 'SonataPageBundle',
                 ]],
             ],
             'translation_domain' => 'SonataPageBundle',

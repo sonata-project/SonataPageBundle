@@ -856,38 +856,6 @@
         <source>form.label_text</source>
         <target>Testo</target>
       </trans-unit>
-      <trans-unit id="form.label_menu_name">
-        <source>form.label_menu_name</source>
-        <target>Menu</target>
-      </trans-unit>
-      <trans-unit id="form.label_safe_labels">
-        <source>form.label_safe_labels</source>
-        <target>Etichette sicure</target>
-      </trans-unit>
-      <trans-unit id="form.label_current_class">
-        <source>form.label_current_class</source>
-        <target>Classe CSS corrente</target>
-      </trans-unit>
-      <trans-unit id="form.label_first_class">
-        <source>form.label_first_class</source>
-        <target>Classe CSS primo</target>
-      </trans-unit>
-      <trans-unit id="form.label_last_class">
-        <source>form.label_last_class</source>
-        <target>Classe CSS ultimo</target>
-      </trans-unit>
-      <trans-unit id="form.label_menu_class">
-        <source>form.label_menu_class</source>
-        <target>Classe CSS menu</target>
-      </trans-unit>
-      <trans-unit id="form.label_children_class">
-        <source>form.label_children_class</source>
-        <target>Classe CSS figli</target>
-      </trans-unit>
-      <trans-unit id="form.label_menu_template">
-        <source>form.label_menu_template</source>
-        <target>Menu template</target>
-      </trans-unit>
       <trans-unit id="pages.label_no_sites">
         <source>pages.label_no_sites</source>
         <target>Nessun sito configurato</target>
