@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Twig\Extension;
 
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
+use Sonata\BlockBundle\Exception\BlockNotFoundException;
 use Sonata\BlockBundle\Templating\Helper\BlockHelper;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Model\PageBlockInterface;
@@ -43,7 +45,8 @@ final class PageExtensionTest extends TestCase
             $this->createMock(SiteSelectorInterface::class),
             $router,
             $this->createMock(BlockHelper::class),
-            $this->getRequestStack(new Request())
+            $this->getRequestStack(new Request()),
+            $this->createMock(LoggerInterface::class)
         );
 
         static::assertSame('/foo/bar', $extension->ajaxUrl($block));
@@ -68,7 +71,8 @@ final class PageExtensionTest extends TestCase
             $siteSelector,
             $this->createMock(RouterInterface::class),
             $this->createMock(BlockHelper::class),
-            $this->getRequestStack($request)
+            $this->getRequestStack($request),
+            $this->createMock(LoggerInterface::class)
         );
 
         $extension->controller('foo');
@@ -87,10 +91,97 @@ final class PageExtensionTest extends TestCase
             $this->createMock(SiteSelectorInterface::class),
             $this->createMock(RouterInterface::class),
             $this->createMock(BlockHelper::class),
-            $this->getRequestStack($request)
+            $this->getRequestStack($request),
+            $this->createMock(LoggerInterface::class)
         );
 
         $extension->controller('bar');
+    }
+
+    /**
+     * @testdox it's return an empty string when the block does not exist.
+     */
+    public function testDoesNotThrowBlockNotFoundException(): void
+    {
+        $blockException = new BlockNotFoundException('block foo does not exist.');
+
+        $blockHelper = $this->createMock(BlockHelper::class);
+        $blockHelper
+            ->expects(static::once())
+            ->method('render')
+            ->willThrowException($blockException);
+
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger
+            ->expects(static::once())
+            ->method('error')
+            ->with('block foo does not exist.', ['previous_exception' => $blockException]);
+
+        $pageExtension = new PageExtension(
+            $this->createMock(CmsManagerSelectorInterface::class),
+            $this->createMock(SiteSelectorInterface::class),
+            $this->createMock(RouterInterface::class),
+            $blockHelper,
+            $this->getRequestStack(new Request()),
+            $logger
+        );
+
+        $block = $this->createMock(PageBlockInterface::class);
+
+        static::assertSame('', $pageExtension->renderBlock($block));
+    }
+
+    /**
+     * @testdox it's skipping blocks that should not be rendered.
+     */
+    public function testSkipBlocksThatShouldNotBeRendered(): void
+    {
+        $cmsManagerSelector = $this->createMock(CmsManagerSelectorInterface::class);
+        $cmsManagerSelector
+            ->expects(static::once())
+            ->method('isEditor')
+            ->willReturn(false);
+
+        $pageExtension = new PageExtension(
+            $cmsManagerSelector,
+            $this->createMock(SiteSelectorInterface::class),
+            $this->createMock(RouterInterface::class),
+            $this->createMock(BlockHelper::class),
+            $this->getRequestStack(new Request()),
+            $this->createMock(LoggerInterface::class),
+            true
+        );
+
+        $block = $this->createMock(PageBlockInterface::class);
+        $block
+            ->expects(static::once())
+            ->method('getEnabled')
+            ->willReturn(false);
+
+        static::assertSame('', $pageExtension->renderBlock($block));
+    }
+
+    public function testRenderingBlock(): void
+    {
+        $block = $this->createMock(PageBlockInterface::class);
+
+        $blockHelper = $this->createMock(BlockHelper::class);
+        $blockHelper
+            ->expects(static::once())
+            ->method('render')
+            ->willReturn('my baz block')
+            ->with($block, ['foo' => 'bar']);
+
+        $pageExtension = new PageExtension(
+            $this->createMock(CmsManagerSelectorInterface::class),
+            $this->createMock(SiteSelectorInterface::class),
+            $this->createMock(RouterInterface::class),
+            $blockHelper,
+            $this->getRequestStack(new Request()),
+            $this->createMock(LoggerInterface::class)
+        );
+
+        static::assertSame('my baz block', $pageExtension->renderBlock($block, ['foo' => 'bar']));
     }
 
     private function getRequestStack(Request $request): RequestStack

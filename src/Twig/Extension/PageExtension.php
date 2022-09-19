@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Twig\Extension;
 
+use Psr\Log\LoggerInterface;
 use Sonata\BlockBundle\Exception\BlockNotFoundException;
 use Sonata\BlockBundle\Templating\Helper\BlockHelper;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
@@ -47,6 +48,8 @@ final class PageExtension extends AbstractExtension
 
     private RequestStack $requestStack;
 
+    private LoggerInterface $logger;
+
     private bool $hideDisabledBlocks;
 
     public function __construct(
@@ -55,6 +58,7 @@ final class PageExtension extends AbstractExtension
         RouterInterface $router,
         BlockHelper $blockHelper,
         RequestStack $requestStack,
+        LoggerInterface $logger,
         bool $hideDisabledBlocks = false
     ) {
         $this->cmsManagerSelector = $cmsManagerSelector;
@@ -62,6 +66,7 @@ final class PageExtension extends AbstractExtension
         $this->router = $router;
         $this->blockHelper = $blockHelper;
         $this->requestStack = $requestStack;
+        $this->logger = $logger;
         $this->hideDisabledBlocks = $hideDisabledBlocks;
     }
 
@@ -187,7 +192,7 @@ final class PageExtension extends AbstractExtension
         try {
             if (
                 false === $block->getEnabled()
-                && !$this->cmsManagerSelector->isEditor()
+                && false === $this->cmsManagerSelector->isEditor()
                 && $this->hideDisabledBlocks
             ) {
                 return '';
@@ -195,8 +200,8 @@ final class PageExtension extends AbstractExtension
 
             return $this->blockHelper->render($block, $options);
         } catch (BlockNotFoundException $exception) {
-            //TODO add log here
-            // TODO it requires block chnages
+            $this->logger->error($exception->getMessage(), ['previous_exception' => $exception]);
+
             return '';
         }
     }

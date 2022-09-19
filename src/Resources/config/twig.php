@@ -29,6 +29,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 new ReferenceConfigurator('router'),
                 new ReferenceConfigurator('sonata.block.templating.helper'),
                 new ReferenceConfigurator('request_stack'),
+                new ReferenceConfigurator('logger'),
                 '%sonata.page.hide_disabled_blocks%',
             ])
 
