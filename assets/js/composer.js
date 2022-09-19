@@ -52,6 +52,7 @@ PageComposer.prototype = {
     $this.on('blockpositionsupdate', this.handleBlockPositionsUpdate);
     $this.on('blockeditformloaded', this.handleBlockEditFormLoaded);
     $this.on('blockparentswitched', this.handleBlockParentSwitched);
+    $this.on('blockerrors', this.handleBlockErrors);
   },
 
   /**
@@ -244,6 +245,31 @@ PageComposer.prototype = {
   },
 
   /**
+   * Called when a block submit (create or edit) return errors
+   * The display errors below the form field
+   * The event has the following properties:
+   *
+   *    errors : all errors
+   *    errorsByOrigin : errors by form field
+   *    $form : concerned form
+   *
+   * @param event
+   */
+  handleBlockErrors(event) {
+    jQuery(event.$form.get(0).querySelectorAll(`.w-errors`)).remove();
+    Object.keys(event.errorsByOrigin).forEach((field) => {
+      const errors = event.errorsByOrigin[field];
+      const errorWrapper = jQuery(event.$form.get(0).querySelector(`[name$="[settings][${field}]"]`)).parent().parent();
+      let content = `<ul class="list-unstyled w-errors"/>\n`;
+      Object.values(errors).forEach((message) => {
+        content += `<li class="text-danger"><i class="fas fa-exclamation-circle" aria-hidden="true"></i> ${message}</li>\n`;
+      });
+      content += `</ul>\n`;
+      errorWrapper.append(content);
+    });
+  },
+
+  /**
    * Compute child count for the given block container id.
    *
    * @param containerId
@@ -403,6 +429,19 @@ PageComposer.prototype = {
         type: formMethod,
         headers: {
           Accept: 'application/json',
+        },
+        error(resp) {
+          if (resp.status === 400 && resp.responseJSON && typeof resp.responseJSON.errorsByOrigin !== 'undefined') {
+            const submitErrorEvent = jQuery.Event('blockerrors');
+            submitErrorEvent.$childBlock = $childBlock;
+            submitErrorEvent.parentId = event.containerId;
+            submitErrorEvent.blockName = blockName;
+            submitErrorEvent.blockType = event.blockType;
+            submitErrorEvent.errorsByOrigin = resp.responseJSON.errorsByOrigin;
+            submitErrorEvent.errors = resp.responseJSON.errors;
+            submitErrorEvent.$form = $form;
+            jQuery(self).trigger(submitErrorEvent);
+          }
         },
         success(resp) {
           if (resp.result && resp.result === 'ok' && resp.objectId) {
