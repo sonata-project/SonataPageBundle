@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Twig\Extension;
 
+use Sonata\BlockBundle\Exception\BlockNotFoundException;
 use Sonata\BlockBundle\Templating\Helper\BlockHelper;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Exception\PageNotFoundException;
@@ -183,15 +184,21 @@ final class PageExtension extends AbstractExtension
      */
     public function renderBlock(PageBlockInterface $block, array $options = []): string
     {
-        if (
-            false === $block->getEnabled()
-            && !$this->cmsManagerSelector->isEditor()
-            && $this->hideDisabledBlocks
-        ) {
+        try {
+            if (
+                false === $block->getEnabled()
+                && !$this->cmsManagerSelector->isEditor()
+                && $this->hideDisabledBlocks
+            ) {
+                return '';
+            }
+
+            return $this->blockHelper->render($block, $options);
+        } catch (BlockNotFoundException $exception) {
+            //TODO add log here
+            // TODO it requires block chnages
             return '';
         }
-
-        return $this->blockHelper->render($block, $options);
     }
 
     /**
