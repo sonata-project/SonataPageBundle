@@ -259,7 +259,11 @@ PageComposer.prototype = {
     jQuery(event.$form.get(0).querySelectorAll(`.w-errors`)).remove();
     Object.keys(event.errorsByOrigin).forEach((field) => {
       const errors = event.errorsByOrigin[field];
-      const errorWrapper = jQuery(event.$form.get(0).querySelector(`[name$="[settings][${field}]"]`)).parent().parent();
+      const errorWrapper = jQuery(
+        event.$form.get(0).querySelector(`[name$="[settings][${field}]"]`)
+      )
+        .parent()
+        .parent();
       let content = `<ul class="list-unstyled w-errors"/>\n`;
       Object.values(errors).forEach((message) => {
         content += `<li class="text-danger"><i class="fas fa-exclamation-circle" aria-hidden="true"></i> ${message}</li>\n`;
@@ -430,38 +434,29 @@ PageComposer.prototype = {
         headers: {
           Accept: 'application/json',
         },
-        error(resp) {
-          if (resp.status === 400 && resp.responseJSON && typeof resp.responseJSON.errorsByOrigin !== 'undefined') {
-            const submitErrorEvent = jQuery.Event('blockerrors');
-            submitErrorEvent.$childBlock = $childBlock;
-            submitErrorEvent.parentId = event.containerId;
-            submitErrorEvent.blockName = blockName;
-            submitErrorEvent.blockType = event.blockType;
-            submitErrorEvent.errorsByOrigin = resp.responseJSON.errorsByOrigin;
-            submitErrorEvent.errors = resp.responseJSON.errors;
-            submitErrorEvent.$form = $form;
-            jQuery(self).trigger(submitErrorEvent);
-          }
-        },
         success(resp) {
-          if (resp.result && resp.result === 'ok' && resp.objectId) {
-            const createdEvent = jQuery.Event('blockcreated');
-            createdEvent.$childBlock = $childBlock;
-            createdEvent.parentId = event.containerId;
-            createdEvent.blockId = resp.objectId;
-            createdEvent.blockName = blockName;
-            createdEvent.blockType = event.blockType;
-            jQuery(self).trigger(createdEvent);
-          } else {
-            const loadedEvent = jQuery.Event('blockcreateformloaded');
-            loadedEvent.response = resp;
-            loadedEvent.containerId = event.containerId;
-            loadedEvent.blockType = event.blockType;
-            loadedEvent.container = $childBlock;
-            jQuery(self).trigger(loadedEvent);
+          const createdEvent = jQuery.Event('blockcreated');
 
-            applyAdmin($childContent);
-          }
+          createdEvent.$childBlock = $childBlock;
+          createdEvent.parentId = event.containerId;
+          createdEvent.blockId = resp.objectId;
+          createdEvent.blockName = blockName;
+          createdEvent.blockType = event.blockType;
+
+          jQuery(self).trigger(createdEvent);
+        },
+        error(resp) {
+          const submitErrorEvent = jQuery.Event('blockerrors');
+
+          submitErrorEvent.$childBlock = $childBlock;
+          submitErrorEvent.parentId = event.containerId;
+          submitErrorEvent.blockName = blockName;
+          submitErrorEvent.blockType = event.blockType;
+          submitErrorEvent.errorsByOrigin = resp.responseJSON.errorsByOrigin;
+          submitErrorEvent.errors = resp.responseJSON.errors;
+          submitErrorEvent.$form = $form;
+
+          jQuery(self).trigger(submitErrorEvent);
         },
       });
 
@@ -548,23 +543,28 @@ PageComposer.prototype = {
         headers: {
           Accept: 'application/json',
         },
-        success(resp) {
+        success() {
           $loader.hide();
-          if (resp.result && resp.result === 'ok') {
-            if (typeof $nameFormControl !== 'undefined') {
-              $title.text($nameFormControl.val() !== '' ? $nameFormControl.val() : blockType);
-            }
-            event.$block.removeClass('page-composer__container__child--expanded');
-            $container.empty();
-          } else {
-            $container.html(resp);
 
-            const editFormEvent = jQuery.Event('blockeditformloaded');
-            editFormEvent.$block = event.$block;
-            jQuery(self).trigger(editFormEvent);
-
-            applyAdmin($container);
+          if (typeof $nameFormControl !== 'undefined') {
+            $title.text($nameFormControl.val() !== '' ? $nameFormControl.val() : blockType);
           }
+
+          event.$block.removeClass('page-composer__container__child--expanded');
+          $container.empty();
+        },
+        error(resp) {
+          const submitErrorEvent = jQuery.Event('blockerrors');
+
+          submitErrorEvent.$childBlock = $childBlock;
+          submitErrorEvent.parentId = event.containerId;
+          submitErrorEvent.blockName = blockName;
+          submitErrorEvent.blockType = event.blockType;
+          submitErrorEvent.errorsByOrigin = resp.responseJSON.errorsByOrigin;
+          submitErrorEvent.errors = resp.responseJSON.errors;
+          submitErrorEvent.$form = $form;
+
+          jQuery(self).trigger(submitErrorEvent);
         },
       });
 
