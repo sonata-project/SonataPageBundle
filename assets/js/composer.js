@@ -259,6 +259,10 @@ PageComposer.prototype = {
       element.remove();
     });
 
+    event.form.querySelectorAll('.has-error').forEach((element) => {
+      element.classList.remove('has-error');
+    });
+
     event.violations.forEach((violation) => {
       const field = event.form.querySelector(`[name="${violation.propertyPath}"]`);
 
@@ -275,11 +279,13 @@ PageComposer.prototype = {
         errorList.classList.add('list-unstyled');
         errorList.classList.add('w-errors');
 
+        fieldWrapper.classList.add('has-error');
+
         fieldWrapper.appendChild(errorList);
       }
 
       const errorItem = document.createElement('li');
-      errorItem.classList.add('text-danger');
+      errorItem.classList.add('help-block');
       errorItem.innerHTML = `<i class="fas fa-exclamation-circle" aria-hidden="true"></i> ${violation.title}`;
 
       errorList.appendChild(errorItem);
