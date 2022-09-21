@@ -249,27 +249,33 @@ PageComposer.prototype = {
    * The display errors below the form field
    * The event has the following properties:
    *
-   *    errors : all errors
-   *    errorsByOrigin : errors by form field
-   *    $form : concerned form
+   *    violations: all errors
+   *    form: concerned form
    *
    * @param event
    */
   handleBlockErrors(event) {
-    jQuery(event.$form.get(0).querySelectorAll(`.w-errors`)).remove();
-    Object.keys(event.errorsByOrigin).forEach((field) => {
-      const errors = event.errorsByOrigin[field];
-      const errorWrapper = jQuery(
-        event.$form.get(0).querySelector(`[name$="[settings][${field}]"]`)
-      )
-        .parent()
-        .parent();
-      let content = `<ul class="list-unstyled w-errors"/>\n`;
-      Object.values(errors).forEach((message) => {
-        content += `<li class="text-danger"><i class="fas fa-exclamation-circle" aria-hidden="true"></i> ${message}</li>\n`;
-      });
-      content += `</ul>\n`;
-      errorWrapper.append(content);
+    jQuery(event.form.querySelectorAll(`.w-errors`)).remove();
+
+    event.violations.forEach((violation) => {
+      const errorWrapper = event.form.querySelector(`[name$="${violation.propertyPath}"]`)
+        .parentNode.parentNode;
+
+      let errorList = errorWrapper.querySelector('.w-errors');
+
+      if (!errorList) {
+        errorList = document.createElement('ul');
+        errorList.classList.add('list-unstyled');
+        errorList.classList.add('w-errors');
+
+        errorWrapper.appendChild(errorList);
+      }
+
+      const errorItem = document.createElement('li');
+      errorItem.classList.add('text-danger');
+      errorItem.innerHTML = `<i class="fas fa-exclamation-circle" aria-hidden="true"></i> ${violation.title}`;
+
+      errorList.appendChild(errorItem);
     });
   },
 
@@ -448,13 +454,8 @@ PageComposer.prototype = {
         error(resp) {
           const submitErrorEvent = jQuery.Event('blockerrors');
 
-          submitErrorEvent.$childBlock = $childBlock;
-          submitErrorEvent.parentId = event.containerId;
-          submitErrorEvent.blockName = blockName;
-          submitErrorEvent.blockType = event.blockType;
-          submitErrorEvent.errorsByOrigin = resp.responseJSON.errorsByOrigin;
-          submitErrorEvent.errors = resp.responseJSON.errors;
-          submitErrorEvent.$form = $form;
+          submitErrorEvent.violations = resp.responseJSON.violations;
+          submitErrorEvent.form = $form.get(0);
 
           jQuery(self).trigger(submitErrorEvent);
         },
@@ -556,13 +557,8 @@ PageComposer.prototype = {
         error(resp) {
           const submitErrorEvent = jQuery.Event('blockerrors');
 
-          submitErrorEvent.$childBlock = $childBlock;
-          submitErrorEvent.parentId = event.containerId;
-          submitErrorEvent.blockName = blockName;
-          submitErrorEvent.blockType = event.blockType;
-          submitErrorEvent.errorsByOrigin = resp.responseJSON.errorsByOrigin;
-          submitErrorEvent.errors = resp.responseJSON.errors;
-          submitErrorEvent.$form = $form;
+          submitErrorEvent.violations = resp.responseJSON.violations;
+          submitErrorEvent.form = $form.get(0);
 
           jQuery(self).trigger(submitErrorEvent);
         },
