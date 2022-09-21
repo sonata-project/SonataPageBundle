@@ -255,20 +255,27 @@ PageComposer.prototype = {
    * @param event
    */
   handleBlockErrors(event) {
-    jQuery(event.form.querySelectorAll(`.w-errors`)).remove();
+    event.form.querySelectorAll('.w-errors').forEach((element) => {
+      element.remove();
+    });
 
     event.violations.forEach((violation) => {
-      const errorWrapper = event.form.querySelector(`[name$="${violation.propertyPath}"]`)
-        .parentNode.parentNode;
+      const field = event.form.querySelector(`[name="${violation.propertyPath}"]`);
 
-      let errorList = errorWrapper.querySelector('.w-errors');
+      if (!field) {
+        return;
+      }
+
+      const fieldWrapper = field.parentNode.parentNode;
+
+      let errorList = fieldWrapper.querySelector('.w-errors');
 
       if (!errorList) {
         errorList = document.createElement('ul');
         errorList.classList.add('list-unstyled');
         errorList.classList.add('w-errors');
 
-        errorWrapper.appendChild(errorList);
+        fieldWrapper.appendChild(errorList);
       }
 
       const errorItem = document.createElement('li');
@@ -555,6 +562,8 @@ PageComposer.prototype = {
           $container.empty();
         },
         error(resp) {
+          $loader.hide();
+
           const submitErrorEvent = jQuery.Event('blockerrors');
 
           submitErrorEvent.violations = resp.responseJSON.violations;
