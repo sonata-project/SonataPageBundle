@@ -263,6 +263,11 @@ PageComposer.prototype = {
       element.classList.remove('has-error');
     });
 
+    const formSubmitButton = event.form.querySelector('[type="submit"][disabled]');
+    if (formSubmitButton) {
+      formSubmitButton.removeAttribute('disabled');
+    }
+
     event.violations.forEach((violation) => {
       const field = event.form.querySelector(`[name="${violation.propertyPath}"]`);
 
