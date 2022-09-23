@@ -211,10 +211,8 @@ PageComposer.prototype = {
       url: this.getRouteUrl('save_blocks_positions'),
       type: 'POST',
       data: { disposition: event.disposition },
-      success(resp) {
-        if (resp.result && resp.result === 'ok') {
-          self.containerNotification('composer_update_saved', 'success');
-        }
+      success() {
+        self.containerNotification('composer_update_saved', 'success');
       },
       error() {
         self.containerNotification('composer_update_error', 'error', true);
@@ -263,10 +261,9 @@ PageComposer.prototype = {
       element.classList.remove('has-error');
     });
 
-    const formSubmitButton = event.form.querySelector('[type="submit"][disabled]');
-    if (formSubmitButton) {
-      formSubmitButton.removeAttribute('disabled');
-    }
+    event.form.querySelectorAll('button').forEach((element) => {
+      element.removeAttribute('disabled');
+    });
 
     event.violations.forEach((violation) => {
       const field = event.form.querySelector(`[name="${violation.propertyPath}"]`);
@@ -353,39 +350,31 @@ PageComposer.prototype = {
   handleBlockCreateFormLoaded(event) {
     const self = this;
     const $containerChildren = this.$dynamicArea.find('.page-composer__container__children');
-    const $container = this.$dynamicArea.find('.page-composer__container__main-edition-area');
     let $childBlock = null;
     let $childContent = null;
 
-    if (event.container) {
-      $childBlock = event.container;
-      $childContent = $childBlock.find('.page-composer__container__child__content');
+    $childBlock = jQuery(
+      [
+        '<li class="page-composer__container__child">',
+        '<a class="page-composer__container__child__edit">',
+        '<h4 class="page-composer__container__child__name">',
+        '<input type="text" class="page-composer__container__child__name__input">',
+        '</h4>',
+        '</a>',
+        '<div class="page-composer__container__child__right">',
+        `<span class="badge">${event.blockTypeLabel}</span>`,
+        '</div>',
+        '<div class="page-composer__container__child__content">',
+        '</div>',
+        '</li>',
+      ].join('')
+    );
+    $childContent = $childBlock.find('.page-composer__container__child__content');
 
-      $childContent.html(event.response);
-    } else {
-      $childBlock = jQuery(
-        [
-          '<li class="page-composer__container__child">',
-          '<a class="page-composer__container__child__edit">',
-          '<h4 class="page-composer__container__child__name">',
-          '<input type="text" class="page-composer__container__child__name__input">',
-          '</h4>',
-          '</a>',
-          '<div class="page-composer__container__child__right">',
-          `<span class="badge">${event.blockTypeLabel}</span>`,
-          '</div>',
-          '<div class="page-composer__container__child__content">',
-          '</div>',
-          '</li>',
-        ].join('')
-      );
-      $childContent = $childBlock.find('.page-composer__container__child__content');
+    $childContent.append(event.response);
+    $containerChildren.append($childBlock);
 
-      $childContent.append(event.response);
-      $containerChildren.append($childBlock);
-
-      $childContent.show();
-    }
+    $childContent.show();
 
     const $form = $childBlock.find('form');
     const formAction = $form.attr('action');
@@ -397,11 +386,7 @@ PageComposer.prototype = {
     let $parentFormControl;
     let $positionFormControl;
 
-    applyAdmin($form);
-
     jQuery(document).scrollTo($childBlock, 200);
-
-    $container.show();
 
     // scan form elements to find name/parent/position,
     // then set value according to current container and hide it.
@@ -481,6 +466,8 @@ PageComposer.prototype = {
 
       return false;
     });
+
+    applyAdmin($childBlock);
   },
 
   /**
@@ -738,14 +725,12 @@ PageComposer.prototype = {
           _method: 'DELETE',
           _sonata_csrf_token: self.csrfTokens.remove,
         },
-        success(resp) {
-          if (resp.result && resp.result === 'ok') {
-            $childBlock.remove();
+        success() {
+          $childBlock.remove();
 
-            const removedEvent = jQuery.Event('blockremoved');
-            removedEvent.parentId = parentId;
-            jQuery(self).trigger(removedEvent);
-          }
+          const removedEvent = jQuery.Event('blockremoved');
+          removedEvent.parentId = parentId;
+          jQuery(self).trigger(removedEvent);
         },
       });
       $removeDialog.modal('hide');
@@ -914,16 +899,14 @@ PageComposer.prototype = {
                   block_id: droppedBlockId,
                   parent_id: containerId,
                 },
-                success(resp) {
-                  if (resp.result && resp.result === 'ok') {
-                    ui.draggable.remove();
+                success() {
+                  ui.draggable.remove();
 
-                    const switchedEvent = jQuery.Event('blockparentswitched');
-                    switchedEvent.previousParentId = parentId;
-                    switchedEvent.newParentId = containerId;
-                    switchedEvent.blockId = droppedBlockId;
-                    jQuery(self).trigger(switchedEvent);
-                  }
+                  const switchedEvent = jQuery.Event('blockparentswitched');
+                  switchedEvent.previousParentId = parentId;
+                  switchedEvent.newParentId = containerId;
+                  switchedEvent.blockId = droppedBlockId;
+                  jQuery(self).trigger(switchedEvent);
                 },
               });
             }
