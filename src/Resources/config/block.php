@@ -54,6 +54,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             ->args([
                 new ReferenceConfigurator('twig'),
                 new ReferenceConfigurator('sonata.page.manager.block'),
+                new ReferenceConfigurator('sonata.page.admin.shared_block'),
             ])
 
         ->set('sonata.page.block.pagelist', PageListBlockService::class)
