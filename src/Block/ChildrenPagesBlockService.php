@@ -121,9 +121,9 @@ final class ChildrenPagesBlockService extends AbstractBlockService implements Ed
         $form->add('settings', ImmutableArrayType::class, [
             'keys' => [
                 ['title', TextType::class, [
-                  'required' => false,
+                    'required' => false,
                     'label' => 'form.label_title',
-                  'translation_domain' => 'SonataPageBundle',
+                    'translation_domain' => 'SonataPageBundle',
                 ]],
                 ['translation_domain', TextType::class, [
                     'label' => 'form.label_translation_domain',
@@ -136,15 +136,15 @@ final class ChildrenPagesBlockService extends AbstractBlockService implements Ed
                     'required' => false,
                 ]],
                 ['current', CheckboxType::class, [
-                  'required' => false,
-                  'label' => 'form.label_current',
-                  'translation_domain' => 'SonataPageBundle',
+                    'required' => false,
+                    'label' => 'form.label_current',
+                    'translation_domain' => 'SonataPageBundle',
                 ]],
                 $this->getPageSelectorBuilder($form, $block),
                 ['class', TextType::class, [
-                  'required' => false,
-                  'label' => 'form.label_class',
-                  'translation_domain' => 'SonataPageBundle',
+                    'required' => false,
+                    'label' => 'form.label_class',
+                    'translation_domain' => 'SonataPageBundle',
                 ]],
             ],
             'translation_domain' => 'SonataPageBundle',
