@@ -52,6 +52,7 @@ PageComposer.prototype = {
     $this.on('blockpositionsupdate', this.handleBlockPositionsUpdate);
     $this.on('blockeditformloaded', this.handleBlockEditFormLoaded);
     $this.on('blockparentswitched', this.handleBlockParentSwitched);
+    $this.on('blockerrors', this.handleBlockErrors);
   },
 
   /**
@@ -210,10 +211,8 @@ PageComposer.prototype = {
       url: this.getRouteUrl('save_blocks_positions'),
       type: 'POST',
       data: { disposition: event.disposition },
-      success(resp) {
-        if (resp.result && resp.result === 'ok') {
-          self.containerNotification('composer_update_saved', 'success');
-        }
+      success() {
+        self.containerNotification('composer_update_saved', 'success');
       },
       error() {
         self.containerNotification('composer_update_error', 'error', true);
@@ -241,6 +240,63 @@ PageComposer.prototype = {
 
     this.updateChildCount(event.previousParentId, oldChildCount - 1);
     this.updateChildCount(event.newParentId, newChildCount + 1);
+  },
+
+  /**
+   * Called when a block submit (create or edit) return errors
+   * The display errors below the form field
+   * The event has the following properties:
+   *
+   *    violations: all errors
+   *    form: concerned form
+   *
+   * @param event
+   */
+  handleBlockErrors(event) {
+    event.form.querySelectorAll('.help-block.sonata-ba-field-error-messages').forEach((element) => {
+      element.remove();
+    });
+
+    event.form.querySelectorAll('.has-error').forEach((element) => {
+      element.classList.remove('has-error');
+    });
+
+    event.form.querySelectorAll('button').forEach((element) => {
+      element.removeAttribute('disabled');
+    });
+
+    event.violations.forEach((violation) => {
+      const field = event.form.querySelector(`[name="${violation.propertyPath}"]`);
+
+      if (!field) {
+        return;
+      }
+
+      const formGroup = field.closest('.form-group');
+
+      let errorList = formGroup.querySelector(
+        '.help-block.sonata-ba-field-error-messages .list-unstyled'
+      );
+
+      if (!errorList) {
+        const errorWrapper = document.createElement('div');
+        errorWrapper.classList.add('help-block');
+        errorWrapper.classList.add('sonata-ba-field-error-messages');
+
+        errorList = document.createElement('ul');
+        errorList.classList.add('list-unstyled');
+
+        formGroup.classList.add('has-error');
+
+        errorWrapper.appendChild(errorList);
+        formGroup.appendChild(errorWrapper);
+      }
+
+      const errorItem = document.createElement('li');
+      errorItem.innerHTML = `<i class="fas fa-exclamation-circle" aria-hidden="true"></i> ${violation.title}`;
+
+      errorList.appendChild(errorItem);
+    });
   },
 
   /**
@@ -299,39 +355,31 @@ PageComposer.prototype = {
   handleBlockCreateFormLoaded(event) {
     const self = this;
     const $containerChildren = this.$dynamicArea.find('.page-composer__container__children');
-    const $container = this.$dynamicArea.find('.page-composer__container__main-edition-area');
     let $childBlock = null;
     let $childContent = null;
 
-    if (event.container) {
-      $childBlock = event.container;
-      $childContent = $childBlock.find('.page-composer__container__child__content');
+    $childBlock = jQuery(
+      [
+        '<li class="page-composer__container__child">',
+        '<a class="page-composer__container__child__edit">',
+        '<h4 class="page-composer__container__child__name">',
+        '<input type="text" class="page-composer__container__child__name__input">',
+        '</h4>',
+        '</a>',
+        '<div class="page-composer__container__child__right">',
+        `<span class="badge">${event.blockTypeLabel}</span>`,
+        '</div>',
+        '<div class="page-composer__container__child__content">',
+        '</div>',
+        '</li>',
+      ].join('')
+    );
+    $childContent = $childBlock.find('.page-composer__container__child__content');
 
-      $childContent.html(event.response);
-    } else {
-      $childBlock = jQuery(
-        [
-          '<li class="page-composer__container__child">',
-          '<a class="page-composer__container__child__edit">',
-          '<h4 class="page-composer__container__child__name">',
-          '<input type="text" class="page-composer__container__child__name__input">',
-          '</h4>',
-          '</a>',
-          '<div class="page-composer__container__child__right">',
-          `<span class="badge">${event.blockTypeLabel}</span>`,
-          '</div>',
-          '<div class="page-composer__container__child__content">',
-          '</div>',
-          '</li>',
-        ].join('')
-      );
-      $childContent = $childBlock.find('.page-composer__container__child__content');
+    $childContent.append(event.response);
+    $containerChildren.append($childBlock);
 
-      $childContent.append(event.response);
-      $containerChildren.append($childBlock);
-
-      $childContent.show();
-    }
+    $childContent.show();
 
     const $form = $childBlock.find('form');
     const formAction = $form.attr('action');
@@ -343,11 +391,7 @@ PageComposer.prototype = {
     let $parentFormControl;
     let $positionFormControl;
 
-    applyAdmin($form);
-
     jQuery(document).scrollTo($childBlock, 200);
-
-    $container.show();
 
     // scan form elements to find name/parent/position,
     // then set value according to current container and hide it.
@@ -405,29 +449,30 @@ PageComposer.prototype = {
           Accept: 'application/json',
         },
         success(resp) {
-          if (resp.result && resp.result === 'ok' && resp.objectId) {
-            const createdEvent = jQuery.Event('blockcreated');
-            createdEvent.$childBlock = $childBlock;
-            createdEvent.parentId = event.containerId;
-            createdEvent.blockId = resp.objectId;
-            createdEvent.blockName = blockName;
-            createdEvent.blockType = event.blockType;
-            jQuery(self).trigger(createdEvent);
-          } else {
-            const loadedEvent = jQuery.Event('blockcreateformloaded');
-            loadedEvent.response = resp;
-            loadedEvent.containerId = event.containerId;
-            loadedEvent.blockType = event.blockType;
-            loadedEvent.container = $childBlock;
-            jQuery(self).trigger(loadedEvent);
+          const createdEvent = jQuery.Event('blockcreated');
 
-            applyAdmin($childContent);
-          }
+          createdEvent.$childBlock = $childBlock;
+          createdEvent.parentId = event.containerId;
+          createdEvent.blockId = resp.objectId;
+          createdEvent.blockName = blockName;
+          createdEvent.blockType = event.blockType;
+
+          jQuery(self).trigger(createdEvent);
+        },
+        error(resp) {
+          const submitErrorEvent = jQuery.Event('blockerrors');
+
+          submitErrorEvent.violations = resp.responseJSON.violations;
+          submitErrorEvent.form = $form.get(0);
+
+          jQuery(self).trigger(submitErrorEvent);
         },
       });
 
       return false;
     });
+
+    applyAdmin($childBlock);
   },
 
   /**
@@ -509,23 +554,25 @@ PageComposer.prototype = {
         headers: {
           Accept: 'application/json',
         },
-        success(resp) {
+        success() {
           $loader.hide();
-          if (resp.result && resp.result === 'ok') {
-            if (typeof $nameFormControl !== 'undefined') {
-              $title.text($nameFormControl.val() !== '' ? $nameFormControl.val() : blockType);
-            }
-            event.$block.removeClass('page-composer__container__child--expanded');
-            $container.empty();
-          } else {
-            $container.html(resp);
 
-            const editFormEvent = jQuery.Event('blockeditformloaded');
-            editFormEvent.$block = event.$block;
-            jQuery(self).trigger(editFormEvent);
-
-            applyAdmin($container);
+          if (typeof $nameFormControl !== 'undefined') {
+            $title.text($nameFormControl.val() !== '' ? $nameFormControl.val() : blockType);
           }
+
+          event.$block.removeClass('page-composer__container__child--expanded');
+          $container.empty();
+        },
+        error(resp) {
+          $loader.hide();
+
+          const submitErrorEvent = jQuery.Event('blockerrors');
+
+          submitErrorEvent.violations = resp.responseJSON.violations;
+          submitErrorEvent.form = $form.get(0);
+
+          jQuery(self).trigger(submitErrorEvent);
         },
       });
 
@@ -683,14 +730,12 @@ PageComposer.prototype = {
           _method: 'DELETE',
           _sonata_csrf_token: self.csrfTokens.remove,
         },
-        success(resp) {
-          if (resp.result && resp.result === 'ok') {
-            $childBlock.remove();
+        success() {
+          $childBlock.remove();
 
-            const removedEvent = jQuery.Event('blockremoved');
-            removedEvent.parentId = parentId;
-            jQuery(self).trigger(removedEvent);
-          }
+          const removedEvent = jQuery.Event('blockremoved');
+          removedEvent.parentId = parentId;
+          jQuery(self).trigger(removedEvent);
         },
       });
       $removeDialog.modal('hide');
@@ -859,16 +904,14 @@ PageComposer.prototype = {
                   block_id: droppedBlockId,
                   parent_id: containerId,
                 },
-                success(resp) {
-                  if (resp.result && resp.result === 'ok') {
-                    ui.draggable.remove();
+                success() {
+                  ui.draggable.remove();
 
-                    const switchedEvent = jQuery.Event('blockparentswitched');
-                    switchedEvent.previousParentId = parentId;
-                    switchedEvent.newParentId = containerId;
-                    switchedEvent.blockId = droppedBlockId;
-                    jQuery(self).trigger(switchedEvent);
-                  }
+                  const switchedEvent = jQuery.Event('blockparentswitched');
+                  switchedEvent.previousParentId = parentId;
+                  switchedEvent.newParentId = containerId;
+                  switchedEvent.blockId = droppedBlockId;
+                  jQuery(self).trigger(switchedEvent);
                 },
               });
             }
