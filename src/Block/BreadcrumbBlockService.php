@@ -16,34 +16,36 @@ namespace Sonata\PageBundle\Block;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
 use Sonata\BlockBundle\Block\BlockContextInterface;
-use Sonata\BlockBundle\Block\Service\BlockServiceInterface;
 use Sonata\BlockBundle\Block\Service\EditableBlockService;
 use Sonata\BlockBundle\Meta\Metadata;
 use Sonata\BlockBundle\Meta\MetadataInterface;
+use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\Form\Validator\ErrorElement;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\SeoBundle\Block\Breadcrumb\BaseBreadcrumbMenuBlockService;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Twig\Environment;
 
 /**
  * @author Sylvain Deloux <sylvain.deloux@ekino.com>
  */
-final class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
+final class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService implements EditableBlockService
 {
     private CmsManagerSelectorInterface $cmsSelector;
 
-    /**
-     * @param BlockServiceInterface&EditableBlockService $menuBlock
-     */
     public function __construct(
         Environment $twig,
-        object $menuBlock,
         FactoryInterface $factory,
         CmsManagerSelectorInterface $cmsSelector
     ) {
-        parent::__construct($twig, $menuBlock, $factory);
+        parent::__construct($twig, $factory);
 
         $this->cmsSelector = $cmsSelector;
+    }
+
+    public function validate(ErrorElement $errorElement, BlockInterface $block): void
+    {
     }
 
     public function getMetadata(): MetadataInterface
@@ -58,10 +60,17 @@ final class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
         return 'page' === $context;
     }
 
+    public function configureSettings(OptionsResolver $resolver): void
+    {
+        parent::configureSettings($resolver);
+
+        $resolver->setDefaults([
+            'include_homepage_link' => false,
+        ]);
+    }
+
     protected function getMenu(BlockContextInterface $blockContext): ItemInterface
     {
-        $blockContext->setSetting('include_homepage_link', false);
-
         $menu = parent::getMenu($blockContext);
 
         $page = $this->getCurrentPage();

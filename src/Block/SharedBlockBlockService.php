@@ -150,6 +150,7 @@ final class SharedBlockBlockService extends AbstractBlockService implements Edit
             'class' => $this->sharedBlockAdmin->getClass(),
             'model_manager' => $this->sharedBlockAdmin->getModelManager(),
             'label' => 'form.label_block',
+            'translation_domain' => 'SonataPageBundle',
         ]);
         $formBuilder->addModelTransformer(new CallbackTransformer(
             static fn (?PageBlockInterface $value): ?PageBlockInterface => $value,

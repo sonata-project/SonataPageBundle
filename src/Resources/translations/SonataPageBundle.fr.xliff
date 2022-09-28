@@ -856,38 +856,6 @@
         <source>form.label_text</source>
         <target>Text</target>
       </trans-unit>
-      <trans-unit id="form.label_menu_name">
-        <source>form.label_menu_name</source>
-        <target>Nom du menu</target>
-      </trans-unit>
-      <trans-unit id="form.label_safe_labels">
-        <source>form.label_safe_labels</source>
-        <target>Labels</target>
-      </trans-unit>
-      <trans-unit id="form.label_current_class">
-        <source>form.label_current_class</source>
-        <target>Class CSS élément séléctionné</target>
-      </trans-unit>
-      <trans-unit id="form.label_first_class">
-        <source>form.label_first_class</source>
-        <target>Class CSS premier élément</target>
-      </trans-unit>
-      <trans-unit id="form.label_last_class">
-        <source>form.label_last_class</source>
-        <target>Class CSS dernier élément</target>
-      </trans-unit>
-      <trans-unit id="form.label_menu_class">
-        <source>form.label_menu_class</source>
-        <target>Class CSS Menu</target>
-      </trans-unit>
-      <trans-unit id="form.label_children_class">
-        <source>form.label_children_class</source>
-        <target>Class CSS enfant</target>
-      </trans-unit>
-      <trans-unit id="form.label_menu_template">
-        <source>form.label_menu_template</source>
-        <target>Modèle de page</target>
-      </trans-unit>
       <trans-unit id="pages.label_no_sites">
         <source>pages.label_no_sites</source>
         <target>pages.label_no_sites</target>

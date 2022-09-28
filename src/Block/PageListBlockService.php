@@ -91,22 +91,27 @@ final class PageListBlockService extends AbstractBlockService implements Editabl
             'keys' => [
                 ['title', TextType::class, [
                     'label' => 'form.label_title',
+                    'translation_domain' => 'SonataPageBundle',
                     'required' => false,
                 ]],
                 ['translation_domain', TextType::class, [
                     'label' => 'form.label_translation_domain',
+                    'translation_domain' => 'SonataPageBundle',
                     'required' => false,
                 ]],
                 ['icon', TextType::class, [
                     'label' => 'form.label_icon',
+                    'translation_domain' => 'SonataPageBundle',
                     'required' => false,
                 ]],
                 ['class', TextType::class, [
                     'label' => 'form.label_class',
+                    'translation_domain' => 'SonataPageBundle',
                     'required' => false,
                 ]],
                 ['mode', ChoiceType::class, [
                     'label' => 'form.label_mode',
+                    'translation_domain' => 'SonataPageBundle',
                     'choices' => [
                         'public' => 'form.choice_public',
                         'admin' => 'form.choice_admin',

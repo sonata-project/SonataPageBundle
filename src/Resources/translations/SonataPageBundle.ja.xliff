@@ -847,38 +847,6 @@
         <source>form.label_text</source>
         <target>form.label_text</target>
       </trans-unit>
-      <trans-unit id="form.label_menu_name">
-        <source>form.label_menu_name</source>
-        <target>form.label_menu_name</target>
-      </trans-unit>
-      <trans-unit id="form.label_safe_labels">
-        <source>form.label_safe_labels</source>
-        <target>form.label_safe_labels</target>
-      </trans-unit>
-      <trans-unit id="form.label_current_class">
-        <source>form.label_current_class</source>
-        <target>form.label_current_class</target>
-      </trans-unit>
-      <trans-unit id="form.label_first_class">
-        <source>form.label_first_class</source>
-        <target>form.label_first_class</target>
-      </trans-unit>
-      <trans-unit id="form.label_last_class">
-        <source>form.label_last_class</source>
-        <target>form.label_last_class</target>
-      </trans-unit>
-      <trans-unit id="form.label_menu_class">
-        <source>form.label_menu_class</source>
-        <target>form.label_menu_class</target>
-      </trans-unit>
-      <trans-unit id="form.label_children_class">
-        <source>form.label_children_class</source>
-        <target>form.label_children_class</target>
-      </trans-unit>
-      <trans-unit id="form.label_menu_template">
-        <source>form.label_menu_template</source>
-        <target>form.label_menu_template</target>
-      </trans-unit>
       <trans-unit id="pages.label_no_sites">
         <source>pages.label_no_sites</source>
         <target>pages.label_no_sites</target>

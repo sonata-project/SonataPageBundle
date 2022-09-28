@@ -121,25 +121,30 @@ final class ChildrenPagesBlockService extends AbstractBlockService implements Ed
         $form->add('settings', ImmutableArrayType::class, [
             'keys' => [
                 ['title', TextType::class, [
-                  'required' => false,
+                    'required' => false,
                     'label' => 'form.label_title',
+                    'translation_domain' => 'SonataPageBundle',
                 ]],
                 ['translation_domain', TextType::class, [
                     'label' => 'form.label_translation_domain',
+                    'translation_domain' => 'SonataPageBundle',
                     'required' => false,
                 ]],
                 ['icon', TextType::class, [
                     'label' => 'form.label_icon',
+                    'translation_domain' => 'SonataPageBundle',
                     'required' => false,
                 ]],
                 ['current', CheckboxType::class, [
-                  'required' => false,
-                  'label' => 'form.label_current',
+                    'required' => false,
+                    'label' => 'form.label_current',
+                    'translation_domain' => 'SonataPageBundle',
                 ]],
                 $this->getPageSelectorBuilder($form, $block),
                 ['class', TextType::class, [
-                  'required' => false,
-                  'label' => 'form.label_class',
+                    'required' => false,
+                    'label' => 'form.label_class',
+                    'translation_domain' => 'SonataPageBundle',
                 ]],
             ],
             'translation_domain' => 'SonataPageBundle',
@@ -190,6 +195,7 @@ final class ChildrenPagesBlockService extends AbstractBlockService implements Ed
             'site' => null !== $page ? $page->getSite() : null,
             'required' => false,
             'label' => 'form.label_page',
+            'translation_domain' => 'SonataPageBundle',
         ]);
         $formBuilder->addModelTransformer(new CallbackTransformer(
             static fn (?PageInterface $value): ?PageInterface => $value,
