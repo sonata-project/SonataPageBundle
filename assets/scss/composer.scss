@@ -483,6 +483,11 @@ $color_red: #f56954;
   border-left-color: $color_blue;
 }
 
+.page-composer__container__child__edit.error {
+  background: #fff;
+  border-left-color: $color_red;
+}
+
 .page-composer__container__child--expanded .page-composer__container__child__edit {
   border-left-color: $color_blue;
   box-shadow: 0 0 2px rgb(0 0 0 / 35%) inset;

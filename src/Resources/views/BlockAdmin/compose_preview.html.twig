@@ -4,10 +4,10 @@
     data-block-enabled="{{ child.enabled|default('0') }}"
     data-block-type="{{ child.type }}"
 >
-    <a class="page-composer__container__child__edit"
+    {% set service = attribute(blockServices, child.type) ?? null %}
+    <a class="page-composer__container__child__edit{{ service is null ? ' error' : '' }}"
        href="{{ blockAdmin.generateUrl('edit', { 'id': child.id, 'composer': true }) }}"
     >
-        {% set service = attribute(blockServices, child.type) ?? null %}
         {% if service is not null %}
             {% if service.metadata is defined %}
                 {% set metadata = service.metadata %}
@@ -28,7 +28,7 @@
                 <i class="fa fa-chevron-up"></i>
             </span>
         {% else %}
-            {{ child.type }}
+            {{ ('block_service_not_found')|trans({}, metadata.domain|default('SonataPageBundle')) ~ ': ' ~ child.name|default(child.type) }}
         {% endif %}
     </a>
 
@@ -61,11 +61,11 @@
                 </a>
             </div>
 
-        {% endif %}
+            <div class="page-composer__container__child__enabled">
+                <small class="badge bg-{{ child.enabled ? 'green' : 'yellow' }}"><i class="fa fa-{{ child.enabled ? 'check' : 'times' }}"></i></small>
+            </div>
 
-        <div class="page-composer__container__child__enabled">
-            <small class="badge bg-{{ child.enabled ? 'green' : 'yellow' }}"><i class="fa fa-{{ child.enabled ? 'check' : 'times' }}"></i></small>
-        </div>
+        {% endif %}
     </div>
 
     {% if service is not null %}
