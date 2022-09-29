@@ -28,7 +28,7 @@
                 <i class="fa fa-chevron-up"></i>
             </span>
         {% else %}
-            {{ ('block_service_not_found')|trans({}, metadata.domain|default('SonataPageBundle')) ~ ': ' ~ child.name|default(child.type) }}
+            {{ ('block_service_not_found')|trans({}, metadata.domain|default('SonataPageBundle')) ~ ' (' ~ child.name|default(child.type)|trans({}, metadata.domain|default('SonataPageBundle')) ~ ')' }}
         {% endif %}
     </a>
 
