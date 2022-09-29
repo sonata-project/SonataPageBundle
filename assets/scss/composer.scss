@@ -483,7 +483,7 @@ $color_red: #f56954;
   border-left-color: $color_blue;
 }
 
-.page-composer__container__child__edit.error {
+.page-composer__container__child__edit.error, .page-composer__container__child__edit.error:hover {
   background: #fff;
   border-left-color: $color_red;
 }
