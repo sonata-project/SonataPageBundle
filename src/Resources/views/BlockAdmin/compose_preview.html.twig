@@ -7,21 +7,30 @@
     <a class="page-composer__container__child__edit"
        href="{{ blockAdmin.generateUrl('edit', { 'id': child.id, 'composer': true }) }}"
     >
-        {% set service = attribute(blockServices, child.type) %}
-        {% if service.metadata is defined %}
-            {% set metadata = service.metadata %}
+        {% set service = attribute(blockServices, child.type) ?? null %}
+
+        {% if service is not null %}
+            {% set blockTitle = child.name|default(service.metadata.title)|trans({}, service.metadata.domain|default('SonataPageBundle')) %}
+            {% set blockImage = service.metadata.image ? asset(service.metadata.image) : null %}
+            {% set blockClass = service.metadata.option('class') %}
+            {% set metadataTitle = service.metadata.title|trans({}, service.metadata.domain|default('SonataPageBundle')) %}
         {% else %}
-            {% set metadata = service.blockMetadata %}
+            {% set blockTitle = child.name|trans({}, 'SonataPageBundle') %}
+            {% set blockImage = null %}
+            {% set blockClass = null %}
+            {% set metadataTitle = child.type %}
         {% endif %}
-        <h4 class="page-composer__container__child__name">
-            {{ child.name|default(metadata.title)|trans({}, metadata.domain|default('SonataPageBundle')) }}
-        </h4>
-        {% if not metadata.image %}
-            <i class="{{ metadata.option('class') }}" ></i>
-        {% else %}
-            <img src="{{ asset(metadata.image) }}" style="max-height: 20px; max-width: 100px;"/>
+
+        <h4 class="page-composer__container__child__name">{{ blockTitle }}</h4>
+
+        {% if blockImage %}
+            <img src="{{ blockImage }}" style="max-height: 20px; max-width: 100px;"/>
+        {% elseif blockClass %}
+            <i class="{{ blockClass }}" ></i>
         {% endif %}
-        <small>{{ metadata.title|trans({}, metadata.domain|default('SonataPageBundle')) }}</small>
+
+        <small>{{ metadataTitle }}</small>
+
         <span class="page-composer__container__child__toggle">
             <i class="fa fa-chevron-down"></i>
             <i class="fa fa-chevron-up"></i>
