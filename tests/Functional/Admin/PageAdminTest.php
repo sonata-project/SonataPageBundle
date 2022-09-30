@@ -58,7 +58,7 @@ final class PageAdminTest extends WebTestCase
         yield 'Show Page' => ['/admin/tests/app/sonatapagepage/1/show'];
         yield 'Remove Page' => ['/admin/tests/app/sonatapagepage/1/delete'];
         yield 'Compose Page' => ['/admin/tests/app/sonatapagepage/1/compose'];
-        yield 'Compose Show Page' => ['/admin/tests/app/sonatapagepage/compose/container/1'];
+        yield 'Compose Container Page' => ['/admin/tests/app/sonatapagepage/compose/container/1'];
 
         // Snapshot child pages
         yield 'List Snapshot Page' => ['/admin/tests/app/sonatapagepage/1/sonatapagesnapshot/list'];
@@ -296,7 +296,8 @@ final class PageAdminTest extends WebTestCase
 
         $block = new SonataPageBlock();
         $block->setType('sonata.block.service.text');
-        $block->setParent($parentBlock);
+
+        $parentBlock->addChild($block);
 
         $page->addBlock($parentBlock);
         $page->addBlock($block);

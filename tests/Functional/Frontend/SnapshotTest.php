@@ -258,7 +258,8 @@ final class SnapshotTest extends WebTestCase
         $block = new SonataPageBlock();
         $block->setType('sonata.block.service.text');
         $block->setSetting('content', 'Page content');
-        $block->setParent($containerBlock);
+
+        $containerBlock->addChild($block);
 
         $page->setSite($site);
         $page->addBlock($containerBlock);
@@ -313,12 +314,13 @@ final class SnapshotTest extends WebTestCase
         $block = new SonataPageBlock();
         $block->setType('sonata.block.service.text');
         $block->setSetting('content', 'Footer content');
-        $block->setParent($containerBlock);
 
         $block2 = new SonataPageBlock();
         $block2->setType('sonata.block.service.text');
         $block2->setSetting('content', 'Page content');
-        $block2->setParent($containerBlock2);
+
+        $containerBlock->addChild($block);
+        $containerBlock2->addChild($block2);
 
         $page->addBlock($containerBlock);
         $page->addBlock($block);

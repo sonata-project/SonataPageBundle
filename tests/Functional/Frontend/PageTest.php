@@ -199,7 +199,8 @@ final class PageTest extends WebTestCase
             $block = new SonataPageBlock();
             $block->setType('sonata.block.service.text');
             $block->setSetting('content', 'Footer content');
-            $block->setParent($containerBlock);
+
+            $containerBlock->addChildren($block);
 
             $page->addBlock($containerBlock);
             $page->addBlock($block);
@@ -257,20 +258,21 @@ final class PageTest extends WebTestCase
         $block = new SonataPageBlock();
         $block->setType('sonata.page.block.shared_block');
         $block->setSetting('blockId', 3);
-        $block->setParent($containerBlock);
 
         $block2 = new SonataPageBlock();
         $block2->setType('sonata.page.block.pagelist');
-        $block2->setParent($containerBlock);
 
         $block3 = new SonataPageBlock();
         $block3->setType('sonata.page.block.children_pages');
         $block3->setSetting('pageId', 1);
-        $block3->setParent($containerBlock);
 
         $block4 = new SonataPageBlock();
         $block4->setType('sonata.page.block.breadcrumb');
-        $block4->setParent($containerBlock);
+
+        $containerBlock->addChild($block);
+        $containerBlock->addChild($block2);
+        $containerBlock->addChild($block3);
+        $containerBlock->addChild($block4);
 
         $page->addBlock($containerBlock);
         $page->addBlock($block);
@@ -308,7 +310,8 @@ final class PageTest extends WebTestCase
         $block = new SonataPageBlock();
         $block->setType('sonata.block.service.text');
         $block->setSetting('content', 'Page content');
-        $block->setParent($containerBlock);
+
+        $containerBlock->addChild($block);
 
         $page->setSite($site);
         $page->addBlock($containerBlock);
@@ -363,12 +366,13 @@ final class PageTest extends WebTestCase
         $block = new SonataPageBlock();
         $block->setType('sonata.block.service.text');
         $block->setSetting('content', 'Footer content');
-        $block->setParent($containerBlock);
 
         $block2 = new SonataPageBlock();
         $block2->setType('sonata.block.service.text');
         $block2->setSetting('content', 'Page content');
-        $block2->setParent($containerBlock2);
+
+        $containerBlock->addChild($block);
+        $containerBlock2->addChild($block2);
 
         $page->addBlock($containerBlock);
         $page->addBlock($block);
