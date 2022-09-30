@@ -16,6 +16,7 @@ namespace Sonata\PageBundle\Tests\Functional\Admin;
 use Doctrine\ORM\EntityManagerInterface;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageBlock;
 use Sonata\PageBundle\Tests\App\Entity\SonataPagePage;
+use Sonata\PageBundle\Tests\App\Entity\SonataPageSite;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class BlockAdminTest extends WebTestCase
@@ -52,7 +53,7 @@ final class BlockAdminTest extends WebTestCase
 
         yield 'Edit Block' => ['/admin/tests/app/sonatapageblock/1/edit'];
         yield 'Remove Block' => ['/admin/tests/app/sonatapageblock/1/delete'];
-        yield 'Compose preview Block' => ['/admin/tests/app/sonatapageblock/3/compose-preview'];
+        yield 'Compose preview Block' => ['/admin/tests/app/sonatapageblock/2/compose-preview'];
     }
 
     /**
@@ -233,9 +234,14 @@ final class BlockAdminTest extends WebTestCase
         $manager = $container->get('doctrine.orm.entity_manager');
         \assert($manager instanceof EntityManagerInterface);
 
+        $site = new SonataPageSite();
+        $site->setName('name');
+        $site->setHost('localhost');
+
         $page = new SonataPagePage();
         $page->setName('name');
         $page->setTemplateCode('default');
+        $page->setSite($site);
 
         $parentBlock = new SonataPageBlock();
         $parentBlock->setType('sonata.page.block.container');
@@ -250,7 +256,9 @@ final class BlockAdminTest extends WebTestCase
 
         $page->addBlock($parentBlock);
         $page->addBlock($parentBlock2);
+        $page->addBlock($block);
 
+        $manager->persist($site);
         $manager->persist($page);
 
         $manager->flush();
