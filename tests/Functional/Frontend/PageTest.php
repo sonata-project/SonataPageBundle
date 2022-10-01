@@ -200,10 +200,8 @@ final class PageTest extends WebTestCase
             $block->setType('sonata.block.service.text');
             $block->setSetting('content', 'Footer content');
 
-            $containerBlock->addChildren($block);
-
             $page->addBlock($containerBlock);
-            $page->addBlock($block);
+            $containerBlock->addChild($block);
 
             return $page;
         })(), '/random_route', 404, ['Footer content'], []];
@@ -371,13 +369,10 @@ final class PageTest extends WebTestCase
         $block2->setType('sonata.block.service.text');
         $block2->setSetting('content', 'Page content');
 
+        $page->addBlock($containerBlock);
+        $page2->addBlock($containerBlock2);
         $containerBlock->addChild($block);
         $containerBlock2->addChild($block2);
-
-        $page->addBlock($containerBlock);
-        $page->addBlock($block);
-        $page2->addBlock($containerBlock2);
-        $page2->addBlock($block2);
 
         $manager->persist($site);
         $manager->persist($page);

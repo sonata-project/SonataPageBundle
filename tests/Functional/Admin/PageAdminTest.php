@@ -300,12 +300,9 @@ final class PageAdminTest extends WebTestCase
         $block2 = new SonataPageBlock();
         $block2->setType('non_existent_block');
 
+        $page->addBlock($parentBlock);
         $parentBlock->addChild($block);
         $parentBlock->addChild($block2);
-
-        $page->addBlock($parentBlock);
-        $page->addBlock($block);
-        $page->addBlock($block2);
 
         $manager->persist($site);
         $manager->persist($site2);

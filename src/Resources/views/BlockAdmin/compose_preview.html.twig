@@ -14,9 +14,7 @@
     {% else %}
     <div class="page-composer__container__child__error">
     {% endif %}
-        {% set service = attribute(blockServices, child.type) ?? null %}
-
-        {% if service is not null %}
+        {% if service %}
             {% set metadataTitle = service.metadata.title|trans({}, service.metadata.domain|default('SonataPageBundle')) %}
             {% set blockTitle = child.name|default(metadataTitle) %}
             {% set blockImage = service.metadata.image ? asset(service.metadata.image) : null %}
