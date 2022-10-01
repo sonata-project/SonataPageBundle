@@ -4,21 +4,28 @@
     data-block-enabled="{{ child.enabled|default('0') }}"
     data-block-type="{{ child.type }}"
 >
-    <a class="page-composer__container__child__edit"
-       href="{{ blockAdmin.generateUrl('edit', { 'id': child.id, 'composer': true }) }}"
+    {% set service = attribute(blockServices, child.type) ?? null %}
+
+    {% if service %}
+    <a
+        class="page-composer__container__child__edit"
+        href="{{ blockAdmin.generateUrl('edit', { 'id': child.id, 'composer': true }) }}"
     >
+    {% else %}
+    <div class="page-composer__container__child__error">
+    {% endif %}
         {% set service = attribute(blockServices, child.type) ?? null %}
 
         {% if service is not null %}
-            {% set blockTitle = child.name|default(service.metadata.title)|trans({}, service.metadata.domain|default('SonataPageBundle')) %}
+            {% set metadataTitle = service.metadata.title|trans({}, service.metadata.domain|default('SonataPageBundle')) %}
+            {% set blockTitle = child.name|default(metadataTitle) %}
             {% set blockImage = service.metadata.image ? asset(service.metadata.image) : null %}
             {% set blockClass = service.metadata.option('class') %}
-            {% set metadataTitle = service.metadata.title|trans({}, service.metadata.domain|default('SonataPageBundle')) %}
         {% else %}
-            {% set blockTitle = child.name|trans({}, 'SonataPageBundle') %}
+            {% set metadataTitle = child.type %}
+            {% set blockTitle = child.name %}
             {% set blockImage = null %}
             {% set blockClass = null %}
-            {% set metadataTitle = child.type %}
         {% endif %}
 
         <h4 class="page-composer__container__child__name">{{ blockTitle }}</h4>
@@ -31,11 +38,17 @@
 
         <small>{{ metadataTitle }}</small>
 
-        <span class="page-composer__container__child__toggle">
-            <i class="fa fa-chevron-down"></i>
-            <i class="fa fa-chevron-up"></i>
-        </span>
+        {% if service %}
+            <span class="page-composer__container__child__toggle">
+                <i class="fa fa-chevron-down"></i>
+                <i class="fa fa-chevron-up"></i>
+            </span>
+        {% endif %}
+    {% if service %}
     </a>
+    {% else %}
+    </div>
+    {% endif %}
 
     <div class="page-composer__container__child__right">
         <div class="page-composer__container__child__remove">
@@ -54,7 +67,8 @@
                     'context': 'list',
                     'field': 'enabled',
                     '_sonata_admin': 'sonata.page.admin.block'
-                }) }}">
+                }) }}"
+            >
                     {% if child.enabled %}{{ 'composer.disable'|trans({}, 'SonataPageBundle') }}
                         <i class="fa fa-toggle-off"></i>
                     {% else %}
@@ -69,8 +83,7 @@
         </div>
     </div>
 
-    <div class="page-composer__container__child__content">
-    </div>
+    <div class="page-composer__container__child__content"></div>
 
     <div class="page-composer__container__child__loader">
         <span>{{ 'loading'|trans({}, 'SonataPageBundle') }}</span>

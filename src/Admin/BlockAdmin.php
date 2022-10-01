@@ -172,12 +172,6 @@ final class BlockAdmin extends BaseBlockAdmin
                 $form->add('position', IntegerType::class);
             }
 
-            $form->end();
-
-            $form->with('options', $optionsGroupOptions);
-
-            $this->configureBlockFields($form, $block);
-
             if (false !== $isComposer) {
                 $form->add('enabled', HiddenType::class, ['data' => true]);
             } else {
@@ -185,12 +179,18 @@ final class BlockAdmin extends BaseBlockAdmin
             }
 
             $form->end();
+
+            $form->with('options', $optionsGroupOptions);
+
+            $this->configureBlockFields($form, $block);
+
+            $form->end();
         } else {
             $form
                 ->with('options', $optionsGroupOptions)
-                ->add('type', ServiceListType::class, ['context' => 'sonata_page_bundle'])
-                ->add('enabled')
-                ->add('position', IntegerType::class)
+                    ->add('type', ServiceListType::class, ['context' => 'sonata_page_bundle'])
+                    ->add('enabled')
+                    ->add('position', IntegerType::class)
                 ->end();
         }
     }
