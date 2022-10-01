@@ -16,6 +16,7 @@ namespace Sonata\PageBundle\Controller;
 use Sonata\AdminBundle\Controller\CRUDController;
 use Sonata\AdminBundle\Exception\BadRequestParamHttpException;
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
+use Sonata\BlockBundle\Block\Service\EditableBlockService;
 use Sonata\PageBundle\Model\BlockInteractorInterface;
 use Sonata\PageBundle\Model\PageBlockInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -87,12 +88,22 @@ final class BlockAdminController extends CRUDController
 
         $parameters = $this->admin->getPersistentParameters();
 
-        $blockManager = $this->container->get('sonata.block.manager');
-        \assert($blockManager instanceof BlockServiceManagerInterface);
-
         if (null === $parameters['type']) {
+            $blockManager = $this->container->get('sonata.block.manager');
+            \assert($blockManager instanceof BlockServiceManagerInterface);
+
+            $blockServices = $blockManager->getServicesByContext('sonata_page_bundle');
+
+            foreach ($blockServices as $code => $service) {
+                if ($service instanceof EditableBlockService) {
+                    continue;
+                }
+
+                unset($blockServices[$code]);
+            }
+
             return $this->renderWithExtraParams('@SonataPage/BlockAdmin/select_type.html.twig', [
-                'services' => $blockManager->getServicesByContext('sonata_page_bundle'),
+                'blockServices' => $blockServices,
                 'base_template' => $this->getBaseTemplate(),
                 'admin' => $this->admin,
                 'action' => 'create',
@@ -159,12 +170,12 @@ final class BlockAdminController extends CRUDController
 
         $blockManager = $this->container->get('sonata.block.manager');
         \assert($blockManager instanceof BlockServiceManagerInterface);
-        $blockServices = $blockManager->getServicesByContext('sonata_page_bundle', false);
+        $blockService = $blockManager->get($existingObject);
 
         return $this->renderWithExtraParams('@SonataPage/BlockAdmin/compose_preview.html.twig', [
             'container' => $container,
             'child' => $existingObject,
-            'blockServices' => $blockServices,
+            'blockService' => $blockService,
             'blockAdmin' => $this->admin,
         ]);
     }

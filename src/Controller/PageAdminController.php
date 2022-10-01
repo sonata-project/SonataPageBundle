@@ -16,6 +16,7 @@ namespace Sonata\PageBundle\Controller;
 use Sonata\AdminBundle\Controller\CRUDController;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
+use Sonata\BlockBundle\Block\Service\EditableBlockService;
 use Sonata\PageBundle\Admin\BlockAdmin;
 use Sonata\PageBundle\Admin\SnapshotAdmin;
 use Sonata\PageBundle\Model\BlockInteractorInterface;
@@ -273,6 +274,14 @@ final class PageAdminController extends CRUDController
         \assert($blockManager instanceof BlockServiceManagerInterface);
         $blockServices = $blockManager->getServicesByContext('sonata_page_bundle', false);
 
+        foreach ($blockServices as $code => $blockService) {
+            if ($blockService instanceof EditableBlockService) {
+                continue;
+            }
+
+            unset($blockServices[$code]);
+        }
+
         $page = $block->getPage();
         $blockCode = $block->getSetting('code');
 
@@ -295,7 +304,7 @@ final class PageAdminController extends CRUDController
             $container = $template->getContainer($blockCode);
 
             if (null !== $container && \count($container['blocks']) > 0) {
-                foreach ($blockServices as $code => $service) {
+                foreach ($blockServices as $code => $blockService) {
                     if (\in_array($code, $container['blocks'], true)) {
                         continue;
                     }
