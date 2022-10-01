@@ -4,9 +4,7 @@
     data-block-enabled="{{ child.enabled|default('0') }}"
     data-block-type="{{ child.type }}"
 >
-    {% set service = attribute(blockServices, child.type) ?? null %}
-
-    {% if service %}
+    {% if blockService %}
     <a
         class="page-composer__container__child__edit"
         href="{{ blockAdmin.generateUrl('edit', { 'id': child.id, 'composer': true }) }}"
@@ -14,11 +12,11 @@
     {% else %}
     <div class="page-composer__container__child__error">
     {% endif %}
-        {% if service %}
-            {% set metadataTitle = service.metadata.title|trans({}, service.metadata.domain|default('SonataPageBundle')) %}
+        {% if blockService %}
+            {% set metadataTitle = blockService.metadata.title|trans({}, blockService.metadata.domain|default('SonataPageBundle')) %}
             {% set blockTitle = child.name|default(metadataTitle) %}
-            {% set blockImage = service.metadata.image ? asset(service.metadata.image) : null %}
-            {% set blockClass = service.metadata.option('class') %}
+            {% set blockImage = blockService.metadata.image ? asset(blockService.metadata.image) : null %}
+            {% set blockClass = blockService.metadata.option('class') %}
         {% else %}
             {% set metadataTitle = child.type %}
             {% set blockTitle = child.name %}
@@ -36,13 +34,13 @@
 
         <small>{{ metadataTitle }}</small>
 
-        {% if service %}
+        {% if blockService %}
             <span class="page-composer__container__child__toggle">
                 <i class="fa fa-chevron-down"></i>
                 <i class="fa fa-chevron-up"></i>
             </span>
         {% endif %}
-    {% if service %}
+    {% if blockService %}
     </a>
     {% else %}
     </div>
