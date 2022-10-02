@@ -507,6 +507,7 @@ PageComposer.prototype = {
     const $title = event.$block.find('.page-composer__container__child__edit h4');
     const $container = event.$block.find('.page-composer__container__child__content');
     const $loader = event.$block.find('.page-composer__container__child__loader');
+    const $removeButton = event.$block.find('.sonata-ba-form-actions a.btn.btn-danger');
     const $form = $container.find('form');
     const url = $form.attr('action');
     const method = $form.attr('method');
@@ -540,6 +541,11 @@ PageComposer.prototype = {
         $positionFormControl = $formControl;
         $positionFormControl.closest('.form-group').hide();
       }
+    });
+
+    $removeButton.on('click', (e) => {
+      e.preventDefault();
+      self.confirmRemoveContainer(event.$block);
     });
 
     $form.on('submit', (e) => {
