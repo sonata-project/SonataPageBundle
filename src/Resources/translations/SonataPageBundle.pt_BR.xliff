@@ -458,6 +458,10 @@
         <source>list.label_create_snapshots</source>
         <target>Publicações</target>
       </trans-unit>
+      <trans-unit id="snapshot">
+        <source>snapshot</source>
+        <target>Publicação</target>
+      </trans-unit>
       <trans-unit id="link_create_snapshots">
         <source>link_create_snapshots</source>
         <target>Criar publicações</target>

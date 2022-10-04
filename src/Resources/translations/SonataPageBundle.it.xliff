@@ -464,7 +464,11 @@
       </trans-unit>
       <trans-unit id="list.label_create_snapshots">
         <source>list.label_create_snapshots</source>
-        <target>Pubblicazioni</target>
+        <target>pubblicazione</target>
+      </trans-unit>
+      <trans-unit id="snapshot">
+        <source>snapshot</source>
+        <target>Publication</target>
       </trans-unit>
       <trans-unit id="link_create_snapshots">
         <source>link_create_snapshots</source>

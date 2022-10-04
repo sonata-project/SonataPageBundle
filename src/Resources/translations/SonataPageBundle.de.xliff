@@ -462,6 +462,10 @@
         <source>list.label_create_snapshots</source>
         <target>Publikationen</target>
       </trans-unit>
+      <trans-unit id="snapshot">
+        <source>snapshot</source>
+        <target>Publikation</target>
+      </trans-unit>
       <trans-unit id="link_create_snapshots">
         <source>link_create_snapshots</source>
         <target>Publikation anlegen</target>
