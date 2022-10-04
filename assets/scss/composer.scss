@@ -396,13 +396,17 @@ $color_red: #f56954;
   margin-top: 11px;
 }
 
-.page-composer__container__child__edit {
+.page-composer__container__child__edit,
+.page-composer__container__child__error {
   border-left: 3px solid #f9f9f9;
   color: #404040 !important;
-  cursor: pointer;
   display: block;
   padding: 10px 15px 10px 27px;
   text-decoration: none !important;
+}
+
+.page-composer__container__child__edit {
+  cursor: pointer;
 }
 
 .page-composer__container__child__right {

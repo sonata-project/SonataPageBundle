@@ -139,10 +139,9 @@ final class CloneSiteCommandTest extends KernelTestCase
 
         $block = new SonataPageBlock();
         $block->setType('sonata.block.service.text');
-        $block->setParent($parentBlock);
 
         $page->addBlock($parentBlock);
-        $page->addBlock($block);
+        $parentBlock->addChild($block);
 
         $manager->persist($site);
         $manager->persist($site2);
