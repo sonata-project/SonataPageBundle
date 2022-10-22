@@ -2,6 +2,69 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.0.0-alpha-1](https://github.com/sonata-project/SonataPageBundle/compare/3.x...4.0.0-alpha-1) - 2022-10-22
+### Added
+- [[#1583](https://github.com/sonata-project/SonataPageBundle/pull/1583)] Added `assets/css/frontend.scss` to use in site's page ([@eerison](https://github.com/eerison))
+- [[#1623](https://github.com/sonata-project/SonataPageBundle/pull/1623)] Add ability to display and remove blocks that belongs to types that no longer exist on compose page. ([@jordisala1991](https://github.com/jordisala1991))
+- [[#1534](https://github.com/sonata-project/SonataPageBundle/pull/1534)] Add missing dependency to `symfony/intl`. ([@jordisala1991](https://github.com/jordisala1991))
+- [[#1530](https://github.com/sonata-project/SonataPageBundle/pull/1530)] Add typehints and return types instead of phpdoc on all places possible. ([@jordisala1991](https://github.com/jordisala1991))
+- [[#1520](https://github.com/sonata-project/SonataPageBundle/pull/1520)] Add support for `sonata-project/doctrine-extensions` ^2.0. ([@jordisala1991](https://github.com/jordisala1991))
+- [[#1520](https://github.com/sonata-project/SonataPageBundle/pull/1520)] Add support for `sonata-project/twig-extensions` ^2.0. ([@jordisala1991](https://github.com/jordisala1991))
+- [[#1491](https://github.com/sonata-project/SonataPageBundle/pull/1491)] Add support for Symfony 5 and 6. ([@jordisala1991](https://github.com/jordisala1991))
+- [[#1485](https://github.com/sonata-project/SonataPageBundle/pull/1485)] Add support for Sonata ^4. ([@jordisala1991](https://github.com/jordisala1991))
+- [[#1483](https://github.com/sonata-project/SonataPageBundle/pull/1483)] Add support for SonataBlockBundle ^4. ([@jordisala1991](https://github.com/jordisala1991))
+- [[#1483](https://github.com/sonata-project/SonataPageBundle/pull/1483)] Add support for SonataSeoBundle ^3. ([@jordisala1991](https://github.com/jordisala1991))
+- [[#1452](https://github.com/sonata-project/SonataPageBundle/pull/1452)] Add `PageManager::createWithDefaults()` to create Pages with some default values. ([@jordisala1991](https://github.com/jordisala1991))
+- [[#1464](https://github.com/sonata-project/SonataPageBundle/pull/1464)] Add support for PHP 8.1 ([@jordisala1991](https://github.com/jordisala1991))
+- [[#1450](https://github.com/sonata-project/SonataPageBundle/pull/1450)] Add Twig ^3.0 compatibility. ([@jordisala1991](https://github.com/jordisala1991))
+
+### Changed
+- [[#1437](https://github.com/sonata-project/SonataPageBundle/pull/1437)] Updated ValidatorTest to use ConstraintValidatorTestCase ([@Hanmac](https://github.com/Hanmac))
+- [[#1460](https://github.com/sonata-project/SonataPageBundle/pull/1460)] Changed `BaseCommand::class` to `Symfony\Command::class` ([@eerison](https://github.com/eerison))
+- [[#1493](https://github.com/sonata-project/SonataPageBundle/pull/1493)] Change `SnapshotChildrenCollection` to be a lazy `Collection` from Doctrine ([@jordisala1991](https://github.com/jordisala1991))
+- [[#1564](https://github.com/sonata-project/SonataPageBundle/pull/1564)] Changed `page` context to `sonata.page.block.breadcrumb` used in `src/Resources/views/layout.html.twig` file ([@eerison](https://github.com/eerison))
+- [[#1559](https://github.com/sonata-project/SonataPageBundle/pull/1559)] Change frontend compilation system from Gulp to Webpack ([@jordisala1991](https://github.com/jordisala1991))
+- [[#1559](https://github.com/sonata-project/SonataPageBundle/pull/1559)] Change final minified file to `app.js` and `app.css` ([@jordisala1991](https://github.com/jordisala1991))
+- [[#1531](https://github.com/sonata-project/SonataPageBundle/pull/1531)] Change from xml configuration format to PHP, for the internal bundle configuration. ([@jordisala1991](https://github.com/jordisala1991))
+- [[#1528](https://github.com/sonata-project/SonataPageBundle/pull/1528)] `BlockAdmin` and its childs now inject their required dependencies through `__construct` instead of set methods. ([@jordisala1991](https://github.com/jordisala1991))
+- [[#1519](https://github.com/sonata-project/SonataPageBundle/pull/1519)] `PageAdmin` now injects its required dependencies through `__construct` instead of set methods. ([@jordisala1991](https://github.com/jordisala1991))
+- [[#1513](https://github.com/sonata-project/SonataPageBundle/pull/1513)] Replace usage of Container as a dependency by the actual dependencies of services. ([@jordisala1991](https://github.com/jordisala1991))
+- [[#1512](https://github.com/sonata-project/SonataPageBundle/pull/1512)] Adjust `PageInterface`, `SnapshotInterface` and `SiteInterface` to reflect all the methods available on the actual implementation. ([@jordisala1991](https://github.com/jordisala1991))
+- [[#1510](https://github.com/sonata-project/SonataPageBundle/pull/1510)] Changed visibility for most protected properties / methods to private, since classes are final. ([@jordisala1991](https://github.com/jordisala1991))
+- [[#1508](https://github.com/sonata-project/SonataPageBundle/pull/1508)] Changed from `\DateTime` to `\DateTimeInterface` on all the codebase. ([@jordisala1991](https://github.com/jordisala1991))
+- [[#1436](https://github.com/sonata-project/SonataPageBundle/pull/1436)] PageExtension doesn't need InitRuntimeInterface anymore ([@Hanmac](https://github.com/Hanmac))
+
+### Fixed
+- [[#1627](https://github.com/sonata-project/SonataPageBundle/pull/1627)] Fixed `snapshot` translation ([@eerison](https://github.com/eerison))
+- [[#1624](https://github.com/sonata-project/SonataPageBundle/pull/1624)] Fix to not show blocks that are not meant to be editable. ([@jordisala1991](https://github.com/jordisala1991))
+- [[#1625](https://github.com/sonata-project/SonataPageBundle/pull/1625)] Fix delete button while editting blocks on compose page. ([@jordisala1991](https://github.com/jordisala1991))
+- [[#1607](https://github.com/sonata-project/SonataPageBundle/pull/1607)] Fix `customUrl` implementation. ([@jordisala1991](https://github.com/jordisala1991))
+- [[#1606](https://github.com/sonata-project/SonataPageBundle/pull/1606)] Fix `host_with_path` with site on a relative path of '/'. ([@jordisala1991](https://github.com/jordisala1991))
+- [[#1606](https://github.com/sonata-project/SonataPageBundle/pull/1606)] Fix `View Page` button on Page edit, when site has relative path of '/'. ([@jordisala1991](https://github.com/jordisala1991))
+
+### Removed
+- [[#1460](https://github.com/sonata-project/SonataPageBundle/pull/1460)] Removed `--site=all` option for the commands ([@eerison](https://github.com/eerison))
+- [[#1460](https://github.com/sonata-project/SonataPageBundle/pull/1460)] Removed `DumpPageCommand::class` ([@eerison](https://github.com/eerison))
+- [[#1460](https://github.com/sonata-project/SonataPageBundle/pull/1460)] Removed `RenderBlockCommand::class` ([@eerison](https://github.com/eerison))
+- [[#1460](https://github.com/sonata-project/SonataPageBundle/pull/1460)] Removed `BaseCommand::class` ([@eerison](https://github.com/eerison))
+- [[#1596](https://github.com/sonata-project/SonataPageBundle/pull/1596)] Removed `sonata.page.assets` option ([@eerison](https://github.com/eerison))
+- [[#1627](https://github.com/sonata-project/SonataPageBundle/pull/1627)] Removed SonataAdmin translation files ([@eerison](https://github.com/eerison))
+- [[#1594](https://github.com/sonata-project/SonataPageBundle/pull/1594)] Removed deprecate `page_stylesheets` block from `base_layout.html.twig` ([@eerison](https://github.com/eerison))
+- [[#1594](https://github.com/sonata-project/SonataPageBundle/pull/1594)] Removed deprecate `page_javascripts` block from `base_layout.html.twig` ([@eerison](https://github.com/eerison))
+- [[#1594](https://github.com/sonata-project/SonataPageBundle/pull/1594)] Removed deprecate `page_top_bar` block from `base_layout.html.twig` ([@eerison](https://github.com/eerison))
+- [[#1594](https://github.com/sonata-project/SonataPageBundle/pull/1594)] Removed deprecate `page_container` block from `base_layout.html.twig` ([@eerison](https://github.com/eerison))
+- [[#1594](https://github.com/sonata-project/SonataPageBundle/pull/1594)] Removed deprecate `page_asset_footer` block from `base_layout.html.twig` ([@eerison](https://github.com/eerison))
+- [[#1574](https://github.com/sonata-project/SonataPageBundle/pull/1574)] Remove show route for block since blocks are meant to be edited through compose page. ([@jordisala1991](https://github.com/jordisala1991))
+- [[#1541](https://github.com/sonata-project/SonataPageBundle/pull/1541)] Remove unused `AjaxController`. ([@jordisala1991](https://github.com/jordisala1991))
+- [[#1541](https://github.com/sonata-project/SonataPageBundle/pull/1541)] Remove unused `BlockController`. ([@jordisala1991](https://github.com/jordisala1991))
+- [[#1524](https://github.com/sonata-project/SonataPageBundle/pull/1524)] Remove `BlockContextManager` service to use the default one from BlockBundle. ([@VincentLanglet](https://github.com/VincentLanglet))
+- [[#1506](https://github.com/sonata-project/SonataPageBundle/pull/1506)] Remove `setSlugifyMethod` and `getSlugifyMethod` static methods from Page. ([@jordisala1991](https://github.com/jordisala1991))
+- [[#1473](https://github.com/sonata-project/SonataPageBundle/pull/1473)] Removed the command `MigrateBlockNameSettingCommand::class` ([@eerison](https://github.com/eerison))
+- [[#1473](https://github.com/sonata-project/SonataPageBundle/pull/1473)] Removed the command `MigrateToJsonTypeCommand::class` ([@eerison](https://github.com/eerison))
+- [[#1456](https://github.com/sonata-project/SonataPageBundle/pull/1456)] Remove integration with SonataNotificationBundle ([@jordisala1991](https://github.com/jordisala1991))
+- [[#1449](https://github.com/sonata-project/SonataPageBundle/pull/1449)] Remove SonataCoreBundle related code. ([@jordisala1991](https://github.com/jordisala1991))
+- [[#1430](https://github.com/sonata-project/SonataPageBundle/pull/1430)] Remove cache related code. ([@Hanmac](https://github.com/Hanmac))
+
 ## [3.29.0](https://github.com/sonata-project/SonataPageBundle/compare/3.28.0...3.29.0) - 2022-09-08
 ### Deprecated
 - [[#1595](https://github.com/sonata-project/SonataPageBundle/pull/1595)] Deprecated `assets` option from sonata_page config file ([@eerison](https://github.com/eerison))
