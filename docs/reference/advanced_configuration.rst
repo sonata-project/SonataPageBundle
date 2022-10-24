@@ -87,4 +87,4 @@ Full configuration options:
                         mappings:
                             SonataPageBundle: ~
 
-.. _`here`: https://docs.sonata-project.org/projects/SonataPageBundle/en/3.x/
+.. _`here`: https://docs.sonata-project.org/projects/SonataPageBundle/en/4.x/

@@ -30,19 +30,16 @@ template. This can be easily achieved by using the template manager service::
 
     class CustomPageService implements PageServiceInterface
     {
-        /**
-         * @var TemplateManager
-         */
-        private $templateManager;
+        private TemplateManager $templateManager;
 
-        public function __construct($name, TemplateManager $templateManager)
+        public function __construct(string $name, TemplateManager $templateManager)
         {
             // ...
 
             $this->templateManager = $templateManager;
         }
 
-        public function execute(PageInterface $page, Request $request, array $parameters = [], Response $response = null)
+        public function execute(PageInterface $page, Request $request, array $parameters = [], Response $response = null): Response
         {
             // add custom processing (load data, update SEO values, update http headers, perform security checks, ...)
 
