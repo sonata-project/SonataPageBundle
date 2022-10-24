@@ -15,6 +15,10 @@ namespace Sonata\PageBundle\Tests\DependencyInjection;
 
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\DependencyInjection\Configuration;
+use Sonata\PageBundle\Entity\BaseBlock;
+use Sonata\PageBundle\Entity\BasePage;
+use Sonata\PageBundle\Entity\BaseSite;
+use Sonata\PageBundle\Entity\BaseSnapshot;
 use Symfony\Component\Config\Definition\Processor;
 
 final class ConfigurationTest extends TestCase
@@ -131,10 +135,10 @@ final class ConfigurationTest extends TestCase
             'page_defaults' => [],
             'catch_exceptions' => [],
             'class' => [
-                    'page' => 'Application\\Sonata\\PageBundle\\Entity\\Page',
-                    'snapshot' => 'Application\\Sonata\\PageBundle\\Entity\\Snapshot',
-                    'block' => 'Application\\Sonata\\PageBundle\\Entity\\Block',
-                    'site' => 'Application\\Sonata\\PageBundle\\Entity\\Site',
+                    'page' => BasePage::class,
+                    'snapshot' => BaseSnapshot::class,
+                    'block' => BaseBlock::class,
+                    'site' => BaseSite::class,
             ],
             'direct_publication' => false,
         ];
@@ -194,10 +198,10 @@ final class ConfigurationTest extends TestCase
             'page_defaults' => [],
             'catch_exceptions' => [],
             'class' => [
-                'page' => 'Application\\Sonata\\PageBundle\\Entity\\Page',
-                'snapshot' => 'Application\\Sonata\\PageBundle\\Entity\\Snapshot',
-                'block' => 'Application\\Sonata\\PageBundle\\Entity\\Block',
-                'site' => 'Application\\Sonata\\PageBundle\\Entity\\Site',
+                'page' => BasePage::class,
+                'snapshot' => BaseSnapshot::class,
+                'block' => BaseBlock::class,
+                'site' => BaseSite::class,
             ],
             'direct_publication' => false,
         ];
