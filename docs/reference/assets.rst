@@ -1,15 +1,15 @@
 Assets
 ======
 
-Assets are managed with gulp which require yarn and a global gulp install.
+Assets are managed with webpack which require yarn.
 
-* stylesheets are generated from .scss files located in ``assets/src/scss``
-* javascripts are generated from files located in ``assets/src/js``
+* stylesheets are generated from .scss files located in ``assets/scss``
+* javascripts are generated from files located in ``assets/js``
 
 .. warning::
 
    Do not edit directly files located in the ``src/Resources/public`` folder,
-   if you want to contribute, you should edit files in the ``assets/src`` folder.
+   if you want to contribute, you should edit files in the ``assets`` folder.
 
 Compiling Sources
 -----------------
@@ -19,4 +19,5 @@ you can generate the public ones with the following command:
 
 .. code-block:: bash
 
-   yarn build
+   yarn dev
+   yarn production

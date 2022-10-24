@@ -12,13 +12,13 @@ There are some Sonata dependencies that need to be installed and configured befo
 
 Required dependencies:
 
-* `SonataAdminBundle <https://docs.sonata-project.org/projects/SonataAdminBundle/en/3.x/>`_
-* `SonataBlockBundle_ <https://docs.sonata-project.org/projects/SonataBlockBundle/en/3.x/>`_
-* `SonataSeoBundle_ <https://docs.sonata-project.org/projects/SonataSeoBundle/en/2.x/>`_
+* `SonataAdminBundle <https://docs.sonata-project.org/projects/SonataAdminBundle/en/4.x/>`_
+* `SonataBlockBundle_ <https://docs.sonata-project.org/projects/SonataBlockBundle/en/4.x/>`_
+* `SonataSeoBundle_ <https://docs.sonata-project.org/projects/SonataSeoBundle/en/3.x/>`_
 
 And the persistence bundle (currently, not all the implementations of the Sonata persistence bundles are available):
 
-* `SonataDoctrineOrmAdminBundle <https://docs.sonata-project.org/projects/SonataDoctrineORMAdminBundle/en/3.x/>`_
+* `SonataDoctrineOrmAdminBundle <https://docs.sonata-project.org/projects/SonataDoctrineORMAdminBundle/en/4.x/>`_
 
 Follow also their configuration step; you will find everything you need in
 their own installation chapter.
@@ -189,7 +189,7 @@ Routing Configuration
 Doctrine ORM Configuration
 --------------------------
 
-And these in the config mapping definition (or enable `auto_mapping`_)::
+And these in the config mapping definition (or enable auto_mapping)::
 
     # config/packages/doctrine.yaml
 
@@ -302,4 +302,3 @@ you come across any errors, don't panic:
 
 .. _`open issues on GitHub`: https://github.com/sonata-project/SonataPageBundle/issues
 .. _SymfonyCmfRoutingBundle: https://github.com/symfony-cmf/RoutingBundle
-.. _auto_mapping: http://symfony.com/doc/2.0/reference/configuration/doctrine.html#configuration-overview
