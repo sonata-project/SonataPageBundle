@@ -13,10 +13,6 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\DependencyInjection;
 
-use Sonata\PageBundle\Entity\BaseBlock;
-use Sonata\PageBundle\Entity\BasePage;
-use Sonata\PageBundle\Entity\BaseSite;
-use Sonata\PageBundle\Entity\BaseSnapshot;
 use Sonata\PageBundle\Model\Template;
 use Sonata\PageBundle\Template\Matrix\Parser;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -273,16 +269,16 @@ final class Configuration implements ConfigurationInterface
                     ->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('page')
-                            ->defaultValue(BasePage::class)
+                            ->defaultValue('App\\Entity\\SonataPagePage')
                         ->end()
                         ->scalarNode('snapshot')
-                            ->defaultValue(BaseSnapshot::class)
+                            ->defaultValue('App\\Entity\\SonataPageSnapshot')
                         ->end()
                         ->scalarNode('block')
-                            ->defaultValue(BaseBlock::class)
+                            ->defaultValue('App\\Entity\\SonataPageBlock')
                         ->end()
                         ->scalarNode('site')
-                            ->defaultValue(BaseSite::class)
+                            ->defaultValue('App\\Entity\\SonataPageSite')
                         ->end()
                     ->end()
                 ->end()
