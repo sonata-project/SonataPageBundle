@@ -131,10 +131,10 @@ final class ConfigurationTest extends TestCase
             'page_defaults' => [],
             'catch_exceptions' => [],
             'class' => [
-                    'page' => 'Application\\Sonata\\PageBundle\\Entity\\Page',
-                    'snapshot' => 'Application\\Sonata\\PageBundle\\Entity\\Snapshot',
-                    'block' => 'Application\\Sonata\\PageBundle\\Entity\\Block',
-                    'site' => 'Application\\Sonata\\PageBundle\\Entity\\Site',
+                    'page' => 'App\\Entity\\SonataPagePage',
+                    'snapshot' => 'App\\Entity\\SonataPageSnapshot',
+                    'block' => 'App\\Entity\\SonataPageBlock',
+                    'site' => 'App\\Entity\\SonataPageSite',
             ],
             'direct_publication' => false,
         ];
@@ -194,10 +194,10 @@ final class ConfigurationTest extends TestCase
             'page_defaults' => [],
             'catch_exceptions' => [],
             'class' => [
-                'page' => 'Application\\Sonata\\PageBundle\\Entity\\Page',
-                'snapshot' => 'Application\\Sonata\\PageBundle\\Entity\\Snapshot',
-                'block' => 'Application\\Sonata\\PageBundle\\Entity\\Block',
-                'site' => 'Application\\Sonata\\PageBundle\\Entity\\Site',
+                'page' => 'App\\Entity\\SonataPagePage',
+                'snapshot' => 'App\\Entity\\SonataPageSnapshot',
+                'block' => 'App\\Entity\\SonataPageBlock',
+                'site' => 'App\\Entity\\SonataPageSite',
             ],
             'direct_publication' => false,
         ];
