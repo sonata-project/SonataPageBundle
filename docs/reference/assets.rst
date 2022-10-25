@@ -19,5 +19,4 @@ you can generate the public ones with the following command:
 
 .. code-block:: bash
 
-   yarn dev
    yarn production
