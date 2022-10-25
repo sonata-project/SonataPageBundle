@@ -22,31 +22,7 @@ or:
 
 .. code-block:: bash
 
-    bin/console  sonata:page:create-site --enabled=true --name=localhost --locale=- --host=localhost --relativePath=/ --enabledFrom=now --enabledTo="+10 years" --default=true
-
-The output might look like this::
-
-    Please define a value for Site.name : localhost
-    Please define a value for Site.host : localhost
-    Please define a value for Site.relativePath : /
-    Please define a value for Site.enabled : true
-    Please define a value for Site.locale : -
-    Please define a value for Site.enabledFrom : now
-    Please define a value for Site.enabledTo : +10 years
-    Please define a value for Site.default : true
-
-    Creating website with the following information :
-      name : localhost
-      site : http(s)://localhost
-      enabled :  Tue, 10 Jan 2012 16:12:08 +0100 => Mon, 10 Jan 2022 16:12:08 +0100
-
-    Confirm site creation ?y
-
-    Site created !
-
-    You can now create the related pages and snapshots by running the followings commands:
-      bin/console sonata:page:update-core-routes --site=42
-      bin/console sonata:page:create-snapshots --site=42
+    bin/console  sonata:page:create-site --enabled --name=localhost --locale=- --host=localhost --relativePath=- --enabledFrom=now --enabledTo=- --default
 
 .. note::
 
@@ -60,10 +36,9 @@ The output might look like this::
 | host         | string   | Hostname used to reach the site.                                              |
 +--------------+----------+-------------------------------------------------------------------------------+
 | relativePath | string   | The relative path for the site (only used by the ``HostPathSiteSelector``     |
-|              |          | otherwise, just use '/').                                                     |
+|              |          | otherwise, just use '-').                                                     |
 +--------------+----------+-------------------------------------------------------------------------------+
-| enabled      | boolean  | If the site is enabled or not (true values are 'true', 1, '1'; all other      |
-|              |          | values default to false).                                                     |
+| enabled      | none     | If the site is enabled or not (e.g: ``--enabled``).                           |
 +--------------+----------+-------------------------------------------------------------------------------+
 | enabledFrom  | DateTime | The DateTime the site is enabled from (if site is always enabled and has no   |
 |              |          | start DateTime, use '-' as the value).                                        |
@@ -72,8 +47,7 @@ The output might look like this::
 |              |          | end DateTime, use '-' as the value).                                          |
 +--------------+----------+-------------------------------------------------------------------------------+
 | default      | boolean  | Only used by the HostPathSiteSelector as the default site if it is unable to  |
-|              |          | match any other site (true values are 'true', 1, '1'; all other values        |
-|              |          | default to false).                                                            |
+|              |          | match any other site (e.g: ``--default``).                                    |
 +--------------+----------+-------------------------------------------------------------------------------+
 | locale       | string   | The default locale for the site (use '-' as the value if specifying the       |
 |              |          | locale is not needed).                                                        |
