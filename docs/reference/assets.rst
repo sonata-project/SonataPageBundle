@@ -1,7 +1,7 @@
 Assets
 ======
 
-Assets are managed with webpack which require yarn.
+Assets are managed with Webpack which require NPM.
 
 * stylesheets are generated from .scss files located in ``assets/scss``
 * javascripts are generated from files located in ``assets/js``
