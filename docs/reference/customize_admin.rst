@@ -6,8 +6,6 @@ As example if you want to add a new field in ``configureListFields``, You can do
 
 .. code-block:: php
 
-    <?php
-
     namespace App\Admin\Extension;
 
     use Sonata\AdminBundle\Admin\AbstractAdminExtension;
@@ -42,6 +40,7 @@ And for order the field to the begin of table you can use the method ``reorder``
 .. image:: ../images/customize_admin__reorder_fields.png
 
 .. note::
+
     To know more information about how to configure service tags using **yaml**, **xml** or **php** file check out in `Symfony Tags docs`_
 
 List of admin
