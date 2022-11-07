@@ -16,6 +16,7 @@ Page Bundle
    reference/error_pages
    reference/twig_helpers
    reference/command_line
+   reference/customize_admin
    reference/advanced_usage
    reference/page_services
    reference/advanced_configuration
