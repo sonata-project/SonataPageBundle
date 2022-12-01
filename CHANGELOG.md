@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [4.0.0-rc-1](https://github.com/sonata-project/SonataPageBundle/compare/4.0.0-alpha-1...4.0.0-rc-1) - 2022-11-30
+## [4.0.0](https://github.com/sonata-project/SonataPageBundle/compare/4.0.0-alpha-1...4.0.0) - 2022-11-30
 ### Changed
 - [[#1635](https://github.com/sonata-project/SonataPageBundle/pull/1635)] Changed default entity class values ([@VincentLanglet](https://github.com/VincentLanglet))
 
