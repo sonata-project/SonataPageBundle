@@ -39,12 +39,12 @@ final class CmsSnapshotManagerTest extends TestCase
     /**
      * @var MockObject&SnapshotManagerInterface
      */
-    private $snapshotManager;
+    private SnapshotManagerInterface $snapshotManager;
 
     /**
      * @var MockObject&TransformerInterface
      */
-    private $transformer;
+    private TransformerInterface $transformer;
 
     /**
      * Setup manager object to test.

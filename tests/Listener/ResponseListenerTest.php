@@ -33,27 +33,27 @@ final class ResponseListenerTest extends TestCase
     /**
      * @var MockObject&DecoratorStrategyInterface
      */
-    private $decoratorStrategy;
+    private DecoratorStrategyInterface $decoratorStrategy;
 
     /**
      * @var MockObject&PageServiceManagerInterface
      */
-    private $pageServiceManager;
+    private PageServiceManagerInterface $pageServiceManager;
 
     /**
      * @var MockObject&CmsManagerInterface
      */
-    private $cmsManager;
+    private CmsManagerInterface $cmsManager;
 
     /**
      * @var MockObject&CmsManagerSelectorInterface
      */
-    private $cmsSelector;
+    private CmsManagerSelectorInterface $cmsSelector;
 
     /**
      * @var MockObject&Environment
      */
-    private $twig;
+    private Environment $twig;
 
     private ResponseListener $listener;
 

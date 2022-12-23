@@ -30,7 +30,7 @@ final class SubRequestsSiteSelectorTest extends BaseLocaleSiteSelectorTest
     /**
      * @var MockObject&SiteManagerInterface
      */
-    private $siteManager;
+    private SiteManagerInterface $siteManager;
 
     private HostPathByLocaleSiteSelector $siteSelector;
 

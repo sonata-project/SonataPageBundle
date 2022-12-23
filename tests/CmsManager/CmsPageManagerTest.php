@@ -34,12 +34,12 @@ final class CmsPageManagerTest extends TestCase
     /**
      * @var MockObject&BlockInteractorInterface
      */
-    private $blockInteractor;
+    private BlockInteractorInterface $blockInteractor;
 
     /**
      * @var MockObject&PageManagerInterface
      */
-    private $pageManager;
+    private PageManagerInterface $pageManager;
 
     private CmsPageManager $manager;
 
