@@ -33,17 +33,17 @@ final class CmsPageRouterTest extends TestCase
     /**
      * @var MockObject&CmsManagerSelectorInterface
      */
-    private $cmsSelector;
+    private CmsManagerSelectorInterface $cmsSelector;
 
     /**
      * @var MockObject&SiteSelectorInterface
      */
-    private $siteSelector;
+    private SiteSelectorInterface $siteSelector;
 
     /**
      * @var MockObject&RouterInterface
      */
-    private $defaultRouter;
+    private RouterInterface $defaultRouter;
 
     private CmsPageRouter $router;
 

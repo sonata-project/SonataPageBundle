@@ -29,7 +29,7 @@ final class PageListBlockServiceTest extends BlockServiceTestCase
     /**
      * @var PageManagerInterface&MockObject
      */
-    private $pageManager;
+    private PageManagerInterface $pageManager;
 
     protected function setUp(): void
     {

@@ -31,7 +31,7 @@ final class HostPathByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
     /**
      * @var MockObject&SiteManagerInterface
      */
-    private $siteManager;
+    private SiteManagerInterface $siteManager;
 
     private HostPathByLocaleSiteSelector $siteSelector;
 
