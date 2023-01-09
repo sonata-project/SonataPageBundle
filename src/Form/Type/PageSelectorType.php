@@ -62,20 +62,28 @@ final class PageSelectorType extends AbstractType
     }
 
     /**
+     * @param Options<array{
+     *     page: PageInterface|null,
+     *     site: SiteInterface|null,
+     *     choice_translation_domain: bool,
+     *     filter_choice: array{current_page: false, request_method: string, dynamic: bool, hierarchy: string},
+     * }> $options
+     *
      * @return array<PageInterface>
      */
     private function getChoices(Options $options): array
     {
+        \PHPStan\dumpType($options['site']);
         if (!$options['site'] instanceof SiteInterface) {
             return [];
         }
 
-        $filter_choice = array_merge([
+        $filter_choice = $options['filter_choice'] + [
             'current_page' => false,
             'request_method' => 'GET',
             'dynamic' => true,
             'hierarchy' => 'all',
-        ], $options['filter_choice']);
+        ];
 
         $pages = $this->manager->loadPages($options['site']);
 
@@ -124,6 +132,22 @@ final class PageSelectorType extends AbstractType
     }
 
     /**
+     * @param WorkingOptions<array{
+     *     page: PageInterface|null,
+     *     site: SiteInterface|null,
+     *     choice_translation_domain: bool,
+     *     filter_choice: array{current_page: false, request_method: string, dynamic: bool, hierarchy: string},
+     * }> $options
+     *
+     * @return array<PageInterface>
+     */
+    private function workingGetChoices(WorkingOptions $options): array
+    {
+        \PHPStan\dumpType($options['site']);
+        return [];
+    }
+
+    /**
      * @param array<PageInterface> $choices
      */
     private function childWalker(PageInterface $page, ?PageInterface $currentPage, array &$choices, int $level = 1): void
@@ -145,4 +169,34 @@ final class PageSelectorType extends AbstractType
             $this->childWalker($child, $currentPage, $choices, $level + 1);
         }
     }
+}
+
+/**
+ * @template TArray of array
+ * @extends \ArrayAccess<key-of<TArray>, value-of<TArray>>
+ */
+interface WorkingOptions extends \ArrayAccess {
+    /**
+     * @param key-of<TArray> $offset
+     */
+    public function offsetExists($offset): bool;
+
+    /**
+     * @template TOffset of key-of<TArray>
+     * @param TOffset $offset
+     * @return TArray[TOffset]
+     */
+    public function offsetGet($offset);
+
+    /**
+     * @template TOffset of key-of<TArray>
+     * @param TOffset $offset
+     * @param TArray[TOffset] $value
+     */
+    public function offsetSet($offset, $value): void;
+
+    /**
+     * @param key-of<TArray> $offset
+     */
+    public function offsetUnset($offset): void;
 }
