@@ -45,12 +45,12 @@ final class SnapshotManagerTest extends TestCase
     /**
      * @var Stub&ManagerRegistry
      */
-    private $managerRegistry;
+    private ManagerRegistry $managerRegistry;
 
     /**
      * @var MockObject&EntityManagerInterface
      */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
     private SnapshotManager $manager;
 

@@ -25,7 +25,7 @@ final class TemplateChoiceTypeTest extends TestCase
     /**
      * @var MockObject&TemplateManagerInterface
      */
-    private $manager;
+    private TemplateManagerInterface $manager;
 
     private TemplateChoiceType $type;
 

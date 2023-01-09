@@ -30,7 +30,7 @@ final class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTest
     /**
      * @var MockObject&SiteManagerInterface
      */
-    private $siteManager;
+    private SiteManagerInterface $siteManager;
 
     private HostByLocaleSiteSelector $siteSelector;
 

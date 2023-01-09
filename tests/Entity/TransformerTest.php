@@ -36,17 +36,17 @@ final class TransformerTest extends TestCase
     /**
      * @var MockObject&SnapshotManagerInterface
      */
-    private $snapshotManager;
+    private SnapshotManagerInterface $snapshotManager;
 
     /**
      * @var MockObject&PageManagerInterface
      */
-    private $pageManager;
+    private PageManagerInterface $pageManager;
 
     /**
      * @var MockObject&ManagerInterface<PageBlockInterface>
      */
-    private $blockManager;
+    private ManagerInterface $blockManager;
 
     private TransformerInterface $transformer;
 

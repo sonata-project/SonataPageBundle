@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.0.0](https://github.com/sonata-project/SonataPageBundle/compare/4.0.0-alpha-1...4.0.0) - 2022-11-30
+### Changed
+- [[#1635](https://github.com/sonata-project/SonataPageBundle/pull/1635)] Changed default entity class values ([@VincentLanglet](https://github.com/VincentLanglet))
+
+### Fixed
+- [[#1636](https://github.com/sonata-project/SonataPageBundle/pull/1636)] Fixed `sonata:page:create-site` command's option in the doc ([@eerison](https://github.com/eerison))
+
 ## [4.0.0-alpha-1](https://github.com/sonata-project/SonataPageBundle/compare/3.x...4.0.0-alpha-1) - 2022-10-22
 ### Added
 - [[#1583](https://github.com/sonata-project/SonataPageBundle/pull/1583)] Added `assets/css/frontend.scss` to use in site's page ([@eerison](https://github.com/eerison))
