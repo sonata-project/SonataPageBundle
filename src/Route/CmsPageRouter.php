@@ -19,7 +19,9 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Request\SiteRequestContextInterface;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Symfony\Cmf\Component\Routing\ChainedRouterInterface;
+use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Cmf\Component\Routing\VersatileGeneratorInterface;
+use Symfony\Component\Routing\Exception\MissingMandatoryParametersException;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\Generator\UrlGenerator;
@@ -69,7 +71,7 @@ final class CmsPageRouter implements ChainedRouterInterface
      */
     public function supports($name): bool
     {
-        if (\is_string($name) && !$this->isPageAlias($name) && !$this->isPageSlug($name)) {
+        if (\is_string($name) && !$this->isPageAlias($name) && !$this->isPageSlug($name) && $name !== RouteObjectInterface::OBJECT_BASED_ROUTE_NAME) {
             return false;
         }
 
@@ -94,8 +96,18 @@ final class CmsPageRouter implements ChainedRouterInterface
                 $name = $this->getPageByPageAlias($name);
             }
 
+            //TODO: remove this $name parameter should be string
             if ($name instanceof PageInterface) {
                 $url = $this->generateFromPage($name, $parameters, $referenceType);
+            }
+            
+            if ($name === RouteObjectInterface::OBJECT_BASED_ROUTE_NAME) {
+                if(!isset($parameters[RouteObjectInterface::ROUTE_OBJECT]) {
+                    throw new MissingMandatoryParametersException(sprintf('The object parameter should be defined using %s', RouteObjectInterface::ROUTE_OBJECT));
+                }
+                   
+                $page = $parameters[RouteObjectInterface::ROUTE_OBJECT];                
+                $url = $this->generateFromPage($page, $parameters, $referenceType);
             }
 
             if (\is_string($name) && $this->isPageSlug($name)) {
