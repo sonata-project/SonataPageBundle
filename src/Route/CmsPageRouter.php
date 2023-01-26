@@ -96,7 +96,6 @@ final class CmsPageRouter implements ChainedRouterInterface
                 $name = $this->getPageByPageAlias($name);
             }
 
-            //TODO: remove this $name parameter should be string
             if ($name instanceof PageInterface) {
                 $url = $this->generateFromPage($name, $parameters, $referenceType);
             }
@@ -106,7 +105,8 @@ final class CmsPageRouter implements ChainedRouterInterface
                     throw new MissingMandatoryParametersException(sprintf('The object parameter should be defined using %s', RouteObjectInterface::ROUTE_OBJECT));
                 }
                    
-                $page = $parameters[RouteObjectInterface::ROUTE_OBJECT];                
+                $page = $parameters[RouteObjectInterface::ROUTE_OBJECT];
+                unset($parameters[RouteObjectInterface::ROUTE_OBJECT]);
                 $url = $this->generateFromPage($page, $parameters, $referenceType);
             }
 
