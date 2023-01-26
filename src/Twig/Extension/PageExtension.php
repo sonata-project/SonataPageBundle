@@ -20,6 +20,7 @@ use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Symfony\Bridge\Twig\Extension\HttpKernelExtension;
+use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -72,6 +73,8 @@ final class PageExtension extends AbstractExtension
             new TwigFunction('sonata_page_render_container', [$this, 'renderContainer'], ['is_safe' => ['html']]),
             new TwigFunction('sonata_page_render_block', [$this, 'renderBlock'], ['is_safe' => ['html']]),
             new TwigFunction('controller', [$this, 'controller']),
+            new TwigFunction('sonata_page_url', [$this, 'pageUrl']),
+            new TwigFunction('sonata_page_path', [$this, 'pagePath']),
         ];
     }
 
@@ -218,4 +221,30 @@ final class PageExtension extends AbstractExtension
 
         return HttpKernelExtension::controller($controller, $attributes, $query);
     }
+    
+    /**
+     * @param PageInterface $page
+     * @param array $parameters
+     * @return string
+     */
+    public function pageUrl(PageInterface $page, array $parameters = []) : string
+    {
+        $parameters = array_merge($parameters, [
+            RouteObjectInterface::ROUTE_OBJECT => $page
+        ]);
+        return $this->router->generate(RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, $parameters, RouterInterface::ABSOLUTE_URL);
+    }
+
+    /**
+     * @param PageInterface $page
+     * @param array $parameters
+     * @return string
+     */
+    public function pagePath(PageInterface $page, array $parameters = []) : string
+    {
+        $parameters = array_merge($parameters, [
+            RouteObjectInterface::ROUTE_OBJECT => $page
+        ]);
+        return $this->router->generate(RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, $parameters, RouterInterface::ABSOLUTE_PATH);
+    }    
 }
