@@ -74,6 +74,7 @@
         "vimeo/psalm": "^4.7.2 || ^5.0"
     },
     "conflict": {
+        "doctrine/annotations": "<1.13.3",
         "doctrine/orm": "<2.14"
     },
     "suggest": {
