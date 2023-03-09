@@ -70,6 +70,7 @@
         "symfony/filesystem": "^4.4 || ^5.4 || ^6.2",
         "symfony/panther": "^1.0 || ^2.0",
         "symfony/phpunit-bridge": "^6.2",
+        "symfony/yaml": "^4.4 || ^5.4 || ^6.2",
         "vimeo/psalm": "^4.7.2 || ^5.0"
     },
     "conflict": {
