@@ -32,34 +32,16 @@ use Symfony\Component\Security\Http\Event\LogoutEvent;
  */
 final class CmsManagerSelector implements CmsManagerSelectorInterface, BCLogoutHandlerInterface
 {
-    private CmsPageManager $cmsPageManager;
-
-    private CmsSnapshotManager $cmsSnapshotManager;
-
-    /**
-     * @var AdminInterface<PageInterface>
-     */
-    private AdminInterface $pageAdmin;
-
-    private TokenStorageInterface $tokenStorage;
-
-    private RequestStack $requestStack;
-
     /**
      * @param AdminInterface<PageInterface> $pageAdmin
      */
     public function __construct(
-        CmsPageManager $cmsPageManager,
-        CmsSnapshotManager $cmsSnapshotManager,
-        AdminInterface $pageAdmin,
-        TokenStorageInterface $tokenStorage,
-        RequestStack $requestStack
+        private CmsPageManager $cmsPageManager,
+        private CmsSnapshotManager $cmsSnapshotManager,
+        private AdminInterface $pageAdmin,
+        private TokenStorageInterface $tokenStorage,
+        private RequestStack $requestStack
     ) {
-        $this->cmsPageManager = $cmsPageManager;
-        $this->cmsSnapshotManager = $cmsSnapshotManager;
-        $this->pageAdmin = $pageAdmin;
-        $this->tokenStorage = $tokenStorage;
-        $this->requestStack = $requestStack;
     }
 
     public function retrieve(): CmsManagerInterface

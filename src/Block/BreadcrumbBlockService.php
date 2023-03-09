@@ -32,16 +32,12 @@ use Twig\Environment;
  */
 final class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService implements EditableBlockService
 {
-    private CmsManagerSelectorInterface $cmsSelector;
-
     public function __construct(
         Environment $twig,
         FactoryInterface $factory,
-        CmsManagerSelectorInterface $cmsSelector
+        private CmsManagerSelectorInterface $cmsSelector
     ) {
         parent::__construct($twig, $factory);
-
-        $this->cmsSelector = $cmsSelector;
     }
 
     public function validate(ErrorElement $errorElement, BlockInterface $block): void

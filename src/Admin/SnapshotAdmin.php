@@ -36,22 +36,12 @@ final class SnapshotAdmin extends AbstractAdmin
 {
     protected $classnameLabel = 'Snapshot';
 
-    private TransformerInterface $transformer;
-
-    private PageManagerInterface $pageManager;
-
-    private SnapshotManagerInterface $snapshotManager;
-
     public function __construct(
-        TransformerInterface $transformer,
-        PageManagerInterface $pageManager,
-        SnapshotManagerInterface $snapshotManager
+        private TransformerInterface $transformer,
+        private PageManagerInterface $pageManager,
+        private SnapshotManagerInterface $snapshotManager
     ) {
         parent::__construct();
-
-        $this->transformer = $transformer;
-        $this->pageManager = $pageManager;
-        $this->snapshotManager = $snapshotManager;
     }
 
     protected function getAccessMapping(): array

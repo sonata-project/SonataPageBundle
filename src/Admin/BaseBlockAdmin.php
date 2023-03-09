@@ -31,8 +31,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 abstract class BaseBlockAdmin extends AbstractAdmin
 {
-    protected BlockServiceManagerInterface $blockManager;
-
     protected bool $inValidate = false;
 
     /**
@@ -40,11 +38,9 @@ abstract class BaseBlockAdmin extends AbstractAdmin
      */
     protected array $containerBlockTypes = [];
 
-    public function __construct(BlockServiceManagerInterface $blockManager)
+    public function __construct(protected BlockServiceManagerInterface $blockManager)
     {
         parent::__construct();
-
-        $this->blockManager = $blockManager;
     }
 
     /**
@@ -143,7 +139,7 @@ abstract class BaseBlockAdmin extends AbstractAdmin
 
         try {
             $block->setSettings($resolver->resolve($block->getSettings()));
-        } catch (InvalidOptionsException $e) {
+        } catch (InvalidOptionsException) {
             // @TODO : add a logging error or a flash message
         }
 

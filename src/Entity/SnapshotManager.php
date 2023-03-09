@@ -30,19 +30,15 @@ use Sonata\PageBundle\Model\TransformerInterface;
  */
 final class SnapshotManager extends BaseEntityManager implements SnapshotManagerInterface
 {
-    private SnapshotPageProxyFactoryInterface $snapshotPageProxyFactory;
-
     /**
      * @param class-string<SnapshotInterface> $class
      */
     public function __construct(
         string $class,
         ManagerRegistry $registry,
-        SnapshotPageProxyFactoryInterface $snapshotPageProxyFactory
+        private SnapshotPageProxyFactoryInterface $snapshotPageProxyFactory
     ) {
         parent::__construct($class, $registry);
-
-        $this->snapshotPageProxyFactory = $snapshotPageProxyFactory;
     }
 
     public function enableSnapshots(array $snapshots, ?\DateTimeInterface $date = null): void

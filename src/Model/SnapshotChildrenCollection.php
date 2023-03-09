@@ -26,14 +26,10 @@ use Doctrine\Common\Collections\AbstractLazyCollection;
  */
 final class SnapshotChildrenCollection extends AbstractLazyCollection
 {
-    private TransformerInterface $transformer;
-
-    private PageInterface $page;
-
-    public function __construct(TransformerInterface $transformer, PageInterface $page)
-    {
-        $this->transformer = $transformer;
-        $this->page = $page;
+    public function __construct(
+        private TransformerInterface $transformer,
+        private PageInterface $page
+    ) {
     }
 
     protected function doInitialize(): void
