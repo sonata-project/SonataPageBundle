@@ -51,7 +51,7 @@ final class TemplateTest extends TestCase
     {
         $template = new Template('page', 'template.twig', ['header' => [
             'name' => 'Header',
-            'block' => ['text.block'],
+            'blocks' => ['text.block'],
         ]]);
 
         $expected = [
