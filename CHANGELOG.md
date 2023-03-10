@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.1.0](https://github.com/sonata-project/SonataPageBundle/compare/4.0.0...4.1.0) - 2023-03-10
+### Added
+- [[#1660](https://github.com/sonata-project/SonataPageBundle/pull/1660)] Usage of list_action_button_content options and create publications icon ([@gremo](https://github.com/gremo))
+
+### Fixed
+- [[#1661](https://github.com/sonata-project/SonataPageBundle/pull/1661)] Page admin filter by page type. ([@gremo](https://github.com/gremo))
+
 ## [4.0.0](https://github.com/sonata-project/SonataPageBundle/compare/4.0.0-alpha-1...4.0.0) - 2022-11-30
 ### Changed
 - [[#1635](https://github.com/sonata-project/SonataPageBundle/pull/1635)] Changed default entity class values ([@VincentLanglet](https://github.com/VincentLanglet))
