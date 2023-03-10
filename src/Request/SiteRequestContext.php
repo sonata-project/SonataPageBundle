@@ -22,12 +22,10 @@ use Symfony\Component\Routing\RequestContext;
  */
 final class SiteRequestContext extends RequestContext implements SiteRequestContextInterface
 {
-    private SiteSelectorInterface $selector;
-
     private ?SiteInterface $site = null;
 
     public function __construct(
-        SiteSelectorInterface $selector,
+        private SiteSelectorInterface $selector,
         string $baseUrl = '',
         string $method = 'GET',
         string $host = 'localhost',
@@ -35,8 +33,6 @@ final class SiteRequestContext extends RequestContext implements SiteRequestCont
         int $httpPort = 80,
         int $httpsPort = 443
     ) {
-        $this->selector = $selector;
-
         parent::__construct($baseUrl, $method, $host, $scheme, $httpPort, $httpsPort);
     }
 

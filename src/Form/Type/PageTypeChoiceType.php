@@ -20,14 +20,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * @author Olivier Paradis <paradis.olivier@gmail.com>
+ *
+ * @psalm-suppress MissingTemplateParam
  */
 final class PageTypeChoiceType extends AbstractType
 {
-    private PageServiceManagerInterface $manager;
-
-    public function __construct(PageServiceManagerInterface $manager)
+    public function __construct(private PageServiceManagerInterface $manager)
     {
-        $this->manager = $manager;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

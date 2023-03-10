@@ -25,10 +25,6 @@ use Sonata\PageBundle\Model\SiteInterface;
  */
 final class CmsPageManager extends BaseCmsPageManager
 {
-    private BlockInteractorInterface $blockInteractor;
-
-    private PageManagerInterface $pageManager;
-
     /**
      * @var array{
      *   url: array<int|string|null>,
@@ -49,15 +45,15 @@ final class CmsPageManager extends BaseCmsPageManager
      */
     private array $pages = [];
 
-    public function __construct(PageManagerInterface $pageManager, BlockInteractorInterface $blockInteractor)
-    {
-        $this->pageManager = $pageManager;
-        $this->blockInteractor = $blockInteractor;
+    public function __construct(
+        private PageManagerInterface $pageManager,
+        private BlockInteractorInterface $blockInteractor
+    ) {
     }
 
     public function getPage(SiteInterface $site, $page): PageInterface
     {
-        if (\is_string($page) && '/' === substr($page, 0, 1)) {
+        if (\is_string($page) && str_starts_with($page, '/')) {
             $page = $this->getPageByUrl($site, $page);
         } elseif (\is_string($page)) { // page is a slug, load the related page
             $page = $this->getPageByRouteName($site, $page);
@@ -76,7 +72,7 @@ final class CmsPageManager extends BaseCmsPageManager
 
     public function getInternalRoute(SiteInterface $site, string $routeName): PageInterface
     {
-        if ('error' === substr($routeName, 0, 5)) {
+        if (str_starts_with($routeName, 'error')) {
             throw new \RuntimeException(sprintf('Illegal internal route name : %s, an internal page cannot start with `error`', $routeName));
         }
 
@@ -84,7 +80,7 @@ final class CmsPageManager extends BaseCmsPageManager
 
         try {
             $page = $this->getPageByRouteName($site, $routeName);
-        } catch (PageNotFoundException $e) {
+        } catch (PageNotFoundException) {
             $page = $this->pageManager->createWithDefaults([
                 'url' => null,
                 'routeName' => $routeName,

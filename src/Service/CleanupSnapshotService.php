@@ -21,14 +21,10 @@ use Sonata\PageBundle\Service\Contract\CleanupSnapshotBySiteInterface;
 
 final class CleanupSnapshotService implements CleanupSnapshotBySiteInterface
 {
-    private SnapshotManagerInterface $snapshotManager;
-
-    private PageManagerInterface $pageManager;
-
-    public function __construct(SnapshotManagerInterface $snapshotManager, PageManagerInterface $pageManager)
-    {
-        $this->snapshotManager = $snapshotManager;
-        $this->pageManager = $pageManager;
+    public function __construct(
+        private SnapshotManagerInterface $snapshotManager,
+        private PageManagerInterface $pageManager
+    ) {
     }
 
     public function cleanupBySite(SiteInterface $site, int $keepSnapshots): void

@@ -20,14 +20,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * @psalm-suppress MissingTemplateParam
  */
 final class TemplateChoiceType extends AbstractType
 {
-    private TemplateManagerInterface $manager;
-
-    public function __construct(TemplateManagerInterface $manager)
+    public function __construct(private TemplateManagerInterface $manager)
     {
-        $this->manager = $manager;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -25,13 +25,6 @@ use Twig\Error\SyntaxError;
  */
 final class TemplateManager implements TemplateManagerInterface
 {
-    private Environment $twig;
-
-    /**
-     * @var array<string, mixed>
-     */
-    private array $defaultParameters;
-
     /**
      * @var array<string, Template>
      */
@@ -44,10 +37,10 @@ final class TemplateManager implements TemplateManagerInterface
     /**
      * @param array<string, mixed> $defaultParameters
      */
-    public function __construct(Environment $twig, array $defaultParameters = [])
-    {
-        $this->twig = $twig;
-        $this->defaultParameters = $defaultParameters;
+    public function __construct(
+        private Environment $twig,
+        private array $defaultParameters = []
+    ) {
     }
 
     public function add(string $code, Template $template): void

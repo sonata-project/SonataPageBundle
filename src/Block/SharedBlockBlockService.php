@@ -40,28 +40,15 @@ use Twig\Environment;
 final class SharedBlockBlockService extends AbstractBlockService implements EditableBlockService
 {
     /**
-     * @var ManagerInterface<PageBlockInterface>
-     */
-    private ManagerInterface $blockManager;
-
-    /**
-     * @var AdminInterface<PageBlockInterface>
-     */
-    private AdminInterface $sharedBlockAdmin;
-
-    /**
      * @param ManagerInterface<PageBlockInterface> $blockManager
      * @param AdminInterface<PageBlockInterface>   $sharedBlockAdmin
      */
     public function __construct(
         Environment $twig,
-        ManagerInterface $blockManager,
-        AdminInterface $sharedBlockAdmin
+        private ManagerInterface $blockManager,
+        private AdminInterface $sharedBlockAdmin
     ) {
         parent::__construct($twig);
-
-        $this->blockManager = $blockManager;
-        $this->sharedBlockAdmin = $sharedBlockAdmin;
     }
 
     public function execute(BlockContextInterface $blockContext, ?Response $response = null): Response

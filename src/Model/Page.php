@@ -145,7 +145,7 @@ abstract class Page implements PageInterface
 
     public function setPageAlias(?string $pageAlias): void
     {
-        if ('_page_alias_' !== substr((string) $pageAlias, 0, 12)) {
+        if (!str_starts_with((string) $pageAlias, '_page_alias_')) {
             $pageAlias = '_page_alias_'.$pageAlias;
         }
 
@@ -418,7 +418,7 @@ abstract class Page implements PageInterface
 
         $requestMethod = $this->getRequestMethod();
 
-        return null === $requestMethod || false !== strpos($requestMethod, $method);
+        return null === $requestMethod || str_contains($requestMethod, $method);
     }
 
     public function getHeaders(): array
@@ -442,7 +442,7 @@ abstract class Page implements PageInterface
         }
     }
 
-    public function addHeader(string $name, $value): void
+    public function addHeader(string $name, mixed $value): void
     {
         $headers = $this->getHeaders();
 
@@ -507,7 +507,7 @@ abstract class Page implements PageInterface
 
     public function isError(): bool
     {
-        return '_page_internal_error_' === substr($this->getRouteName() ?? '', 0, 21);
+        return str_starts_with($this->getRouteName() ?? '', '_page_internal_error_');
     }
 
     public function isHybrid(): bool
@@ -517,7 +517,7 @@ abstract class Page implements PageInterface
 
     public function isDynamic(): bool
     {
-        return $this->isHybrid() && false !== strpos($this->getUrl() ?? '', '{');
+        return $this->isHybrid() && str_contains($this->getUrl() ?? '', '{');
     }
 
     public function isCms(): bool
@@ -527,18 +527,20 @@ abstract class Page implements PageInterface
 
     public function isInternal(): bool
     {
-        return '_page_internal_' === substr($this->getRouteName() ?? '', 0, 15);
+        return str_starts_with($this->getRouteName() ?? '', '_page_internal_');
     }
 
     /**
      * @return array<string, string>
+     *
+     * @psalm-suppress PossiblyUndefinedArrayOffset
      */
     private function getHeadersAsArray(string $rawHeaders): array
     {
         $headers = [];
 
         foreach (explode("\r\n", $rawHeaders) as $header) {
-            if (false !== strpos($header, ':')) {
+            if (str_contains($header, ':')) {
                 [$name, $headerStr] = explode(':', $header, 2);
                 $headers[trim($name)] = trim($headerStr);
             }

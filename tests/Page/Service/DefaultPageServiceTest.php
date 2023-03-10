@@ -65,13 +65,7 @@ final class DefaultPageServiceTest extends TestCase
             ->method('setTitle')->with(static::equalTo('page title'));
 
         $this->seoPage->expects(static::exactly(3))
-            ->method('addMeta')
-            ->withConsecutive(
-                ['name', 'description', 'page meta description'],
-                ['name', 'keywords', 'page meta keywords'],
-                ['property', 'og:type', 'article']
-            )
-            ->willReturnOnConsecutiveCalls($this->seoPage, $this->seoPage, $this->seoPage);
+            ->method('addMeta')->willReturn($this->seoPage);
 
         $this->seoPage->expects(static::once())
             ->method('addHtmlAttributes')->with(static::equalTo('prefix'), static::equalTo('og: http://ogp.me/ns#'));

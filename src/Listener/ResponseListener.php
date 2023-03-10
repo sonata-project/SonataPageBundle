@@ -30,28 +30,13 @@ use Twig\Environment;
  */
 final class ResponseListener
 {
-    private CmsManagerSelectorInterface $cmsSelector;
-
-    private PageServiceManagerInterface $pageServiceManager;
-
-    private DecoratorStrategyInterface $decoratorStrategy;
-
-    private Environment $twig;
-
-    private bool $skipRedirection;
-
     public function __construct(
-        CmsManagerSelectorInterface $cmsSelector,
-        PageServiceManagerInterface $pageServiceManager,
-        DecoratorStrategyInterface $decoratorStrategy,
-        Environment $twig,
-        bool $skipRedirection
+        private CmsManagerSelectorInterface $cmsSelector,
+        private PageServiceManagerInterface $pageServiceManager,
+        private DecoratorStrategyInterface $decoratorStrategy,
+        private Environment $twig,
+        private bool $skipRedirection
     ) {
-        $this->cmsSelector = $cmsSelector;
-        $this->pageServiceManager = $pageServiceManager;
-        $this->decoratorStrategy = $decoratorStrategy;
-        $this->twig = $twig;
-        $this->skipRedirection = $skipRedirection;
     }
 
     /**

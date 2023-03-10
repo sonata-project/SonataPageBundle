@@ -33,10 +33,6 @@ final class Template
     public const TYPE_STATIC = 1;
     public const TYPE_DYNAMIC = 2;
 
-    private string $path;
-
-    private string $name;
-
     /**
      * @var array<string, mixed>
      *
@@ -53,11 +49,11 @@ final class Template
      *   shared?: bool
      * }> $containers
      */
-    public function __construct(string $name, string $path, array $containers = [])
-    {
-        $this->name = $name;
-        $this->path = $path;
-
+    public function __construct(
+        private string $name,
+        private string $path,
+        array $containers = []
+    ) {
         foreach ($containers as $code => $container) {
             $this->containers[$code] = $this->normalize($container);
         }

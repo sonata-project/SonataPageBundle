@@ -34,13 +34,9 @@ final class CreateSiteCommand extends Command
     protected static $defaultName = 'sonata:page:create-site';
     protected static $defaultDescription = 'Create a site';
 
-    private SiteManagerInterface $siteManager;
-
-    public function __construct(SiteManagerInterface $siteManager)
+    public function __construct(private SiteManagerInterface $siteManager)
     {
         parent::__construct();
-
-        $this->siteManager = $siteManager;
     }
 
     public function configure(): void

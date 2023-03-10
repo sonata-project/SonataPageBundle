@@ -23,14 +23,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * @psalm-suppress MissingTemplateParam
  */
 final class PageSelectorType extends AbstractType
 {
-    private PageManagerInterface $manager;
-
-    public function __construct(PageManagerInterface $manager)
+    public function __construct(private PageManagerInterface $manager)
     {
-        $this->manager = $manager;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -63,6 +62,18 @@ final class PageSelectorType extends AbstractType
 
     /**
      * @return array<PageInterface>
+     *
+     * @phpstan-param Options<array{
+     *     page: PageInterface|null,
+     *     site: SiteInterface|null,
+     *     filter_choice: array{
+     *         current_page: bool,
+     *         request_method: string,
+     *         dynamic: bool,
+     *         hierarchy: string
+     *     }
+     * }> $options
+     * @psalm-param Options $options
      */
     private function getChoices(Options $options): array
     {

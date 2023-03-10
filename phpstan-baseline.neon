@@ -6,3 +6,19 @@ parameters:
         - # https://github.com/phpstan/phpstan-strict-rules/issues/130
             message: '#^Call to static method PHPUnit\\Framework\\Assert::.* will always evaluate to true\.$#'
             path: tests/
+        - # https://github.com/phpstan/phpstan-symfony/issues/322
+            message: "#^Cannot call method getId\\(\\) on array\\<string, bool\\|string\\>\\|Sonata\\\\PageBundle\\\\Model\\\\PageInterface\\|Sonata\\\\PageBundle\\\\Model\\\\SiteInterface\\.$#"
+            count: 1
+            path: src/Form/Type/PageSelectorType.php
+        - # https://github.com/phpstan/phpstan-symfony/issues/322
+            message: "#^Only booleans are allowed in &&, array\\<string, bool\\|string\\>\\|Sonata\\\\PageBundle\\\\Model\\\\PageInterface\\|Sonata\\\\PageBundle\\\\Model\\\\SiteInterface\\|null given on the right side\\.$#"
+            count: 1
+            path: src/Form/Type/PageSelectorType.php
+        - # https://github.com/phpstan/phpstan-symfony/issues/322
+            message: "#^Parameter \\#2 \\$currentPage of method Sonata\\\\PageBundle\\\\Form\\\\Type\\\\PageSelectorType\\:\\:childWalker\\(\\) expects Sonata\\\\PageBundle\\\\Model\\\\PageInterface\\|null, array\\<string, bool\\|string\\>\\|Sonata\\\\PageBundle\\\\Model\\\\PageInterface\\|Sonata\\\\PageBundle\\\\Model\\\\SiteInterface\\|null given\\.$#"
+            count: 1
+            path: src/Form/Type/PageSelectorType.php
+        - # https://github.com/phpstan/phpstan-symfony/issues/322
+            message: "#^Parameter \\#2 \\.\\.\\.\\$arrays of function array_merge expects array, array\\<string, bool\\|string\\>\\|Sonata\\\\PageBundle\\\\Model\\\\PageInterface\\|Sonata\\\\PageBundle\\\\Model\\\\SiteInterface\\|null given\\.$#"
+            count: 1
+            path: src/Form/Type/PageSelectorType.php

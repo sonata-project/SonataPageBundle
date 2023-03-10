@@ -28,20 +28,11 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 final class PageController extends AbstractController
 {
-    private ExceptionListener $exceptionListener;
-
-    private PageServiceManagerInterface $pageServiceManager;
-
-    private CmsManagerSelectorInterface $cmsSelector;
-
     public function __construct(
-        ExceptionListener $exceptionListener,
-        PageServiceManagerInterface $pageServiceManager,
-        CmsManagerSelectorInterface $cmsSelector
+        private ExceptionListener $exceptionListener,
+        private PageServiceManagerInterface $pageServiceManager,
+        private CmsManagerSelectorInterface $cmsSelector
     ) {
-        $this->exceptionListener = $exceptionListener;
-        $this->pageServiceManager = $pageServiceManager;
-        $this->cmsSelector = $cmsSelector;
     }
 
     /**

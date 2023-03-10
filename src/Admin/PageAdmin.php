@@ -46,18 +46,11 @@ final class PageAdmin extends AbstractAdmin
 {
     protected $classnameLabel = 'Page';
 
-    private PageManagerInterface $pageManager;
-
-    private SiteManagerInterface $siteManager;
-
     public function __construct(
-        PageManagerInterface $pageManager,
-        SiteManagerInterface $siteManager
+        private PageManagerInterface $pageManager,
+        private SiteManagerInterface $siteManager
     ) {
         parent::__construct();
-
-        $this->pageManager = $pageManager;
-        $this->siteManager = $siteManager;
     }
 
     protected function configureRoutes(RouteCollectionInterface $collection): void
@@ -385,7 +378,7 @@ final class PageAdmin extends AbstractAdmin
                         'path' => $path,
                     ]),
                 ]);
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // avoid crashing the admin if the route is not setup correctly
                 // throw $e;
             }
