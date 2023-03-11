@@ -9,6 +9,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - [[#1661](https://github.com/sonata-project/SonataPageBundle/pull/1661)] Page admin filter by page type. ([@gremo](https://github.com/gremo))
 
+### Removed
+- [[#1658](https://github.com/sonata-project/SonataPageBundle/pull/1658)] Support for PHP 7.4
+- [[#1658](https://github.com/sonata-project/SonataPageBundle/pull/1658)] Support for Symfony 6.0 and 6.1
+- [[#1658](https://github.com/sonata-project/SonataPageBundle/pull/1658)] Support for `doctrine/persistence` ^2.0.
+
 ## [4.0.0](https://github.com/sonata-project/SonataPageBundle/compare/4.0.0-alpha-1...4.0.0) - 2022-11-30
 ### Changed
 - [[#1635](https://github.com/sonata-project/SonataPageBundle/pull/1635)] Changed default entity class values ([@VincentLanglet](https://github.com/VincentLanglet))
