@@ -24,19 +24,12 @@ use Symfony\Component\HttpFoundation\Response;
  */
 final class DefaultPageService extends BasePageService
 {
-    private TemplateManagerInterface $templateManager;
-
-    private ?SeoPageInterface $seoPage;
-
     public function __construct(
         string $name,
-        TemplateManagerInterface $templateManager,
-        ?SeoPageInterface $seoPage = null
+        private TemplateManagerInterface $templateManager,
+        private ?SeoPageInterface $seoPage = null
     ) {
         parent::__construct($name);
-
-        $this->templateManager = $templateManager;
-        $this->seoPage = $seoPage;
     }
 
     public function execute(

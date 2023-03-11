@@ -30,14 +30,10 @@ final class BlockInteractor implements BlockInteractorInterface
      */
     private array $pageBlocksLoaded = [];
 
-    private ManagerRegistry $registry;
-
-    private BlockManagerInterface $blockManager;
-
-    public function __construct(ManagerRegistry $registry, BlockManagerInterface $blockManager)
-    {
-        $this->blockManager = $blockManager;
-        $this->registry = $registry;
+    public function __construct(
+        private ManagerRegistry $registry,
+        private BlockManagerInterface $blockManager
+    ) {
     }
 
     public function getBlock($id): ?PageBlockInterface

@@ -26,24 +26,12 @@ use Symfony\Component\Routing\RouterInterface;
  */
 final class RoutePageGenerator
 {
-    private RouterInterface $router;
-
-    private PageManagerInterface $pageManager;
-
-    private DecoratorStrategyInterface $decoratorStrategy;
-
-    private ExceptionListener $exceptionListener;
-
     public function __construct(
-        RouterInterface $router,
-        PageManagerInterface $pageManager,
-        DecoratorStrategyInterface $decoratorStrategy,
-        ExceptionListener $exceptionListener
+        private RouterInterface $router,
+        private PageManagerInterface $pageManager,
+        private DecoratorStrategyInterface $decoratorStrategy,
+        private ExceptionListener $exceptionListener
     ) {
-        $this->router = $router;
-        $this->pageManager = $pageManager;
-        $this->decoratorStrategy = $decoratorStrategy;
-        $this->exceptionListener = $exceptionListener;
     }
 
     public function update(SiteInterface $site, ?OutputInterface $output = null, bool $clean = false): void
@@ -206,7 +194,7 @@ final class RoutePageGenerator
     /**
      * @param string|iterable<string> $message A string message to output
      */
-    private function writeln(?OutputInterface $output, $message): void
+    private function writeln(?OutputInterface $output, string|iterable $message): void
     {
         if (null !== $output) {
             $output->writeln($message);

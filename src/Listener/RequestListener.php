@@ -29,20 +29,11 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
  */
 final class RequestListener
 {
-    private CmsManagerSelectorInterface $cmsSelector;
-
-    private SiteSelectorInterface $siteSelector;
-
-    private DecoratorStrategyInterface $decoratorStrategy;
-
     public function __construct(
-        CmsManagerSelectorInterface $cmsSelector,
-        SiteSelectorInterface $siteSelector,
-        DecoratorStrategyInterface $decoratorStrategy
+        private CmsManagerSelectorInterface $cmsSelector,
+        private SiteSelectorInterface $siteSelector,
+        private DecoratorStrategyInterface $decoratorStrategy
     ) {
-        $this->cmsSelector = $cmsSelector;
-        $this->siteSelector = $siteSelector;
-        $this->decoratorStrategy = $decoratorStrategy;
     }
 
     /**
@@ -83,7 +74,7 @@ final class RequestListener
             }
 
             $cms->setCurrentPage($page);
-        } catch (PageNotFoundException $e) {
+        } catch (PageNotFoundException) {
             return;
         }
     }

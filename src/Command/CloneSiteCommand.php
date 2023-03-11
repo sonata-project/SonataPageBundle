@@ -35,22 +35,12 @@ final class CloneSiteCommand extends Command
     protected static $defaultName = 'sonata:page:clone-site';
     protected static $defaultDescription = 'Clone a complete site including all their pages';
 
-    private SiteManagerInterface $siteManager;
-
-    private PageManagerInterface $pageManager;
-
-    private BlockManagerInterface $blockManager;
-
     public function __construct(
-        SiteManagerInterface $siteManager,
-        PageManagerInterface $pageManager,
-        BlockManagerInterface $blockManager
+        private SiteManagerInterface $siteManager,
+        private PageManagerInterface $pageManager,
+        private BlockManagerInterface $blockManager
     ) {
         parent::__construct();
-
-        $this->siteManager = $siteManager;
-        $this->pageManager = $pageManager;
-        $this->blockManager = $blockManager;
     }
 
     public function configure(): void

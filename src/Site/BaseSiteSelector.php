@@ -26,22 +26,13 @@ use Symfony\Component\Routing\RequestContext;
  */
 abstract class BaseSiteSelector implements SiteSelectorInterface
 {
-    protected SiteManagerInterface $siteManager;
-
-    protected DecoratorStrategyInterface $decoratorStrategy;
-
-    protected SeoPageInterface $seoPage;
-
     protected ?SiteInterface $site = null;
 
     public function __construct(
-        SiteManagerInterface $siteManager,
-        DecoratorStrategyInterface $decoratorStrategy,
-        SeoPageInterface $seoPage
+        protected SiteManagerInterface $siteManager,
+        protected DecoratorStrategyInterface $decoratorStrategy,
+        protected SeoPageInterface $seoPage
     ) {
-        $this->siteManager = $siteManager;
-        $this->decoratorStrategy = $decoratorStrategy;
-        $this->seoPage = $seoPage;
     }
 
     public function retrieve(): ?SiteInterface

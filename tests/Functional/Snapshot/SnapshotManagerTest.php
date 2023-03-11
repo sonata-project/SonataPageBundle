@@ -122,7 +122,6 @@ final class SnapshotManagerTest extends KernelTestCase
 
         $snapshotPublicationDateEnd = $snapshot2->getPublicationDateEnd();
 
-        // @phpstan-ignore-next-line https://github.com/phpstan/phpstan/discussions/8586
         static::assertNotNull($snapshotPublicationDateEnd);
         static::assertDateTimeEquals($date, $snapshotPublicationDateEnd);
     }

@@ -26,10 +26,6 @@ use Sonata\PageBundle\Model\TransformerInterface;
  */
 final class CmsSnapshotManager extends BaseCmsPageManager
 {
-    private SnapshotManagerInterface $snapshotManager;
-
-    private TransformerInterface $transformer;
-
     /**
      * @var array{
      *   url: array<int|string|null>,
@@ -52,15 +48,15 @@ final class CmsSnapshotManager extends BaseCmsPageManager
      */
     private array $pages = [];
 
-    public function __construct(SnapshotManagerInterface $snapshotManager, TransformerInterface $transformer)
-    {
-        $this->snapshotManager = $snapshotManager;
-        $this->transformer = $transformer;
+    public function __construct(
+        private SnapshotManagerInterface $snapshotManager,
+        private TransformerInterface $transformer
+    ) {
     }
 
     public function getPage(SiteInterface $site, $page): PageInterface
     {
-        if (\is_string($page) && '/' === substr($page, 0, 1)) {
+        if (\is_string($page) && str_starts_with($page, '/')) {
             $page = $this->getPageByUrl($site, $page);
         } elseif (\is_string($page)) { // page is a slug, load the related page
             $page = $this->getPageByRouteName($site, $page);

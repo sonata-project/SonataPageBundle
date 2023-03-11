@@ -25,20 +25,11 @@ use Sonata\PageBundle\Service\Contract\CreateSnapshotBySiteInterface;
 
 final class CreateSnapshotService implements CreateSnapshotBySiteInterface, CreateSnapshotByPageInterface
 {
-    private SnapshotManagerInterface $snapshotManager;
-
-    private PageManagerInterface $pageManager;
-
-    private TransformerInterface $transformer;
-
     public function __construct(
-        SnapshotManagerInterface $snapshotManager,
-        PageManagerInterface $pageManager,
-        TransformerInterface $transformer
+        private SnapshotManagerInterface $snapshotManager,
+        private PageManagerInterface $pageManager,
+        private TransformerInterface $transformer
     ) {
-        $this->snapshotManager = $snapshotManager;
-        $this->pageManager = $pageManager;
-        $this->transformer = $transformer;
     }
 
     public function createBySite(SiteInterface $site): void

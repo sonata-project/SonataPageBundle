@@ -34,35 +34,20 @@ use Sonata\PageBundle\Model\TransformerInterface;
  */
 final class Transformer implements TransformerInterface
 {
-    private SnapshotManagerInterface $snapshotManager;
-
-    private PageManagerInterface $pageManager;
-
-    /**
-     * @var ManagerInterface<PageBlockInterface>
-     */
-    private ManagerInterface $blockManager;
-
     /**
      * @var array<Collection<array-key, PageInterface>>
      */
     private array $children = [];
 
-    private ManagerRegistry $registry;
-
     /**
      * @param ManagerInterface<PageBlockInterface> $blockManager
      */
     public function __construct(
-        SnapshotManagerInterface $snapshotManager,
-        PageManagerInterface $pageManager,
-        ManagerInterface $blockManager,
-        ManagerRegistry $registry
+        private SnapshotManagerInterface $snapshotManager,
+        private PageManagerInterface $pageManager,
+        private ManagerInterface $blockManager,
+        private ManagerRegistry $registry
     ) {
-        $this->snapshotManager = $snapshotManager;
-        $this->pageManager = $pageManager;
-        $this->blockManager = $blockManager;
-        $this->registry = $registry;
     }
 
     public function create(PageInterface $page, ?SnapshotInterface $snapshot = null): SnapshotInterface

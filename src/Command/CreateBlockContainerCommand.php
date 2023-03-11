@@ -33,16 +33,11 @@ final class CreateBlockContainerCommand extends Command
     protected static $defaultName = 'sonata:page:create-block-container';
     protected static $defaultDescription = 'Creates a block container in all pages for specified template code';
 
-    private PageManagerInterface $pageManager;
-
-    private BlockInteractorInterface $blockInteractor;
-
-    public function __construct(PageManagerInterface $pageManager, BlockInteractorInterface $blockInteractor)
-    {
+    public function __construct(
+        private PageManagerInterface $pageManager,
+        private BlockInteractorInterface $blockInteractor
+    ) {
         parent::__construct();
-
-        $this->pageManager = $pageManager;
-        $this->blockInteractor = $blockInteractor;
     }
 
     protected function configure(): void

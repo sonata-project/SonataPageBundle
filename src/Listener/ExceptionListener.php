@@ -32,50 +32,23 @@ use Twig\Environment;
  */
 final class ExceptionListener
 {
-    private SiteSelectorInterface $siteSelector;
-
-    private CmsManagerSelectorInterface $cmsManagerSelector;
-
-    private bool $debug;
-
-    private Environment $twig;
-
-    private PageServiceManagerInterface $pageServiceManager;
-
-    private DecoratorStrategyInterface $decoratorStrategy;
-
-    /**
-     * @var array<int, string>
-     */
-    private array $httpErrorCodes;
-
     private LoggerInterface $logger;
-
-    private bool $status;
 
     /**
      * @param array<int, string> $httpErrorCodes An array of http error code routes
      */
     public function __construct(
-        SiteSelectorInterface $siteSelector,
-        CmsManagerSelectorInterface $cmsManagerSelector,
-        bool $debug,
-        Environment $twig,
-        PageServiceManagerInterface $pageServiceManager,
-        DecoratorStrategyInterface $decoratorStrategy,
-        array $httpErrorCodes,
+        private SiteSelectorInterface $siteSelector,
+        private CmsManagerSelectorInterface $cmsManagerSelector,
+        private bool $debug,
+        private Environment $twig,
+        private PageServiceManagerInterface $pageServiceManager,
+        private DecoratorStrategyInterface $decoratorStrategy,
+        private array $httpErrorCodes,
         ?LoggerInterface $logger = null,
-        bool $status = false
+        private bool $status = false
     ) {
-        $this->siteSelector = $siteSelector;
-        $this->cmsManagerSelector = $cmsManagerSelector;
-        $this->debug = $debug;
-        $this->twig = $twig;
-        $this->pageServiceManager = $pageServiceManager;
-        $this->decoratorStrategy = $decoratorStrategy;
-        $this->httpErrorCodes = $httpErrorCodes;
         $this->logger = $logger ?? new NullLogger();
-        $this->status = $status;
     }
 
     /**
@@ -189,7 +162,7 @@ final class ExceptionListener
             return;
         }
 
-        $message = sprintf('%s: %s (uncaught exception) at %s line %s', \get_class($exception), $exception->getMessage(), $exception->getFile(), $exception->getLine());
+        $message = sprintf('%s: %s (uncaught exception) at %s line %s', $exception::class, $exception->getMessage(), $exception->getFile(), $exception->getLine());
 
         $this->logException($exception, $exception, $message);
 
@@ -228,7 +201,7 @@ final class ExceptionListener
     private function logException(\Throwable $originalException, \Throwable $generatedException, ?string $message = null): void
     {
         if (null === $message) {
-            $message = sprintf('Exception thrown when handling an exception (%s: %s)', \get_class($generatedException), $generatedException->getMessage());
+            $message = sprintf('Exception thrown when handling an exception (%s: %s)', $generatedException::class, $generatedException->getMessage());
         }
 
         if (!$originalException instanceof HttpExceptionInterface || $originalException->getStatusCode() >= 500) {

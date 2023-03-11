@@ -24,11 +24,8 @@ use Sonata\PageBundle\Service\Contract\CreateSnapshotByPageInterface;
  */
 final class CreateSnapshotAdminExtension extends AbstractAdminExtension
 {
-    private CreateSnapshotByPageInterface $createSnapshotByPage;
-
-    public function __construct(CreateSnapshotByPageInterface $createSnapshotByPage)
+    public function __construct(private CreateSnapshotByPageInterface $createSnapshotByPage)
     {
-        $this->createSnapshotByPage = $createSnapshotByPage;
     }
 
     public function postUpdate(AdminInterface $admin, object $object): void

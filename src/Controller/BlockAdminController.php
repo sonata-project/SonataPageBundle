@@ -64,14 +64,14 @@ final class BlockAdminController extends CRUDController
         } catch (HttpException $e) {
             $status = $e->getStatusCode();
             $result = [
-                'exception' => \get_class($e),
+                'exception' => $e::class,
                 'message' => $e->getMessage(),
                 'code' => $e->getCode(),
             ];
         } catch (\Exception $e) {
             $status = 500;
             $result = [
-                'exception' => \get_class($e),
+                'exception' => $e::class,
                 'message' => $e->getMessage(),
                 'code' => $e->getCode(),
             ];

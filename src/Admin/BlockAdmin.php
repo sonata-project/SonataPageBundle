@@ -38,16 +38,6 @@ final class BlockAdmin extends BaseBlockAdmin
     protected $classnameLabel = 'Block';
 
     /**
-     * @var array<string, array{
-     *   templates?: array<array{
-     *     name: string,
-     *     template: string,
-     *   }>,
-     * }>
-     */
-    private array $blocks;
-
-    /**
      * @param array<string, array{
      *   templates?: array<array{
      *     name: string,
@@ -55,11 +45,11 @@ final class BlockAdmin extends BaseBlockAdmin
      *   }>,
      * }> $blocks
      */
-    public function __construct(BlockServiceManagerInterface $blockManager, array $blocks = [])
-    {
+    public function __construct(
+        BlockServiceManagerInterface $blockManager,
+        private array $blocks = []
+    ) {
         parent::__construct($blockManager);
-
-        $this->blocks = $blocks;
     }
 
     protected function getAccessMapping(): array

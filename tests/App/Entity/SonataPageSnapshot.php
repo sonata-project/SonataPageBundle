@@ -13,25 +13,19 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\App\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Sonata\PageBundle\Entity\BaseSnapshot;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="page__snapshot", indexes={
- *     @ORM\Index(
- *         name="idx_snapshot_dates_enabled", columns={"publication_date_start", "publication_date_end","enabled"}
- *     )
- * })
- */
+#[ORM\Entity]
+#[ORM\Table(name: 'page__snapshot')]
+#[ORM\Index(name: 'idx_snapshot_dates_enabled', columns: ['publication_date_start', 'publication_date_end', 'enabled'])]
 class SonataPageSnapshot extends BaseSnapshot
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
+    #[ORM\Id]
+    #[ORM\Column(type: Types::INTEGER)]
+    #[ORM\GeneratedValue]
+    protected $id = null;
 
     public function setId(int $id): void
     {

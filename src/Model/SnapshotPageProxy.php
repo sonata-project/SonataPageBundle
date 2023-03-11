@@ -20,12 +20,6 @@ use Doctrine\Common\Collections\Collection;
  */
 final class SnapshotPageProxy implements SnapshotPageProxyInterface
 {
-    private SnapshotManagerInterface $manager;
-
-    private TransformerInterface $transformer;
-
-    private SnapshotInterface $snapshot;
-
     private ?PageInterface $page = null;
 
     /**
@@ -34,13 +28,10 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
     private ?array $parents = null;
 
     public function __construct(
-        SnapshotManagerInterface $manager,
-        TransformerInterface $transformer,
-        SnapshotInterface $snapshot
+        private SnapshotManagerInterface $manager,
+        private TransformerInterface $transformer,
+        private SnapshotInterface $snapshot
     ) {
-        $this->manager = $manager;
-        $this->snapshot = $snapshot;
-        $this->transformer = $transformer;
     }
 
     public function __toString(): string
@@ -321,7 +312,7 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
 
             $snapshot = $this->snapshot;
 
-            while ($snapshot) {
+            while (true) {
                 $content = $snapshot->getContent();
 
                 if (!isset($content['parent_id'])) {
@@ -405,7 +396,7 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
         $this->getPage()->setHeaders($headers);
     }
 
-    public function addHeader(string $name, $value): void
+    public function addHeader(string $name, mixed $value): void
     {
         $this->getPage()->addHeader($name, $value);
     }
