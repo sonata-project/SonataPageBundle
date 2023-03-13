@@ -30,10 +30,8 @@ class InterfaceDenormalizer implements DenormalizerInterface, DenormalizerAwareI
      * @param mixed       $data
      * @param string      $type
      * @param string|null $format
-     *
-     * @return object
      */
-    public function denormalize($data, $type, $format = null, array $context = [])
+    public function denormalize($data, $type, $format = null, array $context = []): ?object
     {
         if (null === $this->denormalizer) {
             throw new BadMethodCallException('Please set a denormalizer before calling denormalize()!');

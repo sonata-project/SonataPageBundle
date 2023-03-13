@@ -35,17 +35,11 @@ class BlockTypeExtractor implements PropertyTypeExtractorInterface
     ];
 
     /**
-     * @var ManagerInterface<PageBlockInterface>
-     */
-    private ManagerInterface $blockManager;
-
-    /**
      * @param ManagerInterface<PageBlockInterface> $blockManager
      */
     public function __construct(
-        ManagerInterface $blockManager
+        private ManagerInterface $blockManager
     ) {
-        $this->blockManager = $blockManager;
     }
 
     /**

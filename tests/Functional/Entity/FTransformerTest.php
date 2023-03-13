@@ -343,10 +343,9 @@ final class FTransformerTest extends KernelTestCase
     /**
      * @dataProvider loadProvider
      *
-     * @param int|string|null       $position
      * @param array<string, ?mixed> $settings
      */
-    public function testLoadSnapshotToPage(\DateTimeInterface $datetime, $position, array $settings): void
+    public function testLoadSnapshotToPage(\DateTimeInterface $datetime, int|string|null $position, array $settings): void
     {
         $snapshot = new SonataPageSnapshot();
         $snapshot->setContent($this->getTestContent($datetime, $position, $settings));
@@ -362,10 +361,9 @@ final class FTransformerTest extends KernelTestCase
     /**
      * @dataProvider loadProvider
      *
-     * @param int|string|null       $position
      * @param array<string, ?mixed> $settings
      */
-    public function testLoadBlock(\DateTimeInterface $datetime, $position, array $settings): void
+    public function testLoadBlock(\DateTimeInterface $datetime, int|string|null $position, array $settings): void
     {
         $page = new SonataPagePage();
 
@@ -376,12 +374,11 @@ final class FTransformerTest extends KernelTestCase
     }
 
     /**
-     * @param int|string|null       $position
      * @param array<string, ?mixed> $settings
      *
      * @return PageContent
      */
-    protected function getTestContent(\DateTimeInterface $datetime, $position, array $settings): array
+    protected function getTestContent(\DateTimeInterface $datetime, int|string|null $position, array $settings): array
     {
         // for some reason, the order is different on the functional tests
         return [
@@ -406,12 +403,11 @@ final class FTransformerTest extends KernelTestCase
     }
 
     /**
-     * @param int|string|null       $position
      * @param array<string, ?mixed> $settings
      *
      * @return BlockContent
      */
-    protected function getTestBlockArray(\DateTimeInterface $datetime, $position, array $settings): array
+    protected function getTestBlockArray(\DateTimeInterface $datetime, int|string|null $position, array $settings): array
     {
         // for some reason, the order is different on the functional tests
         return [

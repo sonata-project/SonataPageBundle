@@ -48,11 +48,6 @@ final class Transformer implements TransformerInterface
     private array $children = [];
 
     /**
-     * @var SerializerInterface&NormalizerInterface&DenormalizerInterface
-     */
-    private $serializer;
-
-    /**
      * @param ManagerInterface<PageBlockInterface>                          $blockManager
      * @param SerializerInterface&NormalizerInterface&DenormalizerInterface $serializer
      */
@@ -61,7 +56,7 @@ final class Transformer implements TransformerInterface
         private PageManagerInterface $pageManager,
         private ManagerInterface $blockManager,
         private ManagerRegistry $registry,
-        SerializerInterface $serializer
+        private $serializer
     ) {
         $this->serializer = $serializer;
     }
@@ -214,9 +209,7 @@ final class Transformer implements TransformerInterface
     private function getDenormalizeCallbacks(): array
     {
         $result = [
-            'position' =>
-                /** @param string|int|null $innerObject */
-                static fn ($innerObject, string $outerObject, string $attributeName, ?string $format = null, array $context = []): int => null === $innerObject ? 0 : (int) $innerObject,
+            'position' => static fn (string|int|null $innerObject, string $outerObject, string $attributeName, ?string $format = null, array $context = []): int => null === $innerObject ? 0 : (int) $innerObject,
         ];
 
         $nullableStringCallback = static fn (?string $innerObject, string $outerObject, string $attributeName, ?string $format = null, array $context = []): string => (string) $innerObject;
