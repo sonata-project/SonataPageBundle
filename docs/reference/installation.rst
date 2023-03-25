@@ -204,20 +204,18 @@ And then create the corresponding entities, ``src/Entity/SonataPageBlock``::
 
     // src/Entity/SonataPageBlock.php
 
+    use Doctrine\DBAL\Types\Types;
     use Doctrine\ORM\Mapping as ORM;
     use Sonata\PageBundle\Entity\BaseBlock;
 
-    /**
-     * @ORM\Entity
-     * @ORM\Table(name="page__block")
-     */
+    #[ORM\Entity]
+    #[ORM\Table(name: 'page__block')]
+    #[ORM\HasLifecycleCallbacks]
     class SonataPageBlock extends BaseBlock
     {
-        /**
-         * @ORM\Id
-         * @ORM\GeneratedValue
-         * @ORM\Column(type="integer")
-         */
+        #[ORM\Id]
+        #[ORM\Column(type: Types::INTEGER)]
+        #[ORM\GeneratedValue]
         protected $id;
     }
 
@@ -225,20 +223,17 @@ And then create the corresponding entities, ``src/Entity/SonataPageBlock``::
 
     // src/Entity/SonataPagePage.php
 
+    use Doctrine\DBAL\Types\Types;
     use Doctrine\ORM\Mapping as ORM;
     use Sonata\PageBundle\Entity\BasePage;
 
-    /**
-     * @ORM\Entity
-     * @ORM\Table(name="page__page")
-     */
+    #[ORM\Entity]
+    #[ORM\Table(name: 'page__page')]
     class SonataPagePage extends BasePage
     {
-        /**
-         * @ORM\Id
-         * @ORM\GeneratedValue
-         * @ORM\Column(type="integer")
-         */
+        #[ORM\Id]
+        #[ORM\Column(type: Types::INTEGER)]
+        #[ORM\GeneratedValue]
         protected $id;
     }
 
@@ -246,20 +241,17 @@ And then create the corresponding entities, ``src/Entity/SonataPageBlock``::
 
     // src/Entity/SonataPageSite.php
 
+    use Doctrine\DBAL\Types\Types;
     use Doctrine\ORM\Mapping as ORM;
     use Sonata\PageBundle\Entity\BaseSite;
 
-    /**
-     * @ORM\Entity
-     * @ORM\Table(name="page__site")
-     */
+    #[ORM\Entity]
+    #[ORM\Table(name: 'page__site')]
     class SonataPageSite extends BaseSite
     {
-        /**
-         * @ORM\Id
-         * @ORM\GeneratedValue
-         * @ORM\Column(type="integer")
-         */
+        #[ORM\Id]
+        #[ORM\Column(type: Types::INTEGER)]
+        #[ORM\GeneratedValue]
         protected $id;
     }
 
@@ -270,17 +262,13 @@ and ``src/Entity/SonataPageSnapshot``::
     use Doctrine\ORM\Mapping as ORM;
     use Sonata\PageBundle\Entity\BaseSnapshot;
 
-    /**
-     * @ORM\Entity
-     * @ORM\Table(name="page__snapshot")
-     */
+    #[ORM\Entity]
+    #[ORM\Table(name: 'page__snapshot')]
     class SonataPageSnapshot extends BaseSnapshot
     {
-        /**
-         * @ORM\Id
-         * @ORM\GeneratedValue
-         * @ORM\Column(type="integer")
-         */
+        #[ORM\Id]
+        #[ORM\Column(type: Types::INTEGER)]
+        #[ORM\GeneratedValue]
         protected $id;
     }
 
