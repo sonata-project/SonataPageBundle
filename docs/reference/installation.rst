@@ -210,7 +210,6 @@ And then create the corresponding entities, ``src/Entity/SonataPageBlock``::
 
     #[ORM\Entity]
     #[ORM\Table(name: 'page__block')]
-    #[ORM\HasLifecycleCallbacks]
     class SonataPageBlock extends BaseBlock
     {
         #[ORM\Id]
