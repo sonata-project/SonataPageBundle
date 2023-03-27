@@ -19,23 +19,10 @@ use Sonata\PageBundle\Entity\BaseBlock;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'page__block')]
-#[ORM\HasLifecycleCallbacks]
 class SonataPageBlock extends BaseBlock
 {
     #[ORM\Id]
     #[ORM\Column(type: Types::INTEGER)]
     #[ORM\GeneratedValue]
     protected $id = null;
-
-    #[ORM\PrePersist]
-    public function prePersist(): void
-    {
-        parent::prePersist();
-    }
-
-    #[ORM\PreUpdate]
-    public function preUpdate(): void
-    {
-        parent::preUpdate();
-    }
 }
