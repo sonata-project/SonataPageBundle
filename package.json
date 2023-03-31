@@ -29,7 +29,7 @@
     "stylelint-order": "^5.0",
     "stylelint-scss": "^4.1",
     "stylelint-webpack-plugin": "^3.1",
-    "webpack": "^5.74",
+    "webpack": "^5.76",
     "webpack-cli": "^4.10"
   },
   "engines": {

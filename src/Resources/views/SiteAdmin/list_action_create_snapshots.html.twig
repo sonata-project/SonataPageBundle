@@ -10,11 +10,21 @@ file that was distributed with this source code.
 #}
 
 {% if admin.hasRoute('snapshots') %}
+    {% set button_content = sonata_config.getOption('list_action_button_content') %}
     <a
         href="{{ admin.generateObjectUrl('snapshots', object) }}"
         class="btn btn-sm btn-default"
         title="{{ 'link_create_snapshots'|trans({}, 'SonataPageBundle') }}"
     >
-        {{ 'link_create_snapshots'|trans({}, 'SonataPageBundle') }}
+        {% if button_content == 'icon' or button_content == 'all' %}
+            <i class="fas fa-upload" aria-hidden="true"></i>
+        {% endif %}
+        {% if button_content == 'text' or button_content == 'all' %}
+            {{ 'link_create_snapshots'|trans({}, 'SonataPageBundle') }}
+        {% else %}
+            <span class="sr-only">
+                {{ 'link_create_snapshots'|trans({}, 'SonataPageBundle') }}
+            </span>
+        {% endif %}
     </a>
 {% endif %}

@@ -29,18 +29,11 @@ final class CleanupSnapshotsCommand extends Command
     protected static $defaultName = 'sonata:page:cleanup-snapshots';
     protected static $defaultDescription = 'Cleanups the deprecated snapshots by a given site';
 
-    private CleanupSnapshotBySiteInterface $cleanupSnapshotBySite;
-
-    private SiteManagerInterface $siteManager;
-
     public function __construct(
-        CleanupSnapshotBySiteInterface $cleanupSnapshotBySite,
-        SiteManagerInterface $siteManager
+        private CleanupSnapshotBySiteInterface $cleanupSnapshotBySite,
+        private SiteManagerInterface $siteManager
     ) {
         parent::__construct();
-
-        $this->cleanupSnapshotBySite = $cleanupSnapshotBySite;
-        $this->siteManager = $siteManager;
     }
 
     public function configure(): void

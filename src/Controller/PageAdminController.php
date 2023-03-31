@@ -149,7 +149,7 @@ final class PageAdminController extends CRUDController
                 $siteSelector = $this->container->get('sonata.page.site.selector');
                 \assert($siteSelector instanceof SiteSelectorInterface);
                 $current = $siteSelector->retrieve();
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 $current = false;
             }
 

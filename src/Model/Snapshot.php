@@ -18,7 +18,7 @@ namespace Sonata\PageBundle\Model;
  *
  * @phpstan-import-type PageContent from TransformerInterface
  */
-abstract class Snapshot implements SnapshotInterface
+abstract class Snapshot implements SnapshotInterface, \Stringable
 {
     /**
      * @var int|string|null

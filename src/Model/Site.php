@@ -16,7 +16,7 @@ namespace Sonata\PageBundle\Model;
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-abstract class Site implements SiteInterface
+abstract class Site implements SiteInterface, \Stringable
 {
     /**
      * @var int|string|null

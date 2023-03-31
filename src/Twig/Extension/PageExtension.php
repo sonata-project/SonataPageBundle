@@ -37,32 +37,14 @@ use Twig\TwigFunction;
  */
 final class PageExtension extends AbstractExtension
 {
-    private CmsManagerSelectorInterface $cmsManagerSelector;
-
-    private SiteSelectorInterface $siteSelector;
-
-    private RouterInterface $router;
-
-    private BlockHelper $blockHelper;
-
-    private RequestStack $requestStack;
-
-    private bool $hideDisabledBlocks;
-
     public function __construct(
-        CmsManagerSelectorInterface $cmsManagerSelector,
-        SiteSelectorInterface $siteSelector,
-        RouterInterface $router,
-        BlockHelper $blockHelper,
-        RequestStack $requestStack,
-        bool $hideDisabledBlocks = false
+        private CmsManagerSelectorInterface $cmsManagerSelector,
+        private SiteSelectorInterface $siteSelector,
+        private RouterInterface $router,
+        private BlockHelper $blockHelper,
+        private RequestStack $requestStack,
+        private bool $hideDisabledBlocks = false
     ) {
-        $this->cmsManagerSelector = $cmsManagerSelector;
-        $this->siteSelector = $siteSelector;
-        $this->router = $router;
-        $this->blockHelper = $blockHelper;
-        $this->requestStack = $requestStack;
-        $this->hideDisabledBlocks = $hideDisabledBlocks;
     }
 
     public function getFunctions(): array
@@ -114,7 +96,7 @@ final class PageExtension extends AbstractExtension
                     if (null !== $site) {
                         $homePage = $this->cmsManagerSelector->retrieve()->getPageByRouteName($site, 'homepage');
                     }
-                } catch (PageNotFoundException $e) {
+                } catch (PageNotFoundException) {
                 }
 
                 if (null !== $homePage) {
@@ -146,10 +128,9 @@ final class PageExtension extends AbstractExtension
     }
 
     /**
-     * @param string|PageInterface|null $page
-     * @param array<string, mixed>      $options
+     * @param array<string, mixed> $options
      */
-    public function renderContainer(string $name, $page = null, array $options = []): string
+    public function renderContainer(string $name, string|PageInterface|null $page = null, array $options = []): string
     {
         $cms = $this->cmsManagerSelector->retrieve();
         $site = $this->siteSelector->retrieve();
@@ -158,12 +139,12 @@ final class PageExtension extends AbstractExtension
         try {
             if (null === $page) {
                 $targetPage = $cms->getCurrentPage();
-            } elseif (null !== $site && !$page instanceof PageInterface && \is_string($page)) {
+            } elseif (null !== $site && !$page instanceof PageInterface) {
                 $targetPage = $cms->getInternalRoute($site, $page);
             } elseif ($page instanceof PageInterface) {
                 $targetPage = $page;
             }
-        } catch (PageNotFoundException $e) {
+        } catch (PageNotFoundException) {
             // the snapshot does not exist
             $targetPage = null;
         }

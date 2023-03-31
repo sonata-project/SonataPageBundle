@@ -34,18 +34,11 @@ final class UpdateCoreRoutesCommand extends Command
     protected static $defaultName = 'sonata:page:update-core-routes';
     protected static $defaultDescription = 'Update core routes, from routing files to page manager';
 
-    private SiteManagerInterface $siteManager;
-
-    private RoutePageGenerator $pageGenerator;
-
     public function __construct(
-        SiteManagerInterface $siteManager,
-        RoutePageGenerator $pageGenerator
+        private SiteManagerInterface $siteManager,
+        private RoutePageGenerator $pageGenerator
     ) {
         parent::__construct();
-
-        $this->siteManager = $siteManager;
-        $this->pageGenerator = $pageGenerator;
     }
 
     public function configure(): void

@@ -34,16 +34,11 @@ final class CreateSnapshotsCommand extends Command
     protected static $defaultName = 'sonata:page:create-snapshots';
     protected static $defaultDescription = 'Create a snapshots of all pages available';
 
-    private CreateSnapshotBySiteInterface $createSnapshot;
-
-    private SiteManagerInterface $siteManager;
-
-    public function __construct(CreateSnapshotBySiteInterface $createSnapshot, SiteManagerInterface $siteManager)
-    {
+    public function __construct(
+        private CreateSnapshotBySiteInterface $createSnapshot,
+        private SiteManagerInterface $siteManager
+    ) {
         parent::__construct();
-
-        $this->createSnapshot = $createSnapshot;
-        $this->siteManager = $siteManager;
     }
 
     public function configure(): void

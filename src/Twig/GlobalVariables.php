@@ -25,24 +25,12 @@ use Sonata\PageBundle\Site\SiteSelectorInterface;
  */
 final class GlobalVariables
 {
-    private SiteManagerInterface $siteManager;
-
-    private CmsManagerSelectorInterface $cmsManagerSelector;
-
-    private SiteSelectorInterface $siteSelector;
-
-    private TemplateManagerInterface $templateManager;
-
     public function __construct(
-        SiteManagerInterface $siteManager,
-        CmsManagerSelectorInterface $cmsManagerSelector,
-        SiteSelectorInterface $siteSelector,
-        TemplateManagerInterface $templateManager
+        private SiteManagerInterface $siteManager,
+        private CmsManagerSelectorInterface $cmsManagerSelector,
+        private SiteSelectorInterface $siteSelector,
+        private TemplateManagerInterface $templateManager
     ) {
-        $this->siteManager = $siteManager;
-        $this->cmsManagerSelector = $cmsManagerSelector;
-        $this->siteSelector = $siteSelector;
-        $this->templateManager = $templateManager;
     }
 
     /**

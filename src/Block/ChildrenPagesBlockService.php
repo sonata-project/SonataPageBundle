@@ -45,29 +45,16 @@ use Twig\Environment;
  */
 final class ChildrenPagesBlockService extends AbstractBlockService implements EditableBlockService
 {
-    private SiteSelectorInterface $siteSelector;
-
-    private CmsManagerSelectorInterface $cmsManagerSelector;
-
-    /**
-     * @var AdminInterface<PageInterface>
-     */
-    private AdminInterface $pageAdmin;
-
     /**
      * @param AdminInterface<PageInterface> $pageAdmin
      */
     public function __construct(
         Environment $twig,
-        SiteSelectorInterface $siteSelector,
-        CmsManagerSelectorInterface $cmsManagerSelector,
-        AdminInterface $pageAdmin
+        private SiteSelectorInterface $siteSelector,
+        private CmsManagerSelectorInterface $cmsManagerSelector,
+        private AdminInterface $pageAdmin
     ) {
         parent::__construct($twig);
-
-        $this->siteSelector = $siteSelector;
-        $this->cmsManagerSelector = $cmsManagerSelector;
-        $this->pageAdmin = $pageAdmin;
     }
 
     public function execute(BlockContextInterface $blockContext, ?Response $response = null): Response
@@ -87,7 +74,7 @@ final class ChildrenPagesBlockService extends AbstractBlockService implements Ed
                 if (null !== $site) {
                     $page = $cmsManager->getPage($site, '/');
                 }
-            } catch (PageNotFoundException $e) {
+            } catch (PageNotFoundException) {
             }
         }
 

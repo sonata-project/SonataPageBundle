@@ -34,13 +34,9 @@ final class SiteAdmin extends AbstractAdmin
 {
     protected $classnameLabel = 'Site';
 
-    private RoutePageGenerator $routePageGenerator;
-
-    public function __construct(RoutePageGenerator $routePageGenerator)
+    public function __construct(private RoutePageGenerator $routePageGenerator)
     {
         parent::__construct();
-
-        $this->routePageGenerator = $routePageGenerator;
     }
 
     protected function postPersist(object $object): void

@@ -18,14 +18,8 @@ namespace Sonata\PageBundle\Page\Service;
  */
 abstract class BasePageService implements PageServiceInterface
 {
-    /**
-     * Page service name used in the admin.
-     */
-    protected string $name;
-
-    public function __construct(string $name)
+    public function __construct(protected string $name)
     {
-        $this->name = $name;
     }
 
     public function getName(): string

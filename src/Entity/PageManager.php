@@ -27,18 +27,6 @@ use Sonata\PageBundle\Model\SiteInterface;
  */
 final class PageManager extends BaseEntityManager implements PageManagerInterface
 {
-    private SlugifyInterface $slugify;
-
-    /**
-     * @var array<string, mixed>
-     */
-    private array $pageDefaults;
-
-    /**
-     * @var array<string, mixed>
-     */
-    private array $defaults;
-
     /**
      * @param class-string<PageInterface> $class
      * @param array<string, mixed>        $defaults
@@ -47,15 +35,11 @@ final class PageManager extends BaseEntityManager implements PageManagerInterfac
     public function __construct(
         string $class,
         ManagerRegistry $registry,
-        SlugifyInterface $slugify,
-        array $defaults = [],
-        array $pageDefaults = []
+        private SlugifyInterface $slugify,
+        private array $defaults = [],
+        private array $pageDefaults = []
     ) {
         parent::__construct($class, $registry);
-
-        $this->slugify = $slugify;
-        $this->defaults = $defaults;
-        $this->pageDefaults = $pageDefaults;
     }
 
     public function getPageByUrl(SiteInterface $site, string $url): ?PageInterface
@@ -112,7 +96,7 @@ final class PageManager extends BaseEntityManager implements PageManagerInterfac
 
                 if ('/' === $parentUrl) {
                     $base = '/';
-                } elseif ('/' !== substr($parentUrl ?? '', -1)) {
+                } elseif (!str_ends_with($parentUrl ?? '', '/')) {
                     $base = $parentUrl.'/';
                 } else {
                     $base = $parentUrl;

@@ -32,15 +32,11 @@ use Twig\Environment;
 
 final class PageListBlockService extends AbstractBlockService implements EditableBlockService
 {
-    private PageManagerInterface $pageManager;
-
     public function __construct(
         Environment $twig,
-        PageManagerInterface $pageManager
+        private PageManagerInterface $pageManager
     ) {
         parent::__construct($twig);
-
-        $this->pageManager = $pageManager;
     }
 
     public function execute(BlockContextInterface $blockContext, ?Response $response = null): Response

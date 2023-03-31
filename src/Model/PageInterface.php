@@ -172,10 +172,7 @@ interface PageInterface extends \Stringable
      */
     public function setHeaders(array $headers = []): void;
 
-    /**
-     * @param mixed $value
-     */
-    public function addHeader(string $name, $value): void;
+    public function addHeader(string $name, mixed $value): void;
 
     public function getRawHeaders(): ?string;
 

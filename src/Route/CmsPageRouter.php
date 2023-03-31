@@ -31,24 +31,12 @@ use Symfony\Component\Routing\RouterInterface;
 
 final class CmsPageRouter implements ChainedRouterInterface
 {
-    private RequestContext $context;
-
-    private CmsManagerSelectorInterface $cmsSelector;
-
-    private SiteSelectorInterface $siteSelector;
-
-    private RouterInterface $router;
-
     public function __construct(
-        RequestContext $context,
-        CmsManagerSelectorInterface $cmsSelector,
-        SiteSelectorInterface $siteSelector,
-        RouterInterface $router
+        private RequestContext $context,
+        private CmsManagerSelectorInterface $cmsSelector,
+        private SiteSelectorInterface $siteSelector,
+        private RouterInterface $router
     ) {
-        $this->context = $context;
-        $this->cmsSelector = $cmsSelector;
-        $this->siteSelector = $siteSelector;
-        $this->router = $router;
     }
 
     public function setContext(RequestContext $context): void
@@ -66,10 +54,7 @@ final class CmsPageRouter implements ChainedRouterInterface
         return new RouteCollection();
     }
 
-    /**
-     * @param mixed $name
-     */
-    public function supports($name): bool
+    public function supports(mixed $name): bool
     {
         if (\is_string($name) && !$this->isPageAlias($name) && !$this->isPageSlug($name) && $name !== RouteObjectInterface::OBJECT_BASED_ROUTE_NAME) {
             return false;
@@ -117,7 +102,7 @@ final class CmsPageRouter implements ChainedRouterInterface
             if (null === $url) {
                 throw new RouteNotFoundException('The Sonata CmsPageRouter cannot find url');
             }
-        } catch (PageNotFoundException $exception) {
+        } catch (PageNotFoundException) {
             throw new RouteNotFoundException('The Sonata CmsPageRouter cannot find page');
         }
 
@@ -298,7 +283,7 @@ final class CmsPageRouter implements ChainedRouterInterface
 
     private function isPageAlias(string $name): bool
     {
-        return '_page_alias_' === substr($name, 0, 12);
+        return str_starts_with($name, '_page_alias_');
     }
 
     private function isPageSlug(string $name): bool
