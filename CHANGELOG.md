@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.1.1](https://github.com/sonata-project/SonataPageBundle/compare/4.1.0...4.1.1) - 2023-04-12
+### Fixed
+- [[#1676](https://github.com/sonata-project/SonataPageBundle/pull/1676)] ORM schema mapping does not give validation errors ([@jordisala1991](https://github.com/jordisala1991))
+
 ## [4.1.0](https://github.com/sonata-project/SonataPageBundle/compare/4.0.0...4.1.0) - 2023-03-10
 ### Added
 - [[#1660](https://github.com/sonata-project/SonataPageBundle/pull/1660)] Usage of list_action_button_content options and create publications icon ([@gremo](https://github.com/gremo))
