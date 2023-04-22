@@ -52,10 +52,7 @@ final class RequestListenerTest extends TestCase
             '_route' => 'some-random-route',
         ]);
 
-        // TODO: Simplify this when dropping support for Symfony <  5.3
-        $mainRequestType = \defined(HttpKernelInterface::class.'::MAIN_REQUEST') ? HttpKernelInterface::MAIN_REQUEST : 1;
-
-        $event = new RequestEvent($kernel, $request, $mainRequestType);
+        $event = new RequestEvent($kernel, $request, HttpKernelInterface::MAIN_REQUEST);
 
         $listener = new RequestListener($cmsSelector, $siteSelector, $decoratorStrategy);
         $listener->onCoreRequest($event);
@@ -79,10 +76,7 @@ final class RequestListenerTest extends TestCase
         $kernel = $this->createMock(HttpKernelInterface::class);
         $request = new Request();
 
-        // TODO: Simplify this when dropping support for Symfony <  5.3
-        $mainRequestType = \defined(HttpKernelInterface::class.'::MAIN_REQUEST') ? HttpKernelInterface::MAIN_REQUEST : 1;
-
-        $event = new RequestEvent($kernel, $request, $mainRequestType);
+        $event = new RequestEvent($kernel, $request, HttpKernelInterface::MAIN_REQUEST);
 
         $listener = new RequestListener($cmsSelector, $siteSelector, $decoratorStrategy);
         $listener->onCoreRequest($event);

@@ -30,7 +30,7 @@ use Symfony\Component\Security\Http\Event\LogoutEvent;
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-final class CmsManagerSelector implements CmsManagerSelectorInterface, BCLogoutHandlerInterface
+final class CmsManagerSelector implements CmsManagerSelectorInterface
 {
     /**
      * @param AdminInterface<PageInterface> $pageAdmin
@@ -75,6 +75,9 @@ final class CmsManagerSelector implements CmsManagerSelectorInterface, BCLogoutH
         }
     }
 
+    /**
+     * NEXT_MAJOR: Remove this method.
+     */
     public function logout(Request $request, Response $response, TokenInterface $token): void
     {
         if ($request->hasSession()) {

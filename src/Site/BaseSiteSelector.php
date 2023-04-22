@@ -49,9 +49,6 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
     {
     }
 
-    /**
-     * @psalm-suppress UndefinedMethod
-     */
     final public function onKernelRequest(RequestEvent $event): void
     {
         if (!$this->decoratorStrategy->isRouteUriDecorable($event->getRequest()->getPathInfo())) {
@@ -60,11 +57,7 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
 
         $this->handleKernelRequest($event);
 
-        // TODO: Simplify when dropping support for Symfony < 5.3.
-        // @phpstan-ignore-next-line
-        $isMainRequest = method_exists($event, 'isMainRequest') ? $event->isMainRequest() : $event->isMasterRequest();
-
-        if ($isMainRequest && null !== $this->site) {
+        if ($event->isMainRequest() && null !== $this->site) {
             $title = $this->site->getTitle();
             if (null !== $title) {
                 $this->seoPage->setTitle($title);

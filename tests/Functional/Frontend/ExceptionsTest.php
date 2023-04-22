@@ -20,7 +20,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\AbstractBrowser;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\HttpFoundation\Session\SessionFactoryInterface;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 final class ExceptionsTest extends WebTestCase
 {
@@ -59,15 +58,9 @@ final class ExceptionsTest extends WebTestCase
         self::assertResponseIsSuccessful();
     }
 
-    /**
-     * @psalm-suppress UndefinedPropertyFetch
-     */
     private function prepareData(): void
     {
-        // TODO: Simplify this when dropping support for Symfony 4.
-        // @phpstan-ignore-next-line
-        $container = method_exists($this, 'getContainer') ? self::getContainer() : self::$container;
-        $manager = $container->get('doctrine.orm.entity_manager');
+        $manager = self::getContainer()->get('doctrine.orm.entity_manager');
         \assert($manager instanceof EntityManagerInterface);
 
         $site = new SonataPageSite();
@@ -97,25 +90,13 @@ final class ExceptionsTest extends WebTestCase
     /**
      * Normally this would happen via an interactive login.
      * Part of this logic is also copied from AbstractBrowser::loginUser().
-     *
-     * @psalm-suppress UndefinedPropertyFetch
      */
     private function becomeEditor(AbstractBrowser $client): void
     {
-        // TODO: Simplify this when dropping support for Symfony 4.
-        // @phpstan-ignore-next-line
-        $container = method_exists($this, 'getContainer') ? self::getContainer() : self::$container;
+        $sessionFactory = self::getContainer()->get('session.factory');
+        \assert($sessionFactory instanceof SessionFactoryInterface);
 
-        // TODO: Simplify this when dropping support for Symfony 4.
-        if ($container->has('session.factory')) {
-            $sessionFactory = $container->get('session.factory');
-            \assert($sessionFactory instanceof SessionFactoryInterface);
-
-            $session = $sessionFactory->createSession();
-        } else {
-            $session = $container->get('session');
-            \assert($session instanceof SessionInterface);
-        }
+        $session = $sessionFactory->createSession();
 
         $session->set('sonata/page/isEditor', true);
         $session->save();

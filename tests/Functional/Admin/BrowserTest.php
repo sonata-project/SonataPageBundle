@@ -86,15 +86,9 @@ final class BrowserTest extends BasePantherTestCase
         static::assertCount(2, $crawler->filter('.page-composer__container__child'));
     }
 
-    /**
-     * @psalm-suppress UndefinedPropertyFetch
-     */
     protected static function prepareDatabase(): void
     {
-        // TODO: Simplify this when dropping support for Symfony 4.
-        // @phpstan-ignore-next-line
-        $container = method_exists(self::class, 'getContainer') ? self::getContainer() : self::$container;
-        $manager = $container->get('doctrine.orm.entity_manager');
+        $manager = self::getContainer()->get('doctrine.orm.entity_manager');
         \assert($manager instanceof EntityManagerInterface);
 
         $site = new SonataPageSite();

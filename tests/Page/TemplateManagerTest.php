@@ -146,13 +146,10 @@ final class TemplateManagerTest extends KernelTestCase
     public function testTemplateShowingBreadcrumbIntoThePage(): void
     {
         $kernel = self::bootKernel();
-        // TODO: Simplify this when dropping support for Symfony 4.
-        // @phpstan-ignore-next-line
-        $container = method_exists($this, 'getContainer') ? self::getContainer() : $kernel->getContainer();
 
         $requestStack = new RequestStack();
         $requestStack->push(new Request());
-        $container->set('request_stack', $requestStack);
+        self::getContainer()->set('request_stack', $requestStack);
 
         // Mocking snapshot
         $page = $this->createMock(PageInterface::class);
@@ -165,9 +162,9 @@ final class TemplateManagerTest extends KernelTestCase
         $transformer = $this->createMock(TransformerInterface::class);
         $cmsSnapshotManager = new CmsSnapshotManager($snapshotManager, $transformer);
         $cmsSnapshotManager->setCurrentPage($page);
-        $container->set('sonata.page.cms.snapshot', $cmsSnapshotManager);
+        self::getContainer()->set('sonata.page.cms.snapshot', $cmsSnapshotManager);
 
-        $twig = $container->get('twig');
+        $twig = self::getContainer()->get('twig');
         \assert($twig instanceof Environment);
 
         $manager = new TemplateManager($twig, []);

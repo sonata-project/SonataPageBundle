@@ -30,10 +30,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'sonata:page:update-core-routes', description: 'Update core routes, from routing files to page manager')]
 final class UpdateCoreRoutesCommand extends Command
 {
-    // TODO: Remove static properties when support for Symfony < 5.4 is dropped.
-    protected static $defaultName = 'sonata:page:update-core-routes';
-    protected static $defaultDescription = 'Update core routes, from routing files to page manager';
-
     public function __construct(
         private SiteManagerInterface $siteManager,
         private RoutePageGenerator $pageGenerator
@@ -43,11 +39,7 @@ final class UpdateCoreRoutesCommand extends Command
 
     public function configure(): void
     {
-        \assert(null !== static::$defaultDescription);
-
         $this
-            // TODO: Remove setDescription when support for Symfony < 5.4 is dropped.
-            ->setDescription(static::$defaultDescription)
             ->addOption('clean', null, InputOption::VALUE_NONE, 'Removes all unused routes')
             ->addOption('site', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Site id');
     }

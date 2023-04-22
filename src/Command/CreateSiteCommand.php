@@ -30,10 +30,6 @@ use Symfony\Component\Console\Question\Question;
 #[AsCommand(name: 'sonata:page:create-site', description: 'Create a site')]
 final class CreateSiteCommand extends Command
 {
-    // TODO: Remove static properties when support for Symfony < 5.4 is dropped.
-    protected static $defaultName = 'sonata:page:create-site';
-    protected static $defaultDescription = 'Create a site';
-
     public function __construct(private SiteManagerInterface $siteManager)
     {
         parent::__construct();
@@ -41,11 +37,7 @@ final class CreateSiteCommand extends Command
 
     public function configure(): void
     {
-        \assert(null !== static::$defaultDescription);
-
         $this
-            // TODO: Remove setDescription when support for Symfony < 5.4 is dropped.
-            ->setDescription(static::$defaultDescription)
             ->addOption('no-confirmation', null, InputOption::VALUE_NONE, 'Ask confirmation before generating the site')
             ->addOption('enabled', null, InputOption::VALUE_NONE, 'Site.enabled')
             ->addOption('name', null, InputOption::VALUE_OPTIONAL, 'Site.name')
