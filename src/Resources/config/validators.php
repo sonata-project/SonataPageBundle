@@ -11,17 +11,16 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
 use Sonata\PageBundle\Validator\UniqueUrlValidator;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ReferenceConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
-    // Use "service" function for creating references to services when dropping support for Symfony 4.4
     $containerConfigurator->services()
 
         ->set('sonata.page.validator.unique_url', UniqueUrlValidator::class)
             ->tag('validator.constraint_validator', ['alias' => 'sonata.page.validator.unique_url'])
             ->args([
-                new ReferenceConfigurator('sonata.page.manager.page'),
+                service('sonata.page.manager.page'),
             ]);
 };

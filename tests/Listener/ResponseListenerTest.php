@@ -170,9 +170,6 @@ final class ResponseListenerTest extends TestCase
         $request = new Request();
         $response = new Response($content);
 
-        // TODO: Simplify this when dropping support for Symfony <  5.3
-        $mainRequestType = \defined(HttpKernelInterface::class.'::MAIN_REQUEST') ? HttpKernelInterface::MAIN_REQUEST : 1;
-
-        return new ResponseEvent($kernel, $request, $mainRequestType, $response);
+        return new ResponseEvent($kernel, $request, HttpKernelInterface::MAIN_REQUEST, $response);
     }
 }

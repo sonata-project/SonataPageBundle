@@ -93,10 +93,7 @@ final class HostPathSiteSelectorTest extends TestCase
 
         static::assertNull($request->attributes->get('_locale'));
 
-        // TODO: Simplify this when dropping support for Symfony <  5.3
-        $mainRequestType = \defined(HttpKernelInterface::class.'::MAIN_REQUEST') ? HttpKernelInterface::MAIN_REQUEST : 1;
-
-        $event = new RequestEvent($kernel, $request, $mainRequestType);
+        $event = new RequestEvent($kernel, $request, HttpKernelInterface::MAIN_REQUEST);
 
         $siteManager = $this->createMock(SiteManagerInterface::class);
         $decoratorStrategy = $this->createMock(DecoratorStrategyInterface::class);

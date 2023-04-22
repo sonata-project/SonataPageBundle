@@ -11,6 +11,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
 use Sonata\PageBundle\CmsManager\CmsManagerSelector;
 use Sonata\PageBundle\CmsManager\CmsPageManager;
 use Sonata\PageBundle\CmsManager\CmsSnapshotManager;
@@ -28,14 +30,10 @@ use Sonata\PageBundle\Site\HostPathByLocaleSiteSelector;
 use Sonata\PageBundle\Site\HostPathSiteSelector;
 use Sonata\PageBundle\Site\HostSiteSelector;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ReferenceConfigurator;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Security\Http\Event\LogoutEvent;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
-    // Use "service" function for creating references to services when dropping support for Symfony 4.4
-    // Use "param" function for creating references to parameters when dropping support for Symfony 5.1
     $containerConfigurator->services()
 
         ->set('sonata.page.site.selector.host', HostSiteSelector::class)
@@ -50,9 +48,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 'priority' => 0,
             ])
             ->args([
-                new ReferenceConfigurator('sonata.page.manager.site'),
-                new ReferenceConfigurator('sonata.page.decorator_strategy'),
-                new ReferenceConfigurator('sonata.seo.page'),
+                service('sonata.page.manager.site'),
+                service('sonata.page.decorator_strategy'),
+                service('sonata.seo.page'),
             ])
 
         ->set('sonata.page.site.selector.host_by_locale', HostByLocaleSiteSelector::class)
@@ -67,9 +65,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 'priority' => 0,
             ])
             ->args([
-                new ReferenceConfigurator('sonata.page.manager.site'),
-                new ReferenceConfigurator('sonata.page.decorator_strategy'),
-                new ReferenceConfigurator('sonata.seo.page'),
+                service('sonata.page.manager.site'),
+                service('sonata.page.decorator_strategy'),
+                service('sonata.seo.page'),
             ])
 
         ->set('sonata.page.site.selector.host_with_path', HostPathSiteSelector::class)
@@ -84,9 +82,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 'priority' => 0,
             ])
             ->args([
-                new ReferenceConfigurator('sonata.page.manager.site'),
-                new ReferenceConfigurator('sonata.page.decorator_strategy'),
-                new ReferenceConfigurator('sonata.seo.page'),
+                service('sonata.page.manager.site'),
+                service('sonata.page.decorator_strategy'),
+                service('sonata.seo.page'),
             ])
 
         ->set('sonata.page.site.selector.host_with_path_by_locale', HostPathByLocaleSiteSelector::class)
@@ -101,9 +99,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 'priority' => 0,
             ])
             ->args([
-                new ReferenceConfigurator('sonata.page.manager.site'),
-                new ReferenceConfigurator('sonata.page.decorator_strategy'),
-                new ReferenceConfigurator('sonata.seo.page'),
+                service('sonata.page.manager.site'),
+                service('sonata.page.decorator_strategy'),
+                service('sonata.seo.page'),
             ])
 
         ->set('sonata.page.response_listener', ResponseListener::class)
@@ -113,11 +111,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 'priority' => -1,
             ])
             ->args([
-                new ReferenceConfigurator('sonata.page.cms_manager_selector'),
-                new ReferenceConfigurator('sonata.page.page_service_manager'),
-                new ReferenceConfigurator('sonata.page.decorator_strategy'),
-                new ReferenceConfigurator('twig'),
-                '%sonata.page.skip_redirection%',
+                service('sonata.page.cms_manager_selector'),
+                service('sonata.page.page_service_manager'),
+                service('sonata.page.decorator_strategy'),
+                service('twig'),
+                param('sonata.page.skip_redirection'),
             ])
 
         ->set('sonata.page.request_listener', RequestListener::class)
@@ -127,9 +125,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 'priority' => 4,
             ])
             ->args([
-                new ReferenceConfigurator('sonata.page.cms_manager_selector'),
-                new ReferenceConfigurator('sonata.page.site.selector'),
-                new ReferenceConfigurator('sonata.page.decorator_strategy'),
+                service('sonata.page.cms_manager_selector'),
+                service('sonata.page.site.selector'),
+                service('sonata.page.decorator_strategy'),
             ])
 
         ->set('sonata.page.cms_manager_selector', CmsManagerSelector::class)
@@ -143,61 +141,65 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 'method' => 'onLogout',
             ])
             ->args([
-                new ReferenceConfigurator('sonata.page.cms.page'),
-                new ReferenceConfigurator('sonata.page.cms.snapshot'),
-                new ReferenceConfigurator('sonata.page.admin.page'),
-                new ReferenceConfigurator('security.token_storage'),
-                new ReferenceConfigurator('request_stack'),
+                service('sonata.page.cms.page'),
+                service('sonata.page.cms.snapshot'),
+                service('sonata.page.admin.page'),
+                service('security.token_storage'),
+                service('request_stack'),
             ])
 
         ->set('sonata.page.cms.page', CmsPageManager::class)
             ->public()
             ->tag('sonata.page.manager', ['type' => 'page'])
             ->args([
-                new ReferenceConfigurator('sonata.page.manager.page'),
-                new ReferenceConfigurator('sonata.page.block_interactor'),
+                service('sonata.page.manager.page'),
+                service('sonata.page.block_interactor'),
             ])
 
         ->set('sonata.page.cms.snapshot', CmsSnapshotManager::class)
             ->public()
             ->tag('sonata.page.manager', ['type' => 'snapshot'])
             ->args([
-                new ReferenceConfigurator('sonata.page.manager.snapshot'),
-                new ReferenceConfigurator('sonata.page.transformer'),
+                service('sonata.page.manager.snapshot'),
+                service('sonata.page.transformer'),
             ])
 
         ->set('sonata.page.decorator_strategy', DecoratorStrategy::class)
-            ->args([[], [], []])
+            ->args([
+                abstract_arg('ignore routes'),
+                abstract_arg('ignore route patterns'),
+                abstract_arg('ignore uri patterns'),
+            ])
 
         ->set('sonata.page.router.request_context', RequestContext::class)
             ->factory([
-                new ReferenceConfigurator('sonata.page.site.selector'),
+                service('sonata.page.site.selector'),
                 'getRequestContext',
             ])
 
         ->set('sonata.page.router', CmsPageRouter::class)
             ->public()
             ->args([
-                new ReferenceConfigurator('router.request_context'),
-                new ReferenceConfigurator('sonata.page.cms_manager_selector'),
-                new ReferenceConfigurator('sonata.page.site.selector'),
-                new ReferenceConfigurator('router.default'),
+                service('router.request_context'),
+                service('sonata.page.cms_manager_selector'),
+                service('sonata.page.site.selector'),
+                service('router.default'),
             ])
 
         ->set('sonata.page.route.page.generator', RoutePageGenerator::class)
             ->public()
             ->args([
-                new ReferenceConfigurator('router.default'),
-                new ReferenceConfigurator('sonata.page.manager.page'),
-                new ReferenceConfigurator('sonata.page.decorator_strategy'),
-                new ReferenceConfigurator('sonata.page.kernel.exception_listener'),
+                service('router.default'),
+                service('sonata.page.manager.page'),
+                service('sonata.page.decorator_strategy'),
+                service('sonata.page.kernel.exception_listener'),
             ])
 
         ->set('sonata.page.template_manager', TemplateManager::class)
             ->public()
             ->args([
-                new ReferenceConfigurator('twig'),
-                [],
+                service('twig'),
+                abstract_arg('default parameters'),
             ])
 
         ->set('sonata.page.page_service_manager', PageServiceManager::class)
@@ -208,8 +210,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             ->tag('sonata.page')
             ->args([
                 'Default',
-                new ReferenceConfigurator('sonata.page.template_manager'),
-                new ReferenceConfigurator('sonata.seo.page'),
+                service('sonata.page.template_manager'),
+                service('sonata.seo.page'),
             ])
 
         ->alias(TemplateManagerInterface::class, 'sonata.page.template_manager')

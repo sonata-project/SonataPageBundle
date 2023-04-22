@@ -11,20 +11,19 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
 use Psr\Container\ContainerInterface;
 use Psr\Log\NullLogger;
 use Sonata\PageBundle\Tests\App\Controller\DynamicController;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ReferenceConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
-    // Use "service" function for creating references to services when dropping support for Symfony 4.4
     $containerConfigurator->services()
 
         ->set(DynamicController::class)
             ->public()
             ->tag('container.service_subscriber')
-            ->call('setContainer', [new ReferenceConfigurator(ContainerInterface::class)])
+            ->call('setContainer', [service(ContainerInterface::class)])
 
         ->set('logger', NullLogger::class);
 };

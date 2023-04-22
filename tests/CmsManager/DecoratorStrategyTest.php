@@ -34,30 +34,27 @@ final class DecoratorStrategyTest extends TestCase
         $response->headers = new ResponseHeaderBag();
         $response->headers->set('Content-Type', 'foo/test');
 
-        // TODO: Simplify this when dropping support for Symfony <  5.3
-        $mainRequestType = \defined(HttpKernelInterface::class.'::MAIN_REQUEST') ? HttpKernelInterface::MAIN_REQUEST : 1;
-
-        static::assertFalse($strategy->isDecorable($request, $mainRequestType, $response));
+        static::assertFalse($strategy->isDecorable($request, HttpKernelInterface::MAIN_REQUEST, $response));
 
         $response->headers->set('Content-Type', 'text/html');
         $response->setStatusCode(404);
-        static::assertFalse($strategy->isDecorable($request, $mainRequestType, $response));
+        static::assertFalse($strategy->isDecorable($request, HttpKernelInterface::MAIN_REQUEST, $response));
 
         $response->setStatusCode(200);
 
         $request->headers->set('x-requested-with', 'XMLHttpRequest');
-        static::assertFalse($strategy->isDecorable($request, $mainRequestType, $response));
+        static::assertFalse($strategy->isDecorable($request, HttpKernelInterface::MAIN_REQUEST, $response));
 
         $request->headers->set('x-requested-with', null);
 
         $response->headers->set('x-sonata-page-not-decorable', '1');
-        static::assertFalse($strategy->isDecorable($request, $mainRequestType, $response));
+        static::assertFalse($strategy->isDecorable($request, HttpKernelInterface::MAIN_REQUEST, $response));
 
         $response->headers->remove('x-sonata-page-not-decorable');
 
         $request->headers->set('x-requested-with', 'XMLHttpRequest');
         $response->headers->set('x-sonata-page-decorable', '1');
-        static::assertTrue($strategy->isDecorable($request, $mainRequestType, $response));
+        static::assertTrue($strategy->isDecorable($request, HttpKernelInterface::MAIN_REQUEST, $response));
     }
 
     public function testIgnoreRouteNameMatch(): void

@@ -79,17 +79,11 @@ final class PageAdminTest extends WebTestCase
         yield 'Compose preview Block' => ['/admin/tests/app/sonatapagepage/1/sonatapageblock/2/compose-preview'];
     }
 
-    /**
-     * @psalm-suppress UndefinedPropertyFetch
-     */
     public function testRedirectWithSiteSelectedWhenThereIsOnlyOneSite(): void
     {
         $client = self::createClient();
 
-        // TODO: Simplify this when dropping support for Symfony 4.
-        // @phpstan-ignore-next-line
-        $container = method_exists($this, 'getContainer') ? self::getContainer() : self::$container;
-        $manager = $container->get('doctrine.orm.entity_manager');
+        $manager = self::getContainer()->get('doctrine.orm.entity_manager');
         \assert($manager instanceof EntityManagerInterface);
 
         $site = new SonataPageSite();
@@ -253,15 +247,9 @@ final class PageAdminTest extends WebTestCase
         yield 'View page link' => ['View page', '/'];
     }
 
-    /**
-     * @psalm-suppress UndefinedPropertyFetch
-     */
     private function prepareData(): void
     {
-        // TODO: Simplify this when dropping support for Symfony 4.
-        // @phpstan-ignore-next-line
-        $container = method_exists($this, 'getContainer') ? self::getContainer() : self::$container;
-        $manager = $container->get('doctrine.orm.entity_manager');
+        $manager = self::getContainer()->get('doctrine.orm.entity_manager');
         \assert($manager instanceof EntityManagerInterface);
 
         $site = new SonataPageSite();
