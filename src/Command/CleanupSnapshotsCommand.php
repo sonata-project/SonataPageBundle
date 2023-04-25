@@ -25,10 +25,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'sonata:page:cleanup-snapshots', description: 'Cleanups the deprecated snapshots by a given site')]
 final class CleanupSnapshotsCommand extends Command
 {
-    // TODO: Remove static properties when support for Symfony < 5.4 is dropped.
-    protected static $defaultName = 'sonata:page:cleanup-snapshots';
-    protected static $defaultDescription = 'Cleanups the deprecated snapshots by a given site';
-
     public function __construct(
         private CleanupSnapshotBySiteInterface $cleanupSnapshotBySite,
         private SiteManagerInterface $siteManager
@@ -38,11 +34,7 @@ final class CleanupSnapshotsCommand extends Command
 
     public function configure(): void
     {
-        \assert(null !== static::$defaultDescription);
-
         $this
-            // TODO: Remove setDescription when support for Symfony < 5.4 is dropped.
-            ->setDescription(static::$defaultDescription)
             ->addOption('site', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Site id')
             ->addOption('keep-snapshots', null, InputOption::VALUE_REQUIRED, 'Keep a given count of snapshots per page', 5);
     }

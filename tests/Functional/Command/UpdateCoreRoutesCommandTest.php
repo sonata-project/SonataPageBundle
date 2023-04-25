@@ -75,15 +75,9 @@ final class UpdateCoreRoutesCommandTest extends KernelTestCase
         static::assertStringContainsString('done!', $this->commandTester->getDisplay());
     }
 
-    /**
-     * @psalm-suppress UndefinedPropertyFetch
-     */
     private function prepareData(): void
     {
-        // TODO: Simplify this when dropping support for Symfony 4.
-        // @phpstan-ignore-next-line
-        $container = method_exists($this, 'getContainer') ? self::getContainer() : self::$container;
-        $manager = $container->get('doctrine.orm.entity_manager');
+        $manager = self::getContainer()->get('doctrine.orm.entity_manager');
         \assert($manager instanceof EntityManagerInterface);
 
         $site = new SonataPageSite();
@@ -114,15 +108,9 @@ final class UpdateCoreRoutesCommandTest extends KernelTestCase
         $manager->flush();
     }
 
-    /**
-     * @psalm-suppress UndefinedPropertyFetch
-     */
     private function countPages(): int
     {
-        // TODO: Simplify this when dropping support for Symfony 4.
-        // @phpstan-ignore-next-line
-        $container = method_exists(static::class, 'getContainer') ? static::getContainer() : static::$container;
-        $manager = $container->get('doctrine.orm.entity_manager');
+        $manager = self::getContainer()->get('doctrine.orm.entity_manager');
         \assert($manager instanceof EntityManagerInterface);
 
         return $manager->getRepository(SonataPagePage::class)->count([]);

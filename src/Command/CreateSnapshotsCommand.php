@@ -30,10 +30,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'sonata:page:create-snapshots', description: 'Create a snapshots of all pages available')]
 final class CreateSnapshotsCommand extends Command
 {
-    // TODO: Remove static properties when support for Symfony < 5.4 is dropped.
-    protected static $defaultName = 'sonata:page:create-snapshots';
-    protected static $defaultDescription = 'Create a snapshots of all pages available';
-
     public function __construct(
         private CreateSnapshotBySiteInterface $createSnapshot,
         private SiteManagerInterface $siteManager
@@ -43,11 +39,7 @@ final class CreateSnapshotsCommand extends Command
 
     public function configure(): void
     {
-        \assert(null !== static::$defaultDescription);
-
         $this
-            // TODO: Remove setDescription when support for Symfony < 5.4 is dropped.
-            ->setDescription(static::$defaultDescription)
             ->addOption('site', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Site id');
     }
 

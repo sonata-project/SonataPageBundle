@@ -21,9 +21,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class Issue1134Test extends WebTestCase
 {
-    /**
-     * @psalm-suppress UndefinedPropertyFetch
-     */
     public function testLabelInShowAction(): void
     {
         $client = self::createClient();
@@ -33,11 +30,7 @@ final class Issue1134Test extends WebTestCase
         $site->setHost('http://localhost');
         $site->setIsDefault(true);
 
-        // TODO: Simplify this when dropping support for Symfony 4.
-        // @phpstan-ignore-next-line
-        $container = method_exists($this, 'getContainer') ? self::getContainer() : self::$container;
-
-        $manager = $container->get('doctrine.orm.entity_manager');
+        $manager = self::getContainer()->get('doctrine.orm.entity_manager');
         \assert($manager instanceof EntityManagerInterface);
 
         $manager->persist($site);

@@ -29,10 +29,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'sonata:page:create-block-container', description: 'Creates a block container in all pages for specified template code')]
 final class CreateBlockContainerCommand extends Command
 {
-    // TODO: Remove static properties when support for Symfony < 5.4 is dropped.
-    protected static $defaultName = 'sonata:page:create-block-container';
-    protected static $defaultDescription = 'Creates a block container in all pages for specified template code';
-
     public function __construct(
         private PageManagerInterface $pageManager,
         private BlockInteractorInterface $blockInteractor
@@ -42,11 +38,7 @@ final class CreateBlockContainerCommand extends Command
 
     protected function configure(): void
     {
-        \assert(null !== static::$defaultDescription);
-
         $this
-            // TODO: Remove setDescription when support for Symfony < 5.4 is dropped.
-            ->setDescription(static::$defaultDescription)
             ->addArgument('templateCode', InputArgument::REQUIRED, 'Template name according to sonata_page.yml (e.g. default)')
             ->addArgument('blockCode', InputArgument::REQUIRED, 'Block alias (e.g. content_bottom)')
             ->addArgument('blockName', InputArgument::OPTIONAL, 'Block name (e.g. Bottom container)');

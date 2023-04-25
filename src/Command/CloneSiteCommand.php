@@ -31,10 +31,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'sonata:page:clone-site', description: 'Clone a complete site including all their pages')]
 final class CloneSiteCommand extends Command
 {
-    // TODO: Remove static properties when support for Symfony < 5.4 is dropped.
-    protected static $defaultName = 'sonata:page:clone-site';
-    protected static $defaultDescription = 'Clone a complete site including all their pages';
-
     public function __construct(
         private SiteManagerInterface $siteManager,
         private PageManagerInterface $pageManager,
@@ -45,11 +41,7 @@ final class CloneSiteCommand extends Command
 
     public function configure(): void
     {
-        \assert(null !== static::$defaultDescription);
-
         $this
-            // TODO: Remove setDescription when support for Symfony < 5.4 is dropped.
-            ->setDescription(static::$defaultDescription)
             ->addOption('source-id', 'so', InputOption::VALUE_REQUIRED, 'Source site id')
             ->addOption('dest-id', 'd', InputOption::VALUE_REQUIRED, 'Destination site id')
             ->addOption('prefix', 'p', InputOption::VALUE_REQUIRED, 'Title prefix')

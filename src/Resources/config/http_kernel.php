@@ -11,13 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
 use Sonata\PageBundle\Listener\ExceptionListener;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ReferenceConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
-    // Use "service" function for creating references to services when dropping support for Symfony 4.4
-    // Use "param" function for creating references to parameters when dropping support for Symfony 5.1
     $containerConfigurator->services()
 
         ->set('sonata.page.kernel.exception_listener', ExceptionListener::class)
@@ -29,13 +27,13 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             ])
             ->tag('monolog.logger', ['channel' => 'request'])
             ->args([
-                new ReferenceConfigurator('sonata.page.site.selector'),
-                new ReferenceConfigurator('sonata.page.cms_manager_selector'),
-                '%kernel.debug%',
-                new ReferenceConfigurator('twig'),
-                new ReferenceConfigurator('sonata.page.page_service_manager'),
-                new ReferenceConfigurator('sonata.page.decorator_strategy'),
-                [],
-                (new ReferenceConfigurator('logger'))->nullOnInvalid(),
+                service('sonata.page.site.selector'),
+                service('sonata.page.cms_manager_selector'),
+                param('kernel.debug'),
+                service('twig'),
+                service('sonata.page.page_service_manager'),
+                service('sonata.page.decorator_strategy'),
+                abstract_arg('http error codes'),
+                service('logger')->nullOnInvalid(),
             ]);
 };

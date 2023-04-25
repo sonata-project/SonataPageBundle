@@ -11,6 +11,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
 use Sonata\PageBundle\Entity\BlockInteractor;
 use Sonata\PageBundle\Entity\BlockManager;
 use Sonata\PageBundle\Entity\PageManager;
@@ -23,12 +25,8 @@ use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\SnapshotPageProxy;
 use Sonata\PageBundle\Model\SnapshotPageProxyFactory;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ReferenceConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
-    // Use "service" function for creating references to services when dropping support for Symfony 4.4
-    // Use "param" function for creating references to parameters when dropping support for Symfony 5.1
     $containerConfigurator->services()
 
         ->set('sonata.page.proxy.snapshot.factory', SnapshotPageProxyFactory::class)
@@ -40,49 +38,49 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->set('sonata.page.manager.page', PageManager::class)
             ->public()
             ->args([
-                '%sonata.page.page.class%',
-                new ReferenceConfigurator('doctrine'),
-                new ReferenceConfigurator('sonata.page.slugify.cocur'),
-                [],
-                [],
+                param('sonata.page.page.class'),
+                service('doctrine'),
+                service('sonata.page.slugify.cocur'),
+                abstract_arg('defaults'),
+                abstract_arg('page defaults'),
             ])
 
         ->set('sonata.page.manager.snapshot', SnapshotManager::class)
             ->public()
             ->args([
-                '%sonata.page.snapshot.class%',
-                new ReferenceConfigurator('doctrine'),
-                new ReferenceConfigurator('sonata.page.proxy.snapshot.factory'),
+                param('sonata.page.snapshot.class'),
+                service('doctrine'),
+                service('sonata.page.proxy.snapshot.factory'),
             ])
 
         ->set('sonata.page.manager.block', BlockManager::class)
             ->public()
             ->args([
-                '%sonata.page.block.class%',
-                new ReferenceConfigurator('doctrine'),
+                param('sonata.page.block.class'),
+                service('doctrine'),
             ])
 
         ->set('sonata.page.manager.site', SiteManager::class)
             ->public()
             ->args([
-                '%sonata.page.site.class%',
-                new ReferenceConfigurator('doctrine'),
+                param('sonata.page.site.class'),
+                service('doctrine'),
             ])
 
         ->set('sonata.page.block_interactor', BlockInteractor::class)
             ->public()
             ->args([
-                new ReferenceConfigurator('doctrine'),
-                new ReferenceConfigurator('sonata.page.manager.block'),
+                service('doctrine'),
+                service('sonata.page.manager.block'),
             ])
 
         ->set('sonata.page.transformer', Transformer::class)
             ->public()
             ->args([
-                new ReferenceConfigurator('sonata.page.manager.snapshot'),
-                new ReferenceConfigurator('sonata.page.manager.page'),
-                new ReferenceConfigurator('sonata.page.manager.block'),
-                new ReferenceConfigurator('doctrine'),
+                service('sonata.page.manager.snapshot'),
+                service('sonata.page.manager.page'),
+                service('sonata.page.manager.block'),
+                service('doctrine'),
             ])
 
         ->alias(PageManagerInterface::class, 'sonata.page.manager.page')

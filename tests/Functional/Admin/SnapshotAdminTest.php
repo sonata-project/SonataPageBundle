@@ -98,17 +98,11 @@ final class SnapshotAdminTest extends WebTestCase
         yield 'Remove Snapshot' => ['/admin/tests/app/sonatapagesnapshot/1/delete', [], 'btn_delete'];
     }
 
-    /**
-     * @psalm-suppress UndefinedPropertyFetch
-     */
     public function testCreatedSnapshotsAreEnabled(): void
     {
         $client = self::createClient();
 
-        // TODO: Simplify this when dropping support for Symfony 4.
-        // @phpstan-ignore-next-line
-        $container = method_exists(static::class, 'getContainer') ? static::getContainer() : static::$container;
-        $manager = $container->get('sonata.page.manager.snapshot');
+        $manager = static::getContainer()->get('sonata.page.manager.snapshot');
         \assert($manager instanceof SnapshotManagerInterface);
 
         $this->prepareData();
@@ -156,15 +150,9 @@ final class SnapshotAdminTest extends WebTestCase
         yield 'Toggle Snapshots' => ['toggle_enabled'];
     }
 
-    /**
-     * @psalm-suppress UndefinedPropertyFetch
-     */
     private function prepareData(): void
     {
-        // TODO: Simplify this when dropping support for Symfony 4.
-        // @phpstan-ignore-next-line
-        $container = method_exists($this, 'getContainer') ? self::getContainer() : self::$container;
-        $manager = $container->get('doctrine.orm.entity_manager');
+        $manager = self::getContainer()->get('doctrine.orm.entity_manager');
         \assert($manager instanceof EntityManagerInterface);
 
         $site = new SonataPageSite();
