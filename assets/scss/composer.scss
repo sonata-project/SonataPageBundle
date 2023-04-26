@@ -7,10 +7,10 @@
  * file that was distributed with this source code.
  */
 
-$color_green: #00a65a;
-$color_blue: #3c8dbc;
-$color_green_med: #5cc4a7;
-$color_red: #f56954;
+$color-green: #00a65a;
+$color-blue: #3c8dbc;
+$color-green-med: #5cc4a7;
+$color-red: #f56954;
 
 .page-composer {
   &__page-preview {
@@ -104,7 +104,7 @@ $color_red: #f56954;
     position: relative;
 
     &__header {
-      color: $color_blue !important;
+      color: $color-blue !important;
       font-size: 24px !important;
       line-height: 1em !important;
       margin: 0 !important;
@@ -127,11 +127,11 @@ $color_red: #f56954;
       }
 
       &.success {
-        background: $color_green_med;
+        background: $color-green-med;
       }
 
       &.error {
-        background: $color_red;
+        background: $color-red;
       }
 
       .close-notice {
@@ -151,7 +151,7 @@ $color_red: #f56954;
       > li > a {
         border: none !important;
         border-radius: 0;
-        color: $color_green_med;
+        color: $color-green-med;
         margin: 0;
       }
     }
@@ -197,12 +197,12 @@ $color_red: #f56954;
     padding: 5px 15px 5px 12px;
 
     &.active {
-      border-left-color: $color_blue;
+      border-left-color: $color-blue;
     }
 
     &:hover {
       background: #fff;
-      border-left-color: $color_blue;
+      border-left-color: $color-blue;
     }
 
     &:first-child {
@@ -225,7 +225,7 @@ $color_red: #f56954;
 }
 
 .page-composer__page-preview__container.hover .page-composer__page-preview__container__content {
-  border-color: $color_green_med !important;
+  border-color: $color-green-med !important;
   border-style: dotted;
 }
 
@@ -241,7 +241,7 @@ $color_red: #f56954;
 
   50% {
     background-color: #abf8d9;
-    border-color: $color_green_med;
+    border-color: $color-green-med;
   }
 
   100% {
@@ -256,7 +256,7 @@ $color_red: #f56954;
 }
 
 .page-composer__page-preview__container.active .page-composer__page-preview__container__content {
-  border-color: $color_blue;
+  border-color: $color-blue;
   box-shadow: none;
   color: #404040;
 }
@@ -291,7 +291,7 @@ $color_red: #f56954;
 
 .page-composer__container__child-count .badge,
 .page-composer__container__child .badge {
-  background-color: $color_blue;
+  background-color: $color-blue;
   text-shadow: none;
 }
 
@@ -327,7 +327,7 @@ $color_red: #f56954;
 
 .page-composer__container__child__helper,
 .page-composer__container__child__content {
-  border-left: 3px solid $color_blue;
+  border-left: 3px solid $color-blue;
 }
 
 .page-composer__container__child__helper {
@@ -366,13 +366,10 @@ $color_red: #f56954;
 
 .page-composer__container__child__loader {
   background: rgb(255 255 255 / 75%);
-  bottom: 0;
   display: none;
-  left: 0;
+  inset: 0;
   position: absolute;
-  right: 0;
   text-align: center;
-  top: 0;
 }
 
 .page-composer__block-type-selector__loader,
@@ -436,7 +433,7 @@ $color_red: #f56954;
 
 .page-composer__container__child__switch-enabled .badge,
 .page-composer__container__child__remove .badge {
-  background-color: $color_red;
+  background-color: $color-red;
   cursor: pointer;
 }
 
@@ -454,11 +451,11 @@ $color_red: #f56954;
 }
 
 .page-composer__container__child__remove__confirm span.yes {
-  background-color: $color_green;
+  background-color: $color-green;
 }
 
 .page-composer__container__child__remove__confirm span.cancel {
-  background-color: $color_red;
+  background-color: $color-red;
 }
 
 .page-composer__container__child__toggle {
@@ -484,11 +481,11 @@ $color_red: #f56954;
 
 .page-composer__container__child__edit:hover {
   background: #fff;
-  border-left-color: $color_blue;
+  border-left-color: $color-blue;
 }
 
 .page-composer__container__child--expanded .page-composer__container__child__edit {
-  border-left-color: $color_blue;
+  border-left-color: $color-blue;
   box-shadow: 0 0 2px rgb(0 0 0 / 35%) inset;
 }
 
