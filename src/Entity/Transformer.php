@@ -91,7 +91,6 @@ final class Transformer implements TransformerInterface
          */
         $content = $this->serializer->normalize($page, null, [
             DateTimeNormalizer::FORMAT_KEY => 'U',
-            AbstractNormalizer::GROUPS => ['page_transformer'],
             AbstractObjectNormalizer::SKIP_NULL_VALUES => true,
             AbstractNormalizer::CALLBACKS => [
                 'blocks' => static fn (Collection $innerObject, PageInterface $outerObject, string $attributeName, ?string $format = null, array $context = []) => $innerObject->filter(static fn (BlockInterface $block) => !$block->hasParent())->getValues(),
@@ -124,7 +123,6 @@ final class Transformer implements TransformerInterface
 
         $this->serializer->denormalize($content, $pageClass, null, [
             DateTimeNormalizer::FORMAT_KEY => 'U',
-            AbstractNormalizer::GROUPS => ['page_transformer'],
             AbstractNormalizer::OBJECT_TO_POPULATE => $page,
             InterfaceDenormalizer::SUPPORTED_INTERFACES_KEY => [
                 PageInterface::class => $pageClass,
@@ -147,7 +145,6 @@ final class Transformer implements TransformerInterface
 
         $this->serializer->denormalize($content, $blockClass, null, [
             DateTimeNormalizer::FORMAT_KEY => 'U',
-            AbstractNormalizer::GROUPS => ['page_transformer'],
             AbstractNormalizer::OBJECT_TO_POPULATE => $block,
             InterfaceDenormalizer::SUPPORTED_INTERFACES_KEY => [
                 BlockInterface::class => $blockClass,
