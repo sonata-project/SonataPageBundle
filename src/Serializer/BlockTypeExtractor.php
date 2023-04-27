@@ -65,18 +65,6 @@ class BlockTypeExtractor implements PropertyTypeExtractorInterface
                 new Type(Type::BUILTIN_TYPE_INT, true),
                 new Type(Type::BUILTIN_TYPE_STRING, true),
             ];
-        } elseif ('settings' === $property) {
-            // fix for faulty property-info in 4.4, it didn't understand arrays with keys
-            return [
-                new Type(
-                    Type::BUILTIN_TYPE_ARRAY,
-                    false,
-                    null,
-                    true,
-                    new Type(Type::BUILTIN_TYPE_STRING),
-                    null
-                ),
-            ];
         } elseif (\in_array($property, self::NULLABLE_STRINGS, true)) {
             return [new Type(Type::BUILTIN_TYPE_STRING, true)];
         }
