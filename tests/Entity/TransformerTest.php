@@ -23,7 +23,7 @@ use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\TransformerInterface;
 use Sonata\PageBundle\Serializer\BlockTypeExtractor;
-use Sonata\PageBundle\Serializer\InterfaceDenormalizer;
+use Sonata\PageBundle\Serializer\InterfaceTypeExtractor;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageBlock;
 use Sonata\PageBundle\Tests\App\Entity\SonataPagePage;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageSite;
@@ -88,6 +88,10 @@ final class TransformerTest extends TestCase
 
         $extractor = new PropertyInfoExtractor([], [
             new BlockTypeExtractor($this->blockManager),
+            new InterfaceTypeExtractor(
+                $this->pageManager,
+                $this->blockManager,
+            ),
             new ReflectionExtractor(),
         ]);
 
@@ -97,7 +101,6 @@ final class TransformerTest extends TestCase
         $normalizers = [
             new DateTimeNormalizer(),
             new ArrayDenormalizer(),
-            new InterfaceDenormalizer(),
             $objectNormalizer,
         ];
         $serializer = new Serializer($normalizers, $encoders);

@@ -26,7 +26,6 @@ use Sonata\PageBundle\Model\SnapshotInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\TransformerInterface;
 use Sonata\PageBundle\Serializer\BlockTypeExtractor;
-use Sonata\PageBundle\Serializer\InterfaceDenormalizer;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
@@ -119,16 +118,10 @@ final class Transformer implements TransformerInterface
         $content = $snapshot->getContent();
 
         $pageClass = $this->pageManager->getClass();
-        $blockClass = $this->blockManager->getClass();
 
         $this->serializer->denormalize($content, $pageClass, null, [
             DateTimeNormalizer::FORMAT_KEY => 'U',
             AbstractNormalizer::OBJECT_TO_POPULATE => $page,
-            InterfaceDenormalizer::SUPPORTED_INTERFACES_KEY => [
-                PageInterface::class => $pageClass,
-                BlockInterface::class => $blockClass,
-                PageBlockInterface::class => $blockClass,
-            ],
             AbstractNormalizer::CALLBACKS => $this->getDenormalizeCallbacks(),
         ]);
 
@@ -146,10 +139,6 @@ final class Transformer implements TransformerInterface
         $this->serializer->denormalize($content, $blockClass, null, [
             DateTimeNormalizer::FORMAT_KEY => 'U',
             AbstractNormalizer::OBJECT_TO_POPULATE => $block,
-            InterfaceDenormalizer::SUPPORTED_INTERFACES_KEY => [
-                BlockInterface::class => $blockClass,
-                PageBlockInterface::class => $blockClass,
-            ],
             AbstractNormalizer::CALLBACKS => $this->getDenormalizeCallbacks(),
         ]);
 
