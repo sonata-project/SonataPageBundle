@@ -80,6 +80,8 @@
     "suggest": {
         "twig/extra-bundle": "Auto configures the Twig Intl extension"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Sonata\\PageBundle\\": "src/"
