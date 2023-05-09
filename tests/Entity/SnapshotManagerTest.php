@@ -95,10 +95,12 @@ final class SnapshotManagerTest extends TestCase
             'nullable' => true,
         ]);
         $classMetadata->addInheritedFieldMapping([
+            'type' => 'integer',
             'fieldName' => 'id',
             'columnName' => 'id',
         ]);
         $classMetadata->addInheritedFieldMapping([
+            'type' => 'integer',
             'fieldName' => 'page',
             'columnName' => 'page_id',
         ]);
