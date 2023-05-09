@@ -20,6 +20,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\AbstractBrowser;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\HttpFoundation\Session\SessionFactoryInterface;
+use Symfony\Component\Security\Core\User\OidcUser;
 
 final class ExceptionsTest extends WebTestCase
 {
@@ -31,7 +32,12 @@ final class ExceptionsTest extends WebTestCase
 
         $client->request('GET', '/exceptions/list');
 
-        self::assertResponseStatusCodeSame(404);
+        // TODO: Remove else when dropping support for Symfony < 6.3
+        if (class_exists(OidcUser::class)) {
+            self::assertResponseStatusCodeSame(403);
+        } else {
+            self::assertResponseStatusCodeSame(404);
+        }
     }
 
     public function testExceptionsListWithEditorAccess(): void
