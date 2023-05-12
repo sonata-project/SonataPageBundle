@@ -15,19 +15,17 @@ Key                             Description
 **ignore_uri_patterns**         based on the an uri pattern
 ==========================      ===========================
 
-.. configuration-block::
+.. code-block:: yaml
 
-    .. code-block:: yaml
+    # config/packages/sonata_page.yaml
 
-        # config/packages/sonata_page.yaml
+    sonata_page:
+        ignore_route_patterns:
+            - (.*)admin(.*)   # ignore admin route, i.e. route containing 'admin'
+            - ^_(.*)          # ignore symfony routes
 
-        sonata_page:
-            ignore_route_patterns:
-                - (.*)admin(.*)   # ignore admin route, i.e. route containing 'admin'
-                - ^_(.*)          # ignore symfony routes
-
-            ignore_uri_patterns:
-                - ^/admin\/     # ignore admin route, i.e. route containing 'admin'
+        ignore_uri_patterns:
+            - ^/admin\/     # ignore admin route, i.e. route containing 'admin'
 
 Page default options
 --------------------
@@ -37,12 +35,10 @@ core routes):
  - ``page_defaults`` : defaults for page properties, used in update page
    routes command
 
-.. configuration-block::
+.. code-block:: yaml
 
-    .. code-block:: yaml
+    # config/packages/sonata_page.yaml
 
-        # config/packages/sonata_page.yaml
-
-        sonata_page:
-            page_defaults:
-                homepage: { decorate: false } # disable decoration for route 'homepage'
+    sonata_page:
+        page_defaults:
+            homepage: { decorate: false } # disable decoration for route 'homepage'

@@ -24,14 +24,12 @@ With this strategy it is possible to handle sites like :
 
 Configure the ``sonata_page`` section as:
 
-.. configuration-block::
+.. code-block:: yaml
 
-    .. code-block:: yaml
+    # config/packages/sonata_page.yaml
 
-        # config/packages/sonata_page.yaml
-
-        sonata_page:
-            multisite: host
+    sonata_page:
+        multisite: host
 
 Host By Locale Strategy
 -----------------------
@@ -40,14 +38,12 @@ This strategy handles the same sites than previous one.
 
 Configure the ``sonata_page`` section as:
 
-.. configuration-block::
+.. code-block:: yaml
 
-    .. code-block:: yaml
+    # config/packages/sonata_page.yaml
 
-        # config/packages/sonata_page.yaml
-
-        sonata_page:
-            multisite: host_by_locale
+    sonata_page:
+        multisite: host_by_locale
 
 Host and Path Strategy
 ----------------------
@@ -94,14 +90,12 @@ To do so, open ``index.php`` file and change the following parts::
 
 The last action is to configure the ``sonata_page`` section as:
 
-.. configuration-block::
+.. code-block:: yaml
 
-    .. code-block:: yaml
+    # config/packages/sonata_page.yaml
 
-        # config/packages/sonata_page.yaml
-
-        sonata_page:
-            multisite: host_with_path
+    sonata_page:
+        multisite: host_with_path
 
 Host and Path By Locale Strategy
 --------------------------------
@@ -141,14 +135,12 @@ To do so, open ``index.php`` file and change the following parts::
 
 The last action is to configure the ``sonata_page`` section as:
 
-.. configuration-block::
+.. code-block:: yaml
 
-    .. code-block:: yaml
+    # config/packages/sonata_page.yaml
 
-        # config/packages/sonata_page.yaml
-
-        sonata_page:
-            multisite: host_with_path_by_locale
+    sonata_page:
+        multisite: host_with_path_by_locale
 
 .. note::
 
