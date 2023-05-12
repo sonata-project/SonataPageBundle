@@ -170,7 +170,7 @@ edited this way:
 
 To add a new container block, simply render the container with the desired name:
 
-.. code-block:: jinja
+.. code-block:: html+twig
 
     {{ sonata_page_render_container('footer_left', 'global') }}
 
