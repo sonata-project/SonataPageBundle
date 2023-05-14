@@ -117,7 +117,7 @@ final class SnapshotAdmin extends AbstractAdmin
             $form->add('page', $hasPage ? ModelHiddenType::class : null);
         } else {
             // TODO: Keep else when dropping support for `sonata-project/form-extensions` 1.x
-            $datepickerOptions = class_existe(CanonicalizeRuntime::class) ?
+            $datepickerOptions = class_exists(CanonicalizeRuntime::class) ?
                 ['dp_side_by_side' => true] :
                 ['datepicker_options' => ['display' => ['sideBySide' => true]]];
 
