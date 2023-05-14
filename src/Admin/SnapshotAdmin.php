@@ -124,7 +124,7 @@ final class SnapshotAdmin extends AbstractAdmin
             $form
                 ->add('enabled', null, ['required' => false])
                 ->add('publicationDateStart', DateTimePickerType::class, $datepickerOptions)
-                ->add('publicationDateEnd', DateTimePickerType::class, ['required' => false, ...$datepickerOptions]);
+                ->add('publicationDateEnd', DateTimePickerType::class, ['required' => false] + $datepickerOptions);
         }
     }
 
