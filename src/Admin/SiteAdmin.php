@@ -108,7 +108,7 @@ final class SiteAdmin extends AbstractAdmin
                 ->add(
                     'enabledTo',
                     DateTimePickerType::class,
-                    ['required' => false, ...$datepickerOptions]
+                    ['required' => false] + $datepickerOptions
                 )
             ->end()
             ->with('seo', ['class' => 'col-md-6'])
