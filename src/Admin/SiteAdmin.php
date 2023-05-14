@@ -20,6 +20,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\Form\Type\DateTimePickerType;
+use Sonata\Form\Twig\CanonicalizeRuntime;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Route\RoutePageGenerator;
 use Symfony\Component\Form\Extension\Core\Type\LocaleType;
@@ -90,6 +91,11 @@ final class SiteAdmin extends AbstractAdmin
 
     protected function configureFormFields(FormMapper $form): void
     {
+        // TODO: Keep else when dropping support for `sonata-project/form-extensions` 1.x
+        $datepickerOptions = class_exists(CanonicalizeRuntime::class) ?
+            ['dp_side_by_side' => true] :
+            ['datepicker_options' => ['display' => ['sideBySide' => true]]];
+
         $form
             ->with('general', ['class' => 'col-md-6'])
                 ->add('name')
@@ -98,11 +104,11 @@ final class SiteAdmin extends AbstractAdmin
                 ->add('host')
                 ->add('locale', LocaleType::class, ['required' => false])
                 ->add('relativePath', null, ['required' => false])
-                ->add('enabledFrom', DateTimePickerType::class, ['dp_side_by_side' => true])
+                ->add('enabledFrom', DateTimePickerType::class, $datepickerOptions)
                 ->add(
                     'enabledTo',
                     DateTimePickerType::class,
-                    ['required' => false, 'dp_side_by_side' => true]
+                    ['required' => false, ...$datepickerOptions]
                 )
             ->end()
             ->with('seo', ['class' => 'col-md-6'])
