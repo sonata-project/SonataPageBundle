@@ -20,6 +20,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelHiddenType;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Security\Acl\Permission\AdminPermissionMap;
+use Sonata\Form\Twig\CanonicalizeRuntime;
 use Sonata\Form\Type\DateTimePickerType;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
@@ -115,10 +116,15 @@ final class SnapshotAdmin extends AbstractAdmin
 
             $form->add('page', $hasPage ? ModelHiddenType::class : null);
         } else {
+            // TODO: Keep else when dropping support for `sonata-project/form-extensions` 1.x
+            $datepickerOptions = class_exists(CanonicalizeRuntime::class) ?
+                ['dp_side_by_side' => true] :
+                ['datepicker_options' => ['display' => ['sideBySide' => true]]];
+
             $form
                 ->add('enabled', null, ['required' => false])
-                ->add('publicationDateStart', DateTimePickerType::class, ['dp_side_by_side' => true])
-                ->add('publicationDateEnd', DateTimePickerType::class, ['required' => false, 'dp_side_by_side' => true]);
+                ->add('publicationDateStart', DateTimePickerType::class, $datepickerOptions)
+                ->add('publicationDateEnd', DateTimePickerType::class, ['required' => false] + $datepickerOptions);
         }
     }
 
