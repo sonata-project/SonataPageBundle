@@ -249,7 +249,7 @@ final class HostSiteSelector extends BaseSiteSelector
         return $sites;
     }
 
-    protected function _getFieldValue(object $object, string $fieldName)
+    protected function _getFieldValue(object $object, string $fieldName): mixed
     {
         $camelizedFieldName = self::_camelize($fieldName);
 

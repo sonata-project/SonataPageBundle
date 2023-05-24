@@ -27,7 +27,7 @@ final class UniqueUrlValidator extends ConstraintValidator
     {
     }
 
-    public function validate($value, Constraint $constraint): void
+    public function validate(mixed $value, Constraint $constraint): void
     {
         if (!$constraint instanceof UniqueUrl) {
             throw new UnexpectedTypeException($constraint, UniqueUrl::class);
