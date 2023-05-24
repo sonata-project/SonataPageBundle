@@ -27,9 +27,6 @@ final class UniqueUrlValidator extends ConstraintValidator
     {
     }
 
-    /**
-     * @param mixed $value
-     */
     public function validate($value, Constraint $constraint): void
     {
         if (!$constraint instanceof UniqueUrl) {

@@ -234,8 +234,8 @@ final class TransformerTest extends TestCase
             'position' => 0,
             'settings' => [],
             'type' => 'type',
-            'created_at' => (int) $datetime->format('U'),
-            'updated_at' => (int) $datetime->format('U'),
+            'created_at' => $datetime->format('U'),
+            'updated_at' => $datetime->format('U'),
             'blocks' => [[
                 'id' => 2,
                 'name' => 'block2',
@@ -243,8 +243,8 @@ final class TransformerTest extends TestCase
                 'position' => 1,
                 'settings' => [],
                 'type' => 'type',
-                'created_at' => (int) $datetime->format('U'),
-                'updated_at' => (int) $datetime->format('U'),
+                'created_at' => $datetime->format('U'),
+                'updated_at' => $datetime->format('U'),
                 'blocks' => [],
             ]],
         ]];
