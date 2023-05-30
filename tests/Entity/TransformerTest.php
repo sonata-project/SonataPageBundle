@@ -249,6 +249,29 @@ final class TransformerTest extends TestCase
             ]],
         ]];
 
+        // Normal block but Int Datetime
+        yield [[
+            'id' => 2,
+            'name' => 'block1',
+            'enabled' => true,
+            'position' => 0,
+            'settings' => [],
+            'type' => 'type',
+            'created_at' => (int) $datetime->format('U'),
+            'updated_at' => (int) $datetime->format('U'),
+            'blocks' => [[
+                'id' => 2,
+                'name' => 'block2',
+                'enabled' => true,
+                'position' => 1,
+                'settings' => [],
+                'type' => 'type',
+                'created_at' => (int) $datetime->format('U'),
+                'updated_at' => (int) $datetime->format('U'),
+                'blocks' => [],
+            ]],
+        ]];
+
         // Minimal block block
         yield [[
             'id' => null,
