@@ -104,16 +104,16 @@ final class PageSelectorType extends AbstractType
 
             if (
                 'all' !== $filter_choice['hierarchy'] && (
-                    ('root' !== $filter_choice['hierarchy'] || null !== $page->getParent()) &&
-                    ('children' !== $filter_choice['hierarchy'] || null === $page->getParent())
+                    ('root' !== $filter_choice['hierarchy'] || null !== $page->getParent())
+                    && ('children' !== $filter_choice['hierarchy'] || null === $page->getParent())
                 )
             ) {
                 continue;
             }
 
             if ('all' !== $filter_choice['dynamic'] && (
-                ($filter_choice['dynamic'] && $page->isDynamic()) ||
-                    (!$filter_choice['dynamic'] && !$page->isDynamic())
+                ($filter_choice['dynamic'] && $page->isDynamic())
+                    || (!$filter_choice['dynamic'] && !$page->isDynamic())
             )
             ) {
                 continue;
