@@ -23,7 +23,7 @@ abstract class Snapshot implements SnapshotInterface, \Stringable
     /**
      * @var int|string|null
      */
-    protected $id = null;
+    protected $id;
 
     protected ?string $routeName = null;
 
@@ -68,7 +68,7 @@ abstract class Snapshot implements SnapshotInterface, \Stringable
     /**
      * @var int|string|null
      */
-    protected $parentId = null;
+    protected $parentId;
 
     public function __toString(): string
     {

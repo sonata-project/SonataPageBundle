@@ -24,7 +24,7 @@ abstract class Page implements PageInterface
     /**
      * @var int|string|null
      */
-    protected $id = null;
+    protected $id;
 
     protected ?string $title = null;
 

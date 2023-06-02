@@ -21,7 +21,7 @@ abstract class Site implements SiteInterface, \Stringable
     /**
      * @var int|string|null
      */
-    protected $id = null;
+    protected $id;
 
     protected ?string $name = null;
 

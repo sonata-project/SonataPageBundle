@@ -25,7 +25,7 @@ class SonataPagePage extends BasePage
     #[ORM\Id]
     #[ORM\Column(type: Types::INTEGER)]
     #[ORM\GeneratedValue]
-    protected $id = null;
+    protected $id;
 
     #[ORM\PrePersist]
     public function prePersist(): void
