@@ -25,7 +25,7 @@ class SonataPageSnapshot extends BaseSnapshot
     #[ORM\Id]
     #[ORM\Column(type: Types::INTEGER)]
     #[ORM\GeneratedValue]
-    protected $id = null;
+    protected $id;
 
     public function setId(int $id): void
     {

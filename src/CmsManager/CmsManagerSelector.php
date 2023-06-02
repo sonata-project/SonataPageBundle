@@ -58,15 +58,15 @@ final class CmsManagerSelector implements CmsManagerSelectorInterface
     {
         $request = $this->requestStack->getCurrentRequest();
 
-        return null !== $request &&
-            $request->hasSession() &&
-            false !== $request->getSession()->get('sonata/page/isEditor', false);
+        return null !== $request
+            && $request->hasSession()
+            && false !== $request->getSession()->get('sonata/page/isEditor', false);
     }
 
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event): void
     {
-        if (null !== $this->tokenStorage->getToken() &&
-            $this->pageAdmin->isGranted('EDIT')) {
+        if (null !== $this->tokenStorage->getToken()
+            && $this->pageAdmin->isGranted('EDIT')) {
             $request = $event->getRequest();
 
             if ($request->hasSession()) {

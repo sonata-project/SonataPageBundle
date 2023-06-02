@@ -24,5 +24,5 @@ class SonataPageBlock extends BaseBlock
     #[ORM\Id]
     #[ORM\Column(type: Types::INTEGER)]
     #[ORM\GeneratedValue]
-    protected $id = null;
+    protected $id;
 }
