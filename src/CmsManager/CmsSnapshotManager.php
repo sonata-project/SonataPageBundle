@@ -104,11 +104,7 @@ final class CmsSnapshotManager extends BaseCmsPageManager
 
     public function getBlock($id): ?PageBlockInterface
     {
-        if (isset($this->blocks[$id])) {
-            return $this->blocks[$id];
-        }
-
-        return null;
+        return $this->blocks[$id] ?? null;
     }
 
     protected function getPageBy(?SiteInterface $site, string $fieldName, $value): PageInterface
