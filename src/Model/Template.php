@@ -93,11 +93,7 @@ final class Template
      */
     public function getContainer(string $code): ?array
     {
-        if (isset($this->containers[$code])) {
-            return $this->containers[$code];
-        }
-
-        return null;
+        return $this->containers[$code] ?? null;
     }
 
     public function getName(): string
