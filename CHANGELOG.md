@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.4.0](https://github.com/sonata-project/SonataPageBundle/compare/4.3.0...4.4.0) - 2023-06-04
+### Added
+- [[#1696](https://github.com/sonata-project/SonataPageBundle/pull/1696)] Support for SonataBlockBundle 5.0 ([@jordisala1991](https://github.com/jordisala1991))
+
 ## [4.3.0](https://github.com/sonata-project/SonataPageBundle/compare/4.2.0...4.3.0) - 2023-05-14
 ### Added
 - [[#1692](https://github.com/sonata-project/SonataPageBundle/pull/1692)] Support for `sonata-project/form-extensions` 2.0 ([@jordisala1991](https://github.com/jordisala1991))
