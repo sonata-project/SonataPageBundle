@@ -22,7 +22,7 @@
     "prettier": "^2.8",
     "sass-embedded": "^1.62",
     "sass-loader": "^13.2",
-    "stylelint": "^15.6",
+    "stylelint": "^15.10",
     "stylelint-config-standard-scss": "^9.0",
     "stylelint-order": "^6.0",
     "stylelint-webpack-plugin": "^4.1",
