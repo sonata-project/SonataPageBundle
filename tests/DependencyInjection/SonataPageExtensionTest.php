@@ -15,7 +15,6 @@ namespace Sonata\PageBundle\Tests\DependencyInjection;
 
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use Sonata\PageBundle\DependencyInjection\SonataPageExtension;
-use Symfony\Bundle\TwigBundle\DependencyInjection\TwigExtension;
 
 /**
  * @author Rémi Marseille <marseille@ekino.com>
