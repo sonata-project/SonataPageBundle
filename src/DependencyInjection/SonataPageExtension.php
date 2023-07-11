@@ -27,22 +27,16 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * NEXT_MAJOR: stop implementing PrependExtensionInterface
  */
 final class SonataPageExtension extends Extension implements PrependExtensionInterface
 {
+    /**
+     * NEXT_MAJOR: Remove this method.
+     */
     public function prepend(ContainerBuilder $container): void
     {
-        $bundles = $container->getParameter('kernel.bundles');
-        \assert(\is_array($bundles));
-
-        // add custom form widgets
-        if ($container->hasExtension('twig')) {
-            if (isset($bundles['SonataFormBundle'])) {
-                $container->prependExtensionConfig('twig', [
-                    'form_themes' => ['@SonataForm/Form/datepicker.html.twig'],
-                ]);
-            }
-        }
     }
 
     public function load(array $configs, ContainerBuilder $container): void
