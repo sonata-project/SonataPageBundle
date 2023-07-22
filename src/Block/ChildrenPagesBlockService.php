@@ -79,7 +79,6 @@ final class ChildrenPagesBlockService extends AbstractBlockService implements Ed
         }
 
         $template = $blockContext->getTemplate();
-        \assert(null !== $template);
 
         return $this->renderResponse($template, [
             'page' => $page,
