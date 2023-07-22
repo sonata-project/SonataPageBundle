@@ -62,7 +62,6 @@ final class SharedBlockBlockService extends AbstractBlockService implements Edit
         $sharedBlock = $block->getSetting('blockId');
 
         $template = $blockContext->getTemplate();
-        \assert(null !== $template);
 
         return $this->renderResponse($template, [
             'block' => $blockContext->getBlock(),
