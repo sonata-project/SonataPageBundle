@@ -83,9 +83,6 @@ final class AppKernel extends Kernel
         $routes->import($this->getProjectDir().'/config/routes.yaml');
     }
 
-    /**
-     * @psalm-suppress DeprecatedClass
-     */
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
     {
         $container->setParameter('app.base_dir', $this->getBaseDir());
@@ -96,6 +93,9 @@ final class AppKernel extends Kernel
             $loader->load($this->getProjectDir().'/config/config_symfony_v5.yaml');
         }
 
+        /*
+         * TODO: Remove when dropping support for SonataBlock v4
+         */
         if (class_exists(HttpCacheHandler::class)) {
             $loader->load($this->getProjectDir().'/config/config_sonata_block_v4.yaml');
         }

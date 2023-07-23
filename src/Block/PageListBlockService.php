@@ -51,7 +51,6 @@ final class PageListBlockService extends AbstractBlockService implements Editabl
         ]);
 
         $template = $blockContext->getTemplate();
-        \assert(null !== $template);
 
         return $this->renderResponse($template, [
             'context' => $blockContext,
