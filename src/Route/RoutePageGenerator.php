@@ -77,7 +77,7 @@ final class RoutePageGenerator
             if (
                 !$this->decoratorStrategy->isRouteNameDecorable($name)
                 || !$this->decoratorStrategy->isRouteUriDecorable($route->getPath())
-                || (null !== $routeHostRegex
+                || (\is_string($routeHostRegex)
                 && 0 === preg_match($routeHostRegex, $site->getHost() ?? ''))
             ) {
                 if (null !== $page) {
