@@ -57,7 +57,6 @@ final class Transformer implements TransformerInterface
         private ManagerRegistry $registry,
         private SerializerInterface $serializer
     ) {
-        $this->serializer = $serializer;
     }
 
     public function create(PageInterface $page, ?SnapshotInterface $snapshot = null): SnapshotInterface
@@ -92,8 +91,8 @@ final class Transformer implements TransformerInterface
             DateTimeNormalizer::FORMAT_KEY => 'U',
             AbstractObjectNormalizer::SKIP_NULL_VALUES => true,
             AbstractNormalizer::CALLBACKS => [
-                'blocks' => static fn (Collection $collection, PageInterface $outerObject, string $attributeName, ?string $format = null, array $context = []) => $collection->filter(static fn (BlockInterface $block) => !$block->hasParent())->getValues(),
-                'parent' => static fn (?PageInterface $page, PageInterface $outerObject, string $attributeName, ?string $format = null, array $context = []) => $page?->getId(),
+                'blocks' => static fn (Collection $collection, PageInterface $object, string $attribute, ?string $format = null, array $context = []) => $collection->filter(static fn (BlockInterface $block) => !$block->hasParent())->getValues(),
+                'parent' => static fn (?PageInterface $page, PageInterface $object, string $attribute, ?string $format = null, array $context = []) => $page?->getId(),
             ],
         ]);
 
@@ -195,10 +194,10 @@ final class Transformer implements TransformerInterface
     private function getDenormalizeCallbacks(): array
     {
         $result = [
-            'position' => static fn (string|int|null $innerObject, string $outerObject, string $attributeName, ?string $format = null, array $context = []): int => null === $innerObject ? 0 : (int) $innerObject,
+            'position' => static fn (string|int|null $value, string $object, string $attribute, ?string $format = null, array $context = []): int => null === $value ? 0 : (int) $value,
         ];
 
-        $nullableStringCallback = static fn (?string $innerObject, string $outerObject, string $attributeName, ?string $format = null, array $context = []): string => (string) $innerObject;
+        $nullableStringCallback = static fn (?string $value, string $object, string $attribute, ?string $format = null, array $context = []): string => (string) $value;
 
         foreach (BlockTypeExtractor::NULLABLE_STRINGS as $key) {
             $result[$key] = $nullableStringCallback;

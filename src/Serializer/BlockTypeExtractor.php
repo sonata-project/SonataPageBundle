@@ -18,20 +18,11 @@ use Sonata\PageBundle\Model\PageBlockInterface;
 use Symfony\Component\PropertyInfo\PropertyTypeExtractorInterface;
 use Symfony\Component\PropertyInfo\Type;
 
-class BlockTypeExtractor implements PropertyTypeExtractorInterface
+final class BlockTypeExtractor implements PropertyTypeExtractorInterface
 {
     public const NULLABLE_STRINGS = [
         'name',
         'type',
-        'javascript',
-        'stylesheet',
-        'raw_headers',
-        'title',
-        'meta_description',
-        'meta_keyword',
-        'template_code',
-        'request_method',
-        'slug',
     ];
 
     /**

@@ -226,6 +226,8 @@ final class TransformerTest extends TestCase
     {
         $datetime = new \DateTime();
 
+        $datetimeString = $datetime->format('U');
+
         // Normal block
         yield [[
             'id' => 1,
@@ -234,8 +236,8 @@ final class TransformerTest extends TestCase
             'position' => 0,
             'settings' => [],
             'type' => 'type',
-            'created_at' => $datetime->format('U'),
-            'updated_at' => $datetime->format('U'),
+            'created_at' => $datetimeString,
+            'updated_at' => $datetimeString,
             'blocks' => [[
                 'id' => 2,
                 'name' => 'block2',
@@ -243,8 +245,8 @@ final class TransformerTest extends TestCase
                 'position' => 1,
                 'settings' => [],
                 'type' => 'type',
-                'created_at' => $datetime->format('U'),
-                'updated_at' => $datetime->format('U'),
+                'created_at' => $datetimeString,
+                'updated_at' => $datetimeString,
                 'blocks' => [],
             ]],
         ]];
@@ -257,8 +259,8 @@ final class TransformerTest extends TestCase
             'position' => 0,
             'settings' => [],
             'type' => 'type',
-            'created_at' => (int) $datetime->format('U'),
-            'updated_at' => (int) $datetime->format('U'),
+            'created_at' => (int) $datetimeString,
+            'updated_at' => (int) $datetimeString,
             'blocks' => [[
                 'id' => 2,
                 'name' => 'block2',
@@ -266,8 +268,8 @@ final class TransformerTest extends TestCase
                 'position' => 1,
                 'settings' => [],
                 'type' => 'type',
-                'created_at' => (int) $datetime->format('U'),
-                'updated_at' => (int) $datetime->format('U'),
+                'created_at' => (int) $datetimeString,
+                'updated_at' => (int) $datetimeString,
                 'blocks' => [],
             ]],
         ]];
@@ -324,20 +326,18 @@ final class TransformerTest extends TestCase
      */
     private function getTestContent(\DateTimeInterface $datetime): array
     {
+        /**
+         * @var numeric-string $datetimeString
+         */
+        $datetimeString = $datetime->format('U');
+
         return [
             'id' => 'page_child',
             'name' => 'Page Child',
-//            'javascript' => null,
-//            'stylesheet' => null,
-//            'raw_headers' => null,
             'title' => 'Page Child Title',
-//            'meta_description' => null,
-//            'meta_keyword' => null,
-//            'template_code' => null,
             'request_method' => 'GET|POST|HEAD|DELETE|PUT',
-            'created_at' => $datetime->format('U'),
-            'updated_at' => $datetime->format('U'),
-//            'slug' => null,
+            'created_at' => $datetimeString,
+            'updated_at' => $datetimeString,
             'parent_id' => 'page_parent',
             'blocks' => [
                 [
@@ -347,8 +347,8 @@ final class TransformerTest extends TestCase
                     'position' => 0,
                     'settings' => [],
                     'type' => 'type',
-                    'created_at' => $datetime->format('U'),
-                    'updated_at' => $datetime->format('U'),
+                    'created_at' => $datetimeString,
+                    'updated_at' => $datetimeString,
                     'blocks' => [
                         [
                             'id' => 'block234',
@@ -357,8 +357,8 @@ final class TransformerTest extends TestCase
                             'position' => 0,
                             'settings' => [],
                             'type' => 'type',
-                            'created_at' => $datetime->format('U'),
-                            'updated_at' => $datetime->format('U'),
+                            'created_at' => $datetimeString,
+                            'updated_at' => $datetimeString,
                             'blocks' => [],
                         ],
                     ],

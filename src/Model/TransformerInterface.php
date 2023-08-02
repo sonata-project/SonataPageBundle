@@ -29,8 +29,8 @@ use Doctrine\Common\Collections\Collection;
  *   position: int|string|null,
  *   settings: array<string, mixed>,
  *   type: string|null,
- *   created_at: int|string|null,
- *   updated_at: int|string|null,
+ *   created_at: int|numeric-string|null,
+ *   updated_at: int|numeric-string|null,
  *   parent_id?: int|string|null,
  *   blocks: array<array{
  *     id: int|string|null,
@@ -39,8 +39,8 @@ use Doctrine\Common\Collections\Collection;
  *     position: int|string|null,
  *     settings: array<string, mixed>,
  *     type: string|null,
- *     created_at: int|string|null,
- *     updated_at: int|string|null,
+ *     created_at: int|numeric-string|null,
+ *     updated_at: int|numeric-string|null,
  *     parent_id?: int|string|null,
  *     blocks: array<mixed>,
  *   }>,
@@ -58,8 +58,8 @@ use Doctrine\Common\Collections\Collection;
  *   slug?: string|null,
  *   template_code?: string|null,
  *   request_method?: string|null,
- *   created_at: int|string|null,
- *   updated_at: int|string|null,
+ *   created_at: int|numeric-string|null,
+ *   updated_at: int|numeric-string|null,
  *   blocks: array<BlockContent>,
  * }
  */

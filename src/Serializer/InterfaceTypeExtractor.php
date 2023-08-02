@@ -19,7 +19,7 @@ use Sonata\PageBundle\Model\PageManagerInterface;
 use Symfony\Component\PropertyInfo\PropertyTypeExtractorInterface;
 use Symfony\Component\PropertyInfo\Type;
 
-class InterfaceTypeExtractor implements PropertyTypeExtractorInterface
+final class InterfaceTypeExtractor implements PropertyTypeExtractorInterface
 {
     /**
      * @param ManagerInterface<PageBlockInterface> $blockManager
@@ -45,7 +45,7 @@ class InterfaceTypeExtractor implements PropertyTypeExtractorInterface
                     null,
                     true,
                     null,
-                    $this->_getPageType()
+                    $this->getPageType()
                 )];
             } elseif ('blocks' === $property) {
                 return [new Type(
@@ -54,10 +54,10 @@ class InterfaceTypeExtractor implements PropertyTypeExtractorInterface
                     null,
                     true,
                     null,
-                    $this->_getBlockType()
+                    $this->getBlockType()
                 )];
             } elseif ('parent' === $property) {
-                return [$this->_getPageType()];
+                return [$this->getPageType()];
             }
         } elseif ($this->blockManager->getClass() === $class) {
             if ('children' === $property) {
@@ -67,7 +67,7 @@ class InterfaceTypeExtractor implements PropertyTypeExtractorInterface
                     null,
                     true,
                     null,
-                    $this->_getBlockType()
+                    $this->getBlockType()
                 )];
             }
         }
@@ -75,12 +75,12 @@ class InterfaceTypeExtractor implements PropertyTypeExtractorInterface
         return null;
     }
 
-    protected function _getPageType(): Type
+    private function getPageType(): Type
     {
         return new Type(Type::BUILTIN_TYPE_OBJECT, false, $this->pageManager->getClass());
     }
 
-    protected function _getBlockType(): Type
+    private function getBlockType(): Type
     {
         return new Type(Type::BUILTIN_TYPE_OBJECT, false, $this->blockManager->getClass());
     }

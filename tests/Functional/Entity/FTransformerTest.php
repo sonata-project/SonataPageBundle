@@ -380,6 +380,7 @@ final class FTransformerTest extends KernelTestCase
      */
     protected function getTestContent(\DateTimeInterface $datetime, int|string|null $position, array $settings): array
     {
+        $dateTimeString = $datetime->format('U');
         // for some reason, the order is different on the functional tests
         return [
             'id' => 123,
@@ -394,8 +395,8 @@ final class FTransformerTest extends KernelTestCase
 //            'slug' => null,
             'template_code' => 'template',
             'request_method' => 'GET|POST|HEAD|DELETE|PUT',
-            'created_at' => $datetime->format('U'),
-            'updated_at' => $datetime->format('U'),
+            'created_at' => $dateTimeString,
+            'updated_at' => $dateTimeString,
             'blocks' => [
                 $this->getTestBlockArray($datetime, $position, $settings),
             ],
@@ -409,6 +410,7 @@ final class FTransformerTest extends KernelTestCase
      */
     protected function getTestBlockArray(\DateTimeInterface $datetime, int|string|null $position, array $settings): array
     {
+        $dateTimeString = $datetime->format('U');
         // for some reason, the order is different on the functional tests
         return [
             'id' => 123, // probably doctrine says the type must be int instead of also string
@@ -417,8 +419,8 @@ final class FTransformerTest extends KernelTestCase
             'position' => $position,
             'settings' => $settings,
             'type' => 'type',
-            'created_at' => $datetime->format('U'),
-            'updated_at' => $datetime->format('U'),
+            'created_at' => $dateTimeString,
+            'updated_at' => $dateTimeString,
             'blocks' => [
                 [
                     'id' => 234,
@@ -427,8 +429,8 @@ final class FTransformerTest extends KernelTestCase
                     'position' => $position,
                     'settings' => $settings,
                     'type' => 'type',
-                    'created_at' => $datetime->format('U'),
-                    'updated_at' => $datetime->format('U'),
+                    'created_at' => $dateTimeString,
+                    'updated_at' => $dateTimeString,
                     'blocks' => [],
                 ],
             ],
