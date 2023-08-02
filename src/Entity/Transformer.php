@@ -55,7 +55,7 @@ final class Transformer implements TransformerInterface
         private PageManagerInterface $pageManager,
         private ManagerInterface $blockManager,
         private ManagerRegistry $registry,
-        private $serializer
+        private SerializerInterface $serializer
     ) {
         $this->serializer = $serializer;
     }
@@ -92,8 +92,8 @@ final class Transformer implements TransformerInterface
             DateTimeNormalizer::FORMAT_KEY => 'U',
             AbstractObjectNormalizer::SKIP_NULL_VALUES => true,
             AbstractNormalizer::CALLBACKS => [
-                'blocks' => static fn (Collection $innerObject, PageInterface $outerObject, string $attributeName, ?string $format = null, array $context = []) => $innerObject->filter(static fn (BlockInterface $block) => !$block->hasParent())->getValues(),
-                'parent' => static fn (?PageInterface $innerObject, PageInterface $outerObject, string $attributeName, ?string $format = null, array $context = []) => $innerObject instanceof PageInterface ? $innerObject->getId() : $innerObject,
+                'blocks' => static fn (Collection $collection, PageInterface $outerObject, string $attributeName, ?string $format = null, array $context = []) => $collection->filter(static fn (BlockInterface $block) => !$block->hasParent())->getValues(),
+                'parent' => static fn (?PageInterface $page, PageInterface $outerObject, string $attributeName, ?string $format = null, array $context = []) => $page?->getId(),
             ],
         ]);
 
