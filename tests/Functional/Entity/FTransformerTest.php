@@ -380,19 +380,16 @@ final class FTransformerTest extends KernelTestCase
      */
     protected function getTestContent(\DateTimeInterface $datetime, int|string|null $position, array $settings): array
     {
+        /**
+         * @var numeric-string $dateTimeString
+         */
         $dateTimeString = $datetime->format('U');
         // for some reason, the order is different on the functional tests
         return [
             'id' => 123,
             'parent_id' => 789,
-//            'javascript' => null,
-//            'stylesheet' => null,
-//            'raw_headers' => null,
             'title' => 'Page Child Title',
-//            'meta_description' => null,
-//            'meta_keyword' => null,
             'name' => 'Page Child',
-//            'slug' => null,
             'template_code' => 'template',
             'request_method' => 'GET|POST|HEAD|DELETE|PUT',
             'created_at' => $dateTimeString,
@@ -410,6 +407,9 @@ final class FTransformerTest extends KernelTestCase
      */
     protected function getTestBlockArray(\DateTimeInterface $datetime, int|string|null $position, array $settings): array
     {
+        /**
+         * @var numeric-string $dateTimeString
+         */
         $dateTimeString = $datetime->format('U');
         // for some reason, the order is different on the functional tests
         return [

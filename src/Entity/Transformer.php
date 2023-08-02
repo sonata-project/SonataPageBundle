@@ -319,8 +319,14 @@ final class Transformer implements TransformerInterface
             $childBlocks[] = $this->createBlock($child);
         }
 
-        $createdAt = $block->getCreatedAt();
-        $updatedAt = $block->getUpdatedAt();
+        /**
+         * @var numeric-string|null $createdAt
+         */
+        $createdAt = $block->getCreatedAt()?->format('U');
+        /**
+         * @var numeric-string|null $updatedAt
+         */
+        $updatedAt = $block->getUpdatedAt()?->format('U');
 
         return [
             'id' => $block->getId(),
@@ -329,8 +335,8 @@ final class Transformer implements TransformerInterface
             'position' => $block->getPosition(),
             'settings' => $block->getSettings(),
             'type' => $block->getType(),
-            'created_at' => $createdAt?->format('U'),
-            'updated_at' => $updatedAt?->format('U'),
+            'created_at' => $createdAt,
+            'updated_at' => $updatedAt,
             'blocks' => $childBlocks,
         ];
     }

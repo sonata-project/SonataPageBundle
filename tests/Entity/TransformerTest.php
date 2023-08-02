@@ -66,18 +66,6 @@ class TransformerTest extends TestCase
         $this->setUpTransformer();
     }
 
-    protected function setUpTransformer(): void
-    {
-        $registry = $this->createMock(ManagerRegistry::class);
-
-        $this->transformer = new Transformer(
-            $this->snapshotManager,
-            $this->pageManager,
-            $this->blockManager,
-            $registry
-        );
-    }
-
     public function testAssertExceptionCreateOnPageWithoutSite(): void
     {
         $this->snapshotManager->method('create')->willReturn(new SonataPageSnapshot());
@@ -190,7 +178,10 @@ class TransformerTest extends TestCase
     {
         $datetime = new \DateTime();
 
-        $datetimeString = $datetime->format('U');
+        /**
+         * @var numeric-string $dateTimeString
+         */
+        $dateTimeString = $datetime->format('U');
 
         // Normal block
         yield [[
@@ -200,8 +191,8 @@ class TransformerTest extends TestCase
             'position' => 0,
             'settings' => [],
             'type' => 'type',
-            'created_at' => $datetimeString,
-            'updated_at' => $datetimeString,
+            'created_at' => $dateTimeString,
+            'updated_at' => $dateTimeString,
             'blocks' => [[
                 'id' => 2,
                 'name' => 'block2',
@@ -209,8 +200,8 @@ class TransformerTest extends TestCase
                 'position' => 1,
                 'settings' => [],
                 'type' => 'type',
-                'created_at' => $datetimeString,
-                'updated_at' => $datetimeString,
+                'created_at' => $dateTimeString,
+                'updated_at' => $dateTimeString,
                 'blocks' => [],
             ]],
         ]];
@@ -223,8 +214,8 @@ class TransformerTest extends TestCase
             'position' => 0,
             'settings' => [],
             'type' => 'type',
-            'created_at' => (int) $datetimeString,
-            'updated_at' => (int) $datetimeString,
+            'created_at' => (int) $dateTimeString,
+            'updated_at' => (int) $dateTimeString,
             'blocks' => [[
                 'id' => 2,
                 'name' => 'block2',
@@ -232,8 +223,8 @@ class TransformerTest extends TestCase
                 'position' => 1,
                 'settings' => [],
                 'type' => 'type',
-                'created_at' => (int) $datetimeString,
-                'updated_at' => (int) $datetimeString,
+                'created_at' => (int) $dateTimeString,
+                'updated_at' => (int) $dateTimeString,
                 'blocks' => [],
             ]],
         ]];
@@ -285,20 +276,35 @@ class TransformerTest extends TestCase
         ]];
     }
 
+    protected function setUpTransformer(): void
+    {
+        $registry = $this->createMock(ManagerRegistry::class);
+
+        $this->transformer = new Transformer(
+            $this->snapshotManager,
+            $this->pageManager,
+            $this->blockManager,
+            $registry
+        );
+    }
+
     /**
      * @phpstan-return PageContent
      */
     private function getTestContent(\DateTimeInterface $datetime): array
     {
-        $datetimeString = $datetime->format('U');
+        /**
+         * @var numeric-string $dateTimeString
+         */
+        $dateTimeString = $datetime->format('U');
 
         return [
             'id' => 'page_child',
             'name' => 'Page Child',
             'title' => 'Page Child Title',
             'request_method' => 'GET|POST|HEAD|DELETE|PUT',
-            'created_at' => $datetimeString,
-            'updated_at' => $datetimeString,
+            'created_at' => $dateTimeString,
+            'updated_at' => $dateTimeString,
             'parent_id' => 'page_parent',
             'blocks' => [
                 [
@@ -308,8 +314,8 @@ class TransformerTest extends TestCase
                     'position' => 0,
                     'settings' => [],
                     'type' => 'type',
-                    'created_at' => $datetimeString,
-                    'updated_at' => $datetimeString,
+                    'created_at' => $dateTimeString,
+                    'updated_at' => $dateTimeString,
                     'blocks' => [
                         [
                             'id' => 'block234',
@@ -318,8 +324,8 @@ class TransformerTest extends TestCase
                             'position' => 0,
                             'settings' => [],
                             'type' => 'type',
-                            'created_at' => $datetimeString,
-                            'updated_at' => $datetimeString,
+                            'created_at' => $dateTimeString,
+                            'updated_at' => $dateTimeString,
                             'blocks' => [],
                         ],
                     ],
