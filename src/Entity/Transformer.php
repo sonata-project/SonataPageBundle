@@ -55,7 +55,7 @@ final class Transformer implements TransformerInterface
         private PageManagerInterface $pageManager,
         private ManagerInterface $blockManager,
         private ManagerRegistry $registry,
-        private SerializerInterface $serializer
+        private ?SerializerInterface $serializer = null
     ) {
     }
 
@@ -84,17 +84,56 @@ final class Transformer implements TransformerInterface
             $snapshot->setParentId($parent->getId());
         }
 
-        /**
-         * @var PageContent $content
-         */
-        $content = $this->serializer->normalize($page, null, [
-            DateTimeNormalizer::FORMAT_KEY => 'U',
-            AbstractObjectNormalizer::SKIP_NULL_VALUES => true,
-            AbstractNormalizer::CALLBACKS => [
-                'blocks' => static fn (Collection $collection, PageInterface $object, string $attribute, ?string $format = null, array $context = []) => $collection->filter(static fn (BlockInterface $block) => !$block->hasParent())->getValues(),
-                'parent' => static fn (?PageInterface $page, PageInterface $object, string $attribute, ?string $format = null, array $context = []) => $page?->getId(),
-            ],
-        ]);
+        if (null !== $this->serializer) {
+            /**
+             * @var PageContent $content
+             */
+            $content = $this->serializer->normalize($page, null, [
+                DateTimeNormalizer::FORMAT_KEY => 'U',
+                AbstractObjectNormalizer::SKIP_NULL_VALUES => true,
+                AbstractNormalizer::CALLBACKS => [
+                    'blocks' => static fn (Collection $collection, PageInterface $object, string $attribute, ?string $format = null, array $context = []) => $collection->filter(static fn (BlockInterface $block) => !$block->hasParent())->getValues(),
+                    'parent' => static fn (?PageInterface $page, PageInterface $object, string $attribute, ?string $format = null, array $context = []) => $page?->getId(),
+                ],
+            ]);
+        } else {
+            $blocks = [];
+            foreach ($page->getBlocks() as $block) {
+                if (null !== $block->getParent()) { // ignore block with a parent => must be a child of a main
+                    continue;
+                }
+
+                $blocks[] = $this->createBlock($block);
+            }
+
+            $createdAt = $page->getCreatedAt();
+            $updatedAt = $page->getUpdatedAt();
+            $parent = $page->getParent();
+
+            $data = [
+                'id' => $page->getId(),
+                'name' => $page->getName(),
+                'javascript' => $page->getJavascript(),
+                'stylesheet' => $page->getStylesheet(),
+                'raw_headers' => $page->getRawHeaders(),
+                'title' => $page->getTitle(),
+                'meta_description' => $page->getMetaDescription(),
+                'meta_keyword' => $page->getMetaKeyword(),
+                'template_code' => $page->getTemplateCode(),
+                'request_method' => $page->getRequestMethod(),
+                'created_at' => $createdAt?->format('U'),
+                'updated_at' => $updatedAt?->format('U'),
+                'slug' => $page->getSlug(),
+                'parent_id' => $parent?->getId(),
+                'blocks' => $blocks,
+            ];
+            // need to filter out null values
+
+            /**
+             * @var PageContent $content
+             */
+            $content = array_filter($data, static fn ($v) => null !== $v);
+        }
 
         $snapshot->setContent($content);
 
@@ -118,11 +157,34 @@ final class Transformer implements TransformerInterface
 
         $pageClass = $this->pageManager->getClass();
 
-        $this->serializer->denormalize($content, $pageClass, null, [
-            DateTimeNormalizer::FORMAT_KEY => 'U',
-            AbstractNormalizer::OBJECT_TO_POPULATE => $page,
-            AbstractNormalizer::CALLBACKS => $this->getDenormalizeCallbacks(),
-        ]);
+        if (null !== $this->serializer) {
+            $this->serializer->denormalize($content, $pageClass, null, [
+                DateTimeNormalizer::FORMAT_KEY => 'U',
+                AbstractNormalizer::OBJECT_TO_POPULATE => $page,
+                AbstractNormalizer::CALLBACKS => $this->getDenormalizeCallbacks(),
+            ]);
+        } elseif (null !== $content) {
+            $page->setId($content['id']);
+            $page->setJavascript($content['javascript'] ?? null);
+            $page->setStylesheet($content['stylesheet'] ?? null);
+            $page->setRawHeaders($content['raw_headers'] ?? null);
+            $page->setTitle($content['title'] ?? null);
+            $page->setMetaDescription($content['meta_description'] ?? null);
+            $page->setMetaKeyword($content['meta_keyword'] ?? null);
+
+            $page->setName($content['name'] ?? null);
+            $page->setSlug($content['slug'] ?? null);
+            $page->setTemplateCode($content['template_code'] ?? null);
+            $page->setRequestMethod($content['request_method'] ?? null);
+
+            $createdAt = new \DateTime();
+            $createdAt->setTimestamp((int) $content['created_at']);
+            $page->setCreatedAt($createdAt);
+
+            $updatedAt = new \DateTime();
+            $updatedAt->setTimestamp((int) $content['updated_at']);
+            $page->setUpdatedAt($updatedAt);
+        }
 
         return $page;
     }
@@ -135,11 +197,49 @@ final class Transformer implements TransformerInterface
 
         $blockClass = $this->blockManager->getClass();
 
-        $this->serializer->denormalize($content, $blockClass, null, [
-            DateTimeNormalizer::FORMAT_KEY => 'U',
-            AbstractNormalizer::OBJECT_TO_POPULATE => $block,
-            AbstractNormalizer::CALLBACKS => $this->getDenormalizeCallbacks(),
-        ]);
+        if (null !== $this->serializer) {
+            $this->serializer->denormalize($content, $blockClass, null, [
+                DateTimeNormalizer::FORMAT_KEY => 'U',
+                AbstractNormalizer::OBJECT_TO_POPULATE => $block,
+                AbstractNormalizer::CALLBACKS => $this->getDenormalizeCallbacks(),
+            ]);
+        } else {
+            if (isset($content['id'])) {
+                $block->setId($content['id']);
+            }
+
+            if (isset($content['name'])) {
+                $block->setName($content['name']);
+            }
+
+            // NEXT_MAJOR: Simplify this code by removing the in_array function and assign directly.
+            $block->setEnabled(\in_array($content['enabled'], ['1', true], true));
+
+            if (isset($content['position']) && is_numeric($content['position'])) {
+                $block->setPosition((int) $content['position']);
+            }
+
+            $block->setSettings($content['settings']);
+
+            if (isset($content['type'])) {
+                $block->setType($content['type']);
+            }
+
+            $createdAt = new \DateTime();
+            $createdAt->setTimestamp((int) $content['created_at']);
+            $block->setCreatedAt($createdAt);
+
+            $updatedAt = new \DateTime();
+            $updatedAt->setTimestamp((int) $content['updated_at']);
+            $block->setUpdatedAt($updatedAt);
+
+            /**
+             * @phpstan-var BlockContent $child
+             */
+            foreach ($content['blocks'] as $child) {
+                $block->addChild($this->loadBlock($child, $page));
+            }
+        }
 
         return $block;
     }
@@ -204,5 +304,34 @@ final class Transformer implements TransformerInterface
         }
 
         return $result;
+    }
+
+    /**
+     * @return array<string, mixed>
+     *
+     * @phpstan-return BlockContent
+     */
+    private function createBlock(BlockInterface $block): array
+    {
+        $childBlocks = [];
+
+        foreach ($block->getChildren() as $child) {
+            $childBlocks[] = $this->createBlock($child);
+        }
+
+        $createdAt = $block->getCreatedAt();
+        $updatedAt = $block->getUpdatedAt();
+
+        return [
+            'id' => $block->getId(),
+            'name' => $block->getName(),
+            'enabled' => $block->getEnabled(),
+            'position' => $block->getPosition(),
+            'settings' => $block->getSettings(),
+            'type' => $block->getType(),
+            'created_at' => $createdAt?->format('U'),
+            'updated_at' => $updatedAt?->format('U'),
+            'blocks' => $childBlocks,
+        ];
     }
 }
