@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Serializer;
 
-use Sonata\Doctrine\Model\ManagerInterface;
-use Sonata\PageBundle\Model\PageBlockInterface;
 use Symfony\Component\PropertyInfo\PropertyTypeExtractorInterface;
 use Symfony\Component\PropertyInfo\Type;
 
