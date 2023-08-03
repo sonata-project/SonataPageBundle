@@ -61,7 +61,7 @@ abstract class TransformerTest extends TestCase
         $this->blockManager->method('create')->willReturnCallback(static fn () => new SonataPageBlock());
         $this->blockManager->method('getClass')->willReturn(SonataPageBlock::class);
 
-        $this->setUpTransformer();
+        $this->transformer = $this->setUpTransformer();
     }
 
     public function testAssertExceptionCreateOnPageWithoutSite(): void
@@ -274,7 +274,7 @@ abstract class TransformerTest extends TestCase
         ]];
     }
 
-    abstract protected function setUpTransformer(): void;
+    abstract protected function setUpTransformer(): TransformerInterface;
 
     /**
      * @phpstan-return PageContent

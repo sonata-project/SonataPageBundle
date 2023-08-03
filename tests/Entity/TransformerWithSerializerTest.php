@@ -15,6 +15,7 @@ namespace Sonata\PageBundle\Tests\Entity;
 
 use Doctrine\Persistence\ManagerRegistry;
 use Sonata\PageBundle\Entity\Transformer;
+use Sonata\PageBundle\Model\TransformerInterface;
 use Sonata\PageBundle\Serializer\BlockTypeExtractor;
 use Sonata\PageBundle\Serializer\InterfaceTypeExtractor;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
@@ -31,7 +32,7 @@ use Symfony\Component\Serializer\Serializer;
 
 final class TransformerWithSerializerTest extends TransformerTest
 {
-    protected function setUpTransformer(): void
+    protected function setUpTransformer(): TransformerInterface
     {
         $registry = $this->createMock(ManagerRegistry::class);
 
@@ -62,7 +63,7 @@ final class TransformerWithSerializerTest extends TransformerTest
         ];
         $serializer = new Serializer($normalizers, $encoders);
 
-        $this->transformer = new Transformer(
+        return new Transformer(
             $this->snapshotManager,
             $this->pageManager,
             $this->blockManager,

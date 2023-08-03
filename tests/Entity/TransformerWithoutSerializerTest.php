@@ -15,17 +15,18 @@ namespace Sonata\PageBundle\Tests\Entity;
 
 use Doctrine\Persistence\ManagerRegistry;
 use Sonata\PageBundle\Entity\Transformer;
+use Sonata\PageBundle\Model\TransformerInterface;
 
 /**
  * @group legacy
  */
 final class TransformerWithoutSerializerTest extends TransformerTest
 {
-    protected function setUpTransformer(): void
+    protected function setUpTransformer(): TransformerInterface
     {
         $registry = $this->createMock(ManagerRegistry::class);
 
-        $this->transformer = new Transformer(
+        return new Transformer(
             $this->snapshotManager,
             $this->pageManager,
             $this->blockManager,
