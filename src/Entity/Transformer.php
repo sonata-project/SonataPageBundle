@@ -61,8 +61,7 @@ final class Transformer implements TransformerInterface
         if (null === $this->serializer) {
             @trigger_error(sprintf(
                 'Not passing an instance of %s as 5th parameter is deprecated since version 4.x and will be removed in 5.0.',
-                SerializerInterface::class,
-                __METHOD__
+                SerializerInterface::class
             ), \E_USER_DEPRECATED);
         }
     }
