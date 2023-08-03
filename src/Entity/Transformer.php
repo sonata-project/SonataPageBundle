@@ -57,6 +57,14 @@ final class Transformer implements TransformerInterface
         private ManagerRegistry $registry,
         private ?SerializerInterface $serializer = null
     ) {
+        // NEXT_MAJOR: Remove null support
+        if (null === $this->serializer) {
+            @trigger_error(sprintf(
+                'Not passing an instance of %s as 5th parameter is deprecated since version 4.x and will be removed in 5.0.',
+                SerializerInterface::class,
+                __METHOD__
+            ), \E_USER_DEPRECATED);
+        }
     }
 
     public function create(PageInterface $page, ?SnapshotInterface $snapshot = null): SnapshotInterface
@@ -84,6 +92,7 @@ final class Transformer implements TransformerInterface
             $snapshot->setParentId($parent->getId());
         }
 
+        // NEXT_MAJOR: Remove null support
         if (null !== $this->serializer) {
             /**
              * @var PageContent $content
@@ -157,6 +166,7 @@ final class Transformer implements TransformerInterface
 
         $pageClass = $this->pageManager->getClass();
 
+        // NEXT_MAJOR: Remove null support
         if (null !== $this->serializer) {
             $this->serializer->denormalize($content, $pageClass, null, [
                 DateTimeNormalizer::FORMAT_KEY => 'U',
@@ -197,6 +207,7 @@ final class Transformer implements TransformerInterface
 
         $blockClass = $this->blockManager->getClass();
 
+        // NEXT_MAJOR: Remove null support
         if (null !== $this->serializer) {
             $this->serializer->denormalize($content, $blockClass, null, [
                 DateTimeNormalizer::FORMAT_KEY => 'U',

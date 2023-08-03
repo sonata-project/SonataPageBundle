@@ -29,7 +29,7 @@ use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
-class TransformerWithSerializerTest extends TransformerTest
+final class TransformerWithSerializerTest extends TransformerTest
 {
     protected function setUpTransformer(): void
     {
