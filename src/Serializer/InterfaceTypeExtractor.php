@@ -21,7 +21,7 @@ use Symfony\Component\PropertyInfo\Type;
 final class InterfaceTypeExtractor implements PropertyTypeExtractorInterface
 {
     /**
-     * @param class-string<PageInterface> $pageClass
+     * @param class-string<PageInterface>  $pageClass
      * @param class-string<BlockInterface> $blockClass
      */
     public function __construct(
