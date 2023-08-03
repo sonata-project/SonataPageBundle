@@ -29,7 +29,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
  * @phpstan-import-type PageContent from TransformerInterface
  * @phpstan-import-type BlockContent from TransformerInterface
  */
-final class FTransformerTest extends KernelTestCase
+final class TransformerTest extends KernelTestCase
 {
     private EntityManagerInterface $entityManager;
 
