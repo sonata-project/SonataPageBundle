@@ -13,14 +13,16 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Serializer;
 
+use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\PageBundle\Model\PageInterface;
 use Symfony\Component\PropertyInfo\PropertyTypeExtractorInterface;
 use Symfony\Component\PropertyInfo\Type;
 
 final class InterfaceTypeExtractor implements PropertyTypeExtractorInterface
 {
     /**
-     * @param class-string $pageClass
-     * @param class-string $blockClass
+     * @param class-string<PageInterface> $pageClass
+     * @param class-string<BlockInterface> $blockClass
      */
     public function __construct(
         private string $pageClass,
