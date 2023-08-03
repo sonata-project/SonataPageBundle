@@ -13,11 +13,9 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Entity;
 
-use Doctrine\Persistence\ManagerRegistry;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sonata\Doctrine\Model\ManagerInterface;
-use Sonata\PageBundle\Entity\Transformer;
 use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
@@ -31,7 +29,7 @@ use Sonata\PageBundle\Tests\App\Entity\SonataPageSnapshot;
  * @phpstan-import-type PageContent from TransformerInterface
  * @phpstan-import-type BlockContent from TransformerInterface
  */
-class TransformerTest extends TestCase
+abstract class TransformerTest extends TestCase
 {
     /**
      * @var MockObject&SnapshotManagerInterface
@@ -276,17 +274,7 @@ class TransformerTest extends TestCase
         ]];
     }
 
-    protected function setUpTransformer(): void
-    {
-        $registry = $this->createMock(ManagerRegistry::class);
-
-        $this->transformer = new Transformer(
-            $this->snapshotManager,
-            $this->pageManager,
-            $this->blockManager,
-            $registry
-        );
-    }
+    abstract protected function setUpTransformer(): void;
 
     /**
      * @phpstan-return PageContent
