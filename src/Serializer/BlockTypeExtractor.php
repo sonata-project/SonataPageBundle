@@ -26,10 +26,10 @@ final class BlockTypeExtractor implements PropertyTypeExtractorInterface
     ];
 
     /**
-     * @param ManagerInterface<PageBlockInterface> $blockManager
+     * @param class-string $blockClass
      */
     public function __construct(
-        private ManagerInterface $blockManager
+        private string $blockClass
     ) {
     }
 
@@ -40,7 +40,7 @@ final class BlockTypeExtractor implements PropertyTypeExtractorInterface
      */
     public function getTypes(string $class, string $property, array $context = []): ?array
     {
-        if ($class !== $this->blockManager->getClass()) {
+        if ($class !== $this->blockClass) {
             return null;
         }
         if ('position' === $property) {

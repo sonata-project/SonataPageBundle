@@ -45,10 +45,10 @@ final class TransformerWithSerializerTest extends TransformerTest
         $nameConverter = new MetadataAwareNameConverter($classMetadataFactory);
 
         $extractor = new PropertyInfoExtractor([], [
-            new BlockTypeExtractor($this->blockManager),
+            new BlockTypeExtractor($this->blockManager->getClass()),
             new InterfaceTypeExtractor(
-                $this->pageManager,
-                $this->blockManager,
+                $this->pageManager->getClass(),
+                $this->blockManager->getClass(),
             ),
             new ReflectionExtractor(),
         ]);

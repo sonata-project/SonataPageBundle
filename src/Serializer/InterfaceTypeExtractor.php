@@ -22,11 +22,12 @@ use Symfony\Component\PropertyInfo\Type;
 final class InterfaceTypeExtractor implements PropertyTypeExtractorInterface
 {
     /**
-     * @param ManagerInterface<PageBlockInterface> $blockManager
+     * @param class-string $pageClass
+     * @param class-string $blockClass
      */
     public function __construct(
-        private PageManagerInterface $pageManager,
-        private ManagerInterface $blockManager
+        private string $pageClass,
+        private string $blockClass
     ) {
     }
 
@@ -37,7 +38,7 @@ final class InterfaceTypeExtractor implements PropertyTypeExtractorInterface
      */
     public function getTypes(string $class, string $property, array $context = []): ?array
     {
-        if ($this->pageManager->getClass() === $class) {
+        if ($this->pageClass === $class) {
             if ('children' === $property) {
                 return [new Type(
                     Type::BUILTIN_TYPE_OBJECT,
@@ -59,7 +60,7 @@ final class InterfaceTypeExtractor implements PropertyTypeExtractorInterface
             } elseif ('parent' === $property) {
                 return [$this->getPageType()];
             }
-        } elseif ($this->blockManager->getClass() === $class) {
+        } elseif ($this->blockClass === $class) {
             if ('children' === $property) {
                 return [new Type(
                     Type::BUILTIN_TYPE_OBJECT,
@@ -77,11 +78,11 @@ final class InterfaceTypeExtractor implements PropertyTypeExtractorInterface
 
     private function getPageType(): Type
     {
-        return new Type(Type::BUILTIN_TYPE_OBJECT, false, $this->pageManager->getClass());
+        return new Type(Type::BUILTIN_TYPE_OBJECT, false, $this->pageClass);
     }
 
     private function getBlockType(): Type
     {
-        return new Type(Type::BUILTIN_TYPE_OBJECT, false, $this->blockManager->getClass());
+        return new Type(Type::BUILTIN_TYPE_OBJECT, false, $this->blockClass);
     }
 }

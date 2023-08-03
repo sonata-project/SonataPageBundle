@@ -85,19 +85,20 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 service('doctrine'),
                 service('serializer'),
             ])
+
         ->set('sonata.page.block_type_extractor', BlockTypeExtractor::class)
             ->public()
             ->tag('property_info.type_extractor')
             ->args([
-                service('sonata.page.manager.block'),
+                param('sonata.page.block.class'),
             ])
 
         ->set('sonata.page.interface_type_extractor', InterfaceTypeExtractor::class)
             ->public()
             ->tag('property_info.type_extractor')
             ->args([
-                service('sonata.page.manager.page'),
-                service('sonata.page.manager.block'),
+                param('sonata.page.page.class'),
+                param('sonata.page.block.class'),
             ])
 
         ->alias(PageManagerInterface::class, 'sonata.page.manager.page')
