@@ -17,6 +17,11 @@ use Doctrine\Common\Collections\Collection;
 
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * NEXT_MAJOR: add these methods
+ *
+ * @method removeChild(PageInterface $child)
+ * @method removeBlock(PageBlockInterface $block)
  */
 interface PageInterface extends \Stringable
 {
@@ -113,7 +118,10 @@ interface PageInterface extends \Stringable
 
     public function addChild(self $child): void;
 
-    public function removeChild(self $child): void;
+    /**
+     * NEXT_MAJOR uncomment this.
+     */
+    // public function removeChild(self $child): void;
 
     /**
      * @return Collection<array-key, PageBlockInterface>
@@ -122,7 +130,10 @@ interface PageInterface extends \Stringable
 
     public function addBlock(PageBlockInterface $block): void;
 
-    public function removeBlock(PageBlockInterface $block): void;
+    /**
+     * NEXT_MAJOR uncomment this.
+     */
+    // public function removeBlock(PageBlockInterface $block): void;
 
     public function getContainerByCode(string $code): ?PageBlockInterface;
 

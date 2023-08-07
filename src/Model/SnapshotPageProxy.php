@@ -258,7 +258,10 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
 
     public function removeChild(PageInterface $child): void
     {
-        $this->getPage()->removeChild($child);
+        // NEXT_MAJOR remove check
+        if (method_exists($this->getPage(), 'removeChild')) {
+            $this->getPage()->removeChild($child);
+        }
     }
 
     public function getBlocks(): Collection
@@ -286,7 +289,10 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
 
     public function removeBlock(PageBlockInterface $block): void
     {
-        $this->getPage()->removeBlock($block);
+        // NEXT_MAJOR remove check
+        if (method_exists($this->getPage(), 'removeBlock')) {
+            $this->getPage()->removeBlock($block);
+        }
     }
 
     public function getContainerByCode(string $code): ?PageBlockInterface
