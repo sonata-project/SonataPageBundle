@@ -91,8 +91,8 @@ final class Transformer implements TransformerInterface
             $snapshot->setParentId($parent->getId());
         }
 
-        // NEXT_MAJOR: Remove null support
-        if (null !== $this->serializer) {
+        // NEXT_MAJOR: Remove null support and method check
+        if (null !== $this->serializer && method_exists($page, 'removeChild') && method_exists($page, 'removeBlock')) {
             /**
              * @var PageContent $content
              */
@@ -105,6 +105,13 @@ final class Transformer implements TransformerInterface
                 ],
             ]);
         } else {
+            if (!method_exists($page, 'removeChild')) {
+                trigger_error('Not implementing a `PageInterface::removeChild` method is deprecated since 4.x and will throw an error in 5.0.', \E_USER_DEPRECATED);
+            }
+            if (!method_exists($page, 'removeBlock')) {
+                trigger_error('Not implementing a `PageInterface::removeBlock` method is deprecated since 4.x and will throw an error in 5.0.', \E_USER_DEPRECATED);
+            }
+
             $blocks = [];
             foreach ($page->getBlocks() as $block) {
                 if (null !== $block->getParent()) { // ignore block with a parent => must be a child of a main
@@ -165,14 +172,20 @@ final class Transformer implements TransformerInterface
 
         $pageClass = $this->pageManager->getClass();
 
-        // NEXT_MAJOR: Remove null support
-        if (null !== $this->serializer) {
+        // NEXT_MAJOR: Remove null support and method check
+        if (null !== $this->serializer && method_exists($page, 'removeChild') && method_exists($page, 'removeBlock')) {
             $this->serializer->denormalize($content, $pageClass, null, [
                 DateTimeNormalizer::FORMAT_KEY => 'U',
                 AbstractNormalizer::OBJECT_TO_POPULATE => $page,
                 AbstractNormalizer::CALLBACKS => $this->getDenormalizeCallbacks(),
             ]);
         } elseif (null !== $content) {
+            if (!method_exists($page, 'removeChild')) {
+                trigger_error('Not implementing a `PageInterface::removeChild` method is deprecated since 4.x and will throw an error in 5.0.', \E_USER_DEPRECATED);
+            }
+            if (!method_exists($page, 'removeBlock')) {
+                trigger_error('Not implementing a `PageInterface::removeBlock` method is deprecated since 4.x and will throw an error in 5.0.', \E_USER_DEPRECATED);
+            }
             $page->setId($content['id']);
             $page->setJavascript($content['javascript'] ?? null);
             $page->setStylesheet($content['stylesheet'] ?? null);
@@ -206,14 +219,20 @@ final class Transformer implements TransformerInterface
 
         $blockClass = $this->blockManager->getClass();
 
-        // NEXT_MAJOR: Remove null support
-        if (null !== $this->serializer) {
+        // NEXT_MAJOR: Remove null support and method check
+        if (null !== $this->serializer && method_exists($page, 'removeChild') && method_exists($page, 'removeBlock')) {
             $this->serializer->denormalize($content, $blockClass, null, [
                 DateTimeNormalizer::FORMAT_KEY => 'U',
                 AbstractNormalizer::OBJECT_TO_POPULATE => $block,
                 AbstractNormalizer::CALLBACKS => $this->getDenormalizeCallbacks(),
             ]);
         } else {
+            if (!method_exists($page, 'removeChild')) {
+                trigger_error('Not implementing a `PageInterface::removeChild` method is deprecated since 4.x and will throw an error in 5.0.', \E_USER_DEPRECATED);
+            }
+            if (!method_exists($page, 'removeBlock')) {
+                trigger_error('Not implementing a `PageInterface::removeBlock` method is deprecated since 4.x and will throw an error in 5.0.', \E_USER_DEPRECATED);
+            }
             if (isset($content['id'])) {
                 $block->setId($content['id']);
             }
