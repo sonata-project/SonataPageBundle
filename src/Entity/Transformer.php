@@ -92,6 +92,7 @@ final class Transformer implements TransformerInterface
         }
 
         // NEXT_MAJOR: Remove null support and method check
+        // @phpstan-ignore-next-line
         if (null !== $this->serializer && method_exists($page, 'removeChild') && method_exists($page, 'removeBlock')) {
             /**
              * @var PageContent $content
@@ -105,9 +106,11 @@ final class Transformer implements TransformerInterface
                 ],
             ]);
         } else {
+            // @phpstan-ignore-next-line
             if (!method_exists($page, 'removeChild')) {
                 @trigger_error('Not implementing a `PageInterface::removeChild` method is deprecated since 4.x and will throw an error in 5.0.', \E_USER_DEPRECATED);
             }
+            // @phpstan-ignore-next-line
             if (!method_exists($page, 'removeBlock')) {
                 @trigger_error('Not implementing a `PageInterface::removeBlock` method is deprecated since 4.x and will throw an error in 5.0.', \E_USER_DEPRECATED);
             }
@@ -173,6 +176,7 @@ final class Transformer implements TransformerInterface
         $pageClass = $this->pageManager->getClass();
 
         // NEXT_MAJOR: Remove null support and method check
+        // @phpstan-ignore-next-line
         if (null !== $this->serializer && method_exists($page, 'removeChild') && method_exists($page, 'removeBlock')) {
             $this->serializer->denormalize($content, $pageClass, null, [
                 DateTimeNormalizer::FORMAT_KEY => 'U',
@@ -180,9 +184,11 @@ final class Transformer implements TransformerInterface
                 AbstractNormalizer::CALLBACKS => $this->getDenormalizeCallbacks(),
             ]);
         } elseif (null !== $content) {
+            // @phpstan-ignore-next-line
             if (!method_exists($page, 'removeChild')) {
                 @trigger_error('Not implementing a `PageInterface::removeChild` method is deprecated since 4.x and will throw an error in 5.0.', \E_USER_DEPRECATED);
             }
+            // @phpstan-ignore-next-line
             if (!method_exists($page, 'removeBlock')) {
                 @trigger_error('Not implementing a `PageInterface::removeBlock` method is deprecated since 4.x and will throw an error in 5.0.', \E_USER_DEPRECATED);
             }
@@ -220,6 +226,7 @@ final class Transformer implements TransformerInterface
         $blockClass = $this->blockManager->getClass();
 
         // NEXT_MAJOR: Remove null support and method check
+        // @phpstan-ignore-next-line
         if (null !== $this->serializer && method_exists($page, 'removeChild') && method_exists($page, 'removeBlock')) {
             $this->serializer->denormalize($content, $blockClass, null, [
                 DateTimeNormalizer::FORMAT_KEY => 'U',
@@ -227,9 +234,11 @@ final class Transformer implements TransformerInterface
                 AbstractNormalizer::CALLBACKS => $this->getDenormalizeCallbacks(),
             ]);
         } else {
+            // @phpstan-ignore-next-line
             if (!method_exists($page, 'removeChild')) {
                 @trigger_error('Not implementing a `PageInterface::removeChild` method is deprecated since 4.x and will throw an error in 5.0.', \E_USER_DEPRECATED);
             }
+            // @phpstan-ignore-next-line
             if (!method_exists($page, 'removeBlock')) {
                 @trigger_error('Not implementing a `PageInterface::removeBlock` method is deprecated since 4.x and will throw an error in 5.0.', \E_USER_DEPRECATED);
             }
