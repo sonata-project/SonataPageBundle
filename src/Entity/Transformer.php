@@ -106,10 +106,10 @@ final class Transformer implements TransformerInterface
             ]);
         } else {
             if (!method_exists($page, 'removeChild')) {
-                trigger_error('Not implementing a `PageInterface::removeChild` method is deprecated since 4.x and will throw an error in 5.0.', \E_USER_DEPRECATED);
+                @trigger_error('Not implementing a `PageInterface::removeChild` method is deprecated since 4.x and will throw an error in 5.0.', \E_USER_DEPRECATED);
             }
             if (!method_exists($page, 'removeBlock')) {
-                trigger_error('Not implementing a `PageInterface::removeBlock` method is deprecated since 4.x and will throw an error in 5.0.', \E_USER_DEPRECATED);
+                @trigger_error('Not implementing a `PageInterface::removeBlock` method is deprecated since 4.x and will throw an error in 5.0.', \E_USER_DEPRECATED);
             }
 
             $blocks = [];
@@ -181,10 +181,10 @@ final class Transformer implements TransformerInterface
             ]);
         } elseif (null !== $content) {
             if (!method_exists($page, 'removeChild')) {
-                trigger_error('Not implementing a `PageInterface::removeChild` method is deprecated since 4.x and will throw an error in 5.0.', \E_USER_DEPRECATED);
+                @trigger_error('Not implementing a `PageInterface::removeChild` method is deprecated since 4.x and will throw an error in 5.0.', \E_USER_DEPRECATED);
             }
             if (!method_exists($page, 'removeBlock')) {
-                trigger_error('Not implementing a `PageInterface::removeBlock` method is deprecated since 4.x and will throw an error in 5.0.', \E_USER_DEPRECATED);
+                @trigger_error('Not implementing a `PageInterface::removeBlock` method is deprecated since 4.x and will throw an error in 5.0.', \E_USER_DEPRECATED);
             }
             $page->setId($content['id']);
             $page->setJavascript($content['javascript'] ?? null);
@@ -228,10 +228,10 @@ final class Transformer implements TransformerInterface
             ]);
         } else {
             if (!method_exists($page, 'removeChild')) {
-                trigger_error('Not implementing a `PageInterface::removeChild` method is deprecated since 4.x and will throw an error in 5.0.', \E_USER_DEPRECATED);
+                @trigger_error('Not implementing a `PageInterface::removeChild` method is deprecated since 4.x and will throw an error in 5.0.', \E_USER_DEPRECATED);
             }
             if (!method_exists($page, 'removeBlock')) {
-                trigger_error('Not implementing a `PageInterface::removeBlock` method is deprecated since 4.x and will throw an error in 5.0.', \E_USER_DEPRECATED);
+                @trigger_error('Not implementing a `PageInterface::removeBlock` method is deprecated since 4.x and will throw an error in 5.0.', \E_USER_DEPRECATED);
             }
             if (isset($content['id'])) {
                 $block->setId($content['id']);
