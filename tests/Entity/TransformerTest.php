@@ -13,11 +13,9 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Entity;
 
-use Doctrine\Persistence\ManagerRegistry;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sonata\Doctrine\Model\ManagerInterface;
-use Sonata\PageBundle\Entity\Transformer;
 use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
@@ -31,24 +29,24 @@ use Sonata\PageBundle\Tests\App\Entity\SonataPageSnapshot;
  * @phpstan-import-type PageContent from TransformerInterface
  * @phpstan-import-type BlockContent from TransformerInterface
  */
-final class TransformerTest extends TestCase
+abstract class TransformerTest extends TestCase
 {
     /**
      * @var MockObject&SnapshotManagerInterface
      */
-    private SnapshotManagerInterface $snapshotManager;
+    protected SnapshotManagerInterface $snapshotManager;
 
     /**
      * @var MockObject&PageManagerInterface
      */
-    private PageManagerInterface $pageManager;
+    protected PageManagerInterface $pageManager;
 
     /**
      * @var MockObject&ManagerInterface<PageBlockInterface>
      */
-    private ManagerInterface $blockManager;
+    protected ManagerInterface $blockManager;
 
-    private TransformerInterface $transformer;
+    protected TransformerInterface $transformer;
 
     protected function setUp(): void
     {
@@ -56,15 +54,14 @@ final class TransformerTest extends TestCase
         $this->snapshotManager = $this->createMock(SnapshotManagerInterface::class);
 
         $this->pageManager = $this->createMock(PageManagerInterface::class);
-        $this->blockManager = $this->createMock(ManagerInterface::class);
-        $registry = $this->createMock(ManagerRegistry::class);
+        $this->pageManager->method('createWithDefaults')->willReturn(new SonataPagePage());
+        $this->pageManager->method('getClass')->willReturn(SonataPagePage::class);
 
-        $this->transformer = new Transformer(
-            $this->snapshotManager,
-            $this->pageManager,
-            $this->blockManager,
-            $registry,
-        );
+        $this->blockManager = $this->createMock(ManagerInterface::class);
+        $this->blockManager->method('create')->willReturnCallback(static fn () => new SonataPageBlock());
+        $this->blockManager->method('getClass')->willReturn(SonataPageBlock::class);
+
+        $this->transformer = $this->setUpTransformer();
     }
 
     public function testAssertExceptionCreateOnPageWithoutSite(): void
@@ -179,6 +176,11 @@ final class TransformerTest extends TestCase
     {
         $datetime = new \DateTime();
 
+        /**
+         * @var numeric-string $dateTimeString
+         */
+        $dateTimeString = $datetime->format('U');
+
         // Normal block
         yield [[
             'id' => 1,
@@ -187,8 +189,8 @@ final class TransformerTest extends TestCase
             'position' => 0,
             'settings' => [],
             'type' => 'type',
-            'created_at' => (int) $datetime->format('U'),
-            'updated_at' => (int) $datetime->format('U'),
+            'created_at' => $dateTimeString,
+            'updated_at' => $dateTimeString,
             'blocks' => [[
                 'id' => 2,
                 'name' => 'block2',
@@ -196,8 +198,31 @@ final class TransformerTest extends TestCase
                 'position' => 1,
                 'settings' => [],
                 'type' => 'type',
-                'created_at' => (int) $datetime->format('U'),
-                'updated_at' => (int) $datetime->format('U'),
+                'created_at' => $dateTimeString,
+                'updated_at' => $dateTimeString,
+                'blocks' => [],
+            ]],
+        ]];
+
+        // Normal block but Int Datetime
+        yield [[
+            'id' => 2,
+            'name' => 'block1',
+            'enabled' => true,
+            'position' => 0,
+            'settings' => [],
+            'type' => 'type',
+            'created_at' => (int) $dateTimeString,
+            'updated_at' => (int) $dateTimeString,
+            'blocks' => [[
+                'id' => 2,
+                'name' => 'block2',
+                'enabled' => true,
+                'position' => 1,
+                'settings' => [],
+                'type' => 'type',
+                'created_at' => (int) $dateTimeString,
+                'updated_at' => (int) $dateTimeString,
                 'blocks' => [],
             ]],
         ]];
@@ -249,25 +274,25 @@ final class TransformerTest extends TestCase
         ]];
     }
 
+    abstract protected function setUpTransformer(): TransformerInterface;
+
     /**
      * @phpstan-return PageContent
      */
     private function getTestContent(\DateTimeInterface $datetime): array
     {
+        /**
+         * @var numeric-string $dateTimeString
+         */
+        $dateTimeString = $datetime->format('U');
+
         return [
             'id' => 'page_child',
             'name' => 'Page Child',
-            'javascript' => null,
-            'stylesheet' => null,
-            'raw_headers' => null,
             'title' => 'Page Child Title',
-            'meta_description' => null,
-            'meta_keyword' => null,
-            'template_code' => null,
             'request_method' => 'GET|POST|HEAD|DELETE|PUT',
-            'created_at' => (int) $datetime->format('U'),
-            'updated_at' => (int) $datetime->format('U'),
-            'slug' => null,
+            'created_at' => $dateTimeString,
+            'updated_at' => $dateTimeString,
             'parent_id' => 'page_parent',
             'blocks' => [
                 [
@@ -277,8 +302,8 @@ final class TransformerTest extends TestCase
                     'position' => 0,
                     'settings' => [],
                     'type' => 'type',
-                    'created_at' => (int) $datetime->format('U'),
-                    'updated_at' => (int) $datetime->format('U'),
+                    'created_at' => $dateTimeString,
+                    'updated_at' => $dateTimeString,
                     'blocks' => [
                         [
                             'id' => 'block234',
@@ -287,8 +312,8 @@ final class TransformerTest extends TestCase
                             'position' => 0,
                             'settings' => [],
                             'type' => 'type',
-                            'created_at' => (int) $datetime->format('U'),
-                            'updated_at' => (int) $datetime->format('U'),
+                            'created_at' => $dateTimeString,
+                            'updated_at' => $dateTimeString,
                             'blocks' => [],
                         ],
                     ],

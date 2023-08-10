@@ -25,6 +25,8 @@ use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Model\SnapshotPageProxy;
 use Sonata\PageBundle\Model\SnapshotPageProxyFactory;
+use Sonata\PageBundle\Serializer\BlockTypeExtractor;
+use Sonata\PageBundle\Serializer\InterfaceTypeExtractor;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->services()
@@ -81,6 +83,22 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 service('sonata.page.manager.page'),
                 service('sonata.page.manager.block'),
                 service('doctrine'),
+                service('serializer'),
+            ])
+
+        ->set('sonata.page.block_type_extractor', BlockTypeExtractor::class)
+            ->public()
+            ->tag('property_info.type_extractor')
+            ->args([
+                param('sonata.page.block.class'),
+            ])
+
+        ->set('sonata.page.interface_type_extractor', InterfaceTypeExtractor::class)
+            ->public()
+            ->tag('property_info.type_extractor')
+            ->args([
+                param('sonata.page.page.class'),
+                param('sonata.page.block.class'),
             ])
 
         ->alias(PageManagerInterface::class, 'sonata.page.manager.page')

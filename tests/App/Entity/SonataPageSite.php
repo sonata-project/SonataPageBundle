@@ -38,4 +38,9 @@ class SonataPageSite extends BaseSite
     {
         parent::preUpdate();
     }
+
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
 }
