@@ -289,6 +289,11 @@ abstract class Page implements PageInterface
         $child->setParent($this);
     }
 
+    public function removeChild(PageInterface $child): void
+    {
+        $this->children->removeElement($child);
+    }
+
     public function getBlocks(): Collection
     {
         return $this->blocks;
@@ -299,6 +304,12 @@ abstract class Page implements PageInterface
         $block->setPage($this);
 
         $this->blocks[] = $block;
+    }
+
+    public function removeBlock(PageBlockInterface $block): void
+    {
+        $this->blocks->removeElement($block);
+        $block->setPage();
     }
 
     public function getContainerByCode(string $code): ?PageBlockInterface
