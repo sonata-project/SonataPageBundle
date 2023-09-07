@@ -2,6 +2,15 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.6.0](https://github.com/sonata-project/SonataPageBundle/compare/4.5.0...4.6.0) - 2023-09-07
+### Changed
+- [[#1522](https://github.com/sonata-project/SonataPageBundle/pull/1522)] Uses Symfony Serializer to transform Page and Block Models into array for json ([@Hanmac](https://github.com/Hanmac))
+
+### Deprecated
+- [[#1522](https://github.com/sonata-project/SonataPageBundle/pull/1522)] Not implementing PageInterface::removeChild ([@Hanmac](https://github.com/Hanmac))
+- [[#1522](https://github.com/sonata-project/SonataPageBundle/pull/1522)] Not implementing PageInterface::removeBlock ([@Hanmac](https://github.com/Hanmac))
+- [[#1522](https://github.com/sonata-project/SonataPageBundle/pull/1522)] Not passing Serializer to Transformer as 5th argument ([@Hanmac](https://github.com/Hanmac))
+
 ## [4.5.0](https://github.com/sonata-project/SonataPageBundle/compare/4.4.0...4.5.0) - 2023-07-22
 ### Added
 - [[#1704](https://github.com/sonata-project/SonataPageBundle/pull/1704)] Some missing Italian translations ([@gremo](https://github.com/gremo))
