@@ -384,6 +384,7 @@ final class TransformerTest extends KernelTestCase
          * @var numeric-string $dateTimeString
          */
         $dateTimeString = $datetime->format('U');
+
         // for some reason, the order is different on the functional tests
         return [
             'id' => 123,
@@ -411,6 +412,7 @@ final class TransformerTest extends KernelTestCase
          * @var numeric-string $dateTimeString
          */
         $dateTimeString = $datetime->format('U');
+
         // for some reason, the order is different on the functional tests
         return [
             'id' => 123, // probably doctrine says the type must be int instead of also string
