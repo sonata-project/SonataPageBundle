@@ -57,7 +57,7 @@ final class BlockAdminTest extends WebTestCase
     }
 
     /**
-     * @dataProvider provideFormUrlsCases
+     * @dataProvider provideFormsUrlsCases
      *
      * @param array<string, mixed> $parameters
      * @param array<string, mixed> $fieldValues
@@ -80,7 +80,7 @@ final class BlockAdminTest extends WebTestCase
      *
      * @phpstan-return iterable<array{0: string, 1: array<string, mixed>, 2: string, 3?: array<string, mixed>}>
      */
-    public static function provideFormUrlsCases(): iterable
+    public static function provideFormsUrlsCases(): iterable
     {
         yield 'Create Block - Text' => ['/admin/tests/app/sonatapageblock/create', [
             'uniqid' => 'block',
@@ -98,7 +98,7 @@ final class BlockAdminTest extends WebTestCase
     }
 
     /**
-     * @dataProvider provideSwitchParentCases
+     * @dataProvider provideSwitchParentForBlockCases
      *
      * @param array{block_id?: int|string|null, parent_id?: int|string|null} $parameters
      */
@@ -122,7 +122,7 @@ final class BlockAdminTest extends WebTestCase
      *
      * @phpstan-return iterable<array{0: array{block_id?: int|string|null, parent_id?: int|string|null}, 1: bool}>
      */
-    public static function provideSwitchParentCases(): iterable
+    public static function provideSwitchParentForBlockCases(): iterable
     {
         yield 'Missing all parameters' => [[], false];
 
@@ -147,7 +147,7 @@ final class BlockAdminTest extends WebTestCase
     }
 
     /**
-     * @dataProvider provideDispositionCases
+     * @dataProvider provideSavePositionForBlockCases
      *
      * @param array{disposition?: array<array{id: int|string, position: int|numeric-string}>} $parameters
      */
@@ -177,7 +177,7 @@ final class BlockAdminTest extends WebTestCase
      *
      * @phpstan-return iterable<array{0: array{disposition?: array<array{id: int|string, position: int|numeric-string}>}, 1: bool}>
      */
-    public static function provideDispositionCases(): iterable
+    public static function provideSavePositionForBlockCases(): iterable
     {
         yield 'Missing disposition' => [[], false];
 

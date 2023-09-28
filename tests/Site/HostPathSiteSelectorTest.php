@@ -33,7 +33,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 final class HostPathSiteSelectorTest extends TestCase
 {
     /**
-     * @dataProvider siteProvider
+     * @dataProvider provideSiteCases
      */
     public function testSite(string $expectedName, string $url, string $expectedPath = '/'): void
     {
@@ -45,7 +45,10 @@ final class HostPathSiteSelectorTest extends TestCase
         static::assertSame($site->getLocale(), $event->getRequest()->attributes->get('_locale'));
     }
 
-    public function siteProvider(): \Generator
+    /**
+     * @return iterable<array{0: string, 1: string, 2?: string}>
+     */
+    public function provideSiteCases(): iterable
     {
         yield ['Site 0', 'http://www.example.com/test0'];
         yield ['Site 1', 'http://www.example.com/test1'];
@@ -59,7 +62,7 @@ final class HostPathSiteSelectorTest extends TestCase
     }
 
     /**
-     * @dataProvider siteWithRedirectProvider
+     * @dataProvider provideSiteWithRedirectCases
      */
     public function testSiteWithRedirect(string $expectedRedirectUri, string $url, string $path): void
     {
@@ -75,7 +78,10 @@ final class HostPathSiteSelectorTest extends TestCase
         static::assertNull($event->getRequest()->attributes->get('_locale'));
     }
 
-    public function siteWithRedirectProvider(): \Generator
+    /**
+     * @return iterable<array{string, string, string}>
+     */
+    public function provideSiteWithRedirectCases(): iterable
     {
         yield ['//www.example.com/test2', 'http://www.example.com/test5', '/test5'];
         yield ['//www.example.com/test2', 'http://www.example.com/test6', '/test6'];

@@ -22,7 +22,7 @@ use Symfony\Component\DependencyInjection\Reference;
 final class CmfRouterAutoRegisterTest extends AbstractCompilerPassTestCase
 {
     /**
-     * @dataProvider providerRoutedAutoRegister
+     * @dataProvider provideRouterAutoRegisterCases
      */
     public function testRouterAutoRegister(bool $enabled, int $priority): void
     {
@@ -56,14 +56,12 @@ final class CmfRouterAutoRegisterTest extends AbstractCompilerPassTestCase
     }
 
     /**
-     * @return array<string, array{bool, int}>
+     * @return iterable<string, array{bool, int}>
      */
-    public function providerRoutedAutoRegister(): array
+    public function provideRouterAutoRegisterCases(): iterable
     {
-        return [
-            'enabled router' => [true, 42],
-            'disabled router' => [false, 84],
-        ];
+        yield 'enabled router' => [true, 42];
+        yield 'disabled router' => [false, 84];
     }
 
     protected function registerCompilerPass(ContainerBuilder $container): void
