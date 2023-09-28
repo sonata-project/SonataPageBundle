@@ -73,7 +73,7 @@ final class PageTest extends WebTestCase
     }
 
     /**
-     * @dataProvider providePages
+     * @dataProvider providePageRenderCases
      *
      * @param array<string> $shouldContain
      * @param array<string> $shouldNotContain
@@ -106,7 +106,7 @@ final class PageTest extends WebTestCase
      *
      * @phpstan-return iterable<array{0: PageInterface, 1: string, 2: int, 3: array<string>, 4: array<string>}>
      */
-    public static function providePages(): iterable
+    public static function providePageRenderCases(): iterable
     {
         yield 'CMS Page' => [(static function () {
             $page = new SonataPagePage();

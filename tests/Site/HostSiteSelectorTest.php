@@ -31,7 +31,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 final class HostSiteSelectorTest extends TestCase
 {
     /**
-     * @dataProvider siteProvider
+     * @dataProvider provideSiteCases
      */
     public function testSite(string $expectedName, string $url): void
     {
@@ -40,7 +40,10 @@ final class HostSiteSelectorTest extends TestCase
         static::assertSame($expectedName, $site->getName());
     }
 
-    public function siteProvider(): \Generator
+    /**
+     * @return iterable<array{string, string}>
+     */
+    public function provideSiteCases(): iterable
     {
         yield ['Site 0', 'http://localhost'];
         yield ['Site 1', 'http://www.example1.com'];

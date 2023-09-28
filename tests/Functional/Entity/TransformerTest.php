@@ -108,9 +108,9 @@ final class TransformerTest extends KernelTestCase
     }
 
     /**
-     * @return array{\DateTime, ?int, array<string, mixed>}[]
+     * @return iterable<array{\DateTime, ?int, array<string, mixed>}>
      */
-    public function createProvider(): array
+    public function createProvider(): iterable
     {
         $datetime = new \DateTime();
 
@@ -125,19 +125,16 @@ final class TransformerTest extends KernelTestCase
             'include_homepage_link' => true,
             'context' => false,
         ];
-
-        return [
-            [$datetime, 0, []],
-            [$datetime, 0, $settings],
-            [$datetime, null, []],
-            [$datetime, null, $settings],
-        ];
+        yield [$datetime, 0, []];
+        yield [$datetime, 0, $settings];
+        yield [$datetime, null, []];
+        yield [$datetime, null, $settings];
     }
 
     /**
-     * @return array{\DateTime, int|string|null, array<string, mixed>}[]
+     * @return iterable<array{\DateTime, int|string|null, array<string, mixed>}>
      */
-    public function loadProvider(): array
+    public function loadProvider(): iterable
     {
         $datetime = new \DateTime();
 
@@ -152,17 +149,14 @@ final class TransformerTest extends KernelTestCase
             'include_homepage_link' => true,
             'context' => false,
         ];
-
-        return [
-            [$datetime, 0, []],
-            [$datetime, 0, $settings],
-            [$datetime, null, []],
-            [$datetime, null, $settings],
-            [$datetime, '0', []],
-            [$datetime, '0', $settings],
-            [$datetime, '', []],
-            [$datetime, '', $settings],
-        ];
+        yield [$datetime, 0, []];
+        yield [$datetime, 0, $settings];
+        yield [$datetime, null, []];
+        yield [$datetime, null, $settings];
+        yield [$datetime, '0', []];
+        yield [$datetime, '0', $settings];
+        yield [$datetime, '', []];
+        yield [$datetime, '', $settings];
     }
 
     /**

@@ -72,7 +72,7 @@ final class SnapshotTest extends WebTestCase
     }
 
     /**
-     * @dataProvider provideSnapshots
+     * @dataProvider provideSnapshotRenderCases
      *
      * @param array<string> $shouldContain
      * @param array<string> $shouldNotContain
@@ -107,7 +107,7 @@ final class SnapshotTest extends WebTestCase
      *
      * @phpstan-return iterable<array{0: PageInterface, 1: string, 2: int, 3: array<string>, 4: array<string>}>
      */
-    public static function provideSnapshots(): iterable
+    public static function provideSnapshotRenderCases(): iterable
     {
         yield 'CMS Snapshot' => [(static function () {
             $page = new SonataPagePage();
