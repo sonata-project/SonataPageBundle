@@ -43,7 +43,7 @@ final class CleanupSnapshotsCommandTest extends KernelTestCase
     }
 
     /**
-     * @dataProvider provideKeepSnapshotsCases
+     * @dataProvider provideDoCleanupsCases
      *
      * @param array{'--site'?: array<int>, '--keep-snapshots'?: int} $input
      */
@@ -65,7 +65,7 @@ final class CleanupSnapshotsCommandTest extends KernelTestCase
      *
      * @phpstan-return iterable<array{0: array{'--site'?: array<int>, '--keep-snapshots'?: int}, 1: int}>
      */
-    public static function provideKeepSnapshotsCases(): iterable
+    public static function provideDoCleanupsCases(): iterable
     {
         yield 'Keep no snapshots' => [[
             '--keep-snapshots' => 0,

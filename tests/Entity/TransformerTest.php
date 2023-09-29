@@ -154,7 +154,7 @@ abstract class TransformerTest extends TestCase
     }
 
     /**
-     * @dataProvider blockProvider
+     * @dataProvider provideLoadBlockCases
      *
      * @param array<string, mixed> $content
      *
@@ -172,7 +172,7 @@ abstract class TransformerTest extends TestCase
     /**
      * @phpstan-return iterable<array{BlockContent}>
      */
-    public function blockProvider(): iterable
+    public function provideLoadBlockCases(): iterable
     {
         $datetime = new \DateTime();
 

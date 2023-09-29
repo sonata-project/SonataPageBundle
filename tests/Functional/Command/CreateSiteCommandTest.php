@@ -33,7 +33,7 @@ final class CreateSiteCommandTest extends KernelTestCase
     }
 
     /**
-     * @dataProvider provideSiteCreationOptions
+     * @dataProvider provideCreateSiteCases
      *
      * @param array{
      *   '--no-confirmation'?: bool,
@@ -77,7 +77,7 @@ final class CreateSiteCommandTest extends KernelTestCase
      *   2: bool,
      * }>
      */
-    public static function provideSiteCreationOptions(): iterable
+    public static function provideCreateSiteCases(): iterable
     {
         yield 'Minimal interactive without confirmation' => [
             [],
