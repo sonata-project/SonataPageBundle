@@ -70,7 +70,7 @@ final class SonataPageExtension extends Extension implements PrependExtensionInt
         $loader->load('service.php');
         $loader->load('validators.php');
         $loader->load('command.php');
-        $loader->load('slugify.php');
+        $loader->load('slugify.php'); // NEXT_MAJOR: Remove this line.
 
         $this->configureMultisite($container, $config);
         $this->configureTemplates($container, $config);

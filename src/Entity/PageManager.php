@@ -13,12 +13,14 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Entity;
 
+use Cocur\Slugify\Slugify;
 use Cocur\Slugify\SlugifyInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Sonata\Doctrine\Entity\BaseEntityManager;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteInterface;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
  * @extends BaseEntityManager<PageInterface>
@@ -35,7 +37,7 @@ final class PageManager extends BaseEntityManager implements PageManagerInterfac
     public function __construct(
         string $class,
         ManagerRegistry $registry,
-        private SlugifyInterface $slugify,
+        private SlugifyInterface|SluggerInterface $slugger,
         private array $defaults = [],
         private array $pageDefaults = []
     ) {
@@ -79,38 +81,7 @@ final class PageManager extends BaseEntityManager implements PageManagerInterfac
             return;
         }
 
-        // hybrid page cannot be altered
-        if (!$page->isHybrid()) {
-            $parent = $page->getParent();
-
-            if (null !== $parent) {
-                $slug = $page->getSlug();
-
-                if (null === $slug) {
-                    $slug = $this->slugify->slugify($page->getName() ?? '');
-
-                    $page->setSlug($slug);
-                }
-
-                $parentUrl = $parent->getUrl();
-
-                if ('/' === $parentUrl) {
-                    $base = '/';
-                } elseif (!str_ends_with($parentUrl ?? '', '/')) {
-                    $base = $parentUrl.'/';
-                } else {
-                    $base = $parentUrl;
-                }
-
-                $url = $page->getCustomUrl() ?? $slug;
-                $page->setUrl('/'.ltrim($base.$url, '/'));
-            } else {
-                $page->setSlug(null);
-
-                $url = $page->getCustomUrl() ?? '';
-                $page->setUrl('/'.ltrim($url, '/'));
-            }
-        }
+        $this->handlePageUrl($page);
 
         foreach ($page->getChildren() as $child) {
             $this->fixUrl($child);
@@ -167,5 +138,56 @@ final class PageManager extends BaseEntityManager implements PageManagerInterfac
             ])
             ->getQuery()
             ->execute();
+    }
+
+    private function handlePageUrl(PageInterface $page): void
+    {
+        if ($page->isHybrid()) {
+            return;
+        }
+
+        $parent = $page->getParent();
+
+        if (null === $parent) {
+            $page->setSlug(null);
+
+            $url = $page->getCustomUrl() ?? '';
+            $page->setUrl('/'.ltrim($url, '/'));
+
+            return;
+        }
+
+        $slug = $page->getSlug();
+
+        // NEXT_MAJOR: Remove Slugify support
+        if (null === $slug && $this->slugger instanceof Slugify) {
+            @trigger_error(sprintf(
+                '%s is deprecated since version 4.8.0 and will be removed in 5.0, use %s instead of.',
+                Slugify::class,
+                SluggerInterface::class,
+            ), \E_USER_DEPRECATED);
+            $slug = $this->slugger->slugify($page->getName() ?? '');
+            $page->setSlug($slug);
+        }
+
+        if (null === $slug && $this->slugger instanceof SluggerInterface) {
+            $slug = $this->slugger
+                ->slug($page->getName() ?? '')
+                ->lower();
+            $page->setSlug(sprintf('%s', $slug));
+        }
+
+        $parentUrl = $parent->getUrl();
+
+        if ('/' === $parentUrl) {
+            $base = '/';
+        } elseif (!str_ends_with($parentUrl ?? '', '/')) {
+            $base = $parentUrl.'/';
+        } else {
+            $base = $parentUrl;
+        }
+
+        $url = $page->getCustomUrl() ?? $slug;
+        $page->setUrl('/'.ltrim($base.$url, '/'));
     }
 }

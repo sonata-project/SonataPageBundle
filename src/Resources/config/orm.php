@@ -27,6 +27,7 @@ use Sonata\PageBundle\Model\SnapshotPageProxy;
 use Sonata\PageBundle\Model\SnapshotPageProxyFactory;
 use Sonata\PageBundle\Serializer\BlockTypeExtractor;
 use Sonata\PageBundle\Serializer\InterfaceTypeExtractor;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->services()
@@ -42,7 +43,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             ->args([
                 param('sonata.page.page.class'),
                 service('doctrine'),
-                service('sonata.page.slugify.cocur'),
+                service(SluggerInterface::class),
                 abstract_arg('defaults'),
                 abstract_arg('page defaults'),
             ])

@@ -50,6 +50,7 @@
         "symfony/security-core": "^5.4 || ^6.2",
         "symfony/security-http": "^5.4 || ^6.2",
         "symfony/serializer": "^5.4.24 || ^6.2.11",
+        "symfony/string": "^5.4 || ^6.2",
         "symfony/validator": "^5.4 || ^6.2",
         "twig/string-extra": "^3.0",
         "twig/twig": "^3.0"
