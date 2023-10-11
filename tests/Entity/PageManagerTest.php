@@ -14,19 +14,37 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Entity;
 
 use Cocur\Slugify\Slugify;
+use Cocur\Slugify\SlugifyInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Entity\PageManager;
 use Sonata\PageBundle\Tests\Model\Page;
+use Symfony\Component\String\Slugger\AsciiSlugger;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
+#[IgnoreDeprecations] // NEXT_MAJOR: Remove this line.
 final class PageManagerTest extends TestCase
 {
-    public function testFixUrl(): void
+    /**
+     * NEXT_MAJOR: Remove this data provider and keep only "AsciiSlugger" in tests that is using it.
+     *
+     * @return iterable<array<SlugifyInterface|SluggerInterface>>
+     **/
+    public static function providerSlugs(): iterable
+    {
+        yield [new Slugify()];
+        yield [new AsciiSlugger()];
+    }
+
+    #[DataProvider('providerSlugs')]
+    public function testFixUrl(SlugifyInterface|SluggerInterface $slug): void
     {
         $manager = new PageManager(
             Page::class,
             static::createStub(ManagerRegistry::class),
-            new Slugify()
+            $slug,
         );
 
         $page1 = new Page();
@@ -65,12 +83,13 @@ final class PageManagerTest extends TestCase
         static::assertSame('/', $page1->getUrl());
     }
 
-    public function testWithSlashAtTheEnd(): void
+    #[DataProvider('providerSlugs')]
+    public function testWithSlashAtTheEnd(SlugifyInterface|SluggerInterface $slug): void
     {
         $manager = new PageManager(
             Page::class,
             $this->createMock(ManagerRegistry::class),
-            new Slugify()
+            $slug,
         );
 
         $homepage = new Page();
@@ -92,12 +111,13 @@ final class PageManagerTest extends TestCase
         static::assertSame('/bundles/foobar', $child->getUrl());
     }
 
-    public function testCreateWithGlobalDefaults(): void
+    #[DataProvider('providerSlugs')]
+    public function testCreateWithGlobalDefaults(SlugifyInterface|SluggerInterface $slug): void
     {
         $manager = new PageManager(
             Page::class,
             $this->createMock(ManagerRegistry::class),
-            new Slugify(),
+            $slug,
             [],
             ['my_route' => ['decorate' => false, 'name' => 'Salut!']]
         );

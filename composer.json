@@ -36,6 +36,7 @@
         "symfony/config": "^6.4 || ^7.1",
         "symfony/console": "^6.4 || ^7.1",
         "symfony/dependency-injection": "^6.4 || ^7.1",
+        "symfony/deprecation-contracts": "^3.0.0",
         "symfony/form": "^6.4 || ^7.1",
         "symfony/framework-bundle": "^6.4 || ^7.1",
         "symfony/http-foundation": "^6.4 || ^7.1",
@@ -50,6 +51,7 @@
         "symfony/security-core": "^6.4 || ^7.1",
         "symfony/security-http": "^6.4 || ^7.1",
         "symfony/serializer": "^6.4 || ^7.1",
+        "symfony/string": "^6.4 || ^7.1",
         "symfony/validator": "^6.4 || ^7.1",
         "twig/string-extra": "^3.0",
         "twig/twig": "^3.0"
