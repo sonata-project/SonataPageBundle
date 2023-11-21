@@ -101,10 +101,8 @@ final class BlockAdminController extends CRUDController
                 unset($blockServices[$code]);
             }
 
-            return $this->renderWithExtraParams('@SonataPage/BlockAdmin/select_type.html.twig', [
+            return $this->render('@SonataPage/BlockAdmin/select_type.html.twig', [
                 'blockServices' => $blockServices,
-                'base_template' => $this->getBaseTemplate(),
-                'admin' => $this->admin,
                 'action' => 'create',
             ]);
         }
@@ -171,7 +169,7 @@ final class BlockAdminController extends CRUDController
         \assert($blockManager instanceof BlockServiceManagerInterface);
         $blockService = $blockManager->get($existingObject);
 
-        return $this->renderWithExtraParams('@SonataPage/BlockAdmin/compose_preview.html.twig', [
+        return $this->render('@SonataPage/BlockAdmin/compose_preview.html.twig', [
             'container' => $container,
             'child' => $existingObject,
             'blockService' => $blockService,

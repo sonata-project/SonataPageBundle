@@ -73,7 +73,7 @@ final class SiteAdminController extends CRUDController
             return new RedirectResponse($this->admin->generateUrl('edit', ['id' => $object->getId()]));
         }
 
-        return $this->renderWithExtraParams('@SonataPage/SiteAdmin/create_snapshots.html.twig', [
+        return $this->render('@SonataPage/SiteAdmin/create_snapshots.html.twig', [
             'action' => 'snapshots',
             'object' => $object,
         ]);
