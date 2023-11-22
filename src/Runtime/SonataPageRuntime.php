@@ -28,7 +28,7 @@ class SonataPageRuntime extends SymfonyRuntime
      */
     public function __construct(array $options = [])
     {
-        $this->multisite = $options['multisite'] ?? 'host_with_path_by_locale';
+        $this->multisite = $options['multisite'] ?? 'host';
         parent::__construct($options);
     }
 
