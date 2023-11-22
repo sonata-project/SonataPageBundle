@@ -25,7 +25,7 @@
         "cocur/slugify": "^4.0",
         "doctrine/doctrine-bundle": "^2.7",
         "doctrine/persistence": "^3.0.2",
-        "sonata-project/admin-bundle": "^4.19",
+        "sonata-project/admin-bundle": "^4.28",
         "sonata-project/block-bundle": "^4.18 || ^5.0",
         "sonata-project/doctrine-extensions": "^1.18 || ^2.1",
         "sonata-project/doctrine-orm-admin-bundle": "^4.0",
