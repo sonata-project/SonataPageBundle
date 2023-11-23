@@ -55,38 +55,19 @@ With this strategy it is possible to handle sites like :
 * http://sonata-project.com/fr
 * http://sonata-project.net
 
-This strategy requires a dedicated ``RequestFactory`` object. So you need to alter the
-front controller to use the one provided by the ``PageBundle``.
+This strategy requires a dedicated runtime. So you need to modify your
+composer.json and declare ``SonataPageRuntime`` runtime and the multisite type you want to use.
 
-To do so, open ``index.php`` file and change the following parts::
+.. code-block:: json
 
-    // public/index.php
 
-    use App\Kernel;
-    use Symfony\Component\ErrorHandler\Debug;
-    use Sonata\PageBundle\Request\RequestFactory; # before: use Symfony\Component\HttpFoundation\Request;
+        "extra": {
+            "runtime": {
+                "class": "Sonata\\PageBundle\\Runtime\\SonataPageRuntime",
+                "multisite": "host_with_path"
+            }
 
-    require dirname(__DIR__).'/config/bootstrap.php';
 
-    if ($_SERVER['APP_DEBUG']) {
-        umask(0000);
-
-        Debug::enable();
-    }
-
-    if ($trustedProxies = $_SERVER['TRUSTED_PROXIES'] ?? $_ENV['TRUSTED_PROXIES'] ?? false) {
-        Request::setTrustedProxies(explode(',', $trustedProxies), Request::HEADER_X_FORWARDED_ALL ^ Request::HEADER_X_FORWARDED_HOST);
-    }
-
-    if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? $_ENV['TRUSTED_HOSTS'] ?? false) {
-        Request::setTrustedHosts([$trustedHosts]);
-    }
-
-    $kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
-    $request = RequestFactory::createFromGlobals('host_with_path'); // before: $request = Request::createFromGlobals();
-    $response = $kernel->handle($request);
-    $response->send();
-    $kernel->terminate($request, $response);
 
 The last action is to configure the ``sonata_page`` section as:
 
@@ -100,38 +81,18 @@ The last action is to configure the ``sonata_page`` section as:
 Host and Path By Locale Strategy
 --------------------------------
 
-This strategy requires a dedicated ``RequestFactory`` object. So you need to alter the
-front controller to use the one provided by the ``PageBundle``.
+This strategy requires a dedicated runtime. So you need to modify your
+composer.json and declare ``SonataPageRuntime`` runtime and the multisite type you want to use.
 
-To do so, open ``index.php`` file and change the following parts::
+.. code-block:: json
 
-    // public/index.php
 
-    use App\Kernel;
-    use Symfony\Component\ErrorHandler\Debug;
-    use Sonata\PageBundle\Request\RequestFactory; # before: use Symfony\Component\HttpFoundation\Request;
+        "extra": {
+            "runtime": {
+                "class": "Sonata\\PageBundle\\Runtime\\SonataPageRuntime",
+                "multisite": "host_with_path_by_locale"
+            }
 
-    require dirname(__DIR__).'/config/bootstrap.php';
-
-    if ($_SERVER['APP_DEBUG']) {
-        umask(0000);
-
-        Debug::enable();
-    }
-
-    if ($trustedProxies = $_SERVER['TRUSTED_PROXIES'] ?? $_ENV['TRUSTED_PROXIES'] ?? false) {
-        Request::setTrustedProxies(explode(',', $trustedProxies), Request::HEADER_X_FORWARDED_ALL ^ Request::HEADER_X_FORWARDED_HOST);
-    }
-
-    if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? $_ENV['TRUSTED_HOSTS'] ?? false) {
-        Request::setTrustedHosts([$trustedHosts]);
-    }
-
-    $kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
-    $request = RequestFactory::createFromGlobals('host_with_path_by_locale'); // before: $request = Request::createFromGlobals();
-    $response = $kernel->handle($request);
-    $response->send();
-    $kernel->terminate($request, $response);
 
 The last action is to configure the ``sonata_page`` section as:
 
