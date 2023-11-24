@@ -15,11 +15,10 @@ namespace Sonata\PageBundle\Twig\Extension;
 
 use Sonata\BlockBundle\Templating\Helper\BlockHelper;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
-use Sonata\PageBundle\Exception\PageNotFoundException;
 use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
-use Symfony\Bridge\Twig\Extension\HttpKernelExtension;
+use Sonata\PageBundle\Twig\PageRuntime;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -36,24 +35,42 @@ use Twig\TwigFunction;
  */
 final class PageExtension extends AbstractExtension
 {
+    private PageRuntime $pageRuntime;
+
+    /**
+     * NEXT_MAJOR: Remove this constructor.
+     *
+     * @internal This class should only be used through Twig
+     */
     public function __construct(
-        private CmsManagerSelectorInterface $cmsManagerSelector,
-        private SiteSelectorInterface $siteSelector,
-        private RouterInterface $router,
-        private BlockHelper $blockHelper,
-        private RequestStack $requestStack,
-        private bool $hideDisabledBlocks = false
+        CmsManagerSelectorInterface $cmsManagerSelector,
+        SiteSelectorInterface $siteSelector,
+        RouterInterface $router,
+        BlockHelper $blockHelper,
+        RequestStack $requestStack,
+        bool $hideDisabledBlocks = false
     ) {
+        $this->pageRuntime = new PageRuntime(
+            $cmsManagerSelector,
+            $siteSelector,
+            $router,
+            $blockHelper,
+            $requestStack,
+            null,
+            $hideDisabledBlocks,
+        );
     }
 
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('sonata_page_ajax_url', [$this, 'ajaxUrl']),
-            new TwigFunction('sonata_page_breadcrumb', [$this, 'breadcrumb'], ['is_safe' => ['html'], 'needs_environment' => true]),
-            new TwigFunction('sonata_page_render_container', [$this, 'renderContainer'], ['is_safe' => ['html']]),
-            new TwigFunction('sonata_page_render_block', [$this, 'renderBlock'], ['is_safe' => ['html']]),
-            new TwigFunction('controller', [$this, 'controller']),
+            new TwigFunction('sonata_page_ajax_url', [PageRuntime::class, 'ajaxUrl']),
+            new TwigFunction('sonata_page_breadcrumb', [PageRuntime::class, 'breadcrumb'], ['is_safe' => ['html'], 'needs_environment' => true]),
+            new TwigFunction('sonata_page_render_container', [PageRuntime::class, 'renderContainer'], ['is_safe' => ['html']]),
+            new TwigFunction('sonata_page_render_block', [PageRuntime::class, 'renderBlock'], ['is_safe' => ['html']]),
+            new TwigFunction('sonata_page_url', [PageRuntime::class, 'getPageUrl']),
+            new TwigFunction('sonata_page_path', [PageRuntime::class, 'getPagePath']),
+            new TwigFunction('controller', [PageRuntime::class, 'controller']),
         ];
     }
 
@@ -66,47 +83,15 @@ final class PageExtension extends AbstractExtension
      */
     public function breadcrumb(Environment $twig, ?PageInterface $page = null, array $options = []): string
     {
-        if (null === $page) {
-            $page = $this->cmsManagerSelector->retrieve()->getCurrentPage();
-        }
+        @trigger_error(sprintf(
+            'The method "%s()" is deprecated since sonata-project/page-bundle 4.7 and will be removed in 5.0.'
+            .'  Use "%s::%s()" instead.',
+            __METHOD__,
+            PageRuntime::class,
+            __FUNCTION__
+        ), \E_USER_DEPRECATED);
 
-        $options = array_merge([
-            'separator' => '',
-            'current_class' => '',
-            'last_separator' => '',
-            'force_view_home_page' => true,
-            'container_attr' => ['class' => 'sonata-page-breadcrumbs'],
-            'elements_attr' => [],
-            'template' => '@SonataPage/Page/breadcrumb.html.twig',
-        ], $options);
-
-        $breadcrumbs = [];
-
-        if (null !== $page) {
-            $breadcrumbs = $page->getParents();
-
-            if (true === $options['force_view_home_page'] && (!isset($breadcrumbs[0]) || 'homepage' !== $breadcrumbs[0]->getRouteName())) {
-                $site = $this->siteSelector->retrieve();
-
-                $homePage = null;
-                try {
-                    if (null !== $site) {
-                        $homePage = $this->cmsManagerSelector->retrieve()->getPageByRouteName($site, 'homepage');
-                    }
-                } catch (PageNotFoundException) {
-                }
-
-                if (null !== $homePage) {
-                    array_unshift($breadcrumbs, $homePage);
-                }
-            }
-        }
-
-        return $twig->render($options['template'], [
-            'page' => $page,
-            'breadcrumbs' => $breadcrumbs,
-            'options' => $options,
-        ]);
+        return $this->pageRuntime->breadcrumb($twig, $page, $options);
     }
 
     /**
@@ -114,14 +99,15 @@ final class PageExtension extends AbstractExtension
      */
     public function ajaxUrl(PageBlockInterface $block, array $parameters = [], int $absolute = UrlGeneratorInterface::ABSOLUTE_PATH): string
     {
-        $parameters['blockId'] = $block->getId();
-        $page = $block->getPage();
+        @trigger_error(sprintf(
+            'The method "%s()" is deprecated since sonata-project/page-bundle 4.7 and will be removed in 5.0.'
+            .'  Use "%s::%s()" instead.',
+            __METHOD__,
+            PageRuntime::class,
+            __FUNCTION__
+        ), \E_USER_DEPRECATED);
 
-        if (null !== $page) {
-            $parameters['pageId'] = $page->getId();
-        }
-
-        return $this->router->generate('sonata_page_ajax_block', $parameters, $absolute);
+        return $this->pageRuntime->ajaxUrl($block, $parameters, $absolute);
     }
 
     /**
@@ -129,34 +115,15 @@ final class PageExtension extends AbstractExtension
      */
     public function renderContainer(string $name, string|PageInterface|null $page = null, array $options = []): string
     {
-        $cms = $this->cmsManagerSelector->retrieve();
-        $site = $this->siteSelector->retrieve();
-        $targetPage = null;
+        @trigger_error(sprintf(
+            'The method "%s()" is deprecated since sonata-project/page-bundle 4.7 and will be removed in 5.0.'
+            .'  Use "%s::%s()" instead.',
+            __METHOD__,
+            PageRuntime::class,
+            __FUNCTION__
+        ), \E_USER_DEPRECATED);
 
-        try {
-            if (null === $page) {
-                $targetPage = $cms->getCurrentPage();
-            } elseif (null !== $site && !$page instanceof PageInterface) {
-                $targetPage = $cms->getInternalRoute($site, $page);
-            } elseif ($page instanceof PageInterface) {
-                $targetPage = $page;
-            }
-        } catch (PageNotFoundException) {
-            // the snapshot does not exist
-            $targetPage = null;
-        }
-
-        if (null === $targetPage) {
-            return '';
-        }
-
-        $container = $cms->findContainer($name, $targetPage);
-
-        if (null === $container) {
-            return '';
-        }
-
-        return $this->renderBlock($container, $options);
+        return $this->pageRuntime->renderContainer($name, $page, $options);
     }
 
     /**
@@ -164,15 +131,15 @@ final class PageExtension extends AbstractExtension
      */
     public function renderBlock(PageBlockInterface $block, array $options = []): string
     {
-        if (
-            false === $block->getEnabled()
-            && !$this->cmsManagerSelector->isEditor()
-            && $this->hideDisabledBlocks
-        ) {
-            return '';
-        }
+        @trigger_error(sprintf(
+            'The method "%s()" is deprecated since sonata-project/page-bundle 4.7 and will be removed in 5.0.'
+            .'  Use "%s::%s()" instead.',
+            __METHOD__,
+            PageRuntime::class,
+            __FUNCTION__
+        ), \E_USER_DEPRECATED);
 
-        return $this->blockHelper->render($block, $options);
+        return $this->pageRuntime->renderBlock($block, $options);
     }
 
     /**
@@ -184,19 +151,14 @@ final class PageExtension extends AbstractExtension
      */
     public function controller(string $controller, array $attributes = [], array $query = []): ControllerReference
     {
-        if (!isset($attributes['pathInfo'])) {
-            $site = $this->siteSelector->retrieve();
+        @trigger_error(sprintf(
+            'The method "%s()" is deprecated since sonata-project/page-bundle 4.7 and will be removed in 5.0.'
+            .'  Use "%s::%s()" instead.',
+            __METHOD__,
+            PageRuntime::class,
+            __FUNCTION__
+        ), \E_USER_DEPRECATED);
 
-            if (null !== $site) {
-                $sitePath = $site->getRelativePath();
-                $request = $this->requestStack->getCurrentRequest();
-
-                if (null !== $sitePath && null !== $request) {
-                    $attributes['pathInfo'] = $sitePath.$request->getPathInfo();
-                }
-            }
-        }
-
-        return HttpKernelExtension::controller($controller, $attributes, $query);
+        return $this->pageRuntime->controller($controller, $attributes, $query);
     }
 }

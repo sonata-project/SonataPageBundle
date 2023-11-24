@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\PageBundle\Tests\Twig\Extension;
+namespace Sonata\PageBundle\Tests\Twig;
 
 use PHPUnit\Framework\TestCase;
 use Sonata\BlockBundle\Templating\Helper\BlockHelper;
@@ -20,17 +20,12 @@ use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
-use Sonata\PageBundle\Twig\Extension\PageExtension;
+use Sonata\PageBundle\Twig\PageRuntime;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
 
-/**
- * NEXT_MAJOR: Remove this test.
- *
- * @group legacy
- */
-final class PageExtensionTest extends TestCase
+final class PageRuntimeTest extends TestCase
 {
     public function testAjaxUrl(): void
     {
@@ -43,7 +38,7 @@ final class PageExtensionTest extends TestCase
             ->method('getPage')
             ->willReturn($this->createMock(PageInterface::class));
 
-        $extension = new PageExtension(
+        $extension = new PageRuntime(
             $this->createMock(CmsManagerSelectorInterface::class),
             $this->createMock(SiteSelectorInterface::class),
             $router,
@@ -68,7 +63,7 @@ final class PageExtensionTest extends TestCase
         $request = $this->createMock(Request::class);
         $request->method('getPathInfo')->willReturn('/');
 
-        $extension = new PageExtension(
+        $extension = new PageRuntime(
             $this->createMock(CmsManagerSelectorInterface::class),
             $siteSelector,
             $this->createMock(RouterInterface::class),
@@ -87,7 +82,7 @@ final class PageExtensionTest extends TestCase
         $request = $this->createMock(Request::class);
         $request->method('getPathInfo')->willReturn('/');
 
-        $extension = new PageExtension(
+        $extension = new PageRuntime(
             $this->createMock(CmsManagerSelectorInterface::class),
             $this->createMock(SiteSelectorInterface::class),
             $this->createMock(RouterInterface::class),
