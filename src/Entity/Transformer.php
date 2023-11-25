@@ -150,6 +150,7 @@ final class Transformer implements TransformerInterface
             /**
              * @var PageContent $content
              */
+            // THERE IS AN ISSUE HERE
             $content = array_filter($data, static fn ($v) => null !== $v);
         }
 

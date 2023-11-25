@@ -81,6 +81,29 @@ abstract class TransformerTest extends TestCase
         $this->transformer->create($page);
     }
 
+    public function testTransformerPageToSnapshotRequiredField(): void
+    {
+        $this->snapshotManager->method('create')->willReturn(new SonataPageSnapshot());
+        $this->snapshotManager->method('getClass')->willReturn(SonataPageSnapshot::class);
+
+        $datetime = new \DateTime();
+
+        $site = new SonataPageSite();
+
+        $page = new SonataPagePage();
+        $page->setSite($site);
+        $page->setName('Page Foo');
+        $snapshot = $this->transformer->create($page);
+        static::assertSame([
+            'id' => null,
+            'created_at' => null,
+            'updated_at' => null,
+            'name' => 'Page Foo',
+            'request_method' => 'GET|POST|HEAD|DELETE|PUT',
+            'blocks' => [],
+        ], $snapshot->getContent());
+    }
+
     public function testTransformerPageToSnapshot(): void
     {
         $this->snapshotManager->method('create')->willReturn(new SonataPageSnapshot());
