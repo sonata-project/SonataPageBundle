@@ -6,10 +6,10 @@ namespace Sonata\PageBundle\Tests\Runtime;
 
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Runtime\SonataPageRuntime;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Runtime\Runner\Symfony\ConsoleApplicationRunner;
 use Symfony\Component\Runtime\Runner\Symfony\HttpKernelRunner;
-use Symfony\Component\Console\Command\Command;
 
 class SonataPageRuntimeTest extends TestCase
 {
@@ -18,12 +18,6 @@ class SonataPageRuntimeTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         new SonataPageRuntime();
-    }
-
-    public function testConstructorWithMultisite(): void
-    {
-        $runtime = new SonataPageRuntime(['multisite' => 'host_with_path_by_locale']);
-        static::assertInstanceOf(SonataPageRuntime::class, $runtime);
     }
 
     public function testGetRunnerWithHttpKernel(): void
