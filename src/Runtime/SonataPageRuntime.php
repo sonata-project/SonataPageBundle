@@ -38,7 +38,7 @@ class SonataPageRuntime extends SymfonyRuntime
      *      env_var_name?: string,
      *      debug_var_name?: string,
      *      dotenv_overload?: bool|null,
-     *      multisite: string,
+     *      multisite?: string,
      *    }  $options  $options
      */
     public function __construct(array $options = [])
