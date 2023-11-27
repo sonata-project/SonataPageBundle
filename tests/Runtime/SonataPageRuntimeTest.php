@@ -23,7 +23,7 @@ class SonataPageRuntimeTest extends TestCase
     public function testConstructorWithMultisite(): void
     {
         $runtime = new SonataPageRuntime(['multisite' => 'host_with_path_by_locale']);
-        $this->assertInstanceOf(SonataPageRuntime::class, $runtime);
+        static::assertInstanceOf(SonataPageRuntime::class, $runtime);
     }
 
     public function testGetRunnerWithHttpKernel(): void
@@ -32,7 +32,7 @@ class SonataPageRuntimeTest extends TestCase
         $runtime = new SonataPageRuntime(['multisite' => 'host_with_path_by_locale']);
 
         $runner = $runtime->getRunner($kernelMock);
-        $this->assertInstanceOf(HttpKernelRunner::class, $runner);
+        static::assertInstanceOf(HttpKernelRunner::class, $runner);
     }
 
     public function testGetRunnerWithNonHttpKernelApplication(): void
@@ -41,6 +41,6 @@ class SonataPageRuntimeTest extends TestCase
         $runtime = new SonataPageRuntime(['multisite' => 'host_with_path_by_locale']);
 
         $runner = $runtime->getRunner($command);
-        $this->assertInstanceOf(ConsoleApplicationRunner::class, $runner);
+        static::assertInstanceOf(ConsoleApplicationRunner::class, $runner);
     }
 }
