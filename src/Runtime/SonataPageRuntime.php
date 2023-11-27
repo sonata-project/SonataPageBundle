@@ -48,6 +48,7 @@ class SonataPageRuntime extends SymfonyRuntime
         }
 
         $this->multisite = $options['multisite'];
+        unset($options['multisite']);
         parent::__construct($options);
     }
 
