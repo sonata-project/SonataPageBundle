@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Runtime;
 
+use http\Exception\InvalidArgumentException;
 use Sonata\PageBundle\Request\RequestFactory;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Runtime\Runner\Symfony\HttpKernelRunner;
@@ -28,7 +29,11 @@ class SonataPageRuntime extends SymfonyRuntime
      */
     public function __construct(array $options = [])
     {
-        $this->multisite = $options['multisite'] ?? 'host';
+        if (!isset($options['multisite'])) {
+            throw new InvalidArgumentException('The option multisite is required');
+        }
+
+        $this->multisite = $options['multisite'];
         parent::__construct($options);
     }
 
