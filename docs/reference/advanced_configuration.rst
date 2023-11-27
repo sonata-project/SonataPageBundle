@@ -26,7 +26,7 @@ Full configuration options:
     sonata_page:
         skip_redirection: false # Skip asking Editor to redirect
         use_streamed_response: false
-        multisite: ~
+        multisite: ~ # Required
         ignore_route_patterns:
             # Defaults:
             - /(.*)admin(.*)/
