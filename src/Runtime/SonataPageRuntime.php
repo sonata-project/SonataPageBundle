@@ -28,7 +28,11 @@ class SonataPageRuntime extends SymfonyRuntime
      */
     public function __construct(array $options = [])
     {
-        $this->multisite = $options['multisite'] ?? 'host';
+        if (!isset($options['multisite'])) {
+            throw new \InvalidArgumentException('The option multisite is required');
+        }
+
+        $this->multisite = $options['multisite'];
         parent::__construct($options);
     }
 
