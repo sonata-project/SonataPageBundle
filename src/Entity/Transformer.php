@@ -150,7 +150,6 @@ final class Transformer implements TransformerInterface
             /**
              * @var PageContent $content
              */
-            // @phpstan-ignore-next-line
             $content = array_filter($data, static fn ($v) => null !== $v);
         }
 
