@@ -24,7 +24,22 @@ class SonataPageRuntime extends SymfonyRuntime
     private string $multisite;
 
     /**
-     * @param array<mixed> $options
+     * @param  array{
+     *      debug?: bool|null,
+     *      env?: string|null,
+     *      disable_dotenv?: bool|null,
+     *      project_dir?: string|null,
+     *      prod_envs?: string[]|null,
+     *      dotenv_path?: string|null,
+     *      test_envs?: string[]|null,
+     *      use_putenv?: bool|null,
+     *      runtimes?: array<mixed>|null,
+     *      error_handler?: string|false,
+     *      env_var_name?: string,
+     *      debug_var_name?: string,
+     *      dotenv_overload?: bool|null,
+     *      multisite: string,
+     *    }  $options  $options
      */
     public function __construct(array $options = [])
     {
