@@ -85,7 +85,7 @@ final class Configuration implements ConfigurationInterface
                 ->end()
                 ->scalarNode('multisite')
                     ->info('For more information, see https://docs.sonata-project.org/projects/SonataPageBundle/en/4.x/reference/multisite/')
-                    ->defaultValue('host')
+                    ->isRequired()
                     ->validate()
                         ->ifNotInArray(['host', 'host_by_locale', 'host_with_path', 'host_with_path_by_locale'])
                         ->thenInvalid('Invalid multisite configuration %s. For more information, see https://docs.sonata-project.org/projects/SonataPageBundle/en/4.x/reference/multisite/')

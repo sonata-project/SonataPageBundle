@@ -15,6 +15,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use Sonata\PageBundle\Twig\Extension\PageExtension;
 use Sonata\PageBundle\Twig\GlobalVariables;
+use Sonata\PageBundle\Twig\PageRuntime;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->services()
@@ -36,5 +37,17 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 service('sonata.page.cms_manager_selector'),
                 service('sonata.page.site.selector'),
                 service('sonata.page.template_manager'),
+            ])
+
+        ->set('sonata.page.twig.page_runtime', PageRuntime::class)
+            ->tag('twig.runtime')
+            ->args([
+                service('sonata.page.cms_manager_selector'),
+                service('sonata.page.site.selector'),
+                service('router'),
+                service('sonata.block.templating.helper'),
+                service('request_stack'),
+                service('sonata.page.router'),
+                param('sonata.page.hide_disabled_blocks'),
             ]);
 };
