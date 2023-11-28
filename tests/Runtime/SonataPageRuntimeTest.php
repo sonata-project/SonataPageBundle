@@ -22,16 +22,10 @@ use Symfony\Component\Runtime\Runner\Symfony\HttpKernelRunner;
 
 class SonataPageRuntimeTest extends TestCase
 {
-    public function testConstructorThrowsExceptionWithoutMultisite(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        new SonataPageRuntime();
-    }
-
     public function testGetRunnerWithHttpKernel(): void
     {
         $kernelMock = $this->createMock(HttpKernelInterface::class);
-        $runtime = new SonataPageRuntime(['multisite' => 'host_with_path_by_locale']);
+        $runtime = new SonataPageRuntime();
 
         $runner = $runtime->getRunner($kernelMock);
         static::assertInstanceOf(HttpKernelRunner::class, $runner);
@@ -40,7 +34,7 @@ class SonataPageRuntimeTest extends TestCase
     public function testGetRunnerWithNonHttpKernelApplication(): void
     {
         $command = new Command('app:test-cmd');
-        $runtime = new SonataPageRuntime(['multisite' => 'host_with_path_by_locale']);
+        $runtime = new SonataPageRuntime();
 
         $runner = $runtime->getRunner($command);
         static::assertInstanceOf(ConsoleApplicationRunner::class, $runner);

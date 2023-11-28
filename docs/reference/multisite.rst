@@ -56,15 +56,14 @@ With this strategy it is possible to handle sites like :
 * http://sonata-project.net
 
 This strategy requires a dedicated runtime. So you need to modify your
-composer.json and declare ``SonataPageRuntime`` runtime and the multisite type you want to use.
+composer.json and declare ``SonataPageRuntime`` runtime.
 
 .. code-block:: json
 
 
         "extra": {
             "runtime": {
-                "class": "Sonata\\PageBundle\\Runtime\\SonataPageRuntime",
-                "multisite": "host_with_path"
+                "class": "Sonata\\PageBundle\\Runtime\\SonataPageRuntime"
             }
 
 
@@ -82,15 +81,13 @@ Host and Path By Locale Strategy
 --------------------------------
 
 This strategy requires a dedicated runtime. So you need to modify your
-composer.json and declare ``SonataPageRuntime`` runtime and the multisite type you want to use.
+composer.json and declare ``SonataPageRuntime`` runtime.
 
 .. code-block:: json
 
-
         "extra": {
             "runtime": {
-                "class": "Sonata\\PageBundle\\Runtime\\SonataPageRuntime",
-                "multisite": "host_with_path_by_locale"
+                "class": "Sonata\\PageBundle\\Runtime\\SonataPageRuntime"
             }
 
 
