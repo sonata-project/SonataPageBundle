@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Request;
 
+use Sonata\PageBundle\Runtime\SonataPagePathRuntime;
 use Symfony\Component\HttpFoundation\Request;
 
 final class RequestFactory
@@ -27,6 +28,7 @@ final class RequestFactory
     ];
 
     /**
+     * @deprecated since sonata-project/page-bundle 4.6.2, to be removed in 5.0.
      * @param array<string, mixed> $parameters
      * @param array<string, mixed> $cookies
      * @param array<string, mixed> $files
@@ -43,20 +45,50 @@ final class RequestFactory
         array $server = [],
         $content = null
     ): Request {
+        @trigger_error(sprintf(
+            'The method "%s()" is deprecated since sonata-project/page-bundle 4.6.2 and will be removed in 5.0.'
+            .'  Use "%s::%s()" instead.',
+            __METHOD__,
+            SonataPagePathRuntime::class,
+            __FUNCTION__
+        ), \E_USER_DEPRECATED);
+
         self::configureFactory($type);
 
         return \call_user_func_array([self::getClass($type), 'create'], [$uri, $method, $parameters, $cookies, $files, $server, $content]);
     }
 
+    /**
+     * @deprecated since sonata-project/page-bundle 4.6.2, to be removed in 5.0.
+     */
     public static function createFromGlobals(string $type): Request
     {
+        @trigger_error(sprintf(
+            'The method "%s()" is deprecated since sonata-project/page-bundle 4.6.2 and will be removed in 5.0.'
+            .'  Use "%s::%s()" instead.',
+            __METHOD__,
+            SonataPagePathRuntime::class,
+            __FUNCTION__
+        ), \E_USER_DEPRECATED);
+
         self::configureFactory($type);
 
         return \call_user_func_array([self::getClass($type), 'createFromGlobals'], []);
     }
 
+    /**
+     * @deprecated since sonata-project/page-bundle 4.6.2, to be removed in 5.0.
+     */
     private static function configureFactory(string $type): void
     {
+        @trigger_error(sprintf(
+            'The method "%s()" is deprecated since sonata-project/page-bundle 4.6.2 and will be removed in 5.0.'
+            .'  Use "%s::%s()" instead.',
+            __METHOD__,
+            SonataPagePathRuntime::class,
+            __FUNCTION__
+        ), \E_USER_DEPRECATED);
+
         if (!\in_array($type, ['host_with_path', 'host_with_path_by_locale'], true)) {
             return;
         }
@@ -78,10 +110,19 @@ final class RequestFactory
     }
 
     /**
+     * @deprecated since sonata-project/page-bundle 4.6.2, to be removed in 5.0.
      * @return class-string<Request>
      */
     private static function getClass(string $type): string
     {
+        @trigger_error(sprintf(
+            'The method "%s()" is deprecated since sonata-project/page-bundle 4.6.2 and will be removed in 5.0.'
+            .'  Use "%s::%s()" instead.',
+            __METHOD__,
+            SonataPagePathRuntime::class,
+            __FUNCTION__
+        ), \E_USER_DEPRECATED);
+
         if (!\array_key_exists($type, self::$types)) {
             throw new \RuntimeException('invalid type');
         }

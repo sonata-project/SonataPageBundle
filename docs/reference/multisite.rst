@@ -56,7 +56,7 @@ With this strategy it is possible to handle sites like :
 * http://sonata-project.net
 
 This strategy requires a dedicated runtime. So you need to modify your
-composer.json and declare ``SonataPageRuntime`` runtime.
+composer.json and declare ``SonataPagePathRuntime`` runtime.
 
 .. code-block:: json
 
@@ -66,7 +66,7 @@ composer.json and declare ``SonataPageRuntime`` runtime.
                 "class": "Sonata\\PageBundle\\Runtime\\SonataPageRuntime"
             }
 
-
+Update your autoloader file with ``composer dump-autoload``.
 
 The last action is to configure the ``sonata_page`` section as:
 
@@ -81,7 +81,7 @@ Host and Path By Locale Strategy
 --------------------------------
 
 This strategy requires a dedicated runtime. So you need to modify your
-composer.json and declare ``SonataPageRuntime`` runtime.
+composer.json and declare ``SonataPagePathRuntime`` runtime.
 
 .. code-block:: json
 
@@ -90,6 +90,7 @@ composer.json and declare ``SonataPageRuntime`` runtime.
                 "class": "Sonata\\PageBundle\\Runtime\\SonataPageRuntime"
             }
 
+Update your autoloader file with ``composer dump-autoload``.
 
 The last action is to configure the ``sonata_page`` section as:
 

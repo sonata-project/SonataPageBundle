@@ -19,7 +19,7 @@ use Symfony\Component\Runtime\Runner\Symfony\HttpKernelRunner;
 use Symfony\Component\Runtime\RunnerInterface;
 use Symfony\Component\Runtime\SymfonyRuntime;
 
-final class SonataPageRuntime extends SymfonyRuntime
+final class SonataPagePathRuntime extends SymfonyRuntime
 {
     public function getRunner(?object $application): RunnerInterface
     {

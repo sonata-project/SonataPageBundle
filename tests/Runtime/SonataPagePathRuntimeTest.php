@@ -14,18 +14,18 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Runtime;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\PageBundle\Runtime\SonataPageRuntime;
+use Sonata\PageBundle\Runtime\SonataPagePathRuntime;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Runtime\Runner\Symfony\ConsoleApplicationRunner;
 use Symfony\Component\Runtime\Runner\Symfony\HttpKernelRunner;
 
-class SonataPageRuntimeTest extends TestCase
+class SonataPagePathRuntimeTest extends TestCase
 {
     public function testGetRunnerWithHttpKernel(): void
     {
         $kernelMock = $this->createMock(HttpKernelInterface::class);
-        $runtime = new SonataPageRuntime();
+        $runtime = new SonataPagePathRuntime();
 
         $runner = $runtime->getRunner($kernelMock);
         static::assertInstanceOf(HttpKernelRunner::class, $runner);
@@ -34,7 +34,7 @@ class SonataPageRuntimeTest extends TestCase
     public function testGetRunnerWithNonHttpKernelApplication(): void
     {
         $command = new Command('app:test-cmd');
-        $runtime = new SonataPageRuntime();
+        $runtime = new SonataPagePathRuntime();
 
         $runner = $runtime->getRunner($command);
         static::assertInstanceOf(ConsoleApplicationRunner::class, $runner);
