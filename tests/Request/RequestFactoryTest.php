@@ -18,6 +18,11 @@ use Sonata\PageBundle\Request\RequestFactory;
 use Sonata\PageBundle\Request\SiteRequest;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * @group legacy
+ *
+ * NEXT_MAJOR: Remove this class
+ */
 final class RequestFactoryTest extends TestCase
 {
     protected function setUp(): void
