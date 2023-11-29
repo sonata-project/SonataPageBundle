@@ -145,14 +145,12 @@ final class Transformer implements TransformerInterface
                 'parent_id' => $parent?->getId(),
                 'blocks' => $blocks,
             ];
-            // need to filter out null values
 
-            /**
-             * @var PageContent $content
-             */
+            // need to filter out null values
             $content = array_filter($data, static fn ($v): bool => null !== $v);
         }
 
+        /** @psalm-suppress ArgumentTypeCoercion */
         $snapshot->setContent($content);
 
         return $snapshot;
