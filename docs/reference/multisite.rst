@@ -63,7 +63,7 @@ composer.json and declare ``SonataPagePathRuntime`` runtime.
 
         "extra": {
             "runtime": {
-                "class": "Sonata\\PageBundle\\Runtime\\SonataPageRuntime"
+                "class": "Sonata\\PageBundle\\Runtime\\SonataPagePathRuntime"
             }
 
 Update your autoloader file with ``composer dump-autoload``.
@@ -87,7 +87,7 @@ composer.json and declare ``SonataPagePathRuntime`` runtime.
 
         "extra": {
             "runtime": {
-                "class": "Sonata\\PageBundle\\Runtime\\SonataPageRuntime"
+                "class": "Sonata\\PageBundle\\Runtime\\SonataPagePathRuntime"
             }
 
 Update your autoloader file with ``composer dump-autoload``.
