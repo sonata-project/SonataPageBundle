@@ -22,6 +22,7 @@ use Symfony\Component\Runtime\Runner\Symfony\HttpKernelRunner;
 
 /**
  * @group legacy
+ *
  * NEXT_MAJOR: Remove this class
  */
 class SonataPagePathRuntimeTest extends TestCase
