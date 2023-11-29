@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * NEXT_MAJOR: Remove this class.
  *
- * @deprecated since sonata-project/page-bundle 4.6.2
+ * @deprecated since sonata-project/page-bundle 4.7.0
  */
 final class RequestFactory
 {
@@ -33,7 +33,7 @@ final class RequestFactory
     ];
 
     /**
-     * @deprecated since sonata-project/page-bundle 4.6.2, to be removed in 5.0.
+     * @deprecated since sonata-project/page-bundle 4.7.0, to be removed in 5.0.
      *
      * @param array<string, mixed> $parameters
      * @param array<string, mixed> $cookies
@@ -52,7 +52,7 @@ final class RequestFactory
         $content = null
     ): Request {
         @trigger_error(sprintf(
-            'The method "%s()" is deprecated since sonata-project/page-bundle 4.6.2 and will be removed in 5.0.'
+            'The method "%s()" is deprecated since sonata-project/page-bundle 4.7.0 and will be removed in 5.0.'
             .'  Use "%s::%s()" instead.',
             __METHOD__,
             SonataPagePathRuntime::class,
@@ -65,12 +65,12 @@ final class RequestFactory
     }
 
     /**
-     * @deprecated since sonata-project/page-bundle 4.6.2, to be removed in 5.0.
+     * @deprecated since sonata-project/page-bundle 4.7.0, to be removed in 5.0.
      */
     public static function createFromGlobals(string $type): Request
     {
         @trigger_error(sprintf(
-            'The method "%s()" is deprecated since sonata-project/page-bundle 4.6.2 and will be removed in 5.0.'
+            'The method "%s()" is deprecated since sonata-project/page-bundle 4.7.0 and will be removed in 5.0.'
             .'  Use "%s::%s()" instead.',
             __METHOD__,
             SonataPagePathRuntime::class,
