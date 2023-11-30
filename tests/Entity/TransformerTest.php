@@ -166,7 +166,7 @@ abstract class TransformerTest extends TestCase
 
         $block = $this->transformer->loadBlock($content, new SonataPagePage());
 
-        static::assertSame($content['id'], $block->getId());
+        static::assertSame($content['id'] ?? null, $block->getId());
     }
 
     /**

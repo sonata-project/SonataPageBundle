@@ -20,33 +20,33 @@ use Doctrine\Common\Collections\Collection;
  *
  * NEXT_MAJOR: Restrict and simplify BlockContent type:
  *   - position: int|null
- *   - enabled: boolean
+ *   - enabled: bool
  *
  * @phpstan-type BlockContent array{
- *   id: int|string|null,
+ *   id?: int|string|null,
  *   name?: string|null,
- *   enabled: boolean|'1'|'0',
+ *   enabled: bool|'1'|'0',
  *   position: int|string|null,
  *   settings: array<string, mixed>,
  *   type: string|null,
- *   created_at: int|numeric-string|null,
- *   updated_at: int|numeric-string|null,
+ *   created_at?: int|numeric-string|null,
+ *   updated_at?: int|numeric-string|null,
  *   parent_id?: int|string|null,
  *   blocks: array<array{
- *     id: int|string|null,
+ *     id?: int|string|null,
  *     name?: string|null,
- *     enabled: boolean|'1'|'0',
+ *     enabled: bool|'1'|'0',
  *     position: int|string|null,
  *     settings: array<string, mixed>,
  *     type: string|null,
- *     created_at: int|numeric-string|null,
- *     updated_at: int|numeric-string|null,
+ *     created_at?: int|numeric-string|null,
+ *     updated_at?: int|numeric-string|null,
  *     parent_id?: int|string|null,
  *     blocks: array<mixed>,
  *   }>,
  * }
  * @phpstan-type PageContent array{
- *   id: int|string|null,
+ *   id?: int|string|null,
  *   parent_id?: int|string|null,
  *   javascript?: string|null,
  *   stylesheet?: string|null,
@@ -58,8 +58,8 @@ use Doctrine\Common\Collections\Collection;
  *   slug?: string|null,
  *   template_code?: string|null,
  *   request_method?: string|null,
- *   created_at: int|numeric-string|null,
- *   updated_at: int|numeric-string|null,
+ *   created_at?: int|numeric-string|null,
+ *   updated_at?: int|numeric-string|null,
  *   blocks: array<BlockContent>,
  * }
  */

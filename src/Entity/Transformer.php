@@ -145,14 +145,12 @@ final class Transformer implements TransformerInterface
                 'parent_id' => $parent?->getId(),
                 'blocks' => $blocks,
             ];
-            // need to filter out null values
 
-            /**
-             * @var PageContent $content
-             */
-            $content = array_filter($data, static fn ($v) => null !== $v);
+            // need to filter out null values
+            $content = array_filter($data, static fn ($v): bool => null !== $v);
         }
 
+        /** @psalm-suppress ArgumentTypeCoercion */
         $snapshot->setContent($content);
 
         return $snapshot;
@@ -192,7 +190,7 @@ final class Transformer implements TransformerInterface
             if (!method_exists($page, 'removeBlock')) {
                 @trigger_error('Not implementing a `PageInterface::removeBlock` method is deprecated since 4.x and will throw an error in 5.0.', \E_USER_DEPRECATED);
             }
-            $page->setId($content['id']);
+            $page->setId($content['id'] ?? null);
             $page->setJavascript($content['javascript'] ?? null);
             $page->setStylesheet($content['stylesheet'] ?? null);
             $page->setRawHeaders($content['raw_headers'] ?? null);
@@ -205,13 +203,17 @@ final class Transformer implements TransformerInterface
             $page->setTemplateCode($content['template_code'] ?? null);
             $page->setRequestMethod($content['request_method'] ?? null);
 
-            $createdAt = new \DateTime();
-            $createdAt->setTimestamp((int) $content['created_at']);
-            $page->setCreatedAt($createdAt);
+            if (isset($content['created_at'])) {
+                $createdAt = new \DateTime();
+                $createdAt->setTimestamp((int) $content['created_at']);
+                $page->setCreatedAt($createdAt);
+            }
 
-            $updatedAt = new \DateTime();
-            $updatedAt->setTimestamp((int) $content['updated_at']);
-            $page->setUpdatedAt($updatedAt);
+            if (isset($content['updated_at'])) {
+                $updatedAt = new \DateTime();
+                $updatedAt->setTimestamp((int) $content['updated_at']);
+                $page->setUpdatedAt($updatedAt);
+            }
         }
 
         return $page;
@@ -263,13 +265,17 @@ final class Transformer implements TransformerInterface
                 $block->setType($content['type']);
             }
 
-            $createdAt = new \DateTime();
-            $createdAt->setTimestamp((int) $content['created_at']);
-            $block->setCreatedAt($createdAt);
+            if (isset($content['created_at'])) {
+                $createdAt = new \DateTime();
+                $createdAt->setTimestamp((int) $content['created_at']);
+                $block->setCreatedAt($createdAt);
+            }
 
-            $updatedAt = new \DateTime();
-            $updatedAt->setTimestamp((int) $content['updated_at']);
-            $block->setUpdatedAt($updatedAt);
+            if (isset($content['updated_at'])) {
+                $updatedAt = new \DateTime();
+                $updatedAt->setTimestamp((int) $content['updated_at']);
+                $block->setUpdatedAt($updatedAt);
+            }
 
             /**
              * @phpstan-var BlockContent $child

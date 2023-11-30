@@ -396,7 +396,7 @@ final class TransformerTest extends KernelTestCase
     }
 
     /**
-     * @param array<string, ?mixed> $settings
+     * @param array<string, mixed> $settings
      *
      * @return BlockContent
      */
