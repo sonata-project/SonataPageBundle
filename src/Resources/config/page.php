@@ -138,6 +138,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 'method' => 'onLoginSuccess',
             ])
             ->tag('kernel.event_listener', [
+                'event' => 'security.interactive_login',
+                'method' => 'onSecurityInteractiveLogin',
+            ])
+            ->tag('kernel.event_listener', [
                 'event' => LogoutEvent::class,
                 'method' => 'onLogout',
             ])

@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 use Symfony\Component\Security\Http\Event\LogoutEvent;
 
@@ -65,9 +66,29 @@ final class CmsManagerSelector implements CmsManagerSelectorInterface
 
     public function onLoginSuccess(LoginSuccessEvent $event): void
     {
+        $this->handleLoginSuccess($event->getRequest());
+    }
+
+    /**
+     * NEXT_MAJOR: Remove this class.
+     *
+     * @deprecated since sonata-project/page-bundle 4.7.0
+     */
+    public function onSecurityInteractiveLogin(InteractiveLoginEvent $event): void
+    {
+        @trigger_error(sprintf(
+            'The method "%s()" is deprecated since sonata-project/page-bundle 4.7.0 and will be removed in 5.0.'
+                . '  Use "%s()" instead.',
+            __METHOD__,
+            'onLoginSuccess'
+        ), \E_USER_DEPRECATED);
+        $this->handleLoginSuccess($event->getRequest());
+    }
+
+    private function handleLoginSuccess(Request $request): void
+    {
         if (null !== $this->tokenStorage->getToken()
             && $this->pageAdmin->isGranted('EDIT')) {
-            $request = $event->getRequest();
 
             if ($request->hasSession()) {
                 $request->getSession()->set('sonata/page/isEditor', true);
