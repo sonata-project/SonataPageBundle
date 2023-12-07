@@ -85,16 +85,6 @@ final class CmsManagerSelector implements CmsManagerSelectorInterface
         $this->handleLoginSuccess($event->getRequest());
     }
 
-    private function handleLoginSuccess(Request $request): void
-    {
-        if (null !== $this->tokenStorage->getToken()
-            && $this->pageAdmin->isGranted('EDIT')) {
-            if ($request->hasSession()) {
-                $request->getSession()->set('sonata/page/isEditor', true);
-            }
-        }
-    }
-
     /**
      * NEXT_MAJOR: Remove this method.
      */
@@ -122,6 +112,16 @@ final class CmsManagerSelector implements CmsManagerSelectorInterface
 
             if (null !== $response) {
                 $response->headers->clearCookie('sonata_page_is_editor');
+            }
+        }
+    }
+
+    private function handleLoginSuccess(Request $request): void
+    {
+        if (null !== $this->tokenStorage->getToken()
+            && $this->pageAdmin->isGranted('EDIT')) {
+            if ($request->hasSession()) {
+                $request->getSession()->set('sonata/page/isEditor', true);
             }
         }
     }
