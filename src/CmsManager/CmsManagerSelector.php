@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 use Symfony\Component\Security\Http\Event\LogoutEvent;
 
 /**
@@ -63,7 +63,7 @@ final class CmsManagerSelector implements CmsManagerSelectorInterface
             && false !== $request->getSession()->get('sonata/page/isEditor', false);
     }
 
-    public function onSecurityInteractiveLogin(InteractiveLoginEvent $event): void
+    public function onLoginSuccess(LoginSuccessEvent $event): void
     {
         if (null !== $this->tokenStorage->getToken()
             && $this->pageAdmin->isGranted('EDIT')) {
