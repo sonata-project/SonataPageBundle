@@ -89,7 +89,6 @@ final class CmsManagerSelector implements CmsManagerSelectorInterface
     {
         if (null !== $this->tokenStorage->getToken()
             && $this->pageAdmin->isGranted('EDIT')) {
-
             if ($request->hasSession()) {
                 $request->getSession()->set('sonata/page/isEditor', true);
             }
