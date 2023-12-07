@@ -31,6 +31,7 @@ use Sonata\PageBundle\Site\HostPathSiteSelector;
 use Sonata\PageBundle\Site\HostSiteSelector;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Symfony\Component\Routing\RequestContext;
+use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 use Symfony\Component\Security\Http\Event\LogoutEvent;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -132,6 +133,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
         ->set('sonata.page.cms_manager_selector', CmsManagerSelector::class)
             ->public()
+            ->tag('kernel.event_listener', [
+                'event' => LoginSuccessEvent::class,
+                'method' => 'onLoginSuccess',
+            ])
             ->tag('kernel.event_listener', [
                 'event' => 'security.interactive_login',
                 'method' => 'onSecurityInteractiveLogin',
