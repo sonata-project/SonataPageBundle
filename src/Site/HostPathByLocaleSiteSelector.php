@@ -27,7 +27,7 @@ final class HostPathByLocaleSiteSelector extends HostPathSiteSelector
         $request = $event->getRequest();
 
         if (!$request instanceof SiteRequestInterface) {
-            throw new \RuntimeException('You must change the main Request object in the front controller (app.php) in order to use the `host_with_path_by_locale` strategy');
+            throw new \RuntimeException('You must configure runtime on your composer.json in order to use "Host path by locale" strategy, take a look on page bundle multiside doc.');
         }
 
         $enabledSites = [];
