@@ -2,6 +2,22 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.7.0](https://github.com/sonata-project/SonataPageBundle/compare/4.6.1...4.7.0) - 2023-12-08
+### Added
+- [[#1727](https://github.com/sonata-project/SonataPageBundle/pull/1727)] Support for the symfony runtime component ([@GeraudBourdin](https://github.com/GeraudBourdin))
+- [[#1719](https://github.com/sonata-project/SonataPageBundle/pull/1719)] `sonata_page_path` and `sonata_page_url` method. ([@VincentLanglet](https://github.com/VincentLanglet))
+
+### Deprecated
+- [[#1734](https://github.com/sonata-project/SonataPageBundle/pull/1734)] `CmsManagerSelector::onSecurityInteractiveLogin` ([@tdumalin](https://github.com/tdumalin))
+- [[#1719](https://github.com/sonata-project/SonataPageBundle/pull/1719)] `Sonata\PageBundle\Twig\Extension\PageExtension::breadcrumb`. ([@VincentLanglet](https://github.com/VincentLanglet))
+- [[#1719](https://github.com/sonata-project/SonataPageBundle/pull/1719)] `Sonata\PageBundle\Twig\Extension\PageExtension::ajaxUrl`. ([@VincentLanglet](https://github.com/VincentLanglet))
+- [[#1719](https://github.com/sonata-project/SonataPageBundle/pull/1719)] `Sonata\PageBundle\Twig\Extension\PageExtension::renderContainer`. ([@VincentLanglet](https://github.com/VincentLanglet))
+- [[#1719](https://github.com/sonata-project/SonataPageBundle/pull/1719)] `Sonata\PageBundle\Twig\Extension\PageExtension::renderBlock`. ([@VincentLanglet](https://github.com/VincentLanglet))
+- [[#1719](https://github.com/sonata-project/SonataPageBundle/pull/1719)] `Sonata\PageBundle\Twig\Extension\PageExtension::controller`. ([@VincentLanglet](https://github.com/VincentLanglet))
+
+### Fixed
+- [[#1734](https://github.com/sonata-project/SonataPageBundle/pull/1734)]  `CmsManagerSelector::isEditor` always returns false ([@tdumalin](https://github.com/tdumalin))
+
 ## [4.6.1](https://github.com/sonata-project/SonataPageBundle/compare/4.6.0...4.6.1) - 2023-11-21
 ### Fixed
 - [[#1724](https://github.com/sonata-project/SonataPageBundle/pull/1724)] Usage of deprecated method `renderWithParams` ([@VincentLanglet](https://github.com/VincentLanglet))
