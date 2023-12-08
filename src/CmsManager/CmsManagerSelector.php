@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 use Symfony\Component\Security\Http\Event\LogoutEvent;
 
 /**
@@ -63,16 +64,25 @@ final class CmsManagerSelector implements CmsManagerSelectorInterface
             && false !== $request->getSession()->get('sonata/page/isEditor', false);
     }
 
+    public function onLoginSuccess(LoginSuccessEvent $event): void
+    {
+        $this->handleLoginSuccess($event->getRequest());
+    }
+
+    /**
+     * NEXT_MAJOR: Remove this class.
+     *
+     * @deprecated since sonata-project/page-bundle 4.7.0
+     */
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event): void
     {
-        if (null !== $this->tokenStorage->getToken()
-            && $this->pageAdmin->isGranted('EDIT')) {
-            $request = $event->getRequest();
-
-            if ($request->hasSession()) {
-                $request->getSession()->set('sonata/page/isEditor', true);
-            }
-        }
+        @trigger_error(sprintf(
+            'The method "%s()" is deprecated since sonata-project/page-bundle 4.7.0 and will be removed in 5.0.'
+            .'  Use "%s()" instead.',
+            __METHOD__,
+            'onLoginSuccess'
+        ), \E_USER_DEPRECATED);
+        $this->handleLoginSuccess($event->getRequest());
     }
 
     /**
@@ -102,6 +112,16 @@ final class CmsManagerSelector implements CmsManagerSelectorInterface
 
             if (null !== $response) {
                 $response->headers->clearCookie('sonata_page_is_editor');
+            }
+        }
+    }
+
+    private function handleLoginSuccess(Request $request): void
+    {
+        if (null !== $this->tokenStorage->getToken()
+            && $this->pageAdmin->isGranted('EDIT')) {
+            if ($request->hasSession()) {
+                $request->getSession()->set('sonata/page/isEditor', true);
             }
         }
     }
