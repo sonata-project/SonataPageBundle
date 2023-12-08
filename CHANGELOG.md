@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.7.1](https://github.com/sonata-project/SonataPageBundle/compare/4.7.0...4.7.1) - 2023-12-08
+### Changed
+- [[#1737](https://github.com/sonata-project/SonataPageBundle/pull/1737)]  Changed runtime exception message for Host path sites ([@eerison](https://github.com/eerison))
+
+### Fixed
+- [[#1739](https://github.com/sonata-project/SonataPageBundle/pull/1739)] Fix sonata runtime, adding Symfony request factory. ([@eerison](https://github.com/eerison))
+
 ## [4.7.0](https://github.com/sonata-project/SonataPageBundle/compare/4.6.1...4.7.0) - 2023-12-08
 ### Added
 - [[#1727](https://github.com/sonata-project/SonataPageBundle/pull/1727)] Support for the symfony runtime component ([@GeraudBourdin](https://github.com/GeraudBourdin))
