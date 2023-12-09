@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Runtime;
 
 use Sonata\PageBundle\Request\SiteRequest;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Runtime\Runner\Symfony\HttpKernelRunner;
 use Symfony\Component\Runtime\RunnerInterface;
@@ -26,6 +27,21 @@ final class SonataPagePathRuntime extends SymfonyRuntime
         if (!$application instanceof HttpKernelInterface) {
             return parent::getRunner($application);
         }
+
+        Request::setFactory(
+            /**
+             * @param string|resource|null $content
+             */
+            static fn (
+                array $query = [],
+                array $request = [],
+                array $attributes = [],
+                array $cookies = [],
+                array $files = [],
+                array $server = [],
+                $content = null
+            ) => new SiteRequest($query, $request, $attributes, $cookies, $files, $server, $content)
+        );
 
         return new HttpKernelRunner($application, SiteRequest::createFromGlobals());
     }
