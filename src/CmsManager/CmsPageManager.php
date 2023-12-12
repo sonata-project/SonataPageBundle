@@ -96,38 +96,28 @@ final class CmsPageManager extends BaseCmsPageManager
         return $page;
     }
 
-    public function findContainer(string $name, PageInterface $page, ?PageBlockInterface $parentContainer = null): ?PageBlockInterface
+    public function findContainer(string $name, PageInterface $page, ?PageBlockInterface $parentContainer = null): PageBlockInterface
     {
-        $container = null;
-
         if (null !== $parentContainer) {
             // parent container is set, nothing to find, don't need to loop across the
             // name to find the correct container (main template level)
-            $container = $parentContainer;
+            return $parentContainer;
         }
 
         // first level blocks are containers
-        if (null === $container) {
-            foreach ($page->getBlocks() as $block) {
-                if ($block->getSetting('code') === $name) {
-                    $container = $block;
-
-                    break;
-                }
+        foreach ($page->getBlocks() as $block) {
+            if ($block->getSetting('code') === $name) {
+                return $block;
             }
         }
 
-        if (null === $container) {
-            $container = $this->blockInteractor->createNewContainer([
-                'enabled' => true,
-                'page' => $page,
-                'code' => $name,
-                'position' => 1,
-                'parent' => $parentContainer,
-            ]);
-        }
-
-        return $container;
+        return $this->blockInteractor->createNewContainer([
+            'enabled' => true,
+            'page' => $page,
+            'code' => $name,
+            'position' => 1,
+            'parent' => $parentContainer,
+        ]);
     }
 
     public function getBlock($id): ?PageBlockInterface
