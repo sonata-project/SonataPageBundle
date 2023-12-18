@@ -47,13 +47,15 @@ final class BlockTypeExtractor implements PropertyTypeExtractorInterface
                 new Type(Type::BUILTIN_TYPE_INT, true),
                 new Type(Type::BUILTIN_TYPE_STRING, true),
             ];
-        } elseif ('enabled' === $property) {
+        }
+        if ('enabled' === $property) {
             return [
                 new Type(Type::BUILTIN_TYPE_BOOL, true),
                 new Type(Type::BUILTIN_TYPE_INT, true),
                 new Type(Type::BUILTIN_TYPE_STRING, true),
             ];
-        } elseif (\in_array($property, self::NULLABLE_STRINGS, true)) {
+        }
+        if (\in_array($property, self::NULLABLE_STRINGS, true)) {
             return [new Type(Type::BUILTIN_TYPE_STRING, true)];
         }
 

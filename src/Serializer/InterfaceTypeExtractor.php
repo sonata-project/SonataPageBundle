@@ -47,7 +47,8 @@ final class InterfaceTypeExtractor implements PropertyTypeExtractorInterface
                     null,
                     $this->getPageType()
                 )];
-            } elseif ('blocks' === $property) {
+            }
+            if ('blocks' === $property) {
                 return [new Type(
                     Type::BUILTIN_TYPE_OBJECT,
                     false,
@@ -56,7 +57,8 @@ final class InterfaceTypeExtractor implements PropertyTypeExtractorInterface
                     null,
                     $this->getBlockType()
                 )];
-            } elseif ('parent' === $property) {
+            }
+            if ('parent' === $property) {
                 return [$this->getPageType()];
             }
         } elseif ($this->blockClass === $class) {
