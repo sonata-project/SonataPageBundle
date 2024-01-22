@@ -311,7 +311,7 @@ final class TransformerTest extends KernelTestCase
         /**
          * @var SonataPagePage $page
          */
-        $page = $this->entityManager->find(sonataPagePage::class, 123);
+        $page = $this->entityManager->find(SonataPagePage::class, 123);
 
         $snapshot = $this->transformer->create($page);
 
