@@ -14,19 +14,51 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Entity;
 
 use Cocur\Slugify\Slugify;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Entity\PageManager;
+use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Tests\Model\Page;
+use Symfony\Component\String\Slugger\AsciiSlugger;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 final class PageManagerTest extends TestCase
 {
-    public function testFixUrl(): void
+    /**
+     * @group legacy
+     *
+     * NEXT_MAJOR: Remove slugfy test
+     **/
+    public function testFixUrlWithSlugfy(): void
     {
         $manager = new PageManager(
             Page::class,
             $this->createStub(ManagerRegistry::class),
             new Slugify()
+        );
+
+        $page1 = new Page();
+        $page1->setName('Salut comment ca va ?');
+
+        $page2 = new Page();
+        $page2->setName('Super! et toi ?');
+
+        $page1->addChild($page2);
+
+        $parent = new Page();
+        $parent->addChild($page1);
+
+        $manager->fixUrl($page1);
+        static::assertSame('salut-comment-ca-va', $page1->getSlug());
+    }
+
+    public function testFixUrl(): void
+    {
+        $manager = new PageManager(
+            Page::class,
+            $this->createStub(ManagerRegistry::class),
+            new AsciiSlugger()
         );
 
         $page1 = new Page();
@@ -70,7 +102,7 @@ final class PageManagerTest extends TestCase
         $manager = new PageManager(
             Page::class,
             $this->createMock(ManagerRegistry::class),
-            new Slugify()
+            new AsciiSlugger()
         );
 
         $homepage = new Page();
@@ -106,5 +138,106 @@ final class PageManagerTest extends TestCase
 
         static::assertSame('My Name', $page->getName());
         static::assertFalse($page->getDecorate());
+    }
+
+    public function testInternalPageHasNoUrl(): void
+    {
+        $slugger = $this->createMock(SluggerInterface::class);
+        $registry = $this->createMock(ManagerRegistry::class);
+        $page = $this->createMock(PageInterface::class);
+
+        $page
+            ->expects(static::once())
+            ->method('isInternal')
+            ->willReturn(true);
+        $page
+            ->expects(static::any())
+            ->method('getChildren')
+            ->willReturn(new ArrayCollection());
+        $page
+            ->expects(static::once())
+            ->method('setUrl')
+            ->with(static::isNull());
+
+        $manager = new PageManager(
+            Page::class,
+            $registry,
+            $slugger,
+            [],
+            []
+        );
+
+        $manager->fixUrl($page);
+    }
+
+    public function testHybridPageIsNotProcessed(): void
+    {
+        $slugger = $this->createMock(SluggerInterface::class);
+        $registry = $this->createMock(ManagerRegistry::class);
+        $page = $this->createMock(PageInterface::class);
+
+        $page
+            ->expects(static::once())
+            ->method('isInternal')
+            ->willReturn(false);
+        $page
+            ->expects(static::once())
+            ->method('isHybrid')
+            ->willReturn(true);
+        $page
+            ->expects(static::once())
+            ->method('getChildren')
+            ->willReturn(new ArrayCollection());
+        $page
+            ->expects(static::never())
+            ->method('setUrl');
+
+        $manager = new PageManager(
+            Page::class,
+            $registry,
+            $slugger,
+            [],
+            []
+        );
+
+        $manager->fixUrl($page);
+    }
+
+    public function testSetCustomUrlWhenParentIsNull(): void
+    {
+        $slugger = $this->createMock(SluggerInterface::class);
+        $registry = $this->createMock(ManagerRegistry::class);
+        $page = $this->createMock(PageInterface::class);
+
+        $page
+            ->expects(static::once())
+            ->method('isInternal')
+            ->willReturn(false);
+        $page
+            ->expects(static::once())
+            ->method('isHybrid')
+            ->willReturn(false);
+        $page
+            ->expects(static::once())
+            ->method('getChildren')
+            ->willReturn(new ArrayCollection());
+        $page
+            ->expects(static::once())
+            ->method('getCustomUrl')
+            ->willReturn('foo-custom-url');
+        $page
+            ->expects(static::once())
+            ->method('setUrl')
+            ->with('/foo-custom-url');
+
+        $manager = new PageManager(
+            Page::class,
+            $registry,
+            $slugger,
+            [],
+            []
+        );
+
+        $manager->fixUrl($page);
     }
 }
