@@ -295,12 +295,6 @@ final class Transformer implements TransformerInterface
 
         if (!isset($this->children[$id])) {
             $date = new \DateTime();
-            $parameters = [
-                'publicationDateStart' => $date,
-                'publicationDateEnd' => $date,
-                'parentId' => $id,
-            ];
-
             $manager = $this->registry->getManagerForClass($this->snapshotManager->getClass());
 
             if (!$manager instanceof EntityManagerInterface) {
@@ -313,7 +307,9 @@ final class Transformer implements TransformerInterface
                 ->where('s.parentId = :parentId and s.enabled = 1')
                 ->andWhere('s.publicationDateStart <= :publicationDateStart AND ( s.publicationDateEnd IS NULL OR s.publicationDateEnd >= :publicationDateEnd )')
                 ->orderBy('s.position')
-                ->setParameters($parameters)
+                ->setParameter('publicationDateStart', $date)
+                ->setParameter('publicationDateEnd', $date)
+                ->setParameter('parentId', $id)
                 ->getQuery()
                 ->execute();
 

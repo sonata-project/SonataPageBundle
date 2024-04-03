@@ -161,10 +161,8 @@ final class PageManager extends BaseEntityManager implements PageManagerInterfac
             ->select('p')
             ->from($this->class, 'p')
             ->where('p.routeName <> :routeName and p.site = :site')
-            ->setParameters([
-                'routeName' => PageInterface::PAGE_ROUTE_CMS_NAME,
-                'site' => $site->getId(),
-            ])
+            ->setParameter('routeName', PageInterface::PAGE_ROUTE_CMS_NAME)
+            ->setParameter('site', $site->getId())
             ->getQuery()
             ->execute();
     }

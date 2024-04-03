@@ -20,6 +20,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\ClassMetadataFactory;
+use Doctrine\ORM\Mapping\FieldMapping;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
@@ -88,22 +89,33 @@ final class SnapshotManagerTest extends TestCase
         $classMetadata->setPrimaryTable([
             'name' => 'page_snapshot',
         ]);
-        $classMetadata->addInheritedFieldMapping([
-            'fieldName' => 'publicationDateEnd',
-            'columnName' => 'publication_date_end',
-            'type' => 'datetime',
-            'nullable' => true,
-        ]);
-        $classMetadata->addInheritedFieldMapping([
-            'type' => 'integer',
-            'fieldName' => 'id',
-            'columnName' => 'id',
-        ]);
-        $classMetadata->addInheritedFieldMapping([
-            'type' => 'integer',
-            'fieldName' => 'page',
-            'columnName' => 'page_id',
-        ]);
+
+        $fieldMappings = [
+            [
+                'fieldName' => 'publicationDateEnd',
+                'columnName' => 'publication_date_end',
+                'type' => 'datetime',
+                'nullable' => true,
+            ],
+            [
+                'type' => 'integer',
+                'fieldName' => 'id',
+                'columnName' => 'id',
+            ],
+            [
+                'type' => 'integer',
+                'fieldName' => 'page',
+                'columnName' => 'page_id',
+            ],
+        ];
+        foreach ($fieldMappings as $fieldMapping) {
+            if (class_exists(FieldMapping::class)) {
+                $classMetadata->addInheritedFieldMapping(FieldMapping::fromMappingArray($fieldMapping));
+            } else {
+                // @phpstan-ignore-next-line
+                $classMetadata->addInheritedFieldMapping($fieldMapping);
+            }
+        }
         $classMetadata->identifier = ['id'];
 
         $connection->expects(static::once())->method('executeStatement')->with(

@@ -42,9 +42,7 @@ final class BlockInteractor implements BlockInteractorInterface
             ->select('b')
             ->from($this->blockManager->getClass(), 'b')
             ->where('b.id = :id')
-            ->setParameters([
-                'id' => $id,
-            ])
+            ->setParameter('id', $id)
             ->getQuery()
             ->execute();
 
@@ -55,9 +53,7 @@ final class BlockInteractor implements BlockInteractorInterface
     {
         $blocks = $this->getEntityManager()
             ->createQuery(sprintf('SELECT b FROM %s b INDEX BY b.id WHERE b.page = :page ORDER BY b.position ASC', $this->blockManager->getClass()))
-            ->setParameters([
-                'page' => $page->getId(),
-            ])
+            ->setParameter('page', $page->getId())
             ->execute();
 
         return $blocks;
