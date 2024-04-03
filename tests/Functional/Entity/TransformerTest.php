@@ -41,7 +41,7 @@ final class TransformerTest extends KernelTestCase
     private array $storedIdGenerators = [];
 
     /**
-     * @var array<string, 1|2|3|4|5|7>
+     * @var array<string, 1|2|4|5|7>
      */
     private array $storedIdGeneratorTypes = [];
 
@@ -439,8 +439,8 @@ final class TransformerTest extends KernelTestCase
     }
 
     /**
-     * @phpstan-param PageContent|null $expected
-     * @phpstan-param PageContent|null $actual
+     * @param array<mixed> $expected
+     * @param array<mixed> $actual
      */
     protected static function assertSameArray(?array $expected, ?array $actual): void
     {
