@@ -15,6 +15,7 @@ namespace Sonata\PageBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Sonata\BlockBundle\Model\BlockInterface;
@@ -307,8 +308,8 @@ final class Transformer implements TransformerInterface
                 ->where('s.parentId = :parentId and s.enabled = 1')
                 ->andWhere('s.publicationDateStart <= :publicationDateStart AND ( s.publicationDateEnd IS NULL OR s.publicationDateEnd >= :publicationDateEnd )')
                 ->orderBy('s.position')
-                ->setParameter('publicationDateStart', $date)
-                ->setParameter('publicationDateEnd', $date)
+                ->setParameter('publicationDateStart', $date, Types::DATETIME_MUTABLE)
+                ->setParameter('publicationDateEnd', $date, Types::DATETIME_MUTABLE)
                 ->setParameter('parentId', $id)
                 ->getQuery()
                 ->execute();

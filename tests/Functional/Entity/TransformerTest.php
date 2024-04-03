@@ -41,7 +41,7 @@ final class TransformerTest extends KernelTestCase
     private array $storedIdGenerators = [];
 
     /**
-     * @var array<string, 1|2|3|4|5|6|7>
+     * @var array<string, 1|2|3|4|5|7>
      */
     private array $storedIdGeneratorTypes = [];
 

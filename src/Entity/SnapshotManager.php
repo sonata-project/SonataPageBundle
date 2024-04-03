@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Entity;
 
-use Doctrine\Common\Collections\Criteria;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\Persistence\ManagerRegistry;
 use Sonata\Doctrine\Entity\BaseEntityManager;
 use Sonata\PageBundle\Model\PageInterface;
@@ -86,8 +86,8 @@ final class SnapshotManager extends BaseEntityManager implements SnapshotManager
             ->createQueryBuilder('s')
             ->andWhere('s.publicationDateStart <= :publicationDateStart AND ( s.publicationDateEnd IS NULL OR s.publicationDateEnd >= :publicationDateEnd )')
             ->andWhere('s.enabled = true')
-            ->setParameter('publicationDateStart', $date)
-            ->setParameter('publicationDateEnd', $date);
+            ->setParameter('publicationDateStart', $date, Types::DATETIME_MUTABLE)
+            ->setParameter('publicationDateEnd', $date, Types::DATETIME_MUTABLE);
 
         if (isset($criteria['site'])) {
             $query->andWhere('s.site = :site');
@@ -133,8 +133,8 @@ final class SnapshotManager extends BaseEntityManager implements SnapshotManager
         $innerQb
             ->select('i.id')
             ->where($expr->eq('i.page', $page->getId()))
-            ->orderBy($ifNullExpr, Criteria::DESC)
-            ->addOrderBy('i.publicationDateEnd', Criteria::DESC)
+            ->orderBy($ifNullExpr, 'DESC')
+            ->addOrderBy('i.publicationDateEnd', 'DESC')
             ->setMaxResults($keep);
 
         $query = $innerQb->getQuery();
