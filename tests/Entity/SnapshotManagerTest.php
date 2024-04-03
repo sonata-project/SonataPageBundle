@@ -110,9 +110,13 @@ final class SnapshotManagerTest extends TestCase
         ];
         foreach ($fieldMappings as $fieldMapping) {
             if (class_exists(FieldMapping::class)) {
+                /** @psalm-suppress InvalidArgument https://github.com/doctrine/orm/pull/11408 */
                 $classMetadata->addInheritedFieldMapping(FieldMapping::fromMappingArray($fieldMapping));
             } else {
-                // @phpstan-ignore-next-line
+                /**
+                 * @psalm-suppress InvalidArgument
+                 * @phpstan-ignore-next-line
+                 */
                 $classMetadata->addInheritedFieldMapping($fieldMapping);
             }
         }
