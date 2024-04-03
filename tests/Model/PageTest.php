@@ -33,11 +33,11 @@ final class PageTest extends TestCase
         $method = $pageReflection->getMethod('getHeadersAsArray');
         $method->setAccessible(true);
         foreach ([
-                "Location: http://www.google.fr\r\nExpires: 0",
-                " Location: http://www.google.fr\r\nExpires: 0 ",
-                "Location:http://www.google.fr\r\nExpires:0",
-                "\r\nLocation: http://www.google.fr\r\nExpires: 0\r\nInvalid Header Line",
-            ] as $rawHeaders) {
+            "Location: http://www.google.fr\r\nExpires: 0",
+            " Location: http://www.google.fr\r\nExpires: 0 ",
+            "Location:http://www.google.fr\r\nExpires:0",
+            "\r\nLocation: http://www.google.fr\r\nExpires: 0\r\nInvalid Header Line",
+        ] as $rawHeaders) {
             static::assertSame(
                 $expectedHeaders,
                 $method->invokeArgs($page, [$rawHeaders]),
@@ -48,15 +48,15 @@ final class PageTest extends TestCase
         $method = $pageReflection->getMethod('getHeadersAsString');
         $method->setAccessible(true);
         foreach ([
-                [
-                    'Location' => 'http://www.google.fr',
-                    'Expires' => '0',
-                ],
-                [
-                    ' Location ' => ' http://www.google.fr ',
-                    "\r\nExpires " => " 0\r\n",
-                ],
-            ] as $headers) {
+            [
+                'Location' => 'http://www.google.fr',
+                'Expires' => '0',
+            ],
+            [
+                ' Location ' => ' http://www.google.fr ',
+                "\r\nExpires " => " 0\r\n",
+            ],
+        ] as $headers) {
             static::assertSame(
                 $expectedStringHeaders,
                 $method->invokeArgs($page, [$headers]),

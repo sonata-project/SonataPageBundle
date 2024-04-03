@@ -16,7 +16,7 @@ namespace Sonata\PageBundle\Tests\Functional\Snapshot;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\Id\AssignedGenerator;
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\OptimisticLockException;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Tests\App\Entity\SonataPagePage;
@@ -63,7 +63,7 @@ final class SnapshotManagerTest extends KernelTestCase
     public function disableAutoIncrement(string $class): void
     {
         $metadata = $this->entityManager->getClassMetadata($class);
-        $metadata->setIdGeneratorType(ClassMetadataInfo::GENERATOR_TYPE_NONE);
+        $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
         $metadata->setIdGenerator(new AssignedGenerator());
     }
 
