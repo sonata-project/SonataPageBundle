@@ -278,7 +278,7 @@ final class SonataPageExtension extends Extension implements PrependExtensionInt
             $config['class']['page'],
             'mapOneToMany',
             OptionsBuilder::createOneToMany('blocks', $config['class']['block'])
-                ->cascade(['remove', 'persist', 'refresh', 'merge', 'detach'])
+                ->cascade(['remove', 'persist', 'refresh', 'detach'])
                 ->mappedBy('page')
                 ->addOrder('position', 'ASC')
         );

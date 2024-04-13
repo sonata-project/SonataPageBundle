@@ -149,10 +149,8 @@ final class BlockAdmin extends BaseBlockAdmin
                     'class' => $this->getClass(),
                     'query_builder' => static fn (EntityRepository $repository) => $repository->createQueryBuilder('a')
                         ->andWhere('a.page = :page AND a.type IN (:types)')
-                        ->setParameters([
-                            'page' => $page,
-                            'types' => $containerBlockTypes,
-                        ]),
+                        ->setParameter('page', $page->getId())
+                        ->setParameter('types', $containerBlockTypes),
                 ], [
                     'admin_code' => $this->getCode(),
                 ]);

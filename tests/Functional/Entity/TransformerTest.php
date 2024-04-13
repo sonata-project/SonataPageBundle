@@ -16,7 +16,7 @@ namespace Sonata\PageBundle\Tests\Functional\Entity;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Id\AbstractIdGenerator;
 use Doctrine\ORM\Id\AssignedGenerator;
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Sonata\PageBundle\Model\TransformerInterface;
 use Sonata\PageBundle\Tests\App\AppKernel;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageBlock;
@@ -41,7 +41,7 @@ final class TransformerTest extends KernelTestCase
     private array $storedIdGenerators = [];
 
     /**
-     * @var array<string, 1|2|3|4|5|6|7>
+     * @var array<string, 1|2|4|5|7>
      */
     private array $storedIdGeneratorTypes = [];
 
@@ -99,7 +99,7 @@ final class TransformerTest extends KernelTestCase
     {
         $metadata = $this->entityManager->getClassMetadata($class);
         $this->storedIdGeneratorTypes[$class] = $metadata->generatorType;
-        $metadata->setIdGeneratorType(ClassMetadataInfo::GENERATOR_TYPE_NONE);
+        $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
         $this->storedIdGenerators[$class] = $metadata->idGenerator;
         $metadata->setIdGenerator(new AssignedGenerator());
         // disable lifecycle to not update created and updated
@@ -439,8 +439,8 @@ final class TransformerTest extends KernelTestCase
     }
 
     /**
-     * @phpstan-param PageContent|null $expected
-     * @phpstan-param PageContent|null $actual
+     * @param array<mixed> $expected
+     * @param array<mixed> $actual
      */
     protected static function assertSameArray(?array $expected, ?array $actual): void
     {
