@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.7.2](https://github.com/sonata-project/SonataPageBundle/compare/4.7.1...4.7.2) - 2024-04-13
+### Fixed
+- [[#1760](https://github.com/sonata-project/SonataPageBundle/pull/1760)] Allow to decorate BlockAdmin, SnapshotAdmin and CreateSnapshotService ([@VincentLanglet](https://github.com/VincentLanglet))
+
+### Removed
+- [[#1742](https://github.com/sonata-project/SonataPageBundle/pull/1742)] Removed the return type `null` for `src/CmsManager/CmsPageManager::findContainer`, ([@eerison](https://github.com/eerison))
+
 ## [4.7.1](https://github.com/sonata-project/SonataPageBundle/compare/4.7.0...4.7.1) - 2023-12-08
 ### Changed
 - [[#1737](https://github.com/sonata-project/SonataPageBundle/pull/1737)]  Changed runtime exception message for Host path sites ([@eerison](https://github.com/eerison))
