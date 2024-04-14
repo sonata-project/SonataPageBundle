@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Controller;
 
+use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Controller\CRUDController;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
@@ -20,10 +21,12 @@ use Sonata\BlockBundle\Block\Service\EditableBlockService;
 use Sonata\PageBundle\Admin\BlockAdmin;
 use Sonata\PageBundle\Admin\SnapshotAdmin;
 use Sonata\PageBundle\Model\BlockInteractorInterface;
+use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Page\TemplateManagerInterface;
+use Sonata\PageBundle\Service\Contract\CreateSnapshotByPageInterface;
 use Sonata\PageBundle\Service\CreateSnapshotService;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -62,11 +65,11 @@ final class PageAdminController extends CRUDController
     public function batchActionSnapshot(ProxyQueryInterface $query): RedirectResponse
     {
         $snapShotAdmin = $this->container->get('sonata.page.admin.snapshot');
-        \assert($snapShotAdmin instanceof SnapshotAdmin);
+        \assert($snapShotAdmin instanceof AdminInterface);
         $snapShotAdmin->checkAccess('create');
 
         $createSnapshot = $this->container->get('sonata.page.service.create_snapshot');
-        \assert($createSnapshot instanceof CreateSnapshotService);
+        \assert($createSnapshot instanceof CreateSnapshotByPageInterface);
         foreach ($query->execute() as $page) {
             $createSnapshot->createByPage($page);
         }
@@ -171,7 +174,7 @@ final class PageAdminController extends CRUDController
         $this->admin->checkAccess('compose');
 
         $blockAdmin = $this->container->get('sonata.page.admin.block');
-        \assert($blockAdmin instanceof BlockAdmin);
+        \assert($blockAdmin instanceof AdminInterface);
 
         if (false === $blockAdmin->isGranted('LIST')) {
             throw new AccessDeniedException();
@@ -258,7 +261,7 @@ final class PageAdminController extends CRUDController
     public function composeContainerShowAction(Request $request): Response
     {
         $blockAdmin = $this->container->get('sonata.page.admin.block');
-        \assert($blockAdmin instanceof BlockAdmin);
+        \assert($blockAdmin instanceof AdminInterface);
 
         if (false === $blockAdmin->isGranted('LIST')) {
             throw new AccessDeniedException();
@@ -266,7 +269,7 @@ final class PageAdminController extends CRUDController
 
         $id = $request->get($this->admin->getIdParameter());
         $block = $blockAdmin->getObject($id);
-        if (null === $block) {
+        if (!$block instanceof PageBlockInterface) {
             throw new NotFoundHttpException(sprintf('Unable to find the block with id : %s', $id));
         }
 

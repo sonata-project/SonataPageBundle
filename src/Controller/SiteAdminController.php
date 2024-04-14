@@ -13,9 +13,11 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Controller;
 
+use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Controller\CRUDController;
 use Sonata\PageBundle\Admin\SnapshotAdmin;
 use Sonata\PageBundle\Model\SiteInterface;
+use Sonata\PageBundle\Service\Contract\CreateSnapshotBySiteInterface;
 use Sonata\PageBundle\Service\CreateSnapshotService;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,7 +47,7 @@ final class SiteAdminController extends CRUDController
     public function snapshotsAction(Request $request): Response
     {
         $adminSnapshot = $this->container->get('sonata.page.admin.snapshot');
-        \assert($adminSnapshot instanceof SnapshotAdmin);
+        \assert($adminSnapshot instanceof AdminInterface);
         if (false === $adminSnapshot->isGranted('CREATE')) {
             throw new AccessDeniedException();
         }
@@ -62,7 +64,7 @@ final class SiteAdminController extends CRUDController
 
         if ('POST' === $request->getMethod()) {
             $createSnapshot = $this->container->get('sonata.page.service.create_snapshot');
-            \assert($createSnapshot instanceof CreateSnapshotService);
+            \assert($createSnapshot instanceof CreateSnapshotBySiteInterface);
             $createSnapshot->createBySite($object);
 
             $this->addFlash(

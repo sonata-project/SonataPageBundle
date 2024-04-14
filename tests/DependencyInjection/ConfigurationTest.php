@@ -131,10 +131,10 @@ final class ConfigurationTest extends TestCase
             'page_defaults' => [],
             'catch_exceptions' => [],
             'class' => [
-                    'page' => 'App\\Entity\\SonataPagePage',
-                    'snapshot' => 'App\\Entity\\SonataPageSnapshot',
-                    'block' => 'App\\Entity\\SonataPageBlock',
-                    'site' => 'App\\Entity\\SonataPageSite',
+                'page' => 'App\\Entity\\SonataPagePage',
+                'snapshot' => 'App\\Entity\\SonataPageSnapshot',
+                'block' => 'App\\Entity\\SonataPageBlock',
+                'site' => 'App\\Entity\\SonataPageSite',
             ],
             'direct_publication' => false,
         ];

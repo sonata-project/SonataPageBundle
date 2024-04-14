@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Entity;
 
-use Doctrine\Common\Collections\Criteria;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\Persistence\ManagerRegistry;
 use Sonata\Doctrine\Entity\BaseEntityManager;
 use Sonata\PageBundle\Model\PageInterface;
@@ -82,42 +82,38 @@ final class SnapshotManager extends BaseEntityManager implements SnapshotManager
     public function findEnableSnapshot(array $criteria): ?SnapshotInterface
     {
         $date = new \DateTime();
-        $parameters = [
-            'publicationDateStart' => $date,
-            'publicationDateEnd' => $date,
-        ];
-
         $query = $this->getRepository()
             ->createQueryBuilder('s')
             ->andWhere('s.publicationDateStart <= :publicationDateStart AND ( s.publicationDateEnd IS NULL OR s.publicationDateEnd >= :publicationDateEnd )')
-            ->andWhere('s.enabled = true');
+            ->andWhere('s.enabled = true')
+            ->setParameter('publicationDateStart', $date, Types::DATETIME_MUTABLE)
+            ->setParameter('publicationDateEnd', $date, Types::DATETIME_MUTABLE);
 
         if (isset($criteria['site'])) {
             $query->andWhere('s.site = :site');
-            $parameters['site'] = $criteria['site'];
+            $query->setParameter('site', $criteria['site']);
         }
 
         if (isset($criteria['pageId'])) {
             $query->andWhere('s.page = :page');
-            $parameters['page'] = $criteria['pageId'];
+            $query->setParameter('page', $criteria['pageId']);
         } elseif (isset($criteria['url'])) {
             $query->andWhere('s.url = :url');
-            $parameters['url'] = $criteria['url'];
+            $query->setParameter('url', $criteria['url']);
         } elseif (isset($criteria['routeName'])) {
             $query->andWhere('s.routeName = :routeName');
-            $parameters['routeName'] = $criteria['routeName'];
+            $query->setParameter('routeName', $criteria['routeName']);
         } elseif (isset($criteria['pageAlias'])) {
             $query->andWhere('s.pageAlias = :pageAlias');
-            $parameters['pageAlias'] = $criteria['pageAlias'];
+            $query->setParameter('pageAlias', $criteria['pageAlias']);
         } elseif (isset($criteria['name'])) {
             $query->andWhere('s.name = :name');
-            $parameters['name'] = $criteria['name'];
+            $query->setParameter('name', $criteria['name']);
         } else {
             throw new \RuntimeException('please provide a `pageId`, `url`, `routeName`, `pageAlias` or `name` as criteria key');
         }
 
         $query->setMaxResults(1);
-        $query->setParameters($parameters);
 
         return $query->getQuery()->getOneOrNullResult();
     }
@@ -137,8 +133,8 @@ final class SnapshotManager extends BaseEntityManager implements SnapshotManager
         $innerQb
             ->select('i.id')
             ->where($expr->eq('i.page', $page->getId()))
-            ->orderBy($ifNullExpr, Criteria::DESC)
-            ->addOrderBy('i.publicationDateEnd', Criteria::DESC)
+            ->orderBy($ifNullExpr, 'DESC')
+            ->addOrderBy('i.publicationDateEnd', 'DESC')
             ->setMaxResults($keep);
 
         $query = $innerQb->getQuery();
