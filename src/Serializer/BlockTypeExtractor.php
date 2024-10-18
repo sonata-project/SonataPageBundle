@@ -15,7 +15,8 @@ namespace Sonata\PageBundle\Serializer;
 
 use Sonata\BlockBundle\Model\BlockInterface;
 use Symfony\Component\PropertyInfo\PropertyTypeExtractorInterface;
-use Symfony\Component\PropertyInfo\Type;
+use Symfony\Component\PropertyInfo\Type as LegacyType;
+use Symfony\Component\TypeInfo\Type;
 
 final class BlockTypeExtractor implements PropertyTypeExtractorInterface
 {
@@ -28,14 +29,14 @@ final class BlockTypeExtractor implements PropertyTypeExtractorInterface
      * @param class-string<BlockInterface> $blockClass
      */
     public function __construct(
-        private string $blockClass
+        private string $blockClass,
     ) {
     }
 
     /**
      * @param array<array-key, mixed> $context
      *
-     * @return Type[]|null
+     * @return LegacyType[]|null
      */
     public function getTypes(string $class, string $property, array $context = []): ?array
     {
@@ -44,19 +45,40 @@ final class BlockTypeExtractor implements PropertyTypeExtractorInterface
         }
         if ('position' === $property) {
             return [
-                new Type(Type::BUILTIN_TYPE_INT, true),
-                new Type(Type::BUILTIN_TYPE_STRING, true),
+                new LegacyType(LegacyType::BUILTIN_TYPE_INT, true),
+                new LegacyType(LegacyType::BUILTIN_TYPE_STRING, true),
             ];
         }
         if ('enabled' === $property) {
             return [
-                new Type(Type::BUILTIN_TYPE_BOOL, true),
-                new Type(Type::BUILTIN_TYPE_INT, true),
-                new Type(Type::BUILTIN_TYPE_STRING, true),
+                new LegacyType(LegacyType::BUILTIN_TYPE_BOOL, true),
+                new LegacyType(LegacyType::BUILTIN_TYPE_INT, true),
+                new LegacyType(LegacyType::BUILTIN_TYPE_STRING, true),
             ];
         }
         if (\in_array($property, self::NULLABLE_STRINGS, true)) {
-            return [new Type(Type::BUILTIN_TYPE_STRING, true)];
+            return [new LegacyType(LegacyType::BUILTIN_TYPE_STRING, true)];
+        }
+
+        return null;
+    }
+
+    /**
+     * @param array<array-key, mixed> $context
+     */
+    public function getType(string $class, string $property, array $context = []): ?Type
+    {
+        if ($class !== $this->blockClass) {
+            return null;
+        }
+        if ('position' === $property) {
+            return Type::nullable(Type::union(Type::int(), Type::string()));
+        }
+        if ('enabled' === $property) {
+            return Type::nullable(Type::union(Type::bool(), Type::int(), Type::string()));
+        }
+        if (\in_array($property, self::NULLABLE_STRINGS, true)) {
+            return Type::nullable(Type::string());
         }
 
         return null;

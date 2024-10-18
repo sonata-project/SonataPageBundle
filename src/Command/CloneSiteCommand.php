@@ -34,7 +34,7 @@ final class CloneSiteCommand extends Command
     public function __construct(
         private SiteManagerInterface $siteManager,
         private PageManagerInterface $pageManager,
-        private BlockManagerInterface $blockManager
+        private BlockManagerInterface $blockManager,
     ) {
         parent::__construct();
     }
@@ -93,7 +93,7 @@ final class CloneSiteCommand extends Command
 
             $parent = $page->getParent();
 
-            $output->writeln(sprintf(
+            $output->writeln(\sprintf(
                 ' % 4s - % -70s - % 4s',
                 $pageId,
                 $page->getTitle() ?? '',
@@ -117,7 +117,7 @@ final class CloneSiteCommand extends Command
                 $blockId = $block->getId();
                 \assert(null !== $blockId);
 
-                $output->writeln(sprintf(' cloning block % 4s ', $blockId));
+                $output->writeln(\sprintf(' cloning block % 4s ', $blockId));
 
                 $newBlock = clone $block;
                 $newBlock->setPage($newPage);
@@ -140,7 +140,7 @@ final class CloneSiteCommand extends Command
             \assert(null !== $parentId);
 
             if (\array_key_exists($parentId, $pageClones)) {
-                $output->writeln(sprintf(
+                $output->writeln(\sprintf(
                     'new parent: % 4s - % -70s - % 4s -> % 4s',
                     $page->getId() ?? '',
                     $page->getTitle() ?? '',
@@ -167,7 +167,7 @@ final class CloneSiteCommand extends Command
                 \assert(null !== $parentBlockId);
 
                 if (\array_key_exists($parentBlockId, $blockClones)) {
-                    $output->writeln(sprintf(
+                    $output->writeln(\sprintf(
                         'new block parent: % 4s - % 4s',
                         $block->getId() ?? '',
                         $blockClones[$parentBlockId]->getId() ?? ''
@@ -189,12 +189,12 @@ final class CloneSiteCommand extends Command
      */
     private function listAllSites(OutputInterface $output): void
     {
-        $output->writeln(sprintf(' % 5s - % -30s - %s', 'ID', 'Name', 'Url'));
+        $output->writeln(\sprintf(' % 5s - % -30s - %s', 'ID', 'Name', 'Url'));
 
         $sites = $this->siteManager->findAll();
 
         foreach ($sites as $site) {
-            $output->writeln(sprintf(
+            $output->writeln(\sprintf(
                 ' % 5s - % -30s - %s',
                 $site->getId() ?? '',
                 $site->getName() ?? '',

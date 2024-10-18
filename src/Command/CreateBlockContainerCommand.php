@@ -31,7 +31,7 @@ final class CreateBlockContainerCommand extends Command
 {
     public function __construct(
         private PageManagerInterface $pageManager,
-        private BlockInteractorInterface $blockInteractor
+        private BlockInteractorInterface $blockInteractor,
     ) {
         parent::__construct();
     }
@@ -55,7 +55,7 @@ final class CreateBlockContainerCommand extends Command
         ]);
 
         foreach ($pages as $page) {
-            $output->writeln(sprintf('Adding to page <info>%s</info>', $page->getName() ?? ''));
+            $output->writeln(\sprintf('Adding to page <info>%s</info>', $page->getName() ?? ''));
 
             $block = $this->blockInteractor->createNewContainer([
                 'name' => $input->getArgument('blockName'),
@@ -69,7 +69,7 @@ final class CreateBlockContainerCommand extends Command
             $pageManager->save($page);
         }
 
-        $output->writeln(sprintf(
+        $output->writeln(\sprintf(
             'Don\'t forget to add block <comment>%s</comment> into your <comment>sonata_page.yml</comment>',
             $blockCode
         ));

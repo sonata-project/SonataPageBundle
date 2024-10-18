@@ -39,7 +39,7 @@ final class TemplateManager implements TemplateManagerInterface
      */
     public function __construct(
         private Environment $twig,
-        private array $defaultParameters = []
+        private array $defaultParameters = [],
     ) {
     }
 

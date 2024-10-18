@@ -231,7 +231,7 @@ final class SonataPageExtension extends Extension implements PrependExtensionInt
         $exceptions = [];
         foreach ($config['catch_exceptions'] as $keyWord => $codes) {
             foreach ($codes as $code) {
-                $exceptions[$code] = sprintf('_page_internal_error_%s', $keyWord);
+                $exceptions[$code] = \sprintf('_page_internal_error_%s', $keyWord);
             }
         }
 

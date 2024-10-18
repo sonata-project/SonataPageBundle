@@ -30,7 +30,7 @@ final class SnapshotPageProxy implements SnapshotPageProxyInterface
     public function __construct(
         private SnapshotManagerInterface $manager,
         private TransformerInterface $transformer,
-        private SnapshotInterface $snapshot
+        private SnapshotInterface $snapshot,
     ) {
     }
 

@@ -71,7 +71,7 @@ final class CreateSiteCommand extends Command
             $values[$name] = $input->getOption($name);
 
             while (null === $values[$name]) {
-                $question = new Question(sprintf('Please define a value for <info>Site.%s</info> : ', $name));
+                $question = new Question(\sprintf('Please define a value for <info>Site.%s</info> : ', $name));
                 $values[$name] = $helper->ask($input, $output, $question);
             }
         }
@@ -120,8 +120,8 @@ final class CreateSiteCommand extends Command
                 '<info>Site created!</info>',
                 '',
                 'You can now create the related pages and snapshots by running the followings commands:',
-                sprintf('  bin/console sonata:page:update-core-routes --site=%s', $site->getId() ?? ''),
-                sprintf('  bin/console sonata:page:create-snapshots --site=%s', $site->getId() ?? ''),
+                \sprintf('  bin/console sonata:page:update-core-routes --site=%s', $site->getId() ?? ''),
+                \sprintf('  bin/console sonata:page:create-snapshots --site=%s', $site->getId() ?? ''),
             ]);
         } else {
             $output->writeln('<error>Site creation cancelled!</error>');

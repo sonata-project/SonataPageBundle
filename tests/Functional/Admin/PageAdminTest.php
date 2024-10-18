@@ -274,7 +274,7 @@ final class PageAdminTest extends WebTestCase
         $snapshot->setUrl('/');
         $snapshot->setRouteName(PageInterface::PAGE_ROUTE_CMS_NAME);
         $snapshot->setEnabled(true);
-        $snapshot->setPublicationDateStart(new \DateTimeImmutable());
+        $snapshot->setPublicationDateStart(new \DateTime());
         $snapshot->setPage($page);
         $snapshot->setSite($site);
 

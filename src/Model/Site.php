@@ -195,7 +195,7 @@ abstract class Site implements SiteInterface, \Stringable
             return $this->getRelativePath();
         }
 
-        return sprintf('//%s%s', $this->getHost() ?? '', $this->getRelativePath() ?? '');
+        return \sprintf('//%s%s', $this->getHost() ?? '', $this->getRelativePath() ?? '');
     }
 
     public function isEnabled(): bool

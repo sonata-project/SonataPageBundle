@@ -34,7 +34,7 @@ final class PageListBlockService extends AbstractBlockService implements Editabl
 {
     public function __construct(
         Environment $twig,
-        private PageManagerInterface $pageManager
+        private PageManagerInterface $pageManager,
     ) {
         parent::__construct($twig);
     }

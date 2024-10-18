@@ -50,7 +50,7 @@ final class CmsSnapshotManager extends BaseCmsPageManager
 
     public function __construct(
         private SnapshotManagerInterface $snapshotManager,
-        private TransformerInterface $transformer
+        private TransformerInterface $transformer,
     ) {
     }
 
@@ -75,7 +75,7 @@ final class CmsSnapshotManager extends BaseCmsPageManager
 
     public function getInternalRoute(SiteInterface $site, string $routeName): PageInterface
     {
-        return $this->getPageByRouteName($site, sprintf('_page_internal_%s', $routeName));
+        return $this->getPageByRouteName($site, \sprintf('_page_internal_%s', $routeName));
     }
 
     public function findContainer(string $name, PageInterface $page, ?PageBlockInterface $parentContainer = null): ?PageBlockInterface

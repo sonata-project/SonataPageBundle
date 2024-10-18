@@ -52,7 +52,7 @@ final class Template
     public function __construct(
         private string $name,
         private string $path,
-        array $containers = []
+        array $containers = [],
     ) {
         foreach ($containers as $code => $container) {
             $this->containers[$code] = $this->normalize($container);

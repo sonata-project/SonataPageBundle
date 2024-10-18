@@ -47,7 +47,7 @@ final class CmsPageManager extends BaseCmsPageManager
 
     public function __construct(
         private PageManagerInterface $pageManager,
-        private BlockInteractorInterface $blockInteractor
+        private BlockInteractorInterface $blockInteractor,
     ) {
     }
 
@@ -73,10 +73,10 @@ final class CmsPageManager extends BaseCmsPageManager
     public function getInternalRoute(SiteInterface $site, string $routeName): PageInterface
     {
         if (str_starts_with($routeName, 'error')) {
-            throw new \RuntimeException(sprintf('Illegal internal route name : %s, an internal page cannot start with `error`', $routeName));
+            throw new \RuntimeException(\sprintf('Illegal internal route name : %s, an internal page cannot start with `error`', $routeName));
         }
 
-        $routeName = sprintf('_page_internal_%s', $routeName);
+        $routeName = \sprintf('_page_internal_%s', $routeName);
 
         try {
             $page = $this->getPageByRouteName($site, $routeName);
@@ -84,7 +84,7 @@ final class CmsPageManager extends BaseCmsPageManager
             $page = $this->pageManager->createWithDefaults([
                 'url' => null,
                 'routeName' => $routeName,
-                'name' => sprintf('Internal Page : %s', $routeName),
+                'name' => \sprintf('Internal Page : %s', $routeName),
                 'decorate' => false,
             ]);
 
@@ -151,7 +151,7 @@ final class CmsPageManager extends BaseCmsPageManager
             $page = $this->pageManager->findOneBy($parameters);
 
             if (null === $page) {
-                throw new PageNotFoundException(sprintf('Unable to find the page : %s = %s', $fieldName, $value));
+                throw new PageNotFoundException(\sprintf('Unable to find the page : %s = %s', $fieldName, $value));
             }
 
             $this->loadBlocks($page);

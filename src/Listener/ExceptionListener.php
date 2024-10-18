@@ -46,7 +46,7 @@ final class ExceptionListener
         private DecoratorStrategyInterface $decoratorStrategy,
         private array $httpErrorCodes,
         ?LoggerInterface $logger = null,
-        private bool $status = false
+        private bool $status = false,
     ) {
         $this->logger = $logger ?? new NullLogger();
     }
@@ -71,7 +71,7 @@ final class ExceptionListener
     public function getErrorCodePage(int $statusCode): PageInterface
     {
         if (!$this->hasErrorCode($statusCode)) {
-            throw new InternalErrorException(sprintf('There is not page configured to handle the status code %d', $statusCode));
+            throw new InternalErrorException(\sprintf('There is not page configured to handle the status code %d', $statusCode));
         }
 
         $cms = $this->cmsManagerSelector->retrieve();
@@ -162,7 +162,7 @@ final class ExceptionListener
             return;
         }
 
-        $message = sprintf('%s: %s (uncaught exception) at %s line %s', $exception::class, $exception->getMessage(), $exception->getFile(), $exception->getLine());
+        $message = \sprintf('%s: %s (uncaught exception) at %s line %s', $exception::class, $exception->getMessage(), $exception->getFile(), $exception->getLine());
 
         $this->logException($exception, $exception, $message);
 
@@ -201,7 +201,7 @@ final class ExceptionListener
     private function logException(\Throwable $originalException, \Throwable $generatedException, ?string $message = null): void
     {
         if (null === $message) {
-            $message = sprintf('Exception thrown when handling an exception (%s: %s)', $generatedException::class, $generatedException->getMessage());
+            $message = \sprintf('Exception thrown when handling an exception (%s: %s)', $generatedException::class, $generatedException->getMessage());
         }
 
         if (!$originalException instanceof HttpExceptionInterface || $originalException->getStatusCode() >= 500) {

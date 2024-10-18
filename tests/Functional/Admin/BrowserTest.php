@@ -117,6 +117,6 @@ final class BrowserTest extends BasePantherTestCase
         parse_str($queryString, $queryParameters);
         \assert(\is_string($queryParameters['uniqid']));
 
-        return $queryParameters['uniqid'] ?? '';
+        return $queryParameters['uniqid'];
     }
 }

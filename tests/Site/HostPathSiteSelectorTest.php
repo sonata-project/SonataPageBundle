@@ -340,6 +340,6 @@ final class HostPathSiteSelector extends BaseSiteSelector
             return $object->{$fieldName};
         }
 
-        throw new NoValueException(sprintf('Unable to retrieve the value of `%s`', $fieldName));
+        throw new NoValueException(\sprintf('Unable to retrieve the value of `%s`', $fieldName));
     }
 }

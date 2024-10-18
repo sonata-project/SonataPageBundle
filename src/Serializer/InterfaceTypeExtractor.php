@@ -16,7 +16,8 @@ namespace Sonata\PageBundle\Serializer;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Symfony\Component\PropertyInfo\PropertyTypeExtractorInterface;
-use Symfony\Component\PropertyInfo\Type;
+use Symfony\Component\PropertyInfo\Type as LegacyType;
+use Symfony\Component\TypeInfo\Type;
 
 final class InterfaceTypeExtractor implements PropertyTypeExtractorInterface
 {
@@ -26,21 +27,21 @@ final class InterfaceTypeExtractor implements PropertyTypeExtractorInterface
      */
     public function __construct(
         private string $pageClass,
-        private string $blockClass
+        private string $blockClass,
     ) {
     }
 
     /**
      * @param array<array-key, mixed> $context
      *
-     * @return Type[]|null
+     * @return LegacyType[]|null
      */
     public function getTypes(string $class, string $property, array $context = []): ?array
     {
         if ($this->pageClass === $class) {
             if ('children' === $property) {
-                return [new Type(
-                    Type::BUILTIN_TYPE_OBJECT,
+                return [new LegacyType(
+                    LegacyType::BUILTIN_TYPE_OBJECT,
                     false,
                     null,
                     true,
@@ -49,8 +50,8 @@ final class InterfaceTypeExtractor implements PropertyTypeExtractorInterface
                 )];
             }
             if ('blocks' === $property) {
-                return [new Type(
-                    Type::BUILTIN_TYPE_OBJECT,
+                return [new LegacyType(
+                    LegacyType::BUILTIN_TYPE_OBJECT,
                     false,
                     null,
                     true,
@@ -63,8 +64,8 @@ final class InterfaceTypeExtractor implements PropertyTypeExtractorInterface
             }
         } elseif ($this->blockClass === $class) {
             if ('children' === $property) {
-                return [new Type(
-                    Type::BUILTIN_TYPE_OBJECT,
+                return [new LegacyType(
+                    LegacyType::BUILTIN_TYPE_OBJECT,
                     false,
                     null,
                     true,
@@ -77,13 +78,37 @@ final class InterfaceTypeExtractor implements PropertyTypeExtractorInterface
         return null;
     }
 
-    private function getPageType(): Type
+    /**
+     * @param array<array-key, mixed> $context
+     */
+    public function getType(string $class, string $property, array $context = []): ?Type
     {
-        return new Type(Type::BUILTIN_TYPE_OBJECT, false, $this->pageClass);
+        if ($this->pageClass === $class) {
+            if ('children' === $property) {
+                return Type::list(Type::object($this->pageClass));
+            }
+            if ('blocks' === $property) {
+                return Type::list(Type::object($this->blockClass));
+            }
+            if ('parent' === $property) {
+                return Type::object($this->pageClass);
+            }
+        } elseif ($this->blockClass === $class) {
+            if ('children' === $property) {
+                return Type::list(Type::object($this->blockClass));
+            }
+        }
+
+        return null;
     }
 
-    private function getBlockType(): Type
+    private function getPageType(): LegacyType
     {
-        return new Type(Type::BUILTIN_TYPE_OBJECT, false, $this->blockClass);
+        return new LegacyType(LegacyType::BUILTIN_TYPE_OBJECT, false, $this->pageClass);
+    }
+
+    private function getBlockType(): LegacyType
+    {
+        return new LegacyType(LegacyType::BUILTIN_TYPE_OBJECT, false, $this->blockClass);
     }
 }

@@ -49,9 +49,9 @@ final class RequestFactory
         array $cookies = [],
         array $files = [],
         array $server = [],
-        $content = null
+        $content = null,
     ): Request {
-        @trigger_error(sprintf(
+        @trigger_error(\sprintf(
             'The method "%s()" is deprecated since sonata-project/page-bundle 4.7.0 and will be removed in 5.0.'
             .'  Use "%s::%s()" instead.',
             __METHOD__,
@@ -69,7 +69,7 @@ final class RequestFactory
      */
     public static function createFromGlobals(string $type): Request
     {
-        @trigger_error(sprintf(
+        @trigger_error(\sprintf(
             'The method "%s()" is deprecated since sonata-project/page-bundle 4.7.0 and will be removed in 5.0.'
             .'  Use "%s::%s()" instead.',
             __METHOD__,
@@ -99,7 +99,7 @@ final class RequestFactory
                 array $cookies = [],
                 array $files = [],
                 array $server = [],
-                $content = null
+                $content = null,
             ) => new SiteRequest($query, $request, $attributes, $cookies, $files, $server, $content)
         );
     }
