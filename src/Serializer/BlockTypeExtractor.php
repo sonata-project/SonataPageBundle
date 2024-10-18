@@ -17,9 +17,6 @@ use Sonata\BlockBundle\Model\BlockInterface;
 use Symfony\Component\PropertyInfo\PropertyTypeExtractorInterface;
 use Symfony\Component\PropertyInfo\Type as LegacyType;
 use Symfony\Component\TypeInfo\Type;
-use Symfony\Component\TypeInfo\Type\BuiltinType;
-use Symfony\Component\TypeInfo\Type\UnionType;
-use Symfony\Component\TypeInfo\TypeIdentifier;
 
 final class BlockTypeExtractor implements PropertyTypeExtractorInterface
 {
@@ -75,20 +72,13 @@ final class BlockTypeExtractor implements PropertyTypeExtractorInterface
             return null;
         }
         if ('position' === $property) {
-            return new UnionType(
-                new BuiltinType(TypeIdentifier::INT),
-                new BuiltinType(TypeIdentifier::STRING),
-            );
+            return Type::nullable(Type::union(Type::int(), Type::string()));
         }
         if ('enabled' === $property) {
-            return new UnionType(
-                new BuiltinType(TypeIdentifier::BOOL),
-                new BuiltinType(TypeIdentifier::INT),
-                new BuiltinType(TypeIdentifier::STRING),
-            );
+            return Type::nullable(Type::union(Type::bool(), Type::int(), Type::string()));
         }
         if (\in_array($property, self::NULLABLE_STRINGS, true)) {
-            return new BuiltinType(TypeIdentifier::STRING);
+            return Type::nullable(Type::string());
         }
 
         return null;

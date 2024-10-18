@@ -18,7 +18,6 @@ use Sonata\PageBundle\Model\PageInterface;
 use Symfony\Component\PropertyInfo\PropertyTypeExtractorInterface;
 use Symfony\Component\PropertyInfo\Type as LegacyType;
 use Symfony\Component\TypeInfo\Type;
-use Symfony\Component\TypeInfo\Type\ObjectType;
 
 final class InterfaceTypeExtractor implements PropertyTypeExtractorInterface
 {
@@ -86,17 +85,17 @@ final class InterfaceTypeExtractor implements PropertyTypeExtractorInterface
     {
         if ($this->pageClass === $class) {
             if ('children' === $property) {
-                return new ObjectType($this->pageClass);
+                return Type::collection(Type::object($this->pageClass));
             }
             if ('blocks' === $property) {
-                return new ObjectType($this->blockClass);
+                return Type::collection(Type::object($this->blockClass));
             }
             if ('parent' === $property) {
-                return new ObjectType($this->pageClass);
+                return Type::collection(Type::object($this->pageClass));
             }
         } elseif ($this->blockClass === $class) {
             if ('children' === $property) {
-                return new ObjectType($this->blockClass);
+                return Type::collection(Type::object($this->blockClass));
             }
         }
 
