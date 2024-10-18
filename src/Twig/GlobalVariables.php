@@ -29,7 +29,7 @@ final class GlobalVariables
         private SiteManagerInterface $siteManager,
         private CmsManagerSelectorInterface $cmsManagerSelector,
         private SiteSelectorInterface $siteSelector,
-        private TemplateManagerInterface $templateManager
+        private TemplateManagerInterface $templateManager,
     ) {
     }
 

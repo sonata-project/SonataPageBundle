@@ -31,7 +31,7 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
     public function __construct(
         protected SiteManagerInterface $siteManager,
         protected DecoratorStrategyInterface $decoratorStrategy,
-        protected SeoPageInterface $seoPage
+        protected SeoPageInterface $seoPage,
     ) {
     }
 
@@ -102,7 +102,7 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
 
         $relativePath = $site->getRelativePath();
         $regex = !\in_array($relativePath, [null, '/'], true) ?
-            sprintf('@^(%s)(/.*|$)@', $relativePath) :
+            \sprintf('@^(%s)(/.*|$)@', $relativePath) :
             '@^()(/.*|$)@';
 
         if (0 === preg_match($regex, $requestPathInfo, $results)) {

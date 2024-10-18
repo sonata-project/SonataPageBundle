@@ -182,9 +182,6 @@ final class SnapshotManagerTest extends TestCase
 
     public function testEnableSnapshotsWhenNoSnapshots(): void
     {
-        $connection = $this->createMock(Connection::class);
-        $connection->expects(static::never())->method('query');
-
         $this->entityManager->expects(static::never())->method('persist');
         $this->entityManager->expects(static::never())->method('flush');
         $this->entityManager->expects(static::never())->method('getConnection');

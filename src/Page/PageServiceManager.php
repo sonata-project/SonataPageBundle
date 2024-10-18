@@ -48,7 +48,7 @@ final class PageServiceManager implements PageServiceManagerInterface
 
         if (!isset($this->services[$type])) {
             if (null === $this->default) {
-                throw new \RuntimeException(sprintf('unable to find a default service for type "%s"', $type ?? ''));
+                throw new \RuntimeException(\sprintf('unable to find a default service for type "%s"', $type ?? ''));
             }
 
             return $this->default;

@@ -28,7 +28,7 @@ final class SnapshotChildrenCollection extends AbstractLazyCollection
 {
     public function __construct(
         private TransformerInterface $transformer,
-        private PageInterface $page
+        private PageInterface $page,
     ) {
     }
 

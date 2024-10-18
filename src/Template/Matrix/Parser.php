@@ -56,13 +56,13 @@ final class Parser
 
         foreach ($rows as $y => $row) {
             if (\strlen($row) !== $colCount && $y > 0) {
-                throw new \InvalidArgumentException(sprintf('Invalid template matrix, inconsistent row length, row "%d" should have a length of "%d"', $y, $colCount));
+                throw new \InvalidArgumentException(\sprintf('Invalid template matrix, inconsistent row length, row "%d" should have a length of "%d"', $y, $colCount));
             }
 
             $cells = str_split($row);
             foreach ($cells as $x => $symbol) {
                 if (!\array_key_exists($symbol, $mapping)) {
-                    throw new \InvalidArgumentException(sprintf('Invalid template matrix, no mapping found for symbol "%s"', $symbol));
+                    throw new \InvalidArgumentException(\sprintf('Invalid template matrix, no mapping found for symbol "%s"', $symbol));
                 }
                 if (!isset($areas[$symbol])) {
                     $areas[$symbol] = [

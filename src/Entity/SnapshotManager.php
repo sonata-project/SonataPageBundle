@@ -36,7 +36,7 @@ final class SnapshotManager extends BaseEntityManager implements SnapshotManager
     public function __construct(
         string $class,
         ManagerRegistry $registry,
-        private SnapshotPageProxyFactoryInterface $snapshotPageProxyFactory
+        private SnapshotPageProxyFactoryInterface $snapshotPageProxyFactory,
     ) {
         parent::__construct($class, $registry);
     }
@@ -124,7 +124,7 @@ final class SnapshotManager extends BaseEntityManager implements SnapshotManager
         $expr = $innerQb->expr();
 
         // try a better Function expression for this?
-        $ifNullExpr = sprintf(
+        $ifNullExpr = \sprintf(
             'CASE WHEN %s THEN 1 ELSE 0 END',
             $expr->isNull('i.publicationDateEnd')
         );

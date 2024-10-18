@@ -35,7 +35,7 @@ final class ResponseListener
         private PageServiceManagerInterface $pageServiceManager,
         private DecoratorStrategyInterface $decoratorStrategy,
         private Environment $twig,
-        private bool $skipRedirection
+        private bool $skipRedirection,
     ) {
     }
 

@@ -41,7 +41,7 @@ final class CmsManagerSelector implements CmsManagerSelectorInterface
         private CmsSnapshotManager $cmsSnapshotManager,
         private AdminInterface $pageAdmin,
         private TokenStorageInterface $tokenStorage,
-        private RequestStack $requestStack
+        private RequestStack $requestStack,
     ) {
     }
 
@@ -76,7 +76,7 @@ final class CmsManagerSelector implements CmsManagerSelectorInterface
      */
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event): void
     {
-        @trigger_error(sprintf(
+        @trigger_error(\sprintf(
             'The method "%s()" is deprecated since sonata-project/page-bundle 4.7.0 and will be removed in 5.0.'
             .'  Use "%s()" instead.',
             __METHOD__,

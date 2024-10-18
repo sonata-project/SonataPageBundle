@@ -23,7 +23,7 @@ final class CleanupSnapshotService implements CleanupSnapshotBySiteInterface
 {
     public function __construct(
         private SnapshotManagerInterface $snapshotManager,
-        private PageManagerInterface $pageManager
+        private PageManagerInterface $pageManager,
     ) {
     }
 

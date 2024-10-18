@@ -56,11 +56,11 @@ final class Transformer implements TransformerInterface
         private PageManagerInterface $pageManager,
         private ManagerInterface $blockManager,
         private ManagerRegistry $registry,
-        private ?SerializerInterface $serializer = null
+        private ?SerializerInterface $serializer = null,
     ) {
         // NEXT_MAJOR: Remove null support
         if (null === $this->serializer) {
-            @trigger_error(sprintf(
+            @trigger_error(\sprintf(
                 'Not passing an instance of %s as 5th parameter is deprecated since version 4.x and will be removed in 5.0.',
                 SerializerInterface::class
             ), \E_USER_DEPRECATED);
@@ -82,7 +82,7 @@ final class Transformer implements TransformerInterface
         $snapshot->setDecorate($page->getDecorate());
 
         if (null === $page->getSite()) {
-            throw new \RuntimeException(sprintf('No site linked to the page.id=%s', $page->getId() ?? ''));
+            throw new \RuntimeException(\sprintf('No site linked to the page.id=%s', $page->getId() ?? ''));
         }
 
         $snapshot->setSite($page->getSite());

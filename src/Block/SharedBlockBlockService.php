@@ -46,7 +46,7 @@ final class SharedBlockBlockService extends AbstractBlockService implements Edit
     public function __construct(
         Environment $twig,
         private ManagerInterface $blockManager,
-        private AdminInterface $sharedBlockAdmin
+        private AdminInterface $sharedBlockAdmin,
     ) {
         parent::__construct($twig);
     }

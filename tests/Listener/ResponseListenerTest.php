@@ -129,7 +129,7 @@ final class ResponseListenerTest extends TestCase
             ->method('execute')
             ->with(static::equalTo($page), static::anything(), ['content' => $content])
             ->willReturnCallback(static function (PageInterface $page, Request $request, array $params, Response $response) {
-                $response->setContent(sprintf('outer "%s" outer', $params['content']));
+                $response->setContent(\sprintf('outer "%s" outer', $params['content']));
 
                 return $response;
             });

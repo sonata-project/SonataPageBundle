@@ -48,7 +48,7 @@ final class PageAdmin extends AbstractAdmin
 
     public function __construct(
         private PageManagerInterface $pageManager,
-        private SiteManagerInterface $siteManager
+        private SiteManagerInterface $siteManager,
     ) {
         parent::__construct();
     }
@@ -119,7 +119,7 @@ final class PageAdmin extends AbstractAdmin
     protected function configurePersistentParameters(): array
     {
         $parameters = [];
-        $key = sprintf('%s.current_site', $this->getCode());
+        $key = \sprintf('%s.current_site', $this->getCode());
 
         if (!$this->hasRequest()) {
             return $parameters;
@@ -192,7 +192,7 @@ final class PageAdmin extends AbstractAdmin
                     $builder = $queryBuilder->getQueryBuilder();
 
                     if (\in_array($data->getValue(), ['hybrid', 'cms'], true)) {
-                        $builder->andWhere(sprintf('%s.routeName %s :routeName', $alias, 'cms' === $data->getValue() ? '=' : '!='));
+                        $builder->andWhere(\sprintf('%s.routeName %s :routeName', $alias, 'cms' === $data->getValue() ? '=' : '!='));
                         $builder->setParameter('routeName', PageInterface::PAGE_ROUTE_CMS_NAME);
 
                         return true;

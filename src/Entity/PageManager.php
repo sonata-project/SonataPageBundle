@@ -37,7 +37,7 @@ final class PageManager extends BaseEntityManager implements PageManagerInterfac
         ManagerRegistry $registry,
         private SlugifyInterface $slugify,
         private array $defaults = [],
-        private array $pageDefaults = []
+        private array $pageDefaults = [],
     ) {
         parent::__construct($class, $registry);
     }
@@ -136,7 +136,7 @@ final class PageManager extends BaseEntityManager implements PageManagerInterfac
 
         /** @var array<PageInterface> */
         $pages = $this->getEntityManager()
-            ->createQuery(sprintf('SELECT p FROM %s p INDEX BY p.id WHERE p.site = %d ORDER BY p.position ASC', $this->class, $siteId))
+            ->createQuery(\sprintf('SELECT p FROM %s p INDEX BY p.id WHERE p.site = %d ORDER BY p.position ASC', $this->class, $siteId))
             ->execute();
 
         foreach ($pages as $page) {

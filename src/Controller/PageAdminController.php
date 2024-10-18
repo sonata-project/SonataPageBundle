@@ -183,11 +183,11 @@ final class PageAdminController extends CRUDController
         $id = $request->get($this->admin->getIdParameter());
         $page = $this->admin->getObject($id);
         if (null === $page) {
-            throw new NotFoundHttpException(sprintf('Unable to find the page with id : %s', $id));
+            throw new NotFoundHttpException(\sprintf('Unable to find the page with id : %s', $id));
         }
         $templateCode = $page->getTemplateCode();
         if (null === $templateCode) {
-            throw new NotFoundHttpException(sprintf('The page with id "%s" has no template code', $id));
+            throw new NotFoundHttpException(\sprintf('The page with id "%s" has no template code', $id));
         }
 
         $containers = [];
@@ -198,7 +198,7 @@ final class PageAdminController extends CRUDController
         \assert($templateManager instanceof TemplateManagerInterface);
         $template = $templateManager->get($templateCode);
         if (null === $template) {
-            throw new NotFoundHttpException(sprintf('Unable to find the template with code : %s', $templateCode));
+            throw new NotFoundHttpException(\sprintf('Unable to find the template with code : %s', $templateCode));
         }
 
         $templateContainers = $template->getContainers();
@@ -270,7 +270,7 @@ final class PageAdminController extends CRUDController
         $id = $request->get($this->admin->getIdParameter());
         $block = $blockAdmin->getObject($id);
         if (!$block instanceof PageBlockInterface) {
-            throw new NotFoundHttpException(sprintf('Unable to find the block with id : %s', $id));
+            throw new NotFoundHttpException(\sprintf('Unable to find the block with id : %s', $id));
         }
 
         $blockManager = $this->container->get('sonata.block.manager');
@@ -292,7 +292,7 @@ final class PageAdminController extends CRUDController
         if (null !== $page && null !== $blockCode) {
             $templateCode = $page->getTemplateCode();
             if (null === $templateCode) {
-                throw new NotFoundHttpException(sprintf('The page with id "%s" has no template code', $id));
+                throw new NotFoundHttpException(\sprintf('The page with id "%s" has no template code', $id));
             }
 
             $templateManager = $this->container->get('sonata.page.template_manager');
@@ -301,7 +301,7 @@ final class PageAdminController extends CRUDController
             $template = $templateManager->get($templateCode);
             if (null === $template) {
                 throw new NotFoundHttpException(
-                    sprintf('Unable to find the template with code : %s', $templateCode)
+                    \sprintf('Unable to find the template with code : %s', $templateCode)
                 );
             }
             $container = $template->getContainer($blockCode);

@@ -39,7 +39,7 @@ final class SonataPagePathRuntime extends SymfonyRuntime
                 array $cookies = [],
                 array $files = [],
                 array $server = [],
-                $content = null
+                $content = null,
             ) => new SiteRequest($query, $request, $attributes, $cookies, $files, $server, $content)
         );
 

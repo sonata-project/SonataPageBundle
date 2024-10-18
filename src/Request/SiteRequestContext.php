@@ -31,7 +31,7 @@ final class SiteRequestContext extends RequestContext implements SiteRequestCont
         string $host = 'localhost',
         string $scheme = 'http',
         int $httpPort = 80,
-        int $httpsPort = 443
+        int $httpsPort = 443,
     ) {
         parent::__construct($baseUrl, $method, $host, $scheme, $httpPort, $httpsPort);
     }
