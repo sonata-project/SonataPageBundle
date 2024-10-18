@@ -85,17 +85,17 @@ final class InterfaceTypeExtractor implements PropertyTypeExtractorInterface
     {
         if ($this->pageClass === $class) {
             if ('children' === $property) {
-                return Type::collection(Type::object($this->pageClass));
+                return Type::list(Type::object($this->pageClass));
             }
             if ('blocks' === $property) {
-                return Type::collection(Type::object($this->blockClass));
+                return Type::list(Type::object($this->blockClass));
             }
             if ('parent' === $property) {
-                return Type::collection(Type::object($this->pageClass));
+                return Type::list(Type::object($this->pageClass));
             }
         } elseif ($this->blockClass === $class) {
             if ('children' === $property) {
-                return Type::collection(Type::object($this->blockClass));
+                return Type::list(Type::object($this->blockClass));
             }
         }
 
