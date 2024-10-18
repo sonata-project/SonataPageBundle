@@ -568,7 +568,7 @@ abstract class Page implements PageInterface
         $rawHeaders = [];
 
         foreach ($headers as $name => $header) {
-            $rawHeaders[] = sprintf('%s: %s', trim($name), trim($header));
+            $rawHeaders[] = \sprintf('%s: %s', trim($name), trim($header));
         }
 
         $rawHeaders = implode("\r\n", $rawHeaders);

@@ -30,7 +30,7 @@ final class DecoratorStrategy implements DecoratorStrategyInterface
     public function __construct(
         private array $ignoreRoutes,
         private array $ignoreRoutePatterns,
-        private array $ignoreUriPatterns
+        private array $ignoreUriPatterns,
     ) {
     }
 
@@ -80,7 +80,7 @@ final class DecoratorStrategy implements DecoratorStrategyInterface
         }
 
         foreach ($this->ignoreRoutePatterns as $routePattern) {
-            if (1 === preg_match(sprintf('#%s#', $routePattern), $routeName)) {
+            if (1 === preg_match(\sprintf('#%s#', $routePattern), $routeName)) {
                 return false;
             }
         }
@@ -91,7 +91,7 @@ final class DecoratorStrategy implements DecoratorStrategyInterface
     public function isRouteUriDecorable(string $uri): bool
     {
         foreach ($this->ignoreUriPatterns as $uriPattern) {
-            if (1 === preg_match(sprintf('#%s#', $uriPattern), $uri)) {
+            if (1 === preg_match(\sprintf('#%s#', $uriPattern), $uri)) {
                 return false;
             }
         }

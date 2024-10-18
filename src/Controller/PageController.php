@@ -31,7 +31,7 @@ final class PageController extends AbstractController
     public function __construct(
         private ExceptionListener $exceptionListener,
         private PageServiceManagerInterface $pageServiceManager,
-        private CmsManagerSelectorInterface $cmsSelector
+        private CmsManagerSelectorInterface $cmsSelector,
     ) {
     }
 
@@ -57,7 +57,7 @@ final class PageController extends AbstractController
         $cms = $this->cmsSelector->retrieve();
 
         if (!$this->exceptionListener->hasErrorCode($code)) {
-            throw new InternalErrorException(sprintf('The error code "%s" is not set in the configuration', $code));
+            throw new InternalErrorException(\sprintf('The error code "%s" is not set in the configuration', $code));
         }
 
         try {

@@ -27,7 +27,7 @@ final class DefaultPageService extends BasePageService
     public function __construct(
         string $name,
         private TemplateManagerInterface $templateManager,
-        private ?SeoPageInterface $seoPage = null
+        private ?SeoPageInterface $seoPage = null,
     ) {
         parent::__construct($name);
     }
@@ -36,7 +36,7 @@ final class DefaultPageService extends BasePageService
         PageInterface $page,
         Request $request,
         array $parameters = [],
-        ?Response $response = null
+        ?Response $response = null,
     ): Response {
         $this->updateSeoPage($page);
 

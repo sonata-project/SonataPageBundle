@@ -26,7 +26,7 @@ final class InterfaceTypeExtractor implements PropertyTypeExtractorInterface
      */
     public function __construct(
         private string $pageClass,
-        private string $blockClass
+        private string $blockClass,
     ) {
     }
 

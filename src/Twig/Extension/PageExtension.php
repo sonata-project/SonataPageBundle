@@ -48,7 +48,7 @@ final class PageExtension extends AbstractExtension
         RouterInterface $router,
         BlockHelper $blockHelper,
         RequestStack $requestStack,
-        bool $hideDisabledBlocks = false
+        bool $hideDisabledBlocks = false,
     ) {
         $this->pageRuntime = new PageRuntime(
             $cmsManagerSelector,
@@ -83,7 +83,7 @@ final class PageExtension extends AbstractExtension
      */
     public function breadcrumb(Environment $twig, ?PageInterface $page = null, array $options = []): string
     {
-        @trigger_error(sprintf(
+        @trigger_error(\sprintf(
             'The method "%s()" is deprecated since sonata-project/page-bundle 4.7 and will be removed in 5.0.'
             .'  Use "%s::%s()" instead.',
             __METHOD__,
@@ -99,7 +99,7 @@ final class PageExtension extends AbstractExtension
      */
     public function ajaxUrl(PageBlockInterface $block, array $parameters = [], int $absolute = UrlGeneratorInterface::ABSOLUTE_PATH): string
     {
-        @trigger_error(sprintf(
+        @trigger_error(\sprintf(
             'The method "%s()" is deprecated since sonata-project/page-bundle 4.7 and will be removed in 5.0.'
             .'  Use "%s::%s()" instead.',
             __METHOD__,
@@ -115,7 +115,7 @@ final class PageExtension extends AbstractExtension
      */
     public function renderContainer(string $name, string|PageInterface|null $page = null, array $options = []): string
     {
-        @trigger_error(sprintf(
+        @trigger_error(\sprintf(
             'The method "%s()" is deprecated since sonata-project/page-bundle 4.7 and will be removed in 5.0.'
             .'  Use "%s::%s()" instead.',
             __METHOD__,
@@ -131,7 +131,7 @@ final class PageExtension extends AbstractExtension
      */
     public function renderBlock(PageBlockInterface $block, array $options = []): string
     {
-        @trigger_error(sprintf(
+        @trigger_error(\sprintf(
             'The method "%s()" is deprecated since sonata-project/page-bundle 4.7 and will be removed in 5.0.'
             .'  Use "%s::%s()" instead.',
             __METHOD__,
@@ -151,7 +151,7 @@ final class PageExtension extends AbstractExtension
      */
     public function controller(string $controller, array $attributes = [], array $query = []): ControllerReference
     {
-        @trigger_error(sprintf(
+        @trigger_error(\sprintf(
             'The method "%s()" is deprecated since sonata-project/page-bundle 4.7 and will be removed in 5.0.'
             .'  Use "%s::%s()" instead.',
             __METHOD__,

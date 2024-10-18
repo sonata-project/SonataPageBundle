@@ -30,12 +30,12 @@ final class SharedBlockAdmin extends BaseBlockAdmin
 
     protected function generateBaseRoutePattern(bool $isChildAdmin = false): string
     {
-        return sprintf('%s/%s', parent::generateBaseRoutePattern($isChildAdmin), 'shared');
+        return \sprintf('%s/%s', parent::generateBaseRoutePattern($isChildAdmin), 'shared');
     }
 
     protected function generateBaseRouteName(bool $isChildAdmin = false): string
     {
-        return sprintf('%s_%s', parent::generateBaseRouteName($isChildAdmin), 'shared');
+        return \sprintf('%s_%s', parent::generateBaseRouteName($isChildAdmin), 'shared');
     }
 
     /**
@@ -101,7 +101,7 @@ final class SharedBlockAdmin extends BaseBlockAdmin
         $service = $this->blockManager->get($block);
 
         if (!$service instanceof EditableBlockService) {
-            throw new \RuntimeException(sprintf(
+            throw new \RuntimeException(\sprintf(
                 'The block "%s" is not a valid %s',
                 $blockType,
                 EditableBlockService::class

@@ -35,7 +35,7 @@ final class BreadcrumbBlockService extends BaseBreadcrumbMenuBlockService implem
     public function __construct(
         Environment $twig,
         FactoryInterface $factory,
-        private CmsManagerSelectorInterface $cmsSelector
+        private CmsManagerSelectorInterface $cmsSelector,
     ) {
         parent::__construct($twig, $factory);
     }

@@ -127,13 +127,13 @@ final class BlockAdminController extends CRUDController
         $block = $this->admin->getObject($blockId);
 
         if (null === $block) {
-            throw new BadRequestHttpException(sprintf('Unable to find block with id: "%s"', $blockId));
+            throw new BadRequestHttpException(\sprintf('Unable to find block with id: "%s"', $blockId));
         }
 
         $parent = $this->admin->getObject($parentId);
 
         if (null === $parent) {
-            throw new BadRequestHttpException(sprintf('Unable to find parent block with id: "%s"', $parentId));
+            throw new BadRequestHttpException(\sprintf('Unable to find parent block with id: "%s"', $parentId));
         }
 
         $this->admin->checkAccess('switchParent', $block);

@@ -47,7 +47,7 @@ final class BlockAdmin extends BaseBlockAdmin
      */
     public function __construct(
         BlockServiceManagerInterface $blockManager,
-        private array $blocks = []
+        private array $blocks = [],
     ) {
         parent::__construct($blockManager);
     }
@@ -206,7 +206,7 @@ final class BlockAdmin extends BaseBlockAdmin
         $service = $this->blockManager->get($block);
 
         if (!$service instanceof EditableBlockService) {
-            throw new \RuntimeException(sprintf(
+            throw new \RuntimeException(\sprintf(
                 'The block "%s" must implement %s',
                 $blockType,
                 EditableBlockService::class

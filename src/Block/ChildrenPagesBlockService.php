@@ -52,7 +52,7 @@ final class ChildrenPagesBlockService extends AbstractBlockService implements Ed
         Environment $twig,
         private SiteSelectorInterface $siteSelector,
         private CmsManagerSelectorInterface $cmsManagerSelector,
-        private AdminInterface $pageAdmin
+        private AdminInterface $pageAdmin,
     ) {
         parent::__construct($twig);
     }

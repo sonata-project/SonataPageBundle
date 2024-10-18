@@ -32,7 +32,7 @@ final class BlockInteractor implements BlockInteractorInterface
 
     public function __construct(
         private ManagerRegistry $registry,
-        private BlockManagerInterface $blockManager
+        private BlockManagerInterface $blockManager,
     ) {
     }
 
@@ -52,7 +52,7 @@ final class BlockInteractor implements BlockInteractorInterface
     public function getBlocksById(PageInterface $page): array
     {
         $blocks = $this->getEntityManager()
-            ->createQuery(sprintf('SELECT b FROM %s b INDEX BY b.id WHERE b.page = :page ORDER BY b.position ASC', $this->blockManager->getClass()))
+            ->createQuery(\sprintf('SELECT b FROM %s b INDEX BY b.id WHERE b.page = :page ORDER BY b.position ASC', $this->blockManager->getClass()))
             ->setParameter('page', $page->getId())
             ->execute();
 

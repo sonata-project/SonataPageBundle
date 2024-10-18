@@ -32,7 +32,7 @@ final class RequestListener
     public function __construct(
         private CmsManagerSelectorInterface $cmsSelector,
         private SiteSelectorInterface $siteSelector,
-        private DecoratorStrategyInterface $decoratorStrategy
+        private DecoratorStrategyInterface $decoratorStrategy,
     ) {
     }
 
@@ -63,14 +63,14 @@ final class RequestListener
         $locale = $site->getLocale();
 
         if (null !== $locale && $locale !== $request->get('_locale')) {
-            throw new PageNotFoundException(sprintf('Invalid locale - site.locale=%s - request._locale=%s', $locale, $request->get('_locale')));
+            throw new PageNotFoundException(\sprintf('Invalid locale - site.locale=%s - request._locale=%s', $locale, $request->get('_locale')));
         }
 
         try {
             $page = $cms->getPageByRouteName($site, $request->get('_route'));
 
             if (!$page->getEnabled() && !$this->cmsSelector->isEditor()) {
-                throw new PageNotFoundException(sprintf('The page is not enabled : id=%s', $page->getId() ?? ''));
+                throw new PageNotFoundException(\sprintf('The page is not enabled : id=%s', $page->getId() ?? ''));
             }
 
             $cms->setCurrentPage($page);

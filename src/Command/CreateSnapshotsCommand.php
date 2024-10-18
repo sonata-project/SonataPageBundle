@@ -32,7 +32,7 @@ final class CreateSnapshotsCommand extends Command
 {
     public function __construct(
         private CreateSnapshotBySiteInterface $createSnapshot,
-        private SiteManagerInterface $siteManager
+        private SiteManagerInterface $siteManager,
     ) {
         parent::__construct();
     }
@@ -48,7 +48,7 @@ final class CreateSnapshotsCommand extends Command
         $siteOption = $input->getOption('site');
 
         foreach ($this->getSites($siteOption) as $site) {
-            $output->write(sprintf('<info>%s</info> - Generating snapshots ...', $site->getName() ?? ''));
+            $output->write(\sprintf('<info>%s</info> - Generating snapshots ...', $site->getName() ?? ''));
 
             $this->createSnapshot->createBySite($site);
             $output->writeln(' done!');

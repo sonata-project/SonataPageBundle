@@ -40,7 +40,7 @@ final class SnapshotAdmin extends AbstractAdmin
     public function __construct(
         private TransformerInterface $transformer,
         private PageManagerInterface $pageManager,
-        private SnapshotManagerInterface $snapshotManager
+        private SnapshotManagerInterface $snapshotManager,
     ) {
         parent::__construct();
     }

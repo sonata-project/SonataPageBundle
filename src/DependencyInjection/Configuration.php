@@ -188,7 +188,7 @@ final class Configuration implements ConfigurationInterface
                                     $inherits = $template['inherits_containers'];
                                     if (!isset($templates[$inherits])) {
                                         throw new InvalidConfigurationException(
-                                            sprintf('Template "%s" cannot inherit containers from undefined template "%s"', $id, $inherits)
+                                            \sprintf('Template "%s" cannot inherit containers from undefined template "%s"', $id, $inherits)
                                         );
                                     }
                                     $template['containers'] = array_merge($templates[$inherits]['containers'], $template['containers']);
@@ -197,7 +197,7 @@ final class Configuration implements ConfigurationInterface
                                 foreach ($template['containers'] as $containerKey => $container) {
                                     if (!isset($template['matrix'][$containerKey])) {
                                         throw new InvalidConfigurationException(
-                                            sprintf('No area defined in matrix for template container "%s"', $containerKey)
+                                            \sprintf('No area defined in matrix for template container "%s"', $containerKey)
                                         );
                                     }
                                 }
@@ -205,7 +205,7 @@ final class Configuration implements ConfigurationInterface
                                 foreach ($template['matrix'] as $containerKey => $config) {
                                     if (!isset($template['containers'][$containerKey])) {
                                         throw new InvalidConfigurationException(
-                                            sprintf('No container defined for matrix area "%s"', $containerKey)
+                                            \sprintf('No container defined for matrix area "%s"', $containerKey)
                                         );
                                     }
                                     $template['containers'][$containerKey]['placement'] = $config;

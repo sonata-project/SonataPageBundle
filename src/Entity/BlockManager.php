@@ -29,7 +29,7 @@ final class BlockManager extends BaseEntityManager implements BlockManagerInterf
         $block = $this->find($id);
 
         if (null === $block) {
-            throw new \RuntimeException(sprintf('Unable to update position to block with id %s', $id));
+            throw new \RuntimeException(\sprintf('Unable to update position to block with id %s', $id));
         }
 
         $block->setPosition($position);

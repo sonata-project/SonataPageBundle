@@ -28,7 +28,7 @@ final class BlockTypeExtractor implements PropertyTypeExtractorInterface
      * @param class-string<BlockInterface> $blockClass
      */
     public function __construct(
-        private string $blockClass
+        private string $blockClass,
     ) {
     }
 

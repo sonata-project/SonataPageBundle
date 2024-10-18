@@ -30,13 +30,13 @@ final class RoutePageGenerator
         private RouterInterface $router,
         private PageManagerInterface $pageManager,
         private DecoratorStrategyInterface $decoratorStrategy,
-        private ExceptionListener $exceptionListener
+        private ExceptionListener $exceptionListener,
     ) {
     }
 
     public function update(SiteInterface $site, ?OutputInterface $output = null, bool $clean = false): void
     {
-        $message = sprintf(
+        $message = \sprintf(
             ' > <info>Updating core routes for site</info> : <comment>%s - %s</comment>',
             $site->getName() ?? '',
             $site->getUrl() ?? ''
@@ -86,7 +86,7 @@ final class RoutePageGenerator
                 if (null !== $page) {
                     $page->setEnabled(false);
 
-                    $this->writeln($output, sprintf(
+                    $this->writeln($output, \sprintf(
                         '  <error>DISABLE</error> <error>% -50s</error> %s',
                         $name,
                         $route->getPath()
@@ -121,7 +121,7 @@ final class RoutePageGenerator
 
             $this->pageManager->save($page);
 
-            $this->writeln($output, sprintf(
+            $this->writeln($output, \sprintf(
                 '  <info>%s</info> % -50s %s',
                 $update ? 'UPDATE ' : 'CREATE ',
                 $name,
@@ -149,7 +149,7 @@ final class RoutePageGenerator
                     'site' => $site,
                 ]);
 
-                $this->writeln($output, sprintf('  <info>%s</info> % -50s %s', 'CREATE ', $name, ''));
+                $this->writeln($output, \sprintf('  <info>%s</info> % -50s %s', 'CREATE ', $name, ''));
             }
 
             // an internal page or an error page should not have any parent (no direct access)
@@ -174,9 +174,9 @@ final class RoutePageGenerator
                 if ($clean) {
                     $this->pageManager->delete($page);
 
-                    $this->writeln($output, sprintf('  <error>REMOVED</error>   %s', $page->getRouteName() ?? ''));
+                    $this->writeln($output, \sprintf('  <error>REMOVED</error>   %s', $page->getRouteName() ?? ''));
                 } else {
-                    $this->writeln($output, sprintf('  <error>ERROR</error>   %s', $page->getRouteName() ?? ''));
+                    $this->writeln($output, \sprintf('  <error>ERROR</error>   %s', $page->getRouteName() ?? ''));
                 }
             }
         }

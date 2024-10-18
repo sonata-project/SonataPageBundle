@@ -28,7 +28,7 @@ final class CreateSnapshotService implements CreateSnapshotBySiteInterface, Crea
     public function __construct(
         private SnapshotManagerInterface $snapshotManager,
         private PageManagerInterface $pageManager,
-        private TransformerInterface $transformer
+        private TransformerInterface $transformer,
     ) {
     }
 

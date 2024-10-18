@@ -32,7 +32,7 @@ final class UpdateCoreRoutesCommand extends Command
 {
     public function __construct(
         private SiteManagerInterface $siteManager,
-        private RoutePageGenerator $pageGenerator
+        private RoutePageGenerator $pageGenerator,
     ) {
         parent::__construct();
     }

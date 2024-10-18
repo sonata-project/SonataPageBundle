@@ -33,7 +33,7 @@ final class CmsPageRouter implements ChainedRouterInterface
         private RequestContext $context,
         private CmsManagerSelectorInterface $cmsSelector,
         private SiteSelectorInterface $siteSelector,
-        private RouterInterface $router
+        private RouterInterface $router,
     ) {
     }
 
@@ -179,7 +179,7 @@ final class CmsPageRouter implements ChainedRouterInterface
         $url = $page->getUrl();
 
         if (null === $url) {
-            throw new \RuntimeException(sprintf('Page "%d" has no url.', $page->getId() ?? ''));
+            throw new \RuntimeException(\sprintf('Page "%d" has no url.', $page->getId() ?? ''));
         }
 
         if (!$this->context instanceof SiteRequestContextInterface) {
@@ -226,23 +226,23 @@ final class CmsPageRouter implements ChainedRouterInterface
         if (self::ABSOLUTE_URL === $referenceType || self::NETWORK_PATH === $referenceType) {
             $port = '';
             if ('http' === $this->context->getScheme() && 80 !== $this->context->getHttpPort()) {
-                $port = sprintf(':%s', $this->context->getHttpPort());
+                $port = \sprintf(':%s', $this->context->getHttpPort());
             } elseif ('https' === $this->context->getScheme() && 443 !== $this->context->getHttpsPort()) {
-                $port = sprintf(':%s', $this->context->getHttpsPort());
+                $port = \sprintf(':%s', $this->context->getHttpsPort());
             }
 
-            $schemeAuthority = self::NETWORK_PATH === $referenceType ? '//' : sprintf('%s://', $this->context->getScheme());
-            $schemeAuthority = sprintf('%s%s%s', $schemeAuthority, $this->context->getHost(), $port);
+            $schemeAuthority = self::NETWORK_PATH === $referenceType ? '//' : \sprintf('%s://', $this->context->getScheme());
+            $schemeAuthority = \sprintf('%s%s%s', $schemeAuthority, $this->context->getHost(), $port);
         }
 
         if (self::RELATIVE_PATH === $referenceType) {
             $url = $this->getRelativePath($this->context->getPathInfo(), $url);
         } else {
-            $url = sprintf('%s%s%s', $schemeAuthority, $this->context->getBaseUrl(), $url);
+            $url = \sprintf('%s%s%s', $schemeAuthority, $this->context->getBaseUrl(), $url);
         }
 
         if (\count($parameters) > 0) {
-            return sprintf('%s?%s', $url, http_build_query($parameters, '', '&'));
+            return \sprintf('%s?%s', $url, http_build_query($parameters, '', '&'));
         }
 
         return $url;

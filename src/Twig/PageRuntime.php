@@ -44,7 +44,7 @@ class PageRuntime implements RuntimeExtensionInterface
         private RequestStack $requestStack,
         // NEXT_MAJOR: Stop supporting null for CmsPageRouter
         private ?CmsPageRouter $cmsPageRouter = null,
-        private bool $hideDisabledBlocks = false
+        private bool $hideDisabledBlocks = false,
     ) {
     }
 

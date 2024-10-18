@@ -25,7 +25,7 @@ final class SnapshotPageProxyFactory implements SnapshotPageProxyFactoryInterfac
     public function create(
         SnapshotManagerInterface $manager,
         TransformerInterface $transformer,
-        SnapshotInterface $snapshot
+        SnapshotInterface $snapshot,
     ): SnapshotPageProxyInterface {
         return new $this->snapshotPageProxyClass($manager, $transformer, $snapshot);
     }
