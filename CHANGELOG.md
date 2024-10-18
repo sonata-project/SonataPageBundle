@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.8.0](https://github.com/sonata-project/SonataPageBundle/compare/4.7.2...4.8.0) - 2024-10-18
+### Added
+- [[#1776](https://github.com/sonata-project/SonataPageBundle/pull/1776)] Add support for Symfony 7. ([@jordisala1991](https://github.com/jordisala1991))
+
+### Fixed
+- [[#1767](https://github.com/sonata-project/SonataPageBundle/pull/1767)] Symfony 7.1 deprecation about `Symfony\Component\HttpKernel\DependencyInjection\Extension` usage ([@VincentLanglet](https://github.com/VincentLanglet))
+
 ## [4.7.2](https://github.com/sonata-project/SonataPageBundle/compare/4.7.1...4.7.2) - 2024-04-13
 ### Fixed
 - [[#1760](https://github.com/sonata-project/SonataPageBundle/pull/1760)] Allow to decorate BlockAdmin, SnapshotAdmin and CreateSnapshotService ([@VincentLanglet](https://github.com/VincentLanglet))
