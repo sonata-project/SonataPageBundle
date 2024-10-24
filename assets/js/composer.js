@@ -269,6 +269,8 @@ PageComposer.prototype = {
       const field = event.form.querySelector(`[name="${violation.propertyPath}"]`);
 
       if (!field) {
+        this.handleBlockCollectionErrors(violation);
+
         return;
       }
 
@@ -292,11 +294,64 @@ PageComposer.prototype = {
         formGroup.appendChild(errorWrapper);
       }
 
-      const errorItem = document.createElement('li');
-      errorItem.innerHTML = `<i class="fas fa-exclamation-circle" aria-hidden="true"></i> ${violation.title}`;
+      const errorItem = this.createErrorItem(violation.title);
 
       errorList.appendChild(errorItem);
     });
+  },
+
+  /**
+   * In case the field is a collection,
+   * we need to go directly to the `.form-group` in order to display the error.
+   *
+   * @param violation
+   */
+  handleBlockCollectionErrors(violation) {
+    const collectionId = `sonata-ba-field-container-${violation.propertyPath
+      .replace(/\[/g, '_')
+      .replace(/\]/g, '')
+      .replace(/__+/g, '___')}`;
+
+    const formGroup = document.getElementById(collectionId);
+
+    if (!formGroup.classList.contains('form-group')) {
+      return;
+    }
+
+    let errorList = formGroup.querySelector(
+      '.help-block.sonata-ba-field-error-messages .list-unstyled .text-danger'
+    );
+
+    if (!errorList) {
+      const errorWrapper = document.createElement('div');
+      errorWrapper.classList.add('help-block');
+      errorWrapper.classList.add('sonata-ba-field-error-messages');
+
+      errorList = document.createElement('ul');
+      errorList.classList.add('list-unstyled');
+      errorList.classList.add('text-danger');
+
+      formGroup.firstElementChild.classList.add('text-danger');
+
+      errorWrapper.appendChild(errorList);
+      formGroup.appendChild(errorWrapper);
+    }
+
+    const errorItem = this.createErrorItem(violation.title);
+
+    errorList.appendChild(errorItem);
+  },
+
+  /**
+   * Create a new error item.
+   * @param title
+   *
+   * @returns {HTMLLIElement}
+   */
+  createErrorItem(title) {
+    const errorItem = document.createElement('li');
+    errorItem.innerHTML = `<i class="fas fa-exclamation-circle" aria-hidden="true"></i> ${title}`;
+    return errorItem;
   },
 
   /**
