@@ -70,7 +70,7 @@ final class PageTest extends TestCase
         static::assertSame($page->getHeaders(), $expectedHeaders);
 
         $page->setHeaders(['Cache-Control' => 'no-cache']);
-        static::assertSame($page->getRawHeaders(), 'Cache-Control: no-cache');
+        static::assertSame('Cache-Control: no-cache', $page->getRawHeaders());
         static::assertSame($page->getHeaders(), ['Cache-Control' => 'no-cache']);
 
         $page->setHeaders([]);
@@ -83,7 +83,7 @@ final class PageTest extends TestCase
         static::assertSame($page->getHeaders(), $expectedHeaders);
 
         $page->setRawHeaders('Cache-Control: no-cache');
-        static::assertSame($page->getRawHeaders(), 'Cache-Control: no-cache');
+        static::assertSame('Cache-Control: no-cache', $page->getRawHeaders());
         static::assertSame($page->getHeaders(), ['Cache-Control' => 'no-cache']);
 
         $page->setRawHeaders('');
@@ -92,7 +92,7 @@ final class PageTest extends TestCase
 
         $page = new Page();
         $page->addHeader('Cache-Control', 'no-cache');
-        static::assertSame($page->getRawHeaders(), 'Cache-Control: no-cache');
+        static::assertSame('Cache-Control: no-cache', $page->getRawHeaders());
         static::assertSame($page->getHeaders(), ['Cache-Control' => 'no-cache']);
 
         $page->setRawHeaders($expectedStringHeaders);
