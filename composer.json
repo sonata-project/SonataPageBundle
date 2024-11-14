@@ -60,6 +60,7 @@
         "masterminds/html5": "^2.7",
         "matthiasnoback/symfony-dependency-injection-test": "^4.1.1 || ^5.0",
         "phpstan/extension-installer": "^1.0",
+        "phpstan/phpdoc-parser": "^1.0",
         "phpstan/phpstan": "^1.0",
         "phpstan/phpstan-phpunit": "^1.0",
         "phpstan/phpstan-strict-rules": "^1.3",
