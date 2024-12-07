@@ -18,8 +18,8 @@ use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageBlock;
 use Sonata\PageBundle\Tests\App\Entity\SonataPagePage;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageSite;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\BrowserKit\AbstractBrowser;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\HttpFoundation\Session\SessionFactoryInterface;
 
@@ -366,7 +366,7 @@ final class PageTest extends WebTestCase
      * Normally this would happen via an interactive login.
      * Part of this logic is also copied from AbstractBrowser::loginUser().
      */
-    private function becomeEditor(AbstractBrowser $client): void
+    private function becomeEditor(KernelBrowser $client): void
     {
         $sessionFactory = self::getContainer()->get('session.factory');
         \assert($sessionFactory instanceof SessionFactoryInterface);
