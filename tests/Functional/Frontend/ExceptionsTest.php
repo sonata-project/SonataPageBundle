@@ -16,8 +16,8 @@ namespace Sonata\PageBundle\Tests\Functional\Frontend;
 use Doctrine\ORM\EntityManagerInterface;
 use Sonata\PageBundle\Tests\App\Entity\SonataPagePage;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageSite;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\BrowserKit\AbstractBrowser;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\HttpFoundation\Session\SessionFactoryInterface;
 use Symfony\Component\Security\Core\User\OidcUser;
@@ -97,7 +97,7 @@ final class ExceptionsTest extends WebTestCase
      * Normally this would happen via an interactive login.
      * Part of this logic is also copied from AbstractBrowser::loginUser().
      */
-    private function becomeEditor(AbstractBrowser $client): void
+    private function becomeEditor(KernelBrowser $client): void
     {
         $sessionFactory = self::getContainer()->get('session.factory');
         \assert($sessionFactory instanceof SessionFactoryInterface);
