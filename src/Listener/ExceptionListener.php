@@ -38,12 +38,13 @@ final class ExceptionListener
     public function __construct(
         private SiteSelectorInterface $siteSelector,
         private CmsManagerSelectorInterface $cmsManagerSelector,
-        private bool $debug, private Environment $twig,
+        private bool $debug,
+        private Environment $twig,
         private PageServiceManagerInterface $pageServiceManager,
         private DecoratorStrategyInterface $decoratorStrategy,
         private array $httpErrorCodes,
         private LoggerInterface $logger = new NullLogger(),
-        private bool $status = false
+        private bool $status = false,
     ) {
     }
 
