@@ -32,8 +32,6 @@ use Twig\Environment;
  */
 final class ExceptionListener
 {
-    private LoggerInterface $logger;
-
     /**
      * @param array<int, string> $httpErrorCodes An array of http error code routes
      */
@@ -45,10 +43,9 @@ final class ExceptionListener
         private PageServiceManagerInterface $pageServiceManager,
         private DecoratorStrategyInterface $decoratorStrategy,
         private array $httpErrorCodes,
-        ?LoggerInterface $logger = null,
+        private LoggerInterface $logger = new NullLogger(),
         private bool $status = false,
     ) {
-        $this->logger = $logger ?? new NullLogger();
     }
 
     /**
