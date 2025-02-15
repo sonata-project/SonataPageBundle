@@ -65,6 +65,8 @@ final class SnapshotAdminTest extends WebTestCase
 
         $client->request('GET', $url, $parameters);
         $client->submitForm($button, $fieldValues);
+
+        dump($client->getResponse());
         $client->followRedirect();
 
         self::assertResponseIsSuccessful();
