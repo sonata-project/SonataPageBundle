@@ -67,9 +67,9 @@ final class ContainerBlockServiceTest extends BlockServiceTestCase
 
         $formBuilder = $this->createMock(FormBuilderInterface::class);
         $form = new FormMapper(
-            $this->createStub(FormContractorInterface::class),
+            static::createStub(FormContractorInterface::class),
             $formBuilder,
-            $this->createStub(AdminInterface::class)
+            static::createStub(AdminInterface::class)
         );
 
         $formBuilder->expects(static::exactly(2))->method('add');

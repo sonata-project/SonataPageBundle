@@ -25,7 +25,7 @@ final class PageManagerTest extends TestCase
     {
         $manager = new PageManager(
             Page::class,
-            $this->createStub(ManagerRegistry::class),
+            static::createStub(ManagerRegistry::class),
             new Slugify()
         );
 
