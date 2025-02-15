@@ -33,17 +33,17 @@ final class PageAdminTest extends TestCase
     {
         $request = new Request(['id' => 42]);
         $admin = new PageAdmin(
-            $this->createStub(PageManagerInterface::class),
-            $this->createStub(SiteManagerInterface::class),
+            static::createStub(PageManagerInterface::class),
+            static::createStub(SiteManagerInterface::class),
         );
-        $admin->setModelManager($this->createStub(ModelManagerInterface::class));
+        $admin->setModelManager(static::createStub(ModelManagerInterface::class));
         $admin->setModelClass(Page::class);
         $admin->setBaseControllerName(PageController::class);
         $admin->setCode('admin.page');
         $admin->setMenuFactory(new MenuFactory());
         $admin->setRequest($request);
 
-        $site = $this->createStub(Site::class);
+        $site = static::createStub(Site::class);
         $site->method('getRelativePath')->willReturn('/my-subsite');
 
         $page = new Page();

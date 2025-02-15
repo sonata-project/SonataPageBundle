@@ -57,7 +57,7 @@ final class SnapshotManagerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->managerRegistry = $this->createStub(ManagerRegistry::class);
+        $this->managerRegistry = static::createStub(ManagerRegistry::class);
         $this->entityManager = $this->createMock(EntityManagerInterface::class);
 
         $this->managerRegistry->method('getManagerForClass')->willReturn($this->entityManager);
