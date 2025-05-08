@@ -9,16 +9,14 @@ includes:
 parameters:
     level: 8
     symfony:
-        console_application_loader: ./phpstan-console-application.php
+        consoleApplicationLoader: ./phpstan-console-application.php
     paths:
         - src
         - tests
     scanFiles:
         - vendor/symfony/dependency-injection/Loader/Configurator/ContainerConfigurator.php
     treatPhpDocTypesAsCertain: false
-    checkGenericClassInNonGenericObjectType: true
     checkInternalClassCaseSensitivity: true
-    checkMissingIterableValueType: true
     checkMissingVarTagTypehint: true
     checkMissingTypehints: true
     checkUninitializedProperties: true

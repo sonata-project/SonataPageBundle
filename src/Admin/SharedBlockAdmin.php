@@ -50,6 +50,7 @@ final class SharedBlockAdmin extends BaseBlockAdmin
         // Filter on blocks without page and parents
         $queryBuilder = $query->getQueryBuilder();
         $rootAlias = current($queryBuilder->getRootAliases());
+        \assert(false !== $rootAlias);
         $queryBuilder->andWhere($queryBuilder->expr()->isNull($rootAlias.'.page'));
         $queryBuilder->andWhere($queryBuilder->expr()->isNull($rootAlias.'.parent'));
 

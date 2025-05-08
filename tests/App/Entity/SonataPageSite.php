@@ -17,6 +17,9 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Sonata\PageBundle\Entity\BaseSite;
 
+/**
+ * @psalm-suppress ClassMustBeFinal
+ */
 #[ORM\Entity]
 #[ORM\Table(name: 'page__site')]
 #[ORM\HasLifecycleCallbacks]

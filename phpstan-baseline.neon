@@ -22,3 +22,9 @@ parameters:
             message: "#^Parameter \\#2 \\.\\.\\.\\$arrays of function array_merge expects array, array\\<string, bool\\|string\\>\\|Sonata\\\\PageBundle\\\\Model\\\\PageInterface\\|Sonata\\\\PageBundle\\\\Model\\\\SiteInterface\\|null given\\.$#"
             count: 1
             path: src/Form/Type/PageSelectorType.php
+        -
+            message: '#^Call to internal method Symfony\\Component\\HttpFoundation\\Request\:\:get\(\) from outside its root namespace Symfony.$#'
+            path: .
+        -
+            message: '#^Call to method (s|g)et\(\) of internal class Symfony\\Bundle\\FrameworkBundle\\Test\\TestContainer from outside its root namespace Symfony.$#'
+            path: tests/
