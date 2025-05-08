@@ -224,7 +224,7 @@ final class CmsPageManagerTest extends TestCase
     private function getMockBlockInteractor(): BlockInteractorInterface
     {
         $mock = $this->createMock(BlockInteractorInterface::class);
-        $mock->method('createNewContainer')->willReturnCallback(static function (array $options) {
+        $mock->method('createNewContainer')->willReturnCallback(static function (array $options): PageBlockInterface {
             $block = new CmsBlock();
             $block->setSettings($options);
 

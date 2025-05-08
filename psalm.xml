@@ -15,12 +15,6 @@
         <!-- Psalm equivalent of PHPStan config `treatPhpDocTypesAsCertain: false` -->
         <DocblockTypeContradiction errorLevel="suppress"/>
         <RedundantConditionGivenDocblockType errorLevel="suppress"/>
-        <UndefinedDocblockClass>
-            <errorLevel type="suppress">
-                <!-- https://github.com/symfony/symfony/issues/45609 -->
-                <referencedClass name="UnitEnum"/>
-            </errorLevel>
-        </UndefinedDocblockClass>
         <InternalClass errorLevel="suppress"/>
         <InternalMethod errorLevel="suppress"/>
         <InternalProperty errorLevel="suppress"/>
@@ -31,5 +25,6 @@
             </errorLevel>
         </UndefinedInterfaceMethod>
         <MissingClassConstType errorLevel="suppress"/>
+        <MissingOverrideAttribute errorLevel="suppress"/>
     </issueHandlers>
 </psalm>

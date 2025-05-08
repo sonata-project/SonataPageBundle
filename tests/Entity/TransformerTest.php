@@ -58,7 +58,7 @@ abstract class TransformerTest extends TestCase
         $this->pageManager->method('getClass')->willReturn(SonataPagePage::class);
 
         $this->blockManager = $this->createMock(ManagerInterface::class);
-        $this->blockManager->method('create')->willReturnCallback(static fn () => new SonataPageBlock());
+        $this->blockManager->method('create')->willReturnCallback(static fn (): object => new SonataPageBlock());
         $this->blockManager->method('getClass')->willReturn(SonataPageBlock::class);
 
         $this->transformer = $this->setUpTransformer();
@@ -162,7 +162,7 @@ abstract class TransformerTest extends TestCase
      */
     public function testLoadBlock(array $content): void
     {
-        $this->blockManager->method('create')->willReturnCallback(static fn () => new SonataPageBlock());
+        $this->blockManager->method('create')->willReturnCallback(static fn (): PageBlockInterface => new SonataPageBlock());
 
         $block = $this->transformer->loadBlock($content, new SonataPagePage());
 

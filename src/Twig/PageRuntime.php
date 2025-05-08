@@ -31,6 +31,11 @@ use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use Twig\Extension\RuntimeExtensionInterface;
 
+/**
+ * NEXT_MAJOR: Declare this class as final.
+ *
+ * @final since 4.9.0
+ */
 class PageRuntime implements RuntimeExtensionInterface
 {
     /**
