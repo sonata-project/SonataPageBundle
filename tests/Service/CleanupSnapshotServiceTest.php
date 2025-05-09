@@ -21,7 +21,7 @@ use Sonata\PageBundle\Model\Site;
 use Sonata\PageBundle\Model\SnapshotManagerInterface;
 use Sonata\PageBundle\Service\CleanupSnapshotService;
 
-class CleanupSnapshotServiceTest extends TestCase
+final class CleanupSnapshotServiceTest extends TestCase
 {
     public function testCallCleanupQuery(): void
     {

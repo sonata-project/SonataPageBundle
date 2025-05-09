@@ -130,7 +130,7 @@ final class SnapshotManagerTest extends TestCase
         $platform->method('getDateTimeFormatString')->willReturn('Y-m-d H:i:s');
         $connection->method('getDatabasePlatform')->willReturn($platform);
         $connection->method('getParams')->willReturn([]);
-        $unit->method('getSingleIdentifierValue')->willReturnCallback(static function (object $entity) {
+        $unit->method('getSingleIdentifierValue')->willReturnCallback(static function (object $entity): mixed {
             if ($entity instanceof \DateTimeInterface) {
                 throw new MappingException();
             }
@@ -139,7 +139,7 @@ final class SnapshotManagerTest extends TestCase
         });
 
         $metaDataFactory->method('hasMetadataFor')
-            ->willReturnCallback(static fn (string $class) => SonataPageSnapshot::class === $class);
+            ->willReturnCallback(static fn (string $class): bool => SonataPageSnapshot::class === $class);
         $metaDataFactory->method('getMetadataFor')->with(SonataPageSnapshot::class)->willReturn($classMetadata);
 
         $this->entityManager->expects(static::once())->method('persist')->with($snapshot);

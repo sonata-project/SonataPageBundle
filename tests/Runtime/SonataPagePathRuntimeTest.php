@@ -25,7 +25,7 @@ use Symfony\Component\Runtime\Runner\Symfony\HttpKernelRunner;
  *
  * NEXT_MAJOR: Remove this class
  */
-class SonataPagePathRuntimeTest extends TestCase
+final class SonataPagePathRuntimeTest extends TestCase
 {
     public function testGetRunnerWithHttpKernel(): void
     {

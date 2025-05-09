@@ -17,6 +17,10 @@ use Symfony\Component\Validator\Constraint;
 
 /**
  * @Annotation
+ *
+ * NEXT_MAJOR: Declare this class as final.
+ *
+ * @final since 4.9.0
  */
 class UniqueUrl extends Constraint
 {
