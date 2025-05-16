@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.9.0](https://github.com/sonata-project/SonataPageBundle/compare/4.8.0...4.9.0) - 2025-05-16
+### Deprecated
+- [[#1805](https://github.com/sonata-project/SonataPageBundle/pull/1805)] Extending Sonata\PageBundle\Validator\Constraints\UniqueUrl ([@VincentLanglet](https://github.com/VincentLanglet))
+- [[#1805](https://github.com/sonata-project/SonataPageBundle/pull/1805)] Extending Sonata\PageBundle\Twig\PageRuntime ([@VincentLanglet](https://github.com/VincentLanglet))
+
+### Fixed
+- [[#1794](https://github.com/sonata-project/SonataPageBundle/pull/1794)] Remove deprecated `spaceless` filter usage ([@VincentLanglet](https://github.com/VincentLanglet))
+
 ## [4.8.0](https://github.com/sonata-project/SonataPageBundle/compare/4.7.2...4.8.0) - 2024-10-18
 ### Added
 - [[#1776](https://github.com/sonata-project/SonataPageBundle/pull/1776)] Add support for Symfony 7. ([@jordisala1991](https://github.com/jordisala1991))
