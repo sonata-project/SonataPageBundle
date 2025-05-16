@@ -25,6 +25,3 @@ parameters:
         -
             message: '#^Call to internal method Symfony\\Component\\HttpFoundation\\Request\:\:get\(\) from outside its root namespace Symfony.$#'
             path: .
-        -
-            message: '#^Call to method (s|g)et\(\) of internal class Symfony\\Bundle\\FrameworkBundle\\Test\\TestContainer from outside its root namespace Symfony.$#'
-            path: tests/
