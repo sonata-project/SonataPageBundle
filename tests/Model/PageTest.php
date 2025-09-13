@@ -31,7 +31,6 @@ final class PageTest extends TestCase
         $pageReflection = new \ReflectionClass($page);
 
         $method = $pageReflection->getMethod('getHeadersAsArray');
-        $method->setAccessible(true);
         foreach ([
             "Location: http://www.google.fr\r\nExpires: 0",
             " Location: http://www.google.fr\r\nExpires: 0 ",
@@ -46,7 +45,6 @@ final class PageTest extends TestCase
         }
 
         $method = $pageReflection->getMethod('getHeadersAsString');
-        $method->setAccessible(true);
         foreach ([
             [
                 'Location' => 'http://www.google.fr',

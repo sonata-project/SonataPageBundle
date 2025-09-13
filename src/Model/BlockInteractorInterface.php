@@ -46,7 +46,7 @@ interface BlockInteractorInterface
     /**
      * @param array{
      *   name?: string|null,
-     *   enabled?: boolean,
+     *   enabled?: bool,
      *   page?: PageInterface,
      *   code: string,
      *   position?: int,
