@@ -456,7 +456,7 @@ final class TransformerTest extends KernelTestCase
     /**
      * @param array<string, mixed|array<string, mixed>> $array
      */
-    protected static function recur_ksort(array &$array): bool
+    protected static function recur_ksort(array &$array): void
     {
         /**
          * @var mixed|array<string, mixed> $value
@@ -470,6 +470,6 @@ final class TransformerTest extends KernelTestCase
             }
         }
 
-        return ksort($array);
+        ksort($array);
     }
 }
