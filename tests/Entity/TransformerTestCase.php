@@ -30,7 +30,7 @@ use Sonata\PageBundle\Tests\App\Entity\SonataPageSnapshot;
  * @phpstan-import-type PageContent from TransformerInterface
  * @phpstan-import-type BlockContent from TransformerInterface
  */
-abstract class TransformerTest extends TestCase
+abstract class TransformerTestCase extends TestCase
 {
     /**
      * @var MockObject&SnapshotManagerInterface

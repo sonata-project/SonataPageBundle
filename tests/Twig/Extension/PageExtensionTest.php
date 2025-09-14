@@ -15,6 +15,7 @@ namespace Sonata\PageBundle\Tests\Twig\Extension;
 
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
 use Sonata\BlockBundle\Templating\Helper\BlockHelper;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
@@ -30,7 +31,7 @@ use Symfony\Component\Routing\RouterInterface;
 /**
  * NEXT_MAJOR: Remove this test.
  */
-#[Group('legacy')]
+#[IgnoreDeprecations]
 final class PageExtensionTest extends TestCase
 {
     public function testAjaxUrl(): void

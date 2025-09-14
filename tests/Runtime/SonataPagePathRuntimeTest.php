@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Runtime;
 
 use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Runtime\SonataPagePathRuntime;
 use Symfony\Component\Console\Command\Command;
@@ -21,8 +22,10 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Runtime\Runner\Symfony\ConsoleApplicationRunner;
 use Symfony\Component\Runtime\Runner\Symfony\HttpKernelRunner;
 
-#[Group('legacy
-NEXT_MAJOR: Remove this class')]
+/**
+ * NEXT_MAJOR: Remove this class.
+ */
+#[IgnoreDeprecations]
 final class SonataPagePathRuntimeTest extends TestCase
 {
     protected function tearDown(): void

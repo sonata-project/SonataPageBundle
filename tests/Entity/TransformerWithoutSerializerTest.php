@@ -15,11 +15,12 @@ namespace Sonata\PageBundle\Tests\Entity;
 
 use Doctrine\Persistence\ManagerRegistry;
 use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use Sonata\PageBundle\Entity\Transformer;
 use Sonata\PageBundle\Model\TransformerInterface;
 
-#[Group('legacy')]
-final class TransformerWithoutSerializerTest extends TransformerTest
+#[IgnoreDeprecations]
+final class TransformerWithoutSerializerTest extends TransformerTestCase
 {
     protected function setUpTransformer(): TransformerInterface
     {
