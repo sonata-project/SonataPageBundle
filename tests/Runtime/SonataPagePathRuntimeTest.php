@@ -35,6 +35,7 @@ final class SonataPagePathRuntimeTest extends TestCase
         $runner = $runtime->getRunner($kernelMock);
         static::assertInstanceOf(HttpKernelRunner::class, $runner);
 
+        restore_exception_handler();
         restore_error_handler();
     }
 
@@ -46,6 +47,7 @@ final class SonataPagePathRuntimeTest extends TestCase
         $runner = $runtime->getRunner($command);
         static::assertInstanceOf(ConsoleApplicationRunner::class, $runner);
 
+        restore_exception_handler();
         restore_error_handler();
     }
 }
