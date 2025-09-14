@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Request;
 
-use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Request\RequestFactory;
@@ -21,7 +20,7 @@ use Sonata\PageBundle\Request\SiteRequest;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * NEXT_MAJOR: Remove this class
+ * NEXT_MAJOR: Remove this class.
  *
  * @psalm-suppress DeprecatedClass,DeprecatedMethod
  */

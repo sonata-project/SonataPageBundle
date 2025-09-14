@@ -16,6 +16,7 @@ namespace Sonata\PageBundle\Tests\Admin;
 use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
 use Sonata\PageBundle\Admin\BaseBlockAdmin;
 use Sonata\PageBundle\Model\PageInterface;
 
@@ -29,7 +30,7 @@ final class BaseBlockAdminTest extends TestCase
         $parent = $this->createMock(AdminInterface::class);
         $parent->expects(static::once())->method('getSubject')->willReturn($page);
 
-        $blockAdmin = new class extends BaseBlockAdmin {};
+        $blockAdmin = new class($this->createMock(BlockServiceManagerInterface::class)) extends BaseBlockAdmin {};
         $blockAdmin->setParent($parent, 'foo');
 
         $query = $this->createMock(ProxyQueryInterface::class);
