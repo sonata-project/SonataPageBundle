@@ -25,7 +25,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 /**
  * @author BadPixxel <eshop.bpaquier@gmail.com>
  */
-final class SubRequestsSiteSelectorTest extends BaseLocaleSiteSelectorTest
+final class SubRequestsSiteSelectorTest extends BaseLocaleSiteSelectorTestCase
 {
     /**
      * @var MockObject&SiteManagerInterface
