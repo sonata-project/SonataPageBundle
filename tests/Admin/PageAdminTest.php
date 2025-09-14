@@ -36,7 +36,7 @@ final class PageAdminTest extends TestCase
             static::createStub(PageManagerInterface::class),
             static::createStub(SiteManagerInterface::class),
         );
-        $admin->setModelManager(static::createStub(ModelManagerInterface::class));
+        $admin->setModelManager($this->createMock(ModelManagerInterface::class));
         $admin->setModelClass(Page::class);
         $admin->setBaseControllerName(PageController::class);
         $admin->setCode('admin.page');

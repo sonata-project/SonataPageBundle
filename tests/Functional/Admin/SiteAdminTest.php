@@ -14,16 +14,16 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Functional\Admin;
 
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageSite;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class SiteAdminTest extends WebTestCase
 {
     /**
-     * @dataProvider provideCrudUrlsCases
-     *
      * @param array<string, mixed> $parameters
      */
+    #[DataProvider('provideCrudUrlsCases')]
     public function testCrudUrls(string $url, array $parameters = []): void
     {
         $client = self::createClient();
@@ -51,11 +51,10 @@ final class SiteAdminTest extends WebTestCase
     }
 
     /**
-     * @dataProvider provideFormsUrlsCases
-     *
      * @param array<string, mixed> $parameters
      * @param array<string, mixed> $fieldValues
      */
+    #[DataProvider('provideFormsUrlsCases')]
     public function testFormsUrls(string $url, array $parameters, string $button, array $fieldValues = []): void
     {
         $client = self::createClient();
@@ -88,9 +87,7 @@ final class SiteAdminTest extends WebTestCase
         yield 'Create Snaphosts Site' => ['/admin/tests/app/sonatapagesite/1/snapshots', [], 'create'];
     }
 
-    /**
-     * @dataProvider provideBatchActionsCases
-     */
+    #[DataProvider('provideBatchActionsCases')]
     public function testBatchActions(string $action): void
     {
         $client = self::createClient();

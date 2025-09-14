@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Page;
 
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Page\PageServiceManager;
@@ -38,9 +39,7 @@ final class PageServiceManagerTest extends TestCase
         static::assertSame($service, $this->manager->get('default'));
     }
 
-    /**
-     * @depends testAdd
-     */
+    #[Depends('testAdd')]
     public function testGetByPage(): void
     {
         $service = $this->createMock(PageServiceInterface::class);
@@ -56,9 +55,7 @@ final class PageServiceManagerTest extends TestCase
         );
     }
 
-    /**
-     * @depends testAdd
-     */
+    #[Depends('testAdd')]
     public function testGetAll(): void
     {
         $this->manager->add('service1', $service1 = $this->createMock(PageServiceInterface::class));
@@ -71,9 +68,7 @@ final class PageServiceManagerTest extends TestCase
         );
     }
 
-    /**
-     * @depends testAdd
-     */
+    #[Depends('testAdd')]
     public function testDefault(): void
     {
         $default = $this->createMock(PageServiceInterface::class);
@@ -86,9 +81,7 @@ final class PageServiceManagerTest extends TestCase
         );
     }
 
-    /**
-     * @depends testDefault
-     */
+    #[Depends('testDefault')]
     public function testExecute(): void
     {
         $request = $this->createMock(Request::class);

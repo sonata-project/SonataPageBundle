@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Functional\Frontend;
 
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageBlock;
 use Sonata\PageBundle\Tests\App\Entity\SonataPagePage;
@@ -72,11 +73,10 @@ final class SnapshotTest extends WebTestCase
     }
 
     /**
-     * @dataProvider provideSnapshotRenderCases
-     *
      * @param array<string> $shouldContain
      * @param array<string> $shouldNotContain
      */
+    #[DataProvider('provideSnapshotRenderCases')]
     public function testSnapshotRender(PageInterface $page, string $url, int $statusCode, array $shouldContain, array $shouldNotContain): void
     {
         $client = self::createClient();

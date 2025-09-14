@@ -19,7 +19,7 @@ use Sonata\PageBundle\Entity\BaseSite;
 /**
  * @author Rémi Marseille <marseille@ekino.com>
  */
-abstract class BaseLocaleSiteSelectorTest extends TestCase
+abstract class BaseLocaleSiteSelectorTestCase extends TestCase
 {
     /**
      * @return Site[]
