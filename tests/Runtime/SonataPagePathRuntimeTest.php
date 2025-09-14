@@ -25,6 +25,13 @@ use Symfony\Component\Runtime\Runner\Symfony\HttpKernelRunner;
 NEXT_MAJOR: Remove this class')]
 final class SonataPagePathRuntimeTest extends TestCase
 {
+    protected function tearDown(): void
+    {
+        restore_exception_handler();
+
+        parent::tearDown();
+    }
+
     public function testGetRunnerWithHttpKernel(): void
     {
         $kernelMock = $this->createMock(HttpKernelInterface::class);
