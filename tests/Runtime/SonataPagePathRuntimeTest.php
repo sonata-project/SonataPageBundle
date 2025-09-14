@@ -27,13 +27,6 @@ use Symfony\Component\Runtime\Runner\Symfony\HttpKernelRunner;
 #[IgnoreDeprecations]
 final class SonataPagePathRuntimeTest extends TestCase
 {
-    protected function tearDown(): void
-    {
-        restore_exception_handler();
-
-        parent::tearDown();
-    }
-
     public function testGetRunnerWithHttpKernel(): void
     {
         $kernelMock = $this->createMock(HttpKernelInterface::class);
@@ -41,6 +34,8 @@ final class SonataPagePathRuntimeTest extends TestCase
 
         $runner = $runtime->getRunner($kernelMock);
         static::assertInstanceOf(HttpKernelRunner::class, $runner);
+
+        restore_error_handler();
     }
 
     public function testGetRunnerWithNonHttpKernelApplication(): void
@@ -50,5 +45,7 @@ final class SonataPagePathRuntimeTest extends TestCase
 
         $runner = $runtime->getRunner($command);
         static::assertInstanceOf(ConsoleApplicationRunner::class, $runner);
+
+        restore_error_handler();
     }
 }
