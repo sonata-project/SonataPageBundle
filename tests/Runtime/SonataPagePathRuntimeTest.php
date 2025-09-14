@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Runtime;
 
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Runtime\SonataPagePathRuntime;
 use Symfony\Component\Console\Command\Command;
@@ -20,11 +21,8 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Runtime\Runner\Symfony\ConsoleApplicationRunner;
 use Symfony\Component\Runtime\Runner\Symfony\HttpKernelRunner;
 
-/**
- * @group legacy
- *
- * NEXT_MAJOR: Remove this class
- */
+#[Group('legacy
+NEXT_MAJOR: Remove this class')]
 final class SonataPagePathRuntimeTest extends TestCase
 {
     public function testGetRunnerWithHttpKernel(): void

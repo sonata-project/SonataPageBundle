@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Functional\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Sonata\PageBundle\Tests\App\Entity\SonataPagePage;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageSite;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageSnapshot;
@@ -43,10 +44,9 @@ final class CleanupSnapshotsCommandTest extends KernelTestCase
     }
 
     /**
-     * @dataProvider provideDoCleanupsCases
-     *
      * @param array{'--site'?: array<int>, '--keep-snapshots'?: int} $input
      */
+    #[DataProvider('provideDoCleanupsCases')]
     public function testDoCleanups(array $input, int $snapshotCount): void
     {
         $this->prepareData();

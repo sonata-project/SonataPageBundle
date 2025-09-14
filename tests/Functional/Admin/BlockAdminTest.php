@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Functional\Admin;
 
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageBlock;
 use Sonata\PageBundle\Tests\App\Entity\SonataPagePage;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageSite;
@@ -22,10 +23,9 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 final class BlockAdminTest extends WebTestCase
 {
     /**
-     * @dataProvider provideCrudUrlsCases
-     *
      * @param array<string, mixed> $parameters
      */
+    #[DataProvider('provideCrudUrlsCases')]
     public function testCrudUrls(string $url, array $parameters = []): void
     {
         $client = self::createClient();
@@ -57,11 +57,10 @@ final class BlockAdminTest extends WebTestCase
     }
 
     /**
-     * @dataProvider provideFormsUrlsCases
-     *
      * @param array<string, mixed> $parameters
      * @param array<string, mixed> $fieldValues
      */
+    #[DataProvider('provideFormsUrlsCases')]
     public function testFormsUrls(string $url, array $parameters, string $button, array $fieldValues = []): void
     {
         $client = self::createClient();
@@ -98,10 +97,9 @@ final class BlockAdminTest extends WebTestCase
     }
 
     /**
-     * @dataProvider provideSwitchParentForBlockCases
-     *
      * @param array{block_id?: int|string|null, parent_id?: int|string|null} $parameters
      */
+    #[DataProvider('provideSwitchParentForBlockCases')]
     public function testSwitchParentForBlock(array $parameters, bool $success): void
     {
         $client = self::createClient();
@@ -147,10 +145,9 @@ final class BlockAdminTest extends WebTestCase
     }
 
     /**
-     * @dataProvider provideSavePositionForBlockCases
-     *
      * @param array{disposition?: array<array{id: int|string, position: int|numeric-string}>} $parameters
      */
+    #[DataProvider('provideSavePositionForBlockCases')]
     public function testSavePositionForBlock(array $parameters, bool $success): void
     {
         $client = self::createClient();
@@ -193,9 +190,7 @@ final class BlockAdminTest extends WebTestCase
         ], true];
     }
 
-    /**
-     * @dataProvider provideBatchActionsCases
-     */
+    #[DataProvider('provideBatchActionsCases')]
     public function testBatchActions(string $action): void
     {
         $client = self::createClient();

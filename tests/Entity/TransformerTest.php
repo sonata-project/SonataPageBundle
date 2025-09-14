@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sonata\Doctrine\Model\ManagerInterface;
@@ -154,12 +155,11 @@ abstract class TransformerTest extends TestCase
     }
 
     /**
-     * @dataProvider provideLoadBlockCases
-     *
      * @param array<string, mixed> $content
      *
      * @phpstan-param BlockContent $content
      */
+    #[DataProvider('provideLoadBlockCases')]
     public function testLoadBlock(array $content): void
     {
         $this->blockManager->method('create')->willReturnCallback(static fn (): PageBlockInterface => new SonataPageBlock());
@@ -172,7 +172,7 @@ abstract class TransformerTest extends TestCase
     /**
      * @phpstan-return iterable<array{BlockContent}>
      */
-    public function provideLoadBlockCases(): iterable
+    public static function provideLoadBlockCases(): iterable
     {
         $datetime = new \DateTime();
 

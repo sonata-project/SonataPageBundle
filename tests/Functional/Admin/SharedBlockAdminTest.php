@@ -14,16 +14,16 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Functional\Admin;
 
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageBlock;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class SharedBlockAdminTest extends WebTestCase
 {
     /**
-     * @dataProvider provideCrudUrlsCases
-     *
      * @param array<string, mixed> $parameters
      */
+    #[DataProvider('provideCrudUrlsCases')]
     public function testCrudUrls(string $url, array $parameters = []): void
     {
         $client = self::createClient();
@@ -54,11 +54,10 @@ final class SharedBlockAdminTest extends WebTestCase
     }
 
     /**
-     * @dataProvider provideFormsUrlsCases
-     *
      * @param array<string, mixed> $parameters
      * @param array<string, mixed> $fieldValues
      */
+    #[DataProvider('provideFormsUrlsCases')]
     public function testFormsUrls(string $url, array $parameters, string $button, array $fieldValues = []): void
     {
         $client = self::createClient();
@@ -178,9 +177,7 @@ final class SharedBlockAdminTest extends WebTestCase
         yield 'Remove Shared Block' => ['/admin/tests/app/sonatapageblock/shared/1/delete', [], 'btn_delete'];
     }
 
-    /**
-     * @dataProvider provideBatchActionsCases
-     */
+    #[DataProvider('provideBatchActionsCases')]
     public function testBatchActions(string $action): void
     {
         $client = self::createClient();

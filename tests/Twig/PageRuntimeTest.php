@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Twig;
 
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\TestCase;
 use Sonata\BlockBundle\Templating\Helper\BlockHelper;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
@@ -49,9 +50,7 @@ final class PageRuntimeTest extends TestCase
         static::assertSame('/foo/bar', $extension->ajaxUrl($block));
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[DoesNotPerformAssertions]
     public function testController(): void
     {
         $site = $this->createMock(SiteInterface::class);
@@ -74,9 +73,7 @@ final class PageRuntimeTest extends TestCase
         $extension->controller('foo');
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[DoesNotPerformAssertions]
     public function testControllerWithoutSite(): void
     {
         $request = $this->createMock(Request::class);

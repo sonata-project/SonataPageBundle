@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Twig\Extension;
 
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Sonata\BlockBundle\Templating\Helper\BlockHelper;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
@@ -27,9 +29,8 @@ use Symfony\Component\Routing\RouterInterface;
 
 /**
  * NEXT_MAJOR: Remove this test.
- *
- * @group legacy
  */
+#[Group('legacy')]
 final class PageExtensionTest extends TestCase
 {
     public function testAjaxUrl(): void
@@ -54,9 +55,7 @@ final class PageExtensionTest extends TestCase
         static::assertSame('/foo/bar', $extension->ajaxUrl($block));
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[DoesNotPerformAssertions]
     public function testController(): void
     {
         $site = $this->createMock(SiteInterface::class);
@@ -79,9 +78,7 @@ final class PageExtensionTest extends TestCase
         $extension->controller('foo');
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[DoesNotPerformAssertions]
     public function testControllerWithoutSite(): void
     {
         $request = $this->createMock(Request::class);

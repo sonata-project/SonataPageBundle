@@ -17,6 +17,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Id\AbstractIdGenerator;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Sonata\PageBundle\Model\TransformerInterface;
 use Sonata\PageBundle\Tests\App\AppKernel;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageBlock;
@@ -110,7 +111,7 @@ final class TransformerTest extends KernelTestCase
     /**
      * @return iterable<array{\DateTime, ?int, array<string, mixed>}>
      */
-    public function createProvider(): iterable
+    public static function createProvider(): iterable
     {
         $datetime = new \DateTime();
 
@@ -134,7 +135,7 @@ final class TransformerTest extends KernelTestCase
     /**
      * @return iterable<array{\DateTime, int|string|null, array<string, mixed>}>
      */
-    public function loadProvider(): iterable
+    public static function loadProvider(): iterable
     {
         $datetime = new \DateTime();
 
@@ -160,10 +161,9 @@ final class TransformerTest extends KernelTestCase
     }
 
     /**
-     * @dataProvider createProvider
-     *
      * @param array<string, ?mixed> $settings
      */
+    #[DataProvider('createProvider')]
     public function testCreateSnapshot(\DateTime $datetime, ?int $position, array $settings): void
     {
         $site = new SonataPageSite();
@@ -236,10 +236,9 @@ final class TransformerTest extends KernelTestCase
     }
 
     /**
-     * @dataProvider createProvider
-     *
      * @param array<string, ?mixed> $settings
      */
+    #[DataProvider('createProvider')]
     public function testCreateSnapshotOverDoctrine(\DateTime $datetime, ?int $position, array $settings): void
     {
         $this->disableAutoIncrement(SonataPageSite::class);
@@ -335,10 +334,9 @@ final class TransformerTest extends KernelTestCase
     }
 
     /**
-     * @dataProvider loadProvider
-     *
      * @param array<string, ?mixed> $settings
      */
+    #[DataProvider('loadProvider')]
     public function testLoadSnapshotToPage(\DateTimeInterface $datetime, int|string|null $position, array $settings): void
     {
         $snapshot = new SonataPageSnapshot();
@@ -353,10 +351,9 @@ final class TransformerTest extends KernelTestCase
     }
 
     /**
-     * @dataProvider loadProvider
-     *
      * @param array<string, ?mixed> $settings
      */
+    #[DataProvider('loadProvider')]
     public function testLoadBlock(\DateTimeInterface $datetime, int|string|null $position, array $settings): void
     {
         $page = new SonataPagePage();

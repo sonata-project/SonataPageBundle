@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Site;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Exception\NoValueException;
 use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
@@ -32,9 +33,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
  */
 final class HostPathSiteSelectorTest extends TestCase
 {
-    /**
-     * @dataProvider provideSiteCases
-     */
+    #[DataProvider('provideSiteCases')]
     public function testSite(string $expectedName, string $url, string $expectedPath = '/'): void
     {
         [$site, $event] = $this->performHandleKernelRequestTest($url);
@@ -48,7 +47,7 @@ final class HostPathSiteSelectorTest extends TestCase
     /**
      * @return iterable<array{0: string, 1: string, 2?: string}>
      */
-    public function provideSiteCases(): iterable
+    public static function provideSiteCases(): iterable
     {
         yield ['Site 0', 'http://www.example.com/test0'];
         yield ['Site 1', 'http://www.example.com/test1'];
@@ -61,9 +60,7 @@ final class HostPathSiteSelectorTest extends TestCase
         yield ['Site 10', 'http://www.example.es/abc', '/abc'];
     }
 
-    /**
-     * @dataProvider provideSiteWithRedirectCases
-     */
+    #[DataProvider('provideSiteWithRedirectCases')]
     public function testSiteWithRedirect(string $expectedRedirectUri, string $url, string $path): void
     {
         [$site, $event] = $this->performHandleKernelRequestTest($url);
@@ -81,7 +78,7 @@ final class HostPathSiteSelectorTest extends TestCase
     /**
      * @return iterable<array{string, string, string}>
      */
-    public function provideSiteWithRedirectCases(): iterable
+    public static function provideSiteWithRedirectCases(): iterable
     {
         yield ['//www.example.com/test2', 'http://www.example.com/test5', '/test5'];
         yield ['//www.example.com/test2', 'http://www.example.com/test6', '/test6'];

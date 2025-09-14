@@ -13,18 +13,17 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Request;
 
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Request\RequestFactory;
 use Sonata\PageBundle\Request\SiteRequest;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @group legacy
- *
- * NEXT_MAJOR: Remove this class
- *
  * @psalm-suppress DeprecatedClass,DeprecatedMethod
  */
+#[Group('legacy
+NEXT_MAJOR: Remove this class')]
 final class RequestFactoryTest extends TestCase
 {
     protected function setUp(): void
