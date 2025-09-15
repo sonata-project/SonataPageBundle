@@ -128,6 +128,7 @@ final class PageSelectorTypeTest extends TestCase
 
         $views = $options['choices'];
 
+        static::assertIsArray($views);
         static::assertCount(3, $views);
         $this->assertRouteNameEquals('all', $views[1]);
         $this->assertRouteNameEquals('get', $views[3]);
@@ -146,6 +147,7 @@ final class PageSelectorTypeTest extends TestCase
 
         $views = $options['choices'];
 
+        static::assertIsArray($views);
         static::assertCount(3, $views);
         $this->assertRouteNameEquals('all', $views[1]);
         $this->assertRouteNameEquals('post', $views[2]);
@@ -166,6 +168,7 @@ final class PageSelectorTypeTest extends TestCase
         $views = $options['choices'];
 
         static::assertCount(1, $views);
+        static::assertIsArray($views);
         $this->assertRouteNameEquals('all', $views[1]);
     }
 
@@ -182,6 +185,7 @@ final class PageSelectorTypeTest extends TestCase
 
         $views = $options['choices'];
 
+        static::assertIsArray($views);
         static::assertCount(3, $views);
         $this->assertRouteNameEquals('post', $views[2]);
         $this->assertRouteNameEquals('get', $views[3]);
@@ -201,6 +205,7 @@ final class PageSelectorTypeTest extends TestCase
 
         $views = $options['choices'];
 
+        static::assertIsArray($views);
         static::assertCount(2, $views);
         $this->assertRouteNameEquals('post', $views[2]);
         $this->assertRouteNameEquals('get-post', $views[4]);

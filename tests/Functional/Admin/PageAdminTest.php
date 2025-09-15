@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Functional\Admin;
 
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageBlock;
 use Sonata\PageBundle\Tests\App\Entity\SonataPagePage;
@@ -24,10 +25,9 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 final class PageAdminTest extends WebTestCase
 {
     /**
-     * @dataProvider provideCrudUrlsCases
-     *
      * @param array<string, mixed> $parameters
      */
+    #[DataProvider('provideCrudUrlsCases')]
     public function testCrudUrls(string $url, array $parameters = []): void
     {
         $client = self::createClient();
@@ -101,11 +101,10 @@ final class PageAdminTest extends WebTestCase
     }
 
     /**
-     * @dataProvider provideFormsUrlsCases
-     *
      * @param array<string, mixed> $parameters
      * @param array<string, mixed> $fieldValues
      */
+    #[DataProvider('provideFormsUrlsCases')]
     public function testFormsUrls(string $url, array $parameters, string $button, array $fieldValues = []): void
     {
         $client = self::createClient();
@@ -181,9 +180,7 @@ final class PageAdminTest extends WebTestCase
         yield 'Remove Block Page' => ['/admin/tests/app/sonatapageblock/1/delete', [], 'btn_delete'];
     }
 
-    /**
-     * @dataProvider provideBatchActionsCases
-     */
+    #[DataProvider('provideBatchActionsCases')]
     public function testBatchActions(string $action): void
     {
         $client = self::createClient();
@@ -214,9 +211,7 @@ final class PageAdminTest extends WebTestCase
         yield 'Create Snaphosts' => ['snapshot'];
     }
 
-    /**
-     * @dataProvider provideTabMenuCases
-     */
+    #[DataProvider('provideTabMenuCases')]
     public function testTabMenu(string $link, string $location): void
     {
         $client = self::createClient();

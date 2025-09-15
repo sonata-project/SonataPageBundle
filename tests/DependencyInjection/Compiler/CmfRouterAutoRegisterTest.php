@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\DependencyInjection\Compiler;
 
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Sonata\PageBundle\DependencyInjection\Compiler\CmfRouterCompilerPass;
 use Symfony\Cmf\Component\Routing\ChainRouter;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -21,9 +22,7 @@ use Symfony\Component\DependencyInjection\Reference;
 
 final class CmfRouterAutoRegisterTest extends AbstractCompilerPassTestCase
 {
-    /**
-     * @dataProvider provideRouterAutoRegisterCases
-     */
+    #[DataProvider('provideRouterAutoRegisterCases')]
     public function testRouterAutoRegister(bool $enabled, int $priority): void
     {
         $this->container->setParameter('sonata.page.router_auto_register.enabled', $enabled);
@@ -58,7 +57,7 @@ final class CmfRouterAutoRegisterTest extends AbstractCompilerPassTestCase
     /**
      * @return iterable<string, array{bool, int}>
      */
-    public function provideRouterAutoRegisterCases(): iterable
+    public static function provideRouterAutoRegisterCases(): iterable
     {
         yield 'enabled router' => [true, 42];
         yield 'disabled router' => [false, 84];

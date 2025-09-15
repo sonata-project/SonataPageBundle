@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Functional\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Sonata\PageBundle\Tests\App\Entity\SonataPageSite;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -33,8 +34,6 @@ final class CreateSiteCommandTest extends KernelTestCase
     }
 
     /**
-     * @dataProvider provideCreateSiteCases
-     *
      * @param array{
      *   '--no-confirmation'?: bool,
      *   '--name'?: string,
@@ -46,6 +45,7 @@ final class CreateSiteCommandTest extends KernelTestCase
      * } $commandInput
      * @param array<string> $questionInputs
      */
+    #[DataProvider('provideCreateSiteCases')]
     public function testCreateSite(array $commandInput, array $questionInputs, bool $success): void
     {
         $this->commandTester->setInputs($questionInputs);

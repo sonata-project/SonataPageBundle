@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Site;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Exception\NoValueException;
 use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
@@ -30,9 +31,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
  */
 final class HostSiteSelectorTest extends TestCase
 {
-    /**
-     * @dataProvider provideSiteCases
-     */
+    #[DataProvider('provideSiteCases')]
     public function testSite(string $expectedName, string $url): void
     {
         [$site, $event] = $this->performHandleKernelRequestTest($url);
@@ -43,7 +42,7 @@ final class HostSiteSelectorTest extends TestCase
     /**
      * @return iterable<array{string, string}>
      */
-    public function provideSiteCases(): iterable
+    public static function provideSiteCases(): iterable
     {
         yield ['Site 0', 'http://localhost'];
         yield ['Site 1', 'http://www.example1.com'];
