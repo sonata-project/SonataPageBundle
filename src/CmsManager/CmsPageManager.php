@@ -26,22 +26,12 @@ use Sonata\PageBundle\Model\SiteInterface;
 final class CmsPageManager extends BaseCmsPageManager
 {
     /**
-     * @var array{
-     *   url: array<int|string|null>,
-     *   routeName: array<int|string|null>,
-     *   pageAlias: array<int|string|null>,
-     *   name: array<int|string|null>,
-     * }
+     * @var array<string, array<mixed, string|int>>
      */
-    private array $pageReferences = [
-        'url' => [],
-        'routeName' => [],
-        'pageAlias' => [],
-        'name' => [],
-    ];
+    private array $pageReferences = [];
 
     /**
-     * @var array<PageInterface>
+     * @var array<int|string, PageInterface>
      */
     private array $pages = [];
 
@@ -131,10 +121,17 @@ final class CmsPageManager extends BaseCmsPageManager
 
     protected function getPageBy(?SiteInterface $site, string $fieldName, $value): PageInterface
     {
+        $siteRef = $site instanceof SiteInterface ? $site->getId() : 's';
+        $fieldNameRef = ($siteRef ?? 's').'_'.$fieldName;
+
+        if (!isset($this->pageReferences[$fieldNameRef])) {
+            $this->pageReferences[$fieldNameRef] = [];
+        }
+
         if ('id' === $fieldName) {
             $id = $value;
-        } elseif (isset($this->pageReferences[$fieldName][$value])) {
-            $id = $this->pageReferences[$fieldName][$value];
+        } elseif (isset($this->pageReferences[$fieldNameRef][$value])) {
+            $id = $this->pageReferences[$fieldNameRef][$value];
         } else {
             $id = null;
         }
@@ -160,7 +157,7 @@ final class CmsPageManager extends BaseCmsPageManager
             \assert(null !== $id);
 
             if ('id' !== $fieldName) {
-                $this->pageReferences[$fieldName][$value] = $id;
+                $this->pageReferences[$fieldNameRef][$value] = $id;
             }
 
             $this->pages[$id] = $page;
