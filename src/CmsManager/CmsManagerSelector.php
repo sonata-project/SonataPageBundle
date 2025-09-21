@@ -37,8 +37,8 @@ final class CmsManagerSelector implements CmsManagerSelectorInterface
      * @param AdminInterface<PageInterface> $pageAdmin
      */
     public function __construct(
-        private CmsPageManager $cmsPageManager,
-        private CmsSnapshotManager $cmsSnapshotManager,
+        private CmsManagerInterface $cmsPageManager,
+        private CmsManagerInterface $cmsSnapshotManager,
         private AdminInterface $pageAdmin,
         private TokenStorageInterface $tokenStorage,
         private RequestStack $requestStack,
