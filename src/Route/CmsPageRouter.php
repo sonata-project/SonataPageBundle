@@ -72,6 +72,18 @@ final class CmsPageRouter implements ChainedRouterInterface
      */
     public function generate($name, $parameters = [], $referenceType = self::ABSOLUTE_PATH): string
     {
+        // Short-circuit: if this looks like a plain Symfony localized route (has .<locale> suffix)
+        // or a non-page route (not an alias/slug), delegate directly to the inner router to avoid
+        // double prefixing or unintended CMS decoration.
+        if (\is_string($name)) {
+            if (preg_match('/\.[A-Za-z0-9_-]+$/', $name) === 1 && !$this->isPageAlias($name) && !$this->isPageSlug($name)) {
+                return $this->router->generate($name, $parameters, $referenceType);
+            }
+            if (!$this->isPageAlias($name) && !$this->isPageSlug($name)) {
+                return $this->router->generate($name, $parameters, $referenceType);
+            }
+        }
+
         try {
             $url = null;
 
@@ -130,8 +142,26 @@ final class CmsPageRouter implements ChainedRouterInterface
             throw new ResourceNotFoundException('No site defined');
         }
 
+        // Normalize path for CMS page lookup without altering the original request path
+        // so Symfony's own localized route matching (with prefixes) remains intact.
+        $lookupPath = $pathinfo;
+        $relativePath = $site->getRelativePath();
+
+        // Map bare site prefix (e.g. "/en") directly to the root CMS page ("/") for that site.
+        // This allows the English homepage to resolve at "/en" while the stored page URL remains "/".
+        if ($relativePath && $relativePath !== '/' && $lookupPath === rtrim($relativePath, '/')) {
+            $lookupPath = '/';
+        }
+
+        if ($relativePath && $relativePath !== '/' && str_starts_with($lookupPath, $relativePath . '/')) {
+            $lookupPath = substr($lookupPath, \strlen($relativePath));
+            if ($lookupPath === '') {
+                $lookupPath = '/';
+            }
+        }
+
         try {
-            $page = $cms->getPageByUrl($site, $pathinfo);
+            $page = $cms->getPageByUrl($site, $lookupPath);
         } catch (PageNotFoundException $e) {
             throw new ResourceNotFoundException($pathinfo, 0, $e);
         }
@@ -235,10 +265,23 @@ final class CmsPageRouter implements ChainedRouterInterface
             $schemeAuthority = \sprintf('%s%s%s', $schemeAuthority, $this->context->getHost(), $port);
         }
 
+        // Explicit site prefix handling (Option 1):
+        // We no longer rely on RequestContext::getBaseUrl() to append the site's relative path.
+        // Instead we prepend the site's relativePath only for CMS pages here, so Symfony
+        // localized routes and CMS pages share the same structural /en prefix semantics.
+        $sitePrefix = '';
+        if ($this->context instanceof SiteRequestContextInterface) {
+            $site = $this->context->getSite();
+            if ($site && $site->getRelativePath() && $site->getRelativePath() !== '/') {
+                $sitePrefix = rtrim($site->getRelativePath(), '/');
+            }
+        }
+
         if (self::RELATIVE_PATH === $referenceType) {
-            $url = $this->getRelativePath($this->context->getPathInfo(), $url);
+            $effectiveTarget = $sitePrefix.$url;
+            $url = $this->getRelativePath($this->context->getPathInfo(), $effectiveTarget);
         } else {
-            $url = \sprintf('%s%s%s', $schemeAuthority, $this->context->getBaseUrl(), $url);
+            $url = \sprintf('%s%s%s', $schemeAuthority, $sitePrefix, $url);
         }
 
         if (\count($parameters) > 0) {

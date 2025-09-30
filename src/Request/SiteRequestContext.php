@@ -55,12 +55,9 @@ final class SiteRequestContext extends RequestContext implements SiteRequestCont
 
     public function getBaseUrl(): string
     {
-        $site = $this->getSite();
-
-        if (null !== $site) {
-            return parent::getBaseUrl().$site->getRelativePath();
-        }
-
+        // Structural locale and /en prefix handling are managed by the SiteAwareRouter
+        // and explicit URL decoration for CMS pages. We intentionally do NOT append
+        // the site's relativePath here to avoid double prefixes or ambiguity.
         return parent::getBaseUrl();
     }
 

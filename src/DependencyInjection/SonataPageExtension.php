@@ -92,6 +92,8 @@ final class SonataPageExtension extends Extension implements PrependExtensionInt
         }
 
         $this->registerParameters($container, $config);
+
+
     }
 
     /**
