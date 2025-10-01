@@ -92,7 +92,7 @@ How It Works
 ------------
 
 Route Partitioning
-~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
 
 The ``SiteAwareRouter`` automatically partitions your route collection:
 
