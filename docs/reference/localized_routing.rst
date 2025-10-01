@@ -165,7 +165,7 @@ CMS pages automatically respect locale prefixes:
     automatically based on the site's ``relativePath`` setting.
 
 Hybrid Pages
------------
+------------
 
 Hybrid pages (CMS pages backed by Symfony routes) work with localized routing:
 
@@ -222,7 +222,7 @@ If you're migrating an existing site:
     bin/console sonata:page:create-snapshots --site=all
 
 Best Practices
--------------
+--------------
 
 Route Naming
 ~~~~~~~~~~~~
@@ -246,7 +246,7 @@ Security
 * Each site only sees its own locale's routes
 
 Troubleshooting
---------------
+---------------
 
 Routes not matching
 ~~~~~~~~~~~~~~~~~~~
@@ -293,7 +293,7 @@ Hybrid pages duplicated
 Each site will only see its locale's variant.
 
 Additional Resources
--------------------
+--------------------
 
 * `Symfony Localized Routes Documentation <https://symfony.com/doc/current/routing.html#localized-routes-i18n>`_
 * :doc:`multisite` - Multisite configuration guide

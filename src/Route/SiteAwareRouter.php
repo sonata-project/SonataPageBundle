@@ -316,7 +316,7 @@ final class SiteAwareRouter implements RouterInterface, ConfigurableRequirements
             return;
         }
         $locCollection = $this->partitioner->getLocaleCollection($loc);
-        if (!$locCollection) {
+        if (null === $locCollection) {
             return;
         }
         $context = $this->createSanitizedContext($this->getContext());
