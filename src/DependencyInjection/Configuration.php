@@ -91,7 +91,6 @@ final class Configuration implements ConfigurationInterface
                         ->thenInvalid('Invalid multisite configuration %s. For more information, see https://docs.sonata-project.org/projects/SonataPageBundle/en/4.x/reference/multisite/')
                     ->end()
                 ->end()
-
                 ->arrayNode('router_auto_register')
                     ->info($routerAutoRegisterInfo)
                     ->addDefaultsIfNotSet()

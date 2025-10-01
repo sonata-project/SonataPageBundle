@@ -71,7 +71,7 @@ final class RoutePageGenerator
             if (preg_match('/\\.([A-Za-z_]+)$/', $name, $lm)) {
                 $routeLocale = $lm[1];
                 $siteLocale = $site->getLocale();
-                if (null !== $routeLocale && \is_string($siteLocale) && $siteLocale !== '' && $routeLocale !== $siteLocale) {
+                if (\is_string($siteLocale) && $siteLocale !== '' && $routeLocale !== $siteLocale) {
                     continue;
                 }
             }

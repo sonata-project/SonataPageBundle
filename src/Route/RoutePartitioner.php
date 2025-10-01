@@ -228,7 +228,7 @@ final class RoutePartitioner
         }
         $filtered = [];
         foreach ($locales as $loc) {
-            if (\is_string($loc) && $loc !== '') {
+            if ($loc !== '') {
                 $filtered[] = $loc;
             }
         }

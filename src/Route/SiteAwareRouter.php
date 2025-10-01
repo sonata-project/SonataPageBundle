@@ -29,6 +29,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Route;
 
+use Sonata\PageBundle\Model\SiteManagerInterface;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
@@ -58,6 +59,7 @@ final class SiteAwareRouter implements RouterInterface, ConfigurableRequirements
     public function __construct(
         private readonly RouterInterface $inner,
         private readonly SiteSelectorInterface $siteSelector,
+        private readonly SiteManagerInterface $siteManager,
         private readonly bool $denyCrossLocaleGenerate = true
     ) {
     }
@@ -76,6 +78,9 @@ final class SiteAwareRouter implements RouterInterface, ConfigurableRequirements
 
     /** @var string[] */
     private array $locales = [];
+
+    /** @var string[]|null Cached allowed locales */
+    private ?array $cachedAllowedLocales = null;
 
     /* -----------------------------------------------------------------
      * Context
@@ -110,6 +115,9 @@ final class SiteAwareRouter implements RouterInterface, ConfigurableRequirements
     /* -----------------------------------------------------------------
      * match()
      * ----------------------------------------------------------------- */
+    /**
+     * @return array<string, mixed>
+     */
     public function match(string $pathinfo): array
     {
         $this->init();
@@ -239,6 +247,14 @@ final class SiteAwareRouter implements RouterInterface, ConfigurableRequirements
 
         $collection = $this->inner->getRouteCollection();
         $this->partitioner = new RoutePartitioner();
+
+        // Restrict locale detection to actual site locales to avoid treating
+        // routes like "api.v2" or "admin.dashboard" as localized routes.
+        $allowedLocales = $this->getAllowedLocales();
+        if ($allowedLocales !== []) {
+            $this->partitioner->setAllowedLocales($allowedLocales);
+        }
+
         $this->partitioner->partition($collection);
 
         $this->locales = $this->partitioner->getLocales();
@@ -246,6 +262,37 @@ final class SiteAwareRouter implements RouterInterface, ConfigurableRequirements
         // pairs only for the currently active site locale (match) and explicitly forced locales
         // (generate). This effectively limits recognized localized suffixes to those that are
         // actually needed for enabled sites.
+    }
+
+    /**
+     * Get list of allowed locale suffixes from enabled sites.
+     *
+     * This restricts route partitioning to only recognize suffixes that match
+     * actual site locales, preventing false positives like "admin.dashboard"
+     * being treated as locale route "admin" with locale "dashboard".
+     *
+     * Results are cached per-request to avoid repeated database queries.
+     *
+     * @return string[]
+     */
+    private function getAllowedLocales(): array
+    {
+        if (null !== $this->cachedAllowedLocales) {
+            return $this->cachedAllowedLocales;
+        }
+
+        $locales = [];
+
+        foreach ($this->siteManager->findBy(['enabled' => true]) as $site) {
+            $locale = $site->getLocale();
+            if (null !== $locale && '' !== $locale) {
+                $locales[] = $locale;
+            }
+        }
+
+        $this->cachedAllowedLocales = array_values(array_unique($locales));
+
+        return $this->cachedAllowedLocales;
     }
 
     /**

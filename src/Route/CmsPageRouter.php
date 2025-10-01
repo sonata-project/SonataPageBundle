@@ -72,16 +72,11 @@ final class CmsPageRouter implements ChainedRouterInterface
      */
     public function generate($name, $parameters = [], $referenceType = self::ABSOLUTE_PATH): string
     {
-        // Short-circuit: if this looks like a plain Symfony localized route (has .<locale> suffix)
-        // or a non-page route (not an alias/slug), delegate directly to the inner router to avoid
-        // double prefixing or unintended CMS decoration.
-        if (\is_string($name)) {
-            if (preg_match('/\.[A-Za-z0-9_-]+$/', $name) === 1 && !$this->isPageAlias($name) && !$this->isPageSlug($name)) {
-                return $this->router->generate($name, $parameters, $referenceType);
-            }
-            if (!$this->isPageAlias($name) && !$this->isPageSlug($name)) {
-                return $this->router->generate($name, $parameters, $referenceType);
-            }
+        // Short-circuit: if this is not a page route (not an alias/slug), delegate directly
+        // to the inner router to avoid double prefixing or unintended CMS decoration.
+        // This includes both Symfony localized routes (with .<locale> suffix) and regular routes.
+        if (\is_string($name) && !$this->isPageAlias($name) && !$this->isPageSlug($name)) {
+            return $this->router->generate($name, $parameters, $referenceType);
         }
 
         try {
@@ -265,23 +260,10 @@ final class CmsPageRouter implements ChainedRouterInterface
             $schemeAuthority = \sprintf('%s%s%s', $schemeAuthority, $this->context->getHost(), $port);
         }
 
-        // Explicit site prefix handling (Option 1):
-        // We no longer rely on RequestContext::getBaseUrl() to append the site's relative path.
-        // Instead we prepend the site's relativePath only for CMS pages here, so Symfony
-        // localized routes and CMS pages share the same structural /en prefix semantics.
-        $sitePrefix = '';
-        if ($this->context instanceof SiteRequestContextInterface) {
-            $site = $this->context->getSite();
-            if ($site && $site->getRelativePath() && $site->getRelativePath() !== '/') {
-                $sitePrefix = rtrim($site->getRelativePath(), '/');
-            }
-        }
-
         if (self::RELATIVE_PATH === $referenceType) {
-            $effectiveTarget = $sitePrefix.$url;
-            $url = $this->getRelativePath($this->context->getPathInfo(), $effectiveTarget);
+            $url = $this->getRelativePath($this->context->getPathInfo(), $url);
         } else {
-            $url = \sprintf('%s%s%s', $schemeAuthority, $sitePrefix, $url);
+            $url = \sprintf('%s%s%s', $schemeAuthority, $this->context->getBaseUrl(), $url);
         }
 
         if (\count($parameters) > 0) {

@@ -30,7 +30,6 @@ use Sonata\PageBundle\Site\HostPathByLocaleSiteSelector;
 use Sonata\PageBundle\Site\HostPathSiteSelector;
 use Sonata\PageBundle\Site\HostSiteSelector;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
-
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 use Symfony\Component\Security\Http\Event\LogoutEvent;
@@ -200,6 +199,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             ->args([
                 service('sonata.page.router.site_aware.inner'),
                 service('sonata.page.site.selector'),
+                service('sonata.page.manager.site'),
                 true, // denyCrossLocaleGenerate
             ])
 
@@ -211,8 +211,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 service('sonata.page.decorator_strategy'),
                 service('sonata.page.kernel.exception_listener'),
             ])
-
-
 
         ->set('sonata.page.template_manager', TemplateManager::class)
             ->public()
@@ -242,7 +240,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         // short-circuits when disabled). To avoid even registering the tag when disabled,
         // we rely on a compiler pass (optional) — if not present, the early-return in the
         // listener keeps overhead negligible.
-
 
         ->alias(SiteSelectorInterface::class, 'sonata.page.site.selector');
 };
