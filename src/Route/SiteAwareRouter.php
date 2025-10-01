@@ -3,28 +3,12 @@
 declare(strict_types=1);
 
 /*
- * This file is part of your fork of Sonata PageBundle.
+ * This file is part of the Sonata Project package.
  *
- * Rebuilt routing integration to support Symfony localized routes natively
- * with strict per-locale isolation (structural 404) and without runtime
- * regex cleanup or post-generation normalization.
+ * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
- * Core Guarantees:
- *  - Wrong-locale URLs 404 structurally (the route is not in the active matcher).
- *  - No double /en prefix (we never rely on baseUrl for localized Symfony routes).
- *  - Base route + _locale parameter generation is supported (rewritten to suffixed name).
- *  - Optional strict denial of cross-locale generation.
- *
- * Notes:
- *  - Site objects keep relativePath '' (fi) and '/en' (en) as requested.
- *  - Symfony route resource-level prefix still defines fi:"" / en:"/en".
- *  - For CMS pages, CmsPageRouter still uses SiteRequestContext (and thus baseUrl + relativePath)
- *    to prepend /en for English page URLs. This router only governs Symfony localized routes.
- *
- * Implementation Detail Update:
- *  - Locale-specific matchers & generators are now built lazily (only for the active
- *    site locale and any explicitly forced _locale during generation). This ensures
- *    we effectively restrict recognized suffixes to locales that correspond to enabled sites.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Sonata\PageBundle\Route;
@@ -41,7 +25,7 @@ use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
- * SiteAwareRouter
+ * SiteAwareRouter.
  *
  * Decorates the base Symfony router:
  *  - Partitions the full RouteCollection into per-locale merged collections
@@ -56,14 +40,6 @@ use Symfony\Component\Routing\RouterInterface;
  */
 final class SiteAwareRouter implements RouterInterface, ConfigurableRequirementsInterface
 {
-    public function __construct(
-        private readonly RouterInterface $inner,
-        private readonly SiteSelectorInterface $siteSelector,
-        private readonly SiteManagerInterface $siteManager,
-        private readonly bool $denyCrossLocaleGenerate = true
-    ) {
-    }
-
     private ?RequestContext $context = null;
 
     private bool $initialized = false;
@@ -81,6 +57,15 @@ final class SiteAwareRouter implements RouterInterface, ConfigurableRequirements
 
     /** @var string[]|null Cached allowed locales */
     private ?array $cachedAllowedLocales = null;
+
+    public function __construct(
+        private readonly RouterInterface $inner,
+        private readonly SiteSelectorInterface $siteSelector,
+        private readonly SiteManagerInterface $siteManager,
+        private readonly bool $denyCrossLocaleGenerate = true,
+    ) {
+        $this->partitioner = new RoutePartitioner();
+    }
 
     /* -----------------------------------------------------------------
      * Context
@@ -145,7 +130,7 @@ final class SiteAwareRouter implements RouterInterface, ConfigurableRequirements
      * generate()
      * ----------------------------------------------------------------- */
     /**
-     * @param array<string,mixed> $parameters
+     * @param array<array-key,mixed> $parameters
      */
     public function generate(string $name, array $parameters = [], int $referenceType = self::ABSOLUTE_PATH): string
     {
@@ -155,46 +140,47 @@ final class SiteAwareRouter implements RouterInterface, ConfigurableRequirements
         $siteLocale = $site?->getLocale();
 
         $pos = strrpos($name, '.');
-        $hasSuffix = $pos !== false;
+        $hasSuffix = false !== $pos;
         $routeLocale = null;
 
         if ($hasSuffix) {
             $routeLocale = substr($name, $pos + 1);
         } else {
             // Default: use site locale's variant if it exists
-            if ($siteLocale) {
+            if (null !== $siteLocale && '' !== $siteLocale) {
                 $autoAlias = $this->partitioner->getAlias($name, $siteLocale);
-                if ($autoAlias !== null) {
+                if (null !== $autoAlias) {
                     $name = $autoAlias;
                     $pos = strrpos($name, '.');
-                    $routeLocale = $pos !== false ? substr($name, $pos + 1) : null;
-                    $hasSuffix = $pos !== false;
+                    $routeLocale = false !== $pos ? substr($name, $pos + 1) : null;
+                    $hasSuffix = false !== $pos;
                 }
             }
             // Only treat _locale as a forced override (explicit cross-locale intent)
             if (isset($parameters['_locale']) && \is_string($parameters['_locale'])) {
                 $forcedLocale = $parameters['_locale'];
                 unset($parameters['_locale']);
-                $forcedAlias = $this->partitioner->getAlias($hasSuffix ? substr($name, 0, $pos) : $name, $forcedLocale);
-                if ($forcedAlias === null) {
+                $baseName = $hasSuffix && false !== $pos ? substr($name, 0, $pos) : $name;
+                $forcedAlias = $this->partitioner->getAlias($baseName, $forcedLocale);
+                if (null === $forcedAlias) {
                     throw new RouteNotFoundException("Cannot force locale '$forcedLocale' for base route '$name' (no variant).");
                 }
                 $name = $forcedAlias;
                 $pos = strrpos($name, '.');
-                $routeLocale = $pos !== false ? substr($name, $pos + 1) : null;
-                $hasSuffix = $pos !== false;
+                $routeLocale = false !== $pos ? substr($name, $pos + 1) : null;
+                $hasSuffix = false !== $pos;
             }
         }
 
         // Enforce strict cross-locale generation ONLY when no explicit _locale forcing was used
-        if ($this->denyCrossLocaleGenerate && $siteLocale && $hasSuffix && $routeLocale !== $siteLocale) {
+        if ($this->denyCrossLocaleGenerate && null !== $siteLocale && '' !== $siteLocale && $hasSuffix && $routeLocale !== $siteLocale) {
             // At this point, mismatch means user forced a different locale via _locale; allow it.
             // To deny even forced cross-locale generation, uncomment the exception below.
             // throw new RouteNotFoundException("Cross-locale generation denied for route '$name' on site locale '$siteLocale'");
         }
 
         // Suffixed route path: try locale-specific generator; fallback to inner router
-        if ($hasSuffix && $routeLocale) {
+        if ($hasSuffix && null !== $routeLocale && '' !== $routeLocale) {
             $this->buildLocaleInfrastructure($routeLocale);
             if (isset($this->generators[$routeLocale])) {
                 try {
@@ -232,6 +218,7 @@ final class SiteAwareRouter implements RouterInterface, ConfigurableRequirements
         if ($this->inner instanceof ConfigurableRequirementsInterface) {
             return $this->inner->isStrictRequirements();
         }
+
         return null;
     }
 
@@ -251,7 +238,7 @@ final class SiteAwareRouter implements RouterInterface, ConfigurableRequirements
         // Restrict locale detection to actual site locales to avoid treating
         // routes like "api.v2" or "admin.dashboard" as localized routes.
         $allowedLocales = $this->getAllowedLocales();
-        if ($allowedLocales !== []) {
+        if ([] !== $allowedLocales) {
             $this->partitioner->setAllowedLocales($allowedLocales);
         }
 

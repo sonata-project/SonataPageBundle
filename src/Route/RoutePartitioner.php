@@ -2,13 +2,22 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Sonata Project package.
+ *
+ * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Sonata\PageBundle\Route;
 
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
 /**
- * RoutePartitioner
+ * RoutePartitioner.
  *
  * Responsibility:
  *   - Perform a one-time structural split of the master RouteCollection into
@@ -55,7 +64,7 @@ final class RoutePartitioner
     private array $merged = [];
 
     /**
-     * baseName => [ locale => fullRouteName ]
+     * baseName => [ locale => fullRouteName ].
      *
      * @var array<string,array<string,string>>
      */
@@ -90,48 +99,6 @@ final class RoutePartitioner
     }
 
     /**
-     * Classify a single route name into neutral or localized.
-     */
-    private function classifyRouteName(string $name, Route $route): void
-    {
-        $pos = strrpos($name, '.');
-
-        // Neutral if no dot at all.
-        if ($pos === false) {
-            $this->neutral?->add($name, $route);
-            return;
-        }
-
-        $base = substr($name, 0, $pos);
-        $suffix = substr($name, $pos + 1);
-
-        // Defensive: Treat malformed suffixes as neutral.
-        if ($suffix === '' || str_contains($suffix, '/')) {
-            $this->neutral?->add($name, $route);
-            return;
-        }
-
-        // If a whitelist of allowed locales is defined, enforce it.
-        if ($this->allowedLocales !== [] && !\in_array($suffix, $this->allowedLocales, true)) {
-            $this->neutral?->add($name, $route);
-            return;
-        }
-
-        // Record localized variant.
-        if (!isset($this->perLocale[$suffix])) {
-            $this->perLocale[$suffix] = new RouteCollection();
-        }
-        $this->perLocale[$suffix]->add($name, $route);
-
-        // Index for base alias mapping.
-        if (!isset($this->baseAliasIndex[$base])) {
-            $this->baseAliasIndex[$base] = [];
-        }
-        // Last declaration wins (consistent with Symfony's "later override" semantics).
-        $this->baseAliasIndex[$base][$suffix] = $name;
-    }
-
-    /**
      * Returns the neutral (non-localized) RouteCollection.
      */
     public function getNeutralCollection(): RouteCollection
@@ -139,6 +106,7 @@ final class RoutePartitioner
         if (!$this->partitioned || !$this->neutral instanceof RouteCollection) {
             return new RouteCollection();
         }
+
         return $this->neutral;
     }
 
@@ -175,6 +143,7 @@ final class RoutePartitioner
         }
 
         $this->merged[$locale] = $merged;
+
         return $merged;
     }
 
@@ -228,7 +197,7 @@ final class RoutePartitioner
         }
         $filtered = [];
         foreach ($locales as $loc) {
-            if ($loc !== '') {
+            if ('' !== $loc) {
                 $filtered[] = $loc;
             }
         }
@@ -258,5 +227,50 @@ final class RoutePartitioner
             'localized_counts' => $localizedCounts,
             'bases' => \count($this->baseAliasIndex),
         ];
+    }
+
+    /**
+     * Classify a single route name into neutral or localized.
+     */
+    private function classifyRouteName(string $name, Route $route): void
+    {
+        $pos = strrpos($name, '.');
+
+        // Neutral if no dot at all.
+        if (false === $pos) {
+            $this->neutral?->add($name, $route);
+
+            return;
+        }
+
+        $base = substr($name, 0, $pos);
+        $suffix = substr($name, $pos + 1);
+
+        // Defensive: Treat malformed suffixes as neutral.
+        if ('' === $suffix || str_contains($suffix, '/')) {
+            $this->neutral?->add($name, $route);
+
+            return;
+        }
+
+        // If a whitelist of allowed locales is defined, enforce it.
+        if ([] !== $this->allowedLocales && !\in_array($suffix, $this->allowedLocales, true)) {
+            $this->neutral?->add($name, $route);
+
+            return;
+        }
+
+        // Record localized variant.
+        if (!isset($this->perLocale[$suffix])) {
+            $this->perLocale[$suffix] = new RouteCollection();
+        }
+        $this->perLocale[$suffix]->add($name, $route);
+
+        // Index for base alias mapping.
+        if (!isset($this->baseAliasIndex[$base])) {
+            $this->baseAliasIndex[$base] = [];
+        }
+        // Last declaration wins (consistent with Symfony's "later override" semantics).
+        $this->baseAliasIndex[$base][$suffix] = $name;
     }
 }

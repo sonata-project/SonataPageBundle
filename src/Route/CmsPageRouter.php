@@ -144,13 +144,13 @@ final class CmsPageRouter implements ChainedRouterInterface
 
         // Map bare site prefix (e.g. "/en") directly to the root CMS page ("/") for that site.
         // This allows the English homepage to resolve at "/en" while the stored page URL remains "/".
-        if ($relativePath && $relativePath !== '/' && $lookupPath === rtrim($relativePath, '/')) {
+        if (null !== $relativePath && '' !== $relativePath && '/' !== $relativePath && $lookupPath === rtrim($relativePath, '/')) {
             $lookupPath = '/';
         }
 
-        if ($relativePath && $relativePath !== '/' && str_starts_with($lookupPath, $relativePath . '/')) {
+        if (null !== $relativePath && '' !== $relativePath && '/' !== $relativePath && str_starts_with($lookupPath, $relativePath.'/')) {
             $lookupPath = substr($lookupPath, \strlen($relativePath));
-            if ($lookupPath === '') {
+            if ('' === $lookupPath) {
                 $lookupPath = '/';
             }
         }

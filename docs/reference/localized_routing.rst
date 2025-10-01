@@ -21,9 +21,7 @@ Configuration
 Site Setup
 ~~~~~~~~~~
 
-Configure your sites with locale-specific path prefixes:
-
-.. code-block:: php
+Configure your sites with locale-specific path prefixes::
 
     // In your database or fixtures
     $finnishSite = new Site();
@@ -37,7 +35,7 @@ Configure your sites with locale-specific path prefixes:
     $englishSite->setHost('localhost');
 
 Route Definition
-~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 
 Define your routes with locale suffixes:
 
@@ -107,9 +105,7 @@ Only routes with suffixes matching enabled site locales are recognized as locali
 URL Generation
 ~~~~~~~~~~~~~
 
-The router automatically selects the correct locale variant:
-
-.. code-block:: php
+The router automatically selects the correct locale variant::
 
     // On Finnish site (locale: fi)
     $this->generateUrl('app_products');
@@ -204,9 +200,7 @@ If you're migrating an existing site:
     app_home.en:
         path: /en
 
-2. **Update site configuration** with ``relativePath``:
-
-.. code-block:: php
+2. **Update site configuration** with ``relativePath``::
 
     $finnishSite->setRelativePath('');
     $englishSite->setRelativePath('/en');
