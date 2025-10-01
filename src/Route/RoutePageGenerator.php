@@ -68,7 +68,7 @@ final class RoutePageGenerator
             // If present and it does not match the current site's locale, skip creating/updating
             // a hybrid page entry for this site. This prevents duplicating localized hybrid pages
             // across all sites and ensures wrong-locale routes 404 instead of falling back.
-            if (preg_match('/\\.([A-Za-z_]+)$/', $name, $lm)) {
+            if (1 === preg_match('/\\.([A-Za-z_]+)$/', $name, $lm)) {
                 $routeLocale = $lm[1];
                 $siteLocale = $site->getLocale();
                 if (\is_string($siteLocale) && '' !== $siteLocale && $routeLocale !== $siteLocale) {
