@@ -110,7 +110,7 @@ final class SiteAwareRouter implements RouterInterface, ConfigurableRequirements
         $site = $this->siteSelector->retrieve();
         $siteLocale = $site?->getLocale();
 
-        if ($siteLocale) {
+        if (null !== $siteLocale && '' !== $siteLocale) {
             $this->buildLocaleInfrastructure($siteLocale);
             if (isset($this->matchers[$siteLocale])) {
                 try {

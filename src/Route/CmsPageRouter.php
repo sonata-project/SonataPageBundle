@@ -204,7 +204,7 @@ final class CmsPageRouter implements ChainedRouterInterface
         $url = $page->getUrl();
 
         if (null === $url) {
-            throw new \RuntimeException(\sprintf('Page "%d" has no url.', $page->getId() ?? ''));
+            throw new \RuntimeException(\sprintf('Page "%s" has no url.', $page->getId() ?? ''));
         }
 
         if (!$this->context instanceof SiteRequestContextInterface) {

@@ -134,9 +134,9 @@ final class RoutePartitioner
         }
 
         // Add neutral routes (if not shadowed by localized names).
-        if ($this->neutral) {
+        if ($this->neutral instanceof RouteCollection) {
             foreach ($this->neutral->all() as $nName => $nRoute) {
-                if (!$merged->get($nName)) {
+                if (null === $merged->get($nName)) {
                     $merged->add($nName, $nRoute);
                 }
             }

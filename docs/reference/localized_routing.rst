@@ -103,7 +103,7 @@ The ``SiteAwareRouter`` automatically partitions your route collection:
 Only routes with suffixes matching enabled site locales are recognized as localized routes.
 
 URL Generation
-~~~~~~~~~~~~~
+~~~~~~~~~~~~~~
 
 The router automatically selects the correct locale variant::
 
@@ -124,7 +124,7 @@ The router automatically selects the correct locale variant::
     // Returns: /api/data (no locale prefix)
 
 URL Matching
-~~~~~~~~~~~
+~~~~~~~~~~~~
 
 When a request comes in:
 
@@ -225,14 +225,14 @@ Best Practices
 -------------
 
 Route Naming
-~~~~~~~~~~~
+~~~~~~~~~~~~
 
 * Use descriptive base names: ``app_products``, ``blog_post_show``
 * Always include locale suffix: ``.en``, ``.fi``, ``.sv``
 * Avoid other dots in base names: use ``api_v2`` not ``api.v2``
 
 Performance
-~~~~~~~~~~
+~~~~~~~~~~~
 
 * Site locales are cached per-request (only 1 database query)
 * Route collections are partitioned once per request
@@ -249,7 +249,7 @@ Troubleshooting
 --------------
 
 Routes not matching
-~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~
 
 **Problem:** Routes with dots aren't working
 
@@ -258,7 +258,7 @@ like ``admin.dashboard`` are treated as neutral routes, not locale routes. If th
 is a localized route, rename it to ``admin_dashboard.en``.
 
 Double locale prefix
-~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
 
 **Problem:** URLs have double prefixes like ``/en/en/products``
 
@@ -276,7 +276,7 @@ it both in the route path and the site ``relativePath``.
     # Result: /en/products ✓
 
 Hybrid pages duplicated
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 
 **Problem:** Same hybrid page appears on multiple sites
 
