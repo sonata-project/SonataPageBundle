@@ -85,6 +85,11 @@ final class SonataPageExtension extends Extension implements PrependExtensionInt
             ->replaceArgument(1, $config['ignore_route_patterns'])
             ->replaceArgument(2, $config['ignore_uri_patterns']);
 
+        // Pass ignore routes and patterns to SiteAwareRouter for URL generation
+        $container->getDefinition('sonata.page.router.site_aware')
+            ->replaceArgument(4, $config['ignore_routes'])
+            ->replaceArgument(5, $config['ignore_route_patterns']);
+
         if (isset($bundles['SonataDoctrineBundle'])) {
             $this->registerSonataDoctrineMapping($config);
         } else {

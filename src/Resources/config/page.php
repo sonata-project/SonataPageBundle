@@ -202,6 +202,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 service('sonata.page.site.selector'),
                 service('sonata.page.manager.site'),
                 true, // denyCrossLocaleGenerate
+                abstract_arg('ignore routes'),
+                abstract_arg('ignore route patterns'),
             ])
 
         ->set('sonata.page.route.page.generator', RoutePageGenerator::class)

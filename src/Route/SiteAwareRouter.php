@@ -58,11 +58,17 @@ final class SiteAwareRouter implements RouterInterface, ConfigurableRequirements
     /** @var string[]|null Cached allowed locales */
     private ?array $cachedAllowedLocales = null;
 
+    /**
+     * @param string[] $ignoreRoutes
+     * @param string[] $ignoreRoutePatterns
+     */
     public function __construct(
         private readonly RouterInterface $inner,
         private readonly SiteSelectorInterface $siteSelector,
         private readonly SiteManagerInterface $siteManager,
         private readonly bool $denyCrossLocaleGenerate = true,
+        private readonly array $ignoreRoutes = [],
+        private readonly array $ignoreRoutePatterns = [],
     ) {
         $this->partitioner = new RoutePartitioner();
     }
@@ -134,6 +140,22 @@ final class SiteAwareRouter implements RouterInterface, ConfigurableRequirements
      */
     public function generate(string $name, array $parameters = [], int $referenceType = self::ABSOLUTE_PATH): string
     {
+        // If route should be ignored, delegate directly to inner router with clean context
+        // This ensures ignored routes (like OAuth, admin, etc.) are never prefixed with locale paths
+        if ($this->shouldIgnoreRoute($name)) {
+            // Temporarily set a clean context on the inner router to avoid locale prefix pollution
+            $originalContext = $this->inner->getContext();
+            $cleanContext = $this->createSanitizedContext($originalContext);
+            $this->inner->setContext($cleanContext);
+
+            try {
+                return $this->inner->generate($name, $parameters, $referenceType);
+            } finally {
+                // Always restore original context, even if generation fails
+                $this->inner->setContext($originalContext);
+            }
+        }
+
         $this->init();
 
         $site = $this->siteSelector->retrieve();
@@ -322,5 +344,27 @@ final class SiteAwareRouter implements RouterInterface, ConfigurableRequirements
         $context = $this->createSanitizedContext($this->getContext());
         $this->matchers[$loc] = new UrlMatcher($locCollection, $context);
         $this->generators[$loc] = new UrlGenerator($locCollection, $context);
+    }
+
+    /**
+     * Check if a route should be ignored from locale-aware URL generation.
+     */
+    private function shouldIgnoreRoute(string $routeName): bool
+    {
+        // Check exact route name matches
+        foreach ($this->ignoreRoutes as $route) {
+            if ($routeName === $route) {
+                return true;
+            }
+        }
+
+        // Check route patterns
+        foreach ($this->ignoreRoutePatterns as $routePattern) {
+            if (1 === preg_match(\sprintf('#%s#', $routePattern), $routeName)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
