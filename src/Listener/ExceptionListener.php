@@ -148,7 +148,8 @@ final class ExceptionListener
 
         $cmsManager = $this->cmsManagerSelector->retrieve();
 
-        if (null !== BCHelper::getFromRequest($event->getRequest(), '_route') && !$this->decoratorStrategy->isRouteNameDecorable($event->getRequest()->get('_route'))) {
+        $route = BCHelper::getFromRequest($event->getRequest(), '_route');
+        if (null !== $route && !$this->decoratorStrategy->isRouteNameDecorable($route)) {
             return;
         }
 
