@@ -19,6 +19,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\BlockBundle\Block\Service\EditableBlockService;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQueryInterface as ORMProxyQueryInterface;
+use Sonata\PageBundle\BCLayer\BCHelper;
 use Sonata\PageBundle\Model\PageBlockInterface;
 
 /**
@@ -72,7 +73,7 @@ final class SharedBlockAdmin extends BaseBlockAdmin
 
         // New block
         if (null === $block->getId() && $this->hasRequest()) {
-            $block->setType($this->getRequest()->get('type'));
+            $block->setType(BCHelper::getFromRequest($this->getRequest(), 'type'));
         }
 
         $form

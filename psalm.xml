@@ -15,9 +15,6 @@
         <!-- Psalm equivalent of PHPStan config `treatPhpDocTypesAsCertain: false` -->
         <DocblockTypeContradiction errorLevel="suppress"/>
         <RedundantConditionGivenDocblockType errorLevel="suppress"/>
-        <InternalClass errorLevel="suppress"/>
-        <InternalMethod errorLevel="suppress"/>
-        <InternalProperty errorLevel="suppress"/>
         <UndefinedInterfaceMethod>
             <errorLevel type="suppress">
                 <!-- https://github.com/psalm/psalm-plugin-symfony/issues/287 -->
