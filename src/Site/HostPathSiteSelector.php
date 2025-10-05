@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Site;
 
+use Sonata\PageBundle\BCLayer\BCHelper;
 use Sonata\PageBundle\Request\SiteRequestContext;
 use Sonata\PageBundle\Request\SiteRequestInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -81,7 +82,7 @@ class HostPathSiteSelector extends BaseSiteSelector
             return;
         }
 
-        if ('Symfony\\Bundle\\FrameworkBundle\\Controller\\RedirectController::urlRedirectAction' === $request->get('_controller')) {
+        if ('Symfony\\Bundle\\FrameworkBundle\\Controller\\RedirectController::urlRedirectAction' === BCHelper::getFromRequest($request, '_controller')) {
             $request->attributes->set('path', $this->site->getRelativePath().$request->attributes->get('path'));
         }
     }

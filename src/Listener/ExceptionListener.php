@@ -15,6 +15,7 @@ namespace Sonata\PageBundle\Listener;
 
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
+use Sonata\PageBundle\BCLayer\BCHelper;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 use Sonata\PageBundle\Exception\InternalErrorException;
@@ -90,7 +91,7 @@ final class ExceptionListener
             $pathInfo = $event->getRequest()->getPathInfo();
 
             // can only create a CMS page, so the '_route' must be null
-            $creatable = null === $event->getRequest()->get('_route') && $this->decoratorStrategy->isRouteUriDecorable($pathInfo);
+            $creatable = null === BCHelper::getFromRequest($event->getRequest(), '_route') && $this->decoratorStrategy->isRouteUriDecorable($pathInfo);
 
             if ($creatable) {
                 $response = new Response($this->twig->render('@SonataPage/Page/create.html.twig', [
@@ -147,7 +148,8 @@ final class ExceptionListener
 
         $cmsManager = $this->cmsManagerSelector->retrieve();
 
-        if (null !== $event->getRequest()->get('_route') && !$this->decoratorStrategy->isRouteNameDecorable($event->getRequest()->get('_route'))) {
+        $route = BCHelper::getFromRequest($event->getRequest(), '_route');
+        if (null !== $route && !$this->decoratorStrategy->isRouteNameDecorable($route)) {
             return;
         }
 

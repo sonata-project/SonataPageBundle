@@ -25,6 +25,7 @@ use Sonata\AdminBundle\Security\Acl\Permission\AdminPermissionMap;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\CallbackFilter;
+use Sonata\PageBundle\BCLayer\BCHelper;
 use Sonata\PageBundle\Exception\InternalErrorException;
 use Sonata\PageBundle\Form\Type\PageSelectorType;
 use Sonata\PageBundle\Form\Type\PageTypeChoiceType;
@@ -99,8 +100,8 @@ final class PageAdmin extends AbstractAdmin
         $site = $this->getSite();
         $object->setSite($site);
 
-        if (null !== $site && null !== $this->getRequest()->get('url')) {
-            $slugs = explode('/', $this->getRequest()->get('url'));
+        if (null !== $site && null !== BCHelper::getFromRequest($this->getRequest(), 'url')) {
+            $slugs = explode('/', BCHelper::getFromRequest($this->getRequest(), 'url'));
             $slug = array_pop($slugs);
 
             $parent = $this->pageManager->getPageByUrl($site, implode('/', $slugs)) ??
@@ -127,7 +128,7 @@ final class PageAdmin extends AbstractAdmin
 
         $request = $this->getRequest();
 
-        $site = $request->get('site', null);
+        $site = BCHelper::getFromRequest($request, 'site');
 
         if (null !== $site) {
             $request->getSession()->set($key, $site);
@@ -337,7 +338,7 @@ final class PageAdmin extends AbstractAdmin
 
         $admin = $this->isChild() ? $this->getParent() : $this;
 
-        $id = $admin->getRequest()->get('id');
+        $id = BCHelper::getFromRequest($admin->getRequest(), 'id');
 
         $menu->addChild(
             'sidemenu.link_edit_page',
@@ -397,17 +398,17 @@ final class PageAdmin extends AbstractAdmin
         $siteId = null;
 
         if ('POST' === $this->getRequest()->getMethod()) {
-            $values = $this->getRequest()->get($this->getUniqId());
+            $values = BCHelper::getFromRequest($this->getRequest(), $this->getUniqId());
             $siteId = $values['site'] ?? null;
         }
 
-        $siteId ??= $this->getRequest()->get('siteId');
+        $siteId ??= BCHelper::getFromRequest($this->getRequest(), 'siteId');
 
         if (null !== $siteId) {
             $site = $this->siteManager->findOneBy(['id' => $siteId]);
 
             if (null === $site) {
-                throw new \RuntimeException('Unable to find the site with id='.$this->getRequest()->get('siteId'));
+                throw new \RuntimeException('Unable to find the site with id='.BCHelper::getFromRequest($this->getRequest(), 'siteId'));
             }
 
             return $site;

@@ -20,6 +20,7 @@ use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
 use Sonata\BlockBundle\Block\Service\EditableBlockService;
 use Sonata\PageBundle\Admin\BlockAdmin;
 use Sonata\PageBundle\Admin\SnapshotAdmin;
+use Sonata\PageBundle\BCLayer\BCHelper;
 use Sonata\PageBundle\Model\BlockInteractorInterface;
 use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
@@ -81,7 +82,7 @@ final class PageAdminController extends CRUDController
 
     public function listAction(Request $request): Response
     {
-        if (null === $request->get('filter')) {
+        if (null === BCHelper::getFromRequest($request, 'filter')) {
             return new RedirectResponse($this->admin->generateUrl('tree'));
         }
 
@@ -99,7 +100,7 @@ final class PageAdminController extends CRUDController
         \assert($pageManager instanceof PageManagerInterface);
 
         $currentSite = null;
-        $siteId = $request->get('site');
+        $siteId = BCHelper::getFromRequest($request, 'site');
         foreach ($sites as $site) {
             if (null !== $siteId && (string) $site->getId() === $siteId) {
                 $currentSite = $site;
@@ -136,7 +137,7 @@ final class PageAdminController extends CRUDController
     {
         $this->admin->checkAccess('create');
 
-        if ('GET' === $request->getMethod() && null === $request->get('siteId')) {
+        if ('GET' === $request->getMethod() && null === BCHelper::getFromRequest($request, 'siteId')) {
             $siteManager = $this->container->get('sonata.page.manager.site');
             \assert($siteManager instanceof SiteManagerInterface);
             $sites = $siteManager->findBy([]);
@@ -180,7 +181,7 @@ final class PageAdminController extends CRUDController
             throw new AccessDeniedException();
         }
 
-        $id = $request->get($this->admin->getIdParameter());
+        $id = BCHelper::getFromRequest($request, $this->admin->getIdParameter());
         $page = $this->admin->getObject($id);
         if (null === $page) {
             throw new NotFoundHttpException(\sprintf('Unable to find the page with id : %s', $id));
@@ -267,7 +268,7 @@ final class PageAdminController extends CRUDController
             throw new AccessDeniedException();
         }
 
-        $id = $request->get($this->admin->getIdParameter());
+        $id = BCHelper::getFromRequest($request, $this->admin->getIdParameter());
         $block = $blockAdmin->getObject($id);
         if (!$block instanceof PageBlockInterface) {
             throw new NotFoundHttpException(\sprintf('Unable to find the block with id : %s', $id));
