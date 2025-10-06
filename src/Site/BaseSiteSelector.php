@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Site;
 
+use Sonata\PageBundle\BCLayer\BCHelper;
 use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Model\SiteManagerInterface;
@@ -98,7 +99,7 @@ abstract class BaseSiteSelector implements SiteSelectorInterface
         $results = [];
 
         // we read the value from the attribute to handle fragment support
-        $requestPathInfo = $request->get('pathInfo', $request->getPathInfo());
+        $requestPathInfo = BCHelper::getFromRequest($request, 'pathInfo', $request->getPathInfo());
 
         $relativePath = $site->getRelativePath();
         $regex = !\in_array($relativePath, [null, '/'], true) ?

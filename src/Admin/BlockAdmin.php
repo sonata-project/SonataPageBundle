@@ -22,6 +22,7 @@ use Sonata\BlockBundle\Block\Service\BlockServiceInterface;
 use Sonata\BlockBundle\Block\Service\EditableBlockService;
 use Sonata\BlockBundle\Form\Type\ServiceListType;
 use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\PageBundle\BCLayer\BCHelper;
 use Sonata\PageBundle\Model\PageBlockInterface;
 use Sonata\PageBundle\Model\PageInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -69,7 +70,7 @@ final class BlockAdmin extends BaseBlockAdmin
             return $parameters;
         }
 
-        $composer = $this->getRequest()->get('composer');
+        $composer = BCHelper::getFromRequest($this->getRequest(), 'composer');
 
         if (null !== $composer) {
             $parameters['composer'] = $composer;
@@ -105,7 +106,7 @@ final class BlockAdmin extends BaseBlockAdmin
             }
 
             if ($this->hasRequest() && null === $block->getId()) { // new block
-                $block->setType($this->getRequest()->get('type'));
+                $block->setType(BCHelper::getFromRequest($this->getRequest(), 'type'));
                 $block->setPage($page);
             }
 
@@ -118,7 +119,7 @@ final class BlockAdmin extends BaseBlockAdmin
 
         $blockType = $block->getType();
 
-        $isComposer = $this->hasRequest() ? $this->getRequest()->get('composer', false) : false;
+        $isComposer = $this->hasRequest() ? BCHelper::getFromRequest($this->getRequest(), 'composer', false) : false;
         $generalGroupOptions = $optionsGroupOptions = [];
         if (false !== $isComposer) {
             $generalGroupOptions['class'] = 'hidden';

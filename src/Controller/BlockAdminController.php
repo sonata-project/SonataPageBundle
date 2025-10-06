@@ -17,6 +17,7 @@ use Sonata\AdminBundle\Controller\CRUDController;
 use Sonata\AdminBundle\Exception\BadRequestParamHttpException;
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
 use Sonata\BlockBundle\Block\Service\EditableBlockService;
+use Sonata\PageBundle\BCLayer\BCHelper;
 use Sonata\PageBundle\Model\BlockInteractorInterface;
 use Sonata\PageBundle\Model\PageBlockInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -112,13 +113,13 @@ final class BlockAdminController extends CRUDController
 
     public function switchParentAction(Request $request): Response
     {
-        $blockId = $request->get('block_id');
+        $blockId = BCHelper::getFromRequest($request, 'block_id');
 
         if (null === $blockId) {
             throw new BadRequestParamHttpException('block_id', ['int', 'string'], $blockId);
         }
 
-        $parentId = $request->get('parent_id');
+        $parentId = BCHelper::getFromRequest($request, 'parent_id');
 
         if (null === $parentId) {
             throw new BadRequestParamHttpException('parent_id', ['int', 'string'], $parentId);
