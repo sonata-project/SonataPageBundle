@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\CmsManager;
 
+use Sonata\PageBundle\BCLayer\BCHelper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -66,7 +67,7 @@ final class DecoratorStrategy implements DecoratorStrategyInterface
 
     public function isRequestDecorable(Request $request): bool
     {
-        $route = $request->get('_route');
+        $route = BCHelper::getFromRequest($request, '_route');
 
         return null !== $route && $this->isRouteNameDecorable($route) && $this->isRouteUriDecorable($request->getPathInfo());
     }

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Listener;
 
+use Sonata\PageBundle\BCLayer\BCHelper;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 use Sonata\PageBundle\Exception\InternalErrorException;
@@ -63,7 +64,7 @@ final class ResponseListener
         if (
             null !== $page && $response->isRedirection()
             && $this->cmsSelector->isEditor()
-            && null === $request->get('_sonata_page_skip')
+            && null === BCHelper::getFromRequest($request, '_sonata_page_skip')
             && !$this->skipRedirection
         ) {
             $response = new Response($this->twig->render('@SonataPage/Page/redirect.html.twig', [

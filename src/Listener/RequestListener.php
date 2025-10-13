@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Listener;
 
+use Sonata\PageBundle\BCLayer\BCHelper;
 use Sonata\PageBundle\CmsManager\CmsManagerSelectorInterface;
 use Sonata\PageBundle\CmsManager\DecoratorStrategyInterface;
 use Sonata\PageBundle\Exception\InternalErrorException;
@@ -46,7 +47,7 @@ final class RequestListener
         $cms = $this->cmsSelector->retrieve();
 
         // true cms page
-        if (PageInterface::PAGE_ROUTE_CMS_NAME === $request->get('_route')) {
+        if (PageInterface::PAGE_ROUTE_CMS_NAME === BCHelper::getFromRequest($request, '_route')) {
             return;
         }
 
@@ -62,12 +63,12 @@ final class RequestListener
 
         $locale = $site->getLocale();
 
-        if (null !== $locale && $locale !== $request->get('_locale')) {
-            throw new PageNotFoundException(\sprintf('Invalid locale - site.locale=%s - request._locale=%s', $locale, $request->get('_locale')));
+        if (null !== $locale && $locale !== BCHelper::getFromRequest($request, '_locale')) {
+            throw new PageNotFoundException(\sprintf('Invalid locale - site.locale=%s - request._locale=%s', $locale, BCHelper::getFromRequest($request, '_locale')));
         }
 
         try {
-            $page = $cms->getPageByRouteName($site, $request->get('_route'));
+            $page = $cms->getPageByRouteName($site, BCHelper::getFromRequest($request, '_route'));
 
             if (!$page->getEnabled() && !$this->cmsSelector->isEditor()) {
                 throw new PageNotFoundException(\sprintf('The page is not enabled : id=%s', $page->getId() ?? ''));

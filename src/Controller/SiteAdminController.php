@@ -16,6 +16,7 @@ namespace Sonata\PageBundle\Controller;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Controller\CRUDController;
 use Sonata\PageBundle\Admin\SnapshotAdmin;
+use Sonata\PageBundle\BCLayer\BCHelper;
 use Sonata\PageBundle\Model\SiteInterface;
 use Sonata\PageBundle\Service\Contract\CreateSnapshotBySiteInterface;
 use Sonata\PageBundle\Service\CreateSnapshotService;
@@ -52,7 +53,7 @@ final class SiteAdminController extends CRUDController
             throw new AccessDeniedException();
         }
 
-        $id = $request->get($this->admin->getIdParameter());
+        $id = BCHelper::getFromRequest($request, $this->admin->getIdParameter());
 
         $object = $this->admin->getObject($id);
 
