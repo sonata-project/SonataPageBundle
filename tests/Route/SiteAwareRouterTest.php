@@ -212,6 +212,30 @@ final class SiteAwareRouterTest extends TestCase
         static::assertSame('example.com', $this->router->getContext()->getHost());
     }
 
+    public function testContextParametersArePreservedInGeneration(): void
+    {
+        // Set up English site
+        $enSite = $this->createMock(SiteInterface::class);
+        $enSite->method('getLocale')->willReturn('en');
+        $this->siteSelector->method('retrieve')->willReturn($enSite);
+
+        // Create a context with _locale parameter set (simulating Symfony's LocaleListener)
+        $context = new RequestContext();
+        $context->setParameter('_locale', 'en');
+        $context->setParameter('custom_param', 'test_value');
+
+        $this->router->setContext($context);
+
+        // Verify that the context parameters are still available
+        static::assertSame('en', $this->router->getContext()->getParameter('_locale'));
+        static::assertSame('test_value', $this->router->getContext()->getParameter('custom_param'));
+
+        // Generate a route - should use 'en' locale from context
+        $url = $this->router->generate('app_home');
+
+        static::assertSame('/en/home', $url);
+    }
+
     public function testAllowedLocalesRestrictsPartitioning(): void
     {
         // Create a collection with a non-locale dotted route

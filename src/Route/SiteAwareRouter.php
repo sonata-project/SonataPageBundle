@@ -321,6 +321,7 @@ final class SiteAwareRouter implements RouterInterface, ConfigurableRequirements
 
         $ctx->setQueryString($original->getQueryString());
         $ctx->setPathInfo($original->getPathInfo());
+        $ctx->setParameters($original->getParameters());
 
         return $ctx;
     }
