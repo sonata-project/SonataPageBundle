@@ -432,6 +432,9 @@ final class TransformerTest extends KernelTestCase
         ];
     }
 
+    /**
+     * @phpstan-throws void
+     */
     protected static function getKernelClass(): string
     {
         return AppKernel::class;
