@@ -2,6 +2,22 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.10.0](https://github.com/sonata-project/SonataPageBundle/compare/4.9.0...4.10.0) - 2025-10-18
+### Added
+- [[#1824](https://github.com/sonata-project/SonataPageBundle/pull/1824)] Add support for `doctrine/doctrine-bundle` 3 ([@dmaicher](https://github.com/dmaicher))
+- [[#1824](https://github.com/sonata-project/SonataPageBundle/pull/1824)] Add support for `doctrine/persistence` 4 ([@dmaicher](https://github.com/dmaicher))
+- [[#1823](https://github.com/sonata-project/SonataPageBundle/pull/1823)] Added `exceptions.php` routing config ([@dmaicher](https://github.com/dmaicher))
+
+### Changed
+- [[#1817](https://github.com/sonata-project/SonataPageBundle/pull/1817)] Update `CmsManagerSelector::__construct()` to do use `CmsManagerInterface` and not the final class. ([@rande](https://github.com/rande))
+
+### Deprecated
+- [[#1823](https://github.com/sonata-project/SonataPageBundle/pull/1823)] Deprecated `exceptions.xml` routing config ([@dmaicher](https://github.com/dmaicher))
+
+### Fixed
+- [[#1817](https://github.com/sonata-project/SonataPageBundle/pull/1817)] Update `CmsSnapshotManager::getPageBy()` and `CmsPageManager::getPageBy` to properly used the `$site` variable within the cache key. ([@rande](https://github.com/rande))
+- [[#1821](https://github.com/sonata-project/SonataPageBundle/pull/1821)] Stop using internal/deprecated method `Request::get()` ([@VincentLanglet](https://github.com/VincentLanglet))
+
 ## [4.9.0](https://github.com/sonata-project/SonataPageBundle/compare/4.8.0...4.9.0) - 2025-05-16
 ### Deprecated
 - [[#1805](https://github.com/sonata-project/SonataPageBundle/pull/1805)] Extending Sonata\PageBundle\Validator\Constraints\UniqueUrl ([@VincentLanglet](https://github.com/VincentLanglet))
