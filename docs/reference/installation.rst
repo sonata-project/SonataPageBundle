@@ -5,8 +5,22 @@
 Installation
 ============
 
-Prerequisites
+Automatically
 -------------
+
+Using Symfony recipes, you can easily set up Sonata Page.
+
+Add the ``SonataPageBundle`` via Composer::
+
+    composer require sonata-project/page-bundle
+
+The command will ask you to execute some Symfony recipes. Just type ``y`` for all of them.
+
+Manually
+-----------------
+
+Prerequisites
+~~~~~~~~~~~~~
 
 There are some Sonata dependencies that need to be installed and configured beforehand.
 
@@ -29,7 +43,7 @@ their own installation chapter.
     another dependency, you won't need to install it again.
 
 Enable the Bundle
------------------
+~~~~~~~~~~~~~~~~~
 
 Add ``SonataPageBundle`` via composer::
 
@@ -50,10 +64,10 @@ are not already enabled::
     ];
 
 Configuration
-=============
+~~~~~~~~~~~~~
 
 CMF Routing Configuration
--------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ``sonata.page.router`` service must be added to the index of ``cmf_routing.router`` chain router.
 
@@ -84,7 +98,7 @@ Or register ``sonata.page.router`` automatically:
             priority: 150
 
 SonataPageBundle Configuration
-------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: yaml
 
@@ -122,7 +136,7 @@ SonataPageBundle Configuration
             fatal: [500] # so you can use the same page for different http errors or specify specific page for each error
 
 SonataAdminBundle Configuration
--------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: yaml
 
@@ -136,7 +150,7 @@ SonataAdminBundle Configuration
                 - bundles/sonatapage/app.css
 
 SonataBlockBundle Configuration
--------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: yaml
 
@@ -146,7 +160,7 @@ SonataBlockBundle Configuration
         default_contexts: [sonata_page_bundle]
 
 Security Configuration
-----------------------
+^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: yaml
 
@@ -176,7 +190,7 @@ this logout handler:
                     handlers: ['sonata.page.cms_manager_selector']
 
 Routing Configuration
----------------------
+^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: yaml
 
@@ -187,7 +201,7 @@ Routing Configuration
         prefix: /
 
 Doctrine ORM Configuration
---------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 And these in the config mapping definition (or enable auto_mapping)::
 
@@ -271,9 +285,21 @@ and ``src/Entity/SonataPageSnapshot``::
         protected $id;
     }
 
-The only thing left is to update your schema::
+Post install
+============
 
-    bin/console doctrine:schema:update --force
+Generate a migration for the newly created entities::
+
+    bin/console doctrine:migrations:diff
+
+Apply the migrations::
+
+    bin/console doctrine:migrations:migrate --no-interaction
+
+Generate your first site::
+
+     bin/console sonata:page:create-site --enabled --name=localhost --locale=- --host=localhost --relativePath=- --enabledFrom=now --enabledTo=- --default
+
 
 Next Steps
 ----------
