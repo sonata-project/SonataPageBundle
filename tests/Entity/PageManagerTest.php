@@ -14,19 +14,36 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Tests\Entity;
 
 use Cocur\Slugify\Slugify;
+use Cocur\Slugify\SlugifyInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Entity\PageManager;
+use Sonata\PageBundle\Service\Contract\FixPageUrlInterface;
+use Sonata\PageBundle\Service\FixPageUrlService;
 use Sonata\PageBundle\Tests\Model\Page;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 final class PageManagerTest extends TestCase
 {
-    public function testFixUrl(): void
+    /**
+     * NEXT_MAJOR: Remove this data provider and keep only "FixPageUrlService" in tests that is using it.
+     *
+     * @return iterable<array<SlugifyInterface|FixPageUrlInterface>>
+     **/
+    public static function provideFixUrlCases(): iterable
+    {
+        yield [new Slugify()];
+        yield [new FixPageUrlService(new AsciiSlugger())];
+    }
+
+    #[DataProvider('provideFixUrlCases')]
+    public function testFixUrl(SlugifyInterface|FixPageUrlInterface $fixPageUrl): void
     {
         $manager = new PageManager(
             Page::class,
             static::createStub(ManagerRegistry::class),
-            new Slugify()
+            $fixPageUrl,
         );
 
         $page1 = new Page();
@@ -65,12 +82,13 @@ final class PageManagerTest extends TestCase
         static::assertSame('/', $page1->getUrl());
     }
 
-    public function testWithSlashAtTheEnd(): void
+    #[DataProvider('provideFixUrlCases')]
+    public function testWithSlashAtTheEnd(SlugifyInterface|FixPageUrlInterface $fixPageUrl): void
     {
         $manager = new PageManager(
             Page::class,
             $this->createMock(ManagerRegistry::class),
-            new Slugify()
+            $fixPageUrl,
         );
 
         $homepage = new Page();
@@ -92,12 +110,13 @@ final class PageManagerTest extends TestCase
         static::assertSame('/bundles/foobar', $child->getUrl());
     }
 
-    public function testCreateWithGlobalDefaults(): void
+    #[DataProvider('provideFixUrlCases')]
+    public function testCreateWithGlobalDefaults(SlugifyInterface|FixPageUrlInterface $fixPageUrl): void
     {
         $manager = new PageManager(
             Page::class,
             $this->createMock(ManagerRegistry::class),
-            new Slugify(),
+            $fixPageUrl,
             [],
             ['my_route' => ['decorate' => false, 'name' => 'Salut!']]
         );

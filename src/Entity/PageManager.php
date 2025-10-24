@@ -19,6 +19,9 @@ use Sonata\Doctrine\Entity\BaseEntityManager;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteInterface;
+use Sonata\PageBundle\Service\Contract\FixPageUrlInterface;
+use Sonata\PageBundle\Service\FixPageUrlService;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 /**
  * @extends BaseEntityManager<PageInterface>
@@ -35,10 +38,19 @@ final class PageManager extends BaseEntityManager implements PageManagerInterfac
     public function __construct(
         string $class,
         ManagerRegistry $registry,
-        private SlugifyInterface $slugify,
+        private SlugifyInterface|FixPageUrlInterface $fixPageUrl,
         private array $defaults = [],
         private array $pageDefaults = [],
     ) {
+        // NEXT_MAJOR: Remove the if block bellow and "cocur/slugify" dependecy.
+        if ($this->fixPageUrl instanceof SlugifyInterface) {
+            @trigger_error(\sprintf(
+                'Inject %s in %s is deprecated since version 4.10.0 and will be removed in 5.0, use %s instead of.',
+                SlugifyInterface::class,
+                self::class,
+                FixPageUrlInterface::class,
+            ), \E_USER_DEPRECATED);
+        }
         parent::__construct($class, $registry);
     }
 
@@ -71,50 +83,24 @@ final class PageManager extends BaseEntityManager implements PageManagerInterfac
         return $page;
     }
 
+    /**
+     * NEXT_MAJOR: keep only $this->fixPageUrl->fix($page) in this method.
+     */
     public function fixUrl(PageInterface $page): void
     {
-        if ($page->isInternal()) {
-            $page->setUrl(null); // internal routes do not have any url ...
+        $fixPageUrl = $this->fixPageUrl;
 
-            return;
+        if ($fixPageUrl instanceof SlugifyInterface) {
+            @trigger_error(\sprintf(
+                'Inject %s in %s is deprecated since version 4.10.0 and will be removed in 5.0, use %s instead of.',
+                SlugifyInterface::class,
+                self::class,
+                FixPageUrlInterface::class,
+            ), \E_USER_DEPRECATED);
+            $fixPageUrl = new FixPageUrlService(new AsciiSlugger());
         }
 
-        // hybrid page cannot be altered
-        if (!$page->isHybrid()) {
-            $parent = $page->getParent();
-
-            if (null !== $parent) {
-                $slug = $page->getSlug();
-
-                if (null === $slug) {
-                    $slug = $this->slugify->slugify($page->getName() ?? '');
-
-                    $page->setSlug($slug);
-                }
-
-                $parentUrl = $parent->getUrl();
-
-                if ('/' === $parentUrl) {
-                    $base = '/';
-                } elseif (!str_ends_with($parentUrl ?? '', '/')) {
-                    $base = $parentUrl.'/';
-                } else {
-                    $base = $parentUrl;
-                }
-
-                $url = $page->getCustomUrl() ?? $slug;
-                $page->setUrl('/'.ltrim($base.$url, '/'));
-            } else {
-                $page->setSlug(null);
-
-                $url = $page->getCustomUrl() ?? '';
-                $page->setUrl('/'.ltrim($url, '/'));
-            }
-        }
-
-        foreach ($page->getChildren() as $child) {
-            $this->fixUrl($child);
-        }
+        $fixPageUrl->fix($page);
     }
 
     /**

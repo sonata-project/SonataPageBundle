@@ -14,7 +14,9 @@ declare(strict_types=1);
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use Sonata\PageBundle\Service\CleanupSnapshotService;
+use Sonata\PageBundle\Service\Contract\FixPageUrlInterface;
 use Sonata\PageBundle\Service\CreateSnapshotService;
+use Sonata\PageBundle\Service\FixPageUrlService;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->services()
@@ -34,5 +36,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 service('sonata.page.manager.page'),
             ])
 
-        ->alias(CreateSnapshotService::class, 'sonata.page.service.create_snapshot');
+        ->alias(CreateSnapshotService::class, 'sonata.page.service.create_snapshot')
+
+        ->set(FixPageUrlService::class)
+            ->autowire()
+
+        ->alias(FixPageUrlInterface::class, FixPageUrlService::class);
 };
