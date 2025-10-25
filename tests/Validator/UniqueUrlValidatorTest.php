@@ -62,7 +62,6 @@ final class UniqueUrlValidatorTest extends ConstraintValidatorTestCase
         $page->expects(static::exactly(2))->method('getSite')->willReturn($site);
         $page->expects(static::exactly(2))->method('isError')->willReturn(false);
 
-        $this->manager->expects(static::once())->method('fixUrl');
         $this->manager->expects(static::once())->method('findBy')->willReturn([$page]);
 
         $this->validator->validate($page, new UniqueUrl());
@@ -83,7 +82,6 @@ final class UniqueUrlValidatorTest extends ConstraintValidatorTestCase
         $pageFound = $this->createMock(PageInterface::class);
         $pageFound->method('getUrl')->willReturn($url);
 
-        $this->manager->expects(static::once())->method('fixUrl');
         $this->manager->expects(static::once())->method('findBy')->willReturn([$page, $pageFound]);
 
         $this->validator->validate($page, new UniqueUrl());
@@ -107,7 +105,6 @@ final class UniqueUrlValidatorTest extends ConstraintValidatorTestCase
         $pageFound = $this->createMock(PageInterface::class);
         $pageFound->method('getUrl')->willReturn('/');
 
-        $this->manager->expects(static::once())->method('fixUrl');
         $this->manager->expects(static::once())->method('findBy')->willReturn([$page, $pageFound]);
 
         $this->validator->validate($page, new UniqueUrl());
