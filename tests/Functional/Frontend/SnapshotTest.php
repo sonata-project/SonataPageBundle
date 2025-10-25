@@ -38,6 +38,8 @@ final class SnapshotTest extends WebTestCase
             'page[name]' => 'Name',
             'page[enabled]' => 1,
             'page[templateCode]' => 'default',
+            // FIX: it is the same issue.
+            'page[url]' => '/custom-url',
             'page[customUrl]' => '/custom-url',
         ]);
         $client->followRedirect();

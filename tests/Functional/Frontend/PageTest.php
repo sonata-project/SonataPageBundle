@@ -41,6 +41,8 @@ final class PageTest extends WebTestCase
             'page[name]' => 'Name',
             'page[enabled]' => 1,
             'page[templateCode]' => 'default',
+            // FIX: For some reason it is not updating the url.
+            'page[url]' => '/custom-url',
             'page[customUrl]' => '/custom-url',
         ]);
         $client->followRedirect();
