@@ -62,7 +62,7 @@ final class BrowserTest extends BasePantherTestCase
 
         $crawler->filter('.page-composer__block-type-selector .select2')->first()->click();
         $rssFeed = $crawler->filter('.select2-results__options li')->getElement(1);
-        \assert($rssFeed instanceof WebDriverElement);
+        static::assertInstanceOf(WebDriverElement::class, $rssFeed);
 
         $rssFeed->click();
         $crawler->filter('.page-composer__block-type-selector__confirm')->first()->click();
@@ -89,7 +89,7 @@ final class BrowserTest extends BasePantherTestCase
     protected static function prepareDatabase(): void
     {
         $manager = self::getContainer()->get('doctrine.orm.entity_manager');
-        \assert($manager instanceof EntityManagerInterface);
+        static::assertInstanceOf(EntityManagerInterface::class, $manager);
 
         $site = new SonataPageSite();
         $site->setName('name');
