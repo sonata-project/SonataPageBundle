@@ -35,9 +35,9 @@ final class BlockInteractorTest extends KernelTestCase
         $kernel = self::bootKernel();
 
         $registry = $kernel->getContainer()->get('doctrine');
-        \assert($registry instanceof ManagerRegistry);
+        static::assertInstanceOf(ManagerRegistry::class, $registry);
         $blockManager = $kernel->getContainer()->get('sonata.page.manager.block');
-        \assert($blockManager instanceof BlockManagerInterface);
+        static::assertInstanceOf(BlockManagerInterface::class, $blockManager);
 
         $this->entityManager = $registry->getManager();
         $this->blockInteractor = new BlockInteractor($registry, $blockManager);

@@ -47,7 +47,7 @@ abstract class BasePantherTestCase extends PantherTestCase
     private static function rollbackDatabase(): void
     {
         $manager = self::getContainer()->get('doctrine.orm.entity_manager');
-        \assert($manager instanceof EntityManagerInterface);
+        static::assertInstanceOf(EntityManagerInterface::class, $manager);
 
         $meta = $manager->getMetadataFactory()->getAllMetadata();
 

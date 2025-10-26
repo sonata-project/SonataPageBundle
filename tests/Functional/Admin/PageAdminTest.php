@@ -84,7 +84,7 @@ final class PageAdminTest extends WebTestCase
         $client = self::createClient();
 
         $manager = self::getContainer()->get('doctrine.orm.entity_manager');
-        \assert($manager instanceof EntityManagerInterface);
+        static::assertInstanceOf(EntityManagerInterface::class, $manager);
 
         $site = new SonataPageSite();
         $site->setName('name');
@@ -245,7 +245,7 @@ final class PageAdminTest extends WebTestCase
     private function prepareData(): void
     {
         $manager = self::getContainer()->get('doctrine.orm.entity_manager');
-        \assert($manager instanceof EntityManagerInterface);
+        static::assertInstanceOf(EntityManagerInterface::class, $manager);
 
         $site = new SonataPageSite();
         $site->setRelativePath('/');

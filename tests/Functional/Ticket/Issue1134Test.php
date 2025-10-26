@@ -31,7 +31,7 @@ final class Issue1134Test extends WebTestCase
         $site->setIsDefault(true);
 
         $manager = self::getContainer()->get('doctrine.orm.entity_manager');
-        \assert($manager instanceof EntityManagerInterface);
+        static::assertInstanceOf(EntityManagerInterface::class, $manager);
 
         $manager->persist($site);
         $manager->flush();

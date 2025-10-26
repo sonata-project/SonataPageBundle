@@ -165,7 +165,7 @@ final class CreateSiteCommandTest extends KernelTestCase
     private function countSites(): int
     {
         $manager = self::getContainer()->get('doctrine.orm.entity_manager');
-        \assert($manager instanceof EntityManagerInterface);
+        static::assertInstanceOf(EntityManagerInterface::class, $manager);
 
         return $manager->getRepository(SonataPageSite::class)->count([]);
     }

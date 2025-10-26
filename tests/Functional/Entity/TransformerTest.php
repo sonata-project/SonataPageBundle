@@ -58,10 +58,10 @@ final class TransformerTest extends KernelTestCase
         $kernel = self::bootKernel();
 
         $entityManager = $kernel->getContainer()->get('doctrine.orm.entity_manager');
-        \assert($entityManager instanceof EntityManagerInterface);
+        static::assertInstanceOf(EntityManagerInterface::class, $entityManager);
 
         $transformer = $kernel->getContainer()->get('sonata.page.transformer');
-        \assert($transformer instanceof TransformerInterface);
+        static::assertInstanceOf(TransformerInterface::class, $transformer);
 
         $this->entityManager = $entityManager;
         $this->transformer = $transformer;
