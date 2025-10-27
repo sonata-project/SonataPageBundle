@@ -102,7 +102,7 @@ final class SnapshotAdminTest extends WebTestCase
         $client = self::createClient();
 
         $manager = static::getContainer()->get('sonata.page.manager.snapshot');
-        \assert($manager instanceof SnapshotManagerInterface);
+        static::assertInstanceOf(SnapshotManagerInterface::class, $manager);
 
         $this->prepareData();
 
@@ -150,7 +150,7 @@ final class SnapshotAdminTest extends WebTestCase
     private function prepareData(): void
     {
         $manager = self::getContainer()->get('doctrine.orm.entity_manager');
-        \assert($manager instanceof EntityManagerInterface);
+        static::assertInstanceOf(EntityManagerInterface::class, $manager);
 
         $site = new SonataPageSite();
         $site->setName('name');

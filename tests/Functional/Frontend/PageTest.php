@@ -227,7 +227,7 @@ final class PageTest extends WebTestCase
     private function prepareData(): void
     {
         $manager = self::getContainer()->get('doctrine.orm.entity_manager');
-        \assert($manager instanceof EntityManagerInterface);
+        static::assertInstanceOf(EntityManagerInterface::class, $manager);
 
         $site = new SonataPageSite();
         $site->setName('name');
@@ -280,7 +280,7 @@ final class PageTest extends WebTestCase
     private function preparePageTypesData(PageInterface $page): void
     {
         $manager = self::getContainer()->get('doctrine.orm.entity_manager');
-        \assert($manager instanceof EntityManagerInterface);
+        static::assertInstanceOf(EntityManagerInterface::class, $manager);
 
         $site = new SonataPageSite();
         $site->setName('name');
@@ -311,7 +311,7 @@ final class PageTest extends WebTestCase
     private function prepareGlobalPageData(): void
     {
         $manager = self::getContainer()->get('doctrine.orm.entity_manager');
-        \assert($manager instanceof EntityManagerInterface);
+        static::assertInstanceOf(EntityManagerInterface::class, $manager);
 
         $site = new SonataPageSite();
         $site->setName('name');
@@ -369,7 +369,7 @@ final class PageTest extends WebTestCase
     private function becomeEditor(KernelBrowser $client): void
     {
         $sessionFactory = self::getContainer()->get('session.factory');
-        \assert($sessionFactory instanceof SessionFactoryInterface);
+        static::assertInstanceOf(SessionFactoryInterface::class, $sessionFactory);
 
         $session = $sessionFactory->createSession();
 

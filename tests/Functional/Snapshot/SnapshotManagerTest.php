@@ -36,9 +36,9 @@ final class SnapshotManagerTest extends KernelTestCase
         $kernel = self::bootKernel();
 
         $entityManager = $kernel->getContainer()->get('doctrine.orm.entity_manager');
-        \assert($entityManager instanceof EntityManagerInterface);
+        static::assertInstanceOf(EntityManagerInterface::class, $entityManager);
         $snapshotManager = $kernel->getContainer()->get('sonata.page.manager.snapshot');
-        \assert($snapshotManager instanceof SnapshotManagerInterface);
+        static::assertInstanceOf(SnapshotManagerInterface::class, $snapshotManager);
 
         $this->entityManager = $entityManager;
         $this->snapshotManager = $snapshotManager;

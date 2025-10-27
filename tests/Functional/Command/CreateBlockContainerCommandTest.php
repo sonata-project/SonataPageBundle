@@ -86,7 +86,7 @@ final class CreateBlockContainerCommandTest extends KernelTestCase
     private function prepareData(): void
     {
         $manager = self::getContainer()->get('doctrine.orm.entity_manager');
-        \assert($manager instanceof EntityManagerInterface);
+        static::assertInstanceOf(EntityManagerInterface::class, $manager);
 
         $page = new SonataPagePage();
         $page->setName('name');
@@ -105,7 +105,7 @@ final class CreateBlockContainerCommandTest extends KernelTestCase
     private function countBlocks(): int
     {
         $manager = self::getContainer()->get('doctrine.orm.entity_manager');
-        \assert($manager instanceof EntityManagerInterface);
+        static::assertInstanceOf(EntityManagerInterface::class, $manager);
 
         return $manager->getRepository(SonataPageBlock::class)->count([]);
     }

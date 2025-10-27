@@ -84,7 +84,7 @@ final class CleanupSnapshotsCommandTest extends KernelTestCase
     private function prepareData(): void
     {
         $manager = self::getContainer()->get('doctrine.orm.entity_manager');
-        \assert($manager instanceof EntityManagerInterface);
+        static::assertInstanceOf(EntityManagerInterface::class, $manager);
 
         $site = new SonataPageSite();
         $site->setName('name');
@@ -127,7 +127,7 @@ final class CleanupSnapshotsCommandTest extends KernelTestCase
     private function countSnapshots(): int
     {
         $manager = self::getContainer()->get('doctrine.orm.entity_manager');
-        \assert($manager instanceof EntityManagerInterface);
+        static::assertInstanceOf(EntityManagerInterface::class, $manager);
 
         return $manager->getRepository(SonataPageSnapshot::class)->count([]);
     }

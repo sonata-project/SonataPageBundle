@@ -118,7 +118,7 @@ final class SiteAdminTest extends WebTestCase
     private function prepareData(): void
     {
         $manager = self::getContainer()->get('doctrine.orm.entity_manager');
-        \assert($manager instanceof EntityManagerInterface);
+        static::assertInstanceOf(EntityManagerInterface::class, $manager);
 
         $site = new SonataPageSite();
         $site->setName('name');

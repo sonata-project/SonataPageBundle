@@ -165,7 +165,7 @@ final class TemplateManagerTest extends KernelTestCase
         self::getContainer()->set('sonata.page.cms.snapshot', $cmsSnapshotManager);
 
         $twig = self::getContainer()->get('twig');
-        \assert($twig instanceof Environment);
+        static::assertInstanceOf(Environment::class, $twig);
 
         $manager = new TemplateManager($twig, []);
         $response = $manager->renderResponse('test');
