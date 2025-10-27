@@ -14,16 +14,16 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Service;
 
 use Sonata\PageBundle\Model\PageInterface;
-use Sonata\PageBundle\Service\Contract\FixPageUrlInterface;
+use Sonata\PageBundle\Service\Contract\PageFixerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-final class FixPageUrlService implements FixPageUrlInterface
+final class PageFixerService implements PageFixerInterface
 {
     public function __construct(private SluggerInterface $slugger)
     {
     }
 
-    public function fix(PageInterface $page): void
+    public function fixUrl(PageInterface $page): void
     {
         if ($page->isInternal()) {
             $page->setUrl(null); // internal routes do not have any url ...
@@ -68,7 +68,7 @@ final class FixPageUrlService implements FixPageUrlInterface
         }
 
         foreach ($page->getChildren() as $child) {
-            $this->fix($child);
+            $this->fixUrl($child);
         }
     }
 }

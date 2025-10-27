@@ -15,7 +15,7 @@ namespace Sonata\PageBundle\Service\Contract;
 
 use Sonata\PageBundle\Model\PageInterface;
 
-interface FixPageUrlInterface
+interface PageFixerInterface
 {
-    public function fix(PageInterface $page): void;
+    public function fixUrl(PageInterface $page): void;
 }

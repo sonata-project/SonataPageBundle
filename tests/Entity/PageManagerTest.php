@@ -19,31 +19,31 @@ use Doctrine\Persistence\ManagerRegistry;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Sonata\PageBundle\Entity\PageManager;
-use Sonata\PageBundle\Service\Contract\FixPageUrlInterface;
-use Sonata\PageBundle\Service\FixPageUrlService;
+use Sonata\PageBundle\Service\Contract\PageFixerInterface;
+use Sonata\PageBundle\Service\PageFixerService;
 use Sonata\PageBundle\Tests\Model\Page;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
 final class PageManagerTest extends TestCase
 {
     /**
-     * NEXT_MAJOR: Remove this data provider and keep only "FixPageUrlService" in tests that is using it.
+     * NEXT_MAJOR: Remove this data provider and keep only "PageFixerService" in tests that is using it.
      *
-     * @return iterable<array<SlugifyInterface|FixPageUrlInterface>>
+     * @return iterable<array<SlugifyInterface|PageFixerInterface>>
      **/
     public static function provideFixUrlCases(): iterable
     {
         yield [new Slugify()];
-        yield [new FixPageUrlService(new AsciiSlugger())];
+        yield [new PageFixerService(new AsciiSlugger())];
     }
 
     #[DataProvider('provideFixUrlCases')]
-    public function testFixUrl(SlugifyInterface|FixPageUrlInterface $fixPageUrl): void
+    public function testFixUrl(SlugifyInterface|PageFixerInterface $pageFixer): void
     {
         $manager = new PageManager(
             Page::class,
             static::createStub(ManagerRegistry::class),
-            $fixPageUrl,
+            $pageFixer,
         );
 
         $page1 = new Page();
@@ -83,12 +83,12 @@ final class PageManagerTest extends TestCase
     }
 
     #[DataProvider('provideFixUrlCases')]
-    public function testWithSlashAtTheEnd(SlugifyInterface|FixPageUrlInterface $fixPageUrl): void
+    public function testWithSlashAtTheEnd(SlugifyInterface|PageFixerInterface $pageFixer): void
     {
         $manager = new PageManager(
             Page::class,
             $this->createMock(ManagerRegistry::class),
-            $fixPageUrl,
+            $pageFixer,
         );
 
         $homepage = new Page();
@@ -111,12 +111,12 @@ final class PageManagerTest extends TestCase
     }
 
     #[DataProvider('provideFixUrlCases')]
-    public function testCreateWithGlobalDefaults(SlugifyInterface|FixPageUrlInterface $fixPageUrl): void
+    public function testCreateWithGlobalDefaults(SlugifyInterface|PageFixerInterface $pageFixer): void
     {
         $manager = new PageManager(
             Page::class,
             $this->createMock(ManagerRegistry::class),
-            $fixPageUrl,
+            $pageFixer,
             [],
             ['my_route' => ['decorate' => false, 'name' => 'Salut!']]
         );

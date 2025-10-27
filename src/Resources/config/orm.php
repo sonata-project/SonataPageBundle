@@ -27,7 +27,7 @@ use Sonata\PageBundle\Model\SnapshotPageProxy;
 use Sonata\PageBundle\Model\SnapshotPageProxyFactory;
 use Sonata\PageBundle\Serializer\BlockTypeExtractor;
 use Sonata\PageBundle\Serializer\InterfaceTypeExtractor;
-use Sonata\PageBundle\Service\Contract\FixPageUrlInterface;
+use Sonata\PageBundle\Service\Contract\PageFixerInterface;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->services()
@@ -43,7 +43,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             ->args([
                 param('sonata.page.page.class'),
                 service('doctrine'),
-                service(FixPageUrlInterface::class),
+                service(PageFixerInterface::class),
                 abstract_arg('defaults'),
                 abstract_arg('page defaults'),
             ])

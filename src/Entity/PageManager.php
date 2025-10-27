@@ -19,8 +19,8 @@ use Sonata\Doctrine\Entity\BaseEntityManager;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteInterface;
-use Sonata\PageBundle\Service\Contract\FixPageUrlInterface;
-use Sonata\PageBundle\Service\FixPageUrlService;
+use Sonata\PageBundle\Service\Contract\PageFixerInterface;
+use Sonata\PageBundle\Service\PageFixerService;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
 /**
@@ -38,17 +38,17 @@ final class PageManager extends BaseEntityManager implements PageManagerInterfac
     public function __construct(
         string $class,
         ManagerRegistry $registry,
-        private SlugifyInterface|FixPageUrlInterface $fixPageUrl,
+        private SlugifyInterface|PageFixerInterface $pageFixer,
         private array $defaults = [],
         private array $pageDefaults = [],
     ) {
         // NEXT_MAJOR: Remove the if block bellow and "cocur/slugify" dependecy.
-        if ($this->fixPageUrl instanceof SlugifyInterface) {
+        if ($this->pageFixer instanceof SlugifyInterface) {
             @trigger_error(\sprintf(
                 'Inject %s in %s is deprecated since version 4.10.0 and will be removed in 5.0, use %s instead of.',
                 SlugifyInterface::class,
                 self::class,
-                FixPageUrlInterface::class,
+                PageFixerInterface::class,
             ), \E_USER_DEPRECATED);
         }
         parent::__construct($class, $registry);
@@ -84,23 +84,23 @@ final class PageManager extends BaseEntityManager implements PageManagerInterfac
     }
 
     /**
-     * NEXT_MAJOR: keep only $this->fixPageUrl->fix($page) in this method.
+     * NEXT_MAJOR: keep only $this->fixPageUrl->fixUrl$page) in this method.
      */
     public function fixUrl(PageInterface $page): void
     {
-        $fixPageUrl = $this->fixPageUrl;
+        $pageFixer = $this->pageFixer;
 
-        if ($fixPageUrl instanceof SlugifyInterface) {
+        if ($pageFixer instanceof SlugifyInterface) {
             @trigger_error(\sprintf(
                 'Inject %s in %s is deprecated since version 4.10.0 and will be removed in 5.0, use %s instead of.',
                 SlugifyInterface::class,
                 self::class,
-                FixPageUrlInterface::class,
+                PageFixerInterface::class,
             ), \E_USER_DEPRECATED);
-            $fixPageUrl = new FixPageUrlService(new AsciiSlugger());
+            $pageFixer = new PageFixerService(new AsciiSlugger());
         }
 
-        $fixPageUrl->fix($page);
+        $pageFixer->fixUrl($page);
     }
 
     /**
