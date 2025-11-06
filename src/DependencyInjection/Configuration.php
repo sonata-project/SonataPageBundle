@@ -28,6 +28,8 @@ final class Configuration implements ConfigurationInterface
      * @psalm-suppress UndefinedInterfaceMethod
      *
      * @see https://github.com/psalm/psalm-plugin-symfony/issues/174
+     *
+     * @return TreeBuilder<'array'>
      */
     public function getConfigTreeBuilder(): TreeBuilder
     {

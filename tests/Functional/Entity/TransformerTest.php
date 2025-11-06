@@ -222,8 +222,7 @@ final class TransformerTest extends KernelTestCase
         $snapshotContent = $snapshot->getContent();
         static::assertNotNull($snapshotContent);
         static::assertArrayHasKey('blocks', $snapshotContent);
-        /** @psalm-suppress DeprecatedMethod */
-        static::assertContainsOnly('int', array_keys($snapshotContent['blocks']));
+        static::assertContainsOnlyInt(array_keys($snapshotContent['blocks']));
 
         $testContent = $this->getTestContent($datetime, $position, $settings);
 
@@ -321,8 +320,7 @@ final class TransformerTest extends KernelTestCase
         $snapshotContent = $snapshot->getContent();
         static::assertNotNull($snapshotContent);
         static::assertArrayHasKey('blocks', $snapshotContent);
-        /** @psalm-suppress DeprecatedMethod */
-        static::assertContainsOnly('int', array_keys($snapshotContent['blocks']));
+        static::assertContainsOnlyInt(array_keys($snapshotContent['blocks']));
 
         $testContent = $this->getTestContent($datetime, $position, $settings);
 

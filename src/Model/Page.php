@@ -19,7 +19,7 @@ use Doctrine\Common\Collections\Collection;
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-abstract class Page implements PageInterface
+abstract class Page implements \Stringable, PageInterface
 {
     /**
      * @var int|string|null
