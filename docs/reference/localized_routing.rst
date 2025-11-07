@@ -65,7 +65,7 @@ Define your routes with locale suffixes:
         path: /api/data
         controller: App\Controller\ApiController::data
 
-Alternatively, use Symfony's native localized route definition:
+Alternatively, use Symfony's (native localized route definition)[https://symfony.com/doc/current/routing.html#localized-routes-i18n]:
 
 .. code-block:: yaml
 
@@ -244,6 +244,7 @@ Security
 * Wrong-locale URLs **always return 404** (no information leakage)
 * No automatic redirects between locales
 * Each site only sees its own locale's routes
+* No cross-locale route conflicts
 
 Troubleshooting
 ---------------
@@ -255,7 +256,7 @@ Routes not matching
 
 **Solution:** Check if the route name follows the ``.{locale}`` convention. Routes
 like ``admin.dashboard`` are treated as neutral routes, not locale routes. If this
-is a localized route, rename it to ``admin_dashboard.en``.
+is a localized route, rename it to ``admin_dashboard.en`` or use Symfony route prefix notation.
 
 Double locale prefix
 ~~~~~~~~~~~~~~~~~~~~

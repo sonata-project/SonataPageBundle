@@ -194,7 +194,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
         // Replace legacy localized route decorators with a single SiteAwareRouter that
         // partitions the RouteCollection per-locale and enforces strict structural 404s
-        // for wrong-locale URLs (no redirects, no post-generation normalization hacks).
+        // for wrong-locale URLs.
         ->set('sonata.page.router.site_aware', SiteAwareRouter::class)
             ->decorate('router.default')
             ->args([

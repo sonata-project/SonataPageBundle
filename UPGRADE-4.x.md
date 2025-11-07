@@ -1,5 +1,4 @@
-UPGRADE 4.x
-===========
+# UPGRADE 4.x
 
 ## Localized Routing Support
 
@@ -22,12 +21,10 @@ This feature is **automatically enabled** and requires no configuration changes.
 
 ```yaml
 # config/routes.yaml
-app_home.fi:
-    path: /
-    controller: App\Controller\HomeController::index
-
-app_home.en:
-    path: /en
+app_home
+    path:
+        fi: /
+        en: /en
     controller: App\Controller\HomeController::index
 ```
 
@@ -50,6 +47,7 @@ $englishSite->setRelativePath('/en');  // /en prefix
 #### Migration Guide
 
 **If you're NOT using localized routing:**
+
 - No changes needed. Your existing routes continue to work as before.
 - Routes without locale suffixes are treated as neutral routes (available to all sites).
 
@@ -63,11 +61,10 @@ app_products:
     path: /products
 
 # After
-app_products.fi:
-    path: /tuotteet
-
-app_products.en:
-    path: /en/products
+app_products
+    path:
+        fi: /tuotteet
+        en: /en/products
 ```
 
 2. Update site configuration with locale prefixes:
@@ -96,10 +93,12 @@ $url = $this->generateUrl('app_products');  // Automatically resolves to .fi or 
 #### Potential Issues
 
 **Routes with dots in the name:**
+
 - Routes like `api.v2` or `admin.config` are now treated as neutral routes.
 - If these should be localized, rename them to follow the convention: `api_v2.en`, `admin_config.fi`.
 
 **Existing multisite setups:**
+
 - If you have sites with `relativePath` already configured, ensure your route paths include the locale prefix to avoid double prefixes.
 
 For detailed information, see the [Localized Routing documentation](docs/reference/localized_routing.rst).
