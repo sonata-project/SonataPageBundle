@@ -19,6 +19,7 @@ use Sonata\Doctrine\Entity\BaseEntityManager;
 use Sonata\PageBundle\Model\PageInterface;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Sonata\PageBundle\Model\SiteInterface;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
  * @extends BaseEntityManager<PageInterface>
@@ -35,10 +36,21 @@ final class PageManager extends BaseEntityManager implements PageManagerInterfac
     public function __construct(
         string $class,
         ManagerRegistry $registry,
-        private SlugifyInterface $slugify,
+        private SlugifyInterface|SluggerInterface $slugger, // NEXT_MAJOR: Reduce $slugger to SluggerInterface
         private array $defaults = [],
         private array $pageDefaults = [],
     ) {
+        if ($slugger instanceof SlugifyInterface) {
+            trigger_deprecation(
+                'sonata-project/page-bundle',
+                '4.11.0',
+                'Passing an instance of %s to %s is deprecated. Use an instance of %s instead.',
+                SlugifyInterface::class,
+                __METHOD__,
+                SluggerInterface::class
+            );
+        }
+
         parent::__construct($class, $registry);
     }
 
@@ -87,7 +99,7 @@ final class PageManager extends BaseEntityManager implements PageManagerInterfac
                 $slug = $page->getSlug();
 
                 if (null === $slug) {
-                    $slug = $this->slugify->slugify($page->getName() ?? '');
+                    $slug = $this->fixUrlWithSluggerOrSlugify($page->getName() ?? '');
 
                     $page->setSlug($slug);
                 }
@@ -165,5 +177,21 @@ final class PageManager extends BaseEntityManager implements PageManagerInterfac
             ->setParameter('site', $site->getId())
             ->getQuery()
             ->execute();
+    }
+
+    /**
+     * NEXT_MAJOR: Remove this method and move $this->slugger->slug()... to fixUrl method.
+     */
+    private function fixUrlWithSluggerOrSlugify(string $value): string
+    {
+        if ($this->slugger instanceof SlugifyInterface) {
+            return $this->slugger->slugify($value);
+        }
+
+        // NEXT_MAJOR: Move this to fixUrl method.
+        return $this->slugger
+                    ->slug($value)
+                    ->lower()
+                    ->toString();
     }
 }
