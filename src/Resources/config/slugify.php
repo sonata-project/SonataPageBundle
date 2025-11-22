@@ -15,9 +15,15 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use Cocur\Slugify\Slugify;
 
+// NEXT_MAJOR: Remove this file.
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->services()
 
         ->set('sonata.page.slugify.cocur', Slugify::class)
+            ->deprecate(
+                'sonata-project/page-bundle',
+                '4.11.0',
+                'Service "%service_id%" is deprecated.',
+            )
             ->public();
 };
