@@ -33,6 +33,7 @@ use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Cmf\Bundle\RoutingBundle\CmfRoutingBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\DependencyInjection\ServicesResetterInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 use Symfony\UX\StimulusBundle\StimulusBundle;
@@ -90,6 +91,15 @@ final class AppKernel extends Kernel
         $container->setParameter('app.base_dir', $this->getBaseDir());
 
         $loader->load($this->getProjectDir().'/config/config.yaml');
+
+        // TODO: When drop suport for symfony 7.2.* and 6.4.*, move this config to config.yaml
+        if (class_exists(ServicesResetterInterface::class)) {
+            $container->loadFromExtension('framework', [
+                'property_info' => [
+                    'with_constructor_extractor' => true,
+                ],
+            ]);
+        }
 
         if (\PHP_VERSION_ID >= 80400) {
             $container->loadFromExtension('doctrine', [
