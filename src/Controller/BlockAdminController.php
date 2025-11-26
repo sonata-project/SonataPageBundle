@@ -14,14 +14,14 @@ declare(strict_types=1);
 namespace Sonata\PageBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController;
-use Sonata\AdminBundle\Exception\BadRequestParamHttpException;
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
 use Sonata\BlockBundle\Block\Service\EditableBlockService;
-use Sonata\PageBundle\BCLayer\BCHelper;
 use Sonata\PageBundle\Model\BlockInteractorInterface;
 use Sonata\PageBundle\Model\PageBlockInterface;
+use Sonata\PageBundle\Query\BlockQuery;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -111,19 +111,10 @@ final class BlockAdminController extends CRUDController
         return parent::createAction($request);
     }
 
-    public function switchParentAction(Request $request): Response
+    public function switchParentAction(#[MapQueryString(validationFailedStatusCode: 400)] BlockQuery $blockQuery): Response
     {
-        $blockId = BCHelper::getFromRequest($request, 'block_id');
-
-        if (null === $blockId) {
-            throw new BadRequestParamHttpException('block_id', ['int', 'string'], $blockId);
-        }
-
-        $parentId = BCHelper::getFromRequest($request, 'parent_id');
-
-        if (null === $parentId) {
-            throw new BadRequestParamHttpException('parent_id', ['int', 'string'], $parentId);
-        }
+        $blockId = $blockQuery->blockId;
+        $parentId = $blockQuery->parentId;
 
         $block = $this->admin->getObject($blockId);
 
