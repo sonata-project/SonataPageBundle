@@ -13,4 +13,5 @@ phpstan.neon
 /docs/_build/
 /drivers
 /tests/App/public/bundles
+tests/App/config/reference.php
 npm-debug.log

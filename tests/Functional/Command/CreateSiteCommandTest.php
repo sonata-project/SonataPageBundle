@@ -43,7 +43,7 @@ final class CreateSiteCommandTest extends KernelTestCase
      *   '--enabledTo'?: string,
      *   '--locale'?: string,
      * } $commandInput
-     * @param array<string> $questionInputs
+     * @param list<string> $questionInputs
      */
     #[DataProvider('provideCreateSiteCases')]
     public function testCreateSite(array $commandInput, array $questionInputs, bool $success): void

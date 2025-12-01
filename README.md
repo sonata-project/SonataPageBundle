@@ -10,7 +10,6 @@ This bundle provides a Site and Page management through container and block serv
 
 [![Latest Stable Version](https://poser.pugx.org/sonata-project/page-bundle/v/stable)](https://packagist.org/packages/sonata-project/page-bundle)
 [![Latest Unstable Version](https://poser.pugx.org/sonata-project/page-bundle/v/unstable)](https://packagist.org/packages/sonata-project/page-bundle)
-[![Psalm Type Coverage][shepherd_stable_badge]][shepherd_stable_link]
 [![License](https://poser.pugx.org/sonata-project/page-bundle/license)](https://packagist.org/packages/sonata-project/page-bundle)
 
 [![Total Downloads](https://poser.pugx.org/sonata-project/page-bundle/downloads)](https://packagist.org/packages/sonata-project/page-bundle)

@@ -18,7 +18,7 @@ use Doctrine\Common\Collections\Collection;
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-final class SnapshotPageProxy implements SnapshotPageProxyInterface
+final class SnapshotPageProxy implements \Stringable, SnapshotPageProxyInterface
 {
     private ?PageInterface $page = null;
 
