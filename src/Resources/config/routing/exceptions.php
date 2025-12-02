@@ -17,6 +17,7 @@ use Symfony\Component\Routing\Loader\XmlFileLoader;
 return static function (RoutingConfigurator $routes) {
     foreach (debug_backtrace() as $trace) {
         if (isset($trace['object'], $trace['args'])
+            && class_exists(XmlFileLoader::class)
             && $trace['object'] instanceof XmlFileLoader
             && $trace['args'][0] === __DIR__.'/exceptions.php'
             && $trace['args'][3] === __DIR__.'/exceptions.xml'

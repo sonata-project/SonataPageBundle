@@ -40,6 +40,8 @@ final class BlockTypeExtractor implements PropertyTypeExtractorInterface
      * @param array<array-key, mixed> $context
      *
      * @return LegacyType[]|null
+     *
+     * NEXT_MAJOR: Remove this method
      */
     public function getTypes(string $class, string $property, array $context = []): ?array
     {
