@@ -113,7 +113,6 @@ final class SnapshotManagerTest extends TestCase
                 $classMetadata->addInheritedFieldMapping(FieldMapping::fromMappingArray($fieldMapping));
             } else {
                 /**
-                 * @psalm-suppress InvalidArgument
                  * @phpstan-ignore-next-line
                  */
                 $classMetadata->addInheritedFieldMapping($fieldMapping);
