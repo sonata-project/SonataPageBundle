@@ -30,8 +30,6 @@ namespace Sonata\PageBundle\Template\Matrix;
 final class Parser
 {
     /**
-     * @psalm-suppress InvalidOperand
-     *
      * @param array<string> $mapping
      *
      * @throws \InvalidArgumentException

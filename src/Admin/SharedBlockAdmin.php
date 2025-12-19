@@ -39,11 +39,6 @@ final class SharedBlockAdmin extends BaseBlockAdmin
         return \sprintf('%s_%s', parent::generateBaseRouteName($isChildAdmin), 'shared');
     }
 
-    /**
-     * @psalm-suppress LessSpecificReturnStatement, MoreSpecificReturnType
-     *
-     * @see https://github.com/vimeo/psalm/issues/8429
-     */
     protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
         \assert($query instanceof ORMProxyQueryInterface);

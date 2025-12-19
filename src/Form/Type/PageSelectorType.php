@@ -23,8 +23,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @psalm-suppress MissingTemplateParam
  */
 final class PageSelectorType extends AbstractType
 {
@@ -71,7 +69,6 @@ final class PageSelectorType extends AbstractType
      *         hierarchy: string
      *     }
      * }> $options
-     * @psalm-param Options $options
      */
     private function getChoices(Options $options): array
     {

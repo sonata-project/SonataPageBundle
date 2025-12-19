@@ -543,8 +543,6 @@ abstract class Page implements \Stringable, PageInterface
 
     /**
      * @return array<string, string>
-     *
-     * @psalm-suppress PossiblyUndefinedArrayOffset
      */
     private function getHeadersAsArray(string $rawHeaders): array
     {

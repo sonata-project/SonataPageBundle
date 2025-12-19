@@ -20,8 +20,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * @author Olivier Paradis <paradis.olivier@gmail.com>
- *
- * @psalm-suppress MissingTemplateParam
  */
 final class PageTypeChoiceType extends AbstractType
 {
