@@ -112,7 +112,7 @@ final class SnapshotManagerTest extends TestCase
             if (class_exists(FieldMapping::class)) {
                 $classMetadata->addInheritedFieldMapping(FieldMapping::fromMappingArray($fieldMapping));
             } else {
-                /**
+                /*
                  * @phpstan-ignore-next-line
                  */
                 $classMetadata->addInheritedFieldMapping($fieldMapping);
