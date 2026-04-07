@@ -28,19 +28,19 @@ final class CreateSnapshotServiceTest extends TestCase
     public function testCreateBySite(): void
     {
         // Mocks
-        $snapshotManager = $this->createMock(SnapshotManagerInterface::class);
+        $snapshotManager = static::createStub(SnapshotManagerInterface::class);
 
         $pageManager = $this->createMock(PageManagerInterface::class);
         $pageManager
             ->method('findBy')
-            ->willReturn([$this->createMock(PageInterface::class)]);
+            ->willReturn([static::createStub(PageInterface::class)]);
 
         $transformer = $this->createMock(TransformerInterface::class);
         $transformer
             ->method('create')
-            ->willReturn($this->createMock(SnapshotInterface::class));
+            ->willReturn(static::createStub(SnapshotInterface::class));
 
-        $site = $this->createMock(SiteInterface::class);
+        $site = static::createStub(SiteInterface::class);
 
         // Asserts mocks
         $transformer
@@ -71,14 +71,14 @@ final class CreateSnapshotServiceTest extends TestCase
         $pageManager = $this->createMock(PageManagerInterface::class);
         $pageManager
             ->method('findBy')
-            ->willReturn([$this->createMock(PageInterface::class)]);
+            ->willReturn([static::createStub(PageInterface::class)]);
 
         $transformer = $this->createMock(TransformerInterface::class);
         $transformer
             ->method('create')
-            ->willReturn($this->createMock(SnapshotInterface::class));
+            ->willReturn(static::createStub(SnapshotInterface::class));
 
-        $site = $this->createMock(SiteInterface::class);
+        $site = static::createStub(SiteInterface::class);
 
         // Asserts mocks
         $transformer

@@ -34,8 +34,6 @@ final class TransformerWithSerializerTest extends TransformerTestCase
 {
     protected function setUpTransformer(): TransformerInterface
     {
-        $registry = $this->createMock(ManagerRegistry::class);
-
         $loaders = new LoaderChain([
             new XmlFileLoader(__DIR__.'/../../src/Resources/config/serialization/Model.Block.xml'),
             new XmlFileLoader(__DIR__.'/../../src/Resources/config/serialization/Model.Page.xml'),
@@ -67,7 +65,7 @@ final class TransformerWithSerializerTest extends TransformerTestCase
             $this->snapshotManager,
             $this->pageManager,
             $this->blockManager,
-            $registry,
+            static::createStub(ManagerRegistry::class),
             $serializer,
         );
     }

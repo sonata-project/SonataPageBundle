@@ -27,7 +27,7 @@ final class BlockInteractorTest extends TestCase
 {
     public function testCreateNewContainer(): void
     {
-        $registry = $this->createMock(ManagerRegistry::class);
+        $registry = static::createStub(ManagerRegistry::class);
 
         $blockManager = $this->createMock(BlockManagerInterface::class);
         $blockManager->method('create')->willReturn(new SonataPageBlock());

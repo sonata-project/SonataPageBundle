@@ -32,7 +32,7 @@ final class PageServiceManagerTest extends TestCase
 
     public function testAdd(): void
     {
-        $service = $this->createMock(PageServiceInterface::class);
+        $service = static::createStub(PageServiceInterface::class);
 
         $this->manager->add('default', $service);
 
@@ -42,7 +42,7 @@ final class PageServiceManagerTest extends TestCase
     #[Depends('testAdd')]
     public function testGetByPage(): void
     {
-        $service = $this->createMock(PageServiceInterface::class);
+        $service = static::createStub(PageServiceInterface::class);
         $this->manager->add('my-type', $service);
 
         $page = $this->createMock(PageInterface::class);
@@ -71,7 +71,7 @@ final class PageServiceManagerTest extends TestCase
     #[Depends('testAdd')]
     public function testDefault(): void
     {
-        $default = $this->createMock(PageServiceInterface::class);
+        $default = static::createStub(PageServiceInterface::class);
         $this->manager->setDefault($default);
 
         static::assertSame(
@@ -84,8 +84,8 @@ final class PageServiceManagerTest extends TestCase
     #[Depends('testDefault')]
     public function testExecute(): void
     {
-        $request = $this->createMock(Request::class);
-        $response = $this->createMock(Response::class);
+        $request = static::createStub(Request::class);
+        $response = static::createStub(Response::class);
 
         $page = $this->createMock(PageInterface::class);
         $page->expects(static::once())->method('getType')->willReturn('my-type');

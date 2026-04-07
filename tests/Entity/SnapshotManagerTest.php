@@ -164,11 +164,11 @@ final class SnapshotManagerTest extends TestCase
 
     public function testCreateSnapshotPageProxy(): void
     {
-        $proxyInterface = $this->createMock(SnapshotPageProxyInterface::class);
+        $proxyInterface = static::createStub(SnapshotPageProxyInterface::class);
         $snapshotProxyFactory = $this->createMock(SnapshotPageProxyFactoryInterface::class);
-        $registry = $this->createMock(ManagerRegistry::class);
-        $transformer = $this->createMock(TransformerInterface::class);
-        $snapshot = $this->createMock(SnapshotInterface::class);
+        $registry = static::createStub(ManagerRegistry::class);
+        $transformer = static::createStub(TransformerInterface::class);
+        $snapshot = static::createStub(SnapshotInterface::class);
 
         $manager = new SnapshotManager(BaseSnapshot::class, $registry, $snapshotProxyFactory);
 

@@ -42,12 +42,12 @@ final class RequestListenerTest extends TestCase
         $cmsSelector = $this->createMock(CmsManagerSelectorInterface::class);
         $cmsSelector->expects(static::once())->method('retrieve')->willReturn($cmsManager);
 
-        $site = $this->createMock(SiteInterface::class);
+        $site = static::createStub(SiteInterface::class);
 
         $siteSelector = $this->createMock(SiteSelectorInterface::class);
         $siteSelector->expects(static::once())->method('retrieve')->willReturn($site);
 
-        $kernel = $this->createMock(HttpKernelInterface::class);
+        $kernel = static::createStub(HttpKernelInterface::class);
         $request = new Request([], [], [
             '_route' => 'some-random-route',
         ]);
@@ -62,7 +62,7 @@ final class RequestListenerTest extends TestCase
     {
         $this->expectException(InternalErrorException::class);
 
-        $cmsManager = $this->createMock(CmsManagerInterface::class);
+        $cmsManager = static::createStub(CmsManagerInterface::class);
 
         $decoratorStrategy = $this->createMock(DecoratorStrategyInterface::class);
         $decoratorStrategy->expects(static::once())->method('isRequestDecorable')->willReturn(true);
@@ -73,7 +73,7 @@ final class RequestListenerTest extends TestCase
         $siteSelector = $this->createMock(SiteSelectorInterface::class);
         $siteSelector->expects(static::once())->method('retrieve')->willReturn(null);
 
-        $kernel = $this->createMock(HttpKernelInterface::class);
+        $kernel = static::createStub(HttpKernelInterface::class);
         $request = new Request();
 
         $event = new RequestEvent($kernel, $request, HttpKernelInterface::MAIN_REQUEST);
