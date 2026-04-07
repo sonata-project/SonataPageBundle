@@ -83,7 +83,7 @@ final class BrowserTest extends BasePantherTestCase
 
         $client->waitFor('.page-composer__container__child__enabled');
 
-        static::assertCount(2, $crawler->filter('.page-composer__container__child'));
+        static::assertCount(1, $crawler->filter('.page-composer__container__child'));
     }
 
     protected static function prepareDatabase(): void
