@@ -27,9 +27,9 @@ final class SnapshotPageProxyTest extends TestCase
         static::assertInstanceOf(
             SnapshotPageProxyInterface::class,
             new SnapshotPageProxy(
-                $this->createMock(SnapshotManagerInterface::class),
-                $this->createMock(TransformerInterface::class),
-                $this->createMock(SnapshotInterface::class)
+                static::createStub(SnapshotManagerInterface::class),
+                static::createStub(TransformerInterface::class),
+                static::createStub(SnapshotInterface::class)
             )
         );
     }

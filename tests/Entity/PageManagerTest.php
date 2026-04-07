@@ -88,7 +88,7 @@ final class PageManagerTest extends TestCase
     {
         $manager = new PageManager(
             Page::class,
-            $this->createMock(ManagerRegistry::class),
+            static::createStub(ManagerRegistry::class),
             $slug,
         );
 
@@ -116,7 +116,7 @@ final class PageManagerTest extends TestCase
     {
         $manager = new PageManager(
             Page::class,
-            $this->createMock(ManagerRegistry::class),
+            static::createStub(ManagerRegistry::class),
             $slug,
             [],
             ['my_route' => ['decorate' => false, 'name' => 'Salut!']]

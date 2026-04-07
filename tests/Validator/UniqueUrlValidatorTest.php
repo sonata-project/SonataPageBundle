@@ -56,7 +56,7 @@ final class UniqueUrlValidatorTest extends ConstraintValidatorTestCase
 
     public function testValidateWithNoPageFound(): void
     {
-        $site = $this->createMock(SiteInterface::class);
+        $site = static::createStub(SiteInterface::class);
 
         $page = $this->createMock(PageInterface::class);
         $page->expects(static::exactly(2))->method('getSite')->willReturn($site);
@@ -73,7 +73,7 @@ final class UniqueUrlValidatorTest extends ConstraintValidatorTestCase
     public function testValidateWithPageFound(): void
     {
         $url = '/salut';
-        $site = $this->createMock(SiteInterface::class);
+        $site = static::createStub(SiteInterface::class);
 
         $page = $this->createMock(PageInterface::class);
         $page->expects(static::exactly(2))->method('getSite')->willReturn($site);
@@ -96,7 +96,7 @@ final class UniqueUrlValidatorTest extends ConstraintValidatorTestCase
 
     public function testValidateWithRootUrlAndNoParent(): void
     {
-        $site = $this->createMock(SiteInterface::class);
+        $site = static::createStub(SiteInterface::class);
 
         $page = $this->createMock(PageInterface::class);
         $page->expects(static::exactly(2))->method('getSite')->willReturn($site);
@@ -119,7 +119,7 @@ final class UniqueUrlValidatorTest extends ConstraintValidatorTestCase
 
     public function testValidateWithPageDynamic(): void
     {
-        $site = $this->createMock(SiteInterface::class);
+        $site = static::createStub(SiteInterface::class);
 
         $page = $this->createMock(PageInterface::class);
         $page->expects(static::once())->method('getSite')->willReturn($site);

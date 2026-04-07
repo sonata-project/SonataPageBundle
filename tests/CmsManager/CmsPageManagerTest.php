@@ -36,18 +36,12 @@ final class CmsPageManagerTest extends TestCase
      */
     private BlockInteractorInterface $blockInteractor;
 
-    /**
-     * @var MockObject&PageManagerInterface
-     */
-    private PageManagerInterface $pageManager;
-
     private CmsPageManager $manager;
 
     protected function setUp(): void
     {
         $this->blockInteractor = $this->getMockBlockInteractor();
-        $this->pageManager = $this->createMock(PageManagerInterface::class);
-        $this->manager = new CmsPageManager($this->pageManager, $this->blockInteractor);
+        $this->manager = new CmsPageManager(static::createStub(PageManagerInterface::class), $this->blockInteractor);
     }
 
     public function testFindExistingContainer(): void

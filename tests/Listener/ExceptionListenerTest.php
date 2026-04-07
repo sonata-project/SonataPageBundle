@@ -158,7 +158,7 @@ final class ExceptionListenerTest extends TestCase
         // mocked site selector should return a site
         $this->siteSelector
             ->method('retrieve')
-            ->willReturn($this->createMock(SiteInterface::class));
+            ->willReturn(static::createStub(SiteInterface::class));
 
         // mocked decorator strategy should allow decorate
         $this->decoratorStrategy
@@ -169,7 +169,7 @@ final class ExceptionListenerTest extends TestCase
             ->willReturn(true);
 
         // mocked page service manager should execute the page and return a response
-        $response = $this->createMock(Response::class);
+        $response = static::createStub(Response::class);
         $this->pageServiceManager
             ->expects(static::once())
             ->method('execute')
@@ -183,9 +183,8 @@ final class ExceptionListenerTest extends TestCase
 
     private function getMockEvent(\Exception $exception): ExceptionEvent
     {
-        $kernel = $this->createMock(HttpKernelInterface::class);
         $request = new Request();
 
-        return new ExceptionEvent($kernel, $request, HttpKernelInterface::MAIN_REQUEST, $exception);
+        return new ExceptionEvent(static::createStub(HttpKernelInterface::class), $request, HttpKernelInterface::MAIN_REQUEST, $exception);
     }
 }

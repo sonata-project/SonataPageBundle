@@ -30,10 +30,10 @@ final class BaseBlockAdminTest extends TestCase
         $parent = $this->createMock(AdminInterface::class);
         $parent->expects(static::once())->method('getSubject')->willReturn($page);
 
-        $blockAdmin = new class($this->createMock(BlockServiceManagerInterface::class)) extends BaseBlockAdmin {};
+        $blockAdmin = new class(static::createStub(BlockServiceManagerInterface::class)) extends BaseBlockAdmin {};
         $blockAdmin->setParent($parent, 'foo');
 
-        $query = $this->createMock(ProxyQueryInterface::class);
+        $query = static::createStub(ProxyQueryInterface::class);
         $idx = [];
         $blockAdmin->preBatchAction('delete', $query, $idx, true);
     }

@@ -38,18 +38,17 @@ final class SubRequestsSiteSelectorTest extends BaseLocaleSiteSelectorTestCase
     {
         $this->siteManager = $this->createMock(SiteManagerInterface::class);
         $decoratorStrategy = new DecoratorStrategy([], [], []);
-        $seoPage = $this->createMock(SeoPageInterface::class);
 
         $this->siteSelector = new HostPathByLocaleSiteSelector(
             $this->siteManager,
             $decoratorStrategy,
-            $seoPage
+            static::createStub(SeoPageInterface::class)
         );
     }
 
     public function testOnKernelRequestWithMainDetectEn(): void
     {
-        $kernel = $this->createMock(HttpKernelInterface::class);
+        $kernel = static::createStub(HttpKernelInterface::class);
         $request = SiteRequest::create('http://www.example.com');
 
         // Ensure request locale is null
@@ -75,7 +74,7 @@ final class SubRequestsSiteSelectorTest extends BaseLocaleSiteSelectorTestCase
 
     public function testOnKernelRequestWithMainDetectFr(): void
     {
-        $kernel = $this->createMock(HttpKernelInterface::class);
+        $kernel = static::createStub(HttpKernelInterface::class);
         $request = SiteRequest::create('http://www.example.com/fr');
 
         // Ensure request locale is null
@@ -102,7 +101,7 @@ final class SubRequestsSiteSelectorTest extends BaseLocaleSiteSelectorTestCase
 
     public function testOnKernelRequestWithSubDetectEn(): void
     {
-        $kernel = $this->createMock(HttpKernelInterface::class);
+        $kernel = static::createStub(HttpKernelInterface::class);
         $request = SiteRequest::create('http://www.example.com');
 
         // Ensure request locale is null
@@ -128,7 +127,7 @@ final class SubRequestsSiteSelectorTest extends BaseLocaleSiteSelectorTestCase
 
     public function testOnKernelRequestWithSubDetectFr(): void
     {
-        $kernel = $this->createMock(HttpKernelInterface::class);
+        $kernel = static::createStub(HttpKernelInterface::class);
         $request = SiteRequest::create('http://www.example.com/fr');
 
         // Ensure request locale is null

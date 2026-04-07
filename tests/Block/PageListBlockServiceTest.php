@@ -55,9 +55,9 @@ final class PageListBlockServiceTest extends BlockServiceTestCase
 
     public function testExecute(): void
     {
-        $page1 = $this->createMock(PageInterface::class);
-        $page2 = $this->createMock(PageInterface::class);
-        $systemPage = $this->createMock(PageInterface::class);
+        $page1 = static::createStub(PageInterface::class);
+        $page2 = static::createStub(PageInterface::class);
+        $systemPage = static::createStub(PageInterface::class);
 
         $this->twig->expects(static::once())
             ->method('render')
