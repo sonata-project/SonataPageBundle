@@ -38,7 +38,7 @@ return static function (ContainerConfigurator $container): void {
     ]);
 
     /*
-     * TODO: When drop suport for symfony 7.2.* and 6.4.*, keep only one framework config.
+     * TODO: When drop support for Symfony 7.2.* and 6.4.*, keep only one framework config.
      */
     if (interface_exists(ServicesResetterInterface::class)) {
         $container->extension('framework', [
