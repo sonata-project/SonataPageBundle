@@ -22,3 +22,6 @@ parameters:
             message: "#^Parameter \\#2 \\.\\.\\.\\$arrays of function array_merge expects array, array\\<string, bool\\|string\\>\\|Sonata\\\\PageBundle\\\\Model\\\\PageInterface\\|Sonata\\\\PageBundle\\\\Model\\\\SiteInterface\\|null given\\.$#"
             count: 1
             path: src/Form/Type/PageSelectorType.php
+        - # legacy Symfony serializer types
+            message: '#Symfony\\Component\\PropertyInfo\\Type#'
+            identifier: class.notFound

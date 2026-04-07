@@ -34,6 +34,8 @@ final class BlockTypeExtractor implements PropertyTypeExtractorInterface
     }
 
     /**
+     * TODO: to be removed once support for Symfony < 8.0 is dropped.
+     *
      * @param array<array-key, mixed> $context
      *
      * @return LegacyType[]|null
