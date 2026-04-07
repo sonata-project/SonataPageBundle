@@ -116,7 +116,10 @@ final class BlockInteractor implements BlockInteractorInterface
 
     public function loadPageBlocks(PageInterface $page): array
     {
-        if (isset($this->pageBlocksLoaded[$page->getId()])) {
+        $pageId = $page->getId();
+        \assert(null !== $pageId);
+
+        if (isset($this->pageBlocksLoaded[$pageId])) {
             return [];
         }
 
@@ -137,10 +140,7 @@ final class BlockInteractor implements BlockInteractorInterface
             $blocks[$parentId]->addChild($block);
         }
 
-        $id = $page->getId();
-        \assert(null !== $id);
-
-        $this->pageBlocksLoaded[$id] = true;
+        $this->pageBlocksLoaded[$pageId] = true;
 
         return $blocks;
     }
