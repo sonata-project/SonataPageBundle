@@ -30,7 +30,7 @@ final class TemplateManagerTest extends KernelTestCase
     public function testAddSingleTemplate(): void
     {
         $template = $this->getTemplate('template');
-        $twig = $this->createMock(Environment::class);
+        $twig = static::createStub(Environment::class);
         $manager = new TemplateManager($twig);
 
         $manager->add('code', $template);
@@ -40,7 +40,7 @@ final class TemplateManagerTest extends KernelTestCase
 
     public function testSetAllTemplates(): void
     {
-        $twig = $this->createMock(Environment::class);
+        $twig = static::createStub(Environment::class);
         $manager = new TemplateManager($twig);
 
         $templates = [
@@ -57,7 +57,7 @@ final class TemplateManagerTest extends KernelTestCase
 
     public function testSetDefaultTemplateCode(): void
     {
-        $twig = $this->createMock(Environment::class);
+        $twig = static::createStub(Environment::class);
         $manager = new TemplateManager($twig);
 
         $manager->setDefaultTemplateCode('test');
@@ -158,8 +158,8 @@ final class TemplateManagerTest extends KernelTestCase
         $page->method('getUrl')->willReturn('/');
 
         // Mock Snapshot manager
-        $snapshotManager = $this->createMock(SnapshotManagerInterface::class);
-        $transformer = $this->createMock(TransformerInterface::class);
+        $snapshotManager = static::createStub(SnapshotManagerInterface::class);
+        $transformer = static::createStub(TransformerInterface::class);
         $cmsSnapshotManager = new CmsSnapshotManager($snapshotManager, $transformer);
         $cmsSnapshotManager->setCurrentPage($page);
         self::getContainer()->set('sonata.page.cms.snapshot', $cmsSnapshotManager);

@@ -60,10 +60,10 @@ final class CmsPageRouterTest extends TestCase
     {
         $this->expectException(ResourceNotFoundException::class);
 
-        $cms = $this->createMock(CmsManagerInterface::class);
+        $cms = static::createStub(CmsManagerInterface::class);
         $this->cmsSelector->method('retrieve')->willReturn($cms);
 
-        $site = $this->createMock(SiteInterface::class);
+        $site = static::createStub(SiteInterface::class);
         $this->siteSelector->method('retrieve')->willReturn($site);
 
         $this->router->match('/');
@@ -81,7 +81,7 @@ final class CmsPageRouterTest extends TestCase
 
         $this->cmsSelector->method('retrieve')->willReturn($cms);
 
-        $site = $this->createMock(SiteInterface::class);
+        $site = static::createStub(SiteInterface::class);
         $this->siteSelector->method('retrieve')->willReturn($site);
 
         $this->router->match('/');
@@ -99,7 +99,7 @@ final class CmsPageRouterTest extends TestCase
 
         $this->cmsSelector->method('retrieve')->willReturn($cms);
 
-        $site = $this->createMock(SiteInterface::class);
+        $site = static::createStub(SiteInterface::class);
         $this->siteSelector->method('retrieve')->willReturn($site);
 
         $route = $this->router->match('/');
@@ -133,7 +133,7 @@ final class CmsPageRouterTest extends TestCase
         static::assertTrue($this->router->supports('_page_alias_homepage'));
         static::assertFalse($this->router->supports('foobar'));
         static::assertFalse($this->router->supports(new \stdClass()));
-        static::assertTrue($this->router->supports($this->createMock(PageInterface::class)));
+        static::assertTrue($this->router->supports(static::createStub(PageInterface::class)));
     }
 
     public function testGenerateWithPageSlugValid(): void
@@ -276,7 +276,7 @@ final class CmsPageRouterTest extends TestCase
         $page->expects(static::exactly(5))->method('isHybrid')->willReturn(true);
         $page->expects(static::exactly(5))->method('getRouteName')->willReturn('test_route');
 
-        $site = $this->createMock(SiteInterface::class);
+        $site = static::createStub(SiteInterface::class);
         $this->siteSelector->expects(static::exactly(5))->method('retrieve')->willReturn($site);
 
         $cmsManager = $this->createMock(CmsManagerInterface::class);

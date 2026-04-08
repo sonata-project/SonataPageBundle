@@ -24,8 +24,8 @@ final class CreateSnapshotAdminExtensionTest extends TestCase
 {
     public function testPostUpdateOnPage(): void
     {
-        $page = $this->createMock(PageInterface::class);
-        $admin = $this->createMock(AdminInterface::class);
+        $page = static::createStub(PageInterface::class);
+        $admin = static::createStub(AdminInterface::class);
         $createSnapshotByPage = $this->createMock(CreateSnapshotByPageInterface::class);
 
         $createSnapshotByPage->expects(static::once())->method('createByPage')->with($page);
@@ -36,8 +36,8 @@ final class CreateSnapshotAdminExtensionTest extends TestCase
 
     public function testPostPersistOnPage(): void
     {
-        $page = $this->createMock(PageInterface::class);
-        $admin = $this->createMock(AdminInterface::class);
+        $page = static::createStub(PageInterface::class);
+        $admin = static::createStub(AdminInterface::class);
         $createSnapshotByPage = $this->createMock(CreateSnapshotByPageInterface::class);
 
         $createSnapshotByPage->expects(static::once())->method('createByPage')->with($page);
@@ -48,9 +48,9 @@ final class CreateSnapshotAdminExtensionTest extends TestCase
 
     public function testPostUpdateOnBlock(): void
     {
-        $page = $this->createMock(PageInterface::class);
+        $page = static::createStub(PageInterface::class);
         $block = $this->createMock(PageBlockInterface::class);
-        $admin = $this->createMock(AdminInterface::class);
+        $admin = static::createStub(AdminInterface::class);
         $createSnapshotByPage = $this->createMock(CreateSnapshotByPageInterface::class);
 
         $block->expects(static::once())->method('getPage')->willReturn($page);
@@ -62,9 +62,9 @@ final class CreateSnapshotAdminExtensionTest extends TestCase
 
     public function testPostPersistOnBlock(): void
     {
-        $page = $this->createMock(PageInterface::class);
+        $page = static::createStub(PageInterface::class);
         $block = $this->createMock(PageBlockInterface::class);
-        $admin = $this->createMock(AdminInterface::class);
+        $admin = static::createStub(AdminInterface::class);
         $createSnapshotByPage = $this->createMock(CreateSnapshotByPageInterface::class);
 
         $block->expects(static::once())->method('getPage')->willReturn($page);
@@ -76,9 +76,9 @@ final class CreateSnapshotAdminExtensionTest extends TestCase
 
     public function testPostRemoveOnBlock(): void
     {
-        $page = $this->createMock(PageInterface::class);
+        $page = static::createStub(PageInterface::class);
         $block = $this->createMock(PageBlockInterface::class);
-        $admin = $this->createMock(AdminInterface::class);
+        $admin = static::createStub(AdminInterface::class);
         $createSnapshotByPage = $this->createMock(CreateSnapshotByPageInterface::class);
 
         $block->expects(static::once())->method('getPage')->willReturn($page);
@@ -90,8 +90,8 @@ final class CreateSnapshotAdminExtensionTest extends TestCase
 
     public function testPostRemoveOnPage(): void
     {
-        $page = $this->createMock(PageInterface::class);
-        $admin = $this->createMock(AdminInterface::class);
+        $page = static::createStub(PageInterface::class);
+        $admin = static::createStub(AdminInterface::class);
         $createSnapshotByPage = $this->createMock(CreateSnapshotByPageInterface::class);
 
         $createSnapshotByPage->expects(static::never())->method('createByPage');
@@ -102,8 +102,8 @@ final class CreateSnapshotAdminExtensionTest extends TestCase
 
     public function testCreateSnapshotByPage(): void
     {
-        $admin = $this->createMock(AdminInterface::class);
-        $page = $this->createMock(PageInterface::class);
+        $admin = static::createStub(AdminInterface::class);
+        $page = static::createStub(PageInterface::class);
         $createSnapshotByPage = $this->createMock(CreateSnapshotByPageInterface::class);
 
         $createSnapshotByPage->expects(static::once())->method('createByPage')->with($page);

@@ -157,7 +157,7 @@ final class RoutePageGeneratorTest extends TestCase
 
         $pageManager->expects(static::atLeastOnce())
             ->method('findOneBy')
-            ->willReturnCallback(static function (array $criteria) use ($hybridPageWithBadHost) {
+            ->willReturnCallback(static function (array $criteria) use ($hybridPageWithBadHost): ?object {
                 if ($criteria === ['routeName' => 'test_hybrid_page_with_bad_host', 'site' => 1]) {
                     return $hybridPageWithBadHost;
                 }
@@ -171,26 +171,20 @@ final class RoutePageGeneratorTest extends TestCase
 
         $decoratorStrategy = new DecoratorStrategy([], [], []);
 
-        $siteSelector = $this->createMock(SiteSelectorInterface::class);
-        $cmsManagerSelector = $this->createMock(CmsManagerSelectorInterface::class);
-        $twig = $this->createMock(Environment::class);
-        $pageServiceManager = $this->createMock(PageServiceManagerInterface::class);
-        $logger = $this->createMock(LoggerInterface::class);
-
         $errors = [
             '404' => 'route_404',
             '500' => 'route_500',
         ];
 
         $exceptionListener = new ExceptionListener(
-            $siteSelector,
-            $cmsManagerSelector,
+            static::createStub(SiteSelectorInterface::class),
+            static::createStub(CmsManagerSelectorInterface::class),
             true,
-            $twig,
-            $pageServiceManager,
+            static::createStub(Environment::class),
+            static::createStub(PageServiceManagerInterface::class),
             $decoratorStrategy,
             $errors,
-            $logger
+            static::createStub(LoggerInterface::class)
         );
 
         return new RoutePageGenerator($router, $pageManager, $decoratorStrategy, $exceptionListener);

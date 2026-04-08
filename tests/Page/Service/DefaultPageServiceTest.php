@@ -48,10 +48,10 @@ final class DefaultPageServiceTest extends TestCase
     public function testExecute(): void
     {
         // mock a http request
-        $request = $this->createMock(Request::class);
+        $request = static::createStub(Request::class);
 
         // mock http response
-        $response = $this->createMock(Response::class);
+        $response = static::createStub(Response::class);
 
         // mock a page instance
         $page = $this->createMock(PageInterface::class);

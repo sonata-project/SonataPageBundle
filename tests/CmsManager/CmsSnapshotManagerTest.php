@@ -42,18 +42,12 @@ final class CmsSnapshotManagerTest extends TestCase
     private SnapshotManagerInterface $snapshotManager;
 
     /**
-     * @var MockObject&TransformerInterface
-     */
-    private TransformerInterface $transformer;
-
-    /**
      * Setup manager object to test.
      */
     protected function setUp(): void
     {
         $this->snapshotManager = $this->createMock(SnapshotManagerInterface::class);
-        $this->transformer = $this->createMock(TransformerInterface::class);
-        $this->manager = new CmsSnapshotManager($this->snapshotManager, $this->transformer);
+        $this->manager = new CmsSnapshotManager($this->snapshotManager, static::createStub(TransformerInterface::class));
     }
 
     /**
@@ -95,18 +89,18 @@ final class CmsSnapshotManagerTest extends TestCase
 
         $this->snapshotManager->expects(static::once())->method('findEnableSnapshot')->willReturn(null);
 
-        $site = $this->createMock(SiteInterface::class);
+        $site = static::createStub(SiteInterface::class);
 
-        $snapshotManager = new CmsSnapshotManager($this->snapshotManager, $this->transformer);
+        $snapshotManager = new CmsSnapshotManager($this->snapshotManager, static::createStub(TransformerInterface::class));
 
         $snapshotManager->getPage($site, 1);
     }
 
     public function testGetPageWithId(): void
     {
-        $site = $this->createMock(SiteInterface::class);
+        $site = static::createStub(SiteInterface::class);
         $page = $this->createMock(SnapshotPageProxyInterface::class);
-        $snapshot = $this->createMock(SnapshotInterface::class);
+        $snapshot = static::createStub(SnapshotInterface::class);
 
         $cBlock = new SonataPageBlock();
         $cBlock->setId(2);

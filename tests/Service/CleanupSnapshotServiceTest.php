@@ -38,7 +38,7 @@ final class CleanupSnapshotServiceTest extends TestCase
             ->expects(static::once())
             ->method('findBy')
             ->with(['site' => 2])
-            ->willReturn([$this->createMock(PageInterface::class)]);
+            ->willReturn([static::createStub(PageInterface::class)]);
 
         $site = $this->createMock(Site::class);
         $site
@@ -72,7 +72,7 @@ final class CleanupSnapshotServiceTest extends TestCase
             ->expects(static::once())
             ->method('findBy')
             ->with(['site' => 2])
-            ->willReturn([$this->createMock(PageInterface::class)]);
+            ->willReturn([static::createStub(PageInterface::class)]);
 
         $site = $this->createMock(Site::class);
         $site

@@ -20,8 +20,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @psalm-suppress MissingTemplateParam
  */
 final class TemplateChoiceType extends AbstractType
 {

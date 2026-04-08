@@ -23,13 +23,11 @@ final class TransformerWithoutSerializerTest extends TransformerTestCase
 {
     protected function setUpTransformer(): TransformerInterface
     {
-        $registry = $this->createMock(ManagerRegistry::class);
-
         return new Transformer(
             $this->snapshotManager,
             $this->pageManager,
             $this->blockManager,
-            $registry
+            static::createStub(ManagerRegistry::class)
         );
     }
 }

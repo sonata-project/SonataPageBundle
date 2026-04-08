@@ -31,8 +31,8 @@ final class BasePageServiceTest extends TestCase
     public function testExecution(): void
     {
         $service = new ConcretePageService('my name');
-        $page = $this->createMock(PageInterface::class);
-        $request = $this->createMock(Request::class);
+        $page = static::createStub(PageInterface::class);
+        $request = static::createStub(Request::class);
 
         static::assertInstanceOf(
             Response::class,
