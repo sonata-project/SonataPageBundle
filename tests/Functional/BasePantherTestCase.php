@@ -13,25 +13,24 @@ declare(strict_types=1);
 
 namespace Sonata\PageBundle\Tests\Functional;
 
-use DAMA\DoctrineTestBundle\Doctrine\DBAL\StaticDriver;
+use DAMA\DoctrineTestBundle\PHPUnit\SkipDatabaseRollback;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\SchemaTool;
 use Symfony\Component\Panther\PantherTestCase;
 
+#[SkipDatabaseRollback]
 abstract class BasePantherTestCase extends PantherTestCase
 {
-    public static function setUpBeforeClass(): void
+    protected function setUp(): void
     {
-        StaticDriver::setKeepStaticConnections(false);
-
+        parent::setUp();
         static::prepareDatabase();
     }
 
-    public static function tearDownAfterClass(): void
+    protected function tearDown(): void
     {
         self::rollbackDatabase();
-
-        StaticDriver::setKeepStaticConnections(true);
+        parent::tearDown();
     }
 
     public function testCrudUrls(): void

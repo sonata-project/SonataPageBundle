@@ -17,9 +17,6 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Sonata\PageBundle\Entity\BaseBlock;
 
-/**
- * @psalm-suppress ClassMustBeFinal
- */
 #[ORM\Entity]
 #[ORM\Table(name: 'page__block')]
 class SonataPageBlock extends BaseBlock

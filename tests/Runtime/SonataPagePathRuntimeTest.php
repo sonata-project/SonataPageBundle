@@ -29,7 +29,7 @@ final class SonataPagePathRuntimeTest extends TestCase
 {
     public function testGetRunnerWithHttpKernel(): void
     {
-        $kernelMock = $this->createMock(HttpKernelInterface::class);
+        $kernelMock = static::createStub(HttpKernelInterface::class);
         $runtime = new SonataPagePathRuntime();
 
         $runner = $runtime->getRunner($kernelMock);

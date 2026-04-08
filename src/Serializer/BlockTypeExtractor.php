@@ -18,9 +18,6 @@ use Symfony\Component\PropertyInfo\PropertyTypeExtractorInterface;
 use Symfony\Component\PropertyInfo\Type as LegacyType;
 use Symfony\Component\TypeInfo\Type;
 
-/**
- * @psalm-suppress DeprecatedClass
- */
 final class BlockTypeExtractor implements PropertyTypeExtractorInterface
 {
     public const NULLABLE_STRINGS = [
@@ -37,6 +34,8 @@ final class BlockTypeExtractor implements PropertyTypeExtractorInterface
     }
 
     /**
+     * TODO: to be removed once support for Symfony < 8.0 is dropped.
+     *
      * @param array<array-key, mixed> $context
      *
      * @return LegacyType[]|null

@@ -21,8 +21,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * NEXT_MAJOR: Remove this class.
- *
- * @psalm-suppress DeprecatedClass,DeprecatedMethod
  */
 #[IgnoreDeprecations]
 final class RequestFactoryTest extends TestCase

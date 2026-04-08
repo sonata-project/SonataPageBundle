@@ -37,19 +37,17 @@ final class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTestCase
     protected function setUp(): void
     {
         $this->siteManager = $this->createMock(SiteManagerInterface::class);
-        $decoratorStrategy = $this->createMock(DecoratorStrategyInterface::class);
-        $seoPage = $this->createMock(SeoPageInterface::class);
 
         $this->siteSelector = new HostByLocaleSiteSelector(
             $this->siteManager,
-            $decoratorStrategy,
-            $seoPage
+            static::createStub(DecoratorStrategyInterface::class),
+            static::createStub(SeoPageInterface::class)
         );
     }
 
     public function testHandleKernelRequestSelectsEn(): void
     {
-        $kernel = $this->createMock(HttpKernelInterface::class);
+        $kernel = static::createStub(HttpKernelInterface::class);
         $request = SiteRequest::create('http://www.example.com');
 
         static::assertNull($request->attributes->get('_locale'));
@@ -73,7 +71,7 @@ final class HostByLocaleSiteSelectorTest extends BaseLocaleSiteSelectorTestCase
 
     public function testHandleKernelRequestSelectsFr(): void
     {
-        $kernel = $this->createMock(HttpKernelInterface::class);
+        $kernel = static::createStub(HttpKernelInterface::class);
         $request = SiteRequest::create('http://www.example.com', 'GET', [], [], [], [
             'HTTP_ACCEPT_LANGUAGE' => 'fr-FR,fr;q=0.8,en-US;q=0.6,en;q=0.4',
         ]);

@@ -17,9 +17,6 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Sonata\PageBundle\Entity\BaseSnapshot;
 
-/**
- * @psalm-suppress ClassMustBeFinal
- */
 #[ORM\Entity]
 #[ORM\Table(name: 'page__snapshot')]
 #[ORM\Index(name: 'idx_snapshot_dates_enabled', columns: ['publication_date_start', 'publication_date_end', 'enabled'])]

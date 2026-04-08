@@ -91,18 +91,13 @@ final class HostPathSiteSelectorTest extends TestCase
      */
     private function performHandleKernelRequestTest(string $url): array
     {
-        $kernel = $this->createMock(HttpKernelInterface::class);
         $request = SiteRequest::create($url);
 
         static::assertNull($request->attributes->get('_locale'));
 
-        $event = new RequestEvent($kernel, $request, HttpKernelInterface::MAIN_REQUEST);
+        $event = new RequestEvent(static::createStub(HttpKernelInterface::class), $request, HttpKernelInterface::MAIN_REQUEST);
 
-        $siteManager = $this->createMock(SiteManagerInterface::class);
-        $decoratorStrategy = $this->createMock(DecoratorStrategyInterface::class);
-        $seoPage = $this->createMock(SeoPageInterface::class);
-
-        $siteSelector = new HostPathSiteSelector($siteManager, $decoratorStrategy, $seoPage);
+        $siteSelector = new HostPathSiteSelector(static::createStub(SiteManagerInterface::class), static::createStub(DecoratorStrategyInterface::class), static::createStub(SeoPageInterface::class));
 
         // Look for the first site matched that is enabled, has started, and has not expired.
         // localhost is a possible match, but only if no other sites match.

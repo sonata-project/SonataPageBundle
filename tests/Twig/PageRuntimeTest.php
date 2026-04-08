@@ -37,13 +37,13 @@ final class PageRuntimeTest extends TestCase
         $block
             ->expects(static::once())
             ->method('getPage')
-            ->willReturn($this->createMock(PageInterface::class));
+            ->willReturn(static::createStub(PageInterface::class));
 
         $extension = new PageRuntime(
-            $this->createMock(CmsManagerSelectorInterface::class),
-            $this->createMock(SiteSelectorInterface::class),
+            static::createStub(CmsManagerSelectorInterface::class),
+            static::createStub(SiteSelectorInterface::class),
             $router,
-            $this->createMock(BlockHelper::class),
+            static::createStub(BlockHelper::class),
             $this->getRequestStack(new Request())
         );
 
@@ -63,10 +63,10 @@ final class PageRuntimeTest extends TestCase
         $request->method('getPathInfo')->willReturn('/');
 
         $extension = new PageRuntime(
-            $this->createMock(CmsManagerSelectorInterface::class),
+            static::createStub(CmsManagerSelectorInterface::class),
             $siteSelector,
-            $this->createMock(RouterInterface::class),
-            $this->createMock(BlockHelper::class),
+            static::createStub(RouterInterface::class),
+            static::createStub(BlockHelper::class),
             $this->getRequestStack($request)
         );
 
@@ -80,10 +80,10 @@ final class PageRuntimeTest extends TestCase
         $request->method('getPathInfo')->willReturn('/');
 
         $extension = new PageRuntime(
-            $this->createMock(CmsManagerSelectorInterface::class),
-            $this->createMock(SiteSelectorInterface::class),
-            $this->createMock(RouterInterface::class),
-            $this->createMock(BlockHelper::class),
+            static::createStub(CmsManagerSelectorInterface::class),
+            static::createStub(SiteSelectorInterface::class),
+            static::createStub(RouterInterface::class),
+            static::createStub(BlockHelper::class),
             $this->getRequestStack($request)
         );
 

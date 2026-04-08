@@ -165,12 +165,12 @@ final class PageTest extends TestCase
         static::assertCount(2, $page->getChildren());
 
         $snapshots = [
-            $this->createMock(SnapshotInterface::class),
+            static::createStub(SnapshotInterface::class),
         ];
 
         $page->setSnapshots($snapshots);
         static::assertCount(1, $page->getSnapshots());
-        $page->addSnapshot($this->createMock(SnapshotInterface::class));
+        $page->addSnapshot(static::createStub(SnapshotInterface::class));
         static::assertCount(2, $page->getSnapshots());
 
         static::assertInstanceOf(SnapshotInterface::class, $page->getSnapshot());

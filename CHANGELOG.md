@@ -2,6 +2,27 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.11.0](https://github.com/sonata-project/SonataPageBundle/compare/4.10.0...4.11.0) - 2026-04-07
+### Added
+- [[#1851](https://github.com/sonata-project/SonataPageBundle/pull/1851)] Support for Symfony 8 ([@dmaicher](https://github.com/dmaicher))
+- [[#1833](https://github.com/sonata-project/SonataPageBundle/pull/1833)] Handle slugs using `SluggerInterface::class` from `symfony/string` ([@eerison](https://github.com/eerison))
+
+### Changed
+- [[#1809](https://github.com/sonata-project/SonataPageBundle/pull/1809)] Add symfony recipes in installation doc. ([@eerison](https://github.com/eerison))
+
+### Deprecated
+- [[#1833](https://github.com/sonata-project/SonataPageBundle/pull/1833)] Deprecated passing `SlugifyInterface::class` to `PageManager::__construct`. ([@eerison](https://github.com/eerison))
+- [[#1833](https://github.com/sonata-project/SonataPageBundle/pull/1833)] Deprecated `sonata.page.slugify.cocur` service. ([@eerison](https://github.com/eerison))
+
+### Removed
+- [[#1832](https://github.com/sonata-project/SonataPageBundle/pull/1832)] Removed support for PHP 8.1 ([@eerison](https://github.com/eerison))
+- [[#1851](https://github.com/sonata-project/SonataPageBundle/pull/1851)] Support for PHP 8.1 ([@dmaicher](https://github.com/dmaicher))
+- [[#1851](https://github.com/sonata-project/SonataPageBundle/pull/1851)] Support for Symfony 7.1 and 7.2 ([@dmaicher](https://github.com/dmaicher))
+- [[#1851](https://github.com/sonata-project/SonataPageBundle/pull/1851)] Support for `sonata-project/block-bundle` v4 ([@dmaicher](https://github.com/dmaicher))
+- [[#1851](https://github.com/sonata-project/SonataPageBundle/pull/1851)] Support for `sonata-project/doctrine-extensions` v1 ([@dmaicher](https://github.com/dmaicher))
+- [[#1851](https://github.com/sonata-project/SonataPageBundle/pull/1851)] Support for `sonata-project/form-extensions` v1 ([@dmaicher](https://github.com/dmaicher))
+- [[#1851](https://github.com/sonata-project/SonataPageBundle/pull/1851)] Support for `sonata-project/twig-extensions` v1 ([@dmaicher](https://github.com/dmaicher))
+
 ## [4.10.0](https://github.com/sonata-project/SonataPageBundle/compare/4.9.0...4.10.0) - 2025-10-18
 ### Added
 - [[#1824](https://github.com/sonata-project/SonataPageBundle/pull/1824)] Add support for `doctrine/doctrine-bundle` 3 ([@dmaicher](https://github.com/dmaicher))

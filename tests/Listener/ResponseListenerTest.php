@@ -50,11 +50,6 @@ final class ResponseListenerTest extends TestCase
      */
     private CmsManagerSelectorInterface $cmsSelector;
 
-    /**
-     * @var MockObject&Environment
-     */
-    private Environment $twig;
-
     private ResponseListener $listener;
 
     /**
@@ -67,13 +62,12 @@ final class ResponseListenerTest extends TestCase
         $this->cmsManager = $this->createMock(CmsManagerInterface::class);
         $this->cmsSelector = $this->createMock(CmsManagerSelectorInterface::class);
         $this->cmsSelector->expects(static::once())->method('retrieve')->willReturn($this->cmsManager);
-        $this->twig = $this->createMock(Environment::class);
 
         $this->listener = new ResponseListener(
             $this->cmsSelector,
             $this->pageServiceManager,
             $this->decoratorStrategy,
-            $this->twig,
+            static::createStub(Environment::class),
             true
         );
     }
@@ -166,10 +160,9 @@ final class ResponseListenerTest extends TestCase
 
     private function getMockEvent(string $content): ResponseEvent
     {
-        $kernel = $this->createMock(HttpKernelInterface::class);
         $request = new Request();
         $response = new Response($content);
 
-        return new ResponseEvent($kernel, $request, HttpKernelInterface::MAIN_REQUEST, $response);
+        return new ResponseEvent(static::createStub(HttpKernelInterface::class), $request, HttpKernelInterface::MAIN_REQUEST, $response);
     }
 }

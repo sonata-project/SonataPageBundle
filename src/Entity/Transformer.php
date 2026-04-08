@@ -151,7 +151,6 @@ final class Transformer implements TransformerInterface
             $content = array_filter($data, static fn ($v): bool => null !== $v);
         }
 
-        /** @psalm-suppress ArgumentTypeCoercion */
         $snapshot->setContent($content);
 
         return $snapshot;
