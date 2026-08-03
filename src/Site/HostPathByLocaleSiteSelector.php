@@ -54,8 +54,12 @@ final class HostPathByLocaleSiteSelector extends HostPathSiteSelector
             }
         }
 
+        // Do not rewrite the request pathInfo here.
+        // Keeping the original prefixed path allows Symfony's localized routing
+        // to differentiate locale variants and prevents cross-locale matches.
+        // (Previously: $request->setPathInfo($pathInfo ?? '/');)
         if (null !== $this->site) {
-            $request->setPathInfo($pathInfo ?? '/');
+            // Intentionally left blank.
         }
 
         // no valid site, but try to find a default site for the current request
