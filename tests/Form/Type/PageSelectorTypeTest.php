@@ -73,7 +73,7 @@ final class PageSelectorTypeTest extends TestCase
         $page->setUrl('/get-post');
         $page->setParent($pageAll);
         $page->setSite($this->site);
-        $pages[$i++] = $page;
+        $pages[$i] = $page;
 
         $this->pages = $pages;
     }

@@ -145,7 +145,7 @@ final class TemplateManagerTest extends KernelTestCase
 
     public function testTemplateShowingBreadcrumbIntoThePage(): void
     {
-        $kernel = self::bootKernel();
+        self::bootKernel();
 
         $requestStack = new RequestStack();
         $requestStack->push(new Request());

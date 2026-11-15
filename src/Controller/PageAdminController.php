@@ -193,7 +193,6 @@ final class PageAdminController extends CRUDController
 
         $containers = [];
         $orphanContainers = [];
-        $children = [];
 
         $templateManager = $this->container->get('sonata.page.template_manager');
         \assert($templateManager instanceof TemplateManagerInterface);
@@ -220,8 +219,6 @@ final class PageAdminController extends CRUDController
                 } else {
                     $orphanContainers[] = $block;
                 }
-            } else {
-                $children[] = $block;
             }
         }
 
