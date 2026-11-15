@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.12.0](https://github.com/sonata-project/SonataPageBundle/compare/4.11.0...4.12.0) - 2026-11-15
+### Removed
+- [[#1870](https://github.com/sonata-project/SonataPageBundle/pull/1870)] Support for Symfony 7.3 and 8.0 ([@dmaicher](https://github.com/dmaicher))
+
 ## [4.11.0](https://github.com/sonata-project/SonataPageBundle/compare/4.10.0...4.11.0) - 2026-04-07
 ### Added
 - [[#1851](https://github.com/sonata-project/SonataPageBundle/pull/1851)] Support for Symfony 8 ([@dmaicher](https://github.com/dmaicher))
