@@ -99,6 +99,6 @@ final class TemplateManager implements TemplateManagerInterface
         $code ??= $this->getDefaultTemplateCode();
         $template = $this->get($code);
 
-        return null !== $template ? $template->getPath() : $this->defaultTemplatePath;
+        return $template?->getPath() ?? $this->defaultTemplatePath;
     }
 }

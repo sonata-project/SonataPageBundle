@@ -62,9 +62,7 @@ class PageRuntime implements RuntimeExtensionInterface
      */
     public function breadcrumb(Environment $twig, ?PageInterface $page = null, array $options = []): string
     {
-        if (null === $page) {
-            $page = $this->cmsManagerSelector->retrieve()->getCurrentPage();
-        }
+        $page ??= $this->cmsManagerSelector->retrieve()->getCurrentPage();
 
         $options = array_merge([
             'separator' => '',

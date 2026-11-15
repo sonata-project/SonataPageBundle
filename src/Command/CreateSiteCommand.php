@@ -91,8 +91,8 @@ final class CreateSiteCommand extends Command
         $enabledFrom = $site->getEnabledFrom();
         $enabledTo = $site->getEnabledTo();
 
-        $infoEnabledFrom = null !== $enabledFrom ? $enabledFrom->format('r') : 'ALWAYS';
-        $infoEnabledTo = null !== $enabledTo ? $enabledTo->format('r') : 'ALWAYS';
+        $infoEnabledFrom = $enabledFrom?->format('r') ?? 'ALWAYS';
+        $infoEnabledTo = $enabledTo?->format('r') ?? 'ALWAYS';
 
         $output->writeln(
             <<<INFO

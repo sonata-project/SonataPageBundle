@@ -178,7 +178,7 @@ final class ChildrenPagesBlockService extends AbstractBlockService implements Ed
         $formBuilder = $form->getFormBuilder()->create('pageId', PageSelectorType::class, [
             'model_manager' => $this->pageAdmin->getModelManager(),
             'class' => $this->pageAdmin->getClass(),
-            'site' => null !== $page ? $page->getSite() : null,
+            'site' => $page?->getSite(),
             'required' => false,
             'label' => 'form.label_page',
             'translation_domain' => 'SonataPageBundle',
