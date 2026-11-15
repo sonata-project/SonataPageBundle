@@ -222,7 +222,7 @@ final class PageAdmin extends AbstractAdmin
              ->with('advanced', ['class' => 'col-md-6'])->end();
 
         $page = $this->hasSubject() ? $this->getSubject() : null;
-        $site = null !== $page ? $page->getSite() : null;
+        $site = $page?->getSite();
 
         if (null === $page || (!$page->isInternal() && !$page->isError())) {
             $form
@@ -270,7 +270,7 @@ final class PageAdmin extends AbstractAdmin
                     ], [
                         'admin_code' => $this->getCode(),
                         'link_parameters' => [
-                            'siteId' => null !== $site ? $site->getId() : null,
+                            'siteId' => $site?->getId(),
                         ],
                     ])
                 ->end();
@@ -290,7 +290,7 @@ final class PageAdmin extends AbstractAdmin
                     ], [
                         'admin_code' => $this->getCode(),
                         'link_parameters' => [
-                            'siteId' => null !== $site ? $site->getId() : null,
+                            'siteId' => $site?->getId(),
                         ],
                     ])
                 ->end();

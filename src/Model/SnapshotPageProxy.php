@@ -496,9 +496,7 @@ final class SnapshotPageProxy implements \Stringable, SnapshotPageProxyInterface
 
     private function getPage(): PageInterface
     {
-        if (null === $this->page) {
-            $this->page = $this->transformer->load($this->snapshot);
-        }
+        $this->page ??= $this->transformer->load($this->snapshot);
 
         return $this->page;
     }
