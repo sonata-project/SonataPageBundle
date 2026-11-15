@@ -34,7 +34,7 @@ final class HostSiteSelectorTest extends TestCase
     #[DataProvider('provideSiteCases')]
     public function testSite(string $expectedName, string $url): void
     {
-        [$site, $event] = $this->performHandleKernelRequestTest($url);
+        [$site] = $this->performHandleKernelRequestTest($url);
 
         static::assertSame($expectedName, $site->getName());
     }
@@ -156,7 +156,6 @@ final class HostSiteSelector extends BaseSiteSelector
     protected function _getAllSites(): array
     {
         $always = null;
-        $now = new \DateTime();
         $one_hour_ago = new \DateTime('-1 hour');
         $one_hour_from_now = new \DateTime('+1 hour');
 

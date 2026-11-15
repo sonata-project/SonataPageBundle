@@ -137,7 +137,6 @@ class PageRuntime implements RuntimeExtensionInterface
             }
         } catch (PageNotFoundException) {
             // the snapshot does not exist
-            $targetPage = null;
         }
 
         if (null === $targetPage) {

@@ -95,8 +95,6 @@ final class CmsPageManagerTest extends TestCase
 
         $this->blockInteractor->method('loadPageBlocks')->willReturn([]);
 
-        $manager = $this->createManager($pageManager, $this->blockInteractor);
-
         $page = '/test';
         $site = new Site();
 
@@ -129,8 +127,6 @@ final class CmsPageManagerTest extends TestCase
         $pageManager = $this->createMock(PageManagerInterface::class);
 
         $this->blockInteractor->method('loadPageBlocks')->willReturn([]);
-
-        $manager = $this->createManager($pageManager, $this->blockInteractor);
 
         $page = '/test';
         $site = new Site();
@@ -165,8 +161,6 @@ final class CmsPageManagerTest extends TestCase
 
         $this->blockInteractor->method('loadPageBlocks')->willReturn([]);
 
-        $manager = $this->createManager($pageManager, $this->blockInteractor);
-
         $page = 1;
         $site = new Site();
 
@@ -200,8 +194,6 @@ final class CmsPageManagerTest extends TestCase
         $pageManager = $this->createMock(PageManagerInterface::class);
 
         $this->blockInteractor->method('loadPageBlocks')->willReturn([]);
-
-        $manager = $this->createManager($pageManager, $this->blockInteractor);
 
         $page = null;
         $site = new Site();
