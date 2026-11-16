@@ -13,6 +13,7 @@ Page Bundle
    reference/page_composer
    reference/shared_blocks
    reference/multisite
+   reference/localized_routing
    reference/error_pages
    reference/twig_helpers
    reference/command_line

@@ -112,6 +112,11 @@ final class CmsPageRouterTest extends TestCase
     {
         $this->expectException(RouteNotFoundException::class);
 
+        $this->defaultRouter
+            ->method('generate')
+            ->with('foobar')
+            ->willThrowException(new RouteNotFoundException());
+
         $this->router->generate('foobar');
     }
 

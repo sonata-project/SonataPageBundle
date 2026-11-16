@@ -72,6 +72,13 @@ final class CmsPageRouter implements ChainedRouterInterface
      */
     public function generate($name, $parameters = [], $referenceType = self::ABSOLUTE_PATH): string
     {
+        // Short-circuit: if this is not a page route (not an alias/slug), delegate directly
+        // to the inner router to avoid double prefixing or unintended CMS decoration.
+        // This includes both Symfony localized routes (with .<locale> suffix) and regular routes.
+        if (\is_string($name) && !$this->isPageAlias($name) && !$this->isPageSlug($name)) {
+            return $this->router->generate($name, $parameters, $referenceType);
+        }
+
         try {
             $url = null;
 
@@ -130,8 +137,26 @@ final class CmsPageRouter implements ChainedRouterInterface
             throw new ResourceNotFoundException('No site defined');
         }
 
+        // Normalize path for CMS page lookup without altering the original request path
+        // so Symfony's own localized route matching (with prefixes) remains intact.
+        $lookupPath = $pathinfo;
+        $relativePath = $site->getRelativePath();
+
+        // Map bare site prefix (e.g. "/en") directly to the root CMS page ("/") for that site.
+        // This allows the English homepage to resolve at "/en" while the stored page URL remains "/".
+        if (null !== $relativePath && '' !== $relativePath && '/' !== $relativePath && $lookupPath === rtrim($relativePath, '/')) {
+            $lookupPath = '/';
+        }
+
+        if (null !== $relativePath && '' !== $relativePath && '/' !== $relativePath && str_starts_with($lookupPath, $relativePath.'/')) {
+            $lookupPath = substr($lookupPath, \strlen($relativePath));
+            if ('' === $lookupPath) {
+                $lookupPath = '/';
+            }
+        }
+
         try {
-            $page = $cms->getPageByUrl($site, $pathinfo);
+            $page = $cms->getPageByUrl($site, $lookupPath);
         } catch (PageNotFoundException $e) {
             throw new ResourceNotFoundException($pathinfo, 0, $e);
         }
