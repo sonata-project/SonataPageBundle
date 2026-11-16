@@ -259,7 +259,6 @@ final class SnapshotPageProxy implements \Stringable, SnapshotPageProxyInterface
     public function removeChild(PageInterface $child): void
     {
         // NEXT_MAJOR remove check
-        // @phpstan-ignore-next-line
         if (method_exists($this->getPage(), 'removeChild')) {
             $this->getPage()->removeChild($child);
         }
@@ -291,7 +290,6 @@ final class SnapshotPageProxy implements \Stringable, SnapshotPageProxyInterface
     public function removeBlock(PageBlockInterface $block): void
     {
         // NEXT_MAJOR remove check
-        // @phpstan-ignore-next-line
         if (method_exists($this->getPage(), 'removeBlock')) {
             $this->getPage()->removeBlock($block);
         }
@@ -496,9 +494,7 @@ final class SnapshotPageProxy implements \Stringable, SnapshotPageProxyInterface
 
     private function getPage(): PageInterface
     {
-        if (null === $this->page) {
-            $this->page = $this->transformer->load($this->snapshot);
-        }
+        $this->page ??= $this->transformer->load($this->snapshot);
 
         return $this->page;
     }

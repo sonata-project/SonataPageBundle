@@ -199,9 +199,7 @@ final class ExceptionListener
 
     private function logException(\Throwable $originalException, \Throwable $generatedException, ?string $message = null): void
     {
-        if (null === $message) {
-            $message = \sprintf('Exception thrown when handling an exception (%s: %s)', $generatedException::class, $generatedException->getMessage());
-        }
+        $message ??= \sprintf('Exception thrown when handling an exception (%s: %s)', $generatedException::class, $generatedException->getMessage());
 
         if (!$originalException instanceof HttpExceptionInterface || $originalException->getStatusCode() >= 500) {
             $this->logger->critical($message, ['exception' => $originalException]);

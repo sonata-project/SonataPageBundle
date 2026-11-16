@@ -183,7 +183,6 @@ final class HostPathSiteSelector extends BaseSiteSelector
     protected function _getAllSites(): array
     {
         $always = null;
-        $now = new \DateTime();
         $one_hour_ago = new \DateTime('-1 hour');
         $one_hour_from_now = new \DateTime('+1 hour');
 
