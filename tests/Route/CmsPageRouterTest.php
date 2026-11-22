@@ -301,6 +301,43 @@ final class CmsPageRouterTest extends TestCase
         static::assertSame('//localhost/test/key/value', $url);
     }
 
+    public function testGenerateWithPageAndRequestContextOfHostStrategy(): void
+    {
+        $page = static::createStub(PageInterface::class);
+        $site = static::createStub(SiteInterface::class);
+
+        $page->method('isHybrid')->willReturn(false);
+        $page->method('getUrl')->willReturn('/test/path');
+        $page->method('getSite')->willReturn($site);
+        $site->method('isLocalhost')->willReturn(true);
+
+        // the strategies "host" and "host_by_locale" keep Symfony's request context
+        $this->router->setContext(new RequestContext('', 'GET', 'example.org'));
+
+        static::assertSame('/test/path?key=value', $this->router->generate($page, ['key' => 'value']));
+        static::assertSame('test/path?key=value', $this->router->generate($page, ['key' => 'value'], UrlGeneratorInterface::RELATIVE_PATH));
+        static::assertSame('http://example.org/test/path?key=value', $this->router->generate($page, ['key' => 'value'], UrlGeneratorInterface::ABSOLUTE_URL));
+        static::assertSame('//example.org/test/path?key=value', $this->router->generate($page, ['key' => 'value'], UrlGeneratorInterface::NETWORK_PATH));
+    }
+
+    public function testGenerateWithPageOfAnotherHostAndRequestContextOfHostStrategy(): void
+    {
+        $page = static::createStub(PageInterface::class);
+        $site = $this->createMock(SiteInterface::class);
+
+        $page->method('isHybrid')->willReturn(false);
+        $page->method('getUrl')->willReturn('/test/path');
+        $page->method('getSite')->willReturn($site);
+        $site->method('isLocalhost')->willReturn(false);
+        $site->method('getHost')->willReturn('other.example.org');
+        $site->expects(static::never())->method('getRelativePath');
+
+        $this->router->setContext(new RequestContext('', 'GET', 'example.org'));
+
+        static::assertSame('/test/path', $this->router->generate($page));
+        static::assertSame('http://other.example.org/test/path', $this->router->generate($page, [], UrlGeneratorInterface::ABSOLUTE_URL));
+    }
+
     public function testGenerateWithPageAndNewSiteContext(): void
     {
         $site1 = $this->createMock(SiteInterface::class);

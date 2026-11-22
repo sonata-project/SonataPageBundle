@@ -8,13 +8,17 @@ Render a page url
 
 .. code-block:: html+twig
 
-    {{ path(page) }} => /absolute/path/to/url
+    {{ sonata_page_path(page) }} => /absolute/path/to/url
 
-    {{ path(page, {}, true) }} => ../relative/path/to/url
+    {{ sonata_page_path(page, {}, true) }} => ../relative/path/to/url
 
-    {{ url(page) }} => https://sonata-project.org/absolute/url/to/url
+    {{ sonata_page_url(page) }} => https://sonata-project.org/absolute/url/to/url
 
-    {{ url(page, {}, true) }} => //sonata-project.org/network/path/to/url
+    {{ sonata_page_url(page, {}, true) }} => //sonata-project.org/network/path/to/url
+
+.. note::
+
+    Symfony's ``path()`` and ``url()`` take a route name, not a page object.
 
 .. note::
 

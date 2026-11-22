@@ -22,7 +22,9 @@ use Sonata\PageBundle\Tests\App\Entity\SonataPageSite;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\Cookie;
+use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\Session\SessionFactoryInterface;
+use Twig\Environment;
 
 final class PageTest extends WebTestCase
 {
@@ -224,6 +226,51 @@ final class PageTest extends WebTestCase
         static::assertStringContainsString('Footer content', $content);
     }
 
+    public function testChildrenPagesBlockLinksTheChildPages(): void
+    {
+        $client = self::createClient();
+
+        $this->prepareChildPageData();
+        $this->becomeEditor($client);
+
+        $client->request('GET', '/');
+
+        self::assertResponseIsSuccessful();
+        self::assertSelectorExists('a[href="/child"][title="child"]');
+    }
+
+    public function testBreadcrumbLinksThePages(): void
+    {
+        self::bootKernel();
+
+        $this->prepareChildPageData();
+
+        $manager = self::getContainer()->get('doctrine.orm.entity_manager');
+        static::assertInstanceOf(EntityManagerInterface::class, $manager);
+        $page = $manager->getRepository(SonataPagePage::class)->findOneBy(['url' => '/']);
+        $child = $manager->getRepository(SonataPagePage::class)->findOneBy(['url' => '/child']);
+        static::assertNotNull($page);
+        static::assertNotNull($child);
+
+        $twig = self::getContainer()->get('twig');
+        static::assertInstanceOf(Environment::class, $twig);
+
+        $crawler = new Crawler($twig->render('@SonataPage/Page/breadcrumb.html.twig', [
+            'page' => $child,
+            'breadcrumbs' => [$page],
+            'options' => [
+                'separator' => '',
+                'current_class' => '',
+                'last_separator' => '',
+                'container_attr' => [],
+                'elements_attr' => [],
+            ],
+        ]));
+
+        static::assertCount(1, $crawler->filter('a[href="/"]'));
+        static::assertCount(1, $crawler->filter('a[href="/child"]'));
+    }
+
     private function prepareData(): void
     {
         $manager = self::getContainer()->get('doctrine.orm.entity_manager');
@@ -275,6 +322,53 @@ final class PageTest extends WebTestCase
         $manager->persist($page);
 
         $manager->flush();
+    }
+
+    private function prepareChildPageData(): void
+    {
+        $manager = self::getContainer()->get('doctrine.orm.entity_manager');
+        static::assertInstanceOf(EntityManagerInterface::class, $manager);
+
+        $site = new SonataPageSite();
+        $site->setName('name');
+        $site->setHost('localhost');
+        $site->setEnabled(true);
+
+        $page = new SonataPagePage();
+        $page->setName('name');
+        $page->setUrl('/');
+        $page->setTemplateCode('default');
+        $page->setEnabled(true);
+        $page->setSite($site);
+
+        $child = new SonataPagePage();
+        $child->setName('child');
+        $child->setUrl('/child');
+        $child->setTemplateCode('default');
+        $child->setEnabled(true);
+        $child->setSite($site);
+        $page->addChild($child);
+
+        foreach ([$page, $child] as $current) {
+            $containerBlock = new SonataPageBlock();
+            $containerBlock->setType('sonata.page.block.container');
+            $containerBlock->setSetting('code', 'content');
+            $containerBlock->setEnabled(true);
+
+            $block = new SonataPageBlock();
+            $block->setType($current === $page ? 'sonata.page.block.children_pages' : 'sonata.page.block.breadcrumb');
+            $block->setEnabled(true);
+
+            $containerBlock->addChild($block);
+            $current->addBlock($containerBlock);
+            $current->addBlock($block);
+        }
+
+        $manager->persist($site);
+        $manager->persist($page);
+        $manager->persist($child);
+        $manager->flush();
+        $manager->clear();
     }
 
     private function preparePageTypesData(PageInterface $page): void
