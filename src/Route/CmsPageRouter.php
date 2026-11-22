@@ -183,7 +183,12 @@ final class CmsPageRouter implements ChainedRouterInterface
         }
 
         if (!$this->context instanceof SiteRequestContextInterface) {
-            throw new \RuntimeException('The context must be an instance of SiteRequestContextInterface');
+            // The strategies "host" and "host_by_locale" choose the site by the host alone: the page's url is its
+            // path on the host of its site.
+            $site = $page->getSite();
+            $host = null !== $site && !$site->isLocalhost() ? $site->getHost() : null;
+
+            return $this->decorateUrl($url, $parameters, $referenceType, $host);
         }
 
         // Get current site
@@ -220,7 +225,7 @@ final class CmsPageRouter implements ChainedRouterInterface
      *
      * @throws \RuntimeException
      */
-    private function decorateUrl(string $url, array $parameters = [], int $referenceType = self::ABSOLUTE_PATH): string
+    private function decorateUrl(string $url, array $parameters = [], int $referenceType = self::ABSOLUTE_PATH, ?string $host = null): string
     {
         $schemeAuthority = '';
         if (self::ABSOLUTE_URL === $referenceType || self::NETWORK_PATH === $referenceType) {
@@ -232,7 +237,7 @@ final class CmsPageRouter implements ChainedRouterInterface
             }
 
             $schemeAuthority = self::NETWORK_PATH === $referenceType ? '//' : \sprintf('%s://', $this->context->getScheme());
-            $schemeAuthority = \sprintf('%s%s%s', $schemeAuthority, $this->context->getHost(), $port);
+            $schemeAuthority = \sprintf('%s%s%s', $schemeAuthority, $host ?? $this->context->getHost(), $port);
         }
 
         if (self::RELATIVE_PATH === $referenceType) {

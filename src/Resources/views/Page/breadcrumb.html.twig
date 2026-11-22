@@ -23,7 +23,7 @@ file that was distributed with this source code.
         {% for breadcrumb in breadcrumbs %}
             <li {% for attrname, attrvalue in options.elements_attr %}{{ attrname }}="{{ attrvalue }}" {% endfor %}>
                 {% if not breadcrumb.isdynamic %}
-                    <a href="{{ path(breadcrumb) }}" title="{{ helper.label(breadcrumb) }}">{{ helper.label(breadcrumb) }}</a>{{ options.separator|raw }}
+                    <a href="{{ sonata_page_path(breadcrumb) }}" title="{{ helper.label(breadcrumb) }}">{{ helper.label(breadcrumb) }}</a>{{ options.separator|raw }}
                 {% else %}
                     {{ helper.label(breadcrumb) }}{{ options.separator|raw }}
                 {% endif %}
@@ -34,7 +34,7 @@ file that was distributed with this source code.
         {% set li_attrs = options.elements_attr|merge({'class': li_attrs_class}) %}
         <li {% for attrname, attrvalue in li_attrs %}{{ attrname }}="{{ attrvalue }}" {% endfor %}>
             {% if not page.isdynamic %}
-                <a href="{{ path(page) }}" title="{{ helper.label(page) }}">{{ helper.label(page) }}</a>{{ options.last_separator|raw }}
+                <a href="{{ sonata_page_path(page) }}" title="{{ helper.label(page) }}">{{ helper.label(page) }}</a>{{ options.last_separator|raw }}
             {% else %}
                 {{ helper.label(page) }}{{ options.last_separator|raw }}
             {% endif %}
