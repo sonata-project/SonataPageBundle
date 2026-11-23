@@ -96,6 +96,28 @@ final class BlockAdminTest extends WebTestCase
         yield 'Remove Block' => ['/admin/tests/app/sonatapageblock/1/delete', [], 'btn_delete'];
     }
 
+    public function testComposerFormHidesTheFieldsTheComposerSets(): void
+    {
+        $client = self::createClient();
+
+        $this->prepareData();
+
+        $crawler = $client->request('GET', '/admin/tests/app/sonatapagepage/1/sonatapageblock/create', [
+            'composer' => '1',
+            'uniqid' => 'block',
+            'type' => 'sonata.block.service.text',
+        ]);
+
+        self::assertResponseIsSuccessful();
+        // hidden by the HTML attribute "hidden", which any theme honors, not by a class of a CSS framework
+        static::assertCount(0, $crawler->filter('form .hidden'));
+        static::assertCount(1, $crawler->filter('#sonata-ba-field-container-block_parent[hidden]'));
+        static::assertCount(1, $crawler->filter('#sonata-ba-field-container-block_position[hidden]'));
+        static::assertCount(1, $crawler->filter('input[type="hidden"][name="block[name]"]'));
+        static::assertCount(1, $crawler->filter('input[type="hidden"][name="block[enabled]"]'));
+        static::assertCount(0, $crawler->filter('#sonata-ba-field-container-block_settings_content[hidden]'));
+    }
+
     /**
      * @param array{block_id?: int|string|null, parent_id?: int|string|null} $parameters
      */

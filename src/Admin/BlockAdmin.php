@@ -120,13 +120,19 @@ final class BlockAdmin extends BaseBlockAdmin
         $blockType = $block->getType();
 
         $isComposer = $this->hasRequest() ? BCHelper::getFromRequest($this->getRequest(), 'composer', false) : false;
+        $generalGroup = 'general';
         $generalGroupOptions = $optionsGroupOptions = [];
+        $hiddenRow = [];
         if (false !== $isComposer) {
-            $generalGroupOptions['class'] = 'hidden';
+            // The composer sets name, parent, position and enabled itself: they join the options and are hidden by
+            // their type or by the HTML attribute "hidden", which any theme honors, so no group is left to hide.
             $optionsGroupOptions['name'] = '';
+            $generalGroup = 'options';
+            $generalGroupOptions = $optionsGroupOptions;
+            $hiddenRow = ['row_attr' => ['hidden' => 'hidden']];
         }
 
-        $form->with('general', $generalGroupOptions);
+        $form->with($generalGroup, $generalGroupOptions);
 
         if (false !== $isComposer) {
             $form->add('name', HiddenType::class);
@@ -140,7 +146,7 @@ final class BlockAdmin extends BaseBlockAdmin
         $isStandardBlock = !\in_array($blockType, ['sonata.page.block.container', 'sonata.block.service.container'], true) && !$this->hasParentFieldDescription();
 
         if ($isContainerRoot || $isStandardBlock) {
-            $form->with('general', $generalGroupOptions);
+            $form->with($generalGroup, $generalGroupOptions);
 
             $containerBlockTypes = $this->containerBlockTypes;
 
@@ -152,13 +158,13 @@ final class BlockAdmin extends BaseBlockAdmin
                         ->andWhere('a.page = :page AND a.type IN (:types)')
                         ->setParameter('page', $page->getId())
                         ->setParameter('types', $containerBlockTypes),
-                ], [
+                ] + $hiddenRow, [
                     'admin_code' => $this->getCode(),
                 ]);
             }
 
             if ($isStandardBlock) {
-                $form->add('position', IntegerType::class);
+                $form->add('position', IntegerType::class, $hiddenRow);
             }
 
             if (false !== $isComposer) {
