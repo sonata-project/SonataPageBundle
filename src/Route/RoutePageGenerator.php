@@ -63,6 +63,19 @@ final class RoutePageGenerator
         // Iterate over declared routes from the routing mechanism
         foreach ($this->router->getRouteCollection()->all() as $name => $route) {
             $name = trim($name);
+
+            // Detect a locale suffix in the route name (e.g. ".en", ".fi").
+            // If present and it does not match the current site's locale, skip creating/updating
+            // a hybrid page entry for this site. This prevents duplicating localized hybrid pages
+            // across all sites and ensures wrong-locale routes 404 instead of falling back.
+            if (1 === preg_match('/\\.([A-Za-z_]+)$/', $name, $lm)) {
+                $routeLocale = $lm[1];
+                $siteLocale = $site->getLocale();
+                if (\is_string($siteLocale) && '' !== $siteLocale && $routeLocale !== $siteLocale) {
+                    continue;
+                }
+            }
+
             $displayName = $this->displayName($name);
 
             $knowRoutes[] = $name;

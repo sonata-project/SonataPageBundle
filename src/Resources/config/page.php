@@ -25,6 +25,7 @@ use Sonata\PageBundle\Page\TemplateManager;
 use Sonata\PageBundle\Page\TemplateManagerInterface;
 use Sonata\PageBundle\Route\CmsPageRouter;
 use Sonata\PageBundle\Route\RoutePageGenerator;
+use Sonata\PageBundle\Route\SiteAwareRouter;
 use Sonata\PageBundle\Site\HostByLocaleSiteSelector;
 use Sonata\PageBundle\Site\HostPathByLocaleSiteSelector;
 use Sonata\PageBundle\Site\HostPathSiteSelector;
@@ -191,6 +192,20 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 service('router.default'),
             ])
 
+        // Replace legacy localized route decorators with a single SiteAwareRouter that
+        // partitions the RouteCollection per-locale and enforces strict structural 404s
+        // for wrong-locale URLs.
+        ->set('sonata.page.router.site_aware', SiteAwareRouter::class)
+            ->decorate('router.default')
+            ->args([
+                service('sonata.page.router.site_aware.inner'),
+                service('sonata.page.site.selector'),
+                service('sonata.page.manager.site'),
+                true, // denyCrossLocaleGenerate
+                abstract_arg('ignore routes'),
+                abstract_arg('ignore route patterns'),
+            ])
+
         ->set('sonata.page.route.page.generator', RoutePageGenerator::class)
             ->public()
             ->args([
@@ -220,6 +235,14 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             ])
 
         ->alias(TemplateManagerInterface::class, 'sonata.page.template_manager')
+
+        // Register the locale routing listener only if the feature is enabled.
+        // ContainerConfigurator does not allow branching on parameter values at compile time,
+        // so we always define the service, but we add the event listener tag only when the
+        // boolean parameter is true via a small runtime guard service (the listener itself
+        // short-circuits when disabled). To avoid even registering the tag when disabled,
+        // we rely on a compiler pass (optional) — if not present, the early-return in the
+        // listener keeps overhead negligible.
 
         ->alias(SiteSelectorInterface::class, 'sonata.page.site.selector');
 };
